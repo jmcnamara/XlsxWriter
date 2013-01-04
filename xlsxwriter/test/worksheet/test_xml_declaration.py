@@ -7,7 +7,7 @@
 
 import unittest
 from StringIO import StringIO
-from ..worksheet import Worksheet
+from ...worksheet import Worksheet
 
 
 class TestWorksheetXmlDeclaration(unittest.TestCase):
@@ -23,7 +23,7 @@ class TestWorksheetXmlDeclaration(unittest.TestCase):
     def test_xml_declaration(self):
         """Test Worksheet xml_declaration()"""
 
-        self.instance.xml_declaration()
+        self.instance._xml_declaration()
 
         exp = """<?xml version="1.0" encoding="UTF-8" standalone="yes"?>\n"""
         got = self.fh.getvalue()

@@ -20,14 +20,14 @@ class XMLwriter:
         self.fh = filehandle
         self.escapes = re.compile('["&<>]')
 
-    def xml_declaration(self):
-        """Write the XML declaration."""
+    def _xml_declaration(self):
+        # Write the XML declaration.
 
         self.fh.write(
             """<?xml version="1.0" encoding="UTF-8" standalone="yes"?>\n""")
 
-    def xml_start_tag(self, tag, attributes=[]):
-        """Write an XML start tag with optional attributes."""
+    def _xml_start_tag(self, tag, attributes=[]):
+        # Write an XML start tag with optional attributes.
 
         while attributes:
             key = attributes.pop(0)
@@ -37,13 +37,13 @@ class XMLwriter:
 
         self.fh.write("<%s>" % tag)
 
-    def xml_end_tag(self, tag):
-        """Write an XML end tag."""
+    def _xml_end_tag(self, tag):
+        # Write an XML end tag.
 
         self.fh.write("</%s>" % tag)
 
-    def xml_empty_tag(self, tag, attributes=[]):
-        """Write an empty XML tag with optional attributes."""
+    def _xml_empty_tag(self, tag, attributes=[]):
+        # Write an empty XML tag with optional attributes.
 
         while attributes:
             key = attributes.pop(0)
@@ -53,8 +53,8 @@ class XMLwriter:
 
         self.fh.write("<%s/>" % tag)
 
-    def xml_data_element(self, tag, data, attributes=[]):
-        """Write an XML element containing data with optional attributes."""
+    def _xml_data_element(self, tag, data, attributes=[]):
+        # Write an XML element containing data with optional attributes.
 
         end_tag = tag
 
@@ -69,7 +69,7 @@ class XMLwriter:
         self.fh.write("<%s>%s</%s>" % (tag, data, end_tag))
 
     def _escape_attributes(self, str):
-        """Escape XML characters in attributes."""
+        # Escape XML characters in attributes.
 
         if not self.escapes.match(str):
             return str
@@ -82,7 +82,7 @@ class XMLwriter:
         return str
 
     def _escape_data(self, str):
-        """Escape XML characters in attributes."""
+        # Escape XML characters in attributes.
 
         if not self.escapes.match(str):
             return str
