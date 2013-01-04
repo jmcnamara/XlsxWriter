@@ -6,27 +6,29 @@
 #
 
 import unittest
-from StringIO  import StringIO
+from StringIO import StringIO
 from ..worksheet import Worksheet
 
-class TestWorksheetXmlDeclaration(unittest.TestCase):
-    """Test initialisation of the Worksheet class and call a method."""
 
+class TestWorksheetXmlDeclaration(unittest.TestCase):
+    """
+    Test initialisation of the Worksheet class and call a method.
+
+    """
 
     def setUp(self):
-        self.fh       = StringIO()
+        self.fh = StringIO()
         self.instance = Worksheet(self.fh)
-
 
     def test_xml_declaration(self):
         """Test Worksheet xml_declaration()"""
 
         self.instance.xml_declaration()
 
-        expected = """<?xml version="1.0" encoding="UTF-8" standalone="yes"?>\n"""
-        got      = self.fh.getvalue()
+        exp = """<?xml version="1.0" encoding="UTF-8" standalone="yes"?>\n"""
+        got = self.fh.getvalue()
 
-        self.assertEqual(got, expected)
+        self.assertEqual(got, exp)
 
 
 if __name__ == '__main__':

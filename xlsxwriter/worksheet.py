@@ -7,6 +7,9 @@
 
 import xmlwriter
 
-class Worksheet(xmlwriter.XMLwriter):
-    """A class for writing Excel Worksheets."""
 
+class Worksheet(xmlwriter.XMLwriter):
+    """
+    A class for writing Excel Worksheets.
+
+    """
