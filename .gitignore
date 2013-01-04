@@ -1,0 +1,10 @@
+MANIFEST
+dist/*
+*.tar.gz
+*~
+TAGS
+.#*
+*#
+~*xlsx
+*.pyc
+
