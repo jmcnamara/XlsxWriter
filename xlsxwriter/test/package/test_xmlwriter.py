@@ -43,7 +43,7 @@ class TestXMLwriter(unittest.TestCase):
     def test_xml_start_tag_with_attributes(self):
         """Test xml_start_tag() with attributes"""
 
-        self.writer._xml_start_tag('foo', ['span', '8', 'baz', '7'])
+        self.writer._xml_start_tag('foo', [('span', '8'), ('baz', '7')])
 
         exp = """<foo span="8" baz="7">"""
         got = self.fh.getvalue()
@@ -53,7 +53,7 @@ class TestXMLwriter(unittest.TestCase):
     def test_xml_start_tag_with_attributes_to_escape(self):
         """Test xml_start_tag() with attributes requiring escaping"""
 
-        self.writer._xml_start_tag('foo', ['span', '&<>"'])
+        self.writer._xml_start_tag('foo', [('span', '&<>"')])
 
         exp = """<foo span="&amp;&lt;&gt;&quot;">"""
         got = self.fh.getvalue()
@@ -83,7 +83,7 @@ class TestXMLwriter(unittest.TestCase):
     def test_xml_empty_tag_with_attributes(self):
         """Test xml_empty_tag() with attributes"""
 
-        self.writer._xml_empty_tag('foo', ['span', '8'])
+        self.writer._xml_empty_tag('foo', [('span', '8')])
 
         exp = """<foo span="8"/>"""
         got = self.fh.getvalue()
@@ -103,7 +103,7 @@ class TestXMLwriter(unittest.TestCase):
     def test_xml_data_element_with_attributes(self):
         """Test xml_data_element() with attributes"""
 
-        self.writer._xml_data_element('foo', 'bar', ['span', '8'])
+        self.writer._xml_data_element('foo', 'bar', [('span', '8')])
 
         exp = """<foo span="8">bar</foo>"""
         got = self.fh.getvalue()
@@ -113,7 +113,7 @@ class TestXMLwriter(unittest.TestCase):
     def test_xml_data_element_with_escapes(self):
         """Test xml_data_element() with data requiring escaping"""
 
-        self.writer._xml_data_element('foo', '&<>"', ['span', '8'])
+        self.writer._xml_data_element('foo', '&<>"', [('span', '8')])
 
         exp = """<foo span="8">&amp;&lt;&gt;"</foo>"""
         got = self.fh.getvalue()

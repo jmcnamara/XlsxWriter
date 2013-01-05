@@ -29,9 +29,7 @@ class XMLwriter:
     def _xml_start_tag(self, tag, attributes=[]):
         # Write an XML start tag with optional attributes.
 
-        while attributes:
-            key = attributes.pop(0)
-            value = attributes.pop(0)
+        for key, value in attributes:
             value = self._escape_attributes(value)
             tag = tag + ' %s="%s"' % (key, value)
 
@@ -45,9 +43,7 @@ class XMLwriter:
     def _xml_empty_tag(self, tag, attributes=[]):
         # Write an empty XML tag with optional attributes.
 
-        while attributes:
-            key = attributes.pop(0)
-            value = attributes.pop(0)
+        for key, value in attributes:
             value = self._escape_attributes(value)
             tag = tag + ' %s="%s"' % (key, value)
 
@@ -58,9 +54,7 @@ class XMLwriter:
 
         end_tag = tag
 
-        while attributes:
-            key = attributes.pop(0)
-            value = attributes.pop(0)
+        for key, value in attributes:
             value = self._escape_attributes(value)
             tag = tag + ' %s="%s"' % (key, value)
 

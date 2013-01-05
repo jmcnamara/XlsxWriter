@@ -10,7 +10,7 @@ from StringIO import StringIO
 from ...worksheet import Worksheet
 
 
-class TestWorksheetXmlDeclaration(unittest.TestCase):
+class TestInitialisation(unittest.TestCase):
     """
     Test initialisation of the Worksheet class and call a method.
 
