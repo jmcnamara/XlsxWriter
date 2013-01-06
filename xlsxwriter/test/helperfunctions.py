@@ -7,11 +7,12 @@
 
 import re
 
+
 def _xml_to_list(xml_str):
     # Convert test generated XML strings into lists for comparison testing.
 
     # Split the XML string at tag boundaries.
-    parser = re.compile(r'>\s*<')    
+    parser = re.compile(r'>\s*<')
     elements = parser.split(xml_str.strip())
 
     # Add back the removed brackets.
