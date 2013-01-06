@@ -18,7 +18,8 @@ class TestXMLwriter(unittest.TestCase):
 
     def setUp(self):
         self.fh = StringIO()
-        self.writer = XMLwriter(self.fh)
+        self.writer = XMLwriter()
+        self.writer._set_filehandle(self.fh)
 
     def test_xml_declaration(self):
         """Test xml_declaration()"""

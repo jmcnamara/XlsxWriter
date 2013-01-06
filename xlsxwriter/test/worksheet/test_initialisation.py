@@ -18,12 +18,13 @@ class TestInitialisation(unittest.TestCase):
 
     def setUp(self):
         self.fh = StringIO()
-        self.instance = Worksheet(self.fh)
+        self.worksheet = Worksheet()
+        self.worksheet._set_filehandle(self.fh)
 
     def test_xml_declaration(self):
         """Test Worksheet xml_declaration()"""
 
-        self.instance._xml_declaration()
+        self.worksheet._xml_declaration()
 
         exp = """<?xml version="1.0" encoding="UTF-8" standalone="yes"?>\n"""
         got = self.fh.getvalue()

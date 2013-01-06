@@ -10,15 +10,19 @@
 import re
 
 
-class XMLwriter:
+class XMLwriter(object):
     """
     Simple XML writer class.
 
     """
 
-    def __init__(self, filehandle=None):
-        self.fh = filehandle
+    def __init__(self):
+        self.fh = None
         self.escapes = re.compile('["&<>]')
+
+    def _set_filehandle(self, filehandle):
+        # Set the writer filehandle directly. Mainly for testing.
+        self.fh = filehandle
 
     def _xml_declaration(self):
         # Write the XML declaration.

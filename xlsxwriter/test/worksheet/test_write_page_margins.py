@@ -18,7 +18,8 @@ class TestWritePageMargins(unittest.TestCase):
 
     def setUp(self):
         self.fh = StringIO()
-        self.worksheet = Worksheet(self.fh)
+        self.worksheet = Worksheet()
+        self.worksheet._set_filehandle(self.fh)
 
     def test_write_page_margins(self):
         """Test the _write_page_margins() method"""

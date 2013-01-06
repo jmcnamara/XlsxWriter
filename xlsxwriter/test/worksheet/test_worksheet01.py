@@ -7,26 +7,8 @@
 
 import unittest
 from StringIO import StringIO
+from ..helperfunctions import _xml_to_list
 from ...worksheet import Worksheet
-
-import re
-def _xml_to_list(xml_str):
-    # Convert test generated XML strings into lists for comparison testing.
-
-    # Split the XML string at tag boundaries.
-    parser = re.compile(r'>\s*<')    
-    elements = parser.split(xml_str.strip())
-
-    print elements
-
-    # Add back the removed brackets.
-    for index, element in enumerate(elements):
-        if not element[0] == '<':
-            elements[index] = '<' + elements[index]
-        if not element[-1] == '>':
-            elements[index] = elements[index] + '>'
-
-    return elements
 
 
 class TestAssembleWorksheet(unittest.TestCase):
@@ -34,15 +16,15 @@ class TestAssembleWorksheet(unittest.TestCase):
     Test assembling a complete Worksheet file.
 
     """
-
-    def setUp(self):
-        self.fh = StringIO()
-        self.worksheet = Worksheet(self.fh)
-
     def test_assemble_xml_file(self):
         """Test the _write_sheet_data() method"""
 
-        self.worksheet._assemble_xml_file()
+        fh = StringIO()
+        worksheet = Worksheet()
+        worksheet._set_filehandle(fh)
+
+        worksheet.select()
+        worksheet._assemble_xml_file()
 
         exp = _xml_to_list("""
                 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
@@ -57,7 +39,7 @@ class TestAssembleWorksheet(unittest.TestCase):
                 </worksheet>
                 """)
 
-        got = _xml_to_list(self.fh.getvalue())
+        got = _xml_to_list(fh.getvalue())
 
         self.assertEqual(got, exp)
 
