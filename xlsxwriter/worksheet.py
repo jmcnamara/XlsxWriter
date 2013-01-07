@@ -6,6 +6,8 @@
 #
 
 import xmlwriter
+from collections import defaultdict
+from utility import xl_rowcol_to_cell
 
 
 class Worksheet(xmlwriter.XMLwriter):
@@ -128,7 +130,7 @@ class Worksheet(xmlwriter.XMLwriter):
 
         self.names = {}
         self.write_match = []
-        self.table = {}
+        self.table = defaultdict(dict)
         self.merge = []
 
         self.has_vml = 0
@@ -175,6 +177,24 @@ class Worksheet(xmlwriter.XMLwriter):
         self.validations = []
         self.cond_formats = {}
         self.dxf_priority = 1
+
+    # Write a number to a cell.
+    def write_number(self, row, col, num, format=None):
+        """
+        TODO
+
+        """
+        # Check that row and col are valid and store max and min values.
+        if self._check_dimensions(row, col):
+            return -2
+
+        # Write previous row if in in-line string optimization mode.
+        #if self.optimization == 1 and row > self.previous_row:
+        #    self._write_single_row(row)
+
+        self.table[row][col] = ['n', num, format]
+
+        return 0
 
     # Set this worksheet as a selected worksheet, i.e. the worksheet has
     # its tab highlighted.
@@ -232,6 +252,37 @@ class Worksheet(xmlwriter.XMLwriter):
         # Close the worksheet tag.
         self._xml_end_tag('worksheet')
 
+    def _check_dimensions(self, row, col, ignore_row=0, ignore_col=0):
+        # Check that row and col are valid and store the max and min
+        # values for use in other methods/elements. The ignore_row /
+        # ignore_col flags is used to indicate that we wish to perform
+        # the dimension check without storing the value. The ignore
+        # flags are use by set_row() and data_validate.
+
+        # Check that the row/col are within the worksheet bounds.
+        if row >= self.xls_rowmax or col >= self.xls_colmax:
+            return -2
+
+        # In optimization mode we don't change dimensions for rows
+        # that are already written.
+        if not ignore_row and not ignore_col and self.optimization == 1:
+            if row < self.previous_row:
+                return -2
+
+        if not ignore_row:
+            if self.dim_rowmin is None or row < self.dim_rowmin:
+                self.dim_rowmin = row
+            if self.dim_rowmax is None or row > self.dim_rowmax:
+                self.dim_rowmax = row
+
+        if not ignore_col:
+            if self.dim_colmin is None or col < self.dim_colmin:
+                self.dim_colmin = col
+            if self.dim_colmax is None or col > self.dim_colmax:
+                self.dim_colmax = col
+
+        return 0
+
     ###########################################################################
     #
     # XML methods.
@@ -255,9 +306,6 @@ class Worksheet(xmlwriter.XMLwriter):
             ('xmlns:r', xmlns_r),
         ]
 
-        # TODO Add to constructor
-        self.excel_version = 2007
-
         # Add some extra attributes for Excel 2010. Mainly for sparklines.
         if self.excel_version == 2010:
             attributes.append(('xmlns:mc',
@@ -269,12 +317,40 @@ class Worksheet(xmlwriter.XMLwriter):
         self._xml_start_tag('worksheet', attributes)
 
     def _write_dimension(self):
-        # Write the <dimension> element.
-        ref = 'A1'
+        # Write the <dimension> element. This specifies the range of
+        # cells in the worksheet. As a special case, empty
+        # spreadsheets use 'A1' as a range.
 
-        attributes = [('ref', ref)]
+        if self.dim_rowmin is None and self.dim_colmin is None:
+            # If the min dimensions are not defined then no dimensions
+            # have been set and we use the default 'A1'.
+            ref = 'A1'
 
-        self._xml_empty_tag('dimension', attributes)
+        elif self.dim_rowmin is None and self.dim_colmin is not None:
+            # If the row dimensions aren't set but the column
+            # dimensions are set then they have been changed via
+            # set_column().
+
+            if self.dim_colmin == self.dim_colmax:
+                # The dimensions are a single cell and not a range.
+                ref = xl_rowcol_to_cell(0, self.dim_colmin)
+            else:
+                # The dimensions are a cell range.
+                cell_1 = xl_rowcol_to_cell(0, self.dim_colmin)
+                cell_2 = xl_rowcol_to_cell(0, self.dim_colmax)
+                ref = cell_1 + ':' + cell_2
+
+        elif (self.dim_rowmin == self.dim_rowmax and
+              self.dim_colmin == self.dim_colmax):
+            # The dimensions are a single cell and not a range.
+            ref = xl_rowcol_to_cell(self.dim_rowmin, self.dim_colmin)
+        else:
+            # The dimensions are a cell range.
+            cell_1 = xl_rowcol_to_cell(self.dim_rowmin, self.dim_colmin)
+            cell_2 = xl_rowcol_to_cell(self.dim_rowmax, self.dim_colmax)
+            ref = cell_1 + ':' + cell_2
+
+        self._xml_empty_tag('dimension', [('ref', ref)])
 
     def _write_sheet_views(self):
         # Write the <sheetViews> element.
@@ -307,7 +383,14 @@ class Worksheet(xmlwriter.XMLwriter):
 
     def _write_sheet_data(self):
         # Write the <sheetData> element.
-        self._xml_empty_tag('sheetData')
+
+        if self.dim_rowmin is None:
+            # If the dimensions aren't defined there is no data to write.
+            self._xml_empty_tag('sheetData')
+        else:
+            self._xml_start_tag('sheetData')
+            #self._write_rows()
+            self._xml_end_tag('sheetData')
 
     def _write_page_margins(self):
         # Write the <pageMargins> element.

@@ -11,7 +11,7 @@ def xl_rowcol_to_cell(row, col, row_abs=0, col_abs=0):
     TODO
 
     """
-    row = row + 1 # 1 indexed.
+    row = row + 1  # Change to 1-index.
     row_abs = '$' if row_abs else ''
     col_abs = '$' if col_abs else ''
 
@@ -19,12 +19,13 @@ def xl_rowcol_to_cell(row, col, row_abs=0, col_abs=0):
 
     return col_str + row_abs + str(row)
 
+
 def xl_col_to_name(col_num, col_abs=0):
     """
     TODO
 
     """
-    col_num = col_num + 1 # 1 indexed.
+    col_num = col_num + 1  # Change to 1-index.
     col_str = ''
     col_abs = '$' if col_abs else ''
 
@@ -33,7 +34,8 @@ def xl_col_to_name(col_num, col_abs=0):
         # Set remainder from 1 .. 26
         remainder = col_num % 26
 
-        if remainder == 0: remainder = 26
+        if remainder == 0:
+            remainder = 26
 
         # Convert the remainder to a character.
         col_letter = chr(ord('A') + remainder - 1)
