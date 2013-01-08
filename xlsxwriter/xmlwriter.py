@@ -39,6 +39,16 @@ class XMLwriter(object):
 
         self.fh.write("<%s>" % tag)
 
+    def _xml_start_tag_unencoded(self, tag, attributes=[]):
+        # Write an XML start tag with optional, unencoded, attributes.
+        # This is a minor speed optimisation for elements that don't
+        # need encoding.
+
+        for key, value in attributes:
+            tag = tag + ' %s="%s"' % (key, value)
+
+        self.fh.write("<%s>" % tag)
+
     def _xml_end_tag(self, tag):
         # Write an XML end tag.
 
@@ -49,6 +59,15 @@ class XMLwriter(object):
 
         for key, value in attributes:
             value = self._escape_attributes(value)
+            tag = tag + ' %s="%s"' % (key, value)
+
+        self.fh.write("<%s/>" % tag)
+
+    def _xml_empty_tag_unencoded(self, tag, attributes=[]):
+        # Write an XML start tag with optional, unencoded, attributes.
+        # This is a minor speed optimisation for elements that don't
+        # need encoding.
+        for key, value in attributes:
             tag = tag + ' %s="%s"' % (key, value)
 
         self.fh.write("<%s/>" % tag)
@@ -65,6 +84,56 @@ class XMLwriter(object):
         data = self._escape_data(data)
 
         self.fh.write("<%s>%s</%s>" % (tag, data, end_tag))
+
+    def _xml_string_element(self, index, attributes=[]):
+        # Optimised tag writer for <c> cell string elements in the inner loop.
+
+        attr = ''
+
+        for key, value in attributes:
+            value = self._escape_attributes(value)
+            attr = attr + ' %s="%s"' % (key, value)
+
+        self.fh.write("""<c%s t="s"><v>%d</v></c>""" % (attr, index))
+
+    def _xml_si_element(self, string, attributes=[]):
+        # Optimised tag writer for shared strings <si> elements.
+
+        attr = ''
+
+        for key, value in attributes:
+            value = self._escape_attributes(value)
+            attr = attr + ' %s="%s"' % (key, value)
+
+        self.fh.write("""<si><t%s>%s</t></si>""" % (attr, string))
+
+    def _xml_rich_si_element(self, string):
+        # Optimised tag writer for shared strings <si> rich string elements.
+
+        self.fh.write("""<si>%s</si>""" %  string)
+
+    def _xml_number_element(self, number, attributes=[]):
+        # Optimised tag writer for <c> cell number elements in the inner loop.
+
+        attr = ''
+
+        for key, value in attributes:
+            value = self._escape_attributes(value)
+            attr = attr + ' %s="%s"' % (key, value)
+
+        self.fh.write("""<c%s><v>%s</v></c>""" % (attr, str(number)))
+
+    def _xml_formula_element(self, formula, result, attributes=[]):
+        # Optimised tag writer for <c> cell formula elements in the inner loop.
+
+        attr = ''
+
+        for key, value in attributes:
+            value = self._escape_attributes(value)
+            attr = attr + ' %s="%s"' % (key, value)
+
+        self.fh.write("""<c%s><f>%s</f><v>%s</v></c>""" 
+                      % (attr, formula, str(result)))
 
     def _escape_attributes(self, str):
         # Escape XML characters in attributes.

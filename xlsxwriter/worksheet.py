@@ -132,6 +132,7 @@ class Worksheet(xmlwriter.XMLwriter):
         self.write_match = []
         self.table = defaultdict(dict)
         self.merge = []
+        self.row_spans = []
 
         self.has_vml = 0
         self.has_comments = 0
@@ -389,7 +390,7 @@ class Worksheet(xmlwriter.XMLwriter):
             self._xml_empty_tag('sheetData')
         else:
             self._xml_start_tag('sheetData')
-            #self._write_rows()
+            self._write_rows()
             self._xml_end_tag('sheetData')
 
     def _write_page_margins(self):
@@ -411,3 +412,181 @@ class Worksheet(xmlwriter.XMLwriter):
         ]
 
         self._xml_empty_tag('pageMargins', attributes)
+
+    def _write_rows(self):
+        # Write out the worksheet data as a series of rows and cells.
+        self._calculate_spans()
+
+        for row_num in range(self.dim_rowmin, self.dim_rowmax + 1):
+
+            if (row_num in self.set_rows or row_num in self.comments
+                    or self.table[row_num]):
+                # Only process rows that contain row formatting, cell
+                # data comments.
+                span_index = int(row_num / 16)
+                span = self.row_spans[span_index]
+
+                if self.table[row_num]:
+                    # Write the cells if the row contains data.
+                    if row_num not in self.set_rows:
+                        self._write_row(row_num, span)
+                    else:
+                        self._write_row(row_num, span, self.set_rows[row_num])
+
+                    for col_num in range(self.dim_colmin, self.dim_colmax + 1):
+                        if self.table[row_num][col_num]:
+                            col_ref = self.table[row_num][col_num]
+                            self._write_cell(row_num, col_num, col_ref)
+
+                    self._xml_end_tag('row')
+
+                elif self.comments[row_num]:
+                    # Row with comments in cells.
+                    self._write_empty_row(row_num, span,
+                                          self.set_rows[row_num])
+                else:
+                    # Blank row with attributes only.
+                    self._write_empty_row(row_num, span,
+                                          self.set_rows[row_num])
+
+    def _calculate_spans(self):
+        # Calculate the "spans" attribute of the <row> tag. This is an
+        # XLSX optimisation and isn't strictly required. However, it
+        # makes comparing files easier. The span is the same for each
+        # block of 16 rows.
+        spans = []
+        span_min = None
+        span_max = None
+
+        for row_num in range(self.dim_rowmin, self.dim_rowmax + 1):
+
+            if self.table[row_num]:
+                # Calculate spans for cell data.
+                for col_num in range(self.dim_colmin, self.dim_colmax + 1):
+                    if self.table[row_num][col_num]:
+
+                        if span_min is None:
+                            span_min = col_num
+                            span_max = col_num
+                        else:
+                            if col_num < span_min:
+                                span_min = col_num
+                            if col_num > span_max:
+                                span_max = col_num
+
+            if row_num in self.comments:
+                # Calculate spans for comments.
+                for col_num in range(self.dim_colmin, self.dim_colmax + 1):
+                    if self.comments[row_num][col_num] is not None:
+
+                        if span_min is None:
+                            span_min = col_num
+                            span_max = col_num
+                        else:
+                            if col_num < span_min:
+                                span_min = col_num
+                            if col_num > span_max:
+                                span_max = col_num
+
+            if ((row_num + 1) % 16 == 0) or row_num == self.dim_rowmax:
+                span_index = int(row_num / 16)
+
+                if span_min is not None:
+                    span_min = span_min + 1
+                    span_max = span_max + 1
+                    spans.append("%s:%s" % (span_min, span_max))
+                    span_min = None
+                else:
+                    spans.append(None)
+
+        self.row_spans = spans
+
+    def _write_row(self, r, spans, properties=None, empty_row=0):
+        # Write the <row> element.
+        xf_index = 0
+
+        if properties:
+            height, format, hidden, level, collapsed = properties
+        else:
+            height, format, hidden, level, collapsed = 15, None, 0, 0, 0
+
+        if height is None:
+            height = self.default_row_height
+
+        attributes = [('r', r + 1)]
+
+        # Get the format index.
+        # TODO.
+        #if format:
+        #    xf_index = format.get_xf_index()
+
+        # Add row attributes where applicable.
+        if spans is not None:
+            attributes.append(('spans', spans))
+        if xf_index:
+            attributes.append(('s', xf_index))
+        if format:
+            attributes.append(('customFormat', 1))
+        if height != 15:
+            attributes.append(('ht', height))
+        if hidden:
+            attributes.append(('hidden', 1))
+        if height != 15:
+            attributes.append(('customHeight', 1))
+        if level:
+            attributes.append(('outlineLevel', level))
+        if collapsed:
+            attributes.append(('collapsed', 1))
+        if self.excel_version == 2010:
+            attributes.append(('x14ac:dyDescent', '0.25'))
+
+        if empty_row:
+            self._xml_empty_tag_unencoded('row', attributes)
+        else:
+            self._xml_start_tag_unencoded('row', attributes)
+
+    def _write_cell(self, row, col, cell):
+        # Write the <cell> element.
+        #
+        # This is the innermost loop so efficiency is important where
+        # possible. The basic methodology is that the data of every
+        # cell type is passed in as follows:
+        #
+        #      [ row, col, cell]
+        #
+        # The cell array contains the following data:
+        #
+        #     [ type, token, xf, args ]
+        #
+        # Where type:  Represents the cell type, such as string, number,  etc.
+        #       token: Is the actual data for the string, number, formula, etc.
+        #       xf:    Is the XF format object.
+        #       args:  Additional args relevant to the specific data type.
+        #
+        type = cell[0]
+        token = cell[1]
+        xf = cell[2]
+        xf_index = 0
+
+        # Get the format index.
+        #if ref(xf):
+        #    xf_index = xf.get_xf_index()
+
+        range = xl_rowcol_to_cell(row, col)
+        attributes = [('r', range)]
+
+        # TODO
+        # Add the cell format index.
+        #if xf_index:
+        #    attributes.append(('s', xf_index)
+        #elif self.set_rows[row] and self.set_rows[row][1]:
+        #    row_xf = self.set_rows[row][1]
+        #    attributes.append(('s', row_xf.get_xf_index())
+        #elif self.col_formats[col]:
+        #    col_xf = self.col_formats[col]
+        #    attributes.append(('s', col_xf.get_xf_index())
+
+        # Write the various cell types.
+        if type == 'n':
+            # Write a number.
+            self._xml_number_element(token, attributes)

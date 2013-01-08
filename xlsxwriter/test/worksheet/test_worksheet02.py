@@ -18,6 +18,7 @@ class TestAssembleWorksheet(unittest.TestCase):
     """
     def test_assemble_xml_file(self):
         """Test the _write_sheet_data() method"""
+        self.maxDiff = None
 
         fh = StringIO()
         worksheet = Worksheet()
