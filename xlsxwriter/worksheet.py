@@ -7,6 +7,7 @@
 
 import xmlwriter
 from collections import defaultdict
+from collections import namedtuple
 from utility import xl_rowcol_to_cell
 
 
@@ -132,7 +133,7 @@ class Worksheet(xmlwriter.XMLwriter):
         self.write_match = []
         self.table = defaultdict(dict)
         self.merge = []
-        self.row_spans = []
+        self.row_spans = {}
 
         self.has_vml = 0
         self.has_comments = 0
@@ -179,45 +180,49 @@ class Worksheet(xmlwriter.XMLwriter):
         self.cond_formats = {}
         self.dxf_priority = 1
 
-    # Write a number to a cell.
     def write_number(self, row, col, num, format=None):
         """
-        TODO
+        Write a number to a worksheet cell.
+
+        Args:
+            row    : The cell row (zero indexed).
+            col    : The cell column (zero indexed).
+            num    : Cell data. Int or float.
+            format : An optional Format object.
+
+        Returns:
+            Nothing.
 
         """
         # Check that row and col are valid and store max and min values.
         if self._check_dimensions(row, col):
-            return -2
+            return -1
 
+        # TODO
         # Write previous row if in in-line string optimization mode.
         #if self.optimization == 1 and row > self.previous_row:
         #    self._write_single_row(row)
 
-        self.table[row][col] = ['n', num, format]
+        cell_tuple = namedtuple('Number', 'number, format')
+        self.table[row][col] = cell_tuple(num, format)
 
         return 0
 
-    # Set this worksheet as a selected worksheet, i.e. the worksheet has
-    # its tab highlighted.
     def select(self):
         """
-        The ``select()`` method is used to indicate that a worksheet
-        is selected in a multi-sheet workbook::
+        Set this worksheet as a selected worksheet, i.e. the worksheet
+        has its tab highlighted.
 
-            worksheet1.activate()
-            worksheet2.select()
-            worksheet3.select()
+        Note: A selected worksheet cannot be hidden.
 
-        A selected worksheet has its tab highlighted. Selecting
-        worksheets is a way of grouping them together so that, for
-        example, several worksheets could be printed in one go. A
-        worksheet that has been activated via the ``activate()``
-        method will also appear as selected.
+        Args:
+            None.
+
+        Returns:
+            Nothing.
 
         """
         self.selected = 1
-
-        # A selected worksheet can't be hidden.
         self.hidden = 0
 
     ###########################################################################
@@ -262,13 +267,13 @@ class Worksheet(xmlwriter.XMLwriter):
 
         # Check that the row/col are within the worksheet bounds.
         if row >= self.xls_rowmax or col >= self.xls_colmax:
-            return -2
+            return -1
 
         # In optimization mode we don't change dimensions for rows
         # that are already written.
         if not ignore_row and not ignore_col and self.optimization == 1:
             if row < self.previous_row:
-                return -2
+                return -1
 
         if not ignore_row:
             if self.dim_rowmin is None or row < self.dim_rowmin:
@@ -454,17 +459,16 @@ class Worksheet(xmlwriter.XMLwriter):
         # XLSX optimisation and isn't strictly required. However, it
         # makes comparing files easier. The span is the same for each
         # block of 16 rows.
-        spans = []
+        spans = {}
         span_min = None
         span_max = None
 
         for row_num in range(self.dim_rowmin, self.dim_rowmax + 1):
 
-            if self.table[row_num]:
+            if row_num in self.table:
                 # Calculate spans for cell data.
                 for col_num in range(self.dim_colmin, self.dim_colmax + 1):
-                    if self.table[row_num][col_num]:
-
+                    if col_num in self.table[row_num]:
                         if span_min is None:
                             span_min = col_num
                             span_max = col_num
@@ -494,10 +498,8 @@ class Worksheet(xmlwriter.XMLwriter):
                 if span_min is not None:
                     span_min = span_min + 1
                     span_max = span_max + 1
-                    spans.append("%s:%s" % (span_min, span_max))
+                    spans[span_index] = "%s:%s" % (span_min, span_max)
                     span_min = None
-                else:
-                    spans.append(None)
 
         self.row_spans = spans
 
@@ -516,9 +518,8 @@ class Worksheet(xmlwriter.XMLwriter):
         attributes = [('r', r + 1)]
 
         # Get the format index.
-        # TODO.
-        #if format:
-        #    xf_index = format.get_xf_index()
+        if format:
+            xf_index = format._get_xf_index()
 
         # Add row attributes where applicable.
         if spans is not None:
@@ -548,45 +549,23 @@ class Worksheet(xmlwriter.XMLwriter):
     def _write_cell(self, row, col, cell):
         # Write the <cell> element.
         #
-        # This is the innermost loop so efficiency is important where
-        # possible. The basic methodology is that the data of every
-        # cell type is passed in as follows:
-        #
-        #      [ row, col, cell]
-        #
-        # The cell array contains the following data:
-        #
-        #     [ type, token, xf, args ]
-        #
-        # Where type:  Represents the cell type, such as string, number,  etc.
-        #       token: Is the actual data for the string, number, formula, etc.
-        #       xf:    Is the XF format object.
-        #       args:  Additional args relevant to the specific data type.
-        #
-        type = cell[0]
-        token = cell[1]
-        xf = cell[2]
-        xf_index = 0
-
-        # Get the format index.
-        #if ref(xf):
-        #    xf_index = xf.get_xf_index()
-
+        # Note. This is the innermost loop so efficiency is important.
         range = xl_rowcol_to_cell(row, col)
+
         attributes = [('r', range)]
 
-        # TODO
         # Add the cell format index.
-        #if xf_index:
-        #    attributes.append(('s', xf_index)
-        #elif self.set_rows[row] and self.set_rows[row][1]:
-        #    row_xf = self.set_rows[row][1]
-        #    attributes.append(('s', row_xf.get_xf_index())
-        #elif self.col_formats[col]:
-        #    col_xf = self.col_formats[col]
-        #    attributes.append(('s', col_xf.get_xf_index())
+        if cell.format:
+            xf_index = cell.format._get_xf_index()
+            attributes.append(('s', str(xf_index)))
+        elif row in self.set_rows and self.set_rows[row][1]:
+           row_xf = self.set_rows[row][1]
+           attributes.append(('s', row_xf._get_xf_index()))
+        elif col in self.col_formats:
+           col_xf = self.col_formats[col]
+           attributes.append(('s', col_xf._get_xf_index()))
 
         # Write the various cell types.
-        if type == 'n':
+        if type(cell).__name__ == 'Number':
             # Write a number.
-            self._xml_number_element(token, attributes)
+            self._xml_number_element(cell.number, attributes)
