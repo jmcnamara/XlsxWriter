@@ -110,7 +110,7 @@ class XMLwriter(object):
     def _xml_rich_si_element(self, string):
         # Optimised tag writer for shared strings <si> rich string elements.
 
-        self.fh.write("""<si>%s</si>""" %  string)
+        self.fh.write("""<si>%s</si>""" % string)
 
     def _xml_number_element(self, number, attributes=[]):
         # Optimised tag writer for <c> cell number elements in the inner loop.
@@ -132,7 +132,7 @@ class XMLwriter(object):
             value = self._escape_attributes(value)
             attr = attr + ' %s="%s"' % (key, value)
 
-        self.fh.write("""<c%s><f>%s</f><v>%s</v></c>""" 
+        self.fh.write("""<c%s><f>%s</f><v>%s</v></c>"""
                       % (attr, formula, str(result)))
 
     def _escape_attributes(self, str):

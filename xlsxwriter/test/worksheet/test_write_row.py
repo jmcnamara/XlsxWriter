@@ -27,7 +27,7 @@ class TestWriteRow(unittest.TestCase):
 
         self.worksheet._write_row(0, None)
 
-        exp = """<row r="1">""";
+        exp = """<row r="1">"""
         got = self.fh.getvalue()
 
         self.assertEqual(got, exp)

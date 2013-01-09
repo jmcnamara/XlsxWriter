@@ -559,11 +559,11 @@ class Worksheet(xmlwriter.XMLwriter):
             xf_index = cell.format._get_xf_index()
             attributes.append(('s', str(xf_index)))
         elif row in self.set_rows and self.set_rows[row][1]:
-           row_xf = self.set_rows[row][1]
-           attributes.append(('s', row_xf._get_xf_index()))
+            row_xf = self.set_rows[row][1]
+            attributes.append(('s', row_xf._get_xf_index()))
         elif col in self.col_formats:
-           col_xf = self.col_formats[col]
-           attributes.append(('s', col_xf._get_xf_index()))
+            col_xf = self.col_formats[col]
+            attributes.append(('s', col_xf._get_xf_index()))
 
         # Write the various cell types.
         if type(cell).__name__ == 'Number':
