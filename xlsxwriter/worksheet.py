@@ -265,8 +265,6 @@ class Worksheet(xmlwriter.XMLwriter):
             return -1
 
         # Set the limits for the outline levels (0 <= x <= 7).
-        if level is None:
-            level = 0
         if level < 0:
             level = 0
         if level > 7:
@@ -294,6 +292,60 @@ class Worksheet(xmlwriter.XMLwriter):
                 self.col_formats[col] = format
 
         return 0
+
+    def set_row(self, row, height, format=None, hidden=False, level=0,
+                collapsed=0):
+        """
+        Set the width, and other properties of a row.
+        range of columns.
+
+        Args:
+            row:     Row number (zero-indexed).
+            height:  Row width.
+            format:  Row format. (optional).
+            hidden:  Row is hidden. (default 0).
+            level:   Row outline level. (default 0).
+            collapsed: Row outline levels are collapsed. (default 0).
+        Returns:
+            0:  Success.
+            -1: Row number is out of worksheet bounds.
+
+        """
+        # Use minimum col in _check_dimensions().
+        if self.dim_colmin is not None:
+            min_col = self.dim_colmin
+        else:
+            min_col = 0
+
+        # Check that row is valid.
+        if self._check_dimensions(row, min_col):
+            return -1
+
+        if height is None:
+            height = self.default_row_height
+
+        # If the height is 0 the row is hidden and the height is the default.
+        if height == 0:
+            hidden = 1
+            height = self.default_row_height
+
+        # Set the limits for the outline levels (0 <= x <= 7).
+        if level < 0:
+            level = 0
+        if level > 7:
+            level = 7
+
+        if level > self.outline_row_level:
+            self.outline_row_level = level
+
+        # Store the row properties.
+        self.set_rows[row] = [height, format, hidden, level, collapsed]
+
+        # Store the row change to allow optimisations.
+        self.row_size_changed = 1
+
+        # Store the row sizes for use when calculating image vertices.
+        self.row_sizes[row] = height
 
     ###########################################################################
     #
@@ -454,7 +506,7 @@ class Worksheet(xmlwriter.XMLwriter):
 
     def _write_sheet_format_pr(self):
         # Write the <sheetFormatPr> element.
-        default_row_height = '15'
+        default_row_height = self.default_row_height
 
         attributes = [('defaultRowHeight', default_row_height)]
 
@@ -566,7 +618,11 @@ class Worksheet(xmlwriter.XMLwriter):
                 # Only process rows that contain row formatting, cell
                 # data comments.
                 span_index = int(row_num / 16)
-                span = self.row_spans[span_index]
+
+                if span_index in self.row_spans:
+                    span = self.row_spans[span_index]
+                else:
+                    span = None
 
                 if self.table[row_num]:
                     # Write the cells if the row contains data.
@@ -582,7 +638,7 @@ class Worksheet(xmlwriter.XMLwriter):
 
                     self._xml_end_tag('row')
 
-                elif self.comments[row_num]:
+                elif row_num in self.comments:
                     # Row with comments in cells.
                     self._write_empty_row(row_num, span,
                                           self.set_rows[row_num])
@@ -640,7 +696,7 @@ class Worksheet(xmlwriter.XMLwriter):
 
         self.row_spans = spans
 
-    def _write_row(self, r, spans, properties=None, empty_row=0):
+    def _write_row(self, row, spans, properties=None, empty_row=0):
         # Write the <row> element.
         xf_index = 0
 
@@ -652,14 +708,14 @@ class Worksheet(xmlwriter.XMLwriter):
         if height is None:
             height = self.default_row_height
 
-        attributes = [('r', r + 1)]
+        attributes = [('r', row + 1)]
 
         # Get the format index.
         if format:
             xf_index = format._get_xf_index()
 
         # Add row attributes where applicable.
-        if spans is not None:
+        if spans:
             attributes.append(('spans', spans))
         if xf_index:
             attributes.append(('s', xf_index))
@@ -682,6 +738,10 @@ class Worksheet(xmlwriter.XMLwriter):
             self._xml_empty_tag_unencoded('row', attributes)
         else:
             self._xml_start_tag_unencoded('row', attributes)
+
+    def _write_empty_row(self, *args):
+        # Write and empty <row> element.
+        self._write_row(*args, empty_row=1)
 
     def _write_cell(self, row, col, cell):
         # Write the <cell> element.
