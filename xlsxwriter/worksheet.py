@@ -185,13 +185,14 @@ class Worksheet(xmlwriter.XMLwriter):
         Write a number to a worksheet cell.
 
         Args:
-            row    : The cell row (zero indexed).
-            col    : The cell column (zero indexed).
-            num    : Cell data. Int or float.
-            format : An optional Format object.
+            row:    The cell row (zero indexed).
+            col:    The cell column (zero indexed).
+            num:    Cell data. Int or float.
+            format: An optional Format object.
 
         Returns:
-            Nothing.
+            0:  Success.
+            -1: Column number is out of worksheet bounds.
 
         """
         # Check that row and col are valid and store max and min values.
@@ -225,6 +226,75 @@ class Worksheet(xmlwriter.XMLwriter):
         self.selected = 1
         self.hidden = 0
 
+    def set_column(self, firstcol, lastcol, width,
+                   format=None, hidden=False, level=0):
+        """
+        Set the width, and other properties of a single column or a
+        range of columns.
+
+        Args:
+            firstcol: First column (zero-indexed).
+            lastcol:  Last column (zero-indexed). Can be the same as firstcol.
+            width:    Column width.
+            format:   Column format. (optional).
+            hidden:   Column is hidden. (default 0).
+            level:    Column outline level. (default 0).
+
+        Returns:
+            0:  Success.
+            -1: Column number is out of worksheet bounds.
+
+        """
+        # Ensure 2nd col is larger than first.
+        if firstcol > lastcol:
+            (firstcol, lastcol) = (lastcol, firstcol)
+
+        # Don't modify the row dimensions when checking the columns.
+        ignore_row = 1
+
+        # Store the column dimension only in some conditions.
+        if format or (width and hidden):
+            ignore_col = 0
+        else:
+            ignore_col = 1
+
+        # Check that each column is valid and store the max and min values.
+        if self._check_dimensions(0, firstcol, ignore_row, ignore_col):
+            return -1
+        if self._check_dimensions(0, lastcol, ignore_row, ignore_col):
+            return -1
+
+        # Set the limits for the outline levels (0 <= x <= 7).
+        if level is None:
+            level = 0
+        if level < 0:
+            level = 0
+        if level > 7:
+            level = 7
+
+        if level > self.outline_col_level:
+            self.outline_col_level = level
+
+        # Store the column data.
+        self.colinfo.append([firstcol, lastcol, width, format, hidden, level])
+
+        # Store the column change to allow optimisations.
+        self.col_size_changed = 1
+
+        # Store the col sizes for use when calculating image vertices taking
+        # hidden columns into account. Also store the column formats.
+
+        # Set width to zero if col is hidden
+        if hidden:
+            width = 0
+
+        for col in range(firstcol, lastcol + 1):
+            self.col_sizes[col] = width
+            if format:
+                self.col_formats[col] = format
+
+        return 0
+
     ###########################################################################
     #
     # Private API.
@@ -248,6 +318,9 @@ class Worksheet(xmlwriter.XMLwriter):
 
         # Write the sheetFormatPr element.
         self._write_sheet_format_pr()
+
+        # Write the cols element.
+        self._write_cols()
 
         # Write the sheetData element.
         self._write_sheet_data()
@@ -386,6 +459,70 @@ class Worksheet(xmlwriter.XMLwriter):
         attributes = [('defaultRowHeight', default_row_height)]
 
         self._xml_empty_tag('sheetFormatPr', attributes)
+
+    def _write_cols(self):
+        # Write the <cols> element and <col> sub elements.
+
+        # Exit unless some column have been formatted.
+        if not self.colinfo:
+            return
+
+        self._xml_start_tag('cols')
+
+        for col_info in (self.colinfo):
+            self._write_col_info(col_info)
+
+        self._xml_end_tag('cols')
+
+    def _write_col_info(self, colinfo):
+        # Write the <col> element.
+
+        min, max, width, format, hidden, level = colinfo
+        collapsed = 0
+        custom_width = 1
+        xf_index = 0
+
+        # Get the format index.
+        if format:
+            xf_index = format._get_xf_index()
+
+        # Set the Excel default col width.
+        if width is None:
+            if not hidden:
+                width = 8.43
+                custom_width = 0
+            else:
+                width = 0
+        elif width == 8.43:
+            # Width is defined but same as default.
+            custom_width = 0
+
+        # Convert column width from user units to character width.
+        if width > 0:
+             # For Calabri 11.
+            max_digit_width = 7
+            padding = 5
+            width = int((float(width) * max_digit_width + padding)
+                        / max_digit_width * 256.0) / 256.0
+
+        attributes = [
+            ('min', min + 1),
+            ('max', max + 1),
+            ('width', width),
+        ]
+
+        if xf_index:
+            attributes.append(('style', xf_index))
+        if hidden:
+            attributes.append(('hidden', '1'))
+        if custom_width:
+            attributes.append(('customWidth', '1'))
+        if level:
+            attributes.append(('outlineLevel', level))
+        if collapsed:
+            attributes.append(('collapsed', '1'))
+
+        self._xml_empty_tag('col', attributes)
 
     def _write_sheet_data(self):
         # Write the <sheetData> element.
@@ -557,7 +694,7 @@ class Worksheet(xmlwriter.XMLwriter):
         # Add the cell format index.
         if cell.format:
             xf_index = cell.format._get_xf_index()
-            attributes.append(('s', str(xf_index)))
+            attributes.append(('s', xf_index))
         elif row in self.set_rows and self.set_rows[row][1]:
             row_xf = self.set_rows[row][1]
             attributes.append(('s', row_xf._get_xf_index()))

@@ -135,27 +135,28 @@ class XMLwriter(object):
         self.fh.write("""<c%s><f>%s</f><v>%s</v></c>"""
                       % (attr, formula, str(result)))
 
-    def _escape_attributes(self, str):
+    def _escape_attributes(self, attribute):
         # Escape XML characters in attributes.
 
-        if not self.escapes.match(str):
-            return str
+        if not self.escapes.match(str(attribute)):
+            return attribute
 
-        str = str.replace('&', '&amp;')
-        str = str.replace('"', '&quot;')
-        str = str.replace('<', '&lt;')
-        str = str.replace('>', '&gt;')
+        attribute = attribute.replace('&', '&amp;')
+        attribute = attribute.replace('"', '&quot;')
+        attribute = attribute.replace('<', '&lt;')
+        attribute = attribute.replace('>', '&gt;')
 
-        return str
+        return attribute
 
-    def _escape_data(self, str):
-        # Escape XML characters in attributes.
+    def _escape_data(self, data):
+        # Escape XML characters in data sections of tags.  Note, this
+        # is different from _escape_attributes() in that double quotes
+        # are not escaped by Excel.
+        if not self.escapes.match(data):
+            return data
 
-        if not self.escapes.match(str):
-            return str
+        data = data.replace('&', '&amp;')
+        data = data.replace('<', '&lt;')
+        data = data.replace('>', '&gt;')
 
-        str = str.replace('&', '&amp;')
-        str = str.replace('<', '&lt;')
-        str = str.replace('>', '&gt;')
-
-        return str
+        return data
