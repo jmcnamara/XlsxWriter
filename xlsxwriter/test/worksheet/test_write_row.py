@@ -65,9 +65,9 @@ class TestWriteRow(unittest.TestCase):
     def test_write_row_5(self):
         """Test the _write_row() method"""
 
-        format = MockFormat(xf_index=1)
+        cell_format = MockFormat(xf_index=1)
 
-        self.worksheet._write_row(6, None, [15, format, 0, 0, 0])
+        self.worksheet._write_row(6, None, [15, cell_format, 0, 0, 0])
 
         exp = """<row r="7" s="1" customFormat="1">"""
         got = self.fh.getvalue()

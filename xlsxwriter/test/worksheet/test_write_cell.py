@@ -22,7 +22,7 @@ class TestWriteCell(unittest.TestCase):
         self.worksheet = Worksheet()
         self.worksheet._set_filehandle(self.fh)
 
-    def test_write_cell(self):
+    def test_write_cell_number(self):
         """Test the _write_cell() method"""
 
         cell_tuple = namedtuple('Number', 'number, format')
@@ -31,6 +31,19 @@ class TestWriteCell(unittest.TestCase):
         self.worksheet._write_cell(0, 0, cell)
 
         exp = """<c r="A1"><v>1</v></c>"""
+        got = self.fh.getvalue()
+
+        self.assertEqual(got, exp)
+
+    def test_write_cell_string(self):
+        """Test the _write_cell() method"""
+
+        cell_tuple = namedtuple('String', 'string, format')
+        cell = cell_tuple(0, None)
+
+        self.worksheet._write_cell(3, 1, cell)
+
+        exp = """<c r="B4" t="s"><v>0</v></c>"""
         got = self.fh.getvalue()
 
         self.assertEqual(got, exp)
