@@ -248,6 +248,39 @@ class Worksheet(xmlwriter.XMLwriter):
 
         return 0
 
+    def write_formula(self, row, col, formula, cell_format=None, value=0):
+        """
+        Write a formula to a worksheet cell.
+
+        Args:
+            row:         The cell row (zero indexed).
+            col:         The cell column (zero indexed).
+            formual:     Cell formula.
+            cell_format: An optional Format object.
+            value:       An optional value for the formula. Default is 0.
+
+        Returns:
+            0:  Success.
+            -1: Column number is out of worksheet bounds.
+
+        """
+        # Check that row and col are valid and store max and min values.
+        if self._check_dimensions(row, col):
+            return -1
+
+        # Remove the formula '=' sign if it exists.
+        if formula[0] == '=':
+            formula = formula[1:]
+
+        # Write previous row if in in-line string optimization mode.
+        if self.optimization and row > self.previous_row:
+            self._write_single_row(row)
+
+        cell_tuple = namedtuple('Formula', 'formula, format, value')
+        self.table[row][col] = cell_tuple(formula, cell_format, value)
+
+        return 0
+
     def select(self):
         """
         Set this worksheet as a selected worksheet, i.e. the worksheet
@@ -842,6 +875,7 @@ class Worksheet(xmlwriter.XMLwriter):
         if type(cell).__name__ == 'Number':
             # Write a number.
             self._xml_number_element(cell.number, attributes)
+
         elif type(cell).__name__ == 'String':
             # Write a string.
             string = cell.string
@@ -867,3 +901,12 @@ class Worksheet(xmlwriter.XMLwriter):
                         preserve = 1
 
                     self._xml_inline_string(string, preserve, attributes)
+
+        elif type(cell).__name__ == 'Formula':
+            # Write a formula. First check if the formula value is a string.
+            try:
+                float(cell.value)
+            except ValueError:
+                attributes.append(('t', 'str'))
+
+            self._xml_formula_element(cell.formula, cell.value, attributes)
