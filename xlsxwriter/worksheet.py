@@ -5,9 +5,10 @@
 # Copyright 2013, John McNamara, jmcnamara@cpan.org
 #
 
-import xmlwriter
+import re
 from collections import defaultdict
 from collections import namedtuple
+import xmlwriter
 from utility import xl_rowcol_to_cell
 
 
@@ -210,10 +211,9 @@ class Worksheet(xmlwriter.XMLwriter):
         else:
             string_index = string
 
-        # TODO
         # Write previous row if in in-line string optimization mode.
-        # if self.optimization == 1 and row > self.previous_row:
-        #     self._write_single_row(row)
+        if self.optimization and row > self.previous_row:
+            self._write_single_row(row)
 
         cell_tuple = namedtuple('String', 'string, format')
         self.table[row][col] = cell_tuple(string_index, cell_format)
@@ -239,10 +239,9 @@ class Worksheet(xmlwriter.XMLwriter):
         if self._check_dimensions(row, col):
             return -1
 
-        # TODO
         # Write previous row if in in-line string optimization mode.
-        # if self.optimization == 1 and row > self.previous_row:
-        #    self._write_single_row(row)
+        if self.optimization and row > self.previous_row:
+            self._write_single_row(row)
 
         cell_tuple = namedtuple('Number', 'number, format')
         self.table[row][col] = cell_tuple(number, cell_format)
@@ -299,9 +298,9 @@ class Worksheet(xmlwriter.XMLwriter):
             ignore_col = 1
 
         # Check that each column is valid and store the max and min values.
-        if self._check_dimensions(0, firstcol, ignore_row, ignore_col):
-            return -1
         if self._check_dimensions(0, lastcol, ignore_row, ignore_col):
+            return -1
+        if self._check_dimensions(0, firstcol, ignore_row, ignore_col):
             return -1
 
         # Set the limits for the outline levels (0 <= x <= 7).
@@ -652,8 +651,8 @@ class Worksheet(xmlwriter.XMLwriter):
 
             if (row_num in self.set_rows or row_num in self.comments
                     or self.table[row_num]):
-                # Only process rows that contain row formatting, cell
-                # data comments.
+                # Only process rows with formatting, cell data and/or comments.
+
                 span_index = int(row_num / 16)
 
                 if span_index in self.row_spans:
@@ -669,7 +668,7 @@ class Worksheet(xmlwriter.XMLwriter):
                         self._write_row(row_num, span, self.set_rows[row_num])
 
                     for col_num in range(self.dim_colmin, self.dim_colmax + 1):
-                        if self.table[row_num][col_num]:
+                        if col_num in self.table[row_num]:
                             col_ref = self.table[row_num][col_num]
                             self._write_cell(row_num, col_num, col_ref)
 
@@ -683,6 +682,44 @@ class Worksheet(xmlwriter.XMLwriter):
                     # Blank row with attributes only.
                     self._write_empty_row(row_num, span,
                                           self.set_rows[row_num])
+
+    def _write_single_row(self, current_row_num):
+        # Write out the worksheet data as a single row with cells.
+        # This method is used when memory optimisation is on. A single
+        # row is written and the data table is reset. That way only
+        # one row of data is kept in memory at any one time. We don't
+        # write span data in the optimised case since it is optional.
+
+        # Set the new previous row as the current row.
+        row_num = self.previous_row
+        self.previous_row = current_row_num
+
+        if (row_num in self.set_rows or row_num in self.comments
+                or self.table[row_num]):
+            # Only process rows with formatting, cell data and/or comments.
+
+            # No span data in optimised mode.
+            span = None
+
+            if self.table[row_num]:
+                # Write the cells if the row contains data.
+                if row_num not in self.set_rows:
+                    self._write_row(row_num, span)
+                else:
+                    self._write_row(row_num, span, self.set_rows[row_num])
+
+                for col_num in range(self.dim_colmin, self.dim_colmax + 1):
+                    if col_num in self.table[row_num]:
+                        col_ref = self.table[row_num][col_num]
+                        self._write_cell(row_num, col_num, col_ref)
+
+                self._xml_end_tag('row')
+            else:
+                # Row attributes or comments only.
+                self._write_empty_row(row_num, span, self.set_rows[row_num])
+
+        # Reset table.
+        self.table.clear()
 
     def _calculate_spans(self):
         # Calculate the "spans" attribute of the <row> tag. This is an
@@ -806,5 +843,27 @@ class Worksheet(xmlwriter.XMLwriter):
             # Write a number.
             self._xml_number_element(cell.number, attributes)
         elif type(cell).__name__ == 'String':
-            # Write a number.
-            self._xml_string_element(cell.string, attributes)
+            # Write a string.
+            string = cell.string
+
+            if not self.optimization:
+                # Write a shared string.
+                self._xml_string_element(string, attributes)
+            else:
+                # Write an optimised in-line string.
+
+                # TODO: Fix control char encoding when unit test is ported.
+                # Escape control characters. See SharedString.pm for details.
+                # string =~ s/(_x[0-9a-fA-F]{4}_)/_x005F1/g
+                # string =~s/([\x00-\x08\x0B-\x1F])/sprintf "_x04X_", ord(1)/eg
+
+                # Write any rich strings without further tags.
+                if re.search('^<r>', string) and re.search('</r>$', string):
+                    self._xml_rich_inline_string(string, attributes)
+                else:
+                    # Add attribute to preserve leading or trailing whitespace.
+                    preserve = 0
+                    if re.search('^\s', string) or re.search('\s$', string):
+                        preserve = 1
+
+                    self._xml_inline_string(string, preserve, attributes)

@@ -80,6 +80,7 @@ class SharedStrings(xmlwriter.XMLwriter):
         # Write the <si> element.
         attributes = []
 
+        # TODO: Fix control char encoding when unit test is ported.
         # Excel escapes control characters with _xHHHH_ and also escapes any
         # literal strings of that type by encoding the leading underscore.
         # So "\0" -> _x0000_ and "_x0000_" -> _x005F_x0000_.
