@@ -1,6 +1,6 @@
 ###############################################################################
 #
-# Worksheet - A class for writing Excel Worksheets.
+# Worksheet - A class for writing the Excel XLSX Worksheet file.
 #
 # Copyright 2013, John McNamara, jmcnamara@cpan.org
 #
@@ -13,7 +13,7 @@ from utility import xl_rowcol_to_cell
 
 class Worksheet(xmlwriter.XMLwriter):
     """
-    A class for writing Excel Worksheets.
+    A class for writing the Excel XLSX Worksheet file.
 
     """
 
@@ -35,10 +35,7 @@ class Worksheet(xmlwriter.XMLwriter):
         self.index = None
         self.activesheet = None
         self.firstsheet = None
-        self.str_total = None
-        self.str_unique = None
         self.str_table = None
-        self.table_count = None
         self.date_1904 = None
         self.palette = None
         self.optimization = 0
@@ -209,7 +206,7 @@ class Worksheet(xmlwriter.XMLwriter):
 
         # Write a shared string or an in-line string in optimisation mode.
         if self.optimization == 0:
-            string_index = self._get_shared_string_index(string)
+            string_index = self.str_table._get_shared_string_index(string)
         else:
             string_index = string
 
@@ -244,7 +241,7 @@ class Worksheet(xmlwriter.XMLwriter):
 
         # TODO
         # Write previous row if in in-line string optimization mode.
-        #if self.optimization == 1 and row > self.previous_row:
+        # if self.optimization == 1 and row > self.previous_row:
         #    self._write_single_row(row)
 
         cell_tuple = namedtuple('Number', 'number, format')
@@ -578,7 +575,7 @@ class Worksheet(xmlwriter.XMLwriter):
         if cell_format:
             xf_index = cell_format._get_xf_index()
 
-        # Set the Excel default col width.
+        # Set the Excel default column width.
         if width is None:
             if not hidden:
                 width = 8.43
@@ -637,9 +634,9 @@ class Worksheet(xmlwriter.XMLwriter):
         footer = '0.3'
 
         attributes = [
-            ('left',   left),
-            ('right',  right),
-            ('top',    top),
+            ('left', left),
+            ('right', right),
+            ('top', top),
             ('bottom', bottom),
             ('header', header),
             ('footer', footer),
@@ -791,14 +788,16 @@ class Worksheet(xmlwriter.XMLwriter):
 
         attributes = [('r', cell_range)]
 
-        # Add the cell format index.
         if cell.format:
+            # Add the cell format index.
             xf_index = cell.format._get_xf_index()
             attributes.append(('s', xf_index))
         elif row in self.set_rows and self.set_rows[row][1]:
+            # Add the row format.
             row_xf = self.set_rows[row][1]
             attributes.append(('s', row_xf._get_xf_index()))
         elif col in self.col_formats:
+            # Add the column format.
             col_xf = self.col_formats[col]
             attributes.append(('s', col_xf._get_xf_index()))
 
