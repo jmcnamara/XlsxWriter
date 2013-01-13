@@ -525,6 +525,9 @@ class Worksheet(xmlwriter.XMLwriter):
     #
     ###########################################################################
 
+    def _initialize(self, init_data):
+        self.name = init_data['name']
+
     def _assemble_xml_file(self):
         # Assemble and write the XML file.
 

@@ -18,6 +18,7 @@ class TestAssembleWorksheet(unittest.TestCase):
     """
     def test_assemble_xml_file(self):
         """Test writing a worksheet with no cell data."""
+        self.maxDiff = None
 
         fh = StringIO()
         worksheet = Worksheet()
