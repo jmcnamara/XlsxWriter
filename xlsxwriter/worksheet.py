@@ -186,7 +186,7 @@ class Worksheet(xmlwriter.XMLwriter):
             row:    The cell row (zero indexed).
             col:    The cell column (zero indexed).
             string: Cell data. Str.
-            format: An optional Format object.
+            format: An optional cell Format object.
 
         Returns:
             0:  Success.
@@ -215,6 +215,7 @@ class Worksheet(xmlwriter.XMLwriter):
         if self.optimization and row > self.previous_row:
             self._write_single_row(row)
 
+        # Store the cell data in the worksheet data table.
         cell_tuple = namedtuple('String', 'string, format')
         self.table[row][col] = cell_tuple(string_index, cell_format)
 
@@ -228,7 +229,7 @@ class Worksheet(xmlwriter.XMLwriter):
             row:         The cell row (zero indexed).
             col:         The cell column (zero indexed).
             number:      Cell data. Int or float.
-            cell_format: An optional Format object.
+            cell_format: An optional cell Format object.
 
         Returns:
             0:  Success.
@@ -243,8 +244,41 @@ class Worksheet(xmlwriter.XMLwriter):
         if self.optimization and row > self.previous_row:
             self._write_single_row(row)
 
+        # Store the cell data in the worksheet data table.
         cell_tuple = namedtuple('Number', 'number, format')
         self.table[row][col] = cell_tuple(number, cell_format)
+
+        return 0
+
+    def write_blank(self, row, col, cell_format=None):
+        """
+        Write a number to a worksheet cell.
+
+        Args:
+            row:         The cell row (zero indexed).
+            col:         The cell column (zero indexed).
+            cell_format: An optional cell Format object.
+
+        Returns:
+            0:  Success.
+            -1: Column number is out of worksheet bounds.
+
+        """
+        # Don't write a blank cell unless it has a format.
+        if cell_format is None:
+            return 0
+
+        # Check that row and col are valid and store max and min values.
+        if self._check_dimensions(row, col):
+            return -1
+
+        # Write previous row if in in-line string optimization mode.
+        if self.optimization and row > self.previous_row:
+            self._write_single_row(row)
+
+        # Store the cell data in the worksheet data table.
+        cell_tuple = namedtuple('Blank', 'format')
+        self.table[row][col] = cell_tuple(cell_format)
 
         return 0
 
@@ -256,7 +290,7 @@ class Worksheet(xmlwriter.XMLwriter):
             row:         The cell row (zero indexed).
             col:         The cell column (zero indexed).
             formual:     Cell formula.
-            cell_format: An optional Format object.
+            cell_format: An optional cell Format object.
             value:       An optional value for the formula. Default is 0.
 
         Returns:
@@ -276,8 +310,73 @@ class Worksheet(xmlwriter.XMLwriter):
         if self.optimization and row > self.previous_row:
             self._write_single_row(row)
 
+        # Store the cell data in the worksheet data table.
         cell_tuple = namedtuple('Formula', 'formula, format, value')
         self.table[row][col] = cell_tuple(formula, cell_format, value)
+
+        return 0
+
+    def write_array_formula(self, firstrow, firstcol, lastrow, lastcol,
+                            formula, cell_format=None, value=0):
+        """
+        Write a formula to a worksheet cell.
+
+        Args:
+            firstrow:    The first row of the cell range. (zero indexed).
+            firstcol:    The first column of the cell range.
+            lastrow:     The last row of the cell range. (zero indexed).
+            lastcol:     The last column of the cell range.
+            formuala:    Cell formula.
+            cell_format: An optional cell Format object.
+            value:       An optional value for the formula. Default is 0.
+
+        Returns:
+            0:  Success.
+            -1: Column number is out of worksheet bounds.
+
+        """
+
+        # Swap last row/col with first row/col as necessary.
+        if firstrow > lastrow:
+            firstrow, lastrow = lastrow, firstrow
+        if firstcol > lastcol:
+            firstcol, lastcol = lastcol, firstcol
+
+        # Check that row and col are valid and store max and min values
+        if self._check_dimensions(lastrow, lastcol):
+            return -1
+
+        # Define array range
+        if firstrow == lastrow and firstcol == lastcol:
+            cell_range = xl_rowcol_to_cell(firstrow, firstcol)
+        else:
+            cell_range = (xl_rowcol_to_cell(firstrow, firstcol) + ':'
+                          + xl_rowcol_to_cell(lastrow, lastcol))
+
+        # Remove array formula braces and the leading =.
+        if formula[0] == '{':
+            formula = formula[1:]
+        if formula[0] == '=':
+            formula = formula[1:]
+        if formula[-1] == '}':
+            formula = formula[:-1]
+
+        # Write previous row if in in-line string optimization mode.
+        if self.optimization and firstrow > self.previous_row:
+            self._write_single_row(firstrow)
+
+        # Store the cell data in the worksheet data table.
+        cell_tuple = namedtuple('ArrayFormula',
+                                'formula, format, value, range')
+        self.table[firstrow][firstcol] = cell_tuple(formula, cell_format,
+                                                    value, cell_range)
+
+        # Pad out the rest of the area with formatted zeroes.
+        if not self.optimization:
+            for row in range(firstrow, lastrow + 1):
+                for col in range(firstcol, lastcol + 1):
+                    if row != firstrow or col != firstcol:
+                        self.write_number(row, col, 0, cell_format)
 
         return 0
 
@@ -910,3 +1009,38 @@ class Worksheet(xmlwriter.XMLwriter):
                 attributes.append(('t', 'str'))
 
             self._xml_formula_element(cell.formula, cell.value, attributes)
+
+        elif type(cell).__name__ == 'ArrayFormula':
+            # Write a array formula.
+
+            # First check if the formula value is a string.
+            try:
+                float(cell.value)
+            except ValueError:
+                attributes.append(('t', 'str'))
+
+            # Write an array formula.
+            self._xml_start_tag('c', attributes)
+            self._write_cell_array_formula(cell.formula, cell.range)
+            self._write_cell_value(cell.value)
+            self._xml_end_tag('c')
+
+        elif type(cell).__name__ == 'Blank':
+            # Write a empty cell.
+            self._xml_empty_tag('c', attributes)
+
+    def _write_cell_value(self, value):
+        # Write the cell value <v> element.
+        if value is None:
+            value = ''
+
+        self._xml_data_element('v', value)
+
+    def _write_cell_array_formula(self, formula, cell_range):
+        # Write the cell array formula <f> element.
+        attributes = [
+            ('t', 'array'),
+            ('ref', cell_range)
+        ]
+
+        self._xml_data_element('f', formula, attributes)

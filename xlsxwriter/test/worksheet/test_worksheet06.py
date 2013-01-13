@@ -18,7 +18,7 @@ class TestAssembleWorksheet(unittest.TestCase):
 
     """
     def test_assemble_xml_file(self):
-        """Test writing a worksheet with strings in cells."""
+        """Test writing a worksheet with data out of bounds."""
         self.maxDiff = None
 
         fh = StringIO()
@@ -48,6 +48,39 @@ class TestAssembleWorksheet(unittest.TestCase):
         self.assertEqual(got, bound_error)
 
         got = worksheet.write_number(max_row, max_col, 123)
+        self.assertEqual(got, bound_error)
+
+        got = worksheet.write_blank(max_row, 0, 'format')
+        self.assertEqual(got, bound_error)
+
+        got = worksheet.write_blank(0, max_col, 'format')
+        self.assertEqual(got, bound_error)
+
+        got = worksheet.write_blank(max_row, max_col, 'format')
+        self.assertEqual(got, bound_error)
+
+        got = worksheet.write_formula(max_row, 0, '=A1')
+        self.assertEqual(got, bound_error)
+
+        got = worksheet.write_formula(0, max_col, '=A1')
+        self.assertEqual(got, bound_error)
+
+        got = worksheet.write_formula(max_row, max_col, '=A1')
+        self.assertEqual(got, bound_error)
+
+        got = worksheet.write_array_formula(0, 0, 0, max_col, '=A1')
+        self.assertEqual(got, bound_error)
+
+        got = worksheet.write_array_formula(0, 0, max_row, 0, '=A1')
+        self.assertEqual(got, bound_error)
+
+        got = worksheet.write_array_formula(0, max_col, 0, 0, '=A1')
+        self.assertEqual(got, bound_error)
+
+        got = worksheet.write_array_formula(max_row, 0, 0, 0, '=A1')
+        self.assertEqual(got, bound_error)
+
+        got = worksheet.write_array_formula(max_row, max_col, max_row, max_col, '=A1')
         self.assertEqual(got, bound_error)
 
         # Column out of bounds.

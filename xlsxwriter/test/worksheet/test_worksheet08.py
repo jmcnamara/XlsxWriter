@@ -18,43 +18,67 @@ class TestAssembleWorksheet(unittest.TestCase):
 
     """
     def test_assemble_xml_file(self):
-        """Test writing a worksheet with strings in cells."""
+        """Test writing a worksheet with an array formulas in cells."""
         self.maxDiff = None
 
         fh = StringIO()
         worksheet = Worksheet()
         worksheet._set_filehandle(fh)
         worksheet.str_table = SharedStringTable()
-
         worksheet.select()
 
-        # Write some strings.
-        worksheet.write_string(0, 0, 'Foo')
-        worksheet.write_string(2, 0, 'Bar')
-        worksheet.write_string(2, 3, 'Baz')
+        # Write some data and formulas.
+        worksheet.write_array_formula(0, 0, 2, 0, '{=SUM(B1:C1*B2:C2)}')
+        worksheet.write_number(0, 1, 0)
+        worksheet.write_number(1, 1, 0)
+        worksheet.write_number(2, 1, 0)
+        worksheet.write_number(0, 2, 0)
+        worksheet.write_number(1, 2, 0)
+        worksheet.write_number(2, 2, 0)
 
         worksheet._assemble_xml_file()
 
         exp = _xml_to_list("""
                 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
                 <worksheet xmlns="http://schemas.openxmlformats.org/spreadsheetml/2006/main" xmlns:r="http://schemas.openxmlformats.org/officeDocument/2006/relationships">
-                  <dimension ref="A1:D3"/>
+                  <dimension ref="A1:C3"/>
                   <sheetViews>
                     <sheetView tabSelected="1" workbookViewId="0"/>
                   </sheetViews>
                   <sheetFormatPr defaultRowHeight="15"/>
                   <sheetData>
-                    <row r="1" spans="1:4">
-                      <c r="A1" t="s">
+                    <row r="1" spans="1:3">
+                      <c r="A1">
+                        <f t="array" ref="A1:A3">SUM(B1:C1*B2:C2)</f>
+                        <v>0</v>
+                      </c>
+                      <c r="B1">
+                        <v>0</v>
+                      </c>
+                      <c r="C1">
                         <v>0</v>
                       </c>
                     </row>
-                    <row r="3" spans="1:4">
-                      <c r="A3" t="s">
-                        <v>1</v>
+                    <row r="2" spans="1:3">
+                      <c r="A2">
+                        <v>0</v>
                       </c>
-                      <c r="D3" t="s">
-                        <v>2</v>
+                      <c r="B2">
+                        <v>0</v>
+                      </c>
+                      <c r="C2">
+                        <v>0</v>
+                      </c>
+                    </row>
+                    <row r="3" spans="1:3">
+                      <c r="A3">
+                        <v>0</v>
+                      </c>
+                      <c r="B3">
+                        <v>0</v>
+                      </c>
+                      <c r="C3">
+                        <v>0</v>
                       </c>
                     </row>
                   </sheetData>
