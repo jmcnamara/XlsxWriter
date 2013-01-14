@@ -5,8 +5,10 @@
 # Copyright 2013, John McNamara, jmcnamara@cpan.org
 #
 
+import re
 import xmlwriter
 from worksheet import Worksheet
+from sharedstrings import SharedStringTable
 
 
 class Workbook(xmlwriter.XMLwriter):
@@ -69,11 +71,11 @@ class Workbook(xmlwriter.XMLwriter):
         self.window_height = 9660
         self.tab_ratio = 500
         self.table_count = 0
-        self.str_table = {}
+        self.str_table = SharedStringTable()
         self.vba_project = None
         self.vba_codename = None
 
-    def add_worksheet(self, name):
+    def add_worksheet(self, name=None):
         """
         Add a new worksheet to the Excel workbook.
 
@@ -84,13 +86,8 @@ class Workbook(xmlwriter.XMLwriter):
             Reference to a worksheet object.
 
         """
-        """
-        TODO
-
-        """
-
-        index = len(self.worksheets)
-        # TODO: name = self._check_sheetname(name)
+        sheet_index = len(self.worksheets)
+        name = self._check_sheetname(name)
 
         # fh = None
         #
@@ -159,6 +156,45 @@ class Workbook(xmlwriter.XMLwriter):
 
         # Close the workbook tag.
         self._xml_end_tag('workbook')
+
+    def _check_sheetname(self, sheetname, is_chart=False):
+        # Check for valid worksheet names. We check the length, if it contains
+        # any invalid chars and if the sheetname is unique in the workbook.
+        invalid_char = re.compile(r'[\[\]:*?/\\]')
+
+        # Increment the Sheet/Chart number used for default sheet names below.
+        if is_chart:
+            self.chartname_count += 1
+        else:
+            self.sheetname_count += 1
+
+        # Supply default Sheet/Chart sheetname if none has been defined.
+        if sheetname is None:
+            if is_chart:
+                sheetname = self.chart_name + str(self.chartname_count)
+            else:
+                sheetname = self.sheet_name + str(self.sheetname_count)
+
+        # Check that sheet sheetname is <= 31. Excel limit.
+        if len(sheetname) > 31:
+            raise Exception("Excel worksheet name '%s' must be <= 31 chars." %
+                            sheetname)
+
+        # Check that sheetname doesn't contain any invalid characters
+        if invalid_char.search(sheetname):
+            raise Exception(
+                "Invalid Excel character '[]:*?/\\' in sheetname '%s'" %
+                sheetname)
+
+        # Check that the worksheet name doesn't already exist since this is a
+        # fatal Excel error. The check must be case insensitive like Excel.
+        for worksheet in (self.worksheets):
+            if sheetname.lower() == worksheet.name.lower():
+                raise Exception(
+                    "Sheetname '%s', with case ignored, is already in use." %
+                    sheetname)
+
+        return sheetname
 
     ###########################################################################
     #

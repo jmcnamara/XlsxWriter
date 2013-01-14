@@ -17,13 +17,14 @@ class TestAssembleWorkbook(unittest.TestCase):
 
     """
     def test_assemble_xml_file(self):
-        """Test writing a workbook with 1 worksheet."""
+        """Test writing a workbook with 2 worksheets."""
         self.maxDiff = None
 
         fh = StringIO()
         workbook = Workbook()
         workbook._set_filehandle(fh)
 
+        workbook.add_worksheet()
         workbook.add_worksheet()
 
         workbook._assemble_xml_file()
@@ -38,6 +39,7 @@ class TestAssembleWorkbook(unittest.TestCase):
                   </bookViews>
                   <sheets>
                     <sheet name="Sheet1" sheetId="1" r:id="rId1"/>
+                    <sheet name="Sheet2" sheetId="2" r:id="rId2"/>
                   </sheets>
                   <calcPr calcId="124519"/>
                 </workbook>

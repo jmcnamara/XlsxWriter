@@ -17,14 +17,15 @@ class TestAssembleWorkbook(unittest.TestCase):
 
     """
     def test_assemble_xml_file(self):
-        """Test writing a workbook with 1 worksheet."""
+        """Test writing a workbook with user specified names."""
         self.maxDiff = None
 
         fh = StringIO()
         workbook = Workbook()
         workbook._set_filehandle(fh)
 
-        workbook.add_worksheet()
+        workbook.add_worksheet('Non Default Name')
+        workbook.add_worksheet('Another Name')
 
         workbook._assemble_xml_file()
 
@@ -37,7 +38,8 @@ class TestAssembleWorkbook(unittest.TestCase):
                     <workbookView xWindow="240" yWindow="15" windowWidth="16095" windowHeight="9660"/>
                   </bookViews>
                   <sheets>
-                    <sheet name="Sheet1" sheetId="1" r:id="rId1"/>
+                    <sheet name="Non Default Name" sheetId="1" r:id="rId1"/>
+                    <sheet name="Another Name" sheetId="2" r:id="rId2"/>
                   </sheets>
                   <calcPr calcId="124519"/>
                 </workbook>
