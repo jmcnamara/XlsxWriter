@@ -157,6 +157,9 @@ class Workbook(xmlwriter.XMLwriter):
         # Close the workbook tag.
         self._xml_end_tag('workbook')
 
+        # Close the file.
+        self._xml_close()
+
     def _check_sheetname(self, sheetname, is_chart=False):
         # Check for valid worksheet names. We check the length, if it contains
         # any invalid chars and if the sheetname is unique in the workbook.

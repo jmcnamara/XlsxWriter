@@ -558,6 +558,9 @@ class Worksheet(xmlwriter.XMLwriter):
         # Close the worksheet tag.
         self._xml_end_tag('worksheet')
 
+        # Close the file.
+        self._xml_close()
+
     def _check_dimensions(self, row, col, ignore_row=False, ignore_col=False):
         # Check that row and col are valid and store the max and min
         # values for use in other methods/elements. The ignore_row /

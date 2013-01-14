@@ -52,6 +52,9 @@ class SharedStrings(xmlwriter.XMLwriter):
         # Close the sst tag.
         self._xml_end_tag('sst')
 
+        # Close the file.
+        self._xml_close()
+
     ###########################################################################
     #
     # XML methods.
