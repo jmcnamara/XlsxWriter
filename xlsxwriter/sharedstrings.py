@@ -23,7 +23,7 @@ class SharedStrings(xmlwriter.XMLwriter):
 
     def __init__(self):
         """
-        Construtor.
+        Constructor.
 
         """
 
