@@ -71,83 +71,83 @@ class ContentTypes(xmlwriter.XMLwriter):
         # Close the file.
         self._xml_close()
 
-    def _add_default(self, part_name, content_type):
+    def _add_default(self, default):
         # Add elements to the ContentTypes defaults.
-        self.defaults.append((part_name, content_type))
+        self.defaults.append(default)
 
-    def _add_override(self, part_name, content_type):
+    def _add_override(self, override):
         # Add elements to the ContentTypes overrides.
-        self.overrides.append((part_name, content_type))
+        self.overrides.append(override)
 
     def _add_worksheet_name(self, worksheet_name):
         # Add the name of a worksheet to the ContentTypes overrides.
         worksheet_name = "/xl/worksheets/" + worksheet_name + ".xml"
 
-        self._add_override(worksheet_name,
-                           app_document + 'spreadsheetml.worksheet+xml')
+        self._add_override((worksheet_name,
+                           app_document + 'spreadsheetml.worksheet+xml'))
 
     def _add_chartsheet_name(self, chartsheet_name):
         # Add the name of a chartsheet to the ContentTypes overrides.
         chartsheet_name = "/xl/chartsheets/" + chartsheet_name + ".xml"
 
-        self._add_override(chartsheet_name,
-                           app_document + 'spreadsheetml.chartsheet+xml')
+        self._add_override((chartsheet_name,
+                           app_document + 'spreadsheetml.chartsheet+xml'))
 
     def _add_chart_name(self, chart_name):
         # Add the name of a chart to the ContentTypes overrides.
         chart_name = "/xl/charts/" + chart_name + ".xml"
 
-        self._add_override(chart_name, app_document + 'drawingml.chart+xml')
+        self._add_override((chart_name, app_document + 'drawingml.chart+xml'))
 
     def _add_drawing_name(self, drawing_name):
         # Add the name of a drawing to the ContentTypes overrides.
         drawing_name = "/xl/drawings/" + drawing_name + ".xml"
 
-        self._add_override(drawing_name, app_document + 'drawing+xml')
+        self._add_override((drawing_name, app_document + 'drawing+xml'))
 
     def _add_vml_name(self):
         # Add the name of a VML drawing to the ContentTypes defaults.
-        self._add_default('vml', app_document + 'vmlDrawing')
+        self._add_default(('vml', app_document + 'vmlDrawing'))
 
     def _add_comment_name(self, comment_name):
         # Add the name of a comment to the ContentTypes overrides.
         comment_name = "/xl/" + comment_name + ".xml"
 
-        self._add_override(comment_name,
-                           app_document + 'spreadsheetml.comments+xml')
+        self._add_override((comment_name,
+                           app_document + 'spreadsheetml.comments+xml'))
 
     def _add_shared_strings(self):
         # Add the sharedStrings link to the ContentTypes overrides.
-        self._add_override('/xl/sharedStrings.xml',
-                           app_document + 'spreadsheetml.sharedStrings+xml')
+        self._add_override(('/xl/sharedStrings.xml',
+                           app_document + 'spreadsheetml.sharedStrings+xml'))
 
     def _add_calc_chain(self):
         # Add the calcChain link to the ContentTypes overrides.
-        self._add_override('/xl/calcChain.xml',
-                           app_document + 'spreadsheetml.calcChain+xml')
+        self._add_override(('/xl/calcChain.xml',
+                           app_document + 'spreadsheetml.calcChain+xml'))
 
     def _add_image_types(self, image_types):
         # Add the image default types.
         for image_type in (image_types):
-            self._add_default(type, 'image/' + image_type)
+            self._add_default((type, 'image/' + image_type))
 
     def _add_table_name(self, table_name):
         # Add the name of a table to the ContentTypes overrides.
         table_name = "/xl/tables/" + table_name + ".xml"
 
-        self._add_override(table_name,
-                           app_document + 'spreadsheetml.table+xml')
+        self._add_override((table_name,
+                           app_document + 'spreadsheetml.table+xml'))
 
     def _add_vba_project(self):
         # Add a vbaProject to the ContentTypes defaults.
 
         # TODO: Fix when test is ported.
-        # Change the workbook.xml content-type from xlsx to xlsm.
+        # Change the workbook.xml content-type from xlsx to xlsx.
         # for aref in (self.overrides):
         #    if aref[0] eq '/xl/workbook.xml':
         #        aref[1]='application/vnd.ms-excel.sheet.macroEnabled.main+xml'
 
-        self._add_default('bin', 'application/vnd.ms-office.vbaProject')
+        self._add_default(('bin', 'application/vnd.ms-office.vbaProject'))
 
     ###########################################################################
     #

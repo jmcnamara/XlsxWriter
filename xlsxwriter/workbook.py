@@ -6,6 +6,7 @@
 #
 
 import re
+from datetime import datetime
 import xmlwriter
 from worksheet import Worksheet
 from sharedstrings import SharedStringTable
@@ -61,7 +62,7 @@ class Workbook(xmlwriter.XMLwriter):
         self.named_ranges = []
         self.custom_colors = []
         self.doc_properties = {}
-        self.localtime = []
+        self.localtime = datetime.now()
         self.num_vml_files = 0
         self.num_comment_files = 0
         self.optimization = 0

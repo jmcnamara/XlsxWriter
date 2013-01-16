@@ -25,7 +25,7 @@ class TestAssembleContentTypes(unittest.TestCase):
         content._set_filehandle(fh)
 
         content._add_worksheet_name('sheet1')
-        content._add_default('jpeg', 'image/jpeg')
+        content._add_default(('jpeg', 'image/jpeg'))
         content._add_shared_strings()
         content._add_calc_chain()
 
