@@ -103,6 +103,9 @@ class Styles(xmlwriter.XMLwriter):
 
     def _get_palette_color(self, color):
         # Convert the RGB color.
+        if color[0] == '#':
+            color = color[1:]
+
         return "FF" + color.upper()
 
     ###########################################################################
@@ -201,7 +204,7 @@ class Styles(xmlwriter.XMLwriter):
 
         self._xml_end_tag('fonts')
 
-    def _write_font(self, xf_format, dxf_format):
+    def _write_font(self, xf_format, is_dxf_format=False):
         # Write the <font> element.
         self._xml_start_tag('font')
 
@@ -237,27 +240,27 @@ class Styles(xmlwriter.XMLwriter):
         if xf_format.font_script == 2:
             self._write_vert_align('subscript')
 
-        if not dxf_format:
-            self._xml_empty_tag('sz', 'val', xf_format.size)
+        if not is_dxf_format:
+            self._xml_empty_tag('sz', [('val', xf_format.size)])
 
-        if 'theme' in xf_format:
+        if xf_format.theme:
             self._write_color('theme', xf_format.theme)
-        elif 'color_indexed' in xf_format:
+        elif xf_format.color_indexed:
             self._write_color('indexed', xf_format.color_indexed)
-        elif 'color' in xf_format:
+        elif xf_format.color:
             color = self._get_palette_color(xf_format.color)
             self._write_color('rgb', color)
-        elif not dxf_format:
+        elif not is_dxf_format:
             self._write_color('theme', 1)
 
-        if not dxf_format:
-            self._xml_empty_tag('name', 'val', xf_format.font)
-            self._xml_empty_tag('family', 'val', xf_format.font_family)
+        if not is_dxf_format:
+            self._xml_empty_tag('name', [('val', xf_format.font)])
+            self._xml_empty_tag('family', [('val', xf_format.font_family)])
 
             if xf_format.font == 'Calibri' and not xf_format.hyperlink:
                 self._xml_empty_tag(
                     'scheme',
-                    'val', xf_format.font_scheme)
+                    [('val', xf_format.font_scheme)])
 
         self._xml_end_tag('font')
 
@@ -272,7 +275,7 @@ class Styles(xmlwriter.XMLwriter):
             attributes = [('val', 'doubleAccounting')]
         else:
             # Default to single underline.
-            attributes = [()]
+            attributes = []
 
         self._xml_empty_tag('u', attributes)
 
@@ -311,7 +314,7 @@ class Styles(xmlwriter.XMLwriter):
         self._xml_empty_tag('patternFill', [('patternType', pattern_type)])
         self._xml_end_tag('fill')
 
-    def _write_fill(self, xf_format, dxf_format):
+    def _write_fill(self, xf_format, is_dxf_format=False):
         # Write the <fill> element.
         pattern = xf_format.pattern
         bg_color = xf_format.bg_color
@@ -320,7 +323,7 @@ class Styles(xmlwriter.XMLwriter):
         # Colors for dxf formats are handled differently from normal formats
         # since the normal xf_format reverses the meaning of BG and FG for
         # solid fills.
-        if dxf_format:
+        if is_dxf_format:
             bg_color = xf_format.dxf_bg_color
             fg_color = xf_format.dxf_fg_color
 
@@ -349,7 +352,7 @@ class Styles(xmlwriter.XMLwriter):
         self._xml_start_tag('fill')
 
         # The "none" pattern is handled differently for dxf formats.
-        if dxf_format and pattern <= 1:
+        if is_dxf_format and pattern <= 1:
             self._xml_start_tag('patternFill')
         else:
             self._xml_start_tag(
@@ -365,7 +368,7 @@ class Styles(xmlwriter.XMLwriter):
             bg_color = self._get_palette_color(bg_color)
             self._xml_empty_tag('bgColor', 'rgb', bg_color)
         else:
-            if not dxf_format:
+            if not is_dxf_format:
                 self._xml_empty_tag('bgColor', 'indexed', 64)
 
         self._xml_end_tag('patternFill')
@@ -384,7 +387,7 @@ class Styles(xmlwriter.XMLwriter):
 
         self._xml_end_tag('borders')
 
-    def _write_border(self, xf_format, dxf_format=False):
+    def _write_border(self, xf_format, is_dxf_format=False):
         # Write the <border> element.
         attributes = []
 
@@ -426,13 +429,13 @@ class Styles(xmlwriter.XMLwriter):
             xf_format.bottom_color)
 
         # Condition DXF formats don't allow diagonal borders.
-        if not dxf_format:
+        if not is_dxf_format:
             self._write_sub_border(
                 'diagonal',
                 xf_format.diag_border,
                 xf_format.diag_color)
 
-        if dxf_format:
+        if is_dxf_format:
             self._write_sub_border('vertical', None, None)
             self._write_sub_border('horizontal', None, None)
 
@@ -624,9 +627,9 @@ class Styles(xmlwriter.XMLwriter):
                                         xf_format.num_format)
 
                 if xf_format.has_dxf_fill:
-                    self._write_fill(xf_format, 1)
+                    self._write_fill(xf_format, True)
                 if xf_format.has_dxf_border:
-                    self._write_border(xf_format, 1)
+                    self._write_border(xf_format, True)
                 self._xml_end_tag('dxf')
 
             self._xml_end_tag('dxfs')

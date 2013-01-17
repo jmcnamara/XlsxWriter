@@ -39,6 +39,7 @@ class Format(xmlwriter.XMLwriter):
         self.font_index = 0
         self.has_font = 0
         self.has_dxf_font = 0
+
         self.font = 'Calibri'
         self.size = 11
         self.bold = 0
