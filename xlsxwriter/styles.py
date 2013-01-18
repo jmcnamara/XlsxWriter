@@ -241,23 +241,23 @@ class Styles(xmlwriter.XMLwriter):
             self._write_vert_align('subscript')
 
         if not is_dxf_format:
-            self._xml_empty_tag('sz', [('val', xf_format.size)])
+            self._xml_empty_tag('sz', [('val', xf_format.font_size)])
 
         if xf_format.theme:
             self._write_color('theme', xf_format.theme)
         elif xf_format.color_indexed:
             self._write_color('indexed', xf_format.color_indexed)
-        elif xf_format.color:
-            color = self._get_palette_color(xf_format.color)
+        elif xf_format.font_color:
+            color = self._get_palette_color(xf_format.font_color)
             self._write_color('rgb', color)
         elif not is_dxf_format:
             self._write_color('theme', 1)
 
         if not is_dxf_format:
-            self._xml_empty_tag('name', [('val', xf_format.font)])
+            self._xml_empty_tag('name', [('val', xf_format.font_name)])
             self._xml_empty_tag('family', [('val', xf_format.font_family)])
 
-            if xf_format.font == 'Calibri' and not xf_format.hyperlink:
+            if xf_format.font_name == 'Calibri' and not xf_format.hyperlink:
                 self._xml_empty_tag(
                     'scheme',
                     [('val', xf_format.font_scheme)])

@@ -116,7 +116,7 @@ class TestWriteFont(unittest.TestCase):
         """Test the _write_font() method"""
 
         xf_format = Format()
-        xf_format.font = 'Arial'
+        xf_format.font_name = 'Arial'
 
         self.styles._write_font(xf_format)
 
@@ -129,7 +129,7 @@ class TestWriteFont(unittest.TestCase):
         """Test the _write_font() method"""
 
         xf_format = Format()
-        xf_format.size = 12
+        xf_format.font_size = 12
 
         self.styles._write_font(xf_format)
 
@@ -168,7 +168,7 @@ class TestWriteFont(unittest.TestCase):
         """Test the _write_font() method"""
 
         xf_format = Format()
-        xf_format.color = '#FF0000'
+        xf_format.font_color = '#FF0000'
 
         self.styles._write_font(xf_format)
 
@@ -182,13 +182,13 @@ class TestWriteFont(unittest.TestCase):
 
         xf_format = Format()
         xf_format.bold = 1
-        xf_format.color = '#FF0000'
+        xf_format.font_color = '#FF0000'
         xf_format.font_outline = 1
         xf_format.font_script = 1
         xf_format.font_shadow = 1
         xf_format.font_strikeout = 1
         xf_format.italic = 1
-        xf_format.size = 12
+        xf_format.font_size = 12
         xf_format.underline = 1
 
         self.styles._write_font(xf_format)
