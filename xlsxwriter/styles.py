@@ -130,7 +130,7 @@ class Styles(xmlwriter.XMLwriter):
         self._xml_start_tag('numFmts', attributes)
 
         # Write the numFmts elements.
-        for xf_format in (self.xf_formats):
+        for xf_format in self.xf_formats:
             # Ignore built-in number formats, i.e., < 164.
             if xf_format.num_format_index >= 164:
                 self._write_num_fmt(xf_format.num_format_index,
@@ -198,7 +198,7 @@ class Styles(xmlwriter.XMLwriter):
         self._xml_start_tag('fonts', attributes)
 
         # Write the font elements for xf_format objects that have them.
-        for xf_format in (self.xf_formats):
+        for xf_format in self.xf_formats:
             if xf_format.has_font:
                 self._write_font(xf_format)
 
@@ -302,7 +302,7 @@ class Styles(xmlwriter.XMLwriter):
         self._write_default_fill('gray125')
 
         # Write the fill elements for xf_format objects that have them.
-        for xf_format in (self.xf_formats):
+        for xf_format in self.xf_formats:
             if xf_format.has_fill:
                 self._write_fill(xf_format)
 
@@ -381,7 +381,7 @@ class Styles(xmlwriter.XMLwriter):
         self._xml_start_tag('borders', attributes)
 
         # Write the border elements for xf_format objects that have them.
-        for xf_format in (self.xf_formats):
+        for xf_format in self.xf_formats:
             if xf_format.has_border:
                 self._write_border(xf_format)
 
@@ -501,7 +501,7 @@ class Styles(xmlwriter.XMLwriter):
         self._xml_start_tag('cellXfs', attributes)
 
         # Write the xf elements.
-        for xf_format in (formats):
+        for xf_format in formats:
             self._write_xf(xf_format)
 
         self._xml_end_tag('cellXfs')
@@ -617,7 +617,7 @@ class Styles(xmlwriter.XMLwriter):
             self._xml_start_tag('dxfs', attributes)
 
             # Write the font elements for xf_format objects that have them.
-            for xf_format in (self.dxf_formats):
+            for xf_format in self.dxf_formats:
                 self._xml_start_tag('dxf')
                 if xf_format.has_dxf_font:
                     self._write_font(xf_format, 1)
@@ -675,7 +675,7 @@ class Styles(xmlwriter.XMLwriter):
         self._xml_start_tag('mruColors')
 
         # Write the custom custom_colors in reverse order.
-        for color in (custom_colors):
+        for color in custom_colors:
             self._write_color('rgb', color)
 
         self._xml_end_tag('mruColors')

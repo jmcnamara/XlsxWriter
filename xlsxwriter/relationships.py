@@ -91,7 +91,7 @@ class Relationships(xmlwriter.XMLwriter):
 
         self._xml_start_tag('Relationships', attributes)
 
-        for relationship in (self.relationships):
+        for relationship in self.relationships:
             self._write_relationship(relationship)
 
         self._xml_end_tag('Relationships')

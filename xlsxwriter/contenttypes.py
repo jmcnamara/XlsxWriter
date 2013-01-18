@@ -128,7 +128,7 @@ class ContentTypes(xmlwriter.XMLwriter):
 
     def _add_image_types(self, image_types):
         # Add the image default types.
-        for image_type in (image_types):
+        for image_type in image_types:
             self._add_default((type, 'image/' + image_type))
 
     def _add_table_name(self, table_name):
@@ -143,7 +143,7 @@ class ContentTypes(xmlwriter.XMLwriter):
 
         # TODO: Fix when test is ported.
         # Change the workbook.xml content-type from xlsx to xlsx.
-        # for aref in (self.overrides):
+        # for aref in self.overrides:
         #    if aref[0] eq '/xl/workbook.xml':
         #        aref[1]='application/vnd.ms-excel.sheet.macroEnabled.main+xml'
 
@@ -158,14 +158,14 @@ class ContentTypes(xmlwriter.XMLwriter):
     def _write_defaults(self):
         # Write out all of the <Default> types.
 
-        for extension, content_type in (self.defaults):
+        for extension, content_type in self.defaults:
             self._xml_empty_tag('Default',
                                 [('Extension', extension),
                                  ('ContentType', content_type)])
 
     def _write_overrides(self):
         # Write out all of the <Override> types.
-        for part_name, content_type in (self.overrides):
+        for part_name, content_type in self.overrides:
             self._xml_empty_tag('Override',
                                 [('PartName', part_name),
                                  ('ContentType', content_type)])

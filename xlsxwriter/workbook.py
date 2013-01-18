@@ -192,7 +192,7 @@ class Workbook(xmlwriter.XMLwriter):
 
         # Check that the worksheet name doesn't already exist since this is a
         # fatal Excel error. The check must be case insensitive like Excel.
-        for worksheet in (self.worksheets):
+        for worksheet in self.worksheets:
             if sheetname.lower() == worksheet.name.lower():
                 raise Exception(
                     "Sheetname '%s', with case ignored, is already in use." %
@@ -289,7 +289,7 @@ class Workbook(xmlwriter.XMLwriter):
         self._xml_start_tag('sheets')
 
         id_num = 1
-        for worksheet in (self.worksheets):
+        for worksheet in self.worksheets:
             self._write_sheet(worksheet.name, id_num, worksheet.hidden)
             id_num += 1
 

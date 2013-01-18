@@ -125,7 +125,7 @@ class App(xmlwriter.XMLwriter):
 
         self._xml_start_tag('TitlesOfParts')
 
-        for part_name in (self.part_names):
+        for part_name in self.part_names:
             parts_data.append(('lpstr', part_name))
 
         self._write_vt_vector('lpstr', parts_data)
@@ -141,7 +141,7 @@ class App(xmlwriter.XMLwriter):
 
         self._xml_start_tag('vt:vector', attributes)
 
-        for vt_data in (vector_data):
+        for vt_data in vector_data:
             if base_type == 'variant':
                 self._xml_start_tag('vt:variant')
 

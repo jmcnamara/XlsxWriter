@@ -695,7 +695,7 @@ class Worksheet(xmlwriter.XMLwriter):
 
         self._xml_start_tag('cols')
 
-        for col_info in (self.colinfo):
+        for col_info in self.colinfo:
             self._write_col_info(col_info)
 
         self._xml_end_tag('cols')
