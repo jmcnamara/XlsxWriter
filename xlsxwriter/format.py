@@ -21,7 +21,7 @@ class Format(xmlwriter.XMLwriter):
     #
     ###########################################################################
 
-    def __init__(self):
+    def __init__(self, properties={}):
         """
         Constructor.
 
@@ -100,6 +100,10 @@ class Format(xmlwriter.XMLwriter):
         self.color_indexed = 0
         self.font_only = 0
 
+        # Convert properties in the constructor to method calls.
+        for key, value in properties.items():
+            getattr(self, 'set_' + key)(value)
+
     ###########################################################################
     #
     # Format properties.
@@ -121,13 +125,12 @@ class Format(xmlwriter.XMLwriter):
         """
         self.num_format = num_format
 
-    def set_bold(self, bold):
+    def set_bold(self, bold=1):
         """
         Set the bold property.
 
         Args:
-            bold: Default is 0.
-            None. Defaults to turning property on.
+            bold: Default is 1.
 
         Returns:
             Nothing.
@@ -135,7 +138,7 @@ class Format(xmlwriter.XMLwriter):
         """
         self.bold = bold
 
-    def set_underline(self, underline):
+    def set_underline(self, underline=1):
         """
         Set the underline property.
 
@@ -149,7 +152,7 @@ class Format(xmlwriter.XMLwriter):
         """
         self.underline = underline
 
-    def set_italic(self, italic):
+    def set_italic(self, italic=1):
         """
         Set the italic property.
 
@@ -205,7 +208,7 @@ class Format(xmlwriter.XMLwriter):
         """
         self.font_color = font_color
 
-    def set_font_strikeout(self, font_strikeout):
+    def set_font_strikeout(self, font_strikeout=1):
         """
         Set the font_strikeout property.
 
@@ -219,7 +222,7 @@ class Format(xmlwriter.XMLwriter):
         """
         self.font_strikeout = font_strikeout
 
-    def set_font_outline(self, font_outline):
+    def set_font_outline(self, font_outline=1):
         """
         Set the font_outline property.
 
@@ -233,7 +236,7 @@ class Format(xmlwriter.XMLwriter):
         """
         self.font_outline = font_outline
 
-    def set_font_shadow(self, font_shadow):
+    def set_font_shadow(self, font_shadow=1):
         """
         Set the font_shadow property.
 
@@ -359,49 +362,7 @@ class Format(xmlwriter.XMLwriter):
         """
         self.hyperlink = hyperlink
 
-    def set_hidden(self, hidden):
-        """
-        Set the hidden property.
-
-        Args:
-            hidden: Default is 0.
-            None. Defaults to turning property on.
-
-        Returns:
-            Nothing.
-
-        """
-        self.hidden = hidden
-
-    def set_locked(self, locked):
-        """
-        Set the locked property.
-
-        Args:
-            locked: Default is 0.
-            None. Defaults to turning property on.
-
-        Returns:
-            Nothing.
-
-        """
-        self.locked = locked
-
-    def set_text_h_align(self, text_h_align):
-        """
-        Set the text_h_align property.
-
-        Args:
-            text_h_align: Default is 0.
-            None. Defaults to turning property on.
-
-        Returns:
-            Nothing.
-
-        """
-        self.text_h_align = text_h_align
-
-    def set_text_wrap(self, text_wrap):
+    def set_text_wrap(self, text_wrap=1):
         """
         Set the text_wrap property.
 
@@ -415,21 +376,81 @@ class Format(xmlwriter.XMLwriter):
         """
         self.text_wrap = text_wrap
 
-    def set_text_v_align(self, text_v_align):
+    def set_hidden(self, hidden=1):
         """
-        Set the text_v_align property.
+        Set the hidden property.
 
         Args:
-            text_v_align: Default is 0.
+            hidden: Default is 0.
             None. Defaults to turning property on.
 
         Returns:
             Nothing.
 
         """
-        self.text_v_align = text_v_align
+        self.hidden = hidden
 
-    def set_text_justlast(self, text_justlast):
+    def set_locked(self, locked=1):
+        """
+        Set the locked property.
+
+        Args:
+            locked: Default is 0.
+            None. Defaults to turning property on.
+
+        Returns:
+            Nothing.
+
+        """
+        self.locked = locked
+
+    def set_align(self, location):
+        """
+        Set the cell alignment.
+
+        """
+        location = location.lower()
+
+        # Set horizontal alignment properties.
+        if location == 'left':
+            self.set_text_h_align(1)
+        if location == 'centre':
+            self.set_text_h_align(2)
+        if location == 'center':
+            self.set_text_h_align(2)
+        if location == 'right':
+            self.set_text_h_align(3)
+        if location == 'fill':
+            self.set_text_h_align(4)
+        if location == 'justify':
+            self.set_text_h_align(5)
+        if location == 'center_across':
+            self.set_text_h_align(6)
+        if location == 'centre_across':
+            self.set_text_h_align(6)
+        if location == 'distributed':
+            self.set_text_h_align(7)
+        if location == 'justify_distributed':
+            self.set_text_h_align(7)
+
+        if location == 'justify_distributed':
+            self.just_distrib = 1
+
+        # Set vertical alignment properties.
+        if location == 'top':
+            self.set_text_v_align(1)
+        if location == 'vcentre':
+            self.set_text_v_align(2)
+        if location == 'vcenter':
+            self.set_text_v_align(2)
+        if location == 'bottom':
+            self.set_text_v_align(3)
+        if location == 'vjustify':
+            self.set_text_v_align(4)
+        if location == 'vdistributed':
+            self.set_text_v_align(5)
+
+    def set_text_justlast(self, text_justlast=1):
         """
         Set the text_justlast property.
 
@@ -455,6 +476,18 @@ class Format(xmlwriter.XMLwriter):
             Nothing.
 
         """
+        rotation = int(rotation)
+
+        # Map user angle to Excel angle.
+        if rotation == 270:
+            rotation = 255
+        elif rotation >= -90 or rotation <= 90:
+            if rotation < 0:
+                rotation = -rotation + 90
+        else:
+            raise Exception(
+                "Rotation rotation outside range: -90 <= angle <= 90")
+
         self.rotation = rotation
 
     def set_fg_color(self, fg_color):
@@ -653,7 +686,7 @@ class Format(xmlwriter.XMLwriter):
         """
         self.top_color = top_color
 
-    def set_indent(self, indent):
+    def set_indent(self, indent=1):
         """
         Set the indent property.
 
@@ -667,7 +700,7 @@ class Format(xmlwriter.XMLwriter):
         """
         self.indent = indent
 
-    def set_shrink(self, shrink):
+    def set_shrink(self, shrink=1):
         """
         Set the shrink property.
 
@@ -681,17 +714,51 @@ class Format(xmlwriter.XMLwriter):
         """
         self.shrink = shrink
 
-    # Backward compatibility. TODO.
+    ###########################################################################
+    #
+    # Internal Format properties. These aren't documented since they are
+    # either only used internally or else are unlikely to be set by the user.
+    #
+    ###########################################################################
+
+    def set_TODO_XXXXXXX(self):
+        pass
+
+    def set_has_font(self, has_font=1):
+        # Set the has_font property.
+        self.has_font = has_font
+
+    def set_font_index(self, font_index):
+        # Set the font_index property.
+        self.font_index = font_index
+
+    def set_num_format_index(self, num_format_index):
+        # Set the num_format_index property.
+        self.num_format_index = num_format_index
+
+    def set_text_h_align(self, text_h_align):
+        # Set the text_h_align property.
+        self.text_h_align = text_h_align
+
+    def set_text_v_align(self, text_v_align):
+        # Set the text_v_align property.
+        self.text_v_align = text_v_align
+
+    def set_reading_order(self, reading_order=1):
+        # Set the reading_order property.
+        self.reading_order = reading_order
+
+    # Compatibility methods.
     def set_name(self, font_name):
-        #  TODO
+        #  For compatibility with Excel::Writer::XLSX.
         self.font_name = font_name
 
     def set_size(self, font_size):
-        #  TODO
+        #  For compatibility with Excel::Writer::XLSX.
         self.font_size = font_size
 
     def set_color(self, font_color):
-        #  TODO
+        #  For compatibility with Excel::Writer::XLSX.
         self.font_color = font_color
 
     ###########################################################################
@@ -709,13 +776,163 @@ class Format(xmlwriter.XMLwriter):
         # Close the file.
         self._xml_close()
 
+    # Return properties for an Style xf <alignment> sub-element.
     def get_align_properties(self):
-        # TODO. Temp method.
-        return 0, 0
+        """
+        TODO
+
+        """
+        # Attributes to return
+        changed = 0
+        align = []
+
+        # Check if any alignment options in the format have been changed.
+        if (self.text_h_align or self.text_v_align or self.indent
+                or self.rotation or self.text_wrap or self.shrink
+                or self.reading_order):
+            changed = 1
+        else:
+            return changed, align
+
+        # Indent is only allowed for horizontal left, right and distributed.
+        # If it is defined for any other alignment or no alignment has
+        # been set then default to left alignment.
+        if (self.indent
+                and self.text_h_align != 1
+                and self.text_h_align != 3
+                and self.text_h_align != 7):
+            self.text_h_align = 1
+
+        # Check for properties that are mutually exclusive.
+        if self.text_wrap:
+            self.shrink = 0
+        if self.text_h_align == 4:
+            self.shrink = 0
+        if self.text_h_align == 5:
+            self.shrink = 0
+        if self.text_h_align == 7:
+            self.shrink = 0
+        if self.text_h_align != 7:
+            self.just_distrib = 0
+        if self.indent:
+            self.just_distrib = 0
+
+        continuous = 'centerContinuous'
+
+        if self.text_h_align == 1:
+            align.append(('horizontal', 'left'))
+        if self.text_h_align == 2:
+            align.append(('horizontal', 'center'))
+        if self.text_h_align == 3:
+            align.append(('horizontal', 'right'))
+        if self.text_h_align == 4:
+            align.append(('horizontal', 'fill'))
+        if self.text_h_align == 5:
+            align.append(('horizontal', 'justify'))
+        if self.text_h_align == 6:
+            align.append(('horizontal', continuous))
+        if self.text_h_align == 7:
+            align.append(('horizontal', 'distributed'))
+
+        if self.just_distrib:
+            align.append(('justifyLastLine', 1))
+
+        # Property 'vertical' => 'bottom' is a default. It sets applyAlignment
+        # without an alignment sub-element.
+        if self.text_v_align == 1:
+            align.append(('vertical', 'top'))
+        if self.text_v_align == 2:
+            align.append(('vertical', 'center'))
+        if self.text_v_align == 4:
+            align.append(('vertical', 'justify'))
+        if self.text_v_align == 5:
+            align.append(('vertical', 'distributed'))
+
+        if self.indent:
+            align.append(('indent', self.indent))
+        if self.rotation:
+            align.append(('textRotation', self.rotation))
+
+        if self.text_wrap:
+            align.append(('wrapText', 1))
+        if self.shrink:
+            align.append(('shrinkToFit', 1))
+
+        if self.reading_order == 1:
+            align.append(('readingOrder', 1))
+        if self.reading_order == 2:
+            align.append(('readingOrder', 2))
+
+        return changed, align
 
     def get_protection_properties(self):
-        # TODO. Temp method.
-        return []
+        # TODO.
+        attribs = []
+
+        if not self.locked:
+            attribs.append(('locked', 0))
+        if self.hidden:
+            attribs.append(('hidden', 1))
+
+        return attribs
+
+    def get_font_key(self):
+        # Returns a unique hash key for a font. Used by Workbook.
+        key = ':'.join(str(x) for x in (
+            self.bold,
+            self.color,
+            self.font_charset,
+            self.font_family,
+            self.font_outline,
+            self.font_script,
+            self.font_shadow,
+            self.font_strikeout,
+            self.font_name,
+            self.italic,
+            self.font_size,
+            self.underline))
+
+        return key
+
+    def get_border_key(self):
+        # Returns a unique hash key for a border style. Used by Workbook.
+        key = ':'.join(str(x) for x in (
+            self.bottom,
+            self.bottom_color,
+            self.diag_border,
+            self.diag_color,
+            self.diag_type,
+            self.left,
+            self.left_color,
+            self.right,
+            self.right_color,
+            self.top,
+            self.top_color))
+
+        return key
+
+    def get_fill_key(self):
+        # Returns a unique hash key for a fill style. Used by Workbook.
+        key = ':'.join(str(x) for x in (
+            self.pattern,
+            self.bg_color,
+            self.fg_color))
+
+        return key
+
+    def get_alignment_key(self):
+        # Returns a unique hash key for alignment formats.
+
+        key = ':'.join(str(x) for x in (
+            self.text_h_align,
+            self.text_v_align,
+            self.indent,
+            self.rotation,
+            self.text_wrap,
+            self.shrink,
+            self.reading_order))
+
+        return key
 
     ###########################################################################
     #
