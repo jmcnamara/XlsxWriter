@@ -8,8 +8,8 @@
 import unittest
 from StringIO import StringIO
 from ..helperfunctions import _xml_to_list
-from ..helperfunctions import MockFormat
 from ...worksheet import Worksheet
+from ...format import Format
 
 
 class TestAssembleWorksheet(unittest.TestCase):
@@ -24,7 +24,7 @@ class TestAssembleWorksheet(unittest.TestCase):
         fh = StringIO()
         worksheet = Worksheet()
         worksheet._set_filehandle(fh)
-        cell_format = MockFormat(xf_index=1)
+        cell_format = Format({'xf_index': 1})
 
         # No format. Should be ignored.
         worksheet.write_blank(0, 0)

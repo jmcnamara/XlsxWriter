@@ -7,8 +7,8 @@
 
 import unittest
 from StringIO import StringIO
-from ..helperfunctions import MockFormat
 from ...worksheet import Worksheet
+from ...format import Format
 
 
 class TestWriteRow(unittest.TestCase):
@@ -65,7 +65,7 @@ class TestWriteRow(unittest.TestCase):
     def test_write_row_5(self):
         """Test the _write_row() method"""
 
-        cell_format = MockFormat(xf_index=1)
+        cell_format = Format({'xf_index': 1})
 
         self.worksheet._write_row(6, None, [15, cell_format, 0, 0, 0])
 
