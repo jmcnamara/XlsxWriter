@@ -357,19 +357,18 @@ class Styles(xmlwriter.XMLwriter):
         else:
             self._xml_start_tag(
                 'patternFill',
-                'patternType',
-                patterns[pattern])
+                [('patternType', patterns[pattern])])
 
         if fg_color:
             fg_color = self._get_palette_color(fg_color)
-            self._xml_empty_tag('fgColor', 'rgb', fg_color)
+            self._xml_empty_tag('fgColor', [('rgb', fg_color)])
 
         if bg_color:
             bg_color = self._get_palette_color(bg_color)
-            self._xml_empty_tag('bgColor', 'rgb', bg_color)
+            self._xml_empty_tag('bgColor', [('rgb', bg_color)])
         else:
             if not is_dxf_format:
-                self._xml_empty_tag('bgColor', 'indexed', 64)
+                self._xml_empty_tag('bgColor', [('indexed', 64)])
 
         self._xml_end_tag('patternFill')
         self._xml_end_tag('fill')
@@ -466,15 +465,15 @@ class Styles(xmlwriter.XMLwriter):
             'slantDashDot',
         )
 
-        attributes.append((style, border_styles[style]))
+        attributes.append(('style', border_styles[style]))
 
         self._xml_start_tag(border_type, attributes)
 
         if color:
             color = self._get_palette_color(color)
-            self._xml_empty_tag('color', 'rgb', color)
+            self._xml_empty_tag('color', [('rgb', color)])
         else:
-            self._xml_empty_tag('color', 'auto', 1)
+            self._xml_empty_tag('color', [('auto', 1)])
 
         self._xml_end_tag(border_type)
 
@@ -493,7 +492,6 @@ class Styles(xmlwriter.XMLwriter):
         # Workaround for when the last xf_format is used for the comment font
         # and shouldn't be used for cellXfs.
         last_format = formats[-1]
-
         if last_format.font_only:
             formats.pop()
 

@@ -10,6 +10,7 @@ from datetime import datetime
 import xmlwriter
 from worksheet import Worksheet
 from sharedstrings import SharedStringTable
+from format import Format
 
 
 class Workbook(xmlwriter.XMLwriter):
@@ -76,6 +77,9 @@ class Workbook(xmlwriter.XMLwriter):
         self.vba_project = None
         self.vba_codename = None
 
+        # Add the default cell format.
+        self.add_format({'xf_index': 0})
+
     def add_worksheet(self, name=None):
         """
         Add a new worksheet to the Excel workbook.
@@ -124,6 +128,25 @@ class Workbook(xmlwriter.XMLwriter):
         self.sheetnames.append(name)
 
         return worksheet
+
+    # add_format(properties) Add a new format to the Excel workbook.
+    def add_format(self, properties={}):
+        """
+        Add a new Format to the Excel Workbook.
+
+        Args:
+            properties: The format properties.
+
+        Returns:
+            Reference to a Format object.
+
+        """
+        xf_format = Format(properties)
+
+        # Store the format reference.
+        self.formats.append(xf_format)
+
+        return xf_format
 
     ###########################################################################
     #
@@ -199,6 +222,196 @@ class Workbook(xmlwriter.XMLwriter):
                     sheetname)
 
         return sheetname
+
+    def _prepare_format_properties(self):
+        # Prepare all Format properties prior to passing them to styles.py.
+
+        # Separate format objects into XF and DXF formats.
+        self._prepare_formats()
+
+        # Set the font index for the format objects.
+        self._prepare_fonts()
+
+        # Set the number format index for the format objects.
+        self._prepare_num_formats()
+
+        # Set the border index for the format objects.
+        self._prepare_borders()
+
+        # Set the fill index for the format objects.
+        self._prepare_fills()
+
+    def _prepare_formats(self):
+        # Iterate through the XF Format objects and separate them into
+        # XF and DXF formats.
+        for xf_format in self.formats:
+            xf_index = xf_format.xf_index
+            dxf_index = xf_format.dxf_index
+
+            if xf_index is not None:
+                self.xf_formats.append(xf_format)
+
+            if dxf_index is not None:
+                self.dxf_formats.append(xf_format)
+
+    def _set_default_xf_indices(self):
+        # Set the default index for each format. Mainly used for testing.
+        for xf_format in self.formats:
+            xf_format._get_xf_index()
+
+    def _prepare_fonts(self):
+        # Iterate through the XF Format objects and give them an index to
+        # non-default font elements.
+        fonts = {}
+        index = 0
+
+        for xf_format in self.xf_formats:
+            key = xf_format._get_font_key()
+            if key in fonts:
+                # Font has already been used.
+                xf_format.font_index = fonts[key]
+                xf_format.has_font = 0
+            else:
+                # This is a new font.
+                fonts[key] = index
+                xf_format.font_index = index
+                xf_format.has_font = 1
+                index += 1
+
+        self.font_count = index
+
+        # For DXF formats we only need to check if the properties have changed.
+        for xf_format in self.dxf_formats:
+            # The only font properties that can change for a DXF format are:
+            # color, bold, italic, underline and strikethrough.
+            if (xf_format.font_color or xf_format.bold or xf_format.italic
+                    or xf_format.underline or xf_format.font_strikeout):
+                xf_format.has_dxf_font = 1
+
+    def _prepare_num_formats(self):
+        # User records is not None start from index 0xA4.
+        num_formats = {}
+        index = 164
+        num_format_count = 0
+
+        is_number = re.compile(r'^\d+$')
+        is_zeroes = re.compile(r'^0+\d')
+
+        for xf_format in (self.xf_formats + self.dxf_formats):
+            num_format = xf_format.num_format
+            # Check if num_format is an index to a built-in number format.
+            # Also check for a string of zeros, which is a valid number
+            # format string but would evaluate to zero.
+            if (is_number.match(str(num_format))
+                and not is_zeroes.match(str(num_format))):
+                # Index to a built-in number xf_format.
+                xf_format.num_format_index = num_format
+                continue
+
+            if num_format in num_formats:
+                # Number xf_format has already been used.
+                xf_format.num_format_index = num_formats[num_format]
+            else:
+                # Add a new number xf_format.
+                num_formats[num_format] = index
+                xf_format.num_format_index = index
+                index += 1
+
+                # Only increase font count for XF formats (not DXF formats).
+                if xf_format.xf_index:
+                    num_format_count += 1
+
+        self.num_format_count = num_format_count
+
+    def _prepare_borders(self):
+        # Iterate through the XF Format objects and give them an index to
+        # non-default border elements.
+        borders = {}
+        index = 0
+
+        for xf_format in self.xf_formats:
+            key = xf_format._get_border_key()
+
+            if key in borders:
+                # Border has already been used.
+                xf_format.border_index = borders[key]
+                xf_format.has_border = 0
+            else:
+                # This is a new border.
+                borders[key] = index
+                xf_format.border_index = index
+                xf_format.has_border = 1
+                index += 1
+
+        self.border_count = index
+
+        # For DXF formats we only need to check if the properties have changed.
+        has_border = re.compile(r'[^0:]')
+
+        for xf_format in self.dxf_formats:
+            key = xf_format._get_border_key()
+
+            if has_border.search(key):
+                xf_format.has_dxf_border = 1
+
+    def _prepare_fills(self):
+        # Iterate through the XF Format objects and give them an index to
+        # non-default fill elements.
+        # The user defined fill properties start from 2 since there are 2
+        # default fills: patternType="none" and patternType="gray125".
+        fills = {}
+        index = 2  # Start from 2. See above.
+
+        # Add the default fills.
+        fills['0:0:0'] = 0
+        fills['17:0:0'] = 1
+
+        # Store the DXF colours separately since them may be reversed below.
+        for xf_format in self.dxf_formats:
+            if (xf_format.pattern or xf_format.bg_color or xf_format.fg_color):
+                xf_format.has_dxf_fill = 1
+                xf_format.dxf_bg_color = xf_format.bg_color
+                xf_format.dxf_fg_color = xf_format.fg_color
+
+        for xf_format in self.xf_formats:
+            # The following logical statements jointly take care of special
+            # cases in relation to cell colours and patterns:
+            # 1. For a solid fill (_pattern == 1) Excel reverses the role of
+            # foreground and background colours, and
+            # 2. If the user specifies a foreground or background colour
+            # without a pattern they probably wanted a solid fill, so we fill
+            # in the defaults.
+            if (xf_format.pattern == 1 and xf_format.bg_color != 0
+                    and xf_format.fg_color != 0):
+                tmp = xf_format.fg_color
+                xf_format.fg_color = xf_format.bg_color
+                xf_format.bg_color = tmp
+
+            if (xf_format.pattern <= 1 and xf_format.bg_color != 0
+                    and xf_format.fg_color == 0):
+                xf_format.fg_color = xf_format.bg_color
+                xf_format.bg_color = 0
+                xf_format.pattern = 1
+
+            if (xf_format.pattern <= 1 and xf_format.bg_color == 0
+                    and xf_format.fg_color != 0):
+                xf_format.bg_color = 0
+                xf_format.pattern = 1
+
+            key = xf_format._get_fill_key()
+
+            if key in fills:
+                # Fill has already been used.
+                xf_format.fill_index = fills[key]
+                xf_format.has_fill = 0
+            else:
+                # This is a new fill.
+                fills[key] = index
+                xf_format.fill_index = index
+                xf_format.has_fill = 1
+                index += 1
+
+        self.fill_count = index
 
     ###########################################################################
     #

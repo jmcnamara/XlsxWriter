@@ -144,7 +144,7 @@ class ContentTypes(xmlwriter.XMLwriter):
         # TODO: Fix when test is ported.
         # Change the workbook.xml content-type from xlsx to xlsx.
         # for aref in self.overrides:
-        #    if aref[0] eq '/xl/workbook.xml':
+        #    if aref[0] == '/xl/workbook.xml':
         #        aref[1]='application/vnd.ms-excel.sheet.macroEnabled.main+xml'
 
         self._add_default(('bin', 'application/vnd.ms-office.vbaProject'))

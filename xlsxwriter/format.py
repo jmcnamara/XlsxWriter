@@ -29,8 +29,8 @@ class Format(xmlwriter.XMLwriter):
 
         super(Format, self).__init__()
 
-        self.xf_format_indices = None
-        self.dxf_format_indices = None
+        self.xf_format_indices = {}
+        self.dxf_format_indices = {}
         self.xf_index = None
         self.dxf_index = None
 
@@ -148,7 +148,7 @@ class Format(xmlwriter.XMLwriter):
             Nothing.
 
         """
-        self.font_color = font_color
+        self.font_color = self._get_color(font_color)
 
     def set_bold(self, bold=1):
         """
@@ -445,7 +445,7 @@ class Format(xmlwriter.XMLwriter):
             Nothing.
 
         """
-        self.bg_color = bg_color
+        self.bg_color = self._get_color(bg_color)
 
     def set_fg_color(self, fg_color):
         """
@@ -458,7 +458,7 @@ class Format(xmlwriter.XMLwriter):
             Nothing.
 
         """
-        self.fg_color = fg_color
+        self.fg_color = self._get_color(fg_color)
 
     # set_border(style) Set cells borders to the same style
     def set_border(self, style=1):
@@ -518,7 +518,7 @@ class Format(xmlwriter.XMLwriter):
             Nothing.
 
         """
-        self.bottom_color = bottom_color
+        self.bottom_color = self._get_color(bottom_color)
 
     def set_diag_type(self, diag_type=1):
         """
@@ -557,7 +557,7 @@ class Format(xmlwriter.XMLwriter):
             Nothing.
 
         """
-        self.left_color = left_color
+        self.left_color = self._get_color(left_color)
 
     def set_right(self, right=1):
         """
@@ -583,7 +583,7 @@ class Format(xmlwriter.XMLwriter):
             Nothing.
 
         """
-        self.right_color = right_color
+        self.right_color = self._get_color(right_color)
 
     def set_top(self, top=1):
         """
@@ -609,7 +609,7 @@ class Format(xmlwriter.XMLwriter):
             Nothing.
 
         """
-        self.top_color = top_color
+        self.top_color = self._get_color(top_color)
 
     def set_diag_color(self, diag_color):
         """
@@ -622,7 +622,7 @@ class Format(xmlwriter.XMLwriter):
             Nothing.
 
         """
-        self.diag_color = diag_color
+        self.diag_color = self._get_color(diag_color)
 
     def set_diag_border(self, diag_border=1):
         """
@@ -648,9 +648,21 @@ class Format(xmlwriter.XMLwriter):
         # Set the has_font property.
         self.has_font = has_font
 
+    def set_has_fill(self, has_fill=1):
+        # Set the has_fill property.
+        self.has_fill = has_fill
+
     def set_font_index(self, font_index):
         # Set the font_index property.
         self.font_index = font_index
+
+    def set_xf_index(self, xf_index):
+        # Set the xf_index property.
+        self.xf_index = xf_index
+
+    def set_dxf_index(self, dxf_index):
+        # Set the xf_index property.
+        self.dxf_index = dxf_index
 
     def set_num_format_index(self, num_format_index):
         # Set the num_format_index property.
@@ -700,7 +712,7 @@ class Format(xmlwriter.XMLwriter):
         self.theme = theme
 
     def set_hyperlink(self, hyperlink=1):
-        # Set the properties for the hyperlink style. TODO. This doesn't
+        # Set the properties for the hyperlink style. This doesn't
         # currently work. To be fixed when styles are supported.
 
         self.set_underline(1)
@@ -719,7 +731,7 @@ class Format(xmlwriter.XMLwriter):
 
     def set_color(self, font_color):
         #  For compatibility with Excel::Writer::XLSX.
-        self.font_color = font_color
+        self.font_color = self._get_color(font_color)
 
     ###########################################################################
     #
@@ -831,11 +843,22 @@ class Format(xmlwriter.XMLwriter):
 
         return attribs
 
+    def _get_format_key(self):
+        # Returns a unique hash key for a font. Used by Workbook.
+        key = ':'.join(str(x) for x in (
+            self._get_font_key(),
+            self._get_border_key,
+            self._get_fill_key(),
+            self.num_format,
+            self._get_alignment_key()))
+
+        return key
+
     def _get_font_key(self):
         # Returns a unique hash key for a font. Used by Workbook.
         key = ':'.join(str(x) for x in (
             self.bold,
-            self.color,
+            self.font_color,
             self.font_charset,
             self.font_family,
             self.font_outline,
@@ -896,7 +919,7 @@ class Format(xmlwriter.XMLwriter):
             return self.xf_index
         else:
             # Format doesn't have an index number so assign one.
-            key = self.get_format_key()
+            key = self._get_format_key()
 
             if key in self.xf_format_indices:
                 # Format matches existing format with an index.
@@ -915,7 +938,7 @@ class Format(xmlwriter.XMLwriter):
             return self.dxf_index
         else:
             # Format doesn't have an index number so assign one.
-            key = self.get_format_key()
+            key = self._get_format_key()
 
             if key in self.dxf_format_indices:
                 # Format matches existing format with an index.
@@ -929,15 +952,29 @@ class Format(xmlwriter.XMLwriter):
 
     def _get_color(self, color):
         # Used in conjunction with the set_xxx_color methods to convert a
-        # colour name into an RGB formatted string.
-        # TODO: port colour names for compatibility with E::W::X.
-        colors = {
+        # colour name into an RGB formatted string. These colours are for
+        # backward compatibility with older versions of Excel.
+        named_colors = {
+            'black': '#000000',
+            'blue': '#0000FF',
+            'brown': '#800000',
+            'cyan': '#00FFFF',
+            'gray': '#808080',
+            'green': '#008000',
+            'lime': '#00FF00',
+            'magenta': '#FF00FF',
+            'navy': '#000080',
+            'orange': '#FF6600',
+            'pink': '#FF00FF',
+            'purple': '#800080',
             'red': '#FF0000',
-            # TODO: Add E::W::X colour mapping.
+            'silver': '#C0C0C0',
+            'white': '#FFFFFF',
+            'yellow': '#FFFF00',
         }
 
-        if color in colors:
-            color = colors[color]
+        if color in named_colors:
+            color = named_colors[color]
 
         return color
 
