@@ -67,8 +67,8 @@ class Format(xmlwriter.XMLwriter):
         self.text_justlast = 0
         self.rotation = 0
 
-        self.fg_color = 0x00
-        self.bg_color = 0x00
+        self.fg_color = 0
+        self.bg_color = 0
         self.pattern = 0
         self.has_fill = 0
         self.has_dxf_fill = 0
@@ -81,16 +81,16 @@ class Format(xmlwriter.XMLwriter):
         self.border_count = 0
 
         self.bottom = 0
-        self.bottom_color = 0x0
+        self.bottom_color = 0
         self.diag_border = 0
-        self.diag_color = 0x0
+        self.diag_color = 0
         self.diag_type = 0
         self.left = 0
-        self.left_color = 0x0
+        self.left_color = 0
         self.right = 0
-        self.right_color = 0x0
+        self.right_color = 0
         self.top = 0
-        self.top_color = 0x0
+        self.top_color = 0
 
         self.indent = 0
         self.shrink = 0
@@ -110,69 +110,13 @@ class Format(xmlwriter.XMLwriter):
     #
     ###########################################################################
 
-    def set_num_format(self, num_format):
-        """
-        Set the num_format property.
-
-        Args:
-            num_format: Default is 0.
-            None. Defaults to turning property on.
-
-
-        Returns:
-            Nothing.
-
-        """
-        self.num_format = num_format
-
-    def set_bold(self, bold=1):
-        """
-        Set the bold property.
-
-        Args:
-            bold: Default is 1.
-
-        Returns:
-            Nothing.
-
-        """
-        self.bold = bold
-
-    def set_underline(self, underline=1):
-        """
-        Set the underline property.
-
-        Args:
-            underline: Default is 0.
-            None. Defaults to turning property on.
-
-        Returns:
-            Nothing.
-
-        """
-        self.underline = underline
-
-    def set_italic(self, italic=1):
-        """
-        Set the italic property.
-
-        Args:
-            italic: Default is 0.
-            None. Defaults to turning property on.
-
-        Returns:
-            Nothing.
-
-        """
-        self.italic = italic
-
     def set_font_name(self, font_name):
         """
-        Set the font_name property.
+        Set the Format font_name property such as 'Time New Roman'. The
+        default Excel font is 'Calibri'.
 
         Args:
-            font_name: Default is 0.
-            None. Defaults to turning property on.
+            font_name: String with the font name. No default.
 
         Returns:
             Nothing.
@@ -180,13 +124,12 @@ class Format(xmlwriter.XMLwriter):
         """
         self.font_name = font_name
 
-    def set_font_size(self, font_size):
+    def set_font_size(self, font_size=11):
         """
-        Set the font_size property.
+        Set the Format font_size property. The default Excel font size is 11.
 
         Args:
-            font_size: Default is 0.
-            None. Defaults to turning property on.
+            font_size: Int with font size. No default.
 
         Returns:
             Nothing.
@@ -196,11 +139,10 @@ class Format(xmlwriter.XMLwriter):
 
     def set_font_color(self, font_color):
         """
-        Set the font_color property.
+        Set the Format font_color property. The Excel default is black.
 
         Args:
-            font_color: Default is 0.
-            None. Defaults to turning property on.
+            font_color: String with the font color. No default.
 
         Returns:
             Nothing.
@@ -208,13 +150,51 @@ class Format(xmlwriter.XMLwriter):
         """
         self.font_color = font_color
 
-    def set_font_strikeout(self, font_strikeout=1):
+    def set_bold(self, bold=1):
         """
-        Set the font_strikeout property.
+        Set the Format bold property.
 
         Args:
-            font_strikeout: Default is 0.
-            None. Defaults to turning property on.
+            bold: Default is 1, turns property on.
+
+        Returns:
+            Nothing.
+
+        """
+        self.bold = bold
+
+    def set_italic(self, italic=1):
+        """
+        Set the Format italic property.
+
+        Args:
+            italic: Default is 1, turns property on.
+
+        Returns:
+            Nothing.
+
+        """
+        self.italic = italic
+
+    def set_underline(self, underline=1):
+        """
+        Set the Format underline property.
+
+        Args:
+            underline: Default is 1, single underline.
+
+        Returns:
+            Nothing.
+
+        """
+        self.underline = underline
+
+    def set_font_strikeout(self, font_strikeout=1):
+        """
+        Set the Format font_strikeout property.
+
+        Args:
+            font_strikeout: Default is 1, turns property on.
 
         Returns:
             Nothing.
@@ -222,13 +202,25 @@ class Format(xmlwriter.XMLwriter):
         """
         self.font_strikeout = font_strikeout
 
-    def set_font_outline(self, font_outline=1):
+    def set_font_script(self, font_script=1):
         """
-        Set the font_outline property.
+        Set the Format font_script property.
 
         Args:
-            font_outline: Default is 0.
-            None. Defaults to turning property on.
+            font_script: Default is 1, superscript.
+
+        Returns:
+            Nothing.
+
+        """
+        self.font_script = font_script
+
+    def set_font_outline(self, font_outline=1):
+        """
+        Set the Format font_outline property.
+
+        Args:
+            font_outline: Default is 1, turns property on.
 
         Returns:
             Nothing.
@@ -238,11 +230,10 @@ class Format(xmlwriter.XMLwriter):
 
     def set_font_shadow(self, font_shadow=1):
         """
-        Set the font_shadow property.
+        Set the Format font_shadow property.
 
         Args:
-            font_shadow: Default is 0.
-            None. Defaults to turning property on.
+            font_shadow: Default is 1, turns property on.
 
         Returns:
             Nothing.
@@ -250,153 +241,25 @@ class Format(xmlwriter.XMLwriter):
         """
         self.font_shadow = font_shadow
 
-    def set_font_script(self, font_script):
+    def set_num_format(self, num_format):
         """
-        Set the font_script property.
+        Set the Format num_format property such as '#,##0'.
 
         Args:
-            font_script: Default is 0.
-            None. Defaults to turning property on.
+            num_format: String representing the number format. No default.
 
         Returns:
             Nothing.
 
         """
-        self.font_script = font_script
-
-    def set_font_family(self, font_family):
-        """
-        Set the font_family property.
-
-        Args:
-            font_family: Default is 0.
-            None. Defaults to turning property on.
-
-        Returns:
-            Nothing.
-
-        """
-        self.font_family = font_family
-
-    def set_font_charset(self, font_charset):
-        """
-        Set the font_charset property.
-
-        Args:
-            font_charset: Default is 0.
-            None. Defaults to turning property on.
-
-        Returns:
-            Nothing.
-
-        """
-        self.font_charset = font_charset
-
-    def set_font_scheme(self, font_scheme):
-        """
-        Set the font_scheme property.
-
-        Args:
-            font_scheme: Default is 0.
-            None. Defaults to turning property on.
-
-        Returns:
-            Nothing.
-
-        """
-        self.font_scheme = font_scheme
-
-    def set_font_condense(self, font_condense):
-        """
-        Set the font_condense property.
-
-        Args:
-            font_condense: Default is 0.
-            None. Defaults to turning property on.
-
-        Returns:
-            Nothing.
-
-        """
-        self.font_condense = font_condense
-
-    def set_font_extend(self, font_extend):
-        """
-        Set the font_extend property.
-
-        Args:
-            font_extend: Default is 0.
-            None. Defaults to turning property on.
-
-        Returns:
-            Nothing.
-
-        """
-        self.font_extend = font_extend
-
-    def set_theme(self, theme):
-        """
-        Set the theme property.
-
-        Args:
-            theme: Default is 0.
-            None. Defaults to turning property on.
-
-        Returns:
-            Nothing.
-
-        """
-        self.theme = theme
-
-    def set_hyperlink(self, hyperlink):
-        """
-        Set the hyperlink property.
-
-        Args:
-            hyperlink: Default is 0.
-            None. Defaults to turning property on.
-
-        Returns:
-            Nothing.
-
-        """
-        self.hyperlink = hyperlink
-
-    def set_text_wrap(self, text_wrap=1):
-        """
-        Set the text_wrap property.
-
-        Args:
-            text_wrap: Default is 0.
-            None. Defaults to turning property on.
-
-        Returns:
-            Nothing.
-
-        """
-        self.text_wrap = text_wrap
-
-    def set_hidden(self, hidden=1):
-        """
-        Set the hidden property.
-
-        Args:
-            hidden: Default is 0.
-            None. Defaults to turning property on.
-
-        Returns:
-            Nothing.
-
-        """
-        self.hidden = hidden
+        self.num_format = num_format
 
     def set_locked(self, locked=1):
         """
-        Set the locked property.
+        Set the Format locked property.
 
         Args:
-            locked: Default is 0.
-            None. Defaults to turning property on.
+            locked: Default is 1, turns property on.
 
         Returns:
             Nothing.
@@ -404,73 +267,102 @@ class Format(xmlwriter.XMLwriter):
         """
         self.locked = locked
 
-    def set_align(self, location):
+    def set_hidden(self, hidden=1):
         """
-        Set the cell alignment.
-
-        """
-        location = location.lower()
-
-        # Set horizontal alignment properties.
-        if location == 'left':
-            self.set_text_h_align(1)
-        if location == 'centre':
-            self.set_text_h_align(2)
-        if location == 'center':
-            self.set_text_h_align(2)
-        if location == 'right':
-            self.set_text_h_align(3)
-        if location == 'fill':
-            self.set_text_h_align(4)
-        if location == 'justify':
-            self.set_text_h_align(5)
-        if location == 'center_across':
-            self.set_text_h_align(6)
-        if location == 'centre_across':
-            self.set_text_h_align(6)
-        if location == 'distributed':
-            self.set_text_h_align(7)
-        if location == 'justify_distributed':
-            self.set_text_h_align(7)
-
-        if location == 'justify_distributed':
-            self.just_distrib = 1
-
-        # Set vertical alignment properties.
-        if location == 'top':
-            self.set_text_v_align(1)
-        if location == 'vcentre':
-            self.set_text_v_align(2)
-        if location == 'vcenter':
-            self.set_text_v_align(2)
-        if location == 'bottom':
-            self.set_text_v_align(3)
-        if location == 'vjustify':
-            self.set_text_v_align(4)
-        if location == 'vdistributed':
-            self.set_text_v_align(5)
-
-    def set_text_justlast(self, text_justlast=1):
-        """
-        Set the text_justlast property.
+        Set the Format hidden property.
 
         Args:
-            text_justlast: Default is 0.
-            None. Defaults to turning property on.
+            hidden: Default is 1, turns property on.
 
         Returns:
             Nothing.
 
         """
-        self.text_justlast = text_justlast
+        self.hidden = hidden
+
+    def set_align(self, alignment):
+        """
+        Set the Format cell alignment.
+
+        Args:
+            alignment: String representing alignment. No default.
+
+        Returns:
+            Nothing.
+        """
+        alignment = alignment.lower()
+
+        # Set horizontal alignment properties.
+        if alignment == 'left':
+            self.set_text_h_align(1)
+        if alignment == 'centre':
+            self.set_text_h_align(2)
+        if alignment == 'center':
+            self.set_text_h_align(2)
+        if alignment == 'right':
+            self.set_text_h_align(3)
+        if alignment == 'fill':
+            self.set_text_h_align(4)
+        if alignment == 'justify':
+            self.set_text_h_align(5)
+        if alignment == 'center_across':
+            self.set_text_h_align(6)
+        if alignment == 'centre_across':
+            self.set_text_h_align(6)
+        if alignment == 'distributed':
+            self.set_text_h_align(7)
+        if alignment == 'justify_distributed':
+            self.set_text_h_align(7)
+
+        if alignment == 'justify_distributed':
+            self.just_distrib = 1
+
+        # Set vertical alignment properties.
+        if alignment == 'top':
+            self.set_text_v_align(1)
+        if alignment == 'vcentre':
+            self.set_text_v_align(2)
+        if alignment == 'vcenter':
+            self.set_text_v_align(2)
+        if alignment == 'bottom':
+            self.set_text_v_align(3)
+        if alignment == 'vjustify':
+            self.set_text_v_align(4)
+        if alignment == 'vdistributed':
+            self.set_text_v_align(5)
+
+    def set_center_across(self, center_across=1):
+        """
+        Set the Format center_across property.
+
+        Args:
+            center_across: Default is 1, turns property on.
+
+        Returns:
+            Nothing.
+
+        """
+        self.center_across = center_across
+
+    def set_text_wrap(self, text_wrap=1):
+        """
+        Set the Format text_wrap property.
+
+        Args:
+            text_wrap: Default is 1, turns property on.
+
+        Returns:
+            Nothing.
+
+        """
+        self.text_wrap = text_wrap
 
     def set_rotation(self, rotation):
         """
-        Set the rotation property.
+        Set the Format rotation property.
 
         Args:
-            rotation: Default is 0.
-            None. Defaults to turning property on.
+            rotation: Rotation angle. No default.
 
         Returns:
             Nothing.
@@ -490,209 +382,12 @@ class Format(xmlwriter.XMLwriter):
 
         self.rotation = rotation
 
-    def set_fg_color(self, fg_color):
-        """
-        Set the fg_color property.
-
-        Args:
-            fg_color: Default is 0.
-            None. Defaults to turning property on.
-
-        Returns:
-            Nothing.
-
-        """
-        self.fg_color = fg_color
-
-    def set_bg_color(self, bg_color):
-        """
-        Set the bg_color property.
-
-        Args:
-            bg_color: Default is 0.
-            None. Defaults to turning property on.
-
-        Returns:
-            Nothing.
-
-        """
-        self.bg_color = bg_color
-
-    def set_pattern(self, pattern):
-        """
-        Set the pattern property.
-
-        Args:
-            pattern: Default is 0.
-            None. Defaults to turning property on.
-
-        Returns:
-            Nothing.
-
-        """
-        self.pattern = pattern
-
-    def set_bottom(self, bottom):
-        """
-        Set the bottom property.
-
-        Args:
-            bottom: Default is 0.
-            None. Defaults to turning property on.
-
-        Returns:
-            Nothing.
-
-        """
-        self.bottom = bottom
-
-    def set_bottom_color(self, bottom_color):
-        """
-        Set the bottom_color property.
-
-        Args:
-            bottom_color: Default is 0.
-            None. Defaults to turning property on.
-
-        Returns:
-            Nothing.
-
-        """
-        self.bottom_color = bottom_color
-
-    def set_diag_border(self, diag_border):
-        """
-        Set the diag_border property.
-
-        Args:
-            diag_border: Default is 0.
-            None. Defaults to turning property on.
-
-        Returns:
-            Nothing.
-
-        """
-        self.diag_border = diag_border
-
-    def set_diag_color(self, diag_color):
-        """
-        Set the diag_color property.
-
-        Args:
-            diag_color: Default is 0.
-            None. Defaults to turning property on.
-
-        Returns:
-            Nothing.
-
-        """
-        self.diag_color = diag_color
-
-    def set_diag_type(self, diag_type):
-        """
-        Set the diag_type property.
-
-        Args:
-            diag_type: Default is 0.
-            None. Defaults to turning property on.
-
-        Returns:
-            Nothing.
-
-        """
-        self.diag_type = diag_type
-
-    def set_left(self, left):
-        """
-        Set the left property.
-
-        Args:
-            left: Default is 0.
-            None. Defaults to turning property on.
-
-        Returns:
-            Nothing.
-
-        """
-        self.left = left
-
-    def set_left_color(self, left_color):
-        """
-        Set the left_color property.
-
-        Args:
-            left_color: Default is 0.
-            None. Defaults to turning property on.
-
-        Returns:
-            Nothing.
-
-        """
-        self.left_color = left_color
-
-    def set_right(self, right):
-        """
-        Set the right property.
-
-        Args:
-            right: Default is 0.
-            None. Defaults to turning property on.
-
-        Returns:
-            Nothing.
-
-        """
-        self.right = right
-
-    def set_right_color(self, right_color):
-        """
-        Set the right_color property.
-
-        Args:
-            right_color: Default is 0.
-            None. Defaults to turning property on.
-
-        Returns:
-            Nothing.
-
-        """
-        self.right_color = right_color
-
-    def set_top(self, top):
-        """
-        Set the top property.
-
-        Args:
-            top: Default is 0.
-            None. Defaults to turning property on.
-
-        Returns:
-            Nothing.
-
-        """
-        self.top = top
-
-    def set_top_color(self, top_color):
-        """
-        Set the top_color property.
-
-        Args:
-            top_color: Default is 0.
-            None. Defaults to turning property on.
-
-        Returns:
-            Nothing.
-
-        """
-        self.top_color = top_color
-
     def set_indent(self, indent=1):
         """
-        Set the indent property.
+        Set the Format indent property.
 
         Args:
-            indent: Default is 0.
-            None. Defaults to turning property on.
+            indent: Default is 1, turns property on.
 
         Returns:
             Nothing.
@@ -702,11 +397,10 @@ class Format(xmlwriter.XMLwriter):
 
     def set_shrink(self, shrink=1):
         """
-        Set the shrink property.
+        Set the Format shrink property.
 
         Args:
-            shrink: Default is 0.
-            None. Defaults to turning property on.
+            shrink: Default is 1, turns property on.
 
         Returns:
             Nothing.
@@ -714,15 +408,241 @@ class Format(xmlwriter.XMLwriter):
         """
         self.shrink = shrink
 
+    def set_text_justlast(self, text_justlast=1):
+        """
+        Set the Format text_justlast property.
+
+        Args:
+            text_justlast: Default is 1, turns property on.
+
+        Returns:
+            Nothing.
+
+        """
+        self.text_justlast = text_justlast
+
+    def set_pattern(self, pattern=1):
+        """
+        Set the Format pattern property.
+
+        Args:
+            pattern: Default is 1, solid fill.
+
+        Returns:
+            Nothing.
+
+        """
+        self.pattern = pattern
+
+    def set_bg_color(self, bg_color):
+        """
+        Set the Format bg_color property.
+
+        Args:
+            bg_color: Background colour. No default.
+
+        Returns:
+            Nothing.
+
+        """
+        self.bg_color = bg_color
+
+    def set_fg_color(self, fg_color):
+        """
+        Set the Format fg_color property.
+
+        Args:
+            fg_color: Foreground colour. No default.
+
+        Returns:
+            Nothing.
+
+        """
+        self.fg_color = fg_color
+
+    # set_border(style) Set cells borders to the same style
+    def set_border(self, style=1):
+        """
+        Set the Format bottom property.
+
+        Args:
+            bottom: Default is 1, border type 1.
+
+        Returns:
+            Nothing.
+
+        """
+        self.set_bottom(style)
+        self.set_top(style)
+        self.set_left(style)
+        self.set_right(style)
+
+    # set_border_color(color) Set cells border to the same color
+    def set_border_color(self, color):
+        """
+        Set the Format bottom property.
+
+        Args:
+            color: Color string. No default.
+
+        Returns:
+            Nothing.
+
+        """
+        self.set_bottom_color(color)
+        self.set_top_color(color)
+        self.set_left_color(color)
+        self.set_right_color(color)
+
+    def set_bottom(self, bottom=1):
+        """
+        Set the Format bottom property.
+
+        Args:
+            bottom: Default is 1, border type 1.
+
+        Returns:
+            Nothing.
+
+        """
+        self.bottom = bottom
+
+    def set_bottom_color(self, bottom_color):
+        """
+        Set the Format bottom_color property.
+
+        Args:
+            bottom_color: Color string. No default.
+
+        Returns:
+            Nothing.
+
+        """
+        self.bottom_color = bottom_color
+
+    def set_diag_type(self, diag_type=1):
+        """
+        Set the Format diag_type property.
+
+        Args:
+            diag_type: Default is 1, border type 1.
+
+        Returns:
+            Nothing.
+
+        """
+        self.diag_type = diag_type
+
+    def set_left(self, left=1):
+        """
+        Set the Format left property.
+
+        Args:
+            left: Default is 1, border type 1.
+
+        Returns:
+            Nothing.
+
+        """
+        self.left = left
+
+    def set_left_color(self, left_color):
+        """
+        Set the Format left_color property.
+
+        Args:
+            left_color: Color string. No default.
+
+        Returns:
+            Nothing.
+
+        """
+        self.left_color = left_color
+
+    def set_right(self, right=1):
+        """
+        Set the Format right property.
+
+        Args:
+            right: Default is 1, border type 1.
+
+        Returns:
+            Nothing.
+
+        """
+        self.right = right
+
+    def set_right_color(self, right_color):
+        """
+        Set the Format right_color property.
+
+        Args:
+            right_color: Color string. No default.
+
+        Returns:
+            Nothing.
+
+        """
+        self.right_color = right_color
+
+    def set_top(self, top=1):
+        """
+        Set the Format top property.
+
+        Args:
+            top: Default is 1, border type 1.
+
+        Returns:
+            Nothing.
+
+        """
+        self.top = top
+
+    def set_top_color(self, top_color):
+        """
+        Set the Format top_color property.
+
+        Args:
+            top_color: Color string. No default.
+
+        Returns:
+            Nothing.
+
+        """
+        self.top_color = top_color
+
+    def set_diag_color(self, diag_color):
+        """
+        Set the Format diag_color property.
+
+        Args:
+            diag_color: Color string. No default.
+
+        Returns:
+            Nothing.
+
+        """
+        self.diag_color = diag_color
+
+    def set_diag_border(self, diag_border=1):
+        """
+        Set the Format diag_border property.
+
+        Args:
+            diag_border: Default is 1, border type 1.
+
+        Returns:
+            Nothing.
+
+        """
+        self.diag_border = diag_border
+
     ###########################################################################
     #
     # Internal Format properties. These aren't documented since they are
     # either only used internally or else are unlikely to be set by the user.
     #
     ###########################################################################
-
-    def set_TODO_XXXXXXX(self):
-        pass
 
     def set_has_font(self, has_font=1):
         # Set the has_font property.
@@ -748,8 +668,48 @@ class Format(xmlwriter.XMLwriter):
         # Set the reading_order property.
         self.reading_order = reading_order
 
+    def set_valign(self, align):
+        # Set vertical cell alignment. This is required by the constructor
+        # properties dict to differentiate between the vertical and horizontal
+        # properties.
+        self.set_align(align)
+
+    def set_font_family(self, font_family):
+        # Set the Format font_family property.
+
+        self.font_family = font_family
+
+    def set_font_charset(self, font_charset):
+        # Set the Format font_charset property.
+        self.font_charset = font_charset
+
+    def set_font_scheme(self, font_scheme):
+        # Set the Format font_scheme property.
+        self.font_scheme = font_scheme
+
+    def set_font_condense(self, font_condense):
+        # Set the Format font_condense property.
+        self.font_condense = font_condense
+
+    def set_font_extend(self, font_extend):
+        # Set the Format font_extend property.
+        self.font_extend = font_extend
+
+    def set_theme(self, theme):
+        # Set the Format theme property.
+        self.theme = theme
+
+    def set_hyperlink(self, hyperlink=1):
+        # Set the properties for the hyperlink style. TODO. This doesn't
+        # currently work. To be fixed when styles are supported.
+
+        self.set_underline(1)
+        self.set_theme(10)
+        self.set_align('top')
+        self.hyperlink = hyperlink
+
     # Compatibility methods.
-    def set_name(self, font_name):
+    def set_font(self, font_name):
         #  For compatibility with Excel::Writer::XLSX.
         self.font_name = font_name
 
@@ -776,13 +736,8 @@ class Format(xmlwriter.XMLwriter):
         # Close the file.
         self._xml_close()
 
-    # Return properties for an Style xf <alignment> sub-element.
-    def get_align_properties(self):
-        """
-        TODO
-
-        """
-        # Attributes to return
+    def _get_align_properties(self):
+        # Return properties for an Style xf <alignment> sub-element.
         changed = 0
         align = []
 
@@ -865,8 +820,8 @@ class Format(xmlwriter.XMLwriter):
 
         return changed, align
 
-    def get_protection_properties(self):
-        # TODO.
+    def _get_protection_properties(self):
+        # Return properties for an Excel XML <Protection> element.
         attribs = []
 
         if not self.locked:
@@ -876,7 +831,7 @@ class Format(xmlwriter.XMLwriter):
 
         return attribs
 
-    def get_font_key(self):
+    def _get_font_key(self):
         # Returns a unique hash key for a font. Used by Workbook.
         key = ':'.join(str(x) for x in (
             self.bold,
@@ -894,7 +849,7 @@ class Format(xmlwriter.XMLwriter):
 
         return key
 
-    def get_border_key(self):
+    def _get_border_key(self):
         # Returns a unique hash key for a border style. Used by Workbook.
         key = ':'.join(str(x) for x in (
             self.bottom,
@@ -911,7 +866,7 @@ class Format(xmlwriter.XMLwriter):
 
         return key
 
-    def get_fill_key(self):
+    def _get_fill_key(self):
         # Returns a unique hash key for a fill style. Used by Workbook.
         key = ':'.join(str(x) for x in (
             self.pattern,
@@ -920,7 +875,7 @@ class Format(xmlwriter.XMLwriter):
 
         return key
 
-    def get_alignment_key(self):
+    def _get_alignment_key(self):
         # Returns a unique hash key for alignment formats.
 
         key = ':'.join(str(x) for x in (
@@ -933,6 +888,58 @@ class Format(xmlwriter.XMLwriter):
             self.reading_order))
 
         return key
+
+    def _get_xf_index(self):
+        # Returns the index index number used by Excel to identify a format.
+        if self.xf_index is not None:
+            # Format already has an index number so return it.
+            return self.xf_index
+        else:
+            # Format doesn't have an index number so assign one.
+            key = self.get_format_key()
+
+            if key in self.xf_format_indices:
+                # Format matches existing format with an index.
+                return self.xf_format_indices[key]
+            else:
+                # New format requiring an index.
+                index = 1 + len(self.xf_format_indices)
+                self.xf_format_indices[key] = index
+                self.xf_index = index
+                return index
+
+    def _get_dxf_index(self):
+        # Returns the index index number used by Excel to identify a format.
+        if self.dxf_index is not None:
+            # Format already has an index number so return it.
+            return self.dxf_index
+        else:
+            # Format doesn't have an index number so assign one.
+            key = self.get_format_key()
+
+            if key in self.dxf_format_indices:
+                # Format matches existing format with an index.
+                return self.dxf_format_indices[key]
+            else:
+                # New format requiring an index.
+                index = 1 + len(self.dxf_format_indices)
+                self.dxf_format_indices[key] = index
+                self.dxf_index = index
+                return index
+
+    def _get_color(self, color):
+        # Used in conjunction with the set_xxx_color methods to convert a
+        # colour name into an RGB formatted string.
+        # TODO: port colour names for compatibility with E::W::X.
+        colors = {
+            'red': '#FF0000',
+            # TODO: Add E::W::X colour mapping.
+        }
+
+        if color in colors:
+            color = colors[color]
+
+        return color
 
     ###########################################################################
     #

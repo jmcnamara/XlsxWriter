@@ -556,7 +556,7 @@ class Styles(xmlwriter.XMLwriter):
             attributes.append(('applyBorder', 1))
 
         # Check if XF format has alignment properties set.
-        (apply_align, align) = xf_format.get_align_properties()
+        (apply_align, align) = xf_format._get_align_properties()
 
         # Check if an alignment sub-element should be written.
         if apply_align and align:
@@ -567,7 +567,7 @@ class Styles(xmlwriter.XMLwriter):
             attributes.append(('applyAlignment', 1))
 
         # Check for cell protection properties.
-        protection = xf_format.get_protection_properties()
+        protection = xf_format._get_protection_properties()
 
         if protection:
             attributes.append(('applyProtection', 1))
