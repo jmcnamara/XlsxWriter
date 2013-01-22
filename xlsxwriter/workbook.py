@@ -303,7 +303,7 @@ class Workbook(xmlwriter.XMLwriter):
             # Also check for a string of zeros, which is a valid number
             # format string but would evaluate to zero.
             if (is_number.match(str(num_format))
-                and not is_zeroes.match(str(num_format))):
+                    and not is_zeroes.match(str(num_format))):
                 # Index to a built-in number xf_format.
                 xf_format.num_format_index = num_format
                 continue

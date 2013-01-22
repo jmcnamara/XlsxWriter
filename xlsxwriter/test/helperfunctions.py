@@ -55,9 +55,7 @@ def _compare_xlsx_files(got_file, exp_file, ignore_files, ignore_elements):
     # with a "got" file produced by XlsxWriter.
     #
     # In order to compare the XLSX files we convert the data in each
-    # XML file contained in the zip archive into arrays of XML
-    # elements to make identifying differences easier.
-
+    # XML file into an list of XML elements.
     try:
         # Open the XlsxWriter as a zip file for testing.
         got_zip = ZipFile(got_file, 'r')
@@ -83,8 +81,8 @@ def _compare_xlsx_files(got_file, exp_file, ignore_files, ignore_elements):
     exp_files = sorted(exp_zip.namelist())
 
     # Ignore some test specific filenames.
-    got_files = [file for file in got_files if file not in ignore_files]
-    exp_files = [file for file in exp_files if file not in ignore_files]
+    got_files = [name for name in got_files if name not in ignore_files]
+    exp_files = [name for name in exp_files if name not in ignore_files]
 
     # Check that each XLSX container has the same files.
     if got_files != exp_files:
@@ -128,6 +126,14 @@ def _compare_xlsx_files(got_file, exp_file, ignore_files, ignore_elements):
         # Convert the XML string to lists for comparison.
         got_xml = _xml_to_list(got_xml_str)
         exp_xml = _xml_to_list(exp_xml_str)
+
+        # Ignore test specific XML elements for defined filenames.
+        if filename in ignore_elements:
+            patterns = ignore_elements[filename]
+
+            for pattern in patterns:
+                exp_xml = [tag for tag in exp_xml if not re.match(pattern, tag)]
+                got_xml = [tag for tag in got_xml if not re.match(pattern, tag)]
 
         # Reorder the XML elements in the XLSX relationship files.
         if filename == '[Content_Types].xml' or re.search('.rels$', filename):
