@@ -177,6 +177,7 @@ class Worksheet(xmlwriter.XMLwriter):
         self.validations = []
         self.cond_formats = {}
         self.dxf_priority = 1
+        self.is_chartsheet = 0
 
     def write_string(self, row, col, string, cell_format=None):
         """
@@ -527,6 +528,8 @@ class Worksheet(xmlwriter.XMLwriter):
 
     def _initialize(self, init_data):
         self.name = init_data['name']
+        self.index = init_data['index']
+        self.str_table = init_data['str_table']
 
     def _assemble_xml_file(self):
         # Assemble and write the XML file.

@@ -24,6 +24,12 @@ class XMLwriter(object):
         # Set the writer filehandle directly. Mainly for testing.
         self.fh = filehandle
 
+    def _set_xml_writer(self, filename):
+        # Set the XML writer filehandle for the object. This can either be
+        # done using _set_filehandle(), usually for testing, or later via
+        # this method, when assembling the xlsx file.
+        self.fh = open(filename, 'w')
+
     def _xml_close(self):
         # Close the XML file.
         pass

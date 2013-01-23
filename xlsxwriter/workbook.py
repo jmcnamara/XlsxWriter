@@ -11,6 +11,7 @@ import xmlwriter
 from worksheet import Worksheet
 from sharedstrings import SharedStringTable
 from format import Format
+from packager import Packager
 
 
 class Workbook(xmlwriter.XMLwriter):
@@ -26,7 +27,7 @@ class Workbook(xmlwriter.XMLwriter):
     #
     ###########################################################################
 
-    def __init__(self):
+    def __init__(self, filename=None):
         """
         Constructor.
 
@@ -34,7 +35,7 @@ class Workbook(xmlwriter.XMLwriter):
 
         super(Workbook, self).__init__()
 
-        self.filename = ''
+        self.filename = filename
         self.tempdir = None
         self.date_1904 = 0
         self.activesheet = 0
@@ -94,8 +95,7 @@ class Workbook(xmlwriter.XMLwriter):
         sheet_index = len(self.worksheets)
         name = self._check_sheetname(name)
 
-        # fh = None
-        #
+        # TODO port these during integration tests.
         #        init_data = (
         #            fh,
         #            name,
@@ -119,6 +119,8 @@ class Workbook(xmlwriter.XMLwriter):
 
         init_data = {
             'name': name,
+            'index': sheet_index,
+            'str_table': self.str_table
         }
 
         worksheet = Worksheet()
@@ -129,7 +131,6 @@ class Workbook(xmlwriter.XMLwriter):
 
         return worksheet
 
-    # add_format(properties) Add a new format to the Excel workbook.
     def add_format(self, properties={}):
         """
         Add a new Format to the Excel Workbook.
@@ -148,6 +149,10 @@ class Workbook(xmlwriter.XMLwriter):
 
         return xf_format
 
+    def close(self):
+        # TODO add docs. Call finalisation methods.
+        self._store_workbook()
+
     ###########################################################################
     #
     # Private API.
@@ -156,6 +161,9 @@ class Workbook(xmlwriter.XMLwriter):
 
     def _assemble_xml_file(self):
         # Assemble and write the XML file.
+
+        # Prepare format object for passing to Style.pm.
+        self._prepare_format_properties()
 
         # Write the XML declaration.
         self._xml_declaration()
@@ -183,6 +191,50 @@ class Workbook(xmlwriter.XMLwriter):
 
         # Close the file.
         self._xml_close()
+
+    def _store_workbook(self):
+        # Assemble worksheets into a workbook.
+
+        tempdir = '/tmp'
+        packager = Packager()
+        # zip = Zipfile()
+
+        # Add a default worksheet if non have been added.
+        if not self.worksheets:
+            self.add_worksheet()
+
+        # Ensure that at least one worksheet has been selected.
+        if self.activesheet == 0:
+            self.worksheets[0].selected = 1
+            self.worksheets[0].hidden = 0
+
+        # Set the active sheet.
+        for sheet in self.worksheets:
+            if sheet.index == self.activesheet:
+                sheet.active = 1
+
+        # Convert the SST strings data structure.
+        # self._prepare_sst_string_data()
+
+        # Prepare the worksheet VML elements such as comments and buttons.
+        # self._prepare_vml_objects()
+
+        # Set the defined names for the worksheets such as Print Titles.
+        # self._prepare_defined_names()
+
+        # Prepare the drawings, charts and images.
+        # self._prepare_drawings()
+
+        # Add cached data to charts.
+        # self._add_chart_data()
+
+        # Package the workbook.
+        packager._add_workbook(self)
+        packager._set_package_dir(tempdir)
+        packager._create_package()
+
+        # Free up the Packager object.
+        packager = None
 
     def _check_sheetname(self, sheetname, is_chart=False):
         # Check for valid worksheet names. We check the length, if it contains

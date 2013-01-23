@@ -4,12 +4,14 @@
 #
 # Copyright 2013, John McNamara, jmcnamara@cpan.org
 #
+import os
 from app import App
 from contenttypes import ContentTypes
 from core import Core
 from relationships import Relationships
 from sharedstrings import SharedStrings
 from styles import Styles
+from theme import Theme
 
 
 class Packager(object):
@@ -257,18 +259,12 @@ class Packager(object):
         xlsx_dir = self.package_dir
         sst = SharedStrings()
 
-        total = self.workbook.str_total
-        unique = self.workbook.str_unique
-        sst_data = self.workbook.str_array
+        sst.string_table = self.workbook.str_table
 
-        if not total > 0:
+        if not self.workbook.str_table.count:
             return
 
         self._mkdir(xlsx_dir + '/xl')
-
-        sst._set_string_count(total)
-        sst._set_unique_count(unique)
-        sst._add_strings(sst_data)
 
         sst._set_xml_writer(xlsx_dir + '/xl/sharedStrings.xml')
         sst._assemble_xml_file()
@@ -291,13 +287,13 @@ class Packager(object):
         for worksheet in self.workbook.worksheets:
             if worksheet.is_chartsheet:
                 continue
-            app._add_part_name(worksheet.get_name())
+            app._add_part_name(worksheet.name)
 
         # Add the Chartsheet parts.
         for worksheet in self.workbook.worksheets:
             if not worksheet.is_chartsheet:
                 continue
-            app._add_part_name(worksheet.get_name())
+            app._add_part_name(worksheet.name)
 
         # Add the Named Range heading pairs.
         if self.named_ranges:
@@ -329,7 +325,7 @@ class Packager(object):
         xlsx_dir = self.package_dir
         content = ContentTypes()
 
-        content._add_image_types(self.workbook.image_types)
+        # content._add_image_types(self.workbook.image_types)
 
         worksheet_index = 1
         chartsheet_index = 1
@@ -342,22 +338,22 @@ class Packager(object):
                 worksheet_index += 1
 
         for i in range(1, self.chart_count + 1):
-            content._add_chart_name('chart' + i)
+            content._add_chart_name('chart' + str(i))
 
         for i in range(1, self.drawing_count + 1):
-            content._add_drawing_name('drawing' + i)
+            content._add_drawing_name('drawing' + str(i))
 
         if self.num_vml_files:
             content._add_vml_name()
 
         for i in range(1, self.table_count + 1):
-            content._add_table_name('table' + i)
+            content._add_table_name('table' + str(i))
 
         for i in range(1, self.num_comment_files + 1):
-            content._add_comment_name('comments' + i)
+            content._add_comment_name('comments' + str(i))
 
         # Add the sharedString rel if there is string data in the workbook.
-        if self.workbook.str_total:
+        if self.workbook.str_table.count:
             content._add_shared_strings()
 
         # Add vbaProject if present.
@@ -379,11 +375,11 @@ class Packager(object):
         custom_colors = self.workbook.custom_colors
         dxf_formats = self.workbook.dxf_formats
 
-        rels = Styles()
+        styles = Styles()
 
         self._mkdir(xlsx_dir + '/xl')
 
-        rels._set_style_properties(
+        styles._set_style_properties([
             xf_formats,
             palette,
             font_count,
@@ -391,22 +387,21 @@ class Packager(object):
             border_count,
             fill_count,
             custom_colors,
-            dxf_formats)
+            dxf_formats])
 
-        rels._set_xml_writer(xlsx_dir + '/xl/styles.xml')
-        rels._assemble_xml_file()
+        styles._set_xml_writer(xlsx_dir + '/xl/styles.xml')
+        styles._assemble_xml_file()
 
     def _write_theme_file(self):
-        # Write the style xml file.
-        pass
-        # xlsx_dir = self.package_dir
-        # rels = Theme()
+        # Write the theme xml file.
+        xlsx_dir = self.package_dir
+        theme = Theme()
 
-        # self._mkdir(xlsx_dir + '/xl')
-        # self._mkdir(xlsx_dir + '/xl/theme')
+        self._mkdir(xlsx_dir + '/xl')
+        self._mkdir(xlsx_dir + '/xl/theme')
 
-        # rels._set_xml_writer(xlsx_dir + '/xl/theme/theme1.xml')
-        # rels._assemble_xml_file()
+        theme._set_xml_writer(xlsx_dir + '/xl/theme/theme1.xml')
+        theme._assemble_xml_file()
 
     def _write_table_files(self):
         # Write the table files.
@@ -478,7 +473,7 @@ class Packager(object):
         rels._add_document_relationship('/styles', 'styles.xml')
 
         # Add the sharedString rel if there is string data in the workbook.
-        if self.workbook.str_total:
+        if self.workbook.str_table.count:
             rels._add_document_relationship('/sharedStrings',
                                             'sharedStrings.xml')
 
@@ -521,8 +516,8 @@ class Packager(object):
                 rels._add_worksheet_relationship(link_data)
 
             # Create .rels file such as /xl/worksheets/_rels/sheet1.xml.rels.
-            rels._set_xml_writer(
-                xlsx_dir + '/xl/worksheets/_rels/sheet' + index + '.xml.rels')
+            rels._set_xml_writer(xlsx_dir + '/xl/worksheets/_rels/sheet'
+                                 + str(index) + '.xml.rels')
             rels._assemble_xml_file()
 
     def _write_chartsheet_rels_files(self):
@@ -554,8 +549,8 @@ class Packager(object):
                 rels._add_worksheet_relationship(link_data)
 
             # Create .rels file such as /xl/chartsheets/_rels/sheet1.xml.rels.
-            rels._set_xml_writer(
-                xlsx_dir + '/xl/chartsheets/_rels/sheet' + index + '.xml.rels')
+            rels._set_xml_writer(xlsx_dir + '/xl/chartsheets/_rels/sheet'
+                                 + str(index) + '.xml.rels')
             rels._assemble_xml_file()
 
     def _write_drawing_rels_files(self):
@@ -580,8 +575,8 @@ class Packager(object):
                 rels._add_document_relationship(drawing_data)
 
             # Create .rels file such as /xl/drawings/_rels/sheet1.xml.rels.
-            rels._set_xml_writer(
-                xlsx_dir + '/xl/drawings/_rels/drawing' + index + '.xml.rels')
+            rels._set_xml_writer(xlsx_dir + '/xl/drawings/_rels/drawing'
+                                 + str(index) + '.xml.rels')
             rels._assemble_xml_file()
 
     def _add_image_files(self):
@@ -614,6 +609,6 @@ class Packager(object):
         # copy(vba_project, xlsx_dir + '/xl/vbaProject.bin')
 
     def _mkdir(self, xlsx_dir):
-        # Wrapper function for Perl's mkdir to allow error trapping.
-        # TODO: Placeholder.
-        return xlsx_dir
+        # TODO Wrap in try/catch.
+        if not os.path.exists(xlsx_dir):
+            os.makedirs(xlsx_dir)
