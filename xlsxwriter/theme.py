@@ -5,6 +5,8 @@
 #
 # Copyright 2013, John McNamara, jmcnamara@cpan.org
 #
+
+# Standard packages.
 import codecs
 
 

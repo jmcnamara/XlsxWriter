@@ -5,9 +5,12 @@
 # Copyright 2013, John McNamara, jmcnamara@cpan.org
 #
 
+# Standard packages.
 import re
 from collections import defaultdict
 from collections import namedtuple
+
+# Package imports.
 import xmlwriter
 from utility import xl_rowcol_to_cell
 

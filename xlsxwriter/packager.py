@@ -4,14 +4,18 @@
 #
 # Copyright 2013, John McNamara, jmcnamara@cpan.org
 #
+
+# Standard packages.
 import os
-from app import App
-from contenttypes import ContentTypes
-from core import Core
-from relationships import Relationships
-from sharedstrings import SharedStrings
-from styles import Styles
-from theme import Theme
+
+# Package imports.
+from xlsxwriter.app import App
+from xlsxwriter.contenttypes import ContentTypes
+from xlsxwriter.core import Core
+from xlsxwriter.relationships import Relationships
+from xlsxwriter.sharedstrings import SharedStrings
+from xlsxwriter.styles import Styles
+from xlsxwriter.theme import Theme
 
 
 class Packager(object):

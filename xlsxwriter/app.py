@@ -5,6 +5,7 @@
 # Copyright 2013, John McNamara, jmcnamara@cpan.org
 #
 
+# Package imports.
 import xmlwriter
 
 

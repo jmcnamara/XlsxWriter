@@ -5,16 +5,19 @@
 # Copyright 2013, John McNamara, jmcnamara@cpan.org
 #
 
+# Standard packages.
 import re
-from datetime import datetime
 import os
 import shutil
 import tempfile
+from datetime import datetime
+
+# Package imports.
 import xmlwriter
-from worksheet import Worksheet
-from sharedstrings import SharedStringTable
-from format import Format
-from packager import Packager
+from xlsxwriter.worksheet import Worksheet
+from xlsxwriter.sharedstrings import SharedStringTable
+from xlsxwriter.format import Format
+from xlsxwriter.packager import Packager
 
 
 class Workbook(xmlwriter.XMLwriter):
