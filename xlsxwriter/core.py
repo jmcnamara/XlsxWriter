@@ -121,7 +121,7 @@ class Core(xmlwriter.XMLwriter):
         if 'created' in self.properties:
             date = self.properties['created']
         else:
-            return
+            date = datetime.now()
 
         xsi_type = 'dcterms:W3CDTF'
 
@@ -136,7 +136,7 @@ class Core(xmlwriter.XMLwriter):
         if 'created' in self.properties:
             date = self.properties['created']
         else:
-            return
+            date = datetime.now()
 
         xsi_type = 'dcterms:W3CDTF'
 

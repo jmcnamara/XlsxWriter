@@ -42,7 +42,7 @@ class App(xmlwriter.XMLwriter):
         # 'Charts' or 'Named Ranges'.
 
         # Ignore empty pairs such as chartsheets.
-        if heading_pair[1] is None:
+        if not heading_pair[1]:
             return
 
         self.heading_pairs.append(('lpstr', heading_pair[0]))

@@ -19,20 +19,24 @@ class XMLwriter(object):
     def __init__(self):
         self.fh = None
         self.escapes = re.compile('["&<>]')
+        self.internal_fh = False
 
     def _set_filehandle(self, filehandle):
         # Set the writer filehandle directly. Mainly for testing.
         self.fh = filehandle
+        self.internal_fh = False
 
     def _set_xml_writer(self, filename):
         # Set the XML writer filehandle for the object. This can either be
         # done using _set_filehandle(), usually for testing, or later via
         # this method, when assembling the xlsx file.
         self.fh = open(filename, 'w')
+        self.internal_fh = True
 
     def _xml_close(self):
-        # Close the XML file.
-        pass
+        # Close the XML filehandle if we created it.
+        if self.internal_fh:
+            self.fh.close()
 
     def _xml_declaration(self):
         # Write the XML declaration.

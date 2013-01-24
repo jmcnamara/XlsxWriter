@@ -7,6 +7,9 @@
 
 import re
 from datetime import datetime
+import os
+import shutil
+import tempfile
 import xmlwriter
 from worksheet import Worksheet
 from sharedstrings import SharedStringTable
@@ -194,10 +197,8 @@ class Workbook(xmlwriter.XMLwriter):
 
     def _store_workbook(self):
         # Assemble worksheets into a workbook.
-
-        tempdir = '/tmp'
+        temp_dir = tempfile.mkdtemp()
         packager = Packager()
-        # zip = Zipfile()
 
         # Add a default worksheet if non have been added.
         if not self.worksheets:
@@ -230,11 +231,26 @@ class Workbook(xmlwriter.XMLwriter):
 
         # Package the workbook.
         packager._add_workbook(self)
-        packager._set_package_dir(tempdir)
+        packager._set_package_dir(temp_dir)
         packager._create_package()
 
         # Free up the Packager object.
         packager = None
+
+        # Get a temp filename to use as an archive.
+        (_, temp_filename) = tempfile.mkstemp()
+
+        # Create a zip archive of the XLSX AML files.
+        shutil.make_archive(temp_filename, 'zip', '/tmp/xlsx')
+
+        # Rename the archive (now with zip extension) to the user filename.
+        os.rename(temp_filename + '.zip', self.filename)
+
+        # Remove the temp file.
+        os.remove(temp_filename)
+
+        # Remove the temporary directory use to create the archive.
+        shutil.rmtree(temp_dir)
 
     def _check_sheetname(self, sheetname, is_chart=False):
         # Check for valid worksheet names. We check the length, if it contains
