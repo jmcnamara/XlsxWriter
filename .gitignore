@@ -12,3 +12,4 @@ TAGS
 .coverage
 cover/
 .settings/
+xlsxwriter/test/comparison/_test_*.xlsx

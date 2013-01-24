@@ -244,7 +244,7 @@ class Workbook(xmlwriter.XMLwriter):
         (_, temp_filename) = tempfile.mkstemp()
 
         # Create a zip archive of the XLSX AML files.
-        shutil.make_archive(temp_filename, 'zip', '/tmp/xlsx')
+        shutil.make_archive(temp_filename, 'zip', temp_dir)
 
         # Rename the archive (now with zip extension) to the user filename.
         os.rename(temp_filename + '.zip', self.filename)
