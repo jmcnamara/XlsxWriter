@@ -13,22 +13,29 @@ from ..helperfunctions import _compare_xlsx_files
 
 class TestCreateXLSXFile(unittest.TestCase):
     """
-    Test TODO.
+    Test file created by XlsxWriter against a file created by Excel.
 
     """
-    def test_create_file(self):
-        """Test TODO."""
+
+    def setUp(self):
         self.maxDiff = None
 
         filename = 'simple01.xlsx'
+
         test_dir = 'xlsxwriter/test/comparison/'
-        got_filename = test_dir + '_test_' + filename
-        exp_filename = test_dir + 'xlsx_files/' + filename
+        self.got_filename = test_dir + '_test_' + filename
+        self.exp_filename = test_dir + 'xlsx_files/' + filename
 
-        ignore_members = []
-        ignore_elements = {}
+        self.ignore_members = []
+        self.ignore_elements = {}
 
-        workbook = Workbook(got_filename)
+    def test_create_file(self):
+        """Test the creation of a simple workbook."""
+        filename = self.got_filename
+
+        ####################################################
+
+        workbook = Workbook(filename)
         worksheet = workbook.add_worksheet()
 
         worksheet.write_string(0, 0, 'Hello')
@@ -36,15 +43,41 @@ class TestCreateXLSXFile(unittest.TestCase):
 
         workbook.close()
 
-        exp, got = _compare_xlsx_files(got_filename,
-                                       exp_filename,
-                                       ignore_members,
-                                       ignore_elements)
+        ####################################################
+
+        exp, got = _compare_xlsx_files(self.got_filename,
+                                       self.exp_filename,
+                                       self.ignore_members,
+                                       self.ignore_elements)
 
         self.assertEqual(got, exp)
 
+    def test_create_file_A1(self):
+        """Test the creation of a simple workbook with A1 notation."""
+        filename = self.got_filename
+
+        ####################################################
+
+        workbook = Workbook(filename)
+        worksheet = workbook.add_worksheet()
+
+        worksheet.write('A1', 'Hello')
+        worksheet.write('A2', 123)
+
+        workbook.close()
+
+        ####################################################
+
+        exp, got = _compare_xlsx_files(self.got_filename,
+                                       self.exp_filename,
+                                       self.ignore_members,
+                                       self.ignore_elements)
+
+        self.assertEqual(got, exp)
+
+    def tearDown(self):
         # Cleanup.
-        os.remove(got_filename)
+        os.remove(self.got_filename)
 
 
 if __name__ == '__main__':

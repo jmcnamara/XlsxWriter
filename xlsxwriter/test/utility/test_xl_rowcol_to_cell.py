@@ -6,17 +6,17 @@
 #
 
 import unittest
-from ...utility import xl_cell_to_rowcol
+from ...utility import xl_rowcol_to_cell
 
 
 class TestUtility(unittest.TestCase):
     """
-    Test xl_cell_to_rowcol() utility function.
+    Test xl_rowcol_to_cell() utility function.
 
     """
 
-    def test_xl_cell_to_rowcol(self):
-        """Test xl_cell_to_rowcol()"""
+    def test_xl_rowcol_to_cell(self):
+        """Test xl_rowcol_to_cell()"""
 
         tests = [
             # row, col, A1 string
@@ -38,12 +38,12 @@ class TestUtility(unittest.TestCase):
         ]
 
         for row, col, string in tests:
-            exp = (row, col, 0, 0)
-            got = xl_cell_to_rowcol(string)
+            exp = string
+            got = xl_rowcol_to_cell(row, col)
             self.assertEqual(got, exp)
 
-    def test_xl_cell_to_rowcol_abs(self):
-        """Test xl_cell_to_rowcol() with absolute references"""
+    def test_xl_rowcol_to_cell_abs(self):
+        """Test xl_rowcol_to_cell() with absolute references"""
 
         tests = [
             # row, col, row_abs, col_abs, A1 string
@@ -54,8 +54,8 @@ class TestUtility(unittest.TestCase):
         ]
 
         for row, col, row_abs, col_abs, string in tests:
-            exp = (row, col, row_abs, col_abs)
-            got = xl_cell_to_rowcol(string)
+            exp = string
+            got = xl_rowcol_to_cell(row, col, row_abs, col_abs)
             self.assertEqual(got, exp)
 
 

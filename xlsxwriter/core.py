@@ -100,28 +100,19 @@ class Core(xmlwriter.XMLwriter):
 
     def _write_dc_creator(self):
         # Write the <dc:creator> element.
-        if 'author' in self.properties:
-            data = self.properties['author']
-        else:
-            data = ''
+        data = self.properties.get('author', '')
 
         self._xml_data_element('dc:creator', data)
 
     def _write_cp_last_modified_by(self):
         # Write the <cp:lastModifiedBy> element.
-        if 'author' in self.properties:
-            data = self.properties['author']
-        else:
-            data = ''
+        data = self.properties.get('author', '')
 
         self._xml_data_element('cp:lastModifiedBy', data)
 
     def _write_dcterms_created(self):
         # Write the <dcterms:created> element.
-        if 'created' in self.properties:
-            date = self.properties['created']
-        else:
-            date = datetime.now()
+        date = self.properties.get('created', datetime.now())
 
         xsi_type = 'dcterms:W3CDTF'
 
@@ -133,10 +124,7 @@ class Core(xmlwriter.XMLwriter):
 
     def _write_dcterms_modified(self):
         # Write the <dcterms:modified> element.
-        if 'created' in self.properties:
-            date = self.properties['created']
-        else:
-            date = datetime.now()
+        date = self.properties.get('created', datetime.now())
 
         xsi_type = 'dcterms:W3CDTF'
 

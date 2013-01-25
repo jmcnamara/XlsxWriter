@@ -241,7 +241,7 @@ class Workbook(xmlwriter.XMLwriter):
         packager = None
 
         # Get a temp filename to use as an archive.
-        (_, temp_filename) = tempfile.mkstemp()
+        (temp_fd, temp_filename) = tempfile.mkstemp()
 
         # Create a zip archive of the XLSX AML files.
         shutil.make_archive(temp_filename, 'zip', temp_dir)
@@ -250,6 +250,7 @@ class Workbook(xmlwriter.XMLwriter):
         os.rename(temp_filename + '.zip', self.filename)
 
         # Remove the temp file.
+        os.close(temp_fd)
         os.remove(temp_filename)
 
         # Remove the temporary directory use to create the archive.

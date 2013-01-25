@@ -24,6 +24,7 @@ class TestWriteSheetViews(unittest.TestCase):
     def test_write_sheet_views(self):
         """Test the _write_sheet_views() method"""
 
+        self.worksheet.selected = 1
         self.worksheet._write_sheet_views()
 
         exp = """<sheetViews><sheetView tabSelected="1" workbookViewId="0"/></sheetViews>"""

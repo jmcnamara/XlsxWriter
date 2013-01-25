@@ -13,6 +13,7 @@ from collections import namedtuple
 # Package imports.
 import xmlwriter
 from utility import xl_rowcol_to_cell
+from utility import xl_cell_to_rowcol
 
 
 class Worksheet(xmlwriter.XMLwriter):
@@ -37,8 +38,8 @@ class Worksheet(xmlwriter.XMLwriter):
 
         self.name = None
         self.index = None
-        self.activesheet = None
-        self.firstsheet = None
+        self.activesheet = 0
+        self.firstsheet = 0
         self.str_table = None
         self.date_1904 = None
         self.palette = None
@@ -181,6 +182,28 @@ class Worksheet(xmlwriter.XMLwriter):
         self.cond_formats = {}
         self.dxf_priority = 1
         self.is_chartsheet = 0
+        self.page_view = 0
+
+    def write(self, *args):
+        """TODO Temp code."""
+        is_number = re.compile(r'^[+-]?(?=\d|\.\d)\d*(\.\d*)?([Ee][+-]?\d+)?$')
+
+        if not args[0].isdigit():
+            (row, col, _, _) = xl_cell_to_rowcol(args[0])
+            token = args[1] if len(args) > 1 else None
+            xf_format = args[2] if len(args) > 2 else None
+            # options = args[3] if len(args) > 3 else None
+        else:
+            row = args[0]
+            col = args[1]
+            token = args[2] if len(args) > 2 else None
+            xf_format = args[3] if len(args) > 3 else None
+            # options = args[4] if len(args) > 4 else None
+
+        if is_number.match(str(token)):
+            self.write_number(row, col, token, xf_format)
+        else:
+            self.write_string(row, col, token, xf_format)
 
     def write_string(self, row, col, string, cell_format=None):
         """
@@ -673,16 +696,50 @@ class Worksheet(xmlwriter.XMLwriter):
         self._xml_end_tag('sheetViews')
 
     def _write_sheet_view(self):
-        # Write the <sheetView> element.
-        tab_selected = '1'
-        workbook_view_id = '0'
+        # Write the <sheetViews> element.
+        attributes = []
 
-        attributes = [
-            ('tabSelected', tab_selected),
-            ('workbookViewId', workbook_view_id),
-        ]
+        # Hide screen gridlines if required
+        if not self.screen_gridlines:
+            attributes.append(('showGridLines', 0))
 
-        self._xml_empty_tag('sheetView', attributes)
+        # Hide zeroes in cells.
+        if not self.show_zeros:
+            attributes.append(('showZeros', 0))
+
+        # Display worksheet right to left for Hebrew, Arabic and others.
+        if self.right_to_left:
+            attributes.append(('rightToLeft', 1))
+
+        # Show that the sheet tab is selected.
+        if self.selected:
+            attributes.append(('tabSelected', 1))
+
+        # Turn outlines off. Also required in the outlinePr element.
+        if not self.outline_on:
+            attributes.append(("showOutlineSymbols", 0))
+
+        # Set the page view/layout mode if required.
+        # TODO. Add pageBreakPreview mode when requested.
+        if self.page_view:
+            attributes.append(('view', 'pageLayout'))
+
+        # Set the zoom level.
+        if self.zoom != 100:
+            if not self.page_view:
+                attributes.append(('zoomScale', self.zoom))
+                if self.zoom_scale_normal:
+                    attributes.append(('zoomScaleNormal', self.zoom))
+
+        attributes.append(('workbookViewId', 0))
+
+        if self.panes or len(self.selections):
+            self._xml_start_tag('sheetView', attributes)
+            # self._write_panes()
+            # self._write_selections()
+            self._xml_end_tag('sheetView')
+        else:
+            self._xml_empty_tag('sheetView', attributes)
 
     def _write_sheet_format_pr(self):
         # Write the <sheetFormatPr> element.
