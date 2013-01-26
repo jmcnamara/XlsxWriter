@@ -26,7 +26,7 @@ class TestCompareXLSXFiles(unittest.TestCase):
         self.got_filename = test_dir + '_test_' + filename
         self.exp_filename = test_dir + 'xlsx_files/' + filename
 
-        self.ignore_members = []
+        self.ignore_files = []
         self.ignore_elements = {}
 
     def test_create_file(self):
@@ -54,9 +54,9 @@ class TestCompareXLSXFiles(unittest.TestCase):
 
         ####################################################
 
-        exp, got = _compare_xlsx_files(self.got_filename,
+        got, exp = _compare_xlsx_files(self.got_filename,
                                        self.exp_filename,
-                                       self.ignore_members,
+                                       self.ignore_files,
                                        self.ignore_elements)
 
         self.assertEqual(got, exp)
@@ -86,9 +86,9 @@ class TestCompareXLSXFiles(unittest.TestCase):
 
         ####################################################
 
-        exp, got = _compare_xlsx_files(self.got_filename,
+        got, exp = _compare_xlsx_files(self.got_filename,
                                        self.exp_filename,
-                                       self.ignore_members,
+                                       self.ignore_files,
                                        self.ignore_elements)
 
         self.assertEqual(got, exp)

@@ -44,8 +44,7 @@ class Workbook(xmlwriter.XMLwriter):
         self.filename = filename
         self.tempdir = None
         self.date_1904 = 0
-        self.activesheet = 0
-        self.firstsheet = 0
+        self.worksheet_meta = WorksheetMeta()
         self.selected = 0
         self.fileclosed = 0
         self.filehandle = None
@@ -102,31 +101,22 @@ class Workbook(xmlwriter.XMLwriter):
         name = self._check_sheetname(name)
 
         # TODO port these during integration tests.
-        #        init_data = (
-        #            fh,
-        #            name,
-        #            index,
         #
         #            self.activesheet,
         #            self.firstsheet,
         #
-        #            self.str_total,
-        #            self.str_unique,
-        #            self.str_table,
-        #
         #            self.table_count,
         #
         #            self.date_1904,
-        #            self.palette,
+        #            self.palette, # remove
         #            self.optimization,
         #            self.tempdir,
-        #
-        #            )
 
         init_data = {
             'name': name,
             'index': sheet_index,
-            'str_table': self.str_table
+            'str_table': self.str_table,
+            'worksheet_meta': self.worksheet_meta,
         }
 
         worksheet = Worksheet()
@@ -208,13 +198,13 @@ class Workbook(xmlwriter.XMLwriter):
             self.add_worksheet()
 
         # Ensure that at least one worksheet has been selected.
-        if self.activesheet == 0:
+        if self.worksheet_meta.activesheet == 0:
             self.worksheets[0].selected = 1
             self.worksheets[0].hidden = 0
 
         # Set the active sheet.
         for sheet in self.worksheets:
-            if sheet.index == self.activesheet:
+            if sheet.index == self.worksheet_meta.activesheet:
                 sheet.active = 1
 
         # Convert the SST strings data structure.
@@ -560,12 +550,12 @@ class Workbook(xmlwriter.XMLwriter):
             attributes.append(('tabRatio', self.tab_ratio))
 
         # Store the firstSheet attribute when it isn't the default.
-        if self.firstsheet > 0:
-            attributes.append(('firstSheet', self.firstsheet))
+        if self.worksheet_meta.firstsheet > 0:
+            attributes.append(('firstSheet', self.worksheet_meta.firstsheet))
 
         # Store the activeTab attribute when it isn't the first sheet.
-        if self.activesheet > 0:
-            attributes.append(('activeTab', self.activesheet))
+        if self.worksheet_meta.activesheet > 0:
+            attributes.append(('activeTab', self.worksheet_meta.activesheet))
 
         self._xml_empty_tag('workbookView', attributes)
 
@@ -602,3 +592,16 @@ class Workbook(xmlwriter.XMLwriter):
         attributes = [('calcId', calc_id)]
 
         self._xml_empty_tag('calcPr', attributes)
+
+
+# A metadata class to share data between worksheets.
+class WorksheetMeta(object):
+    """
+    A class to track worksheets data such as the active sheet and the
+    first sheet..
+
+    """
+
+    def __init__(self):
+        self.activesheet = 0
+        self.firstsheet = 0

@@ -38,8 +38,6 @@ class Worksheet(xmlwriter.XMLwriter):
 
         self.name = None
         self.index = None
-        self.activesheet = 0
-        self.firstsheet = 0
         self.str_table = None
         self.date_1904 = None
         self.palette = None
@@ -407,6 +405,24 @@ class Worksheet(xmlwriter.XMLwriter):
 
         return 0
 
+    def activate(self):
+        """
+        Set this worksheet as the active worksheet, i.e. the worksheet that is
+        displayed when the workbook is opened. Also set it as selected.
+
+        Note: An active worksheet cannot be hidden.
+
+        Args:
+            None.
+
+        Returns:
+            Nothing.
+
+        """
+        self.hidden = 0
+        self.selected = 1
+        self.worksheet_meta.activesheet = self.index
+
     def select(self):
         """
         Set this worksheet as a selected worksheet, i.e. the worksheet
@@ -556,6 +572,7 @@ class Worksheet(xmlwriter.XMLwriter):
         self.name = init_data['name']
         self.index = init_data['index']
         self.str_table = init_data['str_table']
+        self.worksheet_meta = init_data['worksheet_meta']
 
     def _assemble_xml_file(self):
         # Assemble and write the XML file.

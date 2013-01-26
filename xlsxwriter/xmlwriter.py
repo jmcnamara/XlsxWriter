@@ -111,6 +111,8 @@ class XMLwriter(object):
             value = self._escape_attributes(value)
             attr = attr + ' %s="%s"' % (key, value)
 
+        string = self._escape_data(string)
+
         self.fh.write("""<si><t%s>%s</t></si>""" % (attr, string))
 
     def _xml_rich_si_element(self, string):

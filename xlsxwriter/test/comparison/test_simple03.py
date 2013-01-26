@@ -20,7 +20,7 @@ class TestCompareXLSXFiles(unittest.TestCase):
     def setUp(self):
         self.maxDiff = None
 
-        filename = 'simple01.xlsx'
+        filename = 'simple03.xlsx'
 
         test_dir = 'xlsxwriter/test/comparison/'
         self.got_filename = test_dir + '_test_' + filename
@@ -30,39 +30,31 @@ class TestCompareXLSXFiles(unittest.TestCase):
         self.ignore_elements = {}
 
     def test_create_file(self):
-        """Test the creation of a simple workbook."""
+        """Test worksheet selection and activation."""
         filename = self.got_filename
 
         ####################################################
 
         workbook = Workbook(filename)
-        worksheet = workbook.add_worksheet()
 
-        worksheet.write_string(0, 0, 'Hello')
-        worksheet.write_number(1, 0, 123)
+        worksheet1 = workbook.add_worksheet()
+        worksheet2 = workbook.add_worksheet('Data Sheet')
+        worksheet3 = workbook.add_worksheet()
 
-        workbook.close()
+        bold = workbook.add_format({'bold': 1})
 
-        ####################################################
+        worksheet1.write('A1', 'Foo')
+        worksheet1.write('A2', 123)
 
-        got, exp = _compare_xlsx_files(self.got_filename,
-                                       self.exp_filename,
-                                       self.ignore_files,
-                                       self.ignore_elements)
+        worksheet3.write('B2', 'Foo')
+        worksheet3.write('B3', 'Bar', bold)
+        worksheet3.write('C4', 234)
 
-        self.assertEqual(got, exp)
+        worksheet2.activate()
 
-    def test_create_file_A1(self):
-        """Test the creation of a simple workbook with A1 notation."""
-        filename = self.got_filename
-
-        ####################################################
-
-        workbook = Workbook(filename)
-        worksheet = workbook.add_worksheet()
-
-        worksheet.write('A1', 'Hello')
-        worksheet.write('A2', 123)
+        worksheet2.select()
+        worksheet3.select()
+        worksheet3.activate()
 
         workbook.close()
 
@@ -79,6 +71,7 @@ class TestCompareXLSXFiles(unittest.TestCase):
         # Cleanup.
         if os.path.exists(self.got_filename):
             os.remove(self.got_filename)
+
 
 if __name__ == '__main__':
     unittest.main()

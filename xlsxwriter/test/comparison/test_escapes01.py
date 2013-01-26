@@ -20,49 +20,35 @@ class TestCompareXLSXFiles(unittest.TestCase):
     def setUp(self):
         self.maxDiff = None
 
-        filename = 'simple01.xlsx'
+        filename = 'escapes01.xlsx'
 
         test_dir = 'xlsxwriter/test/comparison/'
         self.got_filename = test_dir + '_test_' + filename
         self.exp_filename = test_dir + 'xlsx_files/' + filename
 
-        self.ignore_files = []
+        self.ignore_files = ['xl/calcChain.xml',
+                             '[Content_Types].xml',
+                             'xl/_rels/workbook.xml.rels']
         self.ignore_elements = {}
 
     def test_create_file(self):
-        """Test the creation of a simple workbook."""
+        """Test creation of a file with strings that require XML escaping."""
         filename = self.got_filename
 
         ####################################################
 
         workbook = Workbook(filename)
-        worksheet = workbook.add_worksheet()
 
-        worksheet.write_string(0, 0, 'Hello')
-        worksheet.write_number(1, 0, 123)
+        worksheet = workbook.add_worksheet('5&4')
 
-        workbook.close()
+        worksheet.write_formula(0, 0, '=IF(1>2,0,1)', None, 1)
+        worksheet.write_formula(1, 0, """=CONCATENATE("'","<>&")""", None, "'<>&")
+        worksheet.write_formula(2, 0, '=1&"b"', None, '1b')
+        worksheet.write_formula(3, 0, """="'\"""", None, "'")
+        worksheet.write_formula(4, 0, '=""""', None, '"')
+        worksheet.write_formula(5, 0, '="&" & "&"', None, '&&')
 
-        ####################################################
-
-        got, exp = _compare_xlsx_files(self.got_filename,
-                                       self.exp_filename,
-                                       self.ignore_files,
-                                       self.ignore_elements)
-
-        self.assertEqual(got, exp)
-
-    def test_create_file_A1(self):
-        """Test the creation of a simple workbook with A1 notation."""
-        filename = self.got_filename
-
-        ####################################################
-
-        workbook = Workbook(filename)
-        worksheet = workbook.add_worksheet()
-
-        worksheet.write('A1', 'Hello')
-        worksheet.write('A2', 123)
+        worksheet.write_string(7, 0, '"&<>')
 
         workbook.close()
 
@@ -79,6 +65,7 @@ class TestCompareXLSXFiles(unittest.TestCase):
         # Cleanup.
         if os.path.exists(self.got_filename):
             os.remove(self.got_filename)
+
 
 if __name__ == '__main__':
     unittest.main()
