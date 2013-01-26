@@ -11,7 +11,7 @@ from ...workbook import Workbook
 from ..helperfunctions import _compare_xlsx_files
 
 
-class TestCreateXLSXFile(unittest.TestCase):
+class TestCompareXLSXFiles(unittest.TestCase):
     """
     Test file created by XlsxWriter against a file created by Excel.
 
@@ -77,8 +77,8 @@ class TestCreateXLSXFile(unittest.TestCase):
 
     def tearDown(self):
         # Cleanup.
-        os.remove(self.got_filename)
-
+        if os.path.exists(self.got_filename):
+            os.remove(self.got_filename)
 
 if __name__ == '__main__':
     unittest.main()
