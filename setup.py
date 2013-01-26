@@ -7,7 +7,7 @@ setup(
     author_email='jmcnamara@cpan.org',
     url='http://pypi.python.org/pypi/XlsxWriter/',
     packages=['xlsxwriter'],
-    license='TBD',
+    license='BSD',
     description='A Python module to create Excel XLSX files.',
     long_description=open('README.txt').read(),
 )
