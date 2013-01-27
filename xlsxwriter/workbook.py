@@ -138,7 +138,9 @@ class Workbook(xmlwriter.XMLwriter):
             Reference to a Format object.
 
         """
-        xf_format = Format(properties)
+        xf_format = Format(properties,
+                           self.xf_format_indices,
+                           self.dxf_format_indices)
 
         # Store the format reference.
         self.formats.append(xf_format)

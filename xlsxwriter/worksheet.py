@@ -7,6 +7,7 @@
 
 # Standard packages.
 import re
+import datetime
 from collections import defaultdict
 from collections import namedtuple
 
@@ -39,7 +40,6 @@ class Worksheet(xmlwriter.XMLwriter):
         self.name = None
         self.index = None
         self.str_table = None
-        self.date_1904 = None
         self.palette = None
         self.optimization = 0
         self.tempdir = None
@@ -182,6 +182,9 @@ class Worksheet(xmlwriter.XMLwriter):
         self.is_chartsheet = 0
         self.page_view = 0
 
+        self.date_1904 = False
+        self.epoch = datetime.datetime(1899, 12, 31)
+
     def write(self, *args):
         """TODO Temp code."""
         is_number = re.compile(r'^[+-]?(?=\d|\.\d)\d*(\.\d*)?([Ee][+-]?\d+)?$')
@@ -215,7 +218,7 @@ class Worksheet(xmlwriter.XMLwriter):
 
         Returns:
             0:  Success.
-            -1: Column number is out of worksheet bounds.
+            -1: Row or column is out of worksheet bounds.
             -2: String truncated to 32k characters.
 
         """
@@ -258,7 +261,7 @@ class Worksheet(xmlwriter.XMLwriter):
 
         Returns:
             0:  Success.
-            -1: Column number is out of worksheet bounds.
+            -1: Row or column is out of worksheet bounds.
 
         """
         # Check that row and col are valid and store max and min values.
@@ -286,7 +289,7 @@ class Worksheet(xmlwriter.XMLwriter):
 
         Returns:
             0:  Success.
-            -1: Column number is out of worksheet bounds.
+            -1: Row or column is out of worksheet bounds.
 
         """
         # Don't write a blank cell unless it has a format.
@@ -320,7 +323,7 @@ class Worksheet(xmlwriter.XMLwriter):
 
         Returns:
             0:  Success.
-            -1: Column number is out of worksheet bounds.
+            -1: Row or column is out of worksheet bounds.
 
         """
         # Check that row and col are valid and store max and min values.
@@ -357,7 +360,7 @@ class Worksheet(xmlwriter.XMLwriter):
 
         Returns:
             0:  Success.
-            -1: Column number is out of worksheet bounds.
+            -1: Row or column is out of worksheet bounds.
 
         """
 
@@ -402,6 +405,38 @@ class Worksheet(xmlwriter.XMLwriter):
                 for col in range(firstcol, lastcol + 1):
                     if row != firstrow or col != firstcol:
                         self.write_number(row, col, 0, cell_format)
+
+        return 0
+
+    def write_date_time(self, row, col, date, cell_format):
+        """
+        Write a date to a worksheet cell.
+
+        Args:
+            row:         The cell row (zero indexed).
+            col:         The cell column (zero indexed).
+            date:        Date and/or time as a datetime object.
+            cell_format: A cell Format object.
+
+        Returns:
+            0:  Success.
+            -1: Row or column is out of worksheet bounds.
+
+        """
+        # Check that row and col are valid and store max and min values.
+        if self._check_dimensions(row, col):
+            return -1
+
+        # Write previous row if in in-line string optimization mode.
+        if self.optimization and row > self.previous_row:
+            self._write_single_row(row)
+
+        # Convert datetime to an Excel date.
+        number = self._convert_date_time(date)
+
+        # Store the cell data in the worksheet data table.
+        cell_tuple = namedtuple('Number', 'number, format')
+        self.table[row][col] = cell_tuple(number, cell_format)
 
         return 0
 
@@ -637,6 +672,25 @@ class Worksheet(xmlwriter.XMLwriter):
                 self.dim_colmax = col
 
         return 0
+
+    def _convert_date_time(self, date):
+
+        delta = date - self.epoch
+        excel_time = (delta.days
+                      + (float(delta.seconds)
+                      + float(delta.microseconds) / 1E6)
+                      / (60 * 60 * 24))
+
+        # Special case for datetime where time only has been specified and
+        # the default date of 1900-01-01 is used.
+        if date.isocalendar() == (1900, 1, 1):
+            excel_time -= 1
+
+        # Account for Excel erroneously treating 1900 as a leap year.
+        if not self.date_1904 and delta.days > 59:
+            excel_time += 1
+
+        return excel_time
 
     ###########################################################################
     #

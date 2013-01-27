@@ -22,7 +22,7 @@ class Format(xmlwriter.XMLwriter):
     #
     ###########################################################################
 
-    def __init__(self, properties={}):
+    def __init__(self, properties={}, xf_indicies=None, dxf_indicies=None):
         """
         Constructor.
 
@@ -30,8 +30,8 @@ class Format(xmlwriter.XMLwriter):
 
         super(Format, self).__init__()
 
-        self.xf_format_indices = {}
-        self.dxf_format_indices = {}
+        self.xf_format_indices = xf_indicies
+        self.dxf_format_indices = dxf_indicies
         self.xf_index = None
         self.dxf_index = None
 
@@ -848,7 +848,7 @@ class Format(xmlwriter.XMLwriter):
         # Returns a unique hash key for a font. Used by Workbook.
         key = ':'.join(str(x) for x in (
             self._get_font_key(),
-            self._get_border_key,
+            self._get_border_key(),
             self._get_fill_key(),
             self.num_format,
             self._get_alignment_key()))
