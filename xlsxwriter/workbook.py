@@ -101,10 +101,6 @@ class Workbook(xmlwriter.XMLwriter):
         name = self._check_sheetname(name)
 
         # TODO port these during integration tests.
-        #
-        #            self.activesheet,
-        #            self.firstsheet,
-        #
         #            self.table_count,
         #
         #            self.date_1904,

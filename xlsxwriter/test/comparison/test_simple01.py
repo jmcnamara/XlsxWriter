@@ -61,6 +61,52 @@ class TestCompareXLSXFiles(unittest.TestCase):
         workbook = Workbook(filename)
         worksheet = workbook.add_worksheet()
 
+        worksheet.write_string('A1', 'Hello')
+        worksheet.write_number('A2', 123)
+
+        workbook.close()
+
+        ####################################################
+
+        got, exp = _compare_xlsx_files(self.got_filename,
+                                       self.exp_filename,
+                                       self.ignore_files,
+                                       self.ignore_elements)
+
+        self.assertEqual(got, exp)
+
+    def test_create_file_write(self):
+        """Test the creation of a simple workbook using write()."""
+        filename = self.got_filename
+
+        ####################################################
+
+        workbook = Workbook(filename)
+        worksheet = workbook.add_worksheet()
+
+        worksheet.write(0, 0, 'Hello')
+        worksheet.write(1, 0, 123)
+
+        workbook.close()
+
+        ####################################################
+
+        got, exp = _compare_xlsx_files(self.got_filename,
+                                       self.exp_filename,
+                                       self.ignore_files,
+                                       self.ignore_elements)
+
+        self.assertEqual(got, exp)
+
+    def test_create_file_write_A1(self):
+        """Test the creation of a simple workbook using write() with A1."""
+        filename = self.got_filename
+
+        ####################################################
+
+        workbook = Workbook(filename)
+        worksheet = workbook.add_worksheet()
+
         worksheet.write('A1', 'Hello')
         worksheet.write('A2', 123)
 

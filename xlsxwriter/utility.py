@@ -7,9 +7,12 @@
 import re
 
 
+range_parts = re.compile(r'(\$?)([A-Z]{1,3})(\$?)(\d+)')
+
+
 def xl_rowcol_to_cell(row, col, row_abs=0, col_abs=0):
     """
-    TODO
+    TODO. Add Utility.py docs.
 
     """
     row = row + 1  # Change to 1-index.
@@ -23,7 +26,7 @@ def xl_rowcol_to_cell(row, col, row_abs=0, col_abs=0):
 
 def xl_col_to_name(col_num, col_abs=0):
     """
-    TODO
+    TODO. Add Utility.py docs.
 
     """
     col_num = col_num + 1  # Change to 1-index.
@@ -52,13 +55,37 @@ def xl_col_to_name(col_num, col_abs=0):
 
 def xl_cell_to_rowcol(cell_str):
         """
-        TODO
+        TODO. Add Utility.py docs.
+
+        """
+        if not cell_str:
+            return (0, 0)
+
+        match = range_parts.match(cell_str)
+        col_str = match.group(2)
+        row_str = match.group(4)
+
+        # Convert base26 column string to number.
+        expn = 0
+        col = 0
+        for char in reversed(col_str):
+            col += (ord(char) - ord('A') + 1) * (26 ** expn)
+            expn += 1
+
+        # Convert 1-index to zero-index
+        row = int(row_str) - 1
+        col -= 1
+
+        return row, col
+
+
+def xl_cell_to_rowcol_abs(cell_str):
+        """
+        TODO. Add Utility.py docs.
 
         """
         if not cell_str:
             return (0, 0, 0, 0)
-
-        range_parts = re.compile(r'(\$?)([A-Z]{1,3})(\$?)(\d+)')
 
         match = range_parts.match(cell_str)
 
