@@ -13,3 +13,5 @@ TAGS
 cover/
 .settings/
 xlsxwriter/test/comparison/_test_*.xlsx
+dev/docs/build/
+
