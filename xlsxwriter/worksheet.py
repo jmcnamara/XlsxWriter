@@ -34,7 +34,7 @@ def convert_cell_args(method):
             # First arg is an int, default to row/col notation.
             int(args[0])
             return method(self, *args)
-        except:
+        except ValueError:
             # First arg isn't an int, convert A1 notation.
             new_args = list(xl_cell_to_rowcol(args[0]))
             new_args.extend(args[1:])
@@ -217,7 +217,7 @@ class Worksheet(xmlwriter.XMLwriter):
         self.epoch = datetime.datetime(1899, 12, 31)
 
     @convert_cell_args
-    def write(self, *args):
+    def write(self, row, col, *args):
         """
         Write data to a worksheet cell by calling the appropriate write_*()
         method based on the type of data being passed.
@@ -235,8 +235,12 @@ class Worksheet(xmlwriter.XMLwriter):
             other: Return value of called method.
 
         """
-        # The third arg should be the token for all write calls.
-        token = args[2]
+        # Check the number of args passed.
+        if not len(args):
+            raise TypeError("write() takes at least 4 arguments (3 given)")
+
+        # The first arg should be the token for all write calls.
+        token = args[0]
 
         # Convert None to an empty string and thus a blank cell.
         if token is None:
@@ -245,13 +249,20 @@ class Worksheet(xmlwriter.XMLwriter):
         # Try work out the appropriate method to call.
         try:
             float(token)
-            return self.write_number(*args)
+            return self.write_number(row, col, *args)
         except:
             # Not a number. Continue to the checks below.
             pass
 
         # TODO. Add other write_* methods.
-        return self.write_string(*args)
+        if isinstance(token, datetime.datetime):
+            return self.write_datetime(row, col, *args)
+        elif token == '':
+            return self.write_blank(row, col, *args)
+        elif token[0] == '=':
+            return self.write_formula(row, col, *args)
+        else:
+            return self.write_string(row, col, *args)
 
     @convert_cell_args
     def write_string(self, row, col, string, cell_format=None):
@@ -328,13 +339,15 @@ class Worksheet(xmlwriter.XMLwriter):
         return 0
 
     @convert_cell_args
-    def write_blank(self, row, col, cell_format=None):
+    def write_blank(self, row, col, blank, cell_format=None):
         """
-        Write a number to a worksheet cell.
+        Write a blank cell with formatting to a worksheet cell. The blank
+        token is ignored and the format only is written to the cell.
 
         Args:
             row:         The cell row (zero indexed).
             col:         The cell column (zero indexed).
+            blank:       Any value. It is ignored.
             cell_format: An optional cell Format object.
 
         Returns:
@@ -460,7 +473,7 @@ class Worksheet(xmlwriter.XMLwriter):
         return 0
 
     @convert_cell_args
-    def write_date_time(self, row, col, date, cell_format):
+    def write_datetime(self, row, col, date, cell_format):
         """
         Write a date to a worksheet cell.
 
@@ -693,20 +706,6 @@ class Worksheet(xmlwriter.XMLwriter):
 
         # Close the file.
         self._xml_close()
-
-    def _map_write_args(self, *user_args):
-        # Map args in A1 notation to row/column notation and return to
-        # calling write_*() method.
-
-        # Copy user args so that any modifications are local.
-        args = list(user_args)
-        # args[:] = user_args
-
-        if not args[0].isdigit():
-            row, col = xl_cell_to_rowcol(args.pop(0))
-            args = [row, col] + args
-
-        return args
 
     def _check_dimensions(self, row, col, ignore_row=False, ignore_col=False):
         # Check that row and col are valid and store the max and min
@@ -1249,6 +1248,3 @@ class Worksheet(xmlwriter.XMLwriter):
         ]
 
         self._xml_data_element('f', formula, attributes)
-
-
-

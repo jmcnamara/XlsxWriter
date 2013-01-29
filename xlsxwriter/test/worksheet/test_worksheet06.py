@@ -50,13 +50,13 @@ class TestAssembleWorksheet(unittest.TestCase):
         got = worksheet.write_number(max_row, max_col, 123)
         self.assertEqual(got, bound_error)
 
-        got = worksheet.write_blank(max_row, 0, 'format')
+        got = worksheet.write_blank(max_row, 0, None, 'format')
         self.assertEqual(got, bound_error)
 
-        got = worksheet.write_blank(0, max_col, 'format')
+        got = worksheet.write_blank(0, max_col, None, 'format')
         self.assertEqual(got, bound_error)
 
-        got = worksheet.write_blank(max_row, max_col, 'format')
+        got = worksheet.write_blank(max_row, max_col, None, 'format')
         self.assertEqual(got, bound_error)
 
         got = worksheet.write_formula(max_row, 0, '=A1')
