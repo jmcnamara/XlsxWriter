@@ -52,7 +52,7 @@ To do that we could start with a small program like the following:
 
 If we run this program we should end up with a spreadsheet like the following:
 
-.. image:: docs_static/tutorial01.png
+.. image:: _static/tutorial01.png
 
 So, let's break that down into separate parts. The first step is to import the
 `xlsxwriter` module.
