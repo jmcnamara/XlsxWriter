@@ -97,6 +97,7 @@ html_theme = 'default'
 # further.  For a list of options available for each theme, see the
 # documentation.
 html_theme_options = {
+                      # 'nosidebar': True,
                       'sidebarbgcolor': '#F2F2F2',
                       'relbarbgcolor': '#9CB640',
                       'linkcolor': '#9CB640',

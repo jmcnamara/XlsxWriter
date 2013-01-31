@@ -20,7 +20,7 @@ class TestCompareXLSXFiles(unittest.TestCase):
     def setUp(self):
         self.maxDiff = None
 
-        filename = 'tutorial01.xlsx'
+        filename = 'tutorial02.xlsx'
 
         test_dir = 'xlsxwriter/test/comparison/'
         self.got_filename = test_dir + '_test_' + filename
@@ -32,7 +32,7 @@ class TestCompareXLSXFiles(unittest.TestCase):
         self.ignore_elements = {}
 
     def test_create_file(self):
-        """Example spreadsheet used in the tutorial."""
+        """Example spreadsheet used in the tutorial 2."""
         filename = self.got_filename
 
         ####################################################
@@ -40,6 +40,16 @@ class TestCompareXLSXFiles(unittest.TestCase):
         # Create a workbook and add a worksheet.
         workbook = Workbook(filename)
         worksheet = workbook.add_worksheet()
+
+        # Add a bold format to use to highlight cells.
+        bold = workbook.add_format({'bold': True})
+
+        # Add a number format for cells with money.
+        money = workbook.add_format({'num_format': '\\$#,##0'})
+
+        # Write some data header.
+        worksheet.write('A1', 'Item', bold)
+        worksheet.write('B1', 'Cost', bold)
 
         # Some data we want to write to the worksheet.
         expenses = (
@@ -49,19 +59,19 @@ class TestCompareXLSXFiles(unittest.TestCase):
             ['Gym', 50],
         )
 
-        # Start from the first cell. Rows and columns are zero indexed.
-        row = 0
+        # Start from the first cell below the headers.
+        row = 1
         col = 0
 
         # Iterate over the data and write it out row by row.
         for item in (expenses):
             worksheet.write(row, col, item[0])
-            worksheet.write(row, col + 1, item[1])
+            worksheet.write(row, col + 1, item[1], money)
             row += 1
 
         # Write a total using a formula.
-        worksheet.write(row, 0, 'Total')
-        worksheet.write(row, 1, '=SUM(B1:B4)', None, 1450)
+        worksheet.write(row, 0, 'Total', bold)
+        worksheet.write(row, 1, '=SUM(B2:B5)', money, 1450)
 
         workbook.close()
 
