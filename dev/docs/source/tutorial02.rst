@@ -7,8 +7,7 @@ In the previous section we created a simple spreadsheet using Python and the
 XlsxWriter module.
 
 This presented the data that we wanted but it looked a little bare. In order to
-make it a little clearer to understand we would like to add some simple
-formatting, like this:
+make it clearer we would like to add some simple formatting, like this:
 
 .. image:: _static/tutorial02.png
 
@@ -16,7 +15,11 @@ The differences here are that we have added **Item** and **Cost** header
 columns in a bold font, we have formatted the currency in the second column
 and we have made the **Total** string bold.
 
-To get a spreadsheet like this we could extend our program like this::
+To do this we can extend our program like this:
+
+.. code-block:: python
+   
+    from xlsxwriter import Workbook
 
     # Create a workbook and add a worksheet.
     workbook = Workbook(filename)
