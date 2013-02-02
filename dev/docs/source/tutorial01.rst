@@ -63,7 +63,7 @@ spreadsheet:
 2. Add a worksheet to the workbook.
 3. Write data to the worksheet.
 
-Well, there is actually a Step Zero, to import the module, but hopefully we
+Well, there is actually a Step 0, to import the module, but hopefully we
 already knew that::
 
     from xlsxwriter import Workbook
@@ -100,7 +100,7 @@ Throughout XlsxWriter, *rows* and *columns* are zero indexed. So the first cell
 in a worksheet, ``A1`` is ``(0, 0)``. We will look at some utility routines to
 deal with cells and the ``write()`` method in more detail in the next section.
 
-So in our example we iterated over our data and wrote it out as follows::
+So in our example we iterate over our data and write it out as follows::
 
     # Iterate over the data and write it out row by row.
     for item in (expenses):
@@ -108,12 +108,12 @@ So in our example we iterated over our data and wrote it out as follows::
         worksheet.write(row, col +1, item[1])
         row += 1
 
-Also, we added a formula to calculate the total of the items in the second
+Also, we add a formula to calculate the total of the items in the second
 column::
 
     worksheet.write(row, 1, '=SUM(B1:B4)')
 
-Finally, we closed the Excel file::
+Finally, we close the Excel file::
 
     workbook.close()
 

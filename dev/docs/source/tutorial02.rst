@@ -15,10 +15,12 @@ The differences here are that we have added **Item** and **Cost** header
 columns in a bold font, we have formatted the currency in the second column
 and we have made the **Total** string bold.
 
-To do this we can extend our program like this:
+To do this we can extend our program like this (new and modified lines are
+shown with a red line):
 
 .. code-block:: python
-   
+   :emphasize-lines: 7-15, 32, 36-37
+      
     from xlsxwriter import Workbook
 
     # Create a workbook and add a worksheet.
@@ -59,8 +61,8 @@ To do this we can extend our program like this:
     
     workbook.close()
 
-The main difference between this and the previous program is that we now create
-two ``Format`` objects that we will use to format cells in the spreadsheet::
+The main difference between this and the previous program is that we have added
+two ``Format`` objects that we can use to format cells in the spreadsheet::
 
     # Add a bold format to use to highlight cells.
     bold = workbook.add_format({'bold': True})
@@ -68,5 +70,31 @@ two ``Format`` objects that we will use to format cells in the spreadsheet::
     # Add a number format for cells with money.
     money = workbook.add_format({'num_format': '$#,##0'})
 
-TODO Add more.
+We then pass this ``Format`` as an optional third parameter to the
+``worksheet`` write() method::
+
+    write(row, column, token, [format])   
+
+Like this::
+
+    worksheet.write(row, 0, 'Total', bold)
+
+Which leads us to another new feature in this program. To add the headers in
+the first row of the worksheet we used ``write()`` like this::
+
+    worksheet.write('A1', 'Item', bold)
+    worksheet.write('B1', 'Cost', bold)
+
+So, instead of ``(row, col)`` we used the Excel ``A1``  style notation. This a
+little syntactic sugar to help with laying out worksheets. See
+:ref:`cell_notation` for more details.
+
+
+
+
+
+
+
+
+
 

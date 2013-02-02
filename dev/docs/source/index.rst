@@ -11,5 +11,7 @@ Contents:
    
    tutorial01.rst
    tutorial02.rst
+   workbook.rst
+   cell_notation.rst
    changes.rst
 
