@@ -34,7 +34,7 @@ div.documentwrapper {
 }
 
 div.bodywrapper {
-    margin: 0 0 0 230px;
+    margin: 0 0 0 280px;
 }
 
 div.body {
@@ -220,7 +220,7 @@ p.admonition-title:after {
 }
 
 pre {
-	margin-left: 40px;
+	margin-left: 30px;
 	width : 640px;
     padding: 15px;
     color: #333333;
@@ -236,7 +236,7 @@ cite, code, tt {
 
 
 th {
-    background-color: #ede;
+    background-color: #f2f2f2;
 }
 
 .warning tt {
