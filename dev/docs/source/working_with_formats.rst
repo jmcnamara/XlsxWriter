@@ -3,6 +3,7 @@
 Working with Formats
 ====================
 
+This section TODO...
 
 Creating and using a Format object
 ----------------------------------
@@ -10,8 +11,8 @@ Creating and using a Format object
 Cell formatting is defined through a Format object. Format objects are
 created by calling the workbook ``add_format()`` method as follows::
 
-    format1 = workbook.add_format(); # Set properties later
-    format2 = workbook.add_format(props); # Set at creation
+    format1 = workbook.add_format()       # Set properties later
+    format2 = workbook.add_format(props)  # Set at creation
 
 The format object holds all the formatting properties that can be
 applied to a cell, a row or a column. The process of setting these
@@ -38,50 +39,75 @@ Format methods and Format properties
 ------------------------------------
 
 The following table shows the Excel format categories, the formatting
-properties that can be applied and the equivalent object method::
+properties that can be applied and the equivalent object method:
 
-    Category   Description       Property        Method Name
-    --------   -----------       --------        -----------
-    Font       Font type         font            set_font()
-               Font size         size            set_size()
-               Font color        color           set_color()
-               Bold              bold            set_bold()
-               Italic            italic          set_italic()
-               Underline         underline       set_underline()
-               Strikeout         font_strikeout  set_font_strikeout()
-               Super/Subscript   font_script     set_font_script()
-               Outline           font_outline    set_font_outline()
-               Shadow            font_shadow     set_font_shadow()
-
-    Number     Numeric format    num_format      set_num_format()
-
-    Protection Lock cells        locked          set_locked()
-               Hide formulas     hidden          set_hidden()
-
-    Alignment  Horizontal align  align           set_align()
-               Vertical align    valign          set_align()
-               Rotation          rotation        set_rotation()
-               Text wrap         text_wrap       set_text_wrap()
-               Justify last      text_justlast   set_text_justlast()
-               Center across     center_across   set_center_across()
-               Indentation       indent          set_indent()
-               Shrink to fit     shrink          set_shrink()
-
-    Pattern    Cell pattern      pattern         set_pattern()
-               Background color  bg_color        set_bg_color()
-               Foreground color  fg_color        set_fg_color()
-
-    Border     Cell border       border          set_border()
-               Bottom border     bottom          set_bottom()
-               Top border        top             set_top()
-               Left border       left            set_left()
-               Right border      right           set_right()
-               Border color      border_color    set_border_color()
-               Bottom color      bottom_color    set_bottom_color()
-               Top color         top_color       set_top_color()
-               Left color        left_color      set_left_color()
-               Right color       right_color     set_right_color()
-
++------------+------------------+----------------------+------------------------------+
+| Category   | Description      | Property             | Method Name                  |
++============+==================+======================+==============================+
+| Font       | Font type        | ``'font_name'``      | :func:`set_font_name()`      |
+|            +------------------+----------------------+------------------------------+
+|            | Font size        | ``'font_size'``      | :func:`set_font_size()`      |
+|            +------------------+----------------------+------------------------------+
+|            | Font color       | ``'font_color'``     | :func:`set_font_color()`     |
+|            +------------------+----------------------+------------------------------+
+|            | Bold             | ``'bold'``           | :func:`set_bold()`           |
+|            +------------------+----------------------+------------------------------+
+|            | Italic           | ``'italic'``         | :func:`set_italic()`         |
+|            +------------------+----------------------+------------------------------+
+|            | Underline        | ``'underline'``      | :func:`set_underline()`      |
+|            +------------------+----------------------+------------------------------+
+|            | Strikeout        | ``'font_strikeout'`` | :func:`set_font_strikeout()` |
+|            +------------------+----------------------+------------------------------+
+|            | Super/Subscript  | ``'font_script'``    | :func:`set_font_script()`    |
++------------+------------------+----------------------+------------------------------+
+| Number     | Numeric format   | ``'num_format'``     | :func:`set_num_format()`     |
++------------+------------------+----------------------+------------------------------+
+| Protection | Lock cells       | ``'locked'``         | :func:`set_locked()`         |
+|            +------------------+----------------------+------------------------------+
+|            | Hide formulas    | ``'hidden'``         | :func:`set_hidden()`         |
++------------+------------------+----------------------+------------------------------+
+| Alignment  | Horizontal align | ``'align'``          | :func:`set_align()`          |
+|            +------------------+----------------------+------------------------------+
+|            | Vertical align   | ``'valign'``         | :func:`set_align()`          |
+|            +------------------+----------------------+------------------------------+
+|            | Rotation         | ``'rotation'``       | :func:`set_rotation()`       |
+|            +------------------+----------------------+------------------------------+
+|            | Text wrap        | ``'text_wrap'``      | :func:`set_text_wrap()`      |
+|            +------------------+----------------------+------------------------------+
+|            | Justify last     | ``'text_justlast'``  | :func:`set_text_justlast()`  |
+|            +------------------+----------------------+------------------------------+
+|            | Center across    | ``'center_across'``  | :func:`set_center_across()`  |
+|            +------------------+----------------------+------------------------------+
+|            | Indentation      | ``'indent'``         | :func:`set_indent()`         |
+|            +------------------+----------------------+------------------------------+
+|            | Shrink to fit    | ``'shrink'``         | :func:`set_shrink()`         |
++------------+------------------+----------------------+------------------------------+
+| Pattern    | Cell pattern     | ``'pattern'``        | :func:`set_pattern()`        |
+|            +------------------+----------------------+------------------------------+
+|            | Background color | ``'bg_color'``       | :func:`set_bg_color()`       |
+|            +------------------+----------------------+------------------------------+
+|            | Foreground color | ``'fg_color'``       | :func:`set_fg_color()`       |
++------------+------------------+----------------------+------------------------------+
+| Border     | Cell border      | ``'border'``         | :func:`set_border()`         |
+|            +------------------+----------------------+------------------------------+
+|            | Bottom border    | ``'bottom'``         | :func:`set_bottom()`         |
+|            +------------------+----------------------+------------------------------+
+|            | Top border       | ``'top'``            | :func:`set_top()`            |
+|            +------------------+----------------------+------------------------------+
+|            | Left border      | ``'left'``           | :func:`set_left()`           |
+|            +------------------+----------------------+------------------------------+
+|            | Right border     | ``'right'``          | :func:`set_right()`          |
+|            +------------------+----------------------+------------------------------+
+|            | Border color     | ``'border_color'``   | :func:`set_border_color()`   |
+|            +------------------+----------------------+------------------------------+
+|            | Bottom color     | ``'bottom_color'``   | :func:`set_bottom_color()`   |
+|            +------------------+----------------------+------------------------------+
+|            | Top color        | ``'top_color'``      | :func:`set_top_color()`      |
+|            +------------------+----------------------+------------------------------+
+|            | Left color       | ``'left_color'``     | :func:`set_left_color()`     |
+|            +------------------+----------------------+------------------------------+
+|            | Right color      | ``'right_color'``    | :func:`set_right_color()`    |
++------------+------------------+----------------------+------------------------------+
 
 
 There are two ways of setting Format properties: by using the object
@@ -130,6 +156,29 @@ constructor has proved to be a little more flexible and self
 documenting in practice. An additional advantage of working with
 property hashes is that it allows you to share formatting between
 workbook objects as shown in the example above.
+
+
+.. _format_colors:
+
+Format Colors
+-------------
+
+                        'black'
+                        'blue'
+                        'brown'
+                        'cyan'
+                        'gray'
+                        'green'
+                        'lime'
+                        'magenta'
+                        'navy'
+                        'orange'
+                        'pink'
+                        'purple'
+                        'red'
+                        'silver'
+                        'white'
+                        'yellow'
 
 
 Tips for working with formats

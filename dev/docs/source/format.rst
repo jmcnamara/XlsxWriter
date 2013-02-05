@@ -4,176 +4,150 @@ The Format Class
 ================
 
 This section describes the methods and properties that are available
-for formatting cells in Excel. The properties of a cell that can be
-formatted include: fonts, colours, patterns, borders, alignment and
-number formatting.
+for formatting cells in Excel.
+
+The properties of a cell that can be formatted include: fonts, colours,
+patterns, borders, alignment and number formatting.
 
 
+format.set_font_name()
+----------------------
 
+.. py:function:: set_font_name(fontname)
 
-set_font_name( $fontname )
---------------------------
+   Set the font used in the cell.
 
-    Default state: Font is Calibri
-    Default action: None
-    Valid args: Any valid font name
+   :param string fontname: Cell font.
 
-Specify the font used::
+Specify the font used used in the cell format::
 
-    format.set_font_name('Times New Roman')
+    cell_format.set_font_name('Times New Roman')
 
 Excel can only display fonts that are installed on the system that it
 is running on. Therefore it is best to use the fonts that come as
-standard such as 'Calibri', 'Times New Roman' and 'Courier New'. See
-also the Fonts worksheet created by formats.pl
+standard such as 'Calibri', 'Times New Roman' and 'Courier New'.
+
+The default font for an unformatted cell in Excel 2007+ is 'Calibri'.
 
 
-set_font_size()
----------------
+format.set_font_size()
+----------------------
 
-    Default state: Font size is 10
-    Default action: Set font size to 1
-    Valid args: Integer values from 1 to as big as your screen.
+.. py:function:: set_font_size(size)
 
-Set the font size. Excel adjusts the height of a row to accommodate
-the largest font size in the row. You can also explicitly specify the
-height of a row using the set_row() worksheet method.
+   Set the size of the font used in the cell.
+
+   :param int size: The cell font size.
+
+Set the font size of the cell format::
 
     format = workbook.add_format()
     format.set_font_size(30)
 
+Excel adjusts the height of a row to accommodate the largest font size in the
+row. You can also explicitly specify the height of a row using the
+:func:`set_row()` worksheet method.
 
-set_font_color()
-----------------
 
-    Default state: Excels default color, usually black
-    Default action: Set the default color
-    Valid args: Integers from 8..63 or the following strings::
-    
-                        'black'
-                        'blue'
-                        'brown'
-                        'cyan'
-                        'gray'
-                        'green'
-                        'lime'
-                        'magenta'
-                        'navy'
-                        'orange'
-                        'pink'
-                        'purple'
-                        'red'
-                        'silver'
-                        'white'
-                        'yellow'
+format.set_font_color()
+-----------------------
 
-Set the font colour. The ``set_font_color()`` method is used as follows::
+.. py:function:: set_font_color(color)
+
+   Set the color of the font used in the cell.
+
+   :param string color: The cell font color.
+
+
+Set the font colour::
 
     format = workbook.add_format()
+    
     format.set_font_color('red')
+    
     worksheet.write(0, 0, 'wheelbarrow', format)
 
+The color can be a Html style ``#RRGGBB`` string or a limited number of
+named colors, see :ref:`format_colors`.
+
 Note: The ``set_font_color()`` method is used to set the colour of the
-font in a cell. To set the colour of a cell use the ``set_bg_color()``
-and ``set_pattern()`` methods.
-
-For additional examples see the 'Named colors' and 'Standard colors'
-worksheets created by formats.pl in the examples directory.
-
-See also "COLOURS IN EXCEL".
+font in a cell. To set the colour of a cell use the :func:`set_bg_color()`
+and :func:`set_pattern()` methods.
 
 
-set_bold()
-----------
+format.set_bold()
+-----------------
 
-    Default state: bold is off
-    Default action: Turn bold on
-    Valid args: 0, 1
+.. py:function:: set_bold()
+
+   Turn on bold for the format font.
 
 Set the bold property of the font::
 
-    format.set_bold(); # Turn bold on
+    format.set_bold()
 
 
-set_italic()
-------------
+format.set_italic()
+-------------------
 
-    Default state: Italic is off
-    Default action: Turn italic on
-    Valid args: 0, 1
+.. py:function:: set_italic()
+
+   Turn on italic for the format font.
 
 Set the italic property of the font::
 
-    format.set_italic(); # Turn italic on
+    format.set_italic()
 
 
-set_underline()
----------------
+format.set_underline(style)
+---------------------------
 
-    Default state: Underline is off
-    Default action: Turn on single underline
-    Valid args: 0  = No underline::
-    
-                        1 = Single underline
-                        2 = Double underline
-                        33 = Single accounting underline
-                        34 = Double accounting underline
+.. py:function:: set_underline()
 
-Set the underline property of the font.
+   Turn on underline for the format.
+   
+   :param int style: Underline style.
 
-    format.set_underline(); # Single underline
+Set the underline property of the format::
 
+    format.set_underline()
 
-set_font_strikeout()
---------------------
+The available underline styles are:
 
-    Default state: Strikeout is off
-    Default action: Turn strikeout on
-    Valid args: 0, 1
-
-Set the strikeout property of the font.
+* 1 = Single underline (the default)
+* 2 = Double underline
+* 33 = Single accounting underline
+* 34 = Double accounting underline
 
 
-set_font_script()
------------------
+format.set_font_strikeout()
+---------------------------
 
-    Default state: Super/Subscript is off
-    Default action: Turn Superscript on
-    Valid args::
-    
-     0  = Normal
-     1 = Superscript
-     2 = Subscript
+.. py:function:: set_font_strikeout()
 
-Set the superscript/subscript property of the font.
+   Set the strikeout property of the font.
 
 
-set_font_outline()
-------------------
+format.set_font_script()
+------------------------
 
-    Default state: Outline is off
-    Default action: Turn outline on
-    Valid args: 0, 1
+.. py:function:: set_font_script()
 
-Macintosh only.
+   Set the superscript/subscript property of the font.
 
+The available options are:
 
-set_font_shadow()
------------------
+* 1 = Superscript
+* 2 = Subscript
 
-    Default state: Shadow is off
-    Default action: Turn shadow on
-    Valid args: 0, 1
+format.set_num_format()
+-----------------------
 
-Macintosh only.
+.. py:function:: set_num_format(format_string)
 
-
-set_num_format()
-----------------
-
-    Default state: General format
-    Default action: Format index 1
-    Valid args: See the following table
+   Set the number format for a cell.
+   
+   :param string format_string: The cell number format.
 
 This method is used to define the numerical format of a number in
 Excel. It controls whether a number is displayed as an integer, a
@@ -185,53 +159,51 @@ string or an index to one of Excel's built-in formats::
 
     format1 = workbook.add_format()
     format2 = workbook.add_format()
-    format1.set_num_format('d mmm yyyy'); # Format string
-    format2.set_num_format(0x0f); # Format index
+    
+    format1.set_num_format('d mmm yyyy')      # Format string.
+    format2.set_num_format(0x0f)              # Format index.
 
-    worksheet.write(0, 0, 36892.521, format1); # 1 Jan 2001
-    worksheet.write(0, 0, 36892.521, format2); # 1-Jan-01
+    worksheet.write(0, 0, 36892.521, format1) # 1 Jan 2001
+    worksheet.write(0, 0, 36892.521, format2) # 1-Jan-01
 
-Using format strings you can define very sophisticated formatting of numbers::
+Format strings can control any aspect of number formatting allowed by Excel::
 
     format01.set_num_format('0.000')
-    worksheet.write(0, 0, 3.1415926, format01); # 3.142
+    worksheet.write(0, 0, 3.1415926, format01)       # -> 3.142
 
     format02.set_num_format('#,##0')
-    worksheet.write(1, 0, 1234.56, format02); # 1,235
+    worksheet.write(1, 0, 1234.56, format02)         # -> 1,235
 
     format03.set_num_format('#,##0.00')
-    worksheet.write(2, 0, 1234.56, format03); # 1,234.56
+    worksheet.write(2, 0, 1234.56, format03)         # -> 1,234.56
 
     format04.set_num_format('0.00')
-    worksheet.write(3, 0, 49.99, format04); # 49.99
+    worksheet.write(3, 0, 49.99, format04)           # -> 49.99
 
-    # Note you can use other currency symbols such as the pound or yen as well.
-    # Other currencies may require the use of Unicode.
+    format05.set_num_format('mm/dd/yy')
+    worksheet.write(5, 0, 36892.521, format05)       # -> 01/01/01
 
-    format07.set_num_format('mm/dd/yy')
-    worksheet.write(6, 0, 36892.521, format07); # 01/01/01
+    format06.set_num_format('mmm d yyyy')
+    worksheet.write(6, 0, 36892.521, format06)       # -> Jan 1 2001
 
-    format08.set_num_format('mmm d yyyy')
-    worksheet.write(7, 0, 36892.521, format08); # Jan 1 2001
+    format07.set_num_format('d mmmm yyyy')
+    worksheet.write(7, 0, 36892.521, format07)       # -> 1 January 2001
 
-    format09.set_num_format('d mmmm yyyy')
-    worksheet.write(8, 0, 36892.521, format09); # 1 January 2001
+    format8.set_num_format('dd/mm/yyyy hh:mm AM/PM')
+    worksheet.write(8, 0, 36892.521, format8)       # -> 01/01/2001 12:30 AM
 
-    format10.set_num_format('dd/mm/yyyy hh:mm AM/PM')
-    worksheet.write(9, 0, 36892.521, format10); # 01/01/2001 12:30 AM
-
-    format11.set_num_format('0 "dollar and" .00 "cents"')
-    worksheet.write(10, 0, 1.87, format11); # 1 dollar and .87 cents
+    format9.set_num_format('0 "dollar and" .00 "cents"')
+    worksheet.write(9, 0, 1.87, format9)            # -> 1 dollar and .87 cents
 
     # Conditional numerical formatting.
-    format12.set_num_format('[Green]General;[Red]-General;General')
-    worksheet.write(11, 0, 123, format12); # > 0 Green
-    worksheet.write(12, 0, -45, format12); # < 0 Red
-    worksheet.write(13, 0, 0, format12); # = 0 Default colour
+    format10.set_num_format('[Green]General;[Red]-General;General')
+    worksheet.write(11, 0, 123, format10)  # > 0 Green
+    worksheet.write(12, 0, -45, format10)  # < 0 Red
+    worksheet.write(13, 0,   0, format10)  # = 0 Default colour
 
-    # Zip code
-    format13.set_num_format('00000')
-    worksheet.write(14, 0, '01209', format13)
+    # Zip code.
+    format11.set_num_format('00000')
+    worksheet.write(11, 0, '01209', format11)
 
 The number system used for dates is described in "DATES AND TIME IN EXCEL".
 
@@ -239,86 +211,115 @@ The colour format should have one of the following values::
 
     [Black] [Blue] [Cyan] [Green] [Magenta] [Red] [White] [Yellow]
 
-Alternatively you can specify the colour based on a colour index as
-follows: ``[Color n]``, where n is a standard Excel colour
-index - 7. See the 'Standard colors' worksheet created by formats.pl.
+For more information refer to the `Microsoft documentation on cell formats
+<http://office.microsoft.com/en-gb/assistance/HP051995001033.aspx>`_.
 
-For more information refer to the documentation on formatting in the
-``docs`` directory of the XlsxWriter distro, the Excel on-line help or
-http://office.microsoft.com/en-gb/assistance/HP051995001033.aspx.
+Excel's built-in formats are shown in the following table:
+
++-------+-------+--------------------------------------------------------+
+| Index | Index | Format String                                          |
++=======+=======+========================================================+
+| 0     | 0x00  | ``General``                                            |
++-------+-------+--------------------------------------------------------+
+| 1     | 0x01  | ``0``                                                  |
++-------+-------+--------------------------------------------------------+
+| 2     | 0x02  | ``0.00``                                               |
++-------+-------+--------------------------------------------------------+
+| 3     | 0x03  | ``#,##0``                                              |
++-------+-------+--------------------------------------------------------+
+| 4     | 0x04  | ``#,##0.00``                                           |
++-------+-------+--------------------------------------------------------+
+| 5     | 0x05  | ``($#,##0_);($#,##0)``                                 |
++-------+-------+--------------------------------------------------------+
+| 6     | 0x06  | ``($#,##0_);[Red]($#,##0)``                            |
++-------+-------+--------------------------------------------------------+
+| 7     | 0x07  | ``($#,##0.00_);($#,##0.00)``                           |
++-------+-------+--------------------------------------------------------+
+| 8     | 0x08  | ``($#,##0.00_);[Red]($#,##0.00)``                      |
++-------+-------+--------------------------------------------------------+
+| 9     | 0x09  | ``0%``                                                 |
++-------+-------+--------------------------------------------------------+
+| 10    | 0x0a  | ``0.00%``                                              |
++-------+-------+--------------------------------------------------------+
+| 11    | 0x0b  | ``0.00E+00``                                           |
++-------+-------+--------------------------------------------------------+
+| 12    | 0x0c  | ``# ?/?``                                              |
++-------+-------+--------------------------------------------------------+
+| 13    | 0x0d  | ``# ??/??``                                            |
++-------+-------+--------------------------------------------------------+
+| 14    | 0x0e  | ``m/d/yy``                                             |
++-------+-------+--------------------------------------------------------+
+| 15    | 0x0f  | ``d-mmm-yy``                                           |
++-------+-------+--------------------------------------------------------+
+| 16    | 0x10  | ``d-mmm``                                              |
++-------+-------+--------------------------------------------------------+
+| 17    | 0x11  | ``mmm-yy``                                             |
++-------+-------+--------------------------------------------------------+
+| 18    | 0x12  | ``h:mm AM/PM``                                         |
++-------+-------+--------------------------------------------------------+
+| 19    | 0x13  | ``h:mm:ss AM/PM``                                      |
++-------+-------+--------------------------------------------------------+
+| 20    | 0x14  | ``h:mm``                                               |
++-------+-------+--------------------------------------------------------+
+| 21    | 0x15  | ``h:mm:ss``                                            |
++-------+-------+--------------------------------------------------------+
+| 22    | 0x16  | ``m/d/yy h:mm``                                        |
++-------+-------+--------------------------------------------------------+
+| ...   | ...   | ...                                                    |
++-------+-------+--------------------------------------------------------+
+| 37    | 0x25  | ``(#,##0_);(#,##0)``                                   |
++-------+-------+--------------------------------------------------------+
+| 38    | 0x26  | ``(#,##0_);[Red](#,##0)``                              |
++-------+-------+--------------------------------------------------------+
+| 39    | 0x27  | ``(#,##0.00_);(#,##0.00)``                             |
++-------+-------+--------------------------------------------------------+
+| 40    | 0x28  | ``(#,##0.00_);[Red](#,##0.00)``                        |
++-------+-------+--------------------------------------------------------+
+| 41    | 0x29  | ``_(* #,##0_);_(* (#,##0);_(* "-"_);_(@_)``            |
++-------+-------+--------------------------------------------------------+
+| 42    | 0x2a  | ``_($* #,##0_);_($* (#,##0);_($* "-"_);_(@_)``         |
++-------+-------+--------------------------------------------------------+
+| 43    | 0x2b  | ``_(* #,##0.00_);_(* (#,##0.00);_(* "-"??_);_(@_)``    |
++-------+-------+--------------------------------------------------------+
+| 44    | 0x2c  | ``_($* #,##0.00_);_($* (#,##0.00);_($* "-"??_);_(@_)`` |
++-------+-------+--------------------------------------------------------+
+| 45    | 0x2d  | ``mm:ss``                                              |
++-------+-------+--------------------------------------------------------+
+| 46    | 0x2e  | ``[h]:mm:ss``                                          |
++-------+-------+--------------------------------------------------------+
+| 47    | 0x2f  | ``mm:ss.0``                                            |
++-------+-------+--------------------------------------------------------+
+| 48    | 0x30  | ``##0.0E+0``                                           |
++-------+-------+--------------------------------------------------------+
+| 49    | 0x31  | ``@``                                                  |
++-------+-------+--------------------------------------------------------+
+
+.. note::
+   Numeric formats 23 to 36 are not documented by Microsoft and
+   may differ in international versions.
+.. note::
+   The dollar sign appears as the defined local currency symbol.
 
 
-You should ensure that the format string is valid in Excel prior to using it in WriteExcel.
+format.set_locked()
+-------------------
 
-Excel's built-in formats are shown in the following table::
+.. py:function:: set_locked(state)
 
-    Index   Index   Format String
-    0       0x00    General
-    1       0x01    0
-    2       0x02    0.00
-    3       0x03    #,##0
-    4       0x04    #,##0.00
-    5       0x05    ($#,##0_);($#,##0)
-    6       0x06    ($#,##0_);[Red]($#,##0)
-    7       0x07    ($#,##0.00_);($#,##0.00)
-    8       0x08    ($#,##0.00_);[Red]($#,##0.00)
-    9       0x09    0%
-    10      0x0a    0.00%
-    11      0x0b    0.00E+00
-    12      0x0c    # ?/?
-    13      0x0d    # ??/??
-    14      0x0e    m/d/yy
-    15      0x0f    d-mmm-yy
-    16      0x10    d-mmm
-    17      0x11    mmm-yy
-    18      0x12    h:mm AM/PM
-    19      0x13    h:mm:ss AM/PM
-    20      0x14    h:mm
-    21      0x15    h:mm:ss
-    22      0x16    m/d/yy h:mm
-    ..      ....    ...........
-    37      0x25    (#,##0_);(#,##0)
-    38      0x26    (#,##0_);[Red](#,##0)
-    39      0x27    (#,##0.00_);(#,##0.00)
-    40      0x28    (#,##0.00_);[Red](#,##0.00)
-    41      0x29    _(* #,##0_);_(* (#,##0);_(* "-"_);_(@_)
-    42      0x2a    _($* #,##0_);_($* (#,##0);_($* "-"_);_(@_)
-    43      0x2b    _(* #,##0.00_);_(* (#,##0.00);_(* "-"??_);_(@_)
-    44      0x2c    _($* #,##0.00_);_($* (#,##0.00);_($* "-"??_);_(@_)
-    45      0x2d    mm:ss
-    46      0x2e    [h]:mm:ss
-    47      0x2f    mm:ss.0
-    48      0x30    ##0.0E+0
-    49      0x31    @
-
-For examples of these formatting codes see the 'Numerical formats'
-worksheet created by formats.pl. See also the number_formats1.html and
-the number_formats2.html documents in the ``docs`` directory of the
-distro.
-
-Note 1. Numeric formats 23 to 36 are not documented by Microsoft and
-may differ in international versions.
-
-Note 2. The dollar sign appears as the defined local currency symbol.
-
-
-set_locked()
-------------
-
-    Default state: Cell locking is on
-    Default action: Turn locking on
-    Valid args: 0, 1
+   Set the cell locked state.
+   
+   :param bool state: Turn cell locking on or off. Defaults to True.
 
 This property can be used to prevent modification of a cells
 contents. Following Excel's convention, cell locking is turned on by
 default. However, it only has an effect if the worksheet has been
-protected, see the worksheet ``protect()`` method.
+protected, see the worksheet ``protect()`` method::
 
     locked = workbook.add_format()
-    locked.set_locked(1); # A non-op
+    locked.set_locked(True)
 
     unlocked = workbook.add_format()
-    locked.set_locked(0)
+    locked.set_locked(False)
 
     # Enable worksheet protection
     worksheet.protect()
@@ -329,22 +330,20 @@ protected, see the worksheet ``protect()`` method.
     # This cell can be edited.
     worksheet.write('A2', '=1+2', unlocked)
 
-Note: This offers weak protection even with a password, see the note
-in relation to the ``protect()`` method.
 
+format.set_hidden()
+-------------------
 
-set_hidden()
-------------
+.. py:function:: set_hidden()
 
-    Default state: Formula hiding is off
-    Default action: Turn hiding on
-    Valid args: 0, 1
+   Hide formulas in a cell.
+  
 
 This property is used to hide a formula while still displaying its
 result. This is generally used to hide complex calculations from end
 users who are only interested in the result. It only has an effect if
 the worksheet has been protected, see the worksheet ``protect()``
-method.
+method::
 
     hidden = workbook.add_format()
     hidden.set_hidden()
@@ -355,59 +354,60 @@ method.
     # The formula in this cell isn't visible
     worksheet.write('A1', '=1+2', hidden)
 
-Note: This offers weak protection even with a password, see the note
-in relation to the ``protect()`` method.
 
+format.set_align()
+------------------
 
+.. py:function:: set_align(alignment)
 
-set_align()
------------
+   Set the alignment for data in the cell.
 
-    Default state: Alignment is off
-    Default action: Left alignment
-    Valid args::
-    
-                       'left' Horizontal
-                        'center'
-                        'right'
-                        'fill'
-                        'justify'
-                        'center_across'
-
-                        'top' Vertical
-                        'vcenter'
-                        'bottom'
-                        'vjustify'
+   :param string alignment: The vertical and or horizontal alignment direction.
 
 This method is used to set the horizontal and vertical text alignment
-within a cell. Vertical and horizontal alignments can be combined. The
+within a cell. The following are the available alignments:
+
++----------------------+--------------------+
+| Horizontal alignment | Vertical alignment |
++======================+====================+
+| center               | top                |
++----------------------+--------------------+
+| right                | vcenter            |
++----------------------+--------------------+
+| fill                 | bottom             |
++----------------------+--------------------+
+| justify              | vjustify           |
++----------------------+--------------------+
+| center_across        |                    |
++----------------------+--------------------+
+
+Vertical and horizontal alignments can be combined. The
 method is used as follows::
 
     format = workbook.add_format()
+    
     format.set_align('center')
     format.set_align('vcenter')
+    
     worksheet.set_row(0, 30)
-    worksheet.write(0, 0, 'X', format)
+    worksheet.write(0, 0, 'Some Text', format)
 
 Text can be aligned across two or more adjacent cells using the
-``center_across`` property. However, for genuine merged cells it is
+``'center_across'`` property. However, for genuine merged cells it is
 better to use the ``merge_range()`` worksheet method.
 
-The ``vjustify`` (vertical justify) option can be used to provide
+The ``'vjustify'`` (vertical justify) option can be used to provide
 automatic text wrapping in a cell. The height of the cell will be
 adjusted to accommodate the wrapped text. To specify where the text
 wraps use the ``set_text_wrap()`` method.
 
-For further examples see the 'Alignment' worksheet created by
-formats.pl.
 
+format.set_center_across()
+--------------------------
 
-set_center_across()
--------------------
+.. py:function:: set_center_across()
 
-    Default state: Center across selection is off
-    Default action: Turn center across on
-    Valid args: 1
+   Centre text across adjacent cells.
 
 Text can be aligned across two or more adjacent cells using the
 ``set_center_across()`` method. This is an alias for the
@@ -416,73 +416,79 @@ Text can be aligned across two or more adjacent cells using the
 Only one cell should contain the text, the other cells should be
 blank::
 
-
     format = workbook.add_format()
     format.set_center_across()
 
     worksheet.write(1, 1, 'Center across selection', format)
     worksheet.write_blank(1, 2, format)
 
-See also the ``merge1.pl`` to ``merge6.pl`` programs in the
-``examples`` directory and the ``merge_range()`` method.
+For actual merged cells it is better to use the ``merge_range()`` worksheet
+method.
 
 
+format.set_text_wrap()
+----------------------
 
-set_text_wrap()
----------------
+.. py:function:: set_text_wrap()
 
-    Default state: Text wrap is off
-    Default action: Turn text wrap on
-    Valid args: 0, 1
+   Wrap text in a cell.
 
-Here is an example using the text wrap property, the escape character
-``\n`` is used to indicate the end of line::
-
+Turn text wrapping on for text in a cell::
 
     format = workbook.add_format()
     format.set_text_wrap()
+
+    worksheet.write(0, 0, "Some long text to wrap in a cell", format)
+
+If you wish to control where the text is wrapped you can add newline
+characters to the string::
+
+    format = workbook.add_format()
+    format.set_text_wrap()
+
     worksheet.write(0, 0, "It's\na bum\nwrap", format)
 
 Excel will adjust the height of the row to accommodate the wrapped
 text. A similar effect can be obtained without newlines using the
-``set_align('vjustify')`` method. See the ``textwrap.pl`` program in
-the ``examples`` directory.
+``set_align('vjustify')`` method.
 
 
+format.set_rotation()
+---------------------
 
-set_rotation()
---------------
+.. py:function:: set_rotation(angle)
 
-    Default state: Text rotation is off
-    Default action: None
-    Valid args: Integers in the range -90 to 90 and 270
+   Set the rotation of the text in a cell.
+
+   :param int angle: Rotation angle in the range -90 to 90 and 270.
 
 Set the rotation of the text in a cell. The rotation can be any angle
-in the range -90 to 90 degrees.
-
+in the range -90 to 90 degrees::
 
     format = workbook.add_format()
     format.set_rotation(30)
+
     worksheet.write(0, 0, 'This text is rotated', format)
 
 The angle 270 is also supported. This indicates text where the letters
 run from top to bottom.
 
 
+format.set_indent()
+-------------------
 
-set_indent()
-------------
+.. py:function:: set_indent(level)
 
-    Default state: Text indentation is off
-    Default action: Indent text 1 level
-    Valid args: Positive integers
+   Set the cell text indentation level.
 
-This method can be used to indent text. The argument, which should be
-an integer, is taken as the level of indentation::
+   :param int level: Indentation level.
 
+This method can be used to indent text in a cell. The argument, which should
+be an integer, is taken as the level of indentation::
 
     format = workbook.add_format()
     format.set_indent(2)
+
     worksheet.write(0, 0, 'This text is indented', format)
 
 Indentation is a horizontal alignment property. It will override any
@@ -490,176 +496,321 @@ other horizontal properties but it can be used in conjunction with
 vertical properties.
 
 
+format.set_shrink()
+-------------------
 
-set_shrink()
-------------
+.. py:function:: set_shrink()
 
-    Default state: Text shrinking is off
-    Default action: Turn "shrink to fit" on
-    Valid args: 1
+   Turn on the text "shrink to fit" for a cell.
 
-This method can be used to shrink text so that it fits in a cell.
+This method can be used to shrink text so that it fits in a cell::
 
     format = workbook.add_format()
     format.set_shrink()
-    worksheet.write(0, 0, 'Honey, I shrunk the textnot ', format)
+
+    worksheet.write(0, 0, 'Honey, I shrunk the text!', format)
 
 
-set_text_justlast()
--------------------
+format.set_text_justlast()
+--------------------------
 
-    Default state: Justify last is off
-    Default action: Turn justify last on
-    Valid args: 0, 1
+.. py:function:: set_text_justlast()
+
+   Turn on the justify last text property.
 
 Only applies to Far Eastern versions of Excel.
 
 
-set_pattern()
--------------
+format.set_pattern()
+--------------------
 
-    Default state: Pattern is off
-    Default action: Solid fill is on
-    Valid args: 0 .. 18
+.. py:function:: set_pattern(index)
+
+   :param int index: Pattern index. 0 - 18.
 
 Set the background pattern of a cell.
 
-Examples of the available patterns are shown in the 'Patterns'
-worksheet created by formats.pl. However, it is unlikely that you will
-ever need anything other than Pattern 1 which is a solid fill of the
-background color.
+The most common pattern is 1 which is a solid fill of the background color.
 
 
+format.set_bg_color()
+---------------------
 
-set_bg_color()
---------------
+.. py:function:: set_bg_color(color)
 
-    Default state: Color is off
-    Default action: Solid fill.
-    Valid args: See set_font_color()
+   Set the color of the background pattern in a cell.
+
+   :param string color: The cell font color.
 
 The ``set_bg_color()`` method can be used to set the background colour
 of a pattern. Patterns are defined via the ``set_pattern()``
 method. If a pattern hasn't been defined then a solid fill pattern is
 used as the default.
 
-
 Here is an example of how to set up a solid fill in a cell::
 
     format = workbook.add_format()
 
-    format.set_pattern(); # This is optional when using a solid fill
-
+    format.set_pattern(1)  # This is optional when using a solid fill.
     format.set_bg_color('green')
+    
     worksheet.write('A1', 'Ray', format)
 
-For further examples see the 'Patterns' worksheet created by formats.pl.
+The color can be a Html style ``#RRGGBB`` string or a limited number of
+named colors, see :ref:`format_colors`.
 
 
-set_fg_color()
---------------
 
-    Default state: Color is off
-    Default action: Solid fill.
-    Valid args: See set_font_color()
+format.set_fg_color()
+---------------------
+
+.. py:function:: set_fg_color(color)
+
+   Set the color of the foreground pattern in a cell.
+
+   :param string color: The cell font color.
 
 The ``set_fg_color()`` method can be used to set the foreground colour
 of a pattern.
 
-
-For further examples see the 'Patterns' worksheet created by
-formats.pl.
-
+The color can be a Html style ``#RRGGBB`` string or a limited number of
+named colors, see :ref:`format_colors`.
 
 
-set_border()
-------------
 
-    Also applies to: set_bottom()
-                        set_top()
-                        set_left()
-                        set_right()
+format.set_border()
+-------------------
 
-    Default state: Border is off
-    Default action: Set border type 1
-    Valid args: 0-13, See below.
+.. py:function:: set_border(style)
+   
+   Set the cell border style.
+
+   :param int style: Border style index. Default is 1.
+
+Individual border elements can be configured using the following methods
+with the same parameters:
+
+* :func:`set_bottom()`
+* :func:`set_top()`
+* :func:`set_left()`
+* :func:`set_right()`
 
 A cell border is comprised of a border on the bottom, top, left and
 right. These can be set to the same value using ``set_border()`` or
 individually using the relevant method calls shown above.
 
 The following shows the border styles sorted by XlsxWriter index
-number::
+number:
 
-    Index   Name            Weight   Style
-    =====   =============   ======   ===========
-    0       None            0
-    1       Continuous      1        -----------
-    2       Continuous      2        -----------
-    3       Dash            1        - - - - - -
-    4       Dot             1        . . . . . .
-    5       Continuous      3        -----------
-    6       Double          3        ===========
-    7       Continuous      0        -----------
-    8       Dash            2        - - - - - -
-    9       Dash Dot        1        - . - . - .
-    10      Dash Dot        2        - . - . - .
-    11      Dash Dot Dot    1        - . . - . .
-    12      Dash Dot Dot    2        - . . - . .
-    13      SlantDash Dot   2        / - . / - .
++-------+---------------+--------+-----------------+
+| Index | Name          | Weight | Style           |
++=======+===============+========+=================+
+| 0     | None          | 0      |                 |
++-------+---------------+--------+-----------------+
+| 1     | Continuous    | 1      | ``-----------`` |
++-------+---------------+--------+-----------------+
+| 2     | Continuous    | 2      | ``-----------`` |
++-------+---------------+--------+-----------------+
+| 3     | Dash          | 1      | ``- - - - - -`` |
++-------+---------------+--------+-----------------+
+| 4     | Dot           | 1      | ``. . . . . .`` |
++-------+---------------+--------+-----------------+
+| 5     | Continuous    | 3      | ``-----------`` |
++-------+---------------+--------+-----------------+
+| 6     | Double        | 3      | ``===========`` |
++-------+---------------+--------+-----------------+
+| 7     | Continuous    | 0      | ``-----------`` |
++-------+---------------+--------+-----------------+
+| 8     | Dash          | 2      | ``- - - - - -`` |
++-------+---------------+--------+-----------------+
+| 9     | Dash Dot      | 1      | ``- . - . - .`` |
++-------+---------------+--------+-----------------+
+| 10    | Dash Dot      | 2      | ``- . - . - .`` |
++-------+---------------+--------+-----------------+
+| 11    | Dash Dot Dot  | 1      | ``- . . - . .`` |
++-------+---------------+--------+-----------------+
+| 12    | Dash Dot Dot  | 2      | ``- . . - . .`` |
++-------+---------------+--------+-----------------+
+| 13    | SlantDash Dot | 2      | ``/ - . / - .`` |
++-------+---------------+--------+-----------------+
 
+The following shows the borders sorted by style:
 
-The following shows the borders sorted by style::
-
-    Name            Weight   Style         Index
-    =============   ======   ===========   =====
-    Continuous      0        -----------   7
-    Continuous      1        -----------   1
-    Continuous      2        -----------   2
-    Continuous      3        -----------   5
-    Dash            1        - - - - - -   3
-    Dash            2        - - - - - -   8
-    Dash Dot        1        - . - . - .   9
-    Dash Dot        2        - . - . - .   10
-    Dash Dot Dot    1        - . . - . .   11
-    Dash Dot Dot    2        - . . - . .   12
-    Dot             1        . . . . . .   4
-    Double          3        ===========   6
-    None            0                      0
-    SlantDash Dot   2        / - . / - .   13
-
++--------------+--------+-----------------+-------+
+| Name         | Weight | Style           | Index |
++==============+========+=================+=======+
+| Continuous   | 0      | ``-----------`` | 7     |
++--------------+--------+-----------------+-------+
+| Continuous   | 1      | ``-----------`` | 1     |
++--------------+--------+-----------------+-------+
+| Continuous   | 2      | ``-----------`` | 2     |
++--------------+--------+-----------------+-------+
+| Continuous   | 3      | ``-----------`` | 5     |
++--------------+--------+-----------------+-------+
+| Dash         | 1      | ``- - - - - -`` | 3     |
++--------------+--------+-----------------+-------+
+| Dash         | 2      | ``- - - - - -`` | 8     |
++--------------+--------+-----------------+-------+
+| Dash Dot     | 1      | ``- . - . - .`` | 9     |
++--------------+--------+-----------------+-------+
+| Dash Dot     | 2      | ``- . - . - .`` | 10    |
++--------------+--------+-----------------+-------+
+| Dash Dot Dot | 1      | ``- . . - . .`` | 11    |
++--------------+--------+-----------------+-------+
+| Dash Dot Dot | 2      | ``- . . - . .`` | 12    |
++--------------+--------+-----------------+-------+
+| Dot          | 1      | ``. . . . . .`` | 4     |
++--------------+--------+-----------------+-------+
+| Double       | 3      | ``===========`` | 6     |
++--------------+--------+-----------------+-------+
+| None         | 0      |                 | 0     |
++--------------+--------+-----------------+-------+
 
 The following shows the borders in the order shown in the Excel
-Dialog::
+Dialog:
+
++-------+-----------------+-------+-----------------+
+| Index | Style           | Index | Style           |
++=======+=================+=======+=================+
+| 0     | None            | 12    | ``- . . - . .`` |
++-------+-----------------+-------+-----------------+
+| 7     | ``-----------`` | 13    | ``/ - . / - .`` |
++-------+-----------------+-------+-----------------+
+| 4     | ``. . . . . .`` | 10    | ``- . - . - .`` |
++-------+-----------------+-------+-----------------+
+| 11    | ``- . . - . .`` | 8     | ``- - - - - -`` |
++-------+-----------------+-------+-----------------+
+| 9     | ``- . - . - .`` | 2     | ``-----------`` |
++-------+-----------------+-------+-----------------+
+| 3     | ``- - - - - -`` | 5     | ``-----------`` |
++-------+-----------------+-------+-----------------+
+| 1     | ``-----------`` | 6     | ``===========`` |
++-------+-----------------+-------+-----------------+
 
 
-    Index   Style             Index   Style
-    =====   =====             =====   =====
-    0       None              12      - . . - . .
-    7       -----------       13      / - . / - .
-    4       . . . . . .       10      - . - . - .
-    11      - . . - . .       8       - - - - - -
-    9       - . - . - .       2       -----------
-    3       - - - - - -       5       -----------
-    1       -----------       6       ===========
+format.set_bottom()
+-------------------
+
+.. py:function:: set_bottom(style)
+   
+   Set the cell bottom border style.
+
+   :param int style: Border style index. Default is 1.
+
+Set the cell bottom border style. See :func:`set_border` for details on the
+border styles.
 
 
-set_border_color()
+format.set_top()
+----------------
+
+.. py:function:: set_top(style)
+   
+   Set the cell top border style.
+
+   :param int style: Border style index. Default is 1.
+
+Set the cell top border style. See :func:`set_border` for details on the
+border styles.
+
+
+format.set_left()
+-----------------
+
+.. py:function:: set_left(style)
+   
+   Set the cell left border style.
+
+   :param int style: Border style index. Default is 1.
+
+Set the cell left border style. See :func:`set_border` for details on the
+border styles.
+
+
+format.set_right()
 ------------------
 
-    Also applies to: set_bottom_color()
-                        set_top_color()
-                        set_left_color()
-                        set_right_color()
+.. py:function:: set_right(style)
+   
+   Set the cell right border style.
 
-    Default state: Color is off
-    Default action: Undefined
-    Valid args: See set_font_color()
+   :param int style: Border style index. Default is 1.
+
+Set the cell right border style. See :func:`set_border` for details on the
+border styles.
+
+
+format.set_border_color()
+-------------------------
+
+.. py:function:: set_border_color(color)
+
+   Set the color of the cell border.
+
+   :param string color: The cell border color.
+   
+Individual border elements can be configured using the following methods
+with the same parameters:
+
+* :func:`set_bottom_color()`
+* :func:`set_top_color()`
+* :func:`set_left_color()`
+* :func:`set_right_color()`
 
 Set the colour of the cell borders. A cell border is comprised of a
 border on the bottom, top, left and right. These can be set to the
 same colour using ``set_border_color()`` or individually using the
-relevant method calls shown above. Examples of the border styles and
-colours are shown in the 'Borders' worksheet created by formats.pl.
+relevant method calls shown above.
+
+The color can be a Html style ``#RRGGBB`` string or a limited number of
+named colors, see :ref:`format_colors`.
+
+
+format.set_bottom_color()
+-------------------------
+
+.. py:function:: set_bottom_color(color)
+
+   Set the color of the bottom cell border.
+
+   :param string color: The cell border color.
+
+See :func:`set_border_color` for details on the border colors.
+
+
+format.set_top_color()
+----------------------
+
+.. py:function:: set_top_color(color)
+
+   Set the color of the top cell border.
+
+   :param string color: The cell border color.
+
+See :func:`set_border_color` for details on the border colors.
+
+
+format.set_left_color()
+-----------------------
+
+.. py:function:: set_left_color(color)
+
+   Set the color of the left cell border.
+
+   :param string color: The cell border color.
+
+See :func:`set_border_color` for details on the border colors.
+
+
+format.set_right_color()
+------------------------
+
+.. py:function:: set_right_color(color)
+
+   Set the color of the right cell border.
+
+   :param string color: The cell border color.
+
+See :func:`set_border_color` for details on the border colors.
 
 
