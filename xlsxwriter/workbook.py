@@ -8,9 +8,9 @@
 # Standard packages.
 import re
 import os
-import shutil
 import tempfile
 from datetime import datetime
+from zipfile import ZipFile
 
 # Package imports.
 import xmlwriter
@@ -228,21 +228,19 @@ class Workbook(xmlwriter.XMLwriter):
         # Free up the Packager object.
         packager = None
 
-        # Get a temp filename to use as an archive.
-        (temp_fd, temp_filename) = tempfile.mkstemp()
+        xlsx_file = ZipFile(self.filename, "w")
 
-        # Create a zip archive of the XLSX AML files.
-        shutil.make_archive(temp_filename, 'zip', temp_dir)
+        # Add separator to temp dir so we have a root to strip from paths.
+        dir_root = os.path.join(temp_dir, '')
 
-        # Rename the archive (now with zip extension) to the user filename.
-        os.rename(temp_filename + '.zip', self.filename)
+        # Iterate through files in the temp dir and add them to the xlsx file.
+        for dirpath, _, filenames in os.walk(temp_dir):
+            for name in filenames:
+                abs_filename = os.path.join(dirpath, name)
+                rel_filename = abs_filename.replace(dir_root, '')
+                xlsx_file.write(abs_filename, rel_filename)
 
-        # Remove the temp file.
-        os.close(temp_fd)
-        os.remove(temp_filename)
-
-        # Remove the temporary directory use to create the archive.
-        shutil.rmtree(temp_dir)
+        xlsx_file.close()
 
     def _check_sheetname(self, sheetname, is_chart=False):
         # Check for valid worksheet names. We check the length, if it contains
