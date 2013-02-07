@@ -540,19 +540,18 @@ class Worksheet(xmlwriter.XMLwriter):
         self.selected = 1
         self.hidden = 0
 
-    def set_column(self, firstcol, lastcol, width,
-                   cell_format=None, hidden=False, level=0):
+    def set_column(self, firstcol, lastcol, width, cell_format=None,
+                         options={}):
         """
         Set the width, and other properties of a single column or a
         range of columns.
 
         Args:
-            firstcol: First column (zero-indexed).
-            lastcol:  Last column (zero-indexed). Can be the same as firstcol.
-            width:    Column width.
-            cell_format:   Column cell_format. (optional).
-            hidden:   Column is hidden. (default 0).
-            level:    Column outline level. (default 0).
+            firstcol:    First column (zero-indexed).
+            lastcol:     Last column (zero-indexed). Can be same as firstcol.
+            width:       Column width.
+            cell_format: Column cell_format. (optional).
+            options:     Dict of options such as hidden and level.
 
         Returns:
             0:  Success.
@@ -565,6 +564,10 @@ class Worksheet(xmlwriter.XMLwriter):
 
         # Don't modify the row dimensions when checking the columns.
         ignore_row = 1
+
+        # Set optional column values.
+        hidden = options.get('hidden', False)
+        level = options.get('level', 0)
 
         # Store the column dimension only in some conditions.
         if cell_format or (width and hidden):
@@ -608,8 +611,7 @@ class Worksheet(xmlwriter.XMLwriter):
 
         return 0
 
-    def set_row(self, row, height, cell_format=None, hidden=False, level=0,
-                collapsed=0):
+    def set_row(self, row, height, cell_format=None, options={}):
         """
         Set the width, and other properties of a row.
         range of columns.
@@ -618,9 +620,8 @@ class Worksheet(xmlwriter.XMLwriter):
             row:         Row number (zero-indexed).
             height:      Row width.
             cell_format: Row cell_format. (optional).
-            hidden:      Row is hidden. (default 0).
-            level:       Row outline level. (default 0).
-            collapsed:   Row outline levels are collapsed. (default 0).
+            options:     Dict of options such as hidden, level and collapsed.
+
         Returns:
             0:  Success.
             -1: Row number is out of worksheet bounds.
@@ -638,6 +639,11 @@ class Worksheet(xmlwriter.XMLwriter):
 
         if height is None:
             height = self.default_row_height
+
+        # Set optional row values.
+        hidden = options.get('hidden', False)
+        collapsed = options.get('collapsed', False)
+        level = options.get('level', 0)
 
         # If the height is 0 the row is hidden and the height is the default.
         if height == 0:

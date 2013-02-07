@@ -17,7 +17,6 @@ Constructor
    Create a new XlsxWriter Workbook object.
    
    :param string filename: The name of the new Excel file to create.
-                           Should have the extension ``.xlsx``.
    :rtype: A Workbook object.
 
 The ``Workbook()`` constructor is used to create a new Excel workbook with a

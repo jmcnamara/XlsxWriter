@@ -266,15 +266,12 @@ then the ``first_`` and ``last_`` parameters should be the same::
 It this case however it is easier to just use the ``write_formula()``
 or ``write()`` methods::
 
-
     # Same as above but more concise.
     worksheet.write('A1', '{=SUM(B1:C1*B2:C2)}')
     worksheet.write_formula('A1', '{=SUM(B1:C1*B2:C2)}')
 
 For array formulas that return a range of values you must specify the
 range that the return values will be written to::
-
-
 
     worksheet.write_array_formula('A1:A3',    '{=TREND(C1:C3,B1:B3)}')
     worksheet.write_array_formula(0, 0, 2, 0, '{=TREND(C1:C3,B1:B3)}')
@@ -290,7 +287,6 @@ the formula. This is occasionally necessary when working with
 non-Excel applications that don't calculate the value of the
 formula. The calculated ``value`` is added at the end of the argument
 list::
-
 
     worksheet.write_array_formula('A1:A3', '{=TREND(C1:C3,B1:B3)}', format, 105)
 
@@ -322,12 +318,10 @@ Write a blank cell specified by ``row`` and ``column``::
 This method is used to add formatting to a cell which doesn't contain
 a string or number value.
 
-
 Excel differentiates between an "Empty" cell and a "Blank" cell. An
 "Empty" cell is a cell which doesn't contain data whilst a "Blank"
 cell is a cell which doesn't contain data but does contain
 formatting. Excel stores "Blank" cells but ignores "Empty" cells.
-
 
 As such, if you write an empty cell without formatting it is ignored::
 
@@ -362,7 +356,6 @@ worksheet.write_datetime()
 The ``write_datetime()`` method can be used to write a date or time to
 the cell specified by ``row`` and ``column``::
 
-
     worksheet.write_datetime('A1', '2004-05-13T23:20', date_format)
 
 The ``date_string`` should be in the following format::
@@ -371,7 +364,6 @@ The ``date_string`` should be in the following format::
 
 This conforms to an ISO8601 date but it should be noted that the full
 range of ISO8601 formats are not supported.
-
 
 The following variations on the ``date_string`` parameter are permitted::
 
@@ -404,176 +396,196 @@ distro.
 worksheet.set_row()
 -------------------
 
-.. py:function:: set_row( row, height, cell_format, hidden, level, collapsed )
+.. py:function:: set_row(row, height, cell_format, options)
 
-This method can be used to change the default properties of a row. All
-parameters apart from ``row`` are optional.
+   Set properties for a row of cells.
+   
+   :param int row:      The worksheet row (zero indexed).
+   :param int height:   The row height.
+   :param cell_format:  Optional Format object.
+   :type  cell_format:  :ref:`Format <format>`
+   :param dict options: Optional row parameters: hidden, level, collapsed.
 
-
+The ``set_row()`` method is used to change the default properties of a row.
 The most common use for this method is to change the height of a row::
 
-    worksheet.set_row(0, 20)  # Row 1 height set to 20
+    worksheet.set_row(0, 20)  # Set the height of Row 1 to 20.
 
-If you wish to set the format without changing the height you can pass
-``None`` as the height parameter::
+The other common use for ``set_row()`` is to set the :ref:`Format <format>` 
+for all cells in the row::
 
+    cell_format = workbook.add_format({'bold': True})
 
-    worksheet.set_row(0, None, format)
+    worksheet.set_row(0, 20, cell_format)
+
+If you wish to set the format of a row without changing the height you can
+pass ``None`` as the height parameter or use the default row height of 15::
+
+    worksheet.set_row(1, None, cell_format)
+    worksheet.set_row(1, 15,   cell_format)  # Same as this.
 
 The ``cell_format`` parameter will be applied to any cells in the row
-that don't have a format. For example::
+that don't have a format. As with Excel it is overidden by an explicit cell
+format. For example::
 
+    worksheet.set_row(0, None, format1)      # Row 1 has format1.
+    
+    worksheet.write('A1', 'Hello')           # Cell A1 defaults to format1.
+    worksheet.write('B1', 'Hello', format2)  # Cell B1 keeps format2.
 
-    worksheet.set_row(0, None, format1)  # Set the format for row 1
-    worksheet.write('A1', 'Hello')  # Defaults to format1
-    worksheet.write('B1', 'Hello', format2)  # Keeps format2
+The ``options`` parameter is a dictionary with the following possible
+keys:
 
-If you wish to define a row format in this way you should call the
-method before any calls to ``write()``. Calling it afterwards will
-overwrite any format that was previously specified.
+* ``'hidden'``
+* ``'level'``
+* ``'collapsed'``
 
+Options can be set as follows::
 
-The ``hidden`` parameter should be set to 1 if you wish to hide a
-row. This can be used, for example, to hide intermediary steps in a
-complicated calculation::
+    worksheet.set_row(0, 20, cell_format, {'hidden': 1})
+    
+    # Or use defaults for other properties and set the options only.
+    worksheet.set_row(0, None, None, {'hidden': 1})
+    
+The ``'hidden'`` option is used to hide a row. This can be used, for example,
+to hide intermediary steps in a complicated calculation::
 
+    worksheet.set_row(0, 20, cell_format, {'hidden': 1})
 
-    worksheet.set_row(0, 20, format, 1)
-    worksheet.set_row(1, None, None, 1)
+The ``'level'`` parameter is used to set the outline level of the
+row. Outlines are described in "Working with Outlines and Grouping".
+Adjacent rows with the same outline level are grouped together
+into a single outline. (**Note**: This feature is not implemented yet).
 
-The ``level`` parameter is used to set the outline level of the
-row. Outlines are described in "OUTLINES AND GROUPING IN
-EXCEL". Adjacent rows with the same outline level are grouped together
-into a single outline.
+The following example sets an outline level of 1 for some rows::
 
+    worksheet.set_row(0, None, None, {'level': 1})
+    worksheet.set_row(1, None, None, {'level': 1})
+    worksheet.set_row(2, None, None, {'level': 1})
 
-The following example sets an outline level of 1 for rows 1 and 2 (zero-indexed)::
+.. note::
+   Excel allows up to 7 outline levels. Therefore the ``'level'`` parameter
+   should be in the range ``0 <= level <= 7``.
 
-    worksheet.set_row(1, None, None, 0, 1)
-    worksheet.set_row(2, None, None, 0, 1)
+The ``'hidden'`` parameter can also be used to hide collapsed outlined
+rows when used in conjunction with the ``'level'`` parameter::
 
-The ``hidden`` parameter can also be used to hide collapsed outlined
-rows when used in conjunction with the ``level`` parameter.
+    worksheet.set_row(1, None, None, {'hidden': 1, 'level': 1})
+    worksheet.set_row(2, None, None, {'hidden': 1, 'level': 1})
 
+The ``'collapsed'`` parameter is used in collapsed outlines to indicate which
+row has the collapsed ``'+'`` symbol::
 
-    worksheet.set_row(1, None, None, 1, 1)
-    worksheet.set_row(2, None, None, 1, 1)
-
-For collapsed outlines you should also indicate which row has the
-collapsed ``+`` symbol using the optional ``collapsed`` parameter.
-
-
-    worksheet.set_row(3, None, None, 0, 0, 1)
-
-For a more complete example see the ``outline.pl`` and
-``outline_collapsed.pl`` programs in the examples directory of the
-distro.
-
-
-Excel allows up to 7 outline levels. Therefore the ``level`` parameter
-should be in the range ``0 <= level <= 7``.
-
+    worksheet.set_row(3, None, None, {'collapsed': 1})
 
 
 worksheet.set_column()
 ----------------------
 
-.. py:function:: set_column( first_col, last_col, width, cell_format, hidden, level, collapsed )
+.. py:function:: set_column( first_col, last_col, width, cell_format, \
+                             hidden, level, collapsed )
+   Set properties for one or more columns of cells.
+   
+   :param int first_col: First column (zero-indexed).
+   :param int last_col:  Last column (zero-indexed). Can be same as firstcol.
+   :param int width:     The width of the column(s).
+   :param cell_format:   Optional Format object.
+   :type  cell_format:   :ref:`Format <format>`
+   :param dict options:  Optional parameters: hidden, level, collapsed.
+   
+The ``set_column()``  method can be used to change the default properties of
+a single column or a range of columns::
 
-This method can be used to change the default properties of a single
-column or a range of columns. All parameters apart from ``first_col``
-and ``last_col`` are optional.
-
+    worksheet.set_column(1, 3, 30)  # Width of columns B:D set to 30.
 
 If ``set_column()`` is applied to a single column the value of
-``first_col`` and ``last_col`` should be the same. In the case where
-``last_col`` is zero it is set to the same value as ``first_col``.
+``first_col`` and ``last_col`` should be the same::
 
+    worksheet.set_column(1, 1, 30)  # Width of column B set to 30.
 
 It is also possible, and generally clearer, to specify a column range
-using the form of A1 notation used for columns. See the note about
-"Cell notation".
-
+using the form of A1 notation used for columns.
+See :ref:`cell_notation` for more details.
 
 Examples::
 
-    worksheet.set_column(0, 0, 20)  # Column A   width set to 20
-    worksheet.set_column(1, 3, 30)  # Columns B-D width set to 30
-    worksheet.set_column('E:E', 20)  # Column E   width set to 20
-    worksheet.set_column('F:H', 30)  # Columns F-H width set to 30
+    worksheet.set_column(0, 0, 20)   # Column  A   width set to 20.
+    worksheet.set_column(1, 3, 30)   # Columns B-D width set to 30.
+    worksheet.set_column('E:E', 20)  # Column  E   width set to 20.
+    worksheet.set_column('F:H', 30)  # Columns F-H width set to 30.
 
 The width corresponds to the column width value that is specified in
 Excel. It is approximately equal to the length of a string in the
 default font of Calibri 11. Unfortunately, there is no way to specify
 "AutoFit" for a column in the Excel file format. This feature is only
-available at runtime from within Excel.
+available at runtime from within Excel. It is possible to simulate "AutoFit"
+by tracking the width of the data in the column as your write it.
 
+As usual the ``cell_format`` :ref:`Format <format>`  parameter is optional.
+If you wish to set the format without changing the width you can pass
+``None`` as the width parameter::
 
-As usual the ``cell_format`` parameter is optional, for additional
-information, see "CELL FORMATTING". If you wish to set the format
-without changing the width you can pass ``None`` as the width
-parameter::
+    cell_format = workbook.add_format({'bold': True})
 
-
-    worksheet.set_column(0, 0, None, format)
+    worksheet.set_column(0, 0, None, cell_format)
 
 The ``cell_format`` parameter will be applied to any cells in the
 column that don't have a format. For example::
 
+    worksheet.set_column('A:A', None, format1)  # Col 1 has format1.
+    
+    worksheet.write('A1', 'Hello')              # Cell A1 defaults to format1.
+    worksheet.write('A2', 'Hello', format2)     # Cell A2 keeps format2.
 
-    worksheet.set_column('A:A', None, format1)  # Set format for col 1
-    worksheet.write('A1', 'Hello')  # Defaults to format1
-    worksheet.write('A2', 'Hello', format2)  # Keeps format2
+A  row format takes precedence over a default column format::
 
-If you wish to define a column format in this way you should call the
-method before any calls to ``write()``. If you call it afterwards it
-won't have any effect.
+    worksheet.set_row(0, None, format1)         # Set format for row 1.
+    worksheet.set_column('A:A', None, format2)  # Set format for col 1.
+    
+    worksheet.write('A1', 'Hello')              # Defaults to format1
+    worksheet.write('A2', 'Hello')              # Defaults to format2
 
+The ``options`` parameter is a dictionary with the following possible
+keys:
 
-A default row format takes precedence over a default column format::
+* ``'hidden'``
+* ``'level'``
+* ``'collapsed'``
 
-    worksheet.set_row(0, None, format1)  # Set format for row 1
-    worksheet.set_column('A:A', None, format2)  # Set format for col 1
-    worksheet.write('A1', 'Hello')  # Defaults to format1
-    worksheet.write('A2', 'Hello')  # Defaults to format2
+Options can be set as follows::
 
-The ``hidden`` parameter should be set to 1 if you wish to hide a
-column. This can be used, for example, to hide intermediary steps in a
-complicated calculation::
+    worksheet.set_column('D:D', 20, cell_format, {'hidden': 1})
 
+    # Or use defaults for other properties and set the options only.
+    worksheet.set_column('E:E', None, None, {'hidden': 1})
 
-    worksheet.set_column('D:D', 20, format, 1)
-    worksheet.set_column('E:E', None, None, 1)
+The ``'hidden'`` option is used to hide a column. This can be used, for
+example, to hide intermediary steps in a complicated calculation::
 
-The ``level`` parameter is used to set the outline level of the
-column. Outlines are described in "OUTLINES AND GROUPING IN
-EXCEL". Adjacent columns with the same outline level are grouped
-together into a single outline.
+    worksheet.set_column('D:D', 20,  cell_format, {'hidden': 1})
 
+The ``'level'`` parameter is used to set the outline level of the
+column. Outlines are described in "Working with Outlines and Grouping".
+Adjacent columns with the same outline level are grouped together
+into a single outline. (**Note**: This feature is not implemented yet).
 
 The following example sets an outline level of 1 for columns B to G::
 
-    worksheet.set_column('B:G', None, None, 0, 1)
+    worksheet.set_column('B:G', None, None, {'level': 1})
 
-The ``hidden`` parameter can also be used to hide collapsed outlined
-columns when used in conjunction with the ``level`` parameter.
+.. note::
+   Excel allows up to 7 outline levels. Therefore the ``'level'`` parameter
+   should be in the range ``0 <= level <= 7``.
 
+The ``'hidden'`` parameter can also be used to hide collapsed outlined
+columns when used in conjunction with the ``'level'`` parameter::
 
-    worksheet.set_column('B:G', None, None, 1, 1)
+    worksheet.set_column('B:G', None, None, {'hidden': 1, 'level': 1})
 
-For collapsed outlines you should also indicate which row has the
-collapsed ``+`` symbol using the optional ``collapsed`` parameter.
+The ``'collapsed'`` parameter is used in collapsed outlines to indicate which
+column has the collapsed ``'+'`` symbol::
 
-
-    worksheet.set_column('H:H', None, None, 0, 0, 1)
-
-For a more complete example see the ``outline.pl`` and
-``outline_collapsed.pl`` programs in the examples directory of the
-distro.
-
-
-Excel allows up to 7 outline levels. Therefore the ``level`` parameter
-should be in the range ``0 <= level <= 7``.
+    worksheet.set_column('H:H', None, None, {'collapsed': 1})
 
 
 worksheet.activate()
@@ -584,17 +596,14 @@ worksheet.activate()
 The ``activate()`` method is used to specify which worksheet is
 initially visible in a multi-sheet workbook::
 
-
     worksheet1 = workbook.add_worksheet('To')
     worksheet2 = workbook.add_worksheet('the')
     worksheet3 = workbook.add_worksheet('wind')
 
     worksheet3.activate()
 
-This is similar to the Excel VBA activate method. More than one
-worksheet can be selected via the ``select()`` method, see below,
-however only one worksheet can be active.
-
+More than one worksheet can be selected via the ``select()`` method, 
+see below, however only one worksheet can be active.
 
 The default active worksheet is the first worksheet.
 
@@ -606,7 +615,6 @@ worksheet.select()
 
 The ``select()`` method is used to indicate that a worksheet is
 selected in a multi-sheet workbook::
-
 
     worksheet1.activate()
     worksheet2.select()

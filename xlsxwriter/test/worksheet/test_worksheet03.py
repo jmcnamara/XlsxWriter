@@ -27,10 +27,10 @@ class TestAssembleWorksheet(unittest.TestCase):
         cell_format = Format({'xf_index': 1})
 
         worksheet.set_column(1, 3, 5)
-        worksheet.set_column(5, 5, 8, None, 1)
+        worksheet.set_column(5, 5, 8, None, {'hidden': True})
         worksheet.set_column(7, 7, None, cell_format)
         worksheet.set_column(9, 9, 2)
-        worksheet.set_column(11, 11, None, None, 1)
+        worksheet.set_column(11, 11, None, None, {'hidden': True})
 
         worksheet.select()
         worksheet._assemble_xml_file()

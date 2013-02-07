@@ -27,10 +27,10 @@ class TestAssembleWorksheet(unittest.TestCase):
         cell_format = Format({'xf_index': 1})
 
         worksheet.set_row(1, 30)
-        worksheet.set_row(3, None, None, 1)
+        worksheet.set_row(3, None, None, {'hidden': 1})
         worksheet.set_row(6, None, cell_format)
         worksheet.set_row(9, 3)
-        worksheet.set_row(12, 24, None, 1)
+        worksheet.set_row(12, 24, None, {'hidden': 1})
         worksheet.set_row(14, 0)
 
         worksheet.select()
