@@ -29,6 +29,8 @@ given filename::
 
     worksheet.write(0, 0, 'Hello Excel')
 
+.. image:: _static/workbook01.png
+
 It is recommended that the filename uses the extension ``.xlsx`` rather than
 ``.xls`` since the latter causes an Excel warning when used with the XLSX
 format.

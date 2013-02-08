@@ -15,4 +15,4 @@ cover/
 xlsxwriter/test/comparison/_test_*.xlsx
 dev/docs/build/
 .DS_Store
-
+build/

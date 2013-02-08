@@ -46,13 +46,14 @@ The general rule is that if the data looks like a *something* then a
 
 
     worksheet.write(0, 0, 'Hello')          # write_string()
-    worksheet.write(1, 0, 'One')            # write_string()
+    worksheet.write(1, 0, 'World')          # write_string()
     worksheet.write(2, 0, 2)                # write_number()
     worksheet.write(3, 0, 3.00001)          # write_number()
-    worksheet.write(4, 0, '')               # write_blank()
-    worksheet.write(5, 0, None)             # write_blank()
-    worksheet.write(6, 0, '=SIN(PI()/4)')   # write_formula()
+    worksheet.write(4, 0, '=SIN(PI()/4)')   # write_formula()
+    worksheet.write(5, 0, '')               # write_blank()
+    worksheet.write(6, 0, None)             # write_blank()
 
+.. image:: _static/worksheet01.png
 
 The ``write()`` method supports two forms of notation to designate the
 position of cells: **Row-column** notation and **A1** notation::

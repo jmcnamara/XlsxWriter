@@ -126,7 +126,6 @@ class TestCompareXLSXFiles(unittest.TestCase):
 
         self.assertEqual(got, exp)
 
-
     def tearDown(self):
         # Cleanup.
         if os.path.exists(self.got_filename):

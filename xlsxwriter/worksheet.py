@@ -541,7 +541,7 @@ class Worksheet(xmlwriter.XMLwriter):
         self.hidden = 0
 
     def set_column(self, firstcol, lastcol, width, cell_format=None,
-                         options={}):
+                   options={}):
         """
         Set the width, and other properties of a single column or a
         range of columns.
