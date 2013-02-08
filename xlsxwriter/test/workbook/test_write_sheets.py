@@ -32,6 +32,9 @@ class TestWriteSheets(unittest.TestCase):
 
         self.assertEqual(got, exp)
 
+    def tearDown(self):
+        self.workbook.fileclosed = 1
+
 
 if __name__ == '__main__':
     unittest.main()

@@ -50,6 +50,8 @@ class TestAssembleStyles(unittest.TestCase):
         ])
 
         style._assemble_xml_file()
+        workbook.fileclosed = 1
+
 
         exp = _xml_to_list("""
                 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>

@@ -26,6 +26,7 @@ class TestAssembleStyles(unittest.TestCase):
         style._set_filehandle(fh)
 
         workbook = Workbook()
+        workbook.fileclosed = 1
 
         workbook.add_format({'top': 7})
         workbook.add_format({'top': 4})

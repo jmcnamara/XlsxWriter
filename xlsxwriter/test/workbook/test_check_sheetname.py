@@ -54,6 +54,8 @@ class TestCheckSheetname(unittest.TestCase):
         self.workbook.add_worksheet(name1)
         self.assertRaises(Exception, self.workbook.add_worksheet, name2)
 
+    def tearDown(self):
+        self.workbook.fileclosed = 1
 
 if __name__ == '__main__':
     unittest.main()

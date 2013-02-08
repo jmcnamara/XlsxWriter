@@ -143,9 +143,16 @@ class Workbook(xmlwriter.XMLwriter):
 
         return xf_format
 
+    def __del__(self):
+        """Close file in destructor if it hasn't been closed explicitly."""
+        if not self.fileclosed:
+            self.close()
+
     def close(self):
-        # TODO add docs. Call finalisation methods.
-        self._store_workbook()
+        """Call finalisation code and close file."""
+        if not self.fileclosed:
+            self.fileclosed = 1
+            self._store_workbook()
 
     ###########################################################################
     #
