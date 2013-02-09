@@ -54,9 +54,9 @@ class TestCompareXLSXFiles(unittest.TestCase):
         col = 0
 
         # Iterate over the data and write it out row by row.
-        for item in (expenses):
-            worksheet.write(row, col, item[0])
-            worksheet.write(row, col + 1, item[1])
+        for item, cost in (expenses):
+            worksheet.write(row, col, item)
+            worksheet.write(row, col + 1, cost)
             row += 1
 
         # Write a total using a formula.

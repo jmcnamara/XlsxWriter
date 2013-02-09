@@ -926,7 +926,8 @@ class Format(xmlwriter.XMLwriter):
                 # Format matches existing format with an index.
                 return self.xf_format_indices[key]
             else:
-                # New format requiring an index.
+                # New format requiring an index. Note. +1 since Excel
+                # has an implicit "General" format at index 0.
                 index = 1 + len(self.xf_format_indices)
                 self.xf_format_indices[key] = index
                 self.xf_index = index
@@ -946,7 +947,7 @@ class Format(xmlwriter.XMLwriter):
                 return self.dxf_format_indices[key]
             else:
                 # New format requiring an index.
-                index = 1 + len(self.dxf_format_indices)
+                index = len(self.dxf_format_indices)
                 self.dxf_format_indices[key] = index
                 self.dxf_index = index
                 return index

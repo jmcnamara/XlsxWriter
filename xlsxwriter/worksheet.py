@@ -19,7 +19,7 @@ from utility import xl_cell_to_rowcol
 
 ###############################################################################
 #
-# Decorator functions
+# Decorator functions.
 #
 ###############################################################################
 def convert_cell_args(method):

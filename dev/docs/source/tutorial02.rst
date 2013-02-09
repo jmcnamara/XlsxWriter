@@ -21,10 +21,10 @@ shown with a red line):
 .. code-block:: python
    :emphasize-lines: 7-15, 32, 36-37
       
-    from xlsxwriter import Workbook
+   from xlsxwriter.workbook import Workbook
 
     # Create a workbook and add a worksheet.
-    workbook = Workbook(filename)
+    workbook = Workbook('Expenses02.xlsx')
     worksheet = workbook.add_worksheet()
     
     # Add a bold format to use to highlight cells.
@@ -40,9 +40,9 @@ shown with a red line):
     # Some data we want to write to the worksheet.
     expenses = (
         ['Rent', 1000],
-        ['Gas', 100],
-        ['Food', 300],
-        ['Gym', 50],
+        ['Gas',   100],
+        ['Food',  300],
+        ['Gym',    50],
     )
     
     # Start from the first cell below the headers.
@@ -62,7 +62,7 @@ shown with a red line):
     workbook.close()
 
 The main difference between this and the previous program is that we have added
-two ``Format`` objects that we can use to format cells in the spreadsheet::
+two :ref:`Format <Format>` objects that we can use to format cells in the spreadsheet::
 
     # Add a bold format to use to highlight cells.
     bold = workbook.add_format({'bold': True})
@@ -70,8 +70,8 @@ two ``Format`` objects that we can use to format cells in the spreadsheet::
     # Add a number format for cells with money.
     money = workbook.add_format({'num_format': '$#,##0'})
 
-We then pass this ``Format`` as an optional third parameter to the
-``worksheet`` write() method::
+We then pass this :ref:`Format <Format>` as an optional third parameter to the
+:ref:`worksheet. <Worksheet>`:func:`write()` method::
 
     write(row, column, token, [format])   
 
@@ -80,14 +80,14 @@ Like this::
     worksheet.write(row, 0, 'Total', bold)
 
 Which leads us to another new feature in this program. To add the headers in
-the first row of the worksheet we used ``write()`` like this::
+the first row of the worksheet we used :func:`write()` like this::
 
     worksheet.write('A1', 'Item', bold)
     worksheet.write('B1', 'Cost', bold)
 
-So, instead of ``(row, col)`` we used the Excel ``A1``  style notation. This a
-little syntactic sugar to help with laying out worksheets. See
-:ref:`cell_notation` for more details.
+So, instead of ``(row, col)`` we used the Excel ``'A1'``  style notation. See
+:ref:`cell_notation` for more details but don't be too concerned about it for
+now. It is just a little syntactic sugar to help with laying out worksheets. 
 
 
 

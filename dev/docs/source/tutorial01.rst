@@ -6,21 +6,21 @@ Tutorial 1: Create a simple XLSX file
 Let's start by creating a simple spreadsheet using Python and the XlsxWriter
 module.
 
-For example, say we have some data on monthly outgoings that we want to convert
-into an Excel XLSX file::
+Say, for example, that we have some data on monthly outgoings that we want to
+convert into an Excel XLSX file::
 
     expenses = (
         ['Rent', 1000],
-        ['Gas', 100],
-        ['Food', 300],
-        ['Gym', 50],
+        ['Gas',   100],
+        ['Food',  300],
+        ['Gym',    50],
     )
 
 To do that we start with a small program like the following:
 
 .. code-block:: python
 
-    from xlsxwriter import Workbook
+    from xlsxwriter.workbook import Workbook
 
     # Create a workbook and add a worksheet.
     workbook = Workbook('Expenses01.xlsx')
@@ -29,9 +29,9 @@ To do that we start with a small program like the following:
     # Some data we want to write to the worksheet.
     expenses = (
         ['Rent', 1000],
-        ['Gas', 100],
-        ['Food', 300],
-        ['Gym', 50],
+        ['Gas',   100],
+        ['Food',  300],
+        ['Gym',    50],
     )
     
     # Start from the first cell. Rows and columns are zero indexed. 
@@ -39,9 +39,9 @@ To do that we start with a small program like the following:
     col = 0
     
     # Iterate over the data and write it out row by row.
-    for item in (expenses):
-        worksheet.write(row, col,    item[0])
-        worksheet.write(row, col +1, item[1])
+    for item, cost in (expenses):
+        worksheet.write(row, col,     item)
+        worksheet.write(row, col + 1, cost)
         row += 1
     
     # Write a total using a formula.
@@ -66,13 +66,13 @@ spreadsheet:
 Well, there is actually a Step 0, to import the module, but hopefully we
 already knew that::
 
-    from xlsxwriter import Workbook
+    from xlsxwriter.workbook import Workbook
 
 So with these three steps in mind, let's break the program down into separate
 parts. The first step is to create a new workbook object using the
 ``Workbook()`` constructor.
 
-``Workbook()`` takes one, non-optional, argument which is the filename that we
+:func:`Workbook` takes one, non-optional, argument which is the filename that we
 want to create::
 
     workbook = Workbook('Expenses01.xlsx')
@@ -81,7 +81,8 @@ want to create::
    XlsxWriter can only create *new files*. It cannot read or modify existing 
    files.
 
-The workbook object is then used to add a new worksheet::
+The workbook object is then used to add a new worksheet via the
+:func:`add_worksheet` method::
 
     worksheet = workbook.add_worksheet()
 
@@ -92,20 +93,21 @@ etc., but we can specify a name as well::
     worksheet2 = workbook.add_worksheet('Data')   # Data.
     worksheet3 = workbook.add_worksheet()         # Defaults to Sheet3.
 
-We can then use the worksheet object to write data::
+We can then use the worksheet object to write data via the :func:`write`
+method::
 
     worksheet.write(row, col, some_data)
 
 Throughout XlsxWriter, *rows* and *columns* are zero indexed. So the first cell
 in a worksheet, ``A1`` is ``(0, 0)``. We will look at some utility routines to
-deal with cells and the ``write()`` method in more detail in the next section.
+deal with cells and the :func:`write` method in more detail in the next section.
 
 So in our example we iterate over our data and write it out as follows::
 
     # Iterate over the data and write it out row by row.
-    for item in (expenses):
-        worksheet.write(row, col,    item[0])
-        worksheet.write(row, col +1, item[1])
+    for item, cost in (expenses):
+        worksheet.write(row, col,     item)
+        worksheet.write(row, col + 1, cost)
         row += 1
 
 Also, we add a formula to calculate the total of the items in the second
@@ -113,7 +115,7 @@ column::
 
     worksheet.write(row, 1, '=SUM(B1:B4)')
 
-Finally, we close the Excel file::
+Finally, we close the Excel file via the :func:`close` method::
 
     workbook.close()
 

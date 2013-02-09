@@ -308,16 +308,31 @@ class Workbook(xmlwriter.XMLwriter):
 
     def _prepare_formats(self):
         # Iterate through the XF Format objects and separate them into
-        # XF and DXF formats.
+        # XF and DXF formats. The XF and DF formats then need to be sorted
+        # back into index order rather than creation order.
+        xf_formats = []
+        dxf_formats = []
+
+        # Sort into XF and DXF formats.
         for xf_format in self.formats:
-            xf_index = xf_format.xf_index
-            dxf_index = xf_format.dxf_index
+            if xf_format.xf_index is not None:
+                xf_formats.append(xf_format)
 
-            if xf_index is not None:
-                self.xf_formats.append(xf_format)
+            if xf_format.dxf_index is not None:
+                dxf_formats.append(xf_format)
 
-            if dxf_index is not None:
-                self.dxf_formats.append(xf_format)
+        # Pre-extend the format lists.
+        self.xf_formats = [None] * len(xf_formats)
+        self.dxf_formats = [None] * len(dxf_formats)
+
+        # Rearrange formats into index order.
+        for xf_format in xf_formats:
+            index = xf_format.xf_index
+            self.xf_formats[index] = xf_format
+
+        for dxf_format in dxf_formats:
+            index = dxf_format.dxf_index
+            self.dxf_formats[index] = dxf_format
 
     def _set_default_xf_indices(self):
         # Set the default index for each format. Mainly used for testing.

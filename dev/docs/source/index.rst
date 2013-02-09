@@ -11,6 +11,7 @@ Contents:
    
    tutorial01.rst
    tutorial02.rst
+   tutorial03.rst
    workbook.rst
    worksheet.rst
    format.rst
