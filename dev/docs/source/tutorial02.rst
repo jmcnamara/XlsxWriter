@@ -15,7 +15,7 @@ The differences here are that we have added **Item** and **Cost** header
 columns in a bold font, we have formatted the currency in the second column
 and we have made the **Total** string bold.
 
-To do this we can extend our program like this (new and modified lines are
+To do this we can extend our program like this (the significant changes are
 shown with a red line):
 
 .. code-block:: python
@@ -50,9 +50,9 @@ shown with a red line):
     col = 0
     
     # Iterate over the data and write it out row by row.
-    for item in (expenses):
-        worksheet.write(row, col,     item[0]       )
-        worksheet.write(row, col + 1, item[1], money)
+    for item, cost in (expenses):
+        worksheet.write(row, col,     item)
+        worksheet.write(row, col + 1, cost, money)
         row += 1
     
     # Write a total using a formula.
@@ -62,7 +62,8 @@ shown with a red line):
     workbook.close()
 
 The main difference between this and the previous program is that we have added
-two :ref:`Format <Format>` objects that we can use to format cells in the spreadsheet::
+two :ref:`Format <Format>` objects that we can use to format cells in the
+spreadsheet::
 
     # Add a bold format to use to highlight cells.
     bold = workbook.add_format({'bold': True})
@@ -87,7 +88,7 @@ the first row of the worksheet we used :func:`write()` like this::
 
 So, instead of ``(row, col)`` we used the Excel ``'A1'``  style notation. See
 :ref:`cell_notation` for more details but don't be too concerned about it for
-now. It is just a little syntactic sugar to help with laying out worksheets. 
+now. It is just a little syntactic sugar to help with laying out worksheets.
 
 
 
