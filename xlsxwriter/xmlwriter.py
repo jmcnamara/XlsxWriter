@@ -9,6 +9,7 @@
 
 # Standard packages.
 import re
+import codecs
 
 
 class XMLwriter(object):
@@ -31,8 +32,8 @@ class XMLwriter(object):
         # Set the XML writer filehandle for the object. This can either be
         # done using _set_filehandle(), usually for testing, or later via
         # this method, when assembling the xlsx file.
-        self.fh = open(filename, 'w')
         self.internal_fh = True
+        self.fh = codecs.open(filename, 'w', 'utf-8')
 
     def _xml_close(self):
         # Close the XML filehandle if we created it.
@@ -159,7 +160,7 @@ class XMLwriter(object):
         # Escape XML characters in data sections of tags.  Note, this
         # is different from _escape_attributes() in that double quotes
         # are not escaped by Excel.
-        if not self.escapes.search(str(data)):
+        if not (isinstance(data, str) and self.escapes.search(data)):
             return data
 
         data = data.replace('&', '&amp;')

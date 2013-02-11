@@ -44,8 +44,6 @@ class Theme(object):
 
     def _set_xml_writer(self, filename):
         # Set the XML writer filehandle for the object.
-        # TODO. Do we need to set a utf-8 property here.
-        self.fh = open(filename, 'w')
         self.fh = codecs.open(filename, 'w', 'utf-8')
 
     ###########################################################################

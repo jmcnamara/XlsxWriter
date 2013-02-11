@@ -1,3 +1,5 @@
+.. _tutorial1:
+
 Tutorial 1: Create a simple XLSX file
 =====================================
 

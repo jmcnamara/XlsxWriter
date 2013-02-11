@@ -1,3 +1,5 @@
+.. _tutorial3:
+
 Tutorial 3: Writing different types of data to the XLSX File
 ============================================================
 

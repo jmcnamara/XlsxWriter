@@ -1,3 +1,5 @@
+.. _tutorial2:
+
 Tutorial 2: Adding formatting to the XLSX File
 ==============================================
 

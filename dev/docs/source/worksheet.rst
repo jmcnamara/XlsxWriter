@@ -112,6 +112,15 @@ more details.
 The ``cell_format`` parameter is optional. It should be a valid
 :ref:`Format <format>` object.
 
+Unicode strings are supported in UTF-8 encoding. This generally requires that
+your source file in also UTF-8 encoded::
+
+    # _*_ coding: utf-8
+
+    worksheet.write('A1', u'Это фраза на русском!')
+
+.. image:: _static/worksheet02.png
+
 The maximum string size supported by Excel is 32,767 characters. Strings longer
 than this will be truncated by ``write_string()``.
 
@@ -136,7 +145,7 @@ To get around this you can use the Excel text format ``'@'``::
     worksheet.write_string('A1', '01209', str_format)
 
 This behaviour, while slightly tedious, is unfortunately consistent with the
-way Excel handles string data that looks like numbers.
+way Excel handles string data that looks like numbers. See :ref:`tutorial3`.
 
 
 worksheet.write_number()
@@ -253,7 +262,9 @@ Excel an array formula is a formula that performs a calculation on a set of
 values. It can return a single value or a range of values.
 
 An array formula is indicated by a pair of braces around the formula:
-``{=SUM(A1:B1*A2:B2)}``. If the array formula returns a single value then the ``first_`` and ``last_`` parameters should be the same::
+``{=SUM(A1:B1*A2:B2)}``. If the array formula returns a single value then the
+``first_`` and ``last_`` parameters should be the same::
+
 
     worksheet.write_array_formula('A1:A1', '{=SUM(B1:C1*B2:C2)}')
 
