@@ -31,10 +31,10 @@ worksheet.write()
    :type  col:         integer
    :type  cell_format: :ref:`Format <format>`
 
-Excel makes a distinction between data types such as strings, numbers,
-blanks, formulas and hyperlinks. To simplify the process of writing
-data to an XlsxWriter file the ``write()`` method acts as a general
-alias for several more specific methods:
+Excel makes a distinction between data types such as strings, numbers, blanks,
+formulas and hyperlinks. To simplify the process of writing data to an
+XlsxWriter file the ``write()`` method acts as a general alias for several
+more specific methods:
 
 * :func:`write_string()`
 * :func:`write_number()`
@@ -55,8 +55,8 @@ The general rule is that if the data looks like a *something* then a
 
 .. image:: _static/worksheet01.png
 
-The ``write()`` method supports two forms of notation to designate the
-position of cells: **Row-column** notation and **A1** notation::
+The ``write()`` method supports two forms of notation to designate the position
+of cells: **Row-column** notation and **A1** notation::
 
     # These are equivalent.
     worksheet.write(0, 0, 'Hello')
@@ -65,25 +65,23 @@ position of cells: **Row-column** notation and **A1** notation::
 See :ref:`cell_notation` for more details.
 
 
-The ``cell_format`` parameter is optional. It should be a valid :ref:`Format
-<format>` object::
+The ``cell_format`` parameter is optional. It should be a valid
+:ref:`Format <format>` object::
 
     cell_format = workbook.add_format({'bold': True, 'italic': True})
 
     worksheet.write(0, 0, 'Hello', cell_format)  # Cell is bold and italic.
 
-The ``write()`` method will ignore empty strings or ``None`` unless a
-format is also supplied. As such you needn't worry about special
-handling for empty or ``None`` values in your data. See also the
-:func:`write_blank()` method.
+The ``write()`` method will ignore empty strings or ``None`` unless a format is
+also supplied. As such you needn't worry about special handling for empty or
+``None`` values in your data. See also the :func:`write_blank()` method.
 
 
-One problem with the ``write()`` method is that occasionally data
-looks like a number but you don't want it treated as a number. For
-example, zip codes or ID numbers often start with a leading zero. If
-you write this data as a number then the leading zero(s) will be
-stripped. In this case you shouldn't use the ``write()`` method and
-should use ``write_string()`` instead.
+One problem with the ``write()`` method is that occasionally data looks like a
+number but you don't want it treated as a number. For example, zip codes or ID
+numbers often start with a leading zero. If you write this data as a number
+then the leading zero(s) will be stripped. In this case you shouldn't use the
+``write()`` method and should use ``write_string()`` instead.
 
 
 worksheet.write_string()
@@ -102,44 +100,43 @@ worksheet.write_string()
    :type  string:      string
    :type  cell_format: :ref:`Format <format>`
 
-The ``write_string()`` method writes a string to the cell specified by
-``row`` and ``column``::
+The ``write_string()`` method writes a string to the cell specified by ``row``
+and ``column``::
 
     worksheet.write_string(0, 0, 'Your text here')
     worksheet.write_string('A2', 'or here')
 
-Both row-column and A1 style notation are support. See
-:ref:`cell_notation` for more details.
+Both row-column and A1 style notation are support. See :ref:`cell_notation` for
+more details.
 
-The ``cell_format`` parameter is optional. It should be a valid :ref:`Format
-<format>` object.
+The ``cell_format`` parameter is optional. It should be a valid
+:ref:`Format <format>` object.
 
-The maximum string size supported by Excel is 32,767 characters. Strings
-longer than this will be truncated by ``write_string()``.
+The maximum string size supported by Excel is 32,767 characters. Strings longer
+than this will be truncated by ``write_string()``.
 
 .. note::
    Even though Excel allows strings of 32,767 characters in a cell, the
    maximum number of characters that Excel can **display** in a cell is 1000.
    However, all 32,767 characters can be displayed in the formula bar.
 
-In general it is sufficient to use the ``write()`` method when dealing
-with string data. However, you may sometimes need to use
-``write_string()`` to write data that looks like a number but that
-you don't want treated as a number. For example, zip codes or phone
-numbers::
+In general it is sufficient to use the ``write()`` method when dealing with
+string data. However, you may sometimes need to use ``write_string()`` to
+write data that looks like a number but that you don't want treated as a
+number. For example, zip codes or phone numbers::
 
     # Write ID number as a plain string.
     worksheet.write_string('A1', '01209')
 
-However, if the user edits this string Excel may convert it back to a
-number. To get around this you can use the Excel text format ``'@'``::
+However, if the user edits this string Excel may convert it back to a number.
+To get around this you can use the Excel text format ``'@'``::
 
     # Format as a string. Doesn't change to a number when edited
     str_format = workbook.add_format({'num_format', '@'})
     worksheet.write_string('A1', '01209', str_format)
 
-This behaviour, while slightly tedious, is unfortunately consistent
-with the way Excel handles string data that looks like numbers.
+This behaviour, while slightly tedious, is unfortunately consistent with the
+way Excel handles string data that looks like numbers.
 
 
 worksheet.write_number()
@@ -164,11 +161,11 @@ specified by ``row`` and ``column``::
     worksheet.write_number(0, 0, 123456)
     worksheet.write_number('A2', 2.3451)
 
-Both row-column and A1 style notation are support. See
-:ref:`cell_notation` for more details.
+Both row-column and A1 style notation are support. See :ref:`cell_notation` for
+more details.
 
-The ``cell_format`` parameter is optional. It should be a valid :ref:`Format
-<format>` object.
+The ``cell_format`` parameter is optional. It should be a valid
+:ref:`Format <format>` object.
 
 
 worksheet.write_formula()
@@ -187,8 +184,8 @@ worksheet.write_formula()
    :type  formula:     string
    :type  cell_format: :ref:`Format <format>`
 
-The ``write_formula()`` method writes a formula or function to the
-cell specified by ``row`` and ``column``::
+The ``write_formula()`` method writes a formula or function to the cell
+specified by ``row`` and ``column``::
 
     worksheet.write_formula(0, 0, '=B3 + B4')
     worksheet.write_formula(1, 0, '=SIN(PI()/4)')
@@ -203,26 +200,24 @@ Array formulas are also supported::
 
 See also the ``write_array_formula()`` method below.
 
-Both row-column and A1 style notation are support. See
-:ref:`cell_notation` for more details.
+Both row-column and A1 style notation are support. See :ref:`cell_notation` for
+more details.
 
-The ``cell_format`` parameter is optional. It should be a valid :ref:`Format
-<format>` object.
+The ``cell_format`` parameter is optional. It should be a valid
+:ref:`Format <format>` object.
 
-XlsxWriter doesn't calculate the value of a formula and instead stores
-the value 0 as the formula results. It then sets a global flag in the
-Xlsx file to say that all formulas and functions should be
-recalculated when the file is opened. This is the method recommended
-in the Excel documentation and in general it works fine with
-spreadsheet applications. However, applications that don't have a
-facility to calculate formulas, such as Excel Viewer, or some mobile
-applications will only display the 0 results.
+XlsxWriter doesn't calculate the value of a formula and instead stores the
+value 0 as the formula results. It then sets a global flag in the Xlsx file to
+say that all formulas and functions should be recalculated when the file is
+opened. This is the method recommended in the Excel documentation and in
+general it works fine with spreadsheet applications. However, applications
+that don't have a facility to calculate formulas, such as Excel Viewer, or
+some mobile applications will only display the 0 results.
 
-If required, it is also possible to specify the calculated result of
-the formula using the options ``value`` parameter. This is
-occasionally necessary when working with non-Excel applications that
-don't calculate the value of the formula. The calculated ``value`` is
-added at the end of the argument list::
+If required, it is also possible to specify the calculated result of the
+formula using the options ``value`` parameter. This is occasionally necessary
+when working with non-Excel applications that don't calculate the value of the
+formula. The calculated ``value`` is added at the end of the argument list::
 
     worksheet.write('A1', '=2+2', num_format, 4)
 
@@ -253,26 +248,24 @@ worksheet.write_array_formula()
    :type  formula:     string
    :type  cell_format: :ref:`Format <format>`
 
-The ``write_array_formula()`` method write an array formula to a cell
-range. In Excel an array formula is a formula that performs a
-calculation on a set of values. It can return a single value or a
-range of values.
+The ``write_array_formula()`` method write an array formula to a cell range. In
+Excel an array formula is a formula that performs a calculation on a set of
+values. It can return a single value or a range of values.
 
 An array formula is indicated by a pair of braces around the formula:
-``{=SUM(A1:B1*A2:B2)}``. If the array formula returns a single value
-then the ``first_`` and ``last_`` parameters should be the same::
+``{=SUM(A1:B1*A2:B2)}``. If the array formula returns a single value then the ``first_`` and ``last_`` parameters should be the same::
 
     worksheet.write_array_formula('A1:A1', '{=SUM(B1:C1*B2:C2)}')
 
-It this case however it is easier to just use the ``write_formula()``
-or ``write()`` methods::
+It this case however it is easier to just use the ``write_formula()`` or
+``write()`` methods::
 
     # Same as above but more concise.
     worksheet.write('A1', '{=SUM(B1:C1*B2:C2)}')
     worksheet.write_formula('A1', '{=SUM(B1:C1*B2:C2)}')
 
-For array formulas that return a range of values you must specify the
-range that the return values will be written to::
+For array formulas that return a range of values you must specify the range
+that the return values will be written to::
 
     worksheet.write_array_formula('A1:A3',    '{=TREND(C1:C3,B1:B3)}')
     worksheet.write_array_formula(0, 0, 2, 0, '{=TREND(C1:C3,B1:B3)}')
@@ -280,20 +273,19 @@ range that the return values will be written to::
 As shown above, both row-column and A1 style notation are support. See
 :ref:`cell_notation` for more details.
 
-The ``cell_format`` parameter is optional. It should be a valid :ref:`Format
-<format>` object.
+The ``cell_format`` parameter is optional. It should be a valid
+:ref:`Format <format>` object.
 
-If required, it is also possible to specify the calculated value of
-the formula. This is occasionally necessary when working with
-non-Excel applications that don't calculate the value of the
-formula. The calculated ``value`` is added at the end of the argument
-list::
+If required, it is also possible to specify the calculated value of the
+formula. This is occasionally necessary when working with non-Excel
+applications that don't calculate the value of the formula. The calculated
+``value`` is added at the end of the argument list::
 
     worksheet.write_array_formula('A1:A3', '{=TREND(C1:C3,B1:B3)}', format, 105)
 
-In addition, some early versions of Excel 2007 don't calculate the
-values of array formulas when they aren't supplied. Installing the
-latest Office Service Pack should fix this issue.
+In addition, some early versions of Excel 2007 don't calculate the values of
+array formulas when they aren't supplied. Installing the latest Office Service
+Pack should fix this issue.
 
 
 
@@ -316,21 +308,21 @@ Write a blank cell specified by ``row`` and ``column``::
 
     worksheet.write_blank(0, 0, None, format)
 
-This method is used to add formatting to a cell which doesn't contain
-a string or number value.
+This method is used to add formatting to a cell which doesn't contain a string
+or number value.
 
-Excel differentiates between an "Empty" cell and a "Blank" cell. An
-"Empty" cell is a cell which doesn't contain data whilst a "Blank"
-cell is a cell which doesn't contain data but does contain
-formatting. Excel stores "Blank" cells but ignores "Empty" cells.
+Excel differentiates between an "Empty" cell and a "Blank" cell. An "Empty"
+cell is a cell which doesn't contain data whilst a "Blank" cell is a cell
+which doesn't contain data but does contain formatting. Excel stores "Blank"
+cells but ignores "Empty" cells.
 
 As such, if you write an empty cell without formatting it is ignored::
 
     worksheet.write('A1', None, format)  # write_blank()
     worksheet.write('A2', None)  # Ignored
 
-This seemingly uninteresting fact means that you can write arrays of
-data without special treatment for ``None`` or empty string values.
+This seemingly uninteresting fact means that you can write arrays of data
+without special treatment for ``None`` or empty string values.
 
 
 See the note about "Cell notation".
@@ -345,17 +337,24 @@ worksheet.write_datetime()
 
    :param row:         The cell row (zero indexed).
    :param col:         The cell column (zero indexed).
-   :param datetime:    A datetime object.
+   :param datetime:    A datetime.datetime object.
    :param cell_format: Optional Format object.
    :type  row:         integer
    :type  col:         integer
    :type  formula:     string
-   :type  datetime:    :py:mod:`datetime`
+   :type  datetime:    :class:`datetime.datetime`
    :type  cell_format: :ref:`Format <format>`
 
 
-The ``write_datetime()`` method can be used to write a date or time to
-the cell specified by ``row`` and ``column``::
+Here is a link to :mod:`datetime`
+
+Here is a link to :class:`datetime.datetime`
+
+Here is a link to :meth:`datetime.datetime.strptime`.
+
+
+The ``write_datetime()`` method can be used to write a date or time to the cell
+specified by ``row`` and ``column``::
 
     worksheet.write_datetime('A1', '2004-05-13T23:20', date_format)
 
@@ -363,8 +362,8 @@ The ``date_string`` should be in the following format::
 
     yyyy-mm-ddThh:mm:ss.sss
 
-This conforms to an ISO8601 date but it should be noted that the full
-range of ISO8601 formats are not supported.
+This conforms to an ISO8601 date but it should be noted that the full range of
+ISO8601 formats are not supported.
 
 The following variations on the ``date_string`` parameter are permitted::
 
@@ -377,21 +376,16 @@ The following variations on the ``date_string`` parameter are permitted::
 
 Note that the ``T`` is required in all cases.
 
-A date should always have a ``cell_format``, otherwise it will appear as
-a number, see "DATES AND TIME IN EXCEL" and :ref:`format`. Here is a
-typical example::
+A date should always have a ``cell_format``, otherwise it will appear as a
+number, see "DATES AND TIME IN EXCEL" and :ref:`format`. Here is a typical
+example::
 
     date_format = workbook.add_format(num_format, 'mm/dd/yy')
     worksheet.write_datetime('A1', '2004-05-13T23:20', date_format)
 
-Valid dates should be in the range 1900-01-01 to 9999-12-31, for the
-1900 epoch and 1904-01-01 to 9999-12-31, for the 1904 epoch. As with
-Excel, dates outside these ranges will be written as a string.
-
-
-See also the datetime.pl program in the ``examples`` directory of the
-distro.
-
+Valid dates should be in the range 1900-01-01 to 9999-12-31, for the 1900 epoch
+and 1904-01-01 to 9999-12-31, for the 1904 epoch. As with Excel, dates outside
+these ranges will be written as a string.
 
 
 worksheet.set_row()
@@ -407,35 +401,34 @@ worksheet.set_row()
    :type  cell_format:  :ref:`Format <format>`
    :param dict options: Optional row parameters: hidden, level, collapsed.
 
-The ``set_row()`` method is used to change the default properties of a row.
-The most common use for this method is to change the height of a row::
+The ``set_row()`` method is used to change the default properties of a row. The
+most common use for this method is to change the height of a row::
 
     worksheet.set_row(0, 20)  # Set the height of Row 1 to 20.
 
-The other common use for ``set_row()`` is to set the :ref:`Format <format>` 
-for all cells in the row::
+The other common use for ``set_row()`` is to set the :ref:`Format <format>` for
+all cells in the row::
 
     cell_format = workbook.add_format({'bold': True})
 
     worksheet.set_row(0, 20, cell_format)
 
-If you wish to set the format of a row without changing the height you can
-pass ``None`` as the height parameter or use the default row height of 15::
+If you wish to set the format of a row without changing the height you can pass
+``None`` as the height parameter or use the default row height of 15::
 
     worksheet.set_row(1, None, cell_format)
     worksheet.set_row(1, 15,   cell_format)  # Same as this.
 
-The ``cell_format`` parameter will be applied to any cells in the row
-that don't have a format. As with Excel it is overidden by an explicit cell
-format. For example::
+The ``cell_format`` parameter will be applied to any cells in the row that
+don't have a format. As with Excel it is overidden by an explicit cell format.
+For example::
 
     worksheet.set_row(0, None, format1)      # Row 1 has format1.
     
     worksheet.write('A1', 'Hello')           # Cell A1 defaults to format1.
     worksheet.write('B1', 'Hello', format2)  # Cell B1 keeps format2.
 
-The ``options`` parameter is a dictionary with the following possible
-keys:
+The ``options`` parameter is a dictionary with the following possible keys:
 
 * ``'hidden'``
 * ``'level'``
@@ -453,10 +446,10 @@ to hide intermediary steps in a complicated calculation::
 
     worksheet.set_row(0, 20, cell_format, {'hidden': 1})
 
-The ``'level'`` parameter is used to set the outline level of the
-row. Outlines are described in "Working with Outlines and Grouping".
-Adjacent rows with the same outline level are grouped together
-into a single outline. (**Note**: This feature is not implemented yet).
+The ``'level'`` parameter is used to set the outline level of the row. Outlines
+are described in "Working with Outlines and Grouping". Adjacent rows with the
+same outline level are grouped together into a single outline. (**Note**: This
+feature is not implemented yet).
 
 The following example sets an outline level of 1 for some rows::
 
@@ -468,8 +461,8 @@ The following example sets an outline level of 1 for some rows::
    Excel allows up to 7 outline levels. Therefore the ``'level'`` parameter
    should be in the range ``0 <= level <= 7``.
 
-The ``'hidden'`` parameter can also be used to hide collapsed outlined
-rows when used in conjunction with the ``'level'`` parameter::
+The ``'hidden'`` parameter can also be used to hide collapsed outlined rows
+when used in conjunction with the ``'level'`` parameter::
 
     worksheet.set_row(1, None, None, {'hidden': 1, 'level': 1})
     worksheet.set_row(2, None, None, {'hidden': 1, 'level': 1})
@@ -494,19 +487,19 @@ worksheet.set_column()
    :type  cell_format:   :ref:`Format <format>`
    :param dict options:  Optional parameters: hidden, level, collapsed.
    
-The ``set_column()``  method can be used to change the default properties of
-a single column or a range of columns::
+The ``set_column()``  method can be used to change the default properties of a
+single column or a range of columns::
 
     worksheet.set_column(1, 3, 30)  # Width of columns B:D set to 30.
 
-If ``set_column()`` is applied to a single column the value of
-``first_col`` and ``last_col`` should be the same::
+If ``set_column()`` is applied to a single column the value of ``first_col``
+and ``last_col`` should be the same::
 
     worksheet.set_column(1, 1, 30)  # Width of column B set to 30.
 
-It is also possible, and generally clearer, to specify a column range
-using the form of A1 notation used for columns.
-See :ref:`cell_notation` for more details.
+It is also possible, and generally clearer, to specify a column range using the
+form of A1 notation used for columns. See :ref:`cell_notation` for more
+details.
 
 Examples::
 
@@ -515,23 +508,23 @@ Examples::
     worksheet.set_column('E:E', 20)  # Column  E   width set to 20.
     worksheet.set_column('F:H', 30)  # Columns F-H width set to 30.
 
-The width corresponds to the column width value that is specified in
-Excel. It is approximately equal to the length of a string in the
-default font of Calibri 11. Unfortunately, there is no way to specify
-"AutoFit" for a column in the Excel file format. This feature is only
-available at runtime from within Excel. It is possible to simulate "AutoFit"
-by tracking the width of the data in the column as your write it.
+The width corresponds to the column width value that is specified in Excel. It
+is approximately equal to the length of a string in the default font of
+Calibri 11. Unfortunately, there is no way to specify "AutoFit" for a column
+in the Excel file format. This feature is only available at runtime from
+within Excel. It is possible to simulate "AutoFit" by tracking the width of
+the data in the column as your write it.
 
-As usual the ``cell_format`` :ref:`Format <format>`  parameter is optional.
-If you wish to set the format without changing the width you can pass
-``None`` as the width parameter::
+As usual the ``cell_format`` :ref:`Format <format>`  parameter is optional. If
+you wish to set the format without changing the width you can pass ``None`` as
+the width parameter::
 
     cell_format = workbook.add_format({'bold': True})
 
     worksheet.set_column(0, 0, None, cell_format)
 
-The ``cell_format`` parameter will be applied to any cells in the
-column that don't have a format. For example::
+The ``cell_format`` parameter will be applied to any cells in the column that
+don't have a format. For example::
 
     worksheet.set_column('A:A', None, format1)  # Col 1 has format1.
     
@@ -546,8 +539,7 @@ A  row format takes precedence over a default column format::
     worksheet.write('A1', 'Hello')              # Defaults to format1
     worksheet.write('A2', 'Hello')              # Defaults to format2
 
-The ``options`` parameter is a dictionary with the following possible
-keys:
+The ``options`` parameter is a dictionary with the following possible keys:
 
 * ``'hidden'``
 * ``'level'``
@@ -565,10 +557,10 @@ example, to hide intermediary steps in a complicated calculation::
 
     worksheet.set_column('D:D', 20,  cell_format, {'hidden': 1})
 
-The ``'level'`` parameter is used to set the outline level of the
-column. Outlines are described in "Working with Outlines and Grouping".
-Adjacent columns with the same outline level are grouped together
-into a single outline. (**Note**: This feature is not implemented yet).
+The ``'level'`` parameter is used to set the outline level of the column.
+Outlines are described in "Working with Outlines and Grouping". Adjacent
+columns with the same outline level are grouped together into a single
+outline. (**Note**: This feature is not implemented yet).
 
 The following example sets an outline level of 1 for columns B to G::
 
@@ -578,8 +570,8 @@ The following example sets an outline level of 1 for columns B to G::
    Excel allows up to 7 outline levels. Therefore the ``'level'`` parameter
    should be in the range ``0 <= level <= 7``.
 
-The ``'hidden'`` parameter can also be used to hide collapsed outlined
-columns when used in conjunction with the ``'level'`` parameter::
+The ``'hidden'`` parameter can also be used to hide collapsed outlined columns
+when used in conjunction with the ``'level'`` parameter::
 
     worksheet.set_column('B:G', None, None, {'hidden': 1, 'level': 1})
 
@@ -594,8 +586,8 @@ worksheet.activate()
 
 .. py:function:: activate()
 
-The ``activate()`` method is used to specify which worksheet is
-initially visible in a multi-sheet workbook::
+The ``activate()`` method is used to specify which worksheet is initially
+visible in a multi-sheet workbook::
 
     worksheet1 = workbook.add_worksheet('To')
     worksheet2 = workbook.add_worksheet('the')
@@ -603,8 +595,8 @@ initially visible in a multi-sheet workbook::
 
     worksheet3.activate()
 
-More than one worksheet can be selected via the ``select()`` method, 
-see below, however only one worksheet can be active.
+More than one worksheet can be selected via the ``select()`` method, see below,
+however only one worksheet can be active.
 
 The default active worksheet is the first worksheet.
 
@@ -614,14 +606,14 @@ worksheet.select()
 
 .. py:function:: select()
 
-The ``select()`` method is used to indicate that a worksheet is
-selected in a multi-sheet workbook::
+The ``select()`` method is used to indicate that a worksheet is selected in a
+multi-sheet workbook::
 
     worksheet1.activate()
     worksheet2.select()
     worksheet3.select()
 
-A selected worksheet has its tab highlighted. Selecting worksheets is
-a way of grouping them together so that, for example, several
-worksheets could be printed in one go. A worksheet that has been
-activated via the ``activate()`` method will also appear as selected.
+A selected worksheet has its tab highlighted. Selecting worksheets is a way of
+grouping them together so that, for example, several worksheets could be
+printed in one go. A worksheet that has been activated via the ``activate()``
+method will also appear as selected.

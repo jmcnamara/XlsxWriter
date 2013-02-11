@@ -24,23 +24,47 @@ from utility import xl_cell_to_rowcol
 ###############################################################################
 def convert_cell_args(method):
     """
-    Decorator function to convert A1 notation in method calls
+    Decorator function to convert A1 notation in cell method calls
     to the default row/col notation.
 
     """
-    def wrapper(self, *args):
+    def cell_wrapper(self, *args):
 
         try:
             # First arg is an int, default to row/col notation.
             int(args[0])
             return method(self, *args)
         except ValueError:
-            # First arg isn't an int, convert A1 notation.
+            # First arg isn't an int, convert to A1 notation.
             new_args = list(xl_cell_to_rowcol(args[0]))
             new_args.extend(args[1:])
             return method(self, *new_args)
 
-    return wrapper
+    return cell_wrapper
+
+
+def convert_column_args(method):
+    """
+    Decorator function to convert A1 notation in columns method calls
+    to the default row/col notation.
+
+    """
+    def column_wrapper(self, *args):
+
+        try:
+            # First arg is an int, default to row/col notation.
+            int(args[0])
+            return method(self, *args)
+        except ValueError:
+            # First arg isn't an int, convert to A1 notation.
+            cell_1, cell_2 = [col + '1' for col in args[0].split(':')]
+            _, col_1 = xl_cell_to_rowcol(cell_1)
+            _, col_2 = xl_cell_to_rowcol(cell_2)
+            new_args = [col_1, col_2]
+            new_args.extend(args[1:])
+            return method(self, *new_args)
+
+    return column_wrapper
 
 
 ###############################################################################
@@ -540,6 +564,7 @@ class Worksheet(xmlwriter.XMLwriter):
         self.selected = 1
         self.hidden = 0
 
+    @convert_column_args
     def set_column(self, firstcol, lastcol, width, cell_format=None,
                    options={}):
         """

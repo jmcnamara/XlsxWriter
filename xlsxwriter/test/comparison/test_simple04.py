@@ -104,7 +104,7 @@ class TestCompareXLSXFiles(unittest.TestCase):
 
         worksheet = workbook.add_worksheet()
 
-        worksheet.set_column(0, 0, 12)
+        worksheet.set_column('A:A', 12)
 
         format1 = workbook.add_format({'num_format': 20})
         format2 = workbook.add_format({'num_format': 14})

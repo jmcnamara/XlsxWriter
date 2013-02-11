@@ -27,8 +27,9 @@ shown with a red line):
 
 .. code-block:: python
    :emphasize-lines: 14, 17, 21, 26-29, 38-42
-      
-   from xlsxwriter.workbook import Workbook
+
+    from datetime import datetime
+    from xlsxwriter.workbook import Workbook
 
     # Create a workbook and add a worksheet.
     workbook = Workbook('Expenses03.xlsx')
@@ -155,6 +156,9 @@ the date strings in our example to ``datetime`` objects we use the
 to write it to a file. However, since the date is converted to a number we
 also need to add a number format to ensure that Excel displays it as as date::
 
+    from datetime import datetime
+    ...
+
     date_format = workbook.add_format({'num_format': 'mmmm d yyyy'})
     ...
 
@@ -182,7 +186,7 @@ Finally, the last addition to our program is the :func:`set_column` method to
 adjust the width of column 'B' so that the dates are more clearly visible::
 
     # Adjust the column width.
-    worksheet.set_column(1, 1, 15)
+    worksheet.set_column('B:B', 15)
 
 The :func:`set_column` and corresponding :func:`set_row` methods are explained
 in more detail in :ref:`worksheet`.

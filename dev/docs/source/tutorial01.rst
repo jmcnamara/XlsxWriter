@@ -59,9 +59,8 @@ following:
 The example program demonstrates the general rules for creating an XlsxWriter
 spreadsheet:
 
-1. Create a workbook.
-2. Add a worksheet to the workbook.
-3. Write data to the worksheet.
+1. Create a workbook. 2. Add a worksheet to the workbook. 3. Write data to the
+worksheet.
 
 Well, there is actually a Step 0, to import the module, but hopefully we
 already knew that::
@@ -72,8 +71,8 @@ So with these three steps in mind, let's break the program down into separate
 parts. The first step is to create a new workbook object using the
 ``Workbook()`` constructor.
 
-:func:`Workbook` takes one, non-optional, argument which is the filename that we
-want to create::
+:func:`Workbook` takes one, non-optional, argument which is the filename that
+we want to create::
 
     workbook = Workbook('Expenses01.xlsx')
 
@@ -100,7 +99,8 @@ method::
 
 Throughout XlsxWriter, *rows* and *columns* are zero indexed. So the first cell
 in a worksheet, ``A1`` is ``(0, 0)``. We will look at some utility routines to
-deal with cells and the :func:`write` method in more detail in the next section.
+deal with cells and the :func:`write` method in more detail in the next
+section.
 
 So in our example we iterate over our data and write it out as follows::
 

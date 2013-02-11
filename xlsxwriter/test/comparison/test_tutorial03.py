@@ -52,7 +52,7 @@ class TestCompareXLSXFiles(unittest.TestCase):
         date_format = workbook.add_format({'num_format': 'mmmm\\ d\\ yyyy'})
 
         # Adjust the column width.
-        worksheet.set_column(1, 1, 15)
+        worksheet.set_column('B:B', 15)
 
         # Write some data headers.
         worksheet.write('A1', 'Item', bold)

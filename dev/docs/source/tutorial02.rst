@@ -21,7 +21,7 @@ shown with a red line):
 .. code-block:: python
    :emphasize-lines: 7-15, 32, 36-37
       
-   from xlsxwriter.workbook import Workbook
+    from xlsxwriter.workbook import Workbook
 
     # Create a workbook and add a worksheet.
     workbook = Workbook('Expenses02.xlsx')

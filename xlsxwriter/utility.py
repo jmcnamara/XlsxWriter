@@ -54,65 +54,65 @@ def xl_col_to_name(col_num, col_abs=0):
 
 
 def xl_cell_to_rowcol(cell_str):
-        """
-        TODO. Add Utility.py docs.
+    """
+    TODO. Add Utility.py docs.
 
-        """
-        if not cell_str:
-            return (0, 0)
+    """
+    if not cell_str:
+        return (0, 0)
 
-        match = range_parts.match(cell_str)
-        col_str = match.group(2)
-        row_str = match.group(4)
+    match = range_parts.match(cell_str)
+    col_str = match.group(2)
+    row_str = match.group(4)
 
-        # Convert base26 column string to number.
-        expn = 0
-        col = 0
-        for char in reversed(col_str):
-            col += (ord(char) - ord('A') + 1) * (26 ** expn)
-            expn += 1
+    # Convert base26 column string to number.
+    expn = 0
+    col = 0
+    for char in reversed(col_str):
+        col += (ord(char) - ord('A') + 1) * (26 ** expn)
+        expn += 1
 
-        # Convert 1-index to zero-index
-        row = int(row_str) - 1
-        col -= 1
+    # Convert 1-index to zero-index
+    row = int(row_str) - 1
+    col -= 1
 
-        return row, col
+    return row, col
 
 
 def xl_cell_to_rowcol_abs(cell_str):
-        """
-        TODO. Add Utility.py docs.
+    """
+    TODO. Add Utility.py docs.
 
-        """
-        if not cell_str:
-            return (0, 0, 0, 0)
+    """
+    if not cell_str:
+        return (0, 0, 0, 0)
 
-        match = range_parts.match(cell_str)
+    match = range_parts.match(cell_str)
 
-        col_abs = match.group(1)
-        col_str = match.group(2)
-        row_abs = match.group(3)
-        row_str = match.group(4)
+    col_abs = match.group(1)
+    col_str = match.group(2)
+    row_abs = match.group(3)
+    row_str = match.group(4)
 
-        if col_abs:
-            col_abs = 1
-        else:
-            col_abs = 0
+    if col_abs:
+        col_abs = 1
+    else:
+        col_abs = 0
 
-        if row_abs:
-            row_abs = 1
-        else:
-            row_abs = 0
+    if row_abs:
+        row_abs = 1
+    else:
+        row_abs = 0
 
-        # Convert base26 column string to number.
-        expn = 0
-        col = 0
-        for char in reversed(col_str):
-            col += (ord(char) - ord('A') + 1) * (26 ** expn)
-            expn += 1
+    # Convert base26 column string to number.
+    expn = 0
+    col = 0
+    for char in reversed(col_str):
+        col += (ord(char) - ord('A') + 1) * (26 ** expn)
+        expn += 1
 
-        # Convert 1-index to zero-index
-        row = int(row_str) - 1
-        col -= 1
+    # Convert 1-index to zero-index
+    row = int(row_str) - 1
+    col -= 1
 
-        return row, col, row_abs, col_abs
+    return row, col, row_abs, col_abs
