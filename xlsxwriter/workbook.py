@@ -10,7 +10,7 @@ import re
 import os
 import tempfile
 from datetime import datetime
-from zipfile import ZipFile
+from zipfile import ZipFile, ZIP_DEFLATED
 
 # Package imports.
 import xmlwriter
@@ -235,7 +235,7 @@ class Workbook(xmlwriter.XMLwriter):
         # Free up the Packager object.
         packager = None
 
-        xlsx_file = ZipFile(self.filename, "w")
+        xlsx_file = ZipFile(self.filename, "w", compression=ZIP_DEFLATED)
 
         # Add separator to temp dir so we have a root to strip from paths.
         dir_root = os.path.join(temp_dir, '')
