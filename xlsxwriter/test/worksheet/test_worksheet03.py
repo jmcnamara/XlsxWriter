@@ -105,6 +105,5 @@ class TestAssembleWorksheet(unittest.TestCase):
         self.assertEqual(got, exp)
 
 
-
 if __name__ == '__main__':
     unittest.main()
