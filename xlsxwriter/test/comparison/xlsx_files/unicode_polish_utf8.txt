@@ -1,0 +1,34 @@
+#
+# XlsxWriter Unicode examples.
+#
+# Sample encoded text borrowed from Sean Burke's Pod::Simple distro.
+#
+# The text is Polish encoded as UTF8
+#
+# See the unicode_polish_utf8.py example.
+#
+WŚRÓD NOCNEJ CISZY
+
+Wśród nocnej ciszy głos się rozchodzi:
+Wstańcie, pasterze, Bóg się nam rodzi!
+Czym prędzej się wybierajcie,
+Do Betlejem pospieszajcie
+Przywitać Pana.
+
+Poszli, znaleźli Dzieciątko w żłobie
+Z wszystkimi znaki danymi sobie.
+Jako Bogu cześć Mu dali,
+A witając zawołali
+Z wielkiej radości:
+
+Ach, witaj Zbawco z dawno żądany,
+Wiele tysięcy lat wyglądany
+Na Ciebie króle, prorocy
+Czekali, a Tyś tej nocy
+Nam się objawił.
+
+I my czekamy na Ciebie, Pana,
+A skoro przyjdziesz na głos kapłana,
+Padniemy na twarz przed Tobą,
+Wierząc, żeś jest pod osłoną
+Chleba i wina.

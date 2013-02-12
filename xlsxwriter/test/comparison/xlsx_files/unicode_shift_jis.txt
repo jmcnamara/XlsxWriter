@@ -1,0 +1,35 @@
+#
+# XlsxWriter Unicode examples.
+#
+# Sample encoded text borrowed from Sean Burke's Pod::Simple distro.
+#
+# The text is encoded as Japanese Shift-JIS.
+#
+# See the unicode_shift_jis.py example.
+#
+Some uninteresting product specs found on the Net
+
+型番
+
+S2763
+
+光源
+
+GZ4 ダイクロイックミラーランプ 12V 10W×1
+
+寸法
+
+高・295 幅・365 奥・76mm
+
+質量
+
+8.0kg
+
+材質
+
+樹脂　アルミ、アルマイト仕上　ガラス
+
+価格
+
+76,000円（ランプ・トランス込み）
+
