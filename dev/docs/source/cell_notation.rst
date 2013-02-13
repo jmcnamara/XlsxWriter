@@ -1,7 +1,7 @@
 .. _cell_notation: 
 
-Cell Notation
-=============
+Working with Cell Notation
+==========================
 
 XlsxWriter supports two forms of notation to designate the position of cells:
 **Row-column** notation and **A1** notation.

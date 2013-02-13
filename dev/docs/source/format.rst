@@ -3,8 +3,8 @@
 The Format Class
 ================
 
-This section describes the methods and properties that are available
-for formatting cells in Excel.
+This section describes the methods and properties that are available for
+formatting cells in Excel.
 
 The properties of a cell that can be formatted include: fonts, colours,
 patterns, borders, alignment and number formatting.
@@ -23,9 +23,9 @@ Specify the font used used in the cell format::
 
     cell_format.set_font_name('Times New Roman')
 
-Excel can only display fonts that are installed on the system that it
-is running on. Therefore it is best to use the fonts that come as
-standard such as 'Calibri', 'Times New Roman' and 'Courier New'.
+Excel can only display fonts that are installed on the system that it is
+running on. Therefore it is best to use the fonts that come as standard such
+as 'Calibri', 'Times New Roman' and 'Courier New'.
 
 The default font for an unformatted cell in Excel 2007+ is 'Calibri'.
 
@@ -67,12 +67,12 @@ Set the font colour::
     
     worksheet.write(0, 0, 'wheelbarrow', format)
 
-The color can be a Html style ``#RRGGBB`` string or a limited number of
-named colors, see :ref:`format_colors`.
+The color can be a Html style ``#RRGGBB`` string or a limited number of named
+colors, see :ref:`format_colors`.
 
-Note: The ``set_font_color()`` method is used to set the colour of the
-font in a cell. To set the colour of a cell use the :func:`set_bg_color()`
-and :func:`set_pattern()` methods.
+Note: The ``set_font_color()`` method is used to set the colour of the font in
+a cell. To set the colour of a cell use the :func:`set_bg_color()` and
+:func:`set_pattern()` methods.
 
 
 format.set_bold()
@@ -149,13 +149,12 @@ format.set_num_format()
    
    :param string format_string: The cell number format.
 
-This method is used to define the numerical format of a number in
-Excel. It controls whether a number is displayed as an integer, a
-floating point number, a date, a currency value or some other user
-defined format.
+This method is used to define the numerical format of a number in Excel. It
+controls whether a number is displayed as an integer, a floating point number,
+a date, a currency value or some other user defined format.
 
-The numerical format of a cell can be specified by using a format
-string or an index to one of Excel's built-in formats::
+The numerical format of a cell can be specified by using a format string or an
+index to one of Excel's built-in formats::
 
     format1 = workbook.add_format()
     format2 = workbook.add_format()
@@ -211,8 +210,8 @@ The colour format should have one of the following values::
 
     [Black] [Blue] [Cyan] [Green] [Magenta] [Red] [White] [Yellow]
 
-For more information refer to the `Microsoft documentation on cell formats
-<http://office.microsoft.com/en-gb/assistance/HP051995001033.aspx>`_.
+For more information refer to the
+`Microsoft documentation on cell formats <http://office.microsoft.com/en-gb/assistance/HP051995001033.aspx>`_.
 
 Excel's built-in formats are shown in the following table:
 
@@ -310,10 +309,10 @@ format.set_locked()
    
    :param bool state: Turn cell locking on or off. Defaults to True.
 
-This property can be used to prevent modification of a cells
-contents. Following Excel's convention, cell locking is turned on by
-default. However, it only has an effect if the worksheet has been
-protected, see the worksheet ``protect()`` method::
+This property can be used to prevent modification of a cells contents.
+Following Excel's convention, cell locking is turned on by default. However,
+it only has an effect if the worksheet has been protected, see the worksheet
+``protect()`` method::
 
     locked = workbook.add_format()
     locked.set_locked(True)
@@ -339,11 +338,10 @@ format.set_hidden()
    Hide formulas in a cell.
   
 
-This property is used to hide a formula while still displaying its
-result. This is generally used to hide complex calculations from end
-users who are only interested in the result. It only has an effect if
-the worksheet has been protected, see the worksheet ``protect()``
-method::
+This property is used to hide a formula while still displaying its result. This
+is generally used to hide complex calculations from end users who are only
+interested in the result. It only has an effect if the worksheet has been
+protected, see the worksheet ``protect()`` method::
 
     hidden = workbook.add_format()
     hidden.set_hidden()
@@ -364,8 +362,8 @@ format.set_align()
 
    :param string alignment: The vertical and or horizontal alignment direction.
 
-This method is used to set the horizontal and vertical text alignment
-within a cell. The following are the available alignments:
+This method is used to set the horizontal and vertical text alignment within a
+cell. The following are the available alignments:
 
 +----------------------+--------------------+
 | Horizontal alignment | Vertical alignment |
@@ -381,8 +379,8 @@ within a cell. The following are the available alignments:
 | center_across        |                    |
 +----------------------+--------------------+
 
-Vertical and horizontal alignments can be combined. The
-method is used as follows::
+Vertical and horizontal alignments can be combined. The method is used as
+follows::
 
     format = workbook.add_format()
     
@@ -393,13 +391,13 @@ method is used as follows::
     worksheet.write(0, 0, 'Some Text', format)
 
 Text can be aligned across two or more adjacent cells using the
-``'center_across'`` property. However, for genuine merged cells it is
-better to use the ``merge_range()`` worksheet method.
+``'center_across'`` property. However, for genuine merged cells it is better
+to use the ``merge_range()`` worksheet method.
 
-The ``'vjustify'`` (vertical justify) option can be used to provide
-automatic text wrapping in a cell. The height of the cell will be
-adjusted to accommodate the wrapped text. To specify where the text
-wraps use the ``set_text_wrap()`` method.
+The ``'vjustify'`` (vertical justify) option can be used to provide automatic
+text wrapping in a cell. The height of the cell will be adjusted to
+accommodate the wrapped text. To specify where the text wraps use the
+``set_text_wrap()`` method.
 
 
 format.set_center_across()
@@ -413,8 +411,7 @@ Text can be aligned across two or more adjacent cells using the
 ``set_center_across()`` method. This is an alias for the
 ``set_align('center_across')`` method call.
 
-Only one cell should contain the text, the other cells should be
-blank::
+Only one cell should contain the text, the other cells should be blank::
 
     format = workbook.add_format()
     format.set_center_across()
@@ -440,16 +437,16 @@ Turn text wrapping on for text in a cell::
 
     worksheet.write(0, 0, "Some long text to wrap in a cell", format)
 
-If you wish to control where the text is wrapped you can add newline
-characters to the string::
+If you wish to control where the text is wrapped you can add newline characters
+to the string::
 
     format = workbook.add_format()
     format.set_text_wrap()
 
     worksheet.write(0, 0, "It's\na bum\nwrap", format)
 
-Excel will adjust the height of the row to accommodate the wrapped
-text. A similar effect can be obtained without newlines using the
+Excel will adjust the height of the row to accommodate the wrapped text. A
+similar effect can be obtained without newlines using the
 ``set_align('vjustify')`` method.
 
 
@@ -462,16 +459,16 @@ format.set_rotation()
 
    :param int angle: Rotation angle in the range -90 to 90 and 270.
 
-Set the rotation of the text in a cell. The rotation can be any angle
-in the range -90 to 90 degrees::
+Set the rotation of the text in a cell. The rotation can be any angle in the
+range -90 to 90 degrees::
 
     format = workbook.add_format()
     format.set_rotation(30)
 
     worksheet.write(0, 0, 'This text is rotated', format)
 
-The angle 270 is also supported. This indicates text where the letters
-run from top to bottom.
+The angle 270 is also supported. This indicates text where the letters run from
+top to bottom.
 
 
 format.set_indent()
@@ -483,17 +480,17 @@ format.set_indent()
 
    :param int level: Indentation level.
 
-This method can be used to indent text in a cell. The argument, which should
-be an integer, is taken as the level of indentation::
+This method can be used to indent text in a cell. The argument, which should be
+an integer, is taken as the level of indentation::
 
     format = workbook.add_format()
     format.set_indent(2)
 
     worksheet.write(0, 0, 'This text is indented', format)
 
-Indentation is a horizontal alignment property. It will override any
-other horizontal properties but it can be used in conjunction with
-vertical properties.
+Indentation is a horizontal alignment property. It will override any other
+horizontal properties but it can be used in conjunction with vertical
+properties.
 
 
 format.set_shrink()
@@ -542,10 +539,9 @@ format.set_bg_color()
 
    :param string color: The cell font color.
 
-The ``set_bg_color()`` method can be used to set the background colour
-of a pattern. Patterns are defined via the ``set_pattern()``
-method. If a pattern hasn't been defined then a solid fill pattern is
-used as the default.
+The ``set_bg_color()`` method can be used to set the background colour of a
+pattern. Patterns are defined via the ``set_pattern()`` method. If a pattern
+hasn't been defined then a solid fill pattern is used as the default.
 
 Here is an example of how to set up a solid fill in a cell::
 
@@ -556,8 +552,8 @@ Here is an example of how to set up a solid fill in a cell::
     
     worksheet.write('A1', 'Ray', format)
 
-The color can be a Html style ``#RRGGBB`` string or a limited number of
-named colors, see :ref:`format_colors`.
+The color can be a Html style ``#RRGGBB`` string or a limited number of named
+colors, see :ref:`format_colors`.
 
 
 
@@ -570,11 +566,11 @@ format.set_fg_color()
 
    :param string color: The cell font color.
 
-The ``set_fg_color()`` method can be used to set the foreground colour
-of a pattern.
+The ``set_fg_color()`` method can be used to set the foreground colour of a
+pattern.
 
-The color can be a Html style ``#RRGGBB`` string or a limited number of
-named colors, see :ref:`format_colors`.
+The color can be a Html style ``#RRGGBB`` string or a limited number of named
+colors, see :ref:`format_colors`.
 
 
 
@@ -587,20 +583,19 @@ format.set_border()
 
    :param int style: Border style index. Default is 1.
 
-Individual border elements can be configured using the following methods
-with the same parameters:
+Individual border elements can be configured using the following methods with
+the same parameters:
 
 * :func:`set_bottom()`
 * :func:`set_top()`
 * :func:`set_left()`
 * :func:`set_right()`
 
-A cell border is comprised of a border on the bottom, top, left and
-right. These can be set to the same value using ``set_border()`` or
-individually using the relevant method calls shown above.
+A cell border is comprised of a border on the bottom, top, left and right.
+These can be set to the same value using ``set_border()`` or individually
+using the relevant method calls shown above.
 
-The following shows the border styles sorted by XlsxWriter index
-number:
+The following shows the border styles sorted by XlsxWriter index number:
 
 +-------+---------------+--------+-----------------+
 | Index | Name          | Weight | Style           |
@@ -666,8 +661,7 @@ The following shows the borders sorted by style:
 | None         | 0      |                 | 0     |
 +--------------+--------+-----------------+-------+
 
-The following shows the borders in the order shown in the Excel
-Dialog:
+The following shows the borders in the order shown in the Excel Dialog:
 
 +-------+-----------------+-------+-----------------+
 | Index | Style           | Index | Style           |
@@ -710,8 +704,8 @@ format.set_top()
 
    :param int style: Border style index. Default is 1.
 
-Set the cell top border style. See :func:`set_border` for details on the
-border styles.
+Set the cell top border style. See :func:`set_border` for details on the border
+styles.
 
 
 format.set_left()
@@ -749,21 +743,21 @@ format.set_border_color()
 
    :param string color: The cell border color.
    
-Individual border elements can be configured using the following methods
-with the same parameters:
+Individual border elements can be configured using the following methods with
+the same parameters:
 
 * :func:`set_bottom_color()`
 * :func:`set_top_color()`
 * :func:`set_left_color()`
 * :func:`set_right_color()`
 
-Set the colour of the cell borders. A cell border is comprised of a
-border on the bottom, top, left and right. These can be set to the
-same colour using ``set_border_color()`` or individually using the
-relevant method calls shown above.
+Set the colour of the cell borders. A cell border is comprised of a border on
+the bottom, top, left and right. These can be set to the same colour using
+``set_border_color()`` or individually using the relevant method calls shown
+above.
 
-The color can be a Html style ``#RRGGBB`` string or a limited number of
-named colors, see :ref:`format_colors`.
+The color can be a Html style ``#RRGGBB`` string or a limited number of named
+colors, see :ref:`format_colors`.
 
 
 format.set_bottom_color()

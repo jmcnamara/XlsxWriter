@@ -28,7 +28,7 @@ To do this we can extend our program like this (the significant changes are
 shown with a red line):
 
 .. code-block:: python
-   :emphasize-lines: 14, 17, 21, 26-29, 38-42
+   :emphasize-lines: 1, 15, 18, 27-30, 39-43
 
     from datetime import datetime
     from xlsxwriter.workbook import Workbook
@@ -70,9 +70,9 @@ shown with a red line):
         # Convert the date string into a datetime object.
         date = datetime.strptime(date_str, "%Y-%m-%d")
 
-        worksheet.write_string(  row, col,     item              )
+        worksheet.write_string  (row, col,     item              )
         worksheet.write_datetime(row, col + 1, date, date_format )
-        worksheet.write_number(  row, col + 2, cost, money_format)
+        worksheet.write_number  (row, col + 2, cost, money_format)
         row += 1
 
     # Write a total using a formula.
@@ -133,7 +133,7 @@ is explained in more detail in :ref:`working_with_dates_and_time`.
 
 **Things that look like numbers are stored as numbers**: In cell ``'A8'`` we
 entered ``012345`` but Excel converted it to the number ``12345``. This is
-something to be aware of if you are writing ID numbers or zip codes. In order
+something to be aware of if you are writing ID numbers or Zip codes. In order
 to preserve the leading zero(es) you need to store the data as either a string
 or a number with a format.
 
@@ -152,11 +152,12 @@ So, let's see how all this affects our program.
 
 The main change in our example program is the addition of date handling. As we
 saw above Excel stores dates as numbers. XlsxWriter makes the required
-conversion if the date and time are in Python ``datetime`` format. To convert
-the date strings in our example to ``datetime`` objects we use the
-``datetime.strptime`` function. We then use the ``write_datetime()`` function
-to write it to a file. However, since the date is converted to a number we
-also need to add a number format to ensure that Excel displays it as as date::
+conversion if the date and time are Python :class:`datetime.datetime` objects.
+To convert the date strings in our example to ``datetime.datetime`` objects we
+use the :meth:`datetime.strptime <datetime.datetime.strptime>` function. We
+then use the :func:`write_datetime()` function to write it to a file. However,
+since the date is converted to a number we also need to add a number format to
+ensure that Excel displays it as as date::
 
     from datetime import datetime
     ...
@@ -174,15 +175,16 @@ also need to add a number format to ensure that Excel displays it as as date::
 The other thing to notice in our program is that we have used explicit write
 methods for different types of data::
 
-        worksheet.write_string(  row, col,     item              )
+        worksheet.write_string  (row, col,     item              )
         worksheet.write_datetime(row, col + 1, date, date_format )
-        worksheet.write_number(  row, col + 2, cost, money_format)
+        worksheet.write_number  (row, col + 2, cost, money_format)
 
 This is mainly to show that if you need more control over the type of data you
 write to a worksheet you can use the appropriate method. In this simplified
 example the :func:`write()` method would have worked as well but it is
-important to note that in cases where ``write()`` doesn't do the right thing
-you will need to be explicit.
+important to note that in cases where ``write()`` doesn't do the right thing,
+such as the number with leading zeroes discussed above, you will need to be
+explicit.
 
 Finally, the last addition to our program is the :func:`set_column` method to
 adjust the width of column 'B' so that the dates are more clearly visible::

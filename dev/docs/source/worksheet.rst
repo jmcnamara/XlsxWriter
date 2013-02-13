@@ -53,6 +53,8 @@ The general rule is that if the data looks like a *something* then a
     worksheet.write(5, 0, '')               # write_blank()
     worksheet.write(6, 0, None)             # write_blank()
 
+This gives up a worksheet like the following:
+
 .. image:: _static/worksheet01.png
 
 The ``write()`` method supports two forms of notation to designate the position
@@ -262,8 +264,7 @@ Excel an array formula is a formula that performs a calculation on a set of
 values. It can return a single value or a range of values.
 
 An array formula is indicated by a pair of braces around the formula:
-``{=SUM(A1:B1*A2:B2)}``. If the array formula returns a single value then the
-``first_`` and ``last_`` parameters should be the same::
+``{=SUM(A1:B1*A2:B2)}``. If the array formula returns a single value then the ``first_`` and ``last_`` parameters should be the same::
 
 
     worksheet.write_array_formula('A1:A1', '{=SUM(B1:C1*B2:C2)}')
@@ -330,7 +331,7 @@ cells but ignores "Empty" cells.
 As such, if you write an empty cell without formatting it is ignored::
 
     worksheet.write('A1', None, format)  # write_blank()
-    worksheet.write('A2', None)  # Ignored
+    worksheet.write('A2', None)          # Ignored
 
 This seemingly uninteresting fact means that you can write arrays of data
 without special treatment for ``None`` or empty string values.

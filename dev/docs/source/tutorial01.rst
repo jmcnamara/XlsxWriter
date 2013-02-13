@@ -8,8 +8,8 @@ Tutorial 1: Create a simple XLSX file
 Let's start by creating a simple spreadsheet using Python and the XlsxWriter
 module.
 
-Say, for example, that we have some data on monthly outgoings that we want to
-convert into an Excel XLSX file::
+Say that we have some data on monthly outgoings that we want to convert into an
+Excel XLSX file::
 
     expenses = (
         ['Rent', 1000],
@@ -18,7 +18,7 @@ convert into an Excel XLSX file::
         ['Gym',    50],
     )
 
-To do that we start with a small program like the following:
+To do that we can start with a small program like the following:
 
 .. code-block:: python
 
@@ -52,26 +52,20 @@ To do that we start with a small program like the following:
     
     workbook.close()
 
-
 If we run this program we should get a spreadsheet that looks like the
 following:
 
 .. image:: _static/tutorial01.png
 
-The example program demonstrates the general rules for creating an XlsxWriter
-spreadsheet:
+The steps involved in this simple example are representative of all programs
+that use XlsxWriter so let's break it down into separate parts.
 
-1. Create a workbook. 2. Add a worksheet to the workbook. 3. Write data to the
-worksheet.
-
-Well, there is actually a Step 0, to import the module, but hopefully we
-already knew that::
+The first step is to import the module and the main method that we will call::
 
     from xlsxwriter.workbook import Workbook
 
-So with these three steps in mind, let's break the program down into separate
-parts. The first step is to create a new workbook object using the
-``Workbook()`` constructor.
+The next step is to create a new workbook object using the ``Workbook()``
+constructor.
 
 :func:`Workbook` takes one, non-optional, argument which is the filename that
 we want to create::
@@ -87,8 +81,8 @@ The workbook object is then used to add a new worksheet via the
 
     worksheet = workbook.add_worksheet()
 
-By default the worksheet names in the spreadsheet will be `Sheet1`, `Sheet2`
-etc., but we can specify a name as well::
+By default worksheet names in the spreadsheet will be `Sheet1`, `Sheet2` etc.,
+but we can also specify a name::
 
     worksheet1 = workbook.add_worksheet()         # Defaults to Sheet1.
     worksheet2 = workbook.add_worksheet('Data')   # Data.
@@ -99,10 +93,9 @@ method::
 
     worksheet.write(row, col, some_data)
 
-Throughout XlsxWriter, *rows* and *columns* are zero indexed. So the first cell
-in a worksheet, ``A1`` is ``(0, 0)``. We will look at some utility routines to
-deal with cells and the :func:`write` method in more detail in the next
-section.
+.. Note::   
+   Throughout XlsxWriter, *rows* and *columns* are zero indexed. The
+   first cell in a worksheet, ``A1``, is ``(0, 0)``.
 
 So in our example we iterate over our data and write it out as follows::
 
@@ -125,7 +118,7 @@ Like most file objects in Python an XlsxWriter file is closed implicitly when
 it goes out of scope or is no longer referenced in the program. As such this
 line is generally optional unless you need to close the file explicitly.
 
-And that's it. We now have a file that can be read by Excel and most other
+And that's it. We now have a file that can be read by Excel and other
 spreadsheet applications.
 
 In the next sections we will see how we can use the XlsxWriter module to add

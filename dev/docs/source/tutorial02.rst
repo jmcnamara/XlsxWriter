@@ -8,8 +8,9 @@ Tutorial 2: Adding formatting to the XLSX File
 In the previous section we created a simple spreadsheet using Python and the
 XlsxWriter module.
 
-This presented the data that we wanted but it looked a little bare. In order to
-make it clearer we would like to add some simple formatting, like this:
+This got the data that we wanted into an Excel file but it looked a little
+bare. In order to make the information clearer we would like to add some
+simple formatting, like this:
 
 .. image:: _static/tutorial02.png
 
@@ -65,16 +66,24 @@ shown with a red line):
 
 The main difference between this and the previous program is that we have added
 two :ref:`Format <Format>` objects that we can use to format cells in the
-spreadsheet::
+spreadsheet.
+
+Format objects represent all of the formatting properties that can be applied
+to a cell in Excel such as fonts, number formatting, colors and borders. This
+is explained in more detail in :ref:`format` and :ref:`working_with_formats`.
+
+For now we will avoid the getting into the details and just use a limited
+amount of the format functionality to add some simple formatting::
 
     # Add a bold format to use to highlight cells.
     bold = workbook.add_format({'bold': True})
-    
+
     # Add a number format for cells with money.
     money = workbook.add_format({'num_format': '$#,##0'})
 
-We then pass this :ref:`Format <Format>` as an optional third parameter to the
-:ref:`worksheet. <Worksheet>`:func:`write()` method::
+We can then pass these formats as an optional third parameter to the
+:ref:`worksheet. <Worksheet>`:func:`write()` method to format the data in the
+cell::
 
     write(row, column, token, [format])   
 

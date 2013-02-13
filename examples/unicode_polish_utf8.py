@@ -3,7 +3,8 @@
 # A simple example of converting some Unicode text to an Excel file using
 # the XlsxWriter Python module.
 #
-# This example generates some Polish from a file with UTF8 encoded text.
+# This example generates a spreadsheet with some Polish text from a file
+# with UTF8 encoded text.
 #
 # Copyright 2013, John McNamara, jmcnamara@cpan.org
 #
@@ -26,7 +27,7 @@ col = 0
 
 # Read the text file and write it to the worksheet.
 for line in textfile:
-    # Ignore the comments in the sample file.
+    # Ignore the comments in the text file.
     if line.startswith('#'):
         continue
 

@@ -5,4 +5,6 @@
 Changes in XlsxWriter
 =====================
 
-.. include:: ../../../CHANGES
+TODO
+
+.. include:: ../../../Changes
