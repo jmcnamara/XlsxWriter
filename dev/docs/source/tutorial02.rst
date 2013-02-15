@@ -8,14 +8,14 @@ Tutorial 2: Adding formatting to the XLSX File
 In the previous section we created a simple spreadsheet using Python and the
 XlsxWriter module.
 
-This got the data that we wanted into an Excel file but it looked a little
+This converted the required data into an Excel file but it looked a little
 bare. In order to make the information clearer we would like to add some
 simple formatting, like this:
 
 .. image:: _static/tutorial02.png
 
-The differences here are that we have added **Item** and **Cost** header
-columns in a bold font, we have formatted the currency in the second column
+The differences here are that we have added **Item** and **Cost** column
+headers in a bold font, we have formatted the currency in the second column
 and we have made the **Total** string bold.
 
 To do this we can extend our program like this (the significant changes are
@@ -101,7 +101,7 @@ So, instead of ``(row, col)`` we used the Excel ``'A1'``  style notation. See
 :ref:`cell_notation` for more details but don't be too concerned about it for
 now. It is just a little syntactic sugar to help with laying out worksheets.
 
-
+In the next section we will look at handling more data types.
 
 
 

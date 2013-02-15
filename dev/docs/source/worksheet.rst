@@ -14,6 +14,10 @@ object::
 
     worksheet1 = workbook.add_worksheet()
     worksheet2 = workbook.add_worksheet()
+    
+    worksheet1.write('A1', 123)
+
+.. image:: _static/worksheet00.png
 
 
 worksheet.write()
@@ -53,7 +57,7 @@ The general rule is that if the data looks like a *something* then a
     worksheet.write(5, 0, '')               # write_blank()
     worksheet.write(6, 0, None)             # write_blank()
 
-This gives up a worksheet like the following:
+This creates a worksheet like the following:
 
 .. image:: _static/worksheet01.png
 

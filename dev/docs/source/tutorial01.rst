@@ -105,8 +105,7 @@ So in our example we iterate over our data and write it out as follows::
         worksheet.write(row, col + 1, cost)
         row += 1
 
-Also, we add a formula to calculate the total of the items in the second
-column::
+Then we add a formula to calculate the total of the items in the second column::
 
     worksheet.write(row, 1, '=SUM(B1:B4)')
 

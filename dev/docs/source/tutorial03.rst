@@ -21,7 +21,7 @@ The corresponding spreadsheet will look like this:
 
 .. image:: _static/tutorial03.png
 
-The differences here are that we have added the **Date** column, formatted the
+The differences here are that we have added a **Date** column, formatted the
 dates and made column 'B' a little wider to accommodate the dates.
 
 To do this we can extend our program like this (the significant changes are
@@ -148,7 +148,7 @@ alias for several more specific methods:
 * :func:`write_blank()`
 * :func:`write_formula()`
 
-So, let's see how all this affects our program.
+So, let's see how all of this affects our program.
 
 The main change in our example program is the addition of date handling. As we
 saw above Excel stores dates as numbers. XlsxWriter makes the required
@@ -181,7 +181,7 @@ methods for different types of data::
 
 This is mainly to show that if you need more control over the type of data you
 write to a worksheet you can use the appropriate method. In this simplified
-example the :func:`write()` method would have worked as well but it is
+example the :func:`write()` method would have worked just as well but it is
 important to note that in cases where ``write()`` doesn't do the right thing,
 such as the number with leading zeroes discussed above, you will need to be
 explicit.

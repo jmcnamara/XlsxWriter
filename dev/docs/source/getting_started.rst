@@ -33,7 +33,7 @@ Using Easy_Install
 If ``pip`` doesn't work you can try
 `easy_install <http://peak.telecommunity.com/DevCenter/EasyInstall>`_::
 
-    sudo easy_install install XlsxWriter
+    $ sudo easy_install install XlsxWriter
 
 Installing from a tarball
 *************************
@@ -41,10 +41,18 @@ Installing from a tarball
 If you download a tarball of the latest XlsxWriter you can install it as
 follows (change the version number to suit)::
 
-    tar -zxvf XlsxWriter-1.2.3.tar.gz
+    $ tar -zxvf XlsxWriter-1.2.3.tar.gz
 
-    cd XlsxWriter-1.2.3
-    sudo python setup.py install
+    $ cd XlsxWriter-1.2.3
+    $ sudo python setup.py install
+
+A tarball of the latest code can be downloaded from GitHub as follows::
+
+    $ curl -O -L http://github.com/jmcnamara/XlsxWriter/archive/master.tar.gz
+
+    $ tar zxvf master.tar.gz 
+    $ cd XlsxWriter-master/
+    $ sudo python setup.py install
 
 
 Cloning from GitHub
@@ -54,10 +62,10 @@ The XlsxWriter source code and bug tracker is in the
 `XlsxWriter repository <http://github.com/jmcnamara/XlsxWriter>`_ on GitHub.
 You can clone the repository and install from it as follows::
 
-    git clone https://github.com/jmcnamara/XlsxWriter.git
+    $ git clone https://github.com/jmcnamara/XlsxWriter.git
 
-    cd XlsxWriter
-    sudo python setup.py install
+    $ cd XlsxWriter
+    $ sudo python setup.py install
 
 
 Running a sample program
@@ -79,7 +87,7 @@ the following to verify that the module works correctly:
 
 Save this to a file called ``hello.py`` and run it as follows::
 
-    python hello.py
+    $ python hello.py
 
 This will output a file called ``hello.xlsx`` which should look something like
 the following:
@@ -90,13 +98,18 @@ If you downloaded a tarball or cloned the repo, as shown above, you should also
 have a directory called ``examples`` with some sample applications that
 demonstrate different features of XlsxWriter.
 
-Reading the Documentation
--------------------------
+
+Documentation
+-------------
+
+The latest version of this document is hosted on
+`Read The Docs <https://xlsxwriter.readthedocs.org/en/latest/>`_. It is
+available in several formats such as
+`Html, PDF and ePub <https://readthedocs.org/projects/xlsxwriter/downloads/>`_.
 
 Once you are happy that the module is installed and operational you can have a
-look at the rest of the XlsxWriter documentation.
-
-:ref:`tutorial1` is a good place to start.
+look at the rest of the XlsxWriter documentation. :ref:`tutorial1` is a good
+place to start.
 
 
 

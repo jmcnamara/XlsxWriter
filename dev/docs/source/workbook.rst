@@ -31,14 +31,9 @@ given filename::
 
 .. image:: _static/workbook01.png
 
-It is recommended that the filename uses the extension ``.xlsx`` rather than
-``.xls`` since the latter causes an Excel warning when used with the XLSX
-format.
 
-On Windows remember to escape any directory separators::
-
-    workbook1 = Excel::Writer::XLSX.new("c:\\tmp\\filename.xlsx")
-    workbook2 = Excel::Writer::XLSX.new(r'c:\tmp\filename.xlsx')
+It is recommended that you always use an ``.xlsx`` extension in the filename
+or Excel will generate a warning when the file is opened.
 
 .. note::
    A later version of the module will support writing to filehandles like
@@ -115,7 +110,7 @@ An explicit ``close()`` is required if the file must be closed prior to
 performing some external action on it such as copying it, reading its size or
 attaching it to an email.
 
-In addition, ``close()`` may be occasionally by required to prevent Python's
+In addition, ``close()`` may be occasionally required to prevent Python's
 garbage collector from disposing of the Workbook, Worksheet and Format objects
 in the wrong order.
 
