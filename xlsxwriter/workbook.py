@@ -102,7 +102,6 @@ class Workbook(xmlwriter.XMLwriter):
 
         # TODO port these during integration tests.
         #            self.table_count,
-        #
         #            self.date_1904,
         #            self.palette, # remove
         #            self.optimization,

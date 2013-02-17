@@ -43,6 +43,30 @@ def convert_cell_args(method):
     return cell_wrapper
 
 
+def convert_range_args(method):
+    """
+    Decorator function to convert A1 notation in range method calls
+    to the default row/col notation.
+
+    """
+    def cell_wrapper(self, *args):
+
+        try:
+            # First arg is an int, default to row/col notation.
+            int(args[0])
+            return method(self, *args)
+        except ValueError:
+            # First arg isn't an int, convert to A1 notation.
+            cell_1, cell_2 = args[0].split(':')
+            row_1, col_1 = xl_cell_to_rowcol(cell_1)
+            row_2, col_2 = xl_cell_to_rowcol(cell_2)
+            new_args = [row_1, col_1, row_2, col_2]
+            new_args.extend(args[1:])
+            return method(self, *new_args)
+
+    return cell_wrapper
+
+
 def convert_column_args(method):
     """
     Decorator function to convert A1 notation in columns method calls
@@ -283,7 +307,7 @@ class Worksheet(xmlwriter.XMLwriter):
             return self.write_datetime(row, col, *args)
         elif token == '':
             return self.write_blank(row, col, *args)
-        elif token[0] == '=':
+        elif token.startswith('='):
             return self.write_formula(row, col, *args)
         else:
             return self.write_string(row, col, *args)
@@ -418,9 +442,14 @@ class Worksheet(xmlwriter.XMLwriter):
         if self._check_dimensions(row, col):
             return -1
 
+        # Hand off array formulas.
+        if formula.startswith('{') and formula.endswith('}'):
+            return self.write_array_formula(row, col, row, col, formula,
+                                            cell_format, value)
+
         # Remove the formula '=' sign if it exists.
-        if formula[0] == '=':
-            formula = formula[1:]
+        if formula.startswith('='):
+            formula = formula.lstrip('=')
 
         # Write previous row if in in-line string optimization mode.
         if self.optimization and row > self.previous_row:
@@ -432,6 +461,7 @@ class Worksheet(xmlwriter.XMLwriter):
 
         return 0
 
+    @convert_range_args
     def write_array_formula(self, firstrow, firstcol, lastrow, lastcol,
                             formula, cell_format=None, value=0):
         """
