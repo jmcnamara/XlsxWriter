@@ -9,6 +9,7 @@ formatting cells in Excel.
 The properties of a cell that can be formatted include: fonts, colours,
 patterns, borders, alignment and number formatting.
 
+.. image:: _static/formats_intro.png
 
 format.set_font_name()
 ----------------------
@@ -159,25 +160,22 @@ index to one of Excel's built-in formats::
     format1 = workbook.add_format()
     format2 = workbook.add_format()
     
-    format1.set_num_format('d mmm yyyy')      # Format string.
-    format2.set_num_format(0x0f)              # Format index.
-
-    worksheet.write(0, 0, 36892.521, format1) # 1 Jan 2001
-    worksheet.write(0, 0, 36892.521, format2) # 1-Jan-01
+    format1.set_num_format('d mmm yyyy')  # Format string.
+    format2.set_num_format(0x0F)          # Format index.
 
 Format strings can control any aspect of number formatting allowed by Excel::
 
     format01.set_num_format('0.000')
-    worksheet.write(0, 0, 3.1415926, format01)       # -> 3.142
+    worksheet.write(1, 0, 3.1415926, format01)       # -> 3.142
 
     format02.set_num_format('#,##0')
-    worksheet.write(1, 0, 1234.56, format02)         # -> 1,235
+    worksheet.write(2, 0, 1234.56, format02)         # -> 1,235
 
     format03.set_num_format('#,##0.00')
-    worksheet.write(2, 0, 1234.56, format03)         # -> 1,234.56
+    worksheet.write(3, 0, 1234.56, format03)         # -> 1,234.56
 
     format04.set_num_format('0.00')
-    worksheet.write(3, 0, 49.99, format04)           # -> 49.99
+    worksheet.write(4, 0, 49.99, format04)           # -> 49.99
 
     format05.set_num_format('mm/dd/yy')
     worksheet.write(5, 0, 36892.521, format05)       # -> 01/01/01
@@ -188,23 +186,26 @@ Format strings can control any aspect of number formatting allowed by Excel::
     format07.set_num_format('d mmmm yyyy')
     worksheet.write(7, 0, 36892.521, format07)       # -> 1 January 2001
 
-    format8.set_num_format('dd/mm/yyyy hh:mm AM/PM')
-    worksheet.write(8, 0, 36892.521, format8)       # -> 01/01/2001 12:30 AM
+    format08.set_num_format('dd/mm/yyyy hh:mm AM/PM')
+    worksheet.write(8, 0, 36892.521, format08)      # -> 01/01/2001 12:30 AM
 
-    format9.set_num_format('0 "dollar and" .00 "cents"')
-    worksheet.write(9, 0, 1.87, format9)            # -> 1 dollar and .87 cents
+    format09.set_num_format('0 "dollar and" .00 "cents"')
+    worksheet.write(9, 0, 1.87, format09)           # -> 1 dollar and .87 cents
 
     # Conditional numerical formatting.
     format10.set_num_format('[Green]General;[Red]-General;General')
-    worksheet.write(11, 0, 123, format10)  # > 0 Green
-    worksheet.write(12, 0, -45, format10)  # < 0 Red
-    worksheet.write(13, 0,   0, format10)  # = 0 Default colour
+    worksheet.write(10, 0, 123, format10)  # > 0 Green
+    worksheet.write(11, 0, -45, format10)  # < 0 Red
+    worksheet.write(12, 0,   0, format10)  # = 0 Default colour
 
     # Zip code.
     format11.set_num_format('00000')
-    worksheet.write(11, 0, '01209', format11)
+    worksheet.write(13, 0, 1209, format11)
 
-The number system used for dates is described in "DATES AND TIME IN EXCEL".
+.. image:: _static/formats_num_str.png
+
+The number system used for dates is described in 
+:ref:`working_with_dates_and_time`.
 
 The colour format should have one of the following values::
 
@@ -312,7 +313,7 @@ format.set_locked()
 This property can be used to prevent modification of a cells contents.
 Following Excel's convention, cell locking is turned on by default. However,
 it only has an effect if the worksheet has been protected, see the worksheet
-``protect()`` method::
+``protect()`` method (not implemented yet)::
 
     locked = workbook.add_format()
     locked.set_locked(True)
@@ -341,7 +342,7 @@ format.set_hidden()
 This property is used to hide a formula while still displaying its result. This
 is generally used to hide complex calculations from end users who are only
 interested in the result. It only has an effect if the worksheet has been
-protected, see the worksheet ``protect()`` method::
+protected, see the worksheet ``protect()`` method (not implemented yet)::
 
     hidden = workbook.add_format()
     hidden.set_hidden()
@@ -363,24 +364,38 @@ format.set_align()
    :param string alignment: The vertical and or horizontal alignment direction.
 
 This method is used to set the horizontal and vertical text alignment within a
-cell. The following are the available alignments:
+cell. The following are the available horizontal alignments:
 
-+----------------------+--------------------+
-| Horizontal alignment | Vertical alignment |
-+======================+====================+
-| center               | top                |
-+----------------------+--------------------+
-| right                | vcenter            |
-+----------------------+--------------------+
-| fill                 | bottom             |
-+----------------------+--------------------+
-| justify              | vjustify           |
-+----------------------+--------------------+
-| center_across        |                    |
-+----------------------+--------------------+
++----------------------+
+| Horizontal alignment |
++======================+
+| center               |
++----------------------+
+| right                |
++----------------------+
+| fill                 |
++----------------------+
+| justify              |
++----------------------+
+| center_across        |
++----------------------+
 
-Vertical and horizontal alignments can be combined. The method is used as
-follows::
+The following are the available vertical alignments:
+
++----------------------+
+| Vertical alignment   |
++======================+
+| top                  |
++----------------------+
+| vcenter              |
++----------------------+
+| bottom               |
++----------------------+
+| vjustify             |
++----------------------+
+
+
+As in Excel, vertical and horizontal alignments can be combined::
 
     format = workbook.add_format()
     
@@ -392,7 +407,7 @@ follows::
 
 Text can be aligned across two or more adjacent cells using the
 ``'center_across'`` property. However, for genuine merged cells it is better
-to use the ``merge_range()`` worksheet method.
+to use the ``merge_range()`` worksheet method (not implemented yet).
 
 The ``'vjustify'`` (vertical justify) option can be used to provide automatic
 text wrapping in a cell. The height of the cell will be adjusted to
@@ -552,6 +567,8 @@ Here is an example of how to set up a solid fill in a cell::
     
     worksheet.write('A1', 'Ray', format)
 
+.. image:: _static/formats_set_bg_color.png
+
 The color can be a Html style ``#RRGGBB`` string or a limited number of named
 colors, see :ref:`format_colors`.
 
@@ -628,38 +645,6 @@ The following shows the border styles sorted by XlsxWriter index number:
 +-------+---------------+--------+-----------------+
 | 13    | SlantDash Dot | 2      | ``/ - . / - .`` |
 +-------+---------------+--------+-----------------+
-
-The following shows the borders sorted by style:
-
-+--------------+--------+-----------------+-------+
-| Name         | Weight | Style           | Index |
-+==============+========+=================+=======+
-| Continuous   | 0      | ``-----------`` | 7     |
-+--------------+--------+-----------------+-------+
-| Continuous   | 1      | ``-----------`` | 1     |
-+--------------+--------+-----------------+-------+
-| Continuous   | 2      | ``-----------`` | 2     |
-+--------------+--------+-----------------+-------+
-| Continuous   | 3      | ``-----------`` | 5     |
-+--------------+--------+-----------------+-------+
-| Dash         | 1      | ``- - - - - -`` | 3     |
-+--------------+--------+-----------------+-------+
-| Dash         | 2      | ``- - - - - -`` | 8     |
-+--------------+--------+-----------------+-------+
-| Dash Dot     | 1      | ``- . - . - .`` | 9     |
-+--------------+--------+-----------------+-------+
-| Dash Dot     | 2      | ``- . - . - .`` | 10    |
-+--------------+--------+-----------------+-------+
-| Dash Dot Dot | 1      | ``- . . - . .`` | 11    |
-+--------------+--------+-----------------+-------+
-| Dash Dot Dot | 2      | ``- . . - . .`` | 12    |
-+--------------+--------+-----------------+-------+
-| Dot          | 1      | ``. . . . . .`` | 4     |
-+--------------+--------+-----------------+-------+
-| Double       | 3      | ``===========`` | 6     |
-+--------------+--------+-----------------+-------+
-| None         | 0      |                 | 0     |
-+--------------+--------+-----------------+-------+
 
 The following shows the borders in the order shown in the Excel Dialog:
 

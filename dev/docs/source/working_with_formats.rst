@@ -3,36 +3,36 @@
 Working with Formats
 ====================
 
-This section TODO...
+The methods and properties used to add formatting to a cell are shown in 
+:ref:`format`.
+
+This section provides some additional information about working with formats.
+
 
 Creating and using a Format object
 ----------------------------------
 
-Cell formatting is defined through a Format object. Format objects are
-created by calling the workbook ``add_format()`` method as follows::
+Cell formatting is defined through a :ref:`Format object <format>`. Format
+objects are created by calling the workbook ``add_format()`` method as
+follows::
 
-    format1 = workbook.add_format()       # Set properties later
-    format2 = workbook.add_format(props)  # Set at creation
-
-The format object holds all the formatting properties that can be
-applied to a cell, a row or a column. The process of setting these
-properties is discussed in the next section.
+    format1 = workbook.add_format()       # Set properties later.
+    format2 = workbook.add_format(props)  # Set properties at creation.
 
 Once a Format object has been constructed and its properties have been
 set it can be passed as an argument to the worksheet ``write`` methods
 as follows::
 
-    worksheet.write(0, 0, 'One', format)
-    worksheet.write_string(1, 0, 'Two', format)
-    worksheet.write_number(2, 0, 3, format)
-    worksheet.write_blank(3, 0, format)
+    worksheet.write       (0, 0, 'Foo', format)
+    worksheet.write_string(1, 0, 'Bar', format)
+    worksheet.write_number(2, 0, 3,     format)
+    worksheet.write_blank (3, 0, '',    format)
 
-Formats can also be passed to the worksheet ``set_row()`` and
-``set_column()`` methods to define the default property for a row or
-column.
+Formats can also be passed to the worksheet ``set_row()`` and ``set_column()``
+methods to define the default property for a row or column::
 
-    worksheet.set_row(0, 15, format)
-    worksheet.set_column(0, 0, 15, format)
+    worksheet.set_row(0, 18, format)
+    worksheet.set_column('A:D', 20, format)
 
 
 Format methods and Format properties
@@ -110,104 +110,115 @@ properties that can be applied and the equivalent object method:
 +------------+------------------+----------------------+------------------------------+
 
 
-There are two ways of setting Format properties: by using the object
-method interface or by setting the property directly. For example, a
-typical use of the method interface would be as follows::
+There are two ways of setting Format properties: by using the object interface
+or by setting the property as a dictionary of key/value pairs in the
+constructor. For example, a typical use of the object interface would be as
+follows::
 
     format = workbook.add_format()
     format.set_bold()
-    format.set_color('red')
+    format.set_font_color('red')
 
-By comparison the properties can be set directly by passing a hash of
-properties to the Format constructor::
+By comparison the properties can be set by passing a dictionary of properties
+to the `add_format()` constructor::
 
-    format = workbook.add_format(bold, 1, color, 'red')
+    format = workbook.add_format({'bold': True, 'font_color': 'red'})
 
-or after the Format has been constructed by means of the
-``set_format_properties()`` method as follows::
-
-    format = workbook.add_format()
-    format.set_format_properties(bold, 1, color, 'red')
-
-You can also store the properties in one or more named hashes and pass
-them to the required method::
-
-    font = (
-        font, 'Calibri',
-        size, 12,
-        color, 'blue',
-        bold, 1,
-     )
-
-    shading = (
-        bg_color, 'green',
-        pattern, 1,
-     )
-
-
-    format1 = workbook.add_format(font); # Font only
-    format2 = workbook.add_format(font, shading); # Font and shading
-
-The provision of two ways of setting properties might lead you to
-wonder which is the best way. The method mechanism may be better if
-you prefer setting properties via method calls (which the author did
-when the code was first written) otherwise passing properties to the
-constructor has proved to be a little more flexible and self
-documenting in practice. An additional advantage of working with
-property hashes is that it allows you to share formatting between
-workbook objects as shown in the example above.
-
+The object method interface is mainly provided for backward compatibility with
+:ref:`ewx`. The key/value interface has proved to be more flexible in real
+world programs and is the recommended method for setting format properties.
 
 .. _format_colors:
 
 Format Colors
 -------------
 
-                        'black'
-                        'blue'
-                        'brown'
-                        'cyan'
-                        'gray'
-                        'green'
-                        'lime'
-                        'magenta'
-                        'navy'
-                        'orange'
-                        'pink'
-                        'purple'
-                        'red'
-                        'silver'
-                        'white'
-                        'yellow'
+Format property colors are specified using a Html sytle ``#RRGGBB`` index::
+
+    cell_format.set_font_color('#FF0000')
+
+For backward compatibility with :ref:`ewx` a limited number of
+color names are supported::
+
+    cell_format.set_font_color('red')
+
+The color names and corresponding ``#RRGGBB`` indices are shown below:
+
++------------+----------------+
+| Color name | RGB color code |
++============+================+
+| black      | ``#000000``    |
++------------+----------------+
+| blue       | ``#0000FF``    |
++------------+----------------+
+| brown      | ``#800000``    |
++------------+----------------+
+| cyan       | ``#00FFFF``    |
++------------+----------------+
+| gray       | ``#808080``    |
++------------+----------------+
+| green      | ``#008000``    |
++------------+----------------+
+| lime       | ``#00FF00``    |
++------------+----------------+
+| magenta    | ``#FF00FF``    |
++------------+----------------+
+| navy       | ``#000080``    |
++------------+----------------+
+| orange     | ``#FF6600``    |
++------------+----------------+
+| pink       | ``#FF00FF``    |
++------------+----------------+
+| purple     | ``#800080``    |
++------------+----------------+
+| red        | ``#FF0000``    |
++------------+----------------+
+| silver     | ``#C0C0C0``    |
++------------+----------------+
+| white      | ``#FFFFFF``    |
++------------+----------------+
+| yellow     | ``#FFFF00``    |
++------------+----------------+
 
 
-Tips for working with formats
------------------------------
+Format Defaults
+---------------
 
-The default format is Calibri 11 with all other properties off.
+The default Excel 2007+ cell format is Calibri 11 with all other properties off.
 
-Each unique format in XlsxWriter must have a corresponding Format
-object. It isn't possible to use a Format with a write() method and
-then redefine the Format for use at a later stage. This is because a
-Format is applied to a cell not in its current state but in its final
-state. Consider the following example::
+In general a format method call without an argument will turn a property on,
+for example:: 
 
-    format = workbook.add_format()
-    format.set_bold()
-    format.set_color('red')
+    format1 = workbook.add_format() 
+    
+    format1.set_bold()   # Turns bold on.
+    format1.set_bold(1)  # Also turns bold on.
+
+
+Since most properties are already off by default it isn't generally required to
+turn them off. However, it is possible if required::
+    
+    format1.set_bold(0); # Turns bold off.
+
+    
+Modifying Formats
+-----------------
+
+Each unique cell format in an XlsxWriter spreadsheet must have a corresponding
+Format object. It isn't possible to use a Format with a ``write()`` method and
+then redefine it for use at a later stage. This is because a Format is applied
+to a cell not in its current state but in its final state. Consider the
+following example::
+
+    format = workbook.add_format({'bold': True, 'font_color': 'red'})
     worksheet.write('A1', 'Cell A1', format)
-    format.set_color('green')
+
+    # Later...        
+    format.set_font_color('green')
     worksheet.write('B1', 'Cell B1', format)
 
-Cell A1 is assigned the Format ``$format`` which is initially set to
-the colour red. However, the colour is subsequently set to green. When
-Excel displays Cell A1 it will display the final state of the Format
-which in this case will be the colour green.
+Cell A1 is assigned a format which is initially has the font set to the colour
+red. However, the colour is subsequently set to green. When Excel displays
+Cell A1 it will display the final state of the Format which in this case will
+be the colour green.
 
-In general a method call without an argument will turn a property on,
-for example::
-
-    format1 = workbook.add_format()
-    format1.set_bold(); # Turns bold on
-    format1.set_bold(1); # Also turns bold on
-    format1.set_bold(0); # Turns bold off

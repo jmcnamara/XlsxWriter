@@ -39,8 +39,7 @@ you can use row-column notation::
 The ``XlsxWriter`` ``utility`` contains several helper functions for dealing
 with A1 notation, for example::
 
-    from utility import xl_cell_to_rowcol
-    from utility import xl_rowcol_to_cell 
+    from utility import xl_cell_to_rowcol, import xl_rowcol_to_cell 
 
     (row, col) = xl_cell_to_rowcol('C2')  # -> (1, 2)
     string     = xl_rowcol_to_cell(1, 2)  # -> C2

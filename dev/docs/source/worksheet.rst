@@ -71,7 +71,8 @@ of cells: **Row-column** notation and **A1** notation::
 See :ref:`cell_notation` for more details.
 
 
-The ``cell_format`` parameter is optional. It should be a valid
+The ``cell_format`` parameter is used to apply formatting to the cell.
+This parameter is optional but when present is should be a valid
 :ref:`Format <format>` object::
 
     cell_format = workbook.add_format({'bold': True, 'italic': True})
@@ -84,8 +85,8 @@ also supplied. As such you needn't worry about special handling for empty or
 
 
 One problem with the ``write()`` method is that occasionally data looks like a
-number but you don't want it treated as a number. For example, zip codes or ID
-numbers often start with a leading zero. If you write this data as a number
+number but you don't want it treated as a number. For example, Zip codes or ID
+numbers or often start with a leading zero. If you write this data as a number
 then the leading zero(s) will be stripped. In this case you shouldn't use the
 ``write()`` method and should use ``write_string()`` instead.
 
@@ -115,7 +116,8 @@ and ``column``::
 Both row-column and A1 style notation are support. See :ref:`cell_notation` for
 more details.
 
-The ``cell_format`` parameter is optional. It should be a valid
+The ``cell_format`` parameter is used to apply formatting to the cell.
+This parameter is optional but when present is should be a valid
 :ref:`Format <format>` object.
 
 Unicode strings are supported in UTF-8 encoding. This generally requires that
@@ -127,18 +129,23 @@ your source file in also UTF-8 encoded::
 
 .. image:: _static/worksheet02.png
 
+Alternatively, you can read data from an encoded file, convert it to UTF-8
+during reading and then write the data to an Excel file. There are several
+sample ``unicode_*.py`` programs like this in the ``examples`` directory of the
+XlsxWriter source tree.
+
 The maximum string size supported by Excel is 32,767 characters. Strings longer
 than this will be truncated by ``write_string()``.
 
 .. note::
-   Even though Excel allows strings of 32,767 characters in a cell, the
-   maximum number of characters that Excel can **display** in a cell is 1000.
-   However, all 32,767 characters can be displayed in the formula bar.
+   Even though Excel allows strings of 32,767 characters in a cell, Excel
+   can only **display** 1000. All 32,767 characters are displayed in the
+   formula bar.
 
 In general it is sufficient to use the ``write()`` method when dealing with
 string data. However, you may sometimes need to use ``write_string()`` to
 write data that looks like a number but that you don't want treated as a
-number. For example, zip codes or phone numbers::
+number. For example, Zip codes or phone numbers::
 
     # Write ID number as a plain string.
     worksheet.write_string('A1', '01209')
@@ -179,8 +186,13 @@ specified by ``row`` and ``column``::
 Both row-column and A1 style notation are support. See :ref:`cell_notation` for
 more details.
 
-The ``cell_format`` parameter is optional. It should be a valid
+The ``cell_format`` parameter is used to apply formatting to the cell.
+This parameter is optional but when present is should be a valid
 :ref:`Format <format>` object.
+
+Excel handles numbers as IEEE-754 64-bit double-precision floating point. This
+means that, in most cases, the maximum number of digits that can be stored in
+Excel without losing precision is 15.
 
 
 worksheet.write_formula()
@@ -207,7 +219,7 @@ specified by ``row`` and ``column``::
     worksheet.write_formula(2, 0, '=SUM(B1:B5)')
     worksheet.write_formula('A4', '=IF(A3>1,"Yes", "No")')
     worksheet.write_formula('A5', '=AVERAGE(1, 2, 3, 4)')
-    worksheet.write_formula('A6', '=DATEVALUE("1-Jan-2001")')
+    worksheet.write_formula('A6', '=DATEVALUE("1-Jan-2013")')
 
 Array formulas are also supported::
 
@@ -218,7 +230,8 @@ See also the ``write_array_formula()`` method below.
 Both row-column and A1 style notation are support. See :ref:`cell_notation` for
 more details.
 
-The ``cell_format`` parameter is optional. It should be a valid
+The ``cell_format`` parameter is used to apply formatting to the cell.
+This parameter is optional but when present is should be a valid
 :ref:`Format <format>` object.
 
 XlsxWriter doesn't calculate the value of a formula and instead stores the
@@ -237,9 +250,9 @@ formula. The calculated ``value`` is added at the end of the argument list::
     worksheet.write('A1', '=2+2', num_format, 4)
 
 .. note::
-   Some versions of Excel 2007 do not display the calculated values of
-   formulas written by XlsxWriter. Applying all available Service
-   Packs to Excel should fix this.
+   Some early versions of Excel 2007 do not display the calculated values of
+   formulas written by XlsxWriter. Applying all available Office Service
+   Packs should fix this.
 
 
 worksheet.write_array_formula()
@@ -268,8 +281,8 @@ Excel an array formula is a formula that performs a calculation on a set of
 values. It can return a single value or a range of values.
 
 An array formula is indicated by a pair of braces around the formula:
-``{=SUM(A1:B1*A2:B2)}``. If the array formula returns a single value then the ``first_`` and ``last_`` parameters should be the same::
-
+``{=SUM(A1:B1*A2:B2)}``. If the array formula returns a single value then the
+``first_`` and ``last_`` parameters should be the same::
 
     worksheet.write_array_formula('A1:A1', '{=SUM(B1:C1*B2:C2)}')
 
@@ -289,7 +302,8 @@ that the return values will be written to::
 As shown above, both row-column and A1 style notation are support. See
 :ref:`cell_notation` for more details.
 
-The ``cell_format`` parameter is optional. It should be a valid
+The ``cell_format`` parameter is used to apply formatting to the cell.
+This parameter is optional but when present is should be a valid
 :ref:`Format <format>` object.
 
 If required, it is also possible to specify the calculated value of the
@@ -340,8 +354,8 @@ As such, if you write an empty cell without formatting it is ignored::
 This seemingly uninteresting fact means that you can write arrays of data
 without special treatment for ``None`` or empty string values.
 
-
-See the note about "Cell notation".
+As shown above, both row-column and A1 style notation are support. See
+:ref:`cell_notation` for more details.
 
 
 worksheet.write_datetime()
@@ -361,47 +375,27 @@ worksheet.write_datetime()
    :type  datetime:    :class:`datetime.datetime`
    :type  cell_format: :ref:`Format <format>`
 
-
-Here is a link to :mod:`datetime`
-
-Here is a link to :class:`datetime.datetime`
-
-Here is a link to :meth:`datetime.datetime.strptime`.
-
-
 The ``write_datetime()`` method can be used to write a date or time to the cell
 specified by ``row`` and ``column``::
 
-    worksheet.write_datetime('A1', '2004-05-13T23:20', date_format)
+    worksheet.write_datetime(0, 0, datetime, date_format)
 
-The ``date_string`` should be in the following format::
+The :class:`datetime.datetime` class is part of the standard Python
+:mod:`datetime` library.
 
-    yyyy-mm-ddThh:mm:ss.sss
+There are many way to create a datetime object but the most common is to use
+the :meth:`datetime.strptime <datetime.datetime.strptime>` method::
 
-This conforms to an ISO8601 date but it should be noted that the full range of
-ISO8601 formats are not supported.
+    date_time = datetime.strptime('2013-01-23', '%Y-%m-%d')
 
-The following variations on the ``date_string`` parameter are permitted::
+A date should always have a ``cell_format`` of type :ref:`Format <format>`,
+otherwise it will appear as a number::
 
-    yyyy-mm-ddThh:mm:ss.sss # Standard format
-    yyyy-mm-ddT # No time
-              Thh:mm:ss.sss # No date
-    yyyy-mm-ddThh:mm:ss.sssZ # Additional Z (but not time zones)
-    yyyy-mm-ddThh:mm:ss # No fractional seconds
-    yyyy-mm-ddThh:mm # No seconds
+    date_format = workbook.add_format({'num_format': 'd mmmm yyyy'})
 
-Note that the ``T`` is required in all cases.
+    worksheet.write_datetime('A1', date_time, date_format)
 
-A date should always have a ``cell_format``, otherwise it will appear as a
-number, see "DATES AND TIME IN EXCEL" and :ref:`format`. Here is a typical
-example::
-
-    date_format = workbook.add_format(num_format, 'mm/dd/yy')
-    worksheet.write_datetime('A1', '2004-05-13T23:20', date_format)
-
-Valid dates should be in the range 1900-01-01 to 9999-12-31, for the 1900 epoch
-and 1904-01-01 to 9999-12-31, for the 1904 epoch. As with Excel, dates outside
-these ranges will be written as a string.
+See :ref:`working_with_dates_and_time` for more details.
 
 
 worksheet.set_row()
@@ -474,7 +468,7 @@ The following example sets an outline level of 1 for some rows::
     worksheet.set_row(2, None, None, {'level': 1})
 
 .. note::
-   Excel allows up to 7 outline levels. Therefore the ``'level'`` parameter
+   Excel allows up to 7 outline levels. The ``'level'`` parameter
    should be in the range ``0 <= level <= 7``.
 
 The ``'hidden'`` parameter can also be used to hide collapsed outlined rows
@@ -583,7 +577,7 @@ The following example sets an outline level of 1 for columns B to G::
     worksheet.set_column('B:G', None, None, {'level': 1})
 
 .. note::
-   Excel allows up to 7 outline levels. Therefore the ``'level'`` parameter
+   Excel allows up to 7 outline levels. The ``'level'`` parameter
    should be in the range ``0 <= level <= 7``.
 
 The ``'hidden'`` parameter can also be used to hide collapsed outlined columns
@@ -605,11 +599,13 @@ worksheet.activate()
 The ``activate()`` method is used to specify which worksheet is initially
 visible in a multi-sheet workbook::
 
-    worksheet1 = workbook.add_worksheet('To')
-    worksheet2 = workbook.add_worksheet('the')
-    worksheet3 = workbook.add_worksheet('wind')
+    worksheet1 = workbook.add_worksheet()
+    worksheet2 = workbook.add_worksheet()
+    worksheet3 = workbook.add_worksheet()
 
     worksheet3.activate()
+
+.. image:: _static/worksheet_activate.png
 
 More than one worksheet can be selected via the ``select()`` method, see below,
 however only one worksheet can be active.
