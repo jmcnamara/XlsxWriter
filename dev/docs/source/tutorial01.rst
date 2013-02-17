@@ -52,13 +52,12 @@ To do that we can start with a small program like the following:
     
     workbook.close()
 
-If we run this program we should get a spreadsheet that looks like the
-following:
+If we run this program we should get a spreadsheet that looks like this:
 
 .. image:: _static/tutorial01.png
 
-The steps involved in this simple example are representative of all programs
-that use XlsxWriter so let's break it down into separate parts.
+This is a simple example but the steps involved are representative of all
+programs that use XlsxWriter, so let's break it down into separate parts.
 
 The first step is to import the module and the main method that we will call::
 
@@ -84,9 +83,9 @@ The workbook object is then used to add a new worksheet via the
 By default worksheet names in the spreadsheet will be `Sheet1`, `Sheet2` etc.,
 but we can also specify a name::
 
-    worksheet1 = workbook.add_worksheet()         # Defaults to Sheet1.
-    worksheet2 = workbook.add_worksheet('Data')   # Data.
-    worksheet3 = workbook.add_worksheet()         # Defaults to Sheet3.
+    worksheet1 = workbook.add_worksheet()        # Defaults to Sheet1.
+    worksheet2 = workbook.add_worksheet('Data')  # Data.
+    worksheet3 = workbook.add_worksheet()        # Defaults to Sheet3.
 
 We can then use the worksheet object to write data via the :func:`write`
 method::
@@ -105,7 +104,7 @@ So in our example we iterate over our data and write it out as follows::
         worksheet.write(row, col + 1, cost)
         row += 1
 
-Then we add a formula to calculate the total of the items in the second column::
+We then add a formula to calculate the total of the items in the second column::
 
     worksheet.write(row, 1, '=SUM(B1:B4)')
 

@@ -194,3 +194,6 @@ adjust the width of column 'B' so that the dates are more clearly visible::
 
 The :func:`set_column` and corresponding :func:`set_row` methods are explained
 in more detail in :ref:`worksheet`.
+
+Next, let's look at :ref:`workbook` in more detail.
+

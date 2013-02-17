@@ -5,7 +5,7 @@ XlsxWriter is a Python module for creating Excel XLSX files.
 
 XlsxWriter supports the following features:
 
-* 100% compatible Excel XLSX file.
+* 100% compatible Excel XLSX files.
 * Write text, numbers, formulas, dates.
 * Full cell formatting.
 * Multiple worksheets.
@@ -23,7 +23,7 @@ Here is a small example:
     # Widen the first column to make the text clearer.
     worksheet.set_column('A:A', 20)
     
-    # Add a bold format to use to highlight cells.
+    # Add a bold format to highlight cell text.
     bold = workbook.add_format({'bold': 1})
     
     # Write some simple text.
@@ -32,9 +32,9 @@ Here is a small example:
     # Text with formatting.
     worksheet.write('A2', 'World', bold)
     
-    # Write some numbers.
-    worksheet.write('A3', 123)
-    worksheet.write('A4', 123.456)
+    # Write some numbers, with row/column notation.
+    worksheet.write(2, 0, 123)
+    worksheet.write(3, 0, 123.456)
 
     workbook.close()
 
@@ -65,6 +65,8 @@ Contents:
    bugs.rst
    faq.rst
    changes.rst
+   author.rst
+   license.rst
    
 The XlsxWriter module is a port of the Perl :ref:`ewx` module. It is a work in
 progress.

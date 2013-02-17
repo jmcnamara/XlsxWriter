@@ -1,10 +1,10 @@
 :tocdepth: 1
 
-.. changes:
+.. _changes:
 
 Changes in XlsxWriter
 =====================
 
-TODO
+This section shows changes and bug fixes in the XlsxWriter module.
 
 .. include:: ../../../Changes

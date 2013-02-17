@@ -71,8 +71,8 @@ of cells: **Row-column** notation and **A1** notation::
 See :ref:`cell_notation` for more details.
 
 
-The ``cell_format`` parameter is used to apply formatting to the cell.
-This parameter is optional but when present is should be a valid
+The ``cell_format`` parameter is used to apply formatting to the cell. This
+parameter is optional but when present is should be a valid
 :ref:`Format <format>` object::
 
     cell_format = workbook.add_format({'bold': True, 'italic': True})
@@ -116,8 +116,8 @@ and ``column``::
 Both row-column and A1 style notation are support. See :ref:`cell_notation` for
 more details.
 
-The ``cell_format`` parameter is used to apply formatting to the cell.
-This parameter is optional but when present is should be a valid
+The ``cell_format`` parameter is used to apply formatting to the cell. This
+parameter is optional but when present is should be a valid
 :ref:`Format <format>` object.
 
 Unicode strings are supported in UTF-8 encoding. This generally requires that
@@ -131,8 +131,8 @@ your source file in also UTF-8 encoded::
 
 Alternatively, you can read data from an encoded file, convert it to UTF-8
 during reading and then write the data to an Excel file. There are several
-sample ``unicode_*.py`` programs like this in the ``examples`` directory of the
-XlsxWriter source tree.
+sample
+``unicode_*.py`` programs like this in the ``examples`` directory of the XlsxWriter source tree.
 
 The maximum string size supported by Excel is 32,767 characters. Strings longer
 than this will be truncated by ``write_string()``.
@@ -186,8 +186,8 @@ specified by ``row`` and ``column``::
 Both row-column and A1 style notation are support. See :ref:`cell_notation` for
 more details.
 
-The ``cell_format`` parameter is used to apply formatting to the cell.
-This parameter is optional but when present is should be a valid
+The ``cell_format`` parameter is used to apply formatting to the cell. This
+parameter is optional but when present is should be a valid
 :ref:`Format <format>` object.
 
 Excel handles numbers as IEEE-754 64-bit double-precision floating point. This
@@ -230,12 +230,12 @@ See also the ``write_array_formula()`` method below.
 Both row-column and A1 style notation are support. See :ref:`cell_notation` for
 more details.
 
-The ``cell_format`` parameter is used to apply formatting to the cell.
-This parameter is optional but when present is should be a valid
+The ``cell_format`` parameter is used to apply formatting to the cell. This
+parameter is optional but when present is should be a valid
 :ref:`Format <format>` object.
 
 XlsxWriter doesn't calculate the value of a formula and instead stores the
-value 0 as the formula results. It then sets a global flag in the Xlsx file to
+value 0 as the formula result. It then sets a global flag in the XLSX file to
 say that all formulas and functions should be recalculated when the file is
 opened. This is the method recommended in the Excel documentation and in
 general it works fine with spreadsheet applications. However, applications
@@ -281,8 +281,7 @@ Excel an array formula is a formula that performs a calculation on a set of
 values. It can return a single value or a range of values.
 
 An array formula is indicated by a pair of braces around the formula:
-``{=SUM(A1:B1*A2:B2)}``. If the array formula returns a single value then the
-``first_`` and ``last_`` parameters should be the same::
+``{=SUM(A1:B1*A2:B2)}``. If the array formula returns a single value then the ``first_`` and ``last_`` parameters should be the same::
 
     worksheet.write_array_formula('A1:A1', '{=SUM(B1:C1*B2:C2)}')
 
@@ -302,8 +301,8 @@ that the return values will be written to::
 As shown above, both row-column and A1 style notation are support. See
 :ref:`cell_notation` for more details.
 
-The ``cell_format`` parameter is used to apply formatting to the cell.
-This parameter is optional but when present is should be a valid
+The ``cell_format`` parameter is used to apply formatting to the cell. This
+parameter is optional but when present is should be a valid
 :ref:`Format <format>` object.
 
 If required, it is also possible to specify the calculated value of the

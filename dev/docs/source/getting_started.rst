@@ -18,10 +18,9 @@ Using PIP
 
 The `pip <http://www.pip-installer.org/en/latest/index.html>`_  installer is
 the preferred method for installing Python modules from
-`PyPI <http://pypi.python.org/pypi>`_ the Python Package Index::
+`PyPI <http://pypi.python.org/pypi>`_, the Python Package Index::
 
-    sudo pip install XlsxWriter
-
+    $ sudo pip install XlsxWriter
 
 .. Note::
    Windows users can omit ``sudo`` at the start of the command.
@@ -38,8 +37,8 @@ If ``pip`` doesn't work you can try
 Installing from a tarball
 *************************
 
-If you download a tarball of the latest XlsxWriter you can install it as
-follows (change the version number to suit)::
+If you download a tarball of the latest version of XlsxWriter you can install
+it as follows (change the version number to suit)::
 
     $ tar -zxvf XlsxWriter-1.2.3.tar.gz
 
@@ -95,8 +94,10 @@ the following:
 .. image:: _static/hello01.png
 
 If you downloaded a tarball or cloned the repo, as shown above, you should also
-have a directory called ``examples`` with some sample applications that
-demonstrate different features of XlsxWriter.
+have a directory called
+`examples <https://github.com/jmcnamara/XlsxWriter/tree/master/examples>`_
+with some sample applications that demonstrate different features of
+XlsxWriter.
 
 
 Documentation
