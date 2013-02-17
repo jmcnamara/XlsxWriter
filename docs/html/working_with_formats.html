@@ -1,0 +1,439 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Working with Formats &mdash; XlsxWriter Documentation</title>
+    
+    <link rel="stylesheet" href="_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '',
+        VERSION:     '0.0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="XlsxWriter Documentation" href="index.html" />
+    <link rel="next" title="Working with Dates and Time" href="working_with_dates_and_time.html" />
+    <link rel="prev" title="Working with Cell Notation" href="working_with_cell_notation.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="working_with_dates_and_time.html" title="Working with Dates and Time"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="working_with_cell_notation.html" title="Working with Cell Notation"
+             accesskey="P">previous</a> |</li>
+        <li><a href="index.html">XlsxWriter Documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="working-with-formats">
+<span id="id1"></span><h1>Working with Formats</h1>
+<p>The methods and properties used to add formatting to a cell are shown in
+<a class="reference internal" href="format.html#format"><em>The Format Class</em></a>.</p>
+<p>This section provides some additional information about working with formats.</p>
+<div class="section" id="creating-and-using-a-format-object">
+<h2>Creating and using a Format object</h2>
+<p>Cell formatting is defined through a <a class="reference internal" href="format.html#format"><em>Format object</em></a>. Format
+objects are created by calling the workbook <tt class="docutils literal"><span class="pre">add_format()</span></tt> method as
+follows:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">format1</span> <span class="o">=</span> <span class="n">workbook</span><span class="o">.</span><span class="n">add_format</span><span class="p">()</span>       <span class="c"># Set properties later.</span>
+<span class="n">format2</span> <span class="o">=</span> <span class="n">workbook</span><span class="o">.</span><span class="n">add_format</span><span class="p">(</span><span class="n">props</span><span class="p">)</span>  <span class="c"># Set properties at creation.</span>
+</pre></div>
+</div>
+<p>Once a Format object has been constructed and its properties have been
+set it can be passed as an argument to the worksheet <tt class="docutils literal"><span class="pre">write</span></tt> methods
+as follows:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">worksheet</span><span class="o">.</span><span class="n">write</span>       <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="s">&#39;Foo&#39;</span><span class="p">,</span> <span class="n">format</span><span class="p">)</span>
+<span class="n">worksheet</span><span class="o">.</span><span class="n">write_string</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="s">&#39;Bar&#39;</span><span class="p">,</span> <span class="n">format</span><span class="p">)</span>
+<span class="n">worksheet</span><span class="o">.</span><span class="n">write_number</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span>     <span class="n">format</span><span class="p">)</span>
+<span class="n">worksheet</span><span class="o">.</span><span class="n">write_blank</span> <span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="s">&#39;&#39;</span><span class="p">,</span>    <span class="n">format</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Formats can also be passed to the worksheet <tt class="docutils literal"><span class="pre">set_row()</span></tt> and <tt class="docutils literal"><span class="pre">set_column()</span></tt>
+methods to define the default property for a row or column:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">worksheet</span><span class="o">.</span><span class="n">set_row</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">18</span><span class="p">,</span> <span class="n">format</span><span class="p">)</span>
+<span class="n">worksheet</span><span class="o">.</span><span class="n">set_column</span><span class="p">(</span><span class="s">&#39;A:D&#39;</span><span class="p">,</span> <span class="mi">20</span><span class="p">,</span> <span class="n">format</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="format-methods-and-format-properties">
+<h2>Format methods and Format properties</h2>
+<p>The following table shows the Excel format categories, the formatting
+properties that can be applied and the equivalent object method:</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="15%" />
+<col width="22%" />
+<col width="27%" />
+<col width="37%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Category</th>
+<th class="head">Description</th>
+<th class="head">Property</th>
+<th class="head">Method Name</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td rowspan="8">Font</td>
+<td>Font type</td>
+<td><tt class="docutils literal"><span class="pre">'font_name'</span></tt></td>
+<td><a class="reference internal" href="format.html#set_font_name" title="set_font_name"><tt class="xref py py-func docutils literal"><span class="pre">set_font_name()</span></tt></a></td>
+</tr>
+<tr class="row-odd"><td>Font size</td>
+<td><tt class="docutils literal"><span class="pre">'font_size'</span></tt></td>
+<td><a class="reference internal" href="format.html#set_font_size" title="set_font_size"><tt class="xref py py-func docutils literal"><span class="pre">set_font_size()</span></tt></a></td>
+</tr>
+<tr class="row-even"><td>Font color</td>
+<td><tt class="docutils literal"><span class="pre">'font_color'</span></tt></td>
+<td><a class="reference internal" href="format.html#set_font_color" title="set_font_color"><tt class="xref py py-func docutils literal"><span class="pre">set_font_color()</span></tt></a></td>
+</tr>
+<tr class="row-odd"><td>Bold</td>
+<td><tt class="docutils literal"><span class="pre">'bold'</span></tt></td>
+<td><a class="reference internal" href="format.html#set_bold" title="set_bold"><tt class="xref py py-func docutils literal"><span class="pre">set_bold()</span></tt></a></td>
+</tr>
+<tr class="row-even"><td>Italic</td>
+<td><tt class="docutils literal"><span class="pre">'italic'</span></tt></td>
+<td><a class="reference internal" href="format.html#set_italic" title="set_italic"><tt class="xref py py-func docutils literal"><span class="pre">set_italic()</span></tt></a></td>
+</tr>
+<tr class="row-odd"><td>Underline</td>
+<td><tt class="docutils literal"><span class="pre">'underline'</span></tt></td>
+<td><a class="reference internal" href="format.html#set_underline" title="set_underline"><tt class="xref py py-func docutils literal"><span class="pre">set_underline()</span></tt></a></td>
+</tr>
+<tr class="row-even"><td>Strikeout</td>
+<td><tt class="docutils literal"><span class="pre">'font_strikeout'</span></tt></td>
+<td><a class="reference internal" href="format.html#set_font_strikeout" title="set_font_strikeout"><tt class="xref py py-func docutils literal"><span class="pre">set_font_strikeout()</span></tt></a></td>
+</tr>
+<tr class="row-odd"><td>Super/Subscript</td>
+<td><tt class="docutils literal"><span class="pre">'font_script'</span></tt></td>
+<td><a class="reference internal" href="format.html#set_font_script" title="set_font_script"><tt class="xref py py-func docutils literal"><span class="pre">set_font_script()</span></tt></a></td>
+</tr>
+<tr class="row-even"><td>Number</td>
+<td>Numeric format</td>
+<td><tt class="docutils literal"><span class="pre">'num_format'</span></tt></td>
+<td><a class="reference internal" href="format.html#set_num_format" title="set_num_format"><tt class="xref py py-func docutils literal"><span class="pre">set_num_format()</span></tt></a></td>
+</tr>
+<tr class="row-odd"><td rowspan="2">Protection</td>
+<td>Lock cells</td>
+<td><tt class="docutils literal"><span class="pre">'locked'</span></tt></td>
+<td><a class="reference internal" href="format.html#set_locked" title="set_locked"><tt class="xref py py-func docutils literal"><span class="pre">set_locked()</span></tt></a></td>
+</tr>
+<tr class="row-even"><td>Hide formulas</td>
+<td><tt class="docutils literal"><span class="pre">'hidden'</span></tt></td>
+<td><a class="reference internal" href="format.html#set_hidden" title="set_hidden"><tt class="xref py py-func docutils literal"><span class="pre">set_hidden()</span></tt></a></td>
+</tr>
+<tr class="row-odd"><td rowspan="8">Alignment</td>
+<td>Horizontal align</td>
+<td><tt class="docutils literal"><span class="pre">'align'</span></tt></td>
+<td><a class="reference internal" href="format.html#set_align" title="set_align"><tt class="xref py py-func docutils literal"><span class="pre">set_align()</span></tt></a></td>
+</tr>
+<tr class="row-even"><td>Vertical align</td>
+<td><tt class="docutils literal"><span class="pre">'valign'</span></tt></td>
+<td><a class="reference internal" href="format.html#set_align" title="set_align"><tt class="xref py py-func docutils literal"><span class="pre">set_align()</span></tt></a></td>
+</tr>
+<tr class="row-odd"><td>Rotation</td>
+<td><tt class="docutils literal"><span class="pre">'rotation'</span></tt></td>
+<td><a class="reference internal" href="format.html#set_rotation" title="set_rotation"><tt class="xref py py-func docutils literal"><span class="pre">set_rotation()</span></tt></a></td>
+</tr>
+<tr class="row-even"><td>Text wrap</td>
+<td><tt class="docutils literal"><span class="pre">'text_wrap'</span></tt></td>
+<td><a class="reference internal" href="format.html#set_text_wrap" title="set_text_wrap"><tt class="xref py py-func docutils literal"><span class="pre">set_text_wrap()</span></tt></a></td>
+</tr>
+<tr class="row-odd"><td>Justify last</td>
+<td><tt class="docutils literal"><span class="pre">'text_justlast'</span></tt></td>
+<td><a class="reference internal" href="format.html#set_text_justlast" title="set_text_justlast"><tt class="xref py py-func docutils literal"><span class="pre">set_text_justlast()</span></tt></a></td>
+</tr>
+<tr class="row-even"><td>Center across</td>
+<td><tt class="docutils literal"><span class="pre">'center_across'</span></tt></td>
+<td><a class="reference internal" href="format.html#set_center_across" title="set_center_across"><tt class="xref py py-func docutils literal"><span class="pre">set_center_across()</span></tt></a></td>
+</tr>
+<tr class="row-odd"><td>Indentation</td>
+<td><tt class="docutils literal"><span class="pre">'indent'</span></tt></td>
+<td><a class="reference internal" href="format.html#set_indent" title="set_indent"><tt class="xref py py-func docutils literal"><span class="pre">set_indent()</span></tt></a></td>
+</tr>
+<tr class="row-even"><td>Shrink to fit</td>
+<td><tt class="docutils literal"><span class="pre">'shrink'</span></tt></td>
+<td><a class="reference internal" href="format.html#set_shrink" title="set_shrink"><tt class="xref py py-func docutils literal"><span class="pre">set_shrink()</span></tt></a></td>
+</tr>
+<tr class="row-odd"><td rowspan="3">Pattern</td>
+<td>Cell pattern</td>
+<td><tt class="docutils literal"><span class="pre">'pattern'</span></tt></td>
+<td><a class="reference internal" href="format.html#set_pattern" title="set_pattern"><tt class="xref py py-func docutils literal"><span class="pre">set_pattern()</span></tt></a></td>
+</tr>
+<tr class="row-even"><td>Background color</td>
+<td><tt class="docutils literal"><span class="pre">'bg_color'</span></tt></td>
+<td><a class="reference internal" href="format.html#set_bg_color" title="set_bg_color"><tt class="xref py py-func docutils literal"><span class="pre">set_bg_color()</span></tt></a></td>
+</tr>
+<tr class="row-odd"><td>Foreground color</td>
+<td><tt class="docutils literal"><span class="pre">'fg_color'</span></tt></td>
+<td><a class="reference internal" href="format.html#set_fg_color" title="set_fg_color"><tt class="xref py py-func docutils literal"><span class="pre">set_fg_color()</span></tt></a></td>
+</tr>
+<tr class="row-even"><td rowspan="10">Border</td>
+<td>Cell border</td>
+<td><tt class="docutils literal"><span class="pre">'border'</span></tt></td>
+<td><a class="reference internal" href="format.html#set_border" title="set_border"><tt class="xref py py-func docutils literal"><span class="pre">set_border()</span></tt></a></td>
+</tr>
+<tr class="row-odd"><td>Bottom border</td>
+<td><tt class="docutils literal"><span class="pre">'bottom'</span></tt></td>
+<td><a class="reference internal" href="format.html#set_bottom" title="set_bottom"><tt class="xref py py-func docutils literal"><span class="pre">set_bottom()</span></tt></a></td>
+</tr>
+<tr class="row-even"><td>Top border</td>
+<td><tt class="docutils literal"><span class="pre">'top'</span></tt></td>
+<td><a class="reference internal" href="format.html#set_top" title="set_top"><tt class="xref py py-func docutils literal"><span class="pre">set_top()</span></tt></a></td>
+</tr>
+<tr class="row-odd"><td>Left border</td>
+<td><tt class="docutils literal"><span class="pre">'left'</span></tt></td>
+<td><a class="reference internal" href="format.html#set_left" title="set_left"><tt class="xref py py-func docutils literal"><span class="pre">set_left()</span></tt></a></td>
+</tr>
+<tr class="row-even"><td>Right border</td>
+<td><tt class="docutils literal"><span class="pre">'right'</span></tt></td>
+<td><a class="reference internal" href="format.html#set_right" title="set_right"><tt class="xref py py-func docutils literal"><span class="pre">set_right()</span></tt></a></td>
+</tr>
+<tr class="row-odd"><td>Border color</td>
+<td><tt class="docutils literal"><span class="pre">'border_color'</span></tt></td>
+<td><a class="reference internal" href="format.html#set_border_color" title="set_border_color"><tt class="xref py py-func docutils literal"><span class="pre">set_border_color()</span></tt></a></td>
+</tr>
+<tr class="row-even"><td>Bottom color</td>
+<td><tt class="docutils literal"><span class="pre">'bottom_color'</span></tt></td>
+<td><a class="reference internal" href="format.html#set_bottom_color" title="set_bottom_color"><tt class="xref py py-func docutils literal"><span class="pre">set_bottom_color()</span></tt></a></td>
+</tr>
+<tr class="row-odd"><td>Top color</td>
+<td><tt class="docutils literal"><span class="pre">'top_color'</span></tt></td>
+<td><a class="reference internal" href="format.html#set_top_color" title="set_top_color"><tt class="xref py py-func docutils literal"><span class="pre">set_top_color()</span></tt></a></td>
+</tr>
+<tr class="row-even"><td>Left color</td>
+<td><tt class="docutils literal"><span class="pre">'left_color'</span></tt></td>
+<td><a class="reference internal" href="format.html#set_left_color" title="set_left_color"><tt class="xref py py-func docutils literal"><span class="pre">set_left_color()</span></tt></a></td>
+</tr>
+<tr class="row-odd"><td>Right color</td>
+<td><tt class="docutils literal"><span class="pre">'right_color'</span></tt></td>
+<td><a class="reference internal" href="format.html#set_right_color" title="set_right_color"><tt class="xref py py-func docutils literal"><span class="pre">set_right_color()</span></tt></a></td>
+</tr>
+</tbody>
+</table>
+<p>There are two ways of setting Format properties: by using the object interface
+or by setting the property as a dictionary of key/value pairs in the
+constructor. For example, a typical use of the object interface would be as
+follows:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">format</span> <span class="o">=</span> <span class="n">workbook</span><span class="o">.</span><span class="n">add_format</span><span class="p">()</span>
+<span class="n">format</span><span class="o">.</span><span class="n">set_bold</span><span class="p">()</span>
+<span class="n">format</span><span class="o">.</span><span class="n">set_font_color</span><span class="p">(</span><span class="s">&#39;red&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>By comparison the properties can be set by passing a dictionary of properties
+to the <cite>add_format()</cite> constructor:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">format</span> <span class="o">=</span> <span class="n">workbook</span><span class="o">.</span><span class="n">add_format</span><span class="p">({</span><span class="s">&#39;bold&#39;</span><span class="p">:</span> <span class="bp">True</span><span class="p">,</span> <span class="s">&#39;font_color&#39;</span><span class="p">:</span> <span class="s">&#39;red&#39;</span><span class="p">})</span>
+</pre></div>
+</div>
+<p>The object method interface is mainly provided for backward compatibility with
+<a class="reference internal" href="excel_writer_xlsx.html#ewx"><em>Excel::Writer::XLSX</em></a>. The key/value interface has proved to be more flexible in real
+world programs and is the recommended method for setting format properties.</p>
+</div>
+<div class="section" id="format-colors">
+<span id="id2"></span><h2>Format Colors</h2>
+<p>Format property colors are specified using a Html sytle <tt class="docutils literal"><span class="pre">#RRGGBB</span></tt> index:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">cell_format</span><span class="o">.</span><span class="n">set_font_color</span><span class="p">(</span><span class="s">&#39;#FF0000&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>For backward compatibility with <a class="reference internal" href="excel_writer_xlsx.html#ewx"><em>Excel::Writer::XLSX</em></a> a limited number of
+color names are supported:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">cell_format</span><span class="o">.</span><span class="n">set_font_color</span><span class="p">(</span><span class="s">&#39;red&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>The color names and corresponding <tt class="docutils literal"><span class="pre">#RRGGBB</span></tt> indices are shown below:</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="43%" />
+<col width="57%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Color name</th>
+<th class="head">RGB color code</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>black</td>
+<td><tt class="docutils literal"><span class="pre">#000000</span></tt></td>
+</tr>
+<tr class="row-odd"><td>blue</td>
+<td><tt class="docutils literal"><span class="pre">#0000FF</span></tt></td>
+</tr>
+<tr class="row-even"><td>brown</td>
+<td><tt class="docutils literal"><span class="pre">#800000</span></tt></td>
+</tr>
+<tr class="row-odd"><td>cyan</td>
+<td><tt class="docutils literal"><span class="pre">#00FFFF</span></tt></td>
+</tr>
+<tr class="row-even"><td>gray</td>
+<td><tt class="docutils literal"><span class="pre">#808080</span></tt></td>
+</tr>
+<tr class="row-odd"><td>green</td>
+<td><tt class="docutils literal"><span class="pre">#008000</span></tt></td>
+</tr>
+<tr class="row-even"><td>lime</td>
+<td><tt class="docutils literal"><span class="pre">#00FF00</span></tt></td>
+</tr>
+<tr class="row-odd"><td>magenta</td>
+<td><tt class="docutils literal"><span class="pre">#FF00FF</span></tt></td>
+</tr>
+<tr class="row-even"><td>navy</td>
+<td><tt class="docutils literal"><span class="pre">#000080</span></tt></td>
+</tr>
+<tr class="row-odd"><td>orange</td>
+<td><tt class="docutils literal"><span class="pre">#FF6600</span></tt></td>
+</tr>
+<tr class="row-even"><td>pink</td>
+<td><tt class="docutils literal"><span class="pre">#FF00FF</span></tt></td>
+</tr>
+<tr class="row-odd"><td>purple</td>
+<td><tt class="docutils literal"><span class="pre">#800080</span></tt></td>
+</tr>
+<tr class="row-even"><td>red</td>
+<td><tt class="docutils literal"><span class="pre">#FF0000</span></tt></td>
+</tr>
+<tr class="row-odd"><td>silver</td>
+<td><tt class="docutils literal"><span class="pre">#C0C0C0</span></tt></td>
+</tr>
+<tr class="row-even"><td>white</td>
+<td><tt class="docutils literal"><span class="pre">#FFFFFF</span></tt></td>
+</tr>
+<tr class="row-odd"><td>yellow</td>
+<td><tt class="docutils literal"><span class="pre">#FFFF00</span></tt></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="format-defaults">
+<h2>Format Defaults</h2>
+<p>The default Excel 2007+ cell format is Calibri 11 with all other properties off.</p>
+<p>In general a format method call without an argument will turn a property on,
+for example:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">format1</span> <span class="o">=</span> <span class="n">workbook</span><span class="o">.</span><span class="n">add_format</span><span class="p">()</span>
+
+<span class="n">format1</span><span class="o">.</span><span class="n">set_bold</span><span class="p">()</span>   <span class="c"># Turns bold on.</span>
+<span class="n">format1</span><span class="o">.</span><span class="n">set_bold</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>  <span class="c"># Also turns bold on.</span>
+</pre></div>
+</div>
+<p>Since most properties are already off by default it isn&#8217;t generally required to
+turn them off. However, it is possible if required:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">format1</span><span class="o">.</span><span class="n">set_bold</span><span class="p">(</span><span class="mi">0</span><span class="p">);</span> <span class="c"># Turns bold off.</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="modifying-formats">
+<h2>Modifying Formats</h2>
+<p>Each unique cell format in an XlsxWriter spreadsheet must have a corresponding
+Format object. It isn&#8217;t possible to use a Format with a <tt class="docutils literal"><span class="pre">write()</span></tt> method and
+then redefine it for use at a later stage. This is because a Format is applied
+to a cell not in its current state but in its final state. Consider the
+following example:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">format</span> <span class="o">=</span> <span class="n">workbook</span><span class="o">.</span><span class="n">add_format</span><span class="p">({</span><span class="s">&#39;bold&#39;</span><span class="p">:</span> <span class="bp">True</span><span class="p">,</span> <span class="s">&#39;font_color&#39;</span><span class="p">:</span> <span class="s">&#39;red&#39;</span><span class="p">})</span>
+<span class="n">worksheet</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s">&#39;A1&#39;</span><span class="p">,</span> <span class="s">&#39;Cell A1&#39;</span><span class="p">,</span> <span class="n">format</span><span class="p">)</span>
+
+<span class="c"># Later...</span>
+<span class="n">format</span><span class="o">.</span><span class="n">set_font_color</span><span class="p">(</span><span class="s">&#39;green&#39;</span><span class="p">)</span>
+<span class="n">worksheet</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s">&#39;B1&#39;</span><span class="p">,</span> <span class="s">&#39;Cell B1&#39;</span><span class="p">,</span> <span class="n">format</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Cell A1 is assigned a format which is initially has the font set to the colour
+red. However, the colour is subsequently set to green. When Excel displays
+Cell A1 it will display the final state of the Format which in this case will
+be the colour green.</p>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="index.html">
+              <img class="logo" src="_static/logo.png" alt="Logo"/>
+            </a></p>
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Working with Formats</a><ul>
+<li><a class="reference internal" href="#creating-and-using-a-format-object">Creating and using a Format object</a></li>
+<li><a class="reference internal" href="#format-methods-and-format-properties">Format methods and Format properties</a></li>
+<li><a class="reference internal" href="#format-colors">Format Colors</a></li>
+<li><a class="reference internal" href="#format-defaults">Format Defaults</a></li>
+<li><a class="reference internal" href="#modifying-formats">Modifying Formats</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="working_with_cell_notation.html"
+                        title="previous chapter">Working with Cell Notation</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="working_with_dates_and_time.html"
+                        title="next chapter">Working with Dates and Time</a></p>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="_sources/working_with_formats.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="working_with_dates_and_time.html" title="Working with Dates and Time"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="working_with_cell_notation.html" title="Working with Cell Notation"
+             >previous</a> |</li>
+        <li><a href="index.html">XlsxWriter Documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2013, John McNamara.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.3.
+    </div>
+  </body>
+</html>

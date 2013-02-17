@@ -1,0 +1,285 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Tutorial 3: Writing different types of data to the XLSX File &mdash; XlsxWriter Documentation</title>
+    
+    <link rel="stylesheet" href="_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '',
+        VERSION:     '0.0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="XlsxWriter Documentation" href="index.html" />
+    <link rel="next" title="The Workbook Class" href="workbook.html" />
+    <link rel="prev" title="Tutorial 2: Adding formatting to the XLSX File" href="tutorial02.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="workbook.html" title="The Workbook Class"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="tutorial02.html" title="Tutorial 2: Adding formatting to the XLSX File"
+             accesskey="P">previous</a> |</li>
+        <li><a href="index.html">XlsxWriter Documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="tutorial-3-writing-different-types-of-data-to-the-xlsx-file">
+<span id="tutorial3"></span><h1>Tutorial 3: Writing different types of data to the XLSX File</h1>
+<p>In the previous section we created a simple spreadsheet with formatting using
+Python and the XlsxWriter module.</p>
+<p>This time let&#8217;s extend the data we want to write to include some dates:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">expenses</span> <span class="o">=</span> <span class="p">(</span>
+    <span class="p">[</span><span class="s">&#39;Rent&#39;</span><span class="p">,</span> <span class="s">&#39;2013-01-13&#39;</span><span class="p">,</span> <span class="mi">1000</span><span class="p">],</span>
+    <span class="p">[</span><span class="s">&#39;Gas&#39;</span><span class="p">,</span>  <span class="s">&#39;2013-01-14&#39;</span><span class="p">,</span>  <span class="mi">100</span><span class="p">],</span>
+    <span class="p">[</span><span class="s">&#39;Food&#39;</span><span class="p">,</span> <span class="s">&#39;2013-01-16&#39;</span><span class="p">,</span>  <span class="mi">300</span><span class="p">],</span>
+    <span class="p">[</span><span class="s">&#39;Gym&#39;</span><span class="p">,</span>  <span class="s">&#39;2013-01-20&#39;</span><span class="p">,</span>   <span class="mi">50</span><span class="p">],</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+<p>The corresponding spreadsheet will look like this:</p>
+<img alt="_images/tutorial03.png" src="_images/tutorial03.png" />
+<p>The differences here are that we have added a <strong>Date</strong> column, formatted the
+dates and made column &#8216;B&#8217; a little wider to accommodate the dates.</p>
+<p>To do this we can extend our program like this (the significant changes are
+shown with a red line):</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="hll"> <span class="kn">from</span> <span class="nn">datetime</span> <span class="kn">import</span> <span class="n">datetime</span>
+</span> <span class="kn">from</span> <span class="nn">xlsxwriter.workbook</span> <span class="kn">import</span> <span class="n">Workbook</span>
+
+ <span class="c"># Create a workbook and add a worksheet.</span>
+ <span class="n">workbook</span> <span class="o">=</span> <span class="n">Workbook</span><span class="p">(</span><span class="s">&#39;Expenses03.xlsx&#39;</span><span class="p">)</span>
+ <span class="n">worksheet</span> <span class="o">=</span> <span class="n">workbook</span><span class="o">.</span><span class="n">add_worksheet</span><span class="p">()</span>
+
+ <span class="c"># Add a bold format to use to highlight cells.</span>
+ <span class="n">bold</span> <span class="o">=</span> <span class="n">workbook</span><span class="o">.</span><span class="n">add_format</span><span class="p">({</span><span class="s">&#39;bold&#39;</span><span class="p">:</span> <span class="mi">1</span><span class="p">})</span>
+
+ <span class="c"># Add a number format for cells with money.</span>
+ <span class="n">money_format</span> <span class="o">=</span> <span class="n">workbook</span><span class="o">.</span><span class="n">add_format</span><span class="p">({</span><span class="s">&#39;num_format&#39;</span><span class="p">:</span> <span class="s">&#39;$#,##0&#39;</span><span class="p">})</span>
+
+ <span class="c"># Add an Excel date format.</span>
+<span class="hll"> <span class="n">date_format</span> <span class="o">=</span> <span class="n">workbook</span><span class="o">.</span><span class="n">add_format</span><span class="p">({</span><span class="s">&#39;num_format&#39;</span><span class="p">:</span> <span class="s">&#39;mmmm d yyyy&#39;</span><span class="p">})</span>
+</span>
+ <span class="c"># Adjust the column width.</span>
+<span class="hll"> <span class="n">worksheet</span><span class="o">.</span><span class="n">set_column</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">15</span><span class="p">)</span>
+</span>
+ <span class="c"># Write some data headers.</span>
+ <span class="n">worksheet</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s">&#39;A1&#39;</span><span class="p">,</span> <span class="s">&#39;Item&#39;</span><span class="p">,</span> <span class="n">bold</span><span class="p">)</span>
+ <span class="n">worksheet</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s">&#39;B1&#39;</span><span class="p">,</span> <span class="s">&#39;Date&#39;</span><span class="p">,</span> <span class="n">bold</span><span class="p">)</span>
+ <span class="n">worksheet</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s">&#39;C1&#39;</span><span class="p">,</span> <span class="s">&#39;Cost&#39;</span><span class="p">,</span> <span class="n">bold</span><span class="p">)</span>
+
+ <span class="c"># Some data we want to write to the worksheet.</span>
+ <span class="n">expenses</span> <span class="o">=</span> <span class="p">(</span>
+<span class="hll">     <span class="p">[</span><span class="s">&#39;Rent&#39;</span><span class="p">,</span> <span class="s">&#39;2013-01-13&#39;</span><span class="p">,</span> <span class="mi">1000</span><span class="p">],</span>
+</span><span class="hll">     <span class="p">[</span><span class="s">&#39;Gas&#39;</span><span class="p">,</span>  <span class="s">&#39;2013-01-14&#39;</span><span class="p">,</span>  <span class="mi">100</span><span class="p">],</span>
+</span><span class="hll">     <span class="p">[</span><span class="s">&#39;Food&#39;</span><span class="p">,</span> <span class="s">&#39;2013-01-16&#39;</span><span class="p">,</span>  <span class="mi">300</span><span class="p">],</span>
+</span><span class="hll">     <span class="p">[</span><span class="s">&#39;Gym&#39;</span><span class="p">,</span>  <span class="s">&#39;2013-01-20&#39;</span><span class="p">,</span>   <span class="mi">50</span><span class="p">],</span>
+</span> <span class="p">)</span>
+
+ <span class="c"># Start from the first cell below the headers.</span>
+ <span class="n">row</span> <span class="o">=</span> <span class="mi">1</span>
+ <span class="n">col</span> <span class="o">=</span> <span class="mi">0</span>
+
+ <span class="k">for</span> <span class="n">item</span><span class="p">,</span> <span class="n">date_str</span><span class="p">,</span> <span class="n">cost</span> <span class="ow">in</span> <span class="p">(</span><span class="n">expenses</span><span class="p">):</span>
+     <span class="c"># Convert the date string into a datetime object.</span>
+<span class="hll">     <span class="n">date</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">strptime</span><span class="p">(</span><span class="n">date_str</span><span class="p">,</span> <span class="s">&quot;%Y-%m-</span><span class="si">%d</span><span class="s">&quot;</span><span class="p">)</span>
+</span><span class="hll">
+</span><span class="hll">     <span class="n">worksheet</span><span class="o">.</span><span class="n">write_string</span>  <span class="p">(</span><span class="n">row</span><span class="p">,</span> <span class="n">col</span><span class="p">,</span>     <span class="n">item</span>              <span class="p">)</span>
+</span><span class="hll">     <span class="n">worksheet</span><span class="o">.</span><span class="n">write_datetime</span><span class="p">(</span><span class="n">row</span><span class="p">,</span> <span class="n">col</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">date</span><span class="p">,</span> <span class="n">date_format</span> <span class="p">)</span>
+</span><span class="hll">     <span class="n">worksheet</span><span class="o">.</span><span class="n">write_number</span>  <span class="p">(</span><span class="n">row</span><span class="p">,</span> <span class="n">col</span> <span class="o">+</span> <span class="mi">2</span><span class="p">,</span> <span class="n">cost</span><span class="p">,</span> <span class="n">money_format</span><span class="p">)</span>
+</span>     <span class="n">row</span> <span class="o">+=</span> <span class="mi">1</span>
+
+ <span class="c"># Write a total using a formula.</span>
+ <span class="n">worksheet</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">row</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="s">&#39;Total&#39;</span><span class="p">,</span> <span class="n">bold</span><span class="p">)</span>
+ <span class="n">worksheet</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">row</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="s">&#39;=SUM(C2:C5)&#39;</span><span class="p">,</span> <span class="n">money_format</span><span class="p">)</span>
+
+ <span class="n">workbook</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>The main difference between this and the previous program is that we have added
+a new <a class="reference internal" href="format.html#format"><em>Format</em></a> object for dates and we have additional handling
+for data types.</p>
+<p>Excel treats different types of input data differently, although it generally
+does it transparently to the user. To illustrate this, open up a new Excel
+spreadsheet, make the first column wider and enter the following data:</p>
+<div class="highlight-python"><pre>123
+123.456
+1234567890123456
+Hello
+World
+2013/01/01
+2013/01/01          (But change the format from Date to General)
+01234</pre>
+</div>
+<p>You should see something like the following:</p>
+<img alt="_images/tutorial03_2.png" src="_images/tutorial03_2.png" />
+<p>There are a few things to notice here. The first is that the numbers in the
+first three rows are stored as numbers and are aligned to the right of the
+cell. The second is that the strings in the following rows are stored as
+strings and are aligned to the left. The third is that the date string format
+has changed and that it is aligned to the right. The final thing to notice is
+that Excel has stripped the leading 0 from 012345.</p>
+<p>Let&#8217;s look at each of these in more detail.</p>
+<p><strong>Numbers are stored as numbers</strong>: In general Excel stores data as either
+strings or numbers. So it shouldn&#8217;t be surprising that it stores numbers as
+numbers. Within a cell a number is right aligned by default. Internally Excel
+handles numbers as IEEE-754 64-bit double-precision floating point. This means
+that, in most cases, the maximum number of digits that can be stored in Excel
+without losing precision is 15. This can be seen in cell <tt class="docutils literal"><span class="pre">'A3'</span></tt> where the 16
+digit number has lost precision in the last digit.</p>
+<p><strong>Strings are stored as strings</strong>: Again not so surprising. Within a cell a
+string is left aligned by default. Excel 2007+ stores strings internally as
+UTF-8.</p>
+<p><strong>Dates are stored as numbers</strong>: The first clue to this is that the dates are
+right aligned like numbers. More explicitly, the data in cell <tt class="docutils literal"><span class="pre">'A7'</span></tt> shows
+that if you remove the date format the underlying data is a number. When you
+enter a string that looks like a date Excel converts it to a number and
+applies the default date format to it so that it is displayed as a date. This
+is explained in more detail in <a class="reference internal" href="working_with_dates_and_time.html#working-with-dates-and-time"><em>Working with Dates and Time</em></a>.</p>
+<p><strong>Things that look like numbers are stored as numbers</strong>: In cell <tt class="docutils literal"><span class="pre">'A8'</span></tt> we
+entered <tt class="docutils literal"><span class="pre">012345</span></tt> but Excel converted it to the number <tt class="docutils literal"><span class="pre">12345</span></tt>. This is
+something to be aware of if you are writing ID numbers or Zip codes. In order
+to preserve the leading zero(es) you need to store the data as either a string
+or a number with a format.</p>
+<p>XlsxWriter tries to mimic the way Excel works via the
+<a class="reference internal" href="worksheet.html#worksheet"><em>worksheet.</em></a><a class="reference internal" href="worksheet.html#write" title="write"><tt class="xref py py-func docutils literal"><span class="pre">write()</span></tt></a> method and separates Python data
+into types that Excel recognises. The <tt class="docutils literal"><span class="pre">write()</span></tt> method acts as a general
+alias for several more specific methods:</p>
+<ul class="simple">
+<li><a class="reference internal" href="worksheet.html#write_string" title="write_string"><tt class="xref py py-func docutils literal"><span class="pre">write_string()</span></tt></a></li>
+<li><a class="reference internal" href="worksheet.html#write_number" title="write_number"><tt class="xref py py-func docutils literal"><span class="pre">write_number()</span></tt></a></li>
+<li><a class="reference internal" href="worksheet.html#write_datetime" title="write_datetime"><tt class="xref py py-func docutils literal"><span class="pre">write_datetime()</span></tt></a></li>
+<li><a class="reference internal" href="worksheet.html#write_blank" title="write_blank"><tt class="xref py py-func docutils literal"><span class="pre">write_blank()</span></tt></a></li>
+<li><a class="reference internal" href="worksheet.html#write_formula" title="write_formula"><tt class="xref py py-func docutils literal"><span class="pre">write_formula()</span></tt></a></li>
+</ul>
+<p>So, let&#8217;s see how all of this affects our program.</p>
+<p>The main change in our example program is the addition of date handling. As we
+saw above Excel stores dates as numbers. XlsxWriter makes the required
+conversion if the date and time are Python <a class="reference external" href="http://docs.python.org/2/library/datetime.html#datetime.datetime" title="(in Python v2.7)"><tt class="xref py py-class docutils literal"><span class="pre">datetime.datetime</span></tt></a> objects.
+To convert the date strings in our example to <tt class="docutils literal"><span class="pre">datetime.datetime</span></tt> objects we
+use the <a class="reference external" href="http://docs.python.org/2/library/datetime.html#datetime.datetime.strptime" title="(in Python v2.7)"><tt class="xref py py-meth docutils literal"><span class="pre">datetime.strptime</span></tt></a> function. We
+then use the <a class="reference internal" href="worksheet.html#write_datetime" title="write_datetime"><tt class="xref py py-func docutils literal"><span class="pre">write_datetime()</span></tt></a> function to write it to a file. However,
+since the date is converted to a number we also need to add a number format to
+ensure that Excel displays it as as date:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">datetime</span> <span class="kn">import</span> <span class="n">datetime</span>
+<span class="o">...</span>
+
+<span class="n">date_format</span> <span class="o">=</span> <span class="n">workbook</span><span class="o">.</span><span class="n">add_format</span><span class="p">({</span><span class="s">&#39;num_format&#39;</span><span class="p">:</span> <span class="s">&#39;mmmm d yyyy&#39;</span><span class="p">})</span>
+<span class="o">...</span>
+
+<span class="k">for</span> <span class="n">item</span><span class="p">,</span> <span class="n">date_str</span><span class="p">,</span> <span class="n">cost</span> <span class="ow">in</span> <span class="p">(</span><span class="n">expenses</span><span class="p">):</span>
+    <span class="c"># Convert the date string into a datetime object.</span>
+    <span class="n">date</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">strptime</span><span class="p">(</span><span class="n">date_str</span><span class="p">,</span> <span class="s">&quot;%Y-%m-</span><span class="si">%d</span><span class="s">&quot;</span><span class="p">)</span>
+    <span class="o">...</span>
+    <span class="n">worksheet</span><span class="o">.</span><span class="n">write_datetime</span><span class="p">(</span><span class="n">row</span><span class="p">,</span> <span class="n">col</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">date</span><span class="p">,</span> <span class="n">date_format</span> <span class="p">)</span>
+    <span class="o">...</span>
+</pre></div>
+</div>
+<p>The other thing to notice in our program is that we have used explicit write
+methods for different types of data:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">worksheet</span><span class="o">.</span><span class="n">write_string</span>  <span class="p">(</span><span class="n">row</span><span class="p">,</span> <span class="n">col</span><span class="p">,</span>     <span class="n">item</span>              <span class="p">)</span>
+<span class="n">worksheet</span><span class="o">.</span><span class="n">write_datetime</span><span class="p">(</span><span class="n">row</span><span class="p">,</span> <span class="n">col</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">date</span><span class="p">,</span> <span class="n">date_format</span> <span class="p">)</span>
+<span class="n">worksheet</span><span class="o">.</span><span class="n">write_number</span>  <span class="p">(</span><span class="n">row</span><span class="p">,</span> <span class="n">col</span> <span class="o">+</span> <span class="mi">2</span><span class="p">,</span> <span class="n">cost</span><span class="p">,</span> <span class="n">money_format</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>This is mainly to show that if you need more control over the type of data you
+write to a worksheet you can use the appropriate method. In this simplified
+example the <a class="reference internal" href="worksheet.html#write" title="write"><tt class="xref py py-func docutils literal"><span class="pre">write()</span></tt></a> method would have worked just as well but it is
+important to note that in cases where <tt class="docutils literal"><span class="pre">write()</span></tt> doesn&#8217;t do the right thing,
+such as the number with leading zeroes discussed above, you will need to be
+explicit.</p>
+<p>Finally, the last addition to our program is the <a class="reference internal" href="worksheet.html#set_column" title="set_column"><tt class="xref py py-func docutils literal"><span class="pre">set_column()</span></tt></a> method to
+adjust the width of column &#8216;B&#8217; so that the dates are more clearly visible:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="c"># Adjust the column width.</span>
+<span class="n">worksheet</span><span class="o">.</span><span class="n">set_column</span><span class="p">(</span><span class="s">&#39;B:B&#39;</span><span class="p">,</span> <span class="mi">15</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>The <a class="reference internal" href="worksheet.html#set_column" title="set_column"><tt class="xref py py-func docutils literal"><span class="pre">set_column()</span></tt></a> and corresponding <a class="reference internal" href="worksheet.html#set_row" title="set_row"><tt class="xref py py-func docutils literal"><span class="pre">set_row()</span></tt></a> methods are explained
+in more detail in <a class="reference internal" href="worksheet.html#worksheet"><em>The Worksheet Class</em></a>.</p>
+<p>Next, let&#8217;s look at <a class="reference internal" href="workbook.html#workbook"><em>The Workbook Class</em></a> in more detail.</p>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="index.html">
+              <img class="logo" src="_static/logo.png" alt="Logo"/>
+            </a></p>
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="tutorial02.html"
+                        title="previous chapter">Tutorial 2: Adding formatting to the XLSX File</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="workbook.html"
+                        title="next chapter">The Workbook Class</a></p>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="_sources/tutorial03.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="workbook.html" title="The Workbook Class"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="tutorial02.html" title="Tutorial 2: Adding formatting to the XLSX File"
+             >previous</a> |</li>
+        <li><a href="index.html">XlsxWriter Documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2013, John McNamara.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.3.
+    </div>
+  </body>
+</html>

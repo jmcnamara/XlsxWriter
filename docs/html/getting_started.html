@@ -1,0 +1,221 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Getting Started with XlsxWriter &mdash; XlsxWriter Documentation</title>
+    
+    <link rel="stylesheet" href="_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '',
+        VERSION:     '0.0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="XlsxWriter Documentation" href="index.html" />
+    <link rel="next" title="Tutorial 1: Create a simple XLSX file" href="tutorial01.html" />
+    <link rel="prev" title="Introduction" href="introduction.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="tutorial01.html" title="Tutorial 1: Create a simple XLSX file"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="introduction.html" title="Introduction"
+             accesskey="P">previous</a> |</li>
+        <li><a href="index.html">XlsxWriter Documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="getting-started-with-xlsxwriter">
+<span id="getting-started"></span><h1>Getting Started with XlsxWriter</h1>
+<p>Here are some easy instructions to get you up and running with the XlsxWriter
+module.</p>
+<div class="section" id="installing-xlsxwriter">
+<h2>Installing XlsxWriter</h2>
+<p>The first step is to install the XlsxWriter module. There are several ways to
+do this.</p>
+<div class="section" id="using-pip">
+<h3>Using PIP</h3>
+<p>The <a class="reference external" href="http://www.pip-installer.org/en/latest/index.html">pip</a>  installer is
+the preferred method for installing Python modules from
+<a class="reference external" href="http://pypi.python.org/pypi">PyPI</a>, the Python Package Index:</p>
+<div class="highlight-python"><pre>$ sudo pip install XlsxWriter</pre>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Windows users can omit <tt class="docutils literal"><span class="pre">sudo</span></tt> at the start of the command.</p>
+</div>
+</div>
+<div class="section" id="using-easy-install">
+<h3>Using Easy_Install</h3>
+<p>If <tt class="docutils literal"><span class="pre">pip</span></tt> doesn&#8217;t work you can try
+<a class="reference external" href="http://peak.telecommunity.com/DevCenter/EasyInstall">easy_install</a>:</p>
+<div class="highlight-python"><pre>$ sudo easy_install install XlsxWriter</pre>
+</div>
+</div>
+<div class="section" id="installing-from-a-tarball">
+<h3>Installing from a tarball</h3>
+<p>If you download a tarball of the latest version of XlsxWriter you can install
+it as follows (change the version number to suit):</p>
+<div class="highlight-python"><pre>$ tar -zxvf XlsxWriter-1.2.3.tar.gz
+
+$ cd XlsxWriter-1.2.3
+$ sudo python setup.py install</pre>
+</div>
+<p>A tarball of the latest code can be downloaded from GitHub as follows:</p>
+<div class="highlight-python"><pre>$ curl -O -L http://github.com/jmcnamara/XlsxWriter/archive/master.tar.gz
+
+$ tar zxvf master.tar.gz
+$ cd XlsxWriter-master/
+$ sudo python setup.py install</pre>
+</div>
+</div>
+<div class="section" id="cloning-from-github">
+<h3>Cloning from GitHub</h3>
+<p>The XlsxWriter source code and bug tracker is in the
+<a class="reference external" href="http://github.com/jmcnamara/XlsxWriter">XlsxWriter repository</a> on GitHub.
+You can clone the repository and install from it as follows:</p>
+<div class="highlight-python"><pre>$ git clone https://github.com/jmcnamara/XlsxWriter.git
+
+$ cd XlsxWriter
+$ sudo python setup.py install</pre>
+</div>
+</div>
+</div>
+<div class="section" id="running-a-sample-program">
+<h2>Running a sample program</h2>
+<p>If the installation went correctly you can create a small sample program like
+the following to verify that the module works correctly:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">xlsxwriter.workbook</span> <span class="kn">import</span> <span class="n">Workbook</span>
+
+<span class="n">workbook</span> <span class="o">=</span> <span class="n">Workbook</span><span class="p">(</span><span class="s">&#39;hello.xlsx&#39;</span><span class="p">)</span>
+<span class="n">worksheet</span> <span class="o">=</span> <span class="n">workbook</span><span class="o">.</span><span class="n">add_worksheet</span><span class="p">()</span>
+
+<span class="n">worksheet</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s">&#39;A1&#39;</span><span class="p">,</span> <span class="s">&#39;Hello world&#39;</span><span class="p">)</span>
+
+<span class="n">workbook</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>Save this to a file called <tt class="docutils literal"><span class="pre">hello.py</span></tt> and run it as follows:</p>
+<div class="highlight-python"><pre>$ python hello.py</pre>
+</div>
+<p>This will output a file called <tt class="docutils literal"><span class="pre">hello.xlsx</span></tt> which should look something like
+the following:</p>
+<img alt="_images/hello01.png" src="_images/hello01.png" />
+<p>If you downloaded a tarball or cloned the repo, as shown above, you should also
+have a directory called
+<a class="reference external" href="https://github.com/jmcnamara/XlsxWriter/tree/master/examples">examples</a>
+with some sample applications that demonstrate different features of
+XlsxWriter.</p>
+</div>
+<div class="section" id="documentation">
+<h2>Documentation</h2>
+<p>The latest version of this document is hosted on
+<a class="reference external" href="https://xlsxwriter.readthedocs.org/en/latest/">Read The Docs</a>. It is
+available in several formats such as
+<a class="reference external" href="https://readthedocs.org/projects/xlsxwriter/downloads/">Html, PDF and ePub</a>.</p>
+<p>Once you are happy that the module is installed and operational you can have a
+look at the rest of the XlsxWriter documentation. <a class="reference internal" href="tutorial01.html#tutorial1"><em>Tutorial 1: Create a simple XLSX file</em></a> is a good
+place to start.</p>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="index.html">
+              <img class="logo" src="_static/logo.png" alt="Logo"/>
+            </a></p>
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Getting Started with XlsxWriter</a><ul>
+<li><a class="reference internal" href="#installing-xlsxwriter">Installing XlsxWriter</a><ul>
+<li><a class="reference internal" href="#using-pip">Using PIP</a></li>
+<li><a class="reference internal" href="#using-easy-install">Using Easy_Install</a></li>
+<li><a class="reference internal" href="#installing-from-a-tarball">Installing from a tarball</a></li>
+<li><a class="reference internal" href="#cloning-from-github">Cloning from GitHub</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#running-a-sample-program">Running a sample program</a></li>
+<li><a class="reference internal" href="#documentation">Documentation</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="introduction.html"
+                        title="previous chapter">Introduction</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="tutorial01.html"
+                        title="next chapter">Tutorial 1: Create a simple XLSX file</a></p>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="_sources/getting_started.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="tutorial01.html" title="Tutorial 1: Create a simple XLSX file"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="introduction.html" title="Introduction"
+             >previous</a> |</li>
+        <li><a href="index.html">XlsxWriter Documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2013, John McNamara.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.3.
+    </div>
+  </body>
+</html>

@@ -1,0 +1,784 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>The Worksheet Class &mdash; XlsxWriter Documentation</title>
+    
+    <link rel="stylesheet" href="_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '',
+        VERSION:     '0.0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="XlsxWriter Documentation" href="index.html" />
+    <link rel="next" title="The Format Class" href="format.html" />
+    <link rel="prev" title="The Workbook Class" href="workbook.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="format.html" title="The Format Class"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="workbook.html" title="The Workbook Class"
+             accesskey="P">previous</a> |</li>
+        <li><a href="index.html">XlsxWriter Documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="the-worksheet-class">
+<span id="worksheet"></span><h1>The Worksheet Class</h1>
+<p>The worksheet class represents an Excel worksheet. It handles operations such
+as writing data to cells or formatting worksheet layout.</p>
+<p>A worksheet object isn&#8217;t instantiated directly. Instead a new worksheet is
+created by calling the <a class="reference internal" href="workbook.html#add_worksheet" title="add_worksheet"><tt class="xref py py-func docutils literal"><span class="pre">add_worksheet()</span></tt></a> method from a <a class="reference internal" href="workbook.html#Workbook" title="Workbook"><tt class="xref py py-func docutils literal"><span class="pre">Workbook()</span></tt></a>
+object:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">workbook</span>   <span class="o">=</span> <span class="n">Workbook</span><span class="p">(</span><span class="s">&#39;filename.xlsx&#39;</span><span class="p">)</span>
+
+<span class="n">worksheet1</span> <span class="o">=</span> <span class="n">workbook</span><span class="o">.</span><span class="n">add_worksheet</span><span class="p">()</span>
+<span class="n">worksheet2</span> <span class="o">=</span> <span class="n">workbook</span><span class="o">.</span><span class="n">add_worksheet</span><span class="p">()</span>
+
+<span class="n">worksheet1</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s">&#39;A1&#39;</span><span class="p">,</span> <span class="mi">123</span><span class="p">)</span>
+</pre></div>
+</div>
+<img alt="_images/worksheet00.png" src="_images/worksheet00.png" />
+<div class="section" id="worksheet-write">
+<h2>worksheet.write()</h2>
+<dl class="function">
+<dt id="write">
+<tt class="descname">write</tt><big>(</big><em>row</em>, <em>col</em>, <em>data</em><span class="optional">[</span>, <em>cell_format</em><span class="optional">]</span><big>)</big></dt>
+<dd><p>Write generic data to a worksheet cell.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>row</strong> (<em>integer</em>) &#8211; The cell row (zero indexed).</li>
+<li><strong>col</strong> (<em>integer</em>) &#8211; The cell column (zero indexed).</li>
+<li><strong>data</strong> &#8211; Cell data to write. Variable types.</li>
+<li><strong>cell_format</strong> (<a class="reference internal" href="format.html#format"><em>Format</em></a>) &#8211; Optional Format object.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<p>Excel makes a distinction between data types such as strings, numbers, blanks,
+formulas and hyperlinks. To simplify the process of writing data to an
+XlsxWriter file the <tt class="docutils literal"><span class="pre">write()</span></tt> method acts as a general alias for several
+more specific methods:</p>
+<ul class="simple">
+<li><a class="reference internal" href="#write_string" title="write_string"><tt class="xref py py-func docutils literal"><span class="pre">write_string()</span></tt></a></li>
+<li><a class="reference internal" href="#write_number" title="write_number"><tt class="xref py py-func docutils literal"><span class="pre">write_number()</span></tt></a></li>
+<li><a class="reference internal" href="#write_blank" title="write_blank"><tt class="xref py py-func docutils literal"><span class="pre">write_blank()</span></tt></a></li>
+<li><a class="reference internal" href="#write_formula" title="write_formula"><tt class="xref py py-func docutils literal"><span class="pre">write_formula()</span></tt></a></li>
+</ul>
+<p>The general rule is that if the data looks like a <em>something</em> then a
+<em>something</em> is written. Here are some examples:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">worksheet</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="s">&#39;Hello&#39;</span><span class="p">)</span>          <span class="c"># write_string()</span>
+<span class="n">worksheet</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="s">&#39;World&#39;</span><span class="p">)</span>          <span class="c"># write_string()</span>
+<span class="n">worksheet</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>                <span class="c"># write_number()</span>
+<span class="n">worksheet</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mf">3.00001</span><span class="p">)</span>          <span class="c"># write_number()</span>
+<span class="n">worksheet</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="s">&#39;=SIN(PI()/4)&#39;</span><span class="p">)</span>   <span class="c"># write_formula()</span>
+<span class="n">worksheet</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="s">&#39;&#39;</span><span class="p">)</span>               <span class="c"># write_blank()</span>
+<span class="n">worksheet</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="bp">None</span><span class="p">)</span>             <span class="c"># write_blank()</span>
+</pre></div>
+</div>
+<p>This creates a worksheet like the following:</p>
+<img alt="_images/worksheet01.png" src="_images/worksheet01.png" />
+<p>The <tt class="docutils literal"><span class="pre">write()</span></tt> method supports two forms of notation to designate the position
+of cells: <strong>Row-column</strong> notation and <strong>A1</strong> notation:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="c"># These are equivalent.</span>
+<span class="n">worksheet</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="s">&#39;Hello&#39;</span><span class="p">)</span>
+<span class="n">worksheet</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s">&#39;A1&#39;</span><span class="p">,</span> <span class="s">&#39;Hello&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>See <a class="reference internal" href="working_with_cell_notation.html#cell-notation"><em>Working with Cell Notation</em></a> for more details.</p>
+<p>The <tt class="docutils literal"><span class="pre">cell_format</span></tt> parameter is used to apply formatting to the cell. This
+parameter is optional but when present is should be a valid
+<a class="reference internal" href="format.html#format"><em>Format</em></a> object:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">cell_format</span> <span class="o">=</span> <span class="n">workbook</span><span class="o">.</span><span class="n">add_format</span><span class="p">({</span><span class="s">&#39;bold&#39;</span><span class="p">:</span> <span class="bp">True</span><span class="p">,</span> <span class="s">&#39;italic&#39;</span><span class="p">:</span> <span class="bp">True</span><span class="p">})</span>
+
+<span class="n">worksheet</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="s">&#39;Hello&#39;</span><span class="p">,</span> <span class="n">cell_format</span><span class="p">)</span>  <span class="c"># Cell is bold and italic.</span>
+</pre></div>
+</div>
+<p>The <tt class="docutils literal"><span class="pre">write()</span></tt> method will ignore empty strings or <tt class="docutils literal"><span class="pre">None</span></tt> unless a format is
+also supplied. As such you needn&#8217;t worry about special handling for empty or
+<tt class="docutils literal"><span class="pre">None</span></tt> values in your data. See also the <a class="reference internal" href="#write_blank" title="write_blank"><tt class="xref py py-func docutils literal"><span class="pre">write_blank()</span></tt></a> method.</p>
+<p>One problem with the <tt class="docutils literal"><span class="pre">write()</span></tt> method is that occasionally data looks like a
+number but you don&#8217;t want it treated as a number. For example, Zip codes or ID
+numbers or often start with a leading zero. If you write this data as a number
+then the leading zero(s) will be stripped. In this case you shouldn&#8217;t use the
+<tt class="docutils literal"><span class="pre">write()</span></tt> method and should use <tt class="docutils literal"><span class="pre">write_string()</span></tt> instead.</p>
+</div>
+<div class="section" id="worksheet-write-string">
+<h2>worksheet.write_string()</h2>
+<dl class="function">
+<dt id="write_string">
+<tt class="descname">write_string</tt><big>(</big><em>row</em>, <em>col</em>, <em>string</em><span class="optional">[</span>, <em>cell_format</em><span class="optional">]</span><big>)</big></dt>
+<dd><p>Write a string to a worksheet cell.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>row</strong> (<em>integer</em>) &#8211; The cell row (zero indexed).</li>
+<li><strong>col</strong> (<em>integer</em>) &#8211; The cell column (zero indexed).</li>
+<li><strong>string</strong> (<a class="reference external" href="http://docs.python.org/2/library/string.html#string" title="(in Python v2.7)"><em>string</em></a>) &#8211; String to write to cell.</li>
+<li><strong>cell_format</strong> (<a class="reference internal" href="format.html#format"><em>Format</em></a>) &#8211; Optional Format object.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<p>The <tt class="docutils literal"><span class="pre">write_string()</span></tt> method writes a string to the cell specified by <tt class="docutils literal"><span class="pre">row</span></tt>
+and <tt class="docutils literal"><span class="pre">column</span></tt>:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">worksheet</span><span class="o">.</span><span class="n">write_string</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="s">&#39;Your text here&#39;</span><span class="p">)</span>
+<span class="n">worksheet</span><span class="o">.</span><span class="n">write_string</span><span class="p">(</span><span class="s">&#39;A2&#39;</span><span class="p">,</span> <span class="s">&#39;or here&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Both row-column and A1 style notation are support. See <a class="reference internal" href="working_with_cell_notation.html#cell-notation"><em>Working with Cell Notation</em></a> for
+more details.</p>
+<p>The <tt class="docutils literal"><span class="pre">cell_format</span></tt> parameter is used to apply formatting to the cell. This
+parameter is optional but when present is should be a valid
+<a class="reference internal" href="format.html#format"><em>Format</em></a> object.</p>
+<p>Unicode strings are supported in UTF-8 encoding. This generally requires that
+your source file in also UTF-8 encoded:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="c"># _*_ coding: utf-8</span>
+
+<span class="n">worksheet</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s">&#39;A1&#39;</span><span class="p">,</span> <span class="s">u&#39;Это фраза на русском!&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<img alt="_images/worksheet02.png" src="_images/worksheet02.png" />
+<p>Alternatively, you can read data from an encoded file, convert it to UTF-8
+during reading and then write the data to an Excel file. There are several
+sample
+<tt class="docutils literal"><span class="pre">unicode_*.py</span></tt> programs like this in the <tt class="docutils literal"><span class="pre">examples</span></tt> directory of the XlsxWriter source tree.</p>
+<p>The maximum string size supported by Excel is 32,767 characters. Strings longer
+than this will be truncated by <tt class="docutils literal"><span class="pre">write_string()</span></tt>.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Even though Excel allows strings of 32,767 characters in a cell, Excel
+can only <strong>display</strong> 1000. All 32,767 characters are displayed in the
+formula bar.</p>
+</div>
+<p>In general it is sufficient to use the <tt class="docutils literal"><span class="pre">write()</span></tt> method when dealing with
+string data. However, you may sometimes need to use <tt class="docutils literal"><span class="pre">write_string()</span></tt> to
+write data that looks like a number but that you don&#8217;t want treated as a
+number. For example, Zip codes or phone numbers:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="c"># Write ID number as a plain string.</span>
+<span class="n">worksheet</span><span class="o">.</span><span class="n">write_string</span><span class="p">(</span><span class="s">&#39;A1&#39;</span><span class="p">,</span> <span class="s">&#39;01209&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>However, if the user edits this string Excel may convert it back to a number.
+To get around this you can use the Excel text format <tt class="docutils literal"><span class="pre">'&#64;'</span></tt>:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="c"># Format as a string. Doesn&#39;t change to a number when edited</span>
+<span class="n">str_format</span> <span class="o">=</span> <span class="n">workbook</span><span class="o">.</span><span class="n">add_format</span><span class="p">({</span><span class="s">&#39;num_format&#39;</span><span class="p">,</span> <span class="s">&#39;@&#39;</span><span class="p">})</span>
+<span class="n">worksheet</span><span class="o">.</span><span class="n">write_string</span><span class="p">(</span><span class="s">&#39;A1&#39;</span><span class="p">,</span> <span class="s">&#39;01209&#39;</span><span class="p">,</span> <span class="n">str_format</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>This behaviour, while slightly tedious, is unfortunately consistent with the
+way Excel handles string data that looks like numbers. See <a class="reference internal" href="tutorial03.html#tutorial3"><em>Tutorial 3: Writing different types of data to the XLSX File</em></a>.</p>
+</div>
+<div class="section" id="worksheet-write-number">
+<h2>worksheet.write_number()</h2>
+<dl class="function">
+<dt id="write_number">
+<tt class="descname">write_number</tt><big>(</big><em>row</em>, <em>col</em>, <em>number</em><span class="optional">[</span>, <em>cell_format</em><span class="optional">]</span><big>)</big></dt>
+<dd><p>Write a number to a worksheet cell.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>row</strong> (<em>integer</em>) &#8211; The cell row (zero indexed).</li>
+<li><strong>col</strong> (<em>integer</em>) &#8211; The cell column (zero indexed).</li>
+<li><strong>number</strong> (<em>int or float</em>) &#8211; Number to write to cell.</li>
+<li><strong>cell_format</strong> (<a class="reference internal" href="format.html#format"><em>Format</em></a>) &#8211; Optional Format object.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<p>The <tt class="docutils literal"><span class="pre">write_number()</span></tt> method writes an integer or a float to the cell
+specified by <tt class="docutils literal"><span class="pre">row</span></tt> and <tt class="docutils literal"><span class="pre">column</span></tt>:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">worksheet</span><span class="o">.</span><span class="n">write_number</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">123456</span><span class="p">)</span>
+<span class="n">worksheet</span><span class="o">.</span><span class="n">write_number</span><span class="p">(</span><span class="s">&#39;A2&#39;</span><span class="p">,</span> <span class="mf">2.3451</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Both row-column and A1 style notation are support. See <a class="reference internal" href="working_with_cell_notation.html#cell-notation"><em>Working with Cell Notation</em></a> for
+more details.</p>
+<p>The <tt class="docutils literal"><span class="pre">cell_format</span></tt> parameter is used to apply formatting to the cell. This
+parameter is optional but when present is should be a valid
+<a class="reference internal" href="format.html#format"><em>Format</em></a> object.</p>
+<p>Excel handles numbers as IEEE-754 64-bit double-precision floating point. This
+means that, in most cases, the maximum number of digits that can be stored in
+Excel without losing precision is 15.</p>
+</div>
+<div class="section" id="worksheet-write-formula">
+<h2>worksheet.write_formula()</h2>
+<dl class="function">
+<dt id="write_formula">
+<tt class="descname">write_formula</tt><big>(</big><em>row</em>, <em>col</em>, <em>formula</em><span class="optional">[</span>, <em>cell_format</em><span class="optional">[</span>, <em>value</em><span class="optional">]</span><span class="optional">]</span><big>)</big></dt>
+<dd><p>Write a formula to a worksheet cell.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>row</strong> (<em>integer</em>) &#8211; The cell row (zero indexed).</li>
+<li><strong>col</strong> (<em>integer</em>) &#8211; The cell column (zero indexed).</li>
+<li><strong>formula</strong> (<a class="reference external" href="http://docs.python.org/2/library/string.html#string" title="(in Python v2.7)"><em>string</em></a>) &#8211; Formula to write to cell.</li>
+<li><strong>cell_format</strong> (<a class="reference internal" href="format.html#format"><em>Format</em></a>) &#8211; Optional Format object.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<p>The <tt class="docutils literal"><span class="pre">write_formula()</span></tt> method writes a formula or function to the cell
+specified by <tt class="docutils literal"><span class="pre">row</span></tt> and <tt class="docutils literal"><span class="pre">column</span></tt>:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">worksheet</span><span class="o">.</span><span class="n">write_formula</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="s">&#39;=B3 + B4&#39;</span><span class="p">)</span>
+<span class="n">worksheet</span><span class="o">.</span><span class="n">write_formula</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="s">&#39;=SIN(PI()/4)&#39;</span><span class="p">)</span>
+<span class="n">worksheet</span><span class="o">.</span><span class="n">write_formula</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="s">&#39;=SUM(B1:B5)&#39;</span><span class="p">)</span>
+<span class="n">worksheet</span><span class="o">.</span><span class="n">write_formula</span><span class="p">(</span><span class="s">&#39;A4&#39;</span><span class="p">,</span> <span class="s">&#39;=IF(A3&gt;1,&quot;Yes&quot;, &quot;No&quot;)&#39;</span><span class="p">)</span>
+<span class="n">worksheet</span><span class="o">.</span><span class="n">write_formula</span><span class="p">(</span><span class="s">&#39;A5&#39;</span><span class="p">,</span> <span class="s">&#39;=AVERAGE(1, 2, 3, 4)&#39;</span><span class="p">)</span>
+<span class="n">worksheet</span><span class="o">.</span><span class="n">write_formula</span><span class="p">(</span><span class="s">&#39;A6&#39;</span><span class="p">,</span> <span class="s">&#39;=DATEVALUE(&quot;1-Jan-2013&quot;)&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Array formulas are also supported:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">worksheet</span><span class="o">.</span><span class="n">write_formula</span><span class="p">(</span><span class="s">&#39;A7&#39;</span><span class="p">,</span> <span class="s">&#39;{=SUM(A1:B1*A2:B2)}&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>See also the <tt class="docutils literal"><span class="pre">write_array_formula()</span></tt> method below.</p>
+<p>Both row-column and A1 style notation are support. See <a class="reference internal" href="working_with_cell_notation.html#cell-notation"><em>Working with Cell Notation</em></a> for
+more details.</p>
+<p>The <tt class="docutils literal"><span class="pre">cell_format</span></tt> parameter is used to apply formatting to the cell. This
+parameter is optional but when present is should be a valid
+<a class="reference internal" href="format.html#format"><em>Format</em></a> object.</p>
+<p>XlsxWriter doesn&#8217;t calculate the value of a formula and instead stores the
+value 0 as the formula result. It then sets a global flag in the XLSX file to
+say that all formulas and functions should be recalculated when the file is
+opened. This is the method recommended in the Excel documentation and in
+general it works fine with spreadsheet applications. However, applications
+that don&#8217;t have a facility to calculate formulas, such as Excel Viewer, or
+some mobile applications will only display the 0 results.</p>
+<p>If required, it is also possible to specify the calculated result of the
+formula using the options <tt class="docutils literal"><span class="pre">value</span></tt> parameter. This is occasionally necessary
+when working with non-Excel applications that don&#8217;t calculate the value of the
+formula. The calculated <tt class="docutils literal"><span class="pre">value</span></tt> is added at the end of the argument list:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">worksheet</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s">&#39;A1&#39;</span><span class="p">,</span> <span class="s">&#39;=2+2&#39;</span><span class="p">,</span> <span class="n">num_format</span><span class="p">,</span> <span class="mi">4</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Some early versions of Excel 2007 do not display the calculated values of
+formulas written by XlsxWriter. Applying all available Office Service
+Packs should fix this.</p>
+</div>
+</div>
+<div class="section" id="worksheet-write-array-formula">
+<h2>worksheet.write_array_formula()</h2>
+<dl class="function">
+<dt id="write_array_formula">
+<tt class="descname">write_array_formula</tt><big>(</big><em>first_row</em>, <em>first_col</em>, <em>last_row</em>, <em>last_col</em>, <em>formula</em><span class="optional">[</span>, <em>cell_format</em><span class="optional">[</span>, <em>value</em><span class="optional">]</span><span class="optional">]</span><big>)</big></dt>
+<dd><p>Write an array formula to a worksheet cell.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>first_row</strong> (<em>integer</em>) &#8211; The first row of the range. (All zero indexed.)</li>
+<li><strong>first_col</strong> (<em>integer</em>) &#8211; The first column of the range.</li>
+<li><strong>last_row</strong> (<em>integer</em>) &#8211; The last row of the range.</li>
+<li><strong>last_col</strong> (<em>integer</em>) &#8211; The last col of the range.</li>
+<li><strong>formula</strong> (<a class="reference external" href="http://docs.python.org/2/library/string.html#string" title="(in Python v2.7)"><em>string</em></a>) &#8211; Array formula to write to cell.</li>
+<li><strong>cell_format</strong> (<a class="reference internal" href="format.html#format"><em>Format</em></a>) &#8211; Optional Format object.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<p>The <tt class="docutils literal"><span class="pre">write_array_formula()</span></tt> method write an array formula to a cell range. In
+Excel an array formula is a formula that performs a calculation on a set of
+values. It can return a single value or a range of values.</p>
+<p>An array formula is indicated by a pair of braces around the formula:
+<tt class="docutils literal"><span class="pre">{=SUM(A1:B1*A2:B2)}</span></tt>. If the array formula returns a single value then the <tt class="docutils literal"><span class="pre">first_</span></tt> and <tt class="docutils literal"><span class="pre">last_</span></tt> parameters should be the same:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">worksheet</span><span class="o">.</span><span class="n">write_array_formula</span><span class="p">(</span><span class="s">&#39;A1:A1&#39;</span><span class="p">,</span> <span class="s">&#39;{=SUM(B1:C1*B2:C2)}&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>It this case however it is easier to just use the <tt class="docutils literal"><span class="pre">write_formula()</span></tt> or
+<tt class="docutils literal"><span class="pre">write()</span></tt> methods:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="c"># Same as above but more concise.</span>
+<span class="n">worksheet</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s">&#39;A1&#39;</span><span class="p">,</span> <span class="s">&#39;{=SUM(B1:C1*B2:C2)}&#39;</span><span class="p">)</span>
+<span class="n">worksheet</span><span class="o">.</span><span class="n">write_formula</span><span class="p">(</span><span class="s">&#39;A1&#39;</span><span class="p">,</span> <span class="s">&#39;{=SUM(B1:C1*B2:C2)}&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>For array formulas that return a range of values you must specify the range
+that the return values will be written to:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">worksheet</span><span class="o">.</span><span class="n">write_array_formula</span><span class="p">(</span><span class="s">&#39;A1:A3&#39;</span><span class="p">,</span>    <span class="s">&#39;{=TREND(C1:C3,B1:B3)}&#39;</span><span class="p">)</span>
+<span class="n">worksheet</span><span class="o">.</span><span class="n">write_array_formula</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="s">&#39;{=TREND(C1:C3,B1:B3)}&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>As shown above, both row-column and A1 style notation are support. See
+<a class="reference internal" href="working_with_cell_notation.html#cell-notation"><em>Working with Cell Notation</em></a> for more details.</p>
+<p>The <tt class="docutils literal"><span class="pre">cell_format</span></tt> parameter is used to apply formatting to the cell. This
+parameter is optional but when present is should be a valid
+<a class="reference internal" href="format.html#format"><em>Format</em></a> object.</p>
+<p>If required, it is also possible to specify the calculated value of the
+formula. This is occasionally necessary when working with non-Excel
+applications that don&#8217;t calculate the value of the formula. The calculated
+<tt class="docutils literal"><span class="pre">value</span></tt> is added at the end of the argument list:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">worksheet</span><span class="o">.</span><span class="n">write_array_formula</span><span class="p">(</span><span class="s">&#39;A1:A3&#39;</span><span class="p">,</span> <span class="s">&#39;{=TREND(C1:C3,B1:B3)}&#39;</span><span class="p">,</span> <span class="n">format</span><span class="p">,</span> <span class="mi">105</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>In addition, some early versions of Excel 2007 don&#8217;t calculate the values of
+array formulas when they aren&#8217;t supplied. Installing the latest Office Service
+Pack should fix this issue.</p>
+</div>
+<div class="section" id="worksheet-write-blank">
+<h2>worksheet.write_blank()</h2>
+<dl class="function">
+<dt id="write_blank">
+<tt class="descname">write_blank</tt><big>(</big><em>row</em>, <em>col</em>, <em>blank</em><span class="optional">[</span>, <em>cell_format</em><span class="optional">]</span><big>)</big></dt>
+<dd><p>Write a blank worksheet cell.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>row</strong> (<em>integer</em>) &#8211; The cell row (zero indexed).</li>
+<li><strong>col</strong> (<em>integer</em>) &#8211; The cell column (zero indexed).</li>
+<li><strong>blank</strong> &#8211; None or empty string. The value is ignored.</li>
+<li><strong>cell_format</strong> (<a class="reference internal" href="format.html#format"><em>Format</em></a>) &#8211; Optional Format object.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<p>Write a blank cell specified by <tt class="docutils literal"><span class="pre">row</span></tt> and <tt class="docutils literal"><span class="pre">column</span></tt>:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">worksheet</span><span class="o">.</span><span class="n">write_blank</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="bp">None</span><span class="p">,</span> <span class="n">format</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>This method is used to add formatting to a cell which doesn&#8217;t contain a string
+or number value.</p>
+<p>Excel differentiates between an &#8220;Empty&#8221; cell and a &#8220;Blank&#8221; cell. An &#8220;Empty&#8221;
+cell is a cell which doesn&#8217;t contain data whilst a &#8220;Blank&#8221; cell is a cell
+which doesn&#8217;t contain data but does contain formatting. Excel stores &#8220;Blank&#8221;
+cells but ignores &#8220;Empty&#8221; cells.</p>
+<p>As such, if you write an empty cell without formatting it is ignored:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">worksheet</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s">&#39;A1&#39;</span><span class="p">,</span> <span class="bp">None</span><span class="p">,</span> <span class="n">format</span><span class="p">)</span>  <span class="c"># write_blank()</span>
+<span class="n">worksheet</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s">&#39;A2&#39;</span><span class="p">,</span> <span class="bp">None</span><span class="p">)</span>          <span class="c"># Ignored</span>
+</pre></div>
+</div>
+<p>This seemingly uninteresting fact means that you can write arrays of data
+without special treatment for <tt class="docutils literal"><span class="pre">None</span></tt> or empty string values.</p>
+<p>As shown above, both row-column and A1 style notation are support. See
+<a class="reference internal" href="working_with_cell_notation.html#cell-notation"><em>Working with Cell Notation</em></a> for more details.</p>
+</div>
+<div class="section" id="worksheet-write-datetime">
+<h2>worksheet.write_datetime()</h2>
+<dl class="function">
+<dt id="write_datetime">
+<tt class="descname">write_datetime</tt><big>(</big><em>row</em>, <em>col</em>, <em>datetime</em><span class="optional">[</span>, <em>cell_format</em><span class="optional">]</span><big>)</big></dt>
+<dd><p>Write a date or time to a worksheet cell.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>row</strong> (<em>integer</em>) &#8211; The cell row (zero indexed).</li>
+<li><strong>col</strong> (<em>integer</em>) &#8211; The cell column (zero indexed).</li>
+<li><strong>datetime</strong> (<a class="reference external" href="http://docs.python.org/2/library/datetime.html#datetime.datetime" title="(in Python v2.7)"><tt class="xref py py-class docutils literal"><span class="pre">datetime.datetime</span></tt></a>) &#8211; A datetime.datetime object.</li>
+<li><strong>cell_format</strong> (<a class="reference internal" href="format.html#format"><em>Format</em></a>) &#8211; Optional Format object.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<p>The <tt class="docutils literal"><span class="pre">write_datetime()</span></tt> method can be used to write a date or time to the cell
+specified by <tt class="docutils literal"><span class="pre">row</span></tt> and <tt class="docutils literal"><span class="pre">column</span></tt>:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">worksheet</span><span class="o">.</span><span class="n">write_datetime</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">datetime</span><span class="p">,</span> <span class="n">date_format</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>The <a class="reference external" href="http://docs.python.org/2/library/datetime.html#datetime.datetime" title="(in Python v2.7)"><tt class="xref py py-class docutils literal"><span class="pre">datetime.datetime</span></tt></a> class is part of the standard Python
+<a class="reference external" href="http://docs.python.org/2/library/datetime.html#datetime" title="(in Python v2.7)"><tt class="xref py py-mod docutils literal"><span class="pre">datetime</span></tt></a> library.</p>
+<p>There are many way to create a datetime object but the most common is to use
+the <a class="reference external" href="http://docs.python.org/2/library/datetime.html#datetime.datetime.strptime" title="(in Python v2.7)"><tt class="xref py py-meth docutils literal"><span class="pre">datetime.strptime</span></tt></a> method:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">date_time</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">strptime</span><span class="p">(</span><span class="s">&#39;2013-01-23&#39;</span><span class="p">,</span> <span class="s">&#39;%Y-%m-</span><span class="si">%d</span><span class="s">&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>A date should always have a <tt class="docutils literal"><span class="pre">cell_format</span></tt> of type <a class="reference internal" href="format.html#format"><em>Format</em></a>,
+otherwise it will appear as a number:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">date_format</span> <span class="o">=</span> <span class="n">workbook</span><span class="o">.</span><span class="n">add_format</span><span class="p">({</span><span class="s">&#39;num_format&#39;</span><span class="p">:</span> <span class="s">&#39;d mmmm yyyy&#39;</span><span class="p">})</span>
+
+<span class="n">worksheet</span><span class="o">.</span><span class="n">write_datetime</span><span class="p">(</span><span class="s">&#39;A1&#39;</span><span class="p">,</span> <span class="n">date_time</span><span class="p">,</span> <span class="n">date_format</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>See <a class="reference internal" href="working_with_dates_and_time.html#working-with-dates-and-time"><em>Working with Dates and Time</em></a> for more details.</p>
+</div>
+<div class="section" id="worksheet-set-row">
+<h2>worksheet.set_row()</h2>
+<dl class="function">
+<dt id="set_row">
+<tt class="descname">set_row</tt><big>(</big><em>row</em>, <em>height</em>, <em>cell_format</em>, <em>options</em><big>)</big></dt>
+<dd><p>Set properties for a row of cells.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>row</strong> (<a class="reference external" href="http://docs.python.org/2/library/functions.html#int" title="(in Python v2.7)"><em>int</em></a>) &#8211; The worksheet row (zero indexed).</li>
+<li><strong>height</strong> (<a class="reference external" href="http://docs.python.org/2/library/functions.html#int" title="(in Python v2.7)"><em>int</em></a>) &#8211; The row height.</li>
+<li><strong>cell_format</strong> (<a class="reference internal" href="format.html#format"><em>Format</em></a>) &#8211; Optional Format object.</li>
+<li><strong>options</strong> (<a class="reference external" href="http://docs.python.org/2/library/stdtypes.html#dict" title="(in Python v2.7)"><em>dict</em></a>) &#8211; Optional row parameters: hidden, level, collapsed.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<p>The <tt class="docutils literal"><span class="pre">set_row()</span></tt> method is used to change the default properties of a row. The
+most common use for this method is to change the height of a row:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">worksheet</span><span class="o">.</span><span class="n">set_row</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">20</span><span class="p">)</span>  <span class="c"># Set the height of Row 1 to 20.</span>
+</pre></div>
+</div>
+<p>The other common use for <tt class="docutils literal"><span class="pre">set_row()</span></tt> is to set the <a class="reference internal" href="format.html#format"><em>Format</em></a> for
+all cells in the row:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">cell_format</span> <span class="o">=</span> <span class="n">workbook</span><span class="o">.</span><span class="n">add_format</span><span class="p">({</span><span class="s">&#39;bold&#39;</span><span class="p">:</span> <span class="bp">True</span><span class="p">})</span>
+
+<span class="n">worksheet</span><span class="o">.</span><span class="n">set_row</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">20</span><span class="p">,</span> <span class="n">cell_format</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>If you wish to set the format of a row without changing the height you can pass
+<tt class="docutils literal"><span class="pre">None</span></tt> as the height parameter or use the default row height of 15:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">worksheet</span><span class="o">.</span><span class="n">set_row</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="bp">None</span><span class="p">,</span> <span class="n">cell_format</span><span class="p">)</span>
+<span class="n">worksheet</span><span class="o">.</span><span class="n">set_row</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">15</span><span class="p">,</span>   <span class="n">cell_format</span><span class="p">)</span>  <span class="c"># Same as this.</span>
+</pre></div>
+</div>
+<p>The <tt class="docutils literal"><span class="pre">cell_format</span></tt> parameter will be applied to any cells in the row that
+don&#8217;t have a format. As with Excel it is overidden by an explicit cell format.
+For example:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">worksheet</span><span class="o">.</span><span class="n">set_row</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="bp">None</span><span class="p">,</span> <span class="n">format1</span><span class="p">)</span>      <span class="c"># Row 1 has format1.</span>
+
+<span class="n">worksheet</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s">&#39;A1&#39;</span><span class="p">,</span> <span class="s">&#39;Hello&#39;</span><span class="p">)</span>           <span class="c"># Cell A1 defaults to format1.</span>
+<span class="n">worksheet</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s">&#39;B1&#39;</span><span class="p">,</span> <span class="s">&#39;Hello&#39;</span><span class="p">,</span> <span class="n">format2</span><span class="p">)</span>  <span class="c"># Cell B1 keeps format2.</span>
+</pre></div>
+</div>
+<p>The <tt class="docutils literal"><span class="pre">options</span></tt> parameter is a dictionary with the following possible keys:</p>
+<ul class="simple">
+<li><tt class="docutils literal"><span class="pre">'hidden'</span></tt></li>
+<li><tt class="docutils literal"><span class="pre">'level'</span></tt></li>
+<li><tt class="docutils literal"><span class="pre">'collapsed'</span></tt></li>
+</ul>
+<p>Options can be set as follows:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">worksheet</span><span class="o">.</span><span class="n">set_row</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">20</span><span class="p">,</span> <span class="n">cell_format</span><span class="p">,</span> <span class="p">{</span><span class="s">&#39;hidden&#39;</span><span class="p">:</span> <span class="mi">1</span><span class="p">})</span>
+
+<span class="c"># Or use defaults for other properties and set the options only.</span>
+<span class="n">worksheet</span><span class="o">.</span><span class="n">set_row</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="bp">None</span><span class="p">,</span> <span class="bp">None</span><span class="p">,</span> <span class="p">{</span><span class="s">&#39;hidden&#39;</span><span class="p">:</span> <span class="mi">1</span><span class="p">})</span>
+</pre></div>
+</div>
+<p>The <tt class="docutils literal"><span class="pre">'hidden'</span></tt> option is used to hide a row. This can be used, for example,
+to hide intermediary steps in a complicated calculation:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">worksheet</span><span class="o">.</span><span class="n">set_row</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">20</span><span class="p">,</span> <span class="n">cell_format</span><span class="p">,</span> <span class="p">{</span><span class="s">&#39;hidden&#39;</span><span class="p">:</span> <span class="mi">1</span><span class="p">})</span>
+</pre></div>
+</div>
+<p>The <tt class="docutils literal"><span class="pre">'level'</span></tt> parameter is used to set the outline level of the row. Outlines
+are described in &#8220;Working with Outlines and Grouping&#8221;. Adjacent rows with the
+same outline level are grouped together into a single outline. (<strong>Note</strong>: This
+feature is not implemented yet).</p>
+<p>The following example sets an outline level of 1 for some rows:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">worksheet</span><span class="o">.</span><span class="n">set_row</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="bp">None</span><span class="p">,</span> <span class="bp">None</span><span class="p">,</span> <span class="p">{</span><span class="s">&#39;level&#39;</span><span class="p">:</span> <span class="mi">1</span><span class="p">})</span>
+<span class="n">worksheet</span><span class="o">.</span><span class="n">set_row</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="bp">None</span><span class="p">,</span> <span class="bp">None</span><span class="p">,</span> <span class="p">{</span><span class="s">&#39;level&#39;</span><span class="p">:</span> <span class="mi">1</span><span class="p">})</span>
+<span class="n">worksheet</span><span class="o">.</span><span class="n">set_row</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="bp">None</span><span class="p">,</span> <span class="bp">None</span><span class="p">,</span> <span class="p">{</span><span class="s">&#39;level&#39;</span><span class="p">:</span> <span class="mi">1</span><span class="p">})</span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Excel allows up to 7 outline levels. The <tt class="docutils literal"><span class="pre">'level'</span></tt> parameter
+should be in the range <tt class="docutils literal"><span class="pre">0</span> <span class="pre">&lt;=</span> <span class="pre">level</span> <span class="pre">&lt;=</span> <span class="pre">7</span></tt>.</p>
+</div>
+<p>The <tt class="docutils literal"><span class="pre">'hidden'</span></tt> parameter can also be used to hide collapsed outlined rows
+when used in conjunction with the <tt class="docutils literal"><span class="pre">'level'</span></tt> parameter:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">worksheet</span><span class="o">.</span><span class="n">set_row</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="bp">None</span><span class="p">,</span> <span class="bp">None</span><span class="p">,</span> <span class="p">{</span><span class="s">&#39;hidden&#39;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="s">&#39;level&#39;</span><span class="p">:</span> <span class="mi">1</span><span class="p">})</span>
+<span class="n">worksheet</span><span class="o">.</span><span class="n">set_row</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="bp">None</span><span class="p">,</span> <span class="bp">None</span><span class="p">,</span> <span class="p">{</span><span class="s">&#39;hidden&#39;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="s">&#39;level&#39;</span><span class="p">:</span> <span class="mi">1</span><span class="p">})</span>
+</pre></div>
+</div>
+<p>The <tt class="docutils literal"><span class="pre">'collapsed'</span></tt> parameter is used in collapsed outlines to indicate which
+row has the collapsed <tt class="docutils literal"><span class="pre">'+'</span></tt> symbol:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">worksheet</span><span class="o">.</span><span class="n">set_row</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="bp">None</span><span class="p">,</span> <span class="bp">None</span><span class="p">,</span> <span class="p">{</span><span class="s">&#39;collapsed&#39;</span><span class="p">:</span> <span class="mi">1</span><span class="p">})</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="worksheet-set-column">
+<h2>worksheet.set_column()</h2>
+<dl class="function">
+<dt id="set_column">
+<tt class="descname">set_column</tt><big>(</big><em>first_col</em>, <em>last_col</em>, <em>width</em>, <em>cell_format</em>, <em>hidden</em>, <em>level</em>, <em>collapsed</em><big>)</big></dt>
+<dt>
+<tt class="descname">Set properties for one or more columns of cells.</tt></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>first_col</strong> (<a class="reference external" href="http://docs.python.org/2/library/functions.html#int" title="(in Python v2.7)"><em>int</em></a>) &#8211; First column (zero-indexed).</li>
+<li><strong>last_col</strong> (<a class="reference external" href="http://docs.python.org/2/library/functions.html#int" title="(in Python v2.7)"><em>int</em></a>) &#8211; Last column (zero-indexed). Can be same as firstcol.</li>
+<li><strong>width</strong> (<a class="reference external" href="http://docs.python.org/2/library/functions.html#int" title="(in Python v2.7)"><em>int</em></a>) &#8211; The width of the column(s).</li>
+<li><strong>cell_format</strong> (<a class="reference internal" href="format.html#format"><em>Format</em></a>) &#8211; Optional Format object.</li>
+<li><strong>options</strong> (<a class="reference external" href="http://docs.python.org/2/library/stdtypes.html#dict" title="(in Python v2.7)"><em>dict</em></a>) &#8211; Optional parameters: hidden, level, collapsed.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<p>The <tt class="docutils literal"><span class="pre">set_column()</span></tt>  method can be used to change the default properties of a
+single column or a range of columns:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">worksheet</span><span class="o">.</span><span class="n">set_column</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">30</span><span class="p">)</span>  <span class="c"># Width of columns B:D set to 30.</span>
+</pre></div>
+</div>
+<p>If <tt class="docutils literal"><span class="pre">set_column()</span></tt> is applied to a single column the value of <tt class="docutils literal"><span class="pre">first_col</span></tt>
+and <tt class="docutils literal"><span class="pre">last_col</span></tt> should be the same:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">worksheet</span><span class="o">.</span><span class="n">set_column</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">30</span><span class="p">)</span>  <span class="c"># Width of column B set to 30.</span>
+</pre></div>
+</div>
+<p>It is also possible, and generally clearer, to specify a column range using the
+form of A1 notation used for columns. See <a class="reference internal" href="working_with_cell_notation.html#cell-notation"><em>Working with Cell Notation</em></a> for more
+details.</p>
+<p>Examples:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">worksheet</span><span class="o">.</span><span class="n">set_column</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">20</span><span class="p">)</span>   <span class="c"># Column  A   width set to 20.</span>
+<span class="n">worksheet</span><span class="o">.</span><span class="n">set_column</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">30</span><span class="p">)</span>   <span class="c"># Columns B-D width set to 30.</span>
+<span class="n">worksheet</span><span class="o">.</span><span class="n">set_column</span><span class="p">(</span><span class="s">&#39;E:E&#39;</span><span class="p">,</span> <span class="mi">20</span><span class="p">)</span>  <span class="c"># Column  E   width set to 20.</span>
+<span class="n">worksheet</span><span class="o">.</span><span class="n">set_column</span><span class="p">(</span><span class="s">&#39;F:H&#39;</span><span class="p">,</span> <span class="mi">30</span><span class="p">)</span>  <span class="c"># Columns F-H width set to 30.</span>
+</pre></div>
+</div>
+<p>The width corresponds to the column width value that is specified in Excel. It
+is approximately equal to the length of a string in the default font of
+Calibri 11. Unfortunately, there is no way to specify &#8220;AutoFit&#8221; for a column
+in the Excel file format. This feature is only available at runtime from
+within Excel. It is possible to simulate &#8220;AutoFit&#8221; by tracking the width of
+the data in the column as your write it.</p>
+<p>As usual the <tt class="docutils literal"><span class="pre">cell_format</span></tt> <a class="reference internal" href="format.html#format"><em>Format</em></a>  parameter is optional. If
+you wish to set the format without changing the width you can pass <tt class="docutils literal"><span class="pre">None</span></tt> as
+the width parameter:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">cell_format</span> <span class="o">=</span> <span class="n">workbook</span><span class="o">.</span><span class="n">add_format</span><span class="p">({</span><span class="s">&#39;bold&#39;</span><span class="p">:</span> <span class="bp">True</span><span class="p">})</span>
+
+<span class="n">worksheet</span><span class="o">.</span><span class="n">set_column</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="bp">None</span><span class="p">,</span> <span class="n">cell_format</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>The <tt class="docutils literal"><span class="pre">cell_format</span></tt> parameter will be applied to any cells in the column that
+don&#8217;t have a format. For example:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">worksheet</span><span class="o">.</span><span class="n">set_column</span><span class="p">(</span><span class="s">&#39;A:A&#39;</span><span class="p">,</span> <span class="bp">None</span><span class="p">,</span> <span class="n">format1</span><span class="p">)</span>  <span class="c"># Col 1 has format1.</span>
+
+<span class="n">worksheet</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s">&#39;A1&#39;</span><span class="p">,</span> <span class="s">&#39;Hello&#39;</span><span class="p">)</span>              <span class="c"># Cell A1 defaults to format1.</span>
+<span class="n">worksheet</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s">&#39;A2&#39;</span><span class="p">,</span> <span class="s">&#39;Hello&#39;</span><span class="p">,</span> <span class="n">format2</span><span class="p">)</span>     <span class="c"># Cell A2 keeps format2.</span>
+</pre></div>
+</div>
+<p>A  row format takes precedence over a default column format:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">worksheet</span><span class="o">.</span><span class="n">set_row</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="bp">None</span><span class="p">,</span> <span class="n">format1</span><span class="p">)</span>         <span class="c"># Set format for row 1.</span>
+<span class="n">worksheet</span><span class="o">.</span><span class="n">set_column</span><span class="p">(</span><span class="s">&#39;A:A&#39;</span><span class="p">,</span> <span class="bp">None</span><span class="p">,</span> <span class="n">format2</span><span class="p">)</span>  <span class="c"># Set format for col 1.</span>
+
+<span class="n">worksheet</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s">&#39;A1&#39;</span><span class="p">,</span> <span class="s">&#39;Hello&#39;</span><span class="p">)</span>              <span class="c"># Defaults to format1</span>
+<span class="n">worksheet</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s">&#39;A2&#39;</span><span class="p">,</span> <span class="s">&#39;Hello&#39;</span><span class="p">)</span>              <span class="c"># Defaults to format2</span>
+</pre></div>
+</div>
+<p>The <tt class="docutils literal"><span class="pre">options</span></tt> parameter is a dictionary with the following possible keys:</p>
+<ul class="simple">
+<li><tt class="docutils literal"><span class="pre">'hidden'</span></tt></li>
+<li><tt class="docutils literal"><span class="pre">'level'</span></tt></li>
+<li><tt class="docutils literal"><span class="pre">'collapsed'</span></tt></li>
+</ul>
+<p>Options can be set as follows:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">worksheet</span><span class="o">.</span><span class="n">set_column</span><span class="p">(</span><span class="s">&#39;D:D&#39;</span><span class="p">,</span> <span class="mi">20</span><span class="p">,</span> <span class="n">cell_format</span><span class="p">,</span> <span class="p">{</span><span class="s">&#39;hidden&#39;</span><span class="p">:</span> <span class="mi">1</span><span class="p">})</span>
+
+<span class="c"># Or use defaults for other properties and set the options only.</span>
+<span class="n">worksheet</span><span class="o">.</span><span class="n">set_column</span><span class="p">(</span><span class="s">&#39;E:E&#39;</span><span class="p">,</span> <span class="bp">None</span><span class="p">,</span> <span class="bp">None</span><span class="p">,</span> <span class="p">{</span><span class="s">&#39;hidden&#39;</span><span class="p">:</span> <span class="mi">1</span><span class="p">})</span>
+</pre></div>
+</div>
+<p>The <tt class="docutils literal"><span class="pre">'hidden'</span></tt> option is used to hide a column. This can be used, for
+example, to hide intermediary steps in a complicated calculation:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">worksheet</span><span class="o">.</span><span class="n">set_column</span><span class="p">(</span><span class="s">&#39;D:D&#39;</span><span class="p">,</span> <span class="mi">20</span><span class="p">,</span>  <span class="n">cell_format</span><span class="p">,</span> <span class="p">{</span><span class="s">&#39;hidden&#39;</span><span class="p">:</span> <span class="mi">1</span><span class="p">})</span>
+</pre></div>
+</div>
+<p>The <tt class="docutils literal"><span class="pre">'level'</span></tt> parameter is used to set the outline level of the column.
+Outlines are described in &#8220;Working with Outlines and Grouping&#8221;. Adjacent
+columns with the same outline level are grouped together into a single
+outline. (<strong>Note</strong>: This feature is not implemented yet).</p>
+<p>The following example sets an outline level of 1 for columns B to G:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">worksheet</span><span class="o">.</span><span class="n">set_column</span><span class="p">(</span><span class="s">&#39;B:G&#39;</span><span class="p">,</span> <span class="bp">None</span><span class="p">,</span> <span class="bp">None</span><span class="p">,</span> <span class="p">{</span><span class="s">&#39;level&#39;</span><span class="p">:</span> <span class="mi">1</span><span class="p">})</span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Excel allows up to 7 outline levels. The <tt class="docutils literal"><span class="pre">'level'</span></tt> parameter
+should be in the range <tt class="docutils literal"><span class="pre">0</span> <span class="pre">&lt;=</span> <span class="pre">level</span> <span class="pre">&lt;=</span> <span class="pre">7</span></tt>.</p>
+</div>
+<p>The <tt class="docutils literal"><span class="pre">'hidden'</span></tt> parameter can also be used to hide collapsed outlined columns
+when used in conjunction with the <tt class="docutils literal"><span class="pre">'level'</span></tt> parameter:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">worksheet</span><span class="o">.</span><span class="n">set_column</span><span class="p">(</span><span class="s">&#39;B:G&#39;</span><span class="p">,</span> <span class="bp">None</span><span class="p">,</span> <span class="bp">None</span><span class="p">,</span> <span class="p">{</span><span class="s">&#39;hidden&#39;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="s">&#39;level&#39;</span><span class="p">:</span> <span class="mi">1</span><span class="p">})</span>
+</pre></div>
+</div>
+<p>The <tt class="docutils literal"><span class="pre">'collapsed'</span></tt> parameter is used in collapsed outlines to indicate which
+column has the collapsed <tt class="docutils literal"><span class="pre">'+'</span></tt> symbol:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">worksheet</span><span class="o">.</span><span class="n">set_column</span><span class="p">(</span><span class="s">&#39;H:H&#39;</span><span class="p">,</span> <span class="bp">None</span><span class="p">,</span> <span class="bp">None</span><span class="p">,</span> <span class="p">{</span><span class="s">&#39;collapsed&#39;</span><span class="p">:</span> <span class="mi">1</span><span class="p">})</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="worksheet-activate">
+<h2>worksheet.activate()</h2>
+<dl class="function">
+<dt id="activate">
+<tt class="descname">activate</tt><big>(</big><big>)</big></dt>
+<dd></dd></dl>
+
+<p>The <tt class="docutils literal"><span class="pre">activate()</span></tt> method is used to specify which worksheet is initially
+visible in a multi-sheet workbook:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">worksheet1</span> <span class="o">=</span> <span class="n">workbook</span><span class="o">.</span><span class="n">add_worksheet</span><span class="p">()</span>
+<span class="n">worksheet2</span> <span class="o">=</span> <span class="n">workbook</span><span class="o">.</span><span class="n">add_worksheet</span><span class="p">()</span>
+<span class="n">worksheet3</span> <span class="o">=</span> <span class="n">workbook</span><span class="o">.</span><span class="n">add_worksheet</span><span class="p">()</span>
+
+<span class="n">worksheet3</span><span class="o">.</span><span class="n">activate</span><span class="p">()</span>
+</pre></div>
+</div>
+<img alt="_images/worksheet_activate.png" src="_images/worksheet_activate.png" />
+<p>More than one worksheet can be selected via the <tt class="docutils literal"><span class="pre">select()</span></tt> method, see below,
+however only one worksheet can be active.</p>
+<p>The default active worksheet is the first worksheet.</p>
+</div>
+<div class="section" id="worksheet-select">
+<h2>worksheet.select()</h2>
+<dl class="function">
+<dt id="select">
+<tt class="descname">select</tt><big>(</big><big>)</big></dt>
+<dd></dd></dl>
+
+<p>The <tt class="docutils literal"><span class="pre">select()</span></tt> method is used to indicate that a worksheet is selected in a
+multi-sheet workbook:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">worksheet1</span><span class="o">.</span><span class="n">activate</span><span class="p">()</span>
+<span class="n">worksheet2</span><span class="o">.</span><span class="n">select</span><span class="p">()</span>
+<span class="n">worksheet3</span><span class="o">.</span><span class="n">select</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>A selected worksheet has its tab highlighted. Selecting worksheets is a way of
+grouping them together so that, for example, several worksheets could be
+printed in one go. A worksheet that has been activated via the <tt class="docutils literal"><span class="pre">activate()</span></tt>
+method will also appear as selected.</p>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="index.html">
+              <img class="logo" src="_static/logo.png" alt="Logo"/>
+            </a></p>
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">The Worksheet Class</a><ul>
+<li><a class="reference internal" href="#worksheet-write">worksheet.write()</a></li>
+<li><a class="reference internal" href="#worksheet-write-string">worksheet.write_string()</a></li>
+<li><a class="reference internal" href="#worksheet-write-number">worksheet.write_number()</a></li>
+<li><a class="reference internal" href="#worksheet-write-formula">worksheet.write_formula()</a></li>
+<li><a class="reference internal" href="#worksheet-write-array-formula">worksheet.write_array_formula()</a></li>
+<li><a class="reference internal" href="#worksheet-write-blank">worksheet.write_blank()</a></li>
+<li><a class="reference internal" href="#worksheet-write-datetime">worksheet.write_datetime()</a></li>
+<li><a class="reference internal" href="#worksheet-set-row">worksheet.set_row()</a></li>
+<li><a class="reference internal" href="#worksheet-set-column">worksheet.set_column()</a></li>
+<li><a class="reference internal" href="#worksheet-activate">worksheet.activate()</a></li>
+<li><a class="reference internal" href="#worksheet-select">worksheet.select()</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="workbook.html"
+                        title="previous chapter">The Workbook Class</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="format.html"
+                        title="next chapter">The Format Class</a></p>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="_sources/worksheet.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="format.html" title="The Format Class"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="workbook.html" title="The Workbook Class"
+             >previous</a> |</li>
+        <li><a href="index.html">XlsxWriter Documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2013, John McNamara.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.3.
+    </div>
+  </body>
+</html>

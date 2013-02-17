@@ -1,0 +1,671 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Excel::Writer::XLSX &mdash; XlsxWriter Documentation</title>
+    
+    <link rel="stylesheet" href="_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '',
+        VERSION:     '0.0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="XlsxWriter Documentation" href="index.html" />
+    <link rel="next" title="Alternative modules for handling Excel files" href="alternatives.html" />
+    <link rel="prev" title="Working with Dates and Time" href="working_with_dates_and_time.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="alternatives.html" title="Alternative modules for handling Excel files"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="working_with_dates_and_time.html" title="Working with Dates and Time"
+             accesskey="P">previous</a> |</li>
+        <li><a href="index.html">XlsxWriter Documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="excel-writer-xlsx">
+<span id="ewx"></span><h1>Excel::Writer::XLSX</h1>
+<p><a class="reference external" href="http://search.cpan.org/~jmcnamara/Excel-Writer-XLSX/">Excel::Writer::XLSX</a>
+is a module written in Perl for creating Excel 2007+ XLSX files.</p>
+<p>Excel::Writer::XLSX is an API compatible rewrite of an older Perl module called
+<a class="reference external" href="http://search.cpan.org/~jmcnamara/Spreadsheet-WriteExcel/">Spreadsheet::WriteExcel</a>
+that creates Excel XLS file.</p>
+<p>In terms of features Excel::Writer::XLSX is one most complete open source
+libraries for writing Excel files. It supports:</p>
+<ul class="simple">
+<li>Multiple worksheets</li>
+<li>Strings and numbers</li>
+<li>Unicode text</li>
+<li>Cell formatting</li>
+<li>Formulas</li>
+<li>Images</li>
+<li>Charts</li>
+<li>Autofilters</li>
+<li>Data validation</li>
+<li>Conditional formatting</li>
+<li>Macros</li>
+<li>Tables</li>
+<li>Shapes</li>
+<li>Sparklines</li>
+<li>Hyperlinks</li>
+<li>Rich string formats</li>
+<li>Defined names</li>
+<li>Grouping/Outlines</li>
+<li>Cell comments</li>
+<li>Panes</li>
+<li>Page set-up and printing options</li>
+</ul>
+<p>Excel::Writer::XLSX has comprehensive documentation, a large number of
+<a class="reference external" href="http://search.cpan.org/~jmcnamara/Excel-Writer-XLSX/lib/Excel/Writer/XLSX/Examples.pm">example files</a>
+and an extensive test suite.</p>
+<p>Excel::Writer::XLSX and XlsxWriter are written by
+<a class="reference external" href="https://github.com/jmcnamara">John McNamara</a>.</p>
+<div class="section" id="compatibility-with-excel-writer-xlsx">
+<h2>Compatibility with Excel::Writer::XLSX</h2>
+<p>Porting of <tt class="docutils literal"><span class="pre">Excel::Writer::XLSX</span></tt> to <tt class="docutils literal"><span class="pre">XlsxWriter</span></tt> is a work in progress. The
+following table shows the level of compatibility between the two module:</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="44%" />
+<col width="24%" />
+<col width="32%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Workbook Methods</th>
+<th class="head">XlsxWriter</th>
+<th class="head">Excel::Writer::XLSX</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>new()</td>
+<td>Yes</td>
+<td>Yes</td>
+</tr>
+<tr class="row-odd"><td>add_worksheet()</td>
+<td>Yes</td>
+<td>Yes</td>
+</tr>
+<tr class="row-even"><td>add_format()</td>
+<td>Yes</td>
+<td>Yes</td>
+</tr>
+<tr class="row-odd"><td>add_chart()</td>
+<td><strong>No</strong></td>
+<td>Yes</td>
+</tr>
+<tr class="row-even"><td>add_shape()</td>
+<td><strong>No</strong></td>
+<td>Yes</td>
+</tr>
+<tr class="row-odd"><td>add_vba_project()</td>
+<td><strong>No</strong></td>
+<td>Yes</td>
+</tr>
+<tr class="row-even"><td>close()</td>
+<td>Yes</td>
+<td>Yes</td>
+</tr>
+<tr class="row-odd"><td>set_properties()</td>
+<td><strong>No</strong></td>
+<td>Yes</td>
+</tr>
+<tr class="row-even"><td>define_name()</td>
+<td><strong>No</strong></td>
+<td>Yes</td>
+</tr>
+<tr class="row-odd"><td>set_tempdir()</td>
+<td><strong>No</strong></td>
+<td>Yes</td>
+</tr>
+<tr class="row-even"><td>set_custom_color()</td>
+<td><strong>No</strong></td>
+<td>Yes</td>
+</tr>
+<tr class="row-odd"><td>sheets()</td>
+<td><strong>No</strong></td>
+<td>Yes</td>
+</tr>
+<tr class="row-even"><td>set_1904()</td>
+<td><strong>No</strong></td>
+<td>Yes</td>
+</tr>
+<tr class="row-odd"><td>set_optimization()</td>
+<td><strong>No</strong></td>
+<td>Yes</td>
+</tr>
+</tbody>
+</table>
+<table border="1" class="docutils">
+<colgroup>
+<col width="44%" />
+<col width="24%" />
+<col width="32%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Worksheet Methods</th>
+<th class="head">XlsxWriter</th>
+<th class="head">Excel::Writer::XLSX</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>write()</td>
+<td>Yes</td>
+<td>Yes</td>
+</tr>
+<tr class="row-odd"><td>write_number()</td>
+<td>Yes</td>
+<td>Yes</td>
+</tr>
+<tr class="row-even"><td>write_string()</td>
+<td>Yes</td>
+<td>Yes</td>
+</tr>
+<tr class="row-odd"><td>write_rich_string()</td>
+<td>Yes</td>
+<td>Yes</td>
+</tr>
+<tr class="row-even"><td>write_blank()</td>
+<td><strong>No</strong></td>
+<td>Yes</td>
+</tr>
+<tr class="row-odd"><td>write_row()</td>
+<td><strong>No</strong></td>
+<td>Yes</td>
+</tr>
+<tr class="row-even"><td>write_col()</td>
+<td><strong>No</strong></td>
+<td>Yes</td>
+</tr>
+<tr class="row-odd"><td>write_date_time()</td>
+<td>Yes</td>
+<td>Yes</td>
+</tr>
+<tr class="row-even"><td>write_url()</td>
+<td><strong>No</strong></td>
+<td>Yes</td>
+</tr>
+<tr class="row-odd"><td>write_formula()</td>
+<td>Yes</td>
+<td>Yes</td>
+</tr>
+<tr class="row-even"><td>write_array_formula()</td>
+<td>Yes</td>
+<td>Yes</td>
+</tr>
+<tr class="row-odd"><td>keep_leading_zeros()</td>
+<td><strong>No</strong></td>
+<td>Yes</td>
+</tr>
+<tr class="row-even"><td>write_comment()</td>
+<td><strong>No</strong></td>
+<td>Yes</td>
+</tr>
+<tr class="row-odd"><td>show_comments()</td>
+<td><strong>No</strong></td>
+<td>Yes</td>
+</tr>
+<tr class="row-even"><td>set_comments_author()</td>
+<td><strong>No</strong></td>
+<td>Yes</td>
+</tr>
+<tr class="row-odd"><td>add_write_handler()</td>
+<td><strong>No</strong></td>
+<td>Yes</td>
+</tr>
+<tr class="row-even"><td>insert_image()</td>
+<td><strong>No</strong></td>
+<td>Yes</td>
+</tr>
+<tr class="row-odd"><td>insert_chart()</td>
+<td><strong>No</strong></td>
+<td>Yes</td>
+</tr>
+<tr class="row-even"><td>insert_shape()</td>
+<td><strong>No</strong></td>
+<td>Yes</td>
+</tr>
+<tr class="row-odd"><td>insert_button()</td>
+<td><strong>No</strong></td>
+<td>Yes</td>
+</tr>
+<tr class="row-even"><td>data_validation()</td>
+<td><strong>No</strong></td>
+<td>Yes</td>
+</tr>
+<tr class="row-odd"><td>conditional_formatting()</td>
+<td><strong>No</strong></td>
+<td>Yes</td>
+</tr>
+<tr class="row-even"><td>add_sparkline()</td>
+<td><strong>No</strong></td>
+<td>Yes</td>
+</tr>
+<tr class="row-odd"><td>add_table()</td>
+<td><strong>No</strong></td>
+<td>Yes</td>
+</tr>
+<tr class="row-even"><td>get_name()</td>
+<td><strong>No</strong></td>
+<td>Yes</td>
+</tr>
+<tr class="row-odd"><td>activate()</td>
+<td>Yes</td>
+<td>Yes</td>
+</tr>
+<tr class="row-even"><td>select()</td>
+<td>Yes</td>
+<td>Yes</td>
+</tr>
+<tr class="row-odd"><td>set_first_sheet()</td>
+<td><strong>No</strong></td>
+<td>Yes</td>
+</tr>
+<tr class="row-even"><td>protect()</td>
+<td><strong>No</strong></td>
+<td>Yes</td>
+</tr>
+<tr class="row-odd"><td>set_selection()</td>
+<td><strong>No</strong></td>
+<td>Yes</td>
+</tr>
+<tr class="row-even"><td>set_row()</td>
+<td>Yes</td>
+<td>Yes</td>
+</tr>
+<tr class="row-odd"><td>set_column()</td>
+<td>Yes</td>
+<td>Yes</td>
+</tr>
+<tr class="row-even"><td>set_default_row()</td>
+<td><strong>No</strong></td>
+<td>Yes</td>
+</tr>
+<tr class="row-odd"><td>outline_settings()</td>
+<td><strong>No</strong></td>
+<td>Yes</td>
+</tr>
+<tr class="row-even"><td>freeze_panes()</td>
+<td><strong>No</strong></td>
+<td>Yes</td>
+</tr>
+<tr class="row-odd"><td>split_panes()</td>
+<td><strong>No</strong></td>
+<td>Yes</td>
+</tr>
+<tr class="row-even"><td>merge_range()</td>
+<td><strong>No</strong></td>
+<td>Yes</td>
+</tr>
+<tr class="row-odd"><td>merge_range_type()</td>
+<td><strong>No</strong></td>
+<td>Yes</td>
+</tr>
+<tr class="row-even"><td>set_zoom()</td>
+<td><strong>No</strong></td>
+<td>Yes</td>
+</tr>
+<tr class="row-odd"><td>right_to_left()</td>
+<td><strong>No</strong></td>
+<td>Yes</td>
+</tr>
+<tr class="row-even"><td>hide_zero()</td>
+<td><strong>No</strong></td>
+<td>Yes</td>
+</tr>
+<tr class="row-odd"><td>set_tab_color()</td>
+<td><strong>No</strong></td>
+<td>Yes</td>
+</tr>
+<tr class="row-even"><td>autofilter()</td>
+<td><strong>No</strong></td>
+<td>Yes</td>
+</tr>
+<tr class="row-odd"><td>filter_column()</td>
+<td><strong>No</strong></td>
+<td>Yes</td>
+</tr>
+<tr class="row-even"><td>filter_column_list()</td>
+<td><strong>No</strong></td>
+<td>Yes</td>
+</tr>
+</tbody>
+</table>
+<table border="1" class="docutils">
+<colgroup>
+<col width="44%" />
+<col width="24%" />
+<col width="32%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Page Set-up Methods</th>
+<th class="head">XlsxWriter</th>
+<th class="head">Excel::Writer::XLSX</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>set_landscape()</td>
+<td><strong>No</strong></td>
+<td>Yes</td>
+</tr>
+<tr class="row-odd"><td>set_portrait()</td>
+<td><strong>No</strong></td>
+<td>Yes</td>
+</tr>
+<tr class="row-even"><td>set_page_view()</td>
+<td><strong>No</strong></td>
+<td>Yes</td>
+</tr>
+<tr class="row-odd"><td>set_paper()</td>
+<td><strong>No</strong></td>
+<td>Yes</td>
+</tr>
+<tr class="row-even"><td>center_horizontally()</td>
+<td><strong>No</strong></td>
+<td>Yes</td>
+</tr>
+<tr class="row-odd"><td>center_vertically()</td>
+<td><strong>No</strong></td>
+<td>Yes</td>
+</tr>
+<tr class="row-even"><td>set_margins()</td>
+<td><strong>No</strong></td>
+<td>Yes</td>
+</tr>
+<tr class="row-odd"><td>set_header()</td>
+<td><strong>No</strong></td>
+<td>Yes</td>
+</tr>
+<tr class="row-even"><td>set_footer()</td>
+<td><strong>No</strong></td>
+<td>Yes</td>
+</tr>
+<tr class="row-odd"><td>repeat_rows()</td>
+<td><strong>No</strong></td>
+<td>Yes</td>
+</tr>
+<tr class="row-even"><td>repeat_columns()</td>
+<td><strong>No</strong></td>
+<td>Yes</td>
+</tr>
+<tr class="row-odd"><td>hide_gridlines()</td>
+<td><strong>No</strong></td>
+<td>Yes</td>
+</tr>
+<tr class="row-even"><td>print_row_col_headers()</td>
+<td><strong>No</strong></td>
+<td>Yes</td>
+</tr>
+<tr class="row-odd"><td>print_area()</td>
+<td><strong>No</strong></td>
+<td>Yes</td>
+</tr>
+<tr class="row-even"><td>print_across()</td>
+<td><strong>No</strong></td>
+<td>Yes</td>
+</tr>
+<tr class="row-odd"><td>fit_to_pages()</td>
+<td><strong>No</strong></td>
+<td>Yes</td>
+</tr>
+<tr class="row-even"><td>set_start_page()</td>
+<td><strong>No</strong></td>
+<td>Yes</td>
+</tr>
+<tr class="row-odd"><td>set_print_scale()</td>
+<td><strong>No</strong></td>
+<td>Yes</td>
+</tr>
+<tr class="row-even"><td>set_h_pagebreaks()</td>
+<td><strong>No</strong></td>
+<td>Yes</td>
+</tr>
+<tr class="row-odd"><td>set_v_pagebreaks()</td>
+<td><strong>No</strong></td>
+<td>Yes</td>
+</tr>
+</tbody>
+</table>
+<table border="1" class="docutils">
+<colgroup>
+<col width="44%" />
+<col width="24%" />
+<col width="32%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Format Methods</th>
+<th class="head">XlsxWriter</th>
+<th class="head">Excel::Writer::XLSX</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>set_font_name()</td>
+<td>Yes</td>
+<td>Yes</td>
+</tr>
+<tr class="row-odd"><td>set_font_size()</td>
+<td>Yes</td>
+<td>Yes</td>
+</tr>
+<tr class="row-even"><td>set_font_color()</td>
+<td>Yes</td>
+<td>Yes</td>
+</tr>
+<tr class="row-odd"><td>set_bold()</td>
+<td>Yes</td>
+<td>Yes</td>
+</tr>
+<tr class="row-even"><td>set_italic()</td>
+<td>Yes</td>
+<td>Yes</td>
+</tr>
+<tr class="row-odd"><td>set_underline()</td>
+<td>Yes</td>
+<td>Yes</td>
+</tr>
+<tr class="row-even"><td>set_font_strikeout()</td>
+<td>Yes</td>
+<td>Yes</td>
+</tr>
+<tr class="row-odd"><td>set_font_script()</td>
+<td>Yes</td>
+<td>Yes</td>
+</tr>
+<tr class="row-even"><td>set_font_outline()</td>
+<td>Yes</td>
+<td>Yes</td>
+</tr>
+<tr class="row-odd"><td>set_font_shadow()</td>
+<td>Yes</td>
+<td>Yes</td>
+</tr>
+<tr class="row-even"><td>set_num_format()</td>
+<td>Yes</td>
+<td>Yes</td>
+</tr>
+<tr class="row-odd"><td>set_locked()</td>
+<td>Yes</td>
+<td>Yes</td>
+</tr>
+<tr class="row-even"><td>set_hidden()</td>
+<td>Yes</td>
+<td>Yes</td>
+</tr>
+<tr class="row-odd"><td>set_align()</td>
+<td>Yes</td>
+<td>Yes</td>
+</tr>
+<tr class="row-even"><td>set_rotation()</td>
+<td>Yes</td>
+<td>Yes</td>
+</tr>
+<tr class="row-odd"><td>set_text_wrap()</td>
+<td>Yes</td>
+<td>Yes</td>
+</tr>
+<tr class="row-even"><td>set_text_justlast()</td>
+<td>Yes</td>
+<td>Yes</td>
+</tr>
+<tr class="row-odd"><td>set_center_across()</td>
+<td>Yes</td>
+<td>Yes</td>
+</tr>
+<tr class="row-even"><td>set_indent()</td>
+<td>Yes</td>
+<td>Yes</td>
+</tr>
+<tr class="row-odd"><td>set_shrink()</td>
+<td>Yes</td>
+<td>Yes</td>
+</tr>
+<tr class="row-even"><td>set_pattern()</td>
+<td>Yes</td>
+<td>Yes</td>
+</tr>
+<tr class="row-odd"><td>set_bg_color()</td>
+<td>Yes</td>
+<td>Yes</td>
+</tr>
+<tr class="row-even"><td>set_fg_color()</td>
+<td>Yes</td>
+<td>Yes</td>
+</tr>
+<tr class="row-odd"><td>set_border()</td>
+<td>Yes</td>
+<td>Yes</td>
+</tr>
+<tr class="row-even"><td>set_bottom()</td>
+<td>Yes</td>
+<td>Yes</td>
+</tr>
+<tr class="row-odd"><td>set_top()</td>
+<td>Yes</td>
+<td>Yes</td>
+</tr>
+<tr class="row-even"><td>set_left()</td>
+<td>Yes</td>
+<td>Yes</td>
+</tr>
+<tr class="row-odd"><td>set_right()</td>
+<td>Yes</td>
+<td>Yes</td>
+</tr>
+<tr class="row-even"><td>set_border_color()</td>
+<td>Yes</td>
+<td>Yes</td>
+</tr>
+<tr class="row-odd"><td>set_bottom_color()</td>
+<td>Yes</td>
+<td>Yes</td>
+</tr>
+<tr class="row-even"><td>set_top_color()</td>
+<td>Yes</td>
+<td>Yes</td>
+</tr>
+<tr class="row-odd"><td>set_left_color()</td>
+<td>Yes</td>
+<td>Yes</td>
+</tr>
+<tr class="row-even"><td>set_right_color()</td>
+<td>Yes</td>
+<td>Yes</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="index.html">
+              <img class="logo" src="_static/logo.png" alt="Logo"/>
+            </a></p>
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Excel::Writer::XLSX</a><ul>
+<li><a class="reference internal" href="#compatibility-with-excel-writer-xlsx">Compatibility with Excel::Writer::XLSX</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="working_with_dates_and_time.html"
+                        title="previous chapter">Working with Dates and Time</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="alternatives.html"
+                        title="next chapter">Alternative modules for handling Excel files</a></p>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="_sources/excel_writer_xlsx.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="alternatives.html" title="Alternative modules for handling Excel files"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="working_with_dates_and_time.html" title="Working with Dates and Time"
+             >previous</a> |</li>
+        <li><a href="index.html">XlsxWriter Documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2013, John McNamara.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.3.
+    </div>
+  </body>
+</html>

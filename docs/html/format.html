@@ -1,0 +1,1251 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>The Format Class &mdash; XlsxWriter Documentation</title>
+    
+    <link rel="stylesheet" href="_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '',
+        VERSION:     '0.0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="XlsxWriter Documentation" href="index.html" />
+    <link rel="next" title="Working with Cell Notation" href="working_with_cell_notation.html" />
+    <link rel="prev" title="The Worksheet Class" href="worksheet.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="working_with_cell_notation.html" title="Working with Cell Notation"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="worksheet.html" title="The Worksheet Class"
+             accesskey="P">previous</a> |</li>
+        <li><a href="index.html">XlsxWriter Documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="the-format-class">
+<span id="format"></span><h1>The Format Class</h1>
+<p>This section describes the methods and properties that are available for
+formatting cells in Excel.</p>
+<p>The properties of a cell that can be formatted include: fonts, colours,
+patterns, borders, alignment and number formatting.</p>
+<img alt="_images/formats_intro.png" src="_images/formats_intro.png" />
+<div class="section" id="format-set-font-name">
+<h2>format.set_font_name()</h2>
+<dl class="function">
+<dt id="set_font_name">
+<tt class="descname">set_font_name</tt><big>(</big><em>fontname</em><big>)</big></dt>
+<dd><p>Set the font used in the cell.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>fontname</strong> (<a class="reference external" href="http://docs.python.org/2/library/string.html#string" title="(in Python v2.7)"><em>string</em></a>) &#8211; Cell font.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<p>Specify the font used used in the cell format:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">cell_format</span><span class="o">.</span><span class="n">set_font_name</span><span class="p">(</span><span class="s">&#39;Times New Roman&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Excel can only display fonts that are installed on the system that it is
+running on. Therefore it is best to use the fonts that come as standard such
+as &#8216;Calibri&#8217;, &#8216;Times New Roman&#8217; and &#8216;Courier New&#8217;.</p>
+<p>The default font for an unformatted cell in Excel 2007+ is &#8216;Calibri&#8217;.</p>
+</div>
+<div class="section" id="format-set-font-size">
+<h2>format.set_font_size()</h2>
+<dl class="function">
+<dt id="set_font_size">
+<tt class="descname">set_font_size</tt><big>(</big><em>size</em><big>)</big></dt>
+<dd><p>Set the size of the font used in the cell.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>size</strong> (<a class="reference external" href="http://docs.python.org/2/library/functions.html#int" title="(in Python v2.7)"><em>int</em></a>) &#8211; The cell font size.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<p>Set the font size of the cell format:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">format</span> <span class="o">=</span> <span class="n">workbook</span><span class="o">.</span><span class="n">add_format</span><span class="p">()</span>
+<span class="n">format</span><span class="o">.</span><span class="n">set_font_size</span><span class="p">(</span><span class="mi">30</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Excel adjusts the height of a row to accommodate the largest font size in the
+row. You can also explicitly specify the height of a row using the
+<a class="reference internal" href="worksheet.html#set_row" title="set_row"><tt class="xref py py-func docutils literal"><span class="pre">set_row()</span></tt></a> worksheet method.</p>
+</div>
+<div class="section" id="format-set-font-color">
+<h2>format.set_font_color()</h2>
+<dl class="function">
+<dt id="set_font_color">
+<tt class="descname">set_font_color</tt><big>(</big><em>color</em><big>)</big></dt>
+<dd><p>Set the color of the font used in the cell.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>color</strong> (<a class="reference external" href="http://docs.python.org/2/library/string.html#string" title="(in Python v2.7)"><em>string</em></a>) &#8211; The cell font color.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<p>Set the font colour:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">format</span> <span class="o">=</span> <span class="n">workbook</span><span class="o">.</span><span class="n">add_format</span><span class="p">()</span>
+
+<span class="n">format</span><span class="o">.</span><span class="n">set_font_color</span><span class="p">(</span><span class="s">&#39;red&#39;</span><span class="p">)</span>
+
+<span class="n">worksheet</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="s">&#39;wheelbarrow&#39;</span><span class="p">,</span> <span class="n">format</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>The color can be a Html style <tt class="docutils literal"><span class="pre">#RRGGBB</span></tt> string or a limited number of named
+colors, see <a class="reference internal" href="working_with_formats.html#format-colors"><em>Format Colors</em></a>.</p>
+<p>Note: The <tt class="docutils literal"><span class="pre">set_font_color()</span></tt> method is used to set the colour of the font in
+a cell. To set the colour of a cell use the <a class="reference internal" href="#set_bg_color" title="set_bg_color"><tt class="xref py py-func docutils literal"><span class="pre">set_bg_color()</span></tt></a> and
+<a class="reference internal" href="#set_pattern" title="set_pattern"><tt class="xref py py-func docutils literal"><span class="pre">set_pattern()</span></tt></a> methods.</p>
+</div>
+<div class="section" id="format-set-bold">
+<h2>format.set_bold()</h2>
+<dl class="function">
+<dt id="set_bold">
+<tt class="descname">set_bold</tt><big>(</big><big>)</big></dt>
+<dd><p>Turn on bold for the format font.</p>
+</dd></dl>
+
+<p>Set the bold property of the font:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">format</span><span class="o">.</span><span class="n">set_bold</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="format-set-italic">
+<h2>format.set_italic()</h2>
+<dl class="function">
+<dt id="set_italic">
+<tt class="descname">set_italic</tt><big>(</big><big>)</big></dt>
+<dd><p>Turn on italic for the format font.</p>
+</dd></dl>
+
+<p>Set the italic property of the font:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">format</span><span class="o">.</span><span class="n">set_italic</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="format-set-underline-style">
+<h2>format.set_underline(style)</h2>
+<dl class="function">
+<dt id="set_underline">
+<tt class="descname">set_underline</tt><big>(</big><big>)</big></dt>
+<dd><p>Turn on underline for the format.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>style</strong> (<a class="reference external" href="http://docs.python.org/2/library/functions.html#int" title="(in Python v2.7)"><em>int</em></a>) &#8211; Underline style.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<p>Set the underline property of the format:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">format</span><span class="o">.</span><span class="n">set_underline</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>The available underline styles are:</p>
+<ul class="simple">
+<li>1 = Single underline (the default)</li>
+<li>2 = Double underline</li>
+<li>33 = Single accounting underline</li>
+<li>34 = Double accounting underline</li>
+</ul>
+</div>
+<div class="section" id="format-set-font-strikeout">
+<h2>format.set_font_strikeout()</h2>
+<dl class="function">
+<dt id="set_font_strikeout">
+<tt class="descname">set_font_strikeout</tt><big>(</big><big>)</big></dt>
+<dd><p>Set the strikeout property of the font.</p>
+</dd></dl>
+
+</div>
+<div class="section" id="format-set-font-script">
+<h2>format.set_font_script()</h2>
+<dl class="function">
+<dt id="set_font_script">
+<tt class="descname">set_font_script</tt><big>(</big><big>)</big></dt>
+<dd><p>Set the superscript/subscript property of the font.</p>
+</dd></dl>
+
+<p>The available options are:</p>
+<ul class="simple">
+<li>1 = Superscript</li>
+<li>2 = Subscript</li>
+</ul>
+</div>
+<div class="section" id="format-set-num-format">
+<h2>format.set_num_format()</h2>
+<dl class="function">
+<dt id="set_num_format">
+<tt class="descname">set_num_format</tt><big>(</big><em>format_string</em><big>)</big></dt>
+<dd><p>Set the number format for a cell.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>format_string</strong> (<a class="reference external" href="http://docs.python.org/2/library/string.html#string" title="(in Python v2.7)"><em>string</em></a>) &#8211; The cell number format.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<p>This method is used to define the numerical format of a number in Excel. It
+controls whether a number is displayed as an integer, a floating point number,
+a date, a currency value or some other user defined format.</p>
+<p>The numerical format of a cell can be specified by using a format string or an
+index to one of Excel&#8217;s built-in formats:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">format1</span> <span class="o">=</span> <span class="n">workbook</span><span class="o">.</span><span class="n">add_format</span><span class="p">()</span>
+<span class="n">format2</span> <span class="o">=</span> <span class="n">workbook</span><span class="o">.</span><span class="n">add_format</span><span class="p">()</span>
+
+<span class="n">format1</span><span class="o">.</span><span class="n">set_num_format</span><span class="p">(</span><span class="s">&#39;d mmm yyyy&#39;</span><span class="p">)</span>  <span class="c"># Format string.</span>
+<span class="n">format2</span><span class="o">.</span><span class="n">set_num_format</span><span class="p">(</span><span class="mh">0x0F</span><span class="p">)</span>          <span class="c"># Format index.</span>
+</pre></div>
+</div>
+<p>Format strings can control any aspect of number formatting allowed by Excel:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">format01</span><span class="o">.</span><span class="n">set_num_format</span><span class="p">(</span><span class="s">&#39;0.000&#39;</span><span class="p">)</span>
+<span class="n">worksheet</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mf">3.1415926</span><span class="p">,</span> <span class="n">format01</span><span class="p">)</span>       <span class="c"># -&gt; 3.142</span>
+
+<span class="n">format02</span><span class="o">.</span><span class="n">set_num_format</span><span class="p">(</span><span class="s">&#39;#,##0&#39;</span><span class="p">)</span>
+<span class="n">worksheet</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mf">1234.56</span><span class="p">,</span> <span class="n">format02</span><span class="p">)</span>         <span class="c"># -&gt; 1,235</span>
+
+<span class="n">format03</span><span class="o">.</span><span class="n">set_num_format</span><span class="p">(</span><span class="s">&#39;#,##0.00&#39;</span><span class="p">)</span>
+<span class="n">worksheet</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mf">1234.56</span><span class="p">,</span> <span class="n">format03</span><span class="p">)</span>         <span class="c"># -&gt; 1,234.56</span>
+
+<span class="n">format04</span><span class="o">.</span><span class="n">set_num_format</span><span class="p">(</span><span class="s">&#39;0.00&#39;</span><span class="p">)</span>
+<span class="n">worksheet</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mf">49.99</span><span class="p">,</span> <span class="n">format04</span><span class="p">)</span>           <span class="c"># -&gt; 49.99</span>
+
+<span class="n">format05</span><span class="o">.</span><span class="n">set_num_format</span><span class="p">(</span><span class="s">&#39;mm/dd/yy&#39;</span><span class="p">)</span>
+<span class="n">worksheet</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mf">36892.521</span><span class="p">,</span> <span class="n">format05</span><span class="p">)</span>       <span class="c"># -&gt; 01/01/01</span>
+
+<span class="n">format06</span><span class="o">.</span><span class="n">set_num_format</span><span class="p">(</span><span class="s">&#39;mmm d yyyy&#39;</span><span class="p">)</span>
+<span class="n">worksheet</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mf">36892.521</span><span class="p">,</span> <span class="n">format06</span><span class="p">)</span>       <span class="c"># -&gt; Jan 1 2001</span>
+
+<span class="n">format07</span><span class="o">.</span><span class="n">set_num_format</span><span class="p">(</span><span class="s">&#39;d mmmm yyyy&#39;</span><span class="p">)</span>
+<span class="n">worksheet</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="mi">7</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mf">36892.521</span><span class="p">,</span> <span class="n">format07</span><span class="p">)</span>       <span class="c"># -&gt; 1 January 2001</span>
+
+<span class="n">format08</span><span class="o">.</span><span class="n">set_num_format</span><span class="p">(</span><span class="s">&#39;dd/mm/yyyy hh:mm AM/PM&#39;</span><span class="p">)</span>
+<span class="n">worksheet</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mf">36892.521</span><span class="p">,</span> <span class="n">format08</span><span class="p">)</span>      <span class="c"># -&gt; 01/01/2001 12:30 AM</span>
+
+<span class="n">format09</span><span class="o">.</span><span class="n">set_num_format</span><span class="p">(</span><span class="s">&#39;0 &quot;dollar and&quot; .00 &quot;cents&quot;&#39;</span><span class="p">)</span>
+<span class="n">worksheet</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="mi">9</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mf">1.87</span><span class="p">,</span> <span class="n">format09</span><span class="p">)</span>           <span class="c"># -&gt; 1 dollar and .87 cents</span>
+
+<span class="c"># Conditional numerical formatting.</span>
+<span class="n">format10</span><span class="o">.</span><span class="n">set_num_format</span><span class="p">(</span><span class="s">&#39;[Green]General;[Red]-General;General&#39;</span><span class="p">)</span>
+<span class="n">worksheet</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">123</span><span class="p">,</span> <span class="n">format10</span><span class="p">)</span>  <span class="c"># &gt; 0 Green</span>
+<span class="n">worksheet</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="mi">11</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mi">45</span><span class="p">,</span> <span class="n">format10</span><span class="p">)</span>  <span class="c"># &lt; 0 Red</span>
+<span class="n">worksheet</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="mi">12</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span>   <span class="mi">0</span><span class="p">,</span> <span class="n">format10</span><span class="p">)</span>  <span class="c"># = 0 Default colour</span>
+
+<span class="c"># Zip code.</span>
+<span class="n">format11</span><span class="o">.</span><span class="n">set_num_format</span><span class="p">(</span><span class="s">&#39;00000&#39;</span><span class="p">)</span>
+<span class="n">worksheet</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="mi">13</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1209</span><span class="p">,</span> <span class="n">format11</span><span class="p">)</span>
+</pre></div>
+</div>
+<img alt="_images/formats_num_str.png" src="_images/formats_num_str.png" />
+<p>The number system used for dates is described in
+<a class="reference internal" href="working_with_dates_and_time.html#working-with-dates-and-time"><em>Working with Dates and Time</em></a>.</p>
+<p>The colour format should have one of the following values:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="p">[</span><span class="n">Black</span><span class="p">]</span> <span class="p">[</span><span class="n">Blue</span><span class="p">]</span> <span class="p">[</span><span class="n">Cyan</span><span class="p">]</span> <span class="p">[</span><span class="n">Green</span><span class="p">]</span> <span class="p">[</span><span class="n">Magenta</span><span class="p">]</span> <span class="p">[</span><span class="n">Red</span><span class="p">]</span> <span class="p">[</span><span class="n">White</span><span class="p">]</span> <span class="p">[</span><span class="n">Yellow</span><span class="p">]</span>
+</pre></div>
+</div>
+<p>For more information refer to the
+<a class="reference external" href="http://office.microsoft.com/en-gb/assistance/HP051995001033.aspx">Microsoft documentation on cell formats</a>.</p>
+<p>Excel&#8217;s built-in formats are shown in the following table:</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="10%" />
+<col width="10%" />
+<col width="80%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Index</th>
+<th class="head">Index</th>
+<th class="head">Format String</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>0</td>
+<td>0x00</td>
+<td><tt class="docutils literal"><span class="pre">General</span></tt></td>
+</tr>
+<tr class="row-odd"><td>1</td>
+<td>0x01</td>
+<td><tt class="docutils literal"><span class="pre">0</span></tt></td>
+</tr>
+<tr class="row-even"><td>2</td>
+<td>0x02</td>
+<td><tt class="docutils literal"><span class="pre">0.00</span></tt></td>
+</tr>
+<tr class="row-odd"><td>3</td>
+<td>0x03</td>
+<td><tt class="docutils literal"><span class="pre">#,##0</span></tt></td>
+</tr>
+<tr class="row-even"><td>4</td>
+<td>0x04</td>
+<td><tt class="docutils literal"><span class="pre">#,##0.00</span></tt></td>
+</tr>
+<tr class="row-odd"><td>5</td>
+<td>0x05</td>
+<td><tt class="docutils literal"><span class="pre">($#,##0_);($#,##0)</span></tt></td>
+</tr>
+<tr class="row-even"><td>6</td>
+<td>0x06</td>
+<td><tt class="docutils literal"><span class="pre">($#,##0_);[Red]($#,##0)</span></tt></td>
+</tr>
+<tr class="row-odd"><td>7</td>
+<td>0x07</td>
+<td><tt class="docutils literal"><span class="pre">($#,##0.00_);($#,##0.00)</span></tt></td>
+</tr>
+<tr class="row-even"><td>8</td>
+<td>0x08</td>
+<td><tt class="docutils literal"><span class="pre">($#,##0.00_);[Red]($#,##0.00)</span></tt></td>
+</tr>
+<tr class="row-odd"><td>9</td>
+<td>0x09</td>
+<td><tt class="docutils literal"><span class="pre">0%</span></tt></td>
+</tr>
+<tr class="row-even"><td>10</td>
+<td>0x0a</td>
+<td><tt class="docutils literal"><span class="pre">0.00%</span></tt></td>
+</tr>
+<tr class="row-odd"><td>11</td>
+<td>0x0b</td>
+<td><tt class="docutils literal"><span class="pre">0.00E+00</span></tt></td>
+</tr>
+<tr class="row-even"><td>12</td>
+<td>0x0c</td>
+<td><tt class="docutils literal"><span class="pre">#</span> <span class="pre">?/?</span></tt></td>
+</tr>
+<tr class="row-odd"><td>13</td>
+<td>0x0d</td>
+<td><tt class="docutils literal"><span class="pre">#</span> <span class="pre">??/??</span></tt></td>
+</tr>
+<tr class="row-even"><td>14</td>
+<td>0x0e</td>
+<td><tt class="docutils literal"><span class="pre">m/d/yy</span></tt></td>
+</tr>
+<tr class="row-odd"><td>15</td>
+<td>0x0f</td>
+<td><tt class="docutils literal"><span class="pre">d-mmm-yy</span></tt></td>
+</tr>
+<tr class="row-even"><td>16</td>
+<td>0x10</td>
+<td><tt class="docutils literal"><span class="pre">d-mmm</span></tt></td>
+</tr>
+<tr class="row-odd"><td>17</td>
+<td>0x11</td>
+<td><tt class="docutils literal"><span class="pre">mmm-yy</span></tt></td>
+</tr>
+<tr class="row-even"><td>18</td>
+<td>0x12</td>
+<td><tt class="docutils literal"><span class="pre">h:mm</span> <span class="pre">AM/PM</span></tt></td>
+</tr>
+<tr class="row-odd"><td>19</td>
+<td>0x13</td>
+<td><tt class="docutils literal"><span class="pre">h:mm:ss</span> <span class="pre">AM/PM</span></tt></td>
+</tr>
+<tr class="row-even"><td>20</td>
+<td>0x14</td>
+<td><tt class="docutils literal"><span class="pre">h:mm</span></tt></td>
+</tr>
+<tr class="row-odd"><td>21</td>
+<td>0x15</td>
+<td><tt class="docutils literal"><span class="pre">h:mm:ss</span></tt></td>
+</tr>
+<tr class="row-even"><td>22</td>
+<td>0x16</td>
+<td><tt class="docutils literal"><span class="pre">m/d/yy</span> <span class="pre">h:mm</span></tt></td>
+</tr>
+<tr class="row-odd"><td>...</td>
+<td>...</td>
+<td>...</td>
+</tr>
+<tr class="row-even"><td>37</td>
+<td>0x25</td>
+<td><tt class="docutils literal"><span class="pre">(#,##0_);(#,##0)</span></tt></td>
+</tr>
+<tr class="row-odd"><td>38</td>
+<td>0x26</td>
+<td><tt class="docutils literal"><span class="pre">(#,##0_);[Red](#,##0)</span></tt></td>
+</tr>
+<tr class="row-even"><td>39</td>
+<td>0x27</td>
+<td><tt class="docutils literal"><span class="pre">(#,##0.00_);(#,##0.00)</span></tt></td>
+</tr>
+<tr class="row-odd"><td>40</td>
+<td>0x28</td>
+<td><tt class="docutils literal"><span class="pre">(#,##0.00_);[Red](#,##0.00)</span></tt></td>
+</tr>
+<tr class="row-even"><td>41</td>
+<td>0x29</td>
+<td><tt class="docutils literal"><span class="pre">_(*</span> <span class="pre">#,##0_);_(*</span> <span class="pre">(#,##0);_(*</span> <span class="pre">&quot;-&quot;_);_(&#64;_)</span></tt></td>
+</tr>
+<tr class="row-odd"><td>42</td>
+<td>0x2a</td>
+<td><tt class="docutils literal"><span class="pre">_($*</span> <span class="pre">#,##0_);_($*</span> <span class="pre">(#,##0);_($*</span> <span class="pre">&quot;-&quot;_);_(&#64;_)</span></tt></td>
+</tr>
+<tr class="row-even"><td>43</td>
+<td>0x2b</td>
+<td><tt class="docutils literal"><span class="pre">_(*</span> <span class="pre">#,##0.00_);_(*</span> <span class="pre">(#,##0.00);_(*</span> <span class="pre">&quot;-&quot;??_);_(&#64;_)</span></tt></td>
+</tr>
+<tr class="row-odd"><td>44</td>
+<td>0x2c</td>
+<td><tt class="docutils literal"><span class="pre">_($*</span> <span class="pre">#,##0.00_);_($*</span> <span class="pre">(#,##0.00);_($*</span> <span class="pre">&quot;-&quot;??_);_(&#64;_)</span></tt></td>
+</tr>
+<tr class="row-even"><td>45</td>
+<td>0x2d</td>
+<td><tt class="docutils literal"><span class="pre">mm:ss</span></tt></td>
+</tr>
+<tr class="row-odd"><td>46</td>
+<td>0x2e</td>
+<td><tt class="docutils literal"><span class="pre">[h]:mm:ss</span></tt></td>
+</tr>
+<tr class="row-even"><td>47</td>
+<td>0x2f</td>
+<td><tt class="docutils literal"><span class="pre">mm:ss.0</span></tt></td>
+</tr>
+<tr class="row-odd"><td>48</td>
+<td>0x30</td>
+<td><tt class="docutils literal"><span class="pre">##0.0E+0</span></tt></td>
+</tr>
+<tr class="row-even"><td>49</td>
+<td>0x31</td>
+<td><tt class="docutils literal"><span class="pre">&#64;</span></tt></td>
+</tr>
+</tbody>
+</table>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Numeric formats 23 to 36 are not documented by Microsoft and
+may differ in international versions.</p>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">The dollar sign appears as the defined local currency symbol.</p>
+</div>
+</div>
+<div class="section" id="format-set-locked">
+<h2>format.set_locked()</h2>
+<dl class="function">
+<dt id="set_locked">
+<tt class="descname">set_locked</tt><big>(</big><em>state</em><big>)</big></dt>
+<dd><p>Set the cell locked state.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>state</strong> (<a class="reference external" href="http://docs.python.org/2/library/functions.html#bool" title="(in Python v2.7)"><em>bool</em></a>) &#8211; Turn cell locking on or off. Defaults to True.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<p>This property can be used to prevent modification of a cells contents.
+Following Excel&#8217;s convention, cell locking is turned on by default. However,
+it only has an effect if the worksheet has been protected, see the worksheet
+<tt class="docutils literal"><span class="pre">protect()</span></tt> method (not implemented yet):</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">locked</span> <span class="o">=</span> <span class="n">workbook</span><span class="o">.</span><span class="n">add_format</span><span class="p">()</span>
+<span class="n">locked</span><span class="o">.</span><span class="n">set_locked</span><span class="p">(</span><span class="bp">True</span><span class="p">)</span>
+
+<span class="n">unlocked</span> <span class="o">=</span> <span class="n">workbook</span><span class="o">.</span><span class="n">add_format</span><span class="p">()</span>
+<span class="n">locked</span><span class="o">.</span><span class="n">set_locked</span><span class="p">(</span><span class="bp">False</span><span class="p">)</span>
+
+<span class="c"># Enable worksheet protection</span>
+<span class="n">worksheet</span><span class="o">.</span><span class="n">protect</span><span class="p">()</span>
+
+<span class="c"># This cell cannot be edited.</span>
+<span class="n">worksheet</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s">&#39;A1&#39;</span><span class="p">,</span> <span class="s">&#39;=1+2&#39;</span><span class="p">,</span> <span class="n">locked</span><span class="p">)</span>
+
+<span class="c"># This cell can be edited.</span>
+<span class="n">worksheet</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s">&#39;A2&#39;</span><span class="p">,</span> <span class="s">&#39;=1+2&#39;</span><span class="p">,</span> <span class="n">unlocked</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="format-set-hidden">
+<h2>format.set_hidden()</h2>
+<dl class="function">
+<dt id="set_hidden">
+<tt class="descname">set_hidden</tt><big>(</big><big>)</big></dt>
+<dd><p>Hide formulas in a cell.</p>
+</dd></dl>
+
+<p>This property is used to hide a formula while still displaying its result. This
+is generally used to hide complex calculations from end users who are only
+interested in the result. It only has an effect if the worksheet has been
+protected, see the worksheet <tt class="docutils literal"><span class="pre">protect()</span></tt> method (not implemented yet):</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">hidden</span> <span class="o">=</span> <span class="n">workbook</span><span class="o">.</span><span class="n">add_format</span><span class="p">()</span>
+<span class="n">hidden</span><span class="o">.</span><span class="n">set_hidden</span><span class="p">()</span>
+
+<span class="c"># Enable worksheet protection</span>
+<span class="n">worksheet</span><span class="o">.</span><span class="n">protect</span><span class="p">()</span>
+
+<span class="c"># The formula in this cell isn&#39;t visible</span>
+<span class="n">worksheet</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s">&#39;A1&#39;</span><span class="p">,</span> <span class="s">&#39;=1+2&#39;</span><span class="p">,</span> <span class="n">hidden</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="format-set-align">
+<h2>format.set_align()</h2>
+<dl class="function">
+<dt id="set_align">
+<tt class="descname">set_align</tt><big>(</big><em>alignment</em><big>)</big></dt>
+<dd><p>Set the alignment for data in the cell.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>alignment</strong> (<a class="reference external" href="http://docs.python.org/2/library/string.html#string" title="(in Python v2.7)"><em>string</em></a>) &#8211; The vertical and or horizontal alignment direction.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<p>This method is used to set the horizontal and vertical text alignment within a
+cell. The following are the available horizontal alignments:</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Horizontal alignment</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>center</td>
+</tr>
+<tr class="row-odd"><td>right</td>
+</tr>
+<tr class="row-even"><td>fill</td>
+</tr>
+<tr class="row-odd"><td>justify</td>
+</tr>
+<tr class="row-even"><td>center_across</td>
+</tr>
+</tbody>
+</table>
+<p>The following are the available vertical alignments:</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Vertical alignment</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>top</td>
+</tr>
+<tr class="row-odd"><td>vcenter</td>
+</tr>
+<tr class="row-even"><td>bottom</td>
+</tr>
+<tr class="row-odd"><td>vjustify</td>
+</tr>
+</tbody>
+</table>
+<p>As in Excel, vertical and horizontal alignments can be combined:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">format</span> <span class="o">=</span> <span class="n">workbook</span><span class="o">.</span><span class="n">add_format</span><span class="p">()</span>
+
+<span class="n">format</span><span class="o">.</span><span class="n">set_align</span><span class="p">(</span><span class="s">&#39;center&#39;</span><span class="p">)</span>
+<span class="n">format</span><span class="o">.</span><span class="n">set_align</span><span class="p">(</span><span class="s">&#39;vcenter&#39;</span><span class="p">)</span>
+
+<span class="n">worksheet</span><span class="o">.</span><span class="n">set_row</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">30</span><span class="p">)</span>
+<span class="n">worksheet</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="s">&#39;Some Text&#39;</span><span class="p">,</span> <span class="n">format</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Text can be aligned across two or more adjacent cells using the
+<tt class="docutils literal"><span class="pre">'center_across'</span></tt> property. However, for genuine merged cells it is better
+to use the <tt class="docutils literal"><span class="pre">merge_range()</span></tt> worksheet method (not implemented yet).</p>
+<p>The <tt class="docutils literal"><span class="pre">'vjustify'</span></tt> (vertical justify) option can be used to provide automatic
+text wrapping in a cell. The height of the cell will be adjusted to
+accommodate the wrapped text. To specify where the text wraps use the
+<tt class="docutils literal"><span class="pre">set_text_wrap()</span></tt> method.</p>
+</div>
+<div class="section" id="format-set-center-across">
+<h2>format.set_center_across()</h2>
+<dl class="function">
+<dt id="set_center_across">
+<tt class="descname">set_center_across</tt><big>(</big><big>)</big></dt>
+<dd><p>Centre text across adjacent cells.</p>
+</dd></dl>
+
+<p>Text can be aligned across two or more adjacent cells using the
+<tt class="docutils literal"><span class="pre">set_center_across()</span></tt> method. This is an alias for the
+<tt class="docutils literal"><span class="pre">set_align('center_across')</span></tt> method call.</p>
+<p>Only one cell should contain the text, the other cells should be blank:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">format</span> <span class="o">=</span> <span class="n">workbook</span><span class="o">.</span><span class="n">add_format</span><span class="p">()</span>
+<span class="n">format</span><span class="o">.</span><span class="n">set_center_across</span><span class="p">()</span>
+
+<span class="n">worksheet</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="s">&#39;Center across selection&#39;</span><span class="p">,</span> <span class="n">format</span><span class="p">)</span>
+<span class="n">worksheet</span><span class="o">.</span><span class="n">write_blank</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">format</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>For actual merged cells it is better to use the <tt class="docutils literal"><span class="pre">merge_range()</span></tt> worksheet
+method.</p>
+</div>
+<div class="section" id="format-set-text-wrap">
+<h2>format.set_text_wrap()</h2>
+<dl class="function">
+<dt id="set_text_wrap">
+<tt class="descname">set_text_wrap</tt><big>(</big><big>)</big></dt>
+<dd><p>Wrap text in a cell.</p>
+</dd></dl>
+
+<p>Turn text wrapping on for text in a cell:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">format</span> <span class="o">=</span> <span class="n">workbook</span><span class="o">.</span><span class="n">add_format</span><span class="p">()</span>
+<span class="n">format</span><span class="o">.</span><span class="n">set_text_wrap</span><span class="p">()</span>
+
+<span class="n">worksheet</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="s">&quot;Some long text to wrap in a cell&quot;</span><span class="p">,</span> <span class="n">format</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>If you wish to control where the text is wrapped you can add newline characters
+to the string:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">format</span> <span class="o">=</span> <span class="n">workbook</span><span class="o">.</span><span class="n">add_format</span><span class="p">()</span>
+<span class="n">format</span><span class="o">.</span><span class="n">set_text_wrap</span><span class="p">()</span>
+
+<span class="n">worksheet</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="s">&quot;It&#39;s</span><span class="se">\n</span><span class="s">a bum</span><span class="se">\n</span><span class="s">wrap&quot;</span><span class="p">,</span> <span class="n">format</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Excel will adjust the height of the row to accommodate the wrapped text. A
+similar effect can be obtained without newlines using the
+<tt class="docutils literal"><span class="pre">set_align('vjustify')</span></tt> method.</p>
+</div>
+<div class="section" id="format-set-rotation">
+<h2>format.set_rotation()</h2>
+<dl class="function">
+<dt id="set_rotation">
+<tt class="descname">set_rotation</tt><big>(</big><em>angle</em><big>)</big></dt>
+<dd><p>Set the rotation of the text in a cell.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>angle</strong> (<a class="reference external" href="http://docs.python.org/2/library/functions.html#int" title="(in Python v2.7)"><em>int</em></a>) &#8211; Rotation angle in the range -90 to 90 and 270.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<p>Set the rotation of the text in a cell. The rotation can be any angle in the
+range -90 to 90 degrees:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">format</span> <span class="o">=</span> <span class="n">workbook</span><span class="o">.</span><span class="n">add_format</span><span class="p">()</span>
+<span class="n">format</span><span class="o">.</span><span class="n">set_rotation</span><span class="p">(</span><span class="mi">30</span><span class="p">)</span>
+
+<span class="n">worksheet</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="s">&#39;This text is rotated&#39;</span><span class="p">,</span> <span class="n">format</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>The angle 270 is also supported. This indicates text where the letters run from
+top to bottom.</p>
+</div>
+<div class="section" id="format-set-indent">
+<h2>format.set_indent()</h2>
+<dl class="function">
+<dt id="set_indent">
+<tt class="descname">set_indent</tt><big>(</big><em>level</em><big>)</big></dt>
+<dd><p>Set the cell text indentation level.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>level</strong> (<a class="reference external" href="http://docs.python.org/2/library/functions.html#int" title="(in Python v2.7)"><em>int</em></a>) &#8211; Indentation level.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<p>This method can be used to indent text in a cell. The argument, which should be
+an integer, is taken as the level of indentation:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">format</span> <span class="o">=</span> <span class="n">workbook</span><span class="o">.</span><span class="n">add_format</span><span class="p">()</span>
+<span class="n">format</span><span class="o">.</span><span class="n">set_indent</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+
+<span class="n">worksheet</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="s">&#39;This text is indented&#39;</span><span class="p">,</span> <span class="n">format</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Indentation is a horizontal alignment property. It will override any other
+horizontal properties but it can be used in conjunction with vertical
+properties.</p>
+</div>
+<div class="section" id="format-set-shrink">
+<h2>format.set_shrink()</h2>
+<dl class="function">
+<dt id="set_shrink">
+<tt class="descname">set_shrink</tt><big>(</big><big>)</big></dt>
+<dd><p>Turn on the text &#8220;shrink to fit&#8221; for a cell.</p>
+</dd></dl>
+
+<p>This method can be used to shrink text so that it fits in a cell:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">format</span> <span class="o">=</span> <span class="n">workbook</span><span class="o">.</span><span class="n">add_format</span><span class="p">()</span>
+<span class="n">format</span><span class="o">.</span><span class="n">set_shrink</span><span class="p">()</span>
+
+<span class="n">worksheet</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="s">&#39;Honey, I shrunk the text!&#39;</span><span class="p">,</span> <span class="n">format</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="format-set-text-justlast">
+<h2>format.set_text_justlast()</h2>
+<dl class="function">
+<dt id="set_text_justlast">
+<tt class="descname">set_text_justlast</tt><big>(</big><big>)</big></dt>
+<dd><p>Turn on the justify last text property.</p>
+</dd></dl>
+
+<p>Only applies to Far Eastern versions of Excel.</p>
+</div>
+<div class="section" id="format-set-pattern">
+<h2>format.set_pattern()</h2>
+<dl class="function">
+<dt id="set_pattern">
+<tt class="descname">set_pattern</tt><big>(</big><em>index</em><big>)</big></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>index</strong> (<a class="reference external" href="http://docs.python.org/2/library/functions.html#int" title="(in Python v2.7)"><em>int</em></a>) &#8211; Pattern index. 0 - 18.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<p>Set the background pattern of a cell.</p>
+<p>The most common pattern is 1 which is a solid fill of the background color.</p>
+</div>
+<div class="section" id="format-set-bg-color">
+<h2>format.set_bg_color()</h2>
+<dl class="function">
+<dt id="set_bg_color">
+<tt class="descname">set_bg_color</tt><big>(</big><em>color</em><big>)</big></dt>
+<dd><p>Set the color of the background pattern in a cell.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>color</strong> (<a class="reference external" href="http://docs.python.org/2/library/string.html#string" title="(in Python v2.7)"><em>string</em></a>) &#8211; The cell font color.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<p>The <tt class="docutils literal"><span class="pre">set_bg_color()</span></tt> method can be used to set the background colour of a
+pattern. Patterns are defined via the <tt class="docutils literal"><span class="pre">set_pattern()</span></tt> method. If a pattern
+hasn&#8217;t been defined then a solid fill pattern is used as the default.</p>
+<p>Here is an example of how to set up a solid fill in a cell:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">format</span> <span class="o">=</span> <span class="n">workbook</span><span class="o">.</span><span class="n">add_format</span><span class="p">()</span>
+
+<span class="n">format</span><span class="o">.</span><span class="n">set_pattern</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>  <span class="c"># This is optional when using a solid fill.</span>
+<span class="n">format</span><span class="o">.</span><span class="n">set_bg_color</span><span class="p">(</span><span class="s">&#39;green&#39;</span><span class="p">)</span>
+
+<span class="n">worksheet</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s">&#39;A1&#39;</span><span class="p">,</span> <span class="s">&#39;Ray&#39;</span><span class="p">,</span> <span class="n">format</span><span class="p">)</span>
+</pre></div>
+</div>
+<img alt="_images/formats_set_bg_color.png" src="_images/formats_set_bg_color.png" />
+<p>The color can be a Html style <tt class="docutils literal"><span class="pre">#RRGGBB</span></tt> string or a limited number of named
+colors, see <a class="reference internal" href="working_with_formats.html#format-colors"><em>Format Colors</em></a>.</p>
+</div>
+<div class="section" id="format-set-fg-color">
+<h2>format.set_fg_color()</h2>
+<dl class="function">
+<dt id="set_fg_color">
+<tt class="descname">set_fg_color</tt><big>(</big><em>color</em><big>)</big></dt>
+<dd><p>Set the color of the foreground pattern in a cell.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>color</strong> (<a class="reference external" href="http://docs.python.org/2/library/string.html#string" title="(in Python v2.7)"><em>string</em></a>) &#8211; The cell font color.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<p>The <tt class="docutils literal"><span class="pre">set_fg_color()</span></tt> method can be used to set the foreground colour of a
+pattern.</p>
+<p>The color can be a Html style <tt class="docutils literal"><span class="pre">#RRGGBB</span></tt> string or a limited number of named
+colors, see <a class="reference internal" href="working_with_formats.html#format-colors"><em>Format Colors</em></a>.</p>
+</div>
+<div class="section" id="format-set-border">
+<h2>format.set_border()</h2>
+<dl class="function">
+<dt id="set_border">
+<tt class="descname">set_border</tt><big>(</big><em>style</em><big>)</big></dt>
+<dd><p>Set the cell border style.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>style</strong> (<a class="reference external" href="http://docs.python.org/2/library/functions.html#int" title="(in Python v2.7)"><em>int</em></a>) &#8211; Border style index. Default is 1.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<p>Individual border elements can be configured using the following methods with
+the same parameters:</p>
+<ul class="simple">
+<li><a class="reference internal" href="#set_bottom" title="set_bottom"><tt class="xref py py-func docutils literal"><span class="pre">set_bottom()</span></tt></a></li>
+<li><a class="reference internal" href="#set_top" title="set_top"><tt class="xref py py-func docutils literal"><span class="pre">set_top()</span></tt></a></li>
+<li><a class="reference internal" href="#set_left" title="set_left"><tt class="xref py py-func docutils literal"><span class="pre">set_left()</span></tt></a></li>
+<li><a class="reference internal" href="#set_right" title="set_right"><tt class="xref py py-func docutils literal"><span class="pre">set_right()</span></tt></a></li>
+</ul>
+<p>A cell border is comprised of a border on the bottom, top, left and right.
+These can be set to the same value using <tt class="docutils literal"><span class="pre">set_border()</span></tt> or individually
+using the relevant method calls shown above.</p>
+<p>The following shows the border styles sorted by XlsxWriter index number:</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="15%" />
+<col width="32%" />
+<col width="17%" />
+<col width="36%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Index</th>
+<th class="head">Name</th>
+<th class="head">Weight</th>
+<th class="head">Style</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>0</td>
+<td>None</td>
+<td>0</td>
+<td>&nbsp;</td>
+</tr>
+<tr class="row-odd"><td>1</td>
+<td>Continuous</td>
+<td>1</td>
+<td><tt class="docutils literal"><span class="pre">-----------</span></tt></td>
+</tr>
+<tr class="row-even"><td>2</td>
+<td>Continuous</td>
+<td>2</td>
+<td><tt class="docutils literal"><span class="pre">-----------</span></tt></td>
+</tr>
+<tr class="row-odd"><td>3</td>
+<td>Dash</td>
+<td>1</td>
+<td><tt class="docutils literal"><span class="pre">-</span> <span class="pre">-</span> <span class="pre">-</span> <span class="pre">-</span> <span class="pre">-</span> <span class="pre">-</span></tt></td>
+</tr>
+<tr class="row-even"><td>4</td>
+<td>Dot</td>
+<td>1</td>
+<td><tt class="docutils literal"><span class="pre">.</span> <span class="pre">.</span> <span class="pre">.</span> <span class="pre">.</span> <span class="pre">.</span> <span class="pre">.</span></tt></td>
+</tr>
+<tr class="row-odd"><td>5</td>
+<td>Continuous</td>
+<td>3</td>
+<td><tt class="docutils literal"><span class="pre">-----------</span></tt></td>
+</tr>
+<tr class="row-even"><td>6</td>
+<td>Double</td>
+<td>3</td>
+<td><tt class="docutils literal"><span class="pre">===========</span></tt></td>
+</tr>
+<tr class="row-odd"><td>7</td>
+<td>Continuous</td>
+<td>0</td>
+<td><tt class="docutils literal"><span class="pre">-----------</span></tt></td>
+</tr>
+<tr class="row-even"><td>8</td>
+<td>Dash</td>
+<td>2</td>
+<td><tt class="docutils literal"><span class="pre">-</span> <span class="pre">-</span> <span class="pre">-</span> <span class="pre">-</span> <span class="pre">-</span> <span class="pre">-</span></tt></td>
+</tr>
+<tr class="row-odd"><td>9</td>
+<td>Dash Dot</td>
+<td>1</td>
+<td><tt class="docutils literal"><span class="pre">-</span> <span class="pre">.</span> <span class="pre">-</span> <span class="pre">.</span> <span class="pre">-</span> <span class="pre">.</span></tt></td>
+</tr>
+<tr class="row-even"><td>10</td>
+<td>Dash Dot</td>
+<td>2</td>
+<td><tt class="docutils literal"><span class="pre">-</span> <span class="pre">.</span> <span class="pre">-</span> <span class="pre">.</span> <span class="pre">-</span> <span class="pre">.</span></tt></td>
+</tr>
+<tr class="row-odd"><td>11</td>
+<td>Dash Dot Dot</td>
+<td>1</td>
+<td><tt class="docutils literal"><span class="pre">-</span> <span class="pre">.</span> <span class="pre">.</span> <span class="pre">-</span> <span class="pre">.</span> <span class="pre">.</span></tt></td>
+</tr>
+<tr class="row-even"><td>12</td>
+<td>Dash Dot Dot</td>
+<td>2</td>
+<td><tt class="docutils literal"><span class="pre">-</span> <span class="pre">.</span> <span class="pre">.</span> <span class="pre">-</span> <span class="pre">.</span> <span class="pre">.</span></tt></td>
+</tr>
+<tr class="row-odd"><td>13</td>
+<td>SlantDash Dot</td>
+<td>2</td>
+<td><tt class="docutils literal"><span class="pre">/</span> <span class="pre">-</span> <span class="pre">.</span> <span class="pre">/</span> <span class="pre">-</span> <span class="pre">.</span></tt></td>
+</tr>
+</tbody>
+</table>
+<p>The following shows the borders in the order shown in the Excel Dialog:</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="15%" />
+<col width="35%" />
+<col width="15%" />
+<col width="35%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Index</th>
+<th class="head">Style</th>
+<th class="head">Index</th>
+<th class="head">Style</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>0</td>
+<td>None</td>
+<td>12</td>
+<td><tt class="docutils literal"><span class="pre">-</span> <span class="pre">.</span> <span class="pre">.</span> <span class="pre">-</span> <span class="pre">.</span> <span class="pre">.</span></tt></td>
+</tr>
+<tr class="row-odd"><td>7</td>
+<td><tt class="docutils literal"><span class="pre">-----------</span></tt></td>
+<td>13</td>
+<td><tt class="docutils literal"><span class="pre">/</span> <span class="pre">-</span> <span class="pre">.</span> <span class="pre">/</span> <span class="pre">-</span> <span class="pre">.</span></tt></td>
+</tr>
+<tr class="row-even"><td>4</td>
+<td><tt class="docutils literal"><span class="pre">.</span> <span class="pre">.</span> <span class="pre">.</span> <span class="pre">.</span> <span class="pre">.</span> <span class="pre">.</span></tt></td>
+<td>10</td>
+<td><tt class="docutils literal"><span class="pre">-</span> <span class="pre">.</span> <span class="pre">-</span> <span class="pre">.</span> <span class="pre">-</span> <span class="pre">.</span></tt></td>
+</tr>
+<tr class="row-odd"><td>11</td>
+<td><tt class="docutils literal"><span class="pre">-</span> <span class="pre">.</span> <span class="pre">.</span> <span class="pre">-</span> <span class="pre">.</span> <span class="pre">.</span></tt></td>
+<td>8</td>
+<td><tt class="docutils literal"><span class="pre">-</span> <span class="pre">-</span> <span class="pre">-</span> <span class="pre">-</span> <span class="pre">-</span> <span class="pre">-</span></tt></td>
+</tr>
+<tr class="row-even"><td>9</td>
+<td><tt class="docutils literal"><span class="pre">-</span> <span class="pre">.</span> <span class="pre">-</span> <span class="pre">.</span> <span class="pre">-</span> <span class="pre">.</span></tt></td>
+<td>2</td>
+<td><tt class="docutils literal"><span class="pre">-----------</span></tt></td>
+</tr>
+<tr class="row-odd"><td>3</td>
+<td><tt class="docutils literal"><span class="pre">-</span> <span class="pre">-</span> <span class="pre">-</span> <span class="pre">-</span> <span class="pre">-</span> <span class="pre">-</span></tt></td>
+<td>5</td>
+<td><tt class="docutils literal"><span class="pre">-----------</span></tt></td>
+</tr>
+<tr class="row-even"><td>1</td>
+<td><tt class="docutils literal"><span class="pre">-----------</span></tt></td>
+<td>6</td>
+<td><tt class="docutils literal"><span class="pre">===========</span></tt></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="format-set-bottom">
+<h2>format.set_bottom()</h2>
+<dl class="function">
+<dt id="set_bottom">
+<tt class="descname">set_bottom</tt><big>(</big><em>style</em><big>)</big></dt>
+<dd><p>Set the cell bottom border style.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>style</strong> (<a class="reference external" href="http://docs.python.org/2/library/functions.html#int" title="(in Python v2.7)"><em>int</em></a>) &#8211; Border style index. Default is 1.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<p>Set the cell bottom border style. See <a class="reference internal" href="#set_border" title="set_border"><tt class="xref py py-func docutils literal"><span class="pre">set_border()</span></tt></a> for details on the
+border styles.</p>
+</div>
+<div class="section" id="format-set-top">
+<h2>format.set_top()</h2>
+<dl class="function">
+<dt id="set_top">
+<tt class="descname">set_top</tt><big>(</big><em>style</em><big>)</big></dt>
+<dd><p>Set the cell top border style.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>style</strong> (<a class="reference external" href="http://docs.python.org/2/library/functions.html#int" title="(in Python v2.7)"><em>int</em></a>) &#8211; Border style index. Default is 1.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<p>Set the cell top border style. See <a class="reference internal" href="#set_border" title="set_border"><tt class="xref py py-func docutils literal"><span class="pre">set_border()</span></tt></a> for details on the border
+styles.</p>
+</div>
+<div class="section" id="format-set-left">
+<h2>format.set_left()</h2>
+<dl class="function">
+<dt id="set_left">
+<tt class="descname">set_left</tt><big>(</big><em>style</em><big>)</big></dt>
+<dd><p>Set the cell left border style.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>style</strong> (<a class="reference external" href="http://docs.python.org/2/library/functions.html#int" title="(in Python v2.7)"><em>int</em></a>) &#8211; Border style index. Default is 1.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<p>Set the cell left border style. See <a class="reference internal" href="#set_border" title="set_border"><tt class="xref py py-func docutils literal"><span class="pre">set_border()</span></tt></a> for details on the
+border styles.</p>
+</div>
+<div class="section" id="format-set-right">
+<h2>format.set_right()</h2>
+<dl class="function">
+<dt id="set_right">
+<tt class="descname">set_right</tt><big>(</big><em>style</em><big>)</big></dt>
+<dd><p>Set the cell right border style.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>style</strong> (<a class="reference external" href="http://docs.python.org/2/library/functions.html#int" title="(in Python v2.7)"><em>int</em></a>) &#8211; Border style index. Default is 1.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<p>Set the cell right border style. See <a class="reference internal" href="#set_border" title="set_border"><tt class="xref py py-func docutils literal"><span class="pre">set_border()</span></tt></a> for details on the
+border styles.</p>
+</div>
+<div class="section" id="format-set-border-color">
+<h2>format.set_border_color()</h2>
+<dl class="function">
+<dt id="set_border_color">
+<tt class="descname">set_border_color</tt><big>(</big><em>color</em><big>)</big></dt>
+<dd><p>Set the color of the cell border.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>color</strong> (<a class="reference external" href="http://docs.python.org/2/library/string.html#string" title="(in Python v2.7)"><em>string</em></a>) &#8211; The cell border color.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<p>Individual border elements can be configured using the following methods with
+the same parameters:</p>
+<ul class="simple">
+<li><a class="reference internal" href="#set_bottom_color" title="set_bottom_color"><tt class="xref py py-func docutils literal"><span class="pre">set_bottom_color()</span></tt></a></li>
+<li><a class="reference internal" href="#set_top_color" title="set_top_color"><tt class="xref py py-func docutils literal"><span class="pre">set_top_color()</span></tt></a></li>
+<li><a class="reference internal" href="#set_left_color" title="set_left_color"><tt class="xref py py-func docutils literal"><span class="pre">set_left_color()</span></tt></a></li>
+<li><a class="reference internal" href="#set_right_color" title="set_right_color"><tt class="xref py py-func docutils literal"><span class="pre">set_right_color()</span></tt></a></li>
+</ul>
+<p>Set the colour of the cell borders. A cell border is comprised of a border on
+the bottom, top, left and right. These can be set to the same colour using
+<tt class="docutils literal"><span class="pre">set_border_color()</span></tt> or individually using the relevant method calls shown
+above.</p>
+<p>The color can be a Html style <tt class="docutils literal"><span class="pre">#RRGGBB</span></tt> string or a limited number of named
+colors, see <a class="reference internal" href="working_with_formats.html#format-colors"><em>Format Colors</em></a>.</p>
+</div>
+<div class="section" id="format-set-bottom-color">
+<h2>format.set_bottom_color()</h2>
+<dl class="function">
+<dt id="set_bottom_color">
+<tt class="descname">set_bottom_color</tt><big>(</big><em>color</em><big>)</big></dt>
+<dd><p>Set the color of the bottom cell border.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>color</strong> (<a class="reference external" href="http://docs.python.org/2/library/string.html#string" title="(in Python v2.7)"><em>string</em></a>) &#8211; The cell border color.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<p>See <a class="reference internal" href="#set_border_color" title="set_border_color"><tt class="xref py py-func docutils literal"><span class="pre">set_border_color()</span></tt></a> for details on the border colors.</p>
+</div>
+<div class="section" id="format-set-top-color">
+<h2>format.set_top_color()</h2>
+<dl class="function">
+<dt id="set_top_color">
+<tt class="descname">set_top_color</tt><big>(</big><em>color</em><big>)</big></dt>
+<dd><p>Set the color of the top cell border.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>color</strong> (<a class="reference external" href="http://docs.python.org/2/library/string.html#string" title="(in Python v2.7)"><em>string</em></a>) &#8211; The cell border color.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<p>See <a class="reference internal" href="#set_border_color" title="set_border_color"><tt class="xref py py-func docutils literal"><span class="pre">set_border_color()</span></tt></a> for details on the border colors.</p>
+</div>
+<div class="section" id="format-set-left-color">
+<h2>format.set_left_color()</h2>
+<dl class="function">
+<dt id="set_left_color">
+<tt class="descname">set_left_color</tt><big>(</big><em>color</em><big>)</big></dt>
+<dd><p>Set the color of the left cell border.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>color</strong> (<a class="reference external" href="http://docs.python.org/2/library/string.html#string" title="(in Python v2.7)"><em>string</em></a>) &#8211; The cell border color.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<p>See <a class="reference internal" href="#set_border_color" title="set_border_color"><tt class="xref py py-func docutils literal"><span class="pre">set_border_color()</span></tt></a> for details on the border colors.</p>
+</div>
+<div class="section" id="format-set-right-color">
+<h2>format.set_right_color()</h2>
+<dl class="function">
+<dt id="set_right_color">
+<tt class="descname">set_right_color</tt><big>(</big><em>color</em><big>)</big></dt>
+<dd><p>Set the color of the right cell border.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>color</strong> (<a class="reference external" href="http://docs.python.org/2/library/string.html#string" title="(in Python v2.7)"><em>string</em></a>) &#8211; The cell border color.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<p>See <a class="reference internal" href="#set_border_color" title="set_border_color"><tt class="xref py py-func docutils literal"><span class="pre">set_border_color()</span></tt></a> for details on the border colors.</p>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="index.html">
+              <img class="logo" src="_static/logo.png" alt="Logo"/>
+            </a></p>
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">The Format Class</a><ul>
+<li><a class="reference internal" href="#format-set-font-name">format.set_font_name()</a></li>
+<li><a class="reference internal" href="#format-set-font-size">format.set_font_size()</a></li>
+<li><a class="reference internal" href="#format-set-font-color">format.set_font_color()</a></li>
+<li><a class="reference internal" href="#format-set-bold">format.set_bold()</a></li>
+<li><a class="reference internal" href="#format-set-italic">format.set_italic()</a></li>
+<li><a class="reference internal" href="#format-set-underline-style">format.set_underline(style)</a></li>
+<li><a class="reference internal" href="#format-set-font-strikeout">format.set_font_strikeout()</a></li>
+<li><a class="reference internal" href="#format-set-font-script">format.set_font_script()</a></li>
+<li><a class="reference internal" href="#format-set-num-format">format.set_num_format()</a></li>
+<li><a class="reference internal" href="#format-set-locked">format.set_locked()</a></li>
+<li><a class="reference internal" href="#format-set-hidden">format.set_hidden()</a></li>
+<li><a class="reference internal" href="#format-set-align">format.set_align()</a></li>
+<li><a class="reference internal" href="#format-set-center-across">format.set_center_across()</a></li>
+<li><a class="reference internal" href="#format-set-text-wrap">format.set_text_wrap()</a></li>
+<li><a class="reference internal" href="#format-set-rotation">format.set_rotation()</a></li>
+<li><a class="reference internal" href="#format-set-indent">format.set_indent()</a></li>
+<li><a class="reference internal" href="#format-set-shrink">format.set_shrink()</a></li>
+<li><a class="reference internal" href="#format-set-text-justlast">format.set_text_justlast()</a></li>
+<li><a class="reference internal" href="#format-set-pattern">format.set_pattern()</a></li>
+<li><a class="reference internal" href="#format-set-bg-color">format.set_bg_color()</a></li>
+<li><a class="reference internal" href="#format-set-fg-color">format.set_fg_color()</a></li>
+<li><a class="reference internal" href="#format-set-border">format.set_border()</a></li>
+<li><a class="reference internal" href="#format-set-bottom">format.set_bottom()</a></li>
+<li><a class="reference internal" href="#format-set-top">format.set_top()</a></li>
+<li><a class="reference internal" href="#format-set-left">format.set_left()</a></li>
+<li><a class="reference internal" href="#format-set-right">format.set_right()</a></li>
+<li><a class="reference internal" href="#format-set-border-color">format.set_border_color()</a></li>
+<li><a class="reference internal" href="#format-set-bottom-color">format.set_bottom_color()</a></li>
+<li><a class="reference internal" href="#format-set-top-color">format.set_top_color()</a></li>
+<li><a class="reference internal" href="#format-set-left-color">format.set_left_color()</a></li>
+<li><a class="reference internal" href="#format-set-right-color">format.set_right_color()</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="worksheet.html"
+                        title="previous chapter">The Worksheet Class</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="working_with_cell_notation.html"
+                        title="next chapter">Working with Cell Notation</a></p>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="_sources/format.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="working_with_cell_notation.html" title="Working with Cell Notation"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="worksheet.html" title="The Worksheet Class"
+             >previous</a> |</li>
+        <li><a href="index.html">XlsxWriter Documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2013, John McNamara.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.3.
+    </div>
+  </body>
+</html>

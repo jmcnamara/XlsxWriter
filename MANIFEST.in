@@ -1,0 +1,6 @@
+include README.txt
+include Changes
+include LICENSE.txt
+include xlsxwriter/*.py
+include examples/*.py
+recursive-include docs *

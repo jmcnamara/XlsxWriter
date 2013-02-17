@@ -1,0 +1,168 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Create Excel files with Python and XlsxWriter &mdash; XlsxWriter Documentation</title>
+    
+    <link rel="stylesheet" href="_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '',
+        VERSION:     '0.0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="XlsxWriter Documentation" href="#" />
+    <link rel="next" title="Introduction" href="introduction.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="introduction.html" title="Introduction"
+             accesskey="N">next</a> |</li>
+        <li><a href="#">XlsxWriter Documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="create-excel-files-with-python-and-xlsxwriter">
+<h1>Create Excel files with Python and XlsxWriter</h1>
+<p>XlsxWriter is a Python module for creating Excel XLSX files.</p>
+<p>XlsxWriter supports the following features:</p>
+<ul class="simple">
+<li>100% compatible Excel XLSX files.</li>
+<li>Write text, numbers, formulas, dates.</li>
+<li>Full cell formatting.</li>
+<li>Multiple worksheets.</li>
+</ul>
+<p>Here is a small example:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">xlsxwriter.workbook</span> <span class="kn">import</span> <span class="n">Workbook</span>
+
+<span class="c"># Create an new Excel file and add a worksheet.</span>
+<span class="n">workbook</span> <span class="o">=</span> <span class="n">Workbook</span><span class="p">(</span><span class="s">&#39;demo.xlsx&#39;</span><span class="p">)</span>
+<span class="n">worksheet</span> <span class="o">=</span> <span class="n">workbook</span><span class="o">.</span><span class="n">add_worksheet</span><span class="p">()</span>
+
+<span class="c"># Widen the first column to make the text clearer.</span>
+<span class="n">worksheet</span><span class="o">.</span><span class="n">set_column</span><span class="p">(</span><span class="s">&#39;A:A&#39;</span><span class="p">,</span> <span class="mi">20</span><span class="p">)</span>
+
+<span class="c"># Add a bold format to highlight cell text.</span>
+<span class="n">bold</span> <span class="o">=</span> <span class="n">workbook</span><span class="o">.</span><span class="n">add_format</span><span class="p">({</span><span class="s">&#39;bold&#39;</span><span class="p">:</span> <span class="mi">1</span><span class="p">})</span>
+
+<span class="c"># Write some simple text.</span>
+<span class="n">worksheet</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s">&#39;A1&#39;</span><span class="p">,</span> <span class="s">&#39;Hello&#39;</span><span class="p">)</span>
+
+<span class="c"># Text with formatting.</span>
+<span class="n">worksheet</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s">&#39;A2&#39;</span><span class="p">,</span> <span class="s">&#39;World&#39;</span><span class="p">,</span> <span class="n">bold</span><span class="p">)</span>
+
+<span class="c"># Write some numbers, with row/column notation.</span>
+<span class="n">worksheet</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">123</span><span class="p">)</span>
+<span class="n">worksheet</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mf">123.456</span><span class="p">)</span>
+
+<span class="n">workbook</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>Which generates a worksheet like this:</p>
+<img alt="_images/intro01.png" src="_images/intro01.png" />
+<p>This document explains how to install and use the XlsxWriter module.</p>
+<p>Contents:</p>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="introduction.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="getting_started.html">Getting Started with XlsxWriter</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tutorial01.html">Tutorial 1: Create a simple XLSX file</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tutorial02.html">Tutorial 2: Adding formatting to the XLSX File</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tutorial03.html">Tutorial 3: Writing different types of data to the XLSX File</a></li>
+<li class="toctree-l1"><a class="reference internal" href="workbook.html">The Workbook Class</a></li>
+<li class="toctree-l1"><a class="reference internal" href="worksheet.html">The Worksheet Class</a></li>
+<li class="toctree-l1"><a class="reference internal" href="format.html">The Format Class</a></li>
+<li class="toctree-l1"><a class="reference internal" href="working_with_cell_notation.html">Working with Cell Notation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="working_with_formats.html">Working with Formats</a></li>
+<li class="toctree-l1"><a class="reference internal" href="working_with_dates_and_time.html">Working with Dates and Time</a></li>
+<li class="toctree-l1"><a class="reference internal" href="excel_writer_xlsx.html">Excel::Writer::XLSX</a></li>
+<li class="toctree-l1"><a class="reference internal" href="alternatives.html">Alternative modules for handling Excel files</a></li>
+<li class="toctree-l1"><a class="reference internal" href="bugs.html">Known Issues and Bugs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="bugs.html#reporting-bugs">Reporting Bugs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="faq.html">Frequently Asked Questions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="changes.html">Changes in XlsxWriter</a></li>
+<li class="toctree-l1"><a class="reference internal" href="author.html">Author</a></li>
+<li class="toctree-l1"><a class="reference internal" href="license.html">License</a></li>
+</ul>
+</div>
+<p>The XlsxWriter module is a port of the Perl <a class="reference internal" href="excel_writer_xlsx.html#ewx"><em>Excel::Writer::XLSX</em></a> module. It is a work in
+progress.</p>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="#">
+              <img class="logo" src="_static/logo.png" alt="Logo"/>
+            </a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="introduction.html"
+                        title="next chapter">Introduction</a></p>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="_sources/index.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="introduction.html" title="Introduction"
+             >next</a> |</li>
+        <li><a href="#">XlsxWriter Documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2013, John McNamara.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.3.
+    </div>
+  </body>
+</html>

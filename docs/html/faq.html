@@ -1,0 +1,155 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Frequently Asked Questions &mdash; XlsxWriter Documentation</title>
+    
+    <link rel="stylesheet" href="_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '',
+        VERSION:     '0.0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="XlsxWriter Documentation" href="index.html" />
+    <link rel="next" title="Changes in XlsxWriter" href="changes.html" />
+    <link rel="prev" title="Known Issues and Bugs" href="bugs.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="changes.html" title="Changes in XlsxWriter"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="bugs.html" title="Known Issues and Bugs"
+             accesskey="P">previous</a> |</li>
+        <li><a href="index.html">XlsxWriter Documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="frequently-asked-questions">
+<span id="faq"></span><h1>Frequently Asked Questions</h1>
+<p>The section outlines some answers to frequently asked questions.</p>
+<div class="section" id="q-why-do-my-formulas-show-a-zero-result-in-some-non-excel-applications">
+<h2>Q. Why do my formulas show a zero result in some, non-Excel applications?</h2>
+<p>Due to wide range of possible formulas and interdependencies between them
+XlsxWriter doesn&#8217;t, and realistically cannot, calculate the result of a
+formula when it is written to an XLSX file. Instead, it stores the value 0 as
+the formula result. It then sets a global flag in the XLSX file to say that
+all formulas and functions should be recalculated when the file is opened.</p>
+<p>This is the method recommended in the Excel documentation and in general it
+works fine with spreadsheet applications. However, applications that don&#8217;t
+have a facility to calculate formulas, such as Excel Viewer, or several mobile
+applications, will only display the 0 results.</p>
+<p>If required, it is also possible to specify the calculated result of the
+formula using the optional <tt class="docutils literal"><span class="pre">value</span></tt> parameter in <a class="reference internal" href="worksheet.html#write_formula" title="write_formula"><tt class="xref py py-func docutils literal"><span class="pre">write_formula()</span></tt></a>:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">worksheet</span><span class="o">.</span><span class="n">write_formula</span><span class="p">(</span><span class="s">&#39;A1&#39;</span><span class="p">,</span> <span class="s">&#39;=2+2&#39;</span><span class="p">,</span> <span class="n">num_format</span><span class="p">,</span> <span class="mi">4</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="q-can-i-apply-a-format-to-a-range-of-cells-in-one-go">
+<h2>Q. Can I apply a format to a range of cells in one go?</h2>
+<p>Currently no. However, it is a planned features to allow cell formats and
+data to be written separately.</p>
+</div>
+<div class="section" id="q-is-feature-x-supported-or-will-it-be-supported">
+<h2>Q. Is feature X supported or will it be supported?</h2>
+<p>All supported features are documented.</p>
+<p>Future features will match features that are available in Excel::Writer::XLSX.
+Check the comparison matrix in the <a class="reference internal" href="excel_writer_xlsx.html#ewx"><em>Excel::Writer::XLSX</em></a> section.</p>
+</div>
+<div class="section" id="q-is-there-an-autofit-option-for-columns">
+<h2>Q. Is there an &#8220;AutoFit&#8221; option for columns?</h2>
+<p>Unfortunately, there is no way to specify &#8220;AutoFit&#8221; for a column
+in the Excel file format. This feature is only available at runtime from
+within Excel. It is possible to simulate &#8220;AutoFit&#8221; by tracking the width of
+the data in the column as your write it.</p>
+</div>
+<div class="section" id="q-do-people-actually-ask-these-questions-frequently-or-at-all">
+<h2>Q. Do people actually ask these questions frequently, or at all?</h2>
+<p>Apart from this question, yes.</p>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="index.html">
+              <img class="logo" src="_static/logo.png" alt="Logo"/>
+            </a></p>
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="bugs.html"
+                        title="previous chapter">Known Issues and Bugs</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="changes.html"
+                        title="next chapter">Changes in XlsxWriter</a></p>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="_sources/faq.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="changes.html" title="Changes in XlsxWriter"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="bugs.html" title="Known Issues and Bugs"
+             >previous</a> |</li>
+        <li><a href="index.html">XlsxWriter Documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2013, John McNamara.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.3.
+    </div>
+  </body>
+</html>

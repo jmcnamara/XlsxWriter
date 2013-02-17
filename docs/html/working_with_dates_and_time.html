@@ -1,0 +1,234 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Working with Dates and Time &mdash; XlsxWriter Documentation</title>
+    
+    <link rel="stylesheet" href="_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '',
+        VERSION:     '0.0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="XlsxWriter Documentation" href="index.html" />
+    <link rel="next" title="Excel::Writer::XLSX" href="excel_writer_xlsx.html" />
+    <link rel="prev" title="Working with Formats" href="working_with_formats.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="excel_writer_xlsx.html" title="Excel::Writer::XLSX"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="working_with_formats.html" title="Working with Formats"
+             accesskey="P">previous</a> |</li>
+        <li><a href="index.html">XlsxWriter Documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="working-with-dates-and-time">
+<span id="id1"></span><h1>Working with Dates and Time</h1>
+<p>Dates and times in Excel are represented by real numbers, for example &#8220;Jan 1
+2013 12:00 PM&#8221; is represented by the number 41275.5.</p>
+<p>The integer part of the number stores the number of days since the epoch and
+the fractional part stores the percentage of the day.</p>
+<p>A date or time in Excel is just like any other number. To display the number as
+a date you must apply an Excel number format to it. Here are some examples:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">xlsxwriter.workbook</span> <span class="kn">import</span> <span class="n">Workbook</span>
+
+<span class="n">workbook</span> <span class="o">=</span> <span class="n">Workbook</span><span class="p">(</span><span class="s">&#39;date_examples.xlsx&#39;</span><span class="p">)</span>
+<span class="n">worksheet</span> <span class="o">=</span> <span class="n">workbook</span><span class="o">.</span><span class="n">add_worksheet</span><span class="p">()</span>
+
+<span class="c"># Widen column A for extra visibility.</span>
+<span class="n">worksheet</span><span class="o">.</span><span class="n">set_column</span><span class="p">(</span><span class="s">&#39;A:A&#39;</span><span class="p">,</span> <span class="mi">30</span><span class="p">)</span>
+
+<span class="c"># A number to convert to a date.</span>
+<span class="n">number</span> <span class="o">=</span> <span class="mf">41333.5</span>
+
+<span class="c"># Write it as a number without formatting.</span>
+<span class="n">worksheet</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s">&#39;A1&#39;</span><span class="p">,</span> <span class="n">number</span><span class="p">)</span>                <span class="c"># 41333.5</span>
+
+<span class="n">format2</span> <span class="o">=</span> <span class="n">workbook</span><span class="o">.</span><span class="n">add_format</span><span class="p">({</span><span class="s">&#39;num_format&#39;</span><span class="p">:</span> <span class="s">&#39;dd/mm/yy&#39;</span><span class="p">})</span>
+<span class="n">worksheet</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s">&#39;A2&#39;</span><span class="p">,</span> <span class="n">number</span><span class="p">,</span> <span class="n">format2</span><span class="p">)</span>       <span class="c"># 28/02/13</span>
+
+<span class="n">format3</span> <span class="o">=</span> <span class="n">workbook</span><span class="o">.</span><span class="n">add_format</span><span class="p">({</span><span class="s">&#39;num_format&#39;</span><span class="p">:</span> <span class="s">&#39;mm/dd/yy&#39;</span><span class="p">})</span>
+<span class="n">worksheet</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s">&#39;A3&#39;</span><span class="p">,</span> <span class="n">number</span><span class="p">,</span> <span class="n">format3</span><span class="p">)</span>       <span class="c"># 02/28/13</span>
+
+<span class="n">format4</span> <span class="o">=</span> <span class="n">workbook</span><span class="o">.</span><span class="n">add_format</span><span class="p">({</span><span class="s">&#39;num_format&#39;</span><span class="p">:</span> <span class="s">&#39;d-m-yyyy&#39;</span><span class="p">})</span>
+<span class="n">worksheet</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s">&#39;A4&#39;</span><span class="p">,</span> <span class="n">number</span><span class="p">,</span> <span class="n">format4</span><span class="p">)</span>       <span class="c"># 28-2-2013</span>
+
+<span class="n">format5</span> <span class="o">=</span> <span class="n">workbook</span><span class="o">.</span><span class="n">add_format</span><span class="p">({</span><span class="s">&#39;num_format&#39;</span><span class="p">:</span> <span class="s">&#39;dd/mm/yy hh:mm&#39;</span><span class="p">})</span>
+<span class="n">worksheet</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s">&#39;A5&#39;</span><span class="p">,</span> <span class="n">number</span><span class="p">,</span> <span class="n">format5</span><span class="p">)</span>       <span class="c"># 28/02/13 12:00</span>
+
+<span class="n">format6</span> <span class="o">=</span> <span class="n">workbook</span><span class="o">.</span><span class="n">add_format</span><span class="p">({</span><span class="s">&#39;num_format&#39;</span><span class="p">:</span> <span class="s">&#39;d mmm yyyy&#39;</span><span class="p">})</span>
+<span class="n">worksheet</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s">&#39;A6&#39;</span><span class="p">,</span> <span class="n">number</span><span class="p">,</span> <span class="n">format6</span><span class="p">)</span>       <span class="c"># 28 Feb 2013</span>
+
+<span class="n">format7</span> <span class="o">=</span> <span class="n">workbook</span><span class="o">.</span><span class="n">add_format</span><span class="p">({</span><span class="s">&#39;num_format&#39;</span><span class="p">:</span> <span class="s">&#39;mmm d yyyy hh:mm AM/PM&#39;</span><span class="p">})</span>
+<span class="n">worksheet</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s">&#39;A7&#39;</span><span class="p">,</span> <span class="n">number</span><span class="p">,</span> <span class="n">format7</span><span class="p">)</span>       <span class="c"># Feb 28 2008 12:00 PM</span>
+
+<span class="n">workbook</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+</pre></div>
+</div>
+<img alt="_images/working_with_dates_and_times01.png" src="_images/working_with_dates_and_times01.png" />
+<p>To make working with dates and times a little easier the XlsxWriter module
+provides a <a class="reference internal" href="worksheet.html#write_datetime" title="write_datetime"><tt class="xref py py-func docutils literal"><span class="pre">write_datetime()</span></tt></a> method to write dates in
+<a class="reference external" href="http://docs.python.org/2/library/datetime.html#datetime.datetime" title="(in Python v2.7)"><tt class="xref py py-class docutils literal"><span class="pre">datetime.datetime</span></tt></a> format.</p>
+<p>The <a class="reference external" href="http://docs.python.org/2/library/datetime.html#datetime.datetime" title="(in Python v2.7)"><tt class="xref py py-class docutils literal"><span class="pre">datetime.datetime</span></tt></a> class is part of the standard Python
+<a class="reference external" href="http://docs.python.org/2/library/datetime.html#datetime" title="(in Python v2.7)"><tt class="xref py py-mod docutils literal"><span class="pre">datetime</span></tt></a> library.</p>
+<p>There are many way to create a a datetime object but the most common is to use
+the <a class="reference external" href="http://docs.python.org/2/library/datetime.html#datetime.datetime.strptime" title="(in Python v2.7)"><tt class="xref py py-meth docutils literal"><span class="pre">datetime.strptime</span></tt></a> method:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">date_time</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">strptime</span><span class="p">(</span><span class="s">&#39;2013-01-23&#39;</span><span class="p">,</span> <span class="s">&#39;%Y-%m-</span><span class="si">%d</span><span class="s">&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>We also need to create and apply a number format to format the date:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">date_format</span> <span class="o">=</span> <span class="n">workbook</span><span class="o">.</span><span class="n">add_format</span><span class="p">({</span><span class="s">&#39;num_format&#39;</span><span class="p">:</span> <span class="s">&#39;d mmmm yyyy&#39;</span><span class="p">})</span>
+<span class="n">worksheet</span><span class="o">.</span><span class="n">write_datetime</span><span class="p">(</span><span class="s">&#39;A1&#39;</span><span class="p">,</span> <span class="n">date_time</span><span class="p">,</span> <span class="n">date_format</span><span class="p">)</span>
+
+<span class="c"># Displays &quot;23 January 2013&quot;</span>
+</pre></div>
+</div>
+<p>Here is a longer example that displays the same date in a several different
+formats:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">datetime</span> <span class="kn">import</span> <span class="n">datetime</span>
+<span class="kn">from</span> <span class="nn">xlsxwriter.workbook</span> <span class="kn">import</span> <span class="n">Workbook</span>
+
+<span class="c"># Create a workbook and add a worksheet.</span>
+<span class="n">workbook</span> <span class="o">=</span> <span class="n">Workbook</span><span class="p">(</span><span class="s">&#39;datetimes.xlsx&#39;</span><span class="p">)</span>
+<span class="n">worksheet</span> <span class="o">=</span> <span class="n">workbook</span><span class="o">.</span><span class="n">add_worksheet</span><span class="p">()</span>
+<span class="n">bold</span> <span class="o">=</span> <span class="n">workbook</span><span class="o">.</span><span class="n">add_format</span><span class="p">({</span><span class="s">&#39;bold&#39;</span><span class="p">:</span> <span class="bp">True</span><span class="p">})</span>
+
+<span class="c"># Expand the first columns so that the date is visible.</span>
+<span class="n">worksheet</span><span class="o">.</span><span class="n">set_column</span><span class="p">(</span><span class="s">&#39;A:B&#39;</span><span class="p">,</span> <span class="mi">30</span><span class="p">)</span>
+
+<span class="c"># Write the column headers.</span>
+<span class="n">worksheet</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s">&#39;A1&#39;</span><span class="p">,</span> <span class="s">&#39;Formatted date&#39;</span><span class="p">,</span> <span class="n">bold</span><span class="p">)</span>
+<span class="n">worksheet</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s">&#39;B1&#39;</span><span class="p">,</span> <span class="s">&#39;Format&#39;</span><span class="p">,</span> <span class="n">bold</span><span class="p">)</span>
+
+<span class="c"># Create a datetime object to use in the examples.</span>
+
+<span class="n">date_time</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">strptime</span><span class="p">(</span><span class="s">&#39;2013-01-23 12:30:05.123&#39;</span><span class="p">,</span>
+                              <span class="s">&#39;%Y-%m-</span><span class="si">%d</span><span class="s"> %H:%M:%S.</span><span class="si">%f</span><span class="s">&#39;</span><span class="p">)</span>
+
+<span class="c"># Examples date and time formats.</span>
+<span class="n">date_formats</span> <span class="o">=</span> <span class="p">(</span>
+    <span class="s">&#39;dd/mm/yy&#39;</span><span class="p">,</span>
+    <span class="s">&#39;mm/dd/yy&#39;</span><span class="p">,</span>
+    <span class="s">&#39;dd m yy&#39;</span><span class="p">,</span>
+    <span class="s">&#39;d mm yy&#39;</span><span class="p">,</span>
+    <span class="s">&#39;d mmm yy&#39;</span><span class="p">,</span>
+    <span class="s">&#39;d mmmm yy&#39;</span><span class="p">,</span>
+    <span class="s">&#39;d mmmm yyy&#39;</span><span class="p">,</span>
+    <span class="s">&#39;d mmmm yyyy&#39;</span><span class="p">,</span>
+    <span class="s">&#39;dd/mm/yy hh:mm&#39;</span><span class="p">,</span>
+    <span class="s">&#39;dd/mm/yy hh:mm:ss&#39;</span><span class="p">,</span>
+    <span class="s">&#39;dd/mm/yy hh:mm:ss.000&#39;</span><span class="p">,</span>
+    <span class="s">&#39;hh:mm&#39;</span><span class="p">,</span>
+    <span class="s">&#39;hh:mm:ss&#39;</span><span class="p">,</span>
+    <span class="s">&#39;hh:mm:ss.000&#39;</span><span class="p">,</span>
+<span class="p">)</span>
+
+<span class="c"># Start from first row after headers.</span>
+<span class="n">row</span> <span class="o">=</span> <span class="mi">1</span>
+
+<span class="c"># Write the same date and time using each of the above formats.</span>
+<span class="k">for</span> <span class="n">date_format_str</span> <span class="ow">in</span> <span class="n">date_formats</span><span class="p">:</span>
+
+    <span class="c"># Create a format for the date or time.</span>
+    <span class="n">date_format</span> <span class="o">=</span> <span class="n">workbook</span><span class="o">.</span><span class="n">add_format</span><span class="p">({</span><span class="s">&#39;num_format&#39;</span><span class="p">:</span> <span class="n">date_format_str</span><span class="p">,</span>
+                                      <span class="s">&#39;align&#39;</span><span class="p">:</span> <span class="s">&#39;left&#39;</span><span class="p">})</span>
+
+    <span class="c"># Write the same date using different formats.</span>
+    <span class="n">worksheet</span><span class="o">.</span><span class="n">write_datetime</span><span class="p">(</span><span class="n">row</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">date_time</span><span class="p">,</span> <span class="n">date_format</span><span class="p">)</span>
+
+    <span class="c"># Also write the format string for comparison.</span>
+    <span class="n">worksheet</span><span class="o">.</span><span class="n">write_string</span><span class="p">(</span><span class="n">row</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">date_format_str</span><span class="p">)</span>
+
+    <span class="n">row</span> <span class="o">+=</span> <span class="mi">1</span>
+</pre></div>
+</div>
+<img alt="_images/working_with_dates_and_times02.png" src="_images/working_with_dates_and_times02.png" />
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="index.html">
+              <img class="logo" src="_static/logo.png" alt="Logo"/>
+            </a></p>
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="working_with_formats.html"
+                        title="previous chapter">Working with Formats</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="excel_writer_xlsx.html"
+                        title="next chapter">Excel::Writer::XLSX</a></p>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="_sources/working_with_dates_and_time.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="excel_writer_xlsx.html" title="Excel::Writer::XLSX"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="working_with_formats.html" title="Working with Formats"
+             >previous</a> |</li>
+        <li><a href="index.html">XlsxWriter Documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2013, John McNamara.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.3.
+    </div>
+  </body>
+</html>

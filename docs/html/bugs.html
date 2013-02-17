@@ -1,0 +1,212 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Known Issues and Bugs &mdash; XlsxWriter Documentation</title>
+    
+    <link rel="stylesheet" href="_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '',
+        VERSION:     '0.0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="XlsxWriter Documentation" href="index.html" />
+    <link rel="next" title="Frequently Asked Questions" href="faq.html" />
+    <link rel="prev" title="Alternative modules for handling Excel files" href="alternatives.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="faq.html" title="Frequently Asked Questions"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="alternatives.html" title="Alternative modules for handling Excel files"
+             accesskey="P">previous</a> |</li>
+        <li><a href="index.html">XlsxWriter Documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="known-issues-and-bugs">
+<span id="bugs"></span><h1>Known Issues and Bugs</h1>
+<p>This section lists known issues and bugs and gives some information on how to
+submit bug reports.</p>
+<div class="section" id="formula-results-not-displaying-in-excel">
+<h2>Formula results not displaying in Excel</h2>
+<p>Some early versions of Excel 2007 do not display the calculated values of
+formulas written by XlsxWriter. Applying all available Service Packs to Excel
+should fix this.</p>
+</div>
+<div class="section" id="formula-results-displaying-as-zero-in-non-excel-apps">
+<h2>Formula results displaying as zero in non-Excel apps</h2>
+<p>Due to wide range of possible formulas and interdependencies between them
+XlsxWriter doesn&#8217;t, and realistically cannot, calculate the result of a
+formula when it is written to an XLSX file. Instead, it stores the value 0 as
+the formula result. It then sets a global flag in the XLSX file to say that
+all formulas and functions should be recalculated when the file is opened.</p>
+<p>This is the method recommended in the Excel documentation and in general it
+works fine with spreadsheet applications. However, applications that don&#8217;t
+have a facility to calculate formulas, such as Excel Viewer, or several mobile
+applications, will only display the 0 results.</p>
+<p>If required, it is also possible to specify the calculated result of the
+formula using the optional <tt class="docutils literal"><span class="pre">value</span></tt> parameter in <a class="reference internal" href="worksheet.html#write_formula" title="write_formula"><tt class="xref py py-func docutils literal"><span class="pre">write_formula()</span></tt></a>:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">worksheet</span><span class="o">.</span><span class="n">write_formula</span><span class="p">(</span><span class="s">&#39;A1&#39;</span><span class="p">,</span> <span class="s">&#39;=2+2&#39;</span><span class="p">,</span> <span class="n">num_format</span><span class="p">,</span> <span class="mi">4</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="reporting-bugs">
+<h1>Reporting Bugs</h1>
+<p>Here are some tips on reporting bugs in XlsxWriter.</p>
+<div class="section" id="upgrade-to-the-latest-version-of-the-module">
+<h2>Upgrade to the latest version of the module</h2>
+<p>The bug you are reporting may already be fixed in the latest version of the
+module. Check the <a class="reference internal" href="changes.html#changes"><em>Changes in XlsxWriter</em></a> section as well.</p>
+</div>
+<div class="section" id="read-the-documentation">
+<h2>Read the documentation</h2>
+<p>The XlsxWriter documentation has been refined in response to user questions.
+Therefore, if you have a question it is possible that someone else has asked
+it before you and that it is already addressed in the documentation.</p>
+</div>
+<div class="section" id="look-at-the-example-programs">
+<h2>Look at the example programs</h2>
+<p>There are several example programs in the distribution. Many of these were
+created in response to user questions. Try to identify an example program
+that corresponds to your query and adapt it to your needs.</p>
+</div>
+<div class="section" id="use-the-official-xlsxwriter-issue-tracker-on-github">
+<h2>Use the official XlsxWriter Issue tracker on GitHub</h2>
+<p>The official XlsxWriter <a class="reference external" href="https://github.com/jmcnamara/XlsxWriter/issues">Issue tracker is on GitHub</a>.</p>
+</div>
+<div class="section" id="pointers-for-submitting-a-bug-report">
+<h2>Pointers for submitting a bug report</h2>
+<ol class="arabic simple">
+<li>Describe the problem as clearly and as concisely as possible.</li>
+<li>Include a sample program. This is probably the most important step. Also,
+it is often easier to describe a problem in code than in written prose.</li>
+<li>The sample program should be as small as possible to demonstrate the
+problem. Don&#8217;t copy and past large sections of your program. The
+program should also be self contained and working.</li>
+</ol>
+<p>A sample bug report is shown below. If you use this format then it will help
+to analyse your question and respond to it more quickly.</p>
+<blockquote>
+<div><p><strong>XlsxWriter Issue with SOMETHING</strong></p>
+<p>I am using XlsxWriter and I have encountered a problem. I want it to do
+SOMETHING but the module appears to do SOMETHING ELSE.</p>
+<p>I am using Python version X.Y.Z and XlsxWriter x.y.z.</p>
+<p>Here is some code that demonstrates the problem:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">xlsxwriter.workbook</span> <span class="kn">import</span> <span class="n">Workbook</span>
+
+<span class="n">workbook</span> <span class="o">=</span> <span class="n">Workbook</span><span class="p">(</span><span class="s">&#39;hello.xlsx&#39;</span><span class="p">)</span>
+<span class="n">worksheet</span> <span class="o">=</span> <span class="n">workbook</span><span class="o">.</span><span class="n">add_worksheet</span><span class="p">()</span>
+
+<span class="n">worksheet</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s">&#39;A1&#39;</span><span class="p">,</span> <span class="s">&#39;Hello world&#39;</span><span class="p">)</span>
+
+<span class="n">workbook</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+</pre></div>
+</div>
+</div></blockquote>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="index.html">
+              <img class="logo" src="_static/logo.png" alt="Logo"/>
+            </a></p>
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Known Issues and Bugs</a><ul>
+<li><a class="reference internal" href="#formula-results-not-displaying-in-excel">Formula results not displaying in Excel</a></li>
+<li><a class="reference internal" href="#formula-results-displaying-as-zero-in-non-excel-apps">Formula results displaying as zero in non-Excel apps</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#reporting-bugs">Reporting Bugs</a><ul>
+<li><a class="reference internal" href="#upgrade-to-the-latest-version-of-the-module">Upgrade to the latest version of the module</a></li>
+<li><a class="reference internal" href="#read-the-documentation">Read the documentation</a></li>
+<li><a class="reference internal" href="#look-at-the-example-programs">Look at the example programs</a></li>
+<li><a class="reference internal" href="#use-the-official-xlsxwriter-issue-tracker-on-github">Use the official XlsxWriter Issue tracker on GitHub</a></li>
+<li><a class="reference internal" href="#pointers-for-submitting-a-bug-report">Pointers for submitting a bug report</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="alternatives.html"
+                        title="previous chapter">Alternative modules for handling Excel files</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="faq.html"
+                        title="next chapter">Frequently Asked Questions</a></p>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="_sources/bugs.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="faq.html" title="Frequently Asked Questions"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="alternatives.html" title="Alternative modules for handling Excel files"
+             >previous</a> |</li>
+        <li><a href="index.html">XlsxWriter Documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2013, John McNamara.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.3.
+    </div>
+  </body>
+</html>
