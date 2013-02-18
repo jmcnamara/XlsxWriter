@@ -723,6 +723,76 @@ class Worksheet(xmlwriter.XMLwriter):
         # Store the row sizes for use when calculating image vertices.
         self.row_sizes[row] = height
 
+    def set_landscape(self):
+        """
+        Set the page orientation as landscape.
+
+        Args:
+            None.
+
+        Returns:
+            Nothing.
+
+        """
+        self.orientation = 0
+        self.page_setup_changed = 1
+
+    def set_portrait(self):
+        """
+        Set the page orientation as portrait.
+
+        Args:
+            None.
+
+        Returns:
+            Nothing.
+
+        """
+        self.orientation = 1
+        self.page_setup_changed = 1
+
+    def set_page_view(self):
+        """
+        Set the page view mode.
+
+        Args:
+            None.
+
+        Returns:
+            Nothing.
+
+        """
+        self.page_view = 1
+
+    def set_paper(self, paper_size):
+        """
+        Set the paper type. US Letter = 1, A4 = 9.
+
+        Args:
+            paper_size: Paper index.
+
+        Returns:
+            Nothing.
+
+        """
+        if paper_size:
+            self.paper_size = paper_size
+            self.page_setup_changed = 1
+
+    def print_across(self):
+        """
+        Set the order in which pages are printed.
+
+        Args:
+            None.
+
+        Returns:
+            Nothing.
+
+        """
+        self.page_order = 1
+        self.page_setup_changed = 1
+
     ###########################################################################
     #
     # Private API.
@@ -761,6 +831,9 @@ class Worksheet(xmlwriter.XMLwriter):
 
         # Write the pageMargins element.
         self._write_page_margins()
+
+        # Write the pageSetup element.
+        self._write_page_setup()
 
         # Close the worksheet tag.
         self._xml_end_tag('worksheet')
@@ -836,8 +909,7 @@ class Worksheet(xmlwriter.XMLwriter):
 
         attributes = [
             ('xmlns', xmlns),
-            ('xmlns:r', xmlns_r),
-        ]
+            ('xmlns:r', xmlns_r)]
 
         # Add some extra attributes for Excel 2010. Mainly for sparklines.
         if self.excel_version == 2010:
@@ -993,8 +1065,7 @@ class Worksheet(xmlwriter.XMLwriter):
         attributes = [
             ('min', col_min + 1),
             ('max', col_max + 1),
-            ('width', width),
-        ]
+            ('width', width)]
 
         if xf_index:
             attributes.append(('style', xf_index))
@@ -1035,10 +1106,61 @@ class Worksheet(xmlwriter.XMLwriter):
             ('top', top),
             ('bottom', bottom),
             ('header', header),
-            ('footer', footer),
-        ]
+            ('footer', footer)]
 
         self._xml_empty_tag('pageMargins', attributes)
+
+    def _write_page_setup(self):
+        # Write the <pageSetup> element.
+        #
+        # The following is an example taken from Excel.
+        #
+        # <pageSetup
+        #     paperSize="9"
+        #     scale="110"
+        #     fitToWidth="2"
+        #     fitToHeight="2"
+        #     pageOrder="overThenDown"
+        #     orientation="portrait"
+        #     blackAndWhite="1"
+        #     draft="1"
+        #     horizontalDpi="200"
+        #     verticalDpi="200"
+        #     r:id="rId1"
+        # />
+        #
+        attributes = []
+
+        # Skip this element if no page setup has changed.
+        if not self.page_setup_changed:
+            return
+
+        # Set paper size.
+        if self.paper_size:
+            attributes.append(('paperSize', self.paper_size))
+
+        # Set the print_scale.
+        if self.print_scale != 100:
+            attributes.append(('scale', self.print_scale))
+
+        # Set the "Fit to page" properties.
+        if self.fit_page and self.fit_width != 1:
+            attributes.append(('fitToWidth', self.fit_width))
+
+        if self.fit_page and self.fit_height != 1:
+            attributes.append(('fitToHeight', self.fit_height))
+
+        # Set the page print direction.
+        if self.page_order:
+            attributes.append(('pageOrder', "overThenDown"))
+
+        # Set page orientation.
+        if self.orientation:
+            attributes.append(('orientation', 'portrait'))
+        else:
+            attributes.append(('orientation', 'landscape'))
+
+        self._xml_empty_tag('pageSetup', attributes)
 
     def _write_rows(self):
         # Write out the worksheet data as a series of rows and cells.

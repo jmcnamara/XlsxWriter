@@ -112,9 +112,8 @@ def _compare_xlsx_files(got_file, exp_file, ignore_files, ignore_elements):
         if re.match(r'xl/worksheets/sheet\d.xml', filename):
             exp_xml_str = re.sub(r'horizontalDpi="200" ', '', exp_xml_str)
             exp_xml_str = re.sub(r'verticalDpi="200" ', '', exp_xml_str)
-
-            page_setup = re.compile(r'(<pageSetup.*) r:id="rId1"')
-            page_setup.sub('\1', exp_xml_str)
+            exp_xml_str = re.sub(r'(<pageSetup.*) r:id="rId1"',
+                                 r'\1', exp_xml_str)
 
         # Remove Chart pageMargin dimensions which are almost always different.
         if re.match(r'xl/charts/chart\d.xml', filename):
