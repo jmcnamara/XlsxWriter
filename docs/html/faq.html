@@ -16,7 +16,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '',
-        VERSION:     '0.0.1',
+        VERSION:     '0.0.2',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -54,6 +54,12 @@
   <div class="section" id="frequently-asked-questions">
 <span id="faq"></span><h1>Frequently Asked Questions</h1>
 <p>The section outlines some answers to frequently asked questions.</p>
+<div class="section" id="q-can-xlsxwriter-use-an-existing-excel-file-as-a-template">
+<h2>Q. Can XlsxWriter use an existing Excel file as a template?</h2>
+<p>No.</p>
+<p>XlsxWriter is designed only as a file <em>writer</em>. It cannot read or modify
+an existing Excel file.</p>
+</div>
 <div class="section" id="q-why-do-my-formulas-show-a-zero-result-in-some-non-excel-applications">
 <h2>Q. Why do my formulas show a zero result in some, non-Excel applications?</h2>
 <p>Due to wide range of possible formulas and interdependencies between them
@@ -73,8 +79,8 @@ formula using the optional <tt class="docutils literal"><span class="pre">value<
 </div>
 <div class="section" id="q-can-i-apply-a-format-to-a-range-of-cells-in-one-go">
 <h2>Q. Can I apply a format to a range of cells in one go?</h2>
-<p>Currently no. However, it is a planned features to allow cell formats and
-data to be written separately.</p>
+<p>Currently no. However, it is a planned features to allow cell formats and data
+to be written separately.</p>
 </div>
 <div class="section" id="q-is-feature-x-supported-or-will-it-be-supported">
 <h2>Q. Is feature X supported or will it be supported?</h2>
@@ -84,10 +90,10 @@ Check the comparison matrix in the <a class="reference internal" href="excel_wri
 </div>
 <div class="section" id="q-is-there-an-autofit-option-for-columns">
 <h2>Q. Is there an &#8220;AutoFit&#8221; option for columns?</h2>
-<p>Unfortunately, there is no way to specify &#8220;AutoFit&#8221; for a column
-in the Excel file format. This feature is only available at runtime from
-within Excel. It is possible to simulate &#8220;AutoFit&#8221; by tracking the width of
-the data in the column as your write it.</p>
+<p>Unfortunately, there is no way to specify &#8220;AutoFit&#8221; for a column in the Excel
+file format. This feature is only available at runtime from within Excel. It
+is possible to simulate &#8220;AutoFit&#8221; by tracking the width of the data in the
+column as your write it.</p>
 </div>
 <div class="section" id="q-do-people-actually-ask-these-questions-frequently-or-at-all">
 <h2>Q. Do people actually ask these questions frequently, or at all?</h2>

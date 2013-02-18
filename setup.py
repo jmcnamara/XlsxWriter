@@ -2,7 +2,7 @@ from distutils.core import setup
 
 setup(
     name='XlsxWriter',
-    version='0.0.1',
+    version='0.0.2',
     author='John McNamara',
     author_email='jmcnamara@cpan.org',
     url='http://pypi.python.org/pypi/XlsxWriter/',

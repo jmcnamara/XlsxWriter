@@ -1,0 +1,413 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>The Worksheet Class (Page Setup) &mdash; XlsxWriter Documentation</title>
+    
+    <link rel="stylesheet" href="_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '',
+        VERSION:     '0.0.2',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="XlsxWriter Documentation" href="index.html" />
+    <link rel="next" title="The Format Class" href="format.html" />
+    <link rel="prev" title="The Worksheet Class" href="worksheet.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="format.html" title="The Format Class"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="worksheet.html" title="The Worksheet Class"
+             accesskey="P">previous</a> |</li>
+        <li><a href="index.html">XlsxWriter Documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="the-worksheet-class-page-setup">
+<span id="page-setup"></span><h1>The Worksheet Class (Page Setup)</h1>
+<p>Page set-up methods affect the way that a worksheet looks when it is printed.
+They control features such as paper size, orientation, page headers and
+margins.</p>
+<p>These methods are really just standard <a class="reference internal" href="worksheet.html#worksheet"><em>worksheet</em></a> methods.
+They are documented separately for the sake of clarity.</p>
+<div class="section" id="worksheet-set-landscape">
+<h2>worksheet.set_landscape()</h2>
+<dl class="function">
+<dt id="set_landscape">
+<tt class="descname">set_landscape</tt><big>(</big><big>)</big></dt>
+<dd><p>Set the page orientation as landscape.</p>
+</dd></dl>
+
+<p>This method is used to set the orientation of a worksheet&#8217;s printed page to
+landscape:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">worksheet</span><span class="o">.</span><span class="n">set_landscape</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="worksheet-set-portrait">
+<h2>worksheet.set_portrait()</h2>
+<dl class="function">
+<dt id="set_portrait">
+<tt class="descname">set_portrait</tt><big>(</big><big>)</big></dt>
+<dd><p>Set the page orientation as portrait.</p>
+</dd></dl>
+
+<p>This method is used to set the orientation of a worksheet&#8217;s printed page to
+portrait. The default worksheet orientation is portrait, so you won&#8217;t
+generally need to call this method:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">worksheet</span><span class="o">.</span><span class="n">set_portrait</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="worksheet-set-page-view">
+<h2>worksheet.set_page_view()</h2>
+<dl class="function">
+<dt id="set_page_view">
+<tt class="descname">set_page_view</tt><big>(</big><big>)</big></dt>
+<dd><p>Set the page view mode.</p>
+</dd></dl>
+
+<p>This method is used to display the worksheet in &#8220;Page View/Layout&#8221; mode:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">worksheet</span><span class="o">.</span><span class="n">set_page_view</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="worksheet-set-paper">
+<h2>worksheet.set_paper()</h2>
+<dl class="function">
+<dt id="set_paper">
+<tt class="descname">set_paper</tt><big>(</big><em>index</em><big>)</big></dt>
+<dd><p>Set the paper type.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>index</strong> (<a class="reference external" href="http://docs.python.org/2/library/functions.html#int" title="(in Python v2.7)"><em>int</em></a>) &#8211; The Excel paper format index.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<p>This method is used to set the paper format for the printed output of a
+worksheet. The following paper styles are available:</p>
+<blockquote>
+<div><table border="1" class="docutils">
+<colgroup>
+<col width="12%" />
+<col width="48%" />
+<col width="40%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Index</th>
+<th class="head">Paper format</th>
+<th class="head">Paper size</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>0</td>
+<td>Printer default</td>
+<td>&nbsp;</td>
+</tr>
+<tr class="row-odd"><td>1</td>
+<td>Letter</td>
+<td>8 1/2 x 11 in</td>
+</tr>
+<tr class="row-even"><td>2</td>
+<td>Letter Small</td>
+<td>8 1/2 x 11 in</td>
+</tr>
+<tr class="row-odd"><td>3</td>
+<td>Tabloid</td>
+<td>11 x 17 in</td>
+</tr>
+<tr class="row-even"><td>4</td>
+<td>Ledger</td>
+<td>17 x 11 in</td>
+</tr>
+<tr class="row-odd"><td>5</td>
+<td>Legal</td>
+<td>8 1/2 x 14 in</td>
+</tr>
+<tr class="row-even"><td>6</td>
+<td>Statement</td>
+<td>5 1/2 x 8 1/2 in</td>
+</tr>
+<tr class="row-odd"><td>7</td>
+<td>Executive</td>
+<td>7 1/4 x 10 1/2 in</td>
+</tr>
+<tr class="row-even"><td>8</td>
+<td>A3</td>
+<td>297 x 420 mm</td>
+</tr>
+<tr class="row-odd"><td>9</td>
+<td>A4</td>
+<td>210 x 297 mm</td>
+</tr>
+<tr class="row-even"><td>10</td>
+<td>A4 Small</td>
+<td>210 x 297 mm</td>
+</tr>
+<tr class="row-odd"><td>11</td>
+<td>A5</td>
+<td>148 x 210 mm</td>
+</tr>
+<tr class="row-even"><td>12</td>
+<td>B4</td>
+<td>250 x 354 mm</td>
+</tr>
+<tr class="row-odd"><td>13</td>
+<td>B5</td>
+<td>182 x 257 mm</td>
+</tr>
+<tr class="row-even"><td>14</td>
+<td>Folio</td>
+<td>8 1/2 x 13 in</td>
+</tr>
+<tr class="row-odd"><td>15</td>
+<td>Quarto</td>
+<td>215 x 275 mm</td>
+</tr>
+<tr class="row-even"><td>16</td>
+<td>&nbsp;</td>
+<td>10x14 in</td>
+</tr>
+<tr class="row-odd"><td>17</td>
+<td>&nbsp;</td>
+<td>11x17 in</td>
+</tr>
+<tr class="row-even"><td>18</td>
+<td>Note</td>
+<td>8 1/2 x 11 in</td>
+</tr>
+<tr class="row-odd"><td>19</td>
+<td>Envelope  9</td>
+<td>3 7/8 x 8 7/8</td>
+</tr>
+<tr class="row-even"><td>20</td>
+<td>Envelope 10</td>
+<td>4 1/8 x 9 1/2</td>
+</tr>
+<tr class="row-odd"><td>21</td>
+<td>Envelope 11</td>
+<td>4 1/2 x 10 3/8</td>
+</tr>
+<tr class="row-even"><td>22</td>
+<td>Envelope 12</td>
+<td>4 3/4 x 11</td>
+</tr>
+<tr class="row-odd"><td>23</td>
+<td>Envelope 14</td>
+<td>5 x 11 1/2</td>
+</tr>
+<tr class="row-even"><td>24</td>
+<td>C size sheet</td>
+<td>&nbsp;</td>
+</tr>
+<tr class="row-odd"><td>25</td>
+<td>D size sheet</td>
+<td>&nbsp;</td>
+</tr>
+<tr class="row-even"><td>26</td>
+<td>E size sheet</td>
+<td>&nbsp;</td>
+</tr>
+<tr class="row-odd"><td>27</td>
+<td>Envelope DL</td>
+<td>110 x 220 mm</td>
+</tr>
+<tr class="row-even"><td>28</td>
+<td>Envelope C3</td>
+<td>324 x 458 mm</td>
+</tr>
+<tr class="row-odd"><td>29</td>
+<td>Envelope C4</td>
+<td>229 x 324 mm</td>
+</tr>
+<tr class="row-even"><td>30</td>
+<td>Envelope C5</td>
+<td>162 x 229 mm</td>
+</tr>
+<tr class="row-odd"><td>31</td>
+<td>Envelope C6</td>
+<td>114 x 162 mm</td>
+</tr>
+<tr class="row-even"><td>32</td>
+<td>Envelope C65</td>
+<td>114 x 229 mm</td>
+</tr>
+<tr class="row-odd"><td>33</td>
+<td>Envelope B4</td>
+<td>250 x 353 mm</td>
+</tr>
+<tr class="row-even"><td>34</td>
+<td>Envelope B5</td>
+<td>176 x 250 mm</td>
+</tr>
+<tr class="row-odd"><td>35</td>
+<td>Envelope B6</td>
+<td>176 x 125 mm</td>
+</tr>
+<tr class="row-even"><td>36</td>
+<td>Envelope</td>
+<td>110 x 230 mm</td>
+</tr>
+<tr class="row-odd"><td>37</td>
+<td>Monarch</td>
+<td>3.875 x 7.5 in</td>
+</tr>
+<tr class="row-even"><td>38</td>
+<td>Envelope</td>
+<td>3 5/8 x 6 1/2 in</td>
+</tr>
+<tr class="row-odd"><td>39</td>
+<td>Fanfold</td>
+<td>14 7/8 x 11 in</td>
+</tr>
+<tr class="row-even"><td>40</td>
+<td>German Std Fanfold</td>
+<td>8 1/2 x 12 in</td>
+</tr>
+<tr class="row-odd"><td>41</td>
+<td>German Legal Fanfold</td>
+<td>8 1/2 x 13 in</td>
+</tr>
+</tbody>
+</table>
+</div></blockquote>
+<p>Note, it is likely that not all of these paper types will be available to the
+end user since it will depend on the paper formats that the user&#8217;s printer
+supports. Therefore, it is best to stick to standard paper types:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">worksheet</span><span class="o">.</span><span class="n">set_paper</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>  <span class="c"># US Letter</span>
+<span class="n">worksheet</span><span class="o">.</span><span class="n">set_paper</span><span class="p">(</span><span class="mi">9</span><span class="p">)</span>  <span class="c"># A4</span>
+</pre></div>
+</div>
+<p>If you do not specify a paper type the worksheet will print using the printer&#8217;s
+default paper style.</p>
+</div>
+<div class="section" id="worksheet-print-across">
+<h2>worksheet.print_across()</h2>
+<dl class="function">
+<dt id="print_across">
+<tt class="descname">print_across</tt><big>(</big><big>)</big></dt>
+<dd><p>Set the order in which pages are printed.</p>
+</dd></dl>
+
+<p>The <tt class="docutils literal"><span class="pre">print_across</span></tt> method is used to change the default print direction. This
+is referred to by Excel as the sheet &#8220;page order&#8221;:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">worksheet</span><span class="o">.</span><span class="n">print_across</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>The default page order is shown below for a worksheet that extends over 4
+pages. The order is called &#8220;down then across&#8221;:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="p">[</span><span class="mi">3</span><span class="p">]</span>
+<span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="p">[</span><span class="mi">4</span><span class="p">]</span>
+</pre></div>
+</div>
+<p>However, by using the <tt class="docutils literal"><span class="pre">print_across</span></tt> method the print order will be changed
+to &#8220;across then down&#8221;:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="p">[</span><span class="mi">2</span><span class="p">]</span>
+<span class="p">[</span><span class="mi">3</span><span class="p">]</span> <span class="p">[</span><span class="mi">4</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="index.html">
+              <img class="logo" src="_static/logo.png" alt="Logo"/>
+            </a></p>
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">The Worksheet Class (Page Setup)</a><ul>
+<li><a class="reference internal" href="#worksheet-set-landscape">worksheet.set_landscape()</a></li>
+<li><a class="reference internal" href="#worksheet-set-portrait">worksheet.set_portrait()</a></li>
+<li><a class="reference internal" href="#worksheet-set-page-view">worksheet.set_page_view()</a></li>
+<li><a class="reference internal" href="#worksheet-set-paper">worksheet.set_paper()</a></li>
+<li><a class="reference internal" href="#worksheet-print-across">worksheet.print_across()</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="worksheet.html"
+                        title="previous chapter">The Worksheet Class</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="format.html"
+                        title="next chapter">The Format Class</a></p>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="_sources/page_setup.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="format.html" title="The Format Class"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="worksheet.html" title="The Worksheet Class"
+             >previous</a> |</li>
+        <li><a href="index.html">XlsxWriter Documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2013, John McNamara.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.3.
+    </div>
+  </body>
+</html>

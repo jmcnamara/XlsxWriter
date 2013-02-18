@@ -7,6 +7,13 @@ Frequently Asked Questions
 
 The section outlines some answers to frequently asked questions.
 
+Q. Can XlsxWriter use an existing Excel file as a template?
+-----------------------------------------------------------
+
+No.
+
+XlsxWriter is designed only as a file *writer*. It cannot read or modify
+an existing Excel file.
 
 
 Q. Why do my formulas show a zero result in some, non-Excel applications?
@@ -32,8 +39,8 @@ formula using the optional ``value`` parameter in :func:`write_formula()`::
 Q. Can I apply a format to a range of cells in one go?
 ------------------------------------------------------
 
-Currently no. However, it is a planned features to allow cell formats and
-data to be written separately.
+Currently no. However, it is a planned features to allow cell formats and data
+to be written separately.
 
 
 Q. Is feature X supported or will it be supported?
@@ -48,10 +55,10 @@ Check the comparison matrix in the :ref:`ewx` section.
 Q. Is there an "AutoFit" option for columns?
 --------------------------------------------
 
-Unfortunately, there is no way to specify "AutoFit" for a column
-in the Excel file format. This feature is only available at runtime from
-within Excel. It is possible to simulate "AutoFit" by tracking the width of
-the data in the column as your write it.
+Unfortunately, there is no way to specify "AutoFit" for a column in the Excel
+file format. This feature is only available at runtime from within Excel. It
+is possible to simulate "AutoFit" by tracking the width of the data in the
+column as your write it.
 
 
 Q. Do people actually ask these questions frequently, or at all?

@@ -594,6 +594,7 @@ worksheet.activate()
 --------------------
 
 .. py:function:: activate()
+   Make a worksheet the active, i.e., visible worksheet.
 
 The ``activate()`` method is used to specify which worksheet is initially
 visible in a multi-sheet workbook::
@@ -616,6 +617,7 @@ worksheet.select()
 ------------------
 
 .. py:function:: select()
+   Set a worksheet tab as selected.
 
 The ``select()`` method is used to indicate that a worksheet is selected in a
 multi-sheet workbook::

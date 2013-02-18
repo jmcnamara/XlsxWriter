@@ -1,6 +1,19 @@
 
-Release 0.0.1 (Feb 17 2013)
----------------------------
+
+Release 0.0.2 - February 18 2013
+--------------------------------
+
+* Added page setup methods.
+
+	* set_landscape()
+	* set_portrait()
+	* set_page_view()
+	* set_paper()
+	* print_across()
+
+
+Release 0.0.1 - February 17 2013
+--------------------------------
 
 * First public release.
 
