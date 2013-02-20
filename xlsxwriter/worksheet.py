@@ -723,6 +723,11 @@ class Worksheet(xmlwriter.XMLwriter):
         # Store the row sizes for use when calculating image vertices.
         self.row_sizes[row] = height
 
+    ###########################################################################
+    #
+    # Public API. Page Setup methods.
+    #
+    ###########################################################################
     def set_landscape(self):
         """
         Set the page orientation as landscape.
@@ -778,6 +783,25 @@ class Worksheet(xmlwriter.XMLwriter):
         if paper_size:
             self.paper_size = paper_size
             self.page_setup_changed = 1
+
+    def set_margins(self, left=0.7, right=0.7, top=0.75, bottom=0.75):
+        """
+        Set all the page margins in inches.
+
+        Args:
+            left:   Left margin.
+            right:  Right margin.
+            top:    Top margin.
+            bottom: Bottom margin.
+
+        Returns:
+            Nothing.
+
+        """
+        self.margin_left = left
+        self.margin_right = right
+        self.margin_top = top
+        self.margin_bottom = bottom
 
     def print_across(self):
         """
@@ -1093,20 +1117,13 @@ class Worksheet(xmlwriter.XMLwriter):
 
     def _write_page_margins(self):
         # Write the <pageMargins> element.
-        left = '0.7'
-        right = '0.7'
-        top = '0.75'
-        bottom = '0.75'
-        header = '0.3'
-        footer = '0.3'
-
         attributes = [
-            ('left', left),
-            ('right', right),
-            ('top', top),
-            ('bottom', bottom),
-            ('header', header),
-            ('footer', footer)]
+            ('left', self.margin_left),
+            ('right', self.margin_right),
+            ('top', self.margin_top),
+            ('bottom', self.margin_bottom),
+            ('header', self.margin_header),
+            ('footer', self.margin_footer)]
 
         self._xml_empty_tag('pageMargins', attributes)
 
