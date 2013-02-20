@@ -16,7 +16,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '',
-        VERSION:     '0.0.2',
+        VERSION:     '0.0.3',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -313,6 +313,32 @@ supports. Therefore, it is best to stick to standard paper types:</p>
 <p>If you do not specify a paper type the worksheet will print using the printer&#8217;s
 default paper style.</p>
 </div>
+<div class="section" id="worksheet-set-margins">
+<h2>worksheet.set_margins()</h2>
+<dl class="function">
+<dt id="set_margins">
+<tt class="descname">set_margins</tt><big>(</big><em>[left=0.7,] right=0.7,] top=0.75,] bottom=0.75]]]</em><big>)</big></dt>
+<dd><p>Set the worksheet margins for the printed page.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>left</strong> (<a class="reference external" href="http://docs.python.org/2/library/functions.html#float" title="(in Python v2.7)"><em>float</em></a>) &#8211; Left margin in inches. Default 0.7.</li>
+<li><strong>right</strong> (<a class="reference external" href="http://docs.python.org/2/library/functions.html#float" title="(in Python v2.7)"><em>float</em></a>) &#8211; Right margin in inches. Default 0.7.</li>
+<li><strong>top</strong> (<a class="reference external" href="http://docs.python.org/2/library/functions.html#float" title="(in Python v2.7)"><em>float</em></a>) &#8211; Top margin in inches. Default 0.75.</li>
+<li><strong>bottom</strong> (<a class="reference external" href="http://docs.python.org/2/library/functions.html#float" title="(in Python v2.7)"><em>float</em></a>) &#8211; Bottom margin in inches. Default 0.75.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<p>The <tt class="docutils literal"><span class="pre">set_margins()</span></tt> method is used to set the margins of the worksheet when
+it is printed. The units are in inches. All parameters are optional and have
+default values corresponding to the default Excel values.</p>
+</div>
 <div class="section" id="worksheet-print-across">
 <h2>worksheet.print_across()</h2>
 <dl class="function">
@@ -357,6 +383,7 @@ to &#8220;across then down&#8221;:</p>
 <li><a class="reference internal" href="#worksheet-set-portrait">worksheet.set_portrait()</a></li>
 <li><a class="reference internal" href="#worksheet-set-page-view">worksheet.set_page_view()</a></li>
 <li><a class="reference internal" href="#worksheet-set-paper">worksheet.set_paper()</a></li>
+<li><a class="reference internal" href="#worksheet-set-margins">worksheet.set_margins()</a></li>
 <li><a class="reference internal" href="#worksheet-print-across">worksheet.print_across()</a></li>
 </ul>
 </li>

@@ -6,12 +6,27 @@ Known Issues and Bugs
 This section lists known issues and bugs and gives some information on how to
 submit bug reports.
 
+
+'unknown encoding: utf-8' Error
+-------------------------------
+
+The following error can occur on Windows if the :func:`close` method isn't
+used at the end of the program::
+
+    Exception LookupError: 'unknown encoding: utf-8' in <bound method
+    Workbook.__del__ of <xlsxwriter.workbook.Workbook objectat 0x022C1450>>
+
+This appears to be an issue with the implicit destructor on Windows. It is
+under investigation. Use ``close()`` as a workaround.
+
+
 Formula results not displaying in Excel
 ---------------------------------------
 
 Some early versions of Excel 2007 do not display the calculated values of
 formulas written by XlsxWriter. Applying all available Service Packs to Excel
 should fix this.
+
 
 Formula results displaying as zero in non-Excel apps
 ----------------------------------------------------

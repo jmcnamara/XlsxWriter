@@ -1,5 +1,13 @@
 
 
+Release 0.0.3 - February 19 2013
+--------------------------------
+
+* Added page setup method.
+
+	* set_margins()
+
+
 Release 0.0.2 - February 18 2013
 --------------------------------
 

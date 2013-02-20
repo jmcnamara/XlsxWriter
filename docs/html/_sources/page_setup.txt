@@ -120,6 +120,23 @@ supports. Therefore, it is best to stick to standard paper types::
 If you do not specify a paper type the worksheet will print using the printer's
 default paper style.
 
+worksheet.set_margins()
+-----------------------
+
+.. py:function:: set_margins([left=0.7,] right=0.7,] top=0.75,] bottom=0.75]]])
+
+   Set the worksheet margins for the printed page.
+
+   :param float left:   Left margin in inches. Default 0.7.
+   :param float right:  Right margin in inches. Default 0.7.
+   :param float top:    Top margin in inches. Default 0.75.
+   :param float bottom: Bottom margin in inches. Default 0.75.
+
+
+The ``set_margins()`` method is used to set the margins of the worksheet when
+it is printed. The units are in inches. All parameters are optional and have
+default values corresponding to the default Excel values.
+
 
 worksheet.print_across()
 ------------------------

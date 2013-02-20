@@ -16,7 +16,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '',
-        VERSION:     '0.0.2',
+        VERSION:     '0.0.3',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -55,6 +55,16 @@
 <span id="bugs"></span><h1>Known Issues and Bugs</h1>
 <p>This section lists known issues and bugs and gives some information on how to
 submit bug reports.</p>
+<div class="section" id="unknown-encoding-utf-8-error">
+<h2>&#8216;unknown encoding: utf-8&#8217; Error</h2>
+<p>The following error can occur on Windows if the <a class="reference internal" href="workbook.html#close" title="close"><tt class="xref py py-func docutils literal"><span class="pre">close()</span></tt></a> method isn&#8217;t
+used at the end of the program:</p>
+<div class="highlight-python"><pre>Exception LookupError: 'unknown encoding: utf-8' in &lt;bound method
+Workbook.__del__ of &lt;xlsxwriter.workbook.Workbook objectat 0x022C1450&gt;&gt;</pre>
+</div>
+<p>This appears to be an issue with the implicit destructor on Windows. It is
+under investigation. Use <tt class="docutils literal"><span class="pre">close()</span></tt> as a workaround.</p>
+</div>
 <div class="section" id="formula-results-not-displaying-in-excel">
 <h2>Formula results not displaying in Excel</h2>
 <p>Some early versions of Excel 2007 do not display the calculated values of
@@ -147,6 +157,7 @@ SOMETHING but the module appears to do SOMETHING ELSE.</p>
   <h3><a href="index.html">Table Of Contents</a></h3>
   <ul>
 <li><a class="reference internal" href="#">Known Issues and Bugs</a><ul>
+<li><a class="reference internal" href="#unknown-encoding-utf-8-error">&#8216;unknown encoding: utf-8&#8217; Error</a></li>
 <li><a class="reference internal" href="#formula-results-not-displaying-in-excel">Formula results not displaying in Excel</a></li>
 <li><a class="reference internal" href="#formula-results-displaying-as-zero-in-non-excel-apps">Formula results displaying as zero in non-Excel apps</a></li>
 </ul>
