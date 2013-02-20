@@ -10,6 +10,7 @@
 from __future__ import unicode_literals
 import codecs
 
+
 class Theme(object):
     """
     A class for writing the Excel XLSX Theme file.
@@ -28,7 +29,6 @@ class Theme(object):
         Constructor.
 
         """
-
         super(Theme, self).__init__()
         self.fh = None
 
@@ -41,6 +41,7 @@ class Theme(object):
     def _assemble_xml_file(self):
         # Assemble and write the XML file.
         self._write_theme_file()
+        self.fh.close()
 
     def _set_xml_writer(self, filename):
         # Set the XML writer filehandle for the object.
