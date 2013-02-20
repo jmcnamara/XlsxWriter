@@ -6,7 +6,7 @@
 #
 
 # Package imports.
-import xmlwriter
+from . import xmlwriter
 
 
 class Styles(xmlwriter.XMLwriter):
@@ -667,8 +667,7 @@ class Styles(xmlwriter.XMLwriter):
         custom_colors.reverse()
 
         # Limit the mruColors to the last 10.
-        count = custom_colors
-        if count > 10:
+        if len(custom_colors) > 10:
             custom_colors = custom_colors[0:10]
 
         self._xml_start_tag('mruColors')

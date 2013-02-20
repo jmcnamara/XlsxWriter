@@ -13,7 +13,7 @@ from datetime import datetime
 from zipfile import ZipFile, ZIP_DEFLATED
 
 # Package imports.
-import xmlwriter
+from . import xmlwriter
 from xlsxwriter.worksheet import Worksheet
 from xlsxwriter.sharedstrings import SharedStringTable
 from xlsxwriter.format import Format

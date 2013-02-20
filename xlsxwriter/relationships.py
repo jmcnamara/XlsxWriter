@@ -6,7 +6,7 @@
 #
 
 # Package imports.
-import xmlwriter
+from . import xmlwriter
 
 # Long namespace strings used in the class.
 schema_root = 'http://schemas.openxmlformats.org'

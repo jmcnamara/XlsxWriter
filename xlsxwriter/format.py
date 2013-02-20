@@ -6,7 +6,7 @@
 #
 
 # Package imports.
-import xmlwriter
+from . import xmlwriter
 
 
 class Format(xmlwriter.XMLwriter):

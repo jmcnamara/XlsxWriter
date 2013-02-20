@@ -5,7 +5,7 @@
 # Copyright 2013, John McNamara, jmcnamara@cpan.org
 #
 
-import xmlwriter
+from . import xmlwriter
 
 # Long namespace strings used in the class.
 app_package = 'application/vnd.openxmlformats-package.'
