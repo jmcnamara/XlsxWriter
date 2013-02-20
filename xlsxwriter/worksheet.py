@@ -12,9 +12,9 @@ from collections import defaultdict
 from collections import namedtuple
 
 # Package imports.
-import xmlwriter
-from utility import xl_rowcol_to_cell
-from utility import xl_cell_to_rowcol
+from . import xmlwriter
+from .utility import xl_rowcol_to_cell
+from .utility import xl_cell_to_rowcol
 
 
 ###############################################################################

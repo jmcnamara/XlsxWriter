@@ -9,7 +9,7 @@
 import re
 
 # Package imports.
-import xmlwriter
+from . import xmlwriter
 
 
 class SharedStrings(xmlwriter.XMLwriter):

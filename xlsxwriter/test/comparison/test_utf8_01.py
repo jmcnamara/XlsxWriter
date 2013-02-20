@@ -5,7 +5,7 @@
 #
 # Copyright (c), 2013, John McNamara, jmcnamara@cpan.org
 #
-
+from __future__ import unicode_literals
 import unittest
 import os
 from ...workbook import Workbook
@@ -40,7 +40,7 @@ class TestCompareXLSXFiles(unittest.TestCase):
 
         worksheet = workbook.add_worksheet()
 
-        worksheet.write('A1', u'Это фраза на русском!')
+        worksheet.write('A1', 'Это фраза на русском!')
 
         workbook.close()
 

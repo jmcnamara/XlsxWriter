@@ -6,7 +6,7 @@
 #
 
 import unittest
-from StringIO import StringIO
+from ..compatibility import StringIO
 from ...contenttypes import ContentTypes
 
 
