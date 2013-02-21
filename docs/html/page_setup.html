@@ -16,7 +16,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '',
-        VERSION:     '0.0.3',
+        VERSION:     '0.0.4',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -313,6 +313,32 @@ supports. Therefore, it is best to stick to standard paper types:</p>
 <p>If you do not specify a paper type the worksheet will print using the printer&#8217;s
 default paper style.</p>
 </div>
+<div class="section" id="center-horizontally">
+<h2>center_horizontally()</h2>
+<dl class="function">
+<dt id="center_horizontally">
+<tt class="descname">center_horizontally</tt><big>(</big><big>)</big></dt>
+<dd><p>Center the printed page horizontally.</p>
+</dd></dl>
+
+<p>Center the worksheet data horizontally between the margins on the printed page:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">worksheet</span><span class="o">.</span><span class="n">center_horizontally</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="center-vertically">
+<h2>center_vertically()</h2>
+<dl class="function">
+<dt id="center_vertically">
+<tt class="descname">center_vertically</tt><big>(</big><big>)</big></dt>
+<dd><p>Center the printed page vertically.</p>
+</dd></dl>
+
+<p>Center the worksheet data vertically between the margins on the printed page:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">worksheet</span><span class="o">.</span><span class="n">center_vertically</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
 <div class="section" id="worksheet-set-margins">
 <h2>worksheet.set_margins()</h2>
 <dl class="function">
@@ -338,6 +364,275 @@ default paper style.</p>
 <p>The <tt class="docutils literal"><span class="pre">set_margins()</span></tt> method is used to set the margins of the worksheet when
 it is printed. The units are in inches. All parameters are optional and have
 default values corresponding to the default Excel values.</p>
+</div>
+<div class="section" id="set-header">
+<h2>set_header()</h2>
+<dl class="function">
+<dt id="set_header">
+<tt class="descname">set_header</tt><big>(</big><em>[header='',] margin=0.3]]</em><big>)</big></dt>
+<dd><p>Set the printed page header caption and optional margin.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>header</strong> (<a class="reference external" href="http://docs.python.org/2/library/string.html#string" title="(in Python v2.7)"><em>string</em></a>) &#8211; Header string with Excel control characters.</li>
+<li><strong>margin</strong> (<a class="reference external" href="http://docs.python.org/2/library/functions.html#float" title="(in Python v2.7)"><em>float</em></a>) &#8211; Header margin in inches. Default 0.3.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<p>Headers and footers are generated using a string which is a combination
+of plain text and control characters.</p>
+<p>The available control character are:</p>
+<blockquote>
+<div><table border="1" class="docutils">
+<colgroup>
+<col width="26%" />
+<col width="26%" />
+<col width="47%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Control</th>
+<th class="head">Category</th>
+<th class="head">Description</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>&amp;L</td>
+<td>Justification</td>
+<td>Left</td>
+</tr>
+<tr class="row-odd"><td>&amp;C</td>
+<td>&nbsp;</td>
+<td>Center</td>
+</tr>
+<tr class="row-even"><td>&amp;R</td>
+<td>&nbsp;</td>
+<td>Right</td>
+</tr>
+<tr class="row-odd"><td>&amp;P</td>
+<td>Information</td>
+<td>Page number</td>
+</tr>
+<tr class="row-even"><td>&amp;N</td>
+<td>&nbsp;</td>
+<td>Total number of pages</td>
+</tr>
+<tr class="row-odd"><td>&amp;D</td>
+<td>&nbsp;</td>
+<td>Date</td>
+</tr>
+<tr class="row-even"><td>&amp;T</td>
+<td>&nbsp;</td>
+<td>Time</td>
+</tr>
+<tr class="row-odd"><td>&amp;F</td>
+<td>&nbsp;</td>
+<td>File name</td>
+</tr>
+<tr class="row-even"><td>&amp;A</td>
+<td>&nbsp;</td>
+<td>Worksheet name</td>
+</tr>
+<tr class="row-odd"><td>&amp;Z</td>
+<td>&nbsp;</td>
+<td>Workbook path</td>
+</tr>
+<tr class="row-even"><td>&amp;fontsize</td>
+<td>Font</td>
+<td>Font size</td>
+</tr>
+<tr class="row-odd"><td>&amp;&#8221;font,style&#8221;</td>
+<td>&nbsp;</td>
+<td>Font name and style</td>
+</tr>
+<tr class="row-even"><td>&amp;U</td>
+<td>&nbsp;</td>
+<td>Single underline</td>
+</tr>
+<tr class="row-odd"><td>&amp;E</td>
+<td>&nbsp;</td>
+<td>Double underline</td>
+</tr>
+<tr class="row-even"><td>&amp;S</td>
+<td>&nbsp;</td>
+<td>Strikethrough</td>
+</tr>
+<tr class="row-odd"><td>&amp;X</td>
+<td>&nbsp;</td>
+<td>Superscript</td>
+</tr>
+<tr class="row-even"><td>&amp;Y</td>
+<td>&nbsp;</td>
+<td>Subscript</td>
+</tr>
+<tr class="row-odd"><td>&amp;&amp;</td>
+<td>Miscellaneous</td>
+<td>Literal ampersand &amp;</td>
+</tr>
+</tbody>
+</table>
+</div></blockquote>
+<p>Text in headers and footers can be justified (aligned) to the left, center and
+right by prefixing the text with the control characters <tt class="docutils literal"><span class="pre">&amp;L</span></tt>, <tt class="docutils literal"><span class="pre">&amp;C</span></tt> and
+<tt class="docutils literal"><span class="pre">&amp;R</span></tt>.</p>
+<p>For example (with ASCII art representation of the results):</p>
+<div class="highlight-python"><pre>worksheet.set_header('&amp;LHello')
+
+    ---------------------------------------------------------------
+   |                                                               |
+   | Hello                                                         |
+   |                                                               |
+
+
+$worksheet-&gt;set_header('&amp;CHello');
+
+    ---------------------------------------------------------------
+   |                                                               |
+   |                          Hello                                |
+   |                                                               |
+
+
+$worksheet-&gt;set_header('&amp;RHello');
+
+    ---------------------------------------------------------------
+   |                                                               |
+   |                                                         Hello |
+   |                                                               |</pre>
+</div>
+<p>For simple text, if you do not specify any justification the text will be
+centred. However, you must prefix the text with <tt class="docutils literal"><span class="pre">&amp;C</span></tt> if you specify a font
+name or any other formatting:</p>
+<div class="highlight-python"><pre>worksheet.set_header('Hello')
+
+    ---------------------------------------------------------------
+   |                                                               |
+   |                          Hello                                |
+   |                                                               |</pre>
+</div>
+<p>You can have text in each of the justification regions:</p>
+<div class="highlight-python"><pre>worksheet.set_header('&amp;LCiao&amp;CBello&amp;RCielo')
+
+    ---------------------------------------------------------------
+   |                                                               |
+   | Ciao                     Bello                          Cielo |
+   |                                                               |</pre>
+</div>
+<p>The information control characters act as variables that Excel will update as
+the workbook or worksheet changes. Times and dates are in the users default
+format:</p>
+<div class="highlight-python"><pre>worksheet.set_header('&amp;CPage &amp;P of &amp;N')
+
+    ---------------------------------------------------------------
+   |                                                               |
+   |                        Page 1 of 6                            |
+   |                                                               |
+
+worksheet.set_header('&amp;CUpdated at &amp;T')
+
+    ---------------------------------------------------------------
+   |                                                               |
+   |                    Updated at 12:30 PM                        |
+   |                                                               |</pre>
+</div>
+<p>You can specify the font size of a section of the text by prefixing it with the
+control character <tt class="docutils literal"><span class="pre">&amp;n</span></tt> where <tt class="docutils literal"><span class="pre">n</span></tt> is the font size:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">worksheet1</span><span class="o">.</span><span class="n">set_header</span><span class="p">(</span><span class="s">&#39;&amp;C&amp;30Hello Big&#39;</span><span class="p">)</span>
+<span class="n">worksheet2</span><span class="o">.</span><span class="n">set_header</span><span class="p">(</span><span class="s">&#39;&amp;C&amp;10Hello Small&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>You can specify the font of a section of the text by prefixing it with the
+control sequence <tt class="docutils literal"><span class="pre">&amp;&quot;font,style&quot;</span></tt> where <tt class="docutils literal"><span class="pre">fontname</span></tt> is a font name such as
+&#8220;Courier New&#8221; or &#8220;Times New Roman&#8221; and <tt class="docutils literal"><span class="pre">style</span></tt> is one of the standard
+Windows font descriptions: &#8220;Regular&#8221;, &#8220;Italic&#8221;, &#8220;Bold&#8221; or &#8220;Bold Italic&#8221;:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">worksheet1</span><span class="o">.</span><span class="n">set_header</span><span class="p">(</span><span class="s">&#39;&amp;C&amp;&quot;Courier New,Italic&quot;Hello&#39;</span><span class="p">)</span>
+<span class="n">worksheet2</span><span class="o">.</span><span class="n">set_header</span><span class="p">(</span><span class="s">&#39;&amp;C&amp;&quot;Courier New,Bold Italic&quot;Hello&#39;</span><span class="p">)</span>
+<span class="n">worksheet3</span><span class="o">.</span><span class="n">set_header</span><span class="p">(</span><span class="s">&#39;&amp;C&amp;&quot;Times New Roman,Regular&quot;Hello&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>It is possible to combine all of these features together to create
+sophisticated headers and footers. As an aid to setting up complicated headers
+and footers you can record a page set-up as a macro in Excel and look at the
+format strings that VBA produces. Remember however that VBA uses two double
+quotes <tt class="docutils literal"><span class="pre">&quot;&quot;</span></tt> to indicate a single double quote. For the last example above
+the equivalent VBA code looks like this:</p>
+<div class="highlight-python"><pre>.LeftHeader = ""
+.CenterHeader = "&amp;""Times New Roman,Regular""Hello"
+.RightHeader = ""</pre>
+</div>
+<p>To include a single literal ampersand <tt class="docutils literal"><span class="pre">&amp;</span></tt> in a header or footer you should
+use a double ampersand <tt class="docutils literal"><span class="pre">&amp;&amp;</span></tt>:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">worksheet1</span><span class="o">.</span><span class="n">set_header</span><span class="p">(</span><span class="s">&#39;&amp;CCuriouser and Curiouser - Attorneys at Law&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>As stated above the margin parameter is optional. As with the other margins the
+value should be in inches. The default header and footer margin is 0.3 inch.
+The header and footer margin size can be set as follows:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">worksheet</span><span class="o">.</span><span class="n">set_header</span><span class="p">(</span><span class="s">&#39;&amp;CHello&#39;</span><span class="p">,</span> <span class="mf">0.75</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>The header and footer margins are independent of the top and bottom margins.</p>
+<p>Note, the header or footer string must be less than 255 characters. Strings
+longer than this will not be written and an exception will be thrown.</p>
+</div>
+<div class="section" id="set-footer">
+<h2>set_footer()</h2>
+<dl class="function">
+<dt>
+<tt class="descname">set_header</tt><big>(</big><em>[footer='',] margin=0.3]]</em><big>)</big></dt>
+<dd><p>Set the printed page footer caption and optional margin.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>footer</strong> (<a class="reference external" href="http://docs.python.org/2/library/string.html#string" title="(in Python v2.7)"><em>string</em></a>) &#8211; Footer string with Excel control characters.</li>
+<li><strong>margin</strong> (<a class="reference external" href="http://docs.python.org/2/library/functions.html#float" title="(in Python v2.7)"><em>float</em></a>) &#8211; Footer margin in inches. Default 0.3.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<p>The syntax of the <tt class="docutils literal"><span class="pre">set_footer()</span></tt> method is the same as <a class="reference internal" href="#set_header" title="set_header"><tt class="xref py py-func docutils literal"><span class="pre">set_header()</span></tt></a>.</p>
+</div>
+<div class="section" id="hide-gridlines">
+<h2>hide_gridlines()</h2>
+<dl class="function">
+<dt>
+<tt class="descname">set_header</tt><big>(</big><span class="optional">[</span><em>option=1</em><span class="optional">]</span><big>)</big></dt>
+<dd><p>Set the option to hide gridlines on the screen and the printed page.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>option</strong> (<a class="reference external" href="http://docs.python.org/2/library/functions.html#int" title="(in Python v2.7)"><em>int</em></a>) &#8211; Hide gridline options. See below.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<p>This method is used to hide the gridlines on the screen and printed page.
+Gridlines are the lines that divide the cells on a worksheet. Screen and
+printed gridlines are turned on by default in an Excel worksheet.</p>
+<p>If you have defined your own cell borders you may wish to hide the default
+gridlines:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">worksheet</span><span class="o">.</span><span class="n">hide_gridlines</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>The following values of <tt class="docutils literal"><span class="pre">option</span></tt> are valid:</p>
+<ol class="arabic simple" start="0">
+<li>Don&#8217;t hide gridlines.</li>
+<li>Hide printed gridlines only.</li>
+<li>Hide screen and printed gridlines.</li>
+</ol>
+<p>If you don&#8217;t supply an argument the default option is 1, i.e. only the
+printed gridlines are hidden.</p>
 </div>
 <div class="section" id="worksheet-print-across">
 <h2>worksheet.print_across()</h2>
@@ -383,7 +678,12 @@ to &#8220;across then down&#8221;:</p>
 <li><a class="reference internal" href="#worksheet-set-portrait">worksheet.set_portrait()</a></li>
 <li><a class="reference internal" href="#worksheet-set-page-view">worksheet.set_page_view()</a></li>
 <li><a class="reference internal" href="#worksheet-set-paper">worksheet.set_paper()</a></li>
+<li><a class="reference internal" href="#center-horizontally">center_horizontally()</a></li>
+<li><a class="reference internal" href="#center-vertically">center_vertically()</a></li>
 <li><a class="reference internal" href="#worksheet-set-margins">worksheet.set_margins()</a></li>
+<li><a class="reference internal" href="#set-header">set_header()</a></li>
+<li><a class="reference internal" href="#set-footer">set_footer()</a></li>
+<li><a class="reference internal" href="#hide-gridlines">hide_gridlines()</a></li>
 <li><a class="reference internal" href="#worksheet-print-across">worksheet.print_across()</a></li>
 </ul>
 </li>
