@@ -2,7 +2,7 @@
 # Simple Makefile for the XlsxWriter project.
 #
 
-.PHONY: docs cleandocs installdocs test sdist pep8
+.PHONY: docs
 
 docs:
 	@make -C dev/docs html
@@ -16,9 +16,24 @@ installdocs: cleandocs docs
 test:
 	@python -m unittest discover
 
-sdist:
-	@python setup.py sdist
+testpythons:
+	@pythonbrew switch 2.7.2
+	@python -m unittest discover
+	@pythonbrew switch 2.7.3
+	@python -m unittest discover
+	@pythonbrew switch 3.2
+	@python -m unittest discover
+	@pythonbrew switch 3.3.0
+	@python -m unittest discover
+	@pythonbrew switch 2.7.2
 
 pep8:
 	@ls -1 xlsxwriter/*.py | grep -v theme.py | xargs pep8
 	@find xlsxwriter/test/ -name \*.py | xargs pep8 --ignore=E501
+
+releasecheck:
+	@dev/release/release_check.sh
+
+release: releasecheck
+	@python setup.py sdist
+
