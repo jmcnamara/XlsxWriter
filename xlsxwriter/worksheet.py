@@ -784,6 +784,34 @@ class Worksheet(xmlwriter.XMLwriter):
             self.paper_size = paper_size
             self.page_setup_changed = 1
 
+    def center_horizontally(self):
+        """
+        Center the page horizontally.
+
+        Args:
+            None.
+
+        Returns:
+            Nothing.
+
+        """
+        self.print_options_changed = 1
+        self.hcenter = 1
+
+    def center_vertically(self):
+        """
+        Center the page vertically.
+
+        Args:
+            None.
+
+        Returns:
+            Nothing.
+
+        """
+        self.print_options_changed = 1
+        self.vcenter = 1
+
     def set_margins(self, left=0.7, right=0.7, top=0.75, bottom=0.75):
         """
         Set all the page margins in inches.
@@ -802,6 +830,68 @@ class Worksheet(xmlwriter.XMLwriter):
         self.margin_right = right
         self.margin_top = top
         self.margin_bottom = bottom
+
+    def set_header(self, header='', margin=0.3):
+        """
+        Set the page header caption and optional margin.
+
+        Args:
+            header: Header string.
+            margin: Header margin.
+
+        Returns:
+            Nothing.
+
+        """
+        if len(header) >= 255:
+            raise Exception('Header string must be less than 255 characters')
+
+        self.header = header
+        self.margin_header = margin
+        self.header_footer_changed = 1
+
+    def set_footer(self, footer='', margin=0.3):
+        """
+        Set the page footer caption and optional margin.
+
+        Args:
+            footer: Footer string.
+            margin: Footer margin.
+
+        Returns:
+            Nothing.
+
+        """
+        if len(footer) >= 255:
+            raise Exception('Footer string must be less than 255 characters')
+
+        self.footer = footer
+        self.margin_footer = margin
+        self.header_footer_changed = 1
+
+    def hide_gridlines(self, option=1):
+        """
+        Set the option to hide gridlines on the screen and the printed page.
+
+        Args:
+            option:    0 : Don't hide gridlines
+                       1 : Hide printed gridlines only
+                       2 : Hide screen and printed gridlines
+
+        Returns:
+            Nothing.
+
+        """
+        if option == 0:
+            self.print_gridlines = 1
+            self.screen_gridlines = 1
+            self.print_options_changed = 1
+        elif option == 1:
+            self.print_gridlines = 0
+            self.screen_gridlines = 1
+        else:
+            self.print_gridlines = 0
+            self.screen_gridlines = 0
 
     def print_across(self):
         """
@@ -850,6 +940,9 @@ class Worksheet(xmlwriter.XMLwriter):
         # Write the cols element.
         self._write_cols()
 
+        # Write the printOptions element.
+        self._write_print_options()
+
         # Write the sheetData element.
         self._write_sheet_data()
 
@@ -858,6 +951,9 @@ class Worksheet(xmlwriter.XMLwriter):
 
         # Write the pageSetup element.
         self._write_page_setup()
+
+        # Write the headerFooter element.
+        self._write_header_footer()
 
         # Close the worksheet tag.
         self._xml_end_tag('worksheet')
@@ -897,7 +993,7 @@ class Worksheet(xmlwriter.XMLwriter):
         return 0
 
     def _convert_date_time(self, date):
-
+        # Convert a Python datetime.datetime value to an Excel date number.
         delta = date - self.epoch
         excel_time = (delta.days
                       + (float(delta.seconds)
@@ -914,6 +1010,55 @@ class Worksheet(xmlwriter.XMLwriter):
             excel_time += 1
 
         return excel_time
+
+    def _options_changed(self):
+        # Check to see if any of the worksheet options have changed.
+        options_changed = 0
+        print_changed = 0
+        setup_changed = 0
+
+        if (self.orientation == 0
+                or self.hcenter == 1
+                or self.vcenter == 1
+                or self.header != ''
+                or self.footer != ''
+                or self.margin_header != 0.50
+                or self.margin_footer != 0.50
+                or self.margin_left != 0.75
+                or self.margin_right != 0.75
+                or self.margin_top != 1.00
+                or self.margin_bottom != 1.00):
+            setup_changed = 1
+
+        # Special case for 1x1 page fit.
+        if self.fit_width == 1 and self.fit_height == 1:
+            options_changed = 1
+            self.fit_width = 0
+            self.fit_height = 0
+
+        if (self.fit_width > 1
+                or self.fit_height > 1
+                or self.page_order == 1
+                or self.black_white == 1
+                or self.draft_quality == 1
+                or self.print_comments == 1
+                or self.paper_size != 0
+                or self.print_scale != 100
+                or self.print_gridlines == 1
+                or self.print_headers == 1
+                or self.hbreaks > 0
+                or self.vbreaks > 0):
+            print_changed = 1
+
+        if (print_changed or setup_changed):
+            options_changed = 1
+
+        if self.screen_gridlines == 0:
+            options_changed = 1
+        if self.filter_on:
+            options_changed = 1
+
+        return (options_changed, print_changed, setup_changed)
 
     ###########################################################################
     #
@@ -1178,6 +1323,54 @@ class Worksheet(xmlwriter.XMLwriter):
             attributes.append(('orientation', 'landscape'))
 
         self._xml_empty_tag('pageSetup', attributes)
+
+    def _write_print_options(self):
+        # Write the <printOptions> element.
+        attributes = []
+
+        if not self.print_options_changed:
+            return
+
+        # Set horizontal centering.
+        if self.hcenter:
+            attributes.append(('horizontalCentered', 1))
+
+        # Set vertical centering.
+        if self.vcenter:
+            attributes.append(('verticalCentered', 1))
+
+        # Enable row and column headers.
+        if self.print_headers:
+            attributes.append(('headings', 1))
+
+        # Set printed gridlines.
+        if self.print_gridlines:
+            attributes.append(('gridLines', 1))
+
+        self._xml_empty_tag('printOptions', attributes)
+
+    def _write_header_footer(self):
+        # Write the <headerFooter> element.
+
+        if not self.header_footer_changed:
+            return
+
+        self._xml_start_tag('headerFooter')
+
+        if self.header:
+            self._write_odd_header()
+        if self.footer:
+            self._write_odd_footer()
+
+        self._xml_end_tag('headerFooter')
+
+    def _write_odd_header(self):
+        # Write the <headerFooter> element.
+        self._xml_data_element('oddHeader', self.header)
+
+    def _write_odd_footer(self):
+        # Write the <headerFooter> element.
+        self._xml_data_element('oddFooter', self.footer)
 
     def _write_rows(self):
         # Write out the worksheet data as a series of rows and cells.

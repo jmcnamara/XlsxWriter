@@ -120,6 +120,30 @@ supports. Therefore, it is best to stick to standard paper types::
 If you do not specify a paper type the worksheet will print using the printer's
 default paper style.
 
+
+center_horizontally()
+---------------------
+
+.. py:function:: center_horizontally()
+
+   Center the printed page horizontally.
+
+Center the worksheet data horizontally between the margins on the printed page::
+
+    worksheet.center_horizontally()
+
+
+center_vertically()
+-------------------
+
+.. py:function:: center_vertically()
+
+   Center the printed page vertically.
+
+Center the worksheet data vertically between the margins on the printed page::
+
+    worksheet.center_vertically()
+
 worksheet.set_margins()
 -----------------------
 
@@ -136,6 +160,200 @@ worksheet.set_margins()
 The ``set_margins()`` method is used to set the margins of the worksheet when
 it is printed. The units are in inches. All parameters are optional and have
 default values corresponding to the default Excel values.
+
+
+set_header()
+------------
+
+.. py:function:: set_header([header='',] margin=0.3]])
+
+   Set the printed page header caption and optional margin.
+
+   :param string header: Header string with Excel control characters.
+   :param float margin:  Header margin in inches. Default 0.3.
+
+Headers and footers are generated using a string which is a combination
+of plain text and control characters.
+
+The available control character are:
+
+    ==================  ==================  ================================
+    Control             Category            Description
+    ==================  ==================  ================================
+    &L                  Justification       Left
+    &C                                      Center
+    &R                                      Right
+
+    &P                  Information         Page number
+    &N                                      Total number of pages
+    &D                                      Date
+    &T                                      Time
+    &F                                      File name
+    &A                                      Worksheet name
+    &Z                                      Workbook path
+
+    &fontsize           Font                Font size
+    &"font,style"                           Font name and style
+    &U                                      Single underline
+    &E                                      Double underline
+    &S                                      Strikethrough
+    &X                                      Superscript
+    &Y                                      Subscript
+
+    &&                  Miscellaneous       Literal ampersand &
+    ==================  ==================  ================================
+
+Text in headers and footers can be justified (aligned) to the left, center and
+right by prefixing the text with the control characters ``&L``, ``&C`` and
+``&R``.
+
+For example (with ASCII art representation of the results)::
+
+    worksheet.set_header('&LHello')
+
+        ---------------------------------------------------------------
+       |                                                               |
+       | Hello                                                         |
+       |                                                               |
+
+
+    $worksheet->set_header('&CHello');
+
+        ---------------------------------------------------------------
+       |                                                               |
+       |                          Hello                                |
+       |                                                               |
+
+
+    $worksheet->set_header('&RHello');
+
+        ---------------------------------------------------------------
+       |                                                               |
+       |                                                         Hello |
+       |                                                               |
+
+
+For simple text, if you do not specify any justification the text will be
+centred. However, you must prefix the text with ``&C`` if you specify a font
+name or any other formatting::
+
+    worksheet.set_header('Hello')
+
+        ---------------------------------------------------------------
+       |                                                               |
+       |                          Hello                                |
+       |                                                               |
+
+You can have text in each of the justification regions::
+
+    worksheet.set_header('&LCiao&CBello&RCielo')
+
+        ---------------------------------------------------------------
+       |                                                               |
+       | Ciao                     Bello                          Cielo |
+       |                                                               |
+
+
+The information control characters act as variables that Excel will update as
+the workbook or worksheet changes. Times and dates are in the users default
+format::
+
+    worksheet.set_header('&CPage &P of &N')
+
+        ---------------------------------------------------------------
+       |                                                               |
+       |                        Page 1 of 6                            |
+       |                                                               |
+
+    worksheet.set_header('&CUpdated at &T')
+
+        ---------------------------------------------------------------
+       |                                                               |
+       |                    Updated at 12:30 PM                        |
+       |                                                               |
+
+You can specify the font size of a section of the text by prefixing it with the
+control character ``&n`` where ``n`` is the font size::
+
+    worksheet1.set_header('&C&30Hello Big')
+    worksheet2.set_header('&C&10Hello Small')
+
+You can specify the font of a section of the text by prefixing it with the
+control sequence ``&"font,style"`` where ``fontname`` is a font name such as
+"Courier New" or "Times New Roman" and ``style`` is one of the standard
+Windows font descriptions: "Regular", "Italic", "Bold" or "Bold Italic"::
+
+    worksheet1.set_header('&C&"Courier New,Italic"Hello')
+    worksheet2.set_header('&C&"Courier New,Bold Italic"Hello')
+    worksheet3.set_header('&C&"Times New Roman,Regular"Hello')
+
+It is possible to combine all of these features together to create
+sophisticated headers and footers. As an aid to setting up complicated headers
+and footers you can record a page set-up as a macro in Excel and look at the
+format strings that VBA produces. Remember however that VBA uses two double
+quotes ``""`` to indicate a single double quote. For the last example above
+the equivalent VBA code looks like this::
+
+    .LeftHeader = ""
+    .CenterHeader = "&""Times New Roman,Regular""Hello"
+    .RightHeader = ""
+
+To include a single literal ampersand ``&`` in a header or footer you should
+use a double ampersand ``&&``::
+
+    worksheet1.set_header('&CCuriouser and Curiouser - Attorneys at Law')
+
+As stated above the margin parameter is optional. As with the other margins the
+value should be in inches. The default header and footer margin is 0.3 inch.
+The header and footer margin size can be set as follows::
+
+    worksheet.set_header('&CHello', 0.75)
+
+The header and footer margins are independent of the top and bottom margins.
+
+Note, the header or footer string must be less than 255 characters. Strings
+longer than this will not be written and an exception will be thrown.
+
+
+set_footer()
+------------
+
+.. py:function:: set_header([footer='',] margin=0.3]])
+
+   Set the printed page footer caption and optional margin.
+
+   :param string footer: Footer string with Excel control characters.
+   :param float margin:  Footer margin in inches. Default 0.3.
+
+The syntax of the ``set_footer()`` method is the same as :func:`set_header`.
+
+
+hide_gridlines()
+----------------
+
+.. py:function:: set_header([option=1])
+
+   Set the option to hide gridlines on the screen and the printed page.
+
+   :param int option: Hide gridline options. See below.
+
+This method is used to hide the gridlines on the screen and printed page.
+Gridlines are the lines that divide the cells on a worksheet. Screen and
+printed gridlines are turned on by default in an Excel worksheet.
+
+If you have defined your own cell borders you may wish to hide the default
+gridlines::
+
+    worksheet.hide_gridlines()
+
+The following values of ``option`` are valid:
+
+0. Don't hide gridlines.
+1. Hide printed gridlines only.
+2. Hide screen and printed gridlines.
+
+If you don't supply an argument the default option is 1, i.e. only the
+printed gridlines are hidden.
 
 
 worksheet.print_across()

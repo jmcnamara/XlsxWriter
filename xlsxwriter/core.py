@@ -5,8 +5,11 @@
 # Copyright 2013, John McNamara, jmcnamara@cpan.org
 #
 
-from . import xmlwriter
+# Standard packages.
 from datetime import datetime
+
+# Package imports.
+from . import xmlwriter
 
 
 class Core(xmlwriter.XMLwriter):

@@ -86,6 +86,28 @@ class TestWritePageMargins(unittest.TestCase):
 
         self.assertEqual(got, exp)
 
+    def test_write_page_margins_header(self):
+        """Test the _write_page_margins() method with header margin"""
+
+        self.worksheet.set_header(margin=0.5)
+        self.worksheet._write_page_margins()
+
+        exp = """<pageMargins left="0.7" right="0.7" top="0.75" bottom="0.75" header="0.5" footer="0.3"/>"""
+        got = self.fh.getvalue()
+
+        self.assertEqual(got, exp)
+
+    def test_write_page_margins_footer(self):
+        """Test the _write_page_margins() method with footer margin"""
+
+        self.worksheet.set_footer(margin=0.5)
+        self.worksheet._write_page_margins()
+
+        exp = """<pageMargins left="0.7" right="0.7" top="0.75" bottom="0.75" header="0.3" footer="0.5"/>"""
+        got = self.fh.getvalue()
+
+        self.assertEqual(got, exp)
+
 
 if __name__ == '__main__':
     unittest.main()

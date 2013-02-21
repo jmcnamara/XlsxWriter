@@ -1,11 +1,30 @@
 
 
+Release 0.0.4 - February 20 2013
+--------------------------------
+
+* Added Python 3 support with help from John Evans. Tested with:
+
+    * Python-2.7.2
+    * Python-2.7.3
+    * Python-3.2
+    * Python-3.3.0
+
+* Added page setup methods.
+
+    * center_horizontally()
+    * center_vertically()
+    * set_header()
+    * set_footer()
+    * hide_gridlines()
+
+
 Release 0.0.3 - February 19 2013
 --------------------------------
 
 * Added page setup method.
 
-	* set_margins()
+    * set_margins()
 
 
 Release 0.0.2 - February 18 2013
@@ -13,11 +32,11 @@ Release 0.0.2 - February 18 2013
 
 * Added page setup methods.
 
-	* set_landscape()
-	* set_portrait()
-	* set_page_view()
-	* set_paper()
-	* print_across()
+    * set_landscape()
+    * set_portrait()
+    * set_page_view()
+    * set_paper()
+    * print_across()
 
 
 Release 0.0.1 - February 17 2013

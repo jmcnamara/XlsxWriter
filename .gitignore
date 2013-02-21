@@ -18,4 +18,5 @@ dev/docs/build/
 build/
 .buildinfo
 objects.inv
+__pycache__
 
