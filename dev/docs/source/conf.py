@@ -50,7 +50,7 @@ copyright = u'2013, John McNamara'
 # built documents.
 #
 # The short X.Y version.
-version = '0.0.4'
+version = '0.0.5'
 # The full version, including alpha/beta/rc tags.
 release = version
 

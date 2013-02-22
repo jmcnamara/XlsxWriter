@@ -16,7 +16,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '',
-        VERSION:     '0.0.4',
+        VERSION:     '0.0.5',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -601,6 +601,70 @@ longer than this will not be written and an exception will be thrown.</p>
 
 <p>The syntax of the <tt class="docutils literal"><span class="pre">set_footer()</span></tt> method is the same as <a class="reference internal" href="#set_header" title="set_header"><tt class="xref py py-func docutils literal"><span class="pre">set_header()</span></tt></a>.</p>
 </div>
+<div class="section" id="repeat-rows">
+<h2>repeat_rows()</h2>
+<dl class="function">
+<dt id="repeat_rows">
+<tt class="descname">repeat_rows</tt><big>(</big><em>first_row</em><span class="optional">[</span>, <em>last_row</em><span class="optional">]</span><big>)</big></dt>
+<dd><p>Set the number of rows to repeat at the top of each printed page.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>first_row</strong> (<a class="reference external" href="http://docs.python.org/2/library/functions.html#int" title="(in Python v2.7)"><em>int</em></a>) &#8211; First row of repeat range.</li>
+<li><strong>last_row</strong> (<a class="reference external" href="http://docs.python.org/2/library/functions.html#int" title="(in Python v2.7)"><em>int</em></a>) &#8211; Last row of repeat range. Optional.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<p>For large Excel documents it is often desirable to have the first row or rows
+of the worksheet print out at the top of each page.</p>
+<p>This can be achieved by using the <tt class="docutils literal"><span class="pre">repeat_rows()</span></tt> method. The parameters
+<tt class="docutils literal"><span class="pre">first_row</span></tt> and <tt class="docutils literal"><span class="pre">last_row</span></tt> are zero based. The <tt class="docutils literal"><span class="pre">last_row</span></tt> parameter is
+optional if you only wish to specify one row:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">worksheet1</span><span class="o">.</span><span class="n">repeat_rows</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>     <span class="c"># Repeat the first row.</span>
+<span class="n">worksheet2</span><span class="o">.</span><span class="n">repeat_rows</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>  <span class="c"># Repeat the first two rows.</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="repeat-columns">
+<h2>repeat_columns()</h2>
+<dl class="function">
+<dt id="repeat_columns">
+<tt class="descname">repeat_columns</tt><big>(</big><em>first_col</em><span class="optional">[</span>, <em>last_col</em><span class="optional">]</span><big>)</big></dt>
+<dd><p>Set the columns to repeat at the left hand side of each printed page.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>first_col</strong> (<a class="reference external" href="http://docs.python.org/2/library/functions.html#int" title="(in Python v2.7)"><em>int</em></a>) &#8211; First column of repeat range.</li>
+<li><strong>last_col</strong> (<a class="reference external" href="http://docs.python.org/2/library/functions.html#int" title="(in Python v2.7)"><em>int</em></a>) &#8211; Last column of repeat range. Optional.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<p>For large Excel documents it is often desirable to have the first column or
+columns of the worksheet print out at the left hand side of each page.</p>
+<p>This can be achieved by using the <tt class="docutils literal"><span class="pre">repeat_columns()</span></tt> method. The parameters
+<tt class="docutils literal"><span class="pre">first_column</span></tt> and <tt class="docutils literal"><span class="pre">last_column</span></tt> are zero based. The <tt class="docutils literal"><span class="pre">last_column</span></tt>
+parameter is optional if you only wish to specify one column. You can also
+specify the columns using A1 column notation, see <a class="reference internal" href="working_with_cell_notation.html#cell-notation"><em>Working with Cell Notation</em></a> for
+more details.:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">worksheet1</span><span class="o">.</span><span class="n">repeat_columns</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>      <span class="c"># Repeat the first column.</span>
+<span class="n">worksheet2</span><span class="o">.</span><span class="n">repeat_columns</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>   <span class="c"># Repeat the first two columns.</span>
+<span class="n">worksheet3</span><span class="o">.</span><span class="n">repeat_columns</span><span class="p">(</span><span class="s">&#39;A:A&#39;</span><span class="p">)</span>  <span class="c"># Repeat the first column.</span>
+<span class="n">worksheet4</span><span class="o">.</span><span class="n">repeat_columns</span><span class="p">(</span><span class="s">&#39;A:B&#39;</span><span class="p">)</span>  <span class="c"># Repeat the first two columns.</span>
+</pre></div>
+</div>
+</div>
 <div class="section" id="hide-gridlines">
 <h2>hide_gridlines()</h2>
 <dl class="function">
@@ -683,6 +747,8 @@ to &#8220;across then down&#8221;:</p>
 <li><a class="reference internal" href="#worksheet-set-margins">worksheet.set_margins()</a></li>
 <li><a class="reference internal" href="#set-header">set_header()</a></li>
 <li><a class="reference internal" href="#set-footer">set_footer()</a></li>
+<li><a class="reference internal" href="#repeat-rows">repeat_rows()</a></li>
+<li><a class="reference internal" href="#repeat-columns">repeat_columns()</a></li>
 <li><a class="reference internal" href="#hide-gridlines">hide_gridlines()</a></li>
 <li><a class="reference internal" href="#worksheet-print-across">worksheet.print_across()</a></li>
 </ul>

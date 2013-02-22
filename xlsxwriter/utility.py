@@ -15,7 +15,7 @@ def xl_rowcol_to_cell(row, col, row_abs=0, col_abs=0):
     TODO. Add Utility.py docs.
 
     """
-    row = row + 1  # Change to 1-index.
+    row += 1  # Change to 1-index.
     row_abs = '$' if row_abs else ''
     col_abs = '$' if col_abs else ''
 
@@ -29,7 +29,7 @@ def xl_col_to_name(col_num, col_abs=0):
     TODO. Add Utility.py docs.
 
     """
-    col_num = col_num + 1  # Change to 1-index.
+    col_num += 1  # Change to 1-index.
     col_str = ''
     col_abs = '$' if col_abs else ''
 

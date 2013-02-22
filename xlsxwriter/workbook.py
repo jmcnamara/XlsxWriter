@@ -183,6 +183,9 @@ class Workbook(xmlwriter.XMLwriter):
         # Write the sheets element.
         self._write_sheets()
 
+        # Write the workbook defined names.
+        self._write_defined_names()
+
         # Write the calcPr element.
         self._write_calc_pr()
 
@@ -218,7 +221,7 @@ class Workbook(xmlwriter.XMLwriter):
         # self._prepare_vml_objects()
 
         # Set the defined names for the worksheets such as Print Titles.
-        # self._prepare_defined_names()
+        self._prepare_defined_names()
 
         # Prepare the drawings, charts and images.
         # self._prepare_drawings()
@@ -492,6 +495,77 @@ class Workbook(xmlwriter.XMLwriter):
 
         self.fill_count = index
 
+    def _prepare_defined_names(self):
+        # Iterate through the worksheets and store any defined names in
+        # addition to any user defined names. Stores the defined names
+        # for the Workbook.xml and the named ranges for App.xml.
+        defined_names = self.defined_names
+
+        for sheet in (self.worksheets):
+            # Check for Print Area settings.
+            if sheet.autofilter:
+                hidden = 1
+                sheet_range = sheet.autofilter
+                # Store the defined names.
+                defined_names.append(['_xlnm._FilterDatabase',
+                                      sheet.index, sheet_range, hidden])
+
+            # Check for Print Area settings.
+            if sheet.print_area:
+                hidden = 0
+                sheet_range = sheet.print_area
+                # Store the defined names.
+                defined_names.append(['_xlnm.Print_Area',
+                                      sheet.index, sheet_range, hidden])
+
+            # Check for repeat rows/cols referred to as Print Titles.
+            if sheet.repeat_col_range or sheet.repeat_row_range:
+                hidden = 0
+                sheet_range = ''
+                if sheet.repeat_col_range and sheet.repeat_row_range:
+                    sheet_range = (sheet.repeat_col_range + ',' +
+                                   sheet.repeat_row_range)
+                else:
+                    sheet_range = (sheet.repeat_col_range +
+                                   sheet.repeat_row_range)
+                # Store the defined names.
+                defined_names.append(['_xlnm.Print_Titles',
+                                      sheet.index, sheet_range, hidden])
+
+        # defined_names = _sort_defined_names(defined_names)
+        self.defined_names = defined_names
+        self.named_ranges = self._extract_named_ranges(defined_names)
+
+    def _extract_named_ranges(self, defined_names):
+        # Extract the named ranges from the sorted list of defined names.
+        # These are used in the App.xml file.
+        named_ranges = []
+
+        for defined_name in (defined_names):
+
+            name = defined_name[0]
+            index = defined_name[1]
+            sheet_range = defined_name[2]
+
+            # Skip autoFilter ranges.
+            if name == '_xlnm._FilterDatabase':
+                continue
+
+            # We are only interested in defined names with ranges.
+            if '!' in sheet_range:
+                sheet_name, _ = sheet_range.split('!', 1)
+
+                # Match Print_Area and Print_Titles xlnm types.
+                if name.startswith('_xlnm.'):
+                    xlnm_type = name.lstrip('_xlnm.')
+                    name = sheet_name + '!' + xlnm_type
+                elif index != -1:
+                    name = sheet_name + '!' + name
+
+                named_ranges.append(name)
+
+        return named_ranges
+
     ###########################################################################
     #
     # XML methods.
@@ -609,6 +683,34 @@ class Workbook(xmlwriter.XMLwriter):
         attributes = [('calcId', calc_id)]
 
         self._xml_empty_tag('calcPr', attributes)
+
+    def _write_defined_names(self):
+        # Write the <definedNames> element.
+        if not self.defined_names:
+            return
+
+        self._xml_start_tag('definedNames')
+
+        for defined_name in (self.defined_names):
+            self._write_defined_name(defined_name)
+
+        self._xml_end_tag('definedNames')
+
+    def _write_defined_name(self, defined_name):
+        # Write the <definedName> element.
+        name = defined_name[0]
+        sheet_id = defined_name[1]
+        sheet_range = defined_name[2]
+        hidden = defined_name[3]
+
+        attributes = [('name', name)]
+
+        if sheet_id != -1:
+            attributes.append(('localSheetId', sheet_id))
+        if hidden:
+            attributes.append(('hidden', 1))
+
+        self._xml_data_element('definedName', sheet_range, attributes)
 
 
 # A metadata class to share data between worksheets.
