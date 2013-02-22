@@ -328,6 +328,52 @@ set_footer()
 The syntax of the ``set_footer()`` method is the same as :func:`set_header`.
 
 
+repeat_rows()
+-------------
+
+.. py:function:: repeat_rows(first_row[, last_row])
+
+   Set the number of rows to repeat at the top of each printed page.
+
+   :param int first_row: First row of repeat range.
+   :param int last_row:  Last row of repeat range. Optional.
+
+For large Excel documents it is often desirable to have the first row or rows
+of the worksheet print out at the top of each page.
+
+This can be achieved by using the ``repeat_rows()`` method. The parameters
+``first_row`` and ``last_row`` are zero based. The ``last_row`` parameter is
+optional if you only wish to specify one row::
+
+    worksheet1.repeat_rows(0)     # Repeat the first row.
+    worksheet2.repeat_rows(0, 1)  # Repeat the first two rows.
+
+
+repeat_columns()
+----------------
+
+.. py:function:: repeat_columns(first_col[, last_col])
+
+   Set the columns to repeat at the left hand side of each printed page.
+
+   :param int first_col: First column of repeat range.
+   :param int last_col:  Last column of repeat range. Optional.
+
+For large Excel documents it is often desirable to have the first column or
+columns of the worksheet print out at the left hand side of each page.
+
+This can be achieved by using the ``repeat_columns()`` method. The parameters
+``first_column`` and ``last_column`` are zero based. The ``last_column``
+parameter is optional if you only wish to specify one column. You can also
+specify the columns using A1 column notation, see :ref:`cell_notation` for
+more details.::
+
+    worksheet1.repeat_columns(0)      # Repeat the first column.
+    worksheet2.repeat_columns(0, 1)   # Repeat the first two columns.
+    worksheet3.repeat_columns('A:A')  # Repeat the first column.
+    worksheet4.repeat_columns('A:B')  # Repeat the first two columns.
+
+
 hide_gridlines()
 ----------------
 

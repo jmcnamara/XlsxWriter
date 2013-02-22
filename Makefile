@@ -35,5 +35,7 @@ releasecheck:
 	@dev/release/release_check.sh
 
 release: releasecheck
-	@python setup.py sdist
+	@git push origin master
+	@git push --tags
+	@python setup.py sdist upload
 

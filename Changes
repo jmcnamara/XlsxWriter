@@ -1,4 +1,12 @@
 
+Release 0.0.5 - February 21 2013
+--------------------------------
+
+* Added page setup methods.
+
+    * repeat_rows()
+    * repeat_columns()
+
 
 Release 0.0.4 - February 20 2013
 --------------------------------

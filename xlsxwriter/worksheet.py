@@ -15,6 +15,7 @@ from collections import namedtuple
 from . import xmlwriter
 from .utility import xl_rowcol_to_cell
 from .utility import xl_cell_to_rowcol
+from .utility import xl_col_to_name
 
 
 ###############################################################################
@@ -167,8 +168,8 @@ class Worksheet(xmlwriter.XMLwriter):
         self.margin_header = 0.3
         self.margin_footer = 0.3
 
-        self.repeat_rows = ''
-        self.repeat_cols = ''
+        self.repeat_row_range = ''
+        self.repeat_col_range = ''
         self.print_area = ''
 
         self.page_order = 0
@@ -869,6 +870,59 @@ class Worksheet(xmlwriter.XMLwriter):
         self.margin_footer = margin
         self.header_footer_changed = 1
 
+    def repeat_rows(self, first_row, last_row=None):
+        """
+        Set the rows to repeat at the top of each printed page.
+
+        Args:
+            first_row: Start row for range.
+            last_row: End row for range.
+
+        Returns:
+            Nothing.
+
+        """
+        if last_row is None:
+            last_row = first_row
+
+        # Convert rows to 1 based.
+        first_row += 1
+        last_row += 1
+
+        # Create the row range area like: $1:$2.
+        area = '${}:${}'.format(first_row, last_row)
+
+        # Build up the print titles area "Sheet1!$1:$2"
+        sheetname = self._quote_sheetname(self.name)
+        self.repeat_row_range = sheetname + '!' + area
+
+    @convert_column_args
+    def repeat_columns(self, first_col, last_col=None):
+        """
+        Set the columns to repeat at the left hand side of each printed page.
+
+        Args:
+            first_col: Start column for range.
+            last_col: End column for range.
+
+        Returns:
+            Nothing.
+
+        """
+        if last_col is None:
+            last_col = first_col
+
+        # Convert to A notation.
+        first_col = xl_col_to_name(first_col, 1)
+        last_col = xl_col_to_name(last_col, 1)
+
+        # Create a column range like $C:$D.
+        area = first_col + ':' + last_col
+
+        # Build up the print area range "=Sheet2!$C:$D"
+        sheetname = self._quote_sheetname(self.name)
+        self.repeat_col_range = sheetname + "!" + area
+
     def hide_gridlines(self, option=1):
         """
         Set the option to hide gridlines on the screen and the printed page.
@@ -1059,6 +1113,16 @@ class Worksheet(xmlwriter.XMLwriter):
             options_changed = 1
 
         return (options_changed, print_changed, setup_changed)
+
+    def _quote_sheetname(self, sheetname):
+        # Sheetnames used in references should be quoted if they
+        # contain any spaces, special characters or if the look like
+        # something that isn't a sheet name.  TODO. We need to handle
+        # more special cases.
+        if re.match(r'Sheet\d+', sheetname):
+            return sheetname
+        else:
+            return "'{}'".format(sheetname)
 
     ###########################################################################
     #
