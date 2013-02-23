@@ -947,6 +947,20 @@ class Worksheet(xmlwriter.XMLwriter):
             self.print_gridlines = 0
             self.screen_gridlines = 0
 
+    def print_row_col_headers(self):
+        """
+        Set the option to print the row and column headers on the printed page.
+
+        Args:
+            None.
+
+        Returns:
+            Nothing.
+
+        """
+        self.print_headers = 1
+        self.print_options_changed = 1
+
     def print_across(self):
         """
         Set the order in which pages are printed.
@@ -979,35 +993,84 @@ class Worksheet(xmlwriter.XMLwriter):
         # Write the XML declaration.
         self._xml_declaration()
 
-        # Write the worksheet element.
+        # Write the root worksheet element.
         self._write_worksheet()
 
-        # Write the dimension element.
+        # Write the worksheet properties.
+        # self._write_sheet_pr()
+
+        # Write the worksheet dimensions.
         self._write_dimension()
 
-        # Write the sheetViews element.
+        # Write the sheet view properties.
         self._write_sheet_views()
 
-        # Write the sheetFormatPr element.
+        # Write the sheet format properties.
         self._write_sheet_format_pr()
 
-        # Write the cols element.
+        # Write the sheet column info.
         self._write_cols()
+
+        # Write the worksheet data such as rows columns and cells.
+        # if self.optimization == 0:
+        #    self._write_sheet_data()
+        # else:
+        #    self._write_optimized_sheet_data()
+        self._write_sheet_data()
+
+        # Write the sheetProtection element.
+        # self._write_sheet_protection()
+
+        # Write the worksheet calculation properties.
+        # self._write_sheet_calc_pr()
+
+        # Write the worksheet phonetic properties.
+        # self._write_phonetic_pr()
+
+        # Write the autoFilter element.
+        # self._write_auto_filter()
+
+        # Write the mergeCells element.
+        # self._write_merge_cells()
+
+        # Write the conditional formats.
+        # self._write_conditional_formats()
+
+        # Write the dataValidations element.
+        # self._write_data_validations()
+
+        # Write the hyperlink element.
+        # self._write_hyperlinks()
 
         # Write the printOptions element.
         self._write_print_options()
 
-        # Write the sheetData element.
-        self._write_sheet_data()
-
-        # Write the pageMargins element.
+        # Write the worksheet page_margins.
         self._write_page_margins()
 
-        # Write the pageSetup element.
+        # Write the worksheet page setup.
         self._write_page_setup()
 
         # Write the headerFooter element.
         self._write_header_footer()
+
+        # Write the rowBreaks element.
+        # self._write_row_breaks()
+
+        # Write the colBreaks element.
+        # self._write_col_breaks()
+
+        # Write the drawing element.
+        # self._write_drawings()
+
+        # Write the legacyDrawing element.
+        # self._write_legacy_drawing()
+
+        # Write the tableParts element.
+        # self._write_table_parts()
+
+        # Write the extLst and sparklines.
+        # self._write_ext_sparklines()
 
         # Close the worksheet tag.
         self._xml_end_tag('worksheet')

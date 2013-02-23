@@ -20,7 +20,7 @@ class TestCompareXLSXFiles(unittest.TestCase):
     def setUp(self):
         self.maxDiff = None
 
-        filename = 'repeat03.xlsx'
+        filename = 'print_options04.xlsx'
 
         test_dir = 'xlsxwriter/test/comparison/'
         self.got_filename = test_dir + '_test_' + filename
@@ -32,7 +32,7 @@ class TestCompareXLSXFiles(unittest.TestCase):
                                 'xl/worksheets/sheet1.xml': ['<pageMargins', '<pageSetup']}
 
     def test_create_file(self):
-        """Test the creation of a simple XlsxWriter file with repeat rows and cols."""
+        """Test the creation of a simple XlsxWriter file with print options."""
         filename = self.got_filename
 
         ####################################################
@@ -41,8 +41,7 @@ class TestCompareXLSXFiles(unittest.TestCase):
 
         worksheet = workbook.add_worksheet()
 
-        worksheet.repeat_rows(0)
-        worksheet.repeat_columns('A:A')
+        worksheet.print_row_col_headers()
 
         worksheet.write('A1', 'Foo')
 
