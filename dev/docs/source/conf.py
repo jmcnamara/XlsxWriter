@@ -50,7 +50,7 @@ copyright = u'2013, John McNamara'
 # built documents.
 #
 # The short X.Y version.
-version = '0.0.5'
+version = '0.0.6'
 # The full version, including alpha/beta/rc tags.
 release = version
 
@@ -195,13 +195,13 @@ latex_elements = {
 # Grouping the document tree into LaTeX files. List of tuples
 # (source start file, target name, title, author, documentclass [howto/manual]).
 latex_documents = [
-  ('index', 'XlsxWriter.tex', u'XlsxWriter Documentation',
+  ('index', 'XlsxWriter.tex', u'Creating Excel files with Python and XlsxWriter',
    u'John McNamara', 'manual'),
 ]
 
 # The name of an image file (relative to this directory) to place at the top of
 # the title page.
-# latex_logo = None
+latex_logo = '_static/logo.png'
 
 # For "manual" documents, if this is true, then toplevel headings are parts,
 # not chapters.

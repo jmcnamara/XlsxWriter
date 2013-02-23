@@ -402,6 +402,23 @@ If you don't supply an argument the default option is 1, i.e. only the
 printed gridlines are hidden.
 
 
+print_row_col_headers()
+---------------------------
+
+.. py:function:: print_row_col_headers()
+
+   Set the option to print the row and column headers on the printed page.
+
+When you print a worksheet from Excel you get the data selected in the print
+area. By default the Excel row and column headers (the row numbers on the left
+and the column letters at the top) aren't printed.
+
+The ``print_row_col_headers()`` method sets the printer option to print these
+headers::
+
+    worksheet.print_row_col_headers()
+
+
 worksheet.print_across()
 ------------------------
 

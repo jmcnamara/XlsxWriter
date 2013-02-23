@@ -16,7 +16,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '',
-        VERSION:     '0.0.5',
+        VERSION:     '0.0.6',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -100,36 +100,43 @@ properties that can be applied and the equivalent object method:</p>
 </tr>
 </thead>
 <tbody valign="top">
-<tr class="row-even"><td rowspan="8">Font</td>
+<tr class="row-even"><td>Font</td>
 <td>Font type</td>
 <td><tt class="docutils literal"><span class="pre">'font_name'</span></tt></td>
 <td><a class="reference internal" href="format.html#set_font_name" title="set_font_name"><tt class="xref py py-func docutils literal"><span class="pre">set_font_name()</span></tt></a></td>
 </tr>
-<tr class="row-odd"><td>Font size</td>
+<tr class="row-odd"><td>&nbsp;</td>
+<td>Font size</td>
 <td><tt class="docutils literal"><span class="pre">'font_size'</span></tt></td>
 <td><a class="reference internal" href="format.html#set_font_size" title="set_font_size"><tt class="xref py py-func docutils literal"><span class="pre">set_font_size()</span></tt></a></td>
 </tr>
-<tr class="row-even"><td>Font color</td>
+<tr class="row-even"><td>&nbsp;</td>
+<td>Font color</td>
 <td><tt class="docutils literal"><span class="pre">'font_color'</span></tt></td>
 <td><a class="reference internal" href="format.html#set_font_color" title="set_font_color"><tt class="xref py py-func docutils literal"><span class="pre">set_font_color()</span></tt></a></td>
 </tr>
-<tr class="row-odd"><td>Bold</td>
+<tr class="row-odd"><td>&nbsp;</td>
+<td>Bold</td>
 <td><tt class="docutils literal"><span class="pre">'bold'</span></tt></td>
 <td><a class="reference internal" href="format.html#set_bold" title="set_bold"><tt class="xref py py-func docutils literal"><span class="pre">set_bold()</span></tt></a></td>
 </tr>
-<tr class="row-even"><td>Italic</td>
+<tr class="row-even"><td>&nbsp;</td>
+<td>Italic</td>
 <td><tt class="docutils literal"><span class="pre">'italic'</span></tt></td>
 <td><a class="reference internal" href="format.html#set_italic" title="set_italic"><tt class="xref py py-func docutils literal"><span class="pre">set_italic()</span></tt></a></td>
 </tr>
-<tr class="row-odd"><td>Underline</td>
+<tr class="row-odd"><td>&nbsp;</td>
+<td>Underline</td>
 <td><tt class="docutils literal"><span class="pre">'underline'</span></tt></td>
 <td><a class="reference internal" href="format.html#set_underline" title="set_underline"><tt class="xref py py-func docutils literal"><span class="pre">set_underline()</span></tt></a></td>
 </tr>
-<tr class="row-even"><td>Strikeout</td>
+<tr class="row-even"><td>&nbsp;</td>
+<td>Strikeout</td>
 <td><tt class="docutils literal"><span class="pre">'font_strikeout'</span></tt></td>
 <td><a class="reference internal" href="format.html#set_font_strikeout" title="set_font_strikeout"><tt class="xref py py-func docutils literal"><span class="pre">set_font_strikeout()</span></tt></a></td>
 </tr>
-<tr class="row-odd"><td>Super/Subscript</td>
+<tr class="row-odd"><td>&nbsp;</td>
+<td>Super/Subscript</td>
 <td><tt class="docutils literal"><span class="pre">'font_script'</span></tt></td>
 <td><a class="reference internal" href="format.html#set_font_script" title="set_font_script"><tt class="xref py py-func docutils literal"><span class="pre">set_font_script()</span></tt></a></td>
 </tr>
@@ -138,99 +145,118 @@ properties that can be applied and the equivalent object method:</p>
 <td><tt class="docutils literal"><span class="pre">'num_format'</span></tt></td>
 <td><a class="reference internal" href="format.html#set_num_format" title="set_num_format"><tt class="xref py py-func docutils literal"><span class="pre">set_num_format()</span></tt></a></td>
 </tr>
-<tr class="row-odd"><td rowspan="2">Protection</td>
+<tr class="row-odd"><td>Protection</td>
 <td>Lock cells</td>
 <td><tt class="docutils literal"><span class="pre">'locked'</span></tt></td>
 <td><a class="reference internal" href="format.html#set_locked" title="set_locked"><tt class="xref py py-func docutils literal"><span class="pre">set_locked()</span></tt></a></td>
 </tr>
-<tr class="row-even"><td>Hide formulas</td>
+<tr class="row-even"><td>&nbsp;</td>
+<td>Hide formulas</td>
 <td><tt class="docutils literal"><span class="pre">'hidden'</span></tt></td>
 <td><a class="reference internal" href="format.html#set_hidden" title="set_hidden"><tt class="xref py py-func docutils literal"><span class="pre">set_hidden()</span></tt></a></td>
 </tr>
-<tr class="row-odd"><td rowspan="8">Alignment</td>
+<tr class="row-odd"><td>Alignment</td>
 <td>Horizontal align</td>
 <td><tt class="docutils literal"><span class="pre">'align'</span></tt></td>
 <td><a class="reference internal" href="format.html#set_align" title="set_align"><tt class="xref py py-func docutils literal"><span class="pre">set_align()</span></tt></a></td>
 </tr>
-<tr class="row-even"><td>Vertical align</td>
+<tr class="row-even"><td>&nbsp;</td>
+<td>Vertical align</td>
 <td><tt class="docutils literal"><span class="pre">'valign'</span></tt></td>
 <td><a class="reference internal" href="format.html#set_align" title="set_align"><tt class="xref py py-func docutils literal"><span class="pre">set_align()</span></tt></a></td>
 </tr>
-<tr class="row-odd"><td>Rotation</td>
+<tr class="row-odd"><td>&nbsp;</td>
+<td>Rotation</td>
 <td><tt class="docutils literal"><span class="pre">'rotation'</span></tt></td>
 <td><a class="reference internal" href="format.html#set_rotation" title="set_rotation"><tt class="xref py py-func docutils literal"><span class="pre">set_rotation()</span></tt></a></td>
 </tr>
-<tr class="row-even"><td>Text wrap</td>
+<tr class="row-even"><td>&nbsp;</td>
+<td>Text wrap</td>
 <td><tt class="docutils literal"><span class="pre">'text_wrap'</span></tt></td>
 <td><a class="reference internal" href="format.html#set_text_wrap" title="set_text_wrap"><tt class="xref py py-func docutils literal"><span class="pre">set_text_wrap()</span></tt></a></td>
 </tr>
-<tr class="row-odd"><td>Justify last</td>
+<tr class="row-odd"><td>&nbsp;</td>
+<td>Justify last</td>
 <td><tt class="docutils literal"><span class="pre">'text_justlast'</span></tt></td>
 <td><a class="reference internal" href="format.html#set_text_justlast" title="set_text_justlast"><tt class="xref py py-func docutils literal"><span class="pre">set_text_justlast()</span></tt></a></td>
 </tr>
-<tr class="row-even"><td>Center across</td>
+<tr class="row-even"><td>&nbsp;</td>
+<td>Center across</td>
 <td><tt class="docutils literal"><span class="pre">'center_across'</span></tt></td>
 <td><a class="reference internal" href="format.html#set_center_across" title="set_center_across"><tt class="xref py py-func docutils literal"><span class="pre">set_center_across()</span></tt></a></td>
 </tr>
-<tr class="row-odd"><td>Indentation</td>
+<tr class="row-odd"><td>&nbsp;</td>
+<td>Indentation</td>
 <td><tt class="docutils literal"><span class="pre">'indent'</span></tt></td>
 <td><a class="reference internal" href="format.html#set_indent" title="set_indent"><tt class="xref py py-func docutils literal"><span class="pre">set_indent()</span></tt></a></td>
 </tr>
-<tr class="row-even"><td>Shrink to fit</td>
+<tr class="row-even"><td>&nbsp;</td>
+<td>Shrink to fit</td>
 <td><tt class="docutils literal"><span class="pre">'shrink'</span></tt></td>
 <td><a class="reference internal" href="format.html#set_shrink" title="set_shrink"><tt class="xref py py-func docutils literal"><span class="pre">set_shrink()</span></tt></a></td>
 </tr>
-<tr class="row-odd"><td rowspan="3">Pattern</td>
+<tr class="row-odd"><td>Pattern</td>
 <td>Cell pattern</td>
 <td><tt class="docutils literal"><span class="pre">'pattern'</span></tt></td>
 <td><a class="reference internal" href="format.html#set_pattern" title="set_pattern"><tt class="xref py py-func docutils literal"><span class="pre">set_pattern()</span></tt></a></td>
 </tr>
-<tr class="row-even"><td>Background color</td>
+<tr class="row-even"><td>&nbsp;</td>
+<td>Background color</td>
 <td><tt class="docutils literal"><span class="pre">'bg_color'</span></tt></td>
 <td><a class="reference internal" href="format.html#set_bg_color" title="set_bg_color"><tt class="xref py py-func docutils literal"><span class="pre">set_bg_color()</span></tt></a></td>
 </tr>
-<tr class="row-odd"><td>Foreground color</td>
+<tr class="row-odd"><td>&nbsp;</td>
+<td>Foreground color</td>
 <td><tt class="docutils literal"><span class="pre">'fg_color'</span></tt></td>
 <td><a class="reference internal" href="format.html#set_fg_color" title="set_fg_color"><tt class="xref py py-func docutils literal"><span class="pre">set_fg_color()</span></tt></a></td>
 </tr>
-<tr class="row-even"><td rowspan="10">Border</td>
+<tr class="row-even"><td>Border</td>
 <td>Cell border</td>
 <td><tt class="docutils literal"><span class="pre">'border'</span></tt></td>
 <td><a class="reference internal" href="format.html#set_border" title="set_border"><tt class="xref py py-func docutils literal"><span class="pre">set_border()</span></tt></a></td>
 </tr>
-<tr class="row-odd"><td>Bottom border</td>
+<tr class="row-odd"><td>&nbsp;</td>
+<td>Bottom border</td>
 <td><tt class="docutils literal"><span class="pre">'bottom'</span></tt></td>
 <td><a class="reference internal" href="format.html#set_bottom" title="set_bottom"><tt class="xref py py-func docutils literal"><span class="pre">set_bottom()</span></tt></a></td>
 </tr>
-<tr class="row-even"><td>Top border</td>
+<tr class="row-even"><td>&nbsp;</td>
+<td>Top border</td>
 <td><tt class="docutils literal"><span class="pre">'top'</span></tt></td>
 <td><a class="reference internal" href="format.html#set_top" title="set_top"><tt class="xref py py-func docutils literal"><span class="pre">set_top()</span></tt></a></td>
 </tr>
-<tr class="row-odd"><td>Left border</td>
+<tr class="row-odd"><td>&nbsp;</td>
+<td>Left border</td>
 <td><tt class="docutils literal"><span class="pre">'left'</span></tt></td>
 <td><a class="reference internal" href="format.html#set_left" title="set_left"><tt class="xref py py-func docutils literal"><span class="pre">set_left()</span></tt></a></td>
 </tr>
-<tr class="row-even"><td>Right border</td>
+<tr class="row-even"><td>&nbsp;</td>
+<td>Right border</td>
 <td><tt class="docutils literal"><span class="pre">'right'</span></tt></td>
 <td><a class="reference internal" href="format.html#set_right" title="set_right"><tt class="xref py py-func docutils literal"><span class="pre">set_right()</span></tt></a></td>
 </tr>
-<tr class="row-odd"><td>Border color</td>
+<tr class="row-odd"><td>&nbsp;</td>
+<td>Border color</td>
 <td><tt class="docutils literal"><span class="pre">'border_color'</span></tt></td>
 <td><a class="reference internal" href="format.html#set_border_color" title="set_border_color"><tt class="xref py py-func docutils literal"><span class="pre">set_border_color()</span></tt></a></td>
 </tr>
-<tr class="row-even"><td>Bottom color</td>
+<tr class="row-even"><td>&nbsp;</td>
+<td>Bottom color</td>
 <td><tt class="docutils literal"><span class="pre">'bottom_color'</span></tt></td>
 <td><a class="reference internal" href="format.html#set_bottom_color" title="set_bottom_color"><tt class="xref py py-func docutils literal"><span class="pre">set_bottom_color()</span></tt></a></td>
 </tr>
-<tr class="row-odd"><td>Top color</td>
+<tr class="row-odd"><td>&nbsp;</td>
+<td>Top color</td>
 <td><tt class="docutils literal"><span class="pre">'top_color'</span></tt></td>
 <td><a class="reference internal" href="format.html#set_top_color" title="set_top_color"><tt class="xref py py-func docutils literal"><span class="pre">set_top_color()</span></tt></a></td>
 </tr>
-<tr class="row-even"><td>Left color</td>
+<tr class="row-even"><td>&nbsp;</td>
+<td>Left color</td>
 <td><tt class="docutils literal"><span class="pre">'left_color'</span></tt></td>
 <td><a class="reference internal" href="format.html#set_left_color" title="set_left_color"><tt class="xref py py-func docutils literal"><span class="pre">set_left_color()</span></tt></a></td>
 </tr>
-<tr class="row-odd"><td>Right color</td>
+<tr class="row-odd"><td>&nbsp;</td>
+<td>Right color</td>
 <td><tt class="docutils literal"><span class="pre">'right_color'</span></tt></td>
 <td><a class="reference internal" href="format.html#set_right_color" title="set_right_color"><tt class="xref py py-func docutils literal"><span class="pre">set_right_color()</span></tt></a></td>
 </tr>

@@ -100,8 +100,8 @@ Set the italic property of the font::
     format.set_italic()
 
 
-format.set_underline(style)
----------------------------
+format.set_underline()
+----------------------
 
 .. py:function:: set_underline()
 
@@ -204,7 +204,7 @@ Format strings can control any aspect of number formatting allowed by Excel::
 
 .. image:: _static/formats_num_str.png
 
-The number system used for dates is described in 
+The number system used for dates is described in
 :ref:`working_with_dates_and_time`.
 
 The colour format should have one of the following values::

@@ -125,7 +125,7 @@ your source file in also UTF-8 encoded::
 
     # _*_ coding: utf-8
 
-    worksheet.write('A1', u'Это фраза на русском!')
+    worksheet.write('A1', u'Some UTF-8 text')
 
 .. image:: _static/worksheet02.png
 
@@ -594,6 +594,7 @@ worksheet.activate()
 --------------------
 
 .. py:function:: activate()
+
    Make a worksheet the active, i.e., visible worksheet.
 
 The ``activate()`` method is used to specify which worksheet is initially
@@ -617,6 +618,7 @@ worksheet.select()
 ------------------
 
 .. py:function:: select()
+
    Set a worksheet tab as selected.
 
 The ``select()`` method is used to indicate that a worksheet is selected in a

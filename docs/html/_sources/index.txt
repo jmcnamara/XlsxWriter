@@ -1,5 +1,5 @@
-Create Excel files with Python and XlsxWriter
-=============================================
+Creating Excel files with Python and XlsxWriter
+===============================================
 
 XlsxWriter is a Python module for creating Excel XLSX files.
 
@@ -9,6 +9,8 @@ XlsxWriter supports the following features:
 * Write text, numbers, formulas, dates.
 * Full cell formatting.
 * Multiple worksheets.
+* Python 2/3 support. 
+
 
 Here is a small example:
 
@@ -68,7 +70,3 @@ Contents:
    changes.rst
    author.rst
    license.rst
-   
-The XlsxWriter module is a port of the Perl :ref:`ewx` module. It is a work in
-progress.
-

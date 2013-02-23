@@ -1,4 +1,13 @@
 
+
+Release 0.0.6 - February 22 2013
+--------------------------------
+
+* Added page setup method.
+
+    * print_row_col_headers
+
+
 Release 0.0.5 - February 21 2013
 --------------------------------
 

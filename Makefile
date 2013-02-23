@@ -7,11 +7,15 @@
 docs:
 	@make -C dev/docs html
 
+pdf:
+	@make -C dev/docs latexpdf
+
 cleandocs:
 	@make -C dev/docs clean
 
-installdocs: cleandocs docs
+installdocs: cleandocs docs pdf
 	@cp -r dev/docs/build/html docs
+	@cp -r dev/docs/build/latex/XlsxWriter.pdf docs
 
 test:
 	@python -m unittest discover

@@ -16,7 +16,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '',
-        VERSION:     '0.0.5',
+        VERSION:     '0.0.6',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -698,6 +698,23 @@ gridlines:</p>
 <p>If you don&#8217;t supply an argument the default option is 1, i.e. only the
 printed gridlines are hidden.</p>
 </div>
+<div class="section" id="print-row-col-headers">
+<h2>print_row_col_headers()</h2>
+<dl class="function">
+<dt id="print_row_col_headers">
+<tt class="descname">print_row_col_headers</tt><big>(</big><big>)</big></dt>
+<dd><p>Set the option to print the row and column headers on the printed page.</p>
+</dd></dl>
+
+<p>When you print a worksheet from Excel you get the data selected in the print
+area. By default the Excel row and column headers (the row numbers on the left
+and the column letters at the top) aren&#8217;t printed.</p>
+<p>The <tt class="docutils literal"><span class="pre">print_row_col_headers()</span></tt> method sets the printer option to print these
+headers:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">worksheet</span><span class="o">.</span><span class="n">print_row_col_headers</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
 <div class="section" id="worksheet-print-across">
 <h2>worksheet.print_across()</h2>
 <dl class="function">
@@ -750,6 +767,7 @@ to &#8220;across then down&#8221;:</p>
 <li><a class="reference internal" href="#repeat-rows">repeat_rows()</a></li>
 <li><a class="reference internal" href="#repeat-columns">repeat_columns()</a></li>
 <li><a class="reference internal" href="#hide-gridlines">hide_gridlines()</a></li>
+<li><a class="reference internal" href="#print-row-col-headers">print_row_col_headers()</a></li>
 <li><a class="reference internal" href="#worksheet-print-across">worksheet.print_across()</a></li>
 </ul>
 </li>

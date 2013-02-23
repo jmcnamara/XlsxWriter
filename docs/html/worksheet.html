@@ -16,7 +16,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '',
-        VERSION:     '0.0.5',
+        VERSION:     '0.0.6',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -174,7 +174,7 @@ parameter is optional but when present is should be a valid
 your source file in also UTF-8 encoded:</p>
 <div class="highlight-python"><div class="highlight"><pre><span class="c"># _*_ coding: utf-8</span>
 
-<span class="n">worksheet</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s">&#39;A1&#39;</span><span class="p">,</span> <span class="s">u&#39;Это фраза на русском!&#39;</span><span class="p">)</span>
+<span class="n">worksheet</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s">&#39;A1&#39;</span><span class="p">,</span> <span class="s">u&#39;Some UTF-8 text&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
 <img alt="_images/worksheet02.png" src="_images/worksheet02.png" />
@@ -669,9 +669,8 @@ column has the collapsed <tt class="docutils literal"><span class="pre">'+'</spa
 <dl class="function">
 <dt id="activate">
 <tt class="descname">activate</tt><big>(</big><big>)</big></dt>
-<dt>
-<tt class="descname">Make a worksheet the active, i.e., visible worksheet.</tt></dt>
-<dd></dd></dl>
+<dd><p>Make a worksheet the active, i.e., visible worksheet.</p>
+</dd></dl>
 
 <p>The <tt class="docutils literal"><span class="pre">activate()</span></tt> method is used to specify which worksheet is initially
 visible in a multi-sheet workbook:</p>
@@ -692,9 +691,8 @@ however only one worksheet can be active.</p>
 <dl class="function">
 <dt id="select">
 <tt class="descname">select</tt><big>(</big><big>)</big></dt>
-<dt>
-<tt class="descname">Set a worksheet tab as selected.</tt></dt>
-<dd></dd></dl>
+<dd><p>Set a worksheet tab as selected.</p>
+</dd></dl>
 
 <p>The <tt class="docutils literal"><span class="pre">select()</span></tt> method is used to indicate that a worksheet is selected in a
 multi-sheet workbook:</p>
