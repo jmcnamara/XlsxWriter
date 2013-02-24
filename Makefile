@@ -42,4 +42,5 @@ release: releasecheck
 	@git push origin master
 	@git push --tags
 	@python setup.py sdist upload
+	@curl -X POST http://readthedocs.org/build/6277
 
