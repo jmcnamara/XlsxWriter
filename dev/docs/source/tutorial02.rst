@@ -18,8 +18,11 @@ The differences here are that we have added **Item** and **Cost** column
 headers in a bold font, we have formatted the currency in the second column
 and we have made the **Total** string bold.
 
-To do this we can extend our program like this (the significant changes are
-shown with a red line):
+To do this we can extend our program as follows:
+
+.. only:: html
+
+   (The significant changes are shown with a red line.)
 
 .. code-block:: python
    :emphasize-lines: 7-15, 32, 36-37

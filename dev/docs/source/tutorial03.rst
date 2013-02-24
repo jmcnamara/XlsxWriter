@@ -24,8 +24,11 @@ The corresponding spreadsheet will look like this:
 The differences here are that we have added a **Date** column, formatted the
 dates and made column 'B' a little wider to accommodate the dates.
 
-To do this we can extend our program like this (the significant changes are
-shown with a red line):
+To do this we can extend our program as follows:
+
+.. only:: html
+
+   (The significant changes are shown with a red line.)
 
 .. code-block:: python
    :emphasize-lines: 1, 15, 18, 27-30, 39-43

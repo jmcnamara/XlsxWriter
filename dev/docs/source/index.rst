@@ -46,7 +46,12 @@ Which generates a worksheet like this:
 
 This document explains how to install and use the XlsxWriter module.
 
-Contents:
+.. only:: html
+
+   .. toctree::
+      :maxdepth: 1
+      
+      contents.rst
 
 .. toctree::
    :maxdepth: 1

@@ -8,6 +8,20 @@ use warnings;
 
 while (<>) {
 
+    # Convert escaped single quotes back to real single quote so that
+    # the Latex upquote package has an effect.
+    s/\\PYGZsq{}/'/g;
+
+
+    # Modify the Pygments formatting.
+    #
+    # Remove italic.
+    s/\\let\\PYG\@it=\\textit//g;
+
+    # Change the comments color.
+    s/0\.25,0\.50,0\.56/0.40,0.69,0.33/;
+
+
     # Change scale of images and center them.
     if ( s/^\\includegraphics/\\includegraphics[scale=0.75]/ ) {
         print "\\begin{center}\n";

@@ -47,7 +47,9 @@ Compatibility with Excel::Writer::XLSX
 --------------------------------------
 
 Porting of ``Excel::Writer::XLSX`` to ``XlsxWriter`` is a work in progress. The
-following table shows the level of compatibility between the two module:
+following table shows the level of compatibility between the two module.
+
+**Workbook**
 
 +-----------------------------+----------------+---------------------+
 |   Workbook Methods          | XlsxWriter     | Excel::Writer::XLSX |
@@ -80,6 +82,8 @@ following table shows the level of compatibility between the two module:
 +-----------------------------+----------------+---------------------+
 |   set_optimization()        | **No**         | Yes                 |
 +-----------------------------+----------------+---------------------+
+
+**Worksheet**
 
 +-----------------------------+----------------+---------------------+
 |   Worksheet Methods         | XlsxWriter     | Excel::Writer::XLSX |
@@ -175,6 +179,9 @@ following table shows the level of compatibility between the two module:
 |   filter_column_list()      | **No**         | Yes                 |
 +-----------------------------+----------------+---------------------+
 
+
+**Page Setup**
+
 +-----------------------------+----------------+---------------------+
 |   Page Set-up Methods       | XlsxWriter     | Excel::Writer::XLSX |
 +=============================+================+=====================+
@@ -218,6 +225,8 @@ following table shows the level of compatibility between the two module:
 +-----------------------------+----------------+---------------------+
 |   set_v_pagebreaks()        | **No**         | Yes                 |
 +-----------------------------+----------------+---------------------+
+
+**Format**
 
 +-----------------------------+----------------+---------------------+
 |   Format Methods            | XlsxWriter     | Excel::Writer::XLSX |
