@@ -992,6 +992,20 @@ class Worksheet(xmlwriter.XMLwriter):
                                        last_row, last_col)
         self.print_area_range = area
 
+    def print_across(self):
+        """
+        Set the order in which pages are printed.
+
+        Args:
+            None.
+
+        Returns:
+            Nothing.
+
+        """
+        self.page_order = 1
+        self.page_setup_changed = 1
+
     def fit_to_pages(self, width, height):
         """
         Fit the printed area to a specific number of pages both vertically and
@@ -1010,19 +1024,20 @@ class Worksheet(xmlwriter.XMLwriter):
         self.fit_height = height
         self.page_setup_changed = 1
 
-    def print_across(self):
+    def set_start_page(self, start_page):
         """
-        Set the order in which pages are printed.
+        Set the start page number when printing.
 
         Args:
-            None.
+            start_page: Start page number.
 
         Returns:
             Nothing.
 
         """
-        self.page_order = 1
-        self.page_setup_changed = 1
+        self.page_start = start_page
+        self.custom_start = 1
+
 
     ###########################################################################
     #
@@ -1537,6 +1552,10 @@ class Worksheet(xmlwriter.XMLwriter):
             attributes.append(('orientation', 'portrait'))
         else:
             attributes.append(('orientation', 'landscape'))
+
+        # Set start page for printing.
+        if self.page_start != 0:
+            attributes.append(('useFirstPageNumber', self.page_start))
 
         self._xml_empty_tag('pageSetup', attributes)
 

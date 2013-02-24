@@ -513,4 +513,21 @@ zero::
    When using :func:`fit_to_pages()` it may also be required to set the
    printer paper size using :func:`set_paper()` or else Excel will default
    to "US Letter".
+
+
+set_start_page()
+----------------
+
+.. py:function:: set_start_page()
+
+   Set the start page number when printing.
+
+   :param int start_page:  Starting page number.
+
+The ``set_start_page()`` method is used to set the number of the starting page
+when the worksheet is printed out::
+
+    worksheet.set_start_page(2)
+
+
   
