@@ -262,6 +262,8 @@ class Worksheet(xmlwriter.XMLwriter):
         self.is_chartsheet = 0
         self.page_view = 0
 
+        self.vba_codename = None
+
         self.date_1904 = False
         self.epoch = datetime.datetime(1899, 12, 31)
 
@@ -990,6 +992,24 @@ class Worksheet(xmlwriter.XMLwriter):
                                        last_row, last_col)
         self.print_area_range = area
 
+    def fit_to_pages(self, width, height):
+        """
+        Fit the printed area to a specific number of pages both vertically and
+        horizontally.
+
+        Args:
+            width:  Number of pages horizontally.
+            height: Number of pages vertically.
+
+        Returns:
+            Nothing.
+
+        """
+        self.fit_page = 1
+        self.fit_width = width
+        self.fit_height = height
+        self.page_setup_changed = 1
+
     def print_across(self):
         """
         Set the order in which pages are printed.
@@ -1026,7 +1046,7 @@ class Worksheet(xmlwriter.XMLwriter):
         self._write_worksheet()
 
         # Write the worksheet properties.
-        # self._write_sheet_pr()
+        self._write_sheet_pr()
 
         # Write the worksheet dimensions.
         self._write_dimension()
@@ -1837,3 +1857,70 @@ class Worksheet(xmlwriter.XMLwriter):
         ]
 
         self._xml_data_element('f', formula, attributes)
+
+    def _write_sheet_pr(self):
+        # Write the <sheetPr> element for Sheet level properties.
+        attributes = []
+
+        if (not self.fit_page
+                and not self.filter_on
+                and not self.tab_color
+                and not self.outline_changed
+                and not self.vba_codename):
+            return
+
+        if self.vba_codename:
+            attributes.append(('codeName', self.vba_codename))
+
+        if self.filter_on:
+            attributes.append(('filterMode', 1))
+
+        if (self.fit_page
+                or self.tab_color
+                or self.outline_changed):
+            self._xml_start_tag('sheetPr', attributes)
+            self._write_tab_color()
+            self._write_outline_pr()
+            self._write_page_set_up_pr()
+            self._xml_end_tag('sheetPr')
+        else:
+            self._xml_empty_tag('sheetPr', attributes)
+
+    def _write_page_set_up_pr(self):
+        # Write the <pageSetUpPr> element.
+        if not self.fit_page:
+            return
+
+        attributes = [('fitToPage', 1)]
+        self._xml_empty_tag('pageSetUpPr', attributes)
+
+    def _write_tab_color(self):
+        # Write the <tabColor> element.
+        color_index = self.tab_color
+
+        if not color_index:
+            return
+
+        rgb = self._get_palette_color(color_index)
+
+        attributes = [('rgb', rgb)]
+
+        self._xml_empty_tag('tabColor', attributes)
+
+    def _write_outline_pr(self):
+        # Write the <outlinePr> element.
+        attributes = []
+
+        if not self.outline_changed:
+            return
+
+        if self.outline_style:
+            attributes.append(("applyStyles", 1))
+        if not self.outline_below:
+            attributes.append(("summaryBelow", 0))
+        if not self.outline_right:
+            attributes.append(("summaryRight", 0))
+        if not self.outline_on:
+            attributes.append(("showOutlineSymbols", 0))
+
+        self._xml_empty_tag('outlinePr', attributes)

@@ -469,4 +469,48 @@ to "across then down"::
     [1] [2]
     [3] [4]
 
-    
+fit_to_pages()
+--------------
+
+.. py:function:: fit_to_pages(width, height)
+
+   Fit the printed area to a specific number of pages both vertically and
+   horizontally.
+
+   :param int width:  Number of pages horizontally.
+   :param int height: Number of pages vertically.
+
+The ``fit_to_pages()`` method is used to fit the printed area to a specific 
+number of pages both vertically and horizontally. If the printed area exceeds
+the specified number of pages it will be scaled down to fit. This ensures
+that the printed area will always appear on the specified number of pages
+even if the page size or margins change::
+
+    worksheet1.fit_to_pages(1, 1)  # Fit to 1x1 pages.
+    worksheet2.fit_to_pages(2, 1)  # Fit to 2x1 pages.
+    worksheet3.fit_to_pages(1, 2)  # Fit to 1x2 pages.
+
+The print area can be defined using the ``print_area()`` method as described
+above.
+
+A common requirement is to fit the printed output to ``n`` pages wide but have
+the height be as long as necessary. To achieve this set the ``height`` to 
+zero::
+
+    worksheet1.fit_to_pages(1, 0)  # 1 page wide and as long as necessary.
+
+.. Note::
+   Although it is valid to use both :func:`fit_to_pages()` and
+   :func:`set_print_scale()` on the same worksheet only one of these options
+   can be active at a time. The last method call made will set the active
+   option.
+
+.. Note::
+   The :func:`fit_to_pages()` will override any manual page breaks that are
+   defined in the worksheet.
+
+.. Note::
+   When using :func:`fit_to_pages()` it may also be required to set the
+   printer paper size using :func:`set_paper()` or else Excel will default
+   to "US Letter".
+  
