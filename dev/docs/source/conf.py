@@ -194,13 +194,7 @@ latex_elements = {
 'pointsize': '11pt',
 
 # Additional stuff for the LaTeX preamble.
-'preamble': r"""% Added by Sphinx conf.py
-\usepackage{upquote}
-\usepackage{DejaVuSansMono}
-\usepackage[T1]{fontenc}
-\usepackage{helvet}
-\renewcommand{\familydefault}{\sfdefault}
-""",
+'preamble': '',
 }
 
 # Grouping the document tree into LaTeX files. List of tuples

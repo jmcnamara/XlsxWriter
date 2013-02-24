@@ -41,6 +41,16 @@ while (<>) {
     if ( /^\\end{Verbatim}/ ) {
         print "\\end{quote}\n";
     }
+
+    # Modifiy the pre-amble. We could do this in the Sphinx conf.py
+    # but ReadTheDocs doesn't support the fonts.
+    if ( /^\\usepackage{sphinx}/ ) {
+        print "\\usepackage{upquote}\n";
+        print "\\usepackage{DejaVuSansMono}\n";
+        print "\\usepackage[T1]{fontenc}\n";
+        print "\\usepackage{helvet}\n";
+        print "\\renewcommand{\\familydefault}{\\sfdefault}\n";
+    }
 }
 
 
