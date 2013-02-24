@@ -403,7 +403,7 @@ printed gridlines are hidden.
 
 
 print_row_col_headers()
----------------------------
+-----------------------
 
 .. py:function:: print_row_col_headers()
 
@@ -417,6 +417,32 @@ The ``print_row_col_headers()`` method sets the printer option to print these
 headers::
 
     worksheet.print_row_col_headers()
+
+print_area()
+------------
+
+.. py:function:: print_area(first_row, first_col, last_row, last_col)                                 last_col)
+
+   Set the print area in the current worksheet.
+
+   :param first_row:   The first row of the range. (All zero indexed.)
+   :param first_col:   The first column of the range.
+   :param last_row:    The last row of the range.
+   :param last_col:    The last col of the range.
+   :param formula:     Array formula to write to cell.
+   :type  first_row:   integer
+   :type  first_col:   integer
+   :type  last_row:    integer
+   :type  last_col:    integer
+
+This method is used to specify the area of the worksheet that will be printed.
+
+All four parameters must be specified. You can also use A1 notation, see
+:ref:`cell_notation`::
+
+    worksheet1.print_area('A1:H20')     # Cells A1 to H20.
+    worksheet2.print_area(0, 0, 19, 7)  # The same as above.
+    worksheet3.print_area('A:H')        # Columns A to H if rows have data.
 
 
 worksheet.print_across()

@@ -170,7 +170,7 @@ class Worksheet(xmlwriter.XMLwriter):
 
         self.repeat_row_range = ''
         self.repeat_col_range = ''
-        self.print_area = ''
+        self.print_area_range = ''
 
         self.page_order = 0
         self.black_white = 0
@@ -463,19 +463,19 @@ class Worksheet(xmlwriter.XMLwriter):
         return 0
 
     @convert_range_args
-    def write_array_formula(self, firstrow, firstcol, lastrow, lastcol,
+    def write_array_formula(self, first_row, first_col, last_row, last_col,
                             formula, cell_format=None, value=0):
         """
         Write a formula to a worksheet cell.
 
         Args:
-            firstrow:    The first row of the cell range. (zero indexed).
-            firstcol:    The first column of the cell range.
-            lastrow:     The last row of the cell range. (zero indexed).
-            lastcol:     The last column of the cell range.
-            formula:     Cell formula.
-            cell_format: An optional cell Format object.
-            value:       An optional value for the formula. Default is 0.
+            first_row:    The first row of the cell range. (zero indexed).
+            first_col:    The first column of the cell range.
+            last_row:     The last row of the cell range. (zero indexed).
+            last_col:     The last column of the cell range.
+            formula:      Cell formula.
+            cell_format:  An optional cell Format object.
+            value:        An optional value for the formula. Default is 0.
 
         Returns:
             0:  Success.
@@ -484,21 +484,21 @@ class Worksheet(xmlwriter.XMLwriter):
         """
 
         # Swap last row/col with first row/col as necessary.
-        if firstrow > lastrow:
-            firstrow, lastrow = lastrow, firstrow
-        if firstcol > lastcol:
-            firstcol, lastcol = lastcol, firstcol
+        if first_row > last_row:
+            first_row, last_row = last_row, first_row
+        if first_col > last_col:
+            first_col, last_col = last_col, first_col
 
         # Check that row and col are valid and store max and min values
-        if self._check_dimensions(lastrow, lastcol):
+        if self._check_dimensions(last_row, last_col):
             return -1
 
         # Define array range
-        if firstrow == lastrow and firstcol == lastcol:
-            cell_range = xl_rowcol_to_cell(firstrow, firstcol)
+        if first_row == last_row and first_col == last_col:
+            cell_range = xl_rowcol_to_cell(first_row, first_col)
         else:
-            cell_range = (xl_rowcol_to_cell(firstrow, firstcol) + ':'
-                          + xl_rowcol_to_cell(lastrow, lastcol))
+            cell_range = (xl_rowcol_to_cell(first_row, first_col) + ':'
+                          + xl_rowcol_to_cell(last_row, last_col))
 
         # Remove array formula braces and the leading =.
         if formula[0] == '{':
@@ -509,20 +509,20 @@ class Worksheet(xmlwriter.XMLwriter):
             formula = formula[:-1]
 
         # Write previous row if in in-line string optimization mode.
-        if self.optimization and firstrow > self.previous_row:
-            self._write_single_row(firstrow)
+        if self.optimization and first_row > self.previous_row:
+            self._write_single_row(first_row)
 
         # Store the cell data in the worksheet data table.
         cell_tuple = namedtuple('ArrayFormula',
                                 'formula, format, value, range')
-        self.table[firstrow][firstcol] = cell_tuple(formula, cell_format,
+        self.table[first_row][first_col] = cell_tuple(formula, cell_format,
                                                     value, cell_range)
 
         # Pad out the rest of the area with formatted zeroes.
         if not self.optimization:
-            for row in range(firstrow, lastrow + 1):
-                for col in range(firstcol, lastcol + 1):
-                    if row != firstrow or col != firstcol:
+            for row in range(first_row, last_row + 1):
+                for col in range(first_col, last_col + 1):
+                    if row != first_row or col != first_col:
                         self.write_number(row, col, 0, cell_format)
 
         return 0
@@ -961,6 +961,35 @@ class Worksheet(xmlwriter.XMLwriter):
         self.print_headers = 1
         self.print_options_changed = 1
 
+    @convert_range_args
+    def print_area(self, first_row, first_col, last_row, last_col):
+        """
+        Set the print area in the current worksheet.
+
+        Args:
+            first_row:    The first row of the cell range. (zero indexed).
+            first_col:    The first column of the cell range.
+            last_row:     The last row of the cell range. (zero indexed).
+            last_col:     The last column of the cell range.
+
+        Returns:
+            0:  Success.
+            -1: Row or column is out of worksheet bounds.
+
+        """
+        # Set the print area in the current worksheet.
+
+        # Ignore max print area since it is the same as no  area for Excel.
+        if (first_row == 0  and first_col == 0
+                and last_row == self.xls_rowmax - 1
+                and last_col == self.xls_colmax - 1):
+            return
+
+        # Build up the print area range "Sheet1!$A$1:$C$13".
+        area = self._convert_name_area(first_row, first_col,
+                                       last_row, last_col)
+        self.print_area_range = area
+
     def print_across(self):
         """
         Set the order in which pages are printed.
@@ -1186,6 +1215,46 @@ class Worksheet(xmlwriter.XMLwriter):
             return sheetname
         else:
             return "'{}'".format(sheetname)
+
+    def _convert_name_area(self, row_num_1, col_num_1, row_num_2, col_num_2):
+        # Convert zero indexed rows and columns to the format required by
+        # worksheet named ranges, eg, "Sheet1!$A$1:$C$13".
+
+        range1 = ''
+        range2 = ''
+        area = ''
+        row_col_only = 0
+
+        # Convert to A1 notation.
+        col_char_1 = xl_col_to_name(col_num_1, 1)
+        col_char_2 = xl_col_to_name(col_num_2, 1)
+        row_char_1 = '$' + str(row_num_1 + 1)
+        row_char_2 = '$' + str(row_num_2 + 1)
+
+        # We need to handle special cases that refer to rows or columns only.
+        if row_num_1 == 0 and row_num_2 == self.xls_rowmax - 1:
+            range1 = col_char_1
+            range2 = col_char_2
+            row_col_only = 1
+        elif col_num_1 == 0 and col_num_2 == self.xls_colmax - 1:
+            range1 = row_char_1
+            range2 = row_char_2
+            row_col_only = 1
+        else:
+            range1 = col_char_1 + row_char_1
+            range2 = col_char_2 + row_char_2
+
+        # A repeated range is only written once (if it isn't a special case).
+        if range1 == range2 and not row_col_only:
+            area = range1
+        else:
+            area = range1 + ':' + range2
+
+        # Build up the print area range "Sheet1!$A$1:$C$13".
+        sheetname = self._quote_sheetname(self.name)
+        area = sheetname + "!" + area
+
+        return area
 
     ###########################################################################
     #

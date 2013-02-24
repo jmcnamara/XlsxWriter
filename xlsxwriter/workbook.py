@@ -511,9 +511,9 @@ class Workbook(xmlwriter.XMLwriter):
                                       sheet.index, sheet_range, hidden])
 
             # Check for Print Area settings.
-            if sheet.print_area:
+            if sheet.print_area_range:
                 hidden = 0
-                sheet_range = sheet.print_area
+                sheet_range = sheet.print_area_range
                 # Store the defined names.
                 defined_names.append(['_xlnm.Print_Area',
                                       sheet.index, sheet_range, hidden])
