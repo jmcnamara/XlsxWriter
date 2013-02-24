@@ -31,7 +31,6 @@ class TestCompareXLSXFiles(unittest.TestCase):
         self.ignore_elements = {'[Content_Types].xml': ['<Default Extension="bin"'],
                                 'xl/worksheets/sheet1.xml': ['<pageMargins', '<pageSetup']}
 
-
     def test_create_file(self):
         """Test the creation of a simple XlsxWriter file with a print area."""
         filename = self.got_filename

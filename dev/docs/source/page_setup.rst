@@ -529,5 +529,28 @@ when the worksheet is printed out::
 
     worksheet.set_start_page(2)
 
+set_print_scale()
+-----------------
+
+.. py:function:: set_print_scale()
+
+   Set the scale factor for the printed page.
+
+   :param int scale: Print scale of worksheet to be printed.
+
+Set the scale factor of the printed page. Scale factors in the range
+``10 <= $scale <= 400`` are valid::
+
+    worksheet1.set_print_scale(50)
+    worksheet2.set_print_scale(75)
+    worksheet3.set_print_scale(300)
+    worksheet4.set_print_scale(400)
+
+The default scale factor is 100. Note, ``set_print_scale()`` does not affect
+the scale of the visible page in Excel. For that you should use ``set_zoom()``.
+
+Note also that although it is valid to use both ``fit_to_pages()`` and
+``set_print_scale()`` on the same worksheet only one of these options can
+be active at a time. The last method call made will set the active option.
 
   

@@ -33,7 +33,7 @@ testpythons:
 
 pep8:
 	@ls -1 xlsxwriter/*.py | grep -v theme.py | xargs pep8
-	@find xlsxwriter/test/ -name \*.py | xargs pep8 --ignore=E501
+	@find xlsxwriter/test -name \*.py | xargs pep8 --ignore=E501
 
 releasecheck:
 	@dev/release/release_check.sh

@@ -8,6 +8,7 @@
 # Standard packages.
 import re
 import datetime
+import warnings
 from collections import defaultdict
 from collections import namedtuple
 
@@ -518,7 +519,7 @@ class Worksheet(xmlwriter.XMLwriter):
         cell_tuple = namedtuple('ArrayFormula',
                                 'formula, format, value, range')
         self.table[first_row][first_col] = cell_tuple(formula, cell_format,
-                                                    value, cell_range)
+                                                      value, cell_range)
 
         # Pad out the rest of the area with formatted zeroes.
         if not self.optimization:
@@ -847,7 +848,9 @@ class Worksheet(xmlwriter.XMLwriter):
 
         """
         if len(header) >= 255:
-            raise Exception('Header string must be less than 255 characters')
+            warnings.warn('Header string must be less than 255 characters',
+                          SyntaxWarning)
+            return
 
         self.header = header
         self.margin_header = margin
@@ -866,7 +869,9 @@ class Worksheet(xmlwriter.XMLwriter):
 
         """
         if len(footer) >= 255:
-            raise Exception('Footer string must be less than 255 characters')
+            warnings.warn('Footer string must be less than 255 characters',
+                          SyntaxWarning)
+            return
 
         self.footer = footer
         self.margin_footer = margin
@@ -982,7 +987,7 @@ class Worksheet(xmlwriter.XMLwriter):
         # Set the print area in the current worksheet.
 
         # Ignore max print area since it is the same as no  area for Excel.
-        if (first_row == 0  and first_col == 0
+        if (first_row == 0 and first_col == 0
                 and last_row == self.xls_rowmax - 1
                 and last_col == self.xls_colmax - 1):
             return
@@ -1038,13 +1043,34 @@ class Worksheet(xmlwriter.XMLwriter):
         self.page_start = start_page
         self.custom_start = 1
 
+    def set_print_scale(self, scale):
+        """
+        Set the scale factor for the printed page.
+
+        Args:
+            scale: Print scale. 10 <= scale <= 400.
+
+        Returns:
+            Nothing.
+
+        """
+        # Confine the scale to Excel's range.
+        if scale < 10 or scale > 400:
+            warnings.warn("Print scale outside range: 10 <= scale <= 400",
+                          SyntaxWarning)
+            return
+
+        # Turn off "fit to page" option when print scale is on.
+        self.fit_page = 0
+
+        self.print_scale = int(scale)
+        self.page_setup_changed = 1
 
     ###########################################################################
     #
     # Private API.
     #
     ###########################################################################
-
     def _initialize(self, init_data):
         self.name = init_data['name']
         self.index = init_data['index']

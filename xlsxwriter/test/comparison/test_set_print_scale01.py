@@ -20,7 +20,7 @@ class TestCompareXLSXFiles(unittest.TestCase):
     def setUp(self):
         self.maxDiff = None
 
-        filename = 'fit_to_pages03.xlsx'
+        filename = 'set_print_scale01.xlsx'
 
         test_dir = 'xlsxwriter/test/comparison/'
         self.got_filename = test_dir + '_test_' + filename
@@ -29,10 +29,10 @@ class TestCompareXLSXFiles(unittest.TestCase):
         self.ignore_files = ['xl/printerSettings/printerSettings1.bin',
                              'xl/worksheets/_rels/sheet1.xml.rels']
         self.ignore_elements = {'[Content_Types].xml': ['<Default Extension="bin"'],
-                                'xl/worksheets/sheet1.xml': ['<pageMargins', '<pageSetup']}
+                                'xl/worksheets/sheet1.xml': ['<pageMargins']}
 
     def test_create_file(self):
-        """Test the creation of a simple XlsxWriter file with fit to print."""
+        """Test the creation of a simple XlsxWriter file with printer settings."""
         filename = self.got_filename
 
         ####################################################
@@ -41,7 +41,7 @@ class TestCompareXLSXFiles(unittest.TestCase):
 
         worksheet = workbook.add_worksheet()
 
-        worksheet.fit_to_pages(1, 2)
+        worksheet.set_print_scale(110)
         worksheet.set_paper(9)
 
         worksheet.write('A1', 'Foo')

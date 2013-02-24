@@ -32,7 +32,7 @@ class TestCompareXLSXFiles(unittest.TestCase):
                                 'xl/worksheets/sheet1.xml': ['<pageMargins']}
 
     def test_create_file(self):
-        """Test the creation of a simple XlsxWriter file with a print area."""
+        """Test the creation of a simple XlsxWriter file with printer settings."""
         filename = self.got_filename
 
         ####################################################
