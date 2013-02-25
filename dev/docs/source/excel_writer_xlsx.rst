@@ -160,9 +160,9 @@ following table shows the level of compatibility between the two module.
 +-----------------------------+----------------+---------------------+
 |   split_panes()             | **No**         | Yes                 |
 +-----------------------------+----------------+---------------------+
-|   merge_range()             | **No**         | Yes                 |
+|   merge_range()             | Yes            | Yes                 |
 +-----------------------------+----------------+---------------------+
-|   merge_range_type()        | **No**         | Yes                 |
+|   merge_range_type()        | **No** (1)     | Yes                 |
 +-----------------------------+----------------+---------------------+
 |   set_zoom()                | **No**         | Yes                 |
 +-----------------------------+----------------+---------------------+
@@ -179,6 +179,7 @@ following table shows the level of compatibility between the two module.
 |   filter_column_list()      | **No**         | Yes                 |
 +-----------------------------+----------------+---------------------+
 
+1. Not required in XlsxWriter.
 
 **Page Setup**
 

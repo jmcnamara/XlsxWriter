@@ -7,6 +7,7 @@ XlsxWriter supports the following features:
 * Full cell formatting.
 * Multiple worksheets.
 * Page setup methods for printing.
+* Merged cells.
 * Python 2/3 support.
 
 Here is a small example::

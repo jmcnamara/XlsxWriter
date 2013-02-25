@@ -1,5 +1,13 @@
 
 
+Release 0.0.8 - February 28 2013
+--------------------------------
+
+* Added the :func:`merge_range` method to merge worksheet cells.
+
+    * merge_range()
+
+
 Release 0.0.7 - February 25 2013
 --------------------------------
 

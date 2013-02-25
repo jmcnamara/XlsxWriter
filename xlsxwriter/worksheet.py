@@ -727,6 +727,57 @@ class Worksheet(xmlwriter.XMLwriter):
         # Store the row sizes for use when calculating image vertices.
         self.row_sizes[row] = height
 
+    @convert_range_args
+    def merge_range(self, first_row, first_col, last_row, last_col,
+                    data, cell_format=None):
+        """
+        Merge a range of cells.
+
+        Args:
+            first_row:    The first row of the cell range. (zero indexed).
+            first_col:    The first column of the cell range.
+            last_row:     The last row of the cell range. (zero indexed).
+            last_col:     The last column of the cell range.
+            data:         Cell data.
+            cell_format:  Cell Format object.
+
+        Returns:
+             0:    Success.
+            -1:    Row or column is out of worksheet bounds.
+            other: Return value of write().
+
+        """
+        # Merge a range of cells. The first cell should contain the data and
+        # the others should be blank. All cells should have the same format.
+
+        # Excel doesn't allow a single cell to be merged
+        if first_row == last_row and first_col == last_col:
+            warnings.warn("Can't merge single cell", SyntaxWarning)
+            return
+
+        # Swap last row/col with first row/col as necessary
+        if first_row > last_row:
+            (first_row, last_row) = (last_row, first_row)
+        if first_col > last_col:
+            (first_col, last_col) = (last_col, first_col)
+
+        # Check that column number is valid and store the max value
+        if self._check_dimensions(last_row, first_col):
+            return
+
+        # Store the merge range.
+        self.merge.append([first_row, first_col, last_row, last_col])
+
+        # Write the first cell
+        self.write(first_row, first_col, data, cell_format)
+
+        # Pad out the rest of the area with formatted blank cells.
+        for row in range(first_row, last_row + 1):
+            for col in range(first_col, last_col + 1):
+                if row == first_row and col == first_col:
+                    continue
+                self.write_blank(row, col, '', cell_format)
+
     ###########################################################################
     #
     # Public API. Page Setup methods.
@@ -1152,7 +1203,7 @@ class Worksheet(xmlwriter.XMLwriter):
         # self._write_auto_filter()
 
         # Write the mergeCells element.
-        # self._write_merge_cells()
+        self._write_merge_cells()
 
         # Write the conditional formats.
         # self._write_conditional_formats()
@@ -2077,3 +2128,35 @@ class Worksheet(xmlwriter.XMLwriter):
             ('man', 1)]
 
         self._xml_empty_tag('brk', attributes)
+
+    def _write_merge_cells(self):
+        # Write the <mergeCells> element.
+        merged_cells = self.merge
+        count = len(merged_cells)
+
+        if not count:
+            return
+
+        attributes = [('count', count)]
+
+        self._xml_start_tag('mergeCells', attributes)
+
+        for merged_range in (merged_cells):
+
+            # Write the mergeCell element.
+            self._write_merge_cell(merged_range)
+
+        self._xml_end_tag('mergeCells')
+
+    def _write_merge_cell(self, merged_range):
+        # Write the <mergeCell> element.
+        (row_min, col_min, row_max, col_max) = merged_range
+
+        # Convert the merge dimensions to a cell range.
+        cell_1 = xl_rowcol_to_cell(row_min, col_min)
+        cell_2 = xl_rowcol_to_cell(row_max, col_max)
+        ref = cell_1 + ':' + cell_2
+
+        attributes = [('ref', ref)]
+
+        self._xml_empty_tag('mergeCell', attributes)
