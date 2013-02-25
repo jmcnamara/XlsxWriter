@@ -16,7 +16,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '',
-        VERSION:     '0.0.7',
+        VERSION:     '0.0.8',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -706,6 +706,58 @@ grouping them together so that, for example, several worksheets could be
 printed in one go. A worksheet that has been activated via the <tt class="docutils literal"><span class="pre">activate()</span></tt>
 method will also appear as selected.</p>
 </div>
+<div class="section" id="merge-range">
+<h2>merge_range()</h2>
+<dl class="function">
+<dt id="merge_range">
+<tt class="descname">merge_range</tt><big>(</big><em>first_row</em>, <em>first_col</em>, <em>last_row</em>, <em>last_col</em>, <em>cell_format</em><big>)</big></dt>
+<dd><p>Merge a range of cells.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>first_row</strong> (<em>integer</em>) &#8211; The first row of the range. (All zero indexed.)</li>
+<li><strong>first_col</strong> (<em>integer</em>) &#8211; The first column of the range.</li>
+<li><strong>last_row</strong> (<em>integer</em>) &#8211; The last row of the range.</li>
+<li><strong>last_col</strong> (<em>integer</em>) &#8211; The last col of the range.</li>
+<li><strong>data</strong> &#8211; Cell data to write. Variable types.</li>
+<li><strong>cell_format</strong> (<a class="reference internal" href="format.html#format"><em>Format</em></a>) &#8211; Optional Format object.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<p>The <tt class="docutils literal"><span class="pre">merge_range()</span></tt> method allows cells to be merged together so that they
+act as a single area.</p>
+<p>Excel generally merges and centers cells at same time. To get similar
+behaviour with XlsxWriter you need to apply a <a class="reference internal" href="format.html#format"><em>Format</em></a>:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">merge_format</span> <span class="o">=</span> <span class="n">workbook</span><span class="o">.</span><span class="n">add_format</span><span class="p">({</span><span class="s">&#39;align&#39;</span><span class="p">:</span> <span class="s">&#39;center&#39;</span><span class="p">})</span>
+
+<span class="n">worksheet</span><span class="o">.</span><span class="n">merge_range</span><span class="p">(</span><span class="s">&#39;B3:D4&#39;</span><span class="p">,</span> <span class="s">&#39;Merged Cells&#39;</span><span class="p">,</span> <span class="n">merge_format</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>It is possible to apply other formatting to the merged cells as well:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">merge_format</span> <span class="o">=</span> <span class="n">workbook</span><span class="o">.</span><span class="n">add_format</span><span class="p">({</span>
+    <span class="s">&#39;bold&#39;</span><span class="p">:</span>     <span class="bp">True</span><span class="p">,</span>
+    <span class="s">&#39;border&#39;</span><span class="p">:</span>   <span class="mi">6</span><span class="p">,</span>
+    <span class="s">&#39;align&#39;</span><span class="p">:</span>    <span class="s">&#39;center&#39;</span><span class="p">,</span>
+    <span class="s">&#39;valign&#39;</span><span class="p">:</span>   <span class="s">&#39;vcenter&#39;</span><span class="p">,</span>
+    <span class="s">&#39;fg_color&#39;</span><span class="p">:</span> <span class="s">&#39;#D7E4BC&#39;</span><span class="p">,</span>
+<span class="p">})</span>
+
+<span class="n">worksheet</span><span class="o">.</span><span class="n">merge_range</span><span class="p">(</span><span class="s">&#39;B3:D4&#39;</span><span class="p">,</span> <span class="s">&#39;Merged Cells&#39;</span><span class="p">,</span> <span class="n">merge_format</span><span class="p">)</span>
+</pre></div>
+</div>
+<img alt="_images/merge_range.png" src="_images/merge_range.png" />
+<p>The <tt class="docutils literal"><span class="pre">merge_range()</span></tt> method writes its <tt class="docutils literal"><span class="pre">data</span></tt> argument using
+<a class="reference internal" href="#write" title="write"><tt class="xref py py-func docutils literal"><span class="pre">write()</span></tt></a>. Therefore it will handle numbers, strings and formulas as
+usual. If this doesn&#8217;t handle you data correctly then you can overwrite the
+first cell with a call to one of the other <tt class="docutils literal"><span class="pre">write_*()</span></tt> methods using the
+same <a class="reference internal" href="format.html#format"><em>Format</em></a> as in the merged cells.</p>
+</div>
 </div>
 
 
@@ -731,6 +783,7 @@ method will also appear as selected.</p>
 <li><a class="reference internal" href="#worksheet-set-column">worksheet.set_column()</a></li>
 <li><a class="reference internal" href="#worksheet-activate">worksheet.activate()</a></li>
 <li><a class="reference internal" href="#worksheet-select">worksheet.select()</a></li>
+<li><a class="reference internal" href="#merge-range">merge_range()</a></li>
 </ul>
 </li>
 </ul>

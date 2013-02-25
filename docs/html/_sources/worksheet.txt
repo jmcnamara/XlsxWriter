@@ -632,3 +632,55 @@ A selected worksheet has its tab highlighted. Selecting worksheets is a way of
 grouping them together so that, for example, several worksheets could be
 printed in one go. A worksheet that has been activated via the ``activate()``
 method will also appear as selected.
+
+
+merge_range()
+-------------
+
+.. py:function:: merge_range(first_row, first_col, \
+                             last_row, last_col, cell_format)
+
+   Merge a range of cells.
+
+   :param first_row:   The first row of the range. (All zero indexed.)
+   :param first_col:   The first column of the range.
+   :param last_row:    The last row of the range.
+   :param last_col:    The last col of the range.
+   :param data:        Cell data to write. Variable types.
+   :param cell_format: Optional Format object.
+   :type  first_row:   integer
+   :type  first_col:   integer
+   :type  last_row:    integer
+   :type  last_col:    integer
+   :type  cell_format: :ref:`Format <format>`
+
+
+The ``merge_range()`` method allows cells to be merged together so that they
+act as a single area.
+
+Excel generally merges and centers cells at same time. To get similar
+behaviour with XlsxWriter you need to apply a :ref:`Format <format>`::
+
+    merge_format = workbook.add_format({'align': 'center'})
+
+    worksheet.merge_range('B3:D4', 'Merged Cells', merge_format)
+
+It is possible to apply other formatting to the merged cells as well::
+
+    merge_format = workbook.add_format({
+        'bold':     True,
+        'border':   6,
+        'align':    'center',
+        'valign':   'vcenter',
+        'fg_color': '#D7E4BC',
+    })
+
+    worksheet.merge_range('B3:D4', 'Merged Cells', merge_format)
+
+.. image:: _static/merge_range.png
+
+The ``merge_range()`` method writes its ``data`` argument using
+:func:`write()`. Therefore it will handle numbers, strings and formulas as 
+usual. If this doesn't handle you data correctly then you can overwrite the 
+first cell with a call to one of the other ``write_*()`` methods using the
+same :ref:`Format <format>` as in the merged cells.
