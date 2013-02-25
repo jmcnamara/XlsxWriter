@@ -1,5 +1,18 @@
 
 
+Release 0.0.7 - February 25 2013
+--------------------------------
+
+* Added final page setup methods to complete the page setup section.
+
+    * print_area()
+    * fit_to_pages()
+    * set_start_page()
+    * set_print_scale()
+    * set_h_pagebreaks()
+    * set_v_pagebreaks()
+
+
 Release 0.0.6 - February 22 2013
 --------------------------------
 

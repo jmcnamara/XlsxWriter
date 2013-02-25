@@ -16,7 +16,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '',
-        VERSION:     '0.0.6',
+        VERSION:     '0.0.7',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -91,7 +91,8 @@ and an extensive test suite.</p>
 <div class="section" id="compatibility-with-excel-writer-xlsx">
 <h2>Compatibility with Excel::Writer::XLSX</h2>
 <p>Porting of <tt class="docutils literal"><span class="pre">Excel::Writer::XLSX</span></tt> to <tt class="docutils literal"><span class="pre">XlsxWriter</span></tt> is a work in progress. The
-following table shows the level of compatibility between the two module:</p>
+following table shows the level of compatibility between the two module.</p>
+<p><strong>Workbook</strong></p>
 <table border="1" class="docutils">
 <colgroup>
 <col width="44%" />
@@ -163,6 +164,7 @@ following table shows the level of compatibility between the two module:</p>
 </tr>
 </tbody>
 </table>
+<p><strong>Worksheet</strong></p>
 <table border="1" class="docutils">
 <colgroup>
 <col width="44%" />
@@ -358,6 +360,7 @@ following table shows the level of compatibility between the two module:</p>
 </tr>
 </tbody>
 </table>
+<p><strong>Page Setup</strong></p>
 <table border="1" class="docutils">
 <colgroup>
 <col width="44%" />
@@ -424,7 +427,7 @@ following table shows the level of compatibility between the two module:</p>
 <td>Yes</td>
 </tr>
 <tr class="row-odd"><td>print_area()</td>
-<td><strong>No</strong></td>
+<td>Yes</td>
 <td>Yes</td>
 </tr>
 <tr class="row-even"><td>print_across()</td>
@@ -432,27 +435,28 @@ following table shows the level of compatibility between the two module:</p>
 <td>Yes</td>
 </tr>
 <tr class="row-odd"><td>fit_to_pages()</td>
-<td><strong>No</strong></td>
+<td>Yes</td>
 <td>Yes</td>
 </tr>
 <tr class="row-even"><td>set_start_page()</td>
-<td><strong>No</strong></td>
+<td>Yes</td>
 <td>Yes</td>
 </tr>
 <tr class="row-odd"><td>set_print_scale()</td>
-<td><strong>No</strong></td>
+<td>Yes</td>
 <td>Yes</td>
 </tr>
 <tr class="row-even"><td>set_h_pagebreaks()</td>
-<td><strong>No</strong></td>
+<td>Yes</td>
 <td>Yes</td>
 </tr>
 <tr class="row-odd"><td>set_v_pagebreaks()</td>
-<td><strong>No</strong></td>
+<td>Yes</td>
 <td>Yes</td>
 </tr>
 </tbody>
 </table>
+<p><strong>Format</strong></p>
 <table border="1" class="docutils">
 <colgroup>
 <col width="44%" />

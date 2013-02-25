@@ -9,6 +9,7 @@ XlsxWriter supports the following features:
 * Write text, numbers, formulas, dates.
 * Full cell formatting.
 * Multiple worksheets.
+* Page setup methods for printing.
 * Python 2/3 support. 
 
 

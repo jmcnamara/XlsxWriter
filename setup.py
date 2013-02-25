@@ -2,12 +2,12 @@ from distutils.core import setup
 
 setup(
     name='XlsxWriter',
-    version='0.0.6',
+    version='0.0.7',
     author='John McNamara',
     author_email='jmcnamara@cpan.org',
-    url='http://pypi.python.org/pypi/XlsxWriter/',
+    url='https://github.com/jmcnamara/XlsxWriter',
     packages=['xlsxwriter'],
     license='BSD',
-    description='A Python module to create Excel XLSX files.',
+    description='A Python module for creating Excel XLSX files.',
     long_description=open('README.txt').read(),
 )
