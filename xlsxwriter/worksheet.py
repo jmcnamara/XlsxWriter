@@ -1066,6 +1066,37 @@ class Worksheet(xmlwriter.XMLwriter):
         self.print_scale = int(scale)
         self.page_setup_changed = 1
 
+    def set_h_pagebreaks(self, breaks):
+        """
+        Set the horizontal page breaks on a worksheet.
+
+        Args:
+            breaks: List of rows where the page breaks should be added.
+
+        Returns:
+            Nothing.
+
+        """
+        self.hbreaks = breaks
+
+    #
+    # set_v_pagebreaks(@breaks)
+    #
+    # Store the vertical page breaks on a worksheet.
+    #
+    def set_v_pagebreaks(self, breaks):
+        """
+        Set the horizontal page breaks on a worksheet.
+
+        Args:
+            breaks: List of columns where the page breaks should be added.
+
+        Returns:
+            Nothing.
+
+        """
+        self.vbreaks = breaks
+
     ###########################################################################
     #
     # Private API.
@@ -1145,10 +1176,10 @@ class Worksheet(xmlwriter.XMLwriter):
         self._write_header_footer()
 
         # Write the rowBreaks element.
-        # self._write_row_breaks()
+        self._write_row_breaks()
 
         # Write the colBreaks element.
-        # self._write_col_breaks()
+        self._write_col_breaks()
 
         # Write the drawing element.
         # self._write_drawings()
@@ -1316,6 +1347,32 @@ class Worksheet(xmlwriter.XMLwriter):
         area = sheetname + "!" + area
 
         return area
+
+    def _sort_pagebreaks(self, breaks):
+        # This is an internal method used to filter elements of a list of
+        # pagebreaks used in the _store_hbreak() and _store_vbreak() methods.
+        # It:
+        #   1. Removes duplicate entries from the list.
+        #   2. Sorts the list.
+        #   3. Removes 0 from the list if present.
+        if not breaks:
+            return
+
+        breaks_set = set(breaks)
+
+        if 0 in breaks_set:
+            breaks_set.remove(0)
+
+        breaks_list = list(breaks_set)
+        breaks_list.sort()
+
+        # The Excel 2007 specification says that the maximum number of page
+        # breaks is 1026. However, in practice it is actually 1023.
+        max_num_breaks = 1023
+        if len(breaks_list) > max_num_breaks:
+            breaks_list = breaks_list[:max_num_breaks]
+
+        return breaks_list
 
     ###########################################################################
     #
@@ -1969,3 +2026,54 @@ class Worksheet(xmlwriter.XMLwriter):
             attributes.append(("showOutlineSymbols", 0))
 
         self._xml_empty_tag('outlinePr', attributes)
+
+    def _write_row_breaks(self):
+        # Write the <rowBreaks> element.
+        page_breaks = self._sort_pagebreaks(self.hbreaks)
+
+        if not page_breaks:
+            return
+
+        count = len(page_breaks)
+
+        attributes = [
+            ('count', count),
+            ('manualBreakCount', count),
+        ]
+
+        self._xml_start_tag('rowBreaks', attributes)
+
+        for row_num in (page_breaks):
+            self._write_brk(row_num, 16383)
+
+        self._xml_end_tag('rowBreaks')
+
+    def _write_col_breaks(self):
+        # Write the <colBreaks> element.
+        page_breaks = self._sort_pagebreaks(self.vbreaks)
+
+        if not page_breaks:
+            return
+
+        count = len(page_breaks)
+
+        attributes = [
+            ('count', count),
+            ('manualBreakCount', count),
+        ]
+
+        self._xml_start_tag('colBreaks', attributes)
+
+        for col_num in (page_breaks):
+            self._write_brk(col_num, 1048575)
+
+        self._xml_end_tag('colBreaks')
+
+    def _write_brk(self, brk_id, brk_max):
+        # Write the <brk> element.
+        attributes = [
+            ('id', brk_id),
+            ('max', brk_max),
+            ('man', 1)]
+
+        self._xml_empty_tag('brk', attributes)

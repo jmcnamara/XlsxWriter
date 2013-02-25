@@ -553,4 +553,47 @@ Note also that although it is valid to use both ``fit_to_pages()`` and
 ``set_print_scale()`` on the same worksheet only one of these options can
 be active at a time. The last method call made will set the active option.
 
+
+set_h_pagebreaks()
+------------------
+
+.. py:function:: set_h_pagebreaks(breaks)
+
+   Set the horizontal page breaks on a worksheet.
+
+   :param list breaks: List of pagebreak rows.
+
+The ``set_h_pagebreaks()`` method adds horizontal page breaks to a worksheet.
+A page break causes all the data that follows it to be printed on the next 
+page. Horizontal page breaks act between rows. To create a page break between
+rows 20 and 21 you must specify the break at row 21. However in zero index
+notation this is actually row 20. So you can pretend for a small while that
+you are using 1 index notation::
+
+    worksheet1.set_h_pagebreaks([20])  # Break between row 20 and 21.
+
+The ``set_v_pagebreaks()`` method takes a list of page breaks::
+
+    worksheet2.set_v_pagebreaks([20, 40, 60, 80, 100])
+
+.. Note::
+   Note: If you specify the "fit to page" option via the ``fit_to_pages()``
+   method it will override all manual page breaks.
+
+There is a silent limitation of 1023 horizontal page breaks per worksheet
+in line with an Excel internal limitation.
+
+
+set_v_pagebreaks()
+------------------
+
+.. py:function:: set_v_pagebreaks(breaks)
+
+   Set the vertical page breaks on a worksheet.
+
+   :param list breaks: List of pagebreak columns.
+
+The ``set_v_pagebreaks()`` method is the same as the above 
+:func:`set_h_pagebreaks()` method except it adds page breaks between columns.
+
   
