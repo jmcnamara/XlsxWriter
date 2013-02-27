@@ -158,10 +158,7 @@ class App(xmlwriter.XMLwriter):
         self._xml_data_element("vt:%s" % vt_data[0], vt_data[1])
 
     def _write_company(self):
-        if 'company' in self.properties:
-            company = self.properties['company']
-        else:
-            company = ''
+        company = self.properties.get('company', '')
 
         self._xml_data_element('Company', company)
 

@@ -1,4 +1,10 @@
 
+Release 0.1.0 - February 27 2013
+--------------------------------
+
+* Added the :func:`set_properties` workbook method for setting document
+  properties.
+
 
 Release 0.0.9 - February 27 2013
 --------------------------------

@@ -9,6 +9,7 @@ XlsxWriter supports the following features:
 * Page setup methods for printing.
 * Merged cells.
 * Defined names.
+* Document properties.
 * Standard libraries only.
 * Python 2/3 support.
 

@@ -164,6 +164,19 @@ class Workbook(xmlwriter.XMLwriter):
             self.fileclosed = 1
             self._store_workbook()
 
+    def set_properties(self, properties):
+        """
+        Set the document properties such as Title, Author etc.
+
+        Args:
+            properties: Dictionary of document properties.
+
+        Returns:
+            Nothing.
+
+        """
+        self.doc_properties = properties
+
     def define_name(self, name, formula):
         # Create a defined name in Excel. We handle global/workbook level
         # names and local/worksheet names.

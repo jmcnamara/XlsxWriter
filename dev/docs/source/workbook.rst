@@ -118,6 +118,50 @@ be created for some unknown silent reason you should add ``close()`` to your
 program.
 
 
+set_properties()
+----------------
+
+.. py:function:: set_properties()
+
+   Set the document properties such as Title, Author etc.
+   
+   :param dict properties: Dictionary of document properties.
+
+The ``set_properties`` method can be used to set the document properties
+of the Excel file created by ``XlsxWriter``. These properties are visible
+when you use the ``Office Button -> Prepare -> Properties`` option in Excel
+and are also available to external applications that read or index windows
+files.
+
+The properties that can be set are:
+
+* ``title``
+* ``subject``
+* ``author``
+* ``manager``
+* ``company``
+* ``category``
+* ``keywords``
+* ``comments``
+* ``status``
+
+The properties should be passed in dictionary format as follows::
+
+    workbook.set_properties({
+        'title':    'This is an example spreadsheet',
+        'subject':  'With document properties',
+        'author':   'John McNamara',
+        'manager':  'Dr. Heinz Doofenshmirtz',
+        'company':  'of Wolves',
+        'category': 'Example spreadsheets',
+        'keywords': 'Sample, Example, Properties',
+        'comments': 'Created with Python and XlsxWriter'})
+
+.. image:: _static/doc_properties.png
+
+See also the ``doc_properties.py`` example program.
+
+
 workbook.define_name()
 ----------------------
 
