@@ -6,7 +6,7 @@ Release 0.0.9 - February 27 2013
 * Added the :func:`define_name` method to create defined names and ranges
   in a workbook or worksheet.
   
-* Added the :func:`worksheets` method as an accessor to the worksheet in a
+* Added the :func:`worksheets` method as an accessor for the worksheets in a
   workbook.
 
 

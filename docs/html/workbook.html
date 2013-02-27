@@ -16,7 +16,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '',
-        VERSION:     '0.0.8',
+        VERSION:     '0.0.9',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -106,7 +106,7 @@ or Excel will generate a warning when the file is opened.</p>
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>sheetname</strong> (<a class="reference external" href="http://docs.python.org/2/library/string.html#string" title="(in Python v2.7)"><em>string</em></a>) &#8211; Optional worksheet name, defaults to Sheet1, etc.</td>
 </tr>
-<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body">A Worksheet object.</td>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body">A <a class="reference internal" href="worksheet.html#worksheet"><em>worksheet</em></a> object.</td>
 </tr>
 </tbody>
 </table>
@@ -141,7 +141,7 @@ any of the characters
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>properties</strong> (<em>dictionary</em>) &#8211; An optional dictionary of format properties.</td>
 </tr>
-<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body">A Format object.</td>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body">A <a class="reference internal" href="format.html#format"><em>format</em></a> object.</td>
 </tr>
 </tbody>
 </table>
@@ -182,6 +182,71 @@ in the wrong order.</p>
 be created for some unknown silent reason you should add <tt class="docutils literal"><span class="pre">close()</span></tt> to your
 program.</p>
 </div>
+<div class="section" id="workbook-define-name">
+<h2>workbook.define_name()</h2>
+<dl class="function">
+<dt id="define_name">
+<tt class="descname">define_name</tt><big>(</big><big>)</big></dt>
+<dd><p>Create a defined name in the workbook to use as a variable.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>name</strong> (<a class="reference external" href="http://docs.python.org/2/library/string.html#string" title="(in Python v2.7)"><em>string</em></a>) &#8211; The defined name.</li>
+<li><strong>formula</strong> (<a class="reference external" href="http://docs.python.org/2/library/string.html#string" title="(in Python v2.7)"><em>string</em></a>) &#8211; The cell or range that the defined name refers to.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<p>This method is used to defined a name that can be used to represent a value,
+a single cell or a range of cells in a workbook.</p>
+<p>For example to set a global/workbook name:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="c"># Global/workbook names.</span>
+<span class="n">workbook</span><span class="o">.</span><span class="n">define_name</span><span class="p">(</span><span class="s">&#39;Exchange_rate&#39;</span><span class="p">,</span> <span class="s">&#39;=0.96&#39;</span><span class="p">)</span>
+<span class="n">workbook</span><span class="o">.</span><span class="n">define_name</span><span class="p">(</span><span class="s">&#39;Sales&#39;</span><span class="p">,</span>         <span class="s">&#39;=Sheet1!G1:H10&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>It is also possible to define a local/worksheet name by prefixing it
+with the sheet name using the syntax <tt class="docutils literal"><span class="pre">'sheetname!definedname'</span></tt>:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="c"># Local/worksheet name.</span>
+<span class="n">workbook</span><span class="o">.</span><span class="n">define_name</span><span class="p">(</span><span class="s">&#39;Sheet2!Sales&#39;</span><span class="p">,</span> <span class="s">&#39;=Sheet2!G1:G10&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>If the sheet name contains spaces or special characters you must enclose it
+in single quotes like in Excel:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">workbook</span><span class="o">.</span><span class="n">define_name</span><span class="p">(</span><span class="s">&quot;&#39;New Data&#39;!Sales&quot;</span><span class="p">,</span> <span class="s">&#39;=Sheet2!G1:G10&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>See also the <tt class="docutils literal"><span class="pre">defined_name.py</span></tt> program in the examples directory.</p>
+</div>
+<div class="section" id="workbook-worksheets">
+<h2>workbook.worksheets()</h2>
+<dl class="function">
+<dt id="worksheets">
+<tt class="descname">worksheets</tt><big>(</big><big>)</big></dt>
+<dd><p>Return a list of the worksheet objects in the workbook.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">A list of <a class="reference internal" href="worksheet.html#worksheet"><em>worksheet</em></a> objects.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<p>The <tt class="docutils literal"><span class="pre">worksheets()</span></tt> method returns a list of the worksheets in a workbook.
+This is useful if you want to repeat an operation on each worksheet in a
+workbook:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">for</span> <span class="n">worksheet</span> <span class="ow">in</span> <span class="n">workbook</span><span class="o">.</span><span class="n">worksheets</span><span class="p">():</span>
+    <span class="n">worksheet</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s">&#39;A1&#39;</span><span class="p">,</span> <span class="s">&#39;Hello&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
 </div>
 
 
@@ -200,6 +265,8 @@ program.</p>
 <li><a class="reference internal" href="#workbook-add-worksheet">workbook.add_worksheet()</a></li>
 <li><a class="reference internal" href="#workbook-add-format">workbook.add_format()</a></li>
 <li><a class="reference internal" href="#workbook-close">workbook.close()</a></li>
+<li><a class="reference internal" href="#workbook-define-name">workbook.define_name()</a></li>
+<li><a class="reference internal" href="#workbook-worksheets">workbook.worksheets()</a></li>
 </ul>
 </li>
 </ul>

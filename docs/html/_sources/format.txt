@@ -407,7 +407,7 @@ As in Excel, vertical and horizontal alignments can be combined::
 
 Text can be aligned across two or more adjacent cells using the
 ``'center_across'`` property. However, for genuine merged cells it is better
-to use the ``merge_range()`` worksheet method (not implemented yet).
+to use the ``merge_range()`` worksheet method.
 
 The ``'vjustify'`` (vertical justify) option can be used to provide automatic
 text wrapping in a cell. The height of the cell will be adjusted to
