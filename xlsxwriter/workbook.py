@@ -9,6 +9,8 @@
 import re
 import os
 import tempfile
+import warnings
+import operator
 from datetime import datetime
 from zipfile import ZipFile, ZIP_DEFLATED
 
@@ -53,7 +55,7 @@ class Workbook(xmlwriter.XMLwriter):
         self.chart_name = 'Chart'
         self.sheetname_count = 0
         self.chartname_count = 0
-        self.worksheets = []
+        self.worksheets_objs = []
         self.charts = []
         self.drawings = []
         self.sheetnames = []
@@ -86,6 +88,11 @@ class Workbook(xmlwriter.XMLwriter):
         # Add the default cell format.
         self.add_format({'xf_index': 0})
 
+    def __del__(self):
+        """Close file in destructor if it hasn't been closed explicitly."""
+        if not self.fileclosed:
+            self.close()
+
     def add_worksheet(self, name=None):
         """
         Add a new worksheet to the Excel workbook.
@@ -97,7 +104,7 @@ class Workbook(xmlwriter.XMLwriter):
             Reference to a worksheet object.
 
         """
-        sheet_index = len(self.worksheets)
+        sheet_index = len(self.worksheets_objs)
         name = self._check_sheetname(name)
 
         # TODO port these during integration tests.
@@ -117,7 +124,7 @@ class Workbook(xmlwriter.XMLwriter):
         worksheet = Worksheet()
         worksheet._initialize(init_data)
 
-        self.worksheets.append(worksheet)
+        self.worksheets_objs.append(worksheet)
         self.sheetnames.append(name)
 
         return worksheet
@@ -142,16 +149,83 @@ class Workbook(xmlwriter.XMLwriter):
 
         return xf_format
 
-    def __del__(self):
-        """Close file in destructor if it hasn't been closed explicitly."""
-        if not self.fileclosed:
-            self.close()
-
     def close(self):
-        """Call finalisation code and close file."""
+        """
+        Call finalisation code and close file.
+
+        Args:
+            None.
+
+        Returns:
+            Nothing.
+
+        """
         if not self.fileclosed:
             self.fileclosed = 1
             self._store_workbook()
+
+    def define_name(self, name, formula):
+        # Create a defined name in Excel. We handle global/workbook level
+        # names and local/worksheet names.
+        """
+        Create a defined name in the workbook.
+
+        Args:
+            name:    The defined name.
+            formula: The cell or range that the defined name refers to.
+
+        Returns:
+            Nothing.
+
+        """
+        sheet_index = None
+        sheetname = ''
+
+        # Remove the = sign from the formula if it exists.
+        if formula.startswith('='):
+            formula = formula.lstrip('=')
+
+        # Local defined names are formatted like "Sheet1!name".
+        sheet_parts = re.compile(r'^(.*)!(.*)$')
+        match = sheet_parts.match(name)
+
+        if match:
+            sheetname = match.group(1)
+            name = match.group(2)
+            sheet_index = self._get_sheet_index(sheetname)
+
+            # Warn if the sheet index wasn't found.
+            if sheet_index is None:
+                warnings.warn("Unknown sheet name in defined_name()")
+                return -1
+        else:
+            # Use -1 to indicate global names.
+            sheet_index = -1
+
+        # Warn if the sheet name contains invalid chars as defined by Excel.
+        if not re.match(r'^[a-zA-Z_\\][a-zA-Z_.]+', name):
+            warnings.warn("Invalid Excel characters in defined_name()")
+            return -1
+
+        # Warn if the sheet name looks like a cell name.
+        if re.match(r'^[a-zA-Z][a-zA-Z]?[a-dA-D]?[0-9]+$', name):
+            warnings.warn("Name looks like a cell name in defined_name()")
+            return -1
+
+        self.defined_names.append([name, sheet_index, formula, False])
+
+    def worksheets(self):
+        """
+        Return a list of the worksheet objects in the workbook.
+
+        Args:
+            None.
+
+        Returns:
+            A list of worksheet objects.
+
+        """
+        return self.worksheets_objs
 
     ###########################################################################
     #
@@ -201,16 +275,16 @@ class Workbook(xmlwriter.XMLwriter):
         packager = Packager()
 
         # Add a default worksheet if non have been added.
-        if not self.worksheets:
+        if not self.worksheets():
             self.add_worksheet()
 
         # Ensure that at least one worksheet has been selected.
         if self.worksheet_meta.activesheet == 0:
-            self.worksheets[0].selected = 1
-            self.worksheets[0].hidden = 0
+            self.worksheets_objs[0].selected = 1
+            self.worksheets_objs[0].hidden = 0
 
         # Set the active sheet.
-        for sheet in self.worksheets:
+        for sheet in self.worksheets():
             if sheet.index == self.worksheet_meta.activesheet:
                 sheet.active = 1
 
@@ -282,7 +356,7 @@ class Workbook(xmlwriter.XMLwriter):
 
         # Check that the worksheet name doesn't already exist since this is a
         # fatal Excel error. The check must be case insensitive like Excel.
-        for worksheet in self.worksheets:
+        for worksheet in self.worksheets():
             if sheetname.lower() == worksheet.name.lower():
                 raise Exception(
                     "Sheetname '%s', with case ignored, is already in use." %
@@ -501,7 +575,7 @@ class Workbook(xmlwriter.XMLwriter):
         # for the Workbook.xml and the named ranges for App.xml.
         defined_names = self.defined_names
 
-        for sheet in (self.worksheets):
+        for sheet in self.worksheets():
             # Check for Print Area settings.
             if sheet.autofilter:
                 hidden = 1
@@ -532,9 +606,35 @@ class Workbook(xmlwriter.XMLwriter):
                 defined_names.append(['_xlnm.Print_Titles',
                                       sheet.index, sheet_range, hidden])
 
-        # defined_names = _sort_defined_names(defined_names)
+        defined_names = self._sort_defined_names(defined_names)
         self.defined_names = defined_names
         self.named_ranges = self._extract_named_ranges(defined_names)
+
+    def _sort_defined_names(self, names):
+        # Sort the list of list of internal and user defined names in
+        # the same order as used by Excel.
+
+        # Add a normalise name string to each list for sorting.
+        for name_list in names:
+            (defined_name, _, sheet_name, _) = name_list
+
+            # Normalise the defined name by removing any leading '_xmln.'
+            # from internal names and lowercasing the string.
+            defined_name = defined_name.replace('_xlnm.', '').lower()
+
+            # Normalise the sheetname by removing the leading quote and
+            # lowercasing the string.
+            sheet_name = sheet_name.lstrip("'").lower()
+
+            name_list.append(defined_name + "::" + sheet_name)
+
+        # Remove the extra key for sorting.
+        names.sort(key=operator.itemgetter(4))
+
+        for name_list in names:
+            name_list.pop()
+
+        return names
 
     def _extract_named_ranges(self, defined_names):
         # Extract the named ranges from the sorted list of defined names.
@@ -557,7 +657,7 @@ class Workbook(xmlwriter.XMLwriter):
 
                 # Match Print_Area and Print_Titles xlnm types.
                 if name.startswith('_xlnm.'):
-                    xlnm_type = name.lstrip('_xlnm.')
+                    xlnm_type = name.replace('_xlnm.', '')
                     name = sheet_name + '!' + xlnm_type
                 elif index != -1:
                     name = sheet_name + '!' + name
@@ -565,6 +665,15 @@ class Workbook(xmlwriter.XMLwriter):
                 named_ranges.append(name)
 
         return named_ranges
+
+    def _get_sheet_index(self, sheetname):
+        # Convert a sheet name to its index. Return None otherwise.
+        sheetname = sheetname.strip("'")
+
+        if sheetname in self.sheetnames:
+            return self.sheetnames.index(sheetname)
+        else:
+            return None
 
     ###########################################################################
     #
@@ -655,7 +764,7 @@ class Workbook(xmlwriter.XMLwriter):
         self._xml_start_tag('sheets')
 
         id_num = 1
-        for worksheet in self.worksheets:
+        for worksheet in self.worksheets():
             self._write_sheet(worksheet.name, id_num, worksheet.hidden)
             id_num += 1
 

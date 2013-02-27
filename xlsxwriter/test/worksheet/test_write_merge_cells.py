@@ -11,6 +11,7 @@ from ...worksheet import Worksheet
 from ...format import Format
 from ...sharedstrings import SharedStringTable
 
+
 class TestWriteMergeCells(unittest.TestCase):
     """
     Test the Worksheet _write_merge_cells() method.

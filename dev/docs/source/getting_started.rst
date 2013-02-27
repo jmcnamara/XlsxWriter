@@ -105,8 +105,8 @@ Documentation
 
 The latest version of this document is hosted on
 `Read The Docs <https://xlsxwriter.readthedocs.org/en/latest/>`_. It is
-available in several formats such as
-`Html, PDF and ePub <https://readthedocs.org/projects/xlsxwriter/downloads/>`_.
+also available as a
+`PDF <https://github.com/jmcnamara/XlsxWriter/raw/master/docs/XlsxWriter.pdf>`_.
 
 Once you are happy that the module is installed and operational you can have a
 look at the rest of the XlsxWriter documentation. :ref:`tutorial1` is a good

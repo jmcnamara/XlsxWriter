@@ -104,7 +104,7 @@ class Packager(object):
         self.num_comment_files = workbook.num_comment_files
         self.named_ranges = workbook.named_ranges
 
-        for worksheet in self.workbook.worksheets:
+        for worksheet in self.workbook.worksheets():
             if worksheet.is_chartsheet:
                 self.chartsheet_count += 1
             else:
@@ -153,7 +153,7 @@ class Packager(object):
         self._mkdir(xlsx_dir + '/xl/worksheets')
 
         index = 1
-        for worksheet in self.workbook.worksheets:
+        for worksheet in self.workbook.worksheets():
             if worksheet.is_chartsheet:
                 continue
 
@@ -168,7 +168,7 @@ class Packager(object):
         xlsx_dir = self.package_dir
 
         index = 1
-        for worksheet in self.workbook.worksheets:
+        for worksheet in self.workbook.worksheets():
             if not worksheet.is_chartsheet:
                 continue
 
@@ -221,7 +221,7 @@ class Packager(object):
         # xlsx_dir = self.package_dir
 
         index = 1
-        for worksheet in self.workbook.worksheets:
+        for worksheet in self.workbook.worksheets():
             if not worksheet.has_vml:
                 continue
 
@@ -244,7 +244,7 @@ class Packager(object):
         # xlsx_dir = self.package_dir
 
         index = 1
-        for worksheet in self.workbook.worksheets:
+        for worksheet in self.workbook.worksheets():
             if not worksheet.has_comments:
                 continue
 
@@ -288,13 +288,13 @@ class Packager(object):
         app._add_heading_pair(['Charts', self.chartsheet_count])
 
         # Add the Worksheet parts.
-        for worksheet in self.workbook.worksheets:
+        for worksheet in self.workbook.worksheets():
             if worksheet.is_chartsheet:
                 continue
             app._add_part_name(worksheet.name)
 
         # Add the Chartsheet parts.
-        for worksheet in self.workbook.worksheets:
+        for worksheet in self.workbook.worksheets():
             if not worksheet.is_chartsheet:
                 continue
             app._add_part_name(worksheet.name)
@@ -333,7 +333,7 @@ class Packager(object):
 
         worksheet_index = 1
         chartsheet_index = 1
-        for worksheet in self.workbook.worksheets:
+        for worksheet in self.workbook.worksheets():
             if worksheet.is_chartsheet:
                 content._add_chartsheet_name('sheet' + str(chartsheet_index))
                 chartsheet_index += 1
@@ -412,7 +412,7 @@ class Packager(object):
         # xlsx_dir = self.package_dir
 
         index = 1
-        for worksheet in self.workbook.worksheets:
+        for worksheet in self.workbook.worksheets():
             table_props = worksheet.tables
 
             if not table_props:
@@ -459,7 +459,7 @@ class Packager(object):
         worksheet_index = 1
         chartsheet_index = 1
 
-        for worksheet in self.workbook.worksheets:
+        for worksheet in self.workbook.worksheets():
             if worksheet.is_chartsheet:
                 rels._add_document_relationship('/chartsheet',
                                                 'chartsheets/sheet'
@@ -493,7 +493,7 @@ class Packager(object):
         xlsx_dir = self.package_dir
 
         index = 0
-        for worksheet in self.workbook.worksheets:
+        for worksheet in self.workbook.worksheets():
 
             if worksheet.is_chartsheet:
                 continue
@@ -530,7 +530,7 @@ class Packager(object):
         xlsx_dir = self.package_dir
 
         index = 0
-        for worksheet in self.workbook.worksheets:
+        for worksheet in self.workbook.worksheets():
 
             if not worksheet.is_chartsheet:
                 continue
@@ -563,7 +563,7 @@ class Packager(object):
         xlsx_dir = self.package_dir
 
         index = 0
-        for worksheet in self.workbook.worksheets:
+        for worksheet in self.workbook.worksheets():
             if not worksheet.drawing_links:
                 continue
             index += 1

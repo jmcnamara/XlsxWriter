@@ -24,7 +24,7 @@ class TestWriteMergeCell(unittest.TestCase):
     def test_write_merge_cell(self):
         """Test the _write_merge_cell() method"""
 
-        self.worksheet._write_merge_cell([ 2, 1, 2, 2 ])
+        self.worksheet._write_merge_cell([2, 1, 2, 2])
 
         exp = """<mergeCell ref="B3:C3"/>"""
         got = self.fh.getvalue()
