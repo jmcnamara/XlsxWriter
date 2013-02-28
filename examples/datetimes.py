@@ -61,3 +61,5 @@ for date_format_str in date_formats:
     worksheet.write_string(row, 1, date_format_str)
 
     row += 1
+
+workbook.close()

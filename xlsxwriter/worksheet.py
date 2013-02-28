@@ -313,6 +313,8 @@ class Worksheet(xmlwriter.XMLwriter):
             return self.write_blank(row, col, *args)
         elif token.startswith('='):
             return self.write_formula(row, col, *args)
+        elif token.startswith('{') and token.endswith('}'):
+            return self.write_formula(row, col, *args)
         else:
             return self.write_string(row, col, *args)
 

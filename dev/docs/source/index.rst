@@ -73,6 +73,7 @@ This document explains how to install and use the XlsxWriter module.
    working_with_cell_notation.rst
    working_with_formats.rst
    working_with_dates_and_time.rst
+   examples.rst
    excel_writer_xlsx.rst
    alternatives.rst
    bugs.rst

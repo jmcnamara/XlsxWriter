@@ -1,10 +1,27 @@
 
-Release 0.1.0 - February 27 2013
+Release 0.1.0 - February 28 2013
 --------------------------------
 
 * Added the :func:`set_properties` workbook method for setting document
   properties.
 
+* Added several new examples programs with documentation. The examples now
+  include:
+
+    * array_formula.py
+    * cell_indentation.py
+    * datetimes.py
+    * defined_name.py
+    * demo.py
+    * doc_properties.py
+    * headers_footers.py
+    * hello_world.py
+    * merge1.py
+    * tutorial1.py
+    * tutorial2.py
+    * tutorial3.py
+    * unicode_polish_utf8.py
+    * unicode_shift_jis.py
 
 Release 0.0.9 - February 27 2013
 --------------------------------

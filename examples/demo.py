@@ -23,8 +23,8 @@ worksheet.write('A1', 'Hello')
 # Text with formatting.
 worksheet.write('A2', 'World', bold)
 
-# Write some numbers.
-worksheet.write('A3', 123)
-worksheet.write('A4', 123.456)
+# Write some numbers, with row/column notation.
+worksheet.write(2, 0, 123)
+worksheet.write(3, 0, 123.456)
 
 workbook.close()

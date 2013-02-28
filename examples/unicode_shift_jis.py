@@ -34,3 +34,5 @@ for line in textfile:
     # Write any other lines to the worksheet.
     worksheet.write(row, col, line.rstrip("\n"))
     row += 1
+
+workbook.close()

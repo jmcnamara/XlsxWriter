@@ -24,8 +24,7 @@ merge_format = workbook.add_format({
     'border': 1,
     'align': 'center',
     'valign': 'vcenter',
-    'fg_color': 'yellow',
-})
+    'fg_color': 'yellow'})
 
 
 # Merge 3 cells.

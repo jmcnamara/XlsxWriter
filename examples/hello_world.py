@@ -6,7 +6,7 @@
 #
 from xlsxwriter.workbook import Workbook
 
-workbook = Workbook('hello.xlsx')
+workbook = Workbook('hello_world.xlsx')
 worksheet = workbook.add_worksheet()
 
 worksheet.write('A1', 'Hello world')
