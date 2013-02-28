@@ -421,7 +421,7 @@ headers::
 print_area()
 ------------
 
-.. py:function:: print_area(first_row, first_col, last_row, last_col)                                 last_col)
+.. py:function:: print_area(first_row, first_col, last_row, last_col)
 
    Set the print area in the current worksheet.
 

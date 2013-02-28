@@ -487,6 +487,7 @@ worksheet.set_column()
 
 .. py:function:: set_column( first_col, last_col, width, cell_format, \
                              hidden, level, collapsed )
+
    Set properties for one or more columns of cells.
    
    :param int first_col: First column (zero-indexed).

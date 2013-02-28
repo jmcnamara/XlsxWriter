@@ -16,7 +16,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '',
-        VERSION:     '0.0.9',
+        VERSION:     '0.1.0',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -182,6 +182,54 @@ in the wrong order.</p>
 be created for some unknown silent reason you should add <tt class="docutils literal"><span class="pre">close()</span></tt> to your
 program.</p>
 </div>
+<div class="section" id="set-properties">
+<h2>set_properties()</h2>
+<dl class="function">
+<dt id="set_properties">
+<tt class="descname">set_properties</tt><big>(</big><big>)</big></dt>
+<dd><p>Set the document properties such as Title, Author etc.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>properties</strong> (<a class="reference external" href="http://docs.python.org/2/library/stdtypes.html#dict" title="(in Python v2.7)"><em>dict</em></a>) &#8211; Dictionary of document properties.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<p>The <tt class="docutils literal"><span class="pre">set_properties</span></tt> method can be used to set the document properties
+of the Excel file created by <tt class="docutils literal"><span class="pre">XlsxWriter</span></tt>. These properties are visible
+when you use the <tt class="docutils literal"><span class="pre">Office</span> <span class="pre">Button</span> <span class="pre">-&gt;</span> <span class="pre">Prepare</span> <span class="pre">-&gt;</span> <span class="pre">Properties</span></tt> option in Excel
+and are also available to external applications that read or index windows
+files.</p>
+<p>The properties that can be set are:</p>
+<ul class="simple">
+<li><tt class="docutils literal"><span class="pre">title</span></tt></li>
+<li><tt class="docutils literal"><span class="pre">subject</span></tt></li>
+<li><tt class="docutils literal"><span class="pre">author</span></tt></li>
+<li><tt class="docutils literal"><span class="pre">manager</span></tt></li>
+<li><tt class="docutils literal"><span class="pre">company</span></tt></li>
+<li><tt class="docutils literal"><span class="pre">category</span></tt></li>
+<li><tt class="docutils literal"><span class="pre">keywords</span></tt></li>
+<li><tt class="docutils literal"><span class="pre">comments</span></tt></li>
+<li><tt class="docutils literal"><span class="pre">status</span></tt></li>
+</ul>
+<p>The properties should be passed in dictionary format as follows:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">workbook</span><span class="o">.</span><span class="n">set_properties</span><span class="p">({</span>
+    <span class="s">&#39;title&#39;</span><span class="p">:</span>    <span class="s">&#39;This is an example spreadsheet&#39;</span><span class="p">,</span>
+    <span class="s">&#39;subject&#39;</span><span class="p">:</span>  <span class="s">&#39;With document properties&#39;</span><span class="p">,</span>
+    <span class="s">&#39;author&#39;</span><span class="p">:</span>   <span class="s">&#39;John McNamara&#39;</span><span class="p">,</span>
+    <span class="s">&#39;manager&#39;</span><span class="p">:</span>  <span class="s">&#39;Dr. Heinz Doofenshmirtz&#39;</span><span class="p">,</span>
+    <span class="s">&#39;company&#39;</span><span class="p">:</span>  <span class="s">&#39;of Wolves&#39;</span><span class="p">,</span>
+    <span class="s">&#39;category&#39;</span><span class="p">:</span> <span class="s">&#39;Example spreadsheets&#39;</span><span class="p">,</span>
+    <span class="s">&#39;keywords&#39;</span><span class="p">:</span> <span class="s">&#39;Sample, Example, Properties&#39;</span><span class="p">,</span>
+    <span class="s">&#39;comments&#39;</span><span class="p">:</span> <span class="s">&#39;Created with Python and XlsxWriter&#39;</span><span class="p">})</span>
+</pre></div>
+</div>
+<img alt="_images/doc_properties.png" src="_images/doc_properties.png" />
+<p>See also the <tt class="docutils literal"><span class="pre">doc_properties.py</span></tt> example program.</p>
+</div>
 <div class="section" id="workbook-define-name">
 <h2>workbook.define_name()</h2>
 <dl class="function">
@@ -265,6 +313,7 @@ workbook:</p>
 <li><a class="reference internal" href="#workbook-add-worksheet">workbook.add_worksheet()</a></li>
 <li><a class="reference internal" href="#workbook-add-format">workbook.add_format()</a></li>
 <li><a class="reference internal" href="#workbook-close">workbook.close()</a></li>
+<li><a class="reference internal" href="#set-properties">set_properties()</a></li>
 <li><a class="reference internal" href="#workbook-define-name">workbook.define_name()</a></li>
 <li><a class="reference internal" href="#workbook-worksheets">workbook.worksheets()</a></li>
 </ul>
