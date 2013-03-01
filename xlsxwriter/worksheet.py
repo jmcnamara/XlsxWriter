@@ -9,6 +9,7 @@
 import re
 import datetime
 from warnings import warn
+import tempfile
 from collections import defaultdict
 from collections import namedtuple
 
@@ -2408,6 +2409,12 @@ class Worksheet(xmlwriter.XMLwriter):
         self.index = init_data['index']
         self.str_table = init_data['str_table']
         self.worksheet_meta = init_data['worksheet_meta']
+        self.optimization = init_data['optimization']
+
+        if self.optimization == 1:
+            fh = tempfile.TemporaryFile(mode='rw+b')
+            self.cell_data_fh = fh
+            self.fh = fh
 
     def _assemble_xml_file(self):
         # Assemble and write the XML file.
@@ -2434,11 +2441,11 @@ class Worksheet(xmlwriter.XMLwriter):
         self._write_cols()
 
         # Write the worksheet data such as rows columns and cells.
-        # if self.optimization == 0:
-        #    self._write_sheet_data()
-        # else:
-        #    self._write_optimized_sheet_data()
-        self._write_sheet_data()
+        if self.optimization == 0:
+            self._write_sheet_data()
+        else:
+            self._write_optimized_sheet_data()
+            self._write_sheet_data()
 
         # Write the sheetProtection element.
         self._write_sheet_protection()
@@ -3547,6 +3554,40 @@ class Worksheet(xmlwriter.XMLwriter):
         else:
             self._xml_start_tag('sheetData')
             self._write_rows()
+            self._xml_end_tag('sheetData')
+
+    # Write the <sheetData> element when the memory optimisation is on. In which
+    # case we read the data stored in the temp file and rewrite it to the XML
+    # sheet file.
+    #
+    def _write_optimized_sheet_data(self):
+        if self.dim_rowmin is None:
+
+            # If the dimensions aren't defined then there is no data to write.
+            self._xml_empty_tag('sheetData')
+        else:
+
+            self._xml_start_tag('sheetData')
+
+            cell_fh = self.cell_data_fh
+            cell_fh.seek(0)
+
+            data = cell_fh.read(4096)
+            print ">> ", data, "<<"
+
+
+#            xlsx_fh = self._xml_get_fh()
+#            cell_fh = self.cell_data_fh
+#
+#            buffer
+#
+#            # Rewind the temp file.
+#            seek cell_fh, 0, 0
+#
+#            while read(cell_fh, buffer, 4_096):
+#                local $\ = None; # Protect print from -l on commandline.
+#                print xlsx_fh buffer
+
             self._xml_end_tag('sheetData')
 
     def _write_page_margins(self):
