@@ -111,7 +111,6 @@ class Workbook(xmlwriter.XMLwriter):
         #            self.table_count,
         #            self.date_1904,
         #            self.palette, # remove
-        #            self.optimization,
         #            self.tempdir,
 
         init_data = {
@@ -119,6 +118,7 @@ class Workbook(xmlwriter.XMLwriter):
             'index': sheet_index,
             'str_table': self.str_table,
             'worksheet_meta': self.worksheet_meta,
+            'optimization': self.optimization,
         }
 
         worksheet = Worksheet()
@@ -239,6 +239,15 @@ class Workbook(xmlwriter.XMLwriter):
 
         """
         return self.worksheets_objs
+
+    def set_optimization(self):
+        # TODO
+        # Set the speed/memory optimisation level.
+        if self.worksheets():
+            warnings.warn(
+                "set_optimization() must be called before add_worksheet()")
+
+        self.optimization = 1
 
     ###########################################################################
     #

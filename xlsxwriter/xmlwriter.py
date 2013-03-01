@@ -143,6 +143,24 @@ class XMLwriter(object):
                       % (attr, self._escape_data(formula),
                       self._escape_data(str(result))))
 
+    def _xml_inline_string(self, string, preserve, attributes=[]):
+        # Optimised tag writer for inlineStr cell elements in the inner loop.
+        attr = ''
+        t_attr = ''
+
+        # Set the <t> attribute to preserve whitespace.
+        if preserve:
+            t_attr = ' xml:space="preserve"'
+
+        for key, value in attributes:
+            value = self._escape_attributes(value)
+            attr = attr + ' %s="%s"' % (key, value)
+
+        string = self._escape_data(string)
+
+        self.fh.write("""<c%s t="inlineStr"><is><t%s>%s</t></is></c>""" %
+                      (attr, t_attr, string))
+
     def _escape_attributes(self, attribute):
         # Escape XML characters in attributes.
 
