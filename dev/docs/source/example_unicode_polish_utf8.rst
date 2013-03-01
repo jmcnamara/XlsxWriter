@@ -1,7 +1,7 @@
 .. _ex_unicode_polish_utf8:
 
-Example: Unicode Polish in UTF-8
-================================
+Example: Unicode - Polish in UTF-8
+==================================
 
 This program is an example of reading in data from a UTF-8 encoded text file
 and converting it to a worksheet.

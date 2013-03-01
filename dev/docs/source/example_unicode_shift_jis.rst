@@ -1,7 +1,7 @@
 .. _ex_unicode_shift_jis:
 
-Example: Unicode Shift JIS
-==========================
+Example: Unicode - Shift JIS
+============================
 
 This program is an example of reading in data from a Shift JIS encoded text
 file and converting it to a worksheet.

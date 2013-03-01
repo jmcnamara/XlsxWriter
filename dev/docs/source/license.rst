@@ -3,7 +3,7 @@
 License
 =======
 
-XlsxWriter is release under a BSD license.
+XlsxWriter is released under a BSD license.
 
 
 .. include:: ../../../LICENSE.txt
