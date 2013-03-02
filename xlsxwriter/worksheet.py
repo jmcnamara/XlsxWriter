@@ -8,9 +8,10 @@
 # Standard packages.
 import re
 import datetime
-import warnings
+from warnings import warn
 from collections import defaultdict
 from collections import namedtuple
+from urllib import quote as url_quote
 
 # Package imports.
 from . import xmlwriter
@@ -267,7 +268,7 @@ class Worksheet(xmlwriter.XMLwriter):
 
         self.date_1904 = False
         self.epoch = datetime.datetime(1899, 12, 31)
-        self.hyperlinks = {}
+        self.hyperlinks = defaultdict(dict)
 
     @convert_cell_args
     def write(self, row, col, *args):
@@ -566,6 +567,129 @@ class Worksheet(xmlwriter.XMLwriter):
 
         return 0
 
+    # TODO
+    # write_url($row, $col, $url, $string, $format)
+    #
+    # Write a hyperlink. This is comprised of two elements: the visible label and
+    # the invisible link. The visible label is the same as the link unless an
+    # alternative string is specified. The label is written using the
+    # write_string() method. Therefore the max characters string limit applies.
+    # $string and $format are optional and their order is interchangeable.
+    #
+    # The hyperlink can be to a http, ftp, mail, internal sheet, or external
+    # directory url.
+    #
+    # Returns  0 : normal termination
+    #         -1 : insufficient number of arguments
+    #         -2 : row or column out of range
+    #         -3 : long string truncated to 32767 chars
+    #         -4 : URL longer than 255 characters
+    #         -5 : Exceeds limit of 65_530 urls per worksheet
+    #
+    @convert_cell_args
+    def write_url(self, row, col, url, cell_format=None, string=None, tip=None):
+
+        # Default link type such as http://.
+        link_type = 1
+
+        # Remove the URI scheme from internal links.
+        if re.match("internal:", url):
+            url = url.replace('internal:', '')
+            link_type = 2
+
+        # Remove the URI scheme from external links.
+        if re.match("external:", url):
+            url = url.replace('external:', '')
+            link_type = 3
+
+        # Set the displayed string to the URL unless defined by the user.
+        if string is None:
+            string = url
+
+        # For external links change the directory separator from Unix to Dos.
+        if link_type == 3:
+            url = url.replace('/', '\\')
+            string = string.replace('/', '\\')
+
+        # Strip the mailto header.
+        string = string.replace('mailto:', '')
+
+        # Check that row and col are valid and store max and min values
+        if self._check_dimensions(row, col):
+            return -2
+
+        # Check that the string is < 32767 chars
+        str_error = 0
+        if len(string) > self.xls_strmax:
+            warn("Ignoring URL since it exceeds Excel's string limit of "
+                 "32767 characters")
+            return -3
+
+        # Copy string for use in hyperlink elements.
+        url_str = string
+
+        # External links to URLs and to other Excel workbooks have slightly
+        # different characteristics that we have to account for.
+        if link_type == 1:
+            # Escape URL unless it looks already escaped.
+            if not re.search('%[0-9a-fA-F]{2}', url):
+                url = url_quote(url, ':/@')
+
+            # Ordinary URL style external links don't have a "location" string.
+            url_str = None
+
+        elif link_type == 3:
+
+            # External Workbook links need to be modified into the right format.
+            # The URL will look something like 'c:\temp\file.xlsx#Sheet!A1'.
+            # We need the part to the left of the # as the URL and the part to
+            # the right as the "location" string (if it exists).
+            if re.search('#', url):
+                url, url_str = url.split('#')
+            else:
+                url_str = None
+
+            # Add the file:/// URI to the url if non-local.
+            # Windows style "C:/" link. # Network share.
+            if (re.match('\w:', url) or re.match(r'\\', url)):
+                url = 'file:///' + url
+
+            # Convert a .\dir\file.xlsx link to dir\file.xlsx.
+            url = re.sub(r'^\.\\', '', url)
+
+            # Treat as a default external link now that the data has been modified.
+            link_type = 1
+
+        # Excel limits escaped URL to 255 characters.
+        if len(url) > 255:
+            warn("Ignoring URL '%s' > 255 characters since it exceeds "
+                 "Excel's limit for URLS" % url)
+            return -4
+
+        # Check the limit of URLS per worksheet.
+        self.hlink_count += 1
+
+        if self.hlink_count > 65530:
+            warn("Ignoring URL '%s' since it exceeds Excel's limit of "
+                 "65,530 URLS per worksheet." % url)
+            return -5
+
+        # Write previous row if in in-line string optimization mode.
+        if self.optimization == 1 and row > self.previous_row:
+            self._write_single_row(row)
+
+        # Write the hyperlink string.
+        self.write_string(row, col, string, cell_format)
+
+        # Store the hyperlink data in a separate structure.
+        self.hyperlinks[row][col] = {
+            'link_type': link_type,
+            'url': url,
+            'str': url_str,
+            'tip': tip}
+
+        return str_error
+
     def activate(self):
         """
         Set this worksheet as the active worksheet, i.e. the worksheet that is
@@ -755,7 +879,7 @@ class Worksheet(xmlwriter.XMLwriter):
 
         # Excel doesn't allow a single cell to be merged
         if first_row == last_row and first_col == last_col:
-            warnings.warn("Can't merge single cell", SyntaxWarning)
+            warn("Can't merge single cell")
             return
 
         # Swap last row/col with first row/col as necessary
@@ -902,8 +1026,7 @@ class Worksheet(xmlwriter.XMLwriter):
 
         """
         if len(header) >= 255:
-            warnings.warn('Header string must be less than 255 characters',
-                          SyntaxWarning)
+            warn('Header string must be less than 255 characters')
             return
 
         self.header = header
@@ -923,8 +1046,7 @@ class Worksheet(xmlwriter.XMLwriter):
 
         """
         if len(footer) >= 255:
-            warnings.warn('Footer string must be less than 255 characters',
-                          SyntaxWarning)
+            warn('Footer string must be less than 255 characters')
             return
 
         self.footer = footer
@@ -1110,8 +1232,7 @@ class Worksheet(xmlwriter.XMLwriter):
         """
         # Confine the scale to Excel's range.
         if scale < 10 or scale > 400:
-            warnings.warn("Print scale outside range: 10 <= scale <= 400",
-                          SyntaxWarning)
+            warn("Print scale '%d' outside range: 10 <= scale <= 400" % scale)
             return
 
         # Turn off "fit to page" option when print scale is on.
@@ -2169,6 +2290,7 @@ class Worksheet(xmlwriter.XMLwriter):
         # <hyperlinks> element. The attributes are different for internal
         # and external links.
         hlink_refs = []
+        display = None
 
         # Sort the hyperlinks into row order.
         row_nums = sorted(self.hyperlinks.keys())
@@ -2186,7 +2308,7 @@ class Worksheet(xmlwriter.XMLwriter):
             for col_num in (col_nums):
                 # Get the link data for this cell.
                 link = self.hyperlinks[row_num][col_num]
-                link_type = link.link_type
+                link_type = link["link_type"]
 
                 # If the cell isn't a string then we have to add the url as
                 # the string to display.
@@ -2194,37 +2316,44 @@ class Worksheet(xmlwriter.XMLwriter):
                         and self.table[row_num]
                         and self.table[row_num][col_num]):
                     cell = self.table[row_num][col_num]
-                    if cell[0] != 's':
-                        display = link.url
+                    if type(cell).__name__ != 'String':
+                        display = link["url"]
 
                 if link_type == 1:
                     # External link with rel file relationship.
                     self.rel_count += 1
 
-                    hlink_refs.append([
-                                       link_type, row_num,
-                                       col_num, self.rel_count,
-                                       link.str, display,
-                                       link.tip])
+                    hlink_refs.append([link_type,
+                                       row_num,
+                                       col_num,
+                                       self.rel_count,
+                                       link["str"],
+                                       display,
+                                       link["tip"]])
 
                     # Links for use by the packager.
-                    self.external_hyper_links.append(
-                        ['/hyperlink', link.url, 'External'])
+                    self.external_hyper_links.append(['/hyperlink',
+                                                      link["url"], 'External'])
                 else:
                     # Internal link with rel file relationship.
-                    hlink_refs.append([
-                                       link_type, row_num, col_num,
-                                       link.url, link.str, link.tip])
+                    hlink_refs.append([link_type,
+                                       row_num,
+                                       col_num,
+                                       link["url"],
+                                       link["str"],
+                                       link["tip"]])
+
         # Write the hyperlink elements.
         self._xml_start_tag('hyperlinks')
 
-        for aref in (hlink_refs):
-            (_, args) = aref
+        for args in (hlink_refs):
+            # TODO
+            link_type = args.pop(0)
 
-            if type == 1:
-                self._write_hyperlink_external(args)
-            elif type == 2:
-                self._write_hyperlink_internal(args)
+            if link_type == 1:
+                self._write_hyperlink_external(*args)
+            elif link_type == 2:
+                self._write_hyperlink_internal(*args)
 
         self._xml_end_tag('hyperlinks')
 

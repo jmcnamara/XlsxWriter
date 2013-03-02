@@ -9,8 +9,8 @@
 import re
 import os
 import tempfile
-import warnings
 import operator
+from warnings import warn
 from datetime import datetime
 from zipfile import ZipFile, ZIP_DEFLATED
 
@@ -209,7 +209,7 @@ class Workbook(xmlwriter.XMLwriter):
 
             # Warn if the sheet index wasn't found.
             if sheet_index is None:
-                warnings.warn("Unknown sheet name in defined_name()")
+                warn("Unknown sheet name '%s' in defined_name()" % sheetname)
                 return -1
         else:
             # Use -1 to indicate global names.
@@ -217,12 +217,12 @@ class Workbook(xmlwriter.XMLwriter):
 
         # Warn if the sheet name contains invalid chars as defined by Excel.
         if not re.match(r'^[a-zA-Z_\\][a-zA-Z_.]+', name):
-            warnings.warn("Invalid Excel characters in defined_name()")
+            warn("Invalid Excel characters in defined_name(): '%s'" % name)
             return -1
 
         # Warn if the sheet name looks like a cell name.
         if re.match(r'^[a-zA-Z][a-zA-Z]?[a-dA-D]?[0-9]+$', name):
-            warnings.warn("Name looks like a cell name in defined_name()")
+            warn("Name looks like a cell name in defined_name(): '%s'" % name)
             return -1
 
         self.defined_names.append([name, sheet_index, formula, False])
