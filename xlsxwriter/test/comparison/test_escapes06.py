@@ -20,7 +20,7 @@ class TestCompareXLSXFiles(unittest.TestCase):
     def setUp(self):
         self.maxDiff = None
 
-        filename = 'hyperlink04.xlsx'
+        filename = 'escapes06.xlsx'
 
         test_dir = 'xlsxwriter/test/comparison/'
         self.got_filename = test_dir + '_test_' + filename
@@ -30,24 +30,19 @@ class TestCompareXLSXFiles(unittest.TestCase):
         self.ignore_elements = {}
 
     def test_create_file(self):
-        """Test the creation of a simple XlsxWriter file with hyperlinks."""
+        """Test the creation of a simple XlsxWriter file a num format thatrequire XML escaping."""
         filename = self.got_filename
 
         ####################################################
 
         workbook = Workbook(filename)
 
-        worksheet1 = workbook.add_worksheet()
-        worksheet2 = workbook.add_worksheet()
-        worksheet3 = workbook.add_worksheet('Data Sheet')
+        worksheet = workbook.add_worksheet()
+        num_format = workbook.add_format({'num_format': '[Red]0.0%\\ "a"'})
 
-        worksheet1.write_url('A1', "internal:Sheet2!A1")
-        worksheet1.write_url('A3', "internal:Sheet2!A1:A5")
-        worksheet1.write_url('A5', "internal:'Data Sheet'!D5", None, 'Some text')
-        worksheet1.write_url('E12', "internal:Sheet1!J1")
-        worksheet1.write_url('G17', "internal:Sheet2!A1", None, 'Some text')
-        worksheet1.write_url('A18', "internal:Sheet2!A1", None, None, 'Tool Tip 1')
-        worksheet1.write_url('A20', "internal:Sheet2!A1", None, 'More text', 'Tool Tip 2')
+        worksheet.set_column('A:A', 14)
+
+        worksheet.write('A1', 123, num_format)
 
         workbook.close()
 

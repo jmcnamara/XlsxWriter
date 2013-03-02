@@ -11,7 +11,6 @@ import datetime
 from warnings import warn
 from collections import defaultdict
 from collections import namedtuple
-from urllib import quote as url_quote
 
 # Package imports.
 from . import xmlwriter
@@ -570,7 +569,8 @@ class Worksheet(xmlwriter.XMLwriter):
     # TODO
     # write_url($row, $col, $url, $string, $format)
     #
-    # Write a hyperlink. This is comprised of two elements: the visible label and
+    # Write a hyperlink. This is comprised of two elements: the visible label
+    # and
     # the invisible link. The visible label is the same as the link unless an
     # alternative string is specified. The label is written using the
     # write_string() method. Therefore the max characters string limit applies.
@@ -587,7 +587,8 @@ class Worksheet(xmlwriter.XMLwriter):
     #         -5 : Exceeds limit of 65_530 urls per worksheet
     #
     @convert_cell_args
-    def write_url(self, row, col, url, cell_format=None, string=None, tip=None):
+    def write_url(self, row, col, url, cell_format=None,
+                  string=None, tip=None):
 
         # Default link type such as http://.
         link_type = 1
@@ -633,14 +634,25 @@ class Worksheet(xmlwriter.XMLwriter):
         if link_type == 1:
             # Escape URL unless it looks already escaped.
             if not re.search('%[0-9a-fA-F]{2}', url):
-                url = url_quote(url, ':/@')
+                # Can't use url.quote() here because it doesn't match Excel.
+                url = url.replace('%', '%25')
+                url = url.replace('"', '%22')
+                url = url.replace(' ', '%20')
+                url = url.replace('<', '%3c')
+                url = url.replace('>', '%3e')
+                url = url.replace('[', '%5b')
+                url = url.replace(']', '%5d')
+                url = url.replace('^', '%5e')
+                url = url.replace('`', '%60')
+                url = url.replace('{', '%7b')
+                url = url.replace('}', '%7d')
 
             # Ordinary URL style external links don't have a "location" string.
             url_str = None
 
         elif link_type == 3:
 
-            # External Workbook links need to be modified into the right format.
+            # External Workbook links need to be modified into correct format.
             # The URL will look something like 'c:\temp\file.xlsx#Sheet!A1'.
             # We need the part to the left of the # as the URL and the part to
             # the right as the "location" string (if it exists).
@@ -657,7 +669,7 @@ class Worksheet(xmlwriter.XMLwriter):
             # Convert a .\dir\file.xlsx link to dir\file.xlsx.
             url = re.sub(r'^\.\\', '', url)
 
-            # Treat as a default external link now that the data has been modified.
+            # Treat as a default external link now the data has been modified.
             link_type = 1
 
         # Excel limits escaped URL to 255 characters.
