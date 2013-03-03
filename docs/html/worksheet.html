@@ -16,7 +16,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '',
-        VERSION:     '0.1.0',
+        VERSION:     '0.1.1',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -78,8 +78,8 @@ object:</p>
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
-<li><strong>row</strong> (<em>integer</em>) &#8211; The cell row (zero indexed).</li>
-<li><strong>col</strong> (<em>integer</em>) &#8211; The cell column (zero indexed).</li>
+<li><strong>row</strong> (<a class="reference external" href="http://docs.python.org/2/library/functions.html#int" title="(in Python v2.7)"><em>int</em></a>) &#8211; The cell row (zero indexed).</li>
+<li><strong>col</strong> (<a class="reference external" href="http://docs.python.org/2/library/functions.html#int" title="(in Python v2.7)"><em>int</em></a>) &#8211; The cell column (zero indexed).</li>
 <li><strong>data</strong> &#8211; Cell data to write. Variable types.</li>
 <li><strong>cell_format</strong> (<a class="reference internal" href="format.html#format"><em>Format</em></a>) &#8211; Optional Format object.</li>
 </ul>
@@ -98,6 +98,7 @@ more specific methods:</p>
 <li><a class="reference internal" href="#write_number" title="write_number"><tt class="xref py py-func docutils literal"><span class="pre">write_number()</span></tt></a></li>
 <li><a class="reference internal" href="#write_blank" title="write_blank"><tt class="xref py py-func docutils literal"><span class="pre">write_blank()</span></tt></a></li>
 <li><a class="reference internal" href="#write_formula" title="write_formula"><tt class="xref py py-func docutils literal"><span class="pre">write_formula()</span></tt></a></li>
+<li><a class="reference internal" href="#write_url" title="write_url"><tt class="xref py py-func docutils literal"><span class="pre">write_url()</span></tt></a></li>
 </ul>
 <p>The general rule is that if the data looks like a <em>something</em> then a
 <em>something</em> is written. Here are some examples:</p>
@@ -148,8 +149,8 @@ then the leading zero(s) will be stripped. In this case you shouldn&#8217;t use 
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
-<li><strong>row</strong> (<em>integer</em>) &#8211; The cell row (zero indexed).</li>
-<li><strong>col</strong> (<em>integer</em>) &#8211; The cell column (zero indexed).</li>
+<li><strong>row</strong> (<a class="reference external" href="http://docs.python.org/2/library/functions.html#int" title="(in Python v2.7)"><em>int</em></a>) &#8211; The cell row (zero indexed).</li>
+<li><strong>col</strong> (<a class="reference external" href="http://docs.python.org/2/library/functions.html#int" title="(in Python v2.7)"><em>int</em></a>) &#8211; The cell column (zero indexed).</li>
 <li><strong>string</strong> (<a class="reference external" href="http://docs.python.org/2/library/string.html#string" title="(in Python v2.7)"><em>string</em></a>) &#8211; String to write to cell.</li>
 <li><strong>cell_format</strong> (<a class="reference internal" href="format.html#format"><em>Format</em></a>) &#8211; Optional Format object.</li>
 </ul>
@@ -219,8 +220,8 @@ way Excel handles string data that looks like numbers. See <a class="reference i
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
-<li><strong>row</strong> (<em>integer</em>) &#8211; The cell row (zero indexed).</li>
-<li><strong>col</strong> (<em>integer</em>) &#8211; The cell column (zero indexed).</li>
+<li><strong>row</strong> (<a class="reference external" href="http://docs.python.org/2/library/functions.html#int" title="(in Python v2.7)"><em>int</em></a>) &#8211; The cell row (zero indexed).</li>
+<li><strong>col</strong> (<a class="reference external" href="http://docs.python.org/2/library/functions.html#int" title="(in Python v2.7)"><em>int</em></a>) &#8211; The cell column (zero indexed).</li>
 <li><strong>number</strong> (<em>int or float</em>) &#8211; Number to write to cell.</li>
 <li><strong>cell_format</strong> (<a class="reference internal" href="format.html#format"><em>Format</em></a>) &#8211; Optional Format object.</li>
 </ul>
@@ -256,8 +257,8 @@ Excel without losing precision is 15.</p>
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
-<li><strong>row</strong> (<em>integer</em>) &#8211; The cell row (zero indexed).</li>
-<li><strong>col</strong> (<em>integer</em>) &#8211; The cell column (zero indexed).</li>
+<li><strong>row</strong> (<a class="reference external" href="http://docs.python.org/2/library/functions.html#int" title="(in Python v2.7)"><em>int</em></a>) &#8211; The cell row (zero indexed).</li>
+<li><strong>col</strong> (<a class="reference external" href="http://docs.python.org/2/library/functions.html#int" title="(in Python v2.7)"><em>int</em></a>) &#8211; The cell column (zero indexed).</li>
 <li><strong>formula</strong> (<a class="reference external" href="http://docs.python.org/2/library/string.html#string" title="(in Python v2.7)"><em>string</em></a>) &#8211; Formula to write to cell.</li>
 <li><strong>cell_format</strong> (<a class="reference internal" href="format.html#format"><em>Format</em></a>) &#8211; Optional Format object.</li>
 </ul>
@@ -319,10 +320,10 @@ Packs should fix this.</p>
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
-<li><strong>first_row</strong> (<em>integer</em>) &#8211; The first row of the range. (All zero indexed.)</li>
-<li><strong>first_col</strong> (<em>integer</em>) &#8211; The first column of the range.</li>
-<li><strong>last_row</strong> (<em>integer</em>) &#8211; The last row of the range.</li>
-<li><strong>last_col</strong> (<em>integer</em>) &#8211; The last col of the range.</li>
+<li><strong>first_row</strong> (<a class="reference external" href="http://docs.python.org/2/library/functions.html#int" title="(in Python v2.7)"><em>int</em></a>) &#8211; The first row of the range. (All zero indexed.)</li>
+<li><strong>first_col</strong> (<a class="reference external" href="http://docs.python.org/2/library/functions.html#int" title="(in Python v2.7)"><em>int</em></a>) &#8211; The first column of the range.</li>
+<li><strong>last_row</strong> (<a class="reference external" href="http://docs.python.org/2/library/functions.html#int" title="(in Python v2.7)"><em>int</em></a>) &#8211; The last row of the range.</li>
+<li><strong>last_col</strong> (<a class="reference external" href="http://docs.python.org/2/library/functions.html#int" title="(in Python v2.7)"><em>int</em></a>) &#8211; The last col of the range.</li>
 <li><strong>formula</strong> (<a class="reference external" href="http://docs.python.org/2/library/string.html#string" title="(in Python v2.7)"><em>string</em></a>) &#8211; Array formula to write to cell.</li>
 <li><strong>cell_format</strong> (<a class="reference internal" href="format.html#format"><em>Format</em></a>) &#8211; Optional Format object.</li>
 </ul>
@@ -336,7 +337,8 @@ Packs should fix this.</p>
 Excel an array formula is a formula that performs a calculation on a set of
 values. It can return a single value or a range of values.</p>
 <p>An array formula is indicated by a pair of braces around the formula:
-<tt class="docutils literal"><span class="pre">{=SUM(A1:B1*A2:B2)}</span></tt>. If the array formula returns a single value then the <tt class="docutils literal"><span class="pre">first_</span></tt> and <tt class="docutils literal"><span class="pre">last_</span></tt> parameters should be the same:</p>
+<tt class="docutils literal"><span class="pre">{=SUM(A1:B1*A2:B2)}</span></tt>. If the array formula returns a single value then the
+<tt class="docutils literal"><span class="pre">first_</span></tt> and <tt class="docutils literal"><span class="pre">last_</span></tt> parameters should be the same:</p>
 <div class="highlight-python"><div class="highlight"><pre><span class="n">worksheet</span><span class="o">.</span><span class="n">write_array_formula</span><span class="p">(</span><span class="s">&#39;A1:A1&#39;</span><span class="p">,</span> <span class="s">&#39;{=SUM(B1:C1*B2:C2)}&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
@@ -368,6 +370,7 @@ applications that don&#8217;t calculate the value of the formula. The calculated
 <p>In addition, some early versions of Excel 2007 don&#8217;t calculate the values of
 array formulas when they aren&#8217;t supplied. Installing the latest Office Service
 Pack should fix this issue.</p>
+<p>See also <a class="reference internal" href="example_array_formula.html#ex-array-formula"><em>Example: Array formulas</em></a>.</p>
 </div>
 <div class="section" id="worksheet-write-blank">
 <h2>worksheet.write_blank()</h2>
@@ -380,8 +383,8 @@ Pack should fix this issue.</p>
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
-<li><strong>row</strong> (<em>integer</em>) &#8211; The cell row (zero indexed).</li>
-<li><strong>col</strong> (<em>integer</em>) &#8211; The cell column (zero indexed).</li>
+<li><strong>row</strong> (<a class="reference external" href="http://docs.python.org/2/library/functions.html#int" title="(in Python v2.7)"><em>int</em></a>) &#8211; The cell row (zero indexed).</li>
+<li><strong>col</strong> (<a class="reference external" href="http://docs.python.org/2/library/functions.html#int" title="(in Python v2.7)"><em>int</em></a>) &#8211; The cell column (zero indexed).</li>
 <li><strong>blank</strong> &#8211; None or empty string. The value is ignored.</li>
 <li><strong>cell_format</strong> (<a class="reference internal" href="format.html#format"><em>Format</em></a>) &#8211; Optional Format object.</li>
 </ul>
@@ -422,8 +425,8 @@ without special treatment for <tt class="docutils literal"><span class="pre">Non
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
-<li><strong>row</strong> (<em>integer</em>) &#8211; The cell row (zero indexed).</li>
-<li><strong>col</strong> (<em>integer</em>) &#8211; The cell column (zero indexed).</li>
+<li><strong>row</strong> (<a class="reference external" href="http://docs.python.org/2/library/functions.html#int" title="(in Python v2.7)"><em>int</em></a>) &#8211; The cell row (zero indexed).</li>
+<li><strong>col</strong> (<a class="reference external" href="http://docs.python.org/2/library/functions.html#int" title="(in Python v2.7)"><em>int</em></a>) &#8211; The cell column (zero indexed).</li>
 <li><strong>datetime</strong> (<a class="reference external" href="http://docs.python.org/2/library/datetime.html#datetime.datetime" title="(in Python v2.7)"><tt class="xref py py-class docutils literal"><span class="pre">datetime.datetime</span></tt></a>) &#8211; A datetime.datetime object.</li>
 <li><strong>cell_format</strong> (<a class="reference internal" href="format.html#format"><em>Format</em></a>) &#8211; Optional Format object.</li>
 </ul>
@@ -453,6 +456,112 @@ otherwise it will appear as a number:</p>
 </pre></div>
 </div>
 <p>See <a class="reference internal" href="working_with_dates_and_time.html#working-with-dates-and-time"><em>Working with Dates and Time</em></a> for more details.</p>
+</div>
+<div class="section" id="worksheet-write-url">
+<h2>worksheet.write_url()</h2>
+<dl class="function">
+<dt id="write_url">
+<tt class="descname">write_url</tt><big>(</big><em>row</em>, <em>col</em>, <em>url</em><span class="optional">[</span>, <em>cell_format</em><span class="optional">[</span>, <em>string</em><span class="optional">[</span>, <em>tip</em><span class="optional">]</span><span class="optional">]</span><span class="optional">]</span><big>)</big></dt>
+<dd><p>Write a hyperlink to a worksheet cell.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>row</strong> (<a class="reference external" href="http://docs.python.org/2/library/functions.html#int" title="(in Python v2.7)"><em>int</em></a>) &#8211; The cell row (zero indexed).</li>
+<li><strong>col</strong> (<a class="reference external" href="http://docs.python.org/2/library/functions.html#int" title="(in Python v2.7)"><em>int</em></a>) &#8211; The cell column (zero indexed).</li>
+<li><strong>url</strong> (<a class="reference external" href="http://docs.python.org/2/library/string.html#string" title="(in Python v2.7)"><em>string</em></a>) &#8211; Hyperlink url.</li>
+<li><strong>cell_format</strong> (<a class="reference internal" href="format.html#format"><em>Format</em></a>) &#8211; Optional Format object.</li>
+<li><strong>string</strong> (<a class="reference external" href="http://docs.python.org/2/library/string.html#string" title="(in Python v2.7)"><em>string</em></a>) &#8211; An optional display string for the hyperlink.</li>
+<li><strong>tip</strong> (<a class="reference external" href="http://docs.python.org/2/library/string.html#string" title="(in Python v2.7)"><em>string</em></a>) &#8211; An optional tooltip.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<p>The <tt class="docutils literal"><span class="pre">write_url()</span></tt> method is used to write a hyperlink in a worksheet cell.
+The url is comprised of two elements: the displayed string and the
+non-displayed link. The displayed string is the same as the link unless an
+alternative string is specified.</p>
+<p>Both row-column and A1 style notation are support. See <a class="reference internal" href="working_with_cell_notation.html#cell-notation"><em>Working with Cell Notation</em></a> for
+more details.</p>
+<p>The <tt class="docutils literal"><span class="pre">cell_format</span></tt> parameter is used to apply formatting to the cell. This
+parameter is optional, however, without a format the link won&#8217;t look like a
+link. The suggested <a class="reference internal" href="format.html#format"><em>Format</em></a>  is:</p>
+<div class="highlight-python"><pre>link_format = workbook.add_format('color': 'blue', 'underline': 1)</pre>
+</div>
+<p>There are four web style URI&#8217;s supported: <tt class="docutils literal"><span class="pre">http://</span></tt>, <tt class="docutils literal"><span class="pre">https://</span></tt>, <tt class="docutils literal"><span class="pre">ftp://</span></tt>
+and <tt class="docutils literal"><span class="pre">mailto:</span></tt>:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">worksheet</span><span class="o">.</span><span class="n">write_url</span><span class="p">(</span><span class="s">&#39;A1&#39;</span><span class="p">,</span> <span class="s">&#39;ftp://www.python.org/&#39;</span><span class="p">,</span>    <span class="n">link_format</span><span class="p">)</span>
+<span class="n">worksheet</span><span class="o">.</span><span class="n">write_url</span><span class="p">(</span><span class="s">&#39;A2&#39;</span><span class="p">,</span> <span class="s">&#39;http://www.python.org/&#39;</span><span class="p">,</span>   <span class="n">link_format</span><span class="p">)</span>
+<span class="n">worksheet</span><span class="o">.</span><span class="n">write_url</span><span class="p">(</span><span class="s">&#39;A3&#39;</span><span class="p">,</span> <span class="s">&#39;https://www.python.org/&#39;</span><span class="p">,</span>  <span class="n">link_format</span><span class="p">)</span>
+<span class="n">worksheet</span><span class="o">.</span><span class="n">write_url</span><span class="p">(</span><span class="s">&#39;A4&#39;</span><span class="p">,</span> <span class="s">&#39;mailto:jmcnamaracpan.org&#39;</span><span class="p">,</span> <span class="n">link_format</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>All of the these URI types are recognised by the <a class="reference internal" href="#write" title="write"><tt class="xref py py-func docutils literal"><span class="pre">write()</span></tt></a> method, so the
+following are equivalent:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">worksheet</span><span class="o">.</span><span class="n">write_url</span><span class="p">(</span><span class="s">&#39;A2&#39;</span><span class="p">,</span> <span class="s">&#39;http://www.python.org/&#39;</span><span class="p">,</span> <span class="n">link_format</span><span class="p">)</span>
+<span class="n">worksheet</span><span class="o">.</span><span class="n">write</span>    <span class="p">(</span><span class="s">&#39;A2&#39;</span><span class="p">,</span> <span class="s">&#39;http://www.python.org/&#39;</span><span class="p">,</span> <span class="n">link_format</span><span class="p">)</span>  <span class="c"># Same.</span>
+</pre></div>
+</div>
+<p>You can display an alternative string using the <tt class="docutils literal"><span class="pre">string</span></tt> parameter:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">worksheet</span><span class="o">.</span><span class="n">write_url</span><span class="p">(</span><span class="s">&#39;A1&#39;</span><span class="p">,</span> <span class="s">&#39;http://www.python.org&#39;</span><span class="p">,</span> <span class="n">link_format</span><span class="p">,</span> <span class="s">&#39;Python&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>If you wish to have some other cell data such as a number or a formula you can
+overwrite the cell using another call to <tt class="docutils literal"><span class="pre">write_*()</span></tt>:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">worksheet</span><span class="o">.</span><span class="n">write_url</span><span class="p">(</span><span class="s">&#39;A1&#39;</span><span class="p">,</span> <span class="s">&#39;http://www.python.org/&#39;</span><span class="p">,</span> <span class="n">link_format</span><span class="p">)</span>
+
+<span class="c"># Overwrite the URL string with a formula. The cell is still a link.</span>
+<span class="n">worksheet</span><span class="o">.</span><span class="n">write_formula</span><span class="p">(</span><span class="s">&#39;A1&#39;</span><span class="p">,</span> <span class="s">&#39;=1+1&#39;</span><span class="p">,</span> <span class="n">link_format</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>There are two local URIs supported: <tt class="docutils literal"><span class="pre">internal:</span></tt> and <tt class="docutils literal"><span class="pre">external:</span></tt>. These are
+used for hyperlinks to internal worksheet references or external workbook and
+worksheet references:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">worksheet</span><span class="o">.</span><span class="n">write_url</span><span class="p">(</span><span class="s">&#39;A1&#39;</span><span class="p">,</span>  <span class="s">&#39;internal:Sheet2!A1&#39;</span><span class="p">,</span>             <span class="n">link_format</span><span class="p">)</span>
+<span class="n">worksheet</span><span class="o">.</span><span class="n">write_url</span><span class="p">(</span><span class="s">&#39;A2&#39;</span><span class="p">,</span>  <span class="s">&#39;internal:Sheet2!A1&#39;</span><span class="p">,</span>             <span class="n">link_format</span><span class="p">)</span>
+<span class="n">worksheet</span><span class="o">.</span><span class="n">write_url</span><span class="p">(</span><span class="s">&#39;A3&#39;</span><span class="p">,</span>  <span class="s">&#39;internal:Sheet2!A1:B2&#39;</span><span class="p">,</span>          <span class="n">link_format</span><span class="p">)</span>
+<span class="n">worksheet</span><span class="o">.</span><span class="n">write_url</span><span class="p">(</span><span class="s">&#39;A4&#39;</span><span class="p">,</span>  <span class="s">&quot;internal:&#39;Sales Data&#39;!A1&quot;</span><span class="p">,</span>       <span class="n">link_format</span><span class="p">)</span>
+<span class="n">worksheet</span><span class="o">.</span><span class="n">write_url</span><span class="p">(</span><span class="s">&#39;A5&#39;</span><span class="p">,</span> <span class="s">r&#39;external:c:\temp\foo.xlsx&#39;</span><span class="p">,</span>      <span class="n">link_format</span><span class="p">)</span>
+<span class="n">worksheet</span><span class="o">.</span><span class="n">write_url</span><span class="p">(</span><span class="s">&#39;A6&#39;</span><span class="p">,</span> <span class="s">r&#39;external:c:\foo.xlsx#Sheet2!A1&#39;</span><span class="p">,</span> <span class="n">link_format</span><span class="p">)</span>
+<span class="n">worksheet</span><span class="o">.</span><span class="n">write_url</span><span class="p">(</span><span class="s">&#39;A7&#39;</span><span class="p">,</span> <span class="s">r&#39;external:..\foo.xlsx&#39;</span><span class="p">,</span>           <span class="n">link_format</span><span class="p">)</span>
+<span class="n">worksheet</span><span class="o">.</span><span class="n">write_url</span><span class="p">(</span><span class="s">&#39;A8&#39;</span><span class="p">,</span> <span class="s">r&#39;external:..\foo.xlsx#Sheet2!A1&#39;</span><span class="p">,</span> <span class="n">link_format</span><span class="p">)</span>
+<span class="n">worksheet</span><span class="o">.</span><span class="n">write_url</span><span class="p">(</span><span class="s">&#39;A9&#39;</span><span class="p">,</span> <span class="s">r&#39;external:</span><span class="se">\\</span><span class="s">NET\share\foo.xlsx&#39;</span><span class="p">,</span>  <span class="n">link_format</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Worksheet references are typically of the form <tt class="docutils literal"><span class="pre">Sheet1!A1</span></tt>. You can also
+link to a worksheet range using the standard Excel notation: <tt class="docutils literal"><span class="pre">Sheet1!A1:B2</span></tt>.</p>
+<p>In external links the workbook and worksheet name must be separated by the
+<tt class="docutils literal"><span class="pre">#</span></tt> character: <tt class="docutils literal"><span class="pre">external:Workbook.xlsx#Sheet1!A1'</span></tt>.</p>
+<p>You can also link to a named range in the target worksheet. For example say you
+have a named range called <tt class="docutils literal"><span class="pre">my_name</span></tt> in the workbook <tt class="docutils literal"><span class="pre">c:\temp\foo.xlsx</span></tt> you
+could link to it as follows:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">worksheet</span><span class="o">.</span><span class="n">write_url</span><span class="p">(</span><span class="s">&#39;A14&#39;</span><span class="p">,</span> <span class="s">r&#39;external:c:\temp\foo.xlsx#my_name&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Excel requires that worksheet names containing spaces or non alphanumeric
+characters are single quoted as follows <tt class="docutils literal"><span class="pre">'Sales</span> <span class="pre">Data'!A1</span></tt>.</p>
+<p>Links to network files are also supported. Network files normally begin with
+two back slashes as follows <tt class="docutils literal"><span class="pre">\\NETWORK\etc</span></tt>. In order to generate this in a
+single or double quoted string you will have to escape the backslashes,
+<tt class="docutils literal"><span class="pre">'\\\\NETWORK\\etc'</span></tt> or use a raw string <tt class="docutils literal"><span class="pre">r'\\NETWORK\etc'</span></tt>.</p>
+<p>Alternatively, you can avoid most of these quoting problems by using forward
+slashes. These are translated internally to backslashes:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">worksheet</span><span class="o">.</span><span class="n">write_url</span><span class="p">(</span><span class="s">&#39;A14&#39;</span><span class="p">,</span> <span class="s">&quot;external:c:/temp/foo.xlsx&quot;</span><span class="p">)</span>
+<span class="n">worksheet</span><span class="o">.</span><span class="n">write_url</span><span class="p">(</span><span class="s">&#39;A15&#39;</span><span class="p">,</span> <span class="s">&#39;external://NETWORK/share/foo.xlsx&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>See also <a class="reference internal" href="example_hyperlink.html#ex-hyperlink"><em>Example: Adding hyperlinks</em></a>.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">XlsxWriter will escape the following characters in URLs as required
+by Excel: <tt class="docutils literal"><span class="pre">\s</span> <span class="pre">&quot;</span> <span class="pre">&lt;</span> <span class="pre">&gt;</span> <span class="pre">\</span> <span class="pre">[</span> <span class="pre">]</span> <span class="pre">`</span> <span class="pre">^</span> <span class="pre">{</span> <span class="pre">}</span></tt> unless the URL already contains <tt class="docutils literal"><span class="pre">%xx</span></tt>
+style escapes. In which case it is assumed that the URL was escaped
+correctly by the user and will by passed directly to Excel.</p>
+</div>
 </div>
 <div class="section" id="worksheet-set-row">
 <h2>worksheet.set_row()</h2>
@@ -553,9 +662,8 @@ row has the collapsed <tt class="docutils literal"><span class="pre">'+'</span><
 <dl class="function">
 <dt id="set_column">
 <tt class="descname">set_column</tt><big>(</big><em>first_col</em>, <em>last_col</em>, <em>width</em>, <em>cell_format</em>, <em>hidden</em>, <em>level</em>, <em>collapsed</em><big>)</big></dt>
-<dt>
-<tt class="descname">Set properties for one or more columns of cells.</tt></dt>
-<dd><table class="docutils field-list" frame="void" rules="none">
+<dd><p>Set properties for one or more columns of cells.</p>
+<table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
@@ -706,8 +814,8 @@ grouping them together so that, for example, several worksheets could be
 printed in one go. A worksheet that has been activated via the <tt class="docutils literal"><span class="pre">activate()</span></tt>
 method will also appear as selected.</p>
 </div>
-<div class="section" id="merge-range">
-<h2>merge_range()</h2>
+<div class="section" id="worksheet-merge-range">
+<h2>worksheet.merge_range()</h2>
 <dl class="function">
 <dt id="merge_range">
 <tt class="descname">merge_range</tt><big>(</big><em>first_row</em>, <em>first_col</em>, <em>last_row</em>, <em>last_col</em>, <em>cell_format</em><big>)</big></dt>
@@ -717,10 +825,10 @@ method will also appear as selected.</p>
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
-<li><strong>first_row</strong> (<em>integer</em>) &#8211; The first row of the range. (All zero indexed.)</li>
-<li><strong>first_col</strong> (<em>integer</em>) &#8211; The first column of the range.</li>
-<li><strong>last_row</strong> (<em>integer</em>) &#8211; The last row of the range.</li>
-<li><strong>last_col</strong> (<em>integer</em>) &#8211; The last col of the range.</li>
+<li><strong>first_row</strong> (<a class="reference external" href="http://docs.python.org/2/library/functions.html#int" title="(in Python v2.7)"><em>int</em></a>) &#8211; The first row of the range. (All zero indexed.)</li>
+<li><strong>first_col</strong> (<a class="reference external" href="http://docs.python.org/2/library/functions.html#int" title="(in Python v2.7)"><em>int</em></a>) &#8211; The first column of the range.</li>
+<li><strong>last_row</strong> (<a class="reference external" href="http://docs.python.org/2/library/functions.html#int" title="(in Python v2.7)"><em>int</em></a>) &#8211; The last row of the range.</li>
+<li><strong>last_col</strong> (<a class="reference external" href="http://docs.python.org/2/library/functions.html#int" title="(in Python v2.7)"><em>int</em></a>) &#8211; The last col of the range.</li>
 <li><strong>data</strong> &#8211; Cell data to write. Variable types.</li>
 <li><strong>cell_format</strong> (<a class="reference internal" href="format.html#format"><em>Format</em></a>) &#8211; Optional Format object.</li>
 </ul>
@@ -757,6 +865,7 @@ behaviour with XlsxWriter you need to apply a <a class="reference internal" href
 usual. If this doesn&#8217;t handle you data correctly then you can overwrite the
 first cell with a call to one of the other <tt class="docutils literal"><span class="pre">write_*()</span></tt> methods using the
 same <a class="reference internal" href="format.html#format"><em>Format</em></a> as in the merged cells.</p>
+<p>See also <a class="reference internal" href="example_merge1.html#ex-merge1"><em>Example: Merging Cells</em></a>.</p>
 </div>
 </div>
 
@@ -779,11 +888,12 @@ same <a class="reference internal" href="format.html#format"><em>Format</em></a>
 <li><a class="reference internal" href="#worksheet-write-array-formula">worksheet.write_array_formula()</a></li>
 <li><a class="reference internal" href="#worksheet-write-blank">worksheet.write_blank()</a></li>
 <li><a class="reference internal" href="#worksheet-write-datetime">worksheet.write_datetime()</a></li>
+<li><a class="reference internal" href="#worksheet-write-url">worksheet.write_url()</a></li>
 <li><a class="reference internal" href="#worksheet-set-row">worksheet.set_row()</a></li>
 <li><a class="reference internal" href="#worksheet-set-column">worksheet.set_column()</a></li>
 <li><a class="reference internal" href="#worksheet-activate">worksheet.activate()</a></li>
 <li><a class="reference internal" href="#worksheet-select">worksheet.select()</a></li>
-<li><a class="reference internal" href="#merge-range">merge_range()</a></li>
+<li><a class="reference internal" href="#worksheet-merge-range">worksheet.merge_range()</a></li>
 </ul>
 </li>
 </ul>

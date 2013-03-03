@@ -7,6 +7,7 @@ XlsxWriter supports the following features:
 
 * 100% compatible Excel XLSX files.
 * Write text, numbers, formulas, dates.
+* Write hyperlinks to cells.
 * Full cell formatting.
 * Multiple worksheets.
 * Page setup methods for printing.
@@ -14,7 +15,7 @@ XlsxWriter supports the following features:
 * Defined names.
 * Document properties.
 * Standard libraries only.
-* Python 2/3 support. 
+* Python 2/3 support.
 
 
 Here is a small example:

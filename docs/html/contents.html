@@ -16,7 +16,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '',
-        VERSION:     '0.1.0',
+        VERSION:     '0.1.1',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -70,7 +70,7 @@
 <li class="toctree-l2"><a class="reference internal" href="workbook.html#workbook-add-worksheet">workbook.add_worksheet()</a></li>
 <li class="toctree-l2"><a class="reference internal" href="workbook.html#workbook-add-format">workbook.add_format()</a></li>
 <li class="toctree-l2"><a class="reference internal" href="workbook.html#workbook-close">workbook.close()</a></li>
-<li class="toctree-l2"><a class="reference internal" href="workbook.html#set-properties">set_properties()</a></li>
+<li class="toctree-l2"><a class="reference internal" href="workbook.html#workbook-set-properties">workbook.set_properties()</a></li>
 <li class="toctree-l2"><a class="reference internal" href="workbook.html#workbook-define-name">workbook.define_name()</a></li>
 <li class="toctree-l2"><a class="reference internal" href="workbook.html#workbook-worksheets">workbook.worksheets()</a></li>
 </ul>
@@ -83,11 +83,12 @@
 <li class="toctree-l2"><a class="reference internal" href="worksheet.html#worksheet-write-array-formula">worksheet.write_array_formula()</a></li>
 <li class="toctree-l2"><a class="reference internal" href="worksheet.html#worksheet-write-blank">worksheet.write_blank()</a></li>
 <li class="toctree-l2"><a class="reference internal" href="worksheet.html#worksheet-write-datetime">worksheet.write_datetime()</a></li>
+<li class="toctree-l2"><a class="reference internal" href="worksheet.html#worksheet-write-url">worksheet.write_url()</a></li>
 <li class="toctree-l2"><a class="reference internal" href="worksheet.html#worksheet-set-row">worksheet.set_row()</a></li>
 <li class="toctree-l2"><a class="reference internal" href="worksheet.html#worksheet-set-column">worksheet.set_column()</a></li>
 <li class="toctree-l2"><a class="reference internal" href="worksheet.html#worksheet-activate">worksheet.activate()</a></li>
 <li class="toctree-l2"><a class="reference internal" href="worksheet.html#worksheet-select">worksheet.select()</a></li>
-<li class="toctree-l2"><a class="reference internal" href="worksheet.html#merge-range">merge_range()</a></li>
+<li class="toctree-l2"><a class="reference internal" href="worksheet.html#worksheet-merge-range">worksheet.merge_range()</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="page_setup.html">The Worksheet Class (Page Setup)</a><ul>
@@ -95,22 +96,22 @@
 <li class="toctree-l2"><a class="reference internal" href="page_setup.html#worksheet-set-portrait">worksheet.set_portrait()</a></li>
 <li class="toctree-l2"><a class="reference internal" href="page_setup.html#worksheet-set-page-view">worksheet.set_page_view()</a></li>
 <li class="toctree-l2"><a class="reference internal" href="page_setup.html#worksheet-set-paper">worksheet.set_paper()</a></li>
-<li class="toctree-l2"><a class="reference internal" href="page_setup.html#center-horizontally">center_horizontally()</a></li>
-<li class="toctree-l2"><a class="reference internal" href="page_setup.html#center-vertically">center_vertically()</a></li>
-<li class="toctree-l2"><a class="reference internal" href="page_setup.html#worksheet-set-margins">worksheet.set_margins()</a></li>
-<li class="toctree-l2"><a class="reference internal" href="page_setup.html#set-header">set_header()</a></li>
-<li class="toctree-l2"><a class="reference internal" href="page_setup.html#set-footer">set_footer()</a></li>
-<li class="toctree-l2"><a class="reference internal" href="page_setup.html#repeat-rows">repeat_rows()</a></li>
-<li class="toctree-l2"><a class="reference internal" href="page_setup.html#repeat-columns">repeat_columns()</a></li>
-<li class="toctree-l2"><a class="reference internal" href="page_setup.html#hide-gridlines">hide_gridlines()</a></li>
-<li class="toctree-l2"><a class="reference internal" href="page_setup.html#print-row-col-headers">print_row_col_headers()</a></li>
-<li class="toctree-l2"><a class="reference internal" href="page_setup.html#print-area">print_area()</a></li>
+<li class="toctree-l2"><a class="reference internal" href="page_setup.html#worksheet-center-horizontally">worksheet.center_horizontally()</a></li>
+<li class="toctree-l2"><a class="reference internal" href="page_setup.html#worksheet-center-vertically">worksheet.center_vertically()</a></li>
+<li class="toctree-l2"><a class="reference internal" href="page_setup.html#worksheet-worksheet-set-margins">worksheet.worksheet.set_margins()</a></li>
+<li class="toctree-l2"><a class="reference internal" href="page_setup.html#worksheet-set-header">worksheet.set_header()</a></li>
+<li class="toctree-l2"><a class="reference internal" href="page_setup.html#worksheet-set-footer">worksheet.set_footer()</a></li>
+<li class="toctree-l2"><a class="reference internal" href="page_setup.html#worksheet-repeat-rows">worksheet.repeat_rows()</a></li>
+<li class="toctree-l2"><a class="reference internal" href="page_setup.html#worksheet-repeat-columns">worksheet.repeat_columns()</a></li>
+<li class="toctree-l2"><a class="reference internal" href="page_setup.html#worksheet-hide-gridlines">worksheet.hide_gridlines()</a></li>
+<li class="toctree-l2"><a class="reference internal" href="page_setup.html#worksheet-print-row-col-headers">worksheet.print_row_col_headers()</a></li>
+<li class="toctree-l2"><a class="reference internal" href="page_setup.html#worksheet-print-area">worksheet.print_area()</a></li>
 <li class="toctree-l2"><a class="reference internal" href="page_setup.html#worksheet-print-across">worksheet.print_across()</a></li>
-<li class="toctree-l2"><a class="reference internal" href="page_setup.html#fit-to-pages">fit_to_pages()</a></li>
-<li class="toctree-l2"><a class="reference internal" href="page_setup.html#set-start-page">set_start_page()</a></li>
-<li class="toctree-l2"><a class="reference internal" href="page_setup.html#set-print-scale">set_print_scale()</a></li>
-<li class="toctree-l2"><a class="reference internal" href="page_setup.html#set-h-pagebreaks">set_h_pagebreaks()</a></li>
-<li class="toctree-l2"><a class="reference internal" href="page_setup.html#set-v-pagebreaks">set_v_pagebreaks()</a></li>
+<li class="toctree-l2"><a class="reference internal" href="page_setup.html#worksheet-fit-to-pages">worksheet.fit_to_pages()</a></li>
+<li class="toctree-l2"><a class="reference internal" href="page_setup.html#worksheet-set-start-page">worksheet.set_start_page()</a></li>
+<li class="toctree-l2"><a class="reference internal" href="page_setup.html#worksheet-set-print-scale">worksheet.set_print_scale()</a></li>
+<li class="toctree-l2"><a class="reference internal" href="page_setup.html#worksheet-set-h-pagebreaks">worksheet.set_h_pagebreaks()</a></li>
+<li class="toctree-l2"><a class="reference internal" href="page_setup.html#worksheet-set-v-pagebreaks">worksheet.set_v_pagebreaks()</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="format.html">The Format Class</a><ul>
@@ -161,12 +162,13 @@
 <li class="toctree-l2"><a class="reference internal" href="example_hello_world.html">Example: Hello World</a></li>
 <li class="toctree-l2"><a class="reference internal" href="example_demo.html">Example: Simple Feature Demonstration</a></li>
 <li class="toctree-l2"><a class="reference internal" href="example_datetimes.html">Example: Dates and Times in Excel</a></li>
+<li class="toctree-l2"><a class="reference internal" href="example_hyperlink.html">Example: Adding hyperlinks</a></li>
 <li class="toctree-l2"><a class="reference internal" href="example_array_formula.html">Example: Array formulas</a></li>
 <li class="toctree-l2"><a class="reference internal" href="example_merge1.html">Example: Merging Cells</a></li>
 <li class="toctree-l2"><a class="reference internal" href="example_headers_footers.html">Example: Adding Headers and Footers to Worksheets</a></li>
 <li class="toctree-l2"><a class="reference internal" href="example_doc_properties.html">Example: Setting Document Properties</a></li>
-<li class="toctree-l2"><a class="reference internal" href="example_unicode_polish_utf8.html">Example: Unicode Polish in UTF-8</a></li>
-<li class="toctree-l2"><a class="reference internal" href="example_unicode_shift_jis.html">Example: Unicode Shift JIS</a></li>
+<li class="toctree-l2"><a class="reference internal" href="example_unicode_polish_utf8.html">Example: Unicode - Polish in UTF-8</a></li>
+<li class="toctree-l2"><a class="reference internal" href="example_unicode_shift_jis.html">Example: Unicode - Shift JIS</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="excel_writer_xlsx.html">Excel::Writer::XLSX</a><ul>

@@ -16,7 +16,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '',
-        VERSION:     '0.1.0',
+        VERSION:     '0.1.1',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -313,8 +313,8 @@ supports. Therefore, it is best to stick to standard paper types:</p>
 <p>If you do not specify a paper type the worksheet will print using the printer&#8217;s
 default paper style.</p>
 </div>
-<div class="section" id="center-horizontally">
-<h2>center_horizontally()</h2>
+<div class="section" id="worksheet-center-horizontally">
+<h2>worksheet.center_horizontally()</h2>
 <dl class="function">
 <dt id="center_horizontally">
 <tt class="descname">center_horizontally</tt><big>(</big><big>)</big></dt>
@@ -326,8 +326,8 @@ default paper style.</p>
 </pre></div>
 </div>
 </div>
-<div class="section" id="center-vertically">
-<h2>center_vertically()</h2>
+<div class="section" id="worksheet-center-vertically">
+<h2>worksheet.center_vertically()</h2>
 <dl class="function">
 <dt id="center_vertically">
 <tt class="descname">center_vertically</tt><big>(</big><big>)</big></dt>
@@ -339,8 +339,8 @@ default paper style.</p>
 </pre></div>
 </div>
 </div>
-<div class="section" id="worksheet-set-margins">
-<h2>worksheet.set_margins()</h2>
+<div class="section" id="worksheet-worksheet-set-margins">
+<h2>worksheet.worksheet.set_margins()</h2>
 <dl class="function">
 <dt id="set_margins">
 <tt class="descname">set_margins</tt><big>(</big><em>[left=0.7,] right=0.7,] top=0.75,] bottom=0.75]]]</em><big>)</big></dt>
@@ -365,8 +365,8 @@ default paper style.</p>
 it is printed. The units are in inches. All parameters are optional and have
 default values corresponding to the default Excel values.</p>
 </div>
-<div class="section" id="set-header">
-<h2>set_header()</h2>
+<div class="section" id="worksheet-set-header">
+<h2>worksheet.set_header()</h2>
 <dl class="function">
 <dt id="set_header">
 <tt class="descname">set_header</tt><big>(</big><em>[header='',] margin=0.3]]</em><big>)</big></dt>
@@ -578,9 +578,10 @@ The header and footer margin size can be set as follows:</p>
 <p>The header and footer margins are independent of the top and bottom margins.</p>
 <p>Note, the header or footer string must be less than 255 characters. Strings
 longer than this will not be written and an exception will be thrown.</p>
+<p>See also <a class="reference internal" href="example_headers_footers.html#ex-headers-footers"><em>Example: Adding Headers and Footers to Worksheets</em></a>.</p>
 </div>
-<div class="section" id="set-footer">
-<h2>set_footer()</h2>
+<div class="section" id="worksheet-set-footer">
+<h2>worksheet.set_footer()</h2>
 <dl class="function">
 <dt>
 <tt class="descname">set_header</tt><big>(</big><em>[footer='',] margin=0.3]]</em><big>)</big></dt>
@@ -601,8 +602,8 @@ longer than this will not be written and an exception will be thrown.</p>
 
 <p>The syntax of the <tt class="docutils literal"><span class="pre">set_footer()</span></tt> method is the same as <a class="reference internal" href="#set_header" title="set_header"><tt class="xref py py-func docutils literal"><span class="pre">set_header()</span></tt></a>.</p>
 </div>
-<div class="section" id="repeat-rows">
-<h2>repeat_rows()</h2>
+<div class="section" id="worksheet-repeat-rows">
+<h2>worksheet.repeat_rows()</h2>
 <dl class="function">
 <dt id="repeat_rows">
 <tt class="descname">repeat_rows</tt><big>(</big><em>first_row</em><span class="optional">[</span>, <em>last_row</em><span class="optional">]</span><big>)</big></dt>
@@ -631,8 +632,8 @@ optional if you only wish to specify one row:</p>
 </pre></div>
 </div>
 </div>
-<div class="section" id="repeat-columns">
-<h2>repeat_columns()</h2>
+<div class="section" id="worksheet-repeat-columns">
+<h2>worksheet.repeat_columns()</h2>
 <dl class="function">
 <dt id="repeat_columns">
 <tt class="descname">repeat_columns</tt><big>(</big><em>first_col</em><span class="optional">[</span>, <em>last_col</em><span class="optional">]</span><big>)</big></dt>
@@ -665,8 +666,8 @@ more details.:</p>
 </pre></div>
 </div>
 </div>
-<div class="section" id="hide-gridlines">
-<h2>hide_gridlines()</h2>
+<div class="section" id="worksheet-hide-gridlines">
+<h2>worksheet.hide_gridlines()</h2>
 <dl class="function">
 <dt>
 <tt class="descname">set_header</tt><big>(</big><span class="optional">[</span><em>option=1</em><span class="optional">]</span><big>)</big></dt>
@@ -698,8 +699,8 @@ gridlines:</p>
 <p>If you don&#8217;t supply an argument the default option is 1, i.e. only the
 printed gridlines are hidden.</p>
 </div>
-<div class="section" id="print-row-col-headers">
-<h2>print_row_col_headers()</h2>
+<div class="section" id="worksheet-print-row-col-headers">
+<h2>worksheet.print_row_col_headers()</h2>
 <dl class="function">
 <dt id="print_row_col_headers">
 <tt class="descname">print_row_col_headers</tt><big>(</big><big>)</big></dt>
@@ -715,11 +716,11 @@ headers:</p>
 </pre></div>
 </div>
 </div>
-<div class="section" id="print-area">
-<h2>print_area()</h2>
+<div class="section" id="worksheet-print-area">
+<h2>worksheet.print_area()</h2>
 <dl class="function">
 <dt id="print_area">
-<tt class="descname">print_area</tt><big>(</big><em>first_row</em>, <em>first_col</em>, <em>last_row</em>, <em>last_col)                                 last_col</em><big>)</big></dt>
+<tt class="descname">print_area</tt><big>(</big><em>first_row</em>, <em>first_col</em>, <em>last_row</em>, <em>last_col</em><big>)</big></dt>
 <dd><p>Set the print area in the current worksheet.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -773,8 +774,8 @@ to &#8220;across then down&#8221;:</p>
 </pre></div>
 </div>
 </div>
-<div class="section" id="fit-to-pages">
-<h2>fit_to_pages()</h2>
+<div class="section" id="worksheet-fit-to-pages">
+<h2>worksheet.fit_to_pages()</h2>
 <dl class="function">
 <dt id="fit_to_pages">
 <tt class="descname">fit_to_pages</tt><big>(</big><em>width</em>, <em>height</em><big>)</big></dt>
@@ -831,8 +832,8 @@ printer paper size using <a class="reference internal" href="#set_paper" title="
 to &#8220;US Letter&#8221;.</p>
 </div>
 </div>
-<div class="section" id="set-start-page">
-<h2>set_start_page()</h2>
+<div class="section" id="worksheet-set-start-page">
+<h2>worksheet.set_start_page()</h2>
 <dl class="function">
 <dt id="set_start_page">
 <tt class="descname">set_start_page</tt><big>(</big><big>)</big></dt>
@@ -853,8 +854,8 @@ when the worksheet is printed out:</p>
 </pre></div>
 </div>
 </div>
-<div class="section" id="set-print-scale">
-<h2>set_print_scale()</h2>
+<div class="section" id="worksheet-set-print-scale">
+<h2>worksheet.set_print_scale()</h2>
 <dl class="function">
 <dt id="set_print_scale">
 <tt class="descname">set_print_scale</tt><big>(</big><big>)</big></dt>
@@ -883,8 +884,8 @@ the scale of the visible page in Excel. For that you should use <tt class="docut
 <tt class="docutils literal"><span class="pre">set_print_scale()</span></tt> on the same worksheet only one of these options can
 be active at a time. The last method call made will set the active option.</p>
 </div>
-<div class="section" id="set-h-pagebreaks">
-<h2>set_h_pagebreaks()</h2>
+<div class="section" id="worksheet-set-h-pagebreaks">
+<h2>worksheet.set_h_pagebreaks()</h2>
 <dl class="function">
 <dt id="set_h_pagebreaks">
 <tt class="descname">set_h_pagebreaks</tt><big>(</big><em>breaks</em><big>)</big></dt>
@@ -920,8 +921,8 @@ method it will override all manual page breaks.</p>
 <p>There is a silent limitation of 1023 horizontal page breaks per worksheet
 in line with an Excel internal limitation.</p>
 </div>
-<div class="section" id="set-v-pagebreaks">
-<h2>set_v_pagebreaks()</h2>
+<div class="section" id="worksheet-set-v-pagebreaks">
+<h2>worksheet.set_v_pagebreaks()</h2>
 <dl class="function">
 <dt id="set_v_pagebreaks">
 <tt class="descname">set_v_pagebreaks</tt><big>(</big><em>breaks</em><big>)</big></dt>
@@ -957,22 +958,22 @@ in line with an Excel internal limitation.</p>
 <li><a class="reference internal" href="#worksheet-set-portrait">worksheet.set_portrait()</a></li>
 <li><a class="reference internal" href="#worksheet-set-page-view">worksheet.set_page_view()</a></li>
 <li><a class="reference internal" href="#worksheet-set-paper">worksheet.set_paper()</a></li>
-<li><a class="reference internal" href="#center-horizontally">center_horizontally()</a></li>
-<li><a class="reference internal" href="#center-vertically">center_vertically()</a></li>
-<li><a class="reference internal" href="#worksheet-set-margins">worksheet.set_margins()</a></li>
-<li><a class="reference internal" href="#set-header">set_header()</a></li>
-<li><a class="reference internal" href="#set-footer">set_footer()</a></li>
-<li><a class="reference internal" href="#repeat-rows">repeat_rows()</a></li>
-<li><a class="reference internal" href="#repeat-columns">repeat_columns()</a></li>
-<li><a class="reference internal" href="#hide-gridlines">hide_gridlines()</a></li>
-<li><a class="reference internal" href="#print-row-col-headers">print_row_col_headers()</a></li>
-<li><a class="reference internal" href="#print-area">print_area()</a></li>
+<li><a class="reference internal" href="#worksheet-center-horizontally">worksheet.center_horizontally()</a></li>
+<li><a class="reference internal" href="#worksheet-center-vertically">worksheet.center_vertically()</a></li>
+<li><a class="reference internal" href="#worksheet-worksheet-set-margins">worksheet.worksheet.set_margins()</a></li>
+<li><a class="reference internal" href="#worksheet-set-header">worksheet.set_header()</a></li>
+<li><a class="reference internal" href="#worksheet-set-footer">worksheet.set_footer()</a></li>
+<li><a class="reference internal" href="#worksheet-repeat-rows">worksheet.repeat_rows()</a></li>
+<li><a class="reference internal" href="#worksheet-repeat-columns">worksheet.repeat_columns()</a></li>
+<li><a class="reference internal" href="#worksheet-hide-gridlines">worksheet.hide_gridlines()</a></li>
+<li><a class="reference internal" href="#worksheet-print-row-col-headers">worksheet.print_row_col_headers()</a></li>
+<li><a class="reference internal" href="#worksheet-print-area">worksheet.print_area()</a></li>
 <li><a class="reference internal" href="#worksheet-print-across">worksheet.print_across()</a></li>
-<li><a class="reference internal" href="#fit-to-pages">fit_to_pages()</a></li>
-<li><a class="reference internal" href="#set-start-page">set_start_page()</a></li>
-<li><a class="reference internal" href="#set-print-scale">set_print_scale()</a></li>
-<li><a class="reference internal" href="#set-h-pagebreaks">set_h_pagebreaks()</a></li>
-<li><a class="reference internal" href="#set-v-pagebreaks">set_v_pagebreaks()</a></li>
+<li><a class="reference internal" href="#worksheet-fit-to-pages">worksheet.fit_to_pages()</a></li>
+<li><a class="reference internal" href="#worksheet-set-start-page">worksheet.set_start_page()</a></li>
+<li><a class="reference internal" href="#worksheet-set-print-scale">worksheet.set_print_scale()</a></li>
+<li><a class="reference internal" href="#worksheet-set-h-pagebreaks">worksheet.set_h_pagebreaks()</a></li>
+<li><a class="reference internal" href="#worksheet-set-v-pagebreaks">worksheet.set_v_pagebreaks()</a></li>
 </ul>
 </li>
 </ul>
