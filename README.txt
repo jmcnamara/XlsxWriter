@@ -4,6 +4,7 @@ XlsxWriter supports the following features:
 
 * 100% compatible Excel XLSX files.
 * Write text, numbers, formulas, dates.
+* Write hyperlinks to cells.
 * Full cell formatting.
 * Multiple worksheets.
 * Page setup methods for printing.

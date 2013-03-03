@@ -1,4 +1,11 @@
 
+Release 0.1.1 - March 3 2013
+--------------------------------
+
+* Added the :func:`write_url` worksheet method for writing hyperlinks to
+  a worksheet.
+
+
 Release 0.1.0 - February 28 2013
 --------------------------------
 

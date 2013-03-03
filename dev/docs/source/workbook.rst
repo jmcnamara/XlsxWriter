@@ -118,8 +118,8 @@ be created for some unknown silent reason you should add ``close()`` to your
 program.
 
 
-set_properties()
-----------------
+workbook.set_properties()
+-------------------------
 
 .. py:function:: set_properties()
 
@@ -159,8 +159,7 @@ The properties should be passed in dictionary format as follows::
 
 .. image:: _static/doc_properties.png
 
-See also the ``doc_properties.py`` example program.
-
+See also :ref:`ex_doc_properties`.
 
 workbook.define_name()
 ----------------------
@@ -204,7 +203,7 @@ workbook.worksheets()
    
    :rtype: A list of :ref:`worksheet <Worksheet>` objects.
    
-The ``worksheets()`` method returns a list of the worksheets in a workbook. 
+The ``worksheets()`` method returns a list of the worksheets in a workbook.
 This is useful if you want to repeat an operation on each worksheet in a
 workbook::
 

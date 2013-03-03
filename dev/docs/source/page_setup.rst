@@ -121,8 +121,8 @@ If you do not specify a paper type the worksheet will print using the printer's
 default paper style.
 
 
-center_horizontally()
----------------------
+worksheet.center_horizontally()
+-------------------------------
 
 .. py:function:: center_horizontally()
 
@@ -133,8 +133,8 @@ Center the worksheet data horizontally between the margins on the printed page::
     worksheet.center_horizontally()
 
 
-center_vertically()
--------------------
+worksheet.center_vertically()
+-----------------------------
 
 .. py:function:: center_vertically()
 
@@ -144,8 +144,8 @@ Center the worksheet data vertically between the margins on the printed page::
 
     worksheet.center_vertically()
 
-worksheet.set_margins()
------------------------
+worksheet.worksheet.set_margins()
+---------------------------------
 
 .. py:function:: set_margins([left=0.7,] right=0.7,] top=0.75,] bottom=0.75]]])
 
@@ -162,8 +162,8 @@ it is printed. The units are in inches. All parameters are optional and have
 default values corresponding to the default Excel values.
 
 
-set_header()
-------------
+worksheet.set_header()
+----------------------
 
 .. py:function:: set_header([header='',] margin=0.3]])
 
@@ -314,9 +314,10 @@ The header and footer margins are independent of the top and bottom margins.
 Note, the header or footer string must be less than 255 characters. Strings
 longer than this will not be written and an exception will be thrown.
 
+See also :ref:`ex_headers_footers`.
 
-set_footer()
-------------
+worksheet.set_footer()
+----------------------
 
 .. py:function:: set_header([footer='',] margin=0.3]])
 
@@ -328,8 +329,8 @@ set_footer()
 The syntax of the ``set_footer()`` method is the same as :func:`set_header`.
 
 
-repeat_rows()
--------------
+worksheet.repeat_rows()
+-----------------------
 
 .. py:function:: repeat_rows(first_row[, last_row])
 
@@ -349,8 +350,8 @@ optional if you only wish to specify one row::
     worksheet2.repeat_rows(0, 1)  # Repeat the first two rows.
 
 
-repeat_columns()
-----------------
+worksheet.repeat_columns()
+--------------------------
 
 .. py:function:: repeat_columns(first_col[, last_col])
 
@@ -374,8 +375,8 @@ more details.::
     worksheet4.repeat_columns('A:B')  # Repeat the first two columns.
 
 
-hide_gridlines()
-----------------
+worksheet.hide_gridlines()
+--------------------------
 
 .. py:function:: set_header([option=1])
 
@@ -402,8 +403,8 @@ If you don't supply an argument the default option is 1, i.e. only the
 printed gridlines are hidden.
 
 
-print_row_col_headers()
------------------------
+worksheet.print_row_col_headers()
+---------------------------------
 
 .. py:function:: print_row_col_headers()
 
@@ -418,8 +419,8 @@ headers::
 
     worksheet.print_row_col_headers()
 
-print_area()
-------------
+worksheet.print_area()
+----------------------
 
 .. py:function:: print_area(first_row, first_col, last_row, last_col)
 
@@ -469,8 +470,8 @@ to "across then down"::
     [1] [2]
     [3] [4]
 
-fit_to_pages()
---------------
+worksheet.fit_to_pages()
+------------------------
 
 .. py:function:: fit_to_pages(width, height)
 
@@ -480,7 +481,7 @@ fit_to_pages()
    :param int width:  Number of pages horizontally.
    :param int height: Number of pages vertically.
 
-The ``fit_to_pages()`` method is used to fit the printed area to a specific 
+The ``fit_to_pages()`` method is used to fit the printed area to a specific
 number of pages both vertically and horizontally. If the printed area exceeds
 the specified number of pages it will be scaled down to fit. This ensures
 that the printed area will always appear on the specified number of pages
@@ -494,7 +495,7 @@ The print area can be defined using the ``print_area()`` method as described
 above.
 
 A common requirement is to fit the printed output to ``n`` pages wide but have
-the height be as long as necessary. To achieve this set the ``height`` to 
+the height be as long as necessary. To achieve this set the ``height`` to
 zero::
 
     worksheet1.fit_to_pages(1, 0)  # 1 page wide and as long as necessary.
@@ -515,8 +516,8 @@ zero::
    to "US Letter".
 
 
-set_start_page()
-----------------
+worksheet.set_start_page()
+--------------------------
 
 .. py:function:: set_start_page()
 
@@ -529,8 +530,8 @@ when the worksheet is printed out::
 
     worksheet.set_start_page(2)
 
-set_print_scale()
------------------
+worksheet.set_print_scale()
+---------------------------
 
 .. py:function:: set_print_scale()
 
@@ -554,8 +555,8 @@ Note also that although it is valid to use both ``fit_to_pages()`` and
 be active at a time. The last method call made will set the active option.
 
 
-set_h_pagebreaks()
-------------------
+worksheet.set_h_pagebreaks()
+----------------------------
 
 .. py:function:: set_h_pagebreaks(breaks)
 
@@ -564,7 +565,7 @@ set_h_pagebreaks()
    :param list breaks: List of pagebreak rows.
 
 The ``set_h_pagebreaks()`` method adds horizontal page breaks to a worksheet.
-A page break causes all the data that follows it to be printed on the next 
+A page break causes all the data that follows it to be printed on the next
 page. Horizontal page breaks act between rows. To create a page break between
 rows 20 and 21 you must specify the break at row 21. However in zero index
 notation this is actually row 20. So you can pretend for a small while that
@@ -584,8 +585,8 @@ There is a silent limitation of 1023 horizontal page breaks per worksheet
 in line with an Excel internal limitation.
 
 
-set_v_pagebreaks()
-------------------
+worksheet.set_v_pagebreaks()
+----------------------------
 
 .. py:function:: set_v_pagebreaks(breaks)
 
@@ -593,7 +594,6 @@ set_v_pagebreaks()
 
    :param list breaks: List of pagebreak columns.
 
-The ``set_v_pagebreaks()`` method is the same as the above 
+The ``set_v_pagebreaks()`` method is the same as the above
 :func:`set_h_pagebreaks()` method except it adds page breaks between columns.
 
-  

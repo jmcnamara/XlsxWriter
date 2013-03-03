@@ -1,7 +1,7 @@
 Examples
 ========
 
-The following are some of the examples included in the 
+The following are some of the examples included in the
 `examples <https://github.com/jmcnamara/XlsxWriter/tree/master/examples>`_
 directory of the XlsxWriter distribution.
 
@@ -11,6 +11,7 @@ directory of the XlsxWriter distribution.
    example_hello_world.rst
    example_demo.rst
    example_datetimes.rst
+   example_hyperlink.rst
    example_array_formula.rst
    example_merge1.rst
    example_headers_footers.rst

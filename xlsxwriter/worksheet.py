@@ -573,7 +573,7 @@ class Worksheet(xmlwriter.XMLwriter):
         return 0
 
     # Write a hyperlink. This is comprised of two elements: the displayed
-    # string and the non-dispalyed link. The displayed string is the same as
+    # string and the non-displayed link. The displayed string is the same as
     # the link unless an alternative string is specified. The display string
     # is written using the write_string() method. Therefore the max characters
     # string limit applies.
@@ -597,7 +597,7 @@ class Worksheet(xmlwriter.XMLwriter):
         Args:
             row:    The cell row (zero indexed).
             col:    The cell column (zero indexed).
-            link:   Hyperlink url.
+            url:    Hyperlink url.
             format: An optional cell Format object.
             string: An optional display string for the hyperlink.
             tip:    An optional tooltip.
