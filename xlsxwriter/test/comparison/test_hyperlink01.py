@@ -30,7 +30,7 @@ class TestCompareXLSXFiles(unittest.TestCase):
         self.ignore_elements = {}
 
     def test_create_file(self):
-        """Test the creation of a simple XlsxWriter file with hyperlinks."""
+        """Test the creation of a simple XlsxWriter file with hyperlinks"""
         filename = self.got_filename
 
         ####################################################
@@ -40,6 +40,29 @@ class TestCompareXLSXFiles(unittest.TestCase):
         worksheet = workbook.add_worksheet()
 
         worksheet.write_url('A1', 'http://www.perl.org/')
+
+        workbook.close()
+
+        ####################################################
+
+        got, exp = _compare_xlsx_files(self.got_filename,
+                                       self.exp_filename,
+                                       self.ignore_files,
+                                       self.ignore_elements)
+
+        self.assertEqual(got, exp)
+
+    def test_create_file_write(self):
+        """Test the creation of a simple XlsxWriter file with hyperlinks with write()"""
+        filename = self.got_filename
+
+        ####################################################
+
+        workbook = Workbook(filename)
+
+        worksheet = workbook.add_worksheet()
+
+        worksheet.write('A1', 'http://www.perl.org/')
 
         workbook.close()
 

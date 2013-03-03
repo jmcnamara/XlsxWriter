@@ -299,7 +299,7 @@ class Worksheet(xmlwriter.XMLwriter):
         if token is None:
             token = ''
 
-        # Try work out the appropriate method to call.
+        # First check if the token to write is a number.
         try:
             float(token)
             return self.write_number(row, col, *args)
@@ -307,7 +307,7 @@ class Worksheet(xmlwriter.XMLwriter):
             # Not a number. Continue to the checks below.
             pass
 
-        # TODO. Add other write_* methods.
+        # Map the data to the appropriate write_*() method.
         if isinstance(token, datetime.datetime):
             return self.write_datetime(row, col, *args)
         elif token == '':
@@ -316,6 +316,12 @@ class Worksheet(xmlwriter.XMLwriter):
             return self.write_formula(row, col, *args)
         elif token.startswith('{') and token.endswith('}'):
             return self.write_formula(row, col, *args)
+        elif re.match('[fh]tt?ps?://', token):
+            return self.write_url(row, col, *args)
+        elif re.match('mailto:', token):
+            return self.write_url(row, col, *args)
+        elif re.match('(in|ex)ternal:', token):
+            return self.write_url(row, col, *args)
         else:
             return self.write_string(row, col, *args)
 
@@ -566,18 +572,14 @@ class Worksheet(xmlwriter.XMLwriter):
 
         return 0
 
-    # TODO
-    # write_url($row, $col, $url, $string, $format)
-    #
-    # Write a hyperlink. This is comprised of two elements: the visible label
-    # and
-    # the invisible link. The visible label is the same as the link unless an
-    # alternative string is specified. The label is written using the
-    # write_string() method. Therefore the max characters string limit applies.
-    # $string and $format are optional and their order is interchangeable.
+    # Write a hyperlink. This is comprised of two elements: the displayed
+    # string and the non-dispalyed link. The displayed string is the same as
+    # the link unless an alternative string is specified. The display string
+    # is written using the write_string() method. Therefore the max characters
+    # string limit applies.
     #
     # The hyperlink can be to a http, ftp, mail, internal sheet, or external
-    # directory url.
+    # directory urls.
     #
     # Returns  0 : normal termination
     #         -1 : insufficient number of arguments
@@ -589,7 +591,23 @@ class Worksheet(xmlwriter.XMLwriter):
     @convert_cell_args
     def write_url(self, row, col, url, cell_format=None,
                   string=None, tip=None):
+        """
+        Write a hyperlink to a worksheet cell.
 
+        Args:
+            row:    The cell row (zero indexed).
+            col:    The cell column (zero indexed).
+            link:   Hyperlink url.
+            format: An optional cell Format object.
+            string: An optional display string for the hyperlink.
+            tip:    An optional tooltip.
+        Returns:
+            0:  Success.
+            -1: Row or column is out of worksheet bounds.
+            -2: String longer than 32767 characters.
+            -3: URL longer than Excel limit of 255 characters
+            -4: Exceeds Excel limit of 65,530 urls per worksheet
+        """
         # Default link type such as http://.
         link_type = 1
 
@@ -617,14 +635,14 @@ class Worksheet(xmlwriter.XMLwriter):
 
         # Check that row and col are valid and store max and min values
         if self._check_dimensions(row, col):
-            return -2
+            return -1
 
         # Check that the string is < 32767 chars
         str_error = 0
         if len(string) > self.xls_strmax:
             warn("Ignoring URL since it exceeds Excel's string limit of "
                  "32767 characters")
-            return -3
+            return -2
 
         # Copy string for use in hyperlink elements.
         url_str = string
@@ -676,7 +694,7 @@ class Worksheet(xmlwriter.XMLwriter):
         if len(url) > 255:
             warn("Ignoring URL '%s' > 255 characters since it exceeds "
                  "Excel's limit for URLS" % url)
-            return -4
+            return -3
 
         # Check the limit of URLS per worksheet.
         self.hlink_count += 1

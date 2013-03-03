@@ -8,6 +8,7 @@
 import unittest
 import os
 from ...workbook import Workbook
+from ...sharedstrings import SharedStringTable
 from ..helperfunctions import _compare_xlsx_files
 
 
@@ -20,17 +21,17 @@ class TestCompareXLSXFiles(unittest.TestCase):
     def setUp(self):
         self.maxDiff = None
 
-        filename = 'hyperlink12.xlsx'
+        filename = 'hyperlink19.xlsx'
 
         test_dir = 'xlsxwriter/test/comparison/'
         self.got_filename = test_dir + '_test_' + filename
         self.exp_filename = test_dir + 'xlsx_files/' + filename
 
-        self.ignore_files = []
+        self.ignore_files = ['xl/calcChain.xml', '[Content_Types].xml', 'xl/_rels/workbook.xml.rels']
         self.ignore_elements = {}
 
     def test_create_file(self):
-        """Test the creation of a simple XlsxWriter file with hyperlinks. This example has link formatting."""
+        """Test the creation of a simple XlsxWriter file with hyperlinks."""
         filename = self.got_filename
 
         ####################################################
@@ -38,37 +39,14 @@ class TestCompareXLSXFiles(unittest.TestCase):
         workbook = Workbook(filename)
 
         worksheet = workbook.add_worksheet()
-        format = workbook.add_format({'color': 'blue', 'underline': 1})
 
-        worksheet.write_url('A1', 'mailto:jmcnamara@cpan.org', format)
+        worksheet.write_url('A1', 'http://www.perl.com/')
 
-        worksheet.write_url('A3', 'ftp://perl.org/', format)
+        # Maintain the link but overwrite string with a formula.
+        worksheet.write_formula('A1', '=1+1', None, 2)
 
-        workbook.close()
-
-        ####################################################
-
-        got, exp = _compare_xlsx_files(self.got_filename,
-                                       self.exp_filename,
-                                       self.ignore_files,
-                                       self.ignore_elements)
-
-        self.assertEqual(got, exp)
-
-    def test_create_file_write(self):
-        """Test the creation of a simple XlsxWriter file with hyperlinks. This example has link formatting and uses write()"""
-        filename = self.got_filename
-
-        ####################################################
-
-        workbook = Workbook(filename)
-
-        worksheet = workbook.add_worksheet()
-        format = workbook.add_format({'color': 'blue', 'underline': 1})
-
-        worksheet.write('A1', 'mailto:jmcnamara@cpan.org', format)
-
-        worksheet.write('A3', 'ftp://perl.org/', format)
+        # Reset the SST for testing.
+        workbook.str_table = SharedStringTable()
 
         workbook.close()
 

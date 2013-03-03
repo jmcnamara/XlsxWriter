@@ -60,6 +60,37 @@ class TestCompareXLSXFiles(unittest.TestCase):
 
         self.assertEqual(got, exp)
 
+    def test_create_file_write(self):
+        """Test the creation of a simple XlsxWriter file with hyperlinks with write()"""
+        filename = self.got_filename
+
+        ####################################################
+
+        workbook = Workbook(filename)
+
+        worksheet1 = workbook.add_worksheet()
+        worksheet2 = workbook.add_worksheet()
+        worksheet3 = workbook.add_worksheet('Data Sheet')
+
+        worksheet1.write('A1', "internal:Sheet2!A1")
+        worksheet1.write('A3', "internal:Sheet2!A1:A5")
+        worksheet1.write('A5', "internal:'Data Sheet'!D5", None, 'Some text')
+        worksheet1.write('E12', "internal:Sheet1!J1")
+        worksheet1.write('G17', "internal:Sheet2!A1", None, 'Some text')
+        worksheet1.write('A18', "internal:Sheet2!A1", None, None, 'Tool Tip 1')
+        worksheet1.write('A20', "internal:Sheet2!A1", None, 'More text', 'Tool Tip 2')
+
+        workbook.close()
+
+        ####################################################
+
+        got, exp = _compare_xlsx_files(self.got_filename,
+                                       self.exp_filename,
+                                       self.ignore_files,
+                                       self.ignore_elements)
+
+        self.assertEqual(got, exp)
+
     def tearDown(self):
         # Cleanup.
         if os.path.exists(self.got_filename):
