@@ -1579,6 +1579,149 @@ class Worksheet(xmlwriter.XMLwriter):
 
         return breaks_list
 
+    def _extract_filter_tokens(self, expression):
+        # Extract the tokens from the filter expression. The tokens are mainly
+        # non-whitespace groups. The only tricky part is to extract string
+        # tokens that contain whitespace and/or quoted double quotes (Excel's
+        # escaped quotes).
+        #
+        # Examples: 'x <  2000'
+        #           'x >  2000 and x <  5000'
+        #           'x = "foo"'
+        #           'x = "foo bar"'
+        #           'x = "foo "" bar"'
+        #
+        if not expression:
+            return []
+
+        token_re = re.compile(r'"(?:[^"]|"")*"|\S+')
+        tokens = token_re.findall(expression)
+
+        new_tokens = []
+        # Remove single leading and trailing quotes and un-escape other quotes.
+        for token in tokens:
+            if token.startswith('"'):
+                token = token[1:]
+
+            if token.endswith('"'):
+                token = token[:-1]
+
+            token = token.replace('""', '"')
+
+            new_tokens.append(token)
+
+        return new_tokens
+
+    def _parse_filter_expression(self, expression, tokens):
+        # Converts the tokens of a possibly conditional expression into 1 or 2
+        # sub expressions for further parsing.
+        #
+        # Examples:
+        #          ('x', '==', 2000) -> exp1
+        #          ('x', '>',  2000, 'and', 'x', '<', 5000) -> exp1 and exp2
+
+        if len(tokens) == 7:
+            # The number of tokens will be either 3 (for 1 expression)
+            # or 7 (for 2  expressions).
+            conditional = tokens[3]
+
+            if re.match('(and|&&)', conditional):
+                conditional = 0
+            elif re.match('(or|\|\|)', conditional):
+                conditional = 1
+            else:
+                warn("Token '%s' is not a valid conditional "
+                     "in filter expression '%s'" % (conditional, expression))
+
+            expression_1 = self._parse_filter_tokens(expression, tokens[0:3])
+            expression_2 = self._parse_filter_tokens(expression, tokens[4:7])
+
+            return expression_1 + [conditional] + expression_2
+        else:
+            return self._parse_filter_tokens(expression, tokens)
+
+    def _parse_filter_tokens(self, expression, tokens):
+        # Parse the 3 tokens of a filter expression and return the operator
+        # and token. The use of numbers instead of operators is a legacy of
+        # Spreadsheet::WriteExcel.
+        operators = {
+            '==': 2,
+            '=': 2,
+            '=~': 2,
+            'eq': 2,
+
+            '!=': 5,
+            '!~': 5,
+            'ne': 5,
+            '<>': 5,
+
+            '<': 1,
+            '<=': 3,
+            '>': 4,
+            '>=': 6,
+        }
+
+        operator = operators.get(tokens[1], None)
+        token = tokens[2]
+
+        # Special handling of "Top" filter expressions.
+        if re.match('top|bottom', tokens[0].lower()):
+            value = int(tokens[1])
+
+            if (value < 1 or value > 500):
+                warn("The value '%d' in expression '%s' "
+                     "must be in the range 1 to 500" % (value, expression))
+
+            token = token.lower()
+
+            if token != 'items' and token != '%':
+                warn("The type '%s' in expression '%s' "
+                     "must be either 'items' or '%'" % (token, expression))
+
+            if tokens[0].lower() == 'top':
+                operator = 30
+            else:
+                operator = 32
+
+            if tokens[2] == '%':
+                operator += 1
+
+            token = str(value)
+
+        if not operator and tokens[0]:
+            warn("Token '%s' is not a valid operator "
+              + "in filter expression '%s'" % (token[0], expression))
+
+        # Special handling for Blanks/NonBlanks.
+        if re.match('blanks|nonblanks', token.lower()):
+            # Only allow Equals or NotEqual in this context.
+            if operator != 2 and operator != 5:
+                warn("The operator '%s' in expression '%s' "
+                     "is not valid in relation to Blanks/NonBlanks'"
+                     % (tokens[1], expression))
+
+            token = token.lower()
+
+            # The operator should always be 2 (=) to flag a "simple" equality
+            # in the binary record. Therefore we convert <> to =.
+            if token == 'blanks':
+                if operator == 5:
+                    token = ' '
+            else:
+                if operator == 5:
+                    operator = 2
+                    token = 'blanks'
+                else:
+                    operator = 5
+                    token = ' '
+
+        # if the string token contains an Excel match character then change the
+        # operator type to indicate a non "simple" equality.
+        if operator == 2 and re.search('[*?]', token):
+            operator = 22
+
+        return [operator, token]
+
     ###########################################################################
     #
     # XML methods.
