@@ -730,6 +730,52 @@ class Worksheet(xmlwriter.XMLwriter):
 
         return str_error
 
+    @convert_cell_args
+    def write_row(self, row, col, tokens, cell_format=None):
+        """
+        Write a row of data starting from (row, col).
+
+        Args:
+            row:    The cell row (zero indexed).
+            col:    The cell column (zero indexed).
+            tokens: A list of tokens to be written with write().
+            format: An optional cell Format object.
+        Returns:
+            0:  Success.
+            other: Return value of write() method.
+
+        """
+        for token in (tokens):
+            error = self.write(row, col, token, cell_format)
+            if error:
+                return error
+            col += 1
+
+        return 0
+
+    @convert_cell_args
+    def write_column(self, row, col, tokens, cell_format=None):
+        """
+        Write a column of data starting from (row, col).
+
+        Args:
+            row:    The cell row (zero indexed).
+            col:    The cell column (zero indexed).
+            tokens: A list of tokens to be written with write().
+            format: An optional cell Format object.
+        Returns:
+            0:  Success.
+            other: Return value of write() method.
+
+        """
+        for token in (tokens):
+            error = self.write(row, col, token, cell_format)
+            if error:
+                return error
+            row += 1
+
+        return 0
+
     def activate(self):
         """
         Set this worksheet as the active worksheet, i.e. the worksheet that is
@@ -766,7 +812,7 @@ class Worksheet(xmlwriter.XMLwriter):
         self.hidden = 0
 
     @convert_column_args
-    def set_column(self, firstcol, lastcol, width, cell_format=None,
+    def set_column(self, firstcol, lastcol, width=None, cell_format=None,
                    options={}):
         """
         Set the width, and other properties of a single column or a
@@ -775,7 +821,7 @@ class Worksheet(xmlwriter.XMLwriter):
         Args:
             firstcol:    First column (zero-indexed).
             lastcol:     Last column (zero-indexed). Can be same as firstcol.
-            width:       Column width.
+            width:       Column width. (optional).
             cell_format: Column cell_format. (optional).
             options:     Dict of options such as hidden and level.
 
@@ -837,14 +883,14 @@ class Worksheet(xmlwriter.XMLwriter):
 
         return 0
 
-    def set_row(self, row, height, cell_format=None, options={}):
+    def set_row(self, row, height=None, cell_format=None, options={}):
         """
         Set the width, and other properties of a row.
         range of columns.
 
         Args:
             row:         Row number (zero-indexed).
-            height:      Row width.
+            height:      Row width. (optional).
             cell_format: Row cell_format. (optional).
             options:     Dict of options such as hidden, level and collapsed.
 
