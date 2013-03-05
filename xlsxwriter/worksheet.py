@@ -1481,7 +1481,7 @@ class Worksheet(xmlwriter.XMLwriter):
         # self._write_phonetic_pr()
 
         # Write the autoFilter element.
-        # self._write_auto_filter()
+        self._write_auto_filter()
 
         # Write the mergeCells element.
         self._write_merge_cells()
