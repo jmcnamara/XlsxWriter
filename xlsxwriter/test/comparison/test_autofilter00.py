@@ -50,10 +50,6 @@ class TestCompareXLSXFiles(unittest.TestCase):
 
         # Read the text file and write it to the worksheet.
         for line in textfile:
-            # Ignore the comments in the text file.
-            if line.startswith('#'):
-                continue
-
             # Split the input data based on whitespace.
             data = line.strip("\n").split()
 

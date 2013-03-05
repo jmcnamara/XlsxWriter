@@ -1,6 +1,3 @@
-#
-# Sample data used in autofilter examples.
-#
 Region    Item      Volume    Month
 East      Apple     9000      July
 East      Apple     5000      July

@@ -20,7 +20,7 @@ class TestCompareXLSXFiles(unittest.TestCase):
     def setUp(self):
         self.maxDiff = None
 
-        filename = 'autofilter01.xlsx'
+        filename = 'autofilter07.xlsx'
 
         test_dir = 'xlsxwriter/test/comparison/'
         self.got_filename = test_dir + '_test_' + filename
@@ -33,8 +33,8 @@ class TestCompareXLSXFiles(unittest.TestCase):
     def test_create_file(self):
         """
         Test the creation of a simple XlsxWriter file with an autofilter.
-        This test corresponds to the following examples/autofilter.py example:
-        Example 1. Autofilter without conditions.
+        Test autofilters where column filter ids are relative to autofilter
+        range.
         """
         filename = self.got_filename
 
@@ -44,22 +44,42 @@ class TestCompareXLSXFiles(unittest.TestCase):
         worksheet = workbook.add_worksheet()
 
         # Set the autofilter.
-        worksheet.autofilter('A1:D51')
+        worksheet.autofilter('D3:G53')
+
+        # Add filter criteria.
+        worksheet.filter_column('D', 'region == East')
 
         # Open a text file with autofilter example data.
         textfile = open(self.txt_filename)
 
-        # Start writing data from the first worksheet row.
-        row = 0
+        # Read the headers from the first line of the input file.
+        headers = textfile.readline().strip("\n").split()
 
-        # Read the text file and write it to the worksheet.
+        # Write out the headers.
+        worksheet.write_row('D3', headers)
+
+        # Start writing data after the headers.
+        row = 3
+
+        # Read the rest of the text file and write it to the worksheet.
         for line in textfile:
 
             # Split the input data based on whitespace.
             data = line.strip("\n").split()
 
+            # Get some of the field data.
+            region = data[0]
+
+            # Check for rows that match the filter.
+            if region == 'East':
+                # Row matches the filter, no further action required.
+                pass
+            else:
+                # We need to hide rows that don't match the filter.
+                worksheet.set_row(row, options={'hidden': True})
+
             # Write out the row data.
-            worksheet.write_row(row, 0, data)
+            worksheet.write_row(row, 3, data)
 
             # Move on to the next worksheet row.
             row += 1
