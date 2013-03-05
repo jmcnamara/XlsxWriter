@@ -304,18 +304,20 @@ class Worksheet(xmlwriter.XMLwriter):
         if token is None:
             token = ''
 
-        # First check if the token to write is a number.
+        # Check for a datetime object.
+        if isinstance(token, datetime.datetime):
+            return self.write_datetime(row, col, *args)
+
+        # Then check if the token to write is a number.
         try:
             float(token)
             return self.write_number(row, col, *args)
-        except:
+        except ValueError:
             # Not a number. Continue to the checks below.
             pass
 
         # Map the data to the appropriate write_*() method.
-        if isinstance(token, datetime.datetime):
-            return self.write_datetime(row, col, *args)
-        elif token == '':
+        if token == '':
             return self.write_blank(row, col, *args)
         elif token.startswith('='):
             return self.write_formula(row, col, *args)
@@ -390,6 +392,9 @@ class Worksheet(xmlwriter.XMLwriter):
             -1: Row or column is out of worksheet bounds.
 
         """
+        # TODO catch and re-raise exception if token isn't a number.
+        number = float(number)
+
         # Check that row and col are valid and store max and min values.
         if self._check_dimensions(row, col):
             return -1
