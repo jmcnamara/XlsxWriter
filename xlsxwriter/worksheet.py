@@ -17,6 +17,7 @@ from . import xmlwriter
 from .utility import xl_rowcol_to_cell
 from .utility import xl_cell_to_rowcol
 from .utility import xl_col_to_name
+from .utility import xl_range
 
 
 ###############################################################################
@@ -225,10 +226,13 @@ class Worksheet(xmlwriter.XMLwriter):
         self.vml_shape_id = 1024
         self.buttons_array = []
 
-        self.autofilter = ''
+        self.autofilter_area = ''
+        self.autofilter_ref = None
+        self.filter_range = []
         self.filter_on = 0
         self.filter_range = []
         self.filter_cols = {}
+        self.filter_type = {}
 
         self.col_sizes = {}
         self.row_sizes = {}
@@ -268,6 +272,7 @@ class Worksheet(xmlwriter.XMLwriter):
         self.date_1904 = False
         self.epoch = datetime.datetime(1899, 12, 31)
         self.hyperlinks = defaultdict(dict)
+
 
     @convert_cell_args
     def write(self, row, col, *args):
@@ -934,6 +939,123 @@ class Worksheet(xmlwriter.XMLwriter):
                 if row == first_row and col == first_col:
                     continue
                 self.write_blank(row, col, '', cell_format)
+
+    @convert_range_args
+    def autofilter(self, first_row, first_col, last_row, last_col):
+        """
+        Set the autofilter area in the worksheet.
+
+        Args:
+            first_row:    The first row of the cell range. (zero indexed).
+            first_col:    The first column of the cell range.
+            last_row:     The last row of the cell range. (zero indexed).
+            last_col:     The last column of the cell range.
+
+        Returns:
+             Nothing.
+
+        """
+        # Reverse max and min values if necessary.
+        if last_row < first_row:
+            (first_row, last_row) = (last_row, first_row)
+        if last_col < first_col:
+            (first_col, last_col) = (last_col, first_col)
+
+        # Build up the print area range "Sheet1!$A$1:$C$13".
+        area = self._convert_name_area(first_row, first_col, last_row, last_col)
+        ref = xl_range(first_row, first_col, last_row, last_col)
+
+        self.autofilter_area = area
+        self.autofilter_ref = ref
+        self.filter_range = [first_col, last_col]
+
+    def filter_column(self, col, expression):
+        """
+        Set the column filter criteria.
+
+        TODO
+
+        """
+        if not self.autofilter_area:
+            warn("Must call autofilter() before filter_column()")
+            return
+
+        # Check for a column reference in A1 notation and substitute.
+        try:
+            int(col)
+        except ValueError:
+            # Convert col ref to a cell ref and then to a col number.
+            col_letter = col
+            (_, col) = xl_cell_to_rowcol(col + '1')
+
+            if col >= self.xls_colmax:
+                warn("Invalid column '%d'" % col_letter)
+                return
+
+        (col_first, col_last) = self.filter_range
+
+        # Reject column if it is outside filter range.
+        if col < col_first or col > col_last:
+            warn("Column '%d' outside autofilter() column range (%d, %d)"
+                 % (col, col_first, col_last))
+            return
+
+        tokens = self._extract_filter_tokens(expression)
+
+        if not (len(tokens) == 3 or len(tokens) == 7):
+            warn("Incorrect number of tokens in expression '%s'" % expression)
+
+        tokens = self._parse_filter_expression(expression, tokens)
+
+        # Excel handles single or double custom filters as default filters.
+        #  We need to check for them and handle them accordingly.
+        if len(tokens) == 2 and tokens[0] == 2:
+            # Single equality.
+            self.filter_column_list(col, [tokens[1]])
+        elif len(tokens) == 5 and tokens[0] == 2 and tokens[2] == 1 and tokens[3] == 2:
+            # Double equality with "or" operator.
+            self.filter_column_list(col, [tokens[1], tokens[4]])
+        else:
+            # Non default custom filter.
+            self.filter_cols[col] = tokens
+            self.filter_type[col] = 0
+
+        self.filter_on = 1
+
+    def filter_column_list(self, col, tokens):
+        """
+        Set the column filter criteria in Excel 2007 list style.
+
+        TODO
+
+        """
+        if not self.autofilter_area:
+            warn("Must call autofilter() before filter_column()")
+            return
+
+        # Check for a column reference in A1 notation and substitute.
+        try:
+            int(col)
+        except ValueError:
+            # Convert col ref to a cell ref and then to a col number.
+            col_letter = col
+            (_, col) = xl_cell_to_rowcol(col + '1')
+
+            if col >= self.xls_colmax:
+                warn("Invalid column '%d'" % col_letter)
+                return
+
+        (col_first, col_last) = self.filter_range
+
+        # Reject column if it is outside filter range.
+        if col < col_first or col > col_last:
+            warn("Column '%d' outside autofilter() column range "
+                 "(%d,%d)" % (col, col_first, col_last))
+            return
+
+        self.filter_cols[col] = tokens
+        self.filter_type[col] = 1
+        self.filter_on = 1
 
     ###########################################################################
     #
@@ -2520,7 +2642,6 @@ class Worksheet(xmlwriter.XMLwriter):
         self._xml_start_tag('hyperlinks')
 
         for args in (hlink_refs):
-            # TODO
             link_type = args.pop(0)
 
             if link_type == 1:
@@ -2563,3 +2684,124 @@ class Worksheet(xmlwriter.XMLwriter):
         attributes.append(('display', display))
 
         self._xml_empty_tag('hyperlink', attributes)
+
+    def _write_auto_filter(self):
+        # Write the <autoFilter> element.
+        if not self.autofilter_ref:
+            return
+
+        attributes = [('ref', self.autofilter_ref)]
+
+        if self.filter_on:
+            # Autofilter defined active filters.
+            self._xml_start_tag('autoFilter', attributes)
+            self._write_autofilters()
+            self._xml_end_tag('autoFilter')
+
+        else:
+            # Autofilter defined without active filters.
+            self._xml_empty_tag('autoFilter', attributes)
+
+    def _write_autofilters(self):
+        # Function to iterate through the columns that form part of an
+        # autofilter range and write the appropriate filters.
+        (col1, col2) = self.filter_range
+
+        for col in range(col1, col2 + 1):
+            # Skip if column doesn't have an active filter.
+            if not col in self.filter_cols:
+                continue
+
+            # Retrieve the filter tokens and write the autofilter records.
+            tokens = self.filter_cols[col]
+            filter_type = self.filter_type[col]
+
+            # Filters are relative to first column in the autofilter.
+            self._write_filter_column(col - col1, filter_type, tokens)
+
+    def _write_filter_column(self, col_id, filter_type, filters):
+        # Write the <filterColumn> element.
+        attributes = [('colId', col_id)]
+
+        self._xml_start_tag('filterColumn', attributes)
+
+        if filter_type == 1:
+            # Type == 1 is the new XLSX style filter.
+            self._write_filters(filters)
+        else:
+            # Type == 0 is the classic "custom" filter.
+            self._write_custom_filters(filters)
+
+        self._xml_end_tag('filterColumn')
+
+    def _write_filters(self, filters):
+        # Write the <filters> element.
+
+        if len(filters) == 1 and filters[0] == 'blanks':
+            # Special case for blank cells only.
+            self._xml_empty_tag('filters', [('blank', 1)])
+        else:
+            # General case.
+            self._xml_start_tag('filters')
+
+            for autofilter in (filters):
+                self._write_filter(autofilter)
+
+            self._xml_end_tag('filters')
+
+    def _write_filter(self, val):
+        # Write the <filter> element.
+        attributes = [('val', val)]
+
+        self._xml_empty_tag('filter', attributes)
+
+    def _write_custom_filters(self, tokens):
+        # Write the <customFilters> element.
+        if len(tokens) == 2:
+            # One filter expression only.
+            self._xml_start_tag('customFilters')
+            self._write_custom_filter(*tokens)
+            self._xml_end_tag('customFilters')
+        else:
+            # Two filter expressions.
+            attributes = []
+
+            # Check if the "join" operand is "and" or "or".
+            if tokens[2] == 0:
+                attributes = [('and', 1)]
+            else:
+                attributes = [('and', 0)]
+
+            # Write the two custom filters.
+            self._xml_start_tag('customFilters', attributes)
+            self._write_custom_filter(tokens[0], tokens[1])
+            self._write_custom_filter(tokens[3], tokens[4])
+            self._xml_end_tag('customFilters')
+
+    def _write_custom_filter(self, operator, val):
+        # Write the <customFilter> element.
+        attributes = []
+
+        operators = {
+            1: 'lessThan',
+            2: 'equal',
+            3: 'lessThanOrEqual',
+            4: 'greaterThan',
+            5: 'notEqual',
+            6: 'greaterThanOrEqual',
+            22: 'equal',
+        }
+
+        # Convert the operator from a number to a descriptive string.
+        if operators[operator] is not None:
+            operator = operators[operator]
+        else:
+            warn("Unknown operator = %s" % operator)
+
+        # The 'equal' operator is the default attribute and isn't stored.
+        if not operator == 'equal':
+            attributes.append(('operator', operator))
+        attributes.append(('val', val))
+
+        self._xml_empty_tag('customFilter', attributes)
+

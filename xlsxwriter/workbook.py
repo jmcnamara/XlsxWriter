@@ -590,9 +590,9 @@ class Workbook(xmlwriter.XMLwriter):
 
         for sheet in self.worksheets():
             # Check for Print Area settings.
-            if sheet.autofilter:
+            if sheet.autofilter_area:
                 hidden = 1
-                sheet_range = sheet.autofilter
+                sheet_range = sheet.autofilter_area
                 # Store the defined names.
                 defined_names.append(['_xlnm._FilterDatabase',
                                       sheet.index, sheet_range, hidden])

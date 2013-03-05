@@ -116,3 +116,14 @@ def xl_cell_to_rowcol_abs(cell_str):
     col -= 1
 
     return row, col, row_abs, col_abs
+
+
+def xl_range(first_row, first_col, last_row, last_col):
+    """
+    TODO. Add Utility.py docs.
+
+    """
+    range1 = xl_rowcol_to_cell(first_row, first_col)
+    range2 = xl_rowcol_to_cell(last_row, last_col)
+
+    return range1 + ':' + range2
