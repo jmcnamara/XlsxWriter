@@ -273,7 +273,6 @@ class Worksheet(xmlwriter.XMLwriter):
         self.epoch = datetime.datetime(1899, 12, 31)
         self.hyperlinks = defaultdict(dict)
 
-
     @convert_cell_args
     def write(self, row, col, *args):
         """
@@ -1013,7 +1012,8 @@ class Worksheet(xmlwriter.XMLwriter):
             (first_col, last_col) = (last_col, first_col)
 
         # Build up the print area range "Sheet1!$A$1:$C$13".
-        area = self._convert_name_area(first_row, first_col, last_row, last_col)
+        area = self._convert_name_area(first_row, first_col,
+                                       last_row, last_col)
         ref = xl_range(first_row, first_col, last_row, last_col)
 
         self.autofilter_area = area
@@ -1063,7 +1063,8 @@ class Worksheet(xmlwriter.XMLwriter):
         if len(tokens) == 2 and tokens[0] == 2:
             # Single equality.
             self.filter_column_list(col, [tokens[1]])
-        elif len(tokens) == 5 and tokens[0] == 2 and tokens[2] == 1 and tokens[3] == 2:
+        elif (len(tokens) == 5 and tokens[0] == 2 and tokens[2] == 1
+              and tokens[3] == 2):
             # Double equality with "or" operator.
             self.filter_column_list(col, [tokens[1], tokens[4]])
         else:
@@ -1863,7 +1864,7 @@ class Worksheet(xmlwriter.XMLwriter):
 
         if not operator and tokens[0]:
             warn("Token '%s' is not a valid operator "
-              + "in filter expression '%s'" % (token[0], expression))
+                 "in filter expression '%s'" % (token[0], expression))
 
         # Special handling for Blanks/NonBlanks.
         if re.match('blanks|nonblanks', token.lower()):
@@ -2855,4 +2856,3 @@ class Worksheet(xmlwriter.XMLwriter):
         attributes.append(('val', val))
 
         self._xml_empty_tag('customFilter', attributes)
-

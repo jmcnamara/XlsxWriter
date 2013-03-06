@@ -147,11 +147,9 @@ class TestParseFilterExpression(unittest.TestCase):
             ],
         ]
 
-
-
         for testcase in testcases:
             expression = testcase[0]
-            tokens = self.worksheet._extract_filter_tokens(expression);
+            tokens = self.worksheet._extract_filter_tokens(expression)
 
             exp = testcase[1]
             got = self.worksheet._parse_filter_expression(expression, tokens)
