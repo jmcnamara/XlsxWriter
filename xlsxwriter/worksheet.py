@@ -1020,13 +1020,13 @@ class Worksheet(xmlwriter.XMLwriter):
         self.autofilter_ref = ref
         self.filter_range = [first_col, last_col]
 
-    def filter_column(self, col, expression):
+    def filter_column(self, col, criteria):
         """
         Set the column filter criteria.
 
         Args:
-            col:         Filter column (zero-indexed).
-            expression:  Filter criteria.
+            col:       Filter column (zero-indexed).
+            criteria:  Filter criteria.
 
         Returns:
              Nothing.
@@ -1056,12 +1056,12 @@ class Worksheet(xmlwriter.XMLwriter):
                  % (col, col_first, col_last))
             return
 
-        tokens = self._extract_filter_tokens(expression)
+        tokens = self._extract_filter_tokens(criteria)
 
         if not (len(tokens) == 3 or len(tokens) == 7):
-            warn("Incorrect number of tokens in expression '%s'" % expression)
+            warn("Incorrect number of tokens in criteria '%s'" % criteria)
 
-        tokens = self._parse_filter_expression(expression, tokens)
+        tokens = self._parse_filter_expression(criteria, tokens)
 
         # Excel handles single or double custom filters as default filters.
         #  We need to check for them and handle them accordingly.

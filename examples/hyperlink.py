@@ -31,7 +31,7 @@ red_format = workbook.add_format({
 string = 'Python home'
 
 # Add a "tool tip" to the URL.
-tip = 'Get the latest PYthon news here.'
+tip = 'Get the latest Python news here.'
 
 # Write some hyperlinks
 worksheet.write('A1', 'http://www.python.org/', url_format)

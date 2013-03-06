@@ -17,7 +17,7 @@ the :func:`autofilter` method::
 
     worksheet.autofilter('A1:D11')
 
-As usual you can also use Row-Column notation::
+As usual you can also also use :ref:`Row-Column <cell_notation>` notation::
 
     worksheet.autofilter(0, 0, 10, 3)  # Same as above.
 
@@ -25,31 +25,31 @@ As usual you can also use Row-Column notation::
 Filter data in an autofilter
 ----------------------------
 
-The :func:`autofilter` defines the cell range that the filter applies and
-creates drop-down selectors in the heading row. In order to apply some
-criteria to the columns to filter out data it is necessary to use either
+The :func:`autofilter` defines the cell range that the filter applies to and
+creates drop-down selectors in the heading row. In order to filter out data
+it is necessary to apply some criteria to the columns using either
 the :func:`filter_column()` or :func:`filter_column_list()` methods.
 
 The ``filter_column`` method is used to filter columns in a autofilter range
-based on simple expressions::
+based on simple criteria::
 
     worksheet.filter_column('A', 'x > 2000')
     worksheet.filter_column('B', 'x > 2000 and x < 5000')
 
-However, it isn't sufficient to just specify the filter condition. You must
+It isn't sufficient to just specify the filter condition. You must
 also hide any rows that don't match the filter condition. Rows are hidden
 using the :func:`set_row()` ``hidden`` parameter. ``XlsxWriter`` cannot
 filter rows automatically since it isn't part of the file format.
 
-Filtering the data programmatically generally isn't too difficult.
-For example::
+The following is an example of how you might filter a data range to match
+an autofilter criteria::
 
     # Set the autofilter.
     worksheet.autofilter('A1:D51')
     
     # Add the filter criteria. The placeholder "Region" in the filter is
     # ignored and can be any string that adds clarity to the expression.
-    worksheet2.filter_column(0, 'Region == East')
+    worksheet.filter_column(0, 'Region == East')
     
     # Hide the rows that don't match the filter criteria.
     row = 1
@@ -58,7 +58,7 @@ For example::
     
         # Check for rows that match the filter.
         if region == 'East':
-            # Row matches the filter, no further action required.
+            # Row matches the filter, display the row as normal.
             pass
         else:
             # We need to hide rows that don't match the filter.
@@ -70,11 +70,10 @@ For example::
         row += 1
 
 
-
 Setting a filter criteria for a column
 --------------------------------------
 
-The `:func:`filter_column` method can be used to filter columns in a
+The :func:`filter_column` method can be used to filter columns in a
 autofilter range based on simple conditions::
 
     worksheet.filter_column('A', 'x > 2000')
@@ -85,15 +84,15 @@ string column name.
 The following operators are available for setting the filter criteria::
 
     Operator            Synonyms
-       == =             eq =~
-       not =            <> ne not =
+       ==               eq =~ =
+       !=               <> ne
        >
        <
        >=
        <=
 
-       and and
-       or or
+       and              &&
+       or               ||
 
 The operator synonyms are just syntactic sugar to make you more comfortable
 using the expressions. It is important to remember that the expressions will
@@ -105,8 +104,8 @@ by the ``and`` and ``or`` operators. For example::
     'x <  2000'
     'x >  2000'
     'x == 2000'
-    'x >  2000 and x < 5000'
-    'x == 2000 or x == 5000'
+    'x >  2000 and x <  5000'
+    'x == 2000 or  x == 5000'
 
 Filtering of blank or non-blank data can be achieved by using a value
 of ``Blanks`` or ``NonBlanks`` in the expression::
@@ -116,17 +115,17 @@ of ``Blanks`` or ``NonBlanks`` in the expression::
 
 Excel also allows some simple string matching operations::
 
-    'x =~ b*'      # begins with b
-    'x not ~ b*'   # doesn't begin with b
-    'x =~ *b'      # ends with b
-    'x not ~ *b'   # doesn't end with b
-    'x =~ *b*'     # contains b
-    'x not ~ *b*'  # doesn't contains b
+    'x == b*'      # begins with b
+    'x != b*'      # doesn't begin with b
+    'x == *b'      # ends with b
+    'x != *b'      # doesn't end with b
+    'x == *b*'     # contains b
+    'x != *b*'     # doesn't contains b
 
-You can also use ``*`` to match any character or number and ``?`` to match
+You can also use ``'*'`` to match any character or number and ``'?'`` to match
 any single character or number. No other regular expression quantifier
 is supported by Excel's filters. Excel's regular expression characters
-can be escaped using ``~``.
+can be escaped using ``'~'``.
 
 The placeholder variable ``x`` in the above examples can be replaced by
 any simple string. The actual placeholder name is ignored internally
@@ -137,7 +136,7 @@ so the following are all equivalent::
     'Price < 2000'
 
 A filter condition can only be applied to a column in a range specified by
-the :func:`autofilter()`` Worksheet method.
+the :func:`autofilter()` method.
 
 
 Setting a column list filter
@@ -159,13 +158,10 @@ of filters::
 
     worksheet.filter_column_list('A', 'March', 'April', 'May')
 
-The ``column`` parameter can either be a zero indexed column number
-or a string column name.
-
 One or more criteria can be selected::
 
-    worksheet.filter_column_list(0, 'March')
-    worksheet.filter_column_list(1, 100, 110, 120, 130)
+    worksheet.filter_column_list('A', 'March')
+    worksheet.filter_column_list('B', 100, 110, 120, 130)
 
 Example
 -------

@@ -660,8 +660,8 @@ row has the collapsed ``'+'`` symbol::
 worksheet.set_column()
 ----------------------
 
-.. py:function:: set_column( first_col, last_col, width, cell_format, \
-                             hidden, level, collapsed )
+.. py:function:: set_column(first_col, last_col, width, cell_format, \
+                            hidden, level, collapsed)
 
    Set properties for one or more columns of cells.
    
@@ -901,12 +901,12 @@ See :ref:`working_with_autofilters` for more details.
 worksheet.filter_column()
 -------------------------
 
-.. py:function:: filter_column( col, expression )
+.. py:function:: filter_column(col, criteria)
 
    Set the column filter criteria.
 
-   :param int col:            Filter column (zero-indexed).
-   :param string expression:  Filter criteria.
+   :param int col:          Filter column (zero-indexed).
+   :param string criteria:  Filter criteria.
 
 
 The ``filter_column`` method can be used to filter columns in a autofilter
@@ -929,7 +929,7 @@ See :ref:`working_with_autofilters` for more details.
 worksheet.filter_column_list()
 ------------------------------
 
-.. py:function:: filter_column_list( col, expression )
+.. py:function:: filter_column_list(col, filters)
 
    Set the column filter criteria in Excel 2007 list style.
 
@@ -949,5 +949,7 @@ One or more criteria can be selected::
     worksheet.filter_column_list('A', 'March')
     worksheet.filter_column_list('C', 100, 110, 120, 130)
 
+It isn't sufficient to just specify filters. You must also hide
+any rows that don't match the filter condition.
 See :ref:`working_with_autofilters` for more details.
 
