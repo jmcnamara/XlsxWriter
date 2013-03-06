@@ -319,7 +319,7 @@ See also :ref:`ex_headers_footers`.
 worksheet.set_footer()
 ----------------------
 
-.. py:function:: set_header([footer='',] margin=0.3]])
+.. py:function:: set_footer([footer='',] margin=0.3]])
 
    Set the printed page footer caption and optional margin.
 
@@ -378,7 +378,7 @@ more details.::
 worksheet.hide_gridlines()
 --------------------------
 
-.. py:function:: set_header([option=1])
+.. py:function:: hide_gridlines([option=1])
 
    Set the option to hide gridlines on the screen and the printed page.
 

@@ -543,7 +543,7 @@ For example::
 worksheet.write_column()
 ------------------------
 
-.. py:function:: write_row(row, col, data[, cell_format])
+.. py:function:: write_column(row, col, data[, cell_format])
 
    Write a column of data starting from (row, col).
 
