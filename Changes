@@ -1,4 +1,13 @@
 
+
+Release 0.1.2 - March 6 2013
+--------------------------------
+
+* Added autofilters. See :ref:`working_with_autofilters` for more details.
+
+* Added the :func:`write_row` and :func:`write_column` worksheet methods.
+
+
 Release 0.1.1 - March 3 2013
 --------------------------------
 

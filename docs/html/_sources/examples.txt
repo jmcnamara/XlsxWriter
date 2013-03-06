@@ -13,6 +13,7 @@ directory of the XlsxWriter distribution.
    example_datetimes.rst
    example_hyperlink.rst
    example_array_formula.rst
+   example_autofilter.rst
    example_merge1.rst
    example_headers_footers.rst
    example_doc_properties.rst

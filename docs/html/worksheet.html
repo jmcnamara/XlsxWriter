@@ -16,7 +16,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '',
-        VERSION:     '0.1.1',
+        VERSION:     '0.1.2',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -563,6 +563,84 @@ style escapes. In which case it is assumed that the URL was escaped
 correctly by the user and will by passed directly to Excel.</p>
 </div>
 </div>
+<div class="section" id="worksheet-write-row">
+<h2>worksheet.write_row()</h2>
+<dl class="function">
+<dt id="write_row">
+<tt class="descname">write_row</tt><big>(</big><em>row</em>, <em>col</em>, <em>data</em><span class="optional">[</span>, <em>cell_format</em><span class="optional">]</span><big>)</big></dt>
+<dd><p>Write a row of data starting from (row, col).</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>row</strong> (<a class="reference external" href="http://docs.python.org/2/library/functions.html#int" title="(in Python v2.7)"><em>int</em></a>) &#8211; The cell row (zero indexed).</li>
+<li><strong>col</strong> (<a class="reference external" href="http://docs.python.org/2/library/functions.html#int" title="(in Python v2.7)"><em>int</em></a>) &#8211; The cell column (zero indexed).</li>
+<li><strong>data</strong> &#8211; Cell data to write. Variable types.</li>
+<li><strong>cell_format</strong> (<a class="reference internal" href="format.html#format"><em>Format</em></a>) &#8211; Optional Format object.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<p>The <tt class="docutils literal"><span class="pre">write_row()</span></tt> method can be used to write a list of data in one go. This
+is useful for converting the results of a database query into an Excel
+worksheet. The <a class="reference internal" href="#write" title="write"><tt class="xref py py-func docutils literal"><span class="pre">write()</span></tt></a> method is  called for each element of the data.
+For example:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="c"># Some sample data.</span>
+<span class="n">data</span> <span class="o">=</span> <span class="p">(</span><span class="s">&#39;Foo&#39;</span><span class="p">,</span> <span class="s">&#39;Bar&#39;</span><span class="p">,</span> <span class="s">&#39;Baz&#39;</span><span class="p">)</span>
+
+<span class="c"># Write the data to a sequence of cells.</span>
+<span class="n">worksheet</span><span class="o">.</span><span class="n">write_row</span><span class="p">(</span><span class="s">&#39;A1&#39;</span><span class="p">,</span> <span class="n">data</span><span class="p">)</span>
+
+<span class="c"># The above example is equivalent to:</span>
+<span class="n">worksheet</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s">&#39;A1&#39;</span><span class="p">,</span> <span class="n">data</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+<span class="n">worksheet</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s">&#39;B1&#39;</span><span class="p">,</span> <span class="n">data</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+<span class="n">worksheet</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s">&#39;C1&#39;</span><span class="p">,</span> <span class="n">data</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="worksheet-write-column">
+<h2>worksheet.write_column()</h2>
+<dl class="function">
+<dt>
+<tt class="descname">write_row</tt><big>(</big><em>row</em>, <em>col</em>, <em>data</em><span class="optional">[</span>, <em>cell_format</em><span class="optional">]</span><big>)</big></dt>
+<dd><p>Write a column of data starting from (row, col).</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>row</strong> (<a class="reference external" href="http://docs.python.org/2/library/functions.html#int" title="(in Python v2.7)"><em>int</em></a>) &#8211; The cell row (zero indexed).</li>
+<li><strong>col</strong> (<a class="reference external" href="http://docs.python.org/2/library/functions.html#int" title="(in Python v2.7)"><em>int</em></a>) &#8211; The cell column (zero indexed).</li>
+<li><strong>data</strong> &#8211; Cell data to write. Variable types.</li>
+<li><strong>cell_format</strong> (<a class="reference internal" href="format.html#format"><em>Format</em></a>) &#8211; Optional Format object.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<p>The <tt class="docutils literal"><span class="pre">write_column()</span></tt> method can be used to write a list of data in one go.
+This is useful for converting the results of a database query into an Excel
+worksheet. The <a class="reference internal" href="#write" title="write"><tt class="xref py py-func docutils literal"><span class="pre">write()</span></tt></a> method is  called for each element of the data.
+For example:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="c"># Some sample data.</span>
+<span class="n">data</span> <span class="o">=</span> <span class="p">(</span><span class="s">&#39;Foo&#39;</span><span class="p">,</span> <span class="s">&#39;Bar&#39;</span><span class="p">,</span> <span class="s">&#39;Baz&#39;</span><span class="p">)</span>
+
+<span class="c"># Write the data to a sequence of cells.</span>
+<span class="n">worksheet</span><span class="o">.</span><span class="n">write_row</span><span class="p">(</span><span class="s">&#39;A1&#39;</span><span class="p">,</span> <span class="n">data</span><span class="p">)</span>
+
+<span class="c"># The above example is equivalent to:</span>
+<span class="n">worksheet</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s">&#39;A1&#39;</span><span class="p">,</span> <span class="n">data</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+<span class="n">worksheet</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s">&#39;A2&#39;</span><span class="p">,</span> <span class="n">data</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+<span class="n">worksheet</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s">&#39;A3&#39;</span><span class="p">,</span> <span class="n">data</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
 <div class="section" id="worksheet-set-row">
 <h2>worksheet.set_row()</h2>
 <dl class="function">
@@ -865,7 +943,110 @@ behaviour with XlsxWriter you need to apply a <a class="reference internal" href
 usual. If this doesn&#8217;t handle you data correctly then you can overwrite the
 first cell with a call to one of the other <tt class="docutils literal"><span class="pre">write_*()</span></tt> methods using the
 same <a class="reference internal" href="format.html#format"><em>Format</em></a> as in the merged cells.</p>
-<p>See also <a class="reference internal" href="example_merge1.html#ex-merge1"><em>Example: Merging Cells</em></a>.</p>
+<p>See <a class="reference internal" href="example_merge1.html#ex-merge1"><em>Example: Merging Cells</em></a> for more details.</p>
+</div>
+<div class="section" id="worksheet-autofilter">
+<h2>worksheet.autofilter()</h2>
+<dl class="function">
+<dt id="autofilter">
+<tt class="descname">autofilter</tt><big>(</big><em>first_row</em>, <em>first_col</em>, <em>last_row</em>, <em>last_col</em><big>)</big></dt>
+<dd><p>Set the autofilter area in the worksheet.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>first_row</strong> (<a class="reference external" href="http://docs.python.org/2/library/functions.html#int" title="(in Python v2.7)"><em>int</em></a>) &#8211; The first row of the range. (All zero indexed.)</li>
+<li><strong>first_col</strong> (<a class="reference external" href="http://docs.python.org/2/library/functions.html#int" title="(in Python v2.7)"><em>int</em></a>) &#8211; The first column of the range.</li>
+<li><strong>last_row</strong> (<a class="reference external" href="http://docs.python.org/2/library/functions.html#int" title="(in Python v2.7)"><em>int</em></a>) &#8211; The last row of the range.</li>
+<li><strong>last_col</strong> (<a class="reference external" href="http://docs.python.org/2/library/functions.html#int" title="(in Python v2.7)"><em>int</em></a>) &#8211; The last col of the range.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<p>The <tt class="docutils literal"><span class="pre">autofilter()</span></tt> method allows an autofilter to be added to a worksheet.
+An autofilter is a way of adding drop down lists to the headers of a 2D range
+of worksheet data. This allows users to filter the data based on simple
+criteria so that some data is shown and some is hidden.</p>
+<img alt="_images/autofilter3.png" src="_images/autofilter3.png" />
+<p>To add an autofilter to a worksheet:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">worksheet</span><span class="o">.</span><span class="n">autofilter</span><span class="p">(</span><span class="s">&#39;A1:D11&#39;</span><span class="p">)</span>
+<span class="n">worksheet</span><span class="o">.</span><span class="n">autofilter</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span> <span class="c"># Same as above.</span>
+</pre></div>
+</div>
+<p>Filter conditions can be applied using the <a class="reference internal" href="#filter_column" title="filter_column"><tt class="xref py py-func docutils literal"><span class="pre">filter_column()</span></tt></a> or
+<a class="reference internal" href="#filter_column_list" title="filter_column_list"><tt class="xref py py-func docutils literal"><span class="pre">filter_column_list()</span></tt></a> methods.</p>
+<p>See <a class="reference internal" href="working_with_autofilters.html#working-with-autofilters"><em>Working with Autofilters</em></a> for more details.</p>
+</div>
+<div class="section" id="worksheet-filter-column">
+<h2>worksheet.filter_column()</h2>
+<dl class="function">
+<dt id="filter_column">
+<tt class="descname">filter_column</tt><big>(</big><em>col</em>, <em>expression</em><big>)</big></dt>
+<dd><p>Set the column filter criteria.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>col</strong> (<a class="reference external" href="http://docs.python.org/2/library/functions.html#int" title="(in Python v2.7)"><em>int</em></a>) &#8211; Filter column (zero-indexed).</li>
+<li><strong>expression</strong> (<a class="reference external" href="http://docs.python.org/2/library/string.html#string" title="(in Python v2.7)"><em>string</em></a>) &#8211; Filter criteria.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<p>The <tt class="docutils literal"><span class="pre">filter_column</span></tt> method can be used to filter columns in a autofilter
+range based on simple conditions.</p>
+<p>The conditions for the filter are specified using simple expressions:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">worksheet</span><span class="o">.</span><span class="n">filter_column</span><span class="p">(</span><span class="s">&#39;A&#39;</span><span class="p">,</span> <span class="s">&#39;x &gt; 2000&#39;</span><span class="p">)</span>
+<span class="n">worksheet</span><span class="o">.</span><span class="n">filter_column</span><span class="p">(</span><span class="s">&#39;B&#39;</span><span class="p">,</span> <span class="s">&#39;x &gt; 2000 and x &lt; 5000&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>The <tt class="docutils literal"><span class="pre">col</span></tt> parameter can either be a zero indexed column number or a
+string column name.</p>
+<p>It isn&#8217;t sufficient to just specify the filter condition. You must also hide
+any rows that don&#8217;t match the filter condition.
+See <a class="reference internal" href="working_with_autofilters.html#working-with-autofilters"><em>Working with Autofilters</em></a> for more details.</p>
+</div>
+<div class="section" id="worksheet-filter-column-list">
+<h2>worksheet.filter_column_list()</h2>
+<dl class="function">
+<dt id="filter_column_list">
+<tt class="descname">filter_column_list</tt><big>(</big><em>col</em>, <em>expression</em><big>)</big></dt>
+<dd><p>Set the column filter criteria in Excel 2007 list style.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>col</strong> (<a class="reference external" href="http://docs.python.org/2/library/functions.html#int" title="(in Python v2.7)"><em>int</em></a>) &#8211; Filter column (zero-indexed).</li>
+<li><strong>filters</strong> (<a class="reference external" href="http://docs.python.org/2/library/functions.html#list" title="(in Python v2.7)"><em>list</em></a>) &#8211; List of filter criteria to match.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<p>The <tt class="docutils literal"><span class="pre">filter_column_list()</span></tt> method can be used to represent filters with
+multiple selected criteria:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">worksheet</span><span class="o">.</span><span class="n">filter_column_list</span><span class="p">(</span><span class="s">&#39;A&#39;</span><span class="p">,</span> <span class="s">&#39;March&#39;</span><span class="p">,</span> <span class="s">&#39;April&#39;</span><span class="p">,</span> <span class="s">&#39;May&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>The <tt class="docutils literal"><span class="pre">col</span></tt> parameter can either be a zero indexed column number or a
+string column name.</p>
+<p>One or more criteria can be selected:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">worksheet</span><span class="o">.</span><span class="n">filter_column_list</span><span class="p">(</span><span class="s">&#39;A&#39;</span><span class="p">,</span> <span class="s">&#39;March&#39;</span><span class="p">)</span>
+<span class="n">worksheet</span><span class="o">.</span><span class="n">filter_column_list</span><span class="p">(</span><span class="s">&#39;C&#39;</span><span class="p">,</span> <span class="mi">100</span><span class="p">,</span> <span class="mi">110</span><span class="p">,</span> <span class="mi">120</span><span class="p">,</span> <span class="mi">130</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>See <a class="reference internal" href="working_with_autofilters.html#working-with-autofilters"><em>Working with Autofilters</em></a> for more details.</p>
 </div>
 </div>
 
@@ -889,11 +1070,16 @@ same <a class="reference internal" href="format.html#format"><em>Format</em></a>
 <li><a class="reference internal" href="#worksheet-write-blank">worksheet.write_blank()</a></li>
 <li><a class="reference internal" href="#worksheet-write-datetime">worksheet.write_datetime()</a></li>
 <li><a class="reference internal" href="#worksheet-write-url">worksheet.write_url()</a></li>
+<li><a class="reference internal" href="#worksheet-write-row">worksheet.write_row()</a></li>
+<li><a class="reference internal" href="#worksheet-write-column">worksheet.write_column()</a></li>
 <li><a class="reference internal" href="#worksheet-set-row">worksheet.set_row()</a></li>
 <li><a class="reference internal" href="#worksheet-set-column">worksheet.set_column()</a></li>
 <li><a class="reference internal" href="#worksheet-activate">worksheet.activate()</a></li>
 <li><a class="reference internal" href="#worksheet-select">worksheet.select()</a></li>
 <li><a class="reference internal" href="#worksheet-merge-range">worksheet.merge_range()</a></li>
+<li><a class="reference internal" href="#worksheet-autofilter">worksheet.autofilter()</a></li>
+<li><a class="reference internal" href="#worksheet-filter-column">worksheet.filter_column()</a></li>
+<li><a class="reference internal" href="#worksheet-filter-column-list">worksheet.filter_column_list()</a></li>
 </ul>
 </li>
 </ul>

@@ -730,21 +730,21 @@ class Worksheet(xmlwriter.XMLwriter):
         return str_error
 
     @convert_cell_args
-    def write_row(self, row, col, tokens, cell_format=None):
+    def write_row(self, row, col, data, cell_format=None):
         """
         Write a row of data starting from (row, col).
 
         Args:
             row:    The cell row (zero indexed).
             col:    The cell column (zero indexed).
-            tokens: A list of tokens to be written with write().
+            data:   A list of tokens to be written with write().
             format: An optional cell Format object.
         Returns:
             0:  Success.
             other: Return value of write() method.
 
         """
-        for token in (tokens):
+        for token in (data):
             error = self.write(row, col, token, cell_format)
             if error:
                 return error
@@ -753,21 +753,21 @@ class Worksheet(xmlwriter.XMLwriter):
         return 0
 
     @convert_cell_args
-    def write_column(self, row, col, tokens, cell_format=None):
+    def write_column(self, row, col, data, cell_format=None):
         """
         Write a column of data starting from (row, col).
 
         Args:
             row:    The cell row (zero indexed).
             col:    The cell column (zero indexed).
-            tokens: A list of tokens to be written with write().
+            data:   A list of tokens to be written with write().
             format: An optional cell Format object.
         Returns:
             0:  Success.
             other: Return value of write() method.
 
         """
-        for token in (tokens):
+        for token in (data):
             error = self.write(row, col, token, cell_format)
             if error:
                 return error
@@ -1024,7 +1024,12 @@ class Worksheet(xmlwriter.XMLwriter):
         """
         Set the column filter criteria.
 
-        TODO
+        Args:
+            col:         Filter column (zero-indexed).
+            expression:  Filter criteria.
+
+        Returns:
+             Nothing.
 
         """
         if not self.autofilter_area:
@@ -1074,11 +1079,16 @@ class Worksheet(xmlwriter.XMLwriter):
 
         self.filter_on = 1
 
-    def filter_column_list(self, col, tokens):
+    def filter_column_list(self, col, filters):
         """
         Set the column filter criteria in Excel 2007 list style.
 
-        TODO
+        Args:
+            col:      Filter column (zero-indexed).
+            filters:  List of filter criteria to match.
+
+        Returns:
+             Nothing.
 
         """
         if not self.autofilter_area:
@@ -1105,7 +1115,7 @@ class Worksheet(xmlwriter.XMLwriter):
                  "(%d,%d)" % (col, col_first, col_last))
             return
 
-        self.filter_cols[col] = tokens
+        self.filter_cols[col] = filters
         self.filter_type[col] = 1
         self.filter_on = 1
 

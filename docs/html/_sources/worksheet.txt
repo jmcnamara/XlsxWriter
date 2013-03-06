@@ -508,6 +508,70 @@ See also :ref:`ex_hyperlink`.
    correctly by the user and will by passed directly to Excel.
 
 
+worksheet.write_row()
+---------------------
+
+.. py:function:: write_row(row, col, data[, cell_format])
+
+   Write a row of data starting from (row, col).
+
+   :param row:         The cell row (zero indexed).
+   :param col:         The cell column (zero indexed).
+   :param data:        Cell data to write. Variable types.
+   :param cell_format: Optional Format object.
+   :type  row:         int
+   :type  col:         int
+   :type  cell_format: :ref:`Format <format>`
+
+The ``write_row()`` method can be used to write a list of data in one go. This
+is useful for converting the results of a database query into an Excel
+worksheet. The :func:`write()` method is  called for each element of the data.
+For example::
+
+    # Some sample data.
+    data = ('Foo', 'Bar', 'Baz')
+
+    # Write the data to a sequence of cells.
+    worksheet.write_row('A1', data)
+
+    # The above example is equivalent to:
+    worksheet.write('A1', data[0])
+    worksheet.write('B1', data[1])
+    worksheet.write('C1', data[2])
+
+
+worksheet.write_column()
+------------------------
+
+.. py:function:: write_row(row, col, data[, cell_format])
+
+   Write a column of data starting from (row, col).
+
+   :param row:         The cell row (zero indexed).
+   :param col:         The cell column (zero indexed).
+   :param data:        Cell data to write. Variable types.
+   :param cell_format: Optional Format object.
+   :type  row:         int
+   :type  col:         int
+   :type  cell_format: :ref:`Format <format>`
+
+The ``write_column()`` method can be used to write a list of data in one go.
+This is useful for converting the results of a database query into an Excel
+worksheet. The :func:`write()` method is  called for each element of the data.
+For example::
+
+    # Some sample data.
+    data = ('Foo', 'Bar', 'Baz')
+
+    # Write the data to a sequence of cells.
+    worksheet.write_row('A1', data)
+
+    # The above example is equivalent to:
+    worksheet.write('A1', data[0])
+    worksheet.write('A2', data[1])
+    worksheet.write('A3', data[2])
+
+
 worksheet.set_row()
 -------------------
 
@@ -607,7 +671,7 @@ worksheet.set_column()
    :param cell_format:   Optional Format object.
    :type  cell_format:   :ref:`Format <format>`
    :param dict options:  Optional parameters: hidden, level, collapsed.
-   
+
 The ``set_column()``  method can be used to change the default properties of a
 single column or a range of columns::
 
@@ -797,4 +861,93 @@ usual. If this doesn't handle you data correctly then you can overwrite the
 first cell with a call to one of the other ``write_*()`` methods using the
 same :ref:`Format <format>` as in the merged cells.
 
-See also :ref:`ex_merge1`.
+See :ref:`ex_merge1` for more details.
+
+
+worksheet.autofilter()
+----------------------
+
+.. py:function:: autofilter(first_row, first_col, last_row, last_col)
+
+   Set the autofilter area in the worksheet.
+
+   :param first_row:   The first row of the range. (All zero indexed.)
+   :param first_col:   The first column of the range.
+   :param last_row:    The last row of the range.
+   :param last_col:    The last col of the range.
+   :type  first_row:   int
+   :type  first_col:   int
+   :type  last_row:    int
+   :type  last_col:    int
+
+The ``autofilter()`` method allows an autofilter to be added to a worksheet.
+An autofilter is a way of adding drop down lists to the headers of a 2D range
+of worksheet data. This allows users to filter the data based on simple
+criteria so that some data is shown and some is hidden.
+
+.. image:: _static/autofilter3.png
+
+To add an autofilter to a worksheet::
+
+    worksheet.autofilter('A1:D11')
+    worksheet.autofilter(0, 0, 10, 3) # Same as above.
+    
+Filter conditions can be applied using the :func:`filter_column()` or
+:func:`filter_column_list()` methods.
+
+See :ref:`working_with_autofilters` for more details.
+
+
+worksheet.filter_column()
+-------------------------
+
+.. py:function:: filter_column( col, expression )
+
+   Set the column filter criteria.
+
+   :param int col:            Filter column (zero-indexed).
+   :param string expression:  Filter criteria.
+
+
+The ``filter_column`` method can be used to filter columns in a autofilter
+range based on simple conditions.
+
+
+The conditions for the filter are specified using simple expressions::
+
+    worksheet.filter_column('A', 'x > 2000')
+    worksheet.filter_column('B', 'x > 2000 and x < 5000')
+
+The ``col`` parameter can either be a zero indexed column number or a
+string column name.
+
+It isn't sufficient to just specify the filter condition. You must also hide
+any rows that don't match the filter condition.
+See :ref:`working_with_autofilters` for more details.
+
+
+worksheet.filter_column_list()
+------------------------------
+
+.. py:function:: filter_column_list( col, expression )
+
+   Set the column filter criteria in Excel 2007 list style.
+
+   :param int col:       Filter column (zero-indexed).
+   :param list filters:  List of filter criteria to match.
+
+The ``filter_column_list()`` method can be used to represent filters with
+multiple selected criteria::
+
+    worksheet.filter_column_list('A', 'March', 'April', 'May')
+
+The ``col`` parameter can either be a zero indexed column number or a
+string column name.
+
+One or more criteria can be selected::
+
+    worksheet.filter_column_list('A', 'March')
+    worksheet.filter_column_list('C', 100, 110, 120, 130)
+
+See :ref:`working_with_autofilters` for more details.
+
