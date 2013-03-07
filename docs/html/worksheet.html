@@ -16,7 +16,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '',
-        VERSION:     '0.1.2',
+        VERSION:     '0.1.3',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -605,8 +605,8 @@ For example:</p>
 <div class="section" id="worksheet-write-column">
 <h2>worksheet.write_column()</h2>
 <dl class="function">
-<dt>
-<tt class="descname">write_row</tt><big>(</big><em>row</em>, <em>col</em>, <em>data</em><span class="optional">[</span>, <em>cell_format</em><span class="optional">]</span><big>)</big></dt>
+<dt id="write_column">
+<tt class="descname">write_column</tt><big>(</big><em>row</em>, <em>col</em>, <em>data</em><span class="optional">[</span>, <em>cell_format</em><span class="optional">]</span><big>)</big></dt>
 <dd><p>Write a column of data starting from (row, col).</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -985,7 +985,7 @@ criteria so that some data is shown and some is hidden.</p>
 <h2>worksheet.filter_column()</h2>
 <dl class="function">
 <dt id="filter_column">
-<tt class="descname">filter_column</tt><big>(</big><em>col</em>, <em>expression</em><big>)</big></dt>
+<tt class="descname">filter_column</tt><big>(</big><em>col</em>, <em>criteria</em><big>)</big></dt>
 <dd><p>Set the column filter criteria.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -993,7 +993,7 @@ criteria so that some data is shown and some is hidden.</p>
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
 <li><strong>col</strong> (<a class="reference external" href="http://docs.python.org/2/library/functions.html#int" title="(in Python v2.7)"><em>int</em></a>) &#8211; Filter column (zero-indexed).</li>
-<li><strong>expression</strong> (<a class="reference external" href="http://docs.python.org/2/library/string.html#string" title="(in Python v2.7)"><em>string</em></a>) &#8211; Filter criteria.</li>
+<li><strong>criteria</strong> (<a class="reference external" href="http://docs.python.org/2/library/string.html#string" title="(in Python v2.7)"><em>string</em></a>) &#8211; Filter criteria.</li>
 </ul>
 </td>
 </tr>
@@ -1018,7 +1018,7 @@ See <a class="reference internal" href="working_with_autofilters.html#working-wi
 <h2>worksheet.filter_column_list()</h2>
 <dl class="function">
 <dt id="filter_column_list">
-<tt class="descname">filter_column_list</tt><big>(</big><em>col</em>, <em>expression</em><big>)</big></dt>
+<tt class="descname">filter_column_list</tt><big>(</big><em>col</em>, <em>filters</em><big>)</big></dt>
 <dd><p>Set the column filter criteria in Excel 2007 list style.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -1046,7 +1046,93 @@ string column name.</p>
 <span class="n">worksheet</span><span class="o">.</span><span class="n">filter_column_list</span><span class="p">(</span><span class="s">&#39;C&#39;</span><span class="p">,</span> <span class="mi">100</span><span class="p">,</span> <span class="mi">110</span><span class="p">,</span> <span class="mi">120</span><span class="p">,</span> <span class="mi">130</span><span class="p">)</span>
 </pre></div>
 </div>
-<p>See <a class="reference internal" href="working_with_autofilters.html#working-with-autofilters"><em>Working with Autofilters</em></a> for more details.</p>
+<p>It isn&#8217;t sufficient to just specify filters. You must also hide
+any rows that don&#8217;t match the filter condition.
+See <a class="reference internal" href="working_with_autofilters.html#working-with-autofilters"><em>Working with Autofilters</em></a> for more details.</p>
+</div>
+<div class="section" id="worksheet-set-zoom">
+<h2>worksheet.set_zoom()</h2>
+<dl class="function">
+<dt id="set_zoom">
+<tt class="descname">set_zoom</tt><big>(</big><em>zoom</em><big>)</big></dt>
+<dd><p>Set the worksheet zoom factor.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>zoom</strong> (<a class="reference external" href="http://docs.python.org/2/library/functions.html#int" title="(in Python v2.7)"><em>int</em></a>) &#8211; Worksheet zoom factor.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<p>Set the worksheet zoom factor in the range <tt class="docutils literal"><span class="pre">10</span> <span class="pre">&lt;=</span> <span class="pre">zoom</span> <span class="pre">&lt;=</span> <span class="pre">400</span></tt>:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">worksheet1</span><span class="o">.</span><span class="n">set_zoom</span><span class="p">(</span><span class="mi">50</span><span class="p">)</span>
+<span class="n">worksheet2</span><span class="o">.</span><span class="n">set_zoom</span><span class="p">(</span><span class="mi">75</span><span class="p">)</span>
+<span class="n">worksheet3</span><span class="o">.</span><span class="n">set_zoom</span><span class="p">(</span><span class="mi">300</span><span class="p">)</span>
+<span class="n">worksheet4</span><span class="o">.</span><span class="n">set_zoom</span><span class="p">(</span><span class="mi">400</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>The default zoom factor is 100. It isn&#8217;t possible to set the zoom to
+&#8220;Selection&#8221; because it is calculated by Excel at run-time.</p>
+<p>Note, <tt class="docutils literal"><span class="pre">set_zoom()</span></tt> does not affect the scale of the printed page. For that
+you should use <a class="reference internal" href="page_setup.html#set_print_scale" title="set_print_scale"><tt class="xref py py-func docutils literal"><span class="pre">set_print_scale()</span></tt></a>.</p>
+</div>
+<div class="section" id="worksheet-right-to-left">
+<h2>worksheet.right_to_left()</h2>
+<dl class="function">
+<dt id="right_to_left">
+<tt class="descname">right_to_left</tt><big>(</big><big>)</big></dt>
+<dd><p>Display the worksheet cells from right to left for some versions of Excel.</p>
+</dd></dl>
+
+<p>The <tt class="docutils literal"><span class="pre">right_to_left()</span></tt> method is used to change the default direction of the
+worksheet from left-to-right, with the A1 cell in the top left, to
+right-to-left, with the A1 cell in the top right.</p>
+<blockquote>
+<div>worksheet.right_to_left()</div></blockquote>
+<p>This is useful when creating Arabic, Hebrew or other near or far eastern
+worksheets that use right-to-left as the default direction.</p>
+</div>
+<div class="section" id="worksheet-hide-zero">
+<h2>worksheet.hide_zero()</h2>
+<dl class="function">
+<dt id="hide_zero">
+<tt class="descname">hide_zero</tt><big>(</big><big>)</big></dt>
+<dd><p>Hide zero values in worksheet cells.</p>
+</dd></dl>
+
+<p>The <tt class="docutils literal"><span class="pre">hide_zero()</span></tt> method is used to hide any zero values that appear in
+cells:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">worksheet</span><span class="o">.</span><span class="n">hide_zero</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="worksheet-set-tab-color">
+<h2>worksheet.set_tab_color()</h2>
+<dl class="function">
+<dt id="set_tab_color">
+<tt class="descname">set_tab_color</tt><big>(</big><big>)</big></dt>
+<dd><p>Set the colour of the worksheet tab.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>color</strong> (<a class="reference external" href="http://docs.python.org/2/library/string.html#string" title="(in Python v2.7)"><em>string</em></a>) &#8211; The tab color.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<p>The <tt class="docutils literal"><span class="pre">set_tab_color()</span></tt> method is used to change the colour of the worksheet
+tab:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">worksheet1</span><span class="o">.</span><span class="n">set_tab_color</span><span class="p">(</span><span class="s">&#39;red&#39;</span><span class="p">)</span>
+<span class="n">worksheet2</span><span class="o">.</span><span class="n">set_tab_color</span><span class="p">(</span><span class="s">&#39;#FF9900&#39;</span><span class="p">)</span>  <span class="c"># Orange</span>
+</pre></div>
+</div>
+<p>The color can be a Html style <tt class="docutils literal"><span class="pre">#RRGGBB</span></tt> string or a limited number of named
+colors, see <a class="reference internal" href="working_with_formats.html#format-colors"><em>Format Colors</em></a>.</p>
+<p>See <a class="reference internal" href="example_tab_colors.html#ex-tab-colors"><em>Example: Setting Worksheet Tab Colours</em></a> for more details.</p>
 </div>
 </div>
 
@@ -1080,6 +1166,10 @@ string column name.</p>
 <li><a class="reference internal" href="#worksheet-autofilter">worksheet.autofilter()</a></li>
 <li><a class="reference internal" href="#worksheet-filter-column">worksheet.filter_column()</a></li>
 <li><a class="reference internal" href="#worksheet-filter-column-list">worksheet.filter_column_list()</a></li>
+<li><a class="reference internal" href="#worksheet-set-zoom">worksheet.set_zoom()</a></li>
+<li><a class="reference internal" href="#worksheet-right-to-left">worksheet.right_to_left()</a></li>
+<li><a class="reference internal" href="#worksheet-hide-zero">worksheet.hide_zero()</a></li>
+<li><a class="reference internal" href="#worksheet-set-tab-color">worksheet.set_tab_color()</a></li>
 </ul>
 </li>
 </ul>

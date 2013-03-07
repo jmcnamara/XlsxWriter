@@ -16,7 +16,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '',
-        VERSION:     '0.1.2',
+        VERSION:     '0.1.3',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -27,7 +27,7 @@
     <script type="text/javascript" src="_static/doctools.js"></script>
     <link rel="top" title="XlsxWriter Documentation" href="index.html" />
     <link rel="next" title="Alternative modules for handling Excel files" href="alternatives.html" />
-    <link rel="prev" title="Example: Unicode - Shift JIS" href="example_unicode_shift_jis.html" /> 
+    <link rel="prev" title="Example: Setting Worksheet Tab Colours" href="example_tab_colors.html" /> 
   </head>
   <body>
     <div class="related">
@@ -40,7 +40,7 @@
           <a href="alternatives.html" title="Alternative modules for handling Excel files"
              accesskey="N">next</a> |</li>
         <li class="right" >
-          <a href="example_unicode_shift_jis.html" title="Example: Unicode - Shift JIS"
+          <a href="example_tab_colors.html" title="Example: Setting Worksheet Tab Colours"
              accesskey="P">previous</a> |</li>
         <li><a href="index.html">XlsxWriter Documentation</a> &raquo;</li> 
       </ul>
@@ -95,9 +95,9 @@ following table shows the level of compatibility between the two module.</p>
 <p><strong>Workbook</strong></p>
 <table border="1" class="docutils">
 <colgroup>
-<col width="38%" />
-<col width="23%" />
-<col width="40%" />
+<col width="44%" />
+<col width="20%" />
+<col width="36%" />
 </colgroup>
 <thead valign="bottom">
 <tr class="row-odd"><th class="head">Workbook Methods</th>
@@ -106,74 +106,70 @@ following table shows the level of compatibility between the two module.</p>
 </tr>
 </thead>
 <tbody valign="top">
-<tr class="row-even"><td>new()</td>
+<tr class="row-even"><td><a class="reference internal" href="workbook.html#add_worksheet" title="add_worksheet"><tt class="xref py py-func docutils literal"><span class="pre">add_worksheet()</span></tt></a></td>
 <td>Yes</td>
 <td>Yes</td>
 </tr>
-<tr class="row-odd"><td>add_worksheet()</td>
+<tr class="row-odd"><td><a class="reference internal" href="workbook.html#add_format" title="add_format"><tt class="xref py py-func docutils literal"><span class="pre">add_format()</span></tt></a></td>
 <td>Yes</td>
 <td>Yes</td>
 </tr>
-<tr class="row-even"><td>add_format()</td>
-<td>Yes</td>
-<td>Yes</td>
-</tr>
-<tr class="row-odd"><td>add_chart()</td>
+<tr class="row-even"><td>add_chart()</td>
 <td><strong>No</strong></td>
 <td>Yes</td>
 </tr>
-<tr class="row-even"><td>add_shape()</td>
+<tr class="row-odd"><td>add_shape()</td>
 <td><strong>No</strong></td>
 <td>Yes</td>
 </tr>
-<tr class="row-odd"><td>add_vba_project()</td>
+<tr class="row-even"><td>add_vba_project()</td>
 <td><strong>No</strong></td>
 <td>Yes</td>
 </tr>
-<tr class="row-even"><td>close()</td>
+<tr class="row-odd"><td><a class="reference internal" href="workbook.html#close" title="close"><tt class="xref py py-func docutils literal"><span class="pre">close()</span></tt></a></td>
 <td>Yes</td>
 <td>Yes</td>
 </tr>
-<tr class="row-odd"><td>set_properties()</td>
+<tr class="row-even"><td><a class="reference internal" href="workbook.html#set_properties" title="set_properties"><tt class="xref py py-func docutils literal"><span class="pre">set_properties()</span></tt></a></td>
 <td>Yes</td>
 <td>Yes</td>
 </tr>
-<tr class="row-even"><td>define_name()</td>
+<tr class="row-odd"><td><a class="reference internal" href="workbook.html#define_name" title="define_name"><tt class="xref py py-func docutils literal"><span class="pre">define_name()</span></tt></a></td>
 <td>Yes</td>
 <td>Yes</td>
 </tr>
-<tr class="row-odd"><td>set_tempdir()</td>
+<tr class="row-even"><td>set_tempdir()</td>
 <td><strong>No</strong></td>
 <td>Yes</td>
 </tr>
-<tr class="row-even"><td>set_custom_color()</td>
+<tr class="row-odd"><td>set_custom_color()</td>
 <td>No (1)</td>
 <td>Yes</td>
 </tr>
-<tr class="row-odd"><td>sheets()</td>
+<tr class="row-even"><td><a class="reference internal" href="workbook.html#worksheets" title="worksheets"><tt class="xref py py-func docutils literal"><span class="pre">worksheets()</span></tt></a></td>
 <td>Yes (2)</td>
 <td>Yes</td>
 </tr>
-<tr class="row-even"><td>set_1904()</td>
+<tr class="row-odd"><td>set_1904()</td>
 <td><strong>No</strong></td>
 <td>Yes</td>
 </tr>
-<tr class="row-odd"><td>set_optimization()</td>
+<tr class="row-even"><td>set_optimization()</td>
 <td><strong>No</strong></td>
 <td>Yes</td>
 </tr>
 </tbody>
 </table>
 <ol class="arabic simple">
-<li>No longer required.</li>
-<li>Called <a class="reference internal" href="workbook.html#worksheets" title="worksheets"><tt class="xref py py-func docutils literal"><span class="pre">worksheets()</span></tt></a> in XlsxWriter.</li>
+<li>Not required in XlsxWriter. Full RGB colors are supported.</li>
+<li>Called <tt class="docutils literal"><span class="pre">sheets()</span></tt> in Excel::Writer::XLSX.</li>
 </ol>
 <p><strong>Worksheet</strong></p>
 <table border="1" class="docutils">
 <colgroup>
-<col width="44%" />
-<col width="20%" />
-<col width="36%" />
+<col width="48%" />
+<col width="19%" />
+<col width="33%" />
 </colgroup>
 <thead valign="bottom">
 <tr class="row-odd"><th class="head">Worksheet Methods</th>
@@ -182,15 +178,15 @@ following table shows the level of compatibility between the two module.</p>
 </tr>
 </thead>
 <tbody valign="top">
-<tr class="row-even"><td>write()</td>
+<tr class="row-even"><td><a class="reference internal" href="worksheet.html#write" title="write"><tt class="xref py py-func docutils literal"><span class="pre">write()</span></tt></a></td>
 <td>Yes</td>
 <td>Yes</td>
 </tr>
-<tr class="row-odd"><td>write_number()</td>
+<tr class="row-odd"><td><a class="reference internal" href="worksheet.html#write_number" title="write_number"><tt class="xref py py-func docutils literal"><span class="pre">write_number()</span></tt></a></td>
 <td>Yes</td>
 <td>Yes</td>
 </tr>
-<tr class="row-even"><td>write_string()</td>
+<tr class="row-even"><td><a class="reference internal" href="worksheet.html#write_string" title="write_string"><tt class="xref py py-func docutils literal"><span class="pre">write_string()</span></tt></a></td>
 <td>Yes</td>
 <td>Yes</td>
 </tr>
@@ -198,31 +194,31 @@ following table shows the level of compatibility between the two module.</p>
 <td>Yes</td>
 <td>Yes</td>
 </tr>
-<tr class="row-even"><td>write_blank()</td>
+<tr class="row-even"><td><a class="reference internal" href="worksheet.html#write_blank" title="write_blank"><tt class="xref py py-func docutils literal"><span class="pre">write_blank()</span></tt></a></td>
 <td>Yes</td>
 <td>Yes</td>
 </tr>
-<tr class="row-odd"><td>write_row()</td>
+<tr class="row-odd"><td><a class="reference internal" href="worksheet.html#write_row" title="write_row"><tt class="xref py py-func docutils literal"><span class="pre">write_row()</span></tt></a></td>
 <td>Yes</td>
 <td>Yes</td>
 </tr>
-<tr class="row-even"><td>write_column()</td>
+<tr class="row-even"><td><a class="reference internal" href="worksheet.html#write_column" title="write_column"><tt class="xref py py-func docutils literal"><span class="pre">write_column()</span></tt></a></td>
 <td>Yes</td>
 <td>Yes</td>
 </tr>
-<tr class="row-odd"><td>write_date_time()</td>
+<tr class="row-odd"><td><a class="reference internal" href="worksheet.html#write_datetime" title="write_datetime"><tt class="xref py py-func docutils literal"><span class="pre">write_datetime()</span></tt></a></td>
 <td>Yes</td>
 <td>Yes</td>
 </tr>
-<tr class="row-even"><td>write_url()</td>
+<tr class="row-even"><td><a class="reference internal" href="worksheet.html#write_url" title="write_url"><tt class="xref py py-func docutils literal"><span class="pre">write_url()</span></tt></a></td>
 <td>Yes</td>
 <td>Yes</td>
 </tr>
-<tr class="row-odd"><td>write_formula()</td>
+<tr class="row-odd"><td><a class="reference internal" href="worksheet.html#write_formula" title="write_formula"><tt class="xref py py-func docutils literal"><span class="pre">write_formula()</span></tt></a></td>
 <td>Yes</td>
 <td>Yes</td>
 </tr>
-<tr class="row-even"><td>write_array_formula()</td>
+<tr class="row-even"><td><a class="reference internal" href="worksheet.html#write_array_formula" title="write_array_formula"><tt class="xref py py-func docutils literal"><span class="pre">write_array_formula()</span></tt></a></td>
 <td>Yes</td>
 <td>Yes</td>
 </tr>
@@ -302,11 +298,11 @@ following table shows the level of compatibility between the two module.</p>
 <td><strong>No</strong></td>
 <td>Yes</td>
 </tr>
-<tr class="row-even"><td>set_row()</td>
+<tr class="row-even"><td><a class="reference internal" href="worksheet.html#set_row" title="set_row"><tt class="xref py py-func docutils literal"><span class="pre">set_row()</span></tt></a></td>
 <td>Yes</td>
 <td>Yes</td>
 </tr>
-<tr class="row-odd"><td>set_column()</td>
+<tr class="row-odd"><td><a class="reference internal" href="worksheet.html#set_column" title="set_column"><tt class="xref py py-func docutils literal"><span class="pre">set_column()</span></tt></a></td>
 <td>Yes</td>
 <td>Yes</td>
 </tr>
@@ -326,39 +322,39 @@ following table shows the level of compatibility between the two module.</p>
 <td><strong>No</strong></td>
 <td>Yes</td>
 </tr>
-<tr class="row-even"><td>merge_range()</td>
+<tr class="row-even"><td><a class="reference internal" href="worksheet.html#merge_range" title="merge_range"><tt class="xref py py-func docutils literal"><span class="pre">merge_range()</span></tt></a></td>
 <td>Yes</td>
 <td>Yes</td>
 </tr>
 <tr class="row-odd"><td>merge_range_type()</td>
-<td><strong>No</strong> (1)</td>
+<td>No (1)</td>
 <td>Yes</td>
 </tr>
-<tr class="row-even"><td>set_zoom()</td>
-<td><strong>No</strong></td>
-<td>Yes</td>
-</tr>
-<tr class="row-odd"><td>right_to_left()</td>
-<td><strong>No</strong></td>
-<td>Yes</td>
-</tr>
-<tr class="row-even"><td>hide_zero()</td>
-<td><strong>No</strong></td>
-<td>Yes</td>
-</tr>
-<tr class="row-odd"><td>set_tab_color()</td>
-<td><strong>No</strong></td>
-<td>Yes</td>
-</tr>
-<tr class="row-even"><td>autofilter()</td>
+<tr class="row-even"><td><a class="reference internal" href="worksheet.html#set_zoom" title="set_zoom"><tt class="xref py py-func docutils literal"><span class="pre">set_zoom()</span></tt></a></td>
 <td>Yes</td>
 <td>Yes</td>
 </tr>
-<tr class="row-odd"><td>filter_column()</td>
+<tr class="row-odd"><td><a class="reference internal" href="worksheet.html#right_to_left" title="right_to_left"><tt class="xref py py-func docutils literal"><span class="pre">right_to_left()</span></tt></a></td>
 <td>Yes</td>
 <td>Yes</td>
 </tr>
-<tr class="row-even"><td>filter_column_list()</td>
+<tr class="row-even"><td><a class="reference internal" href="worksheet.html#hide_zero" title="hide_zero"><tt class="xref py py-func docutils literal"><span class="pre">hide_zero()</span></tt></a></td>
+<td>Yes</td>
+<td>Yes</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="worksheet.html#set_tab_color" title="set_tab_color"><tt class="xref py py-func docutils literal"><span class="pre">set_tab_color()</span></tt></a></td>
+<td>Yes</td>
+<td>Yes</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="worksheet.html#autofilter" title="autofilter"><tt class="xref py py-func docutils literal"><span class="pre">autofilter()</span></tt></a></td>
+<td>Yes</td>
+<td>Yes</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="worksheet.html#filter_column" title="filter_column"><tt class="xref py py-func docutils literal"><span class="pre">filter_column()</span></tt></a></td>
+<td>Yes</td>
+<td>Yes</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="worksheet.html#filter_column_list" title="filter_column_list"><tt class="xref py py-func docutils literal"><span class="pre">filter_column_list()</span></tt></a></td>
 <td>Yes</td>
 <td>Yes</td>
 </tr>
@@ -370,9 +366,9 @@ following table shows the level of compatibility between the two module.</p>
 <p><strong>Page Setup</strong></p>
 <table border="1" class="docutils">
 <colgroup>
-<col width="43%" />
-<col width="21%" />
-<col width="36%" />
+<col width="50%" />
+<col width="18%" />
+<col width="32%" />
 </colgroup>
 <thead valign="bottom">
 <tr class="row-odd"><th class="head">Page Set-up Methods</th>
@@ -381,83 +377,83 @@ following table shows the level of compatibility between the two module.</p>
 </tr>
 </thead>
 <tbody valign="top">
-<tr class="row-even"><td>set_landscape()</td>
+<tr class="row-even"><td><a class="reference internal" href="page_setup.html#set_landscape" title="set_landscape"><tt class="xref py py-func docutils literal"><span class="pre">set_landscape()</span></tt></a></td>
 <td>Yes</td>
 <td>Yes</td>
 </tr>
-<tr class="row-odd"><td>set_portrait()</td>
+<tr class="row-odd"><td><a class="reference internal" href="page_setup.html#set_portrait" title="set_portrait"><tt class="xref py py-func docutils literal"><span class="pre">set_portrait()</span></tt></a></td>
 <td>Yes</td>
 <td>Yes</td>
 </tr>
-<tr class="row-even"><td>set_page_view()</td>
+<tr class="row-even"><td><a class="reference internal" href="page_setup.html#set_page_view" title="set_page_view"><tt class="xref py py-func docutils literal"><span class="pre">set_page_view()</span></tt></a></td>
 <td>Yes</td>
 <td>Yes</td>
 </tr>
-<tr class="row-odd"><td>set_paper()</td>
+<tr class="row-odd"><td><a class="reference internal" href="page_setup.html#set_paper" title="set_paper"><tt class="xref py py-func docutils literal"><span class="pre">set_paper()</span></tt></a></td>
 <td>Yes</td>
 <td>Yes</td>
 </tr>
-<tr class="row-even"><td>center_horizontally()</td>
+<tr class="row-even"><td><a class="reference internal" href="page_setup.html#center_horizontally" title="center_horizontally"><tt class="xref py py-func docutils literal"><span class="pre">center_horizontally()</span></tt></a></td>
 <td>Yes</td>
 <td>Yes</td>
 </tr>
-<tr class="row-odd"><td>center_vertically()</td>
+<tr class="row-odd"><td><a class="reference internal" href="page_setup.html#center_vertically" title="center_vertically"><tt class="xref py py-func docutils literal"><span class="pre">center_vertically()</span></tt></a></td>
 <td>Yes</td>
 <td>Yes</td>
 </tr>
-<tr class="row-even"><td>set_margins()</td>
+<tr class="row-even"><td><a class="reference internal" href="page_setup.html#set_margins" title="set_margins"><tt class="xref py py-func docutils literal"><span class="pre">set_margins()</span></tt></a></td>
 <td>Yes</td>
 <td>Yes</td>
 </tr>
-<tr class="row-odd"><td>set_header()</td>
+<tr class="row-odd"><td><a class="reference internal" href="page_setup.html#set_header" title="set_header"><tt class="xref py py-func docutils literal"><span class="pre">set_header()</span></tt></a></td>
 <td>Yes</td>
 <td>Yes</td>
 </tr>
-<tr class="row-even"><td>set_footer()</td>
+<tr class="row-even"><td><a class="reference internal" href="page_setup.html#set_footer" title="set_footer"><tt class="xref py py-func docutils literal"><span class="pre">set_footer()</span></tt></a></td>
 <td>Yes</td>
 <td>Yes</td>
 </tr>
-<tr class="row-odd"><td>repeat_rows()</td>
+<tr class="row-odd"><td><a class="reference internal" href="page_setup.html#repeat_rows" title="repeat_rows"><tt class="xref py py-func docutils literal"><span class="pre">repeat_rows()</span></tt></a></td>
 <td>Yes</td>
 <td>Yes</td>
 </tr>
-<tr class="row-even"><td>repeat_columns()</td>
+<tr class="row-even"><td><a class="reference internal" href="page_setup.html#repeat_columns" title="repeat_columns"><tt class="xref py py-func docutils literal"><span class="pre">repeat_columns()</span></tt></a></td>
 <td>Yes</td>
 <td>Yes</td>
 </tr>
-<tr class="row-odd"><td>hide_gridlines()</td>
+<tr class="row-odd"><td><a class="reference internal" href="page_setup.html#hide_gridlines" title="hide_gridlines"><tt class="xref py py-func docutils literal"><span class="pre">hide_gridlines()</span></tt></a></td>
 <td>Yes</td>
 <td>Yes</td>
 </tr>
-<tr class="row-even"><td>print_row_col_headers()</td>
+<tr class="row-even"><td><a class="reference internal" href="page_setup.html#print_row_col_headers" title="print_row_col_headers"><tt class="xref py py-func docutils literal"><span class="pre">print_row_col_headers()</span></tt></a></td>
 <td>Yes</td>
 <td>Yes</td>
 </tr>
-<tr class="row-odd"><td>print_area()</td>
+<tr class="row-odd"><td><a class="reference internal" href="page_setup.html#print_area" title="print_area"><tt class="xref py py-func docutils literal"><span class="pre">print_area()</span></tt></a></td>
 <td>Yes</td>
 <td>Yes</td>
 </tr>
-<tr class="row-even"><td>print_across()</td>
+<tr class="row-even"><td><a class="reference internal" href="page_setup.html#print_across" title="print_across"><tt class="xref py py-func docutils literal"><span class="pre">print_across()</span></tt></a></td>
 <td>Yes</td>
 <td>Yes</td>
 </tr>
-<tr class="row-odd"><td>fit_to_pages()</td>
+<tr class="row-odd"><td><a class="reference internal" href="page_setup.html#fit_to_pages" title="fit_to_pages"><tt class="xref py py-func docutils literal"><span class="pre">fit_to_pages()</span></tt></a></td>
 <td>Yes</td>
 <td>Yes</td>
 </tr>
-<tr class="row-even"><td>set_start_page()</td>
+<tr class="row-even"><td><a class="reference internal" href="page_setup.html#set_start_page" title="set_start_page"><tt class="xref py py-func docutils literal"><span class="pre">set_start_page()</span></tt></a></td>
 <td>Yes</td>
 <td>Yes</td>
 </tr>
-<tr class="row-odd"><td>set_print_scale()</td>
+<tr class="row-odd"><td><a class="reference internal" href="page_setup.html#set_print_scale" title="set_print_scale"><tt class="xref py py-func docutils literal"><span class="pre">set_print_scale()</span></tt></a></td>
 <td>Yes</td>
 <td>Yes</td>
 </tr>
-<tr class="row-even"><td>set_h_pagebreaks()</td>
+<tr class="row-even"><td><a class="reference internal" href="page_setup.html#set_h_pagebreaks" title="set_h_pagebreaks"><tt class="xref py py-func docutils literal"><span class="pre">set_h_pagebreaks()</span></tt></a></td>
 <td>Yes</td>
 <td>Yes</td>
 </tr>
-<tr class="row-odd"><td>set_v_pagebreaks()</td>
+<tr class="row-odd"><td><a class="reference internal" href="page_setup.html#set_v_pagebreaks" title="set_v_pagebreaks"><tt class="xref py py-func docutils literal"><span class="pre">set_v_pagebreaks()</span></tt></a></td>
 <td>Yes</td>
 <td>Yes</td>
 </tr>
@@ -466,9 +462,9 @@ following table shows the level of compatibility between the two module.</p>
 <p><strong>Format</strong></p>
 <table border="1" class="docutils">
 <colgroup>
-<col width="40%" />
-<col width="22%" />
-<col width="38%" />
+<col width="48%" />
+<col width="19%" />
+<col width="33%" />
 </colgroup>
 <thead valign="bottom">
 <tr class="row-odd"><th class="head">Format Methods</th>
@@ -477,135 +473,127 @@ following table shows the level of compatibility between the two module.</p>
 </tr>
 </thead>
 <tbody valign="top">
-<tr class="row-even"><td>set_font_name()</td>
+<tr class="row-even"><td><a class="reference internal" href="format.html#set_font_name" title="set_font_name"><tt class="xref py py-func docutils literal"><span class="pre">set_font_name()</span></tt></a></td>
 <td>Yes</td>
 <td>Yes</td>
 </tr>
-<tr class="row-odd"><td>set_font_size()</td>
+<tr class="row-odd"><td><a class="reference internal" href="format.html#set_font_size" title="set_font_size"><tt class="xref py py-func docutils literal"><span class="pre">set_font_size()</span></tt></a></td>
 <td>Yes</td>
 <td>Yes</td>
 </tr>
-<tr class="row-even"><td>set_font_color()</td>
+<tr class="row-even"><td><a class="reference internal" href="format.html#set_font_color" title="set_font_color"><tt class="xref py py-func docutils literal"><span class="pre">set_font_color()</span></tt></a></td>
 <td>Yes</td>
 <td>Yes</td>
 </tr>
-<tr class="row-odd"><td>set_bold()</td>
+<tr class="row-odd"><td><a class="reference internal" href="format.html#set_bold" title="set_bold"><tt class="xref py py-func docutils literal"><span class="pre">set_bold()</span></tt></a></td>
 <td>Yes</td>
 <td>Yes</td>
 </tr>
-<tr class="row-even"><td>set_italic()</td>
+<tr class="row-even"><td><a class="reference internal" href="format.html#set_italic" title="set_italic"><tt class="xref py py-func docutils literal"><span class="pre">set_italic()</span></tt></a></td>
 <td>Yes</td>
 <td>Yes</td>
 </tr>
-<tr class="row-odd"><td>set_underline()</td>
+<tr class="row-odd"><td><a class="reference internal" href="format.html#set_underline" title="set_underline"><tt class="xref py py-func docutils literal"><span class="pre">set_underline()</span></tt></a></td>
 <td>Yes</td>
 <td>Yes</td>
 </tr>
-<tr class="row-even"><td>set_font_strikeout()</td>
+<tr class="row-even"><td><a class="reference internal" href="format.html#set_font_strikeout" title="set_font_strikeout"><tt class="xref py py-func docutils literal"><span class="pre">set_font_strikeout()</span></tt></a></td>
 <td>Yes</td>
 <td>Yes</td>
 </tr>
-<tr class="row-odd"><td>set_font_script()</td>
+<tr class="row-odd"><td><a class="reference internal" href="format.html#set_font_script" title="set_font_script"><tt class="xref py py-func docutils literal"><span class="pre">set_font_script()</span></tt></a></td>
 <td>Yes</td>
 <td>Yes</td>
 </tr>
-<tr class="row-even"><td>set_font_outline()</td>
+<tr class="row-even"><td><a class="reference internal" href="format.html#set_num_format" title="set_num_format"><tt class="xref py py-func docutils literal"><span class="pre">set_num_format()</span></tt></a></td>
 <td>Yes</td>
 <td>Yes</td>
 </tr>
-<tr class="row-odd"><td>set_font_shadow()</td>
+<tr class="row-odd"><td><a class="reference internal" href="format.html#set_locked" title="set_locked"><tt class="xref py py-func docutils literal"><span class="pre">set_locked()</span></tt></a></td>
 <td>Yes</td>
 <td>Yes</td>
 </tr>
-<tr class="row-even"><td>set_num_format()</td>
+<tr class="row-even"><td><a class="reference internal" href="format.html#set_hidden" title="set_hidden"><tt class="xref py py-func docutils literal"><span class="pre">set_hidden()</span></tt></a></td>
 <td>Yes</td>
 <td>Yes</td>
 </tr>
-<tr class="row-odd"><td>set_locked()</td>
+<tr class="row-odd"><td><a class="reference internal" href="format.html#set_align" title="set_align"><tt class="xref py py-func docutils literal"><span class="pre">set_align()</span></tt></a></td>
 <td>Yes</td>
 <td>Yes</td>
 </tr>
-<tr class="row-even"><td>set_hidden()</td>
+<tr class="row-even"><td><a class="reference internal" href="format.html#set_rotation" title="set_rotation"><tt class="xref py py-func docutils literal"><span class="pre">set_rotation()</span></tt></a></td>
 <td>Yes</td>
 <td>Yes</td>
 </tr>
-<tr class="row-odd"><td>set_align()</td>
+<tr class="row-odd"><td><a class="reference internal" href="format.html#set_text_wrap" title="set_text_wrap"><tt class="xref py py-func docutils literal"><span class="pre">set_text_wrap()</span></tt></a></td>
 <td>Yes</td>
 <td>Yes</td>
 </tr>
-<tr class="row-even"><td>set_rotation()</td>
+<tr class="row-even"><td><a class="reference internal" href="format.html#set_text_justlast" title="set_text_justlast"><tt class="xref py py-func docutils literal"><span class="pre">set_text_justlast()</span></tt></a></td>
 <td>Yes</td>
 <td>Yes</td>
 </tr>
-<tr class="row-odd"><td>set_text_wrap()</td>
+<tr class="row-odd"><td><a class="reference internal" href="format.html#set_center_across" title="set_center_across"><tt class="xref py py-func docutils literal"><span class="pre">set_center_across()</span></tt></a></td>
 <td>Yes</td>
 <td>Yes</td>
 </tr>
-<tr class="row-even"><td>set_text_justlast()</td>
+<tr class="row-even"><td><a class="reference internal" href="format.html#set_indent" title="set_indent"><tt class="xref py py-func docutils literal"><span class="pre">set_indent()</span></tt></a></td>
 <td>Yes</td>
 <td>Yes</td>
 </tr>
-<tr class="row-odd"><td>set_center_across()</td>
+<tr class="row-odd"><td><a class="reference internal" href="format.html#set_shrink" title="set_shrink"><tt class="xref py py-func docutils literal"><span class="pre">set_shrink()</span></tt></a></td>
 <td>Yes</td>
 <td>Yes</td>
 </tr>
-<tr class="row-even"><td>set_indent()</td>
+<tr class="row-even"><td><a class="reference internal" href="format.html#set_pattern" title="set_pattern"><tt class="xref py py-func docutils literal"><span class="pre">set_pattern()</span></tt></a></td>
 <td>Yes</td>
 <td>Yes</td>
 </tr>
-<tr class="row-odd"><td>set_shrink()</td>
+<tr class="row-odd"><td><a class="reference internal" href="format.html#set_bg_color" title="set_bg_color"><tt class="xref py py-func docutils literal"><span class="pre">set_bg_color()</span></tt></a></td>
 <td>Yes</td>
 <td>Yes</td>
 </tr>
-<tr class="row-even"><td>set_pattern()</td>
+<tr class="row-even"><td><a class="reference internal" href="format.html#set_fg_color" title="set_fg_color"><tt class="xref py py-func docutils literal"><span class="pre">set_fg_color()</span></tt></a></td>
 <td>Yes</td>
 <td>Yes</td>
 </tr>
-<tr class="row-odd"><td>set_bg_color()</td>
+<tr class="row-odd"><td><a class="reference internal" href="format.html#set_border" title="set_border"><tt class="xref py py-func docutils literal"><span class="pre">set_border()</span></tt></a></td>
 <td>Yes</td>
 <td>Yes</td>
 </tr>
-<tr class="row-even"><td>set_fg_color()</td>
+<tr class="row-even"><td><a class="reference internal" href="format.html#set_bottom" title="set_bottom"><tt class="xref py py-func docutils literal"><span class="pre">set_bottom()</span></tt></a></td>
 <td>Yes</td>
 <td>Yes</td>
 </tr>
-<tr class="row-odd"><td>set_border()</td>
+<tr class="row-odd"><td><a class="reference internal" href="format.html#set_top" title="set_top"><tt class="xref py py-func docutils literal"><span class="pre">set_top()</span></tt></a></td>
 <td>Yes</td>
 <td>Yes</td>
 </tr>
-<tr class="row-even"><td>set_bottom()</td>
+<tr class="row-even"><td><a class="reference internal" href="format.html#set_left" title="set_left"><tt class="xref py py-func docutils literal"><span class="pre">set_left()</span></tt></a></td>
 <td>Yes</td>
 <td>Yes</td>
 </tr>
-<tr class="row-odd"><td>set_top()</td>
+<tr class="row-odd"><td><a class="reference internal" href="format.html#set_right" title="set_right"><tt class="xref py py-func docutils literal"><span class="pre">set_right()</span></tt></a></td>
 <td>Yes</td>
 <td>Yes</td>
 </tr>
-<tr class="row-even"><td>set_left()</td>
+<tr class="row-even"><td><a class="reference internal" href="format.html#set_border_color" title="set_border_color"><tt class="xref py py-func docutils literal"><span class="pre">set_border_color()</span></tt></a></td>
 <td>Yes</td>
 <td>Yes</td>
 </tr>
-<tr class="row-odd"><td>set_right()</td>
+<tr class="row-odd"><td><a class="reference internal" href="format.html#set_bottom_color" title="set_bottom_color"><tt class="xref py py-func docutils literal"><span class="pre">set_bottom_color()</span></tt></a></td>
 <td>Yes</td>
 <td>Yes</td>
 </tr>
-<tr class="row-even"><td>set_border_color()</td>
+<tr class="row-even"><td><a class="reference internal" href="format.html#set_top_color" title="set_top_color"><tt class="xref py py-func docutils literal"><span class="pre">set_top_color()</span></tt></a></td>
 <td>Yes</td>
 <td>Yes</td>
 </tr>
-<tr class="row-odd"><td>set_bottom_color()</td>
+<tr class="row-odd"><td><a class="reference internal" href="format.html#set_left_color" title="set_left_color"><tt class="xref py py-func docutils literal"><span class="pre">set_left_color()</span></tt></a></td>
 <td>Yes</td>
 <td>Yes</td>
 </tr>
-<tr class="row-even"><td>set_top_color()</td>
-<td>Yes</td>
-<td>Yes</td>
-</tr>
-<tr class="row-odd"><td>set_left_color()</td>
-<td>Yes</td>
-<td>Yes</td>
-</tr>
-<tr class="row-even"><td>set_right_color()</td>
+<tr class="row-even"><td><a class="reference internal" href="format.html#set_right_color" title="set_right_color"><tt class="xref py py-func docutils literal"><span class="pre">set_right_color()</span></tt></a></td>
 <td>Yes</td>
 <td>Yes</td>
 </tr>
@@ -632,8 +620,8 @@ following table shows the level of compatibility between the two module.</p>
 </ul>
 
   <h4>Previous topic</h4>
-  <p class="topless"><a href="example_unicode_shift_jis.html"
-                        title="previous chapter">Example: Unicode - Shift JIS</a></p>
+  <p class="topless"><a href="example_tab_colors.html"
+                        title="previous chapter">Example: Setting Worksheet Tab Colours</a></p>
   <h4>Next topic</h4>
   <p class="topless"><a href="alternatives.html"
                         title="next chapter">Alternative modules for handling Excel files</a></p>
@@ -669,7 +657,7 @@ following table shows the level of compatibility between the two module.</p>
           <a href="alternatives.html" title="Alternative modules for handling Excel files"
              >next</a> |</li>
         <li class="right" >
-          <a href="example_unicode_shift_jis.html" title="Example: Unicode - Shift JIS"
+          <a href="example_tab_colors.html" title="Example: Setting Worksheet Tab Colours"
              >previous</a> |</li>
         <li><a href="index.html">XlsxWriter Documentation</a> &raquo;</li> 
       </ul>

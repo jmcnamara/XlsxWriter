@@ -319,7 +319,7 @@ See also :ref:`ex_headers_footers`.
 worksheet.set_footer()
 ----------------------
 
-.. py:function:: set_header([footer='',] margin=0.3]])
+.. py:function:: set_footer([footer='',] margin=0.3]])
 
    Set the printed page footer caption and optional margin.
 
@@ -378,7 +378,7 @@ more details.::
 worksheet.hide_gridlines()
 --------------------------
 
-.. py:function:: set_header([option=1])
+.. py:function:: hide_gridlines([option=1])
 
    Set the option to hide gridlines on the screen and the printed page.
 
@@ -548,7 +548,8 @@ Set the scale factor of the printed page. Scale factors in the range
     worksheet4.set_print_scale(400)
 
 The default scale factor is 100. Note, ``set_print_scale()`` does not affect
-the scale of the visible page in Excel. For that you should use ``set_zoom()``.
+the scale of the visible page in Excel. For that you should use
+:func:`set_zoom()`.
 
 Note also that although it is valid to use both ``fit_to_pages()`` and
 ``set_print_scale()`` on the same worksheet only one of these options can

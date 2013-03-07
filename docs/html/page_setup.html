@@ -16,7 +16,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '',
-        VERSION:     '0.1.2',
+        VERSION:     '0.1.3',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -583,8 +583,8 @@ longer than this will not be written and an exception will be thrown.</p>
 <div class="section" id="worksheet-set-footer">
 <h2>worksheet.set_footer()</h2>
 <dl class="function">
-<dt>
-<tt class="descname">set_header</tt><big>(</big><em>[footer='',] margin=0.3]]</em><big>)</big></dt>
+<dt id="set_footer">
+<tt class="descname">set_footer</tt><big>(</big><em>[footer='',] margin=0.3]]</em><big>)</big></dt>
 <dd><p>Set the printed page footer caption and optional margin.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -669,8 +669,8 @@ more details.:</p>
 <div class="section" id="worksheet-hide-gridlines">
 <h2>worksheet.hide_gridlines()</h2>
 <dl class="function">
-<dt>
-<tt class="descname">set_header</tt><big>(</big><span class="optional">[</span><em>option=1</em><span class="optional">]</span><big>)</big></dt>
+<dt id="hide_gridlines">
+<tt class="descname">hide_gridlines</tt><big>(</big><span class="optional">[</span><em>option=1</em><span class="optional">]</span><big>)</big></dt>
 <dd><p>Set the option to hide gridlines on the screen and the printed page.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -879,7 +879,8 @@ when the worksheet is printed out:</p>
 </pre></div>
 </div>
 <p>The default scale factor is 100. Note, <tt class="docutils literal"><span class="pre">set_print_scale()</span></tt> does not affect
-the scale of the visible page in Excel. For that you should use <tt class="docutils literal"><span class="pre">set_zoom()</span></tt>.</p>
+the scale of the visible page in Excel. For that you should use
+<a class="reference internal" href="worksheet.html#set_zoom" title="set_zoom"><tt class="xref py py-func docutils literal"><span class="pre">set_zoom()</span></tt></a>.</p>
 <p>Note also that although it is valid to use both <tt class="docutils literal"><span class="pre">fit_to_pages()</span></tt> and
 <tt class="docutils literal"><span class="pre">set_print_scale()</span></tt> on the same worksheet only one of these options can
 be active at a time. The last method call made will set the active option.</p>
