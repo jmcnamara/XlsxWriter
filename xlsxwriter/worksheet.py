@@ -18,6 +18,7 @@ from .utility import xl_rowcol_to_cell
 from .utility import xl_cell_to_rowcol
 from .utility import xl_col_to_name
 from .utility import xl_range
+from .utility import xl_color
 
 
 ###############################################################################
@@ -196,7 +197,7 @@ class Worksheet(xmlwriter.XMLwriter):
         self.zoom = 100
         self.zoom_scale_normal = 1
         self.print_scale = 100
-        self.right_to_left = 0
+        self.is_right_to_left = 0
         self.show_zeros = 1
         self.leading_zeros = 0
 
@@ -1119,6 +1120,63 @@ class Worksheet(xmlwriter.XMLwriter):
         self.filter_type[col] = 1
         self.filter_on = 1
 
+    def set_zoom(self, zoom=100):
+        """
+        Set the worksheet zoom factor.
+
+        Args:
+            zoom: Scale factor: 10 <= zoom <= 400.
+
+        Returns:
+            Nothing.
+
+        """
+        # Ensure the zoom scale is in Excel's range.
+        if zoom < 10 or zoom > 400:
+            warn("Zoom factor %d outside range: 10 <= zoom <= 400" % zoom)
+            zoom = 100
+
+        self.zoom = int(zoom)
+
+    def right_to_left(self):
+        """
+        Display the worksheet right to left for some versions of Excel.
+
+        Args:
+            None.
+
+        Returns:
+            Nothing.
+
+        """
+        self.is_right_to_left = 1
+
+    def hide_zero(self):
+        """
+        Hide zero values in worksheet cells.
+
+        Args:
+            None.
+
+        Returns:
+            Nothing.
+
+        """
+        self.show_zeros = 0
+
+    def set_tab_color(self, color):
+        """
+        Set the colour of the worksheet tab.
+
+        Args:
+            color: A #RGB color index.
+
+        Returns:
+            Nothing.
+
+        """
+        self.tab_color = xl_color(color)
+
     ###########################################################################
     #
     # Public API. Page Setup methods.
@@ -1992,7 +2050,7 @@ class Worksheet(xmlwriter.XMLwriter):
             attributes.append(('showZeros', 0))
 
         # Display worksheet right to left for Hebrew, Arabic and others.
-        if self.right_to_left:
+        if self.is_right_to_left:
             attributes.append(('rightToLeft', 1))
 
         # Show that the sheet tab is selected.
@@ -2530,14 +2588,12 @@ class Worksheet(xmlwriter.XMLwriter):
 
     def _write_tab_color(self):
         # Write the <tabColor> element.
-        color_index = self.tab_color
+        color = self.tab_color
 
-        if not color_index:
+        if not color:
             return
 
-        rgb = self._get_palette_color(color_index)
-
-        attributes = [('rgb', rgb)]
+        attributes = [('rgb', color)]
 
         self._xml_empty_tag('tabColor', attributes)
 

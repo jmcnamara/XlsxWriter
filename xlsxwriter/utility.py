@@ -5,6 +5,7 @@
 # Copyright 2013, John McNamara, jmcnamara@cpan.org
 #
 import re
+from warnings import warn
 
 
 range_parts = re.compile(r'(\$?)([A-Z]{1,3})(\$?)(\d+)')
@@ -127,3 +128,36 @@ def xl_range(first_row, first_col, last_row, last_col):
     range2 = xl_rowcol_to_cell(last_row, last_col)
 
     return range1 + ':' + range2
+
+
+def xl_color(color):
+    # Used in conjunction with the XlsxWriter *color() methods to convert
+    # a colour name into an RGB formatted string. These colours are for
+    # backward compatibility with older versions of Excel.
+    named_colors = {
+        'black': '#000000',
+        'blue': '#0000FF',
+        'brown': '#800000',
+        'cyan': '#00FFFF',
+        'gray': '#808080',
+        'green': '#008000',
+        'lime': '#00FF00',
+        'magenta': '#FF00FF',
+        'navy': '#000080',
+        'orange': '#FF6600',
+        'pink': '#FF00FF',
+        'purple': '#800080',
+        'red': '#FF0000',
+        'silver': '#C0C0C0',
+        'white': '#FFFFFF',
+        'yellow': '#FFFF00',
+    }
+
+    if color in named_colors:
+        color = named_colors[color]
+
+    if not re.match('#[0-9a-fA-F]{6}', color):
+        warn("Color '%s' isn't a valid Excel color" % color)
+
+    # Convert the RGB color to the Excel ARGB format.
+    return "FF" + color.lstrip('#').upper()
