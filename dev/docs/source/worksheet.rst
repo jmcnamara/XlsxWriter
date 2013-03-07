@@ -953,3 +953,78 @@ It isn't sufficient to just specify filters. You must also hide
 any rows that don't match the filter condition.
 See :ref:`working_with_autofilters` for more details.
 
+
+worksheet.set_zoom()
+--------------------
+
+.. py:function:: set_zoom(zoom)
+
+   Set the worksheet zoom factor.
+
+   :param int zoom: Worksheet zoom factor.
+
+Set the worksheet zoom factor in the range ``10 <= zoom <= 400``::
+
+    worksheet1.set_zoom(50)
+    worksheet2.set_zoom(75)
+    worksheet3.set_zoom(300)
+    worksheet4.set_zoom(400)
+
+The default zoom factor is 100. It isn't possible to set the zoom to
+"Selection" because it is calculated by Excel at run-time.
+
+Note, ``set_zoom()`` does not affect the scale of the printed page. For that
+you should use :func:`set_print_scale()`.
+
+
+worksheet.right_to_left()
+-------------------------
+
+.. py:function:: right_to_left()
+
+   Display the worksheet cells from right to left for some versions of Excel.
+   
+The ``right_to_left()`` method is used to change the default direction of the
+worksheet from left-to-right, with the A1 cell in the top left, to
+right-to-left, with the A1 cell in the top right.
+
+    worksheet.right_to_left()
+
+This is useful when creating Arabic, Hebrew or other near or far eastern
+worksheets that use right-to-left as the default direction.
+
+
+worksheet.hide_zero()
+---------------------
+
+.. py:function:: hide_zero()
+
+   Hide zero values in worksheet cells.
+   
+The ``hide_zero()`` method is used to hide any zero values that appear in
+cells::
+
+    worksheet.hide_zero()
+
+
+worksheet.set_tab_color()
+-------------------------
+
+.. py:function:: set_tab_color()
+
+   Set the colour of the worksheet tab.
+
+   :param string color: The tab color.  
+
+The ``set_tab_color()`` method is used to change the colour of the worksheet
+tab::
+
+    worksheet1.set_tab_color('red')
+    worksheet2.set_tab_color('#FF9900')  # Orange
+
+The color can be a Html style ``#RRGGBB`` string or a limited number of named
+colors, see :ref:`format_colors`.
+
+See :ref:`ex_tab_colors` for more details.
+
+

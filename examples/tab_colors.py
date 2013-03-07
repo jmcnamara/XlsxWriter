@@ -20,6 +20,6 @@ worksheet1.set_tab_color('red')
 worksheet2.set_tab_color('green')
 worksheet3.set_tab_color('#FF9900')  # Orange
 
-# worksheet4 will have the default colour which is white.
+# worksheet4 will have the default colour.
 
 workbook.close()

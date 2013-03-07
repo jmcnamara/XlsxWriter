@@ -548,7 +548,8 @@ Set the scale factor of the printed page. Scale factors in the range
     worksheet4.set_print_scale(400)
 
 The default scale factor is 100. Note, ``set_print_scale()`` does not affect
-the scale of the visible page in Excel. For that you should use ``set_zoom()``.
+the scale of the visible page in Excel. For that you should use
+:func:`set_zoom()`.
 
 Note also that although it is valid to use both ``fit_to_pages()`` and
 ``set_print_scale()`` on the same worksheet only one of these options can

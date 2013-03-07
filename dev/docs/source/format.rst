@@ -382,17 +382,17 @@ cell. The following are the available horizontal alignments:
 
 The following are the available vertical alignments:
 
-+----------------------+
-| Vertical alignment   |
-+======================+
-| top                  |
-+----------------------+
-| vcenter              |
-+----------------------+
-| bottom               |
-+----------------------+
-| vjustify             |
-+----------------------+
++--------------------+
+| Vertical alignment |
++====================+
+| top                |
++--------------------+
+| vcenter            |
++--------------------+
+| bottom             |
++--------------------+
+| vjustify           |
++--------------------+
 
 
 As in Excel, vertical and horizontal alignments can be combined::
