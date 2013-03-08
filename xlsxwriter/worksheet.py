@@ -188,9 +188,7 @@ class Worksheet(xmlwriter.XMLwriter):
         self.hbreaks = []
         self.vbreaks = []
 
-        self.protect = 0
-        self.password = None
-
+        self.protect_options = {}
         self.set_cols = {}
         self.set_rows = {}
 
@@ -1177,6 +1175,57 @@ class Worksheet(xmlwriter.XMLwriter):
         """
         self.tab_color = xl_color(color)
 
+    def protect(self, password='', options=None):
+        """
+        Set the colour of the worksheet tab.
+
+        Args:
+            password: An optional password string.
+            options:  A dictionary of worksheet objects to protect.
+
+        Returns:
+            Nothing.
+
+        """
+        if password != '':
+            password = self._encode_password(password)
+
+        if not options:
+            options = {}
+
+        # Default values for objects that can be protected.
+        defaults = {
+            'sheet': 1,
+            'content': 0,
+            'objects': 0,
+            'scenarios': 0,
+            'format_cells': 0,
+            'format_columns': 0,
+            'format_rows': 0,
+            'insert_columns': 0,
+            'insert_rows': 0,
+            'insert_hyperlinks': 0,
+            'delete_columns': 0,
+            'delete_rows': 0,
+            'select_locked_cells': 1,
+            'sort': 0,
+            'autofilter': 0,
+            'pivot_tables': 0,
+            'select_unlocked_cells': 1}
+
+        # Overwrite the defaults with user specified values.
+        for key in (options.keys()):
+
+            if key in defaults:
+                defaults[key] = options[key]
+            else:
+                warn("Unknown protection object: '%s'\n" % key)
+
+        # Set the password after the user defined values.
+        defaults['password'] = password
+
+        self.protect_options = defaults
+
     ###########################################################################
     #
     # Public API. Page Setup methods.
@@ -1587,7 +1636,7 @@ class Worksheet(xmlwriter.XMLwriter):
         self._write_sheet_data()
 
         # Write the sheetProtection element.
-        # self._write_sheet_protection()
+        self._write_sheet_protection()
 
         # Write the worksheet calculation properties.
         # self._write_sheet_calc_pr()
@@ -1963,6 +2012,32 @@ class Worksheet(xmlwriter.XMLwriter):
             operator = 22
 
         return [operator, token]
+
+    def _encode_password(self, plaintext):
+        # Encode the worksheet protection "password" as a simple hash.
+        # Based on the algorithm by Daniel Rentz of OpenOffice.
+        i = 0
+        count = len(plaintext)
+        digits = []
+
+        for char in (plaintext):
+            i += 1
+            char = ord(char) << i
+            low_15 = char & 0x7fff
+            high_15 = char & 0x7fff << 15
+            high_15 = high_15 >> 15
+            char = low_15 | high_15
+            digits.append(char)
+
+        password_hash = 0x0000
+
+        for digit in digits:
+            password_hash ^= digit
+
+        password_hash ^= count
+        password_hash ^= 0xCE4B
+
+        return "%X" % password_hash
 
     ###########################################################################
     #
@@ -2922,3 +2997,51 @@ class Worksheet(xmlwriter.XMLwriter):
         attributes.append(('val', val))
 
         self._xml_empty_tag('customFilter', attributes)
+
+    def _write_sheet_protection(self):
+        # Write the <sheetProtection> element.
+        attributes = []
+
+        if not self.protect_options:
+            return
+
+        options = self.protect_options
+
+        if options['password']:
+            attributes.append(('password', options['password']))
+        if options['sheet']:
+            attributes.append(('sheet', 1))
+        if options['content']:
+            attributes.append(('content', 1))
+        if not options['objects']:
+            attributes.append(('objects', 1))
+        if not options['scenarios']:
+            attributes.append(('scenarios', 1))
+        if options['format_cells']:
+            attributes.append(('formatCells', 0))
+        if options['format_columns']:
+            attributes.append(('formatColumns', 0))
+        if options['format_rows']:
+            attributes.append(('formatRows', 0))
+        if options['insert_columns']:
+            attributes.append(('insertColumns', 0))
+        if options['insert_rows']:
+            attributes.append(('insertRows', 0))
+        if options['insert_hyperlinks']:
+            attributes.append(('insertHyperlinks', 0))
+        if options['delete_columns']:
+            attributes.append(('deleteColumns', 0))
+        if options['delete_rows']:
+            attributes.append(('deleteRows', 0))
+        if not options['select_locked_cells']:
+            attributes.append(('selectLockedCells', 1))
+        if options['sort']:
+            attributes.append(('sort', 0))
+        if options['autofilter']:
+            attributes.append(('autoFilter', 0))
+        if options['pivot_tables']:
+            attributes.append(('pivotTables', 0))
+        if not options['select_unlocked_cells']:
+            attributes.append(('selectUnlockedCells', 1))
+
+        self._xml_empty_tag('sheetProtection', attributes)

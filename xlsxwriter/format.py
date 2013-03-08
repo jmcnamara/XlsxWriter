@@ -850,8 +850,10 @@ class Format(xmlwriter.XMLwriter):
             self._get_font_key(),
             self._get_border_key(),
             self._get_fill_key(),
+            self._get_alignment_key(),
             self.num_format,
-            self._get_alignment_key()))
+            self.locked,
+            self.hidden))
 
         return key
 

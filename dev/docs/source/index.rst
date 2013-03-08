@@ -15,6 +15,7 @@ XlsxWriter supports the following features in version |version|:
 * Defined names.
 * Autofilters.
 * Document properties.
+* Worksheet cell protection.
 * Standard libraries only.
 * Python 2/3 support.
 

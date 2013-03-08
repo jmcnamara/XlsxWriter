@@ -81,8 +81,8 @@ following table shows the level of compatibility between the two module.
 | set_optimization()       | **No**     | Yes                 |
 +--------------------------+------------+---------------------+
 
-1. Not required in XlsxWriter. Full RGB colors are supported.
-2. Called ``sheets()`` in Excel::Writer::XLSX.
+1. Not required in XlsxWriter. Full RGB colors are supported. 2. Called
+``sheets()`` in Excel::Writer::XLSX.
 
 
 **Worksheet**
@@ -146,7 +146,7 @@ following table shows the level of compatibility between the two module.
 +-------------------------------+------------+---------------------+
 | set_first_sheet()             | **No**     | Yes                 |
 +-------------------------------+------------+---------------------+
-| protect()                     | **No**     | Yes                 |
+| :func:`protect()`             | Yes        | Yes                 |
 +-------------------------------+------------+---------------------+
 | set_selection()               | **No**     | Yes                 |
 +-------------------------------+------------+---------------------+

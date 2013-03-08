@@ -10,12 +10,11 @@ Multiple worksheets can be added to a workbook and formatting can be applied to
 cells. Text, numbers, and formulas can be written to the cells.
 
 This module cannot be used to modify or write to an existing Excel XLSX file.
-Modifying Excel files is not, and never was, part of the design scope. There
-are some :ref:`alternatives` that do that.
+There are some :ref:`alternatives` Python modules that do that.
 
-The XlsxWriter module is a port of the Perl ``Excel::Writer::XLSX`` module.
-It is a work in progress. See the :ref:`ewx` section for a list of
-currently ported features.
+The XlsxWriter module is a port of the Perl ``Excel::Writer::XLSX`` module. It
+is a work in progress. See the :ref:`ewx` section for a list of currently
+ported features.
 
 XlsxWriter is written by John McNamara who also wrote the perl modules
 `Excel::Writer::XLSX <http://search.cpan.org/~jmcnamara/Excel-Writer-XLSX/>`_
