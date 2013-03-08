@@ -1028,3 +1028,69 @@ colors, see :ref:`format_colors`.
 See :ref:`ex_tab_colors` for more details.
 
 
+worksheet.protect()
+-------------------
+
+.. py:function:: protect()
+
+   Set the colour of the worksheet tab. 
+   
+   :param string password: A worksheet password.
+   :param dict   options:  A dictionary of worksheet options to protect.
+
+
+The ``protect()`` method is used to protect a worksheet from modification::
+
+    worksheet.protect()
+
+The ``protect()`` method also has the effect of enabling a cell's ``locked``
+and ``hidden`` properties if they have been set. A *locked* cell cannot be
+edited and this property is on by default for all cells. A *hidden* cell will
+display the results of a formula but not the formula itself. These properties
+can be set using the :func:`set_locked` and :func:`set_hidden` format methods.
+
+You can optionally add a password to the worksheet protection::
+
+    worksheet.protect('drowssap')
+
+Passing the empty string ``''`` is the same as turning on protection without a
+password.
+
+You can specify which worksheet elements you wish to protect by passing a
+dictionary in the ``options`` argument with any or all of the following keys::
+
+    # Default values shown.
+    options = {
+        'objects': 0,
+        'scenarios': 0,
+        'format_cells': 0,
+        'format_columns': 0,
+        'format_rows': 0,
+        'insert_columns': 0,
+        'insert_rows': 0,
+        'insert_hyperlinks': 0,
+        'delete_columns': 0,
+        'delete_rows': 0,
+        'select_locked_cells': 1,
+        'sort': 0,
+        'autofilter': 0,
+        'pivot_tables': 0,
+        'select_unlocked_cells': 1,
+    }
+
+The default boolean values are shown above. Individual elements can be
+protected as follows::
+
+    worksheet.protect('drowssap', { 'insert_rows': 1 })
+
+See also the :func:`set_locked` and :func:`set_hidden` format methods and
+:ref:`ex_protection`.
+
+.. Note:: 
+   Worksheet level passwords in Excel offer very weak protection. They not
+   encrypt your data and are very easy to deactivate. Full workbook encryption
+   is not supported by ``XlsxWriter`` since it requires a completely different
+   file format and would take several man months to implement.
+
+
+

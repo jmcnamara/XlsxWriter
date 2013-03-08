@@ -13,12 +13,16 @@ pdf:
 cleandocs:
 	@make -C dev/docs clean
 
-installdocs: cleandocs docs pdf
+releasedocs: cleandocs docs pdf
 	@cp -r dev/docs/build/html docs
 	@cp -r dev/docs/build/latex/XlsxWriter.pdf docs
 
 test:
 	@python -m unittest discover
+
+install:
+	@python setup.py install
+	@rm -rf build
 
 testpythons:
 	@pythonbrew switch 2.7.2
@@ -43,4 +47,5 @@ release: releasecheck
 	@git push --tags
 	@python setup.py sdist upload
 	@curl -X POST http://readthedocs.org/build/6277
+	@rm -rf build
 

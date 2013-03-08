@@ -12,6 +12,7 @@ XlsxWriter supports the following features:
 * Defined names.
 * Autofilters.
 * Document properties.
+* Worksheet cell protection.
 * Standard libraries only.
 * Python 2/3 support.
 
@@ -42,6 +43,8 @@ Here is a small example::
     workbook.close()
 
 See the full documentation at https://xlsxwriter.readthedocs.org/en/latest/
+
+See the release notes: https://xlsxwriter.readthedocs.org/en/latest/changes.html
    
 The XlsxWriter module is a port of the Perl Excel::Writer::XLSX module. It is
 a work in progress.

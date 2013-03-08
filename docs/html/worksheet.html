@@ -16,7 +16,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '',
-        VERSION:     '0.1.3',
+        VERSION:     '0.1.4',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -1134,6 +1134,78 @@ tab:</p>
 colors, see <a class="reference internal" href="working_with_formats.html#format-colors"><em>Format Colors</em></a>.</p>
 <p>See <a class="reference internal" href="example_tab_colors.html#ex-tab-colors"><em>Example: Setting Worksheet Tab Colours</em></a> for more details.</p>
 </div>
+<div class="section" id="worksheet-protect">
+<h2>worksheet.protect()</h2>
+<dl class="function">
+<dt id="protect">
+<tt class="descname">protect</tt><big>(</big><big>)</big></dt>
+<dd><p>Set the colour of the worksheet tab.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>password</strong> (<a class="reference external" href="http://docs.python.org/2/library/string.html#string" title="(in Python v2.7)"><em>string</em></a>) &#8211; A worksheet password.</li>
+<li><strong>options</strong> (<a class="reference external" href="http://docs.python.org/2/library/stdtypes.html#dict" title="(in Python v2.7)"><em>dict</em></a>) &#8211; A dictionary of worksheet options to protect.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<p>The <tt class="docutils literal"><span class="pre">protect()</span></tt> method is used to protect a worksheet from modification:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">worksheet</span><span class="o">.</span><span class="n">protect</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>The <tt class="docutils literal"><span class="pre">protect()</span></tt> method also has the effect of enabling a cell&#8217;s <tt class="docutils literal"><span class="pre">locked</span></tt>
+and <tt class="docutils literal"><span class="pre">hidden</span></tt> properties if they have been set. A <em>locked</em> cell cannot be
+edited and this property is on by default for all cells. A <em>hidden</em> cell will
+display the results of a formula but not the formula itself. These properties
+can be set using the <a class="reference internal" href="format.html#set_locked" title="set_locked"><tt class="xref py py-func docutils literal"><span class="pre">set_locked()</span></tt></a> and <a class="reference internal" href="format.html#set_hidden" title="set_hidden"><tt class="xref py py-func docutils literal"><span class="pre">set_hidden()</span></tt></a> format methods.</p>
+<p>You can optionally add a password to the worksheet protection:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">worksheet</span><span class="o">.</span><span class="n">protect</span><span class="p">(</span><span class="s">&#39;drowssap&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Passing the empty string <tt class="docutils literal"><span class="pre">''</span></tt> is the same as turning on protection without a
+password.</p>
+<p>You can specify which worksheet elements you wish to protect by passing a
+dictionary in the <tt class="docutils literal"><span class="pre">options</span></tt> argument with any or all of the following keys:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="c"># Default values shown.</span>
+<span class="n">options</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s">&#39;objects&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+    <span class="s">&#39;scenarios&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+    <span class="s">&#39;format_cells&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+    <span class="s">&#39;format_columns&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+    <span class="s">&#39;format_rows&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+    <span class="s">&#39;insert_columns&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+    <span class="s">&#39;insert_rows&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+    <span class="s">&#39;insert_hyperlinks&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+    <span class="s">&#39;delete_columns&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+    <span class="s">&#39;delete_rows&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+    <span class="s">&#39;select_locked_cells&#39;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+    <span class="s">&#39;sort&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+    <span class="s">&#39;autofilter&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+    <span class="s">&#39;pivot_tables&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+    <span class="s">&#39;select_unlocked_cells&#39;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>The default boolean values are shown above. Individual elements can be
+protected as follows:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">worksheet</span><span class="o">.</span><span class="n">protect</span><span class="p">(</span><span class="s">&#39;drowssap&#39;</span><span class="p">,</span> <span class="p">{</span> <span class="s">&#39;insert_rows&#39;</span><span class="p">:</span> <span class="mi">1</span> <span class="p">})</span>
+</pre></div>
+</div>
+<p>See also the <a class="reference internal" href="format.html#set_locked" title="set_locked"><tt class="xref py py-func docutils literal"><span class="pre">set_locked()</span></tt></a> and <a class="reference internal" href="format.html#set_hidden" title="set_hidden"><tt class="xref py py-func docutils literal"><span class="pre">set_hidden()</span></tt></a> format methods and
+<a class="reference internal" href="example_protection.html#ex-protection"><em>Example: Enabling Cell protection in Worksheets</em></a>.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Worksheet level passwords in Excel offer very weak protection. They not
+encrypt your data and are very easy to deactivate. Full workbook encryption
+is not supported by <tt class="docutils literal"><span class="pre">XlsxWriter</span></tt> since it requires a completely different
+file format and would take several man months to implement.</p>
+</div>
+</div>
 </div>
 
 
@@ -1170,6 +1242,7 @@ colors, see <a class="reference internal" href="working_with_formats.html#format
 <li><a class="reference internal" href="#worksheet-right-to-left">worksheet.right_to_left()</a></li>
 <li><a class="reference internal" href="#worksheet-hide-zero">worksheet.hide_zero()</a></li>
 <li><a class="reference internal" href="#worksheet-set-tab-color">worksheet.set_tab_color()</a></li>
+<li><a class="reference internal" href="#worksheet-protect">worksheet.protect()</a></li>
 </ul>
 </li>
 </ul>

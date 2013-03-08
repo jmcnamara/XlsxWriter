@@ -1,5 +1,12 @@
 
 
+Release 0.1.4 - March 8 2013
+----------------------------
+
+* Added the :func:`protect` worksheet method to allow protection of cells
+  from editing. Also added example program: :ref:`ex_protection`.
+
+
 Release 0.1.3 - March 7 2013
 ----------------------------
 

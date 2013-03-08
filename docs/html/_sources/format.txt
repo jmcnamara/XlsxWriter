@@ -312,8 +312,8 @@ format.set_locked()
 
 This property can be used to prevent modification of a cells contents.
 Following Excel's convention, cell locking is turned on by default. However,
-it only has an effect if the worksheet has been protected, see the worksheet
-``protect()`` method (not implemented yet)::
+it only has an effect if the worksheet has been protected using the worksheet
+:func:`protect()` method::
 
     locked = workbook.add_format()
     locked.set_locked(True)
@@ -342,7 +342,7 @@ format.set_hidden()
 This property is used to hide a formula while still displaying its result. This
 is generally used to hide complex calculations from end users who are only
 interested in the result. It only has an effect if the worksheet has been
-protected, see the worksheet ``protect()`` method (not implemented yet)::
+protected using the worksheet :func:`protect()` method::
 
     hidden = workbook.add_format()
     hidden.set_hidden()

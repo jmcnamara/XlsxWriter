@@ -16,7 +16,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '',
-        VERSION:     '0.1.3',
+        VERSION:     '0.1.4',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -483,8 +483,8 @@ may differ in international versions.</p>
 
 <p>This property can be used to prevent modification of a cells contents.
 Following Excel&#8217;s convention, cell locking is turned on by default. However,
-it only has an effect if the worksheet has been protected, see the worksheet
-<tt class="docutils literal"><span class="pre">protect()</span></tt> method (not implemented yet):</p>
+it only has an effect if the worksheet has been protected using the worksheet
+<a class="reference internal" href="worksheet.html#protect" title="protect"><tt class="xref py py-func docutils literal"><span class="pre">protect()</span></tt></a> method:</p>
 <div class="highlight-python"><div class="highlight"><pre><span class="n">locked</span> <span class="o">=</span> <span class="n">workbook</span><span class="o">.</span><span class="n">add_format</span><span class="p">()</span>
 <span class="n">locked</span><span class="o">.</span><span class="n">set_locked</span><span class="p">(</span><span class="bp">True</span><span class="p">)</span>
 
@@ -513,7 +513,7 @@ it only has an effect if the worksheet has been protected, see the worksheet
 <p>This property is used to hide a formula while still displaying its result. This
 is generally used to hide complex calculations from end users who are only
 interested in the result. It only has an effect if the worksheet has been
-protected, see the worksheet <tt class="docutils literal"><span class="pre">protect()</span></tt> method (not implemented yet):</p>
+protected using the worksheet <a class="reference internal" href="worksheet.html#protect" title="protect"><tt class="xref py py-func docutils literal"><span class="pre">protect()</span></tt></a> method:</p>
 <div class="highlight-python"><div class="highlight"><pre><span class="n">hidden</span> <span class="o">=</span> <span class="n">workbook</span><span class="o">.</span><span class="n">add_format</span><span class="p">()</span>
 <span class="n">hidden</span><span class="o">.</span><span class="n">set_hidden</span><span class="p">()</span>
 
