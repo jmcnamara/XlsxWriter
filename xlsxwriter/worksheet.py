@@ -823,6 +823,24 @@ class Worksheet(xmlwriter.XMLwriter):
         self.selected = 1
         self.hidden = 0
 
+    def set_first_sheet(self):
+        """
+        Set current worksheet as the first visible sheet. This is necessary
+        when there are a large number of worksheets and the activated
+        worksheet is not visible on the screen.
+
+        Note: A selected worksheet cannot be hidden.
+
+        Args:
+            None.
+
+        Returns:
+            Nothing.
+
+        """
+        self.hidden = 0  # Active worksheet can't be hidden.
+        self.firstsheet = self.index
+
     @convert_column_args
     def set_column(self, firstcol, lastcol, width=None, cell_format=None,
                    options={}):

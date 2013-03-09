@@ -827,6 +827,28 @@ printed in one go. A worksheet that has been activated via the ``activate()``
 method will also appear as selected.
 
 
+worksheet.set_first_sheet()
+---------------------------
+
+.. py:function:: set_first_sheet()
+
+   Set current worksheet as the first visible sheet tab. 
+   
+The :func:`activate()` method determines which worksheet is initially selected.
+However, if there are a large number of worksheets the selected worksheet may
+not appear on the screen. To avoid this you can select which is the leftmost
+visible worksheet tab using ``set_first_sheet()``::
+
+    for in range(1, 21):
+        workbook.add_worksheet
+
+    worksheet19.set_first_sheet()  # First visible worksheet tab.
+    worksheet20.activate()         # First visible worksheet.
+
+This method is not required very often. The default value is the
+first worksheet.
+
+
 worksheet.merge_range()
 -----------------------
 
