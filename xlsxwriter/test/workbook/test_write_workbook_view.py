@@ -49,7 +49,7 @@ class TestWriteWorkbookView(unittest.TestCase):
         self.workbook.worksheet_meta.activesheet = 1
         self.workbook._write_workbook_view()
 
-        exp = """<workbookView xWindow="240" yWindow="15" windowWidth="16095" windowHeight="9660" firstSheet="1" activeTab="1"/>"""
+        exp = """<workbookView xWindow="240" yWindow="15" windowWidth="16095" windowHeight="9660" firstSheet="2" activeTab="1"/>"""
         got = self.fh.getvalue()
 
         self.assertEqual(got, exp)

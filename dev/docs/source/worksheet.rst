@@ -827,6 +827,30 @@ printed in one go. A worksheet that has been activated via the ``activate()``
 method will also appear as selected.
 
 
+worksheet.hide()
+----------------
+
+.. py:function:: hide()
+
+   Hide the current worksheet.
+
+The ``hide()`` method is used to hide a worksheet::
+
+    worksheet2.hide()
+
+You may wish to hide a worksheet in order to avoid confusing a user with
+intermediate data or calculations.
+
+A hidden worksheet can not be activated or selected so this method is mutually
+exclusive with the :func:`activate()` and :func:`select()` methods. In
+addition, since the first worksheet will default to being the active
+worksheet, you cannot hide the first worksheet without activating another
+sheet::
+
+    worksheet2.activate()
+    worksheet1.hide()
+
+
 worksheet.set_first_sheet()
 ---------------------------
 

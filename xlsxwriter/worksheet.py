@@ -808,7 +808,7 @@ class Worksheet(xmlwriter.XMLwriter):
 
     def select(self):
         """
-        Set this worksheet as a selected worksheet, i.e. the worksheet
+        Set current worksheet as a selected worksheet, i.e. the worksheet
         has its tab highlighted.
 
         Note: A selected worksheet cannot be hidden.
@@ -822,6 +822,24 @@ class Worksheet(xmlwriter.XMLwriter):
         """
         self.selected = 1
         self.hidden = 0
+
+    def hide(self):
+        """
+        Hide the current worksheet.
+
+        Args:
+            None.
+
+        Returns:
+            Nothing.
+
+        """
+        self.hidden = 1
+
+        # A hidden worksheet shouldn't be active or selected.
+        self.selected = 0
+        self.activesheet = 0
+        self.firstsheet = 0
 
     def set_first_sheet(self):
         """
@@ -839,7 +857,7 @@ class Worksheet(xmlwriter.XMLwriter):
 
         """
         self.hidden = 0  # Active worksheet can't be hidden.
-        self.firstsheet = self.index
+        self.worksheet_meta.firstsheet = self.index
 
     @convert_column_args
     def set_column(self, firstcol, lastcol, width=None, cell_format=None,

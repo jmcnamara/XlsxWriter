@@ -764,7 +764,8 @@ class Workbook(xmlwriter.XMLwriter):
 
         # Store the firstSheet attribute when it isn't the default.
         if self.worksheet_meta.firstsheet > 0:
-            attributes.append(('firstSheet', self.worksheet_meta.firstsheet))
+            firstsheet = self.worksheet_meta.firstsheet + 1
+            attributes.append(('firstSheet', firstsheet))
 
         # Store the activeTab attribute when it isn't the first sheet.
         if self.worksheet_meta.activesheet > 0:
