@@ -774,6 +774,20 @@ class Worksheet(xmlwriter.XMLwriter):
 
         return 0
 
+    def get_name(self):
+        """
+        Retrieve the worksheet name.
+
+        Args:
+            None.
+
+        Returns:
+            Nothing.
+
+        """
+        # There is no set_name() method. Name must be set in add_worksheet().
+        return self.name
+
     def activate(self):
         """
         Set this worksheet as the active worksheet, i.e. the worksheet that is

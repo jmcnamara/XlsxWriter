@@ -49,7 +49,10 @@ Compatibility with Excel::Writer::XLSX
 Porting of ``Excel::Writer::XLSX`` to ``XlsxWriter`` is a work in progress. The
 following table shows the level of compatibility between the two module.
 
-**Workbook**
+Workbook
+********
+
+Status: ongoing.
 
 +--------------------------+------------+---------------------+
 | Workbook Methods         | XlsxWriter | Excel::Writer::XLSX |
@@ -81,11 +84,14 @@ following table shows the level of compatibility between the two module.
 | set_optimization()       | **No**     | Yes                 |
 +--------------------------+------------+---------------------+
 
-1. Not required in XlsxWriter. Full RGB colors are supported. 2. Called
-``sheets()`` in Excel::Writer::XLSX.
+1. Not required in XlsxWriter. Full RGB colors are supported.
+2. Called ``sheets()`` in Excel::Writer::XLSX.
 
 
-**Worksheet**
+Worksheet
+*********
+
+Status: ongoing.
 
 +-------------------------------+------------+---------------------+
 | Worksheet Methods             | XlsxWriter | Excel::Writer::XLSX |
@@ -138,11 +144,11 @@ following table shows the level of compatibility between the two module.
 +-------------------------------+------------+---------------------+
 | add_table()                   | **No**     | Yes                 |
 +-------------------------------+------------+---------------------+
-| get_name()                    | **No**     | Yes                 |
+| :func:`get_name()`            | Yes        | Yes                 |
 +-------------------------------+------------+---------------------+
-| activate()                    | Yes        | Yes                 |
+| :func:`activate()`            | Yes        | Yes                 |
 +-------------------------------+------------+---------------------+
-| select()                      | Yes        | Yes                 |
+| :func:`select()`              | Yes        | Yes                 |
 +-------------------------------+------------+---------------------+
 | set_first_sheet()             | **No**     | Yes                 |
 +-------------------------------+------------+---------------------+
@@ -181,9 +187,14 @@ following table shows the level of compatibility between the two module.
 | :func:`filter_column_list()`  | Yes        | Yes                 |
 +-------------------------------+------------+---------------------+
 
-1. Not required in XlsxWriter.
+1. Not required in XlsxWriter. The same functionality is available via
+   :func:`merge_range()`.
 
-**Page Setup**
+
+Page Setup
+**********
+
+Status: complete.
 
 +---------------------------------+------------+---------------------+
 | Page Set-up Methods             | XlsxWriter | Excel::Writer::XLSX |
@@ -229,7 +240,10 @@ following table shows the level of compatibility between the two module.
 | :func:`set_v_pagebreaks()`      | Yes        | Yes                 |
 +---------------------------------+------------+---------------------+
 
-**Format**
+Format
+******
+
+Status: complete.
 
 +------------------------------+------------+---------------------+
 | Format Methods               | XlsxWriter | Excel::Writer::XLSX |

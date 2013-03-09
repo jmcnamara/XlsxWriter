@@ -766,6 +766,23 @@ column has the collapsed ``'+'`` symbol::
     worksheet.set_column('H:H', None, None, {'collapsed': 1})
 
 
+worksheet.get_name()
+--------------------
+
+.. py:function:: get_name()
+
+   Retrieve the worksheet name.
+   
+The ``get_name()`` method is used to retrieve the name of a worksheet.
+This is something useful for debugging or logging::
+
+    for worksheet in workbook.worksheets():
+        print worksheet.get_name()
+
+There is no ``set_name()`` method. The only safe way to set the worksheet name
+is via the ``add_worksheet()`` method.
+
+
 worksheet.activate()
 --------------------
 
@@ -1051,7 +1068,7 @@ can be set using the :func:`set_locked` and :func:`set_hidden` format methods.
 
 You can optionally add a password to the worksheet protection::
 
-    worksheet.protect('drowssap')
+    worksheet.protect('abc123')
 
 Passing the empty string ``''`` is the same as turning on protection without a
 password.
@@ -1061,27 +1078,27 @@ dictionary in the ``options`` argument with any or all of the following keys::
 
     # Default values shown.
     options = {
-        'objects': 0,
-        'scenarios': 0,
-        'format_cells': 0,
-        'format_columns': 0,
-        'format_rows': 0,
-        'insert_columns': 0,
-        'insert_rows': 0,
-        'insert_hyperlinks': 0,
-        'delete_columns': 0,
-        'delete_rows': 0,
-        'select_locked_cells': 1,
-        'sort': 0,
-        'autofilter': 0,
-        'pivot_tables': 0,
+        'objects':               0,
+        'scenarios':             0,
+        'format_cells':          0,
+        'format_columns':        0,
+        'format_rows':           0,
+        'insert_columns':        0,
+        'insert_rows':           0,
+        'insert_hyperlinks':     0,
+        'delete_columns':        0,
+        'delete_rows':           0,
+        'select_locked_cells':   1,
+        'sort':                  0,
+        'autofilter':            0,
+        'pivot_tables':          0,
         'select_unlocked_cells': 1,
     }
 
 The default boolean values are shown above. Individual elements can be
 protected as follows::
 
-    worksheet.protect('drowssap', { 'insert_rows': 1 })
+    worksheet.protect('acb123', { 'insert_rows': 1 })
 
 See also the :func:`set_locked` and :func:`set_hidden` format methods and
 :ref:`ex_protection`.
