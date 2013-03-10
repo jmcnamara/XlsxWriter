@@ -1,5 +1,17 @@
 
 
+Release 0.1.5 - March 10 2013
+-----------------------------
+
+* Added the :func:`write_rich_string` worksheet method to allow writing of
+  text with multiple formats to a cell. Also added example program:
+  :ref:`ex_rich_strings`.
+
+* Added the :func:`hide` worksheet method to hide worksheets.
+
+* Added the :func:`set_first_sheet()` worksheet method.
+
+
 Release 0.1.4 - March 8 2013
 ----------------------------
 

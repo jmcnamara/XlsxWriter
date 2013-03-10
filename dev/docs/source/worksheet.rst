@@ -508,6 +508,96 @@ See also :ref:`ex_hyperlink`.
    correctly by the user and will by passed directly to Excel.
 
 
+worksheet.write_rich_string()
+-----------------------------
+
+.. py:function:: write_rich_string(row, col, *string_parts[, cell_format])
+
+   Write a "rich" string with multiple formats to a worksheet cell.
+
+   :param row:          The cell row (zero indexed).
+   :param col:          The cell column (zero indexed).
+   :param string_parts: String and format pairs.
+   :param cell_format:  Optional Format object.
+   :type  row:          int
+   :type  col:          int
+   :type  cell_format:  :ref:`Format <format>`
+
+
+The ``write_rich_string()`` method is used to write strings with
+multiple formats. For example to write the string "This is **bold**
+and this is *italic*" you would use the following::
+
+    bold   = workbook.add_format({'bold': True})
+    italic = workbook.add_format({'italic': True})
+
+    worksheet.write_rich_string('A1',
+                                'This is ',
+                                bold, 'bold',
+                                ' and this is ',
+                                italic, 'italic')
+
+.. image:: _static/rich_strings_small.png
+
+The basic rule is to break the string into fragments and put a
+:func:`Format <format>` object before the fragment that you want to format.
+For example::
+
+    # Unformatted string.
+    'This is an example string'
+
+    # Break it into fragments.
+    'This is an ', 'example', ' string'
+
+    # Add formatting before the fragments you want formatted.
+    'This is an ', format, 'example', ' string'
+
+    # In XlsxWriter.
+    worksheet.write_rich_string('A1',
+                                'This is an ', format, 'example', ' string')
+
+String fragments that don't have a format are given a default
+format. So for example when writing the string "Some **bold** text"
+you would use the first example below but it would be equivalent to
+the second::
+
+    # Some bold format and a default format.
+    bold    = workbook.add_format({'bold': True})
+    default = workbook.add_format()
+
+    # With default formatting:
+    worksheet.write_rich_string('A1',
+                                'Some ', 
+                                bold, 'bold', 
+                                ' text')
+
+    # Or more explicitly:
+    worksheet.write_rich_string('A1',
+                                 default, 'Some ', 
+                                 bold,    'bold', 
+                                 default, ' text')
+
+In Excel only the font properties of the format such as font
+name, style, size, underline, color and effects are applied to the
+string fragments in a rich string. Other features such as border, background,
+text wrap and alignment must be applied to the cell.
+
+The ``write_rich_string()`` method allows you to do this by using the
+last argument as a cell format (if it is a format object). The
+following example centers a rich string in the cell::
+
+    bold   = workbook.add_format({'bold': True})
+    center = workbook.add_format({'align': 'center'})
+
+    worksheet.write_rich_string('A5',
+                                'Some ',
+                                bold, 'bold text',
+                                ' centered',
+                                center)
+
+
+See also :ref:`ex_rich_strings`.
+
 worksheet.write_row()
 ---------------------
 
