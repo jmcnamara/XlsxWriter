@@ -16,7 +16,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '',
-        VERSION:     '0.1.4',
+        VERSION:     '0.1.5',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -563,6 +563,99 @@ style escapes. In which case it is assumed that the URL was escaped
 correctly by the user and will by passed directly to Excel.</p>
 </div>
 </div>
+<div class="section" id="worksheet-write-rich-string">
+<h2>worksheet.write_rich_string()</h2>
+<dl class="function">
+<dt id="write_rich_string">
+<tt class="descname">write_rich_string</tt><big>(</big><em>row</em>, <em>col</em>, <em>*string_parts</em><span class="optional">[</span>, <em>cell_format</em><span class="optional">]</span><big>)</big></dt>
+<dd><p>Write a &#8220;rich&#8221; string with multiple formats to a worksheet cell.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>row</strong> (<a class="reference external" href="http://docs.python.org/2/library/functions.html#int" title="(in Python v2.7)"><em>int</em></a>) &#8211; The cell row (zero indexed).</li>
+<li><strong>col</strong> (<a class="reference external" href="http://docs.python.org/2/library/functions.html#int" title="(in Python v2.7)"><em>int</em></a>) &#8211; The cell column (zero indexed).</li>
+<li><strong>string_parts</strong> &#8211; String and format pairs.</li>
+<li><strong>cell_format</strong> (<a class="reference internal" href="format.html#format"><em>Format</em></a>) &#8211; Optional Format object.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<p>The <tt class="docutils literal"><span class="pre">write_rich_string()</span></tt> method is used to write strings with
+multiple formats. For example to write the string &#8220;This is <strong>bold</strong>
+and this is <em>italic</em>&#8221; you would use the following:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">bold</span>   <span class="o">=</span> <span class="n">workbook</span><span class="o">.</span><span class="n">add_format</span><span class="p">({</span><span class="s">&#39;bold&#39;</span><span class="p">:</span> <span class="bp">True</span><span class="p">})</span>
+<span class="n">italic</span> <span class="o">=</span> <span class="n">workbook</span><span class="o">.</span><span class="n">add_format</span><span class="p">({</span><span class="s">&#39;italic&#39;</span><span class="p">:</span> <span class="bp">True</span><span class="p">})</span>
+
+<span class="n">worksheet</span><span class="o">.</span><span class="n">write_rich_string</span><span class="p">(</span><span class="s">&#39;A1&#39;</span><span class="p">,</span>
+                            <span class="s">&#39;This is &#39;</span><span class="p">,</span>
+                            <span class="n">bold</span><span class="p">,</span> <span class="s">&#39;bold&#39;</span><span class="p">,</span>
+                            <span class="s">&#39; and this is &#39;</span><span class="p">,</span>
+                            <span class="n">italic</span><span class="p">,</span> <span class="s">&#39;italic&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<img alt="_images/rich_strings_small.png" src="_images/rich_strings_small.png" />
+<p>The basic rule is to break the string into fragments and put a
+<a class="reference external" href="http://docs.python.org/2/library/functions.html#format" title="(in Python v2.7)"><tt class="xref py py-func docutils literal"><span class="pre">Format</span></tt></a> object before the fragment that you want to format.
+For example:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="c"># Unformatted string.</span>
+<span class="s">&#39;This is an example string&#39;</span>
+
+<span class="c"># Break it into fragments.</span>
+<span class="s">&#39;This is an &#39;</span><span class="p">,</span> <span class="s">&#39;example&#39;</span><span class="p">,</span> <span class="s">&#39; string&#39;</span>
+
+<span class="c"># Add formatting before the fragments you want formatted.</span>
+<span class="s">&#39;This is an &#39;</span><span class="p">,</span> <span class="n">format</span><span class="p">,</span> <span class="s">&#39;example&#39;</span><span class="p">,</span> <span class="s">&#39; string&#39;</span>
+
+<span class="c"># In XlsxWriter.</span>
+<span class="n">worksheet</span><span class="o">.</span><span class="n">write_rich_string</span><span class="p">(</span><span class="s">&#39;A1&#39;</span><span class="p">,</span>
+                            <span class="s">&#39;This is an &#39;</span><span class="p">,</span> <span class="n">format</span><span class="p">,</span> <span class="s">&#39;example&#39;</span><span class="p">,</span> <span class="s">&#39; string&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>String fragments that don&#8217;t have a format are given a default
+format. So for example when writing the string &#8220;Some <strong>bold</strong> text&#8221;
+you would use the first example below but it would be equivalent to
+the second:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="c"># Some bold format and a default format.</span>
+<span class="n">bold</span>    <span class="o">=</span> <span class="n">workbook</span><span class="o">.</span><span class="n">add_format</span><span class="p">({</span><span class="s">&#39;bold&#39;</span><span class="p">:</span> <span class="bp">True</span><span class="p">})</span>
+<span class="n">default</span> <span class="o">=</span> <span class="n">workbook</span><span class="o">.</span><span class="n">add_format</span><span class="p">()</span>
+
+<span class="c"># With default formatting:</span>
+<span class="n">worksheet</span><span class="o">.</span><span class="n">write_rich_string</span><span class="p">(</span><span class="s">&#39;A1&#39;</span><span class="p">,</span>
+                            <span class="s">&#39;Some &#39;</span><span class="p">,</span>
+                            <span class="n">bold</span><span class="p">,</span> <span class="s">&#39;bold&#39;</span><span class="p">,</span>
+                            <span class="s">&#39; text&#39;</span><span class="p">)</span>
+
+<span class="c"># Or more explicitly:</span>
+<span class="n">worksheet</span><span class="o">.</span><span class="n">write_rich_string</span><span class="p">(</span><span class="s">&#39;A1&#39;</span><span class="p">,</span>
+                             <span class="n">default</span><span class="p">,</span> <span class="s">&#39;Some &#39;</span><span class="p">,</span>
+                             <span class="n">bold</span><span class="p">,</span>    <span class="s">&#39;bold&#39;</span><span class="p">,</span>
+                             <span class="n">default</span><span class="p">,</span> <span class="s">&#39; text&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>In Excel only the font properties of the format such as font
+name, style, size, underline, color and effects are applied to the
+string fragments in a rich string. Other features such as border, background,
+text wrap and alignment must be applied to the cell.</p>
+<p>The <tt class="docutils literal"><span class="pre">write_rich_string()</span></tt> method allows you to do this by using the
+last argument as a cell format (if it is a format object). The
+following example centers a rich string in the cell:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">bold</span>   <span class="o">=</span> <span class="n">workbook</span><span class="o">.</span><span class="n">add_format</span><span class="p">({</span><span class="s">&#39;bold&#39;</span><span class="p">:</span> <span class="bp">True</span><span class="p">})</span>
+<span class="n">center</span> <span class="o">=</span> <span class="n">workbook</span><span class="o">.</span><span class="n">add_format</span><span class="p">({</span><span class="s">&#39;align&#39;</span><span class="p">:</span> <span class="s">&#39;center&#39;</span><span class="p">})</span>
+
+<span class="n">worksheet</span><span class="o">.</span><span class="n">write_rich_string</span><span class="p">(</span><span class="s">&#39;A5&#39;</span><span class="p">,</span>
+                            <span class="s">&#39;Some &#39;</span><span class="p">,</span>
+                            <span class="n">bold</span><span class="p">,</span> <span class="s">&#39;bold text&#39;</span><span class="p">,</span>
+                            <span class="s">&#39; centered&#39;</span><span class="p">,</span>
+                            <span class="n">center</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>See also <a class="reference internal" href="example_rich_strings.html#ex-rich-strings"><em>Example: Writing &#8220;Rich&#8221; strings with multiple formats</em></a>.</p>
+</div>
 <div class="section" id="worksheet-write-row">
 <h2>worksheet.write_row()</h2>
 <dl class="function">
@@ -850,6 +943,23 @@ column has the collapsed <tt class="docutils literal"><span class="pre">'+'</spa
 </pre></div>
 </div>
 </div>
+<div class="section" id="worksheet-get-name">
+<h2>worksheet.get_name()</h2>
+<dl class="function">
+<dt id="get_name">
+<tt class="descname">get_name</tt><big>(</big><big>)</big></dt>
+<dd><p>Retrieve the worksheet name.</p>
+</dd></dl>
+
+<p>The <tt class="docutils literal"><span class="pre">get_name()</span></tt> method is used to retrieve the name of a worksheet.
+This is something useful for debugging or logging:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">for</span> <span class="n">worksheet</span> <span class="ow">in</span> <span class="n">workbook</span><span class="o">.</span><span class="n">worksheets</span><span class="p">():</span>
+    <span class="k">print</span> <span class="n">worksheet</span><span class="o">.</span><span class="n">get_name</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>There is no <tt class="docutils literal"><span class="pre">set_name()</span></tt> method. The only safe way to set the worksheet name
+is via the <tt class="docutils literal"><span class="pre">add_worksheet()</span></tt> method.</p>
+</div>
 <div class="section" id="worksheet-activate">
 <h2>worksheet.activate()</h2>
 <dl class="function">
@@ -891,6 +1001,51 @@ multi-sheet workbook:</p>
 grouping them together so that, for example, several worksheets could be
 printed in one go. A worksheet that has been activated via the <tt class="docutils literal"><span class="pre">activate()</span></tt>
 method will also appear as selected.</p>
+</div>
+<div class="section" id="worksheet-hide">
+<h2>worksheet.hide()</h2>
+<dl class="function">
+<dt id="hide">
+<tt class="descname">hide</tt><big>(</big><big>)</big></dt>
+<dd><p>Hide the current worksheet.</p>
+</dd></dl>
+
+<p>The <tt class="docutils literal"><span class="pre">hide()</span></tt> method is used to hide a worksheet:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">worksheet2</span><span class="o">.</span><span class="n">hide</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>You may wish to hide a worksheet in order to avoid confusing a user with
+intermediate data or calculations.</p>
+<p>A hidden worksheet can not be activated or selected so this method is mutually
+exclusive with the <a class="reference internal" href="#activate" title="activate"><tt class="xref py py-func docutils literal"><span class="pre">activate()</span></tt></a> and <a class="reference internal" href="#select" title="select"><tt class="xref py py-func docutils literal"><span class="pre">select()</span></tt></a> methods. In
+addition, since the first worksheet will default to being the active
+worksheet, you cannot hide the first worksheet without activating another
+sheet:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">worksheet2</span><span class="o">.</span><span class="n">activate</span><span class="p">()</span>
+<span class="n">worksheet1</span><span class="o">.</span><span class="n">hide</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="worksheet-set-first-sheet">
+<h2>worksheet.set_first_sheet()</h2>
+<dl class="function">
+<dt id="set_first_sheet">
+<tt class="descname">set_first_sheet</tt><big>(</big><big>)</big></dt>
+<dd><p>Set current worksheet as the first visible sheet tab.</p>
+</dd></dl>
+
+<p>The <a class="reference internal" href="#activate" title="activate"><tt class="xref py py-func docutils literal"><span class="pre">activate()</span></tt></a> method determines which worksheet is initially selected.
+However, if there are a large number of worksheets the selected worksheet may
+not appear on the screen. To avoid this you can select which is the leftmost
+visible worksheet tab using <tt class="docutils literal"><span class="pre">set_first_sheet()</span></tt>:</p>
+<div class="highlight-python"><pre>for in range(1, 21):
+    workbook.add_worksheet
+
+worksheet19.set_first_sheet()  # First visible worksheet tab.
+worksheet20.activate()         # First visible worksheet.</pre>
+</div>
+<p>This method is not required very often. The default value is the
+first worksheet.</p>
 </div>
 <div class="section" id="worksheet-merge-range">
 <h2>worksheet.merge_range()</h2>
@@ -1164,7 +1319,7 @@ edited and this property is on by default for all cells. A <em>hidden</em> cell 
 display the results of a formula but not the formula itself. These properties
 can be set using the <a class="reference internal" href="format.html#set_locked" title="set_locked"><tt class="xref py py-func docutils literal"><span class="pre">set_locked()</span></tt></a> and <a class="reference internal" href="format.html#set_hidden" title="set_hidden"><tt class="xref py py-func docutils literal"><span class="pre">set_hidden()</span></tt></a> format methods.</p>
 <p>You can optionally add a password to the worksheet protection:</p>
-<div class="highlight-python"><div class="highlight"><pre><span class="n">worksheet</span><span class="o">.</span><span class="n">protect</span><span class="p">(</span><span class="s">&#39;drowssap&#39;</span><span class="p">)</span>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">worksheet</span><span class="o">.</span><span class="n">protect</span><span class="p">(</span><span class="s">&#39;abc123&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
 <p>Passing the empty string <tt class="docutils literal"><span class="pre">''</span></tt> is the same as turning on protection without a
@@ -1173,27 +1328,27 @@ password.</p>
 dictionary in the <tt class="docutils literal"><span class="pre">options</span></tt> argument with any or all of the following keys:</p>
 <div class="highlight-python"><div class="highlight"><pre><span class="c"># Default values shown.</span>
 <span class="n">options</span> <span class="o">=</span> <span class="p">{</span>
-    <span class="s">&#39;objects&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
-    <span class="s">&#39;scenarios&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
-    <span class="s">&#39;format_cells&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
-    <span class="s">&#39;format_columns&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
-    <span class="s">&#39;format_rows&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
-    <span class="s">&#39;insert_columns&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
-    <span class="s">&#39;insert_rows&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
-    <span class="s">&#39;insert_hyperlinks&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
-    <span class="s">&#39;delete_columns&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
-    <span class="s">&#39;delete_rows&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
-    <span class="s">&#39;select_locked_cells&#39;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
-    <span class="s">&#39;sort&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
-    <span class="s">&#39;autofilter&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
-    <span class="s">&#39;pivot_tables&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+    <span class="s">&#39;objects&#39;</span><span class="p">:</span>               <span class="mi">0</span><span class="p">,</span>
+    <span class="s">&#39;scenarios&#39;</span><span class="p">:</span>             <span class="mi">0</span><span class="p">,</span>
+    <span class="s">&#39;format_cells&#39;</span><span class="p">:</span>          <span class="mi">0</span><span class="p">,</span>
+    <span class="s">&#39;format_columns&#39;</span><span class="p">:</span>        <span class="mi">0</span><span class="p">,</span>
+    <span class="s">&#39;format_rows&#39;</span><span class="p">:</span>           <span class="mi">0</span><span class="p">,</span>
+    <span class="s">&#39;insert_columns&#39;</span><span class="p">:</span>        <span class="mi">0</span><span class="p">,</span>
+    <span class="s">&#39;insert_rows&#39;</span><span class="p">:</span>           <span class="mi">0</span><span class="p">,</span>
+    <span class="s">&#39;insert_hyperlinks&#39;</span><span class="p">:</span>     <span class="mi">0</span><span class="p">,</span>
+    <span class="s">&#39;delete_columns&#39;</span><span class="p">:</span>        <span class="mi">0</span><span class="p">,</span>
+    <span class="s">&#39;delete_rows&#39;</span><span class="p">:</span>           <span class="mi">0</span><span class="p">,</span>
+    <span class="s">&#39;select_locked_cells&#39;</span><span class="p">:</span>   <span class="mi">1</span><span class="p">,</span>
+    <span class="s">&#39;sort&#39;</span><span class="p">:</span>                  <span class="mi">0</span><span class="p">,</span>
+    <span class="s">&#39;autofilter&#39;</span><span class="p">:</span>            <span class="mi">0</span><span class="p">,</span>
+    <span class="s">&#39;pivot_tables&#39;</span><span class="p">:</span>          <span class="mi">0</span><span class="p">,</span>
     <span class="s">&#39;select_unlocked_cells&#39;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
 <span class="p">}</span>
 </pre></div>
 </div>
 <p>The default boolean values are shown above. Individual elements can be
 protected as follows:</p>
-<div class="highlight-python"><div class="highlight"><pre><span class="n">worksheet</span><span class="o">.</span><span class="n">protect</span><span class="p">(</span><span class="s">&#39;drowssap&#39;</span><span class="p">,</span> <span class="p">{</span> <span class="s">&#39;insert_rows&#39;</span><span class="p">:</span> <span class="mi">1</span> <span class="p">})</span>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">worksheet</span><span class="o">.</span><span class="n">protect</span><span class="p">(</span><span class="s">&#39;acb123&#39;</span><span class="p">,</span> <span class="p">{</span> <span class="s">&#39;insert_rows&#39;</span><span class="p">:</span> <span class="mi">1</span> <span class="p">})</span>
 </pre></div>
 </div>
 <p>See also the <a class="reference internal" href="format.html#set_locked" title="set_locked"><tt class="xref py py-func docutils literal"><span class="pre">set_locked()</span></tt></a> and <a class="reference internal" href="format.html#set_hidden" title="set_hidden"><tt class="xref py py-func docutils literal"><span class="pre">set_hidden()</span></tt></a> format methods and
@@ -1228,12 +1383,16 @@ file format and would take several man months to implement.</p>
 <li><a class="reference internal" href="#worksheet-write-blank">worksheet.write_blank()</a></li>
 <li><a class="reference internal" href="#worksheet-write-datetime">worksheet.write_datetime()</a></li>
 <li><a class="reference internal" href="#worksheet-write-url">worksheet.write_url()</a></li>
+<li><a class="reference internal" href="#worksheet-write-rich-string">worksheet.write_rich_string()</a></li>
 <li><a class="reference internal" href="#worksheet-write-row">worksheet.write_row()</a></li>
 <li><a class="reference internal" href="#worksheet-write-column">worksheet.write_column()</a></li>
 <li><a class="reference internal" href="#worksheet-set-row">worksheet.set_row()</a></li>
 <li><a class="reference internal" href="#worksheet-set-column">worksheet.set_column()</a></li>
+<li><a class="reference internal" href="#worksheet-get-name">worksheet.get_name()</a></li>
 <li><a class="reference internal" href="#worksheet-activate">worksheet.activate()</a></li>
 <li><a class="reference internal" href="#worksheet-select">worksheet.select()</a></li>
+<li><a class="reference internal" href="#worksheet-hide">worksheet.hide()</a></li>
+<li><a class="reference internal" href="#worksheet-set-first-sheet">worksheet.set_first_sheet()</a></li>
 <li><a class="reference internal" href="#worksheet-merge-range">worksheet.merge_range()</a></li>
 <li><a class="reference internal" href="#worksheet-autofilter">worksheet.autofilter()</a></li>
 <li><a class="reference internal" href="#worksheet-filter-column">worksheet.filter_column()</a></li>

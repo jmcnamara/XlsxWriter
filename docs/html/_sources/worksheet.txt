@@ -508,6 +508,96 @@ See also :ref:`ex_hyperlink`.
    correctly by the user and will by passed directly to Excel.
 
 
+worksheet.write_rich_string()
+-----------------------------
+
+.. py:function:: write_rich_string(row, col, *string_parts[, cell_format])
+
+   Write a "rich" string with multiple formats to a worksheet cell.
+
+   :param row:          The cell row (zero indexed).
+   :param col:          The cell column (zero indexed).
+   :param string_parts: String and format pairs.
+   :param cell_format:  Optional Format object.
+   :type  row:          int
+   :type  col:          int
+   :type  cell_format:  :ref:`Format <format>`
+
+
+The ``write_rich_string()`` method is used to write strings with
+multiple formats. For example to write the string "This is **bold**
+and this is *italic*" you would use the following::
+
+    bold   = workbook.add_format({'bold': True})
+    italic = workbook.add_format({'italic': True})
+
+    worksheet.write_rich_string('A1',
+                                'This is ',
+                                bold, 'bold',
+                                ' and this is ',
+                                italic, 'italic')
+
+.. image:: _static/rich_strings_small.png
+
+The basic rule is to break the string into fragments and put a
+:func:`Format <format>` object before the fragment that you want to format.
+For example::
+
+    # Unformatted string.
+    'This is an example string'
+
+    # Break it into fragments.
+    'This is an ', 'example', ' string'
+
+    # Add formatting before the fragments you want formatted.
+    'This is an ', format, 'example', ' string'
+
+    # In XlsxWriter.
+    worksheet.write_rich_string('A1',
+                                'This is an ', format, 'example', ' string')
+
+String fragments that don't have a format are given a default
+format. So for example when writing the string "Some **bold** text"
+you would use the first example below but it would be equivalent to
+the second::
+
+    # Some bold format and a default format.
+    bold    = workbook.add_format({'bold': True})
+    default = workbook.add_format()
+
+    # With default formatting:
+    worksheet.write_rich_string('A1',
+                                'Some ', 
+                                bold, 'bold', 
+                                ' text')
+
+    # Or more explicitly:
+    worksheet.write_rich_string('A1',
+                                 default, 'Some ', 
+                                 bold,    'bold', 
+                                 default, ' text')
+
+In Excel only the font properties of the format such as font
+name, style, size, underline, color and effects are applied to the
+string fragments in a rich string. Other features such as border, background,
+text wrap and alignment must be applied to the cell.
+
+The ``write_rich_string()`` method allows you to do this by using the
+last argument as a cell format (if it is a format object). The
+following example centers a rich string in the cell::
+
+    bold   = workbook.add_format({'bold': True})
+    center = workbook.add_format({'align': 'center'})
+
+    worksheet.write_rich_string('A5',
+                                'Some ',
+                                bold, 'bold text',
+                                ' centered',
+                                center)
+
+
+See also :ref:`ex_rich_strings`.
+
 worksheet.write_row()
 ---------------------
 
@@ -766,6 +856,23 @@ column has the collapsed ``'+'`` symbol::
     worksheet.set_column('H:H', None, None, {'collapsed': 1})
 
 
+worksheet.get_name()
+--------------------
+
+.. py:function:: get_name()
+
+   Retrieve the worksheet name.
+   
+The ``get_name()`` method is used to retrieve the name of a worksheet.
+This is something useful for debugging or logging::
+
+    for worksheet in workbook.worksheets():
+        print worksheet.get_name()
+
+There is no ``set_name()`` method. The only safe way to set the worksheet name
+is via the ``add_worksheet()`` method.
+
+
 worksheet.activate()
 --------------------
 
@@ -808,6 +915,52 @@ A selected worksheet has its tab highlighted. Selecting worksheets is a way of
 grouping them together so that, for example, several worksheets could be
 printed in one go. A worksheet that has been activated via the ``activate()``
 method will also appear as selected.
+
+
+worksheet.hide()
+----------------
+
+.. py:function:: hide()
+
+   Hide the current worksheet.
+
+The ``hide()`` method is used to hide a worksheet::
+
+    worksheet2.hide()
+
+You may wish to hide a worksheet in order to avoid confusing a user with
+intermediate data or calculations.
+
+A hidden worksheet can not be activated or selected so this method is mutually
+exclusive with the :func:`activate()` and :func:`select()` methods. In
+addition, since the first worksheet will default to being the active
+worksheet, you cannot hide the first worksheet without activating another
+sheet::
+
+    worksheet2.activate()
+    worksheet1.hide()
+
+
+worksheet.set_first_sheet()
+---------------------------
+
+.. py:function:: set_first_sheet()
+
+   Set current worksheet as the first visible sheet tab. 
+   
+The :func:`activate()` method determines which worksheet is initially selected.
+However, if there are a large number of worksheets the selected worksheet may
+not appear on the screen. To avoid this you can select which is the leftmost
+visible worksheet tab using ``set_first_sheet()``::
+
+    for in range(1, 21):
+        workbook.add_worksheet
+
+    worksheet19.set_first_sheet()  # First visible worksheet tab.
+    worksheet20.activate()         # First visible worksheet.
+
+This method is not required very often. The default value is the
+first worksheet.
 
 
 worksheet.merge_range()
@@ -1051,7 +1204,7 @@ can be set using the :func:`set_locked` and :func:`set_hidden` format methods.
 
 You can optionally add a password to the worksheet protection::
 
-    worksheet.protect('drowssap')
+    worksheet.protect('abc123')
 
 Passing the empty string ``''`` is the same as turning on protection without a
 password.
@@ -1061,27 +1214,27 @@ dictionary in the ``options`` argument with any or all of the following keys::
 
     # Default values shown.
     options = {
-        'objects': 0,
-        'scenarios': 0,
-        'format_cells': 0,
-        'format_columns': 0,
-        'format_rows': 0,
-        'insert_columns': 0,
-        'insert_rows': 0,
-        'insert_hyperlinks': 0,
-        'delete_columns': 0,
-        'delete_rows': 0,
-        'select_locked_cells': 1,
-        'sort': 0,
-        'autofilter': 0,
-        'pivot_tables': 0,
+        'objects':               0,
+        'scenarios':             0,
+        'format_cells':          0,
+        'format_columns':        0,
+        'format_rows':           0,
+        'insert_columns':        0,
+        'insert_rows':           0,
+        'insert_hyperlinks':     0,
+        'delete_columns':        0,
+        'delete_rows':           0,
+        'select_locked_cells':   1,
+        'sort':                  0,
+        'autofilter':            0,
+        'pivot_tables':          0,
         'select_unlocked_cells': 1,
     }
 
 The default boolean values are shown above. Individual elements can be
 protected as follows::
 
-    worksheet.protect('drowssap', { 'insert_rows': 1 })
+    worksheet.protect('acb123', { 'insert_rows': 1 })
 
 See also the :func:`set_locked` and :func:`set_hidden` format methods and
 :ref:`ex_protection`.
