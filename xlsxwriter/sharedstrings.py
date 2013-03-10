@@ -104,9 +104,6 @@ class SharedStrings(xmlwriter.XMLwriter):
 
         # Write any rich strings without further tags.
         if re.search('^<r>', string) and re.search('</r>$', string):
-            # Prevent utf8 strings from getting double encoded.
-            # string = decode_utf8(string)
-
             self._xml_rich_si_element(string)
         else:
             self._xml_si_element(string, attributes)

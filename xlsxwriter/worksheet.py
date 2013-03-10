@@ -12,8 +12,16 @@ from warnings import warn
 from collections import defaultdict
 from collections import namedtuple
 
+# For compatibility between Python 2 and 3.
+try:
+    from StringIO import StringIO
+except ImportError:
+    from io import StringIO
+
 # Package imports.
 from . import xmlwriter
+from .format import Format
+from .xmlwriter import XMLwriter
 from .utility import xl_rowcol_to_cell
 from .utility import xl_cell_to_rowcol
 from .utility import xl_col_to_name
@@ -727,6 +735,120 @@ class Worksheet(xmlwriter.XMLwriter):
             'tip': tip}
 
         return str_error
+
+    #
+    # write_rich_string( $row, $column, $format, $string, ..., $cell_format )
+    #
+    # The write_rich_string() method is used to write strings with multiple
+    # formats.
+    # The method receives string fragments prefixed by format objects.
+    # The final
+    # format object is used as the cell format.
+    #
+    # Returns  0 : normal termination.
+    #         -1 : row or column out of range.
+    #         -2 : long string truncated to 32767 chars.
+    #         -3 : 2 consecutive formats used.
+    #
+    @convert_cell_args
+    def write_rich_string(self, row, col, *args):
+        # TODO.
+        tokens = list(args)
+        cell_format = None
+        str_length = 0
+        string_index = 0
+
+        # Check that row and col are valid and store max and min values
+        if self._check_dimensions(row, col):
+            return -1
+
+        # If the last arg is a format we use it as the cell format.
+        if isinstance(tokens[-1], Format):
+            cell_format = tokens.pop()
+
+        # Create a temp XMLWriter object and use it to write the rich string
+        # XML to a string.
+        fh = StringIO()
+        self.rstring = XMLwriter()
+        self.rstring._set_filehandle(fh)
+
+        # Create a temp format with the default font for unformatted fragments.
+        default = Format()
+
+        # Convert list of format, string tokens to pairs of (format, string)
+        # except for the first string fragment which doesn't require a default
+        # formatting run. Use the default for strings without a leading format.
+        fragments = []
+        previous = 'format'
+        pos = 0
+
+        for token in (tokens):
+            if not isinstance(token, Format):
+                # Token is a string.
+                if previous != 'format':
+                    # If previous token wasn't a format add one before string.
+                    fragments.append(default)
+                    fragments.append(token)
+                else:
+                    # If previous token was a format just add the string.
+                    fragments.append(token)
+
+                # Keep track of actual string str_length.
+                str_length += len(token)
+                previous = 'string'
+            else:
+                # Can't allow 2 formats in a row.
+                if previous == 'format' and pos > 0:
+                    return -3
+
+                # Token is a format object. Add it to the fragment list.
+                fragments.append(token)
+                previous = 'format'
+
+            pos += 1
+
+        # If the first token is a string start the <r> element.
+        if not isinstance(fragments[0], Format):
+            self.rstring._xml_start_tag('r')
+
+        # Write the XML elements for the $format $string fragments.
+        for token in (fragments):
+            if isinstance(token, Format):
+                # Write the font run.
+                self.rstring._xml_start_tag('r')
+                self._write_font(token)
+            else:
+                # Write the string fragment part, with whitespace handling.
+                attributes = []
+
+                if re.search('^\s', token) or re.search('\s$', token):
+                    attributes.append(('xml:space', 'preserve'))
+
+                self.rstring._xml_data_element('t', token, attributes)
+                self.rstring._xml_end_tag('r')
+
+        # Read the in-memory string.
+        string = self.rstring.fh.getvalue()
+
+        # Check that the string is < 32767 chars.
+        if str_length > self.xls_strmax:
+            return -2
+
+        # Write a shared string or an in-line string in optimisation mode.
+        if self.optimization == 0:
+            string_index = self.str_table._get_shared_string_index(string)
+        else:
+            string_index = string
+
+        # Write previous row if in in-line string optimization mode.
+        if self.optimization and row > self.previous_row:
+            self._write_single_row(row)
+
+        # Store the cell data in the worksheet data table.
+        cell_tuple = namedtuple('String', 'string, format')
+        self.table[row][col] = cell_tuple(string_index, cell_format)
+
+        return 0
 
     @convert_cell_args
     def write_row(self, row, col, data, cell_format=None):
@@ -1847,8 +1969,8 @@ class Worksheet(xmlwriter.XMLwriter):
     def _quote_sheetname(self, sheetname):
         # Sheetnames used in references should be quoted if they
         # contain any spaces, special characters or if the look like
-        # something that isn't a sheet name.  TODO. We need to handle
-        # more special cases.
+        # something that isn't a sheet name.
+        # TODO. Probably need to handle more special cases.
         if re.match(r'Sheet\d+', sheetname):
             return sheetname
         else:
@@ -2088,6 +2210,97 @@ class Worksheet(xmlwriter.XMLwriter):
         password_hash ^= 0xCE4B
 
         return "%X" % password_hash
+
+    ###########################################################################
+    #
+    # The following font methods are, more or less, duplicated from the
+    # Styles class. Not the cleanest version of reuse but works for now.
+    #
+    ###########################################################################
+    def _write_font(self, xf_format):
+        # Write the <font> element.
+        xmlwriter = self.rstring
+
+        xmlwriter._xml_start_tag('rPr')
+
+        # Handle the main font properties.
+        if xf_format.bold:
+            xmlwriter._xml_empty_tag('b')
+        if xf_format.italic:
+            xmlwriter._xml_empty_tag('i')
+        if xf_format.font_strikeout:
+            xmlwriter._xml_empty_tag('strike')
+        if xf_format.font_outline:
+            xmlwriter._xml_empty_tag('outline')
+        if xf_format.font_shadow:
+            xmlwriter._xml_empty_tag('shadow')
+
+        # Handle the underline variants.
+        if xf_format.underline:
+            self._write_underline(xf_format.underline)
+
+        # Handle super/subscript.
+        if xf_format.font_script == 1:
+            self._write_vert_align('superscript')
+        if xf_format.font_script == 2:
+            self._write_vert_align('subscript')
+
+        # Write the font size
+        xmlwriter._xml_empty_tag('sz', [('val', xf_format.font_size)])
+
+        # Handle colors.
+        if xf_format.theme:
+            self._write_color('theme', xf_format.theme)
+        elif xf_format.color_indexed:
+            self._write_color('indexed', xf_format.color_indexed)
+        elif xf_format.font_color:
+            color = self._get_palette_color(xf_format.font_color)
+            self._write_rstring_color('rgb', color)
+        else:
+            self._write_rstring_color('theme', 1)
+
+        # Write some other font properties related to font families.
+        xmlwriter._xml_empty_tag('rFont', [('val', xf_format.font_name)])
+        xmlwriter._xml_empty_tag('family', [('val', xf_format.font_family)])
+
+        if xf_format.font_name == 'Calibri' and not xf_format.hyperlink:
+            xmlwriter._xml_empty_tag('scheme',
+                                     [('val', xf_format.font_scheme)])
+
+        xmlwriter._xml_end_tag('rPr')
+
+    def _write_underline(self, underline):
+        # Write the underline font element.
+        attributes = []
+
+        # Handle the underline variants.
+        if underline == 2:
+            attributes = [('val', 'double')]
+        elif underline == 33:
+            attributes = [('val', 'singleAccounting')]
+        elif underline == 34:
+            attributes = [('val', 'doubleAccounting')]
+
+        self.rstring._xml_empty_tag('u', attributes)
+
+    def _write_vert_align(self, val):
+        # Write the <vertAlign> font sub-element.
+        attributes = [('val', val)]
+
+        self.rstring._xml_empty_tag('vertAlign', attributes)
+
+    def _write_rstring_color(self, name, value):
+        # Write the <color> element.
+        attributes = [(name, value)]
+
+        self.rstring._xml_empty_tag('color', attributes)
+
+    def _get_palette_color(self, color):
+        # Convert the RGB color.
+        if color[0] == '#':
+            color = color[1:]
+
+        return "FF" + color.upper()
 
     ###########################################################################
     #
