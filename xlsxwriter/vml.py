@@ -40,7 +40,7 @@ class Vml(xmlwriter.XMLwriter):
         # Assemble and write the XML file.
         z_index = 1
 
-        self._write_xml_namespace
+        self._write_xml_namespace()
 
         # Write the o:shapelayout element.
         self._write_shapelayout(data_id)
@@ -167,7 +167,7 @@ class Vml(xmlwriter.XMLwriter):
         self._write_stroke()
 
         # Write the v:path element.
-        self._write_button_path('t', 'rect')
+        self._write_button_path()
 
         # Write the o:lock element.
         self._write_shapetype_lock()
@@ -242,7 +242,7 @@ class Vml(xmlwriter.XMLwriter):
         visibility = 'hidden'
 
         # Set the shape index.
-        shape_id = '_x0000_s' + shape_id
+        shape_id = '_x0000_s' + str(shape_id)
 
         # Get the comment parameters
         row = comment[0]
@@ -258,19 +258,13 @@ class Vml(xmlwriter.XMLwriter):
             visibility = 'visible'
 
         style = (
-            'position:absolute;' +
-            'margin-left:' +
-            left + 'pt;'
-            + 'margin-top:'
-            + top + 'pt;'
-            + 'width:'
-            + width + 'pt;'
-            + 'height:'
-            + height + 'pt;'
-            + 'z-index:'
-            + z_index + ';'
-            + 'visibility:'
-            + visibility)
+            'position:absolute;'
+            'margin-left:%.15gpt;'
+            'margin-top:%.15gpt;'
+            'width:%.15gpt;'
+            'height:%.15gpt;'
+            'z-index:%d;'
+            'visibility:%s' % (left, top, width, height, z_index, visibility))
 
         attributes = [
             ('id', shape_id),
@@ -411,7 +405,7 @@ class Vml(xmlwriter.XMLwriter):
 
         self._xml_end_tag('v:textbox')
 
-    def _write_div(self, align, font):
+    def _write_div(self, align, font=None):
         # Write the <div> element.
 
         style = 'text-align:' + align
@@ -421,7 +415,6 @@ class Vml(xmlwriter.XMLwriter):
         self._xml_start_tag('div', attributes)
 
         if font:
-
             # Write the font element.
             self._write_font(font)
 
@@ -519,7 +512,7 @@ class Vml(xmlwriter.XMLwriter):
 
     def _write_anchor(self, vertices):
         # Write the <x:Anchor> element.
-        (col_start, row_start, x1, y1, col_end, row_end, x2, y2) = vertices
+        (col_start, row_start, x1, y1, col_end, row_end, x2, y2) = vertices[:8]
 
         strings = [col_start, x1, row_start, y1, col_end, x2, row_end, y2]
         strings = [str(i) for i in strings]

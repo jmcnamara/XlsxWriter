@@ -29,6 +29,52 @@ def _xml_to_list(xml_str):
     return elements
 
 
+def _vml_to_list(vml_str):
+    # Convert an Excel generated VML string into a list for comparison testing.
+    #
+    # The VML data in the testcases is taken from Excel 2007 files. The data
+    # has to be massaged significantly to make it suitable for comparison.
+    #
+    # The VML produced by XlsxWriter can be parsed as ordinary XML.
+    vml_str = vml_str.replace("\r", "")
+
+    vml = vml_str.split("\n")
+    vml_str = ''
+
+    for line in vml:
+        # Skip blank lines.
+        if not line:
+            continue
+
+        # Strip leading and trailing whitespace.
+        line = line.strip()
+
+        # Convert VMLs attribute quotes.
+        line = line.replace("'", '"')
+
+        # Add space between attributes.
+        if re.search('"$', line):
+            line += " "
+
+        # Add newline after element end.
+        if re.search('>$', line):
+            line += "\n"
+
+        # Split multiple elements.
+        line = line.replace('><', ">\n<")
+
+        # Put all of Anchor on one line.
+        if line == "<x:Anchor>\n":
+            line = line.strip()
+
+        vml_str += line
+
+    # Remove the final newline.
+    vml_str = vml_str.rstrip()
+
+    return vml_str.split("\n")
+
+
 def _sort_rel_file_data(xml_elements):
     # Re-order the relationship elements in an array of XLSX XML rel
     # (relationship) data. This is necessary for comparison since
@@ -128,8 +174,12 @@ def _compare_xlsx_files(got_file, exp_file, ignore_files, ignore_elements):
                                  '<c:pageMargins/>', got_xml_str)
 
         # Convert the XML string to lists for comparison.
-        got_xml = _xml_to_list(got_xml_str)
-        exp_xml = _xml_to_list(exp_xml_str)
+        if re.search('.vml$', filename):
+            got_xml = _xml_to_list(got_xml_str)
+            exp_xml = _vml_to_list(exp_xml_str)
+        else:
+            got_xml = _xml_to_list(got_xml_str)
+            exp_xml = _xml_to_list(exp_xml_str)
 
         # Ignore test specific XML elements for defined filenames.
         if filename in ignore_elements:
