@@ -298,26 +298,23 @@ class Vml(xmlwriter.XMLwriter):
         shape_type = '#_x0000_t201'
 
         # Set the shape index.
-        shape_id = '_x0000_s' + shape_id
+        shape_id = '_x0000_s' + str(shape_id)
 
-        # Get the button parameters
-        vertices = button.vertices
+        # Get the button parameters.
+        # row = button["_row"]
+        # col = button["_col"]
+        vertices = button["vertices"]
 
         (left, top, width, height) = self._pixels_to_points(vertices)
 
         style = (
             'position:absolute;'
-            + 'margin-left:'
-            + left + 'pt;'
-            + 'margin-top:'
-            + top + 'pt;'
-            + 'width:'
-            + width + 'pt;'
-            + 'height:'
-            + height + 'pt;'
-            + 'z-index:'
-            + z_index + ';'
-            + 'mso-wrap-style:tight')
+            'margin-left:%.15gpt;'
+            'margin-top:%.15gpt;'
+            'width:%.15gpt;'
+            'height:%.15gpt;'
+            'z-index:%d;'
+            'mso-wrap-style:tight' % (left, top, width, height, z_index))
 
         attributes = [
             ('id', shape_id),
@@ -338,7 +335,7 @@ class Vml(xmlwriter.XMLwriter):
         self._write_rotation_lock()
 
         # Write the v:textbox element.
-        self._write_button_textbox(button.font)
+        self._write_button_textbox(button["font"])
 
         # Write the x:ClientData element.
         self._write_button_client_data(button)
@@ -396,7 +393,7 @@ class Vml(xmlwriter.XMLwriter):
         # Write the <v:textbox> element.
         style = 'mso-direction-alt:auto'
 
-        attributes = [('style', style, 'o:singleclick', 'f')]
+        attributes = [('style', style), ('o:singleclick', 'f')]
 
         self._xml_start_tag('v:textbox', attributes)
 
@@ -422,7 +419,7 @@ class Vml(xmlwriter.XMLwriter):
 
     def _write_font(self, font):
         # Write the <font> element.
-        caption = font.caption
+        caption = font["caption"]
         face = 'Calibri'
         size = 220
         color = '#000000'
@@ -469,8 +466,8 @@ class Vml(xmlwriter.XMLwriter):
 
     def _write_button_client_data(self, button):
         # Write the <x:ClientData> element.
-        macro = button.macro
-        vertices = button.vertices
+        macro = button["macro"]
+        vertices = button["vertices"]
 
         object_type = 'Button'
 
