@@ -16,10 +16,10 @@ worksheet2 = workbook.add_worksheet()
 
 # Define some global/workbook names.
 workbook.define_name('Exchange_rate', '=0.96')
-workbook.define_name('Sales', '=Sheet1!G1:H10')
+workbook.define_name('Sales', '=Sheet1!$G$1:$H$10')
 
 # Define a local/worksheet name. Over-rides the "Sales" name above.
-workbook.define_name('Sheet2!Sales', '=Sheet2!G1:G10')
+workbook.define_name('Sheet2!Sales', '=Sheet2!$G$1:$G$10')
 
 # Write some text in the file and one of the defined names in a formula.
 for worksheet in workbook.worksheets():
