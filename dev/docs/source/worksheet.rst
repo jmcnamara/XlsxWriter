@@ -431,7 +431,7 @@ The ``cell_format`` parameter is used to apply formatting to the cell. This
 parameter is optional, however, without a format the link won't look like a
 link. The suggested :ref:`Format <format>`  is::
 
-    link_format = workbook.add_format('color': 'blue', 'underline': 1)
+    link_format = workbook.add_format({'color': 'blue', 'underline': 1})
 
 There are four web style URI's supported: ``http://``, ``https://``, ``ftp://``
 and ``mailto:``::

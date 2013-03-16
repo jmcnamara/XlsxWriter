@@ -311,7 +311,7 @@ class Workbook(xmlwriter.XMLwriter):
         self._prepare_defined_names()
 
         # Prepare the drawings, charts and images.
-        # self._prepare_drawings()
+        self._prepare_drawings()
 
         # Add cached data to charts.
         # self._add_chart_data()
@@ -648,6 +648,48 @@ class Workbook(xmlwriter.XMLwriter):
             name_list.pop()
 
         return names
+
+    def _prepare_drawings(self):
+        # Iterate through the worksheets and set up chart and image drawings.
+        chart_ref_id = 0
+        image_ref_id = 0
+        drawing_id = 0
+
+        for sheet in self.worksheets():
+            chart_count = len(sheet.charts)
+            image_count = len(sheet.images)
+            shape_count = len(sheet.shapes)
+
+            if not (chart_count + image_count + shape_count):
+                continue
+
+            drawing_id += 1
+
+            for index in range(chart_count):
+                chart_ref_id += 1
+                # sheet._prepare_chart(index, chart_ref_id, drawing_id)
+
+            for index in range(image_count):
+                filename = sheet.images[index][2]
+                (_, image_type, width, height, name) = self._get_image_properties(filename)
+                image_ref_id += 1
+
+                # sheet._prepare_image(index, image_ref_id, drawing_id, width,
+                #                     height, name, image_type)
+
+            for index in range(shape_count):
+                sheet._prepare_shape(index, drawing_id)
+
+            drawing = sheet.drawing
+            self.drawings.append(drawing)
+
+        # Sort the workbook charts references into the order that the were
+        # written from the worksheets above.
+        # chart_data =  self.charts
+        # chart_data = sort { a.id <=> b.id } chart_data
+        # self.charts = chart_data
+
+        self.drawing_count = drawing_id
 
     def _extract_named_ranges(self, defined_names):
         # Extract the named ranges from the sorted list of defined names.
