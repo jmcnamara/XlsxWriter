@@ -13,6 +13,7 @@ import operator
 from warnings import warn
 from datetime import datetime
 from zipfile import ZipFile, ZIP_DEFLATED
+from struct import unpack
 
 # Package imports.
 from . import xmlwriter
@@ -84,6 +85,8 @@ class Workbook(xmlwriter.XMLwriter):
         self.str_table = SharedStringTable()
         self.vba_project = None
         self.vba_codename = None
+        self.image_types = {}
+        self.images = []
 
         # Add the default cell format.
         self.add_format({'xf_index': 0})
@@ -671,14 +674,15 @@ class Workbook(xmlwriter.XMLwriter):
 
             for index in range(image_count):
                 filename = sheet.images[index][2]
-                (_, image_type, width, height, name) = self._get_image_properties(filename)
+                (image_type, width, height, name) = \
+                    self._get_image_properties(filename)
                 image_ref_id += 1
 
-                # sheet._prepare_image(index, image_ref_id, drawing_id, width,
-                #                     height, name, image_type)
+                sheet._prepare_image(index, image_ref_id, drawing_id, width,
+                                     height, name, image_type)
 
-            for index in range(shape_count):
-                sheet._prepare_shape(index, drawing_id)
+            # for index in range(shape_count):
+            #    sheet._prepare_shape(index, drawing_id)
 
             drawing = sheet.drawing
             self.drawings.append(drawing)
@@ -690,6 +694,89 @@ class Workbook(xmlwriter.XMLwriter):
         # self.charts = chart_data
 
         self.drawing_count = drawing_id
+
+    def _get_image_properties(self, filename):
+        # Extract dimension information from the image file.
+        height = 0
+        width = 0
+
+        # Open the image file and read in the data.
+        fh = open(filename, "rb")
+        data = fh.read()
+
+        # Get the image filename without the path.
+        image_name = os.path.basename(filename)
+
+        # Look for some common image file markers.
+        marker1 = (unpack('3s', data[1:4]))[0]
+        marker2 = (unpack('>H', data[:2]))[0]
+        marker3 = (unpack('4s', data[6:10]))[0]
+        marker4 = (unpack('2s', data[:2]))[0]
+
+        if marker1 == 'PNG':
+            self.image_types['png'] = 1
+            (image_type, width, height) = self._process_png(data)
+
+        elif (marker2 == 0xFFD8 and (marker3 == 'JFIF' or marker3 == 'EXIF')):
+            self.image_types['jpeg'] = 1
+            (image_type, width, height) = self._process_jpg(data)
+
+        elif (marker4 == 'BM'):
+            self.image_types['bmp'] = 1
+            (image_type, width, height) = self._process_bmp(data)
+
+        else:
+            raise Exception("%s: Unknown or unsupported file type." % filename)
+
+        # Check that we found the required data.
+        if not height or not width:
+            raise Exception("%s: no size data found in image file." % filename)
+
+        # Store image data to copy it into file container.
+        self.images.append([filename, image_type])
+
+        return (image_type, width, height, image_name)
+
+    def _process_png(self, data):
+        # Extract width and height information from a PNG file.
+        width = (unpack('>I', data[16:20]))[0]
+        height = (unpack('>I', data[20:24]))[0]
+
+        return ('png', width, height)
+
+    def _process_jpg(self, data):
+        # Extract width and height information from a JPEG file.
+        offset = 2
+        data_length = len(data)
+
+        # Search through the image data to find the 0xFFC0 marker.
+        # The height and width are contained in the data for that
+        # sub-element.
+        found = 0
+        while not found and offset < data_length:
+
+            marker = (unpack('>H', data[offset + 0:offset + 2]))[0]
+            length = (unpack('>H', data[offset + 2:offset + 4]))[0]
+
+            if marker == 0xFFC0 or marker == 0xFFC2:
+                height = (unpack('>H', data[offset + 5:offset + 7]))[0]
+                width = (unpack('>H', data[offset + 7:offset + 9]))[0]
+                found = 1
+                continue
+
+            offset = offset + length + 2
+
+            if marker == 0xFFDA:
+                found = 1
+                continue
+
+        return ('jpeg', width, height)
+
+    def _process_bmp(self, data):
+        # Extract width and height information from a BMP file.
+        width = (unpack('<L', data[18:22]))[0]
+        height = (unpack('<L', data[22:26]))[0]
+        return ('bmp', width, height)
 
     def _extract_named_ranges(self, defined_names):
         # Extract the named ranges from the sorted list of defined names.

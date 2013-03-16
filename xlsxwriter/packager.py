@@ -7,6 +7,7 @@
 
 # Standard packages.
 import os
+from shutil import copy
 
 # Package imports.
 from xlsxwriter.app import App
@@ -329,7 +330,7 @@ class Packager(object):
         xlsx_dir = self.package_dir
         content = ContentTypes()
 
-        # content._add_image_types(self.workbook.image_types)
+        content._add_image_types(self.workbook.image_types)
 
         worksheet_index = 1
         chartsheet_index = 1
@@ -576,7 +577,7 @@ class Packager(object):
             rels = Relationships()
 
             for drawing_data in worksheet.drawing_links:
-                rels._add_document_relationship(drawing_data)
+                rels._add_document_relationship(*drawing_data)
 
             # Create .rels file such as /xl/drawings/_rels/sheet1.xml.rels.
             rels._set_xml_writer(xlsx_dir + '/xl/drawings/_rels/drawing'
@@ -585,21 +586,20 @@ class Packager(object):
 
     def _add_image_files(self):
         # Write the /xl/media/image?.xml files.
-        pass
-        # xlsx_dir = self.package_dir
-        # workbook = self.workbook
-        # index = 1
+        xlsx_dir = self.package_dir
+        workbook = self.workbook
+        index = 1
 
-        # for image in workbook.images:
-            # filename = image[0]
-            # extension = '.' + image[1]
+        for image in workbook.images:
+            filename = image[0]
+            extension = '.' + image[1]
 
-            # self._mkdir(xlsx_dir + '/xl')
-            # self._mkdir(xlsx_dir + '/xl/media')
+            self._mkdir(xlsx_dir + '/xl')
+            self._mkdir(xlsx_dir + '/xl/media')
 
-            # copy(filename, xlsx_dir + '/xl/media/image'
-            #    + str(index) + extension)
-            # index += 1
+            copy(filename,
+                 xlsx_dir + '/xl/media/image' + str(index) + extension)
+            index += 1
 
     def _add_vba_project(self):
         # Write the vbaProject.bin file.

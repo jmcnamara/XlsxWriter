@@ -21,6 +21,7 @@ except ImportError:
 # Package imports.
 from . import xmlwriter
 from .format import Format
+from .drawing import Drawing
 from .xmlwriter import XMLwriter
 from .utility import xl_rowcol_to_cell
 from .utility import xl_cell_to_rowcol
@@ -596,14 +597,6 @@ class Worksheet(xmlwriter.XMLwriter):
     #
     # The hyperlink can be to a http, ftp, mail, internal sheet, or external
     # directory urls.
-    #
-    # Returns  0 : normal termination
-    #         -1 : insufficient number of arguments
-    #         -2 : row or column out of range
-    #         -3 : long string truncated to 32767 chars
-    #         -4 : URL longer than 255 characters
-    #         -5 : Exceeds limit of 65_530 urls per worksheet
-    #
     @convert_cell_args
     def write_url(self, row, col, url, cell_format=None,
                   string=None, tip=None):
@@ -736,23 +729,24 @@ class Worksheet(xmlwriter.XMLwriter):
 
         return str_error
 
-    #
-    # write_rich_string( $row, $column, $format, $string, ..., $cell_format )
-    #
-    # The write_rich_string() method is used to write strings with multiple
-    # formats.
-    # The method receives string fragments prefixed by format objects.
-    # The final
-    # format object is used as the cell format.
-    #
-    # Returns  0 : normal termination.
-    #         -1 : row or column out of range.
-    #         -2 : long string truncated to 32767 chars.
-    #         -3 : 2 consecutive formats used.
-    #
     @convert_cell_args
     def write_rich_string(self, row, col, *args):
-        # TODO.
+        """
+        Write a "rich" string with multiple formats to a worksheet cell.
+
+        Args:
+            row:          The cell row (zero indexed).
+            col:          The cell column (zero indexed).
+            string_parts: String and format pairs.
+            cell_format:  Optional Format object.
+
+        Returns:
+            0:  Success.
+            -1: Row or column is out of worksheet bounds.
+            -2: String truncated to 32k characters.
+            -3: 2 consecutive formats used.
+
+        """
         tokens = list(args)
         cell_format = None
         str_length = 0
@@ -895,6 +889,34 @@ class Worksheet(xmlwriter.XMLwriter):
             row += 1
 
         return 0
+
+    # insert_image( $row, $col, $filename, $x, $y, $x_scale, $y_scale )
+    #
+    # Insert an image into the worksheet.
+    #
+    @convert_cell_args
+    def insert_image(self, row, col, image, options={}):
+        """
+        Insert an image with its top-left corner in a worksheet cell.
+        Args:
+            row:     The cell row (zero indexed).
+            col:     The cell column (zero indexed).
+            image:   Path and filename for image in PNG, JPG or BMP format.
+            options: Position and scale of the image..
+
+        Returns:
+            0:  Success.
+        """
+        x_offset = options.get('x_offset', 0)
+        y_offset = options.get('y_offset', 0)
+        x_scale = options.get('x_scale', 1)
+        y_scale = options.get('y_scale', 1)
+
+        # if not -e image:
+        #    croak "Couldn't locate image: $!"
+
+        self.images.append([row, col, image, x_offset, y_offset,
+                            x_scale, y_scale])
 
     def get_name(self):
         """
@@ -1850,7 +1872,7 @@ class Worksheet(xmlwriter.XMLwriter):
         self._write_col_breaks()
 
         # Write the drawing element.
-        # self._write_drawings()
+        self._write_drawings()
 
         # Write the legacyDrawing element.
         # self._write_legacy_drawing()
@@ -2210,6 +2232,238 @@ class Worksheet(xmlwriter.XMLwriter):
         password_hash ^= 0xCE4B
 
         return "%X" % password_hash
+
+    def _prepare_image(self, index, image_id, drawing_id, width, height,
+                       name, image_type):
+        # Set up images/drawings.
+        drawing_type = 2
+        (row, col, _, x_offset, y_offset, x_scale, y_scale) = \
+            self.images[index]
+
+        width *= x_scale
+        height *= y_scale
+
+        dimensions = self._position_object_emus(col, row, x_offset, y_offset,
+                                                width, height)
+
+        # Convert from pixels to emus.
+        width = int(0.5 + (width * 9525))
+        height = int(0.5 + (height * 9525))
+
+        # Create a Drawing obj to use with worksheet unless one already exists.
+        if not self.drawing:
+            drawing = Drawing()
+            drawing.embedded = 1
+            self.drawing = drawing
+
+            self.external_drawing_links.append(['/drawing',
+                                                '../drawings/drawing'
+                                                + str(drawing_id)
+                                                + '.xml', None])
+        else:
+            drawing = self.drawing
+
+        drawing_object = [drawing_type]
+        drawing_object.extend(dimensions)
+        drawing_object.extend([width, height, name, None])
+
+        drawing._add_drawing_object(drawing_object)
+
+        self.drawing_links.append(['/image',
+                                   '../media/image'
+                                   + str(image_id) + '.'
+                                   + image_type])
+
+    def _position_object_emus(self, col_start, row_start, x1, y1,
+        # Calculate the vertices that define the position of a graphical
+        # object within the worksheet in EMUs.
+        #
+        # The vertices are expressed as English Metric Units (EMUs). There are
+        # 12,700 EMUs per point. Therefore, 12,700 * 3 /4 = 9,525 EMUs per
+        # pixel
+                              width, height):
+
+        (col_start, row_start, x1, y1,
+         col_end, row_end, x2, y2, x_abs, y_abs) = \
+            self._position_object_pixels(col_start, row_start, x1, y1,
+                                         width, height)
+
+        # Convert the pixel values to EMUs. See above.
+        x1 *= 9525
+        y1 *= 9525
+        x2 *= 9525
+        y2 *= 9525
+        x_abs *= 9525
+        y_abs *= 9525
+
+        return (col_start, row_start, x1, y1, col_end, row_end, x2, y2,
+                x_abs, y_abs)
+
+    # Calculate the vertices that define the position of a graphical object
+    # within the worksheet in pixels.
+    #
+    #         +------------+------------+
+    #         |     A      |      B     |
+    #   +-----+------------+------------+
+    #   |     |(x1,y1)     |            |
+    #   |  1  |(A1)._______|______      |
+    #   |     |    |              |     |
+    #   |     |    |              |     |
+    #   +-----+----|    BITMAP    |-----+
+    #   |     |    |              |     |
+    #   |  2  |    |______________.     |
+    #   |     |            |        (B2)|
+    #   |     |            |     (x2,y2)|
+    #   +---- +------------+------------+
+    #
+    # Example of an object that covers some of the area from cell A1 to  B2.
+    #
+    # Based on the width and height of the object we need to calculate 8 vars:
+    #
+    #     col_start, row_start, col_end, row_end, x1, y1, x2, y2.
+    #
+    # We also calculate the absolute x and y position of the top left vertex of
+    # the object. This is required for images.
+    #
+    # The width and height of the cells that the object occupies can be
+    # variable and have to be taken into account.
+    #
+    # The values of $col_start and $row_start are passed in from the calling
+    # function. The values of $col_end and $row_end are calculated by
+    # subtracting the width and height of the object from the width and
+    # height of the underlying cells.
+    #
+    def _position_object_pixels(self, col_start, row_start, x1, y1,
+                                width, height):
+        # col_start       # Col containing upper left corner of object.
+        # x1              # Distance to left side of object.
+        #
+        # row_start       # Row containing top left corner of object.
+        # y1              # Distance to top of object.
+        #
+        # col_end         # Col containing lower right corner of object.
+        # x2              # Distance to right side of object.
+        #
+        # row_end         # Row containing bottom right corner of object.
+        # y2              # Distance to bottom of object.
+        #
+        # width           # Width of object frame.
+        # height          # Height of object frame.
+        #
+        # x_abs           # Absolute distance to left side of object.
+        # y_abs           # Absolute distance to top side of object.
+        x_abs = 0
+        y_abs = 0
+
+        is_drawing = 1  # TODO. Fix this for other cases.
+
+        # Calculate the absolute x offset of the top-left vertex.
+        if self.col_size_changed:
+            for col_id in range(1, col_start + 1):
+                x_abs += self._size_col(col_id)
+        else:
+            # Optimisation for when the column widths haven't changed.
+            x_abs += 64 * col_start
+
+        x_abs += x1
+
+        # Calculate the absolute y offset of the top-left vertex.
+        # Store the column change to allow optimisations.
+        if self.row_size_changed:
+            for row_id in range(1, row_start + 1):
+                y_abs += self._size_row(row_id)
+        else:
+            # Optimisation for when the row heights haven't changed.
+            y_abs += 20 * row_start
+
+        y_abs += y1
+
+        # Adjust start column for offsets that are greater than the col width.
+        while x1 >= self._size_col(col_start):
+            x1 -= self._size_col(col_start)
+            col_start += 1
+
+        # Adjust start row for offsets that are greater than the row height.
+        while y1 >= self._size_row(row_start):
+            y1 -= self._size_row(row_start)
+            row_start += 1
+
+        # Initialise end cell to the same as the start cell.
+        col_end = col_start
+        row_end = row_start
+
+        width = width + x1
+        height = height + y1
+
+        # Subtract the underlying cell widths to find end cell of the object.
+        while width >= self._size_col(col_end):
+            width -= self._size_col(col_end)
+            col_end += 1
+
+        # Subtract the underlying cell heights to find end cell of the object.
+
+        while height >= self._size_row(row_end):
+            height -= self._size_row(row_end)
+            row_end += 1
+
+        # The following is only required for positioning drawing/chart objects
+        # and not comments. It is probably the result of a bug.
+        if is_drawing:
+            if width == 0:
+                col_end -= 1
+            if height == 0:
+                row_end -= 1
+
+        # The end vertices are whatever is left from the width and height.
+        x2 = width
+        y2 = height
+
+        return (col_start, row_start, x1, y1, col_end, row_end, x2, y2,
+                x_abs, y_abs)
+
+    def _size_col(self, col):
+        # Convert the width of a cell from user's units to pixels. Excel rounds
+        # the column width to the nearest pixel. If the width hasn't been set
+        # by the user we use the default value. If the column is hidden it
+        # has a value of zero.
+        max_digit_width = 7  # For Calabri 11.
+        padding = 5
+        pixels = 0
+
+        # Look up the cell value to see if it has been changed.
+        if col in self.col_sizes:
+            width = self.col_sizes[col]
+
+            # Convert to pixels.
+            if width == 0:
+                pixels = 0
+            elif width < 1:
+                pixels = int(width * 12 + 0.5)
+            else:
+                pixels = int(width * max_digit_width + 0.5) + padding
+        else:
+            pixels = 64
+
+        return pixels
+
+    def _size_row(self, row):
+        # Convert the height of a cell from user's units to pixels. If the
+        # height hasn't been set by the user we use the default value. If
+        #  the row is hidden it has a value of zero.
+        pixels = 0
+
+        # Look up the cell value to see if it has been changed
+        if row in self.row_sizes:
+            height = self.row_sizes[row]
+
+            if height == 0:
+                pixels = 0
+            else:
+                pixels = int(4.0 / 3.0 * height)
+        else:
+            pixels = int(4.0 / 3.0 * self.default_row_height)
+
+        return pixels
 
     ###########################################################################
     #
@@ -3308,3 +3562,18 @@ class Worksheet(xmlwriter.XMLwriter):
             attributes.append(('selectUnlockedCells', 1))
 
         self._xml_empty_tag('sheetProtection', attributes)
+
+    def _write_drawings(self):
+        # Write the <drawing> elements.
+        if not self.drawing:
+            return
+
+        self._write_drawing(self.rel_count + 1)
+
+    def _write_drawing(self, drawing_id):
+        # Write the <drawing> element.
+        r_id = 'rId' + str(drawing_id)
+
+        attributes = [('r:id', r_id)]
+
+        self._xml_empty_tag('drawing', attributes)

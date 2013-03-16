@@ -129,7 +129,7 @@ class ContentTypes(xmlwriter.XMLwriter):
     def _add_image_types(self, image_types):
         # Add the image default types.
         for image_type in image_types:
-            self._add_default((type, 'image/' + image_type))
+            self._add_default((image_type, 'image/' + image_type))
 
     def _add_table_name(self, table_name):
         # Add the name of a table to the ContentTypes overrides.

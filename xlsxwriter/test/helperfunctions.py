@@ -7,6 +7,7 @@
 
 import re
 import sys
+import os.path
 from zipfile import ZipFile
 from zipfile import BadZipfile
 from zipfile import LargeZipFile
@@ -137,6 +138,12 @@ def _compare_xlsx_files(got_file, exp_file, ignore_files, ignore_elements):
 
     # Compare each file in the XLSX containers.
     for filename in exp_files:
+
+        # Skip comparison of binary files based on extension.
+        extension = os.path.splitext(filename)[1]
+        if extension in ('.png', '.jpeg', '.bmp'):
+            continue
+
         got_xml_str = got_zip.read(filename)
         exp_xml_str = exp_zip.read(filename)
 
