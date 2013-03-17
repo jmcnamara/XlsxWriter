@@ -16,7 +16,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '',
-        VERSION:     '0.1.5',
+        VERSION:     '0.1.6',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -255,18 +255,18 @@ a single cell or a range of cells in a workbook.</p>
 <p>For example to set a global/workbook name:</p>
 <div class="highlight-python"><div class="highlight"><pre><span class="c"># Global/workbook names.</span>
 <span class="n">workbook</span><span class="o">.</span><span class="n">define_name</span><span class="p">(</span><span class="s">&#39;Exchange_rate&#39;</span><span class="p">,</span> <span class="s">&#39;=0.96&#39;</span><span class="p">)</span>
-<span class="n">workbook</span><span class="o">.</span><span class="n">define_name</span><span class="p">(</span><span class="s">&#39;Sales&#39;</span><span class="p">,</span>         <span class="s">&#39;=Sheet1!G1:H10&#39;</span><span class="p">)</span>
+<span class="n">workbook</span><span class="o">.</span><span class="n">define_name</span><span class="p">(</span><span class="s">&#39;Sales&#39;</span><span class="p">,</span>         <span class="s">&#39;=Sheet1!$G$1:$H$10&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
 <p>It is also possible to define a local/worksheet name by prefixing it
 with the sheet name using the syntax <tt class="docutils literal"><span class="pre">'sheetname!definedname'</span></tt>:</p>
 <div class="highlight-python"><div class="highlight"><pre><span class="c"># Local/worksheet name.</span>
-<span class="n">workbook</span><span class="o">.</span><span class="n">define_name</span><span class="p">(</span><span class="s">&#39;Sheet2!Sales&#39;</span><span class="p">,</span> <span class="s">&#39;=Sheet2!G1:G10&#39;</span><span class="p">)</span>
+<span class="n">workbook</span><span class="o">.</span><span class="n">define_name</span><span class="p">(</span><span class="s">&#39;Sheet2!Sales&#39;</span><span class="p">,</span> <span class="s">&#39;=Sheet2!$G$1:$G$10&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
 <p>If the sheet name contains spaces or special characters you must enclose it
 in single quotes like in Excel:</p>
-<div class="highlight-python"><div class="highlight"><pre><span class="n">workbook</span><span class="o">.</span><span class="n">define_name</span><span class="p">(</span><span class="s">&quot;&#39;New Data&#39;!Sales&quot;</span><span class="p">,</span> <span class="s">&#39;=Sheet2!G1:G10&#39;</span><span class="p">)</span>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">workbook</span><span class="o">.</span><span class="n">define_name</span><span class="p">(</span><span class="s">&quot;&#39;New Data&#39;!Sales&quot;</span><span class="p">,</span> <span class="s">&#39;=Sheet2!$G$1:$G$10&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
 <p>See also the <tt class="docutils literal"><span class="pre">defined_name.py</span></tt> program in the examples directory.</p>

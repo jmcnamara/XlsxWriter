@@ -6,6 +6,9 @@ Release 0.1.6 - March 17 2013
   JPEG images into a worksheet. See also the example program
   :ref:`ex_insert_image`.
 
+* There are now over 500 unit tests including more than 100 tests that
+  compare against the output of Excel.
+
 
 Release 0.1.5 - March 10 2013
 -----------------------------

@@ -431,7 +431,7 @@ The ``cell_format`` parameter is used to apply formatting to the cell. This
 parameter is optional, however, without a format the link won't look like a
 link. The suggested :ref:`Format <format>`  is::
 
-    link_format = workbook.add_format('color': 'blue', 'underline': 1)
+    link_format = workbook.add_format({'color': 'blue', 'underline': 1})
 
 There are four web style URI's supported: ``http://``, ``https://``, ``ftp://``
 and ``mailto:``::
@@ -855,6 +855,78 @@ column has the collapsed ``'+'`` symbol::
 
     worksheet.set_column('H:H', None, None, {'collapsed': 1})
 
+woksheet.insert_image()
+-----------------------
+
+.. py:function:: insert_image(row, col, image[, options])
+
+   Write a string to a worksheet cell.
+
+   :param row:         The cell row (zero indexed).
+   :param col:         The cell column (zero indexed).
+   :param image:       Image filename (with path if required).
+   :param options:     Optional parameters to position and scale the image.
+   :type  row:         int
+   :type  col:         int
+   :type  image:       string
+   :type  options:     dict
+
+This method can be used to insert a image into a worksheet. The image can be
+in PNG, JPEG or BMP format::
+
+    worksheet.insert_image('B2', 'python.png')
+
+.. image:: _static/insert_image.png
+
+A file path can be specified with the image name::
+
+    worksheet1.insert_image('B10', '../images/python.png')
+    worksheet2.insert_image('B20', r'c:\images\python.png')
+
+The ``insert_image()`` method takes optional parameters in a dictionary to
+position and scale the image. The avavilable parameters with their default
+values are:: 
+
+    {
+        'x_offset': 0,
+        'y_offset': 0,
+        'x_scale':  1,
+        'y_scale':  1,
+    }
+
+The offset values are in pixels::
+
+    worksheet1.insert_image('B2', 'python.png', {'x_offset': 15, 'y_offset': 10})
+
+The offsets can be greater than the width or height of the underlying cell.
+This can be occasionally useful if you wish to align two or more images
+relative to the same cell.
+
+The ``x_scale`` and ``y_scale`` parameters can be used to scale the image
+horizontally and vertically::
+
+    worksheet.insert_image('B3', 'python.png', {'x_scale': 0.5, 'y_scale': 0.5})
+
+Currently only 96 dpi images are supported without modification. If you need
+to insert images with other dpi values you can use the scale parameters.
+
+
+.. Note:: 
+   You must call ``set_row()`` or ``set_column()`` before ``insert_image()``
+   if you wish to change the default dimensions of any of the rows or
+   columns that the image occupies. The height of a row can also change if you
+   use a font that is larger than the default or have text wrapping turned on.
+   This in turn will affect the scaling of your image. To avoid this you
+   should explicitly set the height of the row using ``set_row()`` if it
+   contains a font size that will change the row height.
+
+Inserting images into headers or a footers isn't supported.
+
+BMP images are only supported for backward compatibility. In general it is best
+to avoid BMP images since they aren't compressed. If used, BMP images must be
+24 bit, true colour, bitmaps.
+
+See also :ref:`ex_insert_image`.
 
 worksheet.get_name()
 --------------------

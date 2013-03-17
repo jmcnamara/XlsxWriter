@@ -1,0 +1,154 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Example: Inserting images into a worksheet &mdash; XlsxWriter Documentation</title>
+    
+    <link rel="stylesheet" href="_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '',
+        VERSION:     '0.1.6',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="XlsxWriter Documentation" href="index.html" />
+    <link rel="up" title="Examples" href="examples.html" />
+    <link rel="next" title="Example: Adding Headers and Footers to Worksheets" href="example_headers_footers.html" />
+    <link rel="prev" title="Example: Writing “Rich” strings with multiple formats" href="example_rich_strings.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="example_headers_footers.html" title="Example: Adding Headers and Footers to Worksheets"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="example_rich_strings.html" title="Example: Writing “Rich” strings with multiple formats"
+             accesskey="P">previous</a> |</li>
+        <li><a href="index.html">XlsxWriter Documentation</a> &raquo;</li>
+          <li><a href="examples.html" accesskey="U">Examples</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="example-inserting-images-into-a-worksheet">
+<span id="ex-insert-image"></span><h1>Example: Inserting images into a worksheet</h1>
+<p>This program is an example of inserting images into a worksheet. See the
+<a class="reference internal" href="worksheet.html#insert_image" title="insert_image"><tt class="xref py py-func docutils literal"><span class="pre">insert_image()</span></tt></a> method for more details.</p>
+<img alt="_images/images.png" src="_images/images.png" />
+<p>Code:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="c">##############################################################################</span>
+<span class="c">#</span>
+<span class="c"># An example of inserting images into a worksheet using the XlsxWriter</span>
+<span class="c"># Python module.</span>
+<span class="c">#</span>
+<span class="c"># Copyright 2013, John McNamara, jmcnamara@cpan.org</span>
+<span class="c">#</span>
+<span class="kn">from</span> <span class="nn">xlsxwriter.workbook</span> <span class="kn">import</span> <span class="n">Workbook</span>
+
+
+<span class="c"># Create an new Excel file and add a worksheet.</span>
+<span class="n">workbook</span> <span class="o">=</span> <span class="n">Workbook</span><span class="p">(</span><span class="s">&#39;images.xlsx&#39;</span><span class="p">)</span>
+<span class="n">worksheet</span> <span class="o">=</span> <span class="n">workbook</span><span class="o">.</span><span class="n">add_worksheet</span><span class="p">()</span>
+
+<span class="c"># Widen the first column to make the text clearer.</span>
+<span class="n">worksheet</span><span class="o">.</span><span class="n">set_column</span><span class="p">(</span><span class="s">&#39;A:A&#39;</span><span class="p">,</span> <span class="mi">30</span><span class="p">)</span>
+
+<span class="c"># Insert an image.</span>
+<span class="n">worksheet</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s">&#39;A2&#39;</span><span class="p">,</span> <span class="s">&#39;Insert an image in a cell:&#39;</span><span class="p">)</span>
+<span class="n">worksheet</span><span class="o">.</span><span class="n">insert_image</span><span class="p">(</span><span class="s">&#39;B2&#39;</span><span class="p">,</span> <span class="s">&#39;python.png&#39;</span><span class="p">)</span>
+
+<span class="c"># Insert an image offset in the cell.</span>
+<span class="n">worksheet</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s">&#39;A12&#39;</span><span class="p">,</span> <span class="s">&#39;Insert an image with an offset:&#39;</span><span class="p">)</span>
+<span class="n">worksheet</span><span class="o">.</span><span class="n">insert_image</span><span class="p">(</span><span class="s">&#39;B12&#39;</span><span class="p">,</span> <span class="s">&#39;python.png&#39;</span><span class="p">,</span> <span class="p">{</span><span class="s">&#39;x_offset&#39;</span><span class="p">:</span> <span class="mi">15</span><span class="p">,</span> <span class="s">&#39;y_offset&#39;</span><span class="p">:</span> <span class="mi">10</span><span class="p">})</span>
+
+<span class="c"># Insert an image with scaling.</span>
+<span class="n">worksheet</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s">&#39;A23&#39;</span><span class="p">,</span> <span class="s">&#39;Insert a scaled image:&#39;</span><span class="p">)</span>
+<span class="n">worksheet</span><span class="o">.</span><span class="n">insert_image</span><span class="p">(</span><span class="s">&#39;B23&#39;</span><span class="p">,</span> <span class="s">&#39;python.png&#39;</span><span class="p">,</span> <span class="p">{</span><span class="s">&#39;x_scale&#39;</span><span class="p">:</span> <span class="mf">0.5</span><span class="p">,</span> <span class="s">&#39;y_scale&#39;</span><span class="p">:</span> <span class="mf">0.5</span><span class="p">})</span>
+
+<span class="n">workbook</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="index.html">
+              <img class="logo" src="_static/logo.png" alt="Logo"/>
+            </a></p>
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="example_rich_strings.html"
+                        title="previous chapter">Example: Writing &#8220;Rich&#8221; strings with multiple formats</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="example_headers_footers.html"
+                        title="next chapter">Example: Adding Headers and Footers to Worksheets</a></p>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="_sources/example_images.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="example_headers_footers.html" title="Example: Adding Headers and Footers to Worksheets"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="example_rich_strings.html" title="Example: Writing “Rich” strings with multiple formats"
+             >previous</a> |</li>
+        <li><a href="index.html">XlsxWriter Documentation</a> &raquo;</li>
+          <li><a href="examples.html" >Examples</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2013, John McNamara.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.3.
+    </div>
+  </body>
+</html>

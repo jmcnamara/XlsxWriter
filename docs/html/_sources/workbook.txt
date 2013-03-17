@@ -178,18 +178,18 @@ For example to set a global/workbook name::
 
     # Global/workbook names.
     workbook.define_name('Exchange_rate', '=0.96')
-    workbook.define_name('Sales',         '=Sheet1!G1:H10')
+    workbook.define_name('Sales',         '=Sheet1!$G$1:$H$10')
 
 It is also possible to define a local/worksheet name by prefixing it
 with the sheet name using the syntax ``'sheetname!definedname'``::
 
     # Local/worksheet name.
-    workbook.define_name('Sheet2!Sales', '=Sheet2!G1:G10')
+    workbook.define_name('Sheet2!Sales', '=Sheet2!$G$1:$G$10')
 
 If the sheet name contains spaces or special characters you must enclose it
 in single quotes like in Excel::
 
-    workbook.define_name("'New Data'!Sales", '=Sheet2!G1:G10')
+    workbook.define_name("'New Data'!Sales", '=Sheet2!$G$1:$G$10')
 
 See also the ``defined_name.py`` program in the examples directory.
 
