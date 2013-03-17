@@ -721,6 +721,14 @@ class Format(xmlwriter.XMLwriter):
         self.set_align('top')
         self.hyperlink = hyperlink
 
+    def set_color_indexed(self, color_index):
+        # Used in the cell comment format.
+        self.color_indexed = color_index
+
+    def set_font_only(self, font_only=True):
+        # Used in the cell comment format.
+        self.font_only = font_only
+
     # Compatibility methods.
     def set_font(self, font_name):
         #  For compatibility with Excel::Writer::XLSX.

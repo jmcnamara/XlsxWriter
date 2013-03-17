@@ -17,6 +17,8 @@ from xlsxwriter.relationships import Relationships
 from xlsxwriter.sharedstrings import SharedStrings
 from xlsxwriter.styles import Styles
 from xlsxwriter.theme import Theme
+from xlsxwriter.vml import Vml
+from xlsxwriter.comments import Comments
 
 
 class Packager(object):
@@ -219,44 +221,44 @@ class Packager(object):
 
     def _write_vml_files(self):
         # Write the comment VML files.
-        # xlsx_dir = self.package_dir
+        xlsx_dir = self.package_dir
 
         index = 1
         for worksheet in self.workbook.worksheets():
             if not worksheet.has_vml:
                 continue
 
-            # vml = VML()
+            vml = Vml()
 
-            # self._mkdir(xlsx_dir + '/xl')
-            # self._mkdir(xlsx_dir + '/xl/drawings')
+            self._mkdir(xlsx_dir + '/xl')
+            self._mkdir(xlsx_dir + '/xl/drawings')
 
-            # vml._set_xml_writer(
-            #    xlsx_dir + '/xl/drawings/vmlDrawing' + str(index) + '.vml')
-            # vml._assemble_xml_file(
-            #    worksheet.vml_data_id,
-            #    worksheet.vml_shape_id,
-            #    worksheet.comments_array,
-            #    worksheet.buttons_array)
+            vml._set_xml_writer(
+               xlsx_dir + '/xl/drawings/vmlDrawing' + str(index) + '.vml')
+            vml._assemble_xml_file(
+               worksheet.vml_data_id,
+               worksheet.vml_shape_id,
+               worksheet.comments_array,
+               worksheet.buttons_array)
             index += 1
 
     def _write_comment_files(self):
         # Write the comment files.
-        # xlsx_dir = self.package_dir
+        xlsx_dir = self.package_dir
 
         index = 1
         for worksheet in self.workbook.worksheets():
             if not worksheet.has_comments:
                 continue
 
-            # comment = Comments()
+            comment = Comments()
 
-            # self._mkdir(xlsx_dir + '/xl')
-            # self._mkdir(xlsx_dir + '/xl/drawings')
+            self._mkdir(xlsx_dir + '/xl')
+            self._mkdir(xlsx_dir + '/xl/drawings')
 
-            # comment._set_xml_writer(xlsx_dir + '/xl/comments'
-            #                        + str(index) + '.xml')
-            # comment._assemble_xml_file(worksheet.comments_array)
+            comment._set_xml_writer(xlsx_dir + '/xl/comments'
+                                    + str(index) + '.xml')
+            comment._assemble_xml_file(worksheet.comments_array)
             index += 1
 
     def _write_shared_strings_file(self):

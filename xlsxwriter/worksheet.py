@@ -199,7 +199,7 @@ class Worksheet(xmlwriter.XMLwriter):
 
         self.protect_options = {}
         self.set_cols = {}
-        self.set_rows = {}
+        self.set_rows = defaultdict(dict)
 
         self.zoom = 100
         self.zoom_scale_normal = 1
@@ -227,7 +227,7 @@ class Worksheet(xmlwriter.XMLwriter):
 
         self.has_vml = 0
         self.has_comments = 0
-        self.comments = {}
+        self.comments = defaultdict(dict)
         self.comments_array = []
         self.comments_author = ''
         self.comments_visible = 0
@@ -917,6 +917,40 @@ class Worksheet(xmlwriter.XMLwriter):
 
         self.images.append([row, col, image, x_offset, y_offset,
                             x_scale, y_scale])
+
+    # write_comment($row, $col, $comment)
+    #
+    # Write a comment to the specified row and column (zero indexed).
+    #
+    # Returns  0 : normal termination
+    #         -1 : insufficient number of arguments
+    #         -2 : row or column out of range
+    #
+    @convert_cell_args
+    def write_comment(self, row, col, comment, options={}):
+
+        # Check that row and col are valid and store max and min values
+        if self._check_dimensions(row, col):
+            return -2
+
+        self.has_vml = 1
+        self.has_comments = 1
+
+        # Process the properties of the cell comment.
+        self.comments[row][col] = \
+            self._comment_params(row, col, comment, options)
+
+    # Make any comments in the worksheet visible.
+    #
+    def show_comments(self):
+        self.comments_visible = 1
+
+    #
+    #
+    # Set the default author of the cell comments.
+    #
+    def set_comments_author(self, author):
+        self.comments_author = author
 
     def get_name(self):
         """
@@ -1875,7 +1909,7 @@ class Worksheet(xmlwriter.XMLwriter):
         self._write_drawings()
 
         # Write the legacyDrawing element.
-        # self._write_legacy_drawing()
+        self._write_legacy_drawing()
 
         # Write the tableParts element.
         # self._write_table_parts()
@@ -2275,14 +2309,13 @@ class Worksheet(xmlwriter.XMLwriter):
                                    + image_type])
 
     def _position_object_emus(self, col_start, row_start, x1, y1,
+                              width, height):
         # Calculate the vertices that define the position of a graphical
         # object within the worksheet in EMUs.
         #
         # The vertices are expressed as English Metric Units (EMUs). There are
         # 12,700 EMUs per point. Therefore, 12,700 * 3 /4 = 9,525 EMUs per
         # pixel
-                              width, height):
-
         (col_start, row_start, x1, y1,
          col_end, row_end, x2, y2, x_abs, y_abs) = \
             self._position_object_pixels(col_start, row_start, x1, y1,
@@ -2418,8 +2451,8 @@ class Worksheet(xmlwriter.XMLwriter):
         x2 = width
         y2 = height
 
-        return (col_start, row_start, x1, y1, col_end, row_end, x2, y2,
-                x_abs, y_abs)
+        return ([col_start, row_start, x1, y1, col_end, row_end, x2, y2,
+                x_abs, y_abs])
 
     def _size_col(self, col):
         # Convert the width of a cell from user's units to pixels. Excel rounds
@@ -2464,6 +2497,203 @@ class Worksheet(xmlwriter.XMLwriter):
             pixels = int(4.0 / 3.0 * self.default_row_height)
 
         return pixels
+
+    #
+    #
+    # This method handles the additional optional parameters to write_comment() as
+    # well as calculating the comment object position and vertices.
+    #
+    def _comment_params(self, row, col, string, options):
+        default_width = 128
+        default_height = 74
+
+        params = {
+            'author': None,
+            'color': '#ffffe1',
+            'start_cell': None,
+            'start_col': None,
+            'start_row': None,
+            'visible': None,
+            'width': default_width,
+            'height': default_height,
+            'x_offset': None,
+            'x_scale': 1,
+            'y_offset': None,
+            'y_scale': 1,
+        }
+
+        # Overwrite the defaults with any user supplied values. Incorrect or
+        # misspelled parameters are silently ignored.
+        for key in options.keys():
+            params[key] = options[key]
+
+        # Ensure that a width and height have been set.
+        if not params['width']:
+            params['width'] = default_width
+        if not params['height']:
+            params['height'] = default_height
+
+        # Limit the string to the max number of chars.
+        max_len = 32767
+
+        if len(string) > max_len:
+            pass
+            # string = substr(string, 0, max_len)
+
+        # Set the comment background colour.
+        params['color'] = xl_color(params['color']).lower()
+
+        # Convert from Excel XML style colour to XML html style colour.
+        params['color'] = params['color'].replace('ff', '#', 1)
+
+#        color_id = 1 # TODO
+#
+#        if color_id == 0:
+#            params[color] = '#ffffe1'
+#        else:
+#            palette = self.palette
+#
+#            # Get the RGB color from the palette.
+#            rgb =  palette.[ color_id - 8 ]
+#            rgb_color = sprintf "02x02x02x", rgb
+#
+#            # Minor modification to allow comparison testing. Change RGB colors
+#            # from long format, ffcc00 to short format fc0 used by VML.
+#            rgb_color =~ s/^([0-9a-f])\1([0-9a-f])\2([0-9a-f])\3$/123/
+#
+#            params[color] = sprintf "#s [d]\n", rgb_color, color_id
+
+        # Convert a cell reference to a row and column.
+        if params['start_cell'] is not None:
+            (row, col) = self._substitute_cellref(params['start_cell'])
+            params['start_row'] = row
+            params['start_col'] = col
+
+        # Set the default start cell and offsets for the comment. These are
+        # generally fixed in relation to the parent cell. However there are
+        # some edge cases for cells at the, er, edges.
+        #
+        row_max = self.xls_rowmax
+        col_max = self.xls_colmax
+
+        if params['start_row'] is None:
+            if row == 0:
+                params['start_row'] = 0
+            elif row == row_max - 3:
+                params['start_row'] = row_max - 7
+            elif row == row_max - 2:
+                params['start_row'] = row_max - 6
+            elif row == row_max - 1:
+                params['start_row'] = row_max - 5
+            else:
+                params['start_row'] = row - 1
+
+        if params['y_offset'] is None:
+            if row == 0:
+                params['y_offset'] = 2
+            elif row == row_max - 3:
+                params['y_offset'] = 16
+            elif row == row_max - 2:
+                params['y_offset'] = 16
+            elif row == row_max - 1:
+                params['y_offset'] = 14
+            else:
+                params['y_offset'] = 10
+
+        if params['start_col'] is None:
+            if col == col_max - 3:
+                params['start_col'] = col_max - 6
+            elif col == col_max - 2:
+                params['start_col'] = col_max - 5
+            elif col == col_max - 1:
+                params['start_col'] = col_max - 4
+            else:
+                params['start_col'] = col + 1
+
+        if params['x_offset'] is None:
+            if col == col_max - 3:
+                params['x_offset'] = 49
+            elif col == col_max - 2:
+                params['x_offset'] = 49
+            elif col == col_max - 1:
+                params['x_offset'] = 49
+            else:
+                params['x_offset'] = 15
+
+        # Scale the size of the comment box if required.
+        if params['x_scale']:
+            params['width'] = params['width'] * params['x_scale']
+
+        if params['y_scale']:
+            params['height'] = params['height'] * params['y_scale']
+
+        # Round the dimensions to the nearest pixel.
+        params['width'] = int(0.5 + params['width'])
+        params['height'] = int(0.5 + params['height'])
+
+        # Calculate the positions of comment object.
+        vertices = self._position_object_pixels(
+            params['start_col'], params['start_row'], params['x_offset'],
+            params['y_offset'], params['width'], params['height'])
+
+        # Add the width and height for VML.
+        vertices.append(params['width'])
+        vertices.append(params['height'])
+
+        return ([row, col, string, params['author'],
+                 params['visible'], params['color']] + [vertices])
+
+    #
+    #
+    # Turn the HoH that stores the comments into an array for easier handling
+    # and set the external links for comments and buttons.
+    #
+    def _prepare_vml_objects(self, vml_data_id, vml_shape_id, comment_id):
+        comments = []
+
+        # We sort the comments by row/column but that isn't strictly required.
+        row_nums = sorted(self.comments.keys())
+
+        for row in row_nums:
+            col_nums = sorted(self.comments[row].keys())
+
+            for col in col_nums:
+                # Set comment visibility if required and not user defined.
+                if self.comments_visible:
+                    if self.comments[row][col][4] is None:
+                        self.comments[row][col][4] = 1
+
+                # Set comment author if not already user defined.
+                if self.comments[row][col][3] is None:
+                    self.comments[row][col][3] = self.comments_author
+
+                comments.append(self.comments[row][col])
+
+        self.external_vml_links.append(['/vmlDrawing',
+                                        '../drawings/vmlDrawing'
+                                        + str(comment_id)
+                                        + '.vml'])
+
+        if self.has_comments:
+            self.comments_array = comments
+
+            self.external_comment_links.append(['/comments',
+                                                '../comments'
+                                                + str(comment_id)
+                                                + '.xml'])
+
+        count = len(comments)
+        start_data_id = vml_data_id
+
+        # The VML o:idmap data id contains a comma separated range when there is
+        # more than one 1024 block of comments, like this: data="1,2".
+        for i in range(int(count / 1024)):
+            vml_data_id = "vml_data_id," + (start_data_id + i + 1)
+
+        self.vml_data_id = vml_data_id
+        self.vml_shape_id = vml_shape_id
+
+        return count
 
     ###########################################################################
     #
@@ -2977,8 +3207,7 @@ class Worksheet(xmlwriter.XMLwriter):
             if row_num in self.comments:
                 # Calculate spans for comments.
                 for col_num in range(self.dim_colmin, self.dim_colmax + 1):
-                    if self.comments[row_num][col_num] is not None:
-
+                    if row_num in self.comments and col_num in self.comments[row_num]:
                         if span_min is None:
                             span_min = col_num
                             span_max = col_num
@@ -3577,3 +3806,16 @@ class Worksheet(xmlwriter.XMLwriter):
         attributes = [('r:id', r_id)]
 
         self._xml_empty_tag('drawing', attributes)
+
+    def _write_legacy_drawing(self):
+        # Write the <legacyDrawing> element.
+        if not self.has_vml:
+            return
+
+        # Increment the relationship id for any drawings or comments.
+        self.rel_count += 1
+        r_id = str(self.rel_count)
+
+        attributes = [('r:id', 'rId' + r_id)]
+
+        self._xml_empty_tag('legacyDrawing', attributes)

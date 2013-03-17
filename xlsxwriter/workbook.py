@@ -308,7 +308,7 @@ class Workbook(xmlwriter.XMLwriter):
         # self._prepare_sst_string_data()
 
         # Prepare the worksheet VML elements such as comments and buttons.
-        # self._prepare_vml_objects()
+        self._prepare_vml()
 
         # Set the defined names for the worksheets such as Print Titles.
         self._prepare_defined_names()
@@ -816,6 +816,41 @@ class Workbook(xmlwriter.XMLwriter):
             return self.sheetnames.index(sheetname)
         else:
             return None
+
+    #
+    # Iterate through the worksheets and set up the VML objects.
+    #
+    def _prepare_vml(self):
+        comment_id = 0
+        vml_data_id = 1
+        vml_shape_id = 1024
+        vml_files = 0
+        comment_files = 0
+
+        for sheet in self.worksheets():
+            if not sheet.has_vml:
+                continue
+
+            vml_files += 1
+
+            if sheet.has_comments:
+                comment_files += 1
+
+            comment_id += 1
+            count = sheet._prepare_vml_objects(vml_data_id, vml_shape_id, comment_id)
+
+            # Each VML file should start with a shape id incremented by 1024.
+            vml_data_id += 1 * int((1024 + count) / 1024)
+            vml_shape_id += 1024 * int((1024 + count) / 1024)
+
+        self.num_vml_files = vml_files
+        self.num_comment_files = comment_files
+
+        # Add a font format for cell comments.
+        if comment_files > 0:
+            xf = self.add_format({'font_name': 'Tahoma', 'font_size': 8,
+                                  'color_indexed': 81, 'font_only': True})
+            xf._get_xf_index()
 
     ###########################################################################
     #
