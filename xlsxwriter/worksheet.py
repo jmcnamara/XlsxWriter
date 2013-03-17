@@ -2289,12 +2289,12 @@ class Worksheet(xmlwriter.XMLwriter):
                                          width, height)
 
         # Convert the pixel values to EMUs. See above.
-        x1 *= 9525
-        y1 *= 9525
-        x2 *= 9525
-        y2 *= 9525
-        x_abs *= 9525
-        y_abs *= 9525
+        x1 = int(0.5 + 9525 * x1)
+        y1 = int(0.5 + 9525 * y1)
+        x2 = int(0.5 + 9525 * x2)
+        y2 = int(0.5 + 9525 * y2)
+        x_abs = int(0.5 + 9525 * x_abs)
+        y_abs = int(0.5 + 9525 * y_abs)
 
         return (col_start, row_start, x1, y1, col_end, row_end, x2, y2,
                 x_abs, y_abs)
@@ -2309,7 +2309,7 @@ class Worksheet(xmlwriter.XMLwriter):
     #   |  1  |(A1)._______|______      |
     #   |     |    |              |     |
     #   |     |    |              |     |
-    #   +-----+----|    BITMAP    |-----+
+    #   +-----+----|    OBJECT    |-----+
     #   |     |    |              |     |
     #   |  2  |    |______________.     |
     #   |     |            |        (B2)|
@@ -2328,8 +2328,8 @@ class Worksheet(xmlwriter.XMLwriter):
     # The width and height of the cells that the object occupies can be
     # variable and have to be taken into account.
     #
-    # The values of $col_start and $row_start are passed in from the calling
-    # function. The values of $col_end and $row_end are calculated by
+    # The values of col_start and row_start are passed in from the calling
+    # function. The values of col_end and row_end are calculated by
     # subtracting the width and height of the object from the width and
     # height of the underlying cells.
     #

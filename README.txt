@@ -11,6 +11,7 @@ XlsxWriter supports the following features:
 * Merged cells.
 * Defined names.
 * Autofilters.
+* Worksheet PNG/JPEG images.
 * Rich multi-format strings.
 * Document properties.
 * Worksheet cell protection.
@@ -45,7 +46,7 @@ Here is a small example::
 
 See the full documentation at https://xlsxwriter.readthedocs.org/en/latest/
 
-See the release notes: https://xlsxwriter.readthedocs.org/en/latest/changes.html
+Release notes: https://xlsxwriter.readthedocs.org/en/latest/changes.html
    
 The XlsxWriter module is a port of the Perl Excel::Writer::XLSX module. It is
 a work in progress.

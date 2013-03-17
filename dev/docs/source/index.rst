@@ -14,6 +14,7 @@ XlsxWriter supports the following features in version |version|:
 * Merged cells.
 * Defined names.
 * Autofilters.
+* Worksheet PNG/JPEG images.
 * Rich multi-format strings.
 * Document properties.
 * Worksheet cell protection.

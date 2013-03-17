@@ -1,4 +1,11 @@
 
+Release 0.1.6 - March 17 2013
+-----------------------------
+
+* Added :func:`insert_image` worksheet method to support inserting PNG and
+  JPEG images into a worksheet. See also the example program
+  :ref:`ex_insert_image`.
+
 
 Release 0.1.5 - March 10 2013
 -----------------------------
