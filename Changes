@@ -1,4 +1,13 @@
 
+
+
+Release 0.1.7 - March 18 2013
+-----------------------------
+
+* Added the option to write cell comments to a worksheet. See 
+  :func:`write_comment` and :ref:`cell_comments`.
+
+
 Release 0.1.6 - March 17 2013
 -----------------------------
 

@@ -13,6 +13,7 @@ XlsxWriter supports the following features:
 * Autofilters.
 * Worksheet PNG/JPEG images.
 * Rich multi-format strings.
+* Cell comments.
 * Document properties.
 * Worksheet cell protection.
 * Standard libraries only.

@@ -84,8 +84,8 @@ Status: ongoing.
 | set_optimization()       | **No**     | Yes                 |
 +--------------------------+------------+---------------------+
 
-1. Not required in XlsxWriter. Full RGB colors are supported.
-2. Called ``sheets()`` in Excel::Writer::XLSX.
+1. Not required in XlsxWriter. Full RGB colors are supported. 2. Called
+``sheets()`` in Excel::Writer::XLSX.
 
 
 Worksheet
@@ -120,11 +120,11 @@ Status: ongoing.
 +-------------------------------+------------+---------------------+
 | keep_leading_zeros()          | **No**     | Yes                 |
 +-------------------------------+------------+---------------------+
-| write_comment()               | **No**     | Yes                 |
+| :func:`write_comment()`       | Yes        | Yes                 |
 +-------------------------------+------------+---------------------+
-| show_comments()               | **No**     | Yes                 |
+| :func:`show_comments()`       | Yes        | Yes                 |
 +-------------------------------+------------+---------------------+
-| set_comments_author()         | **No**     | Yes                 |
+| :func:`set_comments_author()` | Yes        | Yes                 |
 +-------------------------------+------------+---------------------+
 | add_write_handler()           | **No**     | Yes                 |
 +-------------------------------+------------+---------------------+

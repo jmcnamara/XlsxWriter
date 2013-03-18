@@ -855,8 +855,8 @@ column has the collapsed ``'+'`` symbol::
 
     worksheet.set_column('H:H', None, None, {'collapsed': 1})
 
-woksheet.insert_image()
------------------------
+worksheet.insert_image()
+------------------------
 
 .. py:function:: insert_image(row, col, image[, options])
 
@@ -927,6 +927,109 @@ to avoid BMP images since they aren't compressed. If used, BMP images must be
 24 bit, true colour, bitmaps.
 
 See also :ref:`ex_insert_image`.
+
+
+worksheet.write_comment()
+-------------------------
+
+.. py:function:: write_comment(row, col, comment[, options])
+
+   Write a comment to a worksheet cell.
+
+   :param row:         The cell row (zero indexed).
+   :param col:         The cell column (zero indexed).
+   :param comment:     String to write to cell.
+   :param options:     Comment formatting options..
+   :type  row:         int
+   :type  col:         int
+   :type  comment:     string
+   :type  options:     dict
+
+The ``write_comment()`` method is used to add a comment to a cell. A comment
+is indicated in Excel by a small red triangle in the upper right-hand corner
+of the cell. Moving the cursor over the red triangle will reveal the comment.
+
+The following example shows how to add a comment to a cell::
+
+    worksheet.write('A1', 'Hello')
+    worksheet.write_comment('A1', 'This is a comment')
+
+.. image:: _static/comments1.png
+
+As usual you can replace the ``row`` and ``col`` parameters with an ``A1``
+cell reference. See :ref:`cell_notation` for more details.
+
+The properties of the cell comment can be modified by passing an optional
+dictionary of key/value pairs to control the format of the comment. For
+example::
+
+    worksheet.write_comment('C3', 'Hello', {'x_scale': 1.2, 'y_scale': 0.8})
+
+Most of these options are quite specific and in general the default comment
+behaviour will be all that you need. However, should you need greater control
+over the format of the cell comment the following options are available::
+
+    author
+    visible
+    x_scale
+    width
+    y_scale
+    height
+    color
+    start_cell
+    start_row
+    start_col
+    x_offset
+    y_offset
+
+For more details see :ref:`cell_comments` and :ref:`ex_comments2` .
+
+worksheet.show_comments()
+-------------------------
+
+.. py:function:: show_comments()
+
+   Make any comments in the worksheet visible.
+
+This method is used to make all cell comments visible when a worksheet is
+opened::
+
+    worksheet.show_comments()
+
+Individual comments can be made visible using the ``visible`` parameter of
+the ``write_comment`` method (see above)::
+
+    worksheet.write_comment('C3', 'Hello', {'visible': True})
+
+If all of the cell comments have been made visible you can hide individual
+comments as follows::
+
+    worksheet.show_comments()
+    worksheet.write_comment('C3', 'Hello', {'visible': False})
+
+For more details see :ref:`cell_comments` and :ref:`ex_comments2` .
+
+
+worksheet.set_comments_author()
+-------------------------------
+
+.. py:function:: set_comments_author(author)
+
+   Set the default author of the cell comments.
+
+   :param string author: Comment author.
+
+This method is used to set the default author of all cell comments::
+
+    worksheet.set_comments_author('John Smith')
+
+Individual comment authors can be set using the ``author`` parameter of the
+``write_comment`` method (see above).
+
+If no author is specified the default comment author name is an empty string.
+
+For more details see :ref:`cell_comments` and :ref:`ex_comments2` .
+
 
 worksheet.get_name()
 --------------------
