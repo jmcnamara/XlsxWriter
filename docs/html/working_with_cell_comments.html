@@ -1,0 +1,275 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Working with Cell Comments &mdash; XlsxWriter Documentation</title>
+    
+    <link rel="stylesheet" href="_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '',
+        VERSION:     '0.1.7',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="XlsxWriter Documentation" href="index.html" />
+    <link rel="next" title="Examples" href="examples.html" />
+    <link rel="prev" title="Working with Autofilters" href="working_with_autofilters.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="examples.html" title="Examples"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="working_with_autofilters.html" title="Working with Autofilters"
+             accesskey="P">previous</a> |</li>
+        <li><a href="index.html">XlsxWriter Documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="working-with-cell-comments">
+<span id="cell-comments"></span><h1>Working with Cell Comments</h1>
+<p>Cell comments are a way of adding notation to cells in Excel. For example:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">worksheet</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s">&#39;A1&#39;</span><span class="p">,</span> <span class="s">&#39;Hello&#39;</span><span class="p">)</span>
+<span class="n">worksheet</span><span class="o">.</span><span class="n">write_comment</span><span class="p">(</span><span class="s">&#39;A1&#39;</span><span class="p">,</span> <span class="s">&#39;This is a comment&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<img alt="_images/comments1.png" src="_images/comments1.png" />
+<div class="section" id="setting-comment-properties">
+<h2>Setting Comment Properties</h2>
+<p>The properties of the cell comment can be modified by passing an optional
+dictionary of key/value pairs to control the format of the comment.
+For example:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">worksheet</span><span class="o">.</span><span class="n">write_comment</span><span class="p">(</span><span class="s">&#39;C3&#39;</span><span class="p">,</span> <span class="s">&#39;Hello&#39;</span><span class="p">,</span> <span class="p">{</span><span class="s">&#39;x_scale&#39;</span><span class="p">:</span> <span class="mf">1.2</span><span class="p">,</span> <span class="s">&#39;y_scale&#39;</span><span class="p">:</span> <span class="mf">0.8</span><span class="p">})</span>
+</pre></div>
+</div>
+<p>The following options are available:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">author</span>
+<span class="n">visible</span>
+<span class="n">x_scale</span>
+<span class="n">width</span>
+<span class="n">y_scale</span>
+<span class="n">height</span>
+<span class="n">color</span>
+<span class="n">start_cell</span>
+<span class="n">start_row</span>
+<span class="n">start_col</span>
+<span class="n">x_offset</span>
+<span class="n">y_offset</span>
+</pre></div>
+</div>
+<p>The options are explained in detail below:</p>
+<ul>
+<li><p class="first"><tt class="docutils literal"><span class="pre">author</span></tt>: This option is used to indicate who is the author of the cell
+comment. Excel displays the author of the comment in the status bar at the
+bottom of the worksheet. This is usually of interest in corporate
+environments where several people might review and provide comments
+to a workbook:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">worksheet</span><span class="o">.</span><span class="n">write_comment</span><span class="p">(</span><span class="s">&#39;C3&#39;</span><span class="p">,</span> <span class="s">&#39;Atonement&#39;</span><span class="p">,</span> <span class="p">{</span><span class="s">&#39;author&#39;</span><span class="p">:</span> <span class="s">&#39;Ian McEwan&#39;</span><span class="p">})</span>
+</pre></div>
+</div>
+<p>The default author for all cell comments in a worksheet can be set using
+the <a class="reference internal" href="worksheet.html#set_comments_author" title="set_comments_author"><tt class="xref py py-func docutils literal"><span class="pre">set_comments_author()</span></tt></a> method:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">worksheet</span><span class="o">.</span><span class="n">set_comments_author</span><span class="p">(</span><span class="s">&#39;John Smith&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</li>
+<li><p class="first"><tt class="docutils literal"><span class="pre">visible</span></tt>: This option is used to make a cell comment visible when the
+worksheet is opened. The default behaviour in Excel is that comments are
+initially hidden. However, it is also possible in Excel to make individual
+comments or all comments visible. In XlsxWriter individual comments can be
+made visible as follows:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">worksheet</span><span class="o">.</span><span class="n">write_comment</span><span class="p">(</span><span class="s">&#39;C3&#39;</span><span class="p">,</span> <span class="s">&#39;Hello&#39;</span><span class="p">,</span> <span class="p">{</span><span class="s">&#39;visible&#39;</span><span class="p">,</span> <span class="bp">True</span><span class="p">})</span>
+</pre></div>
+</div>
+<p>It is possible to make all comments in a worksheet visible using the
+<a class="reference internal" href="worksheet.html#show_comments" title="show_comments"><tt class="xref py py-func docutils literal"><span class="pre">show_comments()</span></tt></a> worksheet method. Alternatively, if all of the cell
+comments have been made visible you can hide individual comments:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">worksheet</span><span class="o">.</span><span class="n">write_comment</span><span class="p">(</span><span class="s">&#39;C3&#39;</span><span class="p">,</span> <span class="s">&#39;Hello&#39;</span><span class="p">,</span> <span class="p">{</span><span class="s">&#39;visible&#39;</span><span class="p">,</span> <span class="bp">False</span><span class="p">})</span>
+</pre></div>
+</div>
+</li>
+<li><p class="first"><tt class="docutils literal"><span class="pre">x_scale</span></tt>: This option is used to set the width of the cell comment box
+as a factor of the default width:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">worksheet</span><span class="o">.</span><span class="n">write_comment</span><span class="p">(</span><span class="s">&#39;C3&#39;</span><span class="p">,</span> <span class="s">&#39;Hello&#39;</span><span class="p">,</span> <span class="p">{</span><span class="s">&#39;x_scale&#39;</span><span class="p">:</span> <span class="mi">2</span>  <span class="p">})</span>
+<span class="n">worksheet</span><span class="o">.</span><span class="n">write_comment</span><span class="p">(</span><span class="s">&#39;C4&#39;</span><span class="p">,</span> <span class="s">&#39;Hello&#39;</span><span class="p">,</span> <span class="p">{</span><span class="s">&#39;x_scale&#39;</span><span class="p">:</span> <span class="mf">4.2</span><span class="p">})</span>
+</pre></div>
+</div>
+</li>
+<li><p class="first"><tt class="docutils literal"><span class="pre">width</span></tt>: This option is used to set the width of the cell comment box
+explicitly in pixels:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">worksheet</span><span class="o">.</span><span class="n">write_comment</span><span class="p">(</span><span class="s">&#39;C3&#39;</span><span class="p">,</span> <span class="s">&#39;Hello&#39;</span><span class="p">,</span> <span class="p">{</span><span class="s">&#39;width&#39;</span><span class="p">:</span> <span class="mi">200</span><span class="p">})</span>
+</pre></div>
+</div>
+</li>
+<li><p class="first"><tt class="docutils literal"><span class="pre">y_scale</span></tt>: This option is used to set the height of the cell comment box
+as a factor of the default height:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">worksheet</span><span class="o">.</span><span class="n">write_comment</span><span class="p">(</span><span class="s">&#39;C3&#39;</span><span class="p">,</span> <span class="s">&#39;Hello&#39;</span><span class="p">,</span> <span class="p">{</span><span class="s">&#39;y_scale&#39;</span><span class="p">:</span> <span class="mi">2</span>  <span class="p">})</span>
+<span class="n">worksheet</span><span class="o">.</span><span class="n">write_comment</span><span class="p">(</span><span class="s">&#39;C4&#39;</span><span class="p">,</span> <span class="s">&#39;Hello&#39;</span><span class="p">,</span> <span class="p">{</span><span class="s">&#39;y_scale&#39;</span><span class="p">:</span> <span class="mf">4.2</span><span class="p">})</span>
+</pre></div>
+</div>
+</li>
+<li><p class="first"><tt class="docutils literal"><span class="pre">height</span></tt>: This option is used to set the height of the cell comment box
+explicitly in pixels:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">worksheet</span><span class="o">.</span><span class="n">write_comment</span><span class="p">(</span><span class="s">&#39;C3&#39;</span><span class="p">,</span> <span class="s">&#39;Hello&#39;</span><span class="p">,</span> <span class="p">{</span><span class="s">&#39;height&#39;</span><span class="p">:</span> <span class="mi">200</span><span class="p">})</span>
+</pre></div>
+</div>
+</li>
+<li><p class="first"><tt class="docutils literal"><span class="pre">color</span></tt>: This option is used to set the background colour of cell
+comment box. You can use one of the named colours recognised by XlsxWriter
+or a Html color. See <a class="reference internal" href="working_with_formats.html#format-colors"><em>Format Colors</em></a>:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">worksheet</span><span class="o">.</span><span class="n">write_comment</span><span class="p">(</span><span class="s">&#39;C3&#39;</span><span class="p">,</span> <span class="s">&#39;Hello&#39;</span><span class="p">,</span> <span class="p">{</span><span class="s">&#39;color&#39;</span><span class="p">:</span> <span class="s">&#39;green&#39;</span>  <span class="p">})</span>
+<span class="n">worksheet</span><span class="o">.</span><span class="n">write_comment</span><span class="p">(</span><span class="s">&#39;C4&#39;</span><span class="p">,</span> <span class="s">&#39;Hello&#39;</span><span class="p">,</span> <span class="p">{</span><span class="s">&#39;color&#39;</span><span class="p">:</span> <span class="s">&#39;#CCFFCC&#39;</span><span class="p">})</span>
+</pre></div>
+</div>
+</li>
+<li><p class="first"><tt class="docutils literal"><span class="pre">start_cell</span></tt>: This option is used to set the cell in which the comment
+will appear. By default Excel displays comments one cell to the right and
+one cell above the cell to which the comment relates. However, you can
+change this behaviour if you wish. In the following example the comment
+which would appear by default in cell <tt class="docutils literal"><span class="pre">D2</span></tt> is moved to <tt class="docutils literal"><span class="pre">E2</span></tt>:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">worksheet</span><span class="o">.</span><span class="n">write_comment</span><span class="p">(</span><span class="s">&#39;C3&#39;</span><span class="p">,</span> <span class="s">&#39;Hello&#39;</span><span class="p">,</span> <span class="p">{</span><span class="s">&#39;start_cell&#39;</span><span class="p">:</span> <span class="s">&#39;E2&#39;</span><span class="p">})</span>
+</pre></div>
+</div>
+</li>
+<li><p class="first"><tt class="docutils literal"><span class="pre">start_row</span></tt>: This option is used to set the row in which the comment
+will appear. See the <tt class="docutils literal"><span class="pre">start_cell</span></tt> option above. The row is zero indexed:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">worksheet</span><span class="o">.</span><span class="n">write_comment</span><span class="p">(</span><span class="s">&#39;C3&#39;</span><span class="p">,</span> <span class="s">&#39;Hello&#39;</span><span class="p">,</span> <span class="p">{</span><span class="s">&#39;start_row&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">})</span>
+</pre></div>
+</div>
+</li>
+<li><p class="first"><tt class="docutils literal"><span class="pre">start_col</span></tt>: This option is used to set the column in which the comment
+will appear. See the <tt class="docutils literal"><span class="pre">start_cell</span></tt> option above. The column is zero
+indexed:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">worksheet</span><span class="o">.</span><span class="n">write_comment</span><span class="p">(</span><span class="s">&#39;C3&#39;</span><span class="p">,</span> <span class="s">&#39;Hello&#39;</span><span class="p">,</span> <span class="p">{</span><span class="s">&#39;start_col&#39;</span><span class="p">:</span> <span class="mi">4</span><span class="p">})</span>
+</pre></div>
+</div>
+</li>
+<li><p class="first"><tt class="docutils literal"><span class="pre">x_offset</span></tt>: This option is used to change the x offset, in pixels,
+of a comment within a cell:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">worksheet</span><span class="o">.</span><span class="n">write_comment</span><span class="p">(</span><span class="s">&#39;C3&#39;</span><span class="p">,</span> <span class="n">comment</span><span class="p">,</span> <span class="p">{</span><span class="s">&#39;x_offset&#39;</span><span class="p">:</span> <span class="mi">30</span><span class="p">})</span>
+</pre></div>
+</div>
+</li>
+<li><p class="first"><tt class="docutils literal"><span class="pre">y_offset</span></tt>: This option is used to change the y offset, in pixels,
+of a comment within a cell:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">worksheet</span><span class="o">.</span><span class="n">write_comment</span><span class="p">(</span><span class="s">&#39;C3&#39;</span><span class="p">,</span> <span class="n">comment</span><span class="p">,</span> <span class="p">{</span><span class="s">&#39;y_offset&#39;</span><span class="p">:</span> <span class="mi">30</span><span class="p">})</span>
+</pre></div>
+</div>
+</li>
+</ul>
+<p>You can apply as many of these options as you require. For a working example of
+these options in use see <a class="reference internal" href="example_comments2.html#ex-comments2"><em>Example: Adding Cell Comments to Worksheets (Advanced)</em></a>.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Excel only displays offset cell comments when they are displayed as
+<tt class="docutils literal"><span class="pre">visible</span></tt>. Excel does <strong>not</strong> display hidden cells as displaced
+when you mouse over them. Please note this when using options that adjust
+the position of the cell comment such as <tt class="docutils literal"><span class="pre">start_cell</span></tt>, <tt class="docutils literal"><span class="pre">start_row</span></tt>,
+<tt class="docutils literal"><span class="pre">start_col</span></tt>, <tt class="docutils literal"><span class="pre">x_offset</span></tt> and <tt class="docutils literal"><span class="pre">y_offset</span></tt>.</p>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last"><strong>Row height and comments</strong>. If you specify the height of a row that
+contains a comment then XlsxWriter will adjust the height of the comment
+to maintain the default or user specified dimensions. However, the height
+of a row can also be adjusted automatically by Excel if the text wrap
+property is set or large fonts are used in the cell. This means that
+the height of the row is unknown to the module at run time and thus
+the comment box is stretched with the row. Use the <tt class="docutils literal"><span class="pre">set_row()</span></tt> method
+to specify the row height explicitly and avoid this problem. See example 8
+of <a class="reference internal" href="example_comments2.html#ex-comments2"><em>Example: Adding Cell Comments to Worksheets (Advanced)</em></a>.</p>
+</div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="index.html">
+              <img class="logo" src="_static/logo.png" alt="Logo"/>
+            </a></p>
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Working with Cell Comments</a><ul>
+<li><a class="reference internal" href="#setting-comment-properties">Setting Comment Properties</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="working_with_autofilters.html"
+                        title="previous chapter">Working with Autofilters</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="examples.html"
+                        title="next chapter">Examples</a></p>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="_sources/working_with_cell_comments.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="examples.html" title="Examples"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="working_with_autofilters.html" title="Working with Autofilters"
+             >previous</a> |</li>
+        <li><a href="index.html">XlsxWriter Documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2013, John McNamara.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.3.
+    </div>
+  </body>
+</html>

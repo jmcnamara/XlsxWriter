@@ -8,7 +8,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>Example: Simple Feature Demonstration &mdash; XlsxWriter Documentation</title>
+    <title>Example: Adding Cell Comments to Worksheets (Simple) &mdash; XlsxWriter Documentation</title>
     
     <link rel="stylesheet" href="_static/default.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
@@ -27,8 +27,8 @@
     <script type="text/javascript" src="_static/doctools.js"></script>
     <link rel="top" title="XlsxWriter Documentation" href="index.html" />
     <link rel="up" title="Examples" href="examples.html" />
-    <link rel="next" title="Example: Dates and Times in Excel" href="example_datetimes.html" />
-    <link rel="prev" title="Example: Hello World" href="example_hello_world.html" /> 
+    <link rel="next" title="Example: Adding Cell Comments to Worksheets (Advanced)" href="example_comments2.html" />
+    <link rel="prev" title="Example: Adding Headers and Footers to Worksheets" href="example_headers_footers.html" /> 
   </head>
   <body>
     <div class="related">
@@ -38,10 +38,10 @@
           <a href="genindex.html" title="General Index"
              accesskey="I">index</a></li>
         <li class="right" >
-          <a href="example_datetimes.html" title="Example: Dates and Times in Excel"
+          <a href="example_comments2.html" title="Example: Adding Cell Comments to Worksheets (Advanced)"
              accesskey="N">next</a> |</li>
         <li class="right" >
-          <a href="example_hello_world.html" title="Example: Hello World"
+          <a href="example_headers_footers.html" title="Example: Adding Headers and Footers to Worksheets"
              accesskey="P">previous</a> |</li>
         <li><a href="index.html">XlsxWriter Documentation</a> &raquo;</li>
           <li><a href="examples.html" accesskey="U">Examples</a> &raquo;</li> 
@@ -53,52 +53,32 @@
         <div class="bodywrapper">
           <div class="body">
             
-  <div class="section" id="example-simple-feature-demonstration">
-<span id="ex-demo"></span><h1>Example: Simple Feature Demonstration</h1>
-<p>This program is an example of writing some of the features of the
-XlsxWriter module.</p>
-<img alt="_images/demo.png" src="_images/demo.png" />
+  <div class="section" id="example-adding-cell-comments-to-worksheets-simple">
+<span id="ex-comments1"></span><h1>Example: Adding Cell Comments to Worksheets (Simple)</h1>
+<p>A simple example of adding cell comments to a worksheet. For more details see
+<a class="reference internal" href="working_with_cell_comments.html#cell-comments"><em>Working with Cell Comments</em></a>.</p>
+<img alt="_images/comments1.png" src="_images/comments1.png" />
 <p>Code:</p>
-<div class="highlight-python"><div class="highlight"><pre><span class="c">##############################################################################</span>
+<div class="highlight-python"><div class="highlight"><pre><span class="c">###############################################################################</span>
 <span class="c">#</span>
-<span class="c"># A simple example of some of the features of the XlsxWriter Python module.</span>
+<span class="c"># An example of writing cell comments to a worksheet using Python and</span>
+<span class="c"># XlsxWriter.</span>
+<span class="c">#</span>
+<span class="c"># For more advanced comment options see comments2.py.</span>
 <span class="c">#</span>
 <span class="c"># Copyright 2013, John McNamara, jmcnamara@cpan.org</span>
 <span class="c">#</span>
 <span class="kn">from</span> <span class="nn">xlsxwriter.workbook</span> <span class="kn">import</span> <span class="n">Workbook</span>
 
-
-<span class="c"># Create an new Excel file and add a worksheet.</span>
-<span class="n">workbook</span> <span class="o">=</span> <span class="n">Workbook</span><span class="p">(</span><span class="s">&#39;demo.xlsx&#39;</span><span class="p">)</span>
+<span class="n">workbook</span> <span class="o">=</span> <span class="n">Workbook</span><span class="p">(</span><span class="s">&#39;comments1.xlsx&#39;</span><span class="p">)</span>
 <span class="n">worksheet</span> <span class="o">=</span> <span class="n">workbook</span><span class="o">.</span><span class="n">add_worksheet</span><span class="p">()</span>
 
-<span class="c"># Widen the first column to make the text clearer.</span>
-<span class="n">worksheet</span><span class="o">.</span><span class="n">set_column</span><span class="p">(</span><span class="s">&#39;A:A&#39;</span><span class="p">,</span> <span class="mi">20</span><span class="p">)</span>
-
-<span class="c"># Add a bold format to use to highlight cells.</span>
-<span class="n">bold</span> <span class="o">=</span> <span class="n">workbook</span><span class="o">.</span><span class="n">add_format</span><span class="p">({</span><span class="s">&#39;bold&#39;</span><span class="p">:</span> <span class="mi">1</span><span class="p">})</span>
-
-<span class="c"># Write some simple text.</span>
 <span class="n">worksheet</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s">&#39;A1&#39;</span><span class="p">,</span> <span class="s">&#39;Hello&#39;</span><span class="p">)</span>
-
-<span class="c"># Text with formatting.</span>
-<span class="n">worksheet</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s">&#39;A2&#39;</span><span class="p">,</span> <span class="s">&#39;World&#39;</span><span class="p">,</span> <span class="n">bold</span><span class="p">)</span>
-
-<span class="c"># Write some numbers, with row/column notation.</span>
-<span class="n">worksheet</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">123</span><span class="p">)</span>
-<span class="n">worksheet</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mf">123.456</span><span class="p">)</span>
+<span class="n">worksheet</span><span class="o">.</span><span class="n">write_comment</span><span class="p">(</span><span class="s">&#39;A1&#39;</span><span class="p">,</span> <span class="s">&#39;This is a comment&#39;</span><span class="p">)</span>
 
 <span class="n">workbook</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
 </pre></div>
 </div>
-<p>Notes:</p>
-<ul class="simple">
-<li>This example includes the use of cell formatting via the <a class="reference internal" href="format.html#format"><em>The Format Class</em></a>.</li>
-<li>Strings and numbers can be written with the same worksheet <a class="reference internal" href="worksheet.html#write" title="write"><tt class="xref py py-func docutils literal"><span class="pre">write()</span></tt></a>
-method.</li>
-<li>Data can be written to cells using Row-Column notation or &#8216;A1&#8217; style
-notation, see <a class="reference internal" href="working_with_cell_notation.html#cell-notation"><em>Working with Cell Notation</em></a>.</li>
-</ul>
 </div>
 
 
@@ -111,14 +91,14 @@ notation, see <a class="reference internal" href="working_with_cell_notation.htm
               <img class="logo" src="_static/logo.png" alt="Logo"/>
             </a></p>
   <h4>Previous topic</h4>
-  <p class="topless"><a href="example_hello_world.html"
-                        title="previous chapter">Example: Hello World</a></p>
+  <p class="topless"><a href="example_headers_footers.html"
+                        title="previous chapter">Example: Adding Headers and Footers to Worksheets</a></p>
   <h4>Next topic</h4>
-  <p class="topless"><a href="example_datetimes.html"
-                        title="next chapter">Example: Dates and Times in Excel</a></p>
+  <p class="topless"><a href="example_comments2.html"
+                        title="next chapter">Example: Adding Cell Comments to Worksheets (Advanced)</a></p>
   <h3>This Page</h3>
   <ul class="this-page-menu">
-    <li><a href="_sources/example_demo.txt"
+    <li><a href="_sources/example_comments1.txt"
            rel="nofollow">Show Source</a></li>
   </ul>
 <div id="searchbox" style="display: none">
@@ -145,10 +125,10 @@ notation, see <a class="reference internal" href="working_with_cell_notation.htm
           <a href="genindex.html" title="General Index"
              >index</a></li>
         <li class="right" >
-          <a href="example_datetimes.html" title="Example: Dates and Times in Excel"
+          <a href="example_comments2.html" title="Example: Adding Cell Comments to Worksheets (Advanced)"
              >next</a> |</li>
         <li class="right" >
-          <a href="example_hello_world.html" title="Example: Hello World"
+          <a href="example_headers_footers.html" title="Example: Adding Headers and Footers to Worksheets"
              >previous</a> |</li>
         <li><a href="index.html">XlsxWriter Documentation</a> &raquo;</li>
           <li><a href="examples.html" >Examples</a> &raquo;</li> 

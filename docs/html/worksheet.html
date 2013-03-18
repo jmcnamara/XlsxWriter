@@ -16,7 +16,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '',
-        VERSION:     '0.1.6',
+        VERSION:     '0.1.7',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -944,8 +944,8 @@ column has the collapsed <tt class="docutils literal"><span class="pre">'+'</spa
 </pre></div>
 </div>
 </div>
-<div class="section" id="woksheet-insert-image">
-<h2>woksheet.insert_image()</h2>
+<div class="section" id="worksheet-insert-image">
+<h2>worksheet.insert_image()</h2>
 <dl class="function">
 <dt id="insert_image">
 <tt class="descname">insert_image</tt><big>(</big><em>row</em>, <em>col</em>, <em>image</em><span class="optional">[</span>, <em>options</em><span class="optional">]</span><big>)</big></dt>
@@ -1017,6 +1017,115 @@ contains a font size that will change the row height.</p>
 to avoid BMP images since they aren&#8217;t compressed. If used, BMP images must be
 24 bit, true colour, bitmaps.</p>
 <p>See also <a class="reference internal" href="example_images.html#ex-insert-image"><em>Example: Inserting images into a worksheet</em></a>.</p>
+</div>
+<div class="section" id="worksheet-write-comment">
+<h2>worksheet.write_comment()</h2>
+<dl class="function">
+<dt id="write_comment">
+<tt class="descname">write_comment</tt><big>(</big><em>row</em>, <em>col</em>, <em>comment</em><span class="optional">[</span>, <em>options</em><span class="optional">]</span><big>)</big></dt>
+<dd><p>Write a comment to a worksheet cell.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>row</strong> (<a class="reference external" href="http://docs.python.org/2/library/functions.html#int" title="(in Python v2.7)"><em>int</em></a>) &#8211; The cell row (zero indexed).</li>
+<li><strong>col</strong> (<a class="reference external" href="http://docs.python.org/2/library/functions.html#int" title="(in Python v2.7)"><em>int</em></a>) &#8211; The cell column (zero indexed).</li>
+<li><strong>comment</strong> (<a class="reference external" href="http://docs.python.org/2/library/string.html#string" title="(in Python v2.7)"><em>string</em></a>) &#8211; String to write to cell.</li>
+<li><strong>options</strong> (<a class="reference external" href="http://docs.python.org/2/library/stdtypes.html#dict" title="(in Python v2.7)"><em>dict</em></a>) &#8211; Comment formatting options..</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<p>The <tt class="docutils literal"><span class="pre">write_comment()</span></tt> method is used to add a comment to a cell. A comment
+is indicated in Excel by a small red triangle in the upper right-hand corner
+of the cell. Moving the cursor over the red triangle will reveal the comment.</p>
+<p>The following example shows how to add a comment to a cell:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">worksheet</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s">&#39;A1&#39;</span><span class="p">,</span> <span class="s">&#39;Hello&#39;</span><span class="p">)</span>
+<span class="n">worksheet</span><span class="o">.</span><span class="n">write_comment</span><span class="p">(</span><span class="s">&#39;A1&#39;</span><span class="p">,</span> <span class="s">&#39;This is a comment&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<img alt="_images/comments1.png" src="_images/comments1.png" />
+<p>As usual you can replace the <tt class="docutils literal"><span class="pre">row</span></tt> and <tt class="docutils literal"><span class="pre">col</span></tt> parameters with an <tt class="docutils literal"><span class="pre">A1</span></tt>
+cell reference. See <a class="reference internal" href="working_with_cell_notation.html#cell-notation"><em>Working with Cell Notation</em></a> for more details.</p>
+<p>The properties of the cell comment can be modified by passing an optional
+dictionary of key/value pairs to control the format of the comment. For
+example:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">worksheet</span><span class="o">.</span><span class="n">write_comment</span><span class="p">(</span><span class="s">&#39;C3&#39;</span><span class="p">,</span> <span class="s">&#39;Hello&#39;</span><span class="p">,</span> <span class="p">{</span><span class="s">&#39;x_scale&#39;</span><span class="p">:</span> <span class="mf">1.2</span><span class="p">,</span> <span class="s">&#39;y_scale&#39;</span><span class="p">:</span> <span class="mf">0.8</span><span class="p">})</span>
+</pre></div>
+</div>
+<p>Most of these options are quite specific and in general the default comment
+behaviour will be all that you need. However, should you need greater control
+over the format of the cell comment the following options are available:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">author</span>
+<span class="n">visible</span>
+<span class="n">x_scale</span>
+<span class="n">width</span>
+<span class="n">y_scale</span>
+<span class="n">height</span>
+<span class="n">color</span>
+<span class="n">start_cell</span>
+<span class="n">start_row</span>
+<span class="n">start_col</span>
+<span class="n">x_offset</span>
+<span class="n">y_offset</span>
+</pre></div>
+</div>
+<p>For more details see <a class="reference internal" href="working_with_cell_comments.html#cell-comments"><em>Working with Cell Comments</em></a> and <a class="reference internal" href="example_comments2.html#ex-comments2"><em>Example: Adding Cell Comments to Worksheets (Advanced)</em></a> .</p>
+</div>
+<div class="section" id="worksheet-show-comments">
+<h2>worksheet.show_comments()</h2>
+<dl class="function">
+<dt id="show_comments">
+<tt class="descname">show_comments</tt><big>(</big><big>)</big></dt>
+<dd><p>Make any comments in the worksheet visible.</p>
+</dd></dl>
+
+<p>This method is used to make all cell comments visible when a worksheet is
+opened:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">worksheet</span><span class="o">.</span><span class="n">show_comments</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>Individual comments can be made visible using the <tt class="docutils literal"><span class="pre">visible</span></tt> parameter of
+the <tt class="docutils literal"><span class="pre">write_comment</span></tt> method (see above):</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">worksheet</span><span class="o">.</span><span class="n">write_comment</span><span class="p">(</span><span class="s">&#39;C3&#39;</span><span class="p">,</span> <span class="s">&#39;Hello&#39;</span><span class="p">,</span> <span class="p">{</span><span class="s">&#39;visible&#39;</span><span class="p">:</span> <span class="bp">True</span><span class="p">})</span>
+</pre></div>
+</div>
+<p>If all of the cell comments have been made visible you can hide individual
+comments as follows:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">worksheet</span><span class="o">.</span><span class="n">show_comments</span><span class="p">()</span>
+<span class="n">worksheet</span><span class="o">.</span><span class="n">write_comment</span><span class="p">(</span><span class="s">&#39;C3&#39;</span><span class="p">,</span> <span class="s">&#39;Hello&#39;</span><span class="p">,</span> <span class="p">{</span><span class="s">&#39;visible&#39;</span><span class="p">:</span> <span class="bp">False</span><span class="p">})</span>
+</pre></div>
+</div>
+<p>For more details see <a class="reference internal" href="working_with_cell_comments.html#cell-comments"><em>Working with Cell Comments</em></a> and <a class="reference internal" href="example_comments2.html#ex-comments2"><em>Example: Adding Cell Comments to Worksheets (Advanced)</em></a> .</p>
+</div>
+<div class="section" id="worksheet-set-comments-author">
+<h2>worksheet.set_comments_author()</h2>
+<dl class="function">
+<dt id="set_comments_author">
+<tt class="descname">set_comments_author</tt><big>(</big><em>author</em><big>)</big></dt>
+<dd><p>Set the default author of the cell comments.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>author</strong> (<a class="reference external" href="http://docs.python.org/2/library/string.html#string" title="(in Python v2.7)"><em>string</em></a>) &#8211; Comment author.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<p>This method is used to set the default author of all cell comments:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">worksheet</span><span class="o">.</span><span class="n">set_comments_author</span><span class="p">(</span><span class="s">&#39;John Smith&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Individual comment authors can be set using the <tt class="docutils literal"><span class="pre">author</span></tt> parameter of the
+<tt class="docutils literal"><span class="pre">write_comment</span></tt> method (see above).</p>
+<p>If no author is specified the default comment author name is an empty string.</p>
+<p>For more details see <a class="reference internal" href="working_with_cell_comments.html#cell-comments"><em>Working with Cell Comments</em></a> and <a class="reference internal" href="example_comments2.html#ex-comments2"><em>Example: Adding Cell Comments to Worksheets (Advanced)</em></a> .</p>
 </div>
 <div class="section" id="worksheet-get-name">
 <h2>worksheet.get_name()</h2>
@@ -1463,7 +1572,10 @@ file format and would take several man months to implement.</p>
 <li><a class="reference internal" href="#worksheet-write-column">worksheet.write_column()</a></li>
 <li><a class="reference internal" href="#worksheet-set-row">worksheet.set_row()</a></li>
 <li><a class="reference internal" href="#worksheet-set-column">worksheet.set_column()</a></li>
-<li><a class="reference internal" href="#woksheet-insert-image">woksheet.insert_image()</a></li>
+<li><a class="reference internal" href="#worksheet-insert-image">worksheet.insert_image()</a></li>
+<li><a class="reference internal" href="#worksheet-write-comment">worksheet.write_comment()</a></li>
+<li><a class="reference internal" href="#worksheet-show-comments">worksheet.show_comments()</a></li>
+<li><a class="reference internal" href="#worksheet-set-comments-author">worksheet.set_comments_author()</a></li>
 <li><a class="reference internal" href="#worksheet-get-name">worksheet.get_name()</a></li>
 <li><a class="reference internal" href="#worksheet-activate">worksheet.activate()</a></li>
 <li><a class="reference internal" href="#worksheet-select">worksheet.select()</a></li>
