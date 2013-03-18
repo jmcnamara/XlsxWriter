@@ -890,10 +890,6 @@ class Worksheet(xmlwriter.XMLwriter):
 
         return 0
 
-    # insert_image( $row, $col, $filename, $x, $y, $x_scale, $y_scale )
-    #
-    # Insert an image into the worksheet.
-    #
     @convert_cell_args
     def insert_image(self, row, col, image, options={}):
         """
@@ -918,19 +914,29 @@ class Worksheet(xmlwriter.XMLwriter):
         self.images.append([row, col, image, x_offset, y_offset,
                             x_scale, y_scale])
 
-    # write_comment($row, $col, $comment)
-    #
-    # Write a comment to the specified row and column (zero indexed).
-    #
-    # Returns  0 : normal termination
-    #         -1 : insufficient number of arguments
-    #         -2 : row or column out of range
-    #
     @convert_cell_args
     def write_comment(self, row, col, comment, options={}):
+        """
+        Write a comment to a worksheet cell.
 
+        Args:
+            row:     The cell row (zero indexed).
+            col:     The cell column (zero indexed).
+            comment: Cell comment. Str.
+            options: Comment formatting options.
+
+        Returns:
+            0:  Success.
+            -1: Row or column is out of worksheet bounds.
+            -2: String longer than 32k characters.
+
+        """
         # Check that row and col are valid and store max and min values
         if self._check_dimensions(row, col):
+            return -1
+
+        # Check that the comment string is < 32767 chars.
+        if len(comment) > self.xls_strmax:
             return -2
 
         self.has_vml = 1
@@ -940,16 +946,30 @@ class Worksheet(xmlwriter.XMLwriter):
         self.comments[row][col] = \
             self._comment_params(row, col, comment, options)
 
-    # Make any comments in the worksheet visible.
-    #
     def show_comments(self):
+        """
+        Make any comments in the worksheet visible.
+
+        Args:
+            None.
+
+        Returns:
+            Nothing.
+
+        """
         self.comments_visible = 1
 
-    #
-    #
-    # Set the default author of the cell comments.
-    #
     def set_comments_author(self, author):
+        """
+        Set the default author of the cell comments.
+
+        Args:
+            author: Comment author name. String.
+
+        Returns:
+            Nothing.
+
+        """
         self.comments_author = author
 
     def get_name(self):
@@ -2388,8 +2408,6 @@ class Worksheet(xmlwriter.XMLwriter):
         x_abs = 0
         y_abs = 0
 
-        is_drawing = 1  # TODO. Fix this for other cases.
-
         # Calculate the absolute x offset of the top-left vertex.
         if self.col_size_changed:
             for col_id in range(1, col_start + 1):
@@ -2439,13 +2457,15 @@ class Worksheet(xmlwriter.XMLwriter):
             height -= self._size_row(row_end)
             row_end += 1
 
+        # TODO, is this required? Write testcase for image that fits cell.
+        #
         # The following is only required for positioning drawing/chart objects
         # and not comments. It is probably the result of a bug.
-        if is_drawing:
-            if width == 0:
-                col_end -= 1
-            if height == 0:
-                row_end -= 1
+        # if is_drawing:
+        #    if width == 0:
+        #        col_end -= 1
+        #    if height == 0:
+        #        row_end -= 1
 
         # The end vertices are whatever is left from the width and height.
         x2 = width
@@ -2498,12 +2518,10 @@ class Worksheet(xmlwriter.XMLwriter):
 
         return pixels
 
-    #
-    #
-    # This method handles the additional optional parameters to write_comment() as
-    # well as calculating the comment object position and vertices.
-    #
     def _comment_params(self, row, col, string, options):
+        # This method handles the additional optional parameters to
+        # write_comment() as well as calculating the comment object
+        # position and vertices.
         default_width = 128
         default_height = 74
 
@@ -2533,46 +2551,21 @@ class Worksheet(xmlwriter.XMLwriter):
         if not params['height']:
             params['height'] = default_height
 
-        # Limit the string to the max number of chars.
-        max_len = 32767
-
-        if len(string) > max_len:
-            pass
-            # string = substr(string, 0, max_len)
-
         # Set the comment background colour.
         params['color'] = xl_color(params['color']).lower()
 
         # Convert from Excel XML style colour to XML html style colour.
         params['color'] = params['color'].replace('ff', '#', 1)
 
-#        color_id = 1 # TODO
-#
-#        if color_id == 0:
-#            params[color] = '#ffffe1'
-#        else:
-#            palette = self.palette
-#
-#            # Get the RGB color from the palette.
-#            rgb =  palette.[ color_id - 8 ]
-#            rgb_color = sprintf "02x02x02x", rgb
-#
-#            # Minor modification to allow comparison testing. Change RGB colors
-#            # from long format, ffcc00 to short format fc0 used by VML.
-#            rgb_color =~ s/^([0-9a-f])\1([0-9a-f])\2([0-9a-f])\3$/123/
-#
-#            params[color] = sprintf "#s [d]\n", rgb_color, color_id
-
         # Convert a cell reference to a row and column.
         if params['start_cell'] is not None:
-            (row, col) = self._substitute_cellref(params['start_cell'])
-            params['start_row'] = row
-            params['start_col'] = col
+            (start_row, start_col) = xl_cell_to_rowcol(params['start_cell'])
+            params['start_row'] = start_row
+            params['start_col'] = start_col
 
         # Set the default start cell and offsets for the comment. These are
         # generally fixed in relation to the parent cell. However there are
         # some edge cases for cells at the, er, edges.
-        #
         row_max = self.xls_rowmax
         col_max = self.xls_colmax
 
@@ -2643,15 +2636,10 @@ class Worksheet(xmlwriter.XMLwriter):
         return ([row, col, string, params['author'],
                  params['visible'], params['color']] + [vertices])
 
-    #
-    #
-    # Turn the HoH that stores the comments into an array for easier handling
-    # and set the external links for comments and buttons.
-    #
     def _prepare_vml_objects(self, vml_data_id, vml_shape_id, comment_id):
         comments = []
-
-        # We sort the comments by row/column but that isn't strictly required.
+        # Sort the comments into row/column order for easier comparison
+        # testing and set the external links for comments and buttons.
         row_nums = sorted(self.comments.keys())
 
         for row in row_nums:
@@ -2685,10 +2673,10 @@ class Worksheet(xmlwriter.XMLwriter):
         count = len(comments)
         start_data_id = vml_data_id
 
-        # The VML o:idmap data id contains a comma separated range when there is
-        # more than one 1024 block of comments, like this: data="1,2".
+        # The VML o:idmap data id contains a comma separated range when there
+        # is more than one 1024 block of comments, like this: data="1,2".
         for i in range(int(count / 1024)):
-            vml_data_id = "vml_data_id," + (start_data_id + i + 1)
+            vml_data_id = '%s,%d' % (vml_data_id, start_data_id + i + 1)
 
         self.vml_data_id = vml_data_id
         self.vml_shape_id = vml_shape_id
@@ -3207,7 +3195,8 @@ class Worksheet(xmlwriter.XMLwriter):
             if row_num in self.comments:
                 # Calculate spans for comments.
                 for col_num in range(self.dim_colmin, self.dim_colmax + 1):
-                    if row_num in self.comments and col_num in self.comments[row_num]:
+                    if (row_num in self.comments
+                            and col_num in self.comments[row_num]):
                         if span_min is None:
                             span_min = col_num
                             span_max = col_num

@@ -20,7 +20,7 @@ class TestCompareXLSXFiles(unittest.TestCase):
     def setUp(self):
         self.maxDiff = None
 
-        filename = 'comment01.xlsx'
+        filename = 'comment04.xlsx'
 
         test_dir = 'xlsxwriter/test/comparison/'
         self.got_filename = test_dir + '_test_' + filename
@@ -37,13 +37,18 @@ class TestCompareXLSXFiles(unittest.TestCase):
 
         workbook = Workbook(filename)
 
-        worksheet = workbook.add_worksheet()
+        worksheet1 = workbook.add_worksheet()
+        worksheet2 = workbook.add_worksheet()
+        worksheet3 = workbook.add_worksheet()
 
-        worksheet.write('A1', 'Foo')
-        worksheet.write_comment('B2', 'Some text')
+        worksheet1.write('A1', 'Foo')
+        worksheet1.write_comment('B2', 'Some text')
 
-        # Set the author to match the target XLSX file.
-        worksheet.set_comments_author('John')
+        worksheet3.write('A1', 'Bar')
+        worksheet3.write_comment('C7', 'More text')
+
+        worksheet1.set_comments_author('John')
+        worksheet3.set_comments_author('John')
 
         workbook.close()
 

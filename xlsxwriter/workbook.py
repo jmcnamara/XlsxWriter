@@ -837,7 +837,9 @@ class Workbook(xmlwriter.XMLwriter):
                 comment_files += 1
 
             comment_id += 1
-            count = sheet._prepare_vml_objects(vml_data_id, vml_shape_id, comment_id)
+            count = sheet._prepare_vml_objects(vml_data_id,
+                                               vml_shape_id,
+                                               comment_id)
 
             # Each VML file should start with a shape id incremented by 1024.
             vml_data_id += 1 * int((1024 + count) / 1024)
