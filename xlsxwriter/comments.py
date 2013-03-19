@@ -7,7 +7,7 @@
 
 import re
 
-import xmlwriter
+from . import xmlwriter
 from .utility import xl_rowcol_to_cell
 
 

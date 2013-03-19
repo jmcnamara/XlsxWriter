@@ -7,6 +7,7 @@
 
 import unittest
 import os
+import sys
 from ...workbook import Workbook
 from ..helperfunctions import _compare_xlsx_files
 
@@ -41,7 +42,11 @@ class TestCompareXLSXFiles(unittest.TestCase):
 
         bold = workbook.add_format({'bold': 1})
         italic = workbook.add_format({'italic': 1})
-        smiley = u"\u263a"
+
+        smiley = "\u263a"
+
+        if sys.version_info[0] == 2:
+            smiley = unichr(9786)
 
         worksheet.write('A1', 'Foo', bold)
         worksheet.write('A2', 'Bar', italic)

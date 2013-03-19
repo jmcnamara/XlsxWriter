@@ -85,6 +85,7 @@ class TestCompareXLSXFiles(unittest.TestCase):
             # Move on to the next worksheet row.
             row += 1
 
+        textfile.close()
         workbook.close()
 
         ####################################################

@@ -713,15 +713,15 @@ class Workbook(xmlwriter.XMLwriter):
         marker3 = (unpack('4s', data[6:10]))[0]
         marker4 = (unpack('2s', data[:2]))[0]
 
-        if marker1 == 'PNG':
+        if marker1 == b'PNG':
             self.image_types['png'] = 1
             (image_type, width, height) = self._process_png(data)
 
-        elif (marker2 == 0xFFD8 and (marker3 == 'JFIF' or marker3 == 'EXIF')):
+        elif (marker2 == 0xFFD8 and (marker3 == b'JFIF' or marker3 == b'EXIF')):
             self.image_types['jpeg'] = 1
             (image_type, width, height) = self._process_jpg(data)
 
-        elif (marker4 == 'BM'):
+        elif (marker4 == b'BM'):
             self.image_types['bmp'] = 1
             (image_type, width, height) = self._process_bmp(data)
 
@@ -735,6 +735,7 @@ class Workbook(xmlwriter.XMLwriter):
         # Store image data to copy it into file container.
         self.images.append([filename, image_type])
 
+        fh.close()
         return (image_type, width, height, image_name)
 
     def _process_png(self, data):

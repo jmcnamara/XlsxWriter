@@ -5,7 +5,7 @@
 # Copyright 2013, John McNamara, jmcnamara@cpan.org
 #
 
-import xmlwriter
+from . import xmlwriter
 
 
 class Drawing(xmlwriter.XMLwriter):
