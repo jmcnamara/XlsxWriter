@@ -17,7 +17,7 @@ XlsxWriter supports the following features:
 * Document properties.
 * Worksheet cell protection.
 * Standard libraries only.
-* Python 2/3 support.
+* Python 2.6, 2.7, 3.1, 3.2 and 3.3 support.
 
 Here is a small example::
 

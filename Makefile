@@ -25,10 +25,14 @@ install:
 	@rm -rf build
 
 testpythons:
+	@echo "Testing with Python 2.6:"
+	@~/.pythonbrew/pythons/Python-2.6/bin/python   -m          discover
 	@echo "Testing with Python 2.7.2:"
 	@~/.pythonbrew/pythons/Python-2.7.2/bin/python -m unittest discover
 	@echo "Testing with Python 2.7.3:"
 	@~/.pythonbrew/pythons/Python-2.7.3/bin/python -m unittest discover
+	@echo "Testing with Python 3.1:"
+	@~/.pythonbrew/pythons/Python-3.1/bin/python   -m          discover
 	@echo "Testing with Python 3.2:"
 	@~/.pythonbrew/pythons/Python-3.2/bin/python   -m unittest discover
 	@echo "Testing with Python 3.3.0:"
