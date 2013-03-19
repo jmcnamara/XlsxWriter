@@ -130,7 +130,7 @@ class TestConvertDateTime(unittest.TestCase):
             got = self.worksheet._convert_date_time(date)
             exp = excel_date[1]
 
-            self.assertAlmostEqual(got, exp, 15)
+            self.assertAlmostEqual(got, exp, places=15)
 
     def test_convert_date_time_seconds_only(self):
         """Test the _convert_date_time() method for datetime seconds."""
@@ -243,7 +243,7 @@ class TestConvertDateTime(unittest.TestCase):
             got = self.worksheet._convert_date_time(date)
             exp = excel_date[1]
 
-            self.assertAlmostEqual(got, exp, 15)
+            self.assertAlmostEqual(got, exp, places=15)
 
 
 if __name__ == '__main__':

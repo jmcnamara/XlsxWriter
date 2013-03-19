@@ -1642,7 +1642,7 @@ class Worksheet(xmlwriter.XMLwriter):
         last_row += 1
 
         # Create the row range area like: $1:$2.
-        area = '${}:${}'.format(first_row, last_row)
+        area = '$%d:$%d' % (first_row, last_row)
 
         # Build up the print titles area "Sheet1!$1:$2"
         sheetname = self._quote_sheetname(self.name)
@@ -2050,7 +2050,7 @@ class Worksheet(xmlwriter.XMLwriter):
         if re.match(r'Sheet\d+', sheetname):
             return sheetname
         else:
-            return "'{}'".format(sheetname)
+            return "'%s'" % sheetname
 
     def _convert_name_area(self, row_num_1, col_num_1, row_num_2, col_num_2):
         # Convert zero indexed rows and columns to the format required by
