@@ -1366,6 +1366,311 @@ class Worksheet(xmlwriter.XMLwriter):
         self.filter_type[col] = 1
         self.filter_on = 1
 
+    # This method handles the interface to Excel conditional formatting.
+    #
+    # We allow the format to be called on one cell or a range of cells. The
+    # hashref contains the formatting parameters and must be the last param:
+    #    conditional_formatting($row, $col, {...})
+    #    conditional_formatting($first_row, $first_col, $last_row, $last_col, {...})
+    #
+    # Returns  0 : normal termination
+    #         -1 : insufficient number of arguments
+    #         -2 : row or column out of range
+    #         -3 : incorrect parameter.
+    #
+    @convert_range_args
+    def conditional_formatting(self, row1, col1, row2, col2, params=None):
+
+        if params is None:
+            params = {}
+
+        user_range = ''
+
+        # List of valid input parameters.
+        valid_parameter = {
+            'type': 1,
+            'format': 1,
+            'criteria': 1,
+            'value': 1,
+            'minimum': 1,
+            'maximum': 1,
+            'min_type': 1,
+            'mid_type': 1,
+            'max_type': 1,
+            'min_value': 1,
+            'mid_value': 1,
+            'max_value': 1,
+            'min_color': 1,
+            'mid_color': 1,
+            'max_color': 1,
+            'bar_color': 1}
+
+        # Check for valid input parameters.
+        for param_key in params.keys():
+            if param_key not in valid_parameter:
+                warn("Unknown parameter '%s' in conditional_formatting()" %
+                     param_key)
+                return -3
+
+        # 'type' is a required parameter.
+        if 'type' not in params:
+            warn("Parameter 'type' is required in conditional_formatting()")
+            return -3
+
+        # List of  valid validation types.
+        valid_type = {
+            'cell': 'cellIs',
+            'date': 'date',
+            'time': 'time',
+            'average': 'aboveAverage',
+            'duplicate': 'duplicateValues',
+            'unique': 'uniqueValues',
+            'top': 'top10',
+            'bottom': 'top10',
+            'text': 'text',
+            'time_period': 'timePeriod',
+            'blanks': 'containsBlanks',
+            'no_blanks': 'notContainsBlanks',
+            'errors': 'containsErrors',
+            'no_errors': 'notContainsErrors',
+            '2_color_scale': '2_color_scale',
+            '3_color_scale': '3_color_scale',
+            'data_bar': 'dataBar',
+            'formula': 'expression'}
+
+        # Check for valid validation types.
+        if params['type'] not in valid_type:
+            warn("Unknown validation type '%s' for parameter 'type' "
+                 "in conditional_formatting()" % params['type'])
+            return -3
+        else:
+            if params['type'] == 'bottom':
+                params['direction'] = 'bottom'
+            params['type'] = valid_type[params['type']]
+
+        # List of valid criteria types.
+        criteria_type = {
+            'between': 'between',
+            'not between': 'notBetween',
+            'equal to': 'equal',
+            '=': 'equal',
+            '==': 'equal',
+            'not equal to': 'notEqual',
+            '!=': 'notEqual',
+            '<>': 'notEqual',
+            'greater than': 'greaterThan',
+            '>': 'greaterThan',
+            'less than': 'lessThan',
+            '<': 'lessThan',
+            'greater than or equal to': 'greaterThanOrEqual',
+            '>=': 'greaterThanOrEqual',
+            'less than or equal to': 'lessThanOrEqual',
+            '<=': 'lessThanOrEqual',
+            'containing': 'containsText',
+            'not containing': 'notContains',
+            'begins with': 'beginsWith',
+            'ends with': 'endsWith',
+            'yesterday': 'yesterday',
+            'today': 'today',
+            'last 7 days': 'last7Days',
+            'last week': 'lastWeek',
+            'this week': 'thisWeek',
+            'continue week': 'continueWeek',
+            'last month': 'lastMonth',
+            'this month': 'thisMonth',
+            'continue month': 'continueMonth'}
+
+        # Check for valid criteria types.
+        if (params['criteria'] is not None and params['criteria'] in criteria_type):
+            params['criteria'] = criteria_type[params['criteria']]
+
+        # Convert date/times value if required.
+        if params['type'] == 'date' or params['type'] == 'time':
+            params['type'] = 'cellIs'
+
+            if params['value'] is not None:
+                date_time = params['value']  # TODO convert datetime.
+
+                if date_time is None:
+                    warn("Invalid date/time value '%s' "
+                         "in conditional_formatting()" % params['value'])
+                    return -3
+                else:
+                    params['value'] = date_time
+
+            if params['minimum'] is not None:
+                date_time = params['minimum']  # TODO convert datetime.
+
+                if date_time is None:
+                    warn("Invalid date/time value 'params[minimum]' "
+                         "in conditional_formatting()")
+                    return -3
+                else:
+                    params['minimum'] = date_time
+
+            if params['maximum'] is not None:
+                date_time = params['maximum']  # TODO convert datetime.
+
+                if date_time is None:
+                    warn("Invalid date/time value 'params[maximum]' "
+                         "in conditional_formatting()")
+                    return -3
+                else:
+                    params['maximum'] = date_time
+
+        # Swap last row/col for first row/col as necessary
+        if row1 > row2:
+            row1, row2 = row2, row1
+
+        if col1 > col2:
+            col1, col2 = col2, col1
+
+        # Set the formatting range.
+        # If the first and last cell are the same write a single cell.
+        if row1 == row2 and col1 == col2:
+            cell_range = xl_rowcol_to_cell(row1, col1)
+            start_cell = cell_range
+        else:
+            cell_range = xl_range(row1, col2, col1, row2)
+            start_cell = xl_rowcol_to_cell(row1, col1)
+
+        # Override with user defined multiple range if provided.
+        if user_range:
+            cell_range = user_range
+
+        # Get the dxf format index.
+        if params['format'] is not None:
+            params['format'] = params['format'].get_dxf_index()
+
+        # Set the priority based on the order of adding.
+        params['priority'] = self.dxf_priority
+        self.dxf_priority += 1
+
+        # Special handling of text criteria.
+        if params['type'] == 'text':
+
+            if params['criteria'] == 'containsText':
+                params['type'] = 'containsText'
+                params['formula'] = ('NOT(ISERROR(SEARCH("%s",%s)))'
+                                     % (params['value'], start_cell))
+            elif params['criteria'] == 'notContains':
+                params['type'] = 'notContainsText'
+                params['formula'] = ('ISERROR(SEARCH("%s",%s))'
+                                     % (params['value'], start_cell))
+            elif params['criteria'] == 'beginsWith':
+                params['type'] = 'beginsWith'
+                params['formula'] = ('LEFT(%s,%d)="%s"'
+                                     % (start_cell,
+                                        len(params['value']),
+                                        params['value']))
+            elif params['criteria'] == 'endsWith':
+                params['type'] = 'endsWith'
+                params['formula'] = ('RIGHT(s,d)="s"'
+                                     % (start_cell,
+                                        len(params['value']),
+                                        params['value']))
+            else:
+                warn("Invalid text criteria 'params['criteria']' "
+                     "in conditional_formatting()")
+
+        # Special handling of time time_period criteria.
+        if params['type'] == 'timePeriod':
+            if params['criteria'] == 'yesterday':
+                params['formula'] = 'FLOOR(%s,1)=TODAY()-1' % start_cell
+            elif params['criteria'] == 'today':
+                params['formula'] = 'FLOOR(%s,1)=TODAY()' % start_cell
+            elif params['criteria'] == 'tomorrow':
+                params['formula'] = 'FLOOR(%s,1)=TODAY()+1' % start_cell
+            elif params['criteria'] == 'last7Days':
+                params['formula'] = 'AND(TODAY()-FLOOR(%s,1)<=6,FLOOR(%s,1)<=TODAY())' % (start_cell, start_cell)
+            elif params['criteria'] == 'lastWeek':
+                params['formula'] = ('AND(TODAY()-ROUNDDOWN(%s,0)>=(WEEKDAY(TODAY())),'
+                                     'TODAY()-ROUNDDOWN(%s,0)<(WEEKDAY(TODAY())+7))' % (start_cell, start_cell))
+            elif params['criteria'] == 'thisWeek':
+                params['formula'] = ('AND(TODAY()-ROUNDDOWN(%s,0)<=WEEKDAY(TODAY())-1,'
+                                     'ROUNDDOWN(%s,0)-TODAY()<=7-WEEKDAY(TODAY()))' % (start_cell, start_cell))
+            elif params['criteria'] == 'continueWeek':
+                params['formula'] = ('AND(ROUNDDOWN(%s,0)-TODAY()>(7-WEEKDAY(TODAY())),'
+                                     'ROUNDDOWN(%s,0)-TODAY()<(15-WEEKDAY(TODAY())))' % (start_cell, start_cell))
+            elif params['criteria'] == 'lastMonth':
+                params['formula'] = ('AND(MONTH(%s)=MONTH(TODAY())-1,OR(YEAR(%s)=YEAR(TODAY()),'
+                                     'AND(MONTH(%s)=1,YEAR(A1)=YEAR(TODAY())-1)))' % (start_cell, start_cell))
+            elif params['criteria'] == 'thisMonth':
+                params['formula'] = 'AND(MONTH(%s)=MONTH(TODAY()),YEAR(%s)=YEAR(TODAY()))' % (start_cell, start_cell)
+            elif params['criteria'] == 'continueMonth':
+                params['formula'] = ('AND(MONTH(%s)=MONTH(TODAY())+1,OR(YEAR(%s)=YEAR(TODAY()),'
+                                     'AND(MONTH(%s)=12,YEAR(%s)=YEAR(TODAY())+1)))' % (start_cell, start_cell, start_cell))
+            else:
+                warn("Invalid time_period criteria 'params['criteria']' "
+                     "in conditional_formatting()")
+
+        # Special handling of blanks/error types.
+        if params['type'] == 'containsBlanks':
+            params['formula'] = 'LEN(TRIM(%s))=0' % start_cell
+
+        if params['type'] == 'notContainsBlanks':
+            params['formula'] = 'LEN(TRIM(%s))>0' % start_cell
+
+        if params['type'] == 'containsErrors':
+            params['formula'] = 'ISERROR(%s)' % start_cell
+
+        if params['type'] == 'notContainsErrors':
+            params['formula'] = 'NOT(ISERROR(%s))' % start_cell
+
+        # Special handling for 2 color scale.
+        if params['type'] == '2_color_scale':
+            params['type'] = 'colorScale'
+
+            # Color scales don't use any additional formatting.
+            params['format'] = None
+
+            # Turn off 3 color parameters.
+            params['mid_type'] = None
+            params['mid_color'] = None
+
+            # if params['min_type'] is
+            params.setdefault('min_type', 'min')
+            params.setdefault('max_type', 'max')
+            params.setdefault('min_value', 0)
+            params.setdefault('max_value', 0)
+            params.setdefault('min_color', '#FF7128')
+            params.setdefault('max_color', '#FFEF9C')
+
+        # Special handling for 3 color scale.
+        if params['type'] == '3_color_scale':
+            params['type'] = 'colorScale'
+
+            # Color scales don't use any additional formatting.
+            params['format'] = None
+
+            params.setdefault('min_type', 'min')
+            params.setdefault('mid_type', 'percentile')
+            params.setdefault('max_type', 'max')
+            params.setdefault('min_value', 0)
+            if not params['mid_value'] is not None:
+                params['mid_value'] = 50
+            params.setdefault('max_value', 0)
+            params.setdefault('min_color', '#F8696B')
+            params.setdefault('mid_color', '#FFEB84')
+            params.setdefault('max_color', '#63BE7B')
+
+        # Special handling for data bar.
+        if params['type'] == 'dataBar':
+
+            # Color scales don't use any additional formatting.
+            params['format'] = None
+
+            params.setdefault('min_type', 'min')
+            params.setdefault('max_type', 'max')
+            params.setdefault('min_value', 0)
+            params.setdefault('max_value', 0)
+            params.setdefault('bar_color', '#638EC6')
+
+            # bar_color] = self._get_palette_color(params['bar_color'])
+
+        # Store the validation information until we close the worksheet.
+        self.cond_formats[cell_range] = [params]
+
     def set_zoom(self, zoom=100):
         """
         Set the worksheet zoom factor.
@@ -1899,7 +2204,7 @@ class Worksheet(xmlwriter.XMLwriter):
         self._write_merge_cells()
 
         # Write the conditional formats.
-        # self._write_conditional_formats()
+        self._write_conditional_formats()
 
         # Write the dataValidations element.
         # self._write_data_validations()
@@ -3808,3 +4113,282 @@ class Worksheet(xmlwriter.XMLwriter):
         attributes = [('r:id', 'rId' + r_id)]
 
         self._xml_empty_tag('legacyDrawing', attributes)
+
+    def _write_data_validations(self):
+        # Write the <dataValidations> element.
+        validations = self.validations
+        count = validations
+
+        if not count:
+            return
+
+        attributes = [('count', count)]
+
+        self._xml_start_tag('dataValidations', attributes)
+
+        for validation in (validations):
+
+            # Write the dataValidation element.
+            self._write_data_validation(validation)
+
+        self._xml_end_tag('dataValidations')
+
+    def _write_data_validation(self, param):
+        # Write the <dataValidation> element.
+        sqref = ''
+        attributes = []
+
+        # Set the cell range(s) for the data validation.
+        for cells in (param['cells']):
+
+            # Add a space between multiple cell ranges.
+            if sqref != '':
+                sqref += ' '
+
+            (row_first, col_first, row_last, col_last) = cells
+
+            # Swap last row/col for first row/col as necessary
+            if row_first > row_last:
+                (row_first, row_last) = (row_last, row_first)
+
+            if col_first > col_last:
+                (col_first, col_last) = (col_last, col_first)
+
+            # If the first and last cell are the same write a single cell.
+            if (row_first == row_last) and (col_first == col_last):
+                sqref += xl_rowcol_to_cell(row_first, col_first)
+            else:
+                sqref += xl_range(row_first, row_last, col_first, col_last)
+
+        attributes.append(('type', param['validate']))
+
+        if param['criteria'] != 'between':
+            attributes.append(('operator', param['criteria']))
+
+        if param['error_type']:
+            if param['error_type'] == 1:
+                attributes.append(('errorStyle', 'warning'))
+            if param['error_type'] == 2:
+                attributes.append(('errorStyle', 'information'))
+
+        if param['ignore_blank']:
+            attributes.append(('allowBlank', 1))
+        if not param['dropdown']:
+            attributes.append(('showDropDown', 1))
+        if param['show_input']:
+            attributes.append(('showInputMessage', 1))
+        if param['show_error']:
+            attributes.append(('showErrorMessage', 1))
+
+        if param['error_title']:
+            attributes.append(('errorTitle', param['error_title']))
+
+        if param['error_message']:
+            attributes.append(('error', param['error_message']))
+
+        if param['input_title']:
+            attributes.append(('promptTitle', param['input_title']))
+
+        if param['input_message']:
+            attributes.append(('prompt', param['input_message']))
+
+        attributes.append(('sqref', sqref))
+
+        self._xml_start_tag('dataValidation', attributes)
+
+        # Write the formula1 element.
+        self._write_formula_1(param['value'])
+
+        # Write the formula2 element.
+        if param['maximum'] is not None:
+            self._write_formula_2(param['maximum'])
+
+        self._xml_end_tag('dataValidation')
+
+    def _write_formula_1(self, formula):
+        # Write the <formula1> element.
+
+#        # Convert a list array ref into a comma separated string.
+#        if ref formula eq 'ARRAY':
+#            formula = join ',', @formula
+#            formula = qq("formula")
+#
+#        formula =~ s/^=//; # Remove formula symbol.
+
+        self._xml_data_element('formula1', formula)
+
+    def _write_formula_2(self, formula):
+        # Write the <formula2> element.
+#        formula =~ s/^=//; # Remove formula symbol.
+
+        self._xml_data_element('formula2', formula)
+
+    #
+    #
+    # Write the Worksheet conditional formats.
+    #
+    def _write_conditional_formats(self):
+        ranges = self.cond_formats.keys()  # TODO sort
+
+        if not ranges:
+            return
+
+        for cond_range in (ranges):
+            self._write_conditional_formatting(cond_range,
+                                               self.cond_formats[cond_range])
+
+    def _write_conditional_formatting(self, cond_range, params):
+        # Write the <conditionalFormatting> element.
+        attributes = [('sqref', cond_range)]
+
+        self._xml_start_tag('conditionalFormatting', attributes)
+
+        for param in (params):
+
+            # Write the cfRule element.
+            self._write_cf_rule(param)
+
+        self._xml_end_tag('conditionalFormatting')
+
+    def _write_cf_rule(self, params):
+        # Write the <cfRule> element.
+        attributes = [('type', params['type'])]
+
+        if params['format'] is not None:
+            attributes.append(('dxfId', params['format']))
+
+        attributes.append(('priority', params['priority']))
+
+        if params['type'] == 'cellIs':
+            attributes.append(('operator', params['criteria']))
+
+            self._xml_start_tag('cfRule', attributes)
+
+            if 'minimum' in params and 'maximum' in params:
+                self._write_formula(params['minimum'])
+                self._write_formula(params['maximum'])
+            else:
+                self._write_formula(params['value'])
+
+            self._xml_end_tag('cfRule')
+        elif params['type'] == 'aboveAverage':
+            if params['criteria'] == '/below/':
+                attributes.append(('aboveAverage', 0))
+
+            if params['criteria'] == '/equal/':
+                attributes.append(('equalAverage', 1))
+
+            if params['criteria'] == '/([123]) std dev/':
+                attributes.append(('stdDev', 1))
+
+            self._xml_empty_tag('cfRule', attributes)
+        elif params['type'] == 'top10':
+            if params['criteria'] is not None and params['criteria'] == '%':
+                attributes.append(('percent', 1))
+
+            if params['direction']:
+                attributes.append(('bottom', 1))
+
+            rank = params['value'] or 10
+            attributes.append(('rank', rank))
+
+            self._xml_empty_tag('cfRule', attributes)
+        elif params['type'] == 'duplicateValues':
+            self._xml_empty_tag('cfRule', attributes)
+        elif params['type'] == 'uniqueValues':
+            self._xml_empty_tag('cfRule', attributes)
+        elif (params['type'] == 'containsText'
+              or params['type'] == 'notContainsText'
+              or params['type'] == 'beginsWith'
+              or params['type'] == 'endsWith'):
+            attributes.append(('operator', params['criteria']))
+            attributes.append(('text', params['value']))
+
+            self._xml_start_tag('cfRule', attributes)
+            self._write_formula(params['formula'])
+            self._xml_end_tag('cfRule')
+        elif params['type'] == 'timePeriod':
+            attributes.append(('timePeriod', params['criteria']))
+
+            self._xml_start_tag('cfRule', attributes)
+            self._write_formula(params['formula'])
+            self._xml_end_tag('cfRule')
+        elif (params['type'] == 'containsBlanks'
+              or params['type'] == 'notContainsBlanks'
+              or params['type'] == 'containsErrors'
+              or params['type'] == 'notContainsErrors'):
+            self._xml_start_tag('cfRule', attributes)
+            self._write_formula(params['formula'])
+            self._xml_end_tag('cfRule')
+        elif params['type'] == 'colorScale':
+
+            self._xml_start_tag('cfRule', attributes)
+            self._write_color_scale(params)
+            self._xml_end_tag('cfRule')
+        elif params['type'] == 'dataBar':
+
+            self._xml_start_tag('cfRule', attributes)
+            self._write_data_bar(params)
+            self._xml_end_tag('cfRule')
+        elif params['type'] == 'expression':
+
+            self._xml_start_tag('cfRule', attributes)
+            self._write_formula(params['criteria'])
+            self._xml_end_tag('cfRule')
+
+    def _write_formula(self, data):
+        # Write the <formula> element.
+
+        # Remove equality from formula.
+        # data =~ s/^=//
+
+        self._xml_data_element('formula', data)
+
+    def _write_color_scale(self, param):
+        # Write the <colorScale> element.
+
+        self._xml_start_tag('colorScale')
+
+        self._write_cfvo(param['min_type'], param['min_value'])
+
+        if param['mid_type'] is not None:
+            self._write_cfvo(param['mid_type'], param['mid_value'])
+
+        self._write_cfvo(param['max_type'], param['max_value'])
+
+        self._write_color('rgb', param['min_color'])
+
+        if param['mid_color'] is not None:
+            self._write_color('rgb', param['mid_color'])
+
+        self._write_color('rgb', param['max_color'])
+
+        self._xml_end_tag('colorScale')
+
+    def _write_data_bar(self, param):
+        # Write the <dataBar> element.
+
+        self._xml_start_tag('dataBar')
+
+        self._write_cfvo(param['min_type'], param['min_value'])
+        self._write_cfvo(param['max_type'], param['max_value'])
+
+        self._write_color('rgb', param['bar_color'])
+
+        self._xml_end_tag('dataBar')
+
+    def _write_cfvo(self, cf_type, val):
+        # Write the <cfvo> element.
+
+        attributes = [
+            ('type', cf_type),
+            ('val'), val
+        ]
+
+        self._xml_empty_tag('cfvo', attributes)
+
+    def _write_color(self, name, value):
+        # Write the <color> element.
+        attributes = [(name, value)]
+
+        self._xml_empty_tag('color', attributes)

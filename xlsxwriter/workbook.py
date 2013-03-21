@@ -717,7 +717,8 @@ class Workbook(xmlwriter.XMLwriter):
             self.image_types['png'] = 1
             (image_type, width, height) = self._process_png(data)
 
-        elif (marker2 == 0xFFD8 and (marker3 == b'JFIF' or marker3 == b'EXIF')):
+        elif (marker2 == 0xFFD8 and
+              (marker3 == b'JFIF' or marker3 == b'EXIF')):
             self.image_types['jpeg'] = 1
             (image_type, width, height) = self._process_jpg(data)
 
