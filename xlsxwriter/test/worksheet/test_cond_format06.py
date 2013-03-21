@@ -30,10 +30,31 @@ class TestAssembleWorksheet(unittest.TestCase):
         worksheet.write('A3', 30)
         worksheet.write('A4', 40)
 
-        worksheet.conditional_formatting('A1:A1', {'type': 'cell',
-                                                   'criteria': 'greater than',
-                                                   'value': 5,
-                                                   'format': None})
+        worksheet.conditional_formatting('A1:A4',
+                                         {'type': 'top',
+                                          'value': 10,
+                                          'format': None,
+                                          })
+
+        worksheet.conditional_formatting('A1:A4',
+                                         {'type': 'bottom',
+                                          'value': 10,
+                                          'format': None,
+                                          })
+
+        worksheet.conditional_formatting('A1:A4',
+                                         {'type': 'top',
+                                          'criteria': '%',
+                                          'value': 10,
+                                          'format': None,
+                                          })
+
+        worksheet.conditional_formatting('A1:A4',
+                                         {'type': 'bottom',
+                                          'criteria': '%',
+                                          'value': 10,
+                                          'format': None,
+                                          })
 
         worksheet._assemble_xml_file()
 
@@ -67,10 +88,11 @@ class TestAssembleWorksheet(unittest.TestCase):
                       </c>
                     </row>
                   </sheetData>
-                  <conditionalFormatting sqref="A1">
-                    <cfRule type="cellIs" priority="1" operator="greaterThan">
-                      <formula>5</formula>
-                    </cfRule>
+                  <conditionalFormatting sqref="A1:A4">
+                    <cfRule type="top10" priority="1" rank="10"/>
+                    <cfRule type="top10" priority="2" bottom="1" rank="10"/>
+                    <cfRule type="top10" priority="3" percent="1" rank="10"/>
+                    <cfRule type="top10" priority="4" percent="1" bottom="1" rank="10"/>
                   </conditionalFormatting>
                   <pageMargins left="0.7" right="0.7" top="0.75" bottom="0.75" header="0.3" footer="0.3"/>
                 </worksheet>

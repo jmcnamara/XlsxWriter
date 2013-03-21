@@ -1368,11 +1368,6 @@ class Worksheet(xmlwriter.XMLwriter):
 
     # This method handles the interface to Excel conditional formatting.
     #
-    # We allow the format to be called on one cell or a range of cells. The
-    # hashref contains the formatting parameters and must be the last param:
-    #    conditional_formatting($row, $col, {...})
-    #    conditional_formatting($first_row, $first_col, $last_row, $last_col, {...})
-    #
     # Returns  0 : normal termination
     #         -1 : insufficient number of arguments
     #         -2 : row or column out of range
@@ -1481,42 +1476,40 @@ class Worksheet(xmlwriter.XMLwriter):
             'continue month': 'continueMonth'}
 
         # Check for valid criteria types.
-        if (params['criteria'] is not None and params['criteria'] in criteria_type):
+        if ('criteria' in params and params['criteria'] in criteria_type):
             params['criteria'] = criteria_type[params['criteria']]
 
         # Convert date/times value if required.
         if params['type'] == 'date' or params['type'] == 'time':
             params['type'] = 'cellIs'
 
-            if params['value'] is not None:
-                date_time = params['value']  # TODO convert datetime.
-
-                if date_time is None:
-                    warn("Invalid date/time value '%s' "
-                         "in conditional_formatting()" % params['value'])
+            if 'value' in params:
+                if not isinstance(params['value'], datetime.datetime):
+                    warn("Conditional format 'value' must be a "
+                         "datetime object.")
                     return -3
                 else:
-                    params['value'] = date_time
+                    date_time = self._convert_date_time(params['value'])
+                    # Format date number to the same precision as Excel.
+                    params['value'] = "%.15g" % date_time
 
-            if params['minimum'] is not None:
-                date_time = params['minimum']  # TODO convert datetime.
-
-                if date_time is None:
-                    warn("Invalid date/time value 'params[minimum]' "
-                         "in conditional_formatting()")
+            if 'minimum' in params:
+                if not isinstance(params['minimum'], datetime.datetime):
+                    warn("Conditional format 'minimum' must be a "
+                         "datetime object.")
                     return -3
                 else:
-                    params['minimum'] = date_time
+                    date_time = self._convert_date_time(params['minimum'])
+                    params['minimum'] = "%.15g" % date_time
 
-            if params['maximum'] is not None:
-                date_time = params['maximum']  # TODO convert datetime.
-
-                if date_time is None:
-                    warn("Invalid date/time value 'params[maximum]' "
-                         "in conditional_formatting()")
+            if 'maximum' in params:
+                if not isinstance(params['maximum'], datetime.datetime):
+                    warn("Conditional format 'maximum' must be a "
+                         "datetime object.")
                     return -3
                 else:
-                    params['maximum'] = date_time
+                    date_time = self._convert_date_time(params['maximum'])
+                    params['maximum'] = "%.15g" % date_time
 
         # Swap last row/col for first row/col as necessary
         if row1 > row2:
@@ -1531,7 +1524,7 @@ class Worksheet(xmlwriter.XMLwriter):
             cell_range = xl_rowcol_to_cell(row1, col1)
             start_cell = cell_range
         else:
-            cell_range = xl_range(row1, col2, col1, row2)
+            cell_range = xl_range(row1, col1, row2, col2)
             start_cell = xl_rowcol_to_cell(row1, col1)
 
         # Override with user defined multiple range if provided.
@@ -1539,7 +1532,7 @@ class Worksheet(xmlwriter.XMLwriter):
             cell_range = user_range
 
         # Get the dxf format index.
-        if params['format'] is not None:
+        if format in params and params['format'] is not None:
             params['format'] = params['format'].get_dxf_index()
 
         # Set the priority based on the order of adding.
@@ -1565,7 +1558,7 @@ class Worksheet(xmlwriter.XMLwriter):
                                         params['value']))
             elif params['criteria'] == 'endsWith':
                 params['type'] = 'endsWith'
-                params['formula'] = ('RIGHT(s,d)="s"'
+                params['formula'] = ('RIGHT(%s,%d)="%s"'
                                      % (start_cell,
                                         len(params['value']),
                                         params['value']))
@@ -1575,31 +1568,56 @@ class Worksheet(xmlwriter.XMLwriter):
 
         # Special handling of time time_period criteria.
         if params['type'] == 'timePeriod':
+
             if params['criteria'] == 'yesterday':
                 params['formula'] = 'FLOOR(%s,1)=TODAY()-1' % start_cell
+
             elif params['criteria'] == 'today':
                 params['formula'] = 'FLOOR(%s,1)=TODAY()' % start_cell
+
             elif params['criteria'] == 'tomorrow':
                 params['formula'] = 'FLOOR(%s,1)=TODAY()+1' % start_cell
+
             elif params['criteria'] == 'last7Days':
-                params['formula'] = 'AND(TODAY()-FLOOR(%s,1)<=6,FLOOR(%s,1)<=TODAY())' % (start_cell, start_cell)
+                params['formula'] = \
+                    ('AND(TODAY()-FLOOR(%s,1)<=6,FLOOR(%s,1)<=TODAY())' %
+                    (start_cell, start_cell))
+
             elif params['criteria'] == 'lastWeek':
-                params['formula'] = ('AND(TODAY()-ROUNDDOWN(%s,0)>=(WEEKDAY(TODAY())),'
-                                     'TODAY()-ROUNDDOWN(%s,0)<(WEEKDAY(TODAY())+7))' % (start_cell, start_cell))
+                params['formula'] = \
+                    ('AND(TODAY()-ROUNDDOWN(%s,0)>=(WEEKDAY(TODAY())),'
+                     'TODAY()-ROUNDDOWN(%s,0)<(WEEKDAY(TODAY())+7))' %
+                     (start_cell, start_cell))
+
             elif params['criteria'] == 'thisWeek':
-                params['formula'] = ('AND(TODAY()-ROUNDDOWN(%s,0)<=WEEKDAY(TODAY())-1,'
-                                     'ROUNDDOWN(%s,0)-TODAY()<=7-WEEKDAY(TODAY()))' % (start_cell, start_cell))
+                params['formula'] = \
+                    ('AND(TODAY()-ROUNDDOWN(%s,0)<=WEEKDAY(TODAY())-1,'
+                     'ROUNDDOWN(%s,0)-TODAY()<=7-WEEKDAY(TODAY()))' %
+                     (start_cell, start_cell))
+
             elif params['criteria'] == 'continueWeek':
-                params['formula'] = ('AND(ROUNDDOWN(%s,0)-TODAY()>(7-WEEKDAY(TODAY())),'
-                                     'ROUNDDOWN(%s,0)-TODAY()<(15-WEEKDAY(TODAY())))' % (start_cell, start_cell))
+                params['formula'] = \
+                    ('AND(ROUNDDOWN(%s,0)-TODAY()>(7-WEEKDAY(TODAY())),'
+                     'ROUNDDOWN(%s,0)-TODAY()<(15-WEEKDAY(TODAY())))' %
+                     (start_cell, start_cell))
+
             elif params['criteria'] == 'lastMonth':
-                params['formula'] = ('AND(MONTH(%s)=MONTH(TODAY())-1,OR(YEAR(%s)=YEAR(TODAY()),'
-                                     'AND(MONTH(%s)=1,YEAR(A1)=YEAR(TODAY())-1)))' % (start_cell, start_cell))
+                params['formula'] = \
+                    ('AND(MONTH(%s)=MONTH(TODAY())-1,OR(YEAR(%s)=YEAR('
+                     'TODAY()),AND(MONTH(%s)=1,YEAR(A1)=YEAR(TODAY())-1)))' %
+                     (start_cell, start_cell, start_cell))
+
             elif params['criteria'] == 'thisMonth':
-                params['formula'] = 'AND(MONTH(%s)=MONTH(TODAY()),YEAR(%s)=YEAR(TODAY()))' % (start_cell, start_cell)
+                params['formula'] = \
+                    ('AND(MONTH(%s)=MONTH(TODAY()),YEAR(%s)=YEAR(TODAY()))' %
+                    (start_cell, start_cell))
+
             elif params['criteria'] == 'continueMonth':
-                params['formula'] = ('AND(MONTH(%s)=MONTH(TODAY())+1,OR(YEAR(%s)=YEAR(TODAY()),'
-                                     'AND(MONTH(%s)=12,YEAR(%s)=YEAR(TODAY())+1)))' % (start_cell, start_cell, start_cell))
+                params['formula'] = \
+                    ('AND(MONTH(%s)=MONTH(TODAY())+1,OR(YEAR(%s)=YEAR('
+                     'TODAY()),AND(MONTH(%s)=12,YEAR(%s)=YEAR(TODAY())+1)))' %
+                     (start_cell, start_cell, start_cell, start_cell))
+
             else:
                 warn("Invalid time_period criteria 'params['criteria']' "
                      "in conditional_formatting()")
@@ -1628,13 +1646,15 @@ class Worksheet(xmlwriter.XMLwriter):
             params['mid_type'] = None
             params['mid_color'] = None
 
-            # if params['min_type'] is
             params.setdefault('min_type', 'min')
             params.setdefault('max_type', 'max')
             params.setdefault('min_value', 0)
             params.setdefault('max_value', 0)
             params.setdefault('min_color', '#FF7128')
             params.setdefault('max_color', '#FFEF9C')
+
+            params['min_color'] = xl_color(params['min_color'])
+            params['max_color'] = xl_color(params['max_color'])
 
         # Special handling for 3 color scale.
         if params['type'] == '3_color_scale':
@@ -1647,12 +1667,18 @@ class Worksheet(xmlwriter.XMLwriter):
             params.setdefault('mid_type', 'percentile')
             params.setdefault('max_type', 'max')
             params.setdefault('min_value', 0)
-            if not params['mid_value'] is not None:
-                params['mid_value'] = 50
             params.setdefault('max_value', 0)
             params.setdefault('min_color', '#F8696B')
             params.setdefault('mid_color', '#FFEB84')
             params.setdefault('max_color', '#63BE7B')
+
+            params['min_color'] = xl_color(params['min_color'])
+            params['mid_color'] = xl_color(params['mid_color'])
+            params['max_color'] = xl_color(params['max_color'])
+
+            # Set a default mid value.
+            if not 'mid_value' in params:
+                params['mid_value'] = 50
 
         # Special handling for data bar.
         if params['type'] == 'dataBar':
@@ -1666,10 +1692,13 @@ class Worksheet(xmlwriter.XMLwriter):
             params.setdefault('max_value', 0)
             params.setdefault('bar_color', '#638EC6')
 
-            # bar_color] = self._get_palette_color(params['bar_color'])
+            params['bar_color'] = xl_color(params['bar_color'])
 
         # Store the validation information until we close the worksheet.
-        self.cond_formats[cell_range] = [params]
+        if cell_range in self.cond_formats:
+            self.cond_formats[cell_range].append(params)
+        else:
+            self.cond_formats[cell_range] = [params]
 
     def set_zoom(self, zoom=100):
         """
@@ -4213,22 +4242,24 @@ class Worksheet(xmlwriter.XMLwriter):
 #            formula = join ',', @formula
 #            formula = qq("formula")
 #
-#        formula =~ s/^=//; # Remove formula symbol.
+        # Remove the formula '=' sign if it exists.
+        if formula.startswith('='):
+            formula = formula.lstrip('=')
 
         self._xml_data_element('formula1', formula)
 
     def _write_formula_2(self, formula):
         # Write the <formula2> element.
-#        formula =~ s/^=//; # Remove formula symbol.
+
+        # Remove the formula '=' sign if it exists.
+        if formula.startswith('='):
+            formula = formula.lstrip('=')
 
         self._xml_data_element('formula2', formula)
 
-    #
-    #
-    # Write the Worksheet conditional formats.
-    #
     def _write_conditional_formats(self):
-        ranges = self.cond_formats.keys()  # TODO sort
+        # Write the Worksheet conditional formats.
+        ranges = sorted(self.cond_formats.keys())
 
         if not ranges:
             return
@@ -4240,21 +4271,17 @@ class Worksheet(xmlwriter.XMLwriter):
     def _write_conditional_formatting(self, cond_range, params):
         # Write the <conditionalFormatting> element.
         attributes = [('sqref', cond_range)]
-
         self._xml_start_tag('conditionalFormatting', attributes)
-
         for param in (params):
-
             # Write the cfRule element.
             self._write_cf_rule(param)
-
         self._xml_end_tag('conditionalFormatting')
 
     def _write_cf_rule(self, params):
         # Write the <cfRule> element.
         attributes = [('type', params['type'])]
 
-        if params['format'] is not None:
+        if format in params and params['format'] is not None:
             attributes.append(('dxfId', params['format']))
 
         attributes.append(('priority', params['priority']))
@@ -4271,48 +4298,54 @@ class Worksheet(xmlwriter.XMLwriter):
                 self._write_formula(params['value'])
 
             self._xml_end_tag('cfRule')
+
         elif params['type'] == 'aboveAverage':
-            if params['criteria'] == '/below/':
+            if re.search('below', params['criteria']):
                 attributes.append(('aboveAverage', 0))
 
-            if params['criteria'] == '/equal/':
+            if re.search('equal', params['criteria']):
                 attributes.append(('equalAverage', 1))
 
-            if params['criteria'] == '/([123]) std dev/':
-                attributes.append(('stdDev', 1))
+            if re.search('[123] std dev', params['criteria']):
+                match = re.search('([123]) std dev', params['criteria'])
+                attributes.append(('stdDev', match.group(1)))
 
             self._xml_empty_tag('cfRule', attributes)
+
         elif params['type'] == 'top10':
-            if params['criteria'] is not None and params['criteria'] == '%':
+            if 'criteria' in params and params['criteria'] == '%':
                 attributes.append(('percent', 1))
 
-            if params['direction']:
+            if 'direction' in params:
                 attributes.append(('bottom', 1))
 
             rank = params['value'] or 10
             attributes.append(('rank', rank))
 
             self._xml_empty_tag('cfRule', attributes)
+
         elif params['type'] == 'duplicateValues':
             self._xml_empty_tag('cfRule', attributes)
+
         elif params['type'] == 'uniqueValues':
             self._xml_empty_tag('cfRule', attributes)
+
         elif (params['type'] == 'containsText'
               or params['type'] == 'notContainsText'
               or params['type'] == 'beginsWith'
               or params['type'] == 'endsWith'):
             attributes.append(('operator', params['criteria']))
             attributes.append(('text', params['value']))
-
             self._xml_start_tag('cfRule', attributes)
             self._write_formula(params['formula'])
             self._xml_end_tag('cfRule')
+
         elif params['type'] == 'timePeriod':
             attributes.append(('timePeriod', params['criteria']))
-
             self._xml_start_tag('cfRule', attributes)
             self._write_formula(params['formula'])
             self._xml_end_tag('cfRule')
+
         elif (params['type'] == 'containsBlanks'
               or params['type'] == 'notContainsBlanks'
               or params['type'] == 'containsErrors'
@@ -4320,29 +4353,34 @@ class Worksheet(xmlwriter.XMLwriter):
             self._xml_start_tag('cfRule', attributes)
             self._write_formula(params['formula'])
             self._xml_end_tag('cfRule')
-        elif params['type'] == 'colorScale':
 
+        elif params['type'] == 'colorScale':
             self._xml_start_tag('cfRule', attributes)
             self._write_color_scale(params)
             self._xml_end_tag('cfRule')
-        elif params['type'] == 'dataBar':
 
+        elif params['type'] == 'dataBar':
             self._xml_start_tag('cfRule', attributes)
             self._write_data_bar(params)
             self._xml_end_tag('cfRule')
-        elif params['type'] == 'expression':
 
+        elif params['type'] == 'expression':
             self._xml_start_tag('cfRule', attributes)
             self._write_formula(params['criteria'])
             self._xml_end_tag('cfRule')
 
-    def _write_formula(self, data):
+    def _write_formula(self, formula):
         # Write the <formula> element.
 
-        # Remove equality from formula.
-        # data =~ s/^=//
+        # Check if the formula is a number.
+        try:
+            float(formula)
+        except ValueError:
+            # Not a number. Remove the formula '=' sign if it exists.
+            if formula.startswith('='):
+                formula = formula.lstrip('=')
 
-        self._xml_data_element('formula', data)
+        self._xml_data_element('formula', formula)
 
     def _write_color_scale(self, param):
         # Write the <colorScale> element.
@@ -4367,23 +4405,17 @@ class Worksheet(xmlwriter.XMLwriter):
 
     def _write_data_bar(self, param):
         # Write the <dataBar> element.
-
         self._xml_start_tag('dataBar')
 
         self._write_cfvo(param['min_type'], param['min_value'])
         self._write_cfvo(param['max_type'], param['max_value'])
-
         self._write_color('rgb', param['bar_color'])
 
         self._xml_end_tag('dataBar')
 
     def _write_cfvo(self, cf_type, val):
         # Write the <cfvo> element.
-
-        attributes = [
-            ('type', cf_type),
-            ('val'), val
-        ]
+        attributes = [('type', cf_type), ('val', val)]
 
         self._xml_empty_tag('cfvo', attributes)
 

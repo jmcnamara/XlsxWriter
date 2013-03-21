@@ -30,10 +30,31 @@ class TestAssembleWorksheet(unittest.TestCase):
         worksheet.write('A3', 30)
         worksheet.write('A4', 40)
 
-        worksheet.conditional_formatting('A1:A1', {'type': 'cell',
-                                                   'criteria': 'greater than',
-                                                   'value': 5,
-                                                   'format': None})
+        cell_format = None
+
+        worksheet.conditional_formatting('A1:A4',
+                                         {'type': 'formula',
+                                          'criteria': '=A1>5',
+                                          'format': cell_format,
+                                          })
+
+        worksheet.conditional_formatting('A1:A4',
+                                         {'type': 'formula',
+                                          'criteria': '=A2<80',
+                                          'format': cell_format,
+                                          })
+
+        worksheet.conditional_formatting('A1:A4',
+                                         {'type': 'formula',
+                                          'criteria': '"1+2"',
+                                          'format': cell_format,
+                                          })
+
+        worksheet.conditional_formatting('A1:A4',
+                                         {'type': 'formula',
+                                          'criteria': '=A3>A4',
+                                          'format': cell_format,
+                                          })
 
         worksheet._assemble_xml_file()
 
@@ -67,9 +88,18 @@ class TestAssembleWorksheet(unittest.TestCase):
                       </c>
                     </row>
                   </sheetData>
-                  <conditionalFormatting sqref="A1">
-                    <cfRule type="cellIs" priority="1" operator="greaterThan">
-                      <formula>5</formula>
+                  <conditionalFormatting sqref="A1:A4">
+                    <cfRule type="expression" priority="1">
+                      <formula>A1&gt;5</formula>
+                    </cfRule>
+                    <cfRule type="expression" priority="2">
+                      <formula>A2&lt;80</formula>
+                    </cfRule>
+                    <cfRule type="expression" priority="3">
+                      <formula>"1+2"</formula>
+                    </cfRule>
+                    <cfRule type="expression" priority="4">
+                      <formula>A3&gt;A4</formula>
                     </cfRule>
                   </conditionalFormatting>
                   <pageMargins left="0.7" right="0.7" top="0.75" bottom="0.75" header="0.3" footer="0.3"/>

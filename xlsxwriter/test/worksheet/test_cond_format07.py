@@ -30,10 +30,32 @@ class TestAssembleWorksheet(unittest.TestCase):
         worksheet.write('A3', 30)
         worksheet.write('A4', 40)
 
-        worksheet.conditional_formatting('A1:A1', {'type': 'cell',
-                                                   'criteria': 'greater than',
-                                                   'value': 5,
-                                                   'format': None})
+        worksheet.conditional_formatting('A1:A4',
+                                         {'type': 'text',
+                                          'criteria': 'containing',
+                                          'value': 'foo',
+                                          })
+
+        worksheet.conditional_formatting('A1:A4',
+                                         {'type': 'text',
+                                          'criteria': 'not containing',
+                                          'value': 'foo',
+                                          'format': None,
+                                          })
+
+        worksheet.conditional_formatting('A1:A4',
+                                         {'type': 'text',
+                                          'criteria': 'begins with',
+                                          'value': 'b',
+                                          'format': None,
+                                          })
+
+        worksheet.conditional_formatting('A1:A4',
+                                         {'type': 'text',
+                                          'criteria': 'ends with',
+                                          'value': 'b',
+                                          'format': None,
+                                          })
 
         worksheet._assemble_xml_file()
 
@@ -67,9 +89,18 @@ class TestAssembleWorksheet(unittest.TestCase):
                       </c>
                     </row>
                   </sheetData>
-                  <conditionalFormatting sqref="A1">
-                    <cfRule type="cellIs" priority="1" operator="greaterThan">
-                      <formula>5</formula>
+                  <conditionalFormatting sqref="A1:A4">
+                    <cfRule type="containsText" priority="1" operator="containsText" text="foo">
+                      <formula>NOT(ISERROR(SEARCH("foo",A1)))</formula>
+                    </cfRule>
+                    <cfRule type="notContainsText" priority="2" operator="notContains" text="foo">
+                      <formula>ISERROR(SEARCH("foo",A1))</formula>
+                    </cfRule>
+                    <cfRule type="beginsWith" priority="3" operator="beginsWith" text="b">
+                      <formula>LEFT(A1,1)="b"</formula>
+                    </cfRule>
+                    <cfRule type="endsWith" priority="4" operator="endsWith" text="b">
+                      <formula>RIGHT(A1,1)="b"</formula>
                     </cfRule>
                   </conditionalFormatting>
                   <pageMargins left="0.7" right="0.7" top="0.75" bottom="0.75" header="0.3" footer="0.3"/>

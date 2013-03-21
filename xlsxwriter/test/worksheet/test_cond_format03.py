@@ -30,10 +30,21 @@ class TestAssembleWorksheet(unittest.TestCase):
         worksheet.write('A3', 30)
         worksheet.write('A4', 40)
 
-        worksheet.conditional_formatting('A1:A1', {'type': 'cell',
-                                                   'criteria': 'greater than',
-                                                   'value': 5,
-                                                   'format': None})
+        worksheet.conditional_formatting('A1:A4',
+                                         {'type': 'cell',
+                                          'format': None,
+                                          'criteria': 'between',
+                                          'minimum': 20,
+                                          'maximum': 30,
+                                          })
+
+        worksheet.conditional_formatting('A1:A4',
+                                         {'type': 'cell',
+                                          'format': None,
+                                          'criteria': 'not between',
+                                          'minimum': 20,
+                                          'maximum': 30,
+                                          })
 
         worksheet._assemble_xml_file()
 
@@ -67,9 +78,14 @@ class TestAssembleWorksheet(unittest.TestCase):
                       </c>
                     </row>
                   </sheetData>
-                  <conditionalFormatting sqref="A1">
-                    <cfRule type="cellIs" priority="1" operator="greaterThan">
-                      <formula>5</formula>
+                  <conditionalFormatting sqref="A1:A4">
+                    <cfRule type="cellIs" priority="1" operator="between">
+                      <formula>20</formula>
+                      <formula>30</formula>
+                    </cfRule>
+                    <cfRule type="cellIs" priority="2" operator="notBetween">
+                      <formula>20</formula>
+                      <formula>30</formula>
                     </cfRule>
                   </conditionalFormatting>
                   <pageMargins left="0.7" right="0.7" top="0.75" bottom="0.75" header="0.3" footer="0.3"/>

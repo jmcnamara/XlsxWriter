@@ -30,10 +30,33 @@ class TestAssembleWorksheet(unittest.TestCase):
         worksheet.write('A3', 30)
         worksheet.write('A4', 40)
 
-        worksheet.conditional_formatting('A1:A1', {'type': 'cell',
-                                                   'criteria': 'greater than',
-                                                   'value': 5,
-                                                   'format': None})
+        worksheet.conditional_formatting('A1:A4',
+                                         {'type': 'text',
+                                          'criteria': 'begins with',
+                                          'value': 'b',
+                                          'format': None,
+                                          })
+
+        worksheet.conditional_formatting('A1:A4',
+                                         {'type': 'text',
+                                          'criteria': 'begins with',
+                                          'value': 'bc',
+                                          'format': None,
+                                          })
+
+        worksheet.conditional_formatting('A1:A4',
+                                         {'type': 'text',
+                                          'criteria': 'ends with',
+                                          'value': 'z',
+                                          'format': None,
+                                          })
+
+        worksheet.conditional_formatting('A1:A4',
+                                         {'type': 'text',
+                                          'criteria': 'ends with',
+                                          'value': 'yz',
+                                          'format': None,
+                                          })
 
         worksheet._assemble_xml_file()
 
@@ -67,9 +90,18 @@ class TestAssembleWorksheet(unittest.TestCase):
                       </c>
                     </row>
                   </sheetData>
-                  <conditionalFormatting sqref="A1">
-                    <cfRule type="cellIs" priority="1" operator="greaterThan">
-                      <formula>5</formula>
+                  <conditionalFormatting sqref="A1:A4">
+                    <cfRule type="beginsWith" priority="1" operator="beginsWith" text="b">
+                      <formula>LEFT(A1,1)="b"</formula>
+                    </cfRule>
+                    <cfRule type="beginsWith" priority="2" operator="beginsWith" text="bc">
+                      <formula>LEFT(A1,2)="bc"</formula>
+                    </cfRule>
+                    <cfRule type="endsWith" priority="3" operator="endsWith" text="z">
+                      <formula>RIGHT(A1,1)="z"</formula>
+                    </cfRule>
+                    <cfRule type="endsWith" priority="4" operator="endsWith" text="yz">
+                      <formula>RIGHT(A1,2)="yz"</formula>
                     </cfRule>
                   </conditionalFormatting>
                   <pageMargins left="0.7" right="0.7" top="0.75" bottom="0.75" header="0.3" footer="0.3"/>

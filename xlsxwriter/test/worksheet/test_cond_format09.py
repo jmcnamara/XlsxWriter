@@ -30,10 +30,24 @@ class TestAssembleWorksheet(unittest.TestCase):
         worksheet.write('A3', 30)
         worksheet.write('A4', 40)
 
-        worksheet.conditional_formatting('A1:A1', {'type': 'cell',
-                                                   'criteria': 'greater than',
-                                                   'value': 5,
-                                                   'format': None})
+        worksheet.conditional_formatting('A1:A4',
+                                         {'type': 'blanks',
+                                          })
+
+        worksheet.conditional_formatting('A1:A4',
+                                         {'type': 'no_blanks',
+                                          'format': None,
+                                          })
+
+        worksheet.conditional_formatting('A1:A4',
+                                         {'type': 'errors',
+                                          'format': None,
+                                          })
+
+        worksheet.conditional_formatting('A1:A4',
+                                         {'type': 'no_errors',
+                                          'format': None,
+                                          })
 
         worksheet._assemble_xml_file()
 
@@ -67,9 +81,18 @@ class TestAssembleWorksheet(unittest.TestCase):
                       </c>
                     </row>
                   </sheetData>
-                  <conditionalFormatting sqref="A1">
-                    <cfRule type="cellIs" priority="1" operator="greaterThan">
-                      <formula>5</formula>
+                  <conditionalFormatting sqref="A1:A4">
+                    <cfRule type="containsBlanks" priority="1">
+                      <formula>LEN(TRIM(A1))=0</formula>
+                    </cfRule>
+                    <cfRule type="notContainsBlanks" priority="2">
+                      <formula>LEN(TRIM(A1))&gt;0</formula>
+                    </cfRule>
+                    <cfRule type="containsErrors" priority="3">
+                      <formula>ISERROR(A1)</formula>
+                    </cfRule>
+                    <cfRule type="notContainsErrors" priority="4">
+                      <formula>NOT(ISERROR(A1))</formula>
                     </cfRule>
                   </conditionalFormatting>
                   <pageMargins left="0.7" right="0.7" top="0.75" bottom="0.75" header="0.3" footer="0.3"/>

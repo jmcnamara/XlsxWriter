@@ -30,38 +30,45 @@ class TestAssembleWorksheet(unittest.TestCase):
         worksheet.write('A3', 30)
         worksheet.write('A4', 40)
 
-        worksheet.conditional_formatting('A1:A1', {'type': 'cell',
-                                                   'criteria': 'greater than',
-                                                   'value': 5,
-                                                   'format': None})
+        worksheet.write('B1', 5)
+
+        worksheet.conditional_formatting('A1:A1',
+                                         {'type': 'cell',
+                                          'format': None,
+                                          'criteria': 'greater than',
+                                          'value': '$B$1',
+                                          })
 
         worksheet._assemble_xml_file()
 
         exp = _xml_to_list("""
                 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
                 <worksheet xmlns="http://schemas.openxmlformats.org/spreadsheetml/2006/main" xmlns:r="http://schemas.openxmlformats.org/officeDocument/2006/relationships">
-                  <dimension ref="A1:A4"/>
+                  <dimension ref="A1:B4"/>
                   <sheetViews>
                     <sheetView tabSelected="1" workbookViewId="0"/>
                   </sheetViews>
                   <sheetFormatPr defaultRowHeight="15"/>
                   <sheetData>
-                    <row r="1" spans="1:1">
+                    <row r="1" spans="1:2">
                       <c r="A1">
                         <v>10</v>
                       </c>
+                      <c r="B1">
+                        <v>5</v>
+                      </c>
                     </row>
-                    <row r="2" spans="1:1">
+                    <row r="2" spans="1:2">
                       <c r="A2">
                         <v>20</v>
                       </c>
                     </row>
-                    <row r="3" spans="1:1">
+                    <row r="3" spans="1:2">
                       <c r="A3">
                         <v>30</v>
                       </c>
                     </row>
-                    <row r="4" spans="1:1">
+                    <row r="4" spans="1:2">
                       <c r="A4">
                         <v>40</v>
                       </c>
@@ -69,7 +76,7 @@ class TestAssembleWorksheet(unittest.TestCase):
                   </sheetData>
                   <conditionalFormatting sqref="A1">
                     <cfRule type="cellIs" priority="1" operator="greaterThan">
-                      <formula>5</formula>
+                      <formula>$B$1</formula>
                     </cfRule>
                   </conditionalFormatting>
                   <pageMargins left="0.7" right="0.7" top="0.75" bottom="0.75" header="0.3" footer="0.3"/>
