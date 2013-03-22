@@ -17,12 +17,12 @@ releasedocs: cleandocs docs pdf
 	@cp -r dev/docs/build/html docs
 	@cp -r dev/docs/build/latex/XlsxWriter.pdf docs
 
-test:
-	@python -m unittest discover
-
 install:
 	@python setup.py install
 	@rm -rf build
+
+test:
+	@python -m unittest discover
 
 testpythons:
 	@echo "Testing with Python 2.6:"
@@ -37,6 +37,9 @@ testpythons:
 	@~/.pythonbrew/pythons/Python-3.2/bin/python   -m unittest discover
 	@echo "Testing with Python 3.3.0:"
 	@~/.pythonbrew/pythons/Python-3.3.0/bin/python -m unittest discover
+
+travistest:
+	@python -m discover
 
 pep8:
 	@ls -1 xlsxwriter/*.py | grep -v theme.py | xargs pep8
