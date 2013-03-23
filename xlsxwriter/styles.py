@@ -181,7 +181,7 @@ class Styles(xmlwriter.XMLwriter):
 
         # Set the format code for built-in number formats.
         if num_fmt_id < 164:
-            if num_fmt_id in format_codes[num_fmt_id]:
+            if num_fmt_id in format_codes:
                 format_code = format_codes[num_fmt_id]
             else:
                 format_code = 'General'

@@ -1532,8 +1532,8 @@ class Worksheet(xmlwriter.XMLwriter):
             cell_range = user_range
 
         # Get the dxf format index.
-        if format in params and params['format'] is not None:
-            params['format'] = params['format'].get_dxf_index()
+        if 'format' in params and params['format']:
+            params['format'] = params['format']._get_dxf_index()
 
         # Set the priority based on the order of adding.
         params['priority'] = self.dxf_priority
@@ -4281,7 +4281,7 @@ class Worksheet(xmlwriter.XMLwriter):
         # Write the <cfRule> element.
         attributes = [('type', params['type'])]
 
-        if format in params and params['format'] is not None:
+        if 'format' in params and params['format'] is not None:
             attributes.append(('dxfId', params['format']))
 
         attributes.append(('priority', params['priority']))
