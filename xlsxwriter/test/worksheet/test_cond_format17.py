@@ -38,15 +38,15 @@ class TestAssembleWorksheet(unittest.TestCase):
         worksheet.write('A11', 11)
         worksheet.write('A12', 12)
 
-        worksheet.conditional_formatting('A1:A12',
-                                         {'type': '3_color_scale',
-                                          'min_value': 'A10',
-                                          'mid_value': 52,
-                                          'max_value': 99,
-                                          'min_type': 'num',
-                                          'mid_type': 'percent',
-                                          'max_type': 'percentile',
-                                          })
+        worksheet.conditional_format('A1:A12',
+                                     {'type': '3_color_scale',
+                                      'min_value': 'A10',
+                                      'mid_value': 52,
+                                      'max_value': 99,
+                                      'min_type': 'num',
+                                      'mid_type': 'percent',
+                                      'max_type': 'percentile',
+                                      })
 
         worksheet._assemble_xml_file()
 

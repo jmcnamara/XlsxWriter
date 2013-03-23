@@ -59,19 +59,19 @@ class TestCompareXLSXFiles(unittest.TestCase):
             worksheet.write_row(row, 0, row_data)
             row += 1
 
-        worksheet.conditional_formatting('A1:J10',
-                                         {'type': 'cell',
-                                          'format': format1,
-                                          'criteria': '>=',
-                                          'value': 50,
-                                          })
+        worksheet.conditional_format('A1:J10',
+                                     {'type': 'cell',
+                                      'format': format1,
+                                      'criteria': '>=',
+                                      'value': 50,
+                                      })
 
-        worksheet.conditional_formatting('A1:J10',
-                                         {'type': 'cell',
-                                          'format': format2,
-                                          'criteria': '<',
-                                          'value': 50,
-                                          })
+        worksheet.conditional_format('A1:J10',
+                                     {'type': 'cell',
+                                      'format': format2,
+                                      'criteria': '<',
+                                      'value': 50,
+                                      })
 
         workbook.close()
 

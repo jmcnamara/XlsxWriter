@@ -30,21 +30,21 @@ class TestAssembleWorksheet(unittest.TestCase):
         worksheet.write('A3', 30)
         worksheet.write('A4', 40)
 
-        worksheet.conditional_formatting('A1:A4',
-                                         {'type': 'cell',
-                                          'format': None,
-                                          'criteria': 'between',
-                                          'minimum': 20,
-                                          'maximum': 30,
-                                          })
+        worksheet.conditional_format('A1:A4',
+                                     {'type': 'cell',
+                                      'format': None,
+                                      'criteria': 'between',
+                                      'minimum': 20,
+                                      'maximum': 30,
+                                      })
 
-        worksheet.conditional_formatting('A1:A4',
-                                         {'type': 'cell',
-                                          'format': None,
-                                          'criteria': 'not between',
-                                          'minimum': 20,
-                                          'maximum': 30,
-                                          })
+        worksheet.conditional_format('A1:A4',
+                                     {'type': 'cell',
+                                      'format': None,
+                                      'criteria': 'not between',
+                                      'minimum': 20,
+                                      'maximum': 30,
+                                      })
 
         worksheet._assemble_xml_file()
 

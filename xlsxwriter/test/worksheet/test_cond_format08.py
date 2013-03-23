@@ -30,64 +30,64 @@ class TestAssembleWorksheet(unittest.TestCase):
         worksheet.write('A3', 30)
         worksheet.write('A4', 40)
 
-        worksheet.conditional_formatting('A1:A4',
-                                         {'type': 'time_period',
-                                          'criteria': 'yesterday',
-                                          })
+        worksheet.conditional_format('A1:A4',
+                                     {'type': 'time_period',
+                                      'criteria': 'yesterday',
+                                      })
 
-        worksheet.conditional_formatting('A1:A4',
-                                         {'type': 'time_period',
-                                          'criteria': 'today',
-                                          'format': None,
-                                          })
+        worksheet.conditional_format('A1:A4',
+                                     {'type': 'time_period',
+                                      'criteria': 'today',
+                                      'format': None,
+                                      })
 
-        worksheet.conditional_formatting('A1:A4',
-                                         {'type': 'time_period',
-                                          'criteria': 'tomorrow',
-                                          'format': None,
-                                          })
+        worksheet.conditional_format('A1:A4',
+                                     {'type': 'time_period',
+                                      'criteria': 'tomorrow',
+                                      'format': None,
+                                      })
 
-        worksheet.conditional_formatting('A1:A4',
-                                         {'type': 'time_period',
-                                          'criteria': 'last 7 days',
-                                          'format': None,
-                                          })
+        worksheet.conditional_format('A1:A4',
+                                     {'type': 'time_period',
+                                      'criteria': 'last 7 days',
+                                      'format': None,
+                                      })
 
-        worksheet.conditional_formatting('A1:A4',
-                                         {'type': 'time_period',
-                                          'criteria': 'last week',
-                                          'format': None,
-                                          })
+        worksheet.conditional_format('A1:A4',
+                                     {'type': 'time_period',
+                                      'criteria': 'last week',
+                                      'format': None,
+                                      })
 
-        worksheet.conditional_formatting('A1:A4',
-                                         {'type': 'time_period',
-                                          'criteria': 'this week',
-                                          'format': None,
-                                          })
+        worksheet.conditional_format('A1:A4',
+                                     {'type': 'time_period',
+                                      'criteria': 'this week',
+                                      'format': None,
+                                      })
 
-        worksheet.conditional_formatting('A1:A4',
-                                         {'type': 'time_period',
-                                          'criteria': 'continue week',
-                                          'format': None,
-                                          })
+        worksheet.conditional_format('A1:A4',
+                                     {'type': 'time_period',
+                                      'criteria': 'continue week',
+                                      'format': None,
+                                      })
 
-        worksheet.conditional_formatting('A1:A4',
-                                         {'type': 'time_period',
-                                          'criteria': 'last month',
-                                          'format': None,
-                                          })
+        worksheet.conditional_format('A1:A4',
+                                     {'type': 'time_period',
+                                      'criteria': 'last month',
+                                      'format': None,
+                                      })
 
-        worksheet.conditional_formatting('A1:A4',
-                                         {'type': 'time_period',
-                                          'criteria': 'this month',
-                                          'format': None,
-                                          })
+        worksheet.conditional_format('A1:A4',
+                                     {'type': 'time_period',
+                                      'criteria': 'this month',
+                                      'format': None,
+                                      })
 
-        worksheet.conditional_formatting('A1:A4',
-                                         {'type': 'time_period',
-                                          'criteria': 'continue month',
-                                          'format': None,
-                                          })
+        worksheet.conditional_format('A1:A4',
+                                     {'type': 'time_period',
+                                      'criteria': 'continue month',
+                                      'format': None,
+                                      })
 
         worksheet._assemble_xml_file()
 

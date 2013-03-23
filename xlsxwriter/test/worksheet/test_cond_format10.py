@@ -31,12 +31,12 @@ class TestAssembleWorksheet(unittest.TestCase):
         worksheet.write('A3', 30)
         worksheet.write('A4', 40)
 
-        worksheet.conditional_formatting('A1:A4',
-                                         {'type': 'date',
-                                          'criteria': 'greater than',
-                                          'value': datetime.strptime('2011-01-01', "%Y-%m-%d"),
-                                          'format': None,
-                                          })
+        worksheet.conditional_format('A1:A4',
+                                     {'type': 'date',
+                                      'criteria': 'greater than',
+                                      'value': datetime.strptime('2011-01-01', "%Y-%m-%d"),
+                                      'format': None,
+                                      })
 
         worksheet._assemble_xml_file()
 

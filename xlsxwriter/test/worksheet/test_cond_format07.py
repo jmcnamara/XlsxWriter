@@ -30,32 +30,32 @@ class TestAssembleWorksheet(unittest.TestCase):
         worksheet.write('A3', 30)
         worksheet.write('A4', 40)
 
-        worksheet.conditional_formatting('A1:A4',
-                                         {'type': 'text',
-                                          'criteria': 'containing',
-                                          'value': 'foo',
-                                          })
+        worksheet.conditional_format('A1:A4',
+                                     {'type': 'text',
+                                      'criteria': 'containing',
+                                      'value': 'foo',
+                                      })
 
-        worksheet.conditional_formatting('A1:A4',
-                                         {'type': 'text',
-                                          'criteria': 'not containing',
-                                          'value': 'foo',
-                                          'format': None,
-                                          })
+        worksheet.conditional_format('A1:A4',
+                                     {'type': 'text',
+                                      'criteria': 'not containing',
+                                      'value': 'foo',
+                                      'format': None,
+                                      })
 
-        worksheet.conditional_formatting('A1:A4',
-                                         {'type': 'text',
-                                          'criteria': 'begins with',
-                                          'value': 'b',
-                                          'format': None,
-                                          })
+        worksheet.conditional_format('A1:A4',
+                                     {'type': 'text',
+                                      'criteria': 'begins with',
+                                      'value': 'b',
+                                      'format': None,
+                                      })
 
-        worksheet.conditional_formatting('A1:A4',
-                                         {'type': 'text',
-                                          'criteria': 'ends with',
-                                          'value': 'b',
-                                          'format': None,
-                                          })
+        worksheet.conditional_format('A1:A4',
+                                     {'type': 'text',
+                                      'criteria': 'ends with',
+                                      'value': 'b',
+                                      'format': None,
+                                      })
 
         worksheet._assemble_xml_file()
 

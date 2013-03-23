@@ -30,31 +30,31 @@ class TestAssembleWorksheet(unittest.TestCase):
         worksheet.write('A3', 30)
         worksheet.write('A4', 40)
 
-        worksheet.conditional_formatting('A1:A4',
-                                         {'type': 'top',
-                                          'value': 10,
-                                          'format': None,
-                                          })
+        worksheet.conditional_format('A1:A4',
+                                     {'type': 'top',
+                                      'value': 10,
+                                      'format': None,
+                                      })
 
-        worksheet.conditional_formatting('A1:A4',
-                                         {'type': 'bottom',
-                                          'value': 10,
-                                          'format': None,
-                                          })
+        worksheet.conditional_format('A1:A4',
+                                     {'type': 'bottom',
+                                      'value': 10,
+                                      'format': None,
+                                      })
 
-        worksheet.conditional_formatting('A1:A4',
-                                         {'type': 'top',
-                                          'criteria': '%',
-                                          'value': 10,
-                                          'format': None,
-                                          })
+        worksheet.conditional_format('A1:A4',
+                                     {'type': 'top',
+                                      'criteria': '%',
+                                      'value': 10,
+                                      'format': None,
+                                      })
 
-        worksheet.conditional_formatting('A1:A4',
-                                         {'type': 'bottom',
-                                          'criteria': '%',
-                                          'value': 10,
-                                          'format': None,
-                                          })
+        worksheet.conditional_format('A1:A4',
+                                     {'type': 'bottom',
+                                      'criteria': '%',
+                                      'value': 10,
+                                      'format': None,
+                                      })
 
         worksheet._assemble_xml_file()
 

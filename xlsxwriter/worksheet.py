@@ -70,9 +70,14 @@ def convert_range_args(method):
             return method(self, *args)
         except ValueError:
             # First arg isn't an int, convert to A1 notation.
-            cell_1, cell_2 = args[0].split(':')
-            row_1, col_1 = xl_cell_to_rowcol(cell_1)
-            row_2, col_2 = xl_cell_to_rowcol(cell_2)
+            if ':' in args[0]:
+                cell_1, cell_2 = args[0].split(':')
+                row_1, col_1 = xl_cell_to_rowcol(cell_1)
+                row_2, col_2 = xl_cell_to_rowcol(cell_2)
+            else:
+                row_1, col_1 = xl_cell_to_rowcol(args[0])
+                row_2, col_2 = row_1, col_1
+
             new_args = [row_1, col_1, row_2, col_2]
             new_args.extend(args[1:])
             return method(self, *new_args)
@@ -1374,12 +1379,10 @@ class Worksheet(xmlwriter.XMLwriter):
     #         -3 : incorrect parameter.
     #
     @convert_range_args
-    def conditional_formatting(self, row1, col1, row2, col2, params=None):
+    def conditional_format(self, row1, col1, row2, col2, params=None):
 
         if params is None:
             params = {}
-
-        user_range = ''
 
         # List of valid input parameters.
         valid_parameter = {
@@ -1398,6 +1401,7 @@ class Worksheet(xmlwriter.XMLwriter):
             'min_color': 1,
             'mid_color': 1,
             'max_color': 1,
+            'multi_range': 1,
             'bar_color': 1}
 
         # Check for valid input parameters.
@@ -1528,8 +1532,9 @@ class Worksheet(xmlwriter.XMLwriter):
             start_cell = xl_rowcol_to_cell(row1, col1)
 
         # Override with user defined multiple range if provided.
-        if user_range:
-            cell_range = user_range
+        if 'multi_range' in params:
+            cell_range = params['multi_range']
+            cell_range = cell_range.replace('$', '')
 
         # Get the dxf format index.
         if 'format' in params and params['format']:

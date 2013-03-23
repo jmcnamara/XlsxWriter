@@ -38,16 +38,16 @@ class TestAssembleWorksheet(unittest.TestCase):
         worksheet.write('A11', 11)
         worksheet.write('A12', 12)
 
-        worksheet.conditional_formatting('A1:A12',
-                                         {'type': 'data_bar',
-                                          'min_value': 5,
-                                          'mid_value': 52,  # Should be ignored.
-                                          'max_value': 90,
-                                          'min_type': 'num',
-                                          'mid_type': 'percentile',  # Should be ignored.
-                                          'max_type': 'percent',
-                                          'bar_color': '#8DB4E3',
-                                          })
+        worksheet.conditional_format('A1:A12',
+                                     {'type': 'data_bar',
+                                      'min_value': 5,
+                                      'mid_value': 52,  # Should be ignored.
+                                      'max_value': 90,
+                                      'min_type': 'num',
+                                      'mid_type': 'percentile',  # Should be ignored.
+                                      'max_type': 'percent',
+                                      'bar_color': '#8DB4E3',
+                                      })
 
         worksheet._assemble_xml_file()
 

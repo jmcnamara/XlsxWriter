@@ -38,7 +38,7 @@ class TestAssembleWorksheet(unittest.TestCase):
         worksheet.write('A11', 11)
         worksheet.write('A12', 12)
 
-        worksheet.conditional_formatting('A1:A12', {'type': '3_color_scale'})
+        worksheet.conditional_format('A1:A12', {'type': '3_color_scale'})
 
         worksheet._assemble_xml_file()
 

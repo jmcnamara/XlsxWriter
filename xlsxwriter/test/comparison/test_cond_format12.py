@@ -50,12 +50,12 @@ class TestCompareXLSXFiles(unittest.TestCase):
         worksheet.write('B5', 30)
         worksheet.write('B6', 40)
 
-        worksheet.conditional_formatting('B3:B6',
-                                         {'type': 'cell',
-                                          'format': format1,
-                                          'criteria': 'greater than',
-                                          'value': 20
-                                          })
+        worksheet.conditional_format('B3:B6',
+                                     {'type': 'cell',
+                                      'format': format1,
+                                      'criteria': 'greater than',
+                                      'value': 20
+                                      })
 
         workbook.close()
 

@@ -32,29 +32,29 @@ class TestAssembleWorksheet(unittest.TestCase):
 
         cell_format = None
 
-        worksheet.conditional_formatting('A1:A4',
-                                         {'type': 'formula',
-                                          'criteria': '=A1>5',
-                                          'format': cell_format,
-                                          })
+        worksheet.conditional_format('A1:A4',
+                                     {'type': 'formula',
+                                      'criteria': '=A1>5',
+                                      'format': cell_format,
+                                      })
 
-        worksheet.conditional_formatting('A1:A4',
-                                         {'type': 'formula',
-                                          'criteria': '=A2<80',
-                                          'format': cell_format,
-                                          })
+        worksheet.conditional_format('A1:A4',
+                                     {'type': 'formula',
+                                      'criteria': '=A2<80',
+                                      'format': cell_format,
+                                      })
 
-        worksheet.conditional_formatting('A1:A4',
-                                         {'type': 'formula',
-                                          'criteria': '"1+2"',
-                                          'format': cell_format,
-                                          })
+        worksheet.conditional_format('A1:A4',
+                                     {'type': 'formula',
+                                      'criteria': '"1+2"',
+                                      'format': cell_format,
+                                      })
 
-        worksheet.conditional_formatting('A1:A4',
-                                         {'type': 'formula',
-                                          'criteria': '=A3>A4',
-                                          'format': cell_format,
-                                          })
+        worksheet.conditional_format('A1:A4',
+                                     {'type': 'formula',
+                                      'criteria': '=A3>A4',
+                                      'format': cell_format,
+                                      })
 
         worksheet._assemble_xml_file()
 

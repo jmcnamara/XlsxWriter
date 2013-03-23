@@ -30,10 +30,10 @@ class TestAssembleWorksheet(unittest.TestCase):
         worksheet.write('A3', 30)
         worksheet.write('A4', 40)
 
-        worksheet.conditional_formatting('A1:A1', {'type': 'cell',
-                                                   'criteria': 'greater than',
-                                                   'value': 5,
-                                                   'format': None})
+        worksheet.conditional_format('A1', {'type': 'cell',
+                                            'criteria': 'greater than',
+                                            'value': 5,
+                                            'format': None})
 
         worksheet._assemble_xml_file()
 

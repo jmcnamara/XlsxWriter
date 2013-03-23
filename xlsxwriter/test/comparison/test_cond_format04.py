@@ -47,19 +47,19 @@ class TestCompareXLSXFiles(unittest.TestCase):
         worksheet.write('A3', 30)
         worksheet.write('A4', 40)
 
-        worksheet.conditional_formatting('A1:A1',
-                                         {'type': 'cell',
-                                          'format': format1,
-                                          'criteria': '>',
-                                          'value': 2,
-                                          })
+        worksheet.conditional_format('A1',
+                                     {'type': 'cell',
+                                      'format': format1,
+                                      'criteria': '>',
+                                      'value': 2,
+                                      })
 
-        worksheet.conditional_formatting('A2:A2',
-                                         {'type': 'cell',
-                                          'format': format2,
-                                          'criteria': '<',
-                                          'value': 8,
-                                          })
+        worksheet.conditional_format('A2',
+                                     {'type': 'cell',
+                                      'format': format2,
+                                      'criteria': '<',
+                                      'value': 8,
+                                      })
 
         workbook.close()
 

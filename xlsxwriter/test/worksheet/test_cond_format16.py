@@ -38,12 +38,12 @@ class TestAssembleWorksheet(unittest.TestCase):
         worksheet.write('A11', 11)
         worksheet.write('A12', 12)
 
-        worksheet.conditional_formatting('A1:A12',
-                                         {'type': '3_color_scale',
-                                          'min_color': "#C5D9F1",
-                                          'mid_color': "#8DB4E3",
-                                          'max_color': "#538ED5",
-                                          })
+        worksheet.conditional_format('A1:A12',
+                                     {'type': '3_color_scale',
+                                      'min_color': "#C5D9F1",
+                                      'mid_color': "#8DB4E3",
+                                      'max_color': "#538ED5",
+                                      })
 
         worksheet._assemble_xml_file()
 

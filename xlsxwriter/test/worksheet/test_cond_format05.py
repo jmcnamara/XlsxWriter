@@ -30,65 +30,65 @@ class TestAssembleWorksheet(unittest.TestCase):
         worksheet.write('A3', 30)
         worksheet.write('A4', 40)
 
-        worksheet.conditional_formatting('A1:A4',
-                                         {'type': 'average',
-                                          'format': None,
-                                          'criteria': 'above',
-                                          })
+        worksheet.conditional_format('A1:A4',
+                                     {'type': 'average',
+                                      'format': None,
+                                      'criteria': 'above',
+                                      })
 
-        worksheet.conditional_formatting('A1:A4',
-                                         {'type': 'average',
-                                          'format': None,
-                                          'criteria': 'below',
-                                          })
+        worksheet.conditional_format('A1:A4',
+                                     {'type': 'average',
+                                      'format': None,
+                                      'criteria': 'below',
+                                      })
 
-        worksheet.conditional_formatting('A1:A4',
-                                         {'type': 'average',
-                                          'format': None,
-                                          'criteria': 'equal or above',
-                                          })
+        worksheet.conditional_format('A1:A4',
+                                     {'type': 'average',
+                                      'format': None,
+                                      'criteria': 'equal or above',
+                                      })
 
-        worksheet.conditional_formatting('A1:A4',
-                                         {'type': 'average',
-                                          'format': None,
-                                          'criteria': 'equal or below',
-                                          })
+        worksheet.conditional_format('A1:A4',
+                                     {'type': 'average',
+                                      'format': None,
+                                      'criteria': 'equal or below',
+                                      })
 
-        worksheet.conditional_formatting('A1:A4',
-                                         {'type': 'average',
-                                          'format': None,
-                                          'criteria': '1 std dev above',
-                                          })
+        worksheet.conditional_format('A1:A4',
+                                     {'type': 'average',
+                                      'format': None,
+                                      'criteria': '1 std dev above',
+                                      })
 
-        worksheet.conditional_formatting('A1:A4',
-                                         {'type': 'average',
-                                          'format': None,
-                                          'criteria': '1 std dev below',
-                                          })
+        worksheet.conditional_format('A1:A4',
+                                     {'type': 'average',
+                                      'format': None,
+                                      'criteria': '1 std dev below',
+                                      })
 
-        worksheet.conditional_formatting('A1:A4',
-                                         {'type': 'average',
-                                          'format': None,
-                                          'criteria': '2 std dev above',
-                                          })
+        worksheet.conditional_format('A1:A4',
+                                     {'type': 'average',
+                                      'format': None,
+                                      'criteria': '2 std dev above',
+                                      })
 
-        worksheet.conditional_formatting('A1:A4',
-                                         {'type': 'average',
-                                          'format': None,
-                                          'criteria': '2 std dev below',
-                                          })
+        worksheet.conditional_format('A1:A4',
+                                     {'type': 'average',
+                                      'format': None,
+                                      'criteria': '2 std dev below',
+                                      })
 
-        worksheet.conditional_formatting('A1:A4',
-                                         {'type': 'average',
-                                          'format': None,
-                                          'criteria': '3 std dev above',
-                                          })
+        worksheet.conditional_format('A1:A4',
+                                     {'type': 'average',
+                                      'format': None,
+                                      'criteria': '3 std dev above',
+                                      })
 
-        worksheet.conditional_formatting('A1:A4',
-                                         {'type': 'average',
-                                          'format': None,
-                                          'criteria': '3 std dev below',
-                                          })
+        worksheet.conditional_format('A1:A4',
+                                     {'type': 'average',
+                                      'format': None,
+                                      'criteria': '3 std dev below',
+                                      })
 
         worksheet._assemble_xml_file()
 

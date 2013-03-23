@@ -38,7 +38,10 @@ class TestAssembleWorksheet(unittest.TestCase):
         worksheet.write('A11', 11)
         worksheet.write('A12', 12)
 
-        worksheet.conditional_format('A1:A12', {'type': 'data_bar'})
+        worksheet.conditional_format('A1:A12',
+                                     {'type': '3_color_scale',
+                                      'multi_range': '$A$3:$A$4 A1 A6:$A$8 $A10 A$12',
+                                      })
 
         worksheet._assemble_xml_file()
 
@@ -112,13 +115,16 @@ class TestAssembleWorksheet(unittest.TestCase):
                       </c>
                     </row>
                   </sheetData>
-                  <conditionalFormatting sqref="A1:A12">
-                    <cfRule type="dataBar" priority="1">
-                      <dataBar>
+                  <conditionalFormatting sqref="A3:A4 A1 A6:A8 A10 A12">
+                    <cfRule type="colorScale" priority="1">
+                      <colorScale>
                         <cfvo type="min" val="0"/>
+                        <cfvo type="percentile" val="50"/>
                         <cfvo type="max" val="0"/>
-                        <color rgb="FF638EC6"/>
-                      </dataBar>
+                        <color rgb="FFF8696B"/>
+                        <color rgb="FFFFEB84"/>
+                        <color rgb="FF63BE7B"/>
+                      </colorScale>
                     </cfRule>
                   </conditionalFormatting>
                   <pageMargins left="0.7" right="0.7" top="0.75" bottom="0.75" header="0.3" footer="0.3"/>

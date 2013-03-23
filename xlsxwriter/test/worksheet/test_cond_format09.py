@@ -30,24 +30,24 @@ class TestAssembleWorksheet(unittest.TestCase):
         worksheet.write('A3', 30)
         worksheet.write('A4', 40)
 
-        worksheet.conditional_formatting('A1:A4',
-                                         {'type': 'blanks',
-                                          })
+        worksheet.conditional_format('A1:A4',
+                                     {'type': 'blanks',
+                                      })
 
-        worksheet.conditional_formatting('A1:A4',
-                                         {'type': 'no_blanks',
-                                          'format': None,
-                                          })
+        worksheet.conditional_format('A1:A4',
+                                     {'type': 'no_blanks',
+                                      'format': None,
+                                      })
 
-        worksheet.conditional_formatting('A1:A4',
-                                         {'type': 'errors',
-                                          'format': None,
-                                          })
+        worksheet.conditional_format('A1:A4',
+                                     {'type': 'errors',
+                                      'format': None,
+                                      })
 
-        worksheet.conditional_formatting('A1:A4',
-                                         {'type': 'no_errors',
-                                          'format': None,
-                                          })
+        worksheet.conditional_format('A1:A4',
+                                     {'type': 'no_errors',
+                                      'format': None,
+                                      })
 
         worksheet._assemble_xml_file()
 

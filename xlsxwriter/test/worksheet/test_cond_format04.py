@@ -30,15 +30,15 @@ class TestAssembleWorksheet(unittest.TestCase):
         worksheet.write('A3', 30)
         worksheet.write('A4', 40)
 
-        worksheet.conditional_formatting('A1:A4',
-                                         {'type': 'duplicate',
-                                          'format': None,
-                                          })
+        worksheet.conditional_format('A1:A4',
+                                     {'type': 'duplicate',
+                                      'format': None,
+                                      })
 
-        worksheet.conditional_formatting('A1:A4',
-                                         {'type': 'unique',
-                                          'format': None,
-                                          })
+        worksheet.conditional_format('A1:A4',
+                                     {'type': 'unique',
+                                      'format': None,
+                                      })
 
         worksheet._assemble_xml_file()
 
