@@ -1,7 +1,7 @@
 .. _ewx:
 
-Excel::Writer::XLSX
-===================
+Comparison with Excel::Writer::XLSX
+===================================
 
 `Excel::Writer::XLSX <http://search.cpan.org/~jmcnamara/Excel-Writer-XLSX/>`_
 is a module written in Perl for creating Excel 2007+ XLSX files.
@@ -84,8 +84,8 @@ Status: ongoing.
 | set_optimization()       | **No**     | Yes                 |
 +--------------------------+------------+---------------------+
 
-1. Not required in XlsxWriter. Full RGB colors are supported. 2. Called
-``sheets()`` in Excel::Writer::XLSX.
+1. Not required in XlsxWriter. Full RGB colors are supported.
+2. Called ``sheets()`` in Excel::Writer::XLSX.
 
 
 Worksheet
@@ -138,7 +138,7 @@ Status: ongoing.
 +-------------------------------+------------+---------------------+
 | data_validation()             | **No**     | Yes                 |
 +-------------------------------+------------+---------------------+
-| conditional_formatting()      | **No**     | Yes                 |
+| :func:`conditional_format()`  | Yes (1)    | Yes                 |
 +-------------------------------+------------+---------------------+
 | add_sparkline()               | **No**     | Yes                 |
 +-------------------------------+------------+---------------------+
@@ -172,7 +172,7 @@ Status: ongoing.
 +-------------------------------+------------+---------------------+
 | :func:`merge_range()`         | Yes        | Yes                 |
 +-------------------------------+------------+---------------------+
-| merge_range_type()            | No (1)     | Yes                 |
+| merge_range_type()            | No (2)     | Yes                 |
 +-------------------------------+------------+---------------------+
 | :func:`set_zoom()`            | Yes        | Yes                 |
 +-------------------------------+------------+---------------------+
@@ -189,7 +189,8 @@ Status: ongoing.
 | :func:`filter_column_list()`  | Yes        | Yes                 |
 +-------------------------------+------------+---------------------+
 
-1. Not required in XlsxWriter. The same functionality is available via
+1. Called ``conditional_formatting()`` in Excel::Writer::XLSX.
+2. Not required in XlsxWriter. The same functionality is available via
    :func:`merge_range()`.
 
 

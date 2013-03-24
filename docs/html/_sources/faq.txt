@@ -49,7 +49,7 @@ Q. Is feature X supported or will it be supported?
 All supported features are documented.
 
 Future features will match features that are available in Excel::Writer::XLSX.
-Check the comparison matrix in the :ref:`ewx` section.
+Check the feature matrix in the :ref:`ewx` section.
 
 
 Q. Is there an "AutoFit" option for columns?

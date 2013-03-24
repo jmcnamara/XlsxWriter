@@ -14,6 +14,7 @@ directory of the XlsxWriter distribution.
    example_hyperlink.rst
    example_array_formula.rst
    example_autofilter.rst
+   example_conditional_format.rst
    example_merge1.rst
    example_rich_strings.rst
    example_images.rst

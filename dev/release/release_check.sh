@@ -67,7 +67,7 @@ function check_versions {
     echo
     echo "Latest file versions: "
 
-    grep -He "[0-9]\.[0-9]\.[0-9]" setup.py dev/docs/source/conf.py docs/html/index.html | sed 's/:/ : /g' | sed 's/=/ = /' | awk '!/Sphinx/ {printf "    | %-24s %s\n", $1, $5}'
+    grep -He "[0-9]\.[0-9]\.[0-9]" setup.py dev/docs/source/conf.py docs/html/index.html | sed 's/:/ : /g' | sed 's/=/ = /' | awk '!/Sphinx|the/ {printf "    | %-24s %s\n", $1, $5}'
 
     echo
     echo -n "Are the versions up to date?   [y/N]: "

@@ -1,0 +1,886 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Working with Conditional Formatting &mdash; XlsxWriter Documentation</title>
+    
+    <link rel="stylesheet" href="_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '',
+        VERSION:     '0.2.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="XlsxWriter Documentation" href="index.html" />
+    <link rel="next" title="Working with Cell Comments" href="working_with_cell_comments.html" />
+    <link rel="prev" title="Working with Autofilters" href="working_with_autofilters.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="working_with_cell_comments.html" title="Working with Cell Comments"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="working_with_autofilters.html" title="Working with Autofilters"
+             accesskey="P">previous</a> |</li>
+        <li><a href="index.html">XlsxWriter Documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="working-with-conditional-formatting">
+<span id="working-with-conditional-formats"></span><h1>Working with Conditional Formatting</h1>
+<p>Conditional formatting is a feature of Excel which allows you to apply
+a format to a cell or a range of cells based on certain criteria.</p>
+<p>For example the following rules are used to highlight cells in the
+<a class="reference internal" href="example_conditional_format.html#ex-cond-format"><em>conditional_format.py</em></a> example:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">worksheet</span><span class="o">.</span><span class="n">conditional_format</span><span class="p">(</span><span class="s">&#39;B3:K12&#39;</span><span class="p">,</span> <span class="p">{</span><span class="s">&#39;type&#39;</span><span class="p">:</span>     <span class="s">&#39;cell&#39;</span><span class="p">,</span>
+                                        <span class="s">&#39;criteria&#39;</span><span class="p">:</span> <span class="s">&#39;&gt;=&#39;</span><span class="p">,</span>
+                                        <span class="s">&#39;value&#39;</span><span class="p">:</span>    <span class="mi">50</span><span class="p">,</span>
+                                        <span class="s">&#39;format&#39;</span><span class="p">:</span>   <span class="n">format1</span><span class="p">})</span>
+
+<span class="n">worksheet</span><span class="o">.</span><span class="n">conditional_format</span><span class="p">(</span><span class="s">&#39;B3:K12&#39;</span><span class="p">,</span> <span class="p">{</span><span class="s">&#39;type&#39;</span><span class="p">:</span>     <span class="s">&#39;cell&#39;</span><span class="p">,</span>
+                                        <span class="s">&#39;criteria&#39;</span><span class="p">:</span> <span class="s">&#39;&lt;&#39;</span><span class="p">,</span>
+                                        <span class="s">&#39;value&#39;</span><span class="p">:</span>    <span class="mi">50</span><span class="p">,</span>
+                                        <span class="s">&#39;format&#39;</span><span class="p">:</span>   <span class="n">format2</span><span class="p">})</span>
+</pre></div>
+</div>
+<p>Which gives criteria like this:</p>
+<img alt="_images/conditional_format3.png" src="_images/conditional_format3.png" />
+<p>And output which looks like this:</p>
+<img alt="_images/conditional_format1.png" src="_images/conditional_format1.png" />
+<p>It is also possible to create color scales and data bars:</p>
+<img alt="_images/conditional_format2.png" src="_images/conditional_format2.png" />
+<div class="section" id="the-conditional-format-method">
+<h2>The conditional_format() method</h2>
+<p>The <a class="reference internal" href="worksheet.html#conditional_format" title="conditional_format"><tt class="xref py py-func docutils literal"><span class="pre">conditional_format()</span></tt></a> worksheet method is used to apply formatting
+based on user defined criteria to an XlsxWriter file.</p>
+<p>The conditional format can be applied to a single cell or a range of cells.
+As usual you can use A1 or Row/Column notation (<a class="reference internal" href="working_with_cell_notation.html#cell-notation"><em>Working with Cell Notation</em></a>).</p>
+<p>With Row/Column notation you must specify all four cells in the range:
+<tt class="docutils literal"><span class="pre">(first_row,</span> <span class="pre">first_col,</span> <span class="pre">last_row,</span> <span class="pre">last_col)</span></tt>.
+If you need to refer to a single cell set the <tt class="docutils literal"><span class="pre">last_*</span></tt> values equal to the
+<tt class="docutils literal"><span class="pre">first_*</span></tt> values. With A1 notation you can refer to a single cell or a
+range of cells:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">worksheet</span><span class="o">.</span><span class="n">conditional_format</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="p">{</span><span class="o">...</span><span class="p">})</span>
+<span class="n">worksheet</span><span class="o">.</span><span class="n">conditional_format</span><span class="p">(</span><span class="s">&#39;B1&#39;</span><span class="p">,</span>       <span class="p">{</span><span class="o">...</span><span class="p">})</span>
+<span class="n">worksheet</span><span class="o">.</span><span class="n">conditional_format</span><span class="p">(</span><span class="s">&#39;C1:E5&#39;</span><span class="p">,</span>    <span class="p">{</span><span class="o">...</span><span class="p">})</span>
+</pre></div>
+</div>
+<p>The options parameter in <tt class="docutils literal"><span class="pre">conditional_format()</span></tt> must be a dictionary
+containing the parameters that describe the type and style of the conditional
+format. The main parameters are:</p>
+<ul class="simple">
+<li><tt class="docutils literal"><span class="pre">type</span></tt></li>
+<li><tt class="docutils literal"><span class="pre">format</span></tt></li>
+<li><tt class="docutils literal"><span class="pre">criteria</span></tt></li>
+<li><tt class="docutils literal"><span class="pre">value</span></tt></li>
+<li><tt class="docutils literal"><span class="pre">minimum</span></tt></li>
+<li><tt class="docutils literal"><span class="pre">maximum</span></tt></li>
+</ul>
+<p>Other, less commonly used parameters are:</p>
+<ul class="simple">
+<li><tt class="docutils literal"><span class="pre">min_type</span></tt></li>
+<li><tt class="docutils literal"><span class="pre">mid_type</span></tt></li>
+<li><tt class="docutils literal"><span class="pre">max_type</span></tt></li>
+<li><tt class="docutils literal"><span class="pre">min_value</span></tt></li>
+<li><tt class="docutils literal"><span class="pre">mid_value</span></tt></li>
+<li><tt class="docutils literal"><span class="pre">max_value</span></tt></li>
+<li><tt class="docutils literal"><span class="pre">min_color</span></tt></li>
+<li><tt class="docutils literal"><span class="pre">mid_color</span></tt></li>
+<li><tt class="docutils literal"><span class="pre">max_color</span></tt></li>
+<li><tt class="docutils literal"><span class="pre">bar_color</span></tt></li>
+<li><tt class="docutils literal"><span class="pre">multi_range</span></tt></li>
+</ul>
+</div>
+<div class="section" id="conditional-format-options">
+<h2>Conditional Format Options</h2>
+<p>The conditional format options that can be used with
+<a class="reference internal" href="worksheet.html#conditional_format" title="conditional_format"><tt class="xref py py-func docutils literal"><span class="pre">conditional_format()</span></tt></a> are explained in the following sections.</p>
+<div class="section" id="type">
+<h3>type</h3>
+<p>The <tt class="docutils literal"><span class="pre">type</span></tt> option is a required parameter and it has no
+default value. Allowable <tt class="docutils literal"><span class="pre">type</span></tt> values and their associated
+parameters are:</p>
+<blockquote>
+<div><table border="1" class="docutils">
+<colgroup>
+<col width="50%" />
+<col width="50%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Type</th>
+<th class="head">Parameters</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>cell</td>
+<td>criteria</td>
+</tr>
+<tr class="row-odd"><td>&nbsp;</td>
+<td>value</td>
+</tr>
+<tr class="row-even"><td>&nbsp;</td>
+<td>minimum</td>
+</tr>
+<tr class="row-odd"><td>&nbsp;</td>
+<td>maximum</td>
+</tr>
+<tr class="row-even"><td>date</td>
+<td>criteria</td>
+</tr>
+<tr class="row-odd"><td>&nbsp;</td>
+<td>value</td>
+</tr>
+<tr class="row-even"><td>&nbsp;</td>
+<td>minimum</td>
+</tr>
+<tr class="row-odd"><td>&nbsp;</td>
+<td>maximum</td>
+</tr>
+<tr class="row-even"><td>time_period</td>
+<td>criteria</td>
+</tr>
+<tr class="row-odd"><td>text</td>
+<td>criteria</td>
+</tr>
+<tr class="row-even"><td>&nbsp;</td>
+<td>value</td>
+</tr>
+<tr class="row-odd"><td>average</td>
+<td>criteria</td>
+</tr>
+<tr class="row-even"><td>duplicate</td>
+<td>(none)</td>
+</tr>
+<tr class="row-odd"><td>unique</td>
+<td>(none)</td>
+</tr>
+<tr class="row-even"><td>top</td>
+<td>criteria</td>
+</tr>
+<tr class="row-odd"><td>&nbsp;</td>
+<td>value</td>
+</tr>
+<tr class="row-even"><td>bottom</td>
+<td>criteria</td>
+</tr>
+<tr class="row-odd"><td>&nbsp;</td>
+<td>value</td>
+</tr>
+<tr class="row-even"><td>blanks</td>
+<td>(none)</td>
+</tr>
+<tr class="row-odd"><td>no_blanks</td>
+<td>(none)</td>
+</tr>
+<tr class="row-even"><td>errors</td>
+<td>(none)</td>
+</tr>
+<tr class="row-odd"><td>no_errors</td>
+<td>(none)</td>
+</tr>
+<tr class="row-even"><td>2_color_scale</td>
+<td>min_type</td>
+</tr>
+<tr class="row-odd"><td>&nbsp;</td>
+<td>max_type</td>
+</tr>
+<tr class="row-even"><td>&nbsp;</td>
+<td>min_value</td>
+</tr>
+<tr class="row-odd"><td>&nbsp;</td>
+<td>max_value</td>
+</tr>
+<tr class="row-even"><td>&nbsp;</td>
+<td>min_color</td>
+</tr>
+<tr class="row-odd"><td>&nbsp;</td>
+<td>max_color</td>
+</tr>
+<tr class="row-even"><td>3_color_scale</td>
+<td>min_type</td>
+</tr>
+<tr class="row-odd"><td>&nbsp;</td>
+<td>mid_type</td>
+</tr>
+<tr class="row-even"><td>&nbsp;</td>
+<td>max_type</td>
+</tr>
+<tr class="row-odd"><td>&nbsp;</td>
+<td>min_value</td>
+</tr>
+<tr class="row-even"><td>&nbsp;</td>
+<td>mid_value</td>
+</tr>
+<tr class="row-odd"><td>&nbsp;</td>
+<td>max_value</td>
+</tr>
+<tr class="row-even"><td>&nbsp;</td>
+<td>min_color</td>
+</tr>
+<tr class="row-odd"><td>&nbsp;</td>
+<td>mid_color</td>
+</tr>
+<tr class="row-even"><td>&nbsp;</td>
+<td>max_color</td>
+</tr>
+<tr class="row-odd"><td>data_bar</td>
+<td>min_type</td>
+</tr>
+<tr class="row-even"><td>&nbsp;</td>
+<td>max_type</td>
+</tr>
+<tr class="row-odd"><td>&nbsp;</td>
+<td>min_value</td>
+</tr>
+<tr class="row-even"><td>&nbsp;</td>
+<td>max_value</td>
+</tr>
+<tr class="row-odd"><td>&nbsp;</td>
+<td>bar_color</td>
+</tr>
+<tr class="row-even"><td>formula</td>
+<td>criteria</td>
+</tr>
+</tbody>
+</table>
+</div></blockquote>
+<p>All conditional formatting types have an associated <a class="reference internal" href="format.html#format"><em>Format</em></a>
+parameter, see below.</p>
+</div>
+<div class="section" id="type-cell">
+<h3>type: cell</h3>
+<p>This is the most common conditional formatting type. It is used when a
+format is applied to a cell based on a simple criterion.</p>
+<p>For example using a single cell and the <tt class="docutils literal"><span class="pre">greater</span> <span class="pre">than</span></tt> criteria:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">worksheet</span><span class="o">.</span><span class="n">conditional_format</span><span class="p">(</span><span class="s">&#39;A1&#39;</span><span class="p">,</span> <span class="p">{</span><span class="s">&#39;type&#39;</span><span class="p">:</span>     <span class="s">&#39;cell&#39;</span><span class="p">,</span>
+                                    <span class="s">&#39;criteria&#39;</span><span class="p">:</span> <span class="s">&#39;greater than&#39;</span><span class="p">,</span>
+                                    <span class="s">&#39;value&#39;</span><span class="p">:</span>     <span class="mi">5</span><span class="p">,</span>
+                                    <span class="s">&#39;format&#39;</span><span class="p">:</span>    <span class="n">red_format</span><span class="p">})</span>
+</pre></div>
+</div>
+<p>Or, using a range and the <tt class="docutils literal"><span class="pre">between</span></tt> criteria:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">worksheet</span><span class="o">.</span><span class="n">conditional_format</span><span class="p">(</span><span class="s">&#39;C1:C4&#39;</span><span class="p">,</span> <span class="p">{</span><span class="s">&#39;type&#39;</span><span class="p">:</span>     <span class="s">&#39;cell&#39;</span><span class="p">,</span>
+                                       <span class="s">&#39;criteria&#39;</span><span class="p">:</span> <span class="s">&#39;between&#39;</span><span class="p">,</span>
+                                       <span class="s">&#39;minimum&#39;</span><span class="p">:</span>  <span class="mi">20</span><span class="p">,</span>
+                                       <span class="s">&#39;maximum&#39;</span><span class="p">:</span>  <span class="mi">30</span><span class="p">,</span>
+                                       <span class="s">&#39;format&#39;</span><span class="p">:</span>   <span class="n">green_format</span><span class="p">})</span>
+</pre></div>
+</div>
+<p>Other types are shown below, after the other main options.</p>
+</div>
+<div class="section" id="criteria">
+<h3>criteria:</h3>
+<p>The <tt class="docutils literal"><span class="pre">criteria</span></tt> parameter is used to set the criteria by which the
+cell data will be evaluated. It has no default value. The most common
+criteria as applied to <tt class="docutils literal"><span class="pre">{'type':</span> <span class="pre">'cell'}</span></tt> are:</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="65%" />
+<col width="17%" />
+<col width="17%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><tt class="docutils literal"><span class="pre">between</span></tt></td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+</tr>
+<tr class="row-even"><td><tt class="docutils literal"><span class="pre">not</span> <span class="pre">between</span></tt></td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+</tr>
+<tr class="row-odd"><td><tt class="docutils literal"><span class="pre">equal</span> <span class="pre">to</span></tt></td>
+<td><tt class="docutils literal"><span class="pre">==</span></tt></td>
+<td><tt class="docutils literal"><span class="pre">=</span></tt></td>
+</tr>
+<tr class="row-even"><td><tt class="docutils literal"><span class="pre">not</span> <span class="pre">equal</span> <span class="pre">to</span></tt></td>
+<td><tt class="docutils literal"><span class="pre">!=</span></tt></td>
+<td><tt class="docutils literal"><span class="pre">&lt;&gt;</span></tt></td>
+</tr>
+<tr class="row-odd"><td><tt class="docutils literal"><span class="pre">greater</span> <span class="pre">than</span></tt></td>
+<td><tt class="docutils literal"><span class="pre">&gt;</span></tt></td>
+<td>&nbsp;</td>
+</tr>
+<tr class="row-even"><td><tt class="docutils literal"><span class="pre">less</span> <span class="pre">than</span></tt></td>
+<td><tt class="docutils literal"><span class="pre">&lt;</span></tt></td>
+<td>&nbsp;</td>
+</tr>
+<tr class="row-odd"><td><tt class="docutils literal"><span class="pre">greater</span> <span class="pre">than</span> <span class="pre">or</span> <span class="pre">equal</span> <span class="pre">to</span></tt></td>
+<td><tt class="docutils literal"><span class="pre">&gt;=</span></tt></td>
+<td>&nbsp;</td>
+</tr>
+<tr class="row-even"><td><tt class="docutils literal"><span class="pre">less</span> <span class="pre">than</span> <span class="pre">or</span> <span class="pre">equal</span> <span class="pre">to</span></tt></td>
+<td><tt class="docutils literal"><span class="pre">&lt;=</span></tt></td>
+<td>&nbsp;</td>
+</tr>
+</tbody>
+</table>
+<p>You can either use Excel&#8217;s textual description strings, in the first
+column above, or the more common symbolic alternatives shown in the other
+columns.</p>
+<p>Additional criteria which are specific to other conditional format
+types are shown in the relevant sections below.</p>
+</div>
+<div class="section" id="value">
+<h3>value:</h3>
+<p>The <tt class="docutils literal"><span class="pre">value</span></tt> is generally used along with the <tt class="docutils literal"><span class="pre">criteria</span></tt> parameter
+to set the rule by which the cell data will be evaluated:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">worksheet</span><span class="o">.</span><span class="n">conditional_format</span><span class="p">(</span><span class="s">&#39;A1&#39;</span><span class="p">,</span> <span class="p">{</span><span class="s">&#39;type&#39;</span><span class="p">:</span>     <span class="s">&#39;cell&#39;</span><span class="p">,</span>
+                                    <span class="s">&#39;criteria&#39;</span><span class="p">:</span> <span class="s">&#39;greater than&#39;</span><span class="p">,</span>
+                                    <span class="s">&#39;value&#39;</span><span class="p">:</span>    <span class="mi">5</span><span class="p">,</span>
+                                    <span class="s">&#39;format&#39;</span><span class="p">:</span>   <span class="n">red_format</span><span class="p">})</span>
+</pre></div>
+</div>
+<p>The <tt class="docutils literal"><span class="pre">value</span></tt> property can also be an cell reference:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">worksheet</span><span class="o">.</span><span class="n">conditional_format</span><span class="p">(</span><span class="s">&#39;A1&#39;</span><span class="p">,</span> <span class="p">{</span><span class="s">&#39;type&#39;</span><span class="p">:</span>     <span class="s">&#39;cell&#39;</span><span class="p">,</span>
+                                    <span class="s">&#39;criteria&#39;</span><span class="p">:</span> <span class="s">&#39;greater than&#39;</span><span class="p">,</span>
+                                    <span class="s">&#39;value&#39;</span><span class="p">:</span>    <span class="s">&#39;$C$1&#39;</span><span class="p">,</span>
+                                    <span class="s">&#39;format&#39;</span><span class="p">:</span>   <span class="n">red_format</span><span class="p">})</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="format">
+<h3>format:</h3>
+<p>The <tt class="docutils literal"><span class="pre">format</span></tt> parameter is used to specify the format that will be
+applied to the cell when the conditional formatting criterion is
+met. The format is created using the <a class="reference internal" href="workbook.html#add_format" title="add_format"><tt class="xref py py-func docutils literal"><span class="pre">add_format()</span></tt></a> method in the
+same way as cell formats:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">format1</span> <span class="o">=</span> <span class="n">workbook</span><span class="o">.</span><span class="n">add_format</span><span class="p">({</span><span class="s">&#39;bold&#39;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="s">&#39;italic&#39;</span><span class="p">:</span> <span class="mi">1</span><span class="p">})</span>
+
+<span class="n">worksheet</span><span class="o">.</span><span class="n">conditional_format</span><span class="p">(</span><span class="s">&#39;A1&#39;</span><span class="p">,</span> <span class="p">{</span><span class="s">&#39;type&#39;</span><span class="p">:</span>     <span class="s">&#39;cell&#39;</span><span class="p">,</span>
+                                    <span class="s">&#39;criteria&#39;</span><span class="p">:</span> <span class="s">&#39;&gt;&#39;</span><span class="p">,</span>
+                                    <span class="s">&#39;value&#39;</span><span class="p">:</span>    <span class="mi">5</span><span class="p">,</span>
+                                    <span class="s">&#39;format&#39;</span><span class="p">:</span>   <span class="n">format1</span><span class="p">})</span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">In Excel, a conditional format is superimposed over the existing cell
+format and not all cell format properties can be modified.
+Properties that cannot be modified are font name, font size,
+superscript and subscript and diagonal borders.</p>
+</div>
+<p>Excel specifies some default formats to be used with conditional
+formatting. These can be replicated using the following XlsxWriter
+formats:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="c"># Light red fill with dark red text.</span>
+<span class="n">format1</span> <span class="o">=</span> <span class="n">workbook</span><span class="o">.</span><span class="n">add_format</span><span class="p">({</span><span class="s">&#39;bg_color&#39;</span><span class="p">:</span>   <span class="s">&#39;#FFC7CE&#39;</span><span class="p">,</span>
+                               <span class="s">&#39;font_color&#39;</span><span class="p">:</span> <span class="s">&#39;#9C0006&#39;</span><span class="p">})</span>
+
+<span class="c"># Light yellow fill with dark yellow text.</span>
+<span class="n">format2</span> <span class="o">=</span> <span class="n">workbook</span><span class="o">.</span><span class="n">add_format</span><span class="p">({</span><span class="s">&#39;bg_color&#39;</span><span class="p">:</span>   <span class="s">&#39;#FFEB9C&#39;</span><span class="p">,</span>
+                               <span class="s">&#39;font_color&#39;</span><span class="p">:</span> <span class="s">&#39;#9C6500&#39;</span><span class="p">})</span>
+
+<span class="c"># Green fill with dark green text.</span>
+<span class="n">format3</span> <span class="o">=</span> <span class="n">workbook</span><span class="o">.</span><span class="n">add_format</span><span class="p">({</span><span class="s">&#39;bg_color&#39;</span><span class="p">:</span>   <span class="s">&#39;#C6EFCE&#39;</span><span class="p">,</span>
+                               <span class="s">&#39;font_color&#39;</span><span class="p">:</span> <span class="s">&#39;#006100&#39;</span><span class="p">})</span>
+</pre></div>
+</div>
+<p>See also <a class="reference internal" href="working_with_formats.html#working-with-formats"><em>Working with Formats</em></a>.</p>
+</div>
+<div class="section" id="minimum">
+<h3>minimum:</h3>
+<p>The <tt class="docutils literal"><span class="pre">minimum</span></tt> parameter is used to set the lower limiting value when
+the <tt class="docutils literal"><span class="pre">criteria</span></tt> is either <tt class="docutils literal"><span class="pre">'between'</span></tt> or <tt class="docutils literal"><span class="pre">'not</span> <span class="pre">between'</span></tt>:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">worksheet</span><span class="o">.</span><span class="n">conditional_format</span><span class="p">(</span><span class="s">&#39;A1&#39;</span><span class="p">,</span> <span class="p">{</span><span class="s">&#39;type&#39;</span><span class="p">:</span>     <span class="s">&#39;cell&#39;</span><span class="p">,</span>
+                                    <span class="s">&#39;criteria&#39;</span><span class="p">:</span> <span class="s">&#39;between&#39;</span><span class="p">,</span>
+                                    <span class="s">&#39;minimum&#39;</span><span class="p">:</span>  <span class="mi">2</span><span class="p">,</span>
+                                    <span class="s">&#39;maximum&#39;</span><span class="p">:</span>  <span class="mi">6</span><span class="p">,</span>
+                                    <span class="s">&#39;format&#39;</span><span class="p">:</span>   <span class="n">format1</span><span class="p">,</span>
+                                    <span class="p">})</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="maximum">
+<h3>maximum:</h3>
+<p>The <tt class="docutils literal"><span class="pre">maximum</span></tt> parameter is used to set the upper limiting value when
+the <tt class="docutils literal"><span class="pre">criteria</span></tt> is either <tt class="docutils literal"><span class="pre">'between'</span></tt> or <tt class="docutils literal"><span class="pre">'not</span> <span class="pre">between'</span></tt>. See the
+previous example.</p>
+</div>
+<div class="section" id="type-date">
+<h3>type: date</h3>
+<p>The <tt class="docutils literal"><span class="pre">date</span></tt> type is similar the <tt class="docutils literal"><span class="pre">cell</span></tt> type and uses the same
+criteria and values. However, the <tt class="docutils literal"><span class="pre">value</span></tt>, <tt class="docutils literal"><span class="pre">minimum</span></tt> and
+<tt class="docutils literal"><span class="pre">maximum</span></tt> properties are specified as a datetime object as shown
+in <a class="reference internal" href="working_with_dates_and_time.html#working-with-dates-and-time"><em>Working with Dates and Time</em></a>:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">date</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">strptime</span><span class="p">(</span><span class="s">&#39;2011-01-01&#39;</span><span class="p">,</span> <span class="s">&quot;%Y-%m-</span><span class="si">%d</span><span class="s">&quot;</span><span class="p">)</span>
+
+<span class="n">worksheet</span><span class="o">.</span><span class="n">conditional_format</span><span class="p">(</span><span class="s">&#39;A1:A4&#39;</span><span class="p">,</span> <span class="p">{</span><span class="s">&#39;type&#39;</span><span class="p">:</span>     <span class="s">&#39;date&#39;</span><span class="p">,</span>
+                                       <span class="s">&#39;criteria&#39;</span><span class="p">:</span> <span class="s">&#39;greater than&#39;</span><span class="p">,</span>
+                                       <span class="s">&#39;value&#39;</span><span class="p">:</span>    <span class="n">date</span><span class="p">,</span>
+                                       <span class="s">&#39;format&#39;</span><span class="p">:</span>   <span class="n">format1</span><span class="p">})</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="type-time-period">
+<h3>type: time_period</h3>
+<p>The <tt class="docutils literal"><span class="pre">time_period</span></tt> type is used to specify Excel&#8217;s &#8220;Dates Occurring&#8221;
+style conditional format:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">worksheet</span><span class="o">.</span><span class="n">conditional_format</span><span class="p">(</span><span class="s">&#39;A1:A4&#39;</span><span class="p">,</span> <span class="p">{</span><span class="s">&#39;type&#39;</span><span class="p">:</span>     <span class="s">&#39;time_period&#39;</span><span class="p">,</span>
+                                       <span class="s">&#39;criteria&#39;</span><span class="p">:</span> <span class="s">&#39;yesterday&#39;</span><span class="p">,</span>
+                                       <span class="s">&#39;format&#39;</span><span class="p">:</span>   <span class="n">format1</span><span class="p">})</span>
+</pre></div>
+</div>
+<p>The period is set in the <tt class="docutils literal"><span class="pre">criteria</span></tt> and can have one of the
+following values:</p>
+<div class="highlight-python"><pre>'criteria': 'yesterday',
+'criteria': 'today',
+'criteria': 'last 7 days',
+'criteria': 'last week',
+'criteria': 'this week',
+'criteria': 'continue week',
+'criteria': 'last month',
+'criteria': 'this month',
+'criteria': 'continue month'</pre>
+</div>
+</div>
+<div class="section" id="type-text">
+<h3>type: text</h3>
+<p>The <tt class="docutils literal"><span class="pre">text</span></tt> type is used to specify Excel&#8217;s &#8220;Specific Text&#8221; style
+conditional format. It is used to do simple string matching using the
+<tt class="docutils literal"><span class="pre">criteria</span></tt> and <tt class="docutils literal"><span class="pre">value</span></tt> parameters:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">worksheet</span><span class="o">.</span><span class="n">conditional_format</span><span class="p">(</span><span class="s">&#39;A1:A4&#39;</span><span class="p">,</span> <span class="p">{</span><span class="s">&#39;type&#39;</span><span class="p">:</span>     <span class="s">&#39;text&#39;</span><span class="p">,</span>
+                                       <span class="s">&#39;criteria&#39;</span><span class="p">:</span> <span class="s">&#39;containing&#39;</span><span class="p">,</span>
+                                       <span class="s">&#39;value&#39;</span><span class="p">:</span>    <span class="s">&#39;foo&#39;</span><span class="p">,</span>
+                                       <span class="s">&#39;format&#39;</span><span class="p">:</span>   <span class="n">format1</span><span class="p">})</span>
+</pre></div>
+</div>
+<p>The <tt class="docutils literal"><span class="pre">criteria</span></tt> can have one of the following values:</p>
+<div class="highlight-python"><pre>'criteria': 'containing',
+'criteria': 'not containing',
+'criteria': 'begins with',
+'criteria': 'ends with',</pre>
+</div>
+<p>The <tt class="docutils literal"><span class="pre">value</span></tt> parameter should be a string or single character.</p>
+</div>
+<div class="section" id="type-average">
+<h3>type: average</h3>
+<p>The <tt class="docutils literal"><span class="pre">average</span></tt> type is used to specify Excel&#8217;s &#8220;Average&#8221; style
+conditional format:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">worksheet</span><span class="o">.</span><span class="n">conditional_format</span><span class="p">(</span><span class="s">&#39;A1:A4&#39;</span><span class="p">,</span> <span class="p">{</span><span class="s">&#39;type&#39;</span><span class="p">:</span>     <span class="s">&#39;average&#39;</span><span class="p">,</span>
+                                       <span class="s">&#39;criteria&#39;</span><span class="p">:</span> <span class="s">&#39;above&#39;</span><span class="p">,</span>
+                                       <span class="s">&#39;format&#39;</span><span class="p">:</span>   <span class="n">format1</span><span class="p">})</span>
+</pre></div>
+</div>
+<p>The type of average for the conditional format range is specified by
+the <tt class="docutils literal"><span class="pre">criteria</span></tt>:</p>
+<div class="highlight-python"><pre>'criteria': 'above',
+'criteria': 'below',
+'criteria': 'equal or above',
+'criteria': 'equal or below',
+'criteria': '1 std dev above',
+'criteria': '1 std dev below',
+'criteria': '2 std dev above',
+'criteria': '2 std dev below',
+'criteria': '3 std dev above',
+'criteria': '3 std dev below',</pre>
+</div>
+</div>
+<div class="section" id="type-duplicate">
+<h3>type: duplicate</h3>
+<p>The <tt class="docutils literal"><span class="pre">duplicate</span></tt> type is used to highlight duplicate cells in a
+range:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">worksheet</span><span class="o">.</span><span class="n">conditional_format</span><span class="p">(</span><span class="s">&#39;A1:A4&#39;</span><span class="p">,</span> <span class="p">{</span><span class="s">&#39;type&#39;</span><span class="p">:</span>   <span class="s">&#39;duplicate&#39;</span><span class="p">,</span>
+                                       <span class="s">&#39;format&#39;</span><span class="p">:</span> <span class="n">format1</span><span class="p">})</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="type-unique">
+<h3>type: unique</h3>
+<p>The <tt class="docutils literal"><span class="pre">unique</span></tt> type is used to highlight unique cells in a range:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">worksheet</span><span class="o">.</span><span class="n">conditional_format</span><span class="p">(</span><span class="s">&#39;A1:A4&#39;</span><span class="p">,</span> <span class="p">{</span><span class="s">&#39;type&#39;</span><span class="p">:</span>   <span class="s">&#39;unique&#39;</span><span class="p">,</span>
+                                       <span class="s">&#39;format&#39;</span><span class="p">:</span> <span class="n">format1</span><span class="p">})</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="type-top">
+<h3>type: top</h3>
+<p>The <tt class="docutils literal"><span class="pre">top</span></tt> type is used to specify the top <tt class="docutils literal"><span class="pre">n</span></tt> values by number or
+percentage in a range:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">worksheet</span><span class="o">.</span><span class="n">conditional_format</span><span class="p">(</span><span class="s">&#39;A1:A4&#39;</span><span class="p">,</span> <span class="p">{</span><span class="s">&#39;type&#39;</span><span class="p">:</span>   <span class="s">&#39;top&#39;</span><span class="p">,</span>
+                                       <span class="s">&#39;value&#39;</span><span class="p">:</span>  <span class="mi">10</span><span class="p">,</span>
+                                       <span class="s">&#39;format&#39;</span><span class="p">:</span> <span class="n">format1</span><span class="p">})</span>
+</pre></div>
+</div>
+<p>The <tt class="docutils literal"><span class="pre">criteria</span></tt> can be used to indicate that a percentage condition
+is required:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">worksheet</span><span class="o">.</span><span class="n">conditional_format</span><span class="p">(</span><span class="s">&#39;A1:A4&#39;</span><span class="p">,</span> <span class="p">{</span><span class="s">&#39;type&#39;</span><span class="p">:</span>     <span class="s">&#39;top&#39;</span><span class="p">,</span>
+                                       <span class="s">&#39;value&#39;</span><span class="p">:</span>    <span class="mi">10</span><span class="p">,</span>
+                                       <span class="s">&#39;criteria&#39;</span><span class="p">:</span> <span class="s">&#39;%&#39;</span><span class="p">,</span>
+                                       <span class="s">&#39;format&#39;</span><span class="p">:</span>   <span class="n">format1</span><span class="p">})</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="type-bottom">
+<h3>type: bottom</h3>
+<p>The <tt class="docutils literal"><span class="pre">bottom</span></tt> type is used to specify the bottom <tt class="docutils literal"><span class="pre">n</span></tt> values by
+number or percentage in a range.</p>
+<p>It takes the same parameters as <tt class="docutils literal"><span class="pre">top</span></tt>, see above.</p>
+</div>
+<div class="section" id="type-blanks">
+<h3>type: blanks</h3>
+<p>The <tt class="docutils literal"><span class="pre">blanks</span></tt> type is used to highlight blank cells in a range:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">worksheet</span><span class="o">.</span><span class="n">conditional_format</span><span class="p">(</span><span class="s">&#39;A1:A4&#39;</span><span class="p">,</span> <span class="p">{</span><span class="s">&#39;type&#39;</span><span class="p">:</span>   <span class="s">&#39;blanks&#39;</span><span class="p">,</span>
+                                       <span class="s">&#39;format&#39;</span><span class="p">:</span> <span class="n">format1</span><span class="p">})</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="type-no-blanks">
+<h3>type: no_blanks</h3>
+<p>The <tt class="docutils literal"><span class="pre">no_blanks</span></tt> type is used to highlight non blank cells in a
+range:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">worksheet</span><span class="o">.</span><span class="n">conditional_format</span><span class="p">(</span><span class="s">&#39;A1:A4&#39;</span><span class="p">,</span> <span class="p">{</span><span class="s">&#39;type&#39;</span><span class="p">:</span>   <span class="s">&#39;no_blanks&#39;</span><span class="p">,</span>
+                                       <span class="s">&#39;format&#39;</span><span class="p">:</span> <span class="n">format1</span><span class="p">})</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="type-errors">
+<h3>type: errors</h3>
+<p>The <tt class="docutils literal"><span class="pre">errors</span></tt> type is used to highlight error cells in a range:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">worksheet</span><span class="o">.</span><span class="n">conditional_format</span><span class="p">(</span><span class="s">&#39;A1:A4&#39;</span><span class="p">,</span> <span class="p">{</span><span class="s">&#39;type&#39;</span><span class="p">:</span>   <span class="s">&#39;errors&#39;</span><span class="p">,</span>
+                                       <span class="s">&#39;format&#39;</span><span class="p">:</span> <span class="n">format1</span><span class="p">})</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="type-no-errors">
+<h3>type: no_errors</h3>
+<p>The <tt class="docutils literal"><span class="pre">no_errors</span></tt> type is used to highlight non error cells in a range:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">worksheet</span><span class="o">.</span><span class="n">conditional_format</span><span class="p">(</span><span class="s">&#39;A1:A4&#39;</span><span class="p">,</span> <span class="p">{</span><span class="s">&#39;type&#39;</span><span class="p">:</span>   <span class="s">&#39;no_errors&#39;</span><span class="p">,</span>
+                                       <span class="s">&#39;format&#39;</span><span class="p">:</span> <span class="n">format1</span><span class="p">})</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="type-2-color-scale">
+<h3>type: 2_color_scale</h3>
+<p>The <tt class="docutils literal"><span class="pre">2_color_scale</span></tt> type is used to specify Excel&#8217;s &#8220;2 Color Scale&#8221;
+style conditional format:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">worksheet</span><span class="o">.</span><span class="n">conditional_format</span><span class="p">(</span><span class="s">&#39;A1:A12&#39;</span><span class="p">,</span> <span class="p">{</span><span class="s">&#39;type&#39;</span><span class="p">:</span> <span class="s">&#39;2_color_scale&#39;</span><span class="p">})</span>
+</pre></div>
+</div>
+<img alt="_images/conditional_format4.png" src="_images/conditional_format4.png" />
+<p>This conditional type can be modified with <tt class="docutils literal"><span class="pre">min_type</span></tt>, <tt class="docutils literal"><span class="pre">max_type</span></tt>,
+<tt class="docutils literal"><span class="pre">min_value</span></tt>, <tt class="docutils literal"><span class="pre">min_value</span></tt>, <tt class="docutils literal"><span class="pre">min_color</span></tt> and <tt class="docutils literal"><span class="pre">max_color</span></tt>, see below.</p>
+</div>
+<div class="section" id="type-3-color-scale">
+<h3>type: 3_color_scale</h3>
+<p>The <tt class="docutils literal"><span class="pre">3_color_scale</span></tt> type is used to specify Excel&#8217;s &#8220;3 Color Scale&#8221;
+style conditional format:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">worksheet</span><span class="o">.</span><span class="n">conditional_format</span><span class="p">(</span><span class="s">&#39;A1:A12&#39;</span><span class="p">,</span> <span class="p">{</span><span class="s">&#39;type&#39;</span><span class="p">:</span> <span class="s">&#39;3_color_scale&#39;</span><span class="p">})</span>
+</pre></div>
+</div>
+<p>This conditional type can be modified with <tt class="docutils literal"><span class="pre">min_type</span></tt>, <tt class="docutils literal"><span class="pre">mid_type</span></tt>,
+<tt class="docutils literal"><span class="pre">max_type</span></tt>, <tt class="docutils literal"><span class="pre">min_value</span></tt>, <tt class="docutils literal"><span class="pre">mid_value</span></tt>, <tt class="docutils literal"><span class="pre">min_value</span></tt>, <tt class="docutils literal"><span class="pre">min_color</span></tt>,
+<tt class="docutils literal"><span class="pre">mid_color</span></tt> and <tt class="docutils literal"><span class="pre">max_color</span></tt>, see below.</p>
+</div>
+<div class="section" id="type-data-bar">
+<h3>type: data_bar</h3>
+<p>The <tt class="docutils literal"><span class="pre">data_bar</span></tt> type is used to specify Excel&#8217;s &#8220;Data Bar&#8221; style
+conditional format:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">worksheet</span><span class="o">.</span><span class="n">conditional_format</span><span class="p">(</span><span class="s">&#39;A1:A12&#39;</span><span class="p">,</span> <span class="p">{</span><span class="s">&#39;type&#39;</span><span class="p">:</span> <span class="s">&#39;data_bar&#39;</span><span class="p">})</span>
+</pre></div>
+</div>
+<p>This conditional type can be modified with <tt class="docutils literal"><span class="pre">min_type</span></tt>, <tt class="docutils literal"><span class="pre">max_type</span></tt>,
+<tt class="docutils literal"><span class="pre">min_value</span></tt>, <tt class="docutils literal"><span class="pre">min_value</span></tt> and <tt class="docutils literal"><span class="pre">bar_color</span></tt>, see below.</p>
+</div>
+<div class="section" id="type-formula">
+<h3>type: formula</h3>
+<p>The <tt class="docutils literal"><span class="pre">formula</span></tt> type is used to specify a conditional format based on
+a user defined formula:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">worksheet</span><span class="o">.</span><span class="n">conditional_format</span><span class="p">(</span><span class="s">&#39;A1:A4&#39;</span><span class="p">,</span> <span class="p">{</span><span class="s">&#39;type&#39;</span><span class="p">:</span>     <span class="s">&#39;formula&#39;</span><span class="p">,</span>
+                                       <span class="s">&#39;criteria&#39;</span><span class="p">:</span> <span class="s">&#39;=A1&gt;5&#39;</span><span class="p">,</span>
+                                       <span class="s">&#39;format&#39;</span><span class="p">:</span>   <span class="n">format1</span><span class="p">})</span>
+</pre></div>
+</div>
+<p>The formula is specified in the <tt class="docutils literal"><span class="pre">criteria</span></tt>.</p>
+</div>
+<div class="section" id="min-type">
+<h3>min_type:</h3>
+<p>The <tt class="docutils literal"><span class="pre">min_type</span></tt> and <tt class="docutils literal"><span class="pre">max_type</span></tt> properties are available when the
+conditional formatting type is <tt class="docutils literal"><span class="pre">2_color_scale</span></tt>, <tt class="docutils literal"><span class="pre">3_color_scale</span></tt> or
+<tt class="docutils literal"><span class="pre">data_bar</span></tt>. The <tt class="docutils literal"><span class="pre">mid_type</span></tt> is available for <tt class="docutils literal"><span class="pre">3_color_scale</span></tt>. The
+properties are used as follows:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">worksheet</span><span class="o">.</span><span class="n">conditional_format</span><span class="p">(</span><span class="s">&#39;A1:A12&#39;</span><span class="p">,</span> <span class="p">{</span><span class="s">&#39;type&#39;</span><span class="p">:</span>     <span class="s">&#39;2_color_scale&#39;</span><span class="p">,</span>
+                                        <span class="s">&#39;min_type&#39;</span><span class="p">:</span> <span class="s">&#39;percent&#39;</span><span class="p">,</span>
+                                        <span class="s">&#39;max_type&#39;</span><span class="p">:</span> <span class="s">&#39;percent&#39;</span><span class="p">})</span>
+</pre></div>
+</div>
+<p>The available min/mid/max types are:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">num</span>
+<span class="n">percent</span>
+<span class="n">percentile</span>
+<span class="n">formula</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="mid-type">
+<h3>mid_type:</h3>
+<p>Used for <tt class="docutils literal"><span class="pre">3_color_scale</span></tt>. Same as <tt class="docutils literal"><span class="pre">min_type</span></tt>, see above.</p>
+</div>
+<div class="section" id="max-type">
+<h3>max_type:</h3>
+<p>Same as <tt class="docutils literal"><span class="pre">min_type</span></tt>, see above.</p>
+</div>
+<div class="section" id="min-value">
+<h3>min_value:</h3>
+<p>The <tt class="docutils literal"><span class="pre">min_value</span></tt> and <tt class="docutils literal"><span class="pre">max_value</span></tt> properties are available when the
+conditional formatting type is <tt class="docutils literal"><span class="pre">2_color_scale</span></tt>, <tt class="docutils literal"><span class="pre">3_color_scale</span></tt> or
+<tt class="docutils literal"><span class="pre">data_bar</span></tt>. The <tt class="docutils literal"><span class="pre">mid_value</span></tt> is available for
+<tt class="docutils literal"><span class="pre">3_color_scale</span></tt>. The properties are used as follows:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">worksheet</span><span class="o">.</span><span class="n">conditional_format</span><span class="p">(</span><span class="s">&#39;A1:A12&#39;</span><span class="p">,</span> <span class="p">{</span><span class="s">&#39;type&#39;</span><span class="p">:</span>      <span class="s">&#39;2_color_scale&#39;</span><span class="p">,</span>
+                                        <span class="s">&#39;min_value&#39;</span><span class="p">:</span> <span class="mi">10</span><span class="p">,</span>
+                                        <span class="s">&#39;max_value&#39;</span><span class="p">:</span> <span class="mi">90</span><span class="p">})</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="mid-value">
+<h3>mid_value:</h3>
+<p>Used for <tt class="docutils literal"><span class="pre">3_color_scale</span></tt>. Same as <tt class="docutils literal"><span class="pre">min_value</span></tt>, see above.</p>
+</div>
+<div class="section" id="max-value">
+<h3>max_value:</h3>
+<p>Same as <tt class="docutils literal"><span class="pre">min_value</span></tt>, see above.</p>
+</div>
+<div class="section" id="min-color">
+<h3>min_color:</h3>
+<p>The <tt class="docutils literal"><span class="pre">min_color</span></tt> and <tt class="docutils literal"><span class="pre">max_color</span></tt> properties are available when the
+conditional formatting type is <tt class="docutils literal"><span class="pre">2_color_scale</span></tt>, <tt class="docutils literal"><span class="pre">3_color_scale</span></tt> or
+<tt class="docutils literal"><span class="pre">data_bar</span></tt>. The <tt class="docutils literal"><span class="pre">mid_color</span></tt> is available for
+<tt class="docutils literal"><span class="pre">3_color_scale</span></tt>. The properties are used as follows:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">worksheet</span><span class="o">.</span><span class="n">conditional_format</span><span class="p">(</span><span class="s">&#39;A1:A12&#39;</span><span class="p">,</span> <span class="p">{</span><span class="s">&#39;type&#39;</span><span class="p">:</span>      <span class="s">&#39;2_color_scale&#39;</span><span class="p">,</span>
+                                        <span class="s">&#39;min_color&#39;</span><span class="p">:</span> <span class="s">&#39;#C5D9F1&#39;</span><span class="p">,</span>
+                                        <span class="s">&#39;max_color&#39;</span><span class="p">:</span> <span class="s">&#39;#538ED5&#39;</span><span class="p">})</span>
+</pre></div>
+</div>
+<p>The colour can be a Html style <tt class="docutils literal"><span class="pre">#RRGGBB</span></tt> string or a limited number
+named colours, see <a class="reference internal" href="working_with_formats.html#format-colors"><em>Format Colors</em></a>.</p>
+</div>
+<div class="section" id="mid-color">
+<h3>mid_color:</h3>
+<p>Used for <tt class="docutils literal"><span class="pre">3_color_scale</span></tt>. Same as <tt class="docutils literal"><span class="pre">min_color</span></tt>, see above.</p>
+</div>
+<div class="section" id="max-color">
+<h3>max_color:</h3>
+<p>Same as <tt class="docutils literal"><span class="pre">min_color</span></tt>, see above.</p>
+</div>
+<div class="section" id="bar-color">
+<h3>bar_color:</h3>
+<p>Used for <tt class="docutils literal"><span class="pre">data_bar</span></tt>. Same as <tt class="docutils literal"><span class="pre">min_color</span></tt>, see above.</p>
+</div>
+<div class="section" id="multi-range">
+<h3>multi_range:</h3>
+<p>The <tt class="docutils literal"><span class="pre">multi_range</span></tt> option is used to extend a conditional format over
+non-contiguous ranges.</p>
+<p>It is possible to apply the conditional format to different cell ranges in a
+worksheet using multiple calls to <tt class="docutils literal"><span class="pre">conditional_format()</span></tt>. However, as a
+minor optimisation it is also possible in Excel to apply the same conditional
+format to different non-contiguous cell ranges.</p>
+<p>This is replicated in <tt class="docutils literal"><span class="pre">conditional_format()</span></tt> using the <tt class="docutils literal"><span class="pre">multi_range</span></tt>
+option. The range must contain the primary range for the conditional format
+and any others separated by spaces.</p>
+<p>For example to apply one conditional format to two ranges, <tt class="docutils literal"><span class="pre">'B3:K6'</span></tt> and
+<tt class="docutils literal"><span class="pre">'B9:K12'</span></tt>:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">worksheet</span><span class="o">.</span><span class="n">conditional_format</span><span class="p">(</span><span class="s">&#39;B3:K6&#39;</span><span class="p">,</span> <span class="p">{</span><span class="s">&#39;type&#39;</span><span class="p">:</span> <span class="s">&#39;cell&#39;</span><span class="p">,</span>
+                                       <span class="s">&#39;criteria&#39;</span><span class="p">:</span> <span class="s">&#39;&gt;=&#39;</span><span class="p">,</span>
+                                       <span class="s">&#39;value&#39;</span><span class="p">:</span> <span class="mi">50</span><span class="p">,</span>
+                                       <span class="s">&#39;format&#39;</span><span class="p">:</span> <span class="n">format1</span><span class="p">,</span>
+                                       <span class="s">&#39;multi_range&#39;</span><span class="p">:</span> <span class="s">&#39;B3:K6 B9:K12&#39;</span><span class="p">})</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="conditional-formatting-examples">
+<h2>Conditional Formatting Examples</h2>
+<p>Highlight cells greater than an integer value:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">worksheet</span><span class="o">.</span><span class="n">conditional_format</span><span class="p">(</span><span class="s">&#39;A1:F10&#39;</span><span class="p">,</span> <span class="p">{</span><span class="s">&#39;type&#39;</span><span class="p">:</span>     <span class="s">&#39;cell&#39;</span><span class="p">,</span>
+                                        <span class="s">&#39;criteria&#39;</span><span class="p">:</span> <span class="s">&#39;greater than&#39;</span><span class="p">,</span>
+                                        <span class="s">&#39;value&#39;</span><span class="p">:</span>    <span class="mi">5</span><span class="p">,</span>
+                                        <span class="s">&#39;format&#39;</span><span class="p">:</span>   <span class="n">format1</span><span class="p">})</span>
+</pre></div>
+</div>
+<p>Highlight cells greater than a value in a reference cell:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">worksheet</span><span class="o">.</span><span class="n">conditional_format</span><span class="p">(</span><span class="s">&#39;A1:F10&#39;</span><span class="p">,</span> <span class="p">{</span><span class="s">&#39;type&#39;</span><span class="p">:</span>     <span class="s">&#39;cell&#39;</span><span class="p">,</span>
+                                        <span class="s">&#39;criteria&#39;</span><span class="p">:</span> <span class="s">&#39;greater than&#39;</span><span class="p">,</span>
+                                        <span class="s">&#39;value&#39;</span><span class="p">:</span>    <span class="s">&#39;H1&#39;</span><span class="p">,</span>
+                                        <span class="s">&#39;format&#39;</span><span class="p">:</span>   <span class="n">format1</span><span class="p">})</span>
+</pre></div>
+</div>
+<p>Highlight cells more recent (greater) than a certain date:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">date</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">strptime</span><span class="p">(</span><span class="s">&#39;2011-01-01&#39;</span><span class="p">,</span> <span class="s">&quot;%Y-%m-</span><span class="si">%d</span><span class="s">&quot;</span><span class="p">)</span>
+
+<span class="n">worksheet</span><span class="o">.</span><span class="n">conditional_format</span><span class="p">(</span><span class="s">&#39;A1:F10&#39;</span><span class="p">,</span> <span class="p">{</span><span class="s">&#39;type&#39;</span><span class="p">:</span>     <span class="s">&#39;date&#39;</span><span class="p">,</span>
+                                        <span class="s">&#39;criteria&#39;</span><span class="p">:</span> <span class="s">&#39;greater than&#39;</span><span class="p">,</span>
+                                        <span class="s">&#39;value&#39;</span><span class="p">:</span>    <span class="n">date</span><span class="p">,</span>
+                                        <span class="s">&#39;format&#39;</span><span class="p">:</span>   <span class="n">format1</span><span class="p">})</span>
+</pre></div>
+</div>
+<p>Highlight cells with a date in the last seven days:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">worksheet</span><span class="o">.</span><span class="n">conditional_format</span><span class="p">(</span><span class="s">&#39;A1:F10&#39;</span><span class="p">,</span> <span class="p">{</span><span class="s">&#39;type&#39;</span><span class="p">:</span>     <span class="s">&#39;time_period&#39;</span><span class="p">,</span>
+                                        <span class="s">&#39;criteria&#39;</span><span class="p">:</span> <span class="s">&#39;last 7 days&#39;</span><span class="p">,</span>
+                                        <span class="s">&#39;format&#39;</span><span class="p">:</span>   <span class="n">format1</span><span class="p">})</span>
+</pre></div>
+</div>
+<p>Highlight cells with strings starting with the letter <tt class="docutils literal"><span class="pre">b</span></tt>:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">worksheet</span><span class="o">.</span><span class="n">conditional_format</span><span class="p">(</span><span class="s">&#39;A1:F10&#39;</span><span class="p">,</span> <span class="p">{</span><span class="s">&#39;type&#39;</span><span class="p">:</span>     <span class="s">&#39;text&#39;</span><span class="p">,</span>
+                                        <span class="s">&#39;criteria&#39;</span><span class="p">:</span> <span class="s">&#39;begins with&#39;</span><span class="p">,</span>
+                                        <span class="s">&#39;value&#39;</span><span class="p">:</span>    <span class="s">&#39;b&#39;</span><span class="p">,</span>
+                                        <span class="s">&#39;format&#39;</span><span class="p">:</span>   <span class="n">format1</span><span class="p">})</span>
+</pre></div>
+</div>
+<p>Highlight cells that are 1 standard deviation above the average for the range:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">worksheet</span><span class="o">.</span><span class="n">conditional_format</span><span class="p">(</span><span class="s">&#39;A1:F10&#39;</span><span class="p">,</span> <span class="p">{</span><span class="s">&#39;type&#39;</span><span class="p">:</span>   <span class="s">&#39;average&#39;</span><span class="p">,</span>
+                                        <span class="s">&#39;format&#39;</span><span class="p">:</span> <span class="n">format1</span><span class="p">})</span>
+</pre></div>
+</div>
+<p>Highlight duplicate cells in a range:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">worksheet</span><span class="o">.</span><span class="n">conditional_format</span><span class="p">(</span><span class="s">&#39;A1:F10&#39;</span><span class="p">,</span> <span class="p">{</span><span class="s">&#39;type&#39;</span><span class="p">:</span>   <span class="s">&#39;duplicate&#39;</span><span class="p">,</span>
+                                        <span class="s">&#39;format&#39;</span><span class="p">:</span> <span class="n">format1</span><span class="p">})</span>
+</pre></div>
+</div>
+<p>Highlight unique cells in a range:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">worksheet</span><span class="o">.</span><span class="n">conditional_format</span><span class="p">(</span><span class="s">&#39;A1:F10&#39;</span><span class="p">,</span> <span class="p">{</span><span class="s">&#39;type&#39;</span><span class="p">:</span>   <span class="s">&#39;unique&#39;</span><span class="p">,</span>
+                                        <span class="s">&#39;format&#39;</span><span class="p">:</span> <span class="n">format1</span><span class="p">})</span>
+</pre></div>
+</div>
+<p>Highlight the top 10 cells:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">worksheet</span><span class="o">.</span><span class="n">conditional_format</span><span class="p">(</span><span class="s">&#39;A1:F10&#39;</span><span class="p">,</span> <span class="p">{</span><span class="s">&#39;type&#39;</span><span class="p">:</span>   <span class="s">&#39;top&#39;</span><span class="p">,</span>
+                                        <span class="s">&#39;value&#39;</span><span class="p">:</span>  <span class="mi">10</span><span class="p">,</span>
+                                        <span class="s">&#39;format&#39;</span><span class="p">:</span> <span class="n">format1</span><span class="p">})</span>
+</pre></div>
+</div>
+<p>Highlight blank cells:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">worksheet</span><span class="o">.</span><span class="n">conditional_format</span><span class="p">(</span><span class="s">&#39;A1:F10&#39;</span><span class="p">,</span> <span class="p">{</span><span class="s">&#39;type&#39;</span><span class="p">:</span>   <span class="s">&#39;blanks&#39;</span><span class="p">,</span>
+                                        <span class="s">&#39;format&#39;</span><span class="p">:</span> <span class="n">format1</span><span class="p">})</span>
+</pre></div>
+</div>
+<p>See also <a class="reference internal" href="example_conditional_format.html#ex-cond-format"><em>Example: Conditional Formatting</em></a>.</p>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="index.html">
+              <img class="logo" src="_static/logo.png" alt="Logo"/>
+            </a></p>
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Working with Conditional Formatting</a><ul>
+<li><a class="reference internal" href="#the-conditional-format-method">The conditional_format() method</a></li>
+<li><a class="reference internal" href="#conditional-format-options">Conditional Format Options</a><ul>
+<li><a class="reference internal" href="#type">type</a></li>
+<li><a class="reference internal" href="#type-cell">type: cell</a></li>
+<li><a class="reference internal" href="#criteria">criteria:</a></li>
+<li><a class="reference internal" href="#value">value:</a></li>
+<li><a class="reference internal" href="#format">format:</a></li>
+<li><a class="reference internal" href="#minimum">minimum:</a></li>
+<li><a class="reference internal" href="#maximum">maximum:</a></li>
+<li><a class="reference internal" href="#type-date">type: date</a></li>
+<li><a class="reference internal" href="#type-time-period">type: time_period</a></li>
+<li><a class="reference internal" href="#type-text">type: text</a></li>
+<li><a class="reference internal" href="#type-average">type: average</a></li>
+<li><a class="reference internal" href="#type-duplicate">type: duplicate</a></li>
+<li><a class="reference internal" href="#type-unique">type: unique</a></li>
+<li><a class="reference internal" href="#type-top">type: top</a></li>
+<li><a class="reference internal" href="#type-bottom">type: bottom</a></li>
+<li><a class="reference internal" href="#type-blanks">type: blanks</a></li>
+<li><a class="reference internal" href="#type-no-blanks">type: no_blanks</a></li>
+<li><a class="reference internal" href="#type-errors">type: errors</a></li>
+<li><a class="reference internal" href="#type-no-errors">type: no_errors</a></li>
+<li><a class="reference internal" href="#type-2-color-scale">type: 2_color_scale</a></li>
+<li><a class="reference internal" href="#type-3-color-scale">type: 3_color_scale</a></li>
+<li><a class="reference internal" href="#type-data-bar">type: data_bar</a></li>
+<li><a class="reference internal" href="#type-formula">type: formula</a></li>
+<li><a class="reference internal" href="#min-type">min_type:</a></li>
+<li><a class="reference internal" href="#mid-type">mid_type:</a></li>
+<li><a class="reference internal" href="#max-type">max_type:</a></li>
+<li><a class="reference internal" href="#min-value">min_value:</a></li>
+<li><a class="reference internal" href="#mid-value">mid_value:</a></li>
+<li><a class="reference internal" href="#max-value">max_value:</a></li>
+<li><a class="reference internal" href="#min-color">min_color:</a></li>
+<li><a class="reference internal" href="#mid-color">mid_color:</a></li>
+<li><a class="reference internal" href="#max-color">max_color:</a></li>
+<li><a class="reference internal" href="#bar-color">bar_color:</a></li>
+<li><a class="reference internal" href="#multi-range">multi_range:</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#conditional-formatting-examples">Conditional Formatting Examples</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="working_with_autofilters.html"
+                        title="previous chapter">Working with Autofilters</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="working_with_cell_comments.html"
+                        title="next chapter">Working with Cell Comments</a></p>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="_sources/working_with_conditional_formats.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="working_with_cell_comments.html" title="Working with Cell Comments"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="working_with_autofilters.html" title="Working with Autofilters"
+             >previous</a> |</li>
+        <li><a href="index.html">XlsxWriter Documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2013, John McNamara.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.3.
+    </div>
+  </body>
+</html>

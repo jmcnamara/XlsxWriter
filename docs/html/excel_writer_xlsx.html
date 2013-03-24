@@ -8,7 +8,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>Excel::Writer::XLSX &mdash; XlsxWriter Documentation</title>
+    <title>Comparison with Excel::Writer::XLSX &mdash; XlsxWriter Documentation</title>
     
     <link rel="stylesheet" href="_static/default.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
@@ -16,7 +16,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '',
-        VERSION:     '0.1.9',
+        VERSION:     '0.2.0',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -51,8 +51,8 @@
         <div class="bodywrapper">
           <div class="body">
             
-  <div class="section" id="excel-writer-xlsx">
-<span id="ewx"></span><h1>Excel::Writer::XLSX</h1>
+  <div class="section" id="comparison-with-excel-writer-xlsx">
+<span id="ewx"></span><h1>Comparison with Excel::Writer::XLSX</h1>
 <p><a class="reference external" href="http://search.cpan.org/~jmcnamara/Excel-Writer-XLSX/">Excel::Writer::XLSX</a>
 is a module written in Perl for creating Excel 2007+ XLSX files.</p>
 <p>Excel::Writer::XLSX is an API compatible rewrite of an older Perl module called
@@ -162,8 +162,10 @@ following table shows the level of compatibility between the two module.</p>
 </tr>
 </tbody>
 </table>
-<p>1. Not required in XlsxWriter. Full RGB colors are supported. 2. Called
-<tt class="docutils literal"><span class="pre">sheets()</span></tt> in Excel::Writer::XLSX.</p>
+<ol class="arabic simple">
+<li>Not required in XlsxWriter. Full RGB colors are supported.</li>
+<li>Called <tt class="docutils literal"><span class="pre">sheets()</span></tt> in Excel::Writer::XLSX.</li>
+</ol>
 </div>
 <div class="section" id="worksheet">
 <h3>Worksheet</h3>
@@ -265,8 +267,8 @@ following table shows the level of compatibility between the two module.</p>
 <td><strong>No</strong></td>
 <td>Yes</td>
 </tr>
-<tr class="row-odd"><td>conditional_formatting()</td>
-<td><strong>No</strong></td>
+<tr class="row-odd"><td><a class="reference internal" href="worksheet.html#conditional_format" title="conditional_format"><tt class="xref py py-func docutils literal"><span class="pre">conditional_format()</span></tt></a></td>
+<td>Yes (1)</td>
 <td>Yes</td>
 </tr>
 <tr class="row-even"><td>add_sparkline()</td>
@@ -334,7 +336,7 @@ following table shows the level of compatibility between the two module.</p>
 <td>Yes</td>
 </tr>
 <tr class="row-even"><td>merge_range_type()</td>
-<td>No (1)</td>
+<td>No (2)</td>
 <td>Yes</td>
 </tr>
 <tr class="row-odd"><td><a class="reference internal" href="worksheet.html#set_zoom" title="set_zoom"><tt class="xref py py-func docutils literal"><span class="pre">set_zoom()</span></tt></a></td>
@@ -368,6 +370,7 @@ following table shows the level of compatibility between the two module.</p>
 </tbody>
 </table>
 <ol class="arabic simple">
+<li>Called <tt class="docutils literal"><span class="pre">conditional_formatting()</span></tt> in Excel::Writer::XLSX.</li>
 <li>Not required in XlsxWriter. The same functionality is available via
 <a class="reference internal" href="worksheet.html#merge_range" title="merge_range"><tt class="xref py py-func docutils literal"><span class="pre">merge_range()</span></tt></a>.</li>
 </ol>
@@ -628,7 +631,7 @@ following table shows the level of compatibility between the two module.</p>
             </a></p>
   <h3><a href="index.html">Table Of Contents</a></h3>
   <ul>
-<li><a class="reference internal" href="#">Excel::Writer::XLSX</a><ul>
+<li><a class="reference internal" href="#">Comparison with Excel::Writer::XLSX</a><ul>
 <li><a class="reference internal" href="#compatibility-with-excel-writer-xlsx">Compatibility with Excel::Writer::XLSX</a><ul>
 <li><a class="reference internal" href="#workbook">Workbook</a></li>
 <li><a class="reference internal" href="#worksheet">Worksheet</a></li>

@@ -14,6 +14,7 @@ XlsxWriter supports the following features in version |version|:
 * Merged cells.
 * Defined names.
 * Autofilters.
+* Conditional formatting.
 * Worksheet PNG/JPEG images.
 * Rich multi-format strings.
 * Cell comments.
@@ -80,6 +81,7 @@ This document explains how to install and use the XlsxWriter module.
    working_with_formats.rst
    working_with_dates_and_time.rst
    working_with_autofilters.rst
+   working_with_conditional_formats.rst
    working_with_cell_comments.rst
    examples.rst
    excel_writer_xlsx.rst
