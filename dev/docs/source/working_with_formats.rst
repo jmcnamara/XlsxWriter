@@ -125,8 +125,9 @@ to the `add_format()` constructor::
     format = workbook.add_format({'bold': True, 'font_color': 'red'})
 
 The object method interface is mainly provided for backward compatibility with
-:ref:`ewx`. The key/value interface has proved to be more flexible in real
-world programs and is the recommended method for setting format properties.
+:ref:`Excel::Writer::XLSX <ewx>`. The key/value interface has proved to be 
+more flexible in real world programs and is the recommended method for
+setting format properties.
 
 .. _format_colors:
 
@@ -137,8 +138,8 @@ Format property colors are specified using a Html sytle ``#RRGGBB`` index::
 
     cell_format.set_font_color('#FF0000')
 
-For backward compatibility with :ref:`ewx` a limited number of
-color names are supported::
+For backward compatibility with :ref:`Excel::Writer::XLSX <ewx>` a limited 
+number of color names are supported::
 
     cell_format.set_font_color('red')
 

@@ -37,7 +37,7 @@ or Excel will generate a warning when the file is opened.
 
 .. note::
    A later version of the module will support writing to filehandles like
-   :ref:`ewx`.
+   :ref:`Excel::Writer::XLSX <ewx>`.
 
 
 workbook.add_worksheet()

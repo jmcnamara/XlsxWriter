@@ -929,6 +929,57 @@ to avoid BMP images since they aren't compressed. If used, BMP images must be
 See also :ref:`ex_insert_image`.
 
 
+worksheet.conditional_format()
+------------------------------
+
+.. py:function:: conditional_format(first_row, first_col, last_row, \
+                                    last_col, options)
+
+   Write a conditional format to range of cells.
+
+   :param first_row:   The first row of the range. (All zero indexed.)
+   :param first_col:   The first column of the range.
+   :param last_row:    The last row of the range.
+   :param last_col:    The last col of the range.
+   :param options:     Conditional formatting options.
+   :type  first_row:   int
+   :type  first_col:   int
+   :type  last_row:    int
+   :type  last_col:    int
+   :type  options:     dict
+
+The ``conditional_format()`` method is used to add formatting to a
+cell or range of cells based on user defined criteria::
+
+    worksheet.conditional_format('B3:K12', {'type':     'cell',
+                                            'criteria': '>=',
+                                            'value':    50,
+                                            'format':   format1})
+
+.. image:: _static/conditional_format1.png
+
+The conditional format can be applied to a single cell or a range of cells.
+As usual you can use A1 or Row/Column notation, see :ref:`cell_notation`.
+
+With Row/Column notation you must specify all four cells in the range:
+``(first_row, first_col, last_row, last_col)``.
+If you need to refer to a single cell set the `last_` values equal to the
+`first_` values. With A1 notation you can refer to a single cell or a range
+of cells::
+
+    worksheet.conditional_format(0, 0, 4, 1, {...})
+    worksheet.conditional_format('B1',       {...})
+    worksheet.conditional_format('C1:E5',    {...})
+
+
+The options parameter in ``conditional_format()`` must be a dictionary
+containing the parameters that describe the type and style of the conditional
+format. There are a lot of available options which are described in detail in
+a separate section: :ref:`working_with_conditional_formats`. See also
+:ref:`ex_cond_format`.
+
+
+
 worksheet.write_comment()
 -------------------------
 
@@ -1350,8 +1401,8 @@ tab::
     worksheet1.set_tab_color('red')
     worksheet2.set_tab_color('#FF9900')  # Orange
 
-The color can be a Html style ``#RRGGBB`` string or a limited number of named
-colors, see :ref:`format_colors`.
+The colour can be a Html style ``#RRGGBB`` string or a limited number
+named colours, see :ref:`format_colors`.
 
 See :ref:`ex_tab_colors` for more details.
 

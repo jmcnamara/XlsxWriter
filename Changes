@@ -1,5 +1,12 @@
 
 
+Release 0.2.0 - March 24 2013
+-----------------------------
+
+* Added conditional formatting. See the :func:`conditional_format` method,
+  :ref:`working_with_conditional_formats` and :ref:`ex_cond_format`.
+
+
 Release 0.1.9 - March 19 2013
 -----------------------------
 

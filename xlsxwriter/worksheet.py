@@ -1379,10 +1379,11 @@ class Worksheet(xmlwriter.XMLwriter):
     #         -3 : incorrect parameter.
     #
     @convert_range_args
-    def conditional_format(self, row1, col1, row2, col2, params=None):
+    def conditional_format(self, first_row, first_col, last_row, last_col,
+                           options=None):
 
-        if params is None:
-            params = {}
+        if options is None:
+            options = {}
 
         # List of valid input parameters.
         valid_parameter = {
@@ -1405,14 +1406,14 @@ class Worksheet(xmlwriter.XMLwriter):
             'bar_color': 1}
 
         # Check for valid input parameters.
-        for param_key in params.keys():
+        for param_key in options.keys():
             if param_key not in valid_parameter:
                 warn("Unknown parameter '%s' in conditional_formatting()" %
                      param_key)
                 return -3
 
         # 'type' is a required parameter.
-        if 'type' not in params:
+        if 'type' not in options:
             warn("Parameter 'type' is required in conditional_formatting()")
             return -3
 
@@ -1438,14 +1439,14 @@ class Worksheet(xmlwriter.XMLwriter):
             'formula': 'expression'}
 
         # Check for valid validation types.
-        if params['type'] not in valid_type:
+        if options['type'] not in valid_type:
             warn("Unknown validation type '%s' for parameter 'type' "
-                 "in conditional_formatting()" % params['type'])
+                 "in conditional_formatting()" % options['type'])
             return -3
         else:
-            if params['type'] == 'bottom':
-                params['direction'] = 'bottom'
-            params['type'] = valid_type[params['type']]
+            if options['type'] == 'bottom':
+                options['direction'] = 'bottom'
+            options['type'] = valid_type[options['type']]
 
         # List of valid criteria types.
         criteria_type = {
@@ -1480,230 +1481,230 @@ class Worksheet(xmlwriter.XMLwriter):
             'continue month': 'continueMonth'}
 
         # Check for valid criteria types.
-        if ('criteria' in params and params['criteria'] in criteria_type):
-            params['criteria'] = criteria_type[params['criteria']]
+        if ('criteria' in options and options['criteria'] in criteria_type):
+            options['criteria'] = criteria_type[options['criteria']]
 
         # Convert date/times value if required.
-        if params['type'] == 'date' or params['type'] == 'time':
-            params['type'] = 'cellIs'
+        if options['type'] == 'date' or options['type'] == 'time':
+            options['type'] = 'cellIs'
 
-            if 'value' in params:
-                if not isinstance(params['value'], datetime.datetime):
+            if 'value' in options:
+                if not isinstance(options['value'], datetime.datetime):
                     warn("Conditional format 'value' must be a "
                          "datetime object.")
                     return -3
                 else:
-                    date_time = self._convert_date_time(params['value'])
+                    date_time = self._convert_date_time(options['value'])
                     # Format date number to the same precision as Excel.
-                    params['value'] = "%.15g" % date_time
+                    options['value'] = "%.15g" % date_time
 
-            if 'minimum' in params:
-                if not isinstance(params['minimum'], datetime.datetime):
+            if 'minimum' in options:
+                if not isinstance(options['minimum'], datetime.datetime):
                     warn("Conditional format 'minimum' must be a "
                          "datetime object.")
                     return -3
                 else:
-                    date_time = self._convert_date_time(params['minimum'])
-                    params['minimum'] = "%.15g" % date_time
+                    date_time = self._convert_date_time(options['minimum'])
+                    options['minimum'] = "%.15g" % date_time
 
-            if 'maximum' in params:
-                if not isinstance(params['maximum'], datetime.datetime):
+            if 'maximum' in options:
+                if not isinstance(options['maximum'], datetime.datetime):
                     warn("Conditional format 'maximum' must be a "
                          "datetime object.")
                     return -3
                 else:
-                    date_time = self._convert_date_time(params['maximum'])
-                    params['maximum'] = "%.15g" % date_time
+                    date_time = self._convert_date_time(options['maximum'])
+                    options['maximum'] = "%.15g" % date_time
 
         # Swap last row/col for first row/col as necessary
-        if row1 > row2:
-            row1, row2 = row2, row1
+        if first_row > last_row:
+            first_row, last_row = last_row, first_row
 
-        if col1 > col2:
-            col1, col2 = col2, col1
+        if first_col > last_col:
+            first_col, last_col = last_col, first_col
 
         # Set the formatting range.
         # If the first and last cell are the same write a single cell.
-        if row1 == row2 and col1 == col2:
-            cell_range = xl_rowcol_to_cell(row1, col1)
+        if first_row == last_row and first_col == last_col:
+            cell_range = xl_rowcol_to_cell(first_row, first_col)
             start_cell = cell_range
         else:
-            cell_range = xl_range(row1, col1, row2, col2)
-            start_cell = xl_rowcol_to_cell(row1, col1)
+            cell_range = xl_range(first_row, first_col, last_row, last_col)
+            start_cell = xl_rowcol_to_cell(first_row, first_col)
 
         # Override with user defined multiple range if provided.
-        if 'multi_range' in params:
-            cell_range = params['multi_range']
+        if 'multi_range' in options:
+            cell_range = options['multi_range']
             cell_range = cell_range.replace('$', '')
 
         # Get the dxf format index.
-        if 'format' in params and params['format']:
-            params['format'] = params['format']._get_dxf_index()
+        if 'format' in options and options['format']:
+            options['format'] = options['format']._get_dxf_index()
 
         # Set the priority based on the order of adding.
-        params['priority'] = self.dxf_priority
+        options['priority'] = self.dxf_priority
         self.dxf_priority += 1
 
         # Special handling of text criteria.
-        if params['type'] == 'text':
+        if options['type'] == 'text':
 
-            if params['criteria'] == 'containsText':
-                params['type'] = 'containsText'
-                params['formula'] = ('NOT(ISERROR(SEARCH("%s",%s)))'
-                                     % (params['value'], start_cell))
-            elif params['criteria'] == 'notContains':
-                params['type'] = 'notContainsText'
-                params['formula'] = ('ISERROR(SEARCH("%s",%s))'
-                                     % (params['value'], start_cell))
-            elif params['criteria'] == 'beginsWith':
-                params['type'] = 'beginsWith'
-                params['formula'] = ('LEFT(%s,%d)="%s"'
+            if options['criteria'] == 'containsText':
+                options['type'] = 'containsText'
+                options['formula'] = ('NOT(ISERROR(SEARCH("%s",%s)))'
+                                     % (options['value'], start_cell))
+            elif options['criteria'] == 'notContains':
+                options['type'] = 'notContainsText'
+                options['formula'] = ('ISERROR(SEARCH("%s",%s))'
+                                     % (options['value'], start_cell))
+            elif options['criteria'] == 'beginsWith':
+                options['type'] = 'beginsWith'
+                options['formula'] = ('LEFT(%s,%d)="%s"'
                                      % (start_cell,
-                                        len(params['value']),
-                                        params['value']))
-            elif params['criteria'] == 'endsWith':
-                params['type'] = 'endsWith'
-                params['formula'] = ('RIGHT(%s,%d)="%s"'
+                                        len(options['value']),
+                                        options['value']))
+            elif options['criteria'] == 'endsWith':
+                options['type'] = 'endsWith'
+                options['formula'] = ('RIGHT(%s,%d)="%s"'
                                      % (start_cell,
-                                        len(params['value']),
-                                        params['value']))
+                                        len(options['value']),
+                                        options['value']))
             else:
-                warn("Invalid text criteria 'params['criteria']' "
+                warn("Invalid text criteria 'options['criteria']' "
                      "in conditional_formatting()")
 
         # Special handling of time time_period criteria.
-        if params['type'] == 'timePeriod':
+        if options['type'] == 'timePeriod':
 
-            if params['criteria'] == 'yesterday':
-                params['formula'] = 'FLOOR(%s,1)=TODAY()-1' % start_cell
+            if options['criteria'] == 'yesterday':
+                options['formula'] = 'FLOOR(%s,1)=TODAY()-1' % start_cell
 
-            elif params['criteria'] == 'today':
-                params['formula'] = 'FLOOR(%s,1)=TODAY()' % start_cell
+            elif options['criteria'] == 'today':
+                options['formula'] = 'FLOOR(%s,1)=TODAY()' % start_cell
 
-            elif params['criteria'] == 'tomorrow':
-                params['formula'] = 'FLOOR(%s,1)=TODAY()+1' % start_cell
+            elif options['criteria'] == 'tomorrow':
+                options['formula'] = 'FLOOR(%s,1)=TODAY()+1' % start_cell
 
-            elif params['criteria'] == 'last7Days':
-                params['formula'] = \
+            elif options['criteria'] == 'last7Days':
+                options['formula'] = \
                     ('AND(TODAY()-FLOOR(%s,1)<=6,FLOOR(%s,1)<=TODAY())' %
                     (start_cell, start_cell))
 
-            elif params['criteria'] == 'lastWeek':
-                params['formula'] = \
+            elif options['criteria'] == 'lastWeek':
+                options['formula'] = \
                     ('AND(TODAY()-ROUNDDOWN(%s,0)>=(WEEKDAY(TODAY())),'
                      'TODAY()-ROUNDDOWN(%s,0)<(WEEKDAY(TODAY())+7))' %
                      (start_cell, start_cell))
 
-            elif params['criteria'] == 'thisWeek':
-                params['formula'] = \
+            elif options['criteria'] == 'thisWeek':
+                options['formula'] = \
                     ('AND(TODAY()-ROUNDDOWN(%s,0)<=WEEKDAY(TODAY())-1,'
                      'ROUNDDOWN(%s,0)-TODAY()<=7-WEEKDAY(TODAY()))' %
                      (start_cell, start_cell))
 
-            elif params['criteria'] == 'continueWeek':
-                params['formula'] = \
+            elif options['criteria'] == 'continueWeek':
+                options['formula'] = \
                     ('AND(ROUNDDOWN(%s,0)-TODAY()>(7-WEEKDAY(TODAY())),'
                      'ROUNDDOWN(%s,0)-TODAY()<(15-WEEKDAY(TODAY())))' %
                      (start_cell, start_cell))
 
-            elif params['criteria'] == 'lastMonth':
-                params['formula'] = \
+            elif options['criteria'] == 'lastMonth':
+                options['formula'] = \
                     ('AND(MONTH(%s)=MONTH(TODAY())-1,OR(YEAR(%s)=YEAR('
                      'TODAY()),AND(MONTH(%s)=1,YEAR(A1)=YEAR(TODAY())-1)))' %
                      (start_cell, start_cell, start_cell))
 
-            elif params['criteria'] == 'thisMonth':
-                params['formula'] = \
+            elif options['criteria'] == 'thisMonth':
+                options['formula'] = \
                     ('AND(MONTH(%s)=MONTH(TODAY()),YEAR(%s)=YEAR(TODAY()))' %
                     (start_cell, start_cell))
 
-            elif params['criteria'] == 'continueMonth':
-                params['formula'] = \
+            elif options['criteria'] == 'continueMonth':
+                options['formula'] = \
                     ('AND(MONTH(%s)=MONTH(TODAY())+1,OR(YEAR(%s)=YEAR('
                      'TODAY()),AND(MONTH(%s)=12,YEAR(%s)=YEAR(TODAY())+1)))' %
                      (start_cell, start_cell, start_cell, start_cell))
 
             else:
-                warn("Invalid time_period criteria 'params['criteria']' "
+                warn("Invalid time_period criteria 'options['criteria']' "
                      "in conditional_formatting()")
 
         # Special handling of blanks/error types.
-        if params['type'] == 'containsBlanks':
-            params['formula'] = 'LEN(TRIM(%s))=0' % start_cell
+        if options['type'] == 'containsBlanks':
+            options['formula'] = 'LEN(TRIM(%s))=0' % start_cell
 
-        if params['type'] == 'notContainsBlanks':
-            params['formula'] = 'LEN(TRIM(%s))>0' % start_cell
+        if options['type'] == 'notContainsBlanks':
+            options['formula'] = 'LEN(TRIM(%s))>0' % start_cell
 
-        if params['type'] == 'containsErrors':
-            params['formula'] = 'ISERROR(%s)' % start_cell
+        if options['type'] == 'containsErrors':
+            options['formula'] = 'ISERROR(%s)' % start_cell
 
-        if params['type'] == 'notContainsErrors':
-            params['formula'] = 'NOT(ISERROR(%s))' % start_cell
+        if options['type'] == 'notContainsErrors':
+            options['formula'] = 'NOT(ISERROR(%s))' % start_cell
 
         # Special handling for 2 color scale.
-        if params['type'] == '2_color_scale':
-            params['type'] = 'colorScale'
+        if options['type'] == '2_color_scale':
+            options['type'] = 'colorScale'
 
             # Color scales don't use any additional formatting.
-            params['format'] = None
+            options['format'] = None
 
             # Turn off 3 color parameters.
-            params['mid_type'] = None
-            params['mid_color'] = None
+            options['mid_type'] = None
+            options['mid_color'] = None
 
-            params.setdefault('min_type', 'min')
-            params.setdefault('max_type', 'max')
-            params.setdefault('min_value', 0)
-            params.setdefault('max_value', 0)
-            params.setdefault('min_color', '#FF7128')
-            params.setdefault('max_color', '#FFEF9C')
+            options.setdefault('min_type', 'min')
+            options.setdefault('max_type', 'max')
+            options.setdefault('min_value', 0)
+            options.setdefault('max_value', 0)
+            options.setdefault('min_color', '#FF7128')
+            options.setdefault('max_color', '#FFEF9C')
 
-            params['min_color'] = xl_color(params['min_color'])
-            params['max_color'] = xl_color(params['max_color'])
+            options['min_color'] = xl_color(options['min_color'])
+            options['max_color'] = xl_color(options['max_color'])
 
         # Special handling for 3 color scale.
-        if params['type'] == '3_color_scale':
-            params['type'] = 'colorScale'
+        if options['type'] == '3_color_scale':
+            options['type'] = 'colorScale'
 
             # Color scales don't use any additional formatting.
-            params['format'] = None
+            options['format'] = None
 
-            params.setdefault('min_type', 'min')
-            params.setdefault('mid_type', 'percentile')
-            params.setdefault('max_type', 'max')
-            params.setdefault('min_value', 0)
-            params.setdefault('max_value', 0)
-            params.setdefault('min_color', '#F8696B')
-            params.setdefault('mid_color', '#FFEB84')
-            params.setdefault('max_color', '#63BE7B')
+            options.setdefault('min_type', 'min')
+            options.setdefault('mid_type', 'percentile')
+            options.setdefault('max_type', 'max')
+            options.setdefault('min_value', 0)
+            options.setdefault('max_value', 0)
+            options.setdefault('min_color', '#F8696B')
+            options.setdefault('mid_color', '#FFEB84')
+            options.setdefault('max_color', '#63BE7B')
 
-            params['min_color'] = xl_color(params['min_color'])
-            params['mid_color'] = xl_color(params['mid_color'])
-            params['max_color'] = xl_color(params['max_color'])
+            options['min_color'] = xl_color(options['min_color'])
+            options['mid_color'] = xl_color(options['mid_color'])
+            options['max_color'] = xl_color(options['max_color'])
 
             # Set a default mid value.
-            if not 'mid_value' in params:
-                params['mid_value'] = 50
+            if not 'mid_value' in options:
+                options['mid_value'] = 50
 
         # Special handling for data bar.
-        if params['type'] == 'dataBar':
+        if options['type'] == 'dataBar':
 
             # Color scales don't use any additional formatting.
-            params['format'] = None
+            options['format'] = None
 
-            params.setdefault('min_type', 'min')
-            params.setdefault('max_type', 'max')
-            params.setdefault('min_value', 0)
-            params.setdefault('max_value', 0)
-            params.setdefault('bar_color', '#638EC6')
+            options.setdefault('min_type', 'min')
+            options.setdefault('max_type', 'max')
+            options.setdefault('min_value', 0)
+            options.setdefault('max_value', 0)
+            options.setdefault('bar_color', '#638EC6')
 
-            params['bar_color'] = xl_color(params['bar_color'])
+            options['bar_color'] = xl_color(options['bar_color'])
 
         # Store the validation information until we close the worksheet.
         if cell_range in self.cond_formats:
-            self.cond_formats[cell_range].append(params)
+            self.cond_formats[cell_range].append(options)
         else:
-            self.cond_formats[cell_range] = [params]
+            self.cond_formats[cell_range] = [options]
 
     def set_zoom(self, zoom=100):
         """
