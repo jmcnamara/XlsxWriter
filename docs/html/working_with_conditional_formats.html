@@ -16,7 +16,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '',
-        VERSION:     '0.2.0',
+        VERSION:     '0.2.1',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -427,7 +427,7 @@ previous example.</p>
 criteria and values. However, the <tt class="docutils literal"><span class="pre">value</span></tt>, <tt class="docutils literal"><span class="pre">minimum</span></tt> and
 <tt class="docutils literal"><span class="pre">maximum</span></tt> properties are specified as a datetime object as shown
 in <a class="reference internal" href="working_with_dates_and_time.html#working-with-dates-and-time"><em>Working with Dates and Time</em></a>:</p>
-<div class="highlight-python"><div class="highlight"><pre><span class="n">date</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">strptime</span><span class="p">(</span><span class="s">&#39;2011-01-01&#39;</span><span class="p">,</span> <span class="s">&quot;%Y-%m-</span><span class="si">%d</span><span class="s">&quot;</span><span class="p">)</span>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">date</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="o">.</span><span class="n">strptime</span><span class="p">(</span><span class="s">&#39;2011-01-01&#39;</span><span class="p">,</span> <span class="s">&quot;%Y-%m-</span><span class="si">%d</span><span class="s">&quot;</span><span class="p">)</span>
 
 <span class="n">worksheet</span><span class="o">.</span><span class="n">conditional_format</span><span class="p">(</span><span class="s">&#39;A1:A4&#39;</span><span class="p">,</span> <span class="p">{</span><span class="s">&#39;type&#39;</span><span class="p">:</span>     <span class="s">&#39;date&#39;</span><span class="p">,</span>
                                        <span class="s">&#39;criteria&#39;</span><span class="p">:</span> <span class="s">&#39;greater than&#39;</span><span class="p">,</span>
@@ -729,7 +729,7 @@ and any others separated by spaces.</p>
 </pre></div>
 </div>
 <p>Highlight cells more recent (greater) than a certain date:</p>
-<div class="highlight-python"><div class="highlight"><pre><span class="n">date</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">strptime</span><span class="p">(</span><span class="s">&#39;2011-01-01&#39;</span><span class="p">,</span> <span class="s">&quot;%Y-%m-</span><span class="si">%d</span><span class="s">&quot;</span><span class="p">)</span>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">date</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="o">.</span><span class="n">strptime</span><span class="p">(</span><span class="s">&#39;2011-01-01&#39;</span><span class="p">,</span> <span class="s">&quot;%Y-%m-</span><span class="si">%d</span><span class="s">&quot;</span><span class="p">)</span>
 
 <span class="n">worksheet</span><span class="o">.</span><span class="n">conditional_format</span><span class="p">(</span><span class="s">&#39;A1:F10&#39;</span><span class="p">,</span> <span class="p">{</span><span class="s">&#39;type&#39;</span><span class="p">:</span>     <span class="s">&#39;date&#39;</span><span class="p">,</span>
                                         <span class="s">&#39;criteria&#39;</span><span class="p">:</span> <span class="s">&#39;greater than&#39;</span><span class="p">,</span>

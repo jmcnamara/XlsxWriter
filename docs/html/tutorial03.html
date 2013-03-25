@@ -16,7 +16,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '',
-        VERSION:     '0.2.0',
+        VERSION:     '0.2.1',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -181,7 +181,7 @@ alias for several more specific methods:</p>
 <p>So, let&#8217;s see how all of this affects our program.</p>
 <p>The main change in our example program is the addition of date handling. As we
 saw above Excel stores dates as numbers. XlsxWriter makes the required
-conversion if the date and time are Python <a class="reference external" href="http://docs.python.org/2/library/datetime.html#datetime.datetime" title="(in Python v2.7)"><tt class="xref py py-class docutils literal"><span class="pre">datetime.datetime</span></tt></a> objects.
+conversion if the date and time are Python <a class="reference external" href="http://docs.python.org/2/library/datetime.html#datetime" title="(in Python v2.7)"><tt class="xref py py-mod docutils literal"><span class="pre">datetime</span></tt></a> objects.
 To convert the date strings in our example to <tt class="docutils literal"><span class="pre">datetime.datetime</span></tt> objects we
 use the <a class="reference external" href="http://docs.python.org/2/library/datetime.html#datetime.datetime.strptime" title="(in Python v2.7)"><tt class="xref py py-meth docutils literal"><span class="pre">datetime.strptime</span></tt></a> function. We
 then use the <a class="reference internal" href="worksheet.html#write_datetime" title="write_datetime"><tt class="xref py py-func docutils literal"><span class="pre">write_datetime()</span></tt></a> function to write it to a file. However,

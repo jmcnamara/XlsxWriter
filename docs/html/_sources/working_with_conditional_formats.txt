@@ -333,7 +333,7 @@ criteria and values. However, the ``value``, ``minimum`` and
 in :ref:`working_with_dates_and_time`::
 
 
-    date = datetime.strptime('2011-01-01', "%Y-%m-%d")
+    date = datetime.datetime.strptime('2011-01-01', "%Y-%m-%d")
 
     worksheet.conditional_format('A1:A4', {'type':     'date',
                                            'criteria': 'greater than',
@@ -678,7 +678,7 @@ Highlight cells greater than a value in a reference cell::
 
 Highlight cells more recent (greater) than a certain date::
 
-    date = datetime.strptime('2011-01-01', "%Y-%m-%d")
+    date = datetime.datetime.strptime('2011-01-01', "%Y-%m-%d")
 
     worksheet.conditional_format('A1:F10', {'type':     'date',
                                             'criteria': 'greater than',
