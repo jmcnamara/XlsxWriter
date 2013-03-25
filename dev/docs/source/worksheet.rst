@@ -368,12 +368,12 @@ worksheet.write_datetime()
 
    :param row:         The cell row (zero indexed).
    :param col:         The cell column (zero indexed).
-   :param datetime:    A datetime.datetime object.
+   :param datetime:    A datetime.datetime, .date or .time object.
    :param cell_format: Optional Format object.
    :type  row:         int
    :type  col:         int
    :type  formula:     string
-   :type  datetime:    :class:`datetime.datetime`
+   :type  datetime:    :mod:`datetime`
    :type  cell_format: :ref:`Format <format>`
 
 The ``write_datetime()`` method can be used to write a date or time to the cell
@@ -381,15 +381,18 @@ specified by ``row`` and ``column``::
 
     worksheet.write_datetime(0, 0, datetime, date_format)
 
-The :class:`datetime.datetime` class is part of the standard Python
-:mod:`datetime` library.
+The datetime should be a :class:`datetime.datetime`, 
+:class:`datetime.date` or :class:`datetime.time` object. The :mod:`datetime`
+class is part of the standard Python libraries.
 
-There are many way to create a datetime object but the most common is to use
-the :meth:`datetime.strptime <datetime.datetime.strptime>` method::
+There are many way to create datetime objects, for example the 
+:meth:`datetime.datetime.strptime` method::
 
-    date_time = datetime.strptime('2013-01-23', '%Y-%m-%d')
+    date_time = datetime.datetime.strptime('2013-01-23', '%Y-%m-%d')
 
-A date should always have a ``cell_format`` of type :ref:`Format <format>`,
+See the :mod:`datetime` documentation for other date/time creation methods.
+
+A date/time should always have a ``cell_format`` of type :ref:`Format <format>`,
 otherwise it will appear as a number::
 
     date_format = workbook.add_format({'num_format': 'd mmmm yyyy'})

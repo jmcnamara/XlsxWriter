@@ -51,18 +51,21 @@ a date you must apply an Excel number format to it. Here are some examples:
 .. image:: _static/working_with_dates_and_times01.png
 
 To make working with dates and times a little easier the XlsxWriter module
-provides a :func:`write_datetime` method to write dates in
-:class:`datetime.datetime` format.
+provides a :func:`write_datetime` method to write dates in standard library
+:mod:`datetime` format.
 
-The :class:`datetime.datetime` class is part of the standard Python
-:mod:`datetime` library.
+Specifically it supports datetime objects of type :class:`datetime.datetime`, 
+:class:`datetime.date` and :class:`datetime.time`. 
 
-There are many way to create a a datetime object but the most common is to use
-the :meth:`datetime.strptime <datetime.datetime.strptime>` method::
+There are many way to create datetime objects, for example the 
+:meth:`datetime.datetime.strptime` method::
 
-    date_time = datetime.strptime('2013-01-23', '%Y-%m-%d')
+    date_time = datetime.datetime.strptime('2013-01-23', '%Y-%m-%d')
 
-We also need to create and apply a number format to format the date::
+See the :mod:`datetime` documentation for other date/time creation methods.
+
+As explained above you also need to create and apply a number format to format
+the date/time::
 
     date_format = workbook.add_format({'num_format': 'd mmmm yyyy'})
     worksheet.write_datetime('A1', date_time, date_format)

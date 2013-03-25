@@ -317,7 +317,7 @@ class Worksheet(xmlwriter.XMLwriter):
             token = ''
 
         # Check for a datetime object.
-        if isinstance(token, datetime.datetime):
+        if self._is_supported_datetime(token):
             return self.write_datetime(row, col, *args)
 
         # Then check if the token to write is a number.
@@ -564,7 +564,7 @@ class Worksheet(xmlwriter.XMLwriter):
     @convert_cell_args
     def write_datetime(self, row, col, date, cell_format):
         """
-        Write a date to a worksheet cell.
+        Write a date or time to a worksheet cell.
 
         Args:
             row:         The cell row (zero indexed).
@@ -1489,7 +1489,7 @@ class Worksheet(xmlwriter.XMLwriter):
             options['type'] = 'cellIs'
 
             if 'value' in options:
-                if not isinstance(options['value'], datetime.datetime):
+                if not self._is_supported_datetime(options['value']):
                     warn("Conditional format 'value' must be a "
                          "datetime object.")
                     return -3
@@ -1499,7 +1499,7 @@ class Worksheet(xmlwriter.XMLwriter):
                     options['value'] = "%.15g" % date_time
 
             if 'minimum' in options:
-                if not isinstance(options['minimum'], datetime.datetime):
+                if not self._is_supported_datetime(options['minimum']):
                     warn("Conditional format 'minimum' must be a "
                          "datetime object.")
                     return -3
@@ -1508,7 +1508,7 @@ class Worksheet(xmlwriter.XMLwriter):
                     options['minimum'] = "%.15g" % date_time
 
             if 'maximum' in options:
-                if not isinstance(options['maximum'], datetime.datetime):
+                if not self._is_supported_datetime(options['maximum']):
                     warn("Conditional format 'maximum' must be a "
                          "datetime object.")
                     return -3
@@ -1551,23 +1551,23 @@ class Worksheet(xmlwriter.XMLwriter):
             if options['criteria'] == 'containsText':
                 options['type'] = 'containsText'
                 options['formula'] = ('NOT(ISERROR(SEARCH("%s",%s)))'
-                                     % (options['value'], start_cell))
+                                      % (options['value'], start_cell))
             elif options['criteria'] == 'notContains':
                 options['type'] = 'notContainsText'
                 options['formula'] = ('ISERROR(SEARCH("%s",%s))'
-                                     % (options['value'], start_cell))
+                                      % (options['value'], start_cell))
             elif options['criteria'] == 'beginsWith':
                 options['type'] = 'beginsWith'
                 options['formula'] = ('LEFT(%s,%d)="%s"'
-                                     % (start_cell,
-                                        len(options['value']),
-                                        options['value']))
+                                      % (start_cell,
+                                         len(options['value']),
+                                         options['value']))
             elif options['criteria'] == 'endsWith':
                 options['type'] = 'endsWith'
                 options['formula'] = ('RIGHT(%s,%d)="%s"'
-                                     % (start_cell,
-                                        len(options['value']),
-                                        options['value']))
+                                      % (start_cell,
+                                         len(options['value']),
+                                         options['value']))
             else:
                 warn("Invalid text criteria 'options['criteria']' "
                      "in conditional_formatting()")
@@ -2314,9 +2314,21 @@ class Worksheet(xmlwriter.XMLwriter):
 
         return 0
 
-    def _convert_date_time(self, date):
+    def _convert_date_time(self, dt_obj):
+        # We handle datetime .datetime, .date and .time objects but convert
+        # them to datetime.datetime objects and process them in the same way.
+        if isinstance(dt_obj, datetime.datetime):
+            pass
+        elif isinstance(dt_obj, datetime.date):
+            dt_obj = datetime.datetime.fromordinal(dt_obj.toordinal())
+        elif isinstance(dt_obj, datetime.time):
+            date = datetime.date(1899, 12, 31)
+            dt_obj = datetime.datetime.combine(date, dt_obj)
+        else:
+            raise TypeError("Unknown or unsupported datetime type")
+
         # Convert a Python datetime.datetime value to an Excel date number.
-        delta = date - self.epoch
+        delta = dt_obj - self.epoch
         excel_time = (delta.days
                       + (float(delta.seconds)
                       + float(delta.microseconds) / 1E6)
@@ -2324,11 +2336,11 @@ class Worksheet(xmlwriter.XMLwriter):
 
         # Special case for datetime where time only has been specified and
         # the default date of 1900-01-01 is used.
-        if date.isocalendar() == (1900, 1, 1):
+        if dt_obj.isocalendar() == (1900, 1, 1):
             excel_time -= 1
 
         # Account for Excel erroneously treating 1900 as a leap year.
-        if not self.date_1904 and delta.days > 59:
+        if not self.date_1904 and excel_time > 59:
             excel_time += 1
 
         return excel_time
@@ -3022,6 +3034,12 @@ class Worksheet(xmlwriter.XMLwriter):
         self.vml_shape_id = vml_shape_id
 
         return count
+
+    def _is_supported_datetime(self, dt):
+        # Determine is an argument is a supported datetime object.
+        return(isinstance(dt, datetime.datetime) or
+               isinstance(dt, datetime.date) or
+               isinstance(dt, datetime.time))
 
     ###########################################################################
     #

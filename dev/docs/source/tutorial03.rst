@@ -155,7 +155,7 @@ So, let's see how all of this affects our program.
 
 The main change in our example program is the addition of date handling. As we
 saw above Excel stores dates as numbers. XlsxWriter makes the required
-conversion if the date and time are Python :class:`datetime.datetime` objects.
+conversion if the date and time are Python :mod:`datetime` objects.
 To convert the date strings in our example to ``datetime.datetime`` objects we
 use the :meth:`datetime.strptime <datetime.datetime.strptime>` function. We
 then use the :func:`write_datetime()` function to write it to a file. However,

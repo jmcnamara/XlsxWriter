@@ -6,7 +6,7 @@
 #
 
 import unittest
-from datetime import datetime
+import datetime
 from ...worksheet import Worksheet
 
 
@@ -19,11 +19,8 @@ class TestConvertDateTime(unittest.TestCase):
     def setUp(self):
         self.worksheet = Worksheet()
 
-    def test_convert_date_time_1900(self):
-        """Test the _convert_date_time() method with 1900 date system."""
-
         # Dates and corresponding numbers from an Excel file.
-        excel_dates = [
+        self.excel_dates = [
             ('1899-12-31T', 0),
             # ('1900-01-01T', 1), # Fails due to special case for seconds only.
             ('1900-02-27T', 58),
@@ -224,22 +221,8 @@ class TestConvertDateTime(unittest.TestCase):
             ('9999-12-31T', 2958465),
         ]
 
-        for excel_date in excel_dates:
-            date = datetime.strptime(excel_date[0], "%Y-%m-%dT")
-
-            got = self.worksheet._convert_date_time(date)
-            exp = excel_date[1]
-
-            self.assertEqual(got, exp)
-
-    def test_convert_date_time_1904(self):
-        """Test the _convert_date_time() method with 1904 date system."""
-
-        self.worksheet.date_1904 = True
-        self.worksheet.epoch = datetime(1904, 1, 1)
-
         # Dates and corresponding numbers from an Excel file.
-        excel_dates = [
+        self.excel_1904_dates = [
             ('1904-01-01T', 0),
             ('1904-01-31T', 30),
             ('1904-02-01T', 31),
@@ -442,8 +425,39 @@ class TestConvertDateTime(unittest.TestCase):
             ('9999-12-31T', 2957003),
         ]
 
-        for excel_date in excel_dates:
-            date = datetime.strptime(excel_date[0], "%Y-%m-%dT")
+    def test_convert_date_time_datetime(self):
+        """Test the _convert_date_time() method with datetime objects."""
+
+        for excel_date in self.excel_dates:
+            test_date = datetime.datetime.strptime(excel_date[0], "%Y-%m-%dT")
+
+            got = self.worksheet._convert_date_time(test_date)
+            exp = excel_date[1]
+
+            self.assertEqual(got, exp)
+
+    def test_convert_date_time_date(self):
+        """Test the _convert_date_time() method with date objects."""
+
+        for excel_date in self.excel_dates:
+            date_str = excel_date[0].rstrip('T')
+            (year, month, day) = date_str.split('-')
+
+            test_date = datetime.date(int(year), int(month), int(day))
+
+            got = self.worksheet._convert_date_time(test_date)
+            exp = excel_date[1]
+
+            self.assertEqual(got, exp)
+
+    def test_convert_date_time_1904(self):
+        """Test the _convert_date_time() method with 1904 date system."""
+
+        self.worksheet.date_1904 = True
+        self.worksheet.epoch = datetime.datetime(1904, 1, 1)
+
+        for excel_date in self.excel_1904_dates:
+            date = datetime.datetime.strptime(excel_date[0], "%Y-%m-%dT")
 
             got = self.worksheet._convert_date_time(date)
             exp = excel_date[1]
