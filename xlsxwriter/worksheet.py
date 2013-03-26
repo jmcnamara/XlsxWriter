@@ -1371,6 +1371,208 @@ class Worksheet(xmlwriter.XMLwriter):
         self.filter_type[col] = 1
         self.filter_on = 1
 
+    # TODO Convert to docstring.
+    # data_validation($row, $col, {...})
+    #
+    # This method handles the interface to Excel data validation.
+    # Somewhat ironically this requires a lot of validation code since the
+    # interface is flexible and covers a several types of data validation.
+    #
+    # We allow data validation to be called on one cell or a range of cells. The
+    # hashref contains the validation parameters and must be the last param:
+    #    data_validation($row, $col, {...})
+    #    data_validation($first_row, $first_col, $last_row, $last_col, {...})
+    #
+    # Returns  0 : normal termination
+    #         -1 : insufficient number of arguments
+    #         -2 : row or column out of range
+    #         -3 : incorrect parameter.
+    #
+    @convert_range_args
+    def data_validation(self, first_row, first_col, last_row, last_col,
+                        options):
+
+        # Check that row and col are valid without storing the values.
+        if self._check_dimensions(first_row, first_col, 1, 1):
+            return -2
+        if self._check_dimensions(last_row, last_col, 1, 1):
+            return -2
+
+        # List of valid input parameters.
+        valid_parameters = {
+            'validate': 1,
+            'criteria': 1,
+            'value': 1,
+            'source': 1,
+            'minimum': 1,
+            'maximum': 1,
+            'ignore_blank': 1,
+            'dropdown': 1,
+            'show_input': 1,
+            'input_title': 1,
+            'input_message': 1,
+            'show_error': 1,
+            'error_title': 1,
+            'error_message': 1,
+            'error_type': 1,
+            'other_cells': 1,
+        }
+
+        # Check for valid input parameters.
+        for param_key in options.keys():
+            if not param_key in valid_parameters:
+                warn("Unknown parameter 'param_key' in data_validation()")
+                return -3
+
+        # Map alternative parameter names 'source' or 'minimum' to 'value'.
+        if 'source' in options:
+            options['value'] = options['source']
+        if 'minimum' in options:
+            options['value'] = options['minimum']
+
+        # 'validate' is a required parameter.
+        if not 'validate' in options:
+            warn("Parameter 'validate' is required in data_validation()")
+            return -3
+
+        # List of  valid validation types.
+        valid_types = {
+            'any': 'none',
+            'any value': 'none',
+            'whole number': 'whole',
+            'whole': 'whole',
+            'integer': 'whole',
+            'decimal': 'decimal',
+            'list': 'list',
+            'date': 'date',
+            'time': 'time',
+            'text length': 'textLength',
+            'length': 'textLength',
+            'custom': 'custom',
+        }
+
+        # Check for valid validation types.
+        if not options['validate'] in valid_types:
+            warn("Unknown validation type '%s' for parameter "
+                 "'validate' in data_validation()" % options['validate'])
+            return -3
+        else:
+            options['validate'] = valid_types[options['validate']]
+
+        # No action is required for validation type 'any'.
+        # TODO: we should perhaps store 'any' for message only validations.
+        if options['validate'] == 'none':
+            return 0
+
+        # The list and custom validations don't have a criteria so we use a default
+        # of 'between'.
+        if options['validate'] == 'list' or options['validate'] == 'custom':
+            options['criteria'] = 'between'
+            options['maximum'] = None
+
+        # 'criteria' is a required parameter.
+        if not 'criteria' in options:
+            warn("Parameter 'criteria' is required in data_validation()")
+            return -3
+
+        # List of valid criteria types.
+        criteria_types = {
+            'between': 'between',
+            'not between': 'notBetween',
+            'equal to': 'equal',
+            '=': 'equal',
+            '==': 'equal',
+            'not equal to': 'notEqual',
+            '!=': 'notEqual',
+            '<>': 'notEqual',
+            'greater than': 'greaterThan',
+            '>': 'greaterThan',
+            'less than': 'lessThan',
+            '<': 'lessThan',
+            'greater than or equal to': 'greaterThanOrEqual',
+            '>=': 'greaterThanOrEqual',
+            'less than or equal to': 'lessThanOrEqual',
+            '<=': 'lessThanOrEqual',
+        }
+
+        # Check for valid criteria types.
+        if not options['criteria'] in criteria_types:
+            warn("Unknown criteria type '%s' for parameter "
+                 "'criteria' in data_validation()" % options['criteria'])
+            return -3
+        else:
+            options['criteria'] = criteria_types[options['criteria']]
+
+        # 'Between' and 'Not between' criteria require 2 values.
+        if (options['criteria'] == 'between' or
+                options['criteria'] == 'notBetween'):
+            if not 'maximum' in options:
+                warn("Parameter 'maximum' is required in data_validation() "
+                     "when using 'between' or 'not between' criteria")
+                return -3
+        else:
+            options['maximum'] = None
+
+        # List of valid error dialog types.
+        error_types = {
+            'stop': 0,
+            'warning': 1,
+            'information': 2,
+        }
+
+        # Check for valid error dialog types.
+        if not 'error_type' in options:
+            options['error_type'] = 0
+        elif not options['error_type'] in error_types:
+            warn("Unknown criteria type '%s' for parameter 'error_type' "
+                 "in data_validation()" % options['error_type'])
+            return -3
+        else:
+            options['error_type'] = error_types[options['error_type']]
+
+        # Convert date/times value if required.
+        if options['validate'] == 'date' or options['validate'] == 'time':
+
+            if 'value' in options:
+                if not self._is_supported_datetime(options['value']):
+                    warn("Data validation 'value/minimum' must be a "
+                         "datetime object.")
+                    return -3
+                else:
+                    date_time = self._convert_date_time(options['value'])
+                    # Format date number to the same precision as Excel.
+                    options['value'] = "%.15g" % date_time
+
+            if 'maximum' in options:
+                if not self._is_supported_datetime(options['maximum']):
+                    warn("Conditional format 'maximum' must be a "
+                         "datetime object.")
+                    return -3
+                else:
+                    date_time = self._convert_date_time(options['maximum'])
+                    options['maximum'] = "%.15g" % date_time
+
+        # Set some defaults if they haven't been defined by the user.
+        if not 'ignore_blank' in options:
+            options['ignore_blank'] = 1
+        if not 'dropdown' in options:
+            options['dropdown'] = 1
+        if not 'show_input' in options:
+            options['show_input'] = 1
+        if not 'show_error' in options:
+            options['show_error'] = 1
+
+        # These are the cells to which the validation is applied.
+        options['cells'] = [[first_row, first_col, last_row, last_col]]
+
+        # A (for now) undocumented parameter to pass additional cell ranges.
+        if 'other_cells' in options:
+            options['cells'].append(options['other_cells'])
+
+        # Store the validation information until we close the worksheet.
+        self.validations.append(options)
+
+    # TODO. Convert to docstring.
     # This method handles the interface to Excel conditional formatting.
     #
     # Returns  0 : normal termination
@@ -1381,6 +1583,12 @@ class Worksheet(xmlwriter.XMLwriter):
     @convert_range_args
     def conditional_format(self, first_row, first_col, last_row, last_col,
                            options=None):
+
+        # Check that row and col are valid without storing the values.
+        if self._check_dimensions(first_row, first_col, 1, 1):
+            return -2
+        if self._check_dimensions(last_row, last_col, 1, 1):
+            return -2
 
         if options is None:
             options = {}
@@ -2242,7 +2450,7 @@ class Worksheet(xmlwriter.XMLwriter):
         self._write_conditional_formats()
 
         # Write the dataValidations element.
-        # self._write_data_validations()
+        self._write_data_validations()
 
         # Write the hyperlink element.
         self._write_hyperlinks()
@@ -4170,7 +4378,7 @@ class Worksheet(xmlwriter.XMLwriter):
     def _write_data_validations(self):
         # Write the <dataValidations> element.
         validations = self.validations
-        count = validations
+        count = len(validations)
 
         if not count:
             return
@@ -4218,7 +4426,7 @@ class Worksheet(xmlwriter.XMLwriter):
         if param['criteria'] != 'between':
             attributes.append(('operator', param['criteria']))
 
-        if param['error_type']:
+        if 'error_type' in param:
             if param['error_type'] == 1:
                 attributes.append(('errorStyle', 'warning'))
             if param['error_type'] == 2:
@@ -4226,23 +4434,26 @@ class Worksheet(xmlwriter.XMLwriter):
 
         if param['ignore_blank']:
             attributes.append(('allowBlank', 1))
+
         if not param['dropdown']:
             attributes.append(('showDropDown', 1))
+
         if param['show_input']:
             attributes.append(('showInputMessage', 1))
+
         if param['show_error']:
             attributes.append(('showErrorMessage', 1))
 
-        if param['error_title']:
+        if 'error_title' in param:
             attributes.append(('errorTitle', param['error_title']))
 
-        if param['error_message']:
+        if 'error_message' in param:
             attributes.append(('error', param['error_message']))
 
-        if param['input_title']:
+        if 'input_title' in param:
             attributes.append(('promptTitle', param['input_title']))
 
-        if param['input_message']:
+        if 'input_message' in param:
             attributes.append(('prompt', param['input_message']))
 
         attributes.append(('sqref', sqref))
@@ -4261,23 +4472,30 @@ class Worksheet(xmlwriter.XMLwriter):
     def _write_formula_1(self, formula):
         # Write the <formula1> element.
 
-#        # Convert a list array ref into a comma separated string.
-#        if ref formula eq 'ARRAY':
-#            formula = join ',', @formula
-#            formula = qq("formula")
-#
-        # Remove the formula '=' sign if it exists.
-        if formula.startswith('='):
-            formula = formula.lstrip('=')
+        if type(formula) is list:
+            formula = ','.join([str(item) for item in formula])
+            formula = '"%s"' % formula
+        else:
+            # Check if the formula is a number.
+            try:
+                float(formula)
+            except ValueError:
+                # Not a number. Remove the formula '=' sign if it exists.
+                if formula.startswith('='):
+                    formula = formula.lstrip('=')
 
         self._xml_data_element('formula1', formula)
 
     def _write_formula_2(self, formula):
         # Write the <formula2> element.
 
-        # Remove the formula '=' sign if it exists.
-        if formula.startswith('='):
-            formula = formula.lstrip('=')
+        # Check if the formula is a number.
+        try:
+            float(formula)
+        except ValueError:
+            # Not a number. Remove the formula '=' sign if it exists.
+            if formula.startswith('='):
+                formula = formula.lstrip('=')
 
         self._xml_data_element('formula2', formula)
 
