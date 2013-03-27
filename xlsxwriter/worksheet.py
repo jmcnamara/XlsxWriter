@@ -3577,39 +3577,6 @@ class Worksheet(xmlwriter.XMLwriter):
 
             self.row_data_fh.close()
 
-    # Write the <sheetData> element when the memory optimisation is on. In which
-    # case we read the data stored in the temp file and rewrite it to the XML
-    # sheet file.
-    #
-    def _write_optimized_sheet_data(self):
-        if self.dim_rowmin is None:
-
-            # If the dimensions aren't defined then there is no data to write.
-            self._xml_empty_tag('sheetData')
-        else:
-
-            self._xml_start_tag('sheetData')
-
-            cell_fh = self.cell_data_fh
-            cell_fh.seek(0)
-
-            data = cell_fh.read(4096)
-            print ">> ", data, "<<"
-
-
-#            xlsx_fh = self._xml_get_fh()
-#            cell_fh = self.cell_data_fh
-#
-#            buffer
-#
-#            # Rewind the temp file.
-#            seek cell_fh, 0, 0
-#
-#            while read(cell_fh, buffer, 4_096):
-#                local $\ = None; # Protect print from -l on commandline.
-#                print xlsx_fh buffer
->>>>>>> 9454f3aa854b8dc6bf1fcdc1ca0b36b4eb5e0cd5
-
             self._xml_end_tag('sheetData')
 
     def _write_page_margins(self):
