@@ -2411,10 +2411,12 @@ class Worksheet(xmlwriter.XMLwriter):
         self.worksheet_meta = init_data['worksheet_meta']
         self.optimization = init_data['optimization']
 
+        # Open a temp filehandle to store row data in optimization mode.
         if self.optimization == 1:
-            fh = tempfile.TemporaryFile(mode='rw+b')
-            self.cell_data_fh = fh
-            self.fh = fh
+            self.row_data_fh = tempfile.TemporaryFile(mode='w+')
+            # Also use this as the worksheet filehandle until the file is
+            # due to be assembled.
+            self.fh = self.row_data_fh
 
     def _assemble_xml_file(self):
         # Assemble and write the XML file.
@@ -2445,7 +2447,6 @@ class Worksheet(xmlwriter.XMLwriter):
             self._write_sheet_data()
         else:
             self._write_optimized_sheet_data()
-            self._write_sheet_data()
 
         # Write the sheetProtection element.
         self._write_sheet_protection()
@@ -3556,37 +3557,25 @@ class Worksheet(xmlwriter.XMLwriter):
             self._write_rows()
             self._xml_end_tag('sheetData')
 
-    # Write the <sheetData> element when the memory optimisation is on. In which
-    # case we read the data stored in the temp file and rewrite it to the XML
-    # sheet file.
-    #
     def _write_optimized_sheet_data(self):
+        # Write the <sheetData> element when the memory optimisation is on.
+        # In this case we read the data stored in the temp file and rewrite
+        # it to the XML sheet file.
         if self.dim_rowmin is None:
-
             # If the dimensions aren't defined then there is no data to write.
             self._xml_empty_tag('sheetData')
         else:
-
             self._xml_start_tag('sheetData')
 
-            cell_fh = self.cell_data_fh
-            cell_fh.seek(0)
+            # Rewind the filehandle that was used for temp row data.
+            self.row_data_fh.seek(0)
+            data = self.row_data_fh.read(4096)
 
-            data = cell_fh.read(4096)
-            print ">> ", data, "<<"
+            while(data):
+                self.fh.write(data)
+                data = self.row_data_fh.read(4096)
 
-
-#            xlsx_fh = self._xml_get_fh()
-#            cell_fh = self.cell_data_fh
-#
-#            buffer
-#
-#            # Rewind the temp file.
-#            seek cell_fh, 0, 0
-#
-#            while read(cell_fh, buffer, 4_096):
-#                local $\ = None; # Protect print from -l on commandline.
-#                print xlsx_fh buffer
+            self.row_data_fh.close()
 
             self._xml_end_tag('sheetData')
 
@@ -3746,7 +3735,7 @@ class Worksheet(xmlwriter.XMLwriter):
                     self._write_empty_row(row_num, span,
                                           self.set_rows[row_num])
 
-    def _write_single_row(self, current_row_num):
+    def _write_single_row(self, current_row_num=0):
         # Write out the worksheet data as a single row with cells.
         # This method is used when memory optimisation is on. A single
         # row is written and the data table is reset. That way only

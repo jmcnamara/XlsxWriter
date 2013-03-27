@@ -161,6 +161,17 @@ class XMLwriter(object):
         self.fh.write("""<c%s t="inlineStr"><is><t%s>%s</t></is></c>""" %
                       (attr, t_attr, string))
 
+    def _xml_rich_inline_string(self, string, attributes=[]):
+        # Optimised tag writer for rich inlineStr in the inner loop.
+        attr = ''
+
+        for key, value in attributes:
+            value = self._escape_attributes(value)
+            attr = attr + ' %s="%s"' % (key, value)
+
+        self.fh.write("""<c%s t="inlineStr"><is>%s</is></c>""" %
+                      (attr, string))
+
     def _escape_attributes(self, attribute):
         # Escape XML characters in attributes.
 
