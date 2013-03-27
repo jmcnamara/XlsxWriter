@@ -16,7 +16,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '',
-        VERSION:     '0.2.1',
+        VERSION:     '0.2.2',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -73,12 +73,12 @@ cell in a worksheet. See the <a class="reference internal" href="worksheet.html#
 
 <span class="n">worksheet</span><span class="o">.</span><span class="n">set_column</span><span class="p">(</span><span class="s">&#39;A:A&#39;</span><span class="p">,</span> <span class="mi">30</span><span class="p">)</span>
 
-<span class="c"># Set some formats to use.</span>
-<span class="n">bold</span>        <span class="o">=</span> <span class="n">workbook</span><span class="o">.</span><span class="n">add_format</span><span class="p">({</span><span class="s">&#39;bold&#39;</span><span class="p">:</span> <span class="bp">True</span><span class="p">})</span>
-<span class="n">italic</span>      <span class="o">=</span> <span class="n">workbook</span><span class="o">.</span><span class="n">add_format</span><span class="p">({</span><span class="s">&#39;italic&#39;</span><span class="p">:</span> <span class="bp">True</span><span class="p">})</span>
-<span class="n">red</span>         <span class="o">=</span> <span class="n">workbook</span><span class="o">.</span><span class="n">add_format</span><span class="p">({</span><span class="s">&#39;color&#39;</span><span class="p">:</span> <span class="s">&#39;red&#39;</span><span class="p">})</span>
-<span class="n">blue</span>        <span class="o">=</span> <span class="n">workbook</span><span class="o">.</span><span class="n">add_format</span><span class="p">({</span><span class="s">&#39;color&#39;</span><span class="p">:</span> <span class="s">&#39;blue&#39;</span><span class="p">})</span>
-<span class="n">center</span>      <span class="o">=</span> <span class="n">workbook</span><span class="o">.</span><span class="n">add_format</span><span class="p">({</span><span class="s">&#39;align&#39;</span><span class="p">:</span> <span class="s">&#39;center&#39;</span><span class="p">})</span>
+<span class="c"># Set up some formats to use.</span>
+<span class="n">bold</span> <span class="o">=</span> <span class="n">workbook</span><span class="o">.</span><span class="n">add_format</span><span class="p">({</span><span class="s">&#39;bold&#39;</span><span class="p">:</span> <span class="bp">True</span><span class="p">})</span>
+<span class="n">italic</span> <span class="o">=</span> <span class="n">workbook</span><span class="o">.</span><span class="n">add_format</span><span class="p">({</span><span class="s">&#39;italic&#39;</span><span class="p">:</span> <span class="bp">True</span><span class="p">})</span>
+<span class="n">red</span> <span class="o">=</span> <span class="n">workbook</span><span class="o">.</span><span class="n">add_format</span><span class="p">({</span><span class="s">&#39;color&#39;</span><span class="p">:</span> <span class="s">&#39;red&#39;</span><span class="p">})</span>
+<span class="n">blue</span> <span class="o">=</span> <span class="n">workbook</span><span class="o">.</span><span class="n">add_format</span><span class="p">({</span><span class="s">&#39;color&#39;</span><span class="p">:</span> <span class="s">&#39;blue&#39;</span><span class="p">})</span>
+<span class="n">center</span> <span class="o">=</span> <span class="n">workbook</span><span class="o">.</span><span class="n">add_format</span><span class="p">({</span><span class="s">&#39;align&#39;</span><span class="p">:</span> <span class="s">&#39;center&#39;</span><span class="p">})</span>
 <span class="n">superscript</span> <span class="o">=</span> <span class="n">workbook</span><span class="o">.</span><span class="n">add_format</span><span class="p">({</span><span class="s">&#39;font_script&#39;</span><span class="p">:</span> <span class="mi">1</span><span class="p">})</span>
 
 <span class="c"># Write some strings with multiple formats.</span>

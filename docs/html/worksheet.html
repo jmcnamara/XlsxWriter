@@ -16,7 +16,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '',
-        VERSION:     '0.2.1',
+        VERSION:     '0.2.2',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -1020,6 +1020,60 @@ to avoid BMP images since they aren&#8217;t compressed. If used, BMP images must
 24 bit, true colour, bitmaps.</p>
 <p>See also <a class="reference internal" href="example_images.html#ex-insert-image"><em>Example: Inserting images into a worksheet</em></a>.</p>
 </div>
+<div class="section" id="worksheet-data-validation">
+<h2>worksheet.data_validation()</h2>
+<dl class="function">
+<dt id="data_validation">
+<tt class="descname">data_validation</tt><big>(</big><em>first_row</em>, <em>first_col</em>, <em>last_row</em>, <em>last_col</em>, <em>options</em><big>)</big></dt>
+<dd><p>Write a conditional format to range of cells.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>first_row</strong> (<a class="reference external" href="http://docs.python.org/2/library/functions.html#int" title="(in Python v2.7)"><em>int</em></a>) &#8211; The first row of the range. (All zero indexed.)</li>
+<li><strong>first_col</strong> (<a class="reference external" href="http://docs.python.org/2/library/functions.html#int" title="(in Python v2.7)"><em>int</em></a>) &#8211; The first column of the range.</li>
+<li><strong>last_row</strong> (<a class="reference external" href="http://docs.python.org/2/library/functions.html#int" title="(in Python v2.7)"><em>int</em></a>) &#8211; The last row of the range.</li>
+<li><strong>last_col</strong> (<a class="reference external" href="http://docs.python.org/2/library/functions.html#int" title="(in Python v2.7)"><em>int</em></a>) &#8211; The last col of the range.</li>
+<li><strong>options</strong> (<a class="reference external" href="http://docs.python.org/2/library/stdtypes.html#dict" title="(in Python v2.7)"><em>dict</em></a>) &#8211; Data validation options.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<p>The <tt class="docutils literal"><span class="pre">data_validation()</span></tt> method is used to construct an Excel data
+validation or to limit the user input to a dropdown list of values:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">worksheet</span><span class="o">.</span><span class="n">data_validation</span><span class="p">(</span><span class="s">&#39;B3&#39;</span><span class="p">,</span> <span class="p">{</span><span class="s">&#39;validate&#39;</span><span class="p">:</span> <span class="s">&#39;integer&#39;</span><span class="p">,</span>
+                                 <span class="s">&#39;criteria&#39;</span><span class="p">:</span> <span class="s">&#39;between&#39;</span><span class="p">,</span>
+                                 <span class="s">&#39;minimum&#39;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+                                 <span class="s">&#39;maximum&#39;</span><span class="p">:</span> <span class="mi">10</span><span class="p">})</span>
+
+
+<span class="n">worksheet</span><span class="o">.</span><span class="n">data_validation</span><span class="p">(</span><span class="s">&#39;B13&#39;</span><span class="p">,</span> <span class="p">{</span><span class="s">&#39;validate&#39;</span><span class="p">:</span> <span class="s">&#39;list&#39;</span><span class="p">,</span>
+                                  <span class="s">&#39;source&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s">&#39;open&#39;</span><span class="p">,</span> <span class="s">&#39;high&#39;</span><span class="p">,</span> <span class="s">&#39;close&#39;</span><span class="p">]})</span>
+</pre></div>
+</div>
+<img alt="_images/data_validate1.png" src="_images/data_validate1.png" />
+<p>The data validation can be applied to a single cell or a range of cells.
+As usual you can use A1 or Row/Column notation, see <a class="reference internal" href="working_with_cell_notation.html#cell-notation"><em>Working with Cell Notation</em></a>.</p>
+<p>With Row/Column notation you must specify all four cells in the range:
+<tt class="docutils literal"><span class="pre">(first_row,</span> <span class="pre">first_col,</span> <span class="pre">last_row,</span> <span class="pre">last_col)</span></tt>.
+If you need to refer to a single cell set the <cite>last_</cite> values equal to the
+<cite>first_</cite> values. With A1 notation you can refer to a single cell or a range
+of cells:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">worksheet</span><span class="o">.</span><span class="n">data_validation</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="p">{</span><span class="o">...</span><span class="p">})</span>
+<span class="n">worksheet</span><span class="o">.</span><span class="n">data_validation</span><span class="p">(</span><span class="s">&#39;B1&#39;</span><span class="p">,</span>       <span class="p">{</span><span class="o">...</span><span class="p">})</span>
+<span class="n">worksheet</span><span class="o">.</span><span class="n">data_validation</span><span class="p">(</span><span class="s">&#39;C1:E5&#39;</span><span class="p">,</span>    <span class="p">{</span><span class="o">...</span><span class="p">})</span>
+</pre></div>
+</div>
+<p>The options parameter in <tt class="docutils literal"><span class="pre">data_validation()</span></tt> must be a dictionary
+containing the parameters that describe the type and style of the data
+validation. There are a lot of available options which are described in detail
+in a separate section: <a class="reference internal" href="working_with_data_validation.html#working-with-data-validation"><em>Working with Data Validation</em></a>. See also
+<a class="reference internal" href="example_data_validate.html#ex-data-valid"><em>Example: Data Validation and Drop Down Lists</em></a>.</p>
+</div>
 <div class="section" id="worksheet-conditional-format">
 <h2>worksheet.conditional_format()</h2>
 <dl class="function">
@@ -1625,6 +1679,7 @@ file format and would take several man months to implement.</p>
 <li><a class="reference internal" href="#worksheet-set-row">worksheet.set_row()</a></li>
 <li><a class="reference internal" href="#worksheet-set-column">worksheet.set_column()</a></li>
 <li><a class="reference internal" href="#worksheet-insert-image">worksheet.insert_image()</a></li>
+<li><a class="reference internal" href="#worksheet-data-validation">worksheet.data_validation()</a></li>
 <li><a class="reference internal" href="#worksheet-conditional-format">worksheet.conditional_format()</a></li>
 <li><a class="reference internal" href="#worksheet-write-comment">worksheet.write_comment()</a></li>
 <li><a class="reference internal" href="#worksheet-show-comments">worksheet.show_comments()</a></li>

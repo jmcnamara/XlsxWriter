@@ -1,5 +1,12 @@
 
 
+Release 0.2.2 - March 27 2013
+-----------------------------
+
+* Added worksheet data validation options. See the :func:`data_validation` 
+  method, :ref:`working_with_data_validation` and :ref:`ex_data_valid`.
+
+
 Release 0.2.1 - March 25 2013
 -----------------------------
 
