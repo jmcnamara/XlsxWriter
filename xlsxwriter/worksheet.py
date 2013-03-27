@@ -111,6 +111,19 @@ def convert_column_args(method):
 
 ###############################################################################
 #
+# Named tuples used for cell types.
+#
+###############################################################################
+cell_string_tuple = namedtuple('String', 'string, format')
+cell_number_tuple = namedtuple('Number', 'number, format')
+cell_blank_tuple = namedtuple('Blank', 'format')
+cell_formula_tuple = namedtuple('Formula', 'formula, format, value')
+cell_arformula_tuple = namedtuple('ArrayFormula',
+                                  'formula, format, value, range')
+
+
+###############################################################################
+#
 # Worksheet Class definition.
 #
 ###############################################################################
@@ -383,8 +396,7 @@ class Worksheet(xmlwriter.XMLwriter):
             self._write_single_row(row)
 
         # Store the cell data in the worksheet data table.
-        cell_tuple = namedtuple('String', 'string, format')
-        self.table[row][col] = cell_tuple(string_index, cell_format)
+        self.table[row][col] = cell_string_tuple(string_index, cell_format)
 
         return str_error
 
@@ -416,8 +428,7 @@ class Worksheet(xmlwriter.XMLwriter):
             self._write_single_row(row)
 
         # Store the cell data in the worksheet data table.
-        cell_tuple = namedtuple('Number', 'number, format')
-        self.table[row][col] = cell_tuple(number, cell_format)
+        self.table[row][col] = cell_number_tuple(number, cell_format)
 
         return 0
 
@@ -451,8 +462,7 @@ class Worksheet(xmlwriter.XMLwriter):
             self._write_single_row(row)
 
         # Store the cell data in the worksheet data table.
-        cell_tuple = namedtuple('Blank', 'format')
-        self.table[row][col] = cell_tuple(cell_format)
+        self.table[row][col] = cell_blank_tuple(cell_format)
 
         return 0
 
@@ -491,8 +501,7 @@ class Worksheet(xmlwriter.XMLwriter):
             self._write_single_row(row)
 
         # Store the cell data in the worksheet data table.
-        cell_tuple = namedtuple('Formula', 'formula, format, value')
-        self.table[row][col] = cell_tuple(formula, cell_format, value)
+        self.table[row][col] = cell_formula_tuple(formula, cell_format, value)
 
         return 0
 
@@ -547,10 +556,10 @@ class Worksheet(xmlwriter.XMLwriter):
             self._write_single_row(first_row)
 
         # Store the cell data in the worksheet data table.
-        cell_tuple = namedtuple('ArrayFormula',
-                                'formula, format, value, range')
-        self.table[first_row][first_col] = cell_tuple(formula, cell_format,
-                                                      value, cell_range)
+        self.table[first_row][first_col] = cell_arformula_tuple(formula,
+                                                                cell_format,
+                                                                value,
+                                                                cell_range)
 
         # Pad out the rest of the area with formatted zeroes.
         if not self.optimization:
@@ -589,8 +598,7 @@ class Worksheet(xmlwriter.XMLwriter):
         number = self._convert_date_time(date)
 
         # Store the cell data in the worksheet data table.
-        cell_tuple = namedtuple('Number', 'number, format')
-        self.table[row][col] = cell_tuple(number, cell_format)
+        self.table[row][col] = cell_number_tuple(number, cell_format)
 
         return 0
 
@@ -844,8 +852,7 @@ class Worksheet(xmlwriter.XMLwriter):
             self._write_single_row(row)
 
         # Store the cell data in the worksheet data table.
-        cell_tuple = namedtuple('String', 'string, format')
-        self.table[row][col] = cell_tuple(string_index, cell_format)
+        self.table[row][col] = cell_string_tuple(string_index, cell_format)
 
         return 0
 
