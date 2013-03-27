@@ -1,10 +1,20 @@
 
 
+Release 0.2.3 - March 27 2013
+-----------------------------
+
+* Fixed bug that was killing performance for medium sized files. The module
+  is now 10x faster than previous versions. Reported by John Yeung.
+
+
 Release 0.2.2 - March 27 2013
 -----------------------------
 
 * Added worksheet data validation options. See the :func:`data_validation` 
   method, :ref:`working_with_data_validation` and :ref:`ex_data_valid`.
+
+* There are now over 600 unit tests including more than 130 tests that
+  compare against the output of Excel.
 
 
 Release 0.2.1 - March 25 2013

@@ -16,7 +16,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '',
-        VERSION:     '0.2.2',
+        VERSION:     '0.2.3',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -54,11 +54,20 @@
   <div class="section" id="changes-in-xlsxwriter">
 <span id="changes"></span><h1>Changes in XlsxWriter</h1>
 <p>This section shows changes and bug fixes in the XlsxWriter module.</p>
+<div class="section" id="release-0-2-3-march-27-2013">
+<h2>Release 0.2.3 - March 27 2013</h2>
+<ul class="simple">
+<li>Fixed bug that was killing performance for medium sized files. The module
+is now 10x faster than previous versions. Reported by John Yeung.</li>
+</ul>
+</div>
 <div class="section" id="release-0-2-2-march-27-2013">
 <h2>Release 0.2.2 - March 27 2013</h2>
 <ul class="simple">
 <li>Added worksheet data validation options. See the <a class="reference internal" href="worksheet.html#data_validation" title="data_validation"><tt class="xref py py-func docutils literal"><span class="pre">data_validation()</span></tt></a>
 method, <a class="reference internal" href="working_with_data_validation.html#working-with-data-validation"><em>Working with Data Validation</em></a> and <a class="reference internal" href="example_data_validate.html#ex-data-valid"><em>Example: Data Validation and Drop Down Lists</em></a>.</li>
+<li>There are now over 600 unit tests including more than 130 tests that
+compare against the output of Excel.</li>
 </ul>
 </div>
 <div class="section" id="release-0-2-1-march-25-2013">
