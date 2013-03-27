@@ -932,6 +932,62 @@ to avoid BMP images since they aren't compressed. If used, BMP images must be
 See also :ref:`ex_insert_image`.
 
 
+worksheet.data_validation()
+---------------------------
+
+.. py:function:: data_validation(first_row, first_col, last_row, \
+                                 last_col, options)
+
+   Write a conditional format to range of cells.
+
+   :param first_row:   The first row of the range. (All zero indexed.)
+   :param first_col:   The first column of the range.
+   :param last_row:    The last row of the range.
+   :param last_col:    The last col of the range.
+   :param options:     Data validation options.
+   :type  first_row:   int
+   :type  first_col:   int
+   :type  last_row:    int
+   :type  last_col:    int
+   :type  options:     dict
+
+
+The ``data_validation()`` method is used to construct an Excel data
+validation or to limit the user input to a dropdown list of values::
+
+    worksheet.data_validation('B3', {'validate': 'integer',
+                                     'criteria': 'between',
+                                     'minimum': 1,
+                                     'maximum': 10})
+
+
+    worksheet.data_validation('B13', {'validate': 'list',
+                                      'source': ['open', 'high', 'close']})
+
+.. image:: _static/data_validate1.png
+    
+The data validation can be applied to a single cell or a range of cells.
+As usual you can use A1 or Row/Column notation, see :ref:`cell_notation`.
+
+With Row/Column notation you must specify all four cells in the range:
+``(first_row, first_col, last_row, last_col)``.
+If you need to refer to a single cell set the `last_` values equal to the
+`first_` values. With A1 notation you can refer to a single cell or a range
+of cells::
+
+    worksheet.data_validation(0, 0, 4, 1, {...})
+    worksheet.data_validation('B1',       {...})
+    worksheet.data_validation('C1:E5',    {...})
+
+
+The options parameter in ``data_validation()`` must be a dictionary
+containing the parameters that describe the type and style of the data
+validation. There are a lot of available options which are described in detail
+in a separate section: :ref:`working_with_data_validation`. See also
+:ref:`ex_data_valid`.
+
+
+
 worksheet.conditional_format()
 ------------------------------
 

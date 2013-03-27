@@ -12,12 +12,12 @@ worksheet = workbook.add_worksheet()
 
 worksheet.set_column('A:A', 30)
 
-# Set some formats to use.
-bold        = workbook.add_format({'bold': True})
-italic      = workbook.add_format({'italic': True})
-red         = workbook.add_format({'color': 'red'})
-blue        = workbook.add_format({'color': 'blue'})
-center      = workbook.add_format({'align': 'center'})
+# Set up some formats to use.
+bold = workbook.add_format({'bold': True})
+italic = workbook.add_format({'italic': True})
+red = workbook.add_format({'color': 'red'})
+blue = workbook.add_format({'color': 'blue'})
+center = workbook.add_format({'align': 'center'})
 superscript = workbook.add_format({'font_script': 1})
 
 # Write some strings with multiple formats.
