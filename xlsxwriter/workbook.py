@@ -244,11 +244,18 @@ class Workbook(xmlwriter.XMLwriter):
         return self.worksheets_objs
 
     def set_optimization(self):
-        # TODO
-        # Set the speed/memory optimisation level.
+        """
+        Set the memory optimisation mode.
+
+        Args:
+            None.
+
+        Returns:
+            Nothing.
+
+        """
         if self.worksheets():
-            warnings.warn(
-                "set_optimization() must be called before add_worksheet()")
+            warn("set_optimization() must be called before add_worksheet()")
 
         self.optimization = 1
 
