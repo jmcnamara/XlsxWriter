@@ -8,8 +8,10 @@
 # Standard packages.
 import re
 import datetime
-from warnings import warn
 import tempfile
+import codecs
+import os
+from warnings import warn
 from collections import defaultdict
 from collections import namedtuple
 
@@ -2413,7 +2415,13 @@ class Worksheet(xmlwriter.XMLwriter):
 
         # Open a temp filehandle to store row data in optimization mode.
         if self.optimization == 1:
-            self.row_data_fh = tempfile.TemporaryFile(mode='w+')
+            # This make be sub-optimal or insecure. It seems like too much
+            # work to create a temp file with utf8 encoding in Python < 3.
+            (fd, filename) = tempfile.mkstemp()
+            os.close(fd)
+            self.row_data_filename = filename
+            self.row_data_fh = codecs.open(filename, 'w+', 'utf-8')
+
             # Also use this as the worksheet filehandle until the file is
             # due to be assembled.
             self.fh = self.row_data_fh
@@ -3576,6 +3584,7 @@ class Worksheet(xmlwriter.XMLwriter):
                 data = self.row_data_fh.read(4096)
 
             self.row_data_fh.close()
+            os.unlink(self.row_data_filename)
 
             self._xml_end_tag('sheetData')
 
