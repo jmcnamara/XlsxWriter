@@ -10,6 +10,7 @@ import re
 import os
 import tempfile
 import operator
+import shutil
 from warnings import warn
 from datetime import datetime
 from zipfile import ZipFile, ZIP_DEFLATED
@@ -339,6 +340,8 @@ class Workbook(xmlwriter.XMLwriter):
                 rel_filename = abs_filename.replace(dir_root, '')
                 xlsx_file.write(abs_filename, rel_filename)
 
+        print(temp_dir)
+        shutil.rmtree(temp_dir)
         xlsx_file.close()
 
     def _check_sheetname(self, sheetname, is_chart=False):
