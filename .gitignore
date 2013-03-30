@@ -14,6 +14,7 @@ cover/
 .settings/
 xlsxwriter/test/comparison/_test_*.xlsx
 dev/docs/build/
+dev/performance/*.xlsx
 .DS_Store
 build/
 .buildinfo
