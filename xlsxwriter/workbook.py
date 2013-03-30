@@ -37,7 +37,7 @@ class Workbook(xmlwriter.XMLwriter):
     #
     ###########################################################################
 
-    def __init__(self, filename=None):
+    def __init__(self, filename=None, options={}):
         """
         Constructor.
 
@@ -76,7 +76,7 @@ class Workbook(xmlwriter.XMLwriter):
         self.localtime = datetime.now()
         self.num_vml_files = 0
         self.num_comment_files = 0
-        self.optimization = 0
+        self.optimization = options.get('reduce_memory', 0)
         self.x_window = 240
         self.y_window = 15
         self.window_width = 16095
@@ -115,7 +115,6 @@ class Workbook(xmlwriter.XMLwriter):
         #            self.table_count,
         #            self.date_1904,
         #            self.palette, # remove
-        #            self.optimization,
         #            self.tempdir,
 
         init_data = {
@@ -123,6 +122,7 @@ class Workbook(xmlwriter.XMLwriter):
             'index': sheet_index,
             'str_table': self.str_table,
             'worksheet_meta': self.worksheet_meta,
+            'optimization': self.optimization,
         }
 
         worksheet = Worksheet()

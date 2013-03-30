@@ -8,6 +8,9 @@
 # Standard packages.
 import re
 import datetime
+import tempfile
+import codecs
+import os
 from warnings import warn
 from collections import defaultdict
 from collections import namedtuple
@@ -2408,6 +2411,20 @@ class Worksheet(xmlwriter.XMLwriter):
         self.index = init_data['index']
         self.str_table = init_data['str_table']
         self.worksheet_meta = init_data['worksheet_meta']
+        self.optimization = init_data['optimization']
+
+        # Open a temp filehandle to store row data in optimization mode.
+        if self.optimization == 1:
+            # This make be sub-optimal or insecure. It seems like too much
+            # work to create a temp file with utf8 encoding in Python < 3.
+            (fd, filename) = tempfile.mkstemp()
+            os.close(fd)
+            self.row_data_filename = filename
+            self.row_data_fh = codecs.open(filename, 'w+', 'utf-8')
+
+            # Also use this as the worksheet filehandle until the file is
+            # due to be assembled.
+            self.fh = self.row_data_fh
 
     def _assemble_xml_file(self):
         # Assemble and write the XML file.
@@ -2434,11 +2451,10 @@ class Worksheet(xmlwriter.XMLwriter):
         self._write_cols()
 
         # Write the worksheet data such as rows columns and cells.
-        # if self.optimization == 0:
-        #    self._write_sheet_data()
-        # else:
-        #    self._write_optimized_sheet_data()
-        self._write_sheet_data()
+        if self.optimization == 0:
+            self._write_sheet_data()
+        else:
+            self._write_optimized_sheet_data()
 
         # Write the sheetProtection element.
         self._write_sheet_protection()
@@ -3549,6 +3565,30 @@ class Worksheet(xmlwriter.XMLwriter):
             self._write_rows()
             self._xml_end_tag('sheetData')
 
+    def _write_optimized_sheet_data(self):
+        # Write the <sheetData> element when the memory optimisation is on.
+        # In this case we read the data stored in the temp file and rewrite
+        # it to the XML sheet file.
+        if self.dim_rowmin is None:
+            # If the dimensions aren't defined then there is no data to write.
+            self._xml_empty_tag('sheetData')
+        else:
+            self._xml_start_tag('sheetData')
+
+            # Rewind the filehandle that was used for temp row data.
+            buff_size = 65536
+            self.row_data_fh.seek(0)
+            data = self.row_data_fh.read(buff_size)
+
+            while(data):
+                self.fh.write(data)
+                data = self.row_data_fh.read(buff_size)
+
+            self.row_data_fh.close()
+            os.unlink(self.row_data_filename)
+
+            self._xml_end_tag('sheetData')
+
     def _write_page_margins(self):
         # Write the <pageMargins> element.
         attributes = [
@@ -3705,7 +3745,7 @@ class Worksheet(xmlwriter.XMLwriter):
                     self._write_empty_row(row_num, span,
                                           self.set_rows[row_num])
 
-    def _write_single_row(self, current_row_num):
+    def _write_single_row(self, current_row_num=0):
         # Write out the worksheet data as a single row with cells.
         # This method is used when memory optimisation is on. A single
         # row is written and the data table is reset. That way only
@@ -3875,10 +3915,11 @@ class Worksheet(xmlwriter.XMLwriter):
             else:
                 # Write an optimised in-line string.
 
-                # TODO: Fix control char encoding when unit test is ported.
                 # Escape control characters. See SharedString.pm for details.
-                # string =~ s/(_x[0-9a-fA-F]{4}_)/_x005F1/g
-                # string =~s/([\x00-\x08\x0B-\x1F])/sprintf "_x04X_", ord(1)/eg
+                string = re.sub('(_x[0-9a-fA-F]{4}_)', r'_x005F\1', string)
+                string = re.sub(r'([\x00-\x08\x0B-\x1F])',
+                                lambda match: "_x%04X_" %
+                                ord(match.group(1)), string)
 
                 # Write any rich strings without further tags.
                 if re.search('^<r>', string) and re.search('</r>$', string):

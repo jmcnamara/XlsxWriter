@@ -160,6 +160,9 @@ class Packager(object):
             if worksheet.is_chartsheet:
                 continue
 
+            if worksheet.optimization == 1:
+                worksheet._write_single_row()
+
             worksheet._set_xml_writer(
                 xlsx_dir + '/xl/worksheets/sheet' + str(index) + '.xml')
             worksheet._assemble_xml_file()
