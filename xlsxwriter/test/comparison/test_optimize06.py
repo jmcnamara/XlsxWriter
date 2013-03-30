@@ -35,10 +35,7 @@ class TestCompareXLSXFiles(unittest.TestCase):
 
         ####################################################
 
-        workbook = Workbook(filename)
-
-        workbook.set_optimization()
-
+        workbook = Workbook(filename, {'reduce_memory': True})
         worksheet = workbook.add_worksheet()
 
         # Test that control characters and any other single byte characters are

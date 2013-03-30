@@ -36,8 +36,7 @@ class TestCompareXLSXFiles(unittest.TestCase):
 
         ####################################################
 
-        workbook = Workbook(filename)
-        workbook.set_optimization()
+        workbook = Workbook(filename, {'reduce_memory': True})
         worksheet = workbook.add_worksheet()
 
         smiley = "\u263a"

@@ -3576,12 +3576,13 @@ class Worksheet(xmlwriter.XMLwriter):
             self._xml_start_tag('sheetData')
 
             # Rewind the filehandle that was used for temp row data.
+            buff_size = 65536
             self.row_data_fh.seek(0)
-            data = self.row_data_fh.read(4096)
+            data = self.row_data_fh.read(buff_size)
 
             while(data):
                 self.fh.write(data)
-                data = self.row_data_fh.read(4096)
+                data = self.row_data_fh.read(buff_size)
 
             self.row_data_fh.close()
             os.unlink(self.row_data_filename)
