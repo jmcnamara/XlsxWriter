@@ -174,8 +174,10 @@ class XMLwriter(object):
 
     def _escape_attributes(self, attribute):
         # Escape XML characters in attributes.
-
-        if not self.escapes.search(str(attribute)):
+        try:
+            if not self.escapes.search(attribute):
+                return attribute
+        except TypeError:
             return attribute
 
         attribute = attribute.replace('&', '&amp;')
@@ -189,7 +191,10 @@ class XMLwriter(object):
         # Escape XML characters in data sections of tags.  Note, this
         # is different from _escape_attributes() in that double quotes
         # are not escaped by Excel.
-        if not (isinstance(data, str) and self.escapes.search(data)):
+        try:
+            if not self.escapes.search(data):
+                return data
+        except TypeError:
             return data
 
         data = data.replace('&', '&amp;')
