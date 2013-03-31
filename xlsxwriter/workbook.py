@@ -82,7 +82,6 @@ class Workbook(xmlwriter.XMLwriter):
         self.window_width = 16095
         self.window_height = 9660
         self.tab_ratio = 500
-        self.table_count = 0
         self.str_table = SharedStringTable()
         self.vba_project = None
         self.vba_codename = None
@@ -111,10 +110,7 @@ class Workbook(xmlwriter.XMLwriter):
         sheet_index = len(self.worksheets_objs)
         name = self._check_sheetname(name)
 
-        # TODO port these during integration tests.
-        #            self.table_count,
-        #            self.palette, # remove
-
+        # Initialisation data to pass to the worksheet.
         init_data = {
             'name': name,
             'index': sheet_index,
@@ -1017,3 +1013,4 @@ class WorksheetMeta(object):
     def __init__(self):
         self.activesheet = 0
         self.firstsheet = 0
+        self.table_count = 0
