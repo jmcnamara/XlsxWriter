@@ -16,7 +16,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '',
-        VERSION:     '0.2.3',
+        VERSION:     '0.2.4',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -57,10 +57,10 @@
 submit bug reports.</p>
 <div class="section" id="unknown-encoding-utf-8-error">
 <h2>&#8216;unknown encoding: utf-8&#8217; Error</h2>
-<p>The following error can occur on Windows if the <a class="reference internal" href="workbook.html#close" title="close"><tt class="xref py py-func docutils literal"><span class="pre">close()</span></tt></a> method isn&#8217;t
-used at the end of the program:</p>
+<p>The following error can occur on Windows if the <a class="reference internal" href="workbook.html#close" title="close"><tt class="xref py py-func docutils literal"><span class="pre">close()</span></tt></a> method isn&#8217;t used
+at the end of the program:</p>
 <div class="highlight-python"><pre>Exception LookupError: 'unknown encoding: utf-8' in &lt;bound method
-Workbook.__del__ of &lt;xlsxwriter.workbook.Workbook objectat 0x022C1450&gt;&gt;</pre>
+Workbook.__del__ of &lt;xlsxwriter.workbook.Workbook object at 0x022C1450&gt;&gt;</pre>
 </div>
 <p>This appears to be an issue with the implicit destructor on Windows. It is
 under investigation. Use <tt class="docutils literal"><span class="pre">close()</span></tt> as a workaround.</p>
@@ -71,8 +71,8 @@ under investigation. Use <tt class="docutils literal"><span class="pre">close()<
 formulas written by XlsxWriter. Applying all available Service Packs to Excel
 should fix this.</p>
 </div>
-<div class="section" id="formula-results-displaying-as-zero-in-non-excel-apps">
-<h2>Formula results displaying as zero in non-Excel apps</h2>
+<div class="section" id="formula-results-displaying-as-zero-in-non-excel-applications">
+<h2>Formula results displaying as zero in non-Excel applications</h2>
 <p>Due to wide range of possible formulas and interdependencies between them
 XlsxWriter doesn&#8217;t, and realistically cannot, calculate the result of a
 formula when it is written to an XLSX file. Instead, it stores the value 0 as
@@ -87,6 +87,15 @@ formula using the optional <tt class="docutils literal"><span class="pre">value<
 <div class="highlight-python"><div class="highlight"><pre><span class="n">worksheet</span><span class="o">.</span><span class="n">write_formula</span><span class="p">(</span><span class="s">&#39;A1&#39;</span><span class="p">,</span> <span class="s">&#39;=2+2&#39;</span><span class="p">,</span> <span class="n">num_format</span><span class="p">,</span> <span class="mi">4</span><span class="p">)</span>
 </pre></div>
 </div>
+</div>
+<div class="section" id="strings-aren-t-displayed-in-apple-numbers-in-constant-memory-mode">
+<h2>Strings aren&#8217;t displayed in Apple Numbers in &#8216;constant_memory&#8217; mode</h2>
+<p>In <a class="reference internal" href="workbook.html#Workbook" title="Workbook"><tt class="xref py py-func docutils literal"><span class="pre">Workbook()</span></tt></a> <tt class="docutils literal"><span class="pre">'constant_memory'</span></tt> mode XlsxWriter uses an optimisation
+where cell strings aren&#8217;t stored in an Excel structure call &#8220;shared strings&#8221;
+and instead are written &#8220;in-line&#8221;.</p>
+<p>This is a documented Excel feature that is supported by most spreadsheet
+applications. One known exception is Apple Numbers for Mac where the string
+data isn&#8217;t displayed.</p>
 </div>
 </div>
 <div class="section" id="reporting-bugs">
@@ -106,12 +115,13 @@ it before you and that it is already addressed in the documentation.</p>
 <div class="section" id="look-at-the-example-programs">
 <h2>Look at the example programs</h2>
 <p>There are several example programs in the distribution. Many of these were
-created in response to user questions. Try to identify an example program
-that corresponds to your query and adapt it to your needs.</p>
+created in response to user questions. Try to identify an example program that
+corresponds to your query and adapt it to your needs.</p>
 </div>
 <div class="section" id="use-the-official-xlsxwriter-issue-tracker-on-github">
 <h2>Use the official XlsxWriter Issue tracker on GitHub</h2>
-<p>The official XlsxWriter <a class="reference external" href="https://github.com/jmcnamara/XlsxWriter/issues">Issue tracker is on GitHub</a>.</p>
+<p>The official XlsxWriter
+<a class="reference external" href="https://github.com/jmcnamara/XlsxWriter/issues">Issue tracker is on GitHub</a>.</p>
 </div>
 <div class="section" id="pointers-for-submitting-a-bug-report">
 <h2>Pointers for submitting a bug report</h2>
@@ -120,11 +130,11 @@ that corresponds to your query and adapt it to your needs.</p>
 <li>Include a sample program. This is probably the most important step. Also,
 it is often easier to describe a problem in code than in written prose.</li>
 <li>The sample program should be as small as possible to demonstrate the
-problem. Don&#8217;t copy and past large sections of your program. The
-program should also be self contained and working.</li>
+problem. Don&#8217;t copy and past large sections of your program. The program
+should also be self contained and working.</li>
 </ol>
-<p>A sample bug report is shown below. If you use this format then it will help
-to analyse your question and respond to it more quickly.</p>
+<p>A sample bug report is shown below. If you use this format then it will help to
+analyse your question and respond to it more quickly.</p>
 <blockquote>
 <div><p><strong>XlsxWriter Issue with SOMETHING</strong></p>
 <p>I am using XlsxWriter and I have encountered a problem. I want it to do
@@ -159,7 +169,8 @@ SOMETHING but the module appears to do SOMETHING ELSE.</p>
 <li><a class="reference internal" href="#">Known Issues and Bugs</a><ul>
 <li><a class="reference internal" href="#unknown-encoding-utf-8-error">&#8216;unknown encoding: utf-8&#8217; Error</a></li>
 <li><a class="reference internal" href="#formula-results-not-displaying-in-excel">Formula results not displaying in Excel</a></li>
-<li><a class="reference internal" href="#formula-results-displaying-as-zero-in-non-excel-apps">Formula results displaying as zero in non-Excel apps</a></li>
+<li><a class="reference internal" href="#formula-results-displaying-as-zero-in-non-excel-applications">Formula results displaying as zero in non-Excel applications</a></li>
+<li><a class="reference internal" href="#strings-aren-t-displayed-in-apple-numbers-in-constant-memory-mode">Strings aren&#8217;t displayed in Apple Numbers in &#8216;constant_memory&#8217; mode</a></li>
 </ul>
 </li>
 <li><a class="reference internal" href="#reporting-bugs">Reporting Bugs</a><ul>

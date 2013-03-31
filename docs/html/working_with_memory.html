@@ -1,0 +1,288 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Working with Memory and Performance &mdash; XlsxWriter Documentation</title>
+    
+    <link rel="stylesheet" href="_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '',
+        VERSION:     '0.2.4',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="XlsxWriter Documentation" href="index.html" />
+    <link rel="next" title="Examples" href="examples.html" />
+    <link rel="prev" title="Working with Cell Comments" href="working_with_cell_comments.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="examples.html" title="Examples"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="working_with_cell_comments.html" title="Working with Cell Comments"
+             accesskey="P">previous</a> |</li>
+        <li><a href="index.html">XlsxWriter Documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="working-with-memory-and-performance">
+<span id="memory-perf"></span><h1>Working with Memory and Performance</h1>
+<p>The Python XlsxWriter module is based on the design of the Perl module
+<a class="reference internal" href="excel_writer_xlsx.html#ewx"><em>Excel::Writer::XLSX</em></a> which in turn is based on an older Perl
+module called
+<a class="reference external" href="http://search.cpan.org/~jmcnamara/Spreadsheet-WriteExcel/">Spreadsheet::WriteExcel</a>.</p>
+<p>Spreadsheet::WriteExcel was written to optimise speed and reduce memory
+usage. However, these design goals meant that it wasn&#8217;t easy to implement
+features that many users requested such as writing formatting and data
+separately.</p>
+<p>As a result XlsxWriter (and Excel::Writer::XLSX) takes a different
+design approach and holds a lot more data in memory so that it is functionally
+more flexible.</p>
+<p>The effect of this is that XlsxWriter can consume a lot of memory. In addition
+the extended row and column ranges in Excel 2007+ mean that it is possible to
+run out of memory creating large files.</p>
+<p>Fortunately, this memory usage can be reduced almost completely by using the
+<a class="reference internal" href="workbook.html#Workbook" title="Workbook"><tt class="xref py py-func docutils literal"><span class="pre">Workbook()</span></tt></a> <tt class="docutils literal"><span class="pre">'constant_memory'</span></tt> property:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">workbook</span> <span class="o">=</span> <span class="n">Workbook</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="p">{</span><span class="s">&#39;constant_memory&#39;</span><span class="p">:</span> <span class="bp">True</span><span class="p">})</span>
+</pre></div>
+</div>
+<p>The optimisation works by flushing each row after a subsequent row is written.
+In this way the largest amount of data held in memory for a worksheet is the
+amount of data required to hold a single row of data.</p>
+<p>Since each new row flushes the previous row, data must be written in sequential
+row order when <tt class="docutils literal"><span class="pre">'constant_memory'</span></tt> mode is on:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="c"># With &#39;constant_memory&#39; you must write data in row by column order.</span>
+<span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">row_max</span><span class="p">):</span>
+    <span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">col_max</span><span class="p">):</span>
+        <span class="n">worksheet</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">row</span><span class="p">,</span> <span class="n">col</span><span class="p">,</span> <span class="n">some_data</span><span class="p">)</span>
+
+<span class="c"># With &#39;constant_memory&#39; this would only write the first column of data.</span>
+<span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">col_max</span><span class="p">):</span>
+    <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">row_max</span><span class="p">):</span>
+        <span class="n">worksheet</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">row</span><span class="p">,</span> <span class="n">col</span><span class="p">,</span> <span class="n">some_data</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Another optimisation that is used to reduce memory usage is that cell strings
+aren&#8217;t stored in an Excel structure call &#8220;shared strings&#8221; and instead are
+written &#8220;in-line&#8221;. This is a documented Excel feature that is supported by
+most spreadsheet applications. One known exception is Apple Numbers for Mac
+where the string data isn&#8217;t displayed.</p>
+<p>The trade-off when using <tt class="docutils literal"><span class="pre">'constant_memory'</span></tt> mode is that you won&#8217;t be able
+to take advantage of any new features that manipulate cell data after it is
+written. Currently there are no such features.</p>
+<p>For larger files <tt class="docutils literal"><span class="pre">'constant_memory'</span></tt> mode also gives an increase in execution
+speed, see below.</p>
+<div class="section" id="performance-figures">
+<h2>Performance Figures</h2>
+<p>The performance figures below show execution time and memory usage for
+worksheets of size <tt class="docutils literal"><span class="pre">N</span></tt> rows x 50 columns with a 50/50 mixture of strings and
+numbers. The figures are taken from an arbitrary, mid-range, machine. Specific
+figures will vary from machine to machine but the trends should be the same.</p>
+<p>XlsxWriter in normal operation mode: the execution time and memory usage
+increase more of less linearly with the number of rows:</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="17%" />
+<col width="21%" />
+<col width="24%" />
+<col width="38%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Rows</th>
+<th class="head">Columns</th>
+<th class="head">Time (s)</th>
+<th class="head">Memory (bytes)</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>200</td>
+<td>50</td>
+<td>0.72</td>
+<td>2050552</td>
+</tr>
+<tr class="row-odd"><td>400</td>
+<td>50</td>
+<td>1.45</td>
+<td>4478272</td>
+</tr>
+<tr class="row-even"><td>800</td>
+<td>50</td>
+<td>2.90</td>
+<td>8083072</td>
+</tr>
+<tr class="row-odd"><td>1600</td>
+<td>50</td>
+<td>5.92</td>
+<td>17799424</td>
+</tr>
+<tr class="row-even"><td>3200</td>
+<td>50</td>
+<td>11.83</td>
+<td>32218624</td>
+</tr>
+<tr class="row-odd"><td>6400</td>
+<td>50</td>
+<td>23.72</td>
+<td>64792576</td>
+</tr>
+<tr class="row-even"><td>12800</td>
+<td>50</td>
+<td>47.85</td>
+<td>128760832</td>
+</tr>
+</tbody>
+</table>
+<p>XlsxWriter in <tt class="docutils literal"><span class="pre">constant_memory</span></tt> mode: the execution time still increases
+linearly with the number of rows but the memory usage remains small and
+constant:</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="17%" />
+<col width="21%" />
+<col width="24%" />
+<col width="38%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Rows</th>
+<th class="head">Columns</th>
+<th class="head">Time (s)</th>
+<th class="head">Memory (bytes)</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>200</td>
+<td>50</td>
+<td>0.40</td>
+<td>54248</td>
+</tr>
+<tr class="row-odd"><td>400</td>
+<td>50</td>
+<td>0.80</td>
+<td>54248</td>
+</tr>
+<tr class="row-even"><td>800</td>
+<td>50</td>
+<td>1.60</td>
+<td>54248</td>
+</tr>
+<tr class="row-odd"><td>1600</td>
+<td>50</td>
+<td>3.19</td>
+<td>54248</td>
+</tr>
+<tr class="row-even"><td>3200</td>
+<td>50</td>
+<td>6.29</td>
+<td>54248</td>
+</tr>
+<tr class="row-odd"><td>6400</td>
+<td>50</td>
+<td>12.74</td>
+<td>54248</td>
+</tr>
+<tr class="row-even"><td>12800</td>
+<td>50</td>
+<td>25.34</td>
+<td>54248</td>
+</tr>
+</tbody>
+</table>
+<p>In the <tt class="docutils literal"><span class="pre">constant_memory</span></tt> mode the performance is also increased. There will be
+further optimisation in both modes in later releases.</p>
+<p>These figures were generated using programs in the <tt class="docutils literal"><span class="pre">dev/performance</span></tt>
+directory of the XlsxWriter source code.</p>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="index.html">
+              <img class="logo" src="_static/logo.png" alt="Logo"/>
+            </a></p>
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Working with Memory and Performance</a><ul>
+<li><a class="reference internal" href="#performance-figures">Performance Figures</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="working_with_cell_comments.html"
+                        title="previous chapter">Working with Cell Comments</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="examples.html"
+                        title="next chapter">Examples</a></p>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="_sources/working_with_memory.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="examples.html" title="Examples"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="working_with_cell_comments.html" title="Working with Cell Comments"
+             >previous</a> |</li>
+        <li><a href="index.html">XlsxWriter Documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2013, John McNamara.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.3.
+    </div>
+  </body>
+</html>

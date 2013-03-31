@@ -1,5 +1,19 @@
 
 
+Release 0.2.4 - March 31 2013
+-----------------------------
+
+* Added :func:`Workbook` ``'constant_memory'`` constructor property to
+  minimise memory usage when writing large files. See :ref:`memory_perf` 
+  for more details.
+
+* Fixed bug with handling of UTF-8 strings in worksheet names (and probably
+  some other places as well). Reported by Josh English.
+
+* Fixed bug where temporary directory used to create xlsx files wasn't
+  cleaned up after program close.
+
+
 Release 0.2.3 - March 27 2013
 -----------------------------
 
@@ -21,7 +35,7 @@ Release 0.2.1 - March 25 2013
 -----------------------------
 
 * Added support for datetime.datetime, datetime.date and datetime.time
-  to the :func:`write_datetime` method. Github issue #3.
+  to the :func:`write_datetime` method. GitHub issue #3.
   Thanks to Eduardo (eazb) and Josh English for the prompt.
 
 

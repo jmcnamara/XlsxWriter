@@ -16,7 +16,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '',
-        VERSION:     '0.2.3',
+        VERSION:     '0.2.4',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -55,25 +55,25 @@
 <span id="intro"></span><h1>Introduction</h1>
 <p><strong>XlsxWriter</strong> is a Python module for writing files in the Excel 2007+ XLSX
 file format.</p>
-<p>Multiple worksheets can be added to a workbook and formatting can be applied to
-cells. Text, numbers, and formulas can be written to the cells.</p>
+<p>It can be used to write text, numbers, and formulas to multiple worksheets and
+it supports features such as formatting, images, page setup, autofilters,
+conditional formatting and many others.</p>
 <p>This module cannot be used to modify or write to an existing Excel XLSX file.
 There are some <a class="reference internal" href="alternatives.html#alternatives"><em>Alternative modules for handling Excel files</em></a> Python modules that do that.</p>
-<p>The XlsxWriter module is a port of the Perl <tt class="docutils literal"><span class="pre">Excel::Writer::XLSX</span></tt> module. It
-is a work in progress. See the <a class="reference internal" href="excel_writer_xlsx.html#ewx"><em>Comparison with Excel::Writer::XLSX</em></a> section for a list of currently
-ported features.</p>
 <p>XlsxWriter is written by John McNamara who also wrote the perl modules
 <a class="reference external" href="http://search.cpan.org/~jmcnamara/Excel-Writer-XLSX/">Excel::Writer::XLSX</a>
 and
 <a class="reference external" href="http://search.cpan.org/~jmcnamara/Spreadsheet-WriteExcel/">Spreadsheet::WriteExcel</a>
 and who is the maintainer of
-<a class="reference external" href="http://search.cpan.org/~jmcnamara/Spreadsheet-ParseExcel/">Spreadsheet::ParseExcel</a>.</p>
+<a class="reference external" href="http://search.cpan.org/~jmcnamara/Spreadsheet-ParseExcel/">Spreadsheet::ParseExcel</a>.
+The XlsxWriter module is a port of the Excel::Writer::XLSX. See the <a class="reference internal" href="excel_writer_xlsx.html#ewx"><em>Comparison with Excel::Writer::XLSX</em></a>
+section for a list of currently ported features.</p>
 <p>XlsxWriter is intended to have a high degree of compatibility with files
 produced by Excel. In most cases the files produced are 100% equivalent to
-files produced by Excel. In fact the
+files produced by Excel and the
 <a class="reference external" href="https://github.com/jmcnamara/XlsxWriter/tree/master/xlsxwriter/test/comparison">test suite</a>
-contains a range of test cases that verify the output of XlsxWriter against
-actual files created in Excel.</p>
+contains a large number of test cases that verify the output of XlsxWriter
+against actual files created in Excel.</p>
 <p>XlsxWriter is licensed under a BSD <a class="reference internal" href="license.html#license"><em>License</em></a> and is available as a <tt class="docutils literal"><span class="pre">git</span></tt>
 repository on <a class="reference external" href="http://github.com/jmcnamara/XlsxWriter">GitHub</a>.</p>
 </div>

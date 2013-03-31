@@ -16,7 +16,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '',
-        VERSION:     '0.2.3',
+        VERSION:     '0.2.4',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -61,15 +61,20 @@ internally it represents the Excel file as it is written on disk.</p>
 <h2>Constructor</h2>
 <dl class="function">
 <dt id="Workbook">
-<tt class="descname">Workbook</tt><big>(</big><em>filename</em><big>)</big></dt>
+<tt class="descname">Workbook</tt><big>(</big><em>filename</em><span class="optional">[</span>, <em>options</em><span class="optional">]</span><big>)</big></dt>
 <dd><p>Create a new XlsxWriter Workbook object.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>filename</strong> (<a class="reference external" href="http://docs.python.org/2/library/string.html#string" title="(in Python v2.7)"><em>string</em></a>) &#8211; The name of the new Excel file to create.</td>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>filename</strong> (<a class="reference external" href="http://docs.python.org/2/library/string.html#string" title="(in Python v2.7)"><em>string</em></a>) &#8211; The name of the new Excel file to create.</li>
+<li><strong>options</strong> (<a class="reference external" href="http://docs.python.org/2/library/stdtypes.html#dict" title="(in Python v2.7)"><em>dict</em></a>) &#8211; Optional workbook parameters.</li>
+</ul>
+</td>
 </tr>
-<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body">A Workbook object.</td>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">A Workbook object.</p>
+</td>
 </tr>
 </tbody>
 </table>
@@ -86,8 +91,24 @@ given filename:</p>
 </pre></div>
 </div>
 <img alt="_images/workbook01.png" src="_images/workbook01.png" />
-<p>It is recommended that you always use an <tt class="docutils literal"><span class="pre">.xlsx</span></tt> extension in the filename
-or Excel will generate a warning when the file is opened.</p>
+<p>There is currently only one constructor option which is:</p>
+<ul>
+<li><dl class="first docutils">
+<dt><tt class="docutils literal"><span class="pre">'constant_memory'</span></tt>: Reduces the amount of data stored in memory so that</dt>
+<dd><p class="first">large files can be written efficiently:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">workbook</span> <span class="o">=</span> <span class="n">Workbook</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="p">{</span><span class="s">&#39;constant_memory&#39;</span><span class="p">:</span> <span class="bp">True</span><span class="p">})</span>
+</pre></div>
+</div>
+<p>Note, in this mode  a row of data is written and then discarded when a
+cell in a new row is added via one of the worksheet <tt class="docutils literal"><span class="pre">write_()</span></tt> methods.
+As such data should be written in sequential row order once this mode is on.</p>
+<p class="last">See <a class="reference internal" href="working_with_memory.html#memory-perf"><em>Working with Memory and Performance</em></a> for more details.</p>
+</dd>
+</dl>
+</li>
+</ul>
+<p>It is recommended that you always use an <tt class="docutils literal"><span class="pre">.xlsx</span></tt> extension in the filename or
+Excel will generate a warning when the file is opened.</p>
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
 <p class="last">A later version of the module will support writing to filehandles like
@@ -126,8 +147,9 @@ Excel convention will be followed, i.e. Sheet1, Sheet2, etc.:</p>
 </div>
 <img alt="_images/workbook02.png" src="_images/workbook02.png" />
 <p>The worksheet name must be a valid Excel worksheet name, i.e. it cannot contain
-any of the characters
-<tt class="docutils literal"><span class="pre">'[]:*?/\'</span></tt> and it must be less than 32 characters. In addition, you cannot use the same, case insensitive, <tt class="docutils literal"><span class="pre">sheetname</span></tt> for more than one worksheet.</p>
+any of the characters <tt class="docutils literal"><span class="pre">'</span> <span class="pre">[</span> <span class="pre">]</span> <span class="pre">:</span> <span class="pre">*</span> <span class="pre">?</span> <span class="pre">/</span> <span class="pre">\</span> <span class="pre">'</span></tt> and it must be less than 32
+characters. In addition, you cannot use the same, case insensitive,
+<tt class="docutils literal"><span class="pre">sheetname</span></tt> for more than one worksheet.</p>
 </div>
 <div class="section" id="workbook-add-format">
 <h2>workbook.add_format()</h2>
@@ -198,11 +220,10 @@ program.</p>
 </table>
 </dd></dl>
 
-<p>The <tt class="docutils literal"><span class="pre">set_properties</span></tt> method can be used to set the document properties
-of the Excel file created by <tt class="docutils literal"><span class="pre">XlsxWriter</span></tt>. These properties are visible
-when you use the <tt class="docutils literal"><span class="pre">Office</span> <span class="pre">Button</span> <span class="pre">-&gt;</span> <span class="pre">Prepare</span> <span class="pre">-&gt;</span> <span class="pre">Properties</span></tt> option in Excel
-and are also available to external applications that read or index windows
-files.</p>
+<p>The <tt class="docutils literal"><span class="pre">set_properties</span></tt> method can be used to set the document properties of the
+Excel file created by <tt class="docutils literal"><span class="pre">XlsxWriter</span></tt>. These properties are visible when you
+use the <tt class="docutils literal"><span class="pre">Office</span> <span class="pre">Button</span> <span class="pre">-&gt;</span> <span class="pre">Prepare</span> <span class="pre">-&gt;</span> <span class="pre">Properties</span></tt> option in Excel and are
+also available to external applications that read or index windows files.</p>
 <p>The properties that can be set are:</p>
 <ul class="simple">
 <li><tt class="docutils literal"><span class="pre">title</span></tt></li>
@@ -250,22 +271,22 @@ files.</p>
 </table>
 </dd></dl>
 
-<p>This method is used to defined a name that can be used to represent a value,
-a single cell or a range of cells in a workbook.</p>
+<p>This method is used to defined a name that can be used to represent a value, a
+single cell or a range of cells in a workbook.</p>
 <p>For example to set a global/workbook name:</p>
 <div class="highlight-python"><div class="highlight"><pre><span class="c"># Global/workbook names.</span>
 <span class="n">workbook</span><span class="o">.</span><span class="n">define_name</span><span class="p">(</span><span class="s">&#39;Exchange_rate&#39;</span><span class="p">,</span> <span class="s">&#39;=0.96&#39;</span><span class="p">)</span>
 <span class="n">workbook</span><span class="o">.</span><span class="n">define_name</span><span class="p">(</span><span class="s">&#39;Sales&#39;</span><span class="p">,</span>         <span class="s">&#39;=Sheet1!$G$1:$H$10&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
-<p>It is also possible to define a local/worksheet name by prefixing it
-with the sheet name using the syntax <tt class="docutils literal"><span class="pre">'sheetname!definedname'</span></tt>:</p>
+<p>It is also possible to define a local/worksheet name by prefixing it with the
+sheet name using the syntax <tt class="docutils literal"><span class="pre">'sheetname!definedname'</span></tt>:</p>
 <div class="highlight-python"><div class="highlight"><pre><span class="c"># Local/worksheet name.</span>
 <span class="n">workbook</span><span class="o">.</span><span class="n">define_name</span><span class="p">(</span><span class="s">&#39;Sheet2!Sales&#39;</span><span class="p">,</span> <span class="s">&#39;=Sheet2!$G$1:$G$10&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
-<p>If the sheet name contains spaces or special characters you must enclose it
-in single quotes like in Excel:</p>
+<p>If the sheet name contains spaces or special characters you must enclose it in
+single quotes like in Excel:</p>
 <div class="highlight-python"><div class="highlight"><pre><span class="n">workbook</span><span class="o">.</span><span class="n">define_name</span><span class="p">(</span><span class="s">&quot;&#39;New Data&#39;!Sales&quot;</span><span class="p">,</span> <span class="s">&#39;=Sheet2!$G$1:$G$10&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
