@@ -35,11 +35,15 @@ given filename::
 
 There is currently only one constructor option which is:
 
-* ``'reduce_memory'``: Reduces the amount of data stored in memory so that
+* ``'constant_memory'``: Reduces the amount of data stored in memory so that
    large files can be written efficiently::
    
-    workbook = Workbook(filename, {'reduce_memory': True})   
-
+       workbook = Workbook(filename, {'constant_memory': True})   
+   
+   Note, in this mode  a row of data is written and then discarded when a
+   cell in a new row is added via one of the worksheet ``write_()`` methods.
+   As such data should be written in sequential row order once this mode is on.
+   
    See :ref:`memory_perf` for more details.
 
 It is recommended that you always use an ``.xlsx`` extension in the filename or

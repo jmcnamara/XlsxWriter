@@ -48,10 +48,10 @@ formula using the optional ``value`` parameter in :func:`write_formula()`::
     worksheet.write_formula('A1', '=2+2', num_format, 4)
 
 
-Strings aren't displayed in Apple Numbers in 'reduce_memory' mode
------------------------------------------------------------------
+Strings aren't displayed in Apple Numbers in 'constant_memory' mode
+-------------------------------------------------------------------
 
-In :func:`Workbook` ``'reduce_memory'`` mode XlsxWriter uses an optimisation
+In :func:`Workbook` ``'constant_memory'`` mode XlsxWriter uses an optimisation
 where cell strings aren't stored in an Excel structure call "shared strings"
 and instead are written "in-line".
 

@@ -22,22 +22,39 @@ the extended row and column ranges in Excel 2007+ mean that it is possible to
 run out of memory creating large files.
 
 Fortunately, this memory usage can be reduced almost completely by using the
-:func:`Workbook` ``'reduce_memory'`` property::
+:func:`Workbook` ``'constant_memory'`` property::
 
-    workbook = Workbook(filename, {'reduce_memory': True})
+    workbook = Workbook(filename, {'constant_memory': True})
 
-For larger file this also gives an increase in performance, see below.
+The optimisation works by flushing each row after a subsequent row is written.
+In this way the largest amount of data held in memory for a worksheet is the
+amount of data required to hold a single row of data.
 
-The trade-off is that you won't be able to take advantage of any new features
-that manipulate cell data after it is written. One such feature is Tables.
+Since each new row flushes the previous row, data must be written in sequential
+row order when ``'constant_memory'`` mode is on::
 
-.. Note::
-   One of the optimisations used to reduce memory usage is that cell
-   strings aren't stored in an Excel structure call "shared strings" and
-   instead are written "in-line". This is a documented Excel feature that is
-   supported by most spreadsheet applications. One known exception is Apple
-   Numbers for Mac where the string data isn't displayed.
+    # With 'constant_memory' you must write data in row by column order.
+    for row in range(0, row_max):
+        for col in range(0, col_max):
+            worksheet.write(row, col, some_data)
 
+    # With 'constant_memory' this would only write the first column of data.
+    for col in range(0, col_max):
+        for row in range(0, row_max):
+            worksheet.write(row, col, some_data)
+
+Another optimisation that is used to reduce memory usage is that cell strings
+aren't stored in an Excel structure call "shared strings" and instead are
+written "in-line". This is a documented Excel feature that is supported by
+most spreadsheet applications. One known exception is Apple Numbers for Mac
+where the string data isn't displayed.
+
+The trade-off when using ``'constant_memory'`` mode is that you won't be able
+to take advantage of any new features that manipulate cell data after it is
+written. Currently there are no such features.
+
+For larger files ``'constant_memory'`` mode also gives an increase in execution
+speed, see below.
 
 
 Performance Figures
@@ -48,7 +65,7 @@ worksheets of size ``N`` rows x 50 columns with a 50/50 mixture of strings and
 numbers. The figures are taken from an arbitrary, mid-range, machine. Specific
 figures will vary from machine to machine but the trends should be the same.
 
-XlsxWriter in normal operation mode, the execution time and memory usage
+XlsxWriter in normal operation mode: the execution time and memory usage
 increase more of less linearly with the number of rows:
 
 +-------+---------+----------+----------------+
@@ -69,8 +86,9 @@ increase more of less linearly with the number of rows:
 | 12800 | 50      | 47.85    | 128760832      |
 +-------+---------+----------+----------------+
 
-XlsxWriter in ``reduce_memory`` mode, the execution time still increases
-linearly with the number of rows but the memory usage is small and constant:
+XlsxWriter in ``constant_memory`` mode: the execution time still increases
+linearly with the number of rows but the memory usage remains small and
+constant:
 
 +-------+---------+----------+----------------+
 | Rows  | Columns | Time (s) | Memory (bytes) |
@@ -90,7 +108,7 @@ linearly with the number of rows but the memory usage is small and constant:
 | 12800 | 50      | 25.34    | 54248          |
 +-------+---------+----------+----------------+
 
-In the ``reduce_memory`` mode the performance is also increased. There will be
+In the ``constant_memory`` mode the performance is also increased. There will be
 further optimisation in both modes in later releases.
 
 These figures were generated using programs in the ``dev/performance``

@@ -18,6 +18,7 @@ XlsxWriter supports the following features:
 * Cell comments.
 * Document properties.
 * Worksheet cell protection.
+* Memory optimisation mode for writing large files.
 * Standard libraries only.
 * Python 2.6, 2.7, 3.1, 3.2 and 3.3 support.
 
@@ -51,6 +52,3 @@ See the full documentation at https://xlsxwriter.readthedocs.org/en/latest/
 
 Release notes: https://xlsxwriter.readthedocs.org/en/latest/changes.html
    
-The XlsxWriter module is a port of the Perl Excel::Writer::XLSX module. It is
-a work in progress.
-

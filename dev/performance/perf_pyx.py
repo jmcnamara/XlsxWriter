@@ -10,7 +10,6 @@
 import sys
 from xlsxwriter.workbook import Workbook
 from time import clock
-import os
 from pympler.asizeof import asizeof
 
 # Default to 1000 rows and non-optimised.
@@ -35,9 +34,9 @@ worksheet = workbook.add_worksheet()
 
 worksheet.set_column(0, col_max, 18)
 
-for row in range(0, row_max):
-    for col in range(0, col_max):
-        worksheet.write_string(row * 2, col, "Row: %d Col: %d" % (row, col))
+    for row in range(0, row_max):
+        for col in range(0, col_max):
+            worksheet.write_string(row * 2, col, "Row: %d Col: %d" % (row, col))
     for col in range(0, col_max + 1):
         worksheet.write_number(row * 2 + 1, col, row + col)
 

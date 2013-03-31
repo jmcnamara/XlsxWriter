@@ -76,7 +76,7 @@ class Workbook(xmlwriter.XMLwriter):
         self.localtime = datetime.now()
         self.num_vml_files = 0
         self.num_comment_files = 0
-        self.optimization = options.get('reduce_memory', 0)
+        self.optimization = options.get('constant_memory', 0)
         self.x_window = 240
         self.y_window = 15
         self.window_width = 16095
