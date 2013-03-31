@@ -85,6 +85,7 @@ This document explains how to install and use the XlsxWriter module.
    working_with_data_validation.rst
    working_with_conditional_formats.rst
    working_with_cell_comments.rst
+   working_with_memory.rst
    examples.rst
    excel_writer_xlsx.rst
    alternatives.rst

@@ -3,7 +3,7 @@
 Alternative modules for handling Excel files
 ============================================
 
-The following are some Python alernatives to XlsxWriter.
+The following are some Python alternatives to XlsxWriter.
 
 
 XLWT
@@ -33,7 +33,7 @@ From the `xlrd <http://pypi.python.org/pypi/xlrd>`_ page on PyPI:
    support for Excel dates. Unicode-aware.
 
 
-Openpyxl
+OpenPyXL
 --------
 From the `openpyxl <http://pypi.python.org/pypi/openpyxl>`_ page on PyPI:
 

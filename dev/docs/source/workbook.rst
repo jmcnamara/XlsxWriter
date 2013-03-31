@@ -12,12 +12,14 @@ internally it represents the Excel file as it is written on disk.
 Constructor
 -----------
 
-.. py:function:: Workbook(filename)
+.. py:function:: Workbook(filename [,options])
 
    Create a new XlsxWriter Workbook object.
    
    :param string filename: The name of the new Excel file to create.
-   :rtype: A Workbook object.
+   :param dict options:    Optional workbook parameters.
+   :rtype:                 A Workbook object.
+   
 
 The ``Workbook()`` constructor is used to create a new Excel workbook with a
 given filename::
@@ -31,9 +33,17 @@ given filename::
 
 .. image:: _static/workbook01.png
 
+There is currently only one constructor option which is:
 
-It is recommended that you always use an ``.xlsx`` extension in the filename
-or Excel will generate a warning when the file is opened.
+* ``'reduce_memory'``: Reduces the amount of data stored in memory so that
+   large files can be written efficiently::
+   
+    workbook = Workbook(filename, {'reduce_memory': True})   
+
+   See :ref:`memory_perf` for more details.
+
+It is recommended that you always use an ``.xlsx`` extension in the filename or
+Excel will generate a warning when the file is opened.
 
 .. note::
    A later version of the module will support writing to filehandles like
@@ -67,8 +77,9 @@ Excel convention will be followed, i.e. Sheet1, Sheet2, etc.::
 .. image:: _static/workbook02.png
 
 The worksheet name must be a valid Excel worksheet name, i.e. it cannot contain
-any of the characters
-``'[]:*?/\'`` and it must be less than 32 characters. In addition, you cannot use the same, case insensitive, ``sheetname`` for more than one worksheet.
+any of the characters ``' [ ] : * ? / \ '`` and it must be less than 32
+characters. In addition, you cannot use the same, case insensitive,
+``sheetname`` for more than one worksheet.
 
 workbook.add_format()
 ---------------------
@@ -127,11 +138,10 @@ workbook.set_properties()
    
    :param dict properties: Dictionary of document properties.
 
-The ``set_properties`` method can be used to set the document properties
-of the Excel file created by ``XlsxWriter``. These properties are visible
-when you use the ``Office Button -> Prepare -> Properties`` option in Excel
-and are also available to external applications that read or index windows
-files.
+The ``set_properties`` method can be used to set the document properties of the
+Excel file created by ``XlsxWriter``. These properties are visible when you
+use the ``Office Button -> Prepare -> Properties`` option in Excel and are
+also available to external applications that read or index windows files.
 
 The properties that can be set are:
 
@@ -171,8 +181,8 @@ workbook.define_name()
    :param string name:    The defined name.
    :param string formula: The cell or range that the defined name refers to.
    
-This method is used to defined a name that can be used to represent a value,
-a single cell or a range of cells in a workbook.
+This method is used to defined a name that can be used to represent a value, a
+single cell or a range of cells in a workbook.
 
 For example to set a global/workbook name::
 
@@ -180,14 +190,14 @@ For example to set a global/workbook name::
     workbook.define_name('Exchange_rate', '=0.96')
     workbook.define_name('Sales',         '=Sheet1!$G$1:$H$10')
 
-It is also possible to define a local/worksheet name by prefixing it
-with the sheet name using the syntax ``'sheetname!definedname'``::
+It is also possible to define a local/worksheet name by prefixing it with the
+sheet name using the syntax ``'sheetname!definedname'``::
 
     # Local/worksheet name.
     workbook.define_name('Sheet2!Sales', '=Sheet2!$G$1:$G$10')
 
-If the sheet name contains spaces or special characters you must enclose it
-in single quotes like in Excel::
+If the sheet name contains spaces or special characters you must enclose it in
+single quotes like in Excel::
 
     workbook.define_name("'New Data'!Sales", '=Sheet2!$G$1:$G$10')
 

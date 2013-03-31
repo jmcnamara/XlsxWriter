@@ -50,4 +50,5 @@ workbook.close()
 elapsed = clock() - start_time
 
 # Print a simple CSV output for reporting.
-print ", ".join([str(sz) for sz in row_max*2, col_max, elapsed, total_size])
+
+print "%6d, %3d, %6.2f, %d" % (row_max * 2, col_max, elapsed, total_size)

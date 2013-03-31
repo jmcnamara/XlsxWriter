@@ -56,7 +56,7 @@ $workbook->close();
 my $elapsed = tv_interval( $start_time );
 
 # Print a simple CSV output for reporting.
-print join( ', ', $row_max * 2, $col_max, $elapsed, $total_size );
-print "\n";
+printf "%6d, %3d, %6.2f, %d\n", $row_max * 2, $col_max, $elapsed, $total_size;
+
 
 __END__

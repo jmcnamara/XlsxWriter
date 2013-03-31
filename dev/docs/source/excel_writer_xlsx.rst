@@ -81,12 +81,12 @@ Status: ongoing.
 +--------------------------+------------+---------------------+
 | set_1904()               | **No**     | Yes                 |
 +--------------------------+------------+---------------------+
-| set_optimization()       | **No**     | Yes                 |
+| set_optimization()       | Yes (3)    | Yes                 |
 +--------------------------+------------+---------------------+
 
 1. Not required in XlsxWriter. Full RGB colors are supported.
 2. Called ``sheets()`` in Excel::Writer::XLSX.
-
+3. This is a constructor parameter in XlsxWriter.
 
 Worksheet
 *********

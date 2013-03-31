@@ -10,11 +10,11 @@ submit bug reports.
 'unknown encoding: utf-8' Error
 -------------------------------
 
-The following error can occur on Windows if the :func:`close` method isn't
-used at the end of the program::
+The following error can occur on Windows if the :func:`close` method isn't used
+at the end of the program::
 
     Exception LookupError: 'unknown encoding: utf-8' in <bound method
-    Workbook.__del__ of <xlsxwriter.workbook.Workbook objectat 0x022C1450>>
+    Workbook.__del__ of <xlsxwriter.workbook.Workbook object at 0x022C1450>>
 
 This appears to be an issue with the implicit destructor on Windows. It is
 under investigation. Use ``close()`` as a workaround.
@@ -28,8 +28,8 @@ formulas written by XlsxWriter. Applying all available Service Packs to Excel
 should fix this.
 
 
-Formula results displaying as zero in non-Excel apps
-----------------------------------------------------
+Formula results displaying as zero in non-Excel applications
+------------------------------------------------------------
 
 Due to wide range of possible formulas and interdependencies between them
 XlsxWriter doesn't, and realistically cannot, calculate the result of a
@@ -46,6 +46,18 @@ If required, it is also possible to specify the calculated result of the
 formula using the optional ``value`` parameter in :func:`write_formula()`::
 
     worksheet.write_formula('A1', '=2+2', num_format, 4)
+
+
+Strings aren't displayed in Apple Numbers in 'reduce_memory' mode
+-----------------------------------------------------------------
+
+In :func:`Workbook` ``'reduce_memory'`` mode XlsxWriter uses an optimisation
+where cell strings aren't stored in an Excel structure call "shared strings"
+and instead are written "in-line".
+
+This is a documented Excel feature that is supported by most spreadsheet
+applications. One known exception is Apple Numbers for Mac where the string
+data isn't displayed.
 
 
 Reporting Bugs
@@ -71,14 +83,14 @@ Look at the example programs
 ----------------------------
 
 There are several example programs in the distribution. Many of these were
-created in response to user questions. Try to identify an example program
-that corresponds to your query and adapt it to your needs.
+created in response to user questions. Try to identify an example program that
+corresponds to your query and adapt it to your needs.
 
 Use the official XlsxWriter Issue tracker on GitHub
 ---------------------------------------------------
 
-The official XlsxWriter `Issue tracker is on GitHub
-<https://github.com/jmcnamara/XlsxWriter/issues>`_.
+The official XlsxWriter
+`Issue tracker is on GitHub <https://github.com/jmcnamara/XlsxWriter/issues>`_.
 
 
 Pointers for submitting a bug report
@@ -88,11 +100,11 @@ Pointers for submitting a bug report
 2. Include a sample program. This is probably the most important step. Also,
    it is often easier to describe a problem in code than in written prose.
 3. The sample program should be as small as possible to demonstrate the
-   problem. Don't copy and past large sections of your program. The
-   program should also be self contained and working.
+   problem. Don't copy and past large sections of your program. The program
+   should also be self contained and working.
 
-A sample bug report is shown below. If you use this format then it will help
-to analyse your question and respond to it more quickly.
+A sample bug report is shown below. If you use this format then it will help to
+analyse your question and respond to it more quickly.
 
    **XlsxWriter Issue with SOMETHING**
 
