@@ -46,7 +46,7 @@ class Workbook(xmlwriter.XMLwriter):
         super(Workbook, self).__init__()
 
         self.filename = filename
-        self.tempdir = None
+        self.tmpdir = options.get('tmpdir', None)
         self.date_1904 = 0
         self.worksheet_meta = WorksheetMeta()
         self.selected = 0
@@ -115,7 +115,6 @@ class Workbook(xmlwriter.XMLwriter):
         #            self.table_count,
         #            self.date_1904,
         #            self.palette, # remove
-        #            self.tempdir,
 
         init_data = {
             'name': name,
@@ -123,6 +122,7 @@ class Workbook(xmlwriter.XMLwriter):
             'str_table': self.str_table,
             'worksheet_meta': self.worksheet_meta,
             'optimization': self.optimization,
+            'tmpdir': self.tmpdir,
         }
 
         worksheet = Worksheet()
@@ -288,7 +288,7 @@ class Workbook(xmlwriter.XMLwriter):
 
     def _store_workbook(self):
         # Assemble worksheets into a workbook.
-        temp_dir = tempfile.mkdtemp()
+        temp_dir = tempfile.mkdtemp(dir=self.tmpdir)
         packager = Packager()
 
         # Add a default worksheet if non have been added.

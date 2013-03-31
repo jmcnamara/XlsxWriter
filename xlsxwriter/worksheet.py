@@ -155,7 +155,7 @@ class Worksheet(xmlwriter.XMLwriter):
         self.str_table = None
         self.palette = None
         self.optimization = 0
-        self.tempdir = None
+        self.tmpdir = None
 
         self.ext_sheets = []
         self.fileclosed = 0
@@ -2412,12 +2412,13 @@ class Worksheet(xmlwriter.XMLwriter):
         self.str_table = init_data['str_table']
         self.worksheet_meta = init_data['worksheet_meta']
         self.optimization = init_data['optimization']
+        self.tmpdir = init_data['tmpdir']
 
         # Open a temp filehandle to store row data in optimization mode.
         if self.optimization == 1:
             # This make be sub-optimal or insecure. It seems like too much
             # work to create a temp file with utf8 encoding in Python < 3.
-            (fd, filename) = tempfile.mkstemp()
+            (fd, filename) = tempfile.mkstemp(dir=self.tmpdir)
             os.close(fd)
             self.row_data_filename = filename
             self.row_data_fh = codecs.open(filename, 'w+', 'utf-8')
