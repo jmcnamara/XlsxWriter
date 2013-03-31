@@ -2413,6 +2413,10 @@ class Worksheet(xmlwriter.XMLwriter):
         self.worksheet_meta = init_data['worksheet_meta']
         self.optimization = init_data['optimization']
         self.tmpdir = init_data['tmpdir']
+        self.date_1904 = init_data['date_1904']
+
+        if self.date_1904:
+            self.epoch = datetime.datetime(1904, 1, 1)
 
         # Open a temp filehandle to store row data in optimization mode.
         if self.optimization == 1:
@@ -2556,8 +2560,7 @@ class Worksheet(xmlwriter.XMLwriter):
         elif isinstance(dt_obj, datetime.date):
             dt_obj = datetime.datetime.fromordinal(dt_obj.toordinal())
         elif isinstance(dt_obj, datetime.time):
-            date = datetime.date(1899, 12, 31)
-            dt_obj = datetime.datetime.combine(date, dt_obj)
+            dt_obj = datetime.datetime.combine(self.epoch, dt_obj)
         else:
             raise TypeError("Unknown or unsupported datetime type")
 
