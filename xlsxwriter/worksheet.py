@@ -1989,13 +1989,13 @@ class Worksheet(xmlwriter.XMLwriter):
         self.panes = [row, col, top_row, left_col, pane_type]
 
     @convert_cell_args
-    def split_panes(self, row, col, top_row=None, left_col=None):
+    def split_panes(self, x, y, top_row=None, left_col=None):
         """
         Create worksheet panes and mark them as split.
 
         Args:
-            row:      The cell row (zero indexed).
-            col:      The cell column (zero indexed).
+            x:        The position for the vertical split.
+            y:        The position for the horizontal split.
             top_row:  Topmost visible row in scrolling region of pane.
             left_col: Leftmost visible row in scrolling region of pane.
 
@@ -2004,7 +2004,7 @@ class Worksheet(xmlwriter.XMLwriter):
 
         """
         # Same as freeze panes with a different pane type.
-        self.freeze_panes(row, col, top_row, left_col, 2)
+        self.freeze_panes(x, y, top_row, left_col, 2)
 
     def set_zoom(self, zoom=100):
         """

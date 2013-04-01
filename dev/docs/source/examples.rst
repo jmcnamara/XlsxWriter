@@ -7,7 +7,7 @@ directory of the XlsxWriter distribution.
 
 .. toctree::
    :maxdepth: 1
-   
+ 
    example_hello_world.rst
    example_demo.rst
    example_datetimes.rst
@@ -20,6 +20,7 @@ directory of the XlsxWriter distribution.
    example_rich_strings.rst
    example_images.rst
    example_headers_footers.rst
+   example_panes.rst
    example_comments1.rst
    example_comments2.rst
    example_doc_properties.rst
@@ -27,4 +28,4 @@ directory of the XlsxWriter distribution.
    example_unicode_shift_jis.rst
    example_tab_colors.rst
    example_protection.rst
-   
+ 

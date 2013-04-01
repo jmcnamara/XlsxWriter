@@ -7,7 +7,7 @@ XlsxWriter is a Python module for creating Excel XLSX files.
 
 .. only:: html
 
-   (:ref:`Sample code to create the above spreadsheet <ex_demo>`)
+   (:ref:`Sample code to create the above spreadsheet <ex_demo>`.)
 
    **XlsxWriter**
 
@@ -49,13 +49,25 @@ XlsxWriter supports the following features in version |version|:
    
    introduction.rst
    getting_started.rst
+
+.. toctree::
+   :maxdepth: 1
+   
    tutorial01.rst
    tutorial02.rst
    tutorial03.rst
+
+.. toctree::
+   :maxdepth: 1
+   
    workbook.rst
    worksheet.rst
    page_setup.rst
    format.rst
+
+.. toctree::
+   :maxdepth: 1
+   
    working_with_cell_notation.rst
    working_with_formats.rst
    working_with_dates_and_time.rst
@@ -64,7 +76,15 @@ XlsxWriter supports the following features in version |version|:
    working_with_conditional_formats.rst
    working_with_cell_comments.rst
    working_with_memory.rst
+
+.. toctree::
+   :maxdepth: 1
+
    examples.rst
+
+.. toctree::
+   :maxdepth: 1
+
    excel_writer_xlsx.rst
    alternatives.rst
    bugs.rst
