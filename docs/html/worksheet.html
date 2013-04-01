@@ -16,7 +16,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '',
-        VERSION:     '0.2.5',
+        VERSION:     '0.2.6',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -166,8 +166,8 @@ and <tt class="docutils literal"><span class="pre">column</span></tt>:</p>
 <span class="n">worksheet</span><span class="o">.</span><span class="n">write_string</span><span class="p">(</span><span class="s">&#39;A2&#39;</span><span class="p">,</span> <span class="s">&#39;or here&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
-<p>Both row-column and A1 style notation are support. See <a class="reference internal" href="working_with_cell_notation.html#cell-notation"><em>Working with Cell Notation</em></a> for
-more details.</p>
+<p>Both row-column and A1 style notation are supported. See <a class="reference internal" href="working_with_cell_notation.html#cell-notation"><em>Working with Cell Notation</em></a>
+for more details.</p>
 <p>The <tt class="docutils literal"><span class="pre">cell_format</span></tt> parameter is used to apply formatting to the cell. This
 parameter is optional but when present is should be a valid
 <a class="reference internal" href="format.html#format"><em>Format</em></a> object.</p>
@@ -237,8 +237,8 @@ specified by <tt class="docutils literal"><span class="pre">row</span></tt> and 
 <span class="n">worksheet</span><span class="o">.</span><span class="n">write_number</span><span class="p">(</span><span class="s">&#39;A2&#39;</span><span class="p">,</span> <span class="mf">2.3451</span><span class="p">)</span>
 </pre></div>
 </div>
-<p>Both row-column and A1 style notation are support. See <a class="reference internal" href="working_with_cell_notation.html#cell-notation"><em>Working with Cell Notation</em></a> for
-more details.</p>
+<p>Both row-column and A1 style notation are supported. See <a class="reference internal" href="working_with_cell_notation.html#cell-notation"><em>Working with Cell Notation</em></a>
+for more details.</p>
 <p>The <tt class="docutils literal"><span class="pre">cell_format</span></tt> parameter is used to apply formatting to the cell. This
 parameter is optional but when present is should be a valid
 <a class="reference internal" href="format.html#format"><em>Format</em></a> object.</p>
@@ -283,8 +283,8 @@ specified by <tt class="docutils literal"><span class="pre">row</span></tt> and 
 </pre></div>
 </div>
 <p>See also the <tt class="docutils literal"><span class="pre">write_array_formula()</span></tt> method below.</p>
-<p>Both row-column and A1 style notation are support. See <a class="reference internal" href="working_with_cell_notation.html#cell-notation"><em>Working with Cell Notation</em></a> for
-more details.</p>
+<p>Both row-column and A1 style notation are supported. See <a class="reference internal" href="working_with_cell_notation.html#cell-notation"><em>Working with Cell Notation</em></a>
+for more details.</p>
 <p>The <tt class="docutils literal"><span class="pre">cell_format</span></tt> parameter is used to apply formatting to the cell. This
 parameter is optional but when present is should be a valid
 <a class="reference internal" href="format.html#format"><em>Format</em></a> object.</p>
@@ -354,7 +354,7 @@ that the return values will be written to:</p>
 <span class="n">worksheet</span><span class="o">.</span><span class="n">write_array_formula</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="s">&#39;{=TREND(C1:C3,B1:B3)}&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
-<p>As shown above, both row-column and A1 style notation are support. See
+<p>As shown above, both row-column and A1 style notation are supported. See
 <a class="reference internal" href="working_with_cell_notation.html#cell-notation"><em>Working with Cell Notation</em></a> for more details.</p>
 <p>The <tt class="docutils literal"><span class="pre">cell_format</span></tt> parameter is used to apply formatting to the cell. This
 parameter is optional but when present is should be a valid
@@ -410,7 +410,7 @@ cells but ignores &#8220;Empty&#8221; cells.</p>
 </div>
 <p>This seemingly uninteresting fact means that you can write arrays of data
 without special treatment for <tt class="docutils literal"><span class="pre">None</span></tt> or empty string values.</p>
-<p>As shown above, both row-column and A1 style notation are support. See
+<p>As shown above, both row-column and A1 style notation are supported. See
 <a class="reference internal" href="working_with_cell_notation.html#cell-notation"><em>Working with Cell Notation</em></a> for more details.</p>
 </div>
 <div class="section" id="worksheet-write-datetime">
@@ -486,8 +486,8 @@ standard Python libraries.</p>
 The url is comprised of two elements: the displayed string and the
 non-displayed link. The displayed string is the same as the link unless an
 alternative string is specified.</p>
-<p>Both row-column and A1 style notation are support. See <a class="reference internal" href="working_with_cell_notation.html#cell-notation"><em>Working with Cell Notation</em></a> for
-more details.</p>
+<p>Both row-column and A1 style notation are supported. See <a class="reference internal" href="working_with_cell_notation.html#cell-notation"><em>Working with Cell Notation</em></a>
+for more details.</p>
 <p>The <tt class="docutils literal"><span class="pre">cell_format</span></tt> parameter is used to apply formatting to the cell. This
 parameter is optional, however, without a format the link won&#8217;t look like a
 link. The suggested <a class="reference internal" href="format.html#format"><em>Format</em></a>  is:</p>
@@ -1490,6 +1490,145 @@ column name.</p>
 don&#8217;t match the filter condition. See <a class="reference internal" href="working_with_autofilters.html#working-with-autofilters"><em>Working with Autofilters</em></a> for more
 details.</p>
 </div>
+<div class="section" id="worksheet-set-selection">
+<h2>worksheet.set_selection()</h2>
+<dl class="function">
+<dt id="set_selection">
+<tt class="descname">set_selection</tt><big>(</big><em>first_row</em>, <em>first_col</em>, <em>last_row</em>, <em>last_col</em><big>)</big></dt>
+<dd><p>Set the selected cell or cells in a worksheet.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>first_row</strong> (<a class="reference external" href="http://docs.python.org/2/library/functions.html#int" title="(in Python v2.7)"><em>int</em></a>) &#8211; The first row of the range. (All zero indexed.)</li>
+<li><strong>first_col</strong> (<a class="reference external" href="http://docs.python.org/2/library/functions.html#int" title="(in Python v2.7)"><em>int</em></a>) &#8211; The first column of the range.</li>
+<li><strong>last_row</strong> (<a class="reference external" href="http://docs.python.org/2/library/functions.html#int" title="(in Python v2.7)"><em>int</em></a>) &#8211; The last row of the range.</li>
+<li><strong>last_col</strong> (<a class="reference external" href="http://docs.python.org/2/library/functions.html#int" title="(in Python v2.7)"><em>int</em></a>) &#8211; The last col of the range.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<p>The <tt class="docutils literal"><span class="pre">set_selection()</span></tt> method can be used to specify which cell or range of
+cells is selected in a worksheet. The most common requirement is to select a
+single cell, in which case the <tt class="docutils literal"><span class="pre">first_</span></tt> and <tt class="docutils literal"><span class="pre">last_</span></tt> parameters should be
+the same.</p>
+<p>The active cell within a selected range is determined by the order in which
+<tt class="docutils literal"><span class="pre">first_</span></tt> and <tt class="docutils literal"><span class="pre">last_</span></tt> are specified.</p>
+<p>Examples:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">worksheet1</span><span class="o">.</span><span class="n">set_selection</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>  <span class="c"># 1. Cell D4.</span>
+<span class="n">worksheet2</span><span class="o">.</span><span class="n">set_selection</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">6</span><span class="p">)</span>  <span class="c"># 2. Cells D4 to G7.</span>
+<span class="n">worksheet3</span><span class="o">.</span><span class="n">set_selection</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>  <span class="c"># 3. Cells G7 to D4.</span>
+<span class="n">worksheet4</span><span class="o">.</span><span class="n">set_selection</span><span class="p">(</span><span class="s">&#39;D4&#39;</span><span class="p">)</span>        <span class="c"># Same as 1.</span>
+<span class="n">worksheet5</span><span class="o">.</span><span class="n">set_selection</span><span class="p">(</span><span class="s">&#39;D4:G7&#39;</span><span class="p">)</span>     <span class="c"># Same as 2.</span>
+<span class="n">worksheet6</span><span class="o">.</span><span class="n">set_selection</span><span class="p">(</span><span class="s">&#39;G7:D4&#39;</span><span class="p">)</span>     <span class="c"># Same as 3.</span>
+</pre></div>
+</div>
+<p>As shown above, both row-column and A1 style notation are supported. See
+<a class="reference internal" href="working_with_cell_notation.html#cell-notation"><em>Working with Cell Notation</em></a> for more details. The default cell selection is
+<tt class="docutils literal"><span class="pre">(0,</span> <span class="pre">0)</span></tt>, <tt class="docutils literal"><span class="pre">'A1'</span></tt>.</p>
+</div>
+<div class="section" id="worksheet-freeze-panes">
+<h2>worksheet.freeze_panes()</h2>
+<dl class="function">
+<dt id="freeze_panes">
+<tt class="descname">freeze_panes</tt><big>(</big><em>row</em>, <em>col</em><span class="optional">[</span>, <em>top_row</em>, <em>left_col</em><span class="optional">]</span><big>)</big></dt>
+<dd><p>Create worksheet panes and mark them as frozen.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>row</strong> (<a class="reference external" href="http://docs.python.org/2/library/functions.html#int" title="(in Python v2.7)"><em>int</em></a>) &#8211; The cell row (zero indexed).</li>
+<li><strong>col</strong> (<a class="reference external" href="http://docs.python.org/2/library/functions.html#int" title="(in Python v2.7)"><em>int</em></a>) &#8211; The cell column (zero indexed).</li>
+<li><strong>top_row</strong> (<a class="reference external" href="http://docs.python.org/2/library/functions.html#int" title="(in Python v2.7)"><em>int</em></a>) &#8211; Topmost visible row in scrolling region of pane.</li>
+<li><strong>left_col</strong> (<a class="reference external" href="http://docs.python.org/2/library/functions.html#int" title="(in Python v2.7)"><em>int</em></a>) &#8211; Leftmost visible row in scrolling region of pane.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<p>This <tt class="docutils literal"><span class="pre">freeze_panes</span></tt> method can be used to divide a worksheet into horizontal
+or vertical regions known as panes and to &#8220;freeze&#8221; these panes so that the
+splitter bars are not visible.</p>
+<p>The parameters <tt class="docutils literal"><span class="pre">row</span></tt> and <tt class="docutils literal"><span class="pre">col</span></tt> are used to specify the location of the
+split. It should be noted that the split is specified at the top or left of a
+cell and that the method uses zero based indexing. Therefore to freeze the
+first row of a worksheet it is necessary to specify the split at row 2 (which
+is 1 as the zero-based index).</p>
+<p>You can set one of the <tt class="docutils literal"><span class="pre">row</span></tt> and <tt class="docutils literal"><span class="pre">col</span></tt> parameters as zero if you
+do not want either a vertical or horizontal split.</p>
+<p>Examples:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">worksheet</span><span class="o">.</span><span class="n">freeze_panes</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>  <span class="c"># Freeze the first row.</span>
+<span class="n">worksheet</span><span class="o">.</span><span class="n">freeze_panes</span><span class="p">(</span><span class="s">&#39;A2&#39;</span><span class="p">)</span>  <span class="c"># Same using A1 notation.</span>
+<span class="n">worksheet</span><span class="o">.</span><span class="n">freeze_panes</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>  <span class="c"># Freeze the first column.</span>
+<span class="n">worksheet</span><span class="o">.</span><span class="n">freeze_panes</span><span class="p">(</span><span class="s">&#39;B1&#39;</span><span class="p">)</span>  <span class="c"># Same using A1 notation.</span>
+<span class="n">worksheet</span><span class="o">.</span><span class="n">freeze_panes</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>  <span class="c"># Freeze first row and first 2 columns.</span>
+<span class="n">worksheet</span><span class="o">.</span><span class="n">freeze_panes</span><span class="p">(</span><span class="s">&#39;C2&#39;</span><span class="p">)</span>  <span class="c"># Same using A1 notation.</span>
+</pre></div>
+</div>
+<p>The parameters <tt class="docutils literal"><span class="pre">top_row</span></tt> and <tt class="docutils literal"><span class="pre">left_col</span></tt> are optional. They are
+used to specify the top-most or left-most visible row or column in the
+scrolling region of the panes. For example to freeze the first row and
+to have the scrolling region begin at row twenty:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">worksheet</span><span class="o">.</span><span class="n">freeze_panes</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">20</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>You cannot use A1 notation for the <tt class="docutils literal"><span class="pre">top_row</span></tt> and <tt class="docutils literal"><span class="pre">left_col</span></tt> parameters.</p>
+<p>See <a class="reference internal" href="example_panes.html#ex-panes"><em>Example: Freeze Panes and Split Panes</em></a> for more details.</p>
+</div>
+<div class="section" id="worksheet-split-panes">
+<h2>worksheet.split_panes()</h2>
+<dl class="function">
+<dt id="split_panes">
+<tt class="descname">split_panes</tt><big>(</big><em>x</em>, <em>y</em><span class="optional">[</span>, <em>top_row</em>, <em>left_col</em><span class="optional">]</span><big>)</big></dt>
+<dd><p>Create worksheet panes and mark them as split.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>x</strong> (<a class="reference external" href="http://docs.python.org/2/library/functions.html#float" title="(in Python v2.7)"><em>float</em></a>) &#8211; The position for the vertical split.</li>
+<li><strong>y</strong> (<a class="reference external" href="http://docs.python.org/2/library/functions.html#float" title="(in Python v2.7)"><em>float</em></a>) &#8211; The position for the horizontal split.</li>
+<li><strong>top_row</strong> (<a class="reference external" href="http://docs.python.org/2/library/functions.html#int" title="(in Python v2.7)"><em>int</em></a>) &#8211; Topmost visible row in scrolling region of pane.</li>
+<li><strong>left_col</strong> (<a class="reference external" href="http://docs.python.org/2/library/functions.html#int" title="(in Python v2.7)"><em>int</em></a>) &#8211; Leftmost visible row in scrolling region of pane.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<p>The <tt class="docutils literal"><span class="pre">split_panes</span></tt>  method can be used to divide a worksheet into horizontal
+or vertical regions known as panes. This method is different from the
+<tt class="docutils literal"><span class="pre">freeze_panes()</span></tt> method in that the splits between the panes will be visible
+to the user and each pane will have its own scroll bars.</p>
+<p>The parameters <tt class="docutils literal"><span class="pre">y</span></tt> and <tt class="docutils literal"><span class="pre">x</span></tt> are used to specify the vertical and horizontal
+position of the split. The units for <tt class="docutils literal"><span class="pre">y</span></tt> and <tt class="docutils literal"><span class="pre">x</span></tt> are the same as those
+used by Excel to specify row height and column width. However, the vertical
+and horizontal units are different from each other. Therefore you must specify
+the <tt class="docutils literal"><span class="pre">y</span></tt> and <tt class="docutils literal"><span class="pre">x</span></tt> parameters in terms of the row heights and column widths
+that you have set or the default values which are <tt class="docutils literal"><span class="pre">15</span></tt> for a row and
+<tt class="docutils literal"><span class="pre">8.43</span></tt> for a column.</p>
+<p>You can set one of the <tt class="docutils literal"><span class="pre">y</span></tt> and <tt class="docutils literal"><span class="pre">x</span></tt> parameters as zero if you do
+not want either a vertical or horizontal split. The parameters
+<tt class="docutils literal"><span class="pre">top_row</span></tt> and <tt class="docutils literal"><span class="pre">left_col</span></tt> are optional. They are used to specify
+the top-most or left-most visible row or column in the bottom-right
+pane.</p>
+<p>Example:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">worksheet</span><span class="o">.</span><span class="n">split_panes</span><span class="p">(</span><span class="mi">15</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>     <span class="c"># First row.</span>
+<span class="n">worksheet</span><span class="o">.</span><span class="n">split_panes</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mf">8.43</span><span class="p">)</span>   <span class="c"># First column.</span>
+<span class="n">worksheet</span><span class="o">.</span><span class="n">split_panes</span><span class="p">(</span><span class="mi">15</span><span class="p">,</span> <span class="mf">8.43</span><span class="p">)</span>  <span class="c"># First row and column.</span>
+</pre></div>
+</div>
+<p>You cannot use A1 notation with this method.</p>
+<p>See <a class="reference internal" href="example_panes.html#ex-panes"><em>Example: Freeze Panes and Split Panes</em></a> for more details.</p>
+</div>
 <div class="section" id="worksheet-set-zoom">
 <h2>worksheet.set_zoom()</h2>
 <dl class="function">
@@ -1688,6 +1827,9 @@ file format and would take several man months to implement.</p>
 <li><a class="reference internal" href="#worksheet-autofilter">worksheet.autofilter()</a></li>
 <li><a class="reference internal" href="#worksheet-filter-column">worksheet.filter_column()</a></li>
 <li><a class="reference internal" href="#worksheet-filter-column-list">worksheet.filter_column_list()</a></li>
+<li><a class="reference internal" href="#worksheet-set-selection">worksheet.set_selection()</a></li>
+<li><a class="reference internal" href="#worksheet-freeze-panes">worksheet.freeze_panes()</a></li>
+<li><a class="reference internal" href="#worksheet-split-panes">worksheet.split_panes()</a></li>
 <li><a class="reference internal" href="#worksheet-set-zoom">worksheet.set_zoom()</a></li>
 <li><a class="reference internal" href="#worksheet-right-to-left">worksheet.right_to_left()</a></li>
 <li><a class="reference internal" href="#worksheet-hide-zero">worksheet.hide_zero()</a></li>

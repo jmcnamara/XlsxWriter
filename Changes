@@ -1,5 +1,15 @@
 
 
+Release 0.2.6 - April 1 2013
+-----------------------------
+
+* Added :func:`freeze_panes` and :func:`split_panes` methods.
+  See :ref:`ex_panes` .
+
+* Added :func:`set_selection` method to select worksheet cell or range of
+  cells.
+
+
 Release 0.2.5 - April 1 2013
 -----------------------------
 
@@ -11,7 +21,7 @@ Release 0.2.4 - March 31 2013
 -----------------------------
 
 * Added :func:`Workbook` ``'constant_memory'`` constructor property to
-  minimise memory usage when writing large files. See :ref:`memory_perf` 
+  minimise memory usage when writing large files. See :ref:`memory_perf`
   for more details.
 
 * Fixed bug with handling of UTF-8 strings in worksheet names (and probably
@@ -31,7 +41,7 @@ Release 0.2.3 - March 27 2013
 Release 0.2.2 - March 27 2013
 -----------------------------
 
-* Added worksheet data validation options. See the :func:`data_validation` 
+* Added worksheet data validation options. See the :func:`data_validation`
   method, :ref:`working_with_data_validation` and :ref:`ex_data_valid`.
 
 * There are now over 600 unit tests including more than 130 tests that
@@ -75,7 +85,7 @@ Release 0.1.8 - March 18 2013
 Release 0.1.7 - March 18 2013
 -----------------------------
 
-* Added the option to write cell comments to a worksheet. See 
+* Added the option to write cell comments to a worksheet. See
   :func:`write_comment` and :ref:`cell_comments`.
 
 
@@ -114,7 +124,7 @@ Release 0.1.3 - March 7 2013
 
 * Added worksheet methods:
 
-    * :func:`set_zoom` for setting worksheet zoom levels. 
+    * :func:`set_zoom` for setting worksheet zoom levels.
     * :func:`right_to_left` for middle eastern versions of Excel.
     * :func:`hide_zero` for hiding zero values in cells.
     * :func:`set_tab_color` for setting the worksheet tab colour.
@@ -164,7 +174,7 @@ Release 0.0.9 - February 27 2013
 
 * Added the :func:`define_name` method to create defined names and ranges
   in a workbook or worksheet.
-  
+
 * Added the :func:`worksheets` method as an accessor for the worksheets in a
   workbook.
 

@@ -4946,11 +4946,12 @@ class Worksheet(xmlwriter.XMLwriter):
             active_pane = 'bottomLeft'
             self.selections.append(['bottomLeft', active_cell, sqref])
 
+        # Format splits to the same precision as Excel.
         if x_split:
-            attributes.append(('xSplit', x_split))
+            attributes.append(('xSplit', "%.15g" % x_split))
 
         if y_split:
-            attributes.append(('ySplit', y_split))
+            attributes.append(('ySplit', "%.15g" % y_split))
 
         attributes.append(('topLeftCell', top_left_cell))
 

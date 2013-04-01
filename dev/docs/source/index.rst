@@ -29,6 +29,7 @@ XlsxWriter supports the following features in version |version|:
 * Cell comments.
 * Document properties.
 * Worksheet cell protection.
+* Freeze and split worksheet panes.
 * Memory optimisation mode for writing large files.
 * Standard libraries only.
 * Python 2.6, 2.7, 3.1, 3.2 and 3.3 support.

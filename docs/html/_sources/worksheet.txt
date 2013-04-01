@@ -114,8 +114,8 @@ and ``column``::
     worksheet.write_string(0, 0, 'Your text here')
     worksheet.write_string('A2', 'or here')
 
-Both row-column and A1 style notation are support. See :ref:`cell_notation` for
-more details.
+Both row-column and A1 style notation are supported. See :ref:`cell_notation`
+for more details.
 
 The ``cell_format`` parameter is used to apply formatting to the cell. This
 parameter is optional but when present is should be a valid
@@ -184,8 +184,8 @@ specified by ``row`` and ``column``::
     worksheet.write_number(0, 0, 123456)
     worksheet.write_number('A2', 2.3451)
 
-Both row-column and A1 style notation are support. See :ref:`cell_notation` for
-more details.
+Both row-column and A1 style notation are supported. See :ref:`cell_notation`
+for more details.
 
 The ``cell_format`` parameter is used to apply formatting to the cell. This
 parameter is optional but when present is should be a valid
@@ -228,8 +228,8 @@ Array formulas are also supported::
 
 See also the ``write_array_formula()`` method below.
 
-Both row-column and A1 style notation are support. See :ref:`cell_notation` for
-more details.
+Both row-column and A1 style notation are supported. See :ref:`cell_notation`
+for more details.
 
 The ``cell_format`` parameter is used to apply formatting to the cell. This
 parameter is optional but when present is should be a valid
@@ -299,7 +299,7 @@ that the return values will be written to::
     worksheet.write_array_formula('A1:A3',    '{=TREND(C1:C3,B1:B3)}')
     worksheet.write_array_formula(0, 0, 2, 0, '{=TREND(C1:C3,B1:B3)}')
 
-As shown above, both row-column and A1 style notation are support. See
+As shown above, both row-column and A1 style notation are supported. See
 :ref:`cell_notation` for more details.
 
 The ``cell_format`` parameter is used to apply formatting to the cell. This
@@ -354,7 +354,7 @@ As such, if you write an empty cell without formatting it is ignored::
 This seemingly uninteresting fact means that you can write arrays of data
 without special treatment for ``None`` or empty string values.
 
-As shown above, both row-column and A1 style notation are support. See
+As shown above, both row-column and A1 style notation are supported. See
 :ref:`cell_notation` for more details.
 
 
@@ -426,8 +426,8 @@ The url is comprised of two elements: the displayed string and the
 non-displayed link. The displayed string is the same as the link unless an
 alternative string is specified.
 
-Both row-column and A1 style notation are support. See :ref:`cell_notation` for
-more details.
+Both row-column and A1 style notation are supported. See :ref:`cell_notation`
+for more details.
 
 The ``cell_format`` parameter is used to apply formatting to the cell. This
 parameter is optional, however, without a format the link won't look like a
@@ -1386,6 +1386,133 @@ One or more criteria can be selected::
 It isn't sufficient to just specify filters. You must also hide any rows that
 don't match the filter condition. See :ref:`working_with_autofilters` for more
 details.
+
+
+worksheet.set_selection()
+-------------------------
+.. py:function:: set_selection(first_row, first_col, last_row, last_col)
+
+   Set the selected cell or cells in a worksheet.
+
+   :param first_row:   The first row of the range. (All zero indexed.)
+   :param first_col:   The first column of the range.
+   :param last_row:    The last row of the range.
+   :param last_col:    The last col of the range.
+   :type  first_row:   int
+   :type  first_col:   int
+   :type  last_row:    int
+   :type  last_col:    int
+
+
+The ``set_selection()`` method can be used to specify which cell or range of
+cells is selected in a worksheet. The most common requirement is to select a
+single cell, in which case the ``first_`` and ``last_`` parameters should be
+the same.
+
+The active cell within a selected range is determined by the order in which
+``first_`` and ``last_`` are specified.
+
+Examples::
+
+    worksheet1.set_selection(3, 3, 3, 3)  # 1. Cell D4.
+    worksheet2.set_selection(3, 3, 6, 6)  # 2. Cells D4 to G7.
+    worksheet3.set_selection(6, 6, 3, 3)  # 3. Cells G7 to D4.
+    worksheet4.set_selection('D4')        # Same as 1.
+    worksheet5.set_selection('D4:G7')     # Same as 2.
+    worksheet6.set_selection('G7:D4')     # Same as 3.
+
+As shown above, both row-column and A1 style notation are supported. See
+:ref:`cell_notation` for more details. The default cell selection is
+``(0, 0)``, ``'A1'``.
+
+
+
+worksheet.freeze_panes()
+------------------------
+
+.. py:function:: freeze_panes(row, col [, top_row, left_col])
+
+   Create worksheet panes and mark them as frozen.
+
+   :param int row:      The cell row (zero indexed).
+   :param int col:      The cell column (zero indexed).
+   :param int top_row:  Topmost visible row in scrolling region of pane.
+   :param int left_col: Leftmost visible row in scrolling region of pane.
+
+This ``freeze_panes`` method can be used to divide a worksheet into horizontal
+or vertical regions known as panes and to "freeze" these panes so that the
+splitter bars are not visible.
+
+The parameters ``row`` and ``col`` are used to specify the location of the
+split. It should be noted that the split is specified at the top or left of a
+cell and that the method uses zero based indexing. Therefore to freeze the
+first row of a worksheet it is necessary to specify the split at row 2 (which
+is 1 as the zero-based index).
+
+You can set one of the ``row`` and ``col`` parameters as zero if you
+do not want either a vertical or horizontal split.
+
+Examples::
+
+    worksheet.freeze_panes(1, 0)  # Freeze the first row.
+    worksheet.freeze_panes('A2')  # Same using A1 notation.
+    worksheet.freeze_panes(0, 1)  # Freeze the first column.
+    worksheet.freeze_panes('B1')  # Same using A1 notation.
+    worksheet.freeze_panes(1, 2)  # Freeze first row and first 2 columns.
+    worksheet.freeze_panes('C2')  # Same using A1 notation.
+
+The parameters ``top_row`` and ``left_col`` are optional. They are
+used to specify the top-most or left-most visible row or column in the
+scrolling region of the panes. For example to freeze the first row and
+to have the scrolling region begin at row twenty::
+
+    worksheet.freeze_panes(1, 0, 20, 0)
+
+You cannot use A1 notation for the ``top_row`` and ``left_col`` parameters.
+
+See :ref:`ex_panes` for more details.
+
+
+worksheet.split_panes()
+-----------------------
+
+.. py:function:: split_panes(x, y [, top_row, left_col])
+
+   Create worksheet panes and mark them as split.
+
+   :param float x:      The position for the vertical split.
+   :param float y:      The position for the horizontal split.
+   :param int top_row:  Topmost visible row in scrolling region of pane.
+   :param int left_col: Leftmost visible row in scrolling region of pane.
+
+The ``split_panes``  method can be used to divide a worksheet into horizontal
+or vertical regions known as panes. This method is different from the
+``freeze_panes()`` method in that the splits between the panes will be visible
+to the user and each pane will have its own scroll bars.
+
+The parameters ``y`` and ``x`` are used to specify the vertical and horizontal
+position of the split. The units for ``y`` and ``x`` are the same as those
+used by Excel to specify row height and column width. However, the vertical
+and horizontal units are different from each other. Therefore you must specify
+the ``y`` and ``x`` parameters in terms of the row heights and column widths
+that you have set or the default values which are ``15`` for a row and
+``8.43`` for a column.
+
+You can set one of the ``y`` and ``x`` parameters as zero if you do
+not want either a vertical or horizontal split. The parameters
+``top_row`` and ``left_col`` are optional. They are used to specify
+the top-most or left-most visible row or column in the bottom-right
+pane.
+
+Example::
+
+    worksheet.split_panes(15, 0)     # First row.
+    worksheet.split_panes(0, 8.43)   # First column.
+    worksheet.split_panes(15, 8.43)  # First row and column.
+
+You cannot use A1 notation with this method.
+
+See :ref:`ex_panes` for more details.
 
 
 worksheet.set_zoom()
