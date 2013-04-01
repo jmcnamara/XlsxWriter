@@ -1926,6 +1926,86 @@ class Worksheet(xmlwriter.XMLwriter):
         else:
             self.cond_formats[cell_range] = [options]
 
+    @convert_range_args
+    def set_selection(self, first_row, first_col, last_row, last_col):
+        """
+        Set the selected cell or cells in a worksheet
+
+        Args:
+            first_row:    The first row of the cell range. (zero indexed).
+            first_col:    The first column of the cell range.
+            last_row:     The last row of the cell range. (zero indexed).
+            last_col:     The last column of the cell range.
+
+        Returns:
+            0:  Nothing.
+        """
+        pane = None
+
+        # Range selection. Do this before swapping max/min to allow the
+        # selection direction to be reversed.
+        active_cell = xl_rowcol_to_cell(first_row, first_col)
+
+        # Swap last row/col for first row/col if necessary
+        if first_row > last_row:
+            (first_row, last_row) = (last_row, first_row)
+
+        if first_col > last_col:
+            (first_col, last_col) = (last_col, first_col)
+
+        # If the first and last cell are the same write a single cell.
+        if (first_row == last_row) and (first_col == last_col):
+            sqref = active_cell
+        else:
+            sqref = xl_range(first_row, first_col, last_row, last_col)
+
+        # Selection isn't set for cell A1.
+        if sqref == 'A1':
+            return
+
+        self.selections = [[pane, active_cell, sqref]]
+
+    @convert_cell_args
+    def freeze_panes(self, row, col, top_row=None, left_col=None, pane_type=0):
+        """
+        Create worksheet panes and mark them as frozen.
+
+        Args:
+            row:      The cell row (zero indexed).
+            col:      The cell column (zero indexed).
+            top_row:  Topmost visible row in scrolling region of pane.
+            left_col: Leftmost visible row in scrolling region of pane.
+
+        Returns:
+            0:  Nothing.
+
+        """
+        if top_row is None:
+            top_row = row
+
+        if left_col is None:
+            left_col = col
+
+        self.panes = [row, col, top_row, left_col, pane_type]
+
+    @convert_cell_args
+    def split_panes(self, row, col, top_row=None, left_col=None):
+        """
+        Create worksheet panes and mark them as split.
+
+        Args:
+            row:      The cell row (zero indexed).
+            col:      The cell column (zero indexed).
+            top_row:  Topmost visible row in scrolling region of pane.
+            left_col: Leftmost visible row in scrolling region of pane.
+
+        Returns:
+            0:  Nothing.
+
+        """
+        # Same as freeze panes with a different pane type.
+        self.freeze_panes(row, col, top_row, left_col, 2)
+
     def set_zoom(self, zoom=100):
         """
         Set the worksheet zoom factor.
@@ -3481,8 +3561,8 @@ class Worksheet(xmlwriter.XMLwriter):
 
         if self.panes or len(self.selections):
             self._xml_start_tag('sheetView', attributes)
-            # self._write_panes()
-            # self._write_selections()
+            self._write_panes()
+            self._write_selections()
             self._xml_end_tag('sheetView')
         else:
             self._xml_empty_tag('sheetView', attributes)
@@ -4720,3 +4800,184 @@ class Worksheet(xmlwriter.XMLwriter):
         attributes = [(name, value)]
 
         self._xml_empty_tag('color', attributes)
+
+    def _write_selections(self):
+        # Write the <selection> elements.
+        for selection in self.selections:
+            self._write_selection(*selection)
+
+    def _write_selection(self, pane, active_cell, sqref):
+        # Write the <selection> element.
+        attributes = []
+
+        if pane:
+            attributes.append(('pane', pane))
+
+        if active_cell:
+            attributes.append(('activeCell', active_cell))
+
+        if sqref:
+            attributes.append(('sqref', sqref))
+
+        self._xml_empty_tag('selection', attributes)
+
+    def _write_panes(self):
+        # Write the frozen or split <pane> elements.
+        panes = self.panes
+
+        if not len(panes):
+            return
+
+        if panes[4] == 2:
+            self._write_split_panes(*panes)
+        else:
+            self._write_freeze_panes(*panes)
+
+    def _write_freeze_panes(self, row, col, top_row, left_col, pane_type):
+        # Write the <pane> element for freeze panes.
+        attributes = []
+
+        y_split = row
+        x_split = col
+        top_left_cell = xl_rowcol_to_cell(top_row, left_col)
+        active_pane = ''
+        state = ''
+        active_cell = ''
+        sqref = ''
+
+        # Move user cell selection to the panes.
+        if self.selections:
+            (_, active_cell, sqref) = self.selections[0]
+            self.selections = []
+
+        # Set the active pane.
+        if row and col:
+            active_pane = 'bottomRight'
+
+            row_cell = xl_rowcol_to_cell(row, 0)
+            col_cell = xl_rowcol_to_cell(0, col)
+
+            self.selections.append(['topRight', col_cell, col_cell])
+            self.selections.append(['bottomLeft', row_cell, row_cell])
+            self.selections.append(['bottomRight', active_cell, sqref])
+
+        elif col:
+            active_pane = 'topRight'
+            self.selections.append(['topRight', active_cell, sqref])
+
+        else:
+            active_pane = 'bottomLeft'
+            self.selections.append(['bottomLeft', active_cell, sqref])
+
+        # Set the pane type.
+        if pane_type == 0:
+            state = 'frozen'
+        elif pane_type == 1:
+            state = 'frozenSplit'
+        else:
+            state = 'split'
+
+        if x_split:
+            attributes.append(('xSplit', x_split))
+
+        if y_split:
+            attributes.append(('ySplit', y_split))
+
+        attributes.append(('topLeftCell', top_left_cell))
+        attributes.append(('activePane', active_pane))
+        attributes.append(('state', state))
+
+        self._xml_empty_tag('pane', attributes)
+
+    def _write_split_panes(self, row, col, top_row, left_col, pane_type):
+        # Write the <pane> element for split panes.
+        attributes = []
+        has_selection = 0
+        active_pane = ''
+        active_cell = ''
+        sqref = ''
+
+        y_split = row
+        x_split = col
+
+        # Move user cell selection to the panes.
+        if self.selections:
+            (_, active_cell, sqref) = self.selections[0]
+            self.selections = []
+            has_selection = 1
+
+        # Convert the row and col to 1/20 twip units with padding.
+        if y_split:
+            y_split = int(20 * y_split + 300)
+
+        if x_split:
+            x_split = self._calculate_x_split_width(x_split)
+
+        # For non-explicit topLeft definitions, estimate the cell offset based
+        # on the pixels dimensions. This is only a workaround and doesn't take
+        # adjusted cell dimensions into account.
+        if top_row == row and left_col == col:
+            top_row = int(0.5 + (y_split - 300) / 20 / 15)
+            left_col = int(0.5 + (x_split - 390) / 20 / 3 * 4 / 64)
+
+        top_left_cell = xl_rowcol_to_cell(top_row, left_col)
+
+        # If there is no selection set the active cell to the top left cell.
+        if not has_selection:
+            active_cell = top_left_cell
+            sqref = top_left_cell
+
+        # Set the Cell selections.
+        if row and col:
+            active_pane = 'bottomRight'
+
+            row_cell = xl_rowcol_to_cell(top_row, 0)
+            col_cell = xl_rowcol_to_cell(0, left_col)
+
+            self.selections.append(['topRight', col_cell, col_cell])
+            self.selections.append(['bottomLeft', row_cell, row_cell])
+            self.selections.append(['bottomRight', active_cell, sqref])
+
+        elif col:
+            active_pane = 'topRight'
+            self.selections.append(['topRight', active_cell, sqref])
+
+        else:
+            active_pane = 'bottomLeft'
+            self.selections.append(['bottomLeft', active_cell, sqref])
+
+        if x_split:
+            attributes.append(('xSplit', x_split))
+
+        if y_split:
+            attributes.append(('ySplit', y_split))
+
+        attributes.append(('topLeftCell', top_left_cell))
+
+        if has_selection:
+            attributes.append(('activePane', active_pane))
+
+        self._xml_empty_tag('pane', attributes)
+
+    def _calculate_x_split_width(self, width):
+        # Convert column width from user units to pane split width.
+
+        max_digit_width = 7  # For Calabri 11.
+        padding = 5
+
+        # Convert to pixels.
+        if width < 1:
+            pixels = int(width * 12 + 0.5)
+        else:
+            pixels = int(width * max_digit_width + 0.5) + padding
+
+        # Convert to points.
+        points = pixels * 3 / 4
+
+        # Convert to twips (twentieths of a point).
+        twips = points * 20
+
+        # Add offset/padding.
+        width = twips + 390
+
+        return width
