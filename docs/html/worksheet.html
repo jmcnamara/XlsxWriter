@@ -16,7 +16,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '',
-        VERSION:     '0.2.4',
+        VERSION:     '0.2.5',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -337,8 +337,7 @@ Packs should fix this.</p>
 Excel an array formula is a formula that performs a calculation on a set of
 values. It can return a single value or a range of values.</p>
 <p>An array formula is indicated by a pair of braces around the formula:
-<tt class="docutils literal"><span class="pre">{=SUM(A1:B1*A2:B2)}</span></tt>. If the array formula returns a single value then the
-<tt class="docutils literal"><span class="pre">first_</span></tt> and <tt class="docutils literal"><span class="pre">last_</span></tt> parameters should be the same:</p>
+<tt class="docutils literal"><span class="pre">{=SUM(A1:B1*A2:B2)}</span></tt>. If the array formula returns a single value then the <tt class="docutils literal"><span class="pre">first_</span></tt> and <tt class="docutils literal"><span class="pre">last_</span></tt> parameters should be the same:</p>
 <div class="highlight-python"><div class="highlight"><pre><span class="n">worksheet</span><span class="o">.</span><span class="n">write_array_formula</span><span class="p">(</span><span class="s">&#39;A1:A1&#39;</span><span class="p">,</span> <span class="s">&#39;{=SUM(B1:C1*B2:C2)}&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
@@ -441,17 +440,17 @@ specified by <tt class="docutils literal"><span class="pre">row</span></tt> and 
 <div class="highlight-python"><div class="highlight"><pre><span class="n">worksheet</span><span class="o">.</span><span class="n">write_datetime</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">datetime</span><span class="p">,</span> <span class="n">date_format</span><span class="p">)</span>
 </pre></div>
 </div>
-<p>The datetime should be a <a class="reference external" href="http://docs.python.org/2/library/datetime.html#datetime.datetime" title="(in Python v2.7)"><tt class="xref py py-class docutils literal"><span class="pre">datetime.datetime</span></tt></a>,
-<a class="reference external" href="http://docs.python.org/2/library/datetime.html#datetime.date" title="(in Python v2.7)"><tt class="xref py py-class docutils literal"><span class="pre">datetime.date</span></tt></a> or <a class="reference external" href="http://docs.python.org/2/library/datetime.html#datetime.time" title="(in Python v2.7)"><tt class="xref py py-class docutils literal"><span class="pre">datetime.time</span></tt></a> object. The <a class="reference external" href="http://docs.python.org/2/library/datetime.html#datetime" title="(in Python v2.7)"><tt class="xref py py-mod docutils literal"><span class="pre">datetime</span></tt></a>
-class is part of the standard Python libraries.</p>
+<p>The datetime should be a <a class="reference external" href="http://docs.python.org/2/library/datetime.html#datetime.datetime" title="(in Python v2.7)"><tt class="xref py py-class docutils literal"><span class="pre">datetime.datetime</span></tt></a>, <a class="reference external" href="http://docs.python.org/2/library/datetime.html#datetime.date" title="(in Python v2.7)"><tt class="xref py py-class docutils literal"><span class="pre">datetime.date</span></tt></a> or
+<a class="reference external" href="http://docs.python.org/2/library/datetime.html#datetime.time" title="(in Python v2.7)"><tt class="xref py py-class docutils literal"><span class="pre">datetime.time</span></tt></a> object. The <a class="reference external" href="http://docs.python.org/2/library/datetime.html#datetime" title="(in Python v2.7)"><tt class="xref py py-mod docutils literal"><span class="pre">datetime</span></tt></a> class is part of the
+standard Python libraries.</p>
 <p>There are many way to create datetime objects, for example the
 <a class="reference external" href="http://docs.python.org/2/library/datetime.html#datetime.datetime.strptime" title="(in Python v2.7)"><tt class="xref py py-meth docutils literal"><span class="pre">datetime.datetime.strptime()</span></tt></a> method:</p>
 <div class="highlight-python"><div class="highlight"><pre><span class="n">date_time</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="o">.</span><span class="n">strptime</span><span class="p">(</span><span class="s">&#39;2013-01-23&#39;</span><span class="p">,</span> <span class="s">&#39;%Y-%m-</span><span class="si">%d</span><span class="s">&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
 <p>See the <a class="reference external" href="http://docs.python.org/2/library/datetime.html#datetime" title="(in Python v2.7)"><tt class="xref py py-mod docutils literal"><span class="pre">datetime</span></tt></a> documentation for other date/time creation methods.</p>
-<p>A date/time should always have a <tt class="docutils literal"><span class="pre">cell_format</span></tt> of type <a class="reference internal" href="format.html#format"><em>Format</em></a>,
-otherwise it will appear as a number:</p>
+<p>A date/time should always have a <tt class="docutils literal"><span class="pre">cell_format</span></tt> of type
+<a class="reference internal" href="format.html#format"><em>Format</em></a>, otherwise it will appear as a number:</p>
 <div class="highlight-python"><div class="highlight"><pre><span class="n">date_format</span> <span class="o">=</span> <span class="n">workbook</span><span class="o">.</span><span class="n">add_format</span><span class="p">({</span><span class="s">&#39;num_format&#39;</span><span class="p">:</span> <span class="s">&#39;d mmmm yyyy&#39;</span><span class="p">})</span>
 
 <span class="n">worksheet</span><span class="o">.</span><span class="n">write_datetime</span><span class="p">(</span><span class="s">&#39;A1&#39;</span><span class="p">,</span> <span class="n">date_time</span><span class="p">,</span> <span class="n">date_format</span><span class="p">)</span>
@@ -535,8 +534,8 @@ worksheet references:</p>
 <span class="n">worksheet</span><span class="o">.</span><span class="n">write_url</span><span class="p">(</span><span class="s">&#39;A9&#39;</span><span class="p">,</span> <span class="s">r&#39;external:</span><span class="se">\\</span><span class="s">NET\share\foo.xlsx&#39;</span><span class="p">,</span>  <span class="n">link_format</span><span class="p">)</span>
 </pre></div>
 </div>
-<p>Worksheet references are typically of the form <tt class="docutils literal"><span class="pre">Sheet1!A1</span></tt>. You can also
-link to a worksheet range using the standard Excel notation: <tt class="docutils literal"><span class="pre">Sheet1!A1:B2</span></tt>.</p>
+<p>Worksheet references are typically of the form <tt class="docutils literal"><span class="pre">Sheet1!A1</span></tt>. You can also link
+to a worksheet range using the standard Excel notation: <tt class="docutils literal"><span class="pre">Sheet1!A1:B2</span></tt>.</p>
 <p>In external links the workbook and worksheet name must be separated by the
 <tt class="docutils literal"><span class="pre">#</span></tt> character: <tt class="docutils literal"><span class="pre">external:Workbook.xlsx#Sheet1!A1'</span></tt>.</p>
 <p>You can also link to a named range in the target worksheet. For example say you
@@ -588,9 +587,9 @@ correctly by the user and will by passed directly to Excel.</p>
 </table>
 </dd></dl>
 
-<p>The <tt class="docutils literal"><span class="pre">write_rich_string()</span></tt> method is used to write strings with
-multiple formats. For example to write the string &#8220;This is <strong>bold</strong>
-and this is <em>italic</em>&#8221; you would use the following:</p>
+<p>The <tt class="docutils literal"><span class="pre">write_rich_string()</span></tt> method is used to write strings with multiple
+formats. For example to write the string &#8220;This is <strong>bold</strong> and this is
+<em>italic</em>&#8221; you would use the following:</p>
 <div class="highlight-python"><div class="highlight"><pre><span class="n">bold</span>   <span class="o">=</span> <span class="n">workbook</span><span class="o">.</span><span class="n">add_format</span><span class="p">({</span><span class="s">&#39;bold&#39;</span><span class="p">:</span> <span class="bp">True</span><span class="p">})</span>
 <span class="n">italic</span> <span class="o">=</span> <span class="n">workbook</span><span class="o">.</span><span class="n">add_format</span><span class="p">({</span><span class="s">&#39;italic&#39;</span><span class="p">:</span> <span class="bp">True</span><span class="p">})</span>
 
@@ -619,10 +618,9 @@ For example:</p>
                             <span class="s">&#39;This is an &#39;</span><span class="p">,</span> <span class="n">format</span><span class="p">,</span> <span class="s">&#39;example&#39;</span><span class="p">,</span> <span class="s">&#39; string&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
-<p>String fragments that don&#8217;t have a format are given a default
-format. So for example when writing the string &#8220;Some <strong>bold</strong> text&#8221;
-you would use the first example below but it would be equivalent to
-the second:</p>
+<p>String fragments that don&#8217;t have a format are given a default format. So for
+example when writing the string &#8220;Some <strong>bold</strong> text&#8221; you would use the first
+example below but it would be equivalent to the second:</p>
 <div class="highlight-python"><div class="highlight"><pre><span class="c"># Some bold format and a default format.</span>
 <span class="n">bold</span>    <span class="o">=</span> <span class="n">workbook</span><span class="o">.</span><span class="n">add_format</span><span class="p">({</span><span class="s">&#39;bold&#39;</span><span class="p">:</span> <span class="bp">True</span><span class="p">})</span>
 <span class="n">default</span> <span class="o">=</span> <span class="n">workbook</span><span class="o">.</span><span class="n">add_format</span><span class="p">()</span>
@@ -640,13 +638,13 @@ the second:</p>
                              <span class="n">default</span><span class="p">,</span> <span class="s">&#39; text&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
-<p>In Excel only the font properties of the format such as font
-name, style, size, underline, color and effects are applied to the
-string fragments in a rich string. Other features such as border, background,
-text wrap and alignment must be applied to the cell.</p>
-<p>The <tt class="docutils literal"><span class="pre">write_rich_string()</span></tt> method allows you to do this by using the
-last argument as a cell format (if it is a format object). The
-following example centers a rich string in the cell:</p>
+<p>In Excel only the font properties of the format such as font name, style, size,
+underline, color and effects are applied to the string fragments in a rich
+string. Other features such as border, background, text wrap and alignment
+must be applied to the cell.</p>
+<p>The <tt class="docutils literal"><span class="pre">write_rich_string()</span></tt> method allows you to do this by using the last
+argument as a cell format (if it is a format object). The following example
+centers a rich string in the cell:</p>
 <div class="highlight-python"><div class="highlight"><pre><span class="n">bold</span>   <span class="o">=</span> <span class="n">workbook</span><span class="o">.</span><span class="n">add_format</span><span class="p">({</span><span class="s">&#39;bold&#39;</span><span class="p">:</span> <span class="bp">True</span><span class="p">})</span>
 <span class="n">center</span> <span class="o">=</span> <span class="n">workbook</span><span class="o">.</span><span class="n">add_format</span><span class="p">({</span><span class="s">&#39;align&#39;</span><span class="p">:</span> <span class="s">&#39;center&#39;</span><span class="p">})</span>
 
@@ -968,8 +966,8 @@ column has the collapsed <tt class="docutils literal"><span class="pre">'+'</spa
 </table>
 </dd></dl>
 
-<p>This method can be used to insert a image into a worksheet. The image can be
-in PNG, JPEG or BMP format:</p>
+<p>This method can be used to insert a image into a worksheet. The image can be in
+PNG, JPEG or BMP format:</p>
 <div class="highlight-python"><div class="highlight"><pre><span class="n">worksheet</span><span class="o">.</span><span class="n">insert_image</span><span class="p">(</span><span class="s">&#39;B2&#39;</span><span class="p">,</span> <span class="s">&#39;python.png&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
@@ -1002,8 +1000,8 @@ horizontally and vertically:</p>
 <div class="highlight-python"><div class="highlight"><pre><span class="n">worksheet</span><span class="o">.</span><span class="n">insert_image</span><span class="p">(</span><span class="s">&#39;B3&#39;</span><span class="p">,</span> <span class="s">&#39;python.png&#39;</span><span class="p">,</span> <span class="p">{</span><span class="s">&#39;x_scale&#39;</span><span class="p">:</span> <span class="mf">0.5</span><span class="p">,</span> <span class="s">&#39;y_scale&#39;</span><span class="p">:</span> <span class="mf">0.5</span><span class="p">})</span>
 </pre></div>
 </div>
-<p>Currently only 96 dpi images are supported without modification. If you need
-to insert images with other dpi values you can use the scale parameters.</p>
+<p>Currently only 96 dpi images are supported without modification. If you need to
+insert images with other dpi values you can use the scale parameters.</p>
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
 <p class="last">You must call <tt class="docutils literal"><span class="pre">set_row()</span></tt> or <tt class="docutils literal"><span class="pre">set_column()</span></tt> before <tt class="docutils literal"><span class="pre">insert_image()</span></tt>
@@ -1043,8 +1041,8 @@ to avoid BMP images since they aren&#8217;t compressed. If used, BMP images must
 </table>
 </dd></dl>
 
-<p>The <tt class="docutils literal"><span class="pre">data_validation()</span></tt> method is used to construct an Excel data
-validation or to limit the user input to a dropdown list of values:</p>
+<p>The <tt class="docutils literal"><span class="pre">data_validation()</span></tt> method is used to construct an Excel data validation
+or to limit the user input to a dropdown list of values:</p>
 <div class="highlight-python"><div class="highlight"><pre><span class="n">worksheet</span><span class="o">.</span><span class="n">data_validation</span><span class="p">(</span><span class="s">&#39;B3&#39;</span><span class="p">,</span> <span class="p">{</span><span class="s">&#39;validate&#39;</span><span class="p">:</span> <span class="s">&#39;integer&#39;</span><span class="p">,</span>
                                  <span class="s">&#39;criteria&#39;</span><span class="p">:</span> <span class="s">&#39;between&#39;</span><span class="p">,</span>
                                  <span class="s">&#39;minimum&#39;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
@@ -1056,23 +1054,21 @@ validation or to limit the user input to a dropdown list of values:</p>
 </pre></div>
 </div>
 <img alt="_images/data_validate1.png" src="_images/data_validate1.png" />
-<p>The data validation can be applied to a single cell or a range of cells.
-As usual you can use A1 or Row/Column notation, see <a class="reference internal" href="working_with_cell_notation.html#cell-notation"><em>Working with Cell Notation</em></a>.</p>
+<p>The data validation can be applied to a single cell or a range of cells. As
+usual you can use A1 or Row/Column notation, see <a class="reference internal" href="working_with_cell_notation.html#cell-notation"><em>Working with Cell Notation</em></a>.</p>
 <p>With Row/Column notation you must specify all four cells in the range:
-<tt class="docutils literal"><span class="pre">(first_row,</span> <span class="pre">first_col,</span> <span class="pre">last_row,</span> <span class="pre">last_col)</span></tt>.
-If you need to refer to a single cell set the <cite>last_</cite> values equal to the
-<cite>first_</cite> values. With A1 notation you can refer to a single cell or a range
-of cells:</p>
+<tt class="docutils literal"><span class="pre">(first_row,</span> <span class="pre">first_col,</span> <span class="pre">last_row,</span> <span class="pre">last_col)</span></tt>. If you need to refer to a
+single cell set the <cite>last_</cite> values equal to the <cite>first_</cite> values. With A1
+notation you can refer to a single cell or a range of cells:</p>
 <div class="highlight-python"><div class="highlight"><pre><span class="n">worksheet</span><span class="o">.</span><span class="n">data_validation</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="p">{</span><span class="o">...</span><span class="p">})</span>
 <span class="n">worksheet</span><span class="o">.</span><span class="n">data_validation</span><span class="p">(</span><span class="s">&#39;B1&#39;</span><span class="p">,</span>       <span class="p">{</span><span class="o">...</span><span class="p">})</span>
 <span class="n">worksheet</span><span class="o">.</span><span class="n">data_validation</span><span class="p">(</span><span class="s">&#39;C1:E5&#39;</span><span class="p">,</span>    <span class="p">{</span><span class="o">...</span><span class="p">})</span>
 </pre></div>
 </div>
-<p>The options parameter in <tt class="docutils literal"><span class="pre">data_validation()</span></tt> must be a dictionary
-containing the parameters that describe the type and style of the data
-validation. There are a lot of available options which are described in detail
-in a separate section: <a class="reference internal" href="working_with_data_validation.html#working-with-data-validation"><em>Working with Data Validation</em></a>. See also
-<a class="reference internal" href="example_data_validate.html#ex-data-valid"><em>Example: Data Validation and Drop Down Lists</em></a>.</p>
+<p>The options parameter in <tt class="docutils literal"><span class="pre">data_validation()</span></tt> must be a dictionary containing
+the parameters that describe the type and style of the data validation. There
+are a lot of available options which are described in detail in a separate
+section: <a class="reference internal" href="working_with_data_validation.html#working-with-data-validation"><em>Working with Data Validation</em></a>. See also <a class="reference internal" href="example_data_validate.html#ex-data-valid"><em>Example: Data Validation and Drop Down Lists</em></a>.</p>
 </div>
 <div class="section" id="worksheet-conditional-format">
 <h2>worksheet.conditional_format()</h2>
@@ -1097,8 +1093,8 @@ in a separate section: <a class="reference internal" href="working_with_data_val
 </table>
 </dd></dl>
 
-<p>The <tt class="docutils literal"><span class="pre">conditional_format()</span></tt> method is used to add formatting to a
-cell or range of cells based on user defined criteria:</p>
+<p>The <tt class="docutils literal"><span class="pre">conditional_format()</span></tt> method is used to add formatting to a cell or
+range of cells based on user defined criteria:</p>
 <div class="highlight-python"><div class="highlight"><pre><span class="n">worksheet</span><span class="o">.</span><span class="n">conditional_format</span><span class="p">(</span><span class="s">&#39;B3:K12&#39;</span><span class="p">,</span> <span class="p">{</span><span class="s">&#39;type&#39;</span><span class="p">:</span>     <span class="s">&#39;cell&#39;</span><span class="p">,</span>
                                         <span class="s">&#39;criteria&#39;</span><span class="p">:</span> <span class="s">&#39;&gt;=&#39;</span><span class="p">,</span>
                                         <span class="s">&#39;value&#39;</span><span class="p">:</span>    <span class="mi">50</span><span class="p">,</span>
@@ -1106,13 +1102,12 @@ cell or range of cells based on user defined criteria:</p>
 </pre></div>
 </div>
 <img alt="_images/conditional_format1.png" src="_images/conditional_format1.png" />
-<p>The conditional format can be applied to a single cell or a range of cells.
-As usual you can use A1 or Row/Column notation, see <a class="reference internal" href="working_with_cell_notation.html#cell-notation"><em>Working with Cell Notation</em></a>.</p>
+<p>The conditional format can be applied to a single cell or a range of cells. As
+usual you can use A1 or Row/Column notation, see <a class="reference internal" href="working_with_cell_notation.html#cell-notation"><em>Working with Cell Notation</em></a>.</p>
 <p>With Row/Column notation you must specify all four cells in the range:
-<tt class="docutils literal"><span class="pre">(first_row,</span> <span class="pre">first_col,</span> <span class="pre">last_row,</span> <span class="pre">last_col)</span></tt>.
-If you need to refer to a single cell set the <cite>last_</cite> values equal to the
-<cite>first_</cite> values. With A1 notation you can refer to a single cell or a range
-of cells:</p>
+<tt class="docutils literal"><span class="pre">(first_row,</span> <span class="pre">first_col,</span> <span class="pre">last_row,</span> <span class="pre">last_col)</span></tt>. If you need to refer to a
+single cell set the <cite>last_</cite> values equal to the <cite>first_</cite> values. With A1
+notation you can refer to a single cell or a range of cells:</p>
 <div class="highlight-python"><div class="highlight"><pre><span class="n">worksheet</span><span class="o">.</span><span class="n">conditional_format</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="p">{</span><span class="o">...</span><span class="p">})</span>
 <span class="n">worksheet</span><span class="o">.</span><span class="n">conditional_format</span><span class="p">(</span><span class="s">&#39;B1&#39;</span><span class="p">,</span>       <span class="p">{</span><span class="o">...</span><span class="p">})</span>
 <span class="n">worksheet</span><span class="o">.</span><span class="n">conditional_format</span><span class="p">(</span><span class="s">&#39;C1:E5&#39;</span><span class="p">,</span>    <span class="p">{</span><span class="o">...</span><span class="p">})</span>
@@ -1146,17 +1141,17 @@ a separate section: <a class="reference internal" href="working_with_conditional
 </table>
 </dd></dl>
 
-<p>The <tt class="docutils literal"><span class="pre">write_comment()</span></tt> method is used to add a comment to a cell. A comment
-is indicated in Excel by a small red triangle in the upper right-hand corner
-of the cell. Moving the cursor over the red triangle will reveal the comment.</p>
+<p>The <tt class="docutils literal"><span class="pre">write_comment()</span></tt> method is used to add a comment to a cell. A comment is
+indicated in Excel by a small red triangle in the upper right-hand corner of
+the cell. Moving the cursor over the red triangle will reveal the comment.</p>
 <p>The following example shows how to add a comment to a cell:</p>
 <div class="highlight-python"><div class="highlight"><pre><span class="n">worksheet</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s">&#39;A1&#39;</span><span class="p">,</span> <span class="s">&#39;Hello&#39;</span><span class="p">)</span>
 <span class="n">worksheet</span><span class="o">.</span><span class="n">write_comment</span><span class="p">(</span><span class="s">&#39;A1&#39;</span><span class="p">,</span> <span class="s">&#39;This is a comment&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
 <img alt="_images/comments1.png" src="_images/comments1.png" />
-<p>As usual you can replace the <tt class="docutils literal"><span class="pre">row</span></tt> and <tt class="docutils literal"><span class="pre">col</span></tt> parameters with an <tt class="docutils literal"><span class="pre">A1</span></tt>
-cell reference. See <a class="reference internal" href="working_with_cell_notation.html#cell-notation"><em>Working with Cell Notation</em></a> for more details.</p>
+<p>As usual you can replace the <tt class="docutils literal"><span class="pre">row</span></tt> and <tt class="docutils literal"><span class="pre">col</span></tt> parameters with an <tt class="docutils literal"><span class="pre">A1</span></tt> cell
+reference. See <a class="reference internal" href="working_with_cell_notation.html#cell-notation"><em>Working with Cell Notation</em></a> for more details.</p>
 <p>The properties of the cell comment can be modified by passing an optional
 dictionary of key/value pairs to control the format of the comment. For
 example:</p>
@@ -1195,8 +1190,8 @@ opened:</p>
 <div class="highlight-python"><div class="highlight"><pre><span class="n">worksheet</span><span class="o">.</span><span class="n">show_comments</span><span class="p">()</span>
 </pre></div>
 </div>
-<p>Individual comments can be made visible using the <tt class="docutils literal"><span class="pre">visible</span></tt> parameter of
-the <tt class="docutils literal"><span class="pre">write_comment</span></tt> method (see above):</p>
+<p>Individual comments can be made visible using the <tt class="docutils literal"><span class="pre">visible</span></tt> parameter of the
+<tt class="docutils literal"><span class="pre">write_comment</span></tt> method (see above):</p>
 <div class="highlight-python"><div class="highlight"><pre><span class="n">worksheet</span><span class="o">.</span><span class="n">write_comment</span><span class="p">(</span><span class="s">&#39;C3&#39;</span><span class="p">,</span> <span class="s">&#39;Hello&#39;</span><span class="p">,</span> <span class="p">{</span><span class="s">&#39;visible&#39;</span><span class="p">:</span> <span class="bp">True</span><span class="p">})</span>
 </pre></div>
 </div>
@@ -1241,8 +1236,8 @@ comments as follows:</p>
 <dd><p>Retrieve the worksheet name.</p>
 </dd></dl>
 
-<p>The <tt class="docutils literal"><span class="pre">get_name()</span></tt> method is used to retrieve the name of a worksheet.
-This is something useful for debugging or logging:</p>
+<p>The <tt class="docutils literal"><span class="pre">get_name()</span></tt> method is used to retrieve the name of a worksheet. This is
+something useful for debugging or logging:</p>
 <div class="highlight-python"><div class="highlight"><pre><span class="k">for</span> <span class="n">worksheet</span> <span class="ow">in</span> <span class="n">workbook</span><span class="o">.</span><span class="n">worksheets</span><span class="p">():</span>
     <span class="k">print</span> <span class="n">worksheet</span><span class="o">.</span><span class="n">get_name</span><span class="p">()</span>
 </pre></div>
@@ -1334,8 +1329,8 @@ visible worksheet tab using <tt class="docutils literal"><span class="pre">set_f
 worksheet19.set_first_sheet()  # First visible worksheet tab.
 worksheet20.activate()         # First visible worksheet.</pre>
 </div>
-<p>This method is not required very often. The default value is the
-first worksheet.</p>
+<p>This method is not required very often. The default value is the first
+worksheet.</p>
 </div>
 <div class="section" id="worksheet-merge-range">
 <h2>worksheet.merge_range()</h2>
@@ -1363,8 +1358,8 @@ first worksheet.</p>
 
 <p>The <tt class="docutils literal"><span class="pre">merge_range()</span></tt> method allows cells to be merged together so that they
 act as a single area.</p>
-<p>Excel generally merges and centers cells at same time. To get similar
-behaviour with XlsxWriter you need to apply a <a class="reference internal" href="format.html#format"><em>Format</em></a>:</p>
+<p>Excel generally merges and centers cells at same time. To get similar behaviour
+with XlsxWriter you need to apply a <a class="reference internal" href="format.html#format"><em>Format</em></a>:</p>
 <div class="highlight-python"><div class="highlight"><pre><span class="n">merge_format</span> <span class="o">=</span> <span class="n">workbook</span><span class="o">.</span><span class="n">add_format</span><span class="p">({</span><span class="s">&#39;align&#39;</span><span class="p">:</span> <span class="s">&#39;center&#39;</span><span class="p">})</span>
 
 <span class="n">worksheet</span><span class="o">.</span><span class="n">merge_range</span><span class="p">(</span><span class="s">&#39;B3:D4&#39;</span><span class="p">,</span> <span class="s">&#39;Merged Cells&#39;</span><span class="p">,</span> <span class="n">merge_format</span><span class="p">)</span>
@@ -1386,8 +1381,8 @@ behaviour with XlsxWriter you need to apply a <a class="reference internal" href
 <p>The <tt class="docutils literal"><span class="pre">merge_range()</span></tt> method writes its <tt class="docutils literal"><span class="pre">data</span></tt> argument using
 <a class="reference internal" href="#write" title="write"><tt class="xref py py-func docutils literal"><span class="pre">write()</span></tt></a>. Therefore it will handle numbers, strings and formulas as
 usual. If this doesn&#8217;t handle you data correctly then you can overwrite the
-first cell with a call to one of the other <tt class="docutils literal"><span class="pre">write_*()</span></tt> methods using the
-same <a class="reference internal" href="format.html#format"><em>Format</em></a> as in the merged cells.</p>
+first cell with a call to one of the other
+<tt class="docutils literal"><span class="pre">write_*()</span></tt> methods using the same <a class="reference internal" href="format.html#format"><em>Format</em></a> as in the merged cells.</p>
 <p>See <a class="reference internal" href="example_merge1.html#ex-merge1"><em>Example: Merging Cells</em></a> for more details.</p>
 </div>
 <div class="section" id="worksheet-autofilter">
@@ -1412,10 +1407,10 @@ same <a class="reference internal" href="format.html#format"><em>Format</em></a>
 </table>
 </dd></dl>
 
-<p>The <tt class="docutils literal"><span class="pre">autofilter()</span></tt> method allows an autofilter to be added to a worksheet.
-An autofilter is a way of adding drop down lists to the headers of a 2D range
-of worksheet data. This allows users to filter the data based on simple
-criteria so that some data is shown and some is hidden.</p>
+<p>The <tt class="docutils literal"><span class="pre">autofilter()</span></tt> method allows an autofilter to be added to a worksheet. An
+autofilter is a way of adding drop down lists to the headers of a 2D range of
+worksheet data. This allows users to filter the data based on simple criteria
+so that some data is shown and some is hidden.</p>
 <img alt="_images/autofilter3.png" src="_images/autofilter3.png" />
 <p>To add an autofilter to a worksheet:</p>
 <div class="highlight-python"><div class="highlight"><pre><span class="n">worksheet</span><span class="o">.</span><span class="n">autofilter</span><span class="p">(</span><span class="s">&#39;A1:D11&#39;</span><span class="p">)</span>
@@ -1453,11 +1448,11 @@ range based on simple conditions.</p>
 <span class="n">worksheet</span><span class="o">.</span><span class="n">filter_column</span><span class="p">(</span><span class="s">&#39;B&#39;</span><span class="p">,</span> <span class="s">&#39;x &gt; 2000 and x &lt; 5000&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
-<p>The <tt class="docutils literal"><span class="pre">col</span></tt> parameter can either be a zero indexed column number or a
-string column name.</p>
+<p>The <tt class="docutils literal"><span class="pre">col</span></tt> parameter can either be a zero indexed column number or a string
+column name.</p>
 <p>It isn&#8217;t sufficient to just specify the filter condition. You must also hide
-any rows that don&#8217;t match the filter condition.
-See <a class="reference internal" href="working_with_autofilters.html#working-with-autofilters"><em>Working with Autofilters</em></a> for more details.</p>
+any rows that don&#8217;t match the filter condition. See
+<a class="reference internal" href="working_with_autofilters.html#working-with-autofilters"><em>Working with Autofilters</em></a> for more details.</p>
 </div>
 <div class="section" id="worksheet-filter-column-list">
 <h2>worksheet.filter_column_list()</h2>
@@ -1484,16 +1479,16 @@ multiple selected criteria:</p>
 <div class="highlight-python"><div class="highlight"><pre><span class="n">worksheet</span><span class="o">.</span><span class="n">filter_column_list</span><span class="p">(</span><span class="s">&#39;A&#39;</span><span class="p">,</span> <span class="s">&#39;March&#39;</span><span class="p">,</span> <span class="s">&#39;April&#39;</span><span class="p">,</span> <span class="s">&#39;May&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
-<p>The <tt class="docutils literal"><span class="pre">col</span></tt> parameter can either be a zero indexed column number or a
-string column name.</p>
+<p>The <tt class="docutils literal"><span class="pre">col</span></tt> parameter can either be a zero indexed column number or a string
+column name.</p>
 <p>One or more criteria can be selected:</p>
 <div class="highlight-python"><div class="highlight"><pre><span class="n">worksheet</span><span class="o">.</span><span class="n">filter_column_list</span><span class="p">(</span><span class="s">&#39;A&#39;</span><span class="p">,</span> <span class="s">&#39;March&#39;</span><span class="p">)</span>
 <span class="n">worksheet</span><span class="o">.</span><span class="n">filter_column_list</span><span class="p">(</span><span class="s">&#39;C&#39;</span><span class="p">,</span> <span class="mi">100</span><span class="p">,</span> <span class="mi">110</span><span class="p">,</span> <span class="mi">120</span><span class="p">,</span> <span class="mi">130</span><span class="p">)</span>
 </pre></div>
 </div>
-<p>It isn&#8217;t sufficient to just specify filters. You must also hide
-any rows that don&#8217;t match the filter condition.
-See <a class="reference internal" href="working_with_autofilters.html#working-with-autofilters"><em>Working with Autofilters</em></a> for more details.</p>
+<p>It isn&#8217;t sufficient to just specify filters. You must also hide any rows that
+don&#8217;t match the filter condition. See <a class="reference internal" href="working_with_autofilters.html#working-with-autofilters"><em>Working with Autofilters</em></a> for more
+details.</p>
 </div>
 <div class="section" id="worksheet-set-zoom">
 <h2>worksheet.set_zoom()</h2>
@@ -1575,8 +1570,8 @@ tab:</p>
 <span class="n">worksheet2</span><span class="o">.</span><span class="n">set_tab_color</span><span class="p">(</span><span class="s">&#39;#FF9900&#39;</span><span class="p">)</span>  <span class="c"># Orange</span>
 </pre></div>
 </div>
-<p>The colour can be a Html style <tt class="docutils literal"><span class="pre">#RRGGBB</span></tt> string or a limited number
-named colours, see <a class="reference internal" href="working_with_formats.html#format-colors"><em>Format Colors</em></a>.</p>
+<p>The colour can be a Html style <tt class="docutils literal"><span class="pre">#RRGGBB</span></tt> string or a limited number named
+colours, see <a class="reference internal" href="working_with_formats.html#format-colors"><em>Format Colors</em></a>.</p>
 <p>See <a class="reference internal" href="example_tab_colors.html#ex-tab-colors"><em>Example: Setting Worksheet Tab Colours</em></a> for more details.</p>
 </div>
 <div class="section" id="worksheet-protect">

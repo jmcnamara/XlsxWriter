@@ -1,5 +1,12 @@
 
 
+Release 0.2.5 - April 1 2013
+-----------------------------
+
+* Added additional :func:`Workbook` parameters ``'tmpdir'`` and
+  ``'date_1904'``.
+
+
 Release 0.2.4 - March 31 2013
 -----------------------------
 

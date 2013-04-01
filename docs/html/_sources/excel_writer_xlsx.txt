@@ -73,20 +73,20 @@ Status: ongoing.
 +--------------------------+------------+---------------------+
 | :func:`define_name()`    | Yes        | Yes                 |
 +--------------------------+------------+---------------------+
-| set_tempdir()            | **No**     | Yes                 |
-+--------------------------+------------+---------------------+
 | set_custom_color()       | No (1)     | Yes                 |
 +--------------------------+------------+---------------------+
 | :func:`worksheets()`     | Yes (2)    | Yes                 |
 +--------------------------+------------+---------------------+
-| set_1904()               | **No**     | Yes                 |
+| set_tempdir()            | Yes (3)    | Yes                 |
++--------------------------+------------+---------------------+
+| set_1904()               | Yes (3)    | Yes                 |
 +--------------------------+------------+---------------------+
 | set_optimization()       | Yes (3)    | Yes                 |
 +--------------------------+------------+---------------------+
 
-1. Not required in XlsxWriter. Full RGB colors are supported.
-2. Called ``sheets()`` in Excel::Writer::XLSX.
-3. This is a constructor parameter in XlsxWriter.
+#. Not required in XlsxWriter. Full RGB colors are supported.
+#. Called ``sheets()`` in Excel::Writer::XLSX.
+#. This is a constructor parameter in XlsxWriter.
 
 Worksheet
 *********
@@ -189,8 +189,8 @@ Status: ongoing.
 | :func:`filter_column_list()`  | Yes        | Yes                 |
 +-------------------------------+------------+---------------------+
 
-1. Called ``conditional_formatting()`` in Excel::Writer::XLSX.
-2. Not required in XlsxWriter. The same functionality is available via
+#. Called ``conditional_formatting()`` in Excel::Writer::XLSX.
+#. Not required in XlsxWriter. The same functionality is available via
    :func:`merge_range()`.
 
 

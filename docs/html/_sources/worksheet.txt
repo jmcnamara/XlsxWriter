@@ -14,7 +14,7 @@ object::
 
     worksheet1 = workbook.add_worksheet()
     worksheet2 = workbook.add_worksheet()
-    
+
     worksheet1.write('A1', 123)
 
 .. image:: _static/worksheet00.png
@@ -282,8 +282,7 @@ Excel an array formula is a formula that performs a calculation on a set of
 values. It can return a single value or a range of values.
 
 An array formula is indicated by a pair of braces around the formula:
-``{=SUM(A1:B1*A2:B2)}``. If the array formula returns a single value then the
-``first_`` and ``last_`` parameters should be the same::
+``{=SUM(A1:B1*A2:B2)}``. If the array formula returns a single value then the ``first_`` and ``last_`` parameters should be the same::
 
     worksheet.write_array_formula('A1:A1', '{=SUM(B1:C1*B2:C2)}')
 
@@ -381,19 +380,19 @@ specified by ``row`` and ``column``::
 
     worksheet.write_datetime(0, 0, datetime, date_format)
 
-The datetime should be a :class:`datetime.datetime`, 
-:class:`datetime.date` or :class:`datetime.time` object. The :mod:`datetime`
-class is part of the standard Python libraries.
+The datetime should be a :class:`datetime.datetime`, :class:`datetime.date` or
+:class:`datetime.time` object. The :mod:`datetime` class is part of the
+standard Python libraries.
 
-There are many way to create datetime objects, for example the 
+There are many way to create datetime objects, for example the
 :meth:`datetime.datetime.strptime` method::
 
     date_time = datetime.datetime.strptime('2013-01-23', '%Y-%m-%d')
 
 See the :mod:`datetime` documentation for other date/time creation methods.
 
-A date/time should always have a ``cell_format`` of type :ref:`Format <format>`,
-otherwise it will appear as a number::
+A date/time should always have a ``cell_format`` of type
+:ref:`Format <format>`, otherwise it will appear as a number::
 
     date_format = workbook.add_format({'num_format': 'd mmmm yyyy'})
 
@@ -445,7 +444,7 @@ and ``mailto:``::
     worksheet.write_url('A4', 'mailto:jmcnamaracpan.org', link_format)
 
 All of the these URI types are recognised by the :func:`write()` method, so the
-following are equivalent:: 
+following are equivalent::
 
     worksheet.write_url('A2', 'http://www.python.org/', link_format)
     worksheet.write    ('A2', 'http://www.python.org/', link_format)  # Same.
@@ -476,8 +475,8 @@ worksheet references::
     worksheet.write_url('A8', r'external:..\foo.xlsx#Sheet2!A1', link_format)
     worksheet.write_url('A9', r'external:\\NET\share\foo.xlsx',  link_format)
 
-Worksheet references are typically of the form ``Sheet1!A1``. You can also
-link to a worksheet range using the standard Excel notation: ``Sheet1!A1:B2``.
+Worksheet references are typically of the form ``Sheet1!A1``. You can also link
+to a worksheet range using the standard Excel notation: ``Sheet1!A1:B2``.
 
 In external links the workbook and worksheet name must be separated by the
 ``#`` character: ``external:Workbook.xlsx#Sheet1!A1'``.
@@ -504,9 +503,9 @@ slashes. These are translated internally to backslashes::
 
 See also :ref:`ex_hyperlink`.
 
-.. note:: 
+.. note::
    XlsxWriter will escape the following characters in URLs as required
-   by Excel: ``\s " < > \ [ ] ` ^ { }`` unless the URL already contains ``%xx`` 
+   by Excel: ``\s " < > \ [ ] ` ^ { }`` unless the URL already contains ``%xx``
    style escapes. In which case it is assumed that the URL was escaped
    correctly by the user and will by passed directly to Excel.
 
@@ -527,9 +526,9 @@ worksheet.write_rich_string()
    :type  cell_format:  :ref:`Format <format>`
 
 
-The ``write_rich_string()`` method is used to write strings with
-multiple formats. For example to write the string "This is **bold**
-and this is *italic*" you would use the following::
+The ``write_rich_string()`` method is used to write strings with multiple
+formats. For example to write the string "This is **bold** and this is
+*italic*" you would use the following::
 
     bold   = workbook.add_format({'bold': True})
     italic = workbook.add_format({'italic': True})
@@ -559,10 +558,9 @@ For example::
     worksheet.write_rich_string('A1',
                                 'This is an ', format, 'example', ' string')
 
-String fragments that don't have a format are given a default
-format. So for example when writing the string "Some **bold** text"
-you would use the first example below but it would be equivalent to
-the second::
+String fragments that don't have a format are given a default format. So for
+example when writing the string "Some **bold** text" you would use the first
+example below but it would be equivalent to the second::
 
     # Some bold format and a default format.
     bold    = workbook.add_format({'bold': True})
@@ -570,24 +568,24 @@ the second::
 
     # With default formatting:
     worksheet.write_rich_string('A1',
-                                'Some ', 
-                                bold, 'bold', 
+                                'Some ',
+                                bold, 'bold',
                                 ' text')
 
     # Or more explicitly:
     worksheet.write_rich_string('A1',
-                                 default, 'Some ', 
-                                 bold,    'bold', 
+                                 default, 'Some ',
+                                 bold,    'bold',
                                  default, ' text')
 
-In Excel only the font properties of the format such as font
-name, style, size, underline, color and effects are applied to the
-string fragments in a rich string. Other features such as border, background,
-text wrap and alignment must be applied to the cell.
+In Excel only the font properties of the format such as font name, style, size,
+underline, color and effects are applied to the string fragments in a rich
+string. Other features such as border, background, text wrap and alignment
+must be applied to the cell.
 
-The ``write_rich_string()`` method allows you to do this by using the
-last argument as a cell format (if it is a format object). The
-following example centers a rich string in the cell::
+The ``write_rich_string()`` method allows you to do this by using the last
+argument as a cell format (if it is a format object). The following example
+centers a rich string in the cell::
 
     bold   = workbook.add_format({'bold': True})
     center = workbook.add_format({'align': 'center'})
@@ -671,7 +669,7 @@ worksheet.set_row()
 .. py:function:: set_row(row, height, cell_format, options)
 
    Set properties for a row of cells.
-   
+
    :param int row:      The worksheet row (zero indexed).
    :param int height:   The row height.
    :param cell_format:  Optional Format object.
@@ -701,7 +699,7 @@ don't have a format. As with Excel it is overidden by an explicit cell format.
 For example::
 
     worksheet.set_row(0, None, format1)      # Row 1 has format1.
-    
+
     worksheet.write('A1', 'Hello')           # Cell A1 defaults to format1.
     worksheet.write('B1', 'Hello', format2)  # Cell B1 keeps format2.
 
@@ -714,10 +712,10 @@ The ``options`` parameter is a dictionary with the following possible keys:
 Options can be set as follows::
 
     worksheet.set_row(0, 20, cell_format, {'hidden': 1})
-    
+
     # Or use defaults for other properties and set the options only.
     worksheet.set_row(0, None, None, {'hidden': 1})
-    
+
 The ``'hidden'`` option is used to hide a row. This can be used, for example,
 to hide intermediary steps in a complicated calculation::
 
@@ -757,7 +755,7 @@ worksheet.set_column()
                             hidden, level, collapsed)
 
    Set properties for one or more columns of cells.
-   
+
    :param int first_col: First column (zero-indexed).
    :param int last_col:  Last column (zero-indexed). Can be same as firstcol.
    :param int width:     The width of the column(s).
@@ -805,7 +803,7 @@ The ``cell_format`` parameter will be applied to any cells in the column that
 don't have a format. For example::
 
     worksheet.set_column('A:A', None, format1)  # Col 1 has format1.
-    
+
     worksheet.write('A1', 'Hello')              # Cell A1 defaults to format1.
     worksheet.write('A2', 'Hello', format2)     # Cell A2 keeps format2.
 
@@ -813,7 +811,7 @@ A  row format takes precedence over a default column format::
 
     worksheet.set_row(0, None, format1)         # Set format for row 1.
     worksheet.set_column('A:A', None, format2)  # Set format for col 1.
-    
+
     worksheet.write('A1', 'Hello')              # Defaults to format1
     worksheet.write('A2', 'Hello')              # Defaults to format2
 
@@ -874,8 +872,8 @@ worksheet.insert_image()
    :type  image:       string
    :type  options:     dict
 
-This method can be used to insert a image into a worksheet. The image can be
-in PNG, JPEG or BMP format::
+This method can be used to insert a image into a worksheet. The image can be in
+PNG, JPEG or BMP format::
 
     worksheet.insert_image('B2', 'python.png')
 
@@ -888,7 +886,7 @@ A file path can be specified with the image name::
 
 The ``insert_image()`` method takes optional parameters in a dictionary to
 position and scale the image. The avavilable parameters with their default
-values are:: 
+values are::
 
     {
         'x_offset': 0,
@@ -910,11 +908,11 @@ horizontally and vertically::
 
     worksheet.insert_image('B3', 'python.png', {'x_scale': 0.5, 'y_scale': 0.5})
 
-Currently only 96 dpi images are supported without modification. If you need
-to insert images with other dpi values you can use the scale parameters.
+Currently only 96 dpi images are supported without modification. If you need to
+insert images with other dpi values you can use the scale parameters.
 
 
-.. Note:: 
+.. Note::
    You must call ``set_row()`` or ``set_column()`` before ``insert_image()``
    if you wish to change the default dimensions of any of the rows or
    columns that the image occupies. The height of a row can also change if you
@@ -952,8 +950,8 @@ worksheet.data_validation()
    :type  options:     dict
 
 
-The ``data_validation()`` method is used to construct an Excel data
-validation or to limit the user input to a dropdown list of values::
+The ``data_validation()`` method is used to construct an Excel data validation
+or to limit the user input to a dropdown list of values::
 
     worksheet.data_validation('B3', {'validate': 'integer',
                                      'criteria': 'between',
@@ -965,26 +963,24 @@ validation or to limit the user input to a dropdown list of values::
                                       'source': ['open', 'high', 'close']})
 
 .. image:: _static/data_validate1.png
-    
-The data validation can be applied to a single cell or a range of cells.
-As usual you can use A1 or Row/Column notation, see :ref:`cell_notation`.
+
+The data validation can be applied to a single cell or a range of cells. As
+usual you can use A1 or Row/Column notation, see :ref:`cell_notation`.
 
 With Row/Column notation you must specify all four cells in the range:
-``(first_row, first_col, last_row, last_col)``.
-If you need to refer to a single cell set the `last_` values equal to the
-`first_` values. With A1 notation you can refer to a single cell or a range
-of cells::
+``(first_row, first_col, last_row, last_col)``. If you need to refer to a
+single cell set the `last_` values equal to the `first_` values. With A1
+notation you can refer to a single cell or a range of cells::
 
     worksheet.data_validation(0, 0, 4, 1, {...})
     worksheet.data_validation('B1',       {...})
     worksheet.data_validation('C1:E5',    {...})
 
 
-The options parameter in ``data_validation()`` must be a dictionary
-containing the parameters that describe the type and style of the data
-validation. There are a lot of available options which are described in detail
-in a separate section: :ref:`working_with_data_validation`. See also
-:ref:`ex_data_valid`.
+The options parameter in ``data_validation()`` must be a dictionary containing
+the parameters that describe the type and style of the data validation. There
+are a lot of available options which are described in detail in a separate
+section: :ref:`working_with_data_validation`. See also :ref:`ex_data_valid`.
 
 
 
@@ -1007,8 +1003,8 @@ worksheet.conditional_format()
    :type  last_col:    int
    :type  options:     dict
 
-The ``conditional_format()`` method is used to add formatting to a
-cell or range of cells based on user defined criteria::
+The ``conditional_format()`` method is used to add formatting to a cell or
+range of cells based on user defined criteria::
 
     worksheet.conditional_format('B3:K12', {'type':     'cell',
                                             'criteria': '>=',
@@ -1017,14 +1013,13 @@ cell or range of cells based on user defined criteria::
 
 .. image:: _static/conditional_format1.png
 
-The conditional format can be applied to a single cell or a range of cells.
-As usual you can use A1 or Row/Column notation, see :ref:`cell_notation`.
+The conditional format can be applied to a single cell or a range of cells. As
+usual you can use A1 or Row/Column notation, see :ref:`cell_notation`.
 
 With Row/Column notation you must specify all four cells in the range:
-``(first_row, first_col, last_row, last_col)``.
-If you need to refer to a single cell set the `last_` values equal to the
-`first_` values. With A1 notation you can refer to a single cell or a range
-of cells::
+``(first_row, first_col, last_row, last_col)``. If you need to refer to a
+single cell set the `last_` values equal to the `first_` values. With A1
+notation you can refer to a single cell or a range of cells::
 
     worksheet.conditional_format(0, 0, 4, 1, {...})
     worksheet.conditional_format('B1',       {...})
@@ -1055,9 +1050,9 @@ worksheet.write_comment()
    :type  comment:     string
    :type  options:     dict
 
-The ``write_comment()`` method is used to add a comment to a cell. A comment
-is indicated in Excel by a small red triangle in the upper right-hand corner
-of the cell. Moving the cursor over the red triangle will reveal the comment.
+The ``write_comment()`` method is used to add a comment to a cell. A comment is
+indicated in Excel by a small red triangle in the upper right-hand corner of
+the cell. Moving the cursor over the red triangle will reveal the comment.
 
 The following example shows how to add a comment to a cell::
 
@@ -1066,8 +1061,8 @@ The following example shows how to add a comment to a cell::
 
 .. image:: _static/comments1.png
 
-As usual you can replace the ``row`` and ``col`` parameters with an ``A1``
-cell reference. See :ref:`cell_notation` for more details.
+As usual you can replace the ``row`` and ``col`` parameters with an ``A1`` cell
+reference. See :ref:`cell_notation` for more details.
 
 The properties of the cell comment can be modified by passing an optional
 dictionary of key/value pairs to control the format of the comment. For
@@ -1106,8 +1101,8 @@ opened::
 
     worksheet.show_comments()
 
-Individual comments can be made visible using the ``visible`` parameter of
-the ``write_comment`` method (see above)::
+Individual comments can be made visible using the ``visible`` parameter of the
+``write_comment`` method (see above)::
 
     worksheet.write_comment('C3', 'Hello', {'visible': True})
 
@@ -1147,9 +1142,9 @@ worksheet.get_name()
 .. py:function:: get_name()
 
    Retrieve the worksheet name.
-   
-The ``get_name()`` method is used to retrieve the name of a worksheet.
-This is something useful for debugging or logging::
+
+The ``get_name()`` method is used to retrieve the name of a worksheet. This is
+something useful for debugging or logging::
 
     for worksheet in workbook.worksheets():
         print worksheet.get_name()
@@ -1231,8 +1226,8 @@ worksheet.set_first_sheet()
 
 .. py:function:: set_first_sheet()
 
-   Set current worksheet as the first visible sheet tab. 
-   
+   Set current worksheet as the first visible sheet tab.
+
 The :func:`activate()` method determines which worksheet is initially selected.
 However, if there are a large number of worksheets the selected worksheet may
 not appear on the screen. To avoid this you can select which is the leftmost
@@ -1244,8 +1239,8 @@ visible worksheet tab using ``set_first_sheet()``::
     worksheet19.set_first_sheet()  # First visible worksheet tab.
     worksheet20.activate()         # First visible worksheet.
 
-This method is not required very often. The default value is the
-first worksheet.
+This method is not required very often. The default value is the first
+worksheet.
 
 
 worksheet.merge_range()
@@ -1272,8 +1267,8 @@ worksheet.merge_range()
 The ``merge_range()`` method allows cells to be merged together so that they
 act as a single area.
 
-Excel generally merges and centers cells at same time. To get similar
-behaviour with XlsxWriter you need to apply a :ref:`Format <format>`::
+Excel generally merges and centers cells at same time. To get similar behaviour
+with XlsxWriter you need to apply a :ref:`Format <format>`::
 
     merge_format = workbook.add_format({'align': 'center'})
 
@@ -1296,8 +1291,9 @@ It is possible to apply other formatting to the merged cells as well::
 The ``merge_range()`` method writes its ``data`` argument using
 :func:`write()`. Therefore it will handle numbers, strings and formulas as
 usual. If this doesn't handle you data correctly then you can overwrite the
-first cell with a call to one of the other ``write_*()`` methods using the
-same :ref:`Format <format>` as in the merged cells.
+first cell with a call to one of the other
+``write_*()`` methods using the same :ref:`Format
+<format>` as in the merged cells.
 
 See :ref:`ex_merge1` for more details.
 
@@ -1318,10 +1314,10 @@ worksheet.autofilter()
    :type  last_row:    int
    :type  last_col:    int
 
-The ``autofilter()`` method allows an autofilter to be added to a worksheet.
-An autofilter is a way of adding drop down lists to the headers of a 2D range
-of worksheet data. This allows users to filter the data based on simple
-criteria so that some data is shown and some is hidden.
+The ``autofilter()`` method allows an autofilter to be added to a worksheet. An
+autofilter is a way of adding drop down lists to the headers of a 2D range of
+worksheet data. This allows users to filter the data based on simple criteria
+so that some data is shown and some is hidden.
 
 .. image:: _static/autofilter3.png
 
@@ -1329,7 +1325,7 @@ To add an autofilter to a worksheet::
 
     worksheet.autofilter('A1:D11')
     worksheet.autofilter(0, 0, 10, 3) # Same as above.
-    
+
 Filter conditions can be applied using the :func:`filter_column()` or
 :func:`filter_column_list()` methods.
 
@@ -1356,12 +1352,12 @@ The conditions for the filter are specified using simple expressions::
     worksheet.filter_column('A', 'x > 2000')
     worksheet.filter_column('B', 'x > 2000 and x < 5000')
 
-The ``col`` parameter can either be a zero indexed column number or a
-string column name.
+The ``col`` parameter can either be a zero indexed column number or a string
+column name.
 
 It isn't sufficient to just specify the filter condition. You must also hide
-any rows that don't match the filter condition.
-See :ref:`working_with_autofilters` for more details.
+any rows that don't match the filter condition. See
+:ref:`working_with_autofilters` for more details.
 
 
 worksheet.filter_column_list()
@@ -1379,17 +1375,17 @@ multiple selected criteria::
 
     worksheet.filter_column_list('A', 'March', 'April', 'May')
 
-The ``col`` parameter can either be a zero indexed column number or a
-string column name.
+The ``col`` parameter can either be a zero indexed column number or a string
+column name.
 
 One or more criteria can be selected::
 
     worksheet.filter_column_list('A', 'March')
     worksheet.filter_column_list('C', 100, 110, 120, 130)
 
-It isn't sufficient to just specify filters. You must also hide
-any rows that don't match the filter condition.
-See :ref:`working_with_autofilters` for more details.
+It isn't sufficient to just specify filters. You must also hide any rows that
+don't match the filter condition. See :ref:`working_with_autofilters` for more
+details.
 
 
 worksheet.set_zoom()
@@ -1421,7 +1417,7 @@ worksheet.right_to_left()
 .. py:function:: right_to_left()
 
    Display the worksheet cells from right to left for some versions of Excel.
-   
+
 The ``right_to_left()`` method is used to change the default direction of the
 worksheet from left-to-right, with the A1 cell in the top left, to
 right-to-left, with the A1 cell in the top right.
@@ -1438,7 +1434,7 @@ worksheet.hide_zero()
 .. py:function:: hide_zero()
 
    Hide zero values in worksheet cells.
-   
+
 The ``hide_zero()`` method is used to hide any zero values that appear in
 cells::
 
@@ -1452,7 +1448,7 @@ worksheet.set_tab_color()
 
    Set the colour of the worksheet tab.
 
-   :param string color: The tab color.  
+   :param string color: The tab color.
 
 The ``set_tab_color()`` method is used to change the colour of the worksheet
 tab::
@@ -1460,8 +1456,8 @@ tab::
     worksheet1.set_tab_color('red')
     worksheet2.set_tab_color('#FF9900')  # Orange
 
-The colour can be a Html style ``#RRGGBB`` string or a limited number
-named colours, see :ref:`format_colors`.
+The colour can be a Html style ``#RRGGBB`` string or a limited number named
+colours, see :ref:`format_colors`.
 
 See :ref:`ex_tab_colors` for more details.
 
@@ -1471,8 +1467,8 @@ worksheet.protect()
 
 .. py:function:: protect()
 
-   Set the colour of the worksheet tab. 
-   
+   Set the colour of the worksheet tab.
+
    :param string password: A worksheet password.
    :param dict   options:  A dictionary of worksheet options to protect.
 
@@ -1524,7 +1520,7 @@ protected as follows::
 See also the :func:`set_locked` and :func:`set_hidden` format methods and
 :ref:`ex_protection`.
 
-.. Note:: 
+.. Note::
    Worksheet level passwords in Excel offer very weak protection. They not
    encrypt your data and are very easy to deactivate. Full workbook encryption
    is not supported by ``XlsxWriter`` since it requires a completely different
