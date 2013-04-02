@@ -28,4 +28,5 @@ directory of the XlsxWriter distribution.
    example_unicode_shift_jis.rst
    example_tab_colors.rst
    example_protection.rst
+   example_hide_row_col.rst
  

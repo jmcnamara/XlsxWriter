@@ -1204,6 +1204,26 @@ class Worksheet(xmlwriter.XMLwriter):
         # Store the row sizes for use when calculating image vertices.
         self.row_sizes[row] = height
 
+    def set_default_row(self, height=15, hide_unused_rows=False):
+        """
+        Set the default row properties.
+
+        Args:
+            height:           Default height. Optional, defaults to 15.
+            hide_unused_rows: Hide unused rows. Optional, defaults to False.
+
+        Returns:
+            Nothing.
+
+        """
+        if height != 15:
+            # Store the row change to allow optimisations.
+            self.row_size_changed = 1
+            self.default_row_height = height
+
+        if hide_unused_rows:
+            self.default_row_zeroed = 1
+
     @convert_range_args
     def merge_range(self, first_row, first_col, last_row, last_col,
                     data, cell_format=None):
@@ -3573,8 +3593,24 @@ class Worksheet(xmlwriter.XMLwriter):
     def _write_sheet_format_pr(self):
         # Write the <sheetFormatPr> element.
         default_row_height = self.default_row_height
+        row_level = self.outline_row_level
+        col_level = self.outline_col_level
 
         attributes = [('defaultRowHeight', default_row_height)]
+
+        if self.default_row_height != 15:
+            attributes.append(('customHeight', 1))
+
+        if self.default_row_zeroed:
+            attributes.append(('zeroHeight', 1))
+
+        if row_level:
+            attributes.append(('outlineLevelRow', row_level))
+        if col_level:
+            attributes.append(('outlineLevelCol', col_level))
+
+        if self.excel_version == 2010:
+            attributes.append(('x14ac:dyDescent', '0.25'))
 
         self._xml_empty_tag('sheetFormatPr', attributes)
 
@@ -3926,7 +3962,7 @@ class Worksheet(xmlwriter.XMLwriter):
         if properties:
             height, cell_format, hidden, level, collapsed = properties
         else:
-            height, cell_format, hidden, level, collapsed = 15, None, 0, 0, 0
+            height, cell_format, hidden, level, collapsed = None, None, 0, 0, 0
 
         if height is None:
             height = self.default_row_height
