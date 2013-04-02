@@ -44,17 +44,18 @@ def convert_cell_args(method):
     to the default row/col notation.
 
     """
-    def cell_wrapper(self, *args):
+    def cell_wrapper(self, *args, **kwargs):
 
         try:
             # First arg is an int, default to row/col notation.
-            int(args[0])
-            return method(self, *args)
+            if len(args):
+                int(args[0])
+            return method(self, *args, **kwargs)
         except ValueError:
             # First arg isn't an int, convert to A1 notation.
             new_args = list(xl_cell_to_rowcol(args[0]))
             new_args.extend(args[1:])
-            return method(self, *new_args)
+            return method(self, *new_args, **kwargs)
 
     return cell_wrapper
 
@@ -65,12 +66,13 @@ def convert_range_args(method):
     to the default row/col notation.
 
     """
-    def cell_wrapper(self, *args):
+    def cell_wrapper(self, *args, **kwargs):
 
         try:
             # First arg is an int, default to row/col notation.
-            int(args[0])
-            return method(self, *args)
+            if len(args):
+                int(args[0])
+            return method(self, *args, **kwargs)
         except ValueError:
             # First arg isn't an int, convert to A1 notation.
             if ':' in args[0]:
@@ -83,7 +85,7 @@ def convert_range_args(method):
 
             new_args = [row_1, col_1, row_2, col_2]
             new_args.extend(args[1:])
-            return method(self, *new_args)
+            return method(self, *new_args, **kwargs)
 
     return cell_wrapper
 
@@ -94,12 +96,13 @@ def convert_column_args(method):
     to the default row/col notation.
 
     """
-    def column_wrapper(self, *args):
+    def column_wrapper(self, *args, **kwargs):
 
         try:
             # First arg is an int, default to row/col notation.
-            int(args[0])
-            return method(self, *args)
+            if len(args):
+                int(args[0])
+            return method(self, *args, **kwargs)
         except ValueError:
             # First arg isn't an int, convert to A1 notation.
             cell_1, cell_2 = [col + '1' for col in args[0].split(':')]
@@ -107,7 +110,7 @@ def convert_column_args(method):
             _, col_2 = xl_cell_to_rowcol(cell_2)
             new_args = [col_1, col_2]
             new_args.extend(args[1:])
-            return method(self, *new_args)
+            return method(self, *new_args, **kwargs)
 
     return column_wrapper
 

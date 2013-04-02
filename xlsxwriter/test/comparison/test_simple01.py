@@ -121,6 +121,29 @@ class TestCompareXLSXFiles(unittest.TestCase):
 
         self.assertEqual(got, exp)
 
+    def test_create_file_kwargs(self):
+        """Test the creation of a simple workbook with keyword args."""
+        filename = self.got_filename
+
+        ####################################################
+
+        workbook = Workbook(filename)
+        worksheet = workbook.add_worksheet()
+
+        worksheet.write_string(row=0, col=0, string='Hello')
+        worksheet.write_number(row=1, col=0, number=123)
+
+        workbook.close()
+
+        ####################################################
+
+        got, exp = _compare_xlsx_files(self.got_filename,
+                                       self.exp_filename,
+                                       self.ignore_files,
+                                       self.ignore_elements)
+
+        self.assertEqual(got, exp)
+
     def tearDown(self):
         # Cleanup.
         if os.path.exists(self.got_filename):
