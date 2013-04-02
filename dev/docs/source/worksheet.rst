@@ -1210,6 +1210,8 @@ The ``hide()`` method is used to hide a worksheet::
 You may wish to hide a worksheet in order to avoid confusing a user with
 intermediate data or calculations.
 
+.. image:: _static/hide_sheet.png
+
 A hidden worksheet can not be activated or selected so this method is mutually
 exclusive with the :func:`activate()` and :func:`select()` methods. In
 addition, since the first worksheet will default to being the active
@@ -1219,6 +1221,7 @@ sheet::
     worksheet2.activate()
     worksheet1.hide()
 
+See :ref:`ex_hide_sheet` for more details.
 
 worksheet.set_first_sheet()
 ---------------------------
