@@ -498,10 +498,16 @@ format.set_indent()
 This method can be used to indent text in a cell. The argument, which should be
 an integer, is taken as the level of indentation::
 
-    format = workbook.add_format()
-    format.set_indent(2)
+    format1 = workbook.add_format()
+    format2 = workbook.add_format()
 
-    worksheet.write(0, 0, 'This text is indented', format)
+    format1.set_indent(1)
+    format2.set_indent(2)
+
+    worksheet.write('A1', "This text is indented 1 level", format1)
+    worksheet.write('A2', "This text is indented 2 levels", format2)
+
+.. image:: _static/text_indent.png
 
 Indentation is a horizontal alignment property. It will override any other
 horizontal properties but it can be used in conjunction with vertical

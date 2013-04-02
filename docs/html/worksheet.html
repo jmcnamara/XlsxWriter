@@ -16,7 +16,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '',
-        VERSION:     '0.2.6',
+        VERSION:     '0.2.7',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -747,7 +747,7 @@ For example:</p>
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
 <li><strong>row</strong> (<a class="reference external" href="http://docs.python.org/2/library/functions.html#int" title="(in Python v2.7)"><em>int</em></a>) &#8211; The worksheet row (zero indexed).</li>
-<li><strong>height</strong> (<a class="reference external" href="http://docs.python.org/2/library/functions.html#int" title="(in Python v2.7)"><em>int</em></a>) &#8211; The row height.</li>
+<li><strong>height</strong> (<a class="reference external" href="http://docs.python.org/2/library/functions.html#float" title="(in Python v2.7)"><em>float</em></a>) &#8211; The row height.</li>
 <li><strong>cell_format</strong> (<a class="reference internal" href="format.html#format"><em>Format</em></a>) &#8211; Optional Format object.</li>
 <li><strong>options</strong> (<a class="reference external" href="http://docs.python.org/2/library/stdtypes.html#dict" title="(in Python v2.7)"><em>dict</em></a>) &#8211; Optional row parameters: hidden, level, collapsed.</li>
 </ul>
@@ -791,15 +791,15 @@ For example:</p>
 <li><tt class="docutils literal"><span class="pre">'collapsed'</span></tt></li>
 </ul>
 <p>Options can be set as follows:</p>
-<div class="highlight-python"><div class="highlight"><pre><span class="n">worksheet</span><span class="o">.</span><span class="n">set_row</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">20</span><span class="p">,</span> <span class="n">cell_format</span><span class="p">,</span> <span class="p">{</span><span class="s">&#39;hidden&#39;</span><span class="p">:</span> <span class="mi">1</span><span class="p">})</span>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">worksheet</span><span class="o">.</span><span class="n">set_row</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">20</span><span class="p">,</span> <span class="n">cell_format</span><span class="p">,</span> <span class="p">{</span><span class="s">&#39;hidden&#39;</span><span class="p">:</span> <span class="bp">True</span><span class="p">})</span>
 
 <span class="c"># Or use defaults for other properties and set the options only.</span>
-<span class="n">worksheet</span><span class="o">.</span><span class="n">set_row</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="bp">None</span><span class="p">,</span> <span class="bp">None</span><span class="p">,</span> <span class="p">{</span><span class="s">&#39;hidden&#39;</span><span class="p">:</span> <span class="mi">1</span><span class="p">})</span>
+<span class="n">worksheet</span><span class="o">.</span><span class="n">set_row</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="bp">None</span><span class="p">,</span> <span class="bp">None</span><span class="p">,</span> <span class="p">{</span><span class="s">&#39;hidden&#39;</span><span class="p">:</span> <span class="bp">True</span><span class="p">})</span>
 </pre></div>
 </div>
 <p>The <tt class="docutils literal"><span class="pre">'hidden'</span></tt> option is used to hide a row. This can be used, for example,
 to hide intermediary steps in a complicated calculation:</p>
-<div class="highlight-python"><div class="highlight"><pre><span class="n">worksheet</span><span class="o">.</span><span class="n">set_row</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">20</span><span class="p">,</span> <span class="n">cell_format</span><span class="p">,</span> <span class="p">{</span><span class="s">&#39;hidden&#39;</span><span class="p">:</span> <span class="mi">1</span><span class="p">})</span>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">worksheet</span><span class="o">.</span><span class="n">set_row</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">20</span><span class="p">,</span> <span class="n">cell_format</span><span class="p">,</span> <span class="p">{</span><span class="s">&#39;hidden&#39;</span><span class="p">:</span> <span class="bp">True</span><span class="p">})</span>
 </pre></div>
 </div>
 <p>The <tt class="docutils literal"><span class="pre">'level'</span></tt> parameter is used to set the outline level of the row. Outlines
@@ -833,7 +833,7 @@ row has the collapsed <tt class="docutils literal"><span class="pre">'+'</span><
 <h2>worksheet.set_column()</h2>
 <dl class="function">
 <dt id="set_column">
-<tt class="descname">set_column</tt><big>(</big><em>first_col</em>, <em>last_col</em>, <em>width</em>, <em>cell_format</em>, <em>hidden</em>, <em>level</em>, <em>collapsed</em><big>)</big></dt>
+<tt class="descname">set_column</tt><big>(</big><em>first_col</em>, <em>last_col</em>, <em>width</em>, <em>cell_format</em>, <em>options</em><big>)</big></dt>
 <dd><p>Set properties for one or more columns of cells.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -842,7 +842,7 @@ row has the collapsed <tt class="docutils literal"><span class="pre">'+'</span><
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
 <li><strong>first_col</strong> (<a class="reference external" href="http://docs.python.org/2/library/functions.html#int" title="(in Python v2.7)"><em>int</em></a>) &#8211; First column (zero-indexed).</li>
 <li><strong>last_col</strong> (<a class="reference external" href="http://docs.python.org/2/library/functions.html#int" title="(in Python v2.7)"><em>int</em></a>) &#8211; Last column (zero-indexed). Can be same as firstcol.</li>
-<li><strong>width</strong> (<a class="reference external" href="http://docs.python.org/2/library/functions.html#int" title="(in Python v2.7)"><em>int</em></a>) &#8211; The width of the column(s).</li>
+<li><strong>width</strong> (<a class="reference external" href="http://docs.python.org/2/library/functions.html#float" title="(in Python v2.7)"><em>float</em></a>) &#8211; The width of the column(s).</li>
 <li><strong>cell_format</strong> (<a class="reference internal" href="format.html#format"><em>Format</em></a>) &#8211; Optional Format object.</li>
 <li><strong>options</strong> (<a class="reference external" href="http://docs.python.org/2/library/stdtypes.html#dict" title="(in Python v2.7)"><em>dict</em></a>) &#8211; Optional parameters: hidden, level, collapsed.</li>
 </ul>
@@ -1301,6 +1301,7 @@ method will also appear as selected.</p>
 </div>
 <p>You may wish to hide a worksheet in order to avoid confusing a user with
 intermediate data or calculations.</p>
+<img alt="_images/hide_sheet.png" src="_images/hide_sheet.png" />
 <p>A hidden worksheet can not be activated or selected so this method is mutually
 exclusive with the <a class="reference internal" href="#activate" title="activate"><tt class="xref py py-func docutils literal"><span class="pre">activate()</span></tt></a> and <a class="reference internal" href="#select" title="select"><tt class="xref py py-func docutils literal"><span class="pre">select()</span></tt></a> methods. In
 addition, since the first worksheet will default to being the active
@@ -1310,6 +1311,7 @@ sheet:</p>
 <span class="n">worksheet1</span><span class="o">.</span><span class="n">hide</span><span class="p">()</span>
 </pre></div>
 </div>
+<p>See <a class="reference internal" href="example_hide_sheet.html#ex-hide-sheet"><em>Example: Hiding Worksheets</em></a> for more details.</p>
 </div>
 <div class="section" id="worksheet-set-first-sheet">
 <h2>worksheet.set_first_sheet()</h2>
@@ -1785,6 +1787,40 @@ is not supported by <tt class="docutils literal"><span class="pre">XlsxWriter</s
 file format and would take several man months to implement.</p>
 </div>
 </div>
+<div class="section" id="worksheet-set-default-row">
+<h2>worksheet.set_default_row()</h2>
+<dl class="function">
+<dt id="set_default_row">
+<tt class="descname">set_default_row</tt><big>(</big><em>height</em>, <em>hide_unused_rowss</em><big>)</big></dt>
+<dd><p>Set the default row properties.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>height</strong> (<a class="reference external" href="http://docs.python.org/2/library/functions.html#float" title="(in Python v2.7)"><em>float</em></a>) &#8211; Default height. Optional, defaults to 15.</li>
+<li><strong>hide_unused_rows</strong> (<a class="reference external" href="http://docs.python.org/2/library/functions.html#bool" title="(in Python v2.7)"><em>bool</em></a>) &#8211; Hide unused rows. Optional, defaults to False.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<p>The <tt class="docutils literal"><span class="pre">set_default_row()</span></tt> method is used to set the limited number of default
+row properties allowed by Excel which are the default height and the option to
+hide unused rows. These parameters are an optimisation used by Excel to set
+row properties without generating a very large file with an entry for each row.</p>
+<p>To set the default row height:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">worksheet</span><span class="o">.</span><span class="n">set_default_row</span><span class="p">(</span><span class="mi">24</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>To hide unused rows:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">worksheet</span><span class="o">.</span><span class="n">set_default_row</span><span class="p">(</span><span class="n">hide_unused_rows</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>See <a class="reference internal" href="example_hide_row_col.html#ex-hide-row-col"><em>Example: Hiding Rows and Columns</em></a> for more details.</p>
+</div>
 </div>
 
 
@@ -1835,6 +1871,7 @@ file format and would take several man months to implement.</p>
 <li><a class="reference internal" href="#worksheet-hide-zero">worksheet.hide_zero()</a></li>
 <li><a class="reference internal" href="#worksheet-set-tab-color">worksheet.set_tab_color()</a></li>
 <li><a class="reference internal" href="#worksheet-protect">worksheet.protect()</a></li>
+<li><a class="reference internal" href="#worksheet-set-default-row">worksheet.set_default_row()</a></li>
 </ul>
 </li>
 </ul>

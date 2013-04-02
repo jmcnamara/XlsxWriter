@@ -671,7 +671,7 @@ worksheet.set_row()
    Set properties for a row of cells.
 
    :param int row:      The worksheet row (zero indexed).
-   :param int height:   The row height.
+   :param float height: The row height.
    :param cell_format:  Optional Format object.
    :type  cell_format:  :ref:`Format <format>`
    :param dict options: Optional row parameters: hidden, level, collapsed.
@@ -711,15 +711,15 @@ The ``options`` parameter is a dictionary with the following possible keys:
 
 Options can be set as follows::
 
-    worksheet.set_row(0, 20, cell_format, {'hidden': 1})
+    worksheet.set_row(0, 20, cell_format, {'hidden': True})
 
     # Or use defaults for other properties and set the options only.
-    worksheet.set_row(0, None, None, {'hidden': 1})
+    worksheet.set_row(0, None, None, {'hidden': True})
 
 The ``'hidden'`` option is used to hide a row. This can be used, for example,
 to hide intermediary steps in a complicated calculation::
 
-    worksheet.set_row(0, 20, cell_format, {'hidden': 1})
+    worksheet.set_row(0, 20, cell_format, {'hidden': True})
 
 The ``'level'`` parameter is used to set the outline level of the row. Outlines
 are described in "Working with Outlines and Grouping". Adjacent rows with the
@@ -751,14 +751,13 @@ row has the collapsed ``'+'`` symbol::
 worksheet.set_column()
 ----------------------
 
-.. py:function:: set_column(first_col, last_col, width, cell_format, \
-                            hidden, level, collapsed)
+.. py:function:: set_column(first_col, last_col, width, cell_format, options)
 
    Set properties for one or more columns of cells.
 
    :param int first_col: First column (zero-indexed).
    :param int last_col:  Last column (zero-indexed). Can be same as firstcol.
-   :param int width:     The width of the column(s).
+   :param float width:   The width of the column(s).
    :param cell_format:   Optional Format object.
    :type  cell_format:   :ref:`Format <format>`
    :param dict options:  Optional parameters: hidden, level, collapsed.
@@ -1211,6 +1210,8 @@ The ``hide()`` method is used to hide a worksheet::
 You may wish to hide a worksheet in order to avoid confusing a user with
 intermediate data or calculations.
 
+.. image:: _static/hide_sheet.png
+
 A hidden worksheet can not be activated or selected so this method is mutually
 exclusive with the :func:`activate()` and :func:`select()` methods. In
 addition, since the first worksheet will default to being the active
@@ -1220,6 +1221,7 @@ sheet::
     worksheet2.activate()
     worksheet1.hide()
 
+See :ref:`ex_hide_sheet` for more details.
 
 worksheet.set_first_sheet()
 ---------------------------
@@ -1652,6 +1654,33 @@ See also the :func:`set_locked` and :func:`set_hidden` format methods and
    encrypt your data and are very easy to deactivate. Full workbook encryption
    is not supported by ``XlsxWriter`` since it requires a completely different
    file format and would take several man months to implement.
+
+
+worksheet.set_default_row()
+---------------------------
+
+.. py:function:: set_default_row(height, hide_unused_rowss)
+
+   Set the default row properties.
+
+   :param float height:          Default height. Optional, defaults to 15.
+   :param bool hide_unused_rows: Hide unused rows. Optional, defaults to False.
+
+   
+The ``set_default_row()`` method is used to set the limited number of default
+row properties allowed by Excel which are the default height and the option to
+hide unused rows. These parameters are an optimisation used by Excel to set
+row properties without generating a very large file with an entry for each row.
+
+To set the default row height::
+
+    worksheet.set_default_row(24)
+
+To hide unused rows::
+
+    worksheet.set_default_row(hide_unused_rows=True)
+
+See :ref:`ex_hide_row_col` for more details.
 
 
 

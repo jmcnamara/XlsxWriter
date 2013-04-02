@@ -16,7 +16,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '',
-        VERSION:     '0.2.6',
+        VERSION:     '0.2.7',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -696,12 +696,17 @@ top to bottom.</p>
 
 <p>This method can be used to indent text in a cell. The argument, which should be
 an integer, is taken as the level of indentation:</p>
-<div class="highlight-python"><div class="highlight"><pre><span class="n">format</span> <span class="o">=</span> <span class="n">workbook</span><span class="o">.</span><span class="n">add_format</span><span class="p">()</span>
-<span class="n">format</span><span class="o">.</span><span class="n">set_indent</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">format1</span> <span class="o">=</span> <span class="n">workbook</span><span class="o">.</span><span class="n">add_format</span><span class="p">()</span>
+<span class="n">format2</span> <span class="o">=</span> <span class="n">workbook</span><span class="o">.</span><span class="n">add_format</span><span class="p">()</span>
 
-<span class="n">worksheet</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="s">&#39;This text is indented&#39;</span><span class="p">,</span> <span class="n">format</span><span class="p">)</span>
+<span class="n">format1</span><span class="o">.</span><span class="n">set_indent</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">format2</span><span class="o">.</span><span class="n">set_indent</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+
+<span class="n">worksheet</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s">&#39;A1&#39;</span><span class="p">,</span> <span class="s">&quot;This text is indented 1 level&quot;</span><span class="p">,</span> <span class="n">format1</span><span class="p">)</span>
+<span class="n">worksheet</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s">&#39;A2&#39;</span><span class="p">,</span> <span class="s">&quot;This text is indented 2 levels&quot;</span><span class="p">,</span> <span class="n">format2</span><span class="p">)</span>
 </pre></div>
 </div>
+<img alt="_images/text_indent.png" src="_images/text_indent.png" />
 <p>Indentation is a horizontal alignment property. It will override any other
 horizontal properties but it can be used in conjunction with vertical
 properties.</p>

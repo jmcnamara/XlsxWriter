@@ -16,7 +16,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '',
-        VERSION:     '0.2.6',
+        VERSION:     '0.2.7',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -81,12 +81,12 @@ for more details.</p>
 <span class="c"># Set up some formatting and text to highlight the panes.</span>
 <span class="c">#</span>
 <span class="n">header_format</span> <span class="o">=</span> <span class="n">workbook</span><span class="o">.</span><span class="n">add_format</span><span class="p">({</span><span class="s">&#39;bold&#39;</span><span class="p">:</span> <span class="bp">True</span><span class="p">,</span>
-                                     <span class="s">&#39;align&#39;</span><span class="p">:</span> <span class="s">&#39;center_format&#39;</span><span class="p">,</span>
+                                     <span class="s">&#39;align&#39;</span><span class="p">:</span> <span class="s">&#39;center&#39;</span><span class="p">,</span>
                                      <span class="s">&#39;valign&#39;</span><span class="p">:</span> <span class="s">&#39;vcenter&#39;</span><span class="p">,</span>
                                      <span class="s">&#39;fg_color&#39;</span><span class="p">:</span> <span class="s">&#39;#D7E4BC&#39;</span><span class="p">,</span>
                                      <span class="s">&#39;border&#39;</span><span class="p">:</span> <span class="mi">1</span><span class="p">})</span>
 
-<span class="n">center_format</span> <span class="o">=</span> <span class="n">workbook</span><span class="o">.</span><span class="n">add_format</span><span class="p">({</span><span class="s">&#39;align&#39;</span><span class="p">:</span> <span class="s">&#39;center_format&#39;</span><span class="p">})</span>
+<span class="n">center_format</span> <span class="o">=</span> <span class="n">workbook</span><span class="o">.</span><span class="n">add_format</span><span class="p">({</span><span class="s">&#39;align&#39;</span><span class="p">:</span> <span class="s">&#39;center&#39;</span><span class="p">})</span>
 
 
 <span class="c">#######################################################################</span>
@@ -102,12 +102,12 @@ for more details.</p>
 
 
 <span class="c"># Some text to demonstrate scrolling.</span>
-<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">8</span> <span class="o">+</span> <span class="mi">1</span><span class="p">):</span>
-    <span class="n">worksheet1</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">i</span><span class="p">,</span> <span class="s">&#39;Scroll down&#39;</span><span class="p">,</span> <span class="n">header_format</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">9</span><span class="p">):</span>
+    <span class="n">worksheet1</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">col</span><span class="p">,</span> <span class="s">&#39;Scroll down&#39;</span><span class="p">,</span> <span class="n">header_format</span><span class="p">)</span>
 
-<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">100</span> <span class="o">+</span> <span class="mi">1</span><span class="p">):</span>
-    <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">8</span> <span class="o">+</span> <span class="mi">1</span><span class="p">):</span>
-        <span class="n">worksheet1</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">,</span> <span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">center_format</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">100</span><span class="p">):</span>
+    <span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">9</span><span class="p">):</span>
+        <span class="n">worksheet1</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">row</span><span class="p">,</span> <span class="n">col</span><span class="p">,</span> <span class="n">row</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">center_format</span><span class="p">)</span>
 
 
 <span class="c">#######################################################################</span>
@@ -121,13 +121,10 @@ for more details.</p>
 <span class="n">worksheet2</span><span class="o">.</span><span class="n">set_selection</span><span class="p">(</span><span class="s">&#39;C3&#39;</span><span class="p">)</span>
 
 <span class="c"># Some text to demonstrate scrolling.</span>
-<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">49</span> <span class="o">+</span> <span class="mi">1</span><span class="p">):</span>
-    <span class="n">worksheet2</span><span class="o">.</span><span class="n">set_row</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="mi">15</span><span class="p">)</span>
-    <span class="n">worksheet2</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="s">&#39;Scroll right&#39;</span><span class="p">,</span> <span class="n">header_format</span><span class="p">)</span>
-
-<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">49</span> <span class="o">+</span> <span class="mi">1</span><span class="p">):</span>
-    <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">25</span> <span class="o">+</span> <span class="mi">1</span><span class="p">):</span>
-        <span class="n">worksheet2</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">,</span> <span class="n">j</span><span class="p">,</span> <span class="n">center_format</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">50</span><span class="p">):</span>
+    <span class="n">worksheet2</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">row</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="s">&#39;Scroll right&#39;</span><span class="p">,</span> <span class="n">header_format</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">26</span><span class="p">):</span>
+        <span class="n">worksheet2</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">row</span><span class="p">,</span> <span class="n">col</span><span class="p">,</span> <span class="n">col</span><span class="p">,</span> <span class="n">center_format</span><span class="p">)</span>
 
 
 <span class="c">#######################################################################</span>
@@ -138,19 +135,18 @@ for more details.</p>
 
 <span class="c"># Other sheet formatting.</span>
 <span class="n">worksheet3</span><span class="o">.</span><span class="n">set_column</span><span class="p">(</span><span class="s">&#39;A:Z&#39;</span><span class="p">,</span> <span class="mi">16</span><span class="p">)</span>
+<span class="n">worksheet3</span><span class="o">.</span><span class="n">set_row</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">20</span><span class="p">)</span>
 <span class="n">worksheet3</span><span class="o">.</span><span class="n">set_selection</span><span class="p">(</span><span class="s">&#39;C3&#39;</span><span class="p">)</span>
 <span class="n">worksheet3</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="s">&#39;&#39;</span><span class="p">,</span> <span class="n">header_format</span><span class="p">)</span>
 
 <span class="c"># Some text to demonstrate scrolling.</span>
-<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">25</span> <span class="o">+</span> <span class="mi">1</span><span class="p">):</span>
-    <span class="n">worksheet3</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">i</span><span class="p">,</span> <span class="s">&#39;Scroll down&#39;</span><span class="p">,</span> <span class="n">header_format</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">26</span><span class="p">):</span>
+    <span class="n">worksheet3</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">col</span><span class="p">,</span> <span class="s">&#39;Scroll down&#39;</span><span class="p">,</span> <span class="n">header_format</span><span class="p">)</span>
 
-<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">49</span> <span class="o">+</span> <span class="mi">1</span><span class="p">):</span>
-    <span class="n">worksheet3</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="s">&#39;Scroll right&#39;</span><span class="p">,</span> <span class="n">header_format</span><span class="p">)</span>
-
-<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">49</span> <span class="o">+</span> <span class="mi">1</span><span class="p">):</span>
-    <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">25</span> <span class="o">+</span> <span class="mi">1</span><span class="p">):</span>
-        <span class="n">worksheet3</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">,</span> <span class="n">j</span><span class="p">,</span> <span class="n">center_format</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">50</span><span class="p">):</span>
+    <span class="n">worksheet3</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">row</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="s">&#39;Scroll right&#39;</span><span class="p">,</span> <span class="n">header_format</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">26</span><span class="p">):</span>
+        <span class="n">worksheet3</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">row</span><span class="p">,</span> <span class="n">col</span><span class="p">,</span> <span class="n">col</span><span class="p">,</span> <span class="n">center_format</span><span class="p">)</span>
 
 
 <span class="c">#######################################################################</span>
@@ -166,15 +162,13 @@ for more details.</p>
 <span class="n">worksheet4</span><span class="o">.</span><span class="n">set_selection</span><span class="p">(</span><span class="s">&#39;C3&#39;</span><span class="p">)</span>
 
 <span class="c"># Some text to demonstrate scrolling.</span>
-<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">25</span> <span class="o">+</span> <span class="mi">1</span><span class="p">):</span>
-    <span class="n">worksheet4</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">i</span><span class="p">,</span> <span class="s">&#39;Scroll&#39;</span><span class="p">,</span> <span class="n">center_format</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">26</span><span class="p">):</span>
+    <span class="n">worksheet4</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">col</span><span class="p">,</span> <span class="s">&#39;Scroll&#39;</span><span class="p">,</span> <span class="n">center_format</span><span class="p">)</span>
 
-<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">49</span> <span class="o">+</span> <span class="mi">1</span><span class="p">):</span>
-    <span class="n">worksheet4</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="s">&#39;Scroll&#39;</span><span class="p">,</span> <span class="n">center_format</span><span class="p">)</span>
-
-<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">49</span> <span class="o">+</span> <span class="mi">1</span><span class="p">):</span>
-    <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">25</span> <span class="o">+</span> <span class="mi">1</span><span class="p">):</span>
-        <span class="n">worksheet4</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">,</span> <span class="n">j</span><span class="p">,</span> <span class="n">center_format</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">50</span><span class="p">):</span>
+    <span class="n">worksheet4</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">row</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="s">&#39;Scroll&#39;</span><span class="p">,</span> <span class="n">center_format</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">26</span><span class="p">):</span>
+        <span class="n">worksheet4</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">row</span><span class="p">,</span> <span class="n">col</span><span class="p">,</span> <span class="n">col</span><span class="p">,</span> <span class="n">center_format</span><span class="p">)</span>
 
 <span class="n">workbook</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
 </pre></div>

@@ -16,7 +16,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '',
-        VERSION:     '0.2.6',
+        VERSION:     '0.2.7',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -27,7 +27,7 @@
     <script type="text/javascript" src="_static/doctools.js"></script>
     <link rel="top" title="XlsxWriter Documentation" href="index.html" />
     <link rel="next" title="Alternative modules for handling Excel files" href="alternatives.html" />
-    <link rel="prev" title="Example: Enabling Cell protection in Worksheets" href="example_protection.html" /> 
+    <link rel="prev" title="Example: Hiding Rows and Columns" href="example_hide_row_col.html" /> 
   </head>
   <body>
     <div class="related">
@@ -40,7 +40,7 @@
           <a href="alternatives.html" title="Alternative modules for handling Excel files"
              accesskey="N">next</a> |</li>
         <li class="right" >
-          <a href="example_protection.html" title="Example: Enabling Cell protection in Worksheets"
+          <a href="example_hide_row_col.html" title="Example: Hiding Rows and Columns"
              accesskey="P">previous</a> |</li>
         <li><a href="index.html">XlsxWriter Documentation</a> &raquo;</li> 
       </ul>
@@ -228,24 +228,16 @@ following table shows the level of compatibility between the two module.</p>
 <td>Yes</td>
 <td>Yes</td>
 </tr>
-<tr class="row-odd"><td>keep_leading_zeros()</td>
-<td><strong>No</strong></td>
-<td>Yes</td>
-</tr>
-<tr class="row-even"><td><a class="reference internal" href="worksheet.html#write_comment" title="write_comment"><tt class="xref py py-func docutils literal"><span class="pre">write_comment()</span></tt></a></td>
+<tr class="row-odd"><td><a class="reference internal" href="worksheet.html#write_comment" title="write_comment"><tt class="xref py py-func docutils literal"><span class="pre">write_comment()</span></tt></a></td>
 <td>Yes</td>
 <td>Yes</td>
 </tr>
-<tr class="row-odd"><td><a class="reference internal" href="worksheet.html#show_comments" title="show_comments"><tt class="xref py py-func docutils literal"><span class="pre">show_comments()</span></tt></a></td>
+<tr class="row-even"><td><a class="reference internal" href="worksheet.html#show_comments" title="show_comments"><tt class="xref py py-func docutils literal"><span class="pre">show_comments()</span></tt></a></td>
 <td>Yes</td>
 <td>Yes</td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="worksheet.html#set_comments_author" title="set_comments_author"><tt class="xref py py-func docutils literal"><span class="pre">set_comments_author()</span></tt></a></td>
+<tr class="row-odd"><td><a class="reference internal" href="worksheet.html#set_comments_author" title="set_comments_author"><tt class="xref py py-func docutils literal"><span class="pre">set_comments_author()</span></tt></a></td>
 <td>Yes</td>
-<td>Yes</td>
-</tr>
-<tr class="row-odd"><td>add_write_handler()</td>
-<td><strong>No</strong></td>
 <td>Yes</td>
 </tr>
 <tr class="row-even"><td><a class="reference internal" href="worksheet.html#insert_image" title="insert_image"><tt class="xref py py-func docutils literal"><span class="pre">insert_image()</span></tt></a></td>
@@ -316,8 +308,8 @@ following table shows the level of compatibility between the two module.</p>
 <td>Yes</td>
 <td>Yes</td>
 </tr>
-<tr class="row-odd"><td>set_default_row()</td>
-<td><strong>No</strong></td>
+<tr class="row-odd"><td><a class="reference internal" href="worksheet.html#set_default_row" title="set_default_row"><tt class="xref py py-func docutils literal"><span class="pre">set_default_row()</span></tt></a></td>
+<td>Yes</td>
 <td>Yes</td>
 </tr>
 <tr class="row-even"><td>outline_settings()</td>
@@ -368,12 +360,22 @@ following table shows the level of compatibility between the two module.</p>
 <td>Yes</td>
 <td>Yes</td>
 </tr>
+<tr class="row-even"><td>keep_leading_zeros()</td>
+<td>No (3)</td>
+<td>Yes</td>
+</tr>
+<tr class="row-odd"><td>add_write_handler()</td>
+<td>No (3)</td>
+<td>Yes</td>
+</tr>
 </tbody>
 </table>
 <ol class="arabic simple">
 <li>Called <tt class="docutils literal"><span class="pre">conditional_formatting()</span></tt> in Excel::Writer::XLSX.</li>
 <li>Not required in XlsxWriter. The same functionality is available via
 <a class="reference internal" href="worksheet.html#merge_range" title="merge_range"><tt class="xref py py-func docutils literal"><span class="pre">merge_range()</span></tt></a>.</li>
+<li>These methods are syntactic sugar and can be handled using the standard
+API. They probably won&#8217;t be ported.</li>
 </ol>
 </div>
 <div class="section" id="page-setup">
@@ -645,8 +647,8 @@ following table shows the level of compatibility between the two module.</p>
 </ul>
 
   <h4>Previous topic</h4>
-  <p class="topless"><a href="example_protection.html"
-                        title="previous chapter">Example: Enabling Cell protection in Worksheets</a></p>
+  <p class="topless"><a href="example_hide_row_col.html"
+                        title="previous chapter">Example: Hiding Rows and Columns</a></p>
   <h4>Next topic</h4>
   <p class="topless"><a href="alternatives.html"
                         title="next chapter">Alternative modules for handling Excel files</a></p>
@@ -682,7 +684,7 @@ following table shows the level of compatibility between the two module.</p>
           <a href="alternatives.html" title="Alternative modules for handling Excel files"
              >next</a> |</li>
         <li class="right" >
-          <a href="example_protection.html" title="Example: Enabling Cell protection in Worksheets"
+          <a href="example_hide_row_col.html" title="Example: Hiding Rows and Columns"
              >previous</a> |</li>
         <li><a href="index.html">XlsxWriter Documentation</a> &raquo;</li> 
       </ul>

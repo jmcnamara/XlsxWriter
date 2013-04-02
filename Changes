@@ -1,5 +1,13 @@
 
 
+Release 0.2.7 - April 3 2013
+-----------------------------
+
+* Added :func:`set_default_row` method. See :ref:`ex_hide_row_col`.
+
+* Added hide_row_col.py, hide_sheet.py and text_indent.py examples.
+
+
 Release 0.2.6 - April 1 2013
 -----------------------------
 

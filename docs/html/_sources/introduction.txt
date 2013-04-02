@@ -19,8 +19,8 @@ and
 `Spreadsheet::WriteExcel <http://search.cpan.org/~jmcnamara/Spreadsheet-WriteExcel/>`_
 and who is the maintainer of
 `Spreadsheet::ParseExcel <http://search.cpan.org/~jmcnamara/Spreadsheet-ParseExcel/>`_.
-The XlsxWriter module is a port of the Excel::Writer::XLSX. See the :ref:`ewx`
-section for a list of currently ported features.
+The XlsxWriter module is a port of Excel::Writer::XLSX. See :ref:`ewx`
+for a list of currently ported features.
 
 
 

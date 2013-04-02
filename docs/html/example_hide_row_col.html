@@ -1,0 +1,162 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Example: Hiding Rows and Columns &mdash; XlsxWriter Documentation</title>
+    
+    <link rel="stylesheet" href="_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '',
+        VERSION:     '0.2.7',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="XlsxWriter Documentation" href="index.html" />
+    <link rel="up" title="Examples" href="examples.html" />
+    <link rel="next" title="Comparison with Excel::Writer::XLSX" href="excel_writer_xlsx.html" />
+    <link rel="prev" title="Example: Hiding Worksheets" href="example_hide_sheet.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="excel_writer_xlsx.html" title="Comparison with Excel::Writer::XLSX"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="example_hide_sheet.html" title="Example: Hiding Worksheets"
+             accesskey="P">previous</a> |</li>
+        <li><a href="index.html">XlsxWriter Documentation</a> &raquo;</li>
+          <li><a href="examples.html" accesskey="U">Examples</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="example-hiding-rows-and-columns">
+<span id="ex-hide-row-col"></span><h1>Example: Hiding Rows and Columns</h1>
+<p>This program is an example of how to hide rows and columns in XlsxWriter.</p>
+<p>An individual row can be hidden using the <a class="reference internal" href="worksheet.html#set_row" title="set_row"><tt class="xref py py-func docutils literal"><span class="pre">set_row()</span></tt></a> method:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">worksheet</span><span class="o">.</span><span class="n">set_row</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="bp">None</span><span class="p">,</span> <span class="bp">None</span><span class="p">,</span> <span class="p">{</span><span class="s">&#39;hidden&#39;</span><span class="p">:</span> <span class="bp">True</span><span class="p">})</span>
+</pre></div>
+</div>
+<p>However, in order to hide a large number of rows, for example all the rows
+after row 8, we need to use an Excel optimisation to hide rows without setting
+each one, (of approximately 1 million rows). To do this we use the
+<a class="reference internal" href="worksheet.html#set_default_row" title="set_default_row"><tt class="xref py py-func docutils literal"><span class="pre">set_default_row()</span></tt></a> method.</p>
+<p>Columns don&#8217;t require this optimisation and can be hidden using
+<a class="reference internal" href="worksheet.html#set_column" title="set_column"><tt class="xref py py-func docutils literal"><span class="pre">set_column()</span></tt></a>.</p>
+<img alt="_images/hide_row_col.png" src="_images/hide_row_col.png" />
+<p>Code:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="c">###############################################################################</span>
+<span class="c">#</span>
+<span class="c"># Example of how to hide rows and columns in XlsxWriter. In order to</span>
+<span class="c"># hide rows without setting each one, (of approximately 1 million rows),</span>
+<span class="c"># Excel uses an optimisation to hide all rows that don&#39;t have data.</span>
+<span class="c">#</span>
+<span class="c"># Copyright 2013, John McNamara, jmcnamara@cpan.org</span>
+<span class="c">#</span>
+<span class="kn">from</span> <span class="nn">xlsxwriter.workbook</span> <span class="kn">import</span> <span class="n">Workbook</span>
+
+<span class="n">workbook</span> <span class="o">=</span> <span class="n">Workbook</span><span class="p">(</span><span class="s">&#39;hide_row_col.xlsx&#39;</span><span class="p">)</span>
+<span class="n">worksheet</span> <span class="o">=</span> <span class="n">workbook</span><span class="o">.</span><span class="n">add_worksheet</span><span class="p">()</span>
+
+<span class="c"># Write some data.</span>
+<span class="n">worksheet</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s">&#39;D1&#39;</span><span class="p">,</span> <span class="s">&#39;Some hidden columns.&#39;</span><span class="p">)</span>
+<span class="n">worksheet</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s">&#39;A8&#39;</span><span class="p">,</span> <span class="s">&#39;Some hidden rows.&#39;</span><span class="p">)</span>
+
+<span class="c"># Hide all rows without data.</span>
+<span class="n">worksheet</span><span class="o">.</span><span class="n">set_default_row</span><span class="p">(</span><span class="n">hide_unused_rows</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+
+<span class="c"># Set the height of empty rows that we do want to display even if it is</span>
+<span class="c"># the default height.</span>
+<span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">7</span><span class="p">):</span>
+    <span class="n">worksheet</span><span class="o">.</span><span class="n">set_row</span><span class="p">(</span><span class="n">row</span><span class="p">,</span> <span class="mi">15</span><span class="p">)</span>
+
+<span class="c"># Columns can be hidden explicitly. This doesn&#39;t increase the file size..</span>
+<span class="n">worksheet</span><span class="o">.</span><span class="n">set_column</span><span class="p">(</span><span class="s">&#39;G:XFD&#39;</span><span class="p">,</span> <span class="bp">None</span><span class="p">,</span> <span class="bp">None</span><span class="p">,</span> <span class="p">{</span><span class="s">&#39;hidden&#39;</span><span class="p">:</span> <span class="bp">True</span><span class="p">})</span>
+
+<span class="n">workbook</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="index.html">
+              <img class="logo" src="_static/logo.png" alt="Logo"/>
+            </a></p>
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="example_hide_sheet.html"
+                        title="previous chapter">Example: Hiding Worksheets</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="excel_writer_xlsx.html"
+                        title="next chapter">Comparison with Excel::Writer::XLSX</a></p>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="_sources/example_hide_row_col.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="excel_writer_xlsx.html" title="Comparison with Excel::Writer::XLSX"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="example_hide_sheet.html" title="Example: Hiding Worksheets"
+             >previous</a> |</li>
+        <li><a href="index.html">XlsxWriter Documentation</a> &raquo;</li>
+          <li><a href="examples.html" >Examples</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2013, John McNamara.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.3.
+    </div>
+  </body>
+</html>
