@@ -27,7 +27,7 @@ To do that we can start with a small program like the following:
     # Create a workbook and add a worksheet.
     workbook = Workbook('Expenses01.xlsx')
     worksheet = workbook.add_worksheet()
-    
+
     # Some data we want to write to the worksheet.
     expenses = (
         ['Rent', 1000],
@@ -35,21 +35,21 @@ To do that we can start with a small program like the following:
         ['Food',  300],
         ['Gym',    50],
     )
-    
-    # Start from the first cell. Rows and columns are zero indexed. 
+
+    # Start from the first cell. Rows and columns are zero indexed.
     row = 0
     col = 0
-    
+
     # Iterate over the data and write it out row by row.
     for item, cost in (expenses):
         worksheet.write(row, col,     item)
         worksheet.write(row, col + 1, cost)
         row += 1
-    
+
     # Write a total using a formula.
     worksheet.write(row, 0, 'Total')
     worksheet.write(row, 1, '=SUM(B1:B4)')
-    
+
     workbook.close()
 
 If we run this program we should get a spreadsheet that looks like this:
@@ -72,7 +72,7 @@ we want to create::
     workbook = Workbook('Expenses01.xlsx')
 
 .. note::
-   XlsxWriter can only create *new files*. It cannot read or modify existing 
+   XlsxWriter can only create *new files*. It cannot read or modify existing
    files.
 
 The workbook object is then used to add a new worksheet via the
@@ -92,7 +92,7 @@ method::
 
     worksheet.write(row, col, some_data)
 
-.. Note::   
+.. Note::
    Throughout XlsxWriter, *rows* and *columns* are zero indexed. The
    first cell in a worksheet, ``A1``, is ``(0, 0)``.
 

@@ -42,25 +42,25 @@ XlsxWriter supports the following features in version |version|:
 
    .. toctree::
       :maxdepth: 1
-      
+
       contents.rst
 
 .. toctree::
    :maxdepth: 1
-   
+
    introduction.rst
    getting_started.rst
 
 .. toctree::
    :maxdepth: 1
-   
+
    tutorial01.rst
    tutorial02.rst
    tutorial03.rst
 
 .. toctree::
    :maxdepth: 1
-   
+
    workbook.rst
    worksheet.rst
    page_setup.rst
@@ -68,7 +68,7 @@ XlsxWriter supports the following features in version |version|:
 
 .. toctree::
    :maxdepth: 1
-   
+
    working_with_cell_notation.rst
    working_with_formats.rst
    working_with_dates_and_time.rst
