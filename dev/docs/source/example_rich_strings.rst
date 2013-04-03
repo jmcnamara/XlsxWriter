@@ -8,7 +8,5 @@ cell in a worksheet. See the :func:`write_rich_string` method for more details.
 
 .. image:: _static/rich_strings.png
 
-Code:
-
 .. literalinclude:: ../../../examples/rich_strings.py
 

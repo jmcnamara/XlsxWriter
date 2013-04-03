@@ -8,7 +8,6 @@ values. See the :func:`write_array_formula` method for more details.
 
 .. image:: _static/array_formula.png
 
-Code:
 
 .. literalinclude:: ../../../examples/array_formula.py
 

@@ -8,7 +8,5 @@ This program is an example of how to hide a worksheet using the
 
 .. image:: _static/hide_sheet.png
 
-Code:
-
 .. literalinclude:: ../../../examples/hide_sheet.py
 

@@ -15,7 +15,5 @@ to UTF-8 via the :mod:`codecs` module.
 
 .. image:: _static/unicode_polish_utf8.png
 
-Code:
-
 .. literalinclude:: ../../../examples/unicode_polish_utf8.py
 

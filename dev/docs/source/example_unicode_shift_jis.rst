@@ -15,7 +15,5 @@ to UTF-8 via the :mod:`codecs` module.
 
 .. image:: _static/unicode_shift_jis.png
 
-Code:
-
 .. literalinclude:: ../../../examples/unicode_shift_jis.py
 

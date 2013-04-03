@@ -8,7 +8,5 @@ This program is an example of inserting images into a worksheet. See the
 
 .. image:: _static/images.png
 
-Code:
-
 .. literalinclude:: ../../../examples/images.py
 

@@ -19,7 +19,5 @@ Columns don't require this optimisation and can be hidden using
 
 .. image:: _static/hide_row_col.png
 
-Code:
-
 .. literalinclude:: ../../../examples/hide_row_col.py
 

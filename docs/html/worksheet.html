@@ -16,7 +16,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '',
-        VERSION:     '0.2.7',
+        VERSION:     '0.2.8',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -202,7 +202,7 @@ number. For example, Zip codes or phone numbers:</p>
 <p>However, if the user edits this string Excel may convert it back to a number.
 To get around this you can use the Excel text format <tt class="docutils literal"><span class="pre">'&#64;'</span></tt>:</p>
 <div class="highlight-python"><div class="highlight"><pre><span class="c"># Format as a string. Doesn&#39;t change to a number when edited</span>
-<span class="n">str_format</span> <span class="o">=</span> <span class="n">workbook</span><span class="o">.</span><span class="n">add_format</span><span class="p">({</span><span class="s">&#39;num_format&#39;</span><span class="p">,</span> <span class="s">&#39;@&#39;</span><span class="p">})</span>
+<span class="n">str_format</span> <span class="o">=</span> <span class="n">workbook</span><span class="o">.</span><span class="n">add_format</span><span class="p">({</span><span class="s">&#39;num_format&#39;</span><span class="p">:</span> <span class="s">&#39;@&#39;</span><span class="p">})</span>
 <span class="n">worksheet</span><span class="o">.</span><span class="n">write_string</span><span class="p">(</span><span class="s">&#39;A1&#39;</span><span class="p">,</span> <span class="s">&#39;01209&#39;</span><span class="p">,</span> <span class="n">str_format</span><span class="p">)</span>
 </pre></div>
 </div>
@@ -803,20 +803,16 @@ to hide intermediary steps in a complicated calculation:</p>
 </pre></div>
 </div>
 <p>The <tt class="docutils literal"><span class="pre">'level'</span></tt> parameter is used to set the outline level of the row. Outlines
-are described in &#8220;Working with Outlines and Grouping&#8221;. Adjacent rows with the
-same outline level are grouped together into a single outline. (<strong>Note</strong>: This
-feature is not implemented yet).</p>
+are described in <a class="reference internal" href="working_with_outlines.html#outlines"><em>Working with Outlines and Grouping</em></a>. Adjacent rows with the same outline level
+are grouped together into a single outline.</p>
 <p>The following example sets an outline level of 1 for some rows:</p>
 <div class="highlight-python"><div class="highlight"><pre><span class="n">worksheet</span><span class="o">.</span><span class="n">set_row</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="bp">None</span><span class="p">,</span> <span class="bp">None</span><span class="p">,</span> <span class="p">{</span><span class="s">&#39;level&#39;</span><span class="p">:</span> <span class="mi">1</span><span class="p">})</span>
 <span class="n">worksheet</span><span class="o">.</span><span class="n">set_row</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="bp">None</span><span class="p">,</span> <span class="bp">None</span><span class="p">,</span> <span class="p">{</span><span class="s">&#39;level&#39;</span><span class="p">:</span> <span class="mi">1</span><span class="p">})</span>
 <span class="n">worksheet</span><span class="o">.</span><span class="n">set_row</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="bp">None</span><span class="p">,</span> <span class="bp">None</span><span class="p">,</span> <span class="p">{</span><span class="s">&#39;level&#39;</span><span class="p">:</span> <span class="mi">1</span><span class="p">})</span>
 </pre></div>
 </div>
-<div class="admonition note">
-<p class="first admonition-title">Note</p>
-<p class="last">Excel allows up to 7 outline levels. The <tt class="docutils literal"><span class="pre">'level'</span></tt> parameter
-should be in the range <tt class="docutils literal"><span class="pre">0</span> <span class="pre">&lt;=</span> <span class="pre">level</span> <span class="pre">&lt;=</span> <span class="pre">7</span></tt>.</p>
-</div>
+<p>Excel allows up to 7 outline levels. The <tt class="docutils literal"><span class="pre">'level'</span></tt> parameter should be in the
+range <tt class="docutils literal"><span class="pre">0</span> <span class="pre">&lt;=</span> <span class="pre">level</span> <span class="pre">&lt;=</span> <span class="pre">7</span></tt>.</p>
 <p>The <tt class="docutils literal"><span class="pre">'hidden'</span></tt> parameter can also be used to hide collapsed outlined rows
 when used in conjunction with the <tt class="docutils literal"><span class="pre">'level'</span></tt> parameter:</p>
 <div class="highlight-python"><div class="highlight"><pre><span class="n">worksheet</span><span class="o">.</span><span class="n">set_row</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="bp">None</span><span class="p">,</span> <span class="bp">None</span><span class="p">,</span> <span class="p">{</span><span class="s">&#39;hidden&#39;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="s">&#39;level&#39;</span><span class="p">:</span> <span class="mi">1</span><span class="p">})</span>
@@ -921,18 +917,14 @@ example, to hide intermediary steps in a complicated calculation:</p>
 </pre></div>
 </div>
 <p>The <tt class="docutils literal"><span class="pre">'level'</span></tt> parameter is used to set the outline level of the column.
-Outlines are described in &#8220;Working with Outlines and Grouping&#8221;. Adjacent
-columns with the same outline level are grouped together into a single
-outline. (<strong>Note</strong>: This feature is not implemented yet).</p>
+Outlines are described in <a class="reference internal" href="working_with_outlines.html#outlines"><em>Working with Outlines and Grouping</em></a>. Adjacent columns with the same
+outline level are grouped together into a single outline.</p>
 <p>The following example sets an outline level of 1 for columns B to G:</p>
 <div class="highlight-python"><div class="highlight"><pre><span class="n">worksheet</span><span class="o">.</span><span class="n">set_column</span><span class="p">(</span><span class="s">&#39;B:G&#39;</span><span class="p">,</span> <span class="bp">None</span><span class="p">,</span> <span class="bp">None</span><span class="p">,</span> <span class="p">{</span><span class="s">&#39;level&#39;</span><span class="p">:</span> <span class="mi">1</span><span class="p">})</span>
 </pre></div>
 </div>
-<div class="admonition note">
-<p class="first admonition-title">Note</p>
-<p class="last">Excel allows up to 7 outline levels. The <tt class="docutils literal"><span class="pre">'level'</span></tt> parameter
-should be in the range <tt class="docutils literal"><span class="pre">0</span> <span class="pre">&lt;=</span> <span class="pre">level</span> <span class="pre">&lt;=</span> <span class="pre">7</span></tt>.</p>
-</div>
+<p>Excel allows up to 7 outline levels. The <tt class="docutils literal"><span class="pre">'level'</span></tt> parameter should be in the
+range <tt class="docutils literal"><span class="pre">0</span> <span class="pre">&lt;=</span> <span class="pre">level</span> <span class="pre">&lt;=</span> <span class="pre">7</span></tt>.</p>
 <p>The <tt class="docutils literal"><span class="pre">'hidden'</span></tt> parameter can also be used to hide collapsed outlined columns
 when used in conjunction with the <tt class="docutils literal"><span class="pre">'level'</span></tt> parameter:</p>
 <div class="highlight-python"><div class="highlight"><pre><span class="n">worksheet</span><span class="o">.</span><span class="n">set_column</span><span class="p">(</span><span class="s">&#39;B:G&#39;</span><span class="p">,</span> <span class="bp">None</span><span class="p">,</span> <span class="bp">None</span><span class="p">,</span> <span class="p">{</span><span class="s">&#39;hidden&#39;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="s">&#39;level&#39;</span><span class="p">:</span> <span class="mi">1</span><span class="p">})</span>
@@ -1791,7 +1783,7 @@ file format and would take several man months to implement.</p>
 <h2>worksheet.set_default_row()</h2>
 <dl class="function">
 <dt id="set_default_row">
-<tt class="descname">set_default_row</tt><big>(</big><em>height</em>, <em>hide_unused_rowss</em><big>)</big></dt>
+<tt class="descname">set_default_row</tt><big>(</big><em>height</em>, <em>hide_unused_rows</em><big>)</big></dt>
 <dd><p>Set the default row properties.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -1820,6 +1812,58 @@ row properties without generating a very large file with an entry for each row.<
 </pre></div>
 </div>
 <p>See <a class="reference internal" href="example_hide_row_col.html#ex-hide-row-col"><em>Example: Hiding Rows and Columns</em></a> for more details.</p>
+</div>
+<div class="section" id="worksheet-outline-settings">
+<h2>worksheet.outline_settings()</h2>
+<dl class="function">
+<dt id="outline_settings">
+<tt class="descname">outline_settings</tt><big>(</big><em>visible</em>, <em>symbols_below</em>, <em>symbols_right</em>, <em>auto_style</em><big>)</big></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>visible</strong> (<a class="reference external" href="http://docs.python.org/2/library/functions.html#bool" title="(in Python v2.7)"><em>bool</em></a>) &#8211; Outlines are visible. Optional, defaults to True.</li>
+<li><strong>symbols_below</strong> (<a class="reference external" href="http://docs.python.org/2/library/functions.html#bool" title="(in Python v2.7)"><em>bool</em></a>) &#8211; Show row outline symbols below the outline bar.
+Optional, defaults to True.</li>
+<li><strong>symbols_right</strong> (<a class="reference external" href="http://docs.python.org/2/library/functions.html#bool" title="(in Python v2.7)"><em>bool</em></a>) &#8211; Show column outline symbols to the right of the
+outline bar. Optional, defaults to True.</li>
+<li><strong>auto_style</strong> (<a class="reference external" href="http://docs.python.org/2/library/functions.html#bool" title="(in Python v2.7)"><em>bool</em></a>) &#8211; Use Automatic style. Optional, defaults to False.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<p>The <tt class="docutils literal"><span class="pre">outline_settings()</span></tt> method is used to control the appearance of
+outlines in Excel. Outlines are described in <a class="reference internal" href="working_with_outlines.html#outlines"><em>Working with Outlines and Grouping</em></a>:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">worksheet1</span><span class="o">.</span><span class="n">outline_settings</span><span class="p">(</span><span class="bp">False</span><span class="p">,</span> <span class="bp">False</span><span class="p">,</span> <span class="bp">False</span><span class="p">,</span> <span class="bp">True</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>The <tt class="docutils literal"><span class="pre">'visible'</span></tt> parameter is used to control whether or not outlines
+are visible. Setting this parameter to <tt class="docutils literal"><span class="pre">False</span></tt> will cause all outlines on
+the worksheet to be hidden. They can be un-hidden in Excel by means of
+the &#8220;Show Outline Symbols&#8221; command button. The default setting is <tt class="docutils literal"><span class="pre">True</span></tt>
+for visible outlines.</p>
+<p>The <tt class="docutils literal"><span class="pre">'symbols_below'</span></tt> parameter is used to control whether the row
+outline symbol will appear above or below the outline level bar. The
+default setting is <tt class="docutils literal"><span class="pre">True</span></tt> for symbols to appear below the outline level
+bar.</p>
+<p>The <tt class="docutils literal"><span class="pre">'symbols_right'</span></tt> parameter is used to control whether the column
+outline symbol will appear to the left or the right of the outline
+level bar. The default setting is <tt class="docutils literal"><span class="pre">True</span></tt> for symbols to appear to the right
+of the outline level bar.</p>
+<p>The <tt class="docutils literal"><span class="pre">'auto_style'</span></tt> parameter is used to control whether the automatic
+outline generator in Excel uses automatic styles when creating an
+outline. This has no effect on a file generated by <tt class="docutils literal"><span class="pre">XlsxWriter</span></tt> but
+it does have an effect on how the worksheet behaves after it is
+created. The default setting is <tt class="docutils literal"><span class="pre">False</span></tt> for &#8220;Automatic Styles&#8221; to be turned
+off.</p>
+<p>The default settings for all of these parameters correspond to Excel&#8217;s
+default parameters.</p>
+<p>The worksheet parameters controlled by <tt class="docutils literal"><span class="pre">outline_settings()</span></tt> are
+rarely used.</p>
 </div>
 </div>
 
@@ -1872,6 +1916,7 @@ row properties without generating a very large file with an entry for each row.<
 <li><a class="reference internal" href="#worksheet-set-tab-color">worksheet.set_tab_color()</a></li>
 <li><a class="reference internal" href="#worksheet-protect">worksheet.protect()</a></li>
 <li><a class="reference internal" href="#worksheet-set-default-row">worksheet.set_default_row()</a></li>
+<li><a class="reference internal" href="#worksheet-outline-settings">worksheet.outline_settings()</a></li>
 </ul>
 </li>
 </ul>

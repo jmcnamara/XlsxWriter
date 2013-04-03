@@ -8,7 +8,5 @@ This program is an example of using autofilters in a worksheet. See
 
 .. image:: _static/autofilter3.png
 
-Code:
-
 .. literalinclude:: ../../../examples/autofilter.py
 

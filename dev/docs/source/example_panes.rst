@@ -9,7 +9,5 @@ for more details.
 
 .. image:: _static/panes.png
 
-Code:
-
 .. literalinclude:: ../../../examples/panes.py
 

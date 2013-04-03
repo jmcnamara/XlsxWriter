@@ -8,6 +8,4 @@ A simple example of adding cell comments to a worksheet. For more details see
 
 .. image:: _static/comments1.png
 
-Code:
-
 .. literalinclude:: ../../../examples/comments1.py

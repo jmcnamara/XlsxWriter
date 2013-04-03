@@ -56,13 +56,13 @@ The options are explained in detail below:
   comments or all comments visible. In XlsxWriter individual comments can be
   made visible as follows::
   
-    worksheet.write_comment('C3', 'Hello', {'visible', True})
+    worksheet.write_comment('C3', 'Hello', {'visible': True})
 
   It is possible to make all comments in a worksheet visible using the
   :func:`show_comments()` worksheet method. Alternatively, if all of the cell
   comments have been made visible you can hide individual comments::
   
-    worksheet.write_comment('C3', 'Hello', {'visible', False})
+    worksheet.write_comment('C3', 'Hello', {'visible': False})
 
 * ``x_scale``: This option is used to set the width of the cell comment box
   as a factor of the default width::

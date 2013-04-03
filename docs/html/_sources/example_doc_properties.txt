@@ -8,7 +8,5 @@ This program is an example setting document properties. See the
 
 .. image:: _static/doc_properties.png
 
-Code:
-
 .. literalinclude:: ../../../examples/doc_properties.py
 

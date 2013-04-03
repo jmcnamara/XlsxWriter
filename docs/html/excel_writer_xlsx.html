@@ -16,7 +16,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '',
-        VERSION:     '0.2.7',
+        VERSION:     '0.2.8',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -140,32 +140,31 @@ following table shows the level of compatibility between the two module.</p>
 <td>Yes</td>
 <td>Yes</td>
 </tr>
+<tr class="row-even"><td><a class="reference internal" href="workbook.html#worksheets" title="worksheets"><tt class="xref py py-func docutils literal"><span class="pre">worksheets()</span></tt></a></td>
+<td>Yes</td>
+<td>Yes</td>
+</tr>
+<tr class="row-odd"><td>set_tempdir()</td>
+<td>Yes (1)</td>
+<td>Yes</td>
+</tr>
+<tr class="row-even"><td>set_1904()</td>
+<td>Yes (1)</td>
+<td>Yes</td>
+</tr>
+<tr class="row-odd"><td>set_optimization()</td>
+<td>Yes (1)</td>
+<td>Yes</td>
+</tr>
 <tr class="row-even"><td>set_custom_color()</td>
-<td>No (1)</td>
-<td>Yes</td>
-</tr>
-<tr class="row-odd"><td><a class="reference internal" href="workbook.html#worksheets" title="worksheets"><tt class="xref py py-func docutils literal"><span class="pre">worksheets()</span></tt></a></td>
 <td>Yes (2)</td>
-<td>Yes</td>
-</tr>
-<tr class="row-even"><td>set_tempdir()</td>
-<td>Yes (3)</td>
-<td>Yes</td>
-</tr>
-<tr class="row-odd"><td>set_1904()</td>
-<td>Yes (3)</td>
-<td>Yes</td>
-</tr>
-<tr class="row-even"><td>set_optimization()</td>
-<td>Yes (3)</td>
 <td>Yes</td>
 </tr>
 </tbody>
 </table>
 <ol class="arabic simple">
-<li>Not required in XlsxWriter. Full RGB colors are supported.</li>
-<li>Called <tt class="docutils literal"><span class="pre">sheets()</span></tt> in Excel::Writer::XLSX.</li>
 <li>This is a constructor parameter in XlsxWriter.</li>
+<li>Not required in XlsxWriter. Full RGB colours are supported.</li>
 </ol>
 </div>
 <div class="section" id="worksheet">
@@ -261,7 +260,7 @@ following table shows the level of compatibility between the two module.</p>
 <td>Yes</td>
 </tr>
 <tr class="row-odd"><td><a class="reference internal" href="worksheet.html#conditional_format" title="conditional_format"><tt class="xref py py-func docutils literal"><span class="pre">conditional_format()</span></tt></a></td>
-<td>Yes (1)</td>
+<td>Yes</td>
 <td>Yes</td>
 </tr>
 <tr class="row-even"><td>add_sparkline()</td>
@@ -312,8 +311,8 @@ following table shows the level of compatibility between the two module.</p>
 <td>Yes</td>
 <td>Yes</td>
 </tr>
-<tr class="row-even"><td>outline_settings()</td>
-<td><strong>No</strong></td>
+<tr class="row-even"><td><a class="reference internal" href="worksheet.html#outline_settings" title="outline_settings"><tt class="xref py py-func docutils literal"><span class="pre">outline_settings()</span></tt></a></td>
+<td>Yes</td>
 <td>Yes</td>
 </tr>
 <tr class="row-odd"><td><a class="reference internal" href="worksheet.html#freeze_panes" title="freeze_panes"><tt class="xref py py-func docutils literal"><span class="pre">freeze_panes()</span></tt></a></td>
@@ -328,54 +327,53 @@ following table shows the level of compatibility between the two module.</p>
 <td>Yes</td>
 <td>Yes</td>
 </tr>
-<tr class="row-even"><td>merge_range_type()</td>
+<tr class="row-even"><td><a class="reference internal" href="worksheet.html#set_zoom" title="set_zoom"><tt class="xref py py-func docutils literal"><span class="pre">set_zoom()</span></tt></a></td>
+<td>Yes</td>
+<td>Yes</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="worksheet.html#right_to_left" title="right_to_left"><tt class="xref py py-func docutils literal"><span class="pre">right_to_left()</span></tt></a></td>
+<td>Yes</td>
+<td>Yes</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="worksheet.html#hide_zero" title="hide_zero"><tt class="xref py py-func docutils literal"><span class="pre">hide_zero()</span></tt></a></td>
+<td>Yes</td>
+<td>Yes</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="worksheet.html#set_tab_color" title="set_tab_color"><tt class="xref py py-func docutils literal"><span class="pre">set_tab_color()</span></tt></a></td>
+<td>Yes</td>
+<td>Yes</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="worksheet.html#autofilter" title="autofilter"><tt class="xref py py-func docutils literal"><span class="pre">autofilter()</span></tt></a></td>
+<td>Yes</td>
+<td>Yes</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="worksheet.html#filter_column" title="filter_column"><tt class="xref py py-func docutils literal"><span class="pre">filter_column()</span></tt></a></td>
+<td>Yes</td>
+<td>Yes</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="worksheet.html#filter_column_list" title="filter_column_list"><tt class="xref py py-func docutils literal"><span class="pre">filter_column_list()</span></tt></a></td>
+<td>Yes</td>
+<td>Yes</td>
+</tr>
+<tr class="row-odd"><td>keep_leading_zeros()</td>
+<td>No (1)</td>
+<td>Yes</td>
+</tr>
+<tr class="row-even"><td>add_write_handler()</td>
+<td>No (1)</td>
+<td>Yes</td>
+</tr>
+<tr class="row-odd"><td>merge_range_type()</td>
 <td>No (2)</td>
-<td>Yes</td>
-</tr>
-<tr class="row-odd"><td><a class="reference internal" href="worksheet.html#set_zoom" title="set_zoom"><tt class="xref py py-func docutils literal"><span class="pre">set_zoom()</span></tt></a></td>
-<td>Yes</td>
-<td>Yes</td>
-</tr>
-<tr class="row-even"><td><a class="reference internal" href="worksheet.html#right_to_left" title="right_to_left"><tt class="xref py py-func docutils literal"><span class="pre">right_to_left()</span></tt></a></td>
-<td>Yes</td>
-<td>Yes</td>
-</tr>
-<tr class="row-odd"><td><a class="reference internal" href="worksheet.html#hide_zero" title="hide_zero"><tt class="xref py py-func docutils literal"><span class="pre">hide_zero()</span></tt></a></td>
-<td>Yes</td>
-<td>Yes</td>
-</tr>
-<tr class="row-even"><td><a class="reference internal" href="worksheet.html#set_tab_color" title="set_tab_color"><tt class="xref py py-func docutils literal"><span class="pre">set_tab_color()</span></tt></a></td>
-<td>Yes</td>
-<td>Yes</td>
-</tr>
-<tr class="row-odd"><td><a class="reference internal" href="worksheet.html#autofilter" title="autofilter"><tt class="xref py py-func docutils literal"><span class="pre">autofilter()</span></tt></a></td>
-<td>Yes</td>
-<td>Yes</td>
-</tr>
-<tr class="row-even"><td><a class="reference internal" href="worksheet.html#filter_column" title="filter_column"><tt class="xref py py-func docutils literal"><span class="pre">filter_column()</span></tt></a></td>
-<td>Yes</td>
-<td>Yes</td>
-</tr>
-<tr class="row-odd"><td><a class="reference internal" href="worksheet.html#filter_column_list" title="filter_column_list"><tt class="xref py py-func docutils literal"><span class="pre">filter_column_list()</span></tt></a></td>
-<td>Yes</td>
-<td>Yes</td>
-</tr>
-<tr class="row-even"><td>keep_leading_zeros()</td>
-<td>No (3)</td>
-<td>Yes</td>
-</tr>
-<tr class="row-odd"><td>add_write_handler()</td>
-<td>No (3)</td>
 <td>Yes</td>
 </tr>
 </tbody>
 </table>
 <ol class="arabic simple">
-<li>Called <tt class="docutils literal"><span class="pre">conditional_formatting()</span></tt> in Excel::Writer::XLSX.</li>
-<li>Not required in XlsxWriter. The same functionality is available via
-<a class="reference internal" href="worksheet.html#merge_range" title="merge_range"><tt class="xref py py-func docutils literal"><span class="pre">merge_range()</span></tt></a>.</li>
 <li>These methods are syntactic sugar and can be handled using the standard
 API. They probably won&#8217;t be ported.</li>
+<li>Not required in XlsxWriter. The same functionality is available via
+<a class="reference internal" href="worksheet.html#merge_range" title="merge_range"><tt class="xref py py-func docutils literal"><span class="pre">merge_range()</span></tt></a>.</li>
 </ol>
 </div>
 <div class="section" id="page-setup">

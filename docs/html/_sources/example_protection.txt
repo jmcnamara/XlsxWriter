@@ -8,7 +8,5 @@ worksheet using the :func:`protect` worksheet method.
 
 .. image:: _static/worksheet_protection.png
 
-Code:
-
 .. literalinclude:: ../../../examples/worksheet_protection.py
 

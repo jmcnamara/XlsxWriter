@@ -9,6 +9,4 @@ details see :ref:`cell_comments`.
 
 .. image:: _static/comments2.png
 
-Code:
-
 .. literalinclude:: ../../../examples/comments2.py

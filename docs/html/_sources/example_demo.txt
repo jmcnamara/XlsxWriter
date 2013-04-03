@@ -8,8 +8,6 @@ module.
 
 .. image:: _static/demo.png
 
-Code:
-
 .. literalinclude:: ../../../examples/demo.py
 
 Notes:

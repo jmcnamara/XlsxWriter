@@ -8,7 +8,5 @@ This program is an example of setting worksheet tab colours. See the
 
 .. image:: _static/tab_colors.png
 
-Code:
-
 .. literalinclude:: ../../../examples/tab_colors.py
 

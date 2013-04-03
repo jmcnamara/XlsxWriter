@@ -8,6 +8,4 @@ the XlsxWriter module is installed correctly.
 
 .. image:: _static/hello01.png
 
-Code:
-
 .. literalinclude:: ../../../examples/hello_world.py

@@ -155,7 +155,7 @@ However, if the user edits this string Excel may convert it back to a number.
 To get around this you can use the Excel text format ``'@'``::
 
     # Format as a string. Doesn't change to a number when edited
-    str_format = workbook.add_format({'num_format', '@'})
+    str_format = workbook.add_format({'num_format': '@'})
     worksheet.write_string('A1', '01209', str_format)
 
 This behaviour, while slightly tedious, is unfortunately consistent with the
@@ -722,9 +722,8 @@ to hide intermediary steps in a complicated calculation::
     worksheet.set_row(0, 20, cell_format, {'hidden': True})
 
 The ``'level'`` parameter is used to set the outline level of the row. Outlines
-are described in "Working with Outlines and Grouping". Adjacent rows with the
-same outline level are grouped together into a single outline. (**Note**: This
-feature is not implemented yet).
+are described in :ref:`outlines`. Adjacent rows with the same outline level
+are grouped together into a single outline.
 
 The following example sets an outline level of 1 for some rows::
 
@@ -732,9 +731,8 @@ The following example sets an outline level of 1 for some rows::
     worksheet.set_row(1, None, None, {'level': 1})
     worksheet.set_row(2, None, None, {'level': 1})
 
-.. note::
-   Excel allows up to 7 outline levels. The ``'level'`` parameter
-   should be in the range ``0 <= level <= 7``.
+Excel allows up to 7 outline levels. The ``'level'`` parameter should be in the
+range ``0 <= level <= 7``.
 
 The ``'hidden'`` parameter can also be used to hide collapsed outlined rows
 when used in conjunction with the ``'level'`` parameter::
@@ -833,17 +831,15 @@ example, to hide intermediary steps in a complicated calculation::
     worksheet.set_column('D:D', 20,  cell_format, {'hidden': 1})
 
 The ``'level'`` parameter is used to set the outline level of the column.
-Outlines are described in "Working with Outlines and Grouping". Adjacent
-columns with the same outline level are grouped together into a single
-outline. (**Note**: This feature is not implemented yet).
+Outlines are described in :ref:`outlines`. Adjacent columns with the same
+outline level are grouped together into a single outline.
 
 The following example sets an outline level of 1 for columns B to G::
 
     worksheet.set_column('B:G', None, None, {'level': 1})
 
-.. note::
-   Excel allows up to 7 outline levels. The ``'level'`` parameter
-   should be in the range ``0 <= level <= 7``.
+Excel allows up to 7 outline levels. The ``'level'`` parameter should be in the
+range ``0 <= level <= 7``.
 
 The ``'hidden'`` parameter can also be used to hide collapsed outlined columns
 when used in conjunction with the ``'level'`` parameter::
@@ -1659,7 +1655,7 @@ See also the :func:`set_locked` and :func:`set_hidden` format methods and
 worksheet.set_default_row()
 ---------------------------
 
-.. py:function:: set_default_row(height, hide_unused_rowss)
+.. py:function:: set_default_row(height, hide_unused_rows)
 
    Set the default row properties.
 
@@ -1681,6 +1677,55 @@ To hide unused rows::
     worksheet.set_default_row(hide_unused_rows=True)
 
 See :ref:`ex_hide_row_col` for more details.
+
+worksheet.outline_settings()
+----------------------------
+
+.. py:function:: outline_settings(visible, symbols_below, symbols_right, \
+                                  auto_style)
+
+   :param bool visible:       Outlines are visible. Optional, defaults to True.
+   :param bool symbols_below: Show row outline symbols below the outline bar.
+                              Optional, defaults to True.
+   :param bool symbols_right: Show column outline symbols to the right of the
+                              outline bar. Optional, defaults to True.
+   :param bool auto_style:    Use Automatic style. Optional, defaults to False.
+
+
+The ``outline_settings()`` method is used to control the appearance of
+outlines in Excel. Outlines are described in :ref:`outlines`::
+
+        worksheet1.outline_settings(False, False, False, True)
+
+The ``'visible'`` parameter is used to control whether or not outlines
+are visible. Setting this parameter to ``False`` will cause all outlines on
+the worksheet to be hidden. They can be un-hidden in Excel by means of
+the "Show Outline Symbols" command button. The default setting is ``True``
+for visible outlines.
+
+The ``'symbols_below'`` parameter is used to control whether the row
+outline symbol will appear above or below the outline level bar. The
+default setting is ``True`` for symbols to appear below the outline level
+bar.
+
+The ``'symbols_right'`` parameter is used to control whether the column
+outline symbol will appear to the left or the right of the outline
+level bar. The default setting is ``True`` for symbols to appear to the right
+of the outline level bar.
+
+The ``'auto_style'`` parameter is used to control whether the automatic
+outline generator in Excel uses automatic styles when creating an
+outline. This has no effect on a file generated by ``XlsxWriter`` but
+it does have an effect on how the worksheet behaves after it is
+created. The default setting is ``False`` for "Automatic Styles" to be turned
+off.
+
+The default settings for all of these parameters correspond to Excel's
+default parameters.
+
+The worksheet parameters controlled by ``outline_settings()`` are
+rarely used.
+
 
 
 

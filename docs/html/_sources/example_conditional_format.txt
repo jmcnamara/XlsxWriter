@@ -9,6 +9,4 @@ range of cells based on certain criteria.
 
 .. image:: _static/conditional_format1.png
 
-Code:
-
 .. literalinclude:: ../../../examples/conditional_format.py

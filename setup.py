@@ -2,7 +2,7 @@ from distutils.core import setup
 
 setup(
     name='XlsxWriter',
-    version='0.2.7',
+    version='0.2.8',
     author='John McNamara',
     author_email='jmcnamara@cpan.org',
     url='https://github.com/jmcnamara/XlsxWriter',

@@ -73,20 +73,19 @@ Status: ongoing.
 +--------------------------+------------+---------------------+
 | :func:`define_name()`    | Yes        | Yes                 |
 +--------------------------+------------+---------------------+
-| set_custom_color()       | No (1)     | Yes                 |
+| :func:`worksheets()`     | Yes        | Yes                 |
 +--------------------------+------------+---------------------+
-| :func:`worksheets()`     | Yes (2)    | Yes                 |
+| set_tempdir()            | Yes (1)    | Yes                 |
 +--------------------------+------------+---------------------+
-| set_tempdir()            | Yes (3)    | Yes                 |
+| set_1904()               | Yes (1)    | Yes                 |
 +--------------------------+------------+---------------------+
-| set_1904()               | Yes (3)    | Yes                 |
+| set_optimization()       | Yes (1)    | Yes                 |
 +--------------------------+------------+---------------------+
-| set_optimization()       | Yes (3)    | Yes                 |
+| set_custom_color()       | Yes (2)    | Yes                 |
 +--------------------------+------------+---------------------+
 
-#. Not required in XlsxWriter. Full RGB colors are supported.
-#. Called ``sheets()`` in Excel::Writer::XLSX.
 #. This is a constructor parameter in XlsxWriter.
+#. Not required in XlsxWriter. Full RGB colours are supported.
 
 Worksheet
 *********
@@ -134,7 +133,7 @@ Status: ongoing.
 +-------------------------------+------------+---------------------+
 | :func:`data_validation()`     | Yes        | Yes                 |
 +-------------------------------+------------+---------------------+
-| :func:`conditional_format()`  | Yes (1)    | Yes                 |
+| :func:`conditional_format()`  | Yes        | Yes                 |
 +-------------------------------+------------+---------------------+
 | add_sparkline()               | **No**     | Yes                 |
 +-------------------------------+------------+---------------------+
@@ -160,15 +159,13 @@ Status: ongoing.
 +-------------------------------+------------+---------------------+
 | :func:`set_default_row()`     | Yes        | Yes                 |
 +-------------------------------+------------+---------------------+
-| outline_settings()            | **No**     | Yes                 |
+| :func:`outline_settings()`    | Yes        | Yes                 |
 +-------------------------------+------------+---------------------+
 | :func:`freeze_panes()`        | Yes        | Yes                 |
 +-------------------------------+------------+---------------------+
 | :func:`split_panes()`         | Yes        | Yes                 |
 +-------------------------------+------------+---------------------+
 | :func:`merge_range()`         | Yes        | Yes                 |
-+-------------------------------+------------+---------------------+
-| merge_range_type()            | No (2)     | Yes                 |
 +-------------------------------+------------+---------------------+
 | :func:`set_zoom()`            | Yes        | Yes                 |
 +-------------------------------+------------+---------------------+
@@ -184,17 +181,17 @@ Status: ongoing.
 +-------------------------------+------------+---------------------+
 | :func:`filter_column_list()`  | Yes        | Yes                 |
 +-------------------------------+------------+---------------------+
-| keep_leading_zeros()          | No (3)     | Yes                 |
+| keep_leading_zeros()          | No (1)     | Yes                 |
 +-------------------------------+------------+---------------------+
-| add_write_handler()           | No (3)     | Yes                 |
+| add_write_handler()           | No (1)     | Yes                 |
++-------------------------------+------------+---------------------+
+| merge_range_type()            | No (2)     | Yes                 |
 +-------------------------------+------------+---------------------+
 
-#. Called ``conditional_formatting()`` in Excel::Writer::XLSX.
-#. Not required in XlsxWriter. The same functionality is available via
-   :func:`merge_range()`.
 #. These methods are syntactic sugar and can be handled using the standard
    API. They probably won't be ported.
-
+#. Not required in XlsxWriter. The same functionality is available via
+   :func:`merge_range()`.
 
 
 Page Setup

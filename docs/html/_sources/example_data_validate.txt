@@ -9,6 +9,4 @@ or to allow a selection from a drop down list.
 
 .. image:: _static/data_validate1.png
 
-Code:
-
 .. literalinclude:: ../../../examples/data_validate.py

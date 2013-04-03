@@ -8,7 +8,5 @@ This program is an example of writing hyperlinks to a worksheet. See the
 
 .. image:: _static/hyperlink.png
 
-Code:
-
 .. literalinclude:: ../../../examples/hyperlink.py
 

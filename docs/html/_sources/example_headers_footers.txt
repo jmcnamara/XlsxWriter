@@ -8,7 +8,5 @@ See the :func:`set_header` and :func:`set_footer` methods for more details.
 
 .. image:: _static/headers_footers.png
 
-Code:
-
 .. literalinclude:: ../../../examples/headers_footers.py
 
