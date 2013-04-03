@@ -1988,6 +1988,18 @@ class Worksheet(xmlwriter.XMLwriter):
 
         self.selections = [[pane, active_cell, sqref]]
 
+    # This method sets the properties for outlining and grouping. The defaults
+    # correspond to Excel's defaults.
+    #
+    def outline_settings(self, outline_on=1, outline_below=1, outline_right=1,
+                         outline_style=0):
+        self.outline_on = outline_on
+        self.outline_below = outline_below
+        self.outline_right = outline_right
+        self.outline_style = outline_style
+
+        self.outline_changed = 1
+
     @convert_cell_args
     def freeze_panes(self, row, col, top_row=None, left_col=None, pane_type=0):
         """
