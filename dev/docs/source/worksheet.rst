@@ -155,7 +155,7 @@ However, if the user edits this string Excel may convert it back to a number.
 To get around this you can use the Excel text format ``'@'``::
 
     # Format as a string. Doesn't change to a number when edited
-    str_format = workbook.add_format({'num_format', '@'})
+    str_format = workbook.add_format({'num_format': '@'})
     worksheet.write_string('A1', '01209', str_format)
 
 This behaviour, while slightly tedious, is unfortunately consistent with the
