@@ -45,12 +45,11 @@ class TestCompareXLSXFiles(unittest.TestCase):
         bold = workbook.add_format({'bold': 1})
 
         data = [
-            [ 'Month', 'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Total' ],
-            [ 'North', 50, 20, 15, 25, 65, 80, ],
-            [ 'South', 10, 20, 30, 50, 50, 50, ],
-            [ 'East', 45, 75, 50, 15, 75, 100, ],
-            [ 'West', 15, 15, 55, 35, 20, 50, ],
-        ]
+            ['Month', 'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Total'],
+            ['North', 50, 20, 15, 25, 65, 80],
+            ['South', 10, 20, 30, 50, 50, 50],
+            ['East', 45, 75, 50, 15, 75, 100],
+            ['West', 15, 15, 55, 35, 20, 50]]
 
         worksheet3.set_row(0, None, bold)
 
@@ -58,11 +57,8 @@ class TestCompareXLSXFiles(unittest.TestCase):
         worksheet3.set_column('B:G', 6, None, {'level': 1})
         worksheet3.set_column('H:H', 10)
 
-        worksheet3.write_row('A1', data[0])
-        worksheet3.write_row('A2', data[1])
-        worksheet3.write_row('A3', data[2])
-        worksheet3.write_row('A4', data[3])
-        worksheet3.write_row('A5', data[4])
+        for row, data_row in enumerate(data):
+            worksheet3.write_row(row, 0, data_row)
 
         worksheet3.write('H2', '=SUM(B2:G2)', None, 255)
         worksheet3.write('H3', '=SUM(B3:G3)', None, 210)

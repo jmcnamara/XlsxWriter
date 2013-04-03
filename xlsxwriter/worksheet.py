@@ -1103,8 +1103,8 @@ class Worksheet(xmlwriter.XMLwriter):
 
         # Set optional column values.
         hidden = options.get('hidden', False)
+        collapsed = options.get('collapsed', False)
         level = options.get('level', 0)
-
         # Store the column dimension only in some conditions.
         if cell_format or (width and hidden):
             ignore_col = 0
@@ -1128,7 +1128,7 @@ class Worksheet(xmlwriter.XMLwriter):
 
         # Store the column data.
         self.colinfo.append([firstcol, lastcol, width, cell_format, hidden,
-                             level])
+                             level, collapsed])
 
         # Store the column change to allow optimisations.
         self.col_size_changed = 1
@@ -3643,8 +3643,9 @@ class Worksheet(xmlwriter.XMLwriter):
     def _write_col_info(self, col_info):
         # Write the <col> element.
 
-        col_min, col_max, width, cell_format, hidden, level = col_info
-        collapsed = 0
+        (col_min, col_max, width, cell_format,
+         hidden, level, collapsed) = col_info
+
         custom_width = 1
         xf_index = 0
 
