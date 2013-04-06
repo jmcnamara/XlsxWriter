@@ -79,7 +79,7 @@ class Table(xmlwriter.XMLwriter):
         name = self.properties['name']
         display_name = self.properties['name']
         ref = self.properties['range']
-        totals_row_shown = self.propertiesp['totals_row_shown']
+        totals_row_shown = self.properties['totals_row_shown']
         header_row_count = self.properties['header_row_count']
 
         attributes = [
@@ -102,7 +102,7 @@ class Table(xmlwriter.XMLwriter):
 
     def _write_auto_filter(self):
         # Write the <autoFilter> element.
-        autofilter = self.properties['autofilter']
+        autofilter = self.properties.get('autofilter', 0)
 
         if not autofilter:
             return
@@ -134,16 +134,16 @@ class Table(xmlwriter.XMLwriter):
             ('name', col_data['name']),
         ]
 
-        if 'total_string' in col_data:
+        if col_data.get('total_string'):
             attributes.append(('totalsRowLabel', col_data['total_string']))
-        elif 'total_function' in col_data:
+        elif col_data.get('total_function'):
             attributes.append(('totalsRowFunction',
                                col_data['total_function']))
 
         if 'format' in col_data and col_data['format'] is not None:
             attributes.append(('dataDxfId', col_data['format']))
 
-        if 'formula' in col_data:
+        if col_data.get('formula'):
             self._xml_start_tag('tableColumn', attributes)
 
             # Write the calculatedColumnFormula element.
@@ -158,10 +158,10 @@ class Table(xmlwriter.XMLwriter):
         props = self.properties
 
         name = props['style']
-        show_first_column = props['show_first_col']
-        show_last_column = props['show_last_col']
-        show_row_stripes = props['show_row_stripes']
-        show_column_stripes = props['show_col_stripes']
+        show_first_column = 0 + props['show_first_col']
+        show_last_column = 0 + props['show_last_col']
+        show_row_stripes = 0 + props['show_row_stripes']
+        show_column_stripes = 0 + props['show_col_stripes']
 
         attributes = [
             ('name', name),

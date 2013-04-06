@@ -1949,14 +1949,23 @@ class Worksheet(xmlwriter.XMLwriter):
         else:
             self.cond_formats[cell_range] = [options]
 
-    #
-    #
-    # Add an Excel table to a worksheet.
-    #
     @convert_range_args
-    def add_table(self, row1, col1, row2, col2, param={}):
+    def add_table(self, first_row, first_col, last_row, last_col, options={}):
         """
-        TODO.
+        Add an Excel table to a worksheet.
+
+        Args:
+            first_row:    The first row of the cell range. (zero indexed).
+            first_col:    The first column of the cell range.
+            last_row:     The last row of the cell range. (zero indexed).
+            last_col:     The last column of the cell range.
+            options:      Table format options.
+
+        Returns:
+            0:  Success.
+            -1: Not supported in optimisation mode.
+            -2: Row or column is out of worksheet bounds.
+            -3: incorrect parameter or option.
         """
         table = {}
         col_formats = {}
@@ -1966,9 +1975,9 @@ class Worksheet(xmlwriter.XMLwriter):
             return -1
 
         # Check that row and col are valid without storing the values.
-        if self._check_dimensions(row1, col1, 1, 1):
+        if self._check_dimensions(first_row, first_col, 1, 1):
             return -2
-        if self._check_dimensions(row2, col2, 1, 1):
+        if self._check_dimensions(last_row, last_col, 1, 1):
             return -2
 
         # List of valid input parameters.
@@ -1987,7 +1996,7 @@ class Worksheet(xmlwriter.XMLwriter):
         }
 
         # Check for valid input parameters.
-        for param_key in param.keys():
+        for param_key in options.keys():
             if not param_key in valid_parameter:
                 warn("Unknown parameter '%s' in add_table()" % param_key)
                 return -3
@@ -1997,66 +2006,73 @@ class Worksheet(xmlwriter.XMLwriter):
         table['id'] = self.worksheet_meta.table_count
 
         # Turn on Excel's defaults.
-        param['banded_rows'] = param.get('banded_rows', 1)
-        param['header_row'] = param.get('header_row', 1)
-        param['autofilter'] = param.get('autofilter', 1)
+        options['banded_rows'] = options.get('banded_rows', True)
+        options['header_row'] = options.get('header_row', True)
+        options['autofilter'] = options.get('autofilter', True)
 
         # Set the table options.
-        table['show_first_col'] = param.get('first_column', 0)
-        table['show_last_col'] = param.get('last_column', 0)
-        table['show_row_stripes'] = param.get('banded_rows', 0)
-        table['show_col_stripes'] = param.get('banded_columns', 0)
-        table['header_row_count'] = param.get('header_row', 0)
-        table['totals_row_shown'] = param.get('total_row', 0)
+        table['show_first_col'] = options.get('first_column', False)
+        table['show_last_col'] = options.get('last_column', False)
+        table['show_row_stripes'] = options.get('banded_rows', False)
+        table['show_col_stripes'] = options.get('banded_columns', False)
+        table['header_row_count'] = options.get('header_row', 0)
+        table['totals_row_shown'] = options.get('total_row', False)
 
         # Set the table name.
-        if 'name' in param:
-            table['name'] = param['name']
+        if 'name' in options:
+            table['name'] = options['name']
         else:
             # Set a default name.
-            table['name'] = 'Table' + table['id']
+            table['name'] = 'Table' + str(table['id'])
 
         # Set the table style.
-        if 'style' in param:
-            table['style'] = param['style']
+        if 'style' in options:
+            table['style'] = options['style']
             # Remove whitespace from style name.
             table['style'] = table['style'].replace(' ', '')
         else:
             table['style'] = "TableStyleMedium9"
 
         # Swap last row/col for first row/col as necessary.
-        if row1 > row2:
-            (row1, row2) = (row2, row1)
-        if col1 > col2:
-            (col1, col2) = (col2, col1)
+        if first_row > last_row:
+            (first_row, last_row) = (last_row, first_row)
+        if first_col > last_col:
+            (first_col, last_col) = (last_col, first_col)
 
         # Set the data range rows (without the header and footer).
-        first_data_row = row1
-        last_data_row = row2
-        if param['header_row']:
+        first_data_row = first_row
+        last_data_row = last_row
+
+        if 'header_row' in options:
             first_data_row += 1
-        if param['total_row']:
+
+        if 'total_row' in options:
             last_data_row -= 1
 
         # Set the table and autofilter ranges.
-        table['range'] = xl_range(row1, row2, col1, col2)
-        table['a_range'] = xl_range(row1, col1, last_data_row, col2)
+        table['range'] = xl_range(first_row, first_col,
+                                  last_row, last_col)
+
+        table['a_range'] = xl_range(first_row, first_col,
+                                    last_data_row, last_col)
 
         # If the header row if off the default is to turn autofilter off.
-        if not param['header_row']:
-            param['autofilter'] = 0
+        if not options['header_row']:
+            options['autofilter'] = 0
 
         # Set the autofilter range.
-        if param['autofilter']:
+        if options['autofilter']:
             table['autofilter'] = table['a_range']
 
         # Add the table columns.
         col_id = 1
-        for col_num in range(col1, col2 + 1):
+        table['columns'] = []
+
+        for col_num in range(first_col, last_col + 1):
             # Set up the default column data.
             col_data = {
                 'id': col_id,
-                'name': 'Column' + col_id,
+                'name': 'Column' + str(col_id),
                 'total_string': '',
                 'total_function': '',
                 'formula': '',
@@ -2064,17 +2080,20 @@ class Worksheet(xmlwriter.XMLwriter):
             }
 
             # Overwrite the defaults with any use defined values.
-            if param['columns']:
+            if 'columns' in options:
                 # Check if there are user defined values for this column.
-                user_data = param['columns'][col_id - 1]
+                user_data = options['columns'][col_id - 1]
 
                 if user_data:
+                    # Get the column format.
+                    xformat = user_data.get('format', None)
+
                     # Map user defined values to internal values.
-                    if user_data['header']:
-                        col_data.name = user_data['header']
+                    if user_data.get('header'):
+                        col_data['name'] = user_data['header']
 
                     # Handle the column formula.
-                    if user_data['formula']:
+                    if 'formula' in user_data and user_data['formula']:
                         formula = user_data['formula']
 
                         # Remove the formula '=' sign if it exists.
@@ -2082,23 +2101,21 @@ class Worksheet(xmlwriter.XMLwriter):
                             formula = formula.lstrip('=')
 
                         # Covert Excel 2010 "@" ref to 2007 "#This Row".
-                        # formula =~ s/@/[#This Row],/g
-                        # TODO
+                        formula = formula.replace('@', '[#This Row],')
 
                         col_data['formula'] = formula
 
                         for row in range(first_data_row, last_data_row + 1):
-                            self.write_formula(row, col_num, formula,
-                                               user_data['format'])
+                            self.write_formula(row, col_num, formula, xformat)
 
                     # Handle the function for the total row.
-                    if user_data['total_function']:
+                    if user_data.get('total_function'):
                         function = user_data['total_function']
 
                         # Massage the function name.
-                        # function = lc function
-                        # function =~ s/_//g
-                        # function =~ s/\s//g
+                        function = function.lower()
+                        function = function.replace('_', '')
+                        function = function.replace(' ', '')
 
                         if function == 'countnums':
                             function = 'countNums'
@@ -2107,46 +2124,45 @@ class Worksheet(xmlwriter.XMLwriter):
 
                         col_data['total_function'] = function
 
-                        formula = self._table_function_to_formula(
-                                                                  function,
-                                                                  col_data['name'])
+                        formula = \
+                            self._table_function_to_formula(function,
+                                                            col_data['name'])
 
-                        self.write_formula(row2, col_num, formula,
-                                           user_data['format'])
+                        self.write_formula(last_row, col_num, formula, xformat)
 
-                    elif user_data['total_string']:
+                    elif user_data.get('total_string'):
                         # Total label only (not a function).
                         total_string = user_data['total_string']
                         col_data['total_string'] = total_string
 
-                        self.write_string(row2, col_num, total_string,
-                                          user_data['format'])
+                        self.write_string(last_row, col_num, total_string,
+                                          user_data.get('format'))
 
                     # Get the dxf format index.
-                    if format in user_data and user_data['format'] is not None:
-                        col_data.format = user_data['format'].get_dxf_index()
+                    if xformat is not None:
+                        col_data['format'] = xformat._get_dxf_index()
 
                     # Store the column format for writing the cell data.
                     # It doesn't matter if it is undefined.
-                    col_formats[col_id - 1] = user_data['format']
+                    col_formats[col_id - 1] = xformat
 
             # Store the column data.
             table['columns'].append(col_data)
 
             # Write the column headers to the worksheet.
-            if param['header_row']:
-                self.write_string(row1, col_num, col_data.name)
+            if options['header_row']:
+                self.write_string(first_row, col_num, col_data['name'])
 
             col_id += 1
 
         # Write the cell data if supplied.
-        if 'data' in param['data']:
-            data = param['data']
+        if 'data' in options:
+            data = options['data']
 
             i = 0  # For indexing the row data.
             for row in range(first_data_row, last_data_row + 1):
                 j = 0  # For indexing the col data.
-                for col in range(col1, col2 + 1):
+                for col in range(first_col, last_col + 1):
                     token = data[i][j]
                     if token:
                         self.write(row, col, token, col_formats[j])
@@ -2157,8 +2173,10 @@ class Worksheet(xmlwriter.XMLwriter):
         self.tables.append(table)
 
         # Store the link used for the rels file.
-        self.external_table_links.append(
-          ['/table', '../tables/table' + table['id'] + '.xml'])
+        self.external_table_links.append(['/table',
+                                          '../tables/table'
+                                          + str(table['id'])
+                                          + '.xml'])
 
         return table
 
@@ -3605,6 +3623,29 @@ class Worksheet(xmlwriter.XMLwriter):
         return(isinstance(dt, datetime.datetime) or
                isinstance(dt, datetime.date) or
                isinstance(dt, datetime.time))
+
+    def _table_function_to_formula(self, function, col_name):
+        # Convert a table total function to a worksheet formula.
+        formula = ''
+
+        subtotals = {
+            'average': 101,
+            'countNums': 102,
+            'count': 103,
+            'max': 104,
+            'min': 105,
+            'stdDev': 107,
+            'sum': 109,
+            'var': 110,
+        }
+
+        if function in subtotals:
+            func_num = subtotals[function]
+            formula = "SUBTOTAL(%s,[%s])" % (func_num, col_name)
+        else:
+            warn("Unsupported function '%s' in add_table()" % function)
+
+        return formula
 
     ###########################################################################
     #
