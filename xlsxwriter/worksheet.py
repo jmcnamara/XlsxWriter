@@ -2163,9 +2163,12 @@ class Worksheet(xmlwriter.XMLwriter):
             for row in range(first_data_row, last_data_row + 1):
                 j = 0  # For indexing the col data.
                 for col in range(first_col, last_col + 1):
-                    token = data[i][j]
-                    if token:
-                        self.write(row, col, token, col_formats[j])
+                    if i < len(data) and j < len(data[i]):
+                        token = data[i][j]
+                        if j in col_formats:
+                            self.write(row, col, token, col_formats[j])
+                        else:
+                            self.write(row, col, token, None)
                     j += 1
                 i += 1
 
@@ -2856,7 +2859,7 @@ class Worksheet(xmlwriter.XMLwriter):
         self._write_legacy_drawing()
 
         # Write the tableParts element.
-        # self._write_table_parts()
+        self._write_table_parts()
 
         # Write the extLst and sparklines.
         # self._write_ext_sparklines()
@@ -3929,7 +3932,7 @@ class Worksheet(xmlwriter.XMLwriter):
         attributes = [
             ('min', col_min + 1),
             ('max', col_max + 1),
-            ('width', width)]
+            ('width', "%.15g" % width)]
 
         if xf_index:
             attributes.append(('style', xf_index))
@@ -4792,7 +4795,8 @@ class Worksheet(xmlwriter.XMLwriter):
         if not self.drawing:
             return
 
-        self._write_drawing(self.rel_count + 1)
+        self.rel_count += 1
+        self._write_drawing(self.rel_count)
 
     def _write_drawing(self, drawing_id):
         # Write the <drawing> element.
@@ -4809,9 +4813,9 @@ class Worksheet(xmlwriter.XMLwriter):
 
         # Increment the relationship id for any drawings or comments.
         self.rel_count += 1
-        r_id = str(self.rel_count)
+        r_id = 'rId' + str(self.rel_count)
 
-        attributes = [('r:id', 'rId' + r_id)]
+        attributes = [('r:id', r_id)]
 
         self._xml_empty_tag('legacyDrawing', attributes)
 
@@ -5288,3 +5292,33 @@ class Worksheet(xmlwriter.XMLwriter):
         width = twips + 390
 
         return width
+
+    def _write_table_parts(self):
+        # Write the <tableParts> element.
+        tables = self.tables
+        count = len(tables)
+
+        # Return if worksheet doesn't contain any tables.
+        if not count:
+            return
+
+        attributes = [('count', count,)]
+
+        self._xml_start_tag('tableParts', attributes)
+
+        for _ in tables:
+
+            # Write the tablePart element.
+            self.rel_count += 1
+            self._write_table_part(self.rel_count)
+
+        self._xml_end_tag('tableParts')
+
+    def _write_table_part(self, r_id):
+        # Write the <tablePart> element.
+
+        r_id = 'rId' + str(r_id)
+
+        attributes = [('r:id', r_id,)]
+
+        self._xml_empty_tag('tablePart', attributes)

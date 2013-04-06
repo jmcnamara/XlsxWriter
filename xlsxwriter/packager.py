@@ -18,6 +18,7 @@ from xlsxwriter.sharedstrings import SharedStrings
 from xlsxwriter.styles import Styles
 from xlsxwriter.theme import Theme
 from xlsxwriter.vml import Vml
+from xlsxwriter.table import Table
 from xlsxwriter.comments import Comments
 
 
@@ -415,7 +416,7 @@ class Packager(object):
 
     def _write_table_files(self):
         # Write the table files.
-        # xlsx_dir = self.package_dir
+        xlsx_dir = self.package_dir
 
         index = 1
         for worksheet in self.workbook.worksheets():
@@ -424,16 +425,16 @@ class Packager(object):
             if not table_props:
                 continue
 
-            # self._mkdir(xlsx_dir + '/xl')
-            # self._mkdir(xlsx_dir + '/xl/tables')
+            self._mkdir(xlsx_dir + '/xl')
+            self._mkdir(xlsx_dir + '/xl/tables')
 
-            # for table_props in table_props:
-            #    table = Table()
-            #    table._set_xml_writer(
-            #        xlsx_dir + '/xl/tables/table' + str(index) + '.xml')
-            #    table._set_properties(table_props)
-            #    table._assemble_xml_file()
-            #    self.table_count += 1
+            for table_props in table_props:
+                table = Table()
+                table._set_xml_writer(xlsx_dir + '/xl/tables/table'
+                                      + str(index) + '.xml')
+                table._set_properties(table_props)
+                table._assemble_xml_file()
+                self.table_count += 1
                 index += 1
 
     def _write_root_rels_file(self):
