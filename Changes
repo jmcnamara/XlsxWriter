@@ -1,5 +1,26 @@
 
 
+Release 0.2.9 - April 7 2013
+-----------------------------
+
+* Added worksheet tables. See :ref:`tables` and :ref:`ex_tables`.
+
+* Tested with the new Python stable releases 2.7.4 and 3.3.1. All tests now 
+  pass in the following versions:
+
+    * Python 2.6
+    * Python 2.7.2
+    * Python 2.7.3
+    * Python 2.7.4
+    * Python 3.1
+    * Python 3.2
+    * Python 3.3.0
+    * Python 3.3.1
+
+* There are now over 700 unit tests including more than 170 tests that
+  compare against the output of Excel.
+ 
+
 Release 0.2.8 - April 4 2013
 -----------------------------
 

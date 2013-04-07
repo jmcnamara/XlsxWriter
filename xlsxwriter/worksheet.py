@@ -1950,7 +1950,7 @@ class Worksheet(xmlwriter.XMLwriter):
             self.cond_formats[cell_range] = [options]
 
     @convert_range_args
-    def add_table(self, first_row, first_col, last_row, last_col, options={}):
+    def add_table(self, first_row, first_col, last_row, last_col, options=None):
         """
         Add an Excel table to a worksheet.
 
@@ -1959,7 +1959,7 @@ class Worksheet(xmlwriter.XMLwriter):
             first_col:    The first column of the cell range.
             last_row:     The last row of the cell range. (zero indexed).
             last_col:     The last column of the cell range.
-            options:      Table format options.
+            options:      Table format options. (Optional)
 
         Returns:
             0:  Success.
@@ -1969,6 +1969,9 @@ class Worksheet(xmlwriter.XMLwriter):
         """
         table = {}
         col_formats = {}
+
+        if options is None:
+            options = {}
 
         if self.optimization == 1:
             warn("add_table() isn't supported when set_optimization() is on")

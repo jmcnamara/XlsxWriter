@@ -3,7 +3,7 @@
 Working with Formats
 ====================
 
-The methods and properties used to add formatting to a cell are shown in 
+The methods and properties used to add formatting to a cell are shown in
 :ref:`format`.
 
 This section provides some additional information about working with formats.
@@ -19,9 +19,8 @@ follows::
     format1 = workbook.add_format()       # Set properties later.
     format2 = workbook.add_format(props)  # Set properties at creation.
 
-Once a Format object has been constructed and its properties have been
-set it can be passed as an argument to the worksheet ``write`` methods
-as follows::
+Once a Format object has been constructed and its properties have been set it
+can be passed as an argument to the worksheet ``write`` methods as follows::
 
     worksheet.write       (0, 0, 'Foo', format)
     worksheet.write_string(1, 0, 'Bar', format)
@@ -125,9 +124,9 @@ to the `add_format()` constructor::
     format = workbook.add_format({'bold': True, 'font_color': 'red'})
 
 The object method interface is mainly provided for backward compatibility with
-:ref:`Excel::Writer::XLSX <ewx>`. The key/value interface has proved to be 
-more flexible in real world programs and is the recommended method for
-setting format properties.
+:ref:`Excel::Writer::XLSX <ewx>`. The key/value interface has proved to be
+more flexible in real world programs and is the recommended method for setting
+format properties.
 
 .. _format_colors:
 
@@ -138,7 +137,7 @@ Format property colors are specified using a Html sytle ``#RRGGBB`` index::
 
     cell_format.set_font_color('#FF0000')
 
-For backward compatibility with :ref:`Excel::Writer::XLSX <ewx>` a limited 
+For backward compatibility with :ref:`Excel::Writer::XLSX <ewx>` a limited
 number of color names are supported::
 
     cell_format.set_font_color('red')

@@ -16,7 +16,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '',
-        VERSION:     '0.2.8',
+        VERSION:     '0.2.9',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -53,47 +53,14 @@
             
   <div class="section" id="comparison-with-excel-writer-xlsx">
 <span id="ewx"></span><h1>Comparison with Excel::Writer::XLSX</h1>
-<p><a class="reference external" href="http://search.cpan.org/~jmcnamara/Excel-Writer-XLSX/">Excel::Writer::XLSX</a>
-is a module written in Perl for creating Excel 2007+ XLSX files.</p>
-<p>Excel::Writer::XLSX is an API compatible rewrite of an older Perl module called
-<a class="reference external" href="http://search.cpan.org/~jmcnamara/Spreadsheet-WriteExcel/">Spreadsheet::WriteExcel</a>
-that creates Excel XLS file.</p>
-<p>In terms of features Excel::Writer::XLSX is one most complete open source
-libraries for writing Excel files. It supports:</p>
-<ul class="simple">
-<li>Multiple worksheets</li>
-<li>Strings and numbers</li>
-<li>Unicode text</li>
-<li>Cell formatting</li>
-<li>Formulas</li>
-<li>Images</li>
-<li>Charts</li>
-<li>Autofilters</li>
-<li>Data validation</li>
-<li>Conditional formatting</li>
-<li>Macros</li>
-<li>Tables</li>
-<li>Shapes</li>
-<li>Sparklines</li>
-<li>Hyperlinks</li>
-<li>Rich string formats</li>
-<li>Defined names</li>
-<li>Grouping/Outlines</li>
-<li>Cell comments</li>
-<li>Panes</li>
-<li>Page set-up and printing options</li>
-</ul>
-<p>Excel::Writer::XLSX has comprehensive documentation, a large number of
-<a class="reference external" href="http://search.cpan.org/~jmcnamara/Excel-Writer-XLSX/lib/Excel/Writer/XLSX/Examples.pm">example files</a>
-and an extensive test suite.</p>
-<p>Excel::Writer::XLSX and XlsxWriter are written by
-<a class="reference external" href="https://github.com/jmcnamara">John McNamara</a>.</p>
-<div class="section" id="compatibility-with-excel-writer-xlsx">
-<h2>Compatibility with Excel::Writer::XLSX</h2>
-<p>Porting of <tt class="docutils literal"><span class="pre">Excel::Writer::XLSX</span></tt> to <tt class="docutils literal"><span class="pre">XlsxWriter</span></tt> is a work in progress. The
-following table shows the level of compatibility between the two module.</p>
+<p>The XlsxWriter module is a port of the Perl
+<a class="reference external" href="http://search.cpan.org/~jmcnamara/Excel-Writer-XLSX/">Excel::Writer::XLSX</a>
+module with more Pythonic interfaces.</p>
+<p>XlsxWriter supports almost all of Excel::Writer::XLSX&#8217;s features apart from
+those noted in the tables below. Remaining features such as sparklines and
+charts are in progress.</p>
 <div class="section" id="workbook">
-<h3>Workbook</h3>
+<h2>Workbook</h2>
 <p>Status: ongoing.</p>
 <table border="1" class="docutils">
 <colgroup>
@@ -120,14 +87,6 @@ following table shows the level of compatibility between the two module.</p>
 <td><strong>No</strong></td>
 <td>Yes</td>
 </tr>
-<tr class="row-odd"><td>add_shape()</td>
-<td><strong>No</strong></td>
-<td>Yes</td>
-</tr>
-<tr class="row-even"><td>add_vba_project()</td>
-<td><strong>No</strong></td>
-<td>Yes</td>
-</tr>
 <tr class="row-odd"><td><a class="reference internal" href="workbook.html#close" title="close"><tt class="xref py py-func docutils literal"><span class="pre">close()</span></tt></a></td>
 <td>Yes</td>
 <td>Yes</td>
@@ -144,31 +103,40 @@ following table shows the level of compatibility between the two module.</p>
 <td>Yes</td>
 <td>Yes</td>
 </tr>
+<tr class="row-odd"><td>add_shape()</td>
+<td>No (1)</td>
+<td>Yes</td>
+</tr>
+<tr class="row-even"><td>add_vba_project()</td>
+<td>No (1)</td>
+<td>Yes</td>
+</tr>
 <tr class="row-odd"><td>set_tempdir()</td>
-<td>Yes (1)</td>
+<td>Yes (2)</td>
 <td>Yes</td>
 </tr>
 <tr class="row-even"><td>set_1904()</td>
-<td>Yes (1)</td>
+<td>Yes (2)</td>
 <td>Yes</td>
 </tr>
 <tr class="row-odd"><td>set_optimization()</td>
-<td>Yes (1)</td>
+<td>Yes (2)</td>
 <td>Yes</td>
 </tr>
 <tr class="row-even"><td>set_custom_color()</td>
-<td>Yes (2)</td>
+<td>Yes (3)</td>
 <td>Yes</td>
 </tr>
 </tbody>
 </table>
 <ol class="arabic simple">
+<li>These features are experimental and probably won&#8217;t be ported.</li>
 <li>This is a constructor parameter in XlsxWriter.</li>
 <li>Not required in XlsxWriter. Full RGB colours are supported.</li>
 </ol>
 </div>
 <div class="section" id="worksheet">
-<h3>Worksheet</h3>
+<h2>Worksheet</h2>
 <p>Status: ongoing.</p>
 <table border="1" class="docutils">
 <colgroup>
@@ -247,14 +215,6 @@ following table shows the level of compatibility between the two module.</p>
 <td><strong>No</strong></td>
 <td>Yes</td>
 </tr>
-<tr class="row-even"><td>insert_shape()</td>
-<td><strong>No</strong></td>
-<td>Yes</td>
-</tr>
-<tr class="row-odd"><td>insert_button()</td>
-<td><strong>No</strong></td>
-<td>Yes</td>
-</tr>
 <tr class="row-even"><td><a class="reference internal" href="worksheet.html#data_validation" title="data_validation"><tt class="xref py py-func docutils literal"><span class="pre">data_validation()</span></tt></a></td>
 <td>Yes</td>
 <td>Yes</td>
@@ -267,8 +227,8 @@ following table shows the level of compatibility between the two module.</p>
 <td><strong>No</strong></td>
 <td>Yes</td>
 </tr>
-<tr class="row-odd"><td>add_table()</td>
-<td><strong>No</strong></td>
+<tr class="row-odd"><td><a class="reference internal" href="worksheet.html#add_table" title="add_table"><tt class="xref py py-func docutils literal"><span class="pre">add_table()</span></tt></a></td>
+<td>Yes</td>
 <td>Yes</td>
 </tr>
 <tr class="row-even"><td><a class="reference internal" href="worksheet.html#get_name" title="get_name"><tt class="xref py py-func docutils literal"><span class="pre">get_name()</span></tt></a></td>
@@ -377,7 +337,7 @@ API. They probably won&#8217;t be ported.</li>
 </ol>
 </div>
 <div class="section" id="page-setup">
-<h3>Page Setup</h3>
+<h2>Page Setup</h2>
 <p>Status: complete.</p>
 <table border="1" class="docutils">
 <colgroup>
@@ -476,7 +436,7 @@ API. They probably won&#8217;t be ported.</li>
 </table>
 </div>
 <div class="section" id="format">
-<h3>Format</h3>
+<h2>Format</h2>
 <p>Status: complete.</p>
 <table border="1" class="docutils">
 <colgroup>
@@ -619,7 +579,6 @@ API. They probably won&#8217;t be ported.</li>
 </table>
 </div>
 </div>
-</div>
 
 
           </div>
@@ -633,13 +592,10 @@ API. They probably won&#8217;t be ported.</li>
   <h3><a href="index.html">Table Of Contents</a></h3>
   <ul>
 <li><a class="reference internal" href="#">Comparison with Excel::Writer::XLSX</a><ul>
-<li><a class="reference internal" href="#compatibility-with-excel-writer-xlsx">Compatibility with Excel::Writer::XLSX</a><ul>
 <li><a class="reference internal" href="#workbook">Workbook</a></li>
 <li><a class="reference internal" href="#worksheet">Worksheet</a></li>
 <li><a class="reference internal" href="#page-setup">Page Setup</a></li>
 <li><a class="reference internal" href="#format">Format</a></li>
-</ul>
-</li>
 </ul>
 </li>
 </ul>

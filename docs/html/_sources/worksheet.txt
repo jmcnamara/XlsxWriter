@@ -1028,6 +1028,35 @@ a separate section: :ref:`working_with_conditional_formats`. See also
 :ref:`ex_cond_format`.
 
 
+add_table()
+-----------
+
+.. py:function:: add_table(first_row, first_col, last_row, last_col, options)
+
+   Add an Excel table to a worksheet.
+
+   :param first_row:   The first row of the range. (All zero indexed.)
+   :param first_col:   The first column of the range.
+   :param last_row:    The last row of the range.
+   :param last_col:    The last col of the range.
+   :param options:     Table formatting options. (Optional)
+   :type  first_row:   int
+   :type  first_col:   int
+   :type  last_row:    int
+   :type  last_col:    int
+   :type  options:     dict
+
+
+
+The ``add_table()`` method is used to group a range of cells into an Excel
+Table::
+
+    worksheet.add_table('B3:F7', { ... })
+
+This method contains a lot of parameters and is described in :ref:`tables`.
+
+See also :ref:`ex_tables`.
+
 
 worksheet.write_comment()
 -------------------------
@@ -1447,8 +1476,8 @@ cell and that the method uses zero based indexing. Therefore to freeze the
 first row of a worksheet it is necessary to specify the split at row 2 (which
 is 1 as the zero-based index).
 
-You can set one of the ``row`` and ``col`` parameters as zero if you
-do not want either a vertical or horizontal split.
+You can set one of the ``row`` and ``col`` parameters as zero if you do not
+want either a vertical or horizontal split.
 
 Examples::
 
@@ -1459,10 +1488,10 @@ Examples::
     worksheet.freeze_panes(1, 2)  # Freeze first row and first 2 columns.
     worksheet.freeze_panes('C2')  # Same using A1 notation.
 
-The parameters ``top_row`` and ``left_col`` are optional. They are
-used to specify the top-most or left-most visible row or column in the
-scrolling region of the panes. For example to freeze the first row and
-to have the scrolling region begin at row twenty::
+The parameters ``top_row`` and ``left_col`` are optional. They are used to
+specify the top-most or left-most visible row or column in the scrolling
+region of the panes. For example to freeze the first row and to have the
+scrolling region begin at row twenty::
 
     worksheet.freeze_panes(1, 0, 20, 0)
 
@@ -1496,11 +1525,10 @@ the ``y`` and ``x`` parameters in terms of the row heights and column widths
 that you have set or the default values which are ``15`` for a row and
 ``8.43`` for a column.
 
-You can set one of the ``y`` and ``x`` parameters as zero if you do
-not want either a vertical or horizontal split. The parameters
-``top_row`` and ``left_col`` are optional. They are used to specify
-the top-most or left-most visible row or column in the bottom-right
-pane.
+You can set one of the ``y`` and ``x`` parameters as zero if you do not want
+either a vertical or horizontal split. The parameters ``top_row`` and
+``left_col`` are optional. They are used to specify the top-most or left-most
+visible row or column in the bottom-right pane.
 
 Example::
 
@@ -1692,39 +1720,36 @@ worksheet.outline_settings()
    :param bool auto_style:    Use Automatic style. Optional, defaults to False.
 
 
-The ``outline_settings()`` method is used to control the appearance of
-outlines in Excel. Outlines are described in :ref:`outlines`::
+The ``outline_settings()`` method is used to control the appearance of outlines
+in Excel. Outlines are described in :ref:`outlines`::
 
         worksheet1.outline_settings(False, False, False, True)
 
-The ``'visible'`` parameter is used to control whether or not outlines
-are visible. Setting this parameter to ``False`` will cause all outlines on
-the worksheet to be hidden. They can be un-hidden in Excel by means of
-the "Show Outline Symbols" command button. The default setting is ``True``
-for visible outlines.
+The ``'visible'`` parameter is used to control whether or not outlines are
+visible. Setting this parameter to ``False`` will cause all outlines on the
+worksheet to be hidden. They can be un-hidden in Excel by means of the "Show
+Outline Symbols" command button. The default setting is ``True`` for visible
+outlines.
 
-The ``'symbols_below'`` parameter is used to control whether the row
-outline symbol will appear above or below the outline level bar. The
-default setting is ``True`` for symbols to appear below the outline level
-bar.
+The ``'symbols_below'`` parameter is used to control whether the row outline
+symbol will appear above or below the outline level bar. The default setting
+is ``True`` for symbols to appear below the outline level bar.
 
-The ``'symbols_right'`` parameter is used to control whether the column
-outline symbol will appear to the left or the right of the outline
-level bar. The default setting is ``True`` for symbols to appear to the right
-of the outline level bar.
+The ``'symbols_right'`` parameter is used to control whether the column outline
+symbol will appear to the left or the right of the outline level bar. The
+default setting is ``True`` for symbols to appear to the right of the outline
+level bar.
 
-The ``'auto_style'`` parameter is used to control whether the automatic
-outline generator in Excel uses automatic styles when creating an
-outline. This has no effect on a file generated by ``XlsxWriter`` but
-it does have an effect on how the worksheet behaves after it is
-created. The default setting is ``False`` for "Automatic Styles" to be turned
-off.
+The ``'auto_style'`` parameter is used to control whether the automatic outline
+generator in Excel uses automatic styles when creating an outline. This has no
+effect on a file generated by ``XlsxWriter`` but it does have an effect on how
+the worksheet behaves after it is created. The default setting is ``False``
+for "Automatic Styles" to be turned off.
 
-The default settings for all of these parameters correspond to Excel's
-default parameters.
+The default settings for all of these parameters correspond to Excel's default
+parameters.
 
-The worksheet parameters controlled by ``outline_settings()`` are
-rarely used.
+The worksheet parameters controlled by ``outline_settings()`` are rarely used.
 
 
 

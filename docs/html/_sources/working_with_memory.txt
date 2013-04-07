@@ -8,14 +8,13 @@ The Python XlsxWriter module is based on the design of the Perl module
 module called
 `Spreadsheet::WriteExcel <http://search.cpan.org/~jmcnamara/Spreadsheet-WriteExcel/>`_.
 
-Spreadsheet::WriteExcel was written to optimise speed and reduce memory
-usage. However, these design goals meant that it wasn't easy to implement
-features that many users requested such as writing formatting and data
-separately.
+Spreadsheet::WriteExcel was written to optimise speed and reduce memory usage.
+However, these design goals meant that it wasn't easy to implement features
+that many users requested such as writing formatting and data separately.
 
-As a result XlsxWriter (and Excel::Writer::XLSX) takes a different
-design approach and holds a lot more data in memory so that it is functionally
-more flexible.
+As a result XlsxWriter (and Excel::Writer::XLSX) takes a different design
+approach and holds a lot more data in memory so that it is functionally more
+flexible.
 
 The effect of this is that XlsxWriter can consume a lot of memory. In addition
 the extended row and column ranges in Excel 2007+ mean that it is possible to
@@ -51,7 +50,7 @@ where the string data isn't displayed.
 
 The trade-off when using ``'constant_memory'`` mode is that you won't be able
 to take advantage of any new features that manipulate cell data after it is
-written. Currently there are no such features.
+written. Currently the only such feature is :ref:`Worksheet Tables <tables>`.
 
 For larger files ``'constant_memory'`` mode also gives an increase in execution
 speed, see below.
@@ -108,8 +107,8 @@ constant:
 | 12800 | 50      | 25.34    | 54248          |
 +-------+---------+----------+----------------+
 
-In the ``constant_memory`` mode the performance is also increased. There will be
-further optimisation in both modes in later releases.
+In the ``constant_memory`` mode the performance is also increased. There will
+be further optimisation in both modes in later releases.
 
 These figures were generated using programs in the ``dev/performance``
 directory of the XlsxWriter source code.

@@ -21,6 +21,7 @@ directory of the XlsxWriter distribution.
    example_images.rst
    example_headers_footers.rst
    example_panes.rst
+   example_tables.rst
    example_comments1.rst
    example_comments2.rst
    example_outline1.rst

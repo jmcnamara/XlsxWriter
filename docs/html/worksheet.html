@@ -16,7 +16,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '',
-        VERSION:     '0.2.8',
+        VERSION:     '0.2.9',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -1111,6 +1111,37 @@ format. There are a lot of available options which are described in detail in
 a separate section: <a class="reference internal" href="working_with_conditional_formats.html#working-with-conditional-formats"><em>Working with Conditional Formatting</em></a>. See also
 <a class="reference internal" href="example_conditional_format.html#ex-cond-format"><em>Example: Conditional Formatting</em></a>.</p>
 </div>
+<div class="section" id="add-table">
+<h2>add_table()</h2>
+<dl class="function">
+<dt id="add_table">
+<tt class="descname">add_table</tt><big>(</big><em>first_row</em>, <em>first_col</em>, <em>last_row</em>, <em>last_col</em>, <em>options</em><big>)</big></dt>
+<dd><p>Add an Excel table to a worksheet.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>first_row</strong> (<a class="reference external" href="http://docs.python.org/2/library/functions.html#int" title="(in Python v2.7)"><em>int</em></a>) &#8211; The first row of the range. (All zero indexed.)</li>
+<li><strong>first_col</strong> (<a class="reference external" href="http://docs.python.org/2/library/functions.html#int" title="(in Python v2.7)"><em>int</em></a>) &#8211; The first column of the range.</li>
+<li><strong>last_row</strong> (<a class="reference external" href="http://docs.python.org/2/library/functions.html#int" title="(in Python v2.7)"><em>int</em></a>) &#8211; The last row of the range.</li>
+<li><strong>last_col</strong> (<a class="reference external" href="http://docs.python.org/2/library/functions.html#int" title="(in Python v2.7)"><em>int</em></a>) &#8211; The last col of the range.</li>
+<li><strong>options</strong> (<a class="reference external" href="http://docs.python.org/2/library/stdtypes.html#dict" title="(in Python v2.7)"><em>dict</em></a>) &#8211; Table formatting options. (Optional)</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<p>The <tt class="docutils literal"><span class="pre">add_table()</span></tt> method is used to group a range of cells into an Excel
+Table:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">worksheet</span><span class="o">.</span><span class="n">add_table</span><span class="p">(</span><span class="s">&#39;B3:F7&#39;</span><span class="p">,</span> <span class="p">{</span> <span class="o">...</span> <span class="p">})</span>
+</pre></div>
+</div>
+<p>This method contains a lot of parameters and is described in <a class="reference internal" href="working_with_tables.html#tables"><em>Working with Worksheet Tables</em></a>.</p>
+<p>See also <a class="reference internal" href="example_tables.html#ex-tables"><em>Example: Worksheet Tables</em></a>.</p>
+</div>
 <div class="section" id="worksheet-write-comment">
 <h2>worksheet.write_comment()</h2>
 <dl class="function">
@@ -1555,8 +1586,8 @@ split. It should be noted that the split is specified at the top or left of a
 cell and that the method uses zero based indexing. Therefore to freeze the
 first row of a worksheet it is necessary to specify the split at row 2 (which
 is 1 as the zero-based index).</p>
-<p>You can set one of the <tt class="docutils literal"><span class="pre">row</span></tt> and <tt class="docutils literal"><span class="pre">col</span></tt> parameters as zero if you
-do not want either a vertical or horizontal split.</p>
+<p>You can set one of the <tt class="docutils literal"><span class="pre">row</span></tt> and <tt class="docutils literal"><span class="pre">col</span></tt> parameters as zero if you do not
+want either a vertical or horizontal split.</p>
 <p>Examples:</p>
 <div class="highlight-python"><div class="highlight"><pre><span class="n">worksheet</span><span class="o">.</span><span class="n">freeze_panes</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>  <span class="c"># Freeze the first row.</span>
 <span class="n">worksheet</span><span class="o">.</span><span class="n">freeze_panes</span><span class="p">(</span><span class="s">&#39;A2&#39;</span><span class="p">)</span>  <span class="c"># Same using A1 notation.</span>
@@ -1566,10 +1597,10 @@ do not want either a vertical or horizontal split.</p>
 <span class="n">worksheet</span><span class="o">.</span><span class="n">freeze_panes</span><span class="p">(</span><span class="s">&#39;C2&#39;</span><span class="p">)</span>  <span class="c"># Same using A1 notation.</span>
 </pre></div>
 </div>
-<p>The parameters <tt class="docutils literal"><span class="pre">top_row</span></tt> and <tt class="docutils literal"><span class="pre">left_col</span></tt> are optional. They are
-used to specify the top-most or left-most visible row or column in the
-scrolling region of the panes. For example to freeze the first row and
-to have the scrolling region begin at row twenty:</p>
+<p>The parameters <tt class="docutils literal"><span class="pre">top_row</span></tt> and <tt class="docutils literal"><span class="pre">left_col</span></tt> are optional. They are used to
+specify the top-most or left-most visible row or column in the scrolling
+region of the panes. For example to freeze the first row and to have the
+scrolling region begin at row twenty:</p>
 <div class="highlight-python"><div class="highlight"><pre><span class="n">worksheet</span><span class="o">.</span><span class="n">freeze_panes</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">20</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
 </pre></div>
 </div>
@@ -1609,11 +1640,10 @@ and horizontal units are different from each other. Therefore you must specify
 the <tt class="docutils literal"><span class="pre">y</span></tt> and <tt class="docutils literal"><span class="pre">x</span></tt> parameters in terms of the row heights and column widths
 that you have set or the default values which are <tt class="docutils literal"><span class="pre">15</span></tt> for a row and
 <tt class="docutils literal"><span class="pre">8.43</span></tt> for a column.</p>
-<p>You can set one of the <tt class="docutils literal"><span class="pre">y</span></tt> and <tt class="docutils literal"><span class="pre">x</span></tt> parameters as zero if you do
-not want either a vertical or horizontal split. The parameters
-<tt class="docutils literal"><span class="pre">top_row</span></tt> and <tt class="docutils literal"><span class="pre">left_col</span></tt> are optional. They are used to specify
-the top-most or left-most visible row or column in the bottom-right
-pane.</p>
+<p>You can set one of the <tt class="docutils literal"><span class="pre">y</span></tt> and <tt class="docutils literal"><span class="pre">x</span></tt> parameters as zero if you do not want
+either a vertical or horizontal split. The parameters <tt class="docutils literal"><span class="pre">top_row</span></tt> and
+<tt class="docutils literal"><span class="pre">left_col</span></tt> are optional. They are used to specify the top-most or left-most
+visible row or column in the bottom-right pane.</p>
 <p>Example:</p>
 <div class="highlight-python"><div class="highlight"><pre><span class="n">worksheet</span><span class="o">.</span><span class="n">split_panes</span><span class="p">(</span><span class="mi">15</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>     <span class="c"># First row.</span>
 <span class="n">worksheet</span><span class="o">.</span><span class="n">split_panes</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mf">8.43</span><span class="p">)</span>   <span class="c"># First column.</span>
@@ -1836,34 +1866,31 @@ outline bar. Optional, defaults to True.</li>
 </table>
 </dd></dl>
 
-<p>The <tt class="docutils literal"><span class="pre">outline_settings()</span></tt> method is used to control the appearance of
-outlines in Excel. Outlines are described in <a class="reference internal" href="working_with_outlines.html#outlines"><em>Working with Outlines and Grouping</em></a>:</p>
+<p>The <tt class="docutils literal"><span class="pre">outline_settings()</span></tt> method is used to control the appearance of outlines
+in Excel. Outlines are described in <a class="reference internal" href="working_with_outlines.html#outlines"><em>Working with Outlines and Grouping</em></a>:</p>
 <div class="highlight-python"><div class="highlight"><pre><span class="n">worksheet1</span><span class="o">.</span><span class="n">outline_settings</span><span class="p">(</span><span class="bp">False</span><span class="p">,</span> <span class="bp">False</span><span class="p">,</span> <span class="bp">False</span><span class="p">,</span> <span class="bp">True</span><span class="p">)</span>
 </pre></div>
 </div>
-<p>The <tt class="docutils literal"><span class="pre">'visible'</span></tt> parameter is used to control whether or not outlines
-are visible. Setting this parameter to <tt class="docutils literal"><span class="pre">False</span></tt> will cause all outlines on
-the worksheet to be hidden. They can be un-hidden in Excel by means of
-the &#8220;Show Outline Symbols&#8221; command button. The default setting is <tt class="docutils literal"><span class="pre">True</span></tt>
-for visible outlines.</p>
-<p>The <tt class="docutils literal"><span class="pre">'symbols_below'</span></tt> parameter is used to control whether the row
-outline symbol will appear above or below the outline level bar. The
-default setting is <tt class="docutils literal"><span class="pre">True</span></tt> for symbols to appear below the outline level
-bar.</p>
-<p>The <tt class="docutils literal"><span class="pre">'symbols_right'</span></tt> parameter is used to control whether the column
-outline symbol will appear to the left or the right of the outline
-level bar. The default setting is <tt class="docutils literal"><span class="pre">True</span></tt> for symbols to appear to the right
-of the outline level bar.</p>
-<p>The <tt class="docutils literal"><span class="pre">'auto_style'</span></tt> parameter is used to control whether the automatic
-outline generator in Excel uses automatic styles when creating an
-outline. This has no effect on a file generated by <tt class="docutils literal"><span class="pre">XlsxWriter</span></tt> but
-it does have an effect on how the worksheet behaves after it is
-created. The default setting is <tt class="docutils literal"><span class="pre">False</span></tt> for &#8220;Automatic Styles&#8221; to be turned
-off.</p>
-<p>The default settings for all of these parameters correspond to Excel&#8217;s
-default parameters.</p>
-<p>The worksheet parameters controlled by <tt class="docutils literal"><span class="pre">outline_settings()</span></tt> are
-rarely used.</p>
+<p>The <tt class="docutils literal"><span class="pre">'visible'</span></tt> parameter is used to control whether or not outlines are
+visible. Setting this parameter to <tt class="docutils literal"><span class="pre">False</span></tt> will cause all outlines on the
+worksheet to be hidden. They can be un-hidden in Excel by means of the &#8220;Show
+Outline Symbols&#8221; command button. The default setting is <tt class="docutils literal"><span class="pre">True</span></tt> for visible
+outlines.</p>
+<p>The <tt class="docutils literal"><span class="pre">'symbols_below'</span></tt> parameter is used to control whether the row outline
+symbol will appear above or below the outline level bar. The default setting
+is <tt class="docutils literal"><span class="pre">True</span></tt> for symbols to appear below the outline level bar.</p>
+<p>The <tt class="docutils literal"><span class="pre">'symbols_right'</span></tt> parameter is used to control whether the column outline
+symbol will appear to the left or the right of the outline level bar. The
+default setting is <tt class="docutils literal"><span class="pre">True</span></tt> for symbols to appear to the right of the outline
+level bar.</p>
+<p>The <tt class="docutils literal"><span class="pre">'auto_style'</span></tt> parameter is used to control whether the automatic outline
+generator in Excel uses automatic styles when creating an outline. This has no
+effect on a file generated by <tt class="docutils literal"><span class="pre">XlsxWriter</span></tt> but it does have an effect on how
+the worksheet behaves after it is created. The default setting is <tt class="docutils literal"><span class="pre">False</span></tt>
+for &#8220;Automatic Styles&#8221; to be turned off.</p>
+<p>The default settings for all of these parameters correspond to Excel&#8217;s default
+parameters.</p>
+<p>The worksheet parameters controlled by <tt class="docutils literal"><span class="pre">outline_settings()</span></tt> are rarely used.</p>
 </div>
 </div>
 
@@ -1895,6 +1922,7 @@ rarely used.</p>
 <li><a class="reference internal" href="#worksheet-insert-image">worksheet.insert_image()</a></li>
 <li><a class="reference internal" href="#worksheet-data-validation">worksheet.data_validation()</a></li>
 <li><a class="reference internal" href="#worksheet-conditional-format">worksheet.conditional_format()</a></li>
+<li><a class="reference internal" href="#add-table">add_table()</a></li>
 <li><a class="reference internal" href="#worksheet-write-comment">worksheet.write_comment()</a></li>
 <li><a class="reference internal" href="#worksheet-show-comments">worksheet.show_comments()</a></li>
 <li><a class="reference internal" href="#worksheet-set-comments-author">worksheet.set_comments_author()</a></li>

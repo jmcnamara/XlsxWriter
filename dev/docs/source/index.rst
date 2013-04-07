@@ -30,6 +30,7 @@ XlsxWriter supports the following features in version |version|:
 * Document properties.
 * Worksheet cell protection.
 * Freeze and split worksheet panes.
+* Worksheet Tables.
 * Outlines and Grouping.
 * Memory optimisation mode for writing large files.
 * Standard libraries only.

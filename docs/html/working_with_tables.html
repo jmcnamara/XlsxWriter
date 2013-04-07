@@ -1,0 +1,471 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Working with Worksheet Tables &mdash; XlsxWriter Documentation</title>
+    
+    <link rel="stylesheet" href="_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '',
+        VERSION:     '0.2.9',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="XlsxWriter Documentation" href="index.html" />
+    <link rel="next" title="Working with Cell Comments" href="working_with_cell_comments.html" />
+    <link rel="prev" title="Working with Conditional Formatting" href="working_with_conditional_formats.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="working_with_cell_comments.html" title="Working with Cell Comments"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="working_with_conditional_formats.html" title="Working with Conditional Formatting"
+             accesskey="P">previous</a> |</li>
+        <li><a href="index.html">XlsxWriter Documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="working-with-worksheet-tables">
+<span id="tables"></span><h1>Working with Worksheet Tables</h1>
+<p>Tables in Excel are a way of grouping a range of cells into a single entity
+that has common formatting or that can be referenced from formulas. Tables can
+have column headers, autofilters, total rows, column formulas and default
+formatting.</p>
+<img alt="_images/tables12.png" src="_images/tables12.png" />
+<p>For more information see
+<a class="reference external" href="http://office.microsoft.com/en-us/excel-help/overview-of-excel-tables-HA010048546.aspx">An Overview of Excel Tables</a>
+in the Microsoft Office documentation.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Tables aren&#8217;t available in XlsxWriter when <a class="reference internal" href="workbook.html#Workbook" title="Workbook"><tt class="xref py py-func docutils literal"><span class="pre">Workbook()</span></tt></a>
+<tt class="docutils literal"><span class="pre">'constant_memory'</span></tt> mode is enabled.</p>
+</div>
+<div class="section" id="add-table">
+<h2>add_table()</h2>
+<p>Tables are added to a worksheet using the <a class="reference internal" href="worksheet.html#add_table" title="add_table"><tt class="xref py py-func docutils literal"><span class="pre">add_table()</span></tt></a> method:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">worksheet</span><span class="o">.</span><span class="n">add_table</span><span class="p">(</span><span class="s">&#39;B3:F7&#39;</span><span class="p">,</span> <span class="p">{</span><span class="n">options</span><span class="p">})</span>
+</pre></div>
+</div>
+<p>The data range can be specified in &#8216;A1&#8217; or &#8216;Row/Column&#8217; notation (see
+<a class="reference internal" href="working_with_cell_notation.html#cell-notation"><em>Working with Cell Notation</em></a>):</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">worksheet</span><span class="o">.</span><span class="n">add_table</span><span class="p">(</span><span class="s">&#39;B3:F7&#39;</span><span class="p">)</span>
+<span class="c"># Same as:</span>
+<span class="n">worksheet</span><span class="o">.</span><span class="n">add_table</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">5</span><span class="p">)</span>
+</pre></div>
+</div>
+<img alt="_images/tables1.png" src="_images/tables1.png" />
+<p>The options parameter should be a dict containing the parameters that describe
+the table options and data. The available options are:</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>data</td>
+</tr>
+<tr class="row-even"><td>autofilter</td>
+</tr>
+<tr class="row-odd"><td>header_row</td>
+</tr>
+<tr class="row-even"><td>banded_columns</td>
+</tr>
+<tr class="row-odd"><td>banded_rows</td>
+</tr>
+<tr class="row-even"><td>first_column</td>
+</tr>
+<tr class="row-odd"><td>last_column</td>
+</tr>
+<tr class="row-even"><td>style</td>
+</tr>
+<tr class="row-odd"><td>total_row</td>
+</tr>
+<tr class="row-even"><td>columns</td>
+</tr>
+<tr class="row-odd"><td>name</td>
+</tr>
+</tbody>
+</table>
+<p>These options are explained below. There are no required parameters and the
+options parameter is itself optional if no options are specified (as shown
+above).</p>
+</div>
+<div class="section" id="data">
+<h2>data</h2>
+<p>The <tt class="docutils literal"><span class="pre">data</span></tt> parameter can be used to specify the data in the cells of the
+table:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">data</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="p">[</span><span class="s">&#39;Apples&#39;</span><span class="p">,</span> <span class="mi">10000</span><span class="p">,</span> <span class="mi">5000</span><span class="p">,</span> <span class="mi">8000</span><span class="p">,</span> <span class="mi">6000</span><span class="p">],</span>
+    <span class="p">[</span><span class="s">&#39;Pears&#39;</span><span class="p">,</span>   <span class="mi">2000</span><span class="p">,</span> <span class="mi">3000</span><span class="p">,</span> <span class="mi">4000</span><span class="p">,</span> <span class="mi">5000</span><span class="p">],</span>
+    <span class="p">[</span><span class="s">&#39;Bananas&#39;</span><span class="p">,</span> <span class="mi">6000</span><span class="p">,</span> <span class="mi">6000</span><span class="p">,</span> <span class="mi">6500</span><span class="p">,</span> <span class="mi">6000</span><span class="p">],</span>
+    <span class="p">[</span><span class="s">&#39;Oranges&#39;</span><span class="p">,</span>  <span class="mi">500</span><span class="p">,</span>  <span class="mi">300</span><span class="p">,</span>  <span class="mi">200</span><span class="p">,</span>  <span class="mi">700</span><span class="p">],</span>
+
+<span class="p">]</span>
+
+<span class="n">worksheet</span><span class="o">.</span><span class="n">add_table</span><span class="p">(</span><span class="s">&#39;B3:F7&#39;</span><span class="p">,</span> <span class="p">{</span><span class="n">data</span><span class="p">,</span> <span class="n">data</span><span class="p">})</span>
+</pre></div>
+</div>
+<img alt="_images/tables2.png" src="_images/tables2.png" />
+<p>Table data can also be written separately, as an array or individual cells:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="c"># These statements are the same as the single statement above.</span>
+<span class="n">worksheet</span><span class="o">.</span><span class="n">add_table</span><span class="p">(</span><span class="s">&#39;B3:F7&#39;</span><span class="p">)</span>
+<span class="n">worksheet</span><span class="o">.</span><span class="n">write_row</span><span class="p">(</span><span class="s">&#39;B4&#39;</span><span class="p">,</span> <span class="n">data</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+<span class="n">worksheet</span><span class="o">.</span><span class="n">write_row</span><span class="p">(</span><span class="s">&#39;B5&#39;</span><span class="p">,</span> <span class="n">data</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+<span class="n">worksheet</span><span class="o">.</span><span class="n">write_row</span><span class="p">(</span><span class="s">&#39;B6&#39;</span><span class="p">,</span> <span class="n">data</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span>
+<span class="n">worksheet</span><span class="o">.</span><span class="n">write_row</span><span class="p">(</span><span class="s">&#39;B7&#39;</span><span class="p">,</span> <span class="n">data</span><span class="p">[</span><span class="mi">3</span><span class="p">])</span>
+</pre></div>
+</div>
+<p>Writing the cell data separately is occasionally required when you need to
+control the <tt class="docutils literal"><span class="pre">write_()</span></tt> methods used to populate the cells or if you wish to
+modify individual cell formatting.</p>
+<p>The <tt class="docutils literal"><span class="pre">data</span></tt> structure should be an list of lists holding row data as shown
+above.</p>
+</div>
+<div class="section" id="header-row">
+<h2>header_row</h2>
+<p>The <tt class="docutils literal"><span class="pre">header_row</span></tt> parameter can be used to turn on or off the header row in
+the table. It is on by default:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="c"># Turn off the header row.</span>
+<span class="n">worksheet</span><span class="o">.</span><span class="n">add_table</span><span class="p">(</span><span class="s">&#39;B4:F7&#39;</span><span class="p">,</span> <span class="p">{</span><span class="s">&#39;header_row&#39;</span><span class="p">:</span> <span class="bp">False</span><span class="p">})</span>
+</pre></div>
+</div>
+<img alt="_images/tables4.png" src="_images/tables4.png" />
+<p>The header row will contain default captions such as <tt class="docutils literal"><span class="pre">Column</span> <span class="pre">1</span></tt>,
+<tt class="docutils literal"><span class="pre">Column</span> <span class="pre">2</span></tt>, etc. These captions can be overridden using the <tt class="docutils literal"><span class="pre">columns</span></tt>
+parameter below.</p>
+</div>
+<div class="section" id="autofilter">
+<h2>autofilter</h2>
+<p>The <tt class="docutils literal"><span class="pre">autofilter</span></tt> parameter can be used to turn on or off the autofilter in
+the header row. It is on by default:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="c"># Turn off the default autofilter.</span>
+<span class="n">worksheet</span><span class="o">.</span><span class="n">add_table</span><span class="p">(</span><span class="s">&#39;B3:F7&#39;</span><span class="p">,</span> <span class="p">{</span><span class="s">&#39;autofilter&#39;</span><span class="p">:</span> <span class="bp">False</span><span class="p">})</span>
+</pre></div>
+</div>
+<img alt="_images/tables3.png" src="_images/tables3.png" />
+<p>The <tt class="docutils literal"><span class="pre">autofilter</span></tt> is only shown if the <tt class="docutils literal"><span class="pre">header_row</span></tt> is on. Filter conditions
+within the table are not supported.</p>
+</div>
+<div class="section" id="banded-rows">
+<h2>banded_rows</h2>
+<p>The <tt class="docutils literal"><span class="pre">banded_rows</span></tt> parameter can be used to used to create rows of alternating
+colour in the table. It is on by default:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="c"># Turn off banded rows.</span>
+<span class="n">worksheet</span><span class="o">.</span><span class="n">add_table</span><span class="p">(</span><span class="s">&#39;B3:F7&#39;</span><span class="p">,</span> <span class="p">{</span><span class="s">&#39;banded_rows&#39;</span><span class="p">:</span> <span class="bp">False</span><span class="p">})</span>
+</pre></div>
+</div>
+<img alt="_images/tables6.png" src="_images/tables6.png" />
+</div>
+<div class="section" id="banded-columns">
+<h2>banded_columns</h2>
+<p>The <tt class="docutils literal"><span class="pre">banded_columns</span></tt> parameter can be used to used to create columns of
+alternating colour in the table. It is off by default:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="c"># Turn on banded columns.</span>
+<span class="n">worksheet</span><span class="o">.</span><span class="n">add_table</span><span class="p">(</span><span class="s">&#39;B3:F7&#39;</span><span class="p">,</span> <span class="p">{</span><span class="s">&#39;banded_columns&#39;</span><span class="p">:</span> <span class="bp">True</span><span class="p">})</span>
+</pre></div>
+</div>
+<p>See the above image.</p>
+</div>
+<div class="section" id="first-column">
+<h2>first_column</h2>
+<p>The <tt class="docutils literal"><span class="pre">first_column</span></tt> parameter can be used to highlight the first column of the
+table. The type of highlighting will depend on the <tt class="docutils literal"><span class="pre">style</span></tt> of the table. It
+may be bold text or a different colour. It is off by default:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="c"># Turn on highlighting for the first column in the table.</span>
+<span class="n">worksheet</span><span class="o">.</span><span class="n">add_table</span><span class="p">(</span><span class="s">&#39;B3:F7&#39;</span><span class="p">,</span> <span class="p">{</span><span class="s">&#39;first_column&#39;</span><span class="p">:</span> <span class="bp">True</span><span class="p">})</span>
+</pre></div>
+</div>
+<img alt="_images/tables5.png" src="_images/tables5.png" />
+</div>
+<div class="section" id="last-column">
+<h2>last_column</h2>
+<p>The <tt class="docutils literal"><span class="pre">last_column</span></tt> parameter can be used to highlight the last column of the
+table. The type of highlighting will depend on the <tt class="docutils literal"><span class="pre">style</span></tt> of the table. It
+may be bold text or a different colour. It is off by default:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="c"># Turn on highlighting for the last column in the table.</span>
+<span class="n">worksheet</span><span class="o">.</span><span class="n">add_table</span><span class="p">(</span><span class="s">&#39;B3:F7&#39;</span><span class="p">,</span> <span class="p">{</span><span class="s">&#39;last_column&#39;</span><span class="p">:</span> <span class="bp">True</span><span class="p">})</span>
+</pre></div>
+</div>
+<p>See the above image.</p>
+</div>
+<div class="section" id="style">
+<h2>style</h2>
+<p>The <tt class="docutils literal"><span class="pre">style</span></tt> parameter can be used to set the style of the table. Standard
+Excel table format names should be used (with matching capitalisation):</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">worksheet</span><span class="o">.</span><span class="n">add_table</span><span class="p">(</span><span class="s">&#39;B3:F7&#39;</span><span class="p">,</span> <span class="p">{</span><span class="s">&#39;data&#39;</span><span class="p">:</span> <span class="n">data</span><span class="p">,</span>
+                              <span class="s">&#39;style&#39;</span><span class="p">:</span> <span class="s">&#39;Table Style Light 11&#39;</span><span class="p">})</span>
+</pre></div>
+</div>
+<img alt="_images/tables11.png" src="_images/tables11.png" />
+<p>The default table style is &#8216;Table Style Medium 9&#8217;.</p>
+</div>
+<div class="section" id="name">
+<h2>name</h2>
+<p>The <tt class="docutils literal"><span class="pre">name</span></tt> parameter can be used to set the name of the table.</p>
+<p>By default tables are named <tt class="docutils literal"><span class="pre">Table1</span></tt>, <tt class="docutils literal"><span class="pre">Table2</span></tt>, etc. If you override the
+table name you must ensure that it doesn&#8217;t clash with an existing table name
+and that it follows Excel&#8217;s requirements for table names:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">worksheet</span><span class="o">.</span><span class="n">add_table</span><span class="p">(</span><span class="s">&#39;B3:F7&#39;</span><span class="p">,</span> <span class="p">{</span><span class="s">&#39;name&#39;</span><span class="p">:</span> <span class="s">&#39;SalesData&#39;</span><span class="p">})</span>
+</pre></div>
+</div>
+<p>If you need to know the name of the table, for example to use it in a formula,
+you can get it as follows:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">table</span> <span class="o">=</span> <span class="n">worksheet</span><span class="o">.</span><span class="n">add_table</span><span class="p">(</span><span class="s">&#39;B3:F7&#39;</span><span class="p">)</span>
+<span class="n">table_name</span> <span class="o">=</span> <span class="n">table</span><span class="o">.</span><span class="n">name</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="total-row">
+<h2>total_row</h2>
+<p>The <tt class="docutils literal"><span class="pre">total_row</span></tt> parameter can be used to turn on the total row in the last
+row of a table. It is distinguished from the other rows by a different
+formatting and also with dropdown <tt class="docutils literal"><span class="pre">SUBTOTAL</span></tt> functions:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">worksheet</span><span class="o">.</span><span class="n">add_table</span><span class="p">(</span><span class="s">&#39;B3:F7&#39;</span><span class="p">,</span> <span class="p">{</span><span class="s">&#39;total_row&#39;</span><span class="p">:</span> <span class="bp">True</span><span class="p">})</span>
+</pre></div>
+</div>
+<img alt="_images/tables9.png" src="_images/tables9.png" />
+<p>The default total row doesn&#8217;t have any captions or functions. These must by
+specified via the <tt class="docutils literal"><span class="pre">columns</span></tt> parameter below.</p>
+</div>
+<div class="section" id="columns">
+<h2>columns</h2>
+<p>The <tt class="docutils literal"><span class="pre">columns</span></tt> parameter can be used to set properties for columns within the
+table.</p>
+<img alt="_images/tables7.png" src="_images/tables7.png" />
+<p>The sub-properties that can be set are:</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>header</td>
+</tr>
+<tr class="row-even"><td>formula</td>
+</tr>
+<tr class="row-odd"><td>total_string</td>
+</tr>
+<tr class="row-even"><td>total_function</td>
+</tr>
+<tr class="row-odd"><td>format</td>
+</tr>
+</tbody>
+</table>
+<p>The column data must be specified as a list of dicts. For example to override
+the default &#8216;Column n&#8217; style table headers:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">worksheet</span><span class="o">.</span><span class="n">add_table</span><span class="p">(</span><span class="s">&#39;B3:F7&#39;</span><span class="p">,</span> <span class="p">{</span><span class="s">&#39;data&#39;</span><span class="p">:</span> <span class="n">data</span><span class="p">,</span>
+                              <span class="s">&#39;columns&#39;</span><span class="p">:</span> <span class="p">[{</span><span class="s">&#39;header&#39;</span><span class="p">:</span> <span class="s">&#39;Product&#39;</span><span class="p">},</span>
+                                          <span class="p">{</span><span class="s">&#39;header&#39;</span><span class="p">:</span> <span class="s">&#39;Quarter 1&#39;</span><span class="p">},</span>
+                                          <span class="p">{</span><span class="s">&#39;header&#39;</span><span class="p">:</span> <span class="s">&#39;Quarter 2&#39;</span><span class="p">},</span>
+                                          <span class="p">{</span><span class="s">&#39;header&#39;</span><span class="p">:</span> <span class="s">&#39;Quarter 3&#39;</span><span class="p">},</span>
+                                          <span class="p">{</span><span class="s">&#39;header&#39;</span><span class="p">:</span> <span class="s">&#39;Quarter 4&#39;</span><span class="p">},</span>
+                                          <span class="p">]})</span>
+</pre></div>
+</div>
+<p>See the resulting image above.</p>
+<p>If you don&#8217;t wish to specify properties for a specific column you pass an empty
+hash ref and the defaults will be applied:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="o">...</span>
+<span class="n">columns</span><span class="p">,</span> <span class="p">[</span>
+    <span class="p">{</span><span class="n">header</span><span class="p">,</span> <span class="s">&#39;Product&#39;</span><span class="p">},</span>
+    <span class="p">{</span><span class="n">header</span><span class="p">,</span> <span class="s">&#39;Quarter 1&#39;</span><span class="p">},</span>
+    <span class="p">{},</span>                     <span class="c"># Defaults to &#39;Column 3&#39;.</span>
+    <span class="p">{</span><span class="n">header</span><span class="p">,</span> <span class="s">&#39;Quarter 3&#39;</span><span class="p">},</span>
+    <span class="p">{</span><span class="n">header</span><span class="p">,</span> <span class="s">&#39;Quarter 4&#39;</span><span class="p">},</span>
+<span class="p">]</span>
+<span class="o">...</span>
+</pre></div>
+</div>
+<p>Column formulas can by applied using the column <tt class="docutils literal"><span class="pre">formula</span></tt> property:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">formula</span> <span class="o">=</span> <span class="s">&#39;=SUM(Table8[@[Quarter 1]:[Quarter 4]])&#39;</span>
+
+<span class="n">worksheet</span><span class="o">.</span><span class="n">add_table</span><span class="p">(</span><span class="s">&#39;B3:G7&#39;</span><span class="p">,</span> <span class="p">{</span><span class="s">&#39;data&#39;</span><span class="p">:</span> <span class="n">data</span><span class="p">,</span>
+                              <span class="s">&#39;columns&#39;</span><span class="p">:</span> <span class="p">[{</span><span class="s">&#39;header&#39;</span><span class="p">:</span> <span class="s">&#39;Product&#39;</span><span class="p">},</span>
+                                          <span class="p">{</span><span class="s">&#39;header&#39;</span><span class="p">:</span> <span class="s">&#39;Quarter 1&#39;</span><span class="p">},</span>
+                                          <span class="p">{</span><span class="s">&#39;header&#39;</span><span class="p">:</span> <span class="s">&#39;Quarter 2&#39;</span><span class="p">},</span>
+                                          <span class="p">{</span><span class="s">&#39;header&#39;</span><span class="p">:</span> <span class="s">&#39;Quarter 3&#39;</span><span class="p">},</span>
+                                          <span class="p">{</span><span class="s">&#39;header&#39;</span><span class="p">:</span> <span class="s">&#39;Quarter 4&#39;</span><span class="p">},</span>
+                                          <span class="p">{</span><span class="s">&#39;header&#39;</span><span class="p">:</span> <span class="s">&#39;Year&#39;</span><span class="p">,</span>
+                                           <span class="s">&#39;formula&#39;</span><span class="p">:</span> <span class="n">formula</span><span class="p">},</span>
+                                          <span class="p">]})</span>
+</pre></div>
+</div>
+<img alt="_images/tables8.png" src="_images/tables8.png" />
+<p>The Excel 2007 <tt class="docutils literal"><span class="pre">[#This</span> <span class="pre">Row]</span></tt> and Excel 2010 <tt class="docutils literal"><span class="pre">&#64;</span></tt> structural references are
+supported within the formula.</p>
+<p>As stated above the <tt class="docutils literal"><span class="pre">total_row</span></tt> table parameter turns on the &#8220;Total&#8221; row in
+the table but it doesn&#8217;t populate it with any defaults. Total captions and
+functions must be specified via the <tt class="docutils literal"><span class="pre">columns</span></tt> property and the
+<tt class="docutils literal"><span class="pre">total_string</span></tt> and <tt class="docutils literal"><span class="pre">total_function</span></tt> sub properties:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">options</span> <span class="o">=</span> <span class="p">{</span><span class="s">&#39;data&#39;</span><span class="p">:</span> <span class="n">data</span><span class="p">,</span>
+           <span class="s">&#39;total_row&#39;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+           <span class="s">&#39;columns&#39;</span><span class="p">:</span> <span class="p">[{</span><span class="s">&#39;header&#39;</span><span class="p">:</span> <span class="s">&#39;Product&#39;</span><span class="p">,</span> <span class="s">&#39;total_string&#39;</span><span class="p">:</span> <span class="s">&#39;Totals&#39;</span><span class="p">},</span>
+                       <span class="p">{</span><span class="s">&#39;header&#39;</span><span class="p">:</span> <span class="s">&#39;Quarter 1&#39;</span><span class="p">,</span> <span class="s">&#39;total_function&#39;</span><span class="p">:</span> <span class="s">&#39;sum&#39;</span><span class="p">},</span>
+                       <span class="p">{</span><span class="s">&#39;header&#39;</span><span class="p">:</span> <span class="s">&#39;Quarter 2&#39;</span><span class="p">,</span> <span class="s">&#39;total_function&#39;</span><span class="p">:</span> <span class="s">&#39;sum&#39;</span><span class="p">},</span>
+                       <span class="p">{</span><span class="s">&#39;header&#39;</span><span class="p">:</span> <span class="s">&#39;Quarter 3&#39;</span><span class="p">,</span> <span class="s">&#39;total_function&#39;</span><span class="p">:</span> <span class="s">&#39;sum&#39;</span><span class="p">},</span>
+                       <span class="p">{</span><span class="s">&#39;header&#39;</span><span class="p">:</span> <span class="s">&#39;Quarter 4&#39;</span><span class="p">,</span> <span class="s">&#39;total_function&#39;</span><span class="p">:</span> <span class="s">&#39;sum&#39;</span><span class="p">},</span>
+                       <span class="p">{</span><span class="s">&#39;header&#39;</span><span class="p">:</span> <span class="s">&#39;Year&#39;</span><span class="p">,</span>
+                        <span class="s">&#39;formula&#39;</span><span class="p">:</span> <span class="s">&#39;=SUM(Table10[@[Quarter 1]:[Quarter 4]])&#39;</span><span class="p">,</span>
+                        <span class="s">&#39;total_function&#39;</span><span class="p">:</span> <span class="s">&#39;sum&#39;</span>
+                        <span class="p">},</span>
+                       <span class="p">]}</span>
+
+<span class="c"># Add a table to the worksheet.</span>
+<span class="n">worksheet</span><span class="o">.</span><span class="n">add_table</span><span class="p">(</span><span class="s">&#39;B3:G8&#39;</span><span class="p">,</span> <span class="n">options</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>The supported totals row <tt class="docutils literal"><span class="pre">SUBTOTAL</span></tt> functions are:</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>average</td>
+</tr>
+<tr class="row-even"><td>count_nums</td>
+</tr>
+<tr class="row-odd"><td>count</td>
+</tr>
+<tr class="row-even"><td>max</td>
+</tr>
+<tr class="row-odd"><td>min</td>
+</tr>
+<tr class="row-even"><td>std_dev</td>
+</tr>
+<tr class="row-odd"><td>sum</td>
+</tr>
+<tr class="row-even"><td>var</td>
+</tr>
+</tbody>
+</table>
+<p>User defined functions or formulas aren&#8217;t supported.</p>
+<p>Formats can also be applied to columns:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">currency_format</span> <span class="o">=</span> <span class="n">workbook</span><span class="o">.</span><span class="n">add_format</span><span class="p">(</span><span class="n">num_format</span><span class="p">,</span> <span class="s">&#39;$#,##0&#39;</span><span class="p">)</span>
+
+<span class="n">worksheet</span><span class="o">.</span><span class="n">add_table</span><span class="p">(</span><span class="s">&#39;B3:D8&#39;</span><span class="p">,</span> <span class="p">{</span><span class="s">&#39;data&#39;</span><span class="p">:</span> <span class="n">data</span><span class="p">,</span>
+                              <span class="s">&#39;total_row&#39;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+                              <span class="s">&#39;columns&#39;</span><span class="p">:</span> <span class="p">[{</span><span class="s">&#39;header&#39;</span><span class="p">:</span> <span class="s">&#39;Product&#39;</span><span class="p">},</span>
+                                          <span class="p">{</span><span class="s">&#39;header&#39;</span><span class="p">:</span> <span class="s">&#39;Quarter 1&#39;</span><span class="p">,</span>
+                                           <span class="s">&#39;total_function&#39;</span><span class="p">:</span> <span class="s">&#39;sum&#39;</span><span class="p">,</span>
+                                           <span class="s">&#39;format&#39;</span><span class="p">:</span> <span class="n">currency_format</span><span class="p">,</span>
+                                           <span class="p">},</span>
+                                          <span class="p">{</span><span class="s">&#39;header&#39;</span><span class="p">:</span> <span class="s">&#39;Quarter 2&#39;</span><span class="p">,</span>
+                                           <span class="s">&#39;total_function&#39;</span><span class="p">:</span> <span class="s">&#39;sum&#39;</span><span class="p">,</span>
+                                           <span class="s">&#39;format&#39;</span><span class="p">:</span> <span class="n">currency_format</span><span class="p">,</span>
+                                           <span class="p">},</span>
+                                          <span class="p">]})</span>
+</pre></div>
+</div>
+<img alt="_images/tables12.png" src="_images/tables12.png" />
+<p>Standard XlsxWriter <a class="reference internal" href="format.html#format"><em>Format object</em></a> objects are used for this
+formatting. However, they should be limited to numerical formats. Overriding
+other table formatting may produce inconsistent results.</p>
+</div>
+<div class="section" id="example">
+<h2>Example</h2>
+<p>All of the images shown above are taken from <a class="reference internal" href="example_tables.html#ex-tables"><em>Example: Worksheet Tables</em></a>.</p>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="index.html">
+              <img class="logo" src="_static/logo.png" alt="Logo"/>
+            </a></p>
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Working with Worksheet Tables</a><ul>
+<li><a class="reference internal" href="#add-table">add_table()</a></li>
+<li><a class="reference internal" href="#data">data</a></li>
+<li><a class="reference internal" href="#header-row">header_row</a></li>
+<li><a class="reference internal" href="#autofilter">autofilter</a></li>
+<li><a class="reference internal" href="#banded-rows">banded_rows</a></li>
+<li><a class="reference internal" href="#banded-columns">banded_columns</a></li>
+<li><a class="reference internal" href="#first-column">first_column</a></li>
+<li><a class="reference internal" href="#last-column">last_column</a></li>
+<li><a class="reference internal" href="#style">style</a></li>
+<li><a class="reference internal" href="#name">name</a></li>
+<li><a class="reference internal" href="#total-row">total_row</a></li>
+<li><a class="reference internal" href="#columns">columns</a></li>
+<li><a class="reference internal" href="#example">Example</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="working_with_conditional_formats.html"
+                        title="previous chapter">Working with Conditional Formatting</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="working_with_cell_comments.html"
+                        title="next chapter">Working with Cell Comments</a></p>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="_sources/working_with_tables.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="working_with_cell_comments.html" title="Working with Cell Comments"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="working_with_conditional_formats.html" title="Working with Conditional Formatting"
+             >previous</a> |</li>
+        <li><a href="index.html">XlsxWriter Documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2013, John McNamara.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.3.
+    </div>
+  </body>
+</html>

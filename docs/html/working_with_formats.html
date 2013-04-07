@@ -16,7 +16,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '',
-        VERSION:     '0.2.8',
+        VERSION:     '0.2.9',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -65,9 +65,8 @@ follows:</p>
 <span class="n">format2</span> <span class="o">=</span> <span class="n">workbook</span><span class="o">.</span><span class="n">add_format</span><span class="p">(</span><span class="n">props</span><span class="p">)</span>  <span class="c"># Set properties at creation.</span>
 </pre></div>
 </div>
-<p>Once a Format object has been constructed and its properties have been
-set it can be passed as an argument to the worksheet <tt class="docutils literal"><span class="pre">write</span></tt> methods
-as follows:</p>
+<p>Once a Format object has been constructed and its properties have been set it
+can be passed as an argument to the worksheet <tt class="docutils literal"><span class="pre">write</span></tt> methods as follows:</p>
 <div class="highlight-python"><div class="highlight"><pre><span class="n">worksheet</span><span class="o">.</span><span class="n">write</span>       <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="s">&#39;Foo&#39;</span><span class="p">,</span> <span class="n">format</span><span class="p">)</span>
 <span class="n">worksheet</span><span class="o">.</span><span class="n">write_string</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="s">&#39;Bar&#39;</span><span class="p">,</span> <span class="n">format</span><span class="p">)</span>
 <span class="n">worksheet</span><span class="o">.</span><span class="n">write_number</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span>     <span class="n">format</span><span class="p">)</span>
@@ -278,8 +277,8 @@ to the <cite>add_format()</cite> constructor:</p>
 </div>
 <p>The object method interface is mainly provided for backward compatibility with
 <a class="reference internal" href="excel_writer_xlsx.html#ewx"><em>Excel::Writer::XLSX</em></a>. The key/value interface has proved to be
-more flexible in real world programs and is the recommended method for
-setting format properties.</p>
+more flexible in real world programs and is the recommended method for setting
+format properties.</p>
 </div>
 <div class="section" id="format-colors">
 <span id="id2"></span><h2>Format Colors</h2>

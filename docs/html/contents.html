@@ -16,7 +16,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '',
-        VERSION:     '0.2.8',
+        VERSION:     '0.2.9',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -92,6 +92,7 @@
 <li class="toctree-l2"><a class="reference internal" href="worksheet.html#worksheet-insert-image">worksheet.insert_image()</a></li>
 <li class="toctree-l2"><a class="reference internal" href="worksheet.html#worksheet-data-validation">worksheet.data_validation()</a></li>
 <li class="toctree-l2"><a class="reference internal" href="worksheet.html#worksheet-conditional-format">worksheet.conditional_format()</a></li>
+<li class="toctree-l2"><a class="reference internal" href="worksheet.html#add-table">add_table()</a></li>
 <li class="toctree-l2"><a class="reference internal" href="worksheet.html#worksheet-write-comment">worksheet.write_comment()</a></li>
 <li class="toctree-l2"><a class="reference internal" href="worksheet.html#worksheet-show-comments">worksheet.show_comments()</a></li>
 <li class="toctree-l2"><a class="reference internal" href="worksheet.html#worksheet-set-comments-author">worksheet.set_comments_author()</a></li>
@@ -202,6 +203,22 @@
 <li class="toctree-l2"><a class="reference internal" href="working_with_conditional_formats.html#conditional-formatting-examples">Conditional Formatting Examples</a></li>
 </ul>
 </li>
+<li class="toctree-l1"><a class="reference internal" href="working_with_tables.html">Working with Worksheet Tables</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="working_with_tables.html#add-table">add_table()</a></li>
+<li class="toctree-l2"><a class="reference internal" href="working_with_tables.html#data">data</a></li>
+<li class="toctree-l2"><a class="reference internal" href="working_with_tables.html#header-row">header_row</a></li>
+<li class="toctree-l2"><a class="reference internal" href="working_with_tables.html#autofilter">autofilter</a></li>
+<li class="toctree-l2"><a class="reference internal" href="working_with_tables.html#banded-rows">banded_rows</a></li>
+<li class="toctree-l2"><a class="reference internal" href="working_with_tables.html#banded-columns">banded_columns</a></li>
+<li class="toctree-l2"><a class="reference internal" href="working_with_tables.html#first-column">first_column</a></li>
+<li class="toctree-l2"><a class="reference internal" href="working_with_tables.html#last-column">last_column</a></li>
+<li class="toctree-l2"><a class="reference internal" href="working_with_tables.html#style">style</a></li>
+<li class="toctree-l2"><a class="reference internal" href="working_with_tables.html#name">name</a></li>
+<li class="toctree-l2"><a class="reference internal" href="working_with_tables.html#total-row">total_row</a></li>
+<li class="toctree-l2"><a class="reference internal" href="working_with_tables.html#columns">columns</a></li>
+<li class="toctree-l2"><a class="reference internal" href="working_with_tables.html#example">Example</a></li>
+</ul>
+</li>
 <li class="toctree-l1"><a class="reference internal" href="working_with_cell_comments.html">Working with Cell Comments</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="working_with_cell_comments.html#setting-comment-properties">Setting Comment Properties</a></li>
 </ul>
@@ -228,6 +245,7 @@
 <li class="toctree-l2"><a class="reference internal" href="example_images.html">Example: Inserting images into a worksheet</a></li>
 <li class="toctree-l2"><a class="reference internal" href="example_headers_footers.html">Example: Adding Headers and Footers to Worksheets</a></li>
 <li class="toctree-l2"><a class="reference internal" href="example_panes.html">Example: Freeze Panes and Split Panes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="example_tables.html">Example: Worksheet Tables</a></li>
 <li class="toctree-l2"><a class="reference internal" href="example_comments1.html">Example: Adding Cell Comments to Worksheets (Simple)</a></li>
 <li class="toctree-l2"><a class="reference internal" href="example_comments2.html">Example: Adding Cell Comments to Worksheets (Advanced)</a></li>
 <li class="toctree-l2"><a class="reference internal" href="example_outline1.html">Example: Outline and Grouping</a></li>
@@ -242,7 +260,10 @@
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="excel_writer_xlsx.html">Comparison with Excel::Writer::XLSX</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="excel_writer_xlsx.html#compatibility-with-excel-writer-xlsx">Compatibility with Excel::Writer::XLSX</a></li>
+<li class="toctree-l2"><a class="reference internal" href="excel_writer_xlsx.html#workbook">Workbook</a></li>
+<li class="toctree-l2"><a class="reference internal" href="excel_writer_xlsx.html#worksheet">Worksheet</a></li>
+<li class="toctree-l2"><a class="reference internal" href="excel_writer_xlsx.html#page-setup">Page Setup</a></li>
+<li class="toctree-l2"><a class="reference internal" href="excel_writer_xlsx.html#format">Format</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="alternatives.html">Alternative modules for handling Excel files</a><ul>

@@ -3,54 +3,17 @@
 Comparison with Excel::Writer::XLSX
 ===================================
 
+The XlsxWriter module is a port of the Perl
 `Excel::Writer::XLSX <http://search.cpan.org/~jmcnamara/Excel-Writer-XLSX/>`_
-is a module written in Perl for creating Excel 2007+ XLSX files.
+module with more Pythonic interfaces.
 
-Excel::Writer::XLSX is an API compatible rewrite of an older Perl module called
-`Spreadsheet::WriteExcel <http://search.cpan.org/~jmcnamara/Spreadsheet-WriteExcel/>`_
-that creates Excel XLS file.
+XlsxWriter supports almost all of Excel::Writer::XLSX's features apart from
+those noted in the tables below. Remaining features such as sparklines and
+charts are in progress.
 
-In terms of features Excel::Writer::XLSX is one most complete open source
-libraries for writing Excel files. It supports:
-
-* Multiple worksheets
-* Strings and numbers
-* Unicode text
-* Cell formatting
-* Formulas
-* Images
-* Charts
-* Autofilters
-* Data validation
-* Conditional formatting
-* Macros
-* Tables
-* Shapes
-* Sparklines
-* Hyperlinks
-* Rich string formats
-* Defined names
-* Grouping/Outlines
-* Cell comments
-* Panes
-* Page set-up and printing options
-
-Excel::Writer::XLSX has comprehensive documentation, a large number of
-`example files <http://search.cpan.org/~jmcnamara/Excel-Writer-XLSX/lib/Excel/Writer/XLSX/Examples.pm>`_
-and an extensive test suite.
-
-Excel::Writer::XLSX and XlsxWriter are written by
-`John McNamara <https://github.com/jmcnamara>`_.
-
-
-Compatibility with Excel::Writer::XLSX
---------------------------------------
-
-Porting of ``Excel::Writer::XLSX`` to ``XlsxWriter`` is a work in progress. The
-following table shows the level of compatibility between the two module.
 
 Workbook
-********
+--------
 
 Status: ongoing.
 
@@ -63,10 +26,6 @@ Status: ongoing.
 +--------------------------+------------+---------------------+
 | add_chart()              | **No**     | Yes                 |
 +--------------------------+------------+---------------------+
-| add_shape()              | **No**     | Yes                 |
-+--------------------------+------------+---------------------+
-| add_vba_project()        | **No**     | Yes                 |
-+--------------------------+------------+---------------------+
 | :func:`close()`          | Yes        | Yes                 |
 +--------------------------+------------+---------------------+
 | :func:`set_properties()` | Yes        | Yes                 |
@@ -75,20 +34,26 @@ Status: ongoing.
 +--------------------------+------------+---------------------+
 | :func:`worksheets()`     | Yes        | Yes                 |
 +--------------------------+------------+---------------------+
-| set_tempdir()            | Yes (1)    | Yes                 |
+| add_shape()              | No (1)     | Yes                 |
 +--------------------------+------------+---------------------+
-| set_1904()               | Yes (1)    | Yes                 |
+| add_vba_project()        | No (1)     | Yes                 |
 +--------------------------+------------+---------------------+
-| set_optimization()       | Yes (1)    | Yes                 |
+| set_tempdir()            | Yes (2)    | Yes                 |
 +--------------------------+------------+---------------------+
-| set_custom_color()       | Yes (2)    | Yes                 |
+| set_1904()               | Yes (2)    | Yes                 |
++--------------------------+------------+---------------------+
+| set_optimization()       | Yes (2)    | Yes                 |
++--------------------------+------------+---------------------+
+| set_custom_color()       | Yes (3)    | Yes                 |
 +--------------------------+------------+---------------------+
 
+#. These features are experimental and probably won't be ported.
 #. This is a constructor parameter in XlsxWriter.
 #. Not required in XlsxWriter. Full RGB colours are supported.
 
+
 Worksheet
-*********
+---------
 
 Status: ongoing.
 
@@ -127,17 +92,13 @@ Status: ongoing.
 +-------------------------------+------------+---------------------+
 | insert_chart()                | **No**     | Yes                 |
 +-------------------------------+------------+---------------------+
-| insert_shape()                | **No**     | Yes                 |
-+-------------------------------+------------+---------------------+
-| insert_button()               | **No**     | Yes                 |
-+-------------------------------+------------+---------------------+
 | :func:`data_validation()`     | Yes        | Yes                 |
 +-------------------------------+------------+---------------------+
 | :func:`conditional_format()`  | Yes        | Yes                 |
 +-------------------------------+------------+---------------------+
 | add_sparkline()               | **No**     | Yes                 |
 +-------------------------------+------------+---------------------+
-| add_table()                   | **No**     | Yes                 |
+| :func:`add_table()`           | Yes        | Yes                 |
 +-------------------------------+------------+---------------------+
 | :func:`get_name()`            | Yes        | Yes                 |
 +-------------------------------+------------+---------------------+
@@ -195,7 +156,7 @@ Status: ongoing.
 
 
 Page Setup
-**********
+----------
 
 Status: complete.
 
@@ -244,7 +205,7 @@ Status: complete.
 +---------------------------------+------------+---------------------+
 
 Format
-******
+------
 
 Status: complete.
 
