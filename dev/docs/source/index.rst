@@ -76,6 +76,7 @@ XlsxWriter supports the following features in version |version|:
    working_with_autofilters.rst
    working_with_data_validation.rst
    working_with_conditional_formats.rst
+   working_with_tables.rst
    working_with_cell_comments.rst
    working_with_outlines.rst
    working_with_memory.rst
