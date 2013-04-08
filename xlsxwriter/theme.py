@@ -32,6 +32,20 @@ class Theme(object):
         super(Theme, self).__init__()
         self.fh = None
 
+    def get_sparkline_style(self, style_id):
+        styles = [
+            {'series'   : { 'theme' : "4", 'tint' : "-0.499984740745262" },
+             'negative' : { 'theme' : "5" },
+             'markers'  : { 'theme' : "4", 'tint' : "-0.499984740745262" },
+             'first'    : { 'theme' : "4", 'tint' : "0.39997558519241921" },
+             'last'     : { 'theme' : "4", 'tint' : "0.39997558519241921" },
+             'high'     : { 'theme' : "4" },
+             'low'      : { 'theme' : "4" },
+             },
+        ]
+
+        return styles[style_id]
+
     ###########################################################################
     #
     # Private API.

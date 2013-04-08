@@ -26,6 +26,7 @@ from . import xmlwriter
 from .format import Format
 from .drawing import Drawing
 from .xmlwriter import XMLwriter
+from .theme import Theme
 from .utility import xl_rowcol_to_cell
 from .utility import xl_cell_to_rowcol
 from .utility import xl_col_to_name
@@ -1950,7 +1951,8 @@ class Worksheet(xmlwriter.XMLwriter):
             self.cond_formats[cell_range] = [options]
 
     @convert_range_args
-    def add_table(self, first_row, first_col, last_row, last_col, options=None):
+    def add_table(self, first_row, first_col, last_row, last_col,
+                  options=None):
         """
         Add an Excel table to a worksheet.
 
@@ -2185,6 +2187,169 @@ class Worksheet(xmlwriter.XMLwriter):
                                           + '.xml'])
 
         return table
+
+    #
+    #
+    # Add sparklines to the worksheet.
+    #
+    def add_sparkline(self, options):
+        sparkline = {}
+
+        # List of valid input parameters.
+        valid_parameters = {
+            'location': True,
+            'range': True,
+            'type': True,
+            'high_point': True,
+            'low_point': True,
+            'negative_points': True,
+            'first_point': True,
+            'last_point': True,
+            'markers': True,
+            'style': True,
+            'series_color': True,
+            'negative_color': True,
+            'markers_color': True,
+            'first_color': True,
+            'last_color': True,
+            'high_color': True,
+            'low_color': True,
+            'max': True,
+            'min': True,
+            'axis': True,
+            'reverse': True,
+            'empty_cells': True,
+            'show_hidden': True,
+            'plot_hidden': True,
+            'date_axis': True,
+            'weight': True,
+        }
+
+        # Check for valid input parameters.
+        for param_key in options.keys():
+            if not param_key in valid_parameters:
+                warn("Unknown parameter '%s' in add_sparkline()" % param_key)
+                return -2
+
+        # 'location' is a required parameter.
+        if not 'location' in options:
+            warn("Parameter 'location' is required in add_sparkline()")
+            return -3
+
+        # 'range' is a required parameter.
+        if not 'range' in options:
+            warn("Parameter 'range' is required in add_sparkline()")
+            return -3
+
+        # Handle the sparkline type.
+        spark_type = options.get('type', 'line')
+
+        if spark_type not in ('line', 'column', 'win_loss'):
+            warn("Parameter 'type' must be 'line', 'column' "
+                 "or 'win_loss' in add_sparkline()")
+            return -4
+
+        if spark_type == 'win_loss':
+            spark_type = 'stacked'
+        sparkline['type'] = spark_type
+
+        # We handle single location/range values or list of values.
+        if type(options['location']) is list:
+            sparkline['locations'] = options['location']
+            sparkline['ranges'] = options['range']
+        else:
+            sparkline['locations'] = [options['location']]
+            sparkline['ranges'] = [options['range']]
+
+        range_count = len(sparkline['ranges'])
+        location_count = len(sparkline['locations'])
+
+        # The ranges and locations must match.
+        if range_count != location_count:
+            warn("Must have the same number of location and range "
+                 "parameters in add_sparkline()")
+            return -5
+
+        # Store the count.
+        sparkline['count'] = len(sparkline['locations'])
+
+        # Get the worksheet name for the range conversion below.
+        sheetname = self._quote_sheetname(self.name)
+
+        # Cleanup the input ranges.
+        for spark_range in sparkline['ranges']:
+
+            # Remove the absolute reference $ symbols.
+            spark_range = spark_range.replace('$', '')
+
+            # Remove the = from formula.
+            spark_range = spark_range.replace('$', '')
+            spark_range = spark_range.lstrip('=')
+
+            # Convert a simple range into a full Sheet1!A1:D1 range.
+            if '!' not in spark_range:
+                spark_range = sheetname + "!" + spark_range
+
+        # Cleanup the input locations.
+        for location in sparkline['locations']:
+            location = location.replace('$', '')
+
+        # Map options.
+        sparkline['high'] = options.get('high_point')
+        sparkline['low'] = options.get('low_point')
+        sparkline['negative'] = options.get('negative_points')
+        sparkline['first'] = options.get('first_point')
+        sparkline['last'] = options.get('last_point')
+        sparkline['markers'] = options.get('markers')
+        sparkline['min'] = options.get('min')
+        sparkline['max'] = options.get('max')
+        sparkline['axis'] = options.get('axis')
+        sparkline['reverse'] = options.get('reverse')
+        sparkline['hidden'] = options.get('show_hidden')
+        sparkline['weight'] = options.get('weight')
+
+        # Map empty cells options.
+        empty = options.get('empty_cells', '')
+
+        if empty == 'zero':
+            sparkline['empty'] = 0
+        elif empty == 'connect':
+            sparkline['empty'] = 'span'
+        else:
+            sparkline['empty'] = 'gap'
+
+        # Map the date axis range.
+        date_range = options.get('date_axis')
+
+        if date_range and '!' not in date_range:
+            date_range = sheetname + "!" + date_range
+
+        sparkline['date_axis'] = date_range
+
+        # Set the sparkline styles.
+        style_id = options.get('style', 0)
+        # TODO
+        theme = Theme()
+        style = theme.get_sparkline_style(style_id)
+
+        sparkline['series_color'] = style['series']
+        sparkline['negative_color'] = style['negative']
+        sparkline['markers_color'] = style['markers']
+        sparkline['first_color'] = style['first']
+        sparkline['last_color'] = style['last']
+        sparkline['high_color'] = style['high']
+        sparkline['low_color'] = style['low']
+
+        # Override the style colours with user defined colours.
+        self._set_spark_color(sparkline, options, 'series_color')
+        self._set_spark_color(sparkline, options, 'negative_color')
+        self._set_spark_color(sparkline, options, 'markers_color')
+        self._set_spark_color(sparkline, options, 'first_color')
+        self._set_spark_color(sparkline, options, 'last_color')
+        self._set_spark_color(sparkline, options, 'high_color')
+        self._set_spark_color(sparkline, options, 'low_color')
+
+        self.sparklines.append(sparkline)
 
     @convert_range_args
     def set_selection(self, first_row, first_col, last_row, last_col):
@@ -2865,7 +3030,7 @@ class Worksheet(xmlwriter.XMLwriter):
         self._write_table_parts()
 
         # Write the extLst and sparklines.
-        # self._write_ext_sparklines()
+        self._write_ext_sparklines()
 
         # Close the worksheet tag.
         self._xml_end_tag('worksheet')
@@ -3652,6 +3817,13 @@ class Worksheet(xmlwriter.XMLwriter):
             warn("Unsupported function '%s' in add_table()" % function)
 
         return formula
+
+    def _set_spark_color(self, sparkline, options, user_color):
+        # Set the sparkline colour.
+        if not 'user_color' in options:
+            return
+
+        sparkline[user_color] = {'rgb': xl_color(options['user_color'])}
 
     ###########################################################################
     #
@@ -5325,3 +5497,237 @@ class Worksheet(xmlwriter.XMLwriter):
         attributes = [('r:id', r_id,)]
 
         self._xml_empty_tag('tablePart', attributes)
+
+    def _write_ext_sparklines(self):
+        # Write the <extLst> element and sparkline sub-elements.
+        sparklines = self.sparklines
+        count = len(sparklines)
+
+        # Return if worksheet doesn't contain any sparklines.
+        if not count:
+            return
+
+        # Write the extLst element.
+        self._xml_start_tag('extLst')
+
+        # Write the ext element.
+        self._write_ext()
+
+        # Write the x14:sparklineGroups element.
+        self._write_sparkline_groups()
+
+        # Write the sparkline elements.
+        for sparkline in reversed(sparklines):
+
+            # Write the x14:sparklineGroup element.
+            self._write_sparkline_group(sparkline)
+
+            # Write the x14:colorSeries element.
+            self._write_color_series(sparkline['series_color'])
+
+            # Write the x14:colorNegative element.
+            self._write_color_negative(sparkline['negative_color'])
+
+            # Write the x14:colorAxis element.
+            self._write_color_axis()
+
+            # Write the x14:colorMarkers element.
+            self._write_color_markers(sparkline['markers_color'])
+
+            # Write the x14:colorFirst element.
+            self._write_color_first(sparkline['first_color'])
+
+            # Write the x14:colorLast element.
+            self._write_color_last(sparkline['last_color'])
+
+            # Write the x14:colorHigh element.
+            self._write_color_high(sparkline['high_color'])
+
+            # Write the x14:colorLow element.
+            self._write_color_low(sparkline['low_color'])
+
+            if sparkline['date_axis']:
+                self._xml_data_element('xm:f', sparkline['date_axis'])
+
+            self._write_sparklines(sparkline)
+
+            self._xml_end_tag('x14:sparklineGroup')
+
+        self._xml_end_tag('x14:sparklineGroups')
+        self._xml_end_tag('ext')
+        self._xml_end_tag('extLst')
+
+    def _write_sparklines(self, sparkline):
+        # Write the <x14:sparklines> element and <x14:sparkline> sub-elements.
+
+        # Write the sparkline elements.
+        self._xml_start_tag('x14:sparklines')
+
+        for i in range(sparkline['count']):
+            spark_range = sparkline['ranges'][i]
+            location = sparkline['locations'][i]
+
+            self._xml_start_tag('x14:sparkline')
+            self._xml_data_element('xm:f', spark_range)
+            self._xml_data_element('xm:sqref', location)
+            self._xml_end_tag('x14:sparkline')
+
+        self._xml_end_tag('x14:sparklines')
+
+    def _write_ext(self):
+        # Write the <ext> element.
+        schema = 'http://schemas.microsoft.com/office/'
+        xmlns_x_14 = schema + 'spreadsheetml/2009/9/main'
+        uri = '{05C60535-1F16-4fd2-B633-F4F36F0B64E0}'
+
+        attributes = [
+            ('xmlns:x14', xmlns_x_14),
+            ('uri', uri),
+        ]
+
+        self._xml_start_tag('ext', attributes)
+
+    def _write_sparkline_groups(self):
+        # Write the <x14:sparklineGroups> element.
+        xmlns_xm = 'http://schemas.microsoft.com/office/excel/2006/main'
+
+        attributes = [('xmlns:xm', xmlns_xm)]
+
+        self._xml_start_tag('x14:sparklineGroups', attributes)
+
+    def _write_sparkline_group(self, options):
+        # Write the <x14:sparklineGroup> element.
+        #
+        # Example for order.
+        #
+        # <x14:sparklineGroup
+        #     manualMax="0"
+        #     manualMin="0"
+        #     lineWeight="2.25"
+        #     type="column"
+        #     dateAxis="1"
+        #     displayEmptyCellsAs="span"
+        #     markers="1"
+        #     high="1"
+        #     low="1"
+        #     first="1"
+        #     last="1"
+        #     negative="1"
+        #     displayXAxis="1"
+        #     displayHidden="1"
+        #     minAxisType="custom"
+        #     maxAxisType="custom"
+        #     rightToLeft="1">
+        #
+        empty = options.get('empty')
+        attributes = []
+
+        if options.get('max'):
+            if options['max'] == 'group':
+                options['cust_max'] = 'group'
+            else:
+                attributes.append(('manualMax', options['max']))
+                options['cust_max'] = 'custom'
+
+        if options.get('min'):
+
+            if options['min'] == 'group':
+                options['cust_min'] = 'group'
+            else:
+                attributes.append(('manualMin', options['min']))
+                options['cust_min'] = 'custom'
+
+        # Ignore the default type attribute (line).
+        if options['type'] != 'line':
+            attributes.append(('type', options['type']))
+
+        if options.get('weight'):
+            attributes.append(('lineWeight', options['weight']))
+
+        if options.get('date_axis'):
+            attributes.append(('dateAxis', 1))
+
+        if empty:
+            attributes.append(('displayEmptyCellsAs', empty))
+
+        if options.get('markers'):
+            attributes.append(('markers', 1))
+
+        if options.get('high'):
+            attributes.append(('high', 1))
+
+        if options.get('low'):
+            attributes.append(('low', 1))
+
+        if options.get('first'):
+            attributes.append(('first', 1))
+
+        if options.get('last'):
+            attributes.append(('last', 1))
+
+        if options.get('negative'):
+            attributes.append(('negative', 1))
+
+        if options.get('axis'):
+            attributes.append(('displayXAxis', 1))
+
+        if options.get('hidden'):
+            attributes.append(('displayHidden', 1))
+
+        if options.get('cust_min'):
+            attributes.append(('minAxisType', options['cust_min']))
+
+        if options.get('cust_max'):
+            attributes.append(('maxAxisType', options['cust_max']))
+
+        if options.get('reverse'):
+            attributes.append(('rightToLeft', 1))
+
+        self._xml_start_tag('x14:sparklineGroup', attributes)
+
+    def _write_spark_color(self, element, color):
+        # Helper function for the sparkline color functions below.
+        attributes = []
+
+        if color.get('rgb'):
+            attributes.append(('rgb', color['rgb']))
+
+        if color.get('theme'):
+            attributes.append(('theme', color['theme']))
+
+        if color.get('tint'):
+            attributes.append(('tint', color['tint']))
+
+        self._xml_empty_tag(element, attributes)
+
+    def _write_color_series(self, color):
+        # Write the <x14:colorSeries> element.
+        self._write_spark_color('x14:colorSeries', color)
+
+    def _write_color_negative(self, color):
+        # Write the <x14:colorNegative> element.
+        self._write_spark_color('x14:colorNegative', color)
+
+    def _write_color_axis(self):
+        # Write the <x14:colorAxis> element.
+        self._write_spark_color('x14:colorAxis', {'rgb': 'FF000000'})
+
+    def _write_color_markers(self, color):
+        # Write the <x14:colorMarkers> element.
+        self._write_spark_color('x14:colorMarkers', color)
+
+    def _write_color_first(self, color):
+        # Write the <x14:colorFirst> element.
+        self._write_spark_color('x14:colorFirst', color)
+
+    def _write_color_last(self, color):
+        # Write the <x14:colorLast> element.
+        self._write_spark_color('x14:colorLast', color)
+
+    def _write_color_high(self, color):
+        # Write the <x14:colorHigh> element.
+        self._write_spark_color('x14:colorHigh', color)
+
+    def _write_color_low(self, color):
+        # Write the <x14:colorLow> element.
+        self._write_spark_color('x14:colorLow', color)
