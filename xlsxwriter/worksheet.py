@@ -26,12 +26,12 @@ from . import xmlwriter
 from .format import Format
 from .drawing import Drawing
 from .xmlwriter import XMLwriter
-from .theme import Theme
 from .utility import xl_rowcol_to_cell
 from .utility import xl_cell_to_rowcol
 from .utility import xl_col_to_name
 from .utility import xl_range
 from .utility import xl_color
+from .utility import get_sparkline_style
 
 
 ###############################################################################
@@ -2277,22 +2277,30 @@ class Worksheet(xmlwriter.XMLwriter):
         sheetname = self._quote_sheetname(self.name)
 
         # Cleanup the input ranges.
+        new_ranges = []
         for spark_range in sparkline['ranges']:
 
             # Remove the absolute reference $ symbols.
             spark_range = spark_range.replace('$', '')
 
             # Remove the = from formula.
-            spark_range = spark_range.replace('$', '')
             spark_range = spark_range.lstrip('=')
 
             # Convert a simple range into a full Sheet1!A1:D1 range.
             if '!' not in spark_range:
                 spark_range = sheetname + "!" + spark_range
 
+            new_ranges.append(spark_range)
+
+        sparkline['ranges'] = new_ranges
+
         # Cleanup the input locations.
+        new_locations = []
         for location in sparkline['locations']:
             location = location.replace('$', '')
+            new_locations.append(location)
+
+        sparkline['locations'] = new_locations
 
         # Map options.
         sparkline['high'] = options.get('high_point')
@@ -2328,9 +2336,7 @@ class Worksheet(xmlwriter.XMLwriter):
 
         # Set the sparkline styles.
         style_id = options.get('style', 0)
-        # TODO
-        theme = Theme()
-        style = theme.get_sparkline_style(style_id)
+        style = get_sparkline_style(style_id)
 
         sparkline['series_color'] = style['series']
         sparkline['negative_color'] = style['negative']
@@ -2392,7 +2398,7 @@ class Worksheet(xmlwriter.XMLwriter):
 
     # This method sets the properties for outlining and grouping. The defaults
     # correspond to Excel's defaults.
-    #
+    # TODO: docstring.
     def outline_settings(self, outline_on=1, outline_below=1, outline_right=1,
                          outline_style=0):
         self.outline_on = outline_on
