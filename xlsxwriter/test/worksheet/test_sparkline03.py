@@ -32,13 +32,8 @@ class TestAssembleWorksheet(unittest.TestCase):
         worksheet.write_row('A2', data)
 
         # Set up sparklines.
-        worksheet.add_sparkline({'location': 'F1',
-                                 'range': 'Sheet1!A1:E1',
-                                 })
-
-        worksheet.add_sparkline({'location': 'F2',
-                                 'range': 'A2:E2',
-                                 })
+        worksheet.add_sparkline('F1', {'range': 'Sheet1!A1:E1'})
+        worksheet.add_sparkline('F2', {'range': 'Sheet1!A2:E2'})
 
         worksheet._assemble_xml_file()
 

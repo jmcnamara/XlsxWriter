@@ -31,8 +31,20 @@ class TestAssembleWorksheet(unittest.TestCase):
         worksheet.write_row('A1', data)
 
         # Set up sparklines.
-        worksheet.add_sparkline('F1', {'range': 'Sheet1!A1:E1',
-                                       'type': 'column',
+        worksheet.add_sparkline('F1', {'range': 'A1:E1',
+                                       'high_point': 1,
+                                       'low_point': 1,
+                                       'negative_points': 1,
+                                       'first_point': 1,
+                                       'last_point': 1,
+                                       'markers': 1,
+                                       'series_color': '#C00000',
+                                       'negative_color': '#FF0000',
+                                       'markers_color': '#FFC000',
+                                       'first_color': '#00B050',
+                                       'last_color': '#00B0F0',
+                                       'high_color': '#FFFF00',
+                                       'low_color': '#92D050',
                                        })
 
         worksheet._assemble_xml_file()
@@ -68,15 +80,15 @@ class TestAssembleWorksheet(unittest.TestCase):
                   <extLst>
                     <ext xmlns:x14="http://schemas.microsoft.com/office/spreadsheetml/2009/9/main" uri="{05C60535-1F16-4fd2-B633-F4F36F0B64E0}">
                       <x14:sparklineGroups xmlns:xm="http://schemas.microsoft.com/office/excel/2006/main">
-                        <x14:sparklineGroup type="column" displayEmptyCellsAs="gap">
-                          <x14:colorSeries theme="4" tint="-0.499984740745262"/>
-                          <x14:colorNegative theme="5"/>
+                        <x14:sparklineGroup displayEmptyCellsAs="gap" markers="1" high="1" low="1" first="1" last="1" negative="1">
+                          <x14:colorSeries rgb="FFC00000"/>
+                          <x14:colorNegative rgb="FFFF0000"/>
                           <x14:colorAxis rgb="FF000000"/>
-                          <x14:colorMarkers theme="4" tint="-0.499984740745262"/>
-                          <x14:colorFirst theme="4" tint="0.39997558519241921"/>
-                          <x14:colorLast theme="4" tint="0.39997558519241921"/>
-                          <x14:colorHigh theme="4"/>
-                          <x14:colorLow theme="4"/>
+                          <x14:colorMarkers rgb="FFFFC000"/>
+                          <x14:colorFirst rgb="FF00B050"/>
+                          <x14:colorLast rgb="FF00B0F0"/>
+                          <x14:colorHigh rgb="FFFFFF00"/>
+                          <x14:colorLow rgb="FF92D050"/>
                           <x14:sparklines>
                             <x14:sparkline>
                               <xm:f>Sheet1!A1:E1</xm:f>

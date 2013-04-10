@@ -31,10 +31,10 @@ class TestAssembleWorksheet(unittest.TestCase):
         worksheet.write_row('A1', data)
 
         # Set up sparklines.
-        worksheet.add_sparkline({'location': ['$F$1'],
-                                 'range': ['$A$1:$E$1'],
-                                 'type': 'win_loss',
-                                 })
+        worksheet.add_sparkline('F1', {'location': ['$F$1'],
+                                       'range': ['$A$1:$E$1'],
+                                       'type': 'win_loss',
+                                       })
 
         worksheet._assemble_xml_file()
 

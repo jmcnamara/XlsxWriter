@@ -2192,8 +2192,10 @@ class Worksheet(xmlwriter.XMLwriter):
     #
     # Add sparklines to the worksheet.
     #
-    def add_sparkline(self, options):
+    @convert_cell_args
+    def add_sparkline(self, row, col, options):
         sparkline = {}
+        sparkline['locations'] = [xl_rowcol_to_cell(row, col)]
 
         # List of valid input parameters.
         valid_parameters = {
@@ -2231,11 +2233,6 @@ class Worksheet(xmlwriter.XMLwriter):
                 warn("Unknown parameter '%s' in add_sparkline()" % param_key)
                 return -2
 
-        # 'location' is a required parameter.
-        if not 'location' in options:
-            warn("Parameter 'location' is required in add_sparkline()")
-            return -3
-
         # 'range' is a required parameter.
         if not 'range' in options:
             warn("Parameter 'range' is required in add_sparkline()")
@@ -2254,11 +2251,15 @@ class Worksheet(xmlwriter.XMLwriter):
         sparkline['type'] = spark_type
 
         # We handle single location/range values or list of values.
-        if type(options['location']) is list:
-            sparkline['locations'] = options['location']
+        if 'location' in options:
+            if type(options['location']) is list:
+                sparkline['locations'] = options['location']
+            else:
+                sparkline['locations'] = [options['location']]
+
+        if type(options['range']) is list:
             sparkline['ranges'] = options['range']
         else:
-            sparkline['locations'] = [options['location']]
             sparkline['ranges'] = [options['range']]
 
         range_count = len(sparkline['ranges'])
@@ -3826,10 +3827,10 @@ class Worksheet(xmlwriter.XMLwriter):
 
     def _set_spark_color(self, sparkline, options, user_color):
         # Set the sparkline colour.
-        if not 'user_color' in options:
+        if not user_color in options:
             return
 
-        sparkline[user_color] = {'rgb': xl_color(options['user_color'])}
+        sparkline[user_color] = {'rgb': xl_color(options[user_color])}
 
     ###########################################################################
     #

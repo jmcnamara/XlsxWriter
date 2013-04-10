@@ -31,51 +31,45 @@ class TestAssembleWorksheet(unittest.TestCase):
         worksheet.write_row('A1', data)
         worksheet.write_row('A2', data)
         worksheet.write_row('A3', data)
-        worksheet.write_row('A4', data)
-        worksheet.write_row('A5', data)
-        worksheet.write_row('A6', data)
-        worksheet.write_row('A7', data)
+        worksheet.write_row('A4', [1, 2, 3, 4, 5])
 
         # Set up sparklines.
         worksheet.add_sparkline('F1', {'range': 'A1:E1',
-                                       'type': 'column',
-                                       'high_point': 1})
-
-        worksheet.add_sparkline('F2', {'range': 'A2:E2',
-                                       'type': 'column',
-                                       'low_point': 1})
-
-        worksheet.add_sparkline('F3', {'range': 'A3:E3',
-                                       'type': 'column',
-                                       'negative_points': 1})
-
-        worksheet.add_sparkline('F4', {'range': 'A4:E4',
-                                       'type': 'column',
-                                       'first_point': 1})
-
-        worksheet.add_sparkline('F5', {'range': 'A5:E5',
-                                       'type': 'column',
-                                       'last_point': 1})
-
-        worksheet.add_sparkline('F6', {'range': 'A6:E6',
-                                       'type': 'column',
-                                       'markers': 1})
-
-        worksheet.add_sparkline('F7', {'range': 'A7:E7',
-                                       'type': 'column',
+                                       'max': 0.5,
+                                       'min': -0.5,
+                                       'axis': 1,
+                                       'reverse': 1,
+                                       'empty_cells': 'zero',
+                                       'weight': 0.25,
                                        'high_point': 1,
                                        'low_point': 1,
                                        'negative_points': 1,
                                        'first_point': 1,
                                        'last_point': 1,
-                                       'markers': 1})
+                                       'markers': 1,
+                                       })
+
+        worksheet.add_sparkline('F2', {'range': 'A2:E2',
+                                       'max': 'group',
+                                       'min': 'group',
+                                       'empty_cells': 'connect',
+                                       'weight': 2.25,
+                                       })
+
+        worksheet.add_sparkline('F3', {'range': 'A3:E3',
+                                       'max': 'group',
+                                       'min': '0',
+                                       'show_hidden': 1,
+                                       'weight': 6,
+                                       'date_axis': 'A4:E4',
+                                       })
 
         worksheet._assemble_xml_file()
 
         exp = _xml_to_list("""
                 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
                 <worksheet xmlns="http://schemas.openxmlformats.org/spreadsheetml/2006/main" xmlns:r="http://schemas.openxmlformats.org/officeDocument/2006/relationships" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:x14ac="http://schemas.microsoft.com/office/spreadsheetml/2009/9/ac" mc:Ignorable="x14ac">
-                  <dimension ref="A1:E7"/>
+                  <dimension ref="A1:E4"/>
                   <sheetViews>
                     <sheetView tabSelected="1" workbookViewId="0"/>
                   </sheetViews>
@@ -134,7 +128,7 @@ class TestAssembleWorksheet(unittest.TestCase):
                     </row>
                     <row r="4" spans="1:5" x14ac:dyDescent="0.25">
                       <c r="A4">
-                        <v>-2</v>
+                        <v>1</v>
                       </c>
                       <c r="B4">
                         <v>2</v>
@@ -143,61 +137,10 @@ class TestAssembleWorksheet(unittest.TestCase):
                         <v>3</v>
                       </c>
                       <c r="D4">
-                        <v>-1</v>
+                        <v>4</v>
                       </c>
                       <c r="E4">
-                        <v>0</v>
-                      </c>
-                    </row>
-                    <row r="5" spans="1:5" x14ac:dyDescent="0.25">
-                      <c r="A5">
-                        <v>-2</v>
-                      </c>
-                      <c r="B5">
-                        <v>2</v>
-                      </c>
-                      <c r="C5">
-                        <v>3</v>
-                      </c>
-                      <c r="D5">
-                        <v>-1</v>
-                      </c>
-                      <c r="E5">
-                        <v>0</v>
-                      </c>
-                    </row>
-                    <row r="6" spans="1:5" x14ac:dyDescent="0.25">
-                      <c r="A6">
-                        <v>-2</v>
-                      </c>
-                      <c r="B6">
-                        <v>2</v>
-                      </c>
-                      <c r="C6">
-                        <v>3</v>
-                      </c>
-                      <c r="D6">
-                        <v>-1</v>
-                      </c>
-                      <c r="E6">
-                        <v>0</v>
-                      </c>
-                    </row>
-                    <row r="7" spans="1:5" x14ac:dyDescent="0.25">
-                      <c r="A7">
-                        <v>-2</v>
-                      </c>
-                      <c r="B7">
-                        <v>2</v>
-                      </c>
-                      <c r="C7">
-                        <v>3</v>
-                      </c>
-                      <c r="D7">
-                        <v>-1</v>
-                      </c>
-                      <c r="E7">
-                        <v>0</v>
+                        <v>5</v>
                       </c>
                     </row>
                   </sheetData>
@@ -205,7 +148,7 @@ class TestAssembleWorksheet(unittest.TestCase):
                   <extLst>
                     <ext xmlns:x14="http://schemas.microsoft.com/office/spreadsheetml/2009/9/main" uri="{05C60535-1F16-4fd2-B633-F4F36F0B64E0}">
                       <x14:sparklineGroups xmlns:xm="http://schemas.microsoft.com/office/excel/2006/main">
-                        <x14:sparklineGroup type="column" displayEmptyCellsAs="gap" markers="1" high="1" low="1" first="1" last="1" negative="1">
+                        <x14:sparklineGroup manualMin="0" lineWeight="6" dateAxis="1" displayEmptyCellsAs="gap" displayHidden="1" minAxisType="custom" maxAxisType="group">
                           <x14:colorSeries theme="4" tint="-0.499984740745262"/>
                           <x14:colorNegative theme="5"/>
                           <x14:colorAxis rgb="FF000000"/>
@@ -214,70 +157,7 @@ class TestAssembleWorksheet(unittest.TestCase):
                           <x14:colorLast theme="4" tint="0.39997558519241921"/>
                           <x14:colorHigh theme="4"/>
                           <x14:colorLow theme="4"/>
-                          <x14:sparklines>
-                            <x14:sparkline>
-                              <xm:f>Sheet1!A7:E7</xm:f>
-                              <xm:sqref>F7</xm:sqref>
-                            </x14:sparkline>
-                          </x14:sparklines>
-                        </x14:sparklineGroup>
-                        <x14:sparklineGroup type="column" displayEmptyCellsAs="gap" markers="1">
-                          <x14:colorSeries theme="4" tint="-0.499984740745262"/>
-                          <x14:colorNegative theme="5"/>
-                          <x14:colorAxis rgb="FF000000"/>
-                          <x14:colorMarkers theme="4" tint="-0.499984740745262"/>
-                          <x14:colorFirst theme="4" tint="0.39997558519241921"/>
-                          <x14:colorLast theme="4" tint="0.39997558519241921"/>
-                          <x14:colorHigh theme="4"/>
-                          <x14:colorLow theme="4"/>
-                          <x14:sparklines>
-                            <x14:sparkline>
-                              <xm:f>Sheet1!A6:E6</xm:f>
-                              <xm:sqref>F6</xm:sqref>
-                            </x14:sparkline>
-                          </x14:sparklines>
-                        </x14:sparklineGroup>
-                        <x14:sparklineGroup type="column" displayEmptyCellsAs="gap" last="1">
-                          <x14:colorSeries theme="4" tint="-0.499984740745262"/>
-                          <x14:colorNegative theme="5"/>
-                          <x14:colorAxis rgb="FF000000"/>
-                          <x14:colorMarkers theme="4" tint="-0.499984740745262"/>
-                          <x14:colorFirst theme="4" tint="0.39997558519241921"/>
-                          <x14:colorLast theme="4" tint="0.39997558519241921"/>
-                          <x14:colorHigh theme="4"/>
-                          <x14:colorLow theme="4"/>
-                          <x14:sparklines>
-                            <x14:sparkline>
-                              <xm:f>Sheet1!A5:E5</xm:f>
-                              <xm:sqref>F5</xm:sqref>
-                            </x14:sparkline>
-                          </x14:sparklines>
-                        </x14:sparklineGroup>
-                        <x14:sparklineGroup type="column" displayEmptyCellsAs="gap" first="1">
-                          <x14:colorSeries theme="4" tint="-0.499984740745262"/>
-                          <x14:colorNegative theme="5"/>
-                          <x14:colorAxis rgb="FF000000"/>
-                          <x14:colorMarkers theme="4" tint="-0.499984740745262"/>
-                          <x14:colorFirst theme="4" tint="0.39997558519241921"/>
-                          <x14:colorLast theme="4" tint="0.39997558519241921"/>
-                          <x14:colorHigh theme="4"/>
-                          <x14:colorLow theme="4"/>
-                          <x14:sparklines>
-                            <x14:sparkline>
-                              <xm:f>Sheet1!A4:E4</xm:f>
-                              <xm:sqref>F4</xm:sqref>
-                            </x14:sparkline>
-                          </x14:sparklines>
-                        </x14:sparklineGroup>
-                        <x14:sparklineGroup type="column" displayEmptyCellsAs="gap" negative="1">
-                          <x14:colorSeries theme="4" tint="-0.499984740745262"/>
-                          <x14:colorNegative theme="5"/>
-                          <x14:colorAxis rgb="FF000000"/>
-                          <x14:colorMarkers theme="4" tint="-0.499984740745262"/>
-                          <x14:colorFirst theme="4" tint="0.39997558519241921"/>
-                          <x14:colorLast theme="4" tint="0.39997558519241921"/>
-                          <x14:colorHigh theme="4"/>
-                          <x14:colorLow theme="4"/>
+                          <xm:f>Sheet1!A4:E4</xm:f>
                           <x14:sparklines>
                             <x14:sparkline>
                               <xm:f>Sheet1!A3:E3</xm:f>
@@ -285,7 +165,7 @@ class TestAssembleWorksheet(unittest.TestCase):
                             </x14:sparkline>
                           </x14:sparklines>
                         </x14:sparklineGroup>
-                        <x14:sparklineGroup type="column" displayEmptyCellsAs="gap" low="1">
+                        <x14:sparklineGroup lineWeight="2.25" displayEmptyCellsAs="span" minAxisType="group" maxAxisType="group">
                           <x14:colorSeries theme="4" tint="-0.499984740745262"/>
                           <x14:colorNegative theme="5"/>
                           <x14:colorAxis rgb="FF000000"/>
@@ -301,7 +181,7 @@ class TestAssembleWorksheet(unittest.TestCase):
                             </x14:sparkline>
                           </x14:sparklines>
                         </x14:sparklineGroup>
-                        <x14:sparklineGroup type="column" displayEmptyCellsAs="gap" high="1">
+                        <x14:sparklineGroup manualMax="0.5" manualMin="-0.5" lineWeight="0.25" markers="1" high="1" low="1" first="1" last="1" negative="1" displayXAxis="1" minAxisType="custom" maxAxisType="custom" rightToLeft="1">
                           <x14:colorSeries theme="4" tint="-0.499984740745262"/>
                           <x14:colorNegative theme="5"/>
                           <x14:colorAxis rgb="FF000000"/>
