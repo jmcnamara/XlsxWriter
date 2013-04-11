@@ -1,0 +1,437 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Example: Sparklines (Advanced) &mdash; XlsxWriter Documentation</title>
+    
+    <link rel="stylesheet" href="_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '',
+        VERSION:     '0.3.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="XlsxWriter Documentation" href="index.html" />
+    <link rel="up" title="Examples" href="examples.html" />
+    <link rel="next" title="Example: Adding Cell Comments to Worksheets (Simple)" href="example_comments1.html" />
+    <link rel="prev" title="Example: Sparklines (Simple)" href="example_sparklines1.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="example_comments1.html" title="Example: Adding Cell Comments to Worksheets (Simple)"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="example_sparklines1.html" title="Example: Sparklines (Simple)"
+             accesskey="P">previous</a> |</li>
+        <li><a href="index.html">XlsxWriter Documentation</a> &raquo;</li>
+          <li><a href="examples.html" accesskey="U">Examples</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="example-sparklines-advanced">
+<span id="ex-sparklines2"></span><h1>Example: Sparklines (Advanced)</h1>
+<p>This example shows the majority of options that can be applied to sparklines.</p>
+<p>Sparklines are small charts that fit in a single cell and are used to show
+trends in data.</p>
+<p>See the <a class="reference internal" href="working_with_sparklines.html#sparklines"><em>Working with Sparklines</em></a> method for more details.</p>
+<img alt="_images/sparklines2.png" src="_images/sparklines2.png" />
+<div class="highlight-python"><div class="highlight"><pre><span class="c">###############################################################################</span>
+<span class="c">#</span>
+<span class="c"># Example of how to add sparklines to an XlsxWriter file with Python.</span>
+<span class="c">#</span>
+<span class="c"># Sparklines are small charts that fit in a single cell and are</span>
+<span class="c"># used to show trends in data. This example shows the majority of</span>
+<span class="c"># options that can be applied to sparklines.</span>
+<span class="c">#</span>
+<span class="c"># Copyright 2013, John McNamara, jmcnamara@cpan.org</span>
+<span class="c">#</span>
+<span class="kn">from</span> <span class="nn">xlsxwriter.workbook</span> <span class="kn">import</span> <span class="n">Workbook</span>
+
+<span class="n">workbook</span> <span class="o">=</span> <span class="n">Workbook</span><span class="p">(</span><span class="s">&#39;sparklines2.xlsx&#39;</span><span class="p">)</span>
+<span class="n">worksheet1</span> <span class="o">=</span> <span class="n">workbook</span><span class="o">.</span><span class="n">add_worksheet</span><span class="p">()</span>
+<span class="n">worksheet2</span> <span class="o">=</span> <span class="n">workbook</span><span class="o">.</span><span class="n">add_worksheet</span><span class="p">()</span>
+<span class="n">bold</span> <span class="o">=</span> <span class="n">workbook</span><span class="o">.</span><span class="n">add_format</span><span class="p">({</span><span class="s">&#39;bold&#39;</span><span class="p">:</span> <span class="bp">True</span><span class="p">})</span>
+<span class="n">row</span> <span class="o">=</span> <span class="mi">1</span>
+
+<span class="c"># Set the columns widths to make the output clearer.</span>
+<span class="n">worksheet1</span><span class="o">.</span><span class="n">set_column</span><span class="p">(</span><span class="s">&#39;A:A&#39;</span><span class="p">,</span> <span class="mi">14</span><span class="p">)</span>
+<span class="n">worksheet1</span><span class="o">.</span><span class="n">set_column</span><span class="p">(</span><span class="s">&#39;B:B&#39;</span><span class="p">,</span> <span class="mi">50</span><span class="p">)</span>
+<span class="n">worksheet1</span><span class="o">.</span><span class="n">set_zoom</span><span class="p">(</span><span class="mi">150</span><span class="p">)</span>
+
+<span class="c"># Headings.</span>
+<span class="n">worksheet1</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s">&#39;A1&#39;</span><span class="p">,</span> <span class="s">&#39;Sparkline&#39;</span><span class="p">,</span> <span class="n">bold</span><span class="p">)</span>
+<span class="n">worksheet1</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s">&#39;B1&#39;</span><span class="p">,</span> <span class="s">&#39;Description&#39;</span><span class="p">,</span> <span class="n">bold</span><span class="p">)</span>
+
+
+<span class="c">###############################################################################</span>
+<span class="c">#</span>
+<span class="n">text</span> <span class="o">=</span> <span class="s">&#39;A default &quot;line&quot; sparkline.&#39;</span>
+
+<span class="n">worksheet1</span><span class="o">.</span><span class="n">add_sparkline</span><span class="p">(</span><span class="s">&#39;A2&#39;</span><span class="p">,</span> <span class="p">{</span><span class="s">&#39;range&#39;</span><span class="p">:</span> <span class="s">&#39;Sheet2!A1:J1&#39;</span><span class="p">})</span>
+
+<span class="n">worksheet1</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">row</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">text</span><span class="p">)</span>
+<span class="n">row</span> <span class="o">+=</span> <span class="mi">1</span>
+
+
+<span class="c">###############################################################################</span>
+<span class="c">#</span>
+<span class="n">text</span> <span class="o">=</span> <span class="s">&#39;A default &quot;column&quot; sparkline.&#39;</span>
+
+<span class="n">worksheet1</span><span class="o">.</span><span class="n">add_sparkline</span><span class="p">(</span><span class="s">&#39;A3&#39;</span><span class="p">,</span> <span class="p">{</span><span class="s">&#39;range&#39;</span><span class="p">:</span> <span class="s">&#39;Sheet2!A2:J2&#39;</span><span class="p">,</span>
+                                <span class="s">&#39;type&#39;</span><span class="p">:</span> <span class="s">&#39;column&#39;</span><span class="p">})</span>
+
+<span class="n">worksheet1</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">row</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">text</span><span class="p">)</span>
+<span class="n">row</span> <span class="o">+=</span> <span class="mi">1</span>
+
+
+<span class="c">###############################################################################</span>
+<span class="c">#</span>
+<span class="n">text</span> <span class="o">=</span> <span class="s">&#39;A default &quot;win/loss&quot; sparkline.&#39;</span>
+
+<span class="n">worksheet1</span><span class="o">.</span><span class="n">add_sparkline</span><span class="p">(</span><span class="s">&#39;A4&#39;</span><span class="p">,</span> <span class="p">{</span><span class="s">&#39;range&#39;</span><span class="p">:</span> <span class="s">&#39;Sheet2!A3:J3&#39;</span><span class="p">,</span>
+                                <span class="s">&#39;type&#39;</span><span class="p">:</span> <span class="s">&#39;win_loss&#39;</span><span class="p">})</span>
+
+<span class="n">worksheet1</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">row</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">text</span><span class="p">)</span>
+<span class="n">row</span> <span class="o">+=</span> <span class="mi">2</span>
+
+
+<span class="c">###############################################################################</span>
+<span class="c">#</span>
+<span class="n">text</span> <span class="o">=</span> <span class="s">&#39;Line with markers.&#39;</span>
+
+<span class="n">worksheet1</span><span class="o">.</span><span class="n">add_sparkline</span><span class="p">(</span><span class="s">&#39;A6&#39;</span><span class="p">,</span> <span class="p">{</span><span class="s">&#39;range&#39;</span><span class="p">:</span> <span class="s">&#39;Sheet2!A1:J1&#39;</span><span class="p">,</span>
+                                <span class="s">&#39;markers&#39;</span><span class="p">:</span> <span class="bp">True</span><span class="p">})</span>
+
+<span class="n">worksheet1</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">row</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">text</span><span class="p">)</span>
+<span class="n">row</span> <span class="o">+=</span> <span class="mi">1</span>
+
+
+<span class="c">###############################################################################</span>
+<span class="c">#</span>
+<span class="n">text</span> <span class="o">=</span> <span class="s">&#39;Line with high and low points.&#39;</span>
+
+<span class="n">worksheet1</span><span class="o">.</span><span class="n">add_sparkline</span><span class="p">(</span><span class="s">&#39;A7&#39;</span><span class="p">,</span> <span class="p">{</span><span class="s">&#39;range&#39;</span><span class="p">:</span> <span class="s">&#39;Sheet2!A1:J1&#39;</span><span class="p">,</span>
+                                <span class="s">&#39;high_point&#39;</span><span class="p">:</span> <span class="bp">True</span><span class="p">,</span>
+                                <span class="s">&#39;low_point&#39;</span><span class="p">:</span> <span class="bp">True</span><span class="p">})</span>
+
+<span class="n">worksheet1</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">row</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">text</span><span class="p">)</span>
+<span class="n">row</span> <span class="o">+=</span> <span class="mi">1</span>
+
+
+<span class="c">###############################################################################</span>
+<span class="c">#</span>
+<span class="n">text</span> <span class="o">=</span> <span class="s">&#39;Line with first and last point markers.&#39;</span>
+
+<span class="n">worksheet1</span><span class="o">.</span><span class="n">add_sparkline</span><span class="p">(</span><span class="s">&#39;A8&#39;</span><span class="p">,</span> <span class="p">{</span><span class="s">&#39;range&#39;</span><span class="p">:</span> <span class="s">&#39;Sheet2!A1:J1&#39;</span><span class="p">,</span>
+                                <span class="s">&#39;first_point&#39;</span><span class="p">:</span> <span class="bp">True</span><span class="p">,</span>
+                                <span class="s">&#39;last_point&#39;</span><span class="p">:</span> <span class="bp">True</span><span class="p">})</span>
+
+<span class="n">worksheet1</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">row</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">text</span><span class="p">)</span>
+<span class="n">row</span> <span class="o">+=</span> <span class="mi">1</span>
+
+
+<span class="c">###############################################################################</span>
+<span class="c">#</span>
+<span class="n">text</span> <span class="o">=</span> <span class="s">&#39;Line with negative point markers.&#39;</span>
+
+<span class="n">worksheet1</span><span class="o">.</span><span class="n">add_sparkline</span><span class="p">(</span><span class="s">&#39;A9&#39;</span><span class="p">,</span> <span class="p">{</span><span class="s">&#39;range&#39;</span><span class="p">:</span> <span class="s">&#39;Sheet2!A1:J1&#39;</span><span class="p">,</span>
+                                <span class="s">&#39;negative_points&#39;</span><span class="p">:</span> <span class="bp">True</span><span class="p">})</span>
+
+<span class="n">worksheet1</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">row</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">text</span><span class="p">)</span>
+<span class="n">row</span> <span class="o">+=</span> <span class="mi">1</span>
+
+
+<span class="c">###############################################################################</span>
+<span class="c">#</span>
+<span class="n">text</span> <span class="o">=</span> <span class="s">&#39;Line with axis.&#39;</span>
+
+<span class="n">worksheet1</span><span class="o">.</span><span class="n">add_sparkline</span><span class="p">(</span><span class="s">&#39;A10&#39;</span><span class="p">,</span> <span class="p">{</span><span class="s">&#39;range&#39;</span><span class="p">:</span> <span class="s">&#39;Sheet2!A1:J1&#39;</span><span class="p">,</span>
+                                 <span class="s">&#39;axis&#39;</span><span class="p">:</span> <span class="bp">True</span><span class="p">})</span>
+
+<span class="n">worksheet1</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">row</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">text</span><span class="p">)</span>
+<span class="n">row</span> <span class="o">+=</span> <span class="mi">2</span>
+
+
+<span class="c">###############################################################################</span>
+<span class="c">#</span>
+<span class="n">text</span> <span class="o">=</span> <span class="s">&#39;Column with default style (1).&#39;</span>
+
+<span class="n">worksheet1</span><span class="o">.</span><span class="n">add_sparkline</span><span class="p">(</span><span class="s">&#39;A12&#39;</span><span class="p">,</span> <span class="p">{</span><span class="s">&#39;range&#39;</span><span class="p">:</span> <span class="s">&#39;Sheet2!A2:J2&#39;</span><span class="p">,</span>
+                                 <span class="s">&#39;type&#39;</span><span class="p">:</span> <span class="s">&#39;column&#39;</span><span class="p">})</span>
+
+<span class="n">worksheet1</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">row</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">text</span><span class="p">)</span>
+<span class="n">row</span> <span class="o">+=</span> <span class="mi">1</span>
+
+
+<span class="c">###############################################################################</span>
+<span class="c">#</span>
+<span class="n">text</span> <span class="o">=</span> <span class="s">&#39;Column with style 2.&#39;</span>
+
+<span class="n">worksheet1</span><span class="o">.</span><span class="n">add_sparkline</span><span class="p">(</span><span class="s">&#39;A13&#39;</span><span class="p">,</span> <span class="p">{</span><span class="s">&#39;range&#39;</span><span class="p">:</span> <span class="s">&#39;Sheet2!A2:J2&#39;</span><span class="p">,</span>
+                                 <span class="s">&#39;type&#39;</span><span class="p">:</span> <span class="s">&#39;column&#39;</span><span class="p">,</span>
+                                 <span class="s">&#39;style&#39;</span><span class="p">:</span> <span class="mi">2</span><span class="p">})</span>
+
+<span class="n">worksheet1</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">row</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">text</span><span class="p">)</span>
+<span class="n">row</span> <span class="o">+=</span> <span class="mi">1</span>
+
+
+<span class="c">###############################################################################</span>
+<span class="c">#</span>
+<span class="n">text</span> <span class="o">=</span> <span class="s">&#39;Column with style 3.&#39;</span>
+
+<span class="n">worksheet1</span><span class="o">.</span><span class="n">add_sparkline</span><span class="p">(</span><span class="s">&#39;A14&#39;</span><span class="p">,</span> <span class="p">{</span><span class="s">&#39;range&#39;</span><span class="p">:</span> <span class="s">&#39;Sheet2!A2:J2&#39;</span><span class="p">,</span>
+                                 <span class="s">&#39;type&#39;</span><span class="p">:</span> <span class="s">&#39;column&#39;</span><span class="p">,</span>
+                                 <span class="s">&#39;style&#39;</span><span class="p">:</span> <span class="mi">3</span><span class="p">})</span>
+
+<span class="n">worksheet1</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">row</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">text</span><span class="p">)</span>
+<span class="n">row</span> <span class="o">+=</span> <span class="mi">1</span>
+
+
+<span class="c">###############################################################################</span>
+<span class="c">#</span>
+<span class="n">text</span> <span class="o">=</span> <span class="s">&#39;Column with style 4.&#39;</span>
+
+<span class="n">worksheet1</span><span class="o">.</span><span class="n">add_sparkline</span><span class="p">(</span><span class="s">&#39;A15&#39;</span><span class="p">,</span> <span class="p">{</span><span class="s">&#39;range&#39;</span><span class="p">:</span> <span class="s">&#39;Sheet2!A2:J2&#39;</span><span class="p">,</span>
+                                 <span class="s">&#39;type&#39;</span><span class="p">:</span> <span class="s">&#39;column&#39;</span><span class="p">,</span>
+                                 <span class="s">&#39;style&#39;</span><span class="p">:</span> <span class="mi">4</span><span class="p">})</span>
+
+<span class="n">worksheet1</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">row</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">text</span><span class="p">)</span>
+<span class="n">row</span> <span class="o">+=</span> <span class="mi">1</span>
+
+
+<span class="c">###############################################################################</span>
+<span class="c">#</span>
+<span class="n">text</span> <span class="o">=</span> <span class="s">&#39;Column with style 5.&#39;</span>
+
+<span class="n">worksheet1</span><span class="o">.</span><span class="n">add_sparkline</span><span class="p">(</span><span class="s">&#39;A16&#39;</span><span class="p">,</span> <span class="p">{</span><span class="s">&#39;range&#39;</span><span class="p">:</span> <span class="s">&#39;Sheet2!A2:J2&#39;</span><span class="p">,</span>
+                                 <span class="s">&#39;type&#39;</span><span class="p">:</span> <span class="s">&#39;column&#39;</span><span class="p">,</span>
+                                 <span class="s">&#39;style&#39;</span><span class="p">:</span> <span class="mi">5</span><span class="p">})</span>
+
+<span class="n">worksheet1</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">row</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">text</span><span class="p">)</span>
+<span class="n">row</span> <span class="o">+=</span> <span class="mi">1</span>
+
+
+<span class="c">###############################################################################</span>
+<span class="c">#</span>
+<span class="n">text</span> <span class="o">=</span> <span class="s">&#39;Column with style 6.&#39;</span>
+
+<span class="n">worksheet1</span><span class="o">.</span><span class="n">add_sparkline</span><span class="p">(</span><span class="s">&#39;A17&#39;</span><span class="p">,</span> <span class="p">{</span><span class="s">&#39;range&#39;</span><span class="p">:</span> <span class="s">&#39;Sheet2!A2:J2&#39;</span><span class="p">,</span>
+                                 <span class="s">&#39;type&#39;</span><span class="p">:</span> <span class="s">&#39;column&#39;</span><span class="p">,</span>
+                                 <span class="s">&#39;style&#39;</span><span class="p">:</span> <span class="mi">6</span><span class="p">})</span>
+
+<span class="n">worksheet1</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">row</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">text</span><span class="p">)</span>
+<span class="n">row</span> <span class="o">+=</span> <span class="mi">1</span>
+
+
+<span class="c">###############################################################################</span>
+<span class="c">#</span>
+<span class="n">text</span> <span class="o">=</span> <span class="s">&#39;Column with a user defined colour.&#39;</span>
+
+<span class="n">worksheet1</span><span class="o">.</span><span class="n">add_sparkline</span><span class="p">(</span><span class="s">&#39;A18&#39;</span><span class="p">,</span> <span class="p">{</span><span class="s">&#39;range&#39;</span><span class="p">:</span> <span class="s">&#39;Sheet2!A2:J2&#39;</span><span class="p">,</span>
+                                 <span class="s">&#39;type&#39;</span><span class="p">:</span> <span class="s">&#39;column&#39;</span><span class="p">,</span>
+                                 <span class="s">&#39;series_color&#39;</span><span class="p">:</span> <span class="s">&#39;#E965E0&#39;</span><span class="p">})</span>
+
+<span class="n">worksheet1</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">row</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">text</span><span class="p">)</span>
+<span class="n">row</span> <span class="o">+=</span> <span class="mi">2</span>
+
+
+<span class="c">###############################################################################</span>
+<span class="c">#</span>
+<span class="n">text</span> <span class="o">=</span> <span class="s">&#39;A win/loss sparkline.&#39;</span>
+
+<span class="n">worksheet1</span><span class="o">.</span><span class="n">add_sparkline</span><span class="p">(</span><span class="s">&#39;A20&#39;</span><span class="p">,</span> <span class="p">{</span><span class="s">&#39;range&#39;</span><span class="p">:</span> <span class="s">&#39;Sheet2!A3:J3&#39;</span><span class="p">,</span>
+                                 <span class="s">&#39;type&#39;</span><span class="p">:</span> <span class="s">&#39;win_loss&#39;</span><span class="p">})</span>
+
+<span class="n">worksheet1</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">row</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">text</span><span class="p">)</span>
+<span class="n">row</span> <span class="o">+=</span> <span class="mi">1</span>
+
+
+<span class="c">###############################################################################</span>
+<span class="c">#</span>
+<span class="n">text</span> <span class="o">=</span> <span class="s">&#39;A win/loss sparkline with negative points highlighted.&#39;</span>
+
+<span class="n">worksheet1</span><span class="o">.</span><span class="n">add_sparkline</span><span class="p">(</span><span class="s">&#39;A21&#39;</span><span class="p">,</span> <span class="p">{</span><span class="s">&#39;range&#39;</span><span class="p">:</span> <span class="s">&#39;Sheet2!A3:J3&#39;</span><span class="p">,</span>
+                                 <span class="s">&#39;type&#39;</span><span class="p">:</span> <span class="s">&#39;win_loss&#39;</span><span class="p">,</span>
+                                 <span class="s">&#39;negative_points&#39;</span><span class="p">:</span> <span class="bp">True</span><span class="p">})</span>
+
+<span class="n">worksheet1</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">row</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">text</span><span class="p">)</span>
+<span class="n">row</span> <span class="o">+=</span> <span class="mi">2</span>
+
+
+<span class="c">###############################################################################</span>
+<span class="c">#</span>
+<span class="n">text</span> <span class="o">=</span> <span class="s">&#39;A left to right column (the default).&#39;</span>
+
+<span class="n">worksheet1</span><span class="o">.</span><span class="n">add_sparkline</span><span class="p">(</span><span class="s">&#39;A23&#39;</span><span class="p">,</span> <span class="p">{</span><span class="s">&#39;range&#39;</span><span class="p">:</span> <span class="s">&#39;Sheet2!A4:J4&#39;</span><span class="p">,</span>
+                                 <span class="s">&#39;type&#39;</span><span class="p">:</span> <span class="s">&#39;column&#39;</span><span class="p">,</span>
+                                 <span class="s">&#39;style&#39;</span><span class="p">:</span> <span class="mi">20</span><span class="p">})</span>
+
+<span class="n">worksheet1</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">row</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">text</span><span class="p">)</span>
+<span class="n">row</span> <span class="o">+=</span> <span class="mi">1</span>
+
+
+<span class="c">###############################################################################</span>
+<span class="c">#</span>
+<span class="n">text</span> <span class="o">=</span> <span class="s">&#39;A right to left column.&#39;</span>
+
+<span class="n">worksheet1</span><span class="o">.</span><span class="n">add_sparkline</span><span class="p">(</span><span class="s">&#39;A24&#39;</span><span class="p">,</span> <span class="p">{</span><span class="s">&#39;range&#39;</span><span class="p">:</span> <span class="s">&#39;Sheet2!A4:J4&#39;</span><span class="p">,</span>
+                                 <span class="s">&#39;type&#39;</span><span class="p">:</span> <span class="s">&#39;column&#39;</span><span class="p">,</span>
+                                 <span class="s">&#39;style&#39;</span><span class="p">:</span> <span class="mi">20</span><span class="p">,</span>
+                                 <span class="s">&#39;reverse&#39;</span><span class="p">:</span> <span class="bp">True</span><span class="p">})</span>
+
+<span class="n">worksheet1</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">row</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">text</span><span class="p">)</span>
+<span class="n">row</span> <span class="o">+=</span> <span class="mi">1</span>
+
+
+<span class="c">###############################################################################</span>
+<span class="c">#</span>
+<span class="n">text</span> <span class="o">=</span> <span class="s">&#39;Sparkline and text in one cell.&#39;</span>
+
+<span class="n">worksheet1</span><span class="o">.</span><span class="n">add_sparkline</span><span class="p">(</span><span class="s">&#39;A25&#39;</span><span class="p">,</span> <span class="p">{</span><span class="s">&#39;range&#39;</span><span class="p">:</span> <span class="s">&#39;Sheet2!A4:J4&#39;</span><span class="p">,</span>
+                                 <span class="s">&#39;type&#39;</span><span class="p">:</span> <span class="s">&#39;column&#39;</span><span class="p">,</span>
+                                 <span class="s">&#39;style&#39;</span><span class="p">:</span> <span class="mi">20</span><span class="p">})</span>
+
+<span class="n">worksheet1</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">row</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="s">&#39;Growth&#39;</span><span class="p">)</span>
+<span class="n">worksheet1</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">row</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">text</span><span class="p">)</span>
+<span class="n">row</span> <span class="o">+=</span> <span class="mi">2</span>
+
+
+<span class="c">###############################################################################</span>
+<span class="c">#</span>
+<span class="n">text</span> <span class="o">=</span> <span class="s">&#39;A grouped sparkline. Changes are applied to all three.&#39;</span>
+
+<span class="n">worksheet1</span><span class="o">.</span><span class="n">add_sparkline</span><span class="p">(</span><span class="s">&#39;A27&#39;</span><span class="p">,</span> <span class="p">{</span><span class="s">&#39;location&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s">&#39;A27&#39;</span><span class="p">,</span> <span class="s">&#39;A28&#39;</span><span class="p">,</span> <span class="s">&#39;A29&#39;</span><span class="p">],</span>
+                                 <span class="s">&#39;range&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s">&#39;Sheet2!A5:J5&#39;</span><span class="p">,</span>
+                                           <span class="s">&#39;Sheet2!A6:J6&#39;</span><span class="p">,</span>
+                                           <span class="s">&#39;Sheet2!A7:J7&#39;</span><span class="p">],</span>
+                                 <span class="s">&#39;markers&#39;</span><span class="p">:</span> <span class="bp">True</span><span class="p">})</span>
+
+<span class="n">worksheet1</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">row</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">text</span><span class="p">)</span>
+<span class="n">row</span> <span class="o">+=</span> <span class="mi">1</span>
+
+
+<span class="c">###############################################################################</span>
+<span class="c">#</span>
+<span class="c"># Create a second worksheet with data to plot.</span>
+<span class="c">#</span>
+<span class="n">worksheet2</span><span class="o">.</span><span class="n">set_column</span><span class="p">(</span><span class="s">&#39;A:J&#39;</span><span class="p">,</span> <span class="mi">11</span><span class="p">)</span>
+
+<span class="n">data</span> <span class="o">=</span> <span class="p">[</span>
+
+    <span class="c"># Simple line data.</span>
+    <span class="p">[</span><span class="o">-</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
+
+    <span class="c"># Simple column data.</span>
+    <span class="p">[</span><span class="mi">30</span><span class="p">,</span> <span class="mi">20</span><span class="p">,</span> <span class="mi">33</span><span class="p">,</span> <span class="mi">20</span><span class="p">,</span> <span class="mi">15</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">15</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">15</span><span class="p">],</span>
+
+    <span class="c"># Simple win/loss data.</span>
+    <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">],</span>
+
+    <span class="c"># Unbalanced histogram.</span>
+    <span class="p">[</span><span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">15</span><span class="p">,</span> <span class="mi">20</span><span class="p">,</span> <span class="mi">30</span><span class="p">,</span> <span class="mi">50</span><span class="p">,</span> <span class="mi">70</span><span class="p">,</span> <span class="mi">100</span><span class="p">],</span>
+
+    <span class="c"># Data for the grouped sparkline example.</span>
+    <span class="p">[</span><span class="o">-</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
+    <span class="p">[</span><span class="mi">3</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span>
+    <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span>
+
+<span class="p">]</span>
+
+<span class="c"># Write the sample data to the worksheet.</span>
+<span class="n">worksheet2</span><span class="o">.</span><span class="n">write_row</span><span class="p">(</span><span class="s">&#39;A1&#39;</span><span class="p">,</span> <span class="n">data</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+<span class="n">worksheet2</span><span class="o">.</span><span class="n">write_row</span><span class="p">(</span><span class="s">&#39;A2&#39;</span><span class="p">,</span> <span class="n">data</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+<span class="n">worksheet2</span><span class="o">.</span><span class="n">write_row</span><span class="p">(</span><span class="s">&#39;A3&#39;</span><span class="p">,</span> <span class="n">data</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span>
+<span class="n">worksheet2</span><span class="o">.</span><span class="n">write_row</span><span class="p">(</span><span class="s">&#39;A4&#39;</span><span class="p">,</span> <span class="n">data</span><span class="p">[</span><span class="mi">3</span><span class="p">])</span>
+<span class="n">worksheet2</span><span class="o">.</span><span class="n">write_row</span><span class="p">(</span><span class="s">&#39;A5&#39;</span><span class="p">,</span> <span class="n">data</span><span class="p">[</span><span class="mi">4</span><span class="p">])</span>
+<span class="n">worksheet2</span><span class="o">.</span><span class="n">write_row</span><span class="p">(</span><span class="s">&#39;A6&#39;</span><span class="p">,</span> <span class="n">data</span><span class="p">[</span><span class="mi">5</span><span class="p">])</span>
+<span class="n">worksheet2</span><span class="o">.</span><span class="n">write_row</span><span class="p">(</span><span class="s">&#39;A7&#39;</span><span class="p">,</span> <span class="n">data</span><span class="p">[</span><span class="mi">6</span><span class="p">])</span>
+
+<span class="n">workbook</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="index.html">
+              <img class="logo" src="_static/logo.png" alt="Logo"/>
+            </a></p>
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="example_sparklines1.html"
+                        title="previous chapter">Example: Sparklines (Simple)</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="example_comments1.html"
+                        title="next chapter">Example: Adding Cell Comments to Worksheets (Simple)</a></p>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="_sources/example_sparklines2.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="example_comments1.html" title="Example: Adding Cell Comments to Worksheets (Simple)"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="example_sparklines1.html" title="Example: Sparklines (Simple)"
+             >previous</a> |</li>
+        <li><a href="index.html">XlsxWriter Documentation</a> &raquo;</li>
+          <li><a href="examples.html" >Examples</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2013, John McNamara.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.3.
+    </div>
+  </body>
+</html>

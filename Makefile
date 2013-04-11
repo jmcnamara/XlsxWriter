@@ -25,14 +25,14 @@ test:
 	@python -m unittest discover
 
 testpythons:
-    # Test with Python 2/3 stable releases.
+	# Test with Python 2/3 stable releases.
 	@echo "Testing with Python 2.7.4:"
 	@~/.pythonbrew/pythons/Python-2.7.4/bin/python -m unittest discover
 	@echo "Testing with Python 3.3.1:"
 	@~/.pythonbrew/pythons/Python-3.3.1/bin/python -m unittest discover
 
 testpythonsall:
-    # Test with all installed Python 2/3 releases.
+	# Test with all installed Python 2/3 releases.
 	@echo "Testing with Python 2.6:"
 	@~/.pythonbrew/pythons/Python-2.6/bin/python   -m          discover
 	@echo "Testing with Python 2.7.2:"

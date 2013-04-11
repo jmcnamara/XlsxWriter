@@ -16,7 +16,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '',
-        VERSION:     '0.2.9',
+        VERSION:     '0.3.0',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -970,7 +970,7 @@ PNG, JPEG or BMP format:</p>
 </pre></div>
 </div>
 <p>The <tt class="docutils literal"><span class="pre">insert_image()</span></tt> method takes optional parameters in a dictionary to
-position and scale the image. The avavilable parameters with their default
+position and scale the image. The available parameters with their default
 values are:</p>
 <div class="highlight-python"><div class="highlight"><pre><span class="p">{</span>
     <span class="s">&#39;x_offset&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
@@ -1111,8 +1111,8 @@ format. There are a lot of available options which are described in detail in
 a separate section: <a class="reference internal" href="working_with_conditional_formats.html#working-with-conditional-formats"><em>Working with Conditional Formatting</em></a>. See also
 <a class="reference internal" href="example_conditional_format.html#ex-cond-format"><em>Example: Conditional Formatting</em></a>.</p>
 </div>
-<div class="section" id="add-table">
-<h2>add_table()</h2>
+<div class="section" id="worksheet-add-table">
+<h2>worksheet.add_table()</h2>
 <dl class="function">
 <dt id="add_table">
 <tt class="descname">add_table</tt><big>(</big><em>first_row</em>, <em>first_col</em>, <em>last_row</em>, <em>last_col</em>, <em>options</em><big>)</big></dt>
@@ -1141,6 +1141,45 @@ Table:</p>
 </div>
 <p>This method contains a lot of parameters and is described in <a class="reference internal" href="working_with_tables.html#tables"><em>Working with Worksheet Tables</em></a>.</p>
 <p>See also <a class="reference internal" href="example_tables.html#ex-tables"><em>Example: Worksheet Tables</em></a>.</p>
+</div>
+<div class="section" id="worksheet-add-sparkline">
+<h2>worksheet.add_sparkline()</h2>
+<dl class="function">
+<dt id="add_sparkline">
+<tt class="descname">add_sparkline</tt><big>(</big><em>row</em>, <em>col</em>, <em>options</em><big>)</big></dt>
+<dd><blockquote>
+<div>Add sparklines to a worksheet.</div></blockquote>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>row</strong> (<a class="reference external" href="http://docs.python.org/2/library/functions.html#int" title="(in Python v2.7)"><em>int</em></a>) &#8211; The cell row (zero indexed).</li>
+<li><strong>col</strong> (<a class="reference external" href="http://docs.python.org/2/library/functions.html#int" title="(in Python v2.7)"><em>int</em></a>) &#8211; The cell column (zero indexed).</li>
+<li><strong>options</strong> (<a class="reference external" href="http://docs.python.org/2/library/stdtypes.html#dict" title="(in Python v2.7)"><em>dict</em></a>) &#8211; Sparkline formatting options.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<p>Sparklines are small charts that fit in a single cell and are used to show
+trends in data.</p>
+<img alt="_images/sparklines1.png" src="_images/sparklines1.png" />
+<p>The <tt class="docutils literal"><span class="pre">add_sparkline()</span></tt> worksheet method is used to add sparklines to a cell or
+a range of cells:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">worksheet</span><span class="o">.</span><span class="n">add_sparkline</span><span class="p">(</span><span class="s">&#39;F1&#39;</span><span class="p">,</span> <span class="p">{</span><span class="s">&#39;range&#39;</span><span class="p">:</span> <span class="s">&#39;A1:E1&#39;</span><span class="p">})</span>
+</pre></div>
+</div>
+<p>This method contains a lot of parameters and is described in detail in
+<a class="reference internal" href="working_with_sparklines.html#sparklines"><em>Working with Sparklines</em></a>.</p>
+<p>See also <a class="reference internal" href="example_sparklines1.html#ex-sparklines1"><em>Example: Sparklines (Simple)</em></a> and <a class="reference internal" href="example_sparklines2.html#ex-sparklines2"><em>Example: Sparklines (Advanced)</em></a>.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Sparklines are a feature of Excel 2010+ only. You can write them to
+an XLSX file that can be read by Excel 2007 but they won&#8217;t be displayed.</p>
+</div>
 </div>
 <div class="section" id="worksheet-write-comment">
 <h2>worksheet.write_comment()</h2>
@@ -1848,7 +1887,8 @@ row properties without generating a very large file with an entry for each row.<
 <dl class="function">
 <dt id="outline_settings">
 <tt class="descname">outline_settings</tt><big>(</big><em>visible</em>, <em>symbols_below</em>, <em>symbols_right</em>, <em>auto_style</em><big>)</big></dt>
-<dd><table class="docutils field-list" frame="void" rules="none">
+<dd><p>Control outline settings.</p>
+<table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
@@ -1922,7 +1962,8 @@ parameters.</p>
 <li><a class="reference internal" href="#worksheet-insert-image">worksheet.insert_image()</a></li>
 <li><a class="reference internal" href="#worksheet-data-validation">worksheet.data_validation()</a></li>
 <li><a class="reference internal" href="#worksheet-conditional-format">worksheet.conditional_format()</a></li>
-<li><a class="reference internal" href="#add-table">add_table()</a></li>
+<li><a class="reference internal" href="#worksheet-add-table">worksheet.add_table()</a></li>
+<li><a class="reference internal" href="#worksheet-add-sparkline">worksheet.add_sparkline()</a></li>
 <li><a class="reference internal" href="#worksheet-write-comment">worksheet.write_comment()</a></li>
 <li><a class="reference internal" href="#worksheet-show-comments">worksheet.show_comments()</a></li>
 <li><a class="reference internal" href="#worksheet-set-comments-author">worksheet.set_comments_author()</a></li>

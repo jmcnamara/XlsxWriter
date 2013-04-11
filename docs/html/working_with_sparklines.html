@@ -1,0 +1,434 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Working with Sparklines &mdash; XlsxWriter Documentation</title>
+    
+    <link rel="stylesheet" href="_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '',
+        VERSION:     '0.3.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="XlsxWriter Documentation" href="index.html" />
+    <link rel="next" title="Working with Cell Comments" href="working_with_cell_comments.html" />
+    <link rel="prev" title="Working with Worksheet Tables" href="working_with_tables.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="working_with_cell_comments.html" title="Working with Cell Comments"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="working_with_tables.html" title="Working with Worksheet Tables"
+             accesskey="P">previous</a> |</li>
+        <li><a href="index.html">XlsxWriter Documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="working-with-sparklines">
+<span id="sparklines"></span><h1>Working with Sparklines</h1>
+<p>Sparklines are a feature of Excel 2010+ which allows you to add small charts to
+worksheet cells. These are useful for showing visual trends in data in a
+compact format.</p>
+<img alt="_images/sparklines1.png" src="_images/sparklines1.png" />
+<p>Sparklines were invented by Edward Tufte:
+<a class="reference external" href="http://en.wikipedia.org/wiki/Sparklines">http://en.wikipedia.org/wiki/Sparklines</a></p>
+<div class="section" id="the-add-sparkline-method">
+<h2>The add_sparkline() method</h2>
+<p>The <a class="reference internal" href="worksheet.html#add_sparkline" title="add_sparkline"><tt class="xref py py-func docutils literal"><span class="pre">add_sparkline()</span></tt></a> worksheet method is used to add sparklines to a cell
+or a range of cells:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">worksheet</span><span class="o">.</span><span class="n">add_sparkline</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="p">{</span><span class="s">&#39;range&#39;</span><span class="p">:</span> <span class="s">&#39;Sheet1!A1:E1&#39;</span><span class="p">})</span>
+</pre></div>
+</div>
+<p>Both row-column and A1 style notation are supported. See <a class="reference internal" href="working_with_cell_notation.html#cell-notation"><em>Working with Cell Notation</em></a>
+for more details.</p>
+<p>The parameters to <tt class="docutils literal"><span class="pre">add_sparkline()</span></tt> must be passed in a dictionary. The main
+sparkline parameters are:</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>range (required)</td>
+</tr>
+<tr class="row-even"><td>type</td>
+</tr>
+<tr class="row-odd"><td>style</td>
+</tr>
+<tr class="row-even"><td>markers</td>
+</tr>
+<tr class="row-odd"><td>negative_points</td>
+</tr>
+<tr class="row-even"><td>axis</td>
+</tr>
+<tr class="row-odd"><td>reverse</td>
+</tr>
+</tbody>
+</table>
+<p>Other, less commonly used parameters are:</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>location</td>
+</tr>
+<tr class="row-even"><td>high_point</td>
+</tr>
+<tr class="row-odd"><td>low_point</td>
+</tr>
+<tr class="row-even"><td>first_point</td>
+</tr>
+<tr class="row-odd"><td>last_point</td>
+</tr>
+<tr class="row-even"><td>max</td>
+</tr>
+<tr class="row-odd"><td>min</td>
+</tr>
+<tr class="row-even"><td>empty_cells</td>
+</tr>
+<tr class="row-odd"><td>show_hidden</td>
+</tr>
+<tr class="row-even"><td>date_axis</td>
+</tr>
+<tr class="row-odd"><td>weight</td>
+</tr>
+<tr class="row-even"><td>series_color</td>
+</tr>
+<tr class="row-odd"><td>negative_color</td>
+</tr>
+<tr class="row-even"><td>markers_color</td>
+</tr>
+<tr class="row-odd"><td>first_color</td>
+</tr>
+<tr class="row-even"><td>last_color</td>
+</tr>
+<tr class="row-odd"><td>high_color</td>
+</tr>
+<tr class="row-even"><td>low_color</td>
+</tr>
+</tbody>
+</table>
+<img alt="_images/sparklines2.png" src="_images/sparklines2.png" />
+<p>These parameters are explained in the sections below.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Sparklines are a feature of Excel 2010+ only. You can write them to an
+XLSX file that can be read by Excel 2007 but they won&#8217;t be displayed.</p>
+</div>
+</div>
+<div class="section" id="range">
+<h2>range</h2>
+<p>The <tt class="docutils literal"><span class="pre">range</span></tt> specifier is the only non-optional parameter.</p>
+<p>It specifies the cell data range that the sparkline will plot:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">worksheet</span><span class="o">.</span><span class="n">add_sparkline</span><span class="p">(</span><span class="s">&#39;F1&#39;</span><span class="p">,</span> <span class="p">{</span><span class="s">&#39;range&#39;</span><span class="p">:</span> <span class="s">&#39;A1:E1&#39;</span><span class="p">})</span>
+</pre></div>
+</div>
+<p>The <tt class="docutils literal"><span class="pre">range</span></tt> should be a 2D array. (For 3D arrays of cells see &#8220;Grouped
+Sparklines&#8221; below).</p>
+<p>If <tt class="docutils literal"><span class="pre">range</span></tt> is not on the same worksheet you can specify its location using
+the usual Excel notation:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">worksheet</span><span class="o">.</span><span class="n">add_sparkline</span><span class="p">(</span><span class="s">&#39;F1&#39;</span><span class="p">,</span> <span class="p">{</span><span class="s">&#39;range&#39;</span><span class="p">:</span> <span class="s">&#39;Sheet2!A1:E1&#39;</span><span class="p">})</span>
+</pre></div>
+</div>
+<p>If the worksheet contains spaces or special characters you should quote the
+worksheet name in the same way that Excel does:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">worksheet</span><span class="o">.</span><span class="n">add_sparkline</span><span class="p">(</span><span class="s">&#39;F1&#39;</span><span class="p">,</span> <span class="p">{</span><span class="s">&#39;range&#39;</span><span class="p">:</span> <span class="s">&quot;&#39;Monthly Data&#39;!A1:E1&quot;</span><span class="p">})</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="type">
+<h2>type</h2>
+<p>Specifies the type of sparkline. There are 3 available sparkline types:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">line</span> <span class="p">(</span><span class="n">default</span><span class="p">)</span>
+<span class="n">column</span>
+<span class="n">win_loss</span>
+</pre></div>
+</div>
+<p>For example:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">worksheet</span><span class="o">.</span><span class="n">add_sparkline</span><span class="p">(</span><span class="s">&#39;F2&#39;</span><span class="p">,</span> <span class="p">{</span><span class="s">&#39;range&#39;</span><span class="p">:</span> <span class="s">&#39;A2:E2&#39;</span><span class="p">,</span>
+                               <span class="s">&#39;type&#39;</span><span class="p">:</span> <span class="s">&#39;column&#39;</span><span class="p">})</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="style">
+<h2>style</h2>
+<p>Excel provides 36 built-in Sparkline styles in 6 groups of 6. The <tt class="docutils literal"><span class="pre">style</span></tt>
+parameter can be used to replicate these and should be a corresponding number
+from 1 .. 36:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">worksheet</span><span class="o">.</span><span class="n">add_sparkline</span><span class="p">(</span><span class="s">&#39;F2&#39;</span><span class="p">,</span> <span class="p">{</span><span class="s">&#39;range&#39;</span><span class="p">:</span> <span class="s">&#39;A2:E2&#39;</span><span class="p">,</span>
+                               <span class="s">&#39;type&#39;</span><span class="p">:</span> <span class="s">&#39;column&#39;</span><span class="p">,</span>
+                               <span class="s">&#39;style&#39;</span><span class="p">:</span> <span class="mi">12</span><span class="p">})</span>
+</pre></div>
+</div>
+<p>The style number starts in the top left of the style grid and runs left to
+right. The default style is 1. It is possible to override colour elements of
+the sparklines using the <tt class="docutils literal"><span class="pre">_color</span></tt> parameters below.</p>
+</div>
+<div class="section" id="markers">
+<h2>markers</h2>
+<p>Turn on the markers for <tt class="docutils literal"><span class="pre">line</span></tt> style sparklines:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">worksheet</span><span class="o">.</span><span class="n">add_sparkline</span><span class="p">(</span><span class="s">&#39;A6&#39;</span><span class="p">,</span> <span class="p">{</span><span class="s">&#39;range&#39;</span><span class="p">:</span> <span class="s">&#39;Sheet2!A1:J1&#39;</span><span class="p">,</span>
+                               <span class="s">&#39;markers&#39;</span><span class="p">:</span> <span class="bp">True</span><span class="p">})</span>
+</pre></div>
+</div>
+<p>Markers aren&#8217;t shown in Excel for <tt class="docutils literal"><span class="pre">column</span></tt> and <tt class="docutils literal"><span class="pre">win_loss</span></tt> sparklines.</p>
+</div>
+<div class="section" id="negative-points">
+<h2>negative_points</h2>
+<p>Highlight negative values in a sparkline range. This is usually required with
+<tt class="docutils literal"><span class="pre">win_loss</span></tt> sparklines:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">worksheet</span><span class="o">.</span><span class="n">add_sparkline</span><span class="p">(</span><span class="s">&#39;A9&#39;</span><span class="p">,</span> <span class="p">{</span><span class="s">&#39;range&#39;</span><span class="p">:</span> <span class="s">&#39;Sheet2!A1:J1&#39;</span><span class="p">,</span>
+                               <span class="s">&#39;negative_points&#39;</span><span class="p">:</span> <span class="bp">True</span><span class="p">})</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="axis">
+<h2>axis</h2>
+<p>Display a horizontal axis in the sparkline:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">worksheet</span><span class="o">.</span><span class="n">add_sparkline</span><span class="p">(</span><span class="s">&#39;A10&#39;</span><span class="p">,</span> <span class="p">{</span><span class="s">&#39;range&#39;</span><span class="p">:</span> <span class="s">&#39;Sheet2!A1:J1&#39;</span><span class="p">,</span>
+                                <span class="s">&#39;axis&#39;</span><span class="p">:</span> <span class="bp">True</span><span class="p">})</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="reverse">
+<h2>reverse</h2>
+<p>Plot the data from right-to-left instead of the default left-to-right:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">worksheet</span><span class="o">.</span><span class="n">add_sparkline</span><span class="p">(</span><span class="s">&#39;A24&#39;</span><span class="p">,</span> <span class="p">{</span><span class="s">&#39;range&#39;</span><span class="p">:</span> <span class="s">&#39;Sheet2!A4:J4&#39;</span><span class="p">,</span>
+                                <span class="s">&#39;type&#39;</span><span class="p">:</span> <span class="s">&#39;column&#39;</span><span class="p">,</span>
+                                <span class="s">&#39;style&#39;</span><span class="p">:</span> <span class="mi">20</span><span class="p">,</span>
+                                <span class="s">&#39;reverse&#39;</span><span class="p">:</span> <span class="bp">True</span><span class="p">})</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="weight">
+<h2>weight</h2>
+<p>Adjust the default line weight (thickness) for <tt class="docutils literal"><span class="pre">line</span></tt> style sparklines:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">worksheet</span><span class="o">.</span><span class="n">add_sparkline</span><span class="p">(</span><span class="s">&#39;F2&#39;</span><span class="p">,</span> <span class="p">{</span><span class="s">&#39;range&#39;</span><span class="p">:</span> <span class="s">&#39;A2:E2&#39;</span><span class="p">,</span>
+                               <span class="s">&#39;weight&#39;</span><span class="p">:</span> <span class="mf">0.25</span><span class="p">})</span>
+</pre></div>
+</div>
+<p>The weight value should be one of the following values allowed by Excel:</p>
+<div class="highlight-python"><pre>0.25 0.5 0.75
+1 1.25
+2.25
+3
+4.25
+6</pre>
+</div>
+</div>
+<div class="section" id="high-point-low-point-first-point-last-point">
+<h2>high_point, low_point, first_point, last_point</h2>
+<p>Highlight points in a sparkline range:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">worksheet</span><span class="o">.</span><span class="n">add_sparkline</span><span class="p">(</span><span class="s">&#39;A7&#39;</span><span class="p">,</span> <span class="p">{</span><span class="s">&#39;range&#39;</span><span class="p">:</span> <span class="s">&#39;Sheet2!A1:J1&#39;</span><span class="p">,</span>
+                               <span class="s">&#39;high_point&#39;</span><span class="p">:</span> <span class="bp">True</span><span class="p">,</span>
+                               <span class="s">&#39;low_point&#39;</span><span class="p">:</span> <span class="bp">True</span><span class="p">,</span>
+                               <span class="s">&#39;first_point&#39;</span><span class="p">:</span> <span class="bp">True</span><span class="p">})</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="max-min">
+<h2>max, min</h2>
+<p>Specify the maximum and minimum vertical axis values:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">worksheet</span><span class="o">.</span><span class="n">add_sparkline</span><span class="p">(</span><span class="s">&#39;F1&#39;</span><span class="p">,</span> <span class="p">{</span><span class="s">&#39;range&#39;</span><span class="p">:</span> <span class="s">&#39;A1:E1&#39;</span><span class="p">,</span>
+                               <span class="s">&#39;max&#39;</span><span class="p">:</span> <span class="mf">0.5</span><span class="p">,</span>
+                               <span class="s">&#39;min&#39;</span><span class="p">:</span> <span class="o">-</span><span class="mf">0.5</span><span class="p">})</span>
+</pre></div>
+</div>
+<p>As a special case you can set the maximum and minimum to be for a group of
+sparklines rather than one:</p>
+<div class="highlight-python"><pre>'max': 'group'</pre>
+</div>
+<p>See &#8220;Grouped Sparklines&#8221; below.</p>
+</div>
+<div class="section" id="empty-cells">
+<h2>empty_cells</h2>
+<p>Define how empty cells are handled in a sparkline:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">worksheet</span><span class="o">.</span><span class="n">add_sparkline</span><span class="p">(</span><span class="s">&#39;F1&#39;</span><span class="p">,</span> <span class="p">{</span><span class="s">&#39;range&#39;</span><span class="p">:</span> <span class="s">&#39;A1:E1&#39;</span><span class="p">,</span>
+                               <span class="s">&#39;empty_cells&#39;</span><span class="p">:</span> <span class="s">&#39;zero&#39;</span><span class="p">})</span>
+</pre></div>
+</div>
+<p>The available options are:</p>
+<ul class="simple">
+<li><tt class="docutils literal"><span class="pre">gaps</span></tt>: show empty cells as gaps (the default).</li>
+<li><tt class="docutils literal"><span class="pre">zero</span></tt>: plot empty cells as 0.</li>
+<li><tt class="docutils literal"><span class="pre">connect</span></tt>: Connect points with a line (&#8220;line&#8221; type sparklines only).</li>
+</ul>
+</div>
+<div class="section" id="show-hidden">
+<h2>show_hidden</h2>
+<p>Plot data in hidden rows and columns:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">worksheet</span><span class="o">.</span><span class="n">add_sparkline</span><span class="p">(</span><span class="s">&#39;F3&#39;</span><span class="p">,</span> <span class="p">{</span><span class="s">&#39;range&#39;</span><span class="p">:</span> <span class="s">&#39;A3:E3&#39;</span><span class="p">,</span>
+                               <span class="s">&#39;show_hidden&#39;</span><span class="p">:</span> <span class="bp">True</span><span class="p">})</span>
+</pre></div>
+</div>
+<p>Note, this option is off by default.</p>
+</div>
+<div class="section" id="date-axis">
+<h2>date_axis</h2>
+<p>Specify an alternative date axis for the sparkline. This is useful if the data
+being plotted isn&#8217;t at fixed width intervals:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">worksheet</span><span class="o">.</span><span class="n">add_sparkline</span><span class="p">(</span><span class="s">&#39;F3&#39;</span><span class="p">,</span> <span class="p">{</span><span class="s">&#39;range&#39;</span><span class="p">:</span> <span class="s">&#39;A3:E3&#39;</span><span class="p">,</span>
+                               <span class="s">&#39;date_axis&#39;</span><span class="p">:</span> <span class="s">&#39;A4:E4&#39;</span><span class="p">})</span>
+</pre></div>
+</div>
+<p>The number of cells in the date range should correspond to the number of cells
+in the data range.</p>
+</div>
+<div class="section" id="series-color">
+<h2>series_color</h2>
+<p>It is possible to override the colour of a sparkline style using the following
+parameters:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">series_color</span>
+<span class="n">negative_color</span>
+<span class="n">markers_color</span>
+<span class="n">first_color</span>
+<span class="n">last_color</span>
+<span class="n">high_color</span>
+<span class="n">low_color</span>
+</pre></div>
+</div>
+<p>The color should be specified as a HTML style <tt class="docutils literal"><span class="pre">#rrggbb</span></tt> hex value:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">worksheet</span><span class="o">.</span><span class="n">add_sparkline</span><span class="p">(</span><span class="s">&#39;A18&#39;</span><span class="p">,</span> <span class="p">{</span><span class="s">&#39;range&#39;</span><span class="p">:</span> <span class="s">&#39;Sheet2!A2:J2&#39;</span><span class="p">,</span>
+                                <span class="s">&#39;type&#39;</span><span class="p">:</span> <span class="s">&#39;column&#39;</span><span class="p">,</span>
+                                <span class="s">&#39;series_color&#39;</span><span class="p">:</span> <span class="s">&#39;#E965E0&#39;</span><span class="p">})</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="location">
+<h2>location</h2>
+<p>By default the sparkline location is specified by <tt class="docutils literal"><span class="pre">row</span></tt> and <tt class="docutils literal"><span class="pre">col</span></tt> in
+<a class="reference internal" href="worksheet.html#add_sparkline" title="add_sparkline"><tt class="xref py py-func docutils literal"><span class="pre">add_sparkline()</span></tt></a>. However, for grouped sparklines it is necessary to
+specify more than one cell location. The <tt class="docutils literal"><span class="pre">location</span></tt> parameter is used to
+specify a list of cells. See &#8220;Grouped Sparklines&#8221; below.</p>
+</div>
+<div class="section" id="grouped-sparklines">
+<h2>Grouped Sparklines</h2>
+<p>The <tt class="docutils literal"><span class="pre">add_sparkline()</span></tt> worksheet method can be used multiple times to write as
+many sparklines as are required in a worksheet.</p>
+<p>However, it is sometimes necessary to group contiguous sparklines so that
+changes that are applied to one are applied to all. In Excel this is achieved
+by selecting a 3D range of cells for the data <tt class="docutils literal"><span class="pre">range</span></tt> and a 2D range of
+cells for the <tt class="docutils literal"><span class="pre">location</span></tt>.</p>
+<p>In XlsxWriter, you can simulate this by passing an array refs of values to
+<tt class="docutils literal"><span class="pre">location</span></tt> and <tt class="docutils literal"><span class="pre">range</span></tt>:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">worksheet</span><span class="o">.</span><span class="n">add_sparkline</span><span class="p">(</span><span class="s">&#39;A27&#39;</span><span class="p">,</span> <span class="p">{</span><span class="s">&#39;location&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s">&#39;A27&#39;</span><span class="p">,</span>   <span class="s">&#39;A28&#39;</span><span class="p">,</span>   <span class="s">&#39;A29&#39;</span><span class="p">],</span>
+                                <span class="s">&#39;range&#39;</span><span class="p">:</span>    <span class="p">[</span><span class="s">&#39;A5:J5&#39;</span><span class="p">,</span> <span class="s">&#39;A6:J6&#39;</span><span class="p">,</span> <span class="s">&#39;A7:J7&#39;</span><span class="p">]})</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="sparkline-examples">
+<h2>Sparkline examples</h2>
+<p>See <a class="reference internal" href="example_sparklines1.html#ex-sparklines1"><em>Example: Sparklines (Simple)</em></a> and <a class="reference internal" href="example_sparklines2.html#ex-sparklines2"><em>Example: Sparklines (Advanced)</em></a>.</p>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="index.html">
+              <img class="logo" src="_static/logo.png" alt="Logo"/>
+            </a></p>
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Working with Sparklines</a><ul>
+<li><a class="reference internal" href="#the-add-sparkline-method">The add_sparkline() method</a></li>
+<li><a class="reference internal" href="#range">range</a></li>
+<li><a class="reference internal" href="#type">type</a></li>
+<li><a class="reference internal" href="#style">style</a></li>
+<li><a class="reference internal" href="#markers">markers</a></li>
+<li><a class="reference internal" href="#negative-points">negative_points</a></li>
+<li><a class="reference internal" href="#axis">axis</a></li>
+<li><a class="reference internal" href="#reverse">reverse</a></li>
+<li><a class="reference internal" href="#weight">weight</a></li>
+<li><a class="reference internal" href="#high-point-low-point-first-point-last-point">high_point, low_point, first_point, last_point</a></li>
+<li><a class="reference internal" href="#max-min">max, min</a></li>
+<li><a class="reference internal" href="#empty-cells">empty_cells</a></li>
+<li><a class="reference internal" href="#show-hidden">show_hidden</a></li>
+<li><a class="reference internal" href="#date-axis">date_axis</a></li>
+<li><a class="reference internal" href="#series-color">series_color</a></li>
+<li><a class="reference internal" href="#location">location</a></li>
+<li><a class="reference internal" href="#grouped-sparklines">Grouped Sparklines</a></li>
+<li><a class="reference internal" href="#sparkline-examples">Sparkline examples</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="working_with_tables.html"
+                        title="previous chapter">Working with Worksheet Tables</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="working_with_cell_comments.html"
+                        title="next chapter">Working with Cell Comments</a></p>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="_sources/working_with_sparklines.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="working_with_cell_comments.html" title="Working with Cell Comments"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="working_with_tables.html" title="Working with Worksheet Tables"
+             >previous</a> |</li>
+        <li><a href="index.html">XlsxWriter Documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2013, John McNamara.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.3.
+    </div>
+  </body>
+</html>

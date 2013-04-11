@@ -1,5 +1,12 @@
 
 
+Release 0.3.0 - April 7 2013
+-----------------------------
+
+* Added worksheet sparklines. See :ref:`sparklines`, :ref:`ex_sparklines1` and 
+  :ref:`ex_sparklines2`
+
+
 Release 0.2.9 - April 7 2013
 -----------------------------
 

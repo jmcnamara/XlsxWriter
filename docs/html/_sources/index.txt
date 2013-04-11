@@ -31,6 +31,7 @@ XlsxWriter supports the following features in version |version|:
 * Worksheet cell protection.
 * Freeze and split worksheet panes.
 * Worksheet Tables.
+* Sparklines.
 * Outlines and Grouping.
 * Memory optimisation mode for writing large files.
 * Standard libraries only.
@@ -78,6 +79,7 @@ XlsxWriter supports the following features in version |version|:
    working_with_data_validation.rst
    working_with_conditional_formats.rst
    working_with_tables.rst
+   working_with_sparklines.rst
    working_with_cell_comments.rst
    working_with_outlines.rst
    working_with_memory.rst
