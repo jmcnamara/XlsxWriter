@@ -32,12 +32,12 @@ class TestAssembleWorksheet(unittest.TestCase):
 
         # Set up sparklines.
         worksheet.add_sparkline('F1', {'range': 'A1:E1',
-                                       'high_point': 1,
-                                       'low_point': 1,
-                                       'negative_points': 1,
-                                       'first_point': 1,
-                                       'last_point': 1,
-                                       'markers': 1,
+                                       'high_point': True,
+                                       'low_point': True,
+                                       'negative_points': True,
+                                       'first_point': True,
+                                       'last_point': True,
+                                       'markers': True,
                                        'series_color': '#C00000',
                                        'negative_color': '#FF0000',
                                        'markers_color': '#FFC000',

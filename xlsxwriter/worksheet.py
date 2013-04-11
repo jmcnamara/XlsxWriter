@@ -1421,7 +1421,7 @@ class Worksheet(xmlwriter.XMLwriter):
         Returns:
             0:  Success.
             -1: Row or column is out of worksheet bounds.
-            -2: incorrect parameter or option.
+            -2: Incorrect parameter or option.
         """
         # Check that row and col are valid without storing the values.
         if self._check_dimensions(first_row, first_col, 1, 1):
@@ -1618,7 +1618,7 @@ class Worksheet(xmlwriter.XMLwriter):
         Returns:
             0:  Success.
             -1: Row or column is out of worksheet bounds.
-            -2: incorrect parameter or option.
+            -2: Incorrect parameter or option.
         """
         # Check that row and col are valid without storing the values.
         if self._check_dimensions(first_row, first_col, 1, 1):
@@ -1967,7 +1967,7 @@ class Worksheet(xmlwriter.XMLwriter):
             0:  Success.
             -1: Not supported in optimisation mode.
             -2: Row or column is out of worksheet bounds.
-            -3: incorrect parameter or option.
+            -3: Incorrect parameter or option.
         """
         table = {}
         col_formats = {}
@@ -2188,12 +2188,27 @@ class Worksheet(xmlwriter.XMLwriter):
 
         return table
 
-    #
-    #
-    # Add sparklines to the worksheet.
-    #
     @convert_cell_args
     def add_sparkline(self, row, col, options):
+        """
+        Add sparklines to the worksheet.
+
+        Args:
+            row:     The cell row (zero indexed).
+            col:     The cell column (zero indexed).
+            options: Sparkline formatting options.
+
+        Returns:
+            0:  Success.
+            -1: Row or column is out of worksheet bounds.
+            -2: Incorrect parameter or option.
+
+        """
+
+        # Check that row and col are valid without storing the values.
+        if self._check_dimensions(row, col, 1, 1):
+            return -1
+
         sparkline = {}
         sparkline['locations'] = [xl_rowcol_to_cell(row, col)]
 
@@ -2231,12 +2246,12 @@ class Worksheet(xmlwriter.XMLwriter):
         for param_key in options.keys():
             if not param_key in valid_parameters:
                 warn("Unknown parameter '%s' in add_sparkline()" % param_key)
-                return -2
+                return -1
 
         # 'range' is a required parameter.
         if not 'range' in options:
             warn("Parameter 'range' is required in add_sparkline()")
-            return -3
+            return -2
 
         # Handle the sparkline type.
         spark_type = options.get('type', 'line')
@@ -2244,7 +2259,7 @@ class Worksheet(xmlwriter.XMLwriter):
         if spark_type not in ('line', 'column', 'win_loss'):
             warn("Parameter 'type' must be 'line', 'column' "
                  "or 'win_loss' in add_sparkline()")
-            return -4
+            return -2
 
         if spark_type == 'win_loss':
             spark_type = 'stacked'
@@ -2269,7 +2284,7 @@ class Worksheet(xmlwriter.XMLwriter):
         if range_count != location_count:
             warn("Must have the same number of location and range "
                  "parameters in add_sparkline()")
-            return -5
+            return -2
 
         # Store the count.
         sparkline['count'] = len(sparkline['locations'])
@@ -2397,11 +2412,22 @@ class Worksheet(xmlwriter.XMLwriter):
 
         self.selections = [[pane, active_cell, sqref]]
 
-    # This method sets the properties for outlining and grouping. The defaults
-    # correspond to Excel's defaults.
-    # TODO: docstring.
     def outline_settings(self, outline_on=1, outline_below=1, outline_right=1,
                          outline_style=0):
+        """
+        Control outline settings.
+
+        Args:
+            outline_on:    Outlines are visible. Optional, defaults to True.
+            outline_below: Show row outline symbols below the outline bar.
+                           Optional, defaults to True.
+            outline_right: Show column outline symbols to the right of the
+                           outline bar. Optional, defaults to True.
+            outline_style: Use Automatic style. Optional, defaults to False.
+
+        Returns:
+            0:  Nothing.
+        """
         self.outline_on = outline_on
         self.outline_below = outline_below
         self.outline_right = outline_right

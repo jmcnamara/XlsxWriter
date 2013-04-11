@@ -30,7 +30,7 @@ worksheet.write_row('A3', data[2])
 
 # Add a line sparkline (the default) with markers.
 worksheet.add_sparkline('F1', {'range': 'Sheet1!A1:E1',
-                               'markers': 1})
+                               'markers': True})
 
 
 # Add a column sparkline with non-default style.
@@ -42,6 +42,6 @@ worksheet.add_sparkline('F2', {'range': 'Sheet1!A2:E2',
 # Add a win/loss sparkline with negative values highlighted.
 worksheet.add_sparkline('F3', {'range': 'Sheet1!A3:E3',
                                'type': 'win_loss',
-                               'negative_points': 1})
+                               'negative_points': True})
 
 workbook.close()

@@ -13,7 +13,7 @@ from xlsxwriter.workbook import Workbook
 workbook = Workbook('sparklines2.xlsx')
 worksheet1 = workbook.add_worksheet()
 worksheet2 = workbook.add_worksheet()
-bold = workbook.add_format({'bold': 1})
+bold = workbook.add_format({'bold': True})
 row = 1
 
 # Set the columns widths to make the output clearer.
@@ -63,7 +63,7 @@ row += 2
 text = 'Line with markers.'
 
 worksheet1.add_sparkline('A6', {'range': 'Sheet2!A1:J1',
-                                'markers': 1})
+                                'markers': True})
 
 worksheet1.write(row, 1, text)
 row += 1
@@ -74,8 +74,8 @@ row += 1
 text = 'Line with high and low points.'
 
 worksheet1.add_sparkline('A7', {'range': 'Sheet2!A1:J1',
-                                'high_point': 1,
-                                'low_point': 1})
+                                'high_point': True,
+                                'low_point': True})
 
 worksheet1.write(row, 1, text)
 row += 1
@@ -86,8 +86,8 @@ row += 1
 text = 'Line with first and last point markers.'
 
 worksheet1.add_sparkline('A8', {'range': 'Sheet2!A1:J1',
-                                'first_point': 1,
-                                'last_point': 1})
+                                'first_point': True,
+                                'last_point': True})
 
 worksheet1.write(row, 1, text)
 row += 1
@@ -98,7 +98,7 @@ row += 1
 text = 'Line with negative point markers.'
 
 worksheet1.add_sparkline('A9', {'range': 'Sheet2!A1:J1',
-                                'negative_points': 1})
+                                'negative_points': True})
 
 worksheet1.write(row, 1, text)
 row += 1
@@ -109,7 +109,7 @@ row += 1
 text = 'Line with axis.'
 
 worksheet1.add_sparkline('A10', {'range': 'Sheet2!A1:J1',
-                                 'axis': 1})
+                                 'axis': True})
 
 worksheet1.write(row, 1, text)
 row += 2
@@ -215,7 +215,7 @@ text = 'A win/loss sparkline with negative points highlighted.'
 
 worksheet1.add_sparkline('A21', {'range': 'Sheet2!A3:J3',
                                  'type': 'win_loss',
-                                 'negative_points': 1})
+                                 'negative_points': True})
 
 worksheet1.write(row, 1, text)
 row += 2
@@ -240,7 +240,7 @@ text = 'A right to left column.'
 worksheet1.add_sparkline('A24', {'range': 'Sheet2!A4:J4',
                                  'type': 'column',
                                  'style': 20,
-                                 'reverse': 1})
+                                 'reverse': True})
 
 worksheet1.write(row, 1, text)
 row += 1
@@ -267,7 +267,7 @@ worksheet1.add_sparkline('A27', {'location': ['A27', 'A28', 'A29'],
                                  'range': ['Sheet2!A5:J5',
                                            'Sheet2!A6:J6',
                                            'Sheet2!A7:J7'],
-                                 'markers': 1})
+                                 'markers': True})
 
 worksheet1.write(row, 1, text)
 row += 1

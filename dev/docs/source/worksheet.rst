@@ -880,7 +880,7 @@ A file path can be specified with the image name::
     worksheet2.insert_image('B20', r'c:\images\python.png')
 
 The ``insert_image()`` method takes optional parameters in a dictionary to
-position and scale the image. The avavilable parameters with their default
+position and scale the image. The available parameters with their default
 values are::
 
     {
@@ -1028,8 +1028,8 @@ a separate section: :ref:`working_with_conditional_formats`. See also
 :ref:`ex_cond_format`.
 
 
-add_table()
------------
+worksheet.add_table()
+---------------------
 
 .. py:function:: add_table(first_row, first_col, last_row, last_col, options)
 
@@ -1056,6 +1056,40 @@ Table::
 This method contains a lot of parameters and is described in :ref:`tables`.
 
 See also :ref:`ex_tables`.
+
+
+worksheet.add_sparkline()
+-------------------------
+
+.. py:function:: add_sparkline(row, col, options)
+
+    Add sparklines to a worksheet.
+
+   :param int row:      The cell row (zero indexed).
+   :param int col:      The cell column (zero indexed).
+   :param dict options: Sparkline formatting options.
+
+
+Sparklines are small charts that fit in a single cell and are used to show
+trends in data.
+
+.. image:: _static/sparklines1.png
+
+The ``add_sparkline()`` worksheet method is used to add sparklines to a cell or
+a range of cells::
+
+    worksheet.add_sparkline('F1', {'range': 'A1:E1'})
+
+This method contains a lot of parameters and is described in detail in
+:ref:`sparklines`.
+
+
+
+See also :ref:`ex_sparklines1` and :ref:`ex_sparklines2`.
+
+.. Note:: 
+   Sparklines are a feature of Excel 2010+ only. You can write them to
+   an XLSX file that can be read by Excel 2007 but they won't be displayed.
 
 
 worksheet.write_comment()
@@ -1711,6 +1745,8 @@ worksheet.outline_settings()
 
 .. py:function:: outline_settings(visible, symbols_below, symbols_right, \
                                   auto_style)
+
+   Control outline settings.
 
    :param bool visible:       Outlines are visible. Optional, defaults to True.
    :param bool symbols_below: Show row outline symbols below the outline bar.
