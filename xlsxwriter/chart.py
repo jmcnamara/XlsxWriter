@@ -132,8 +132,8 @@ class Chart(xmlwriter.XMLwriter):
         self._write_layout()
 
         # Write  subclass chart type elements for primary and secondary axes.
-        self._write_chart_type({'primary_axes', True})
-        self._write_chart_type({'primary_axes', False})
+        self._write_chart_type({'primary_axes': True})
+        self._write_chart_type({'primary_axes': False})
 
         # Write c:catAx and c:valAx elements for series using primary axes.
         self._write_cat_axis({
@@ -1279,7 +1279,7 @@ class Chart(xmlwriter.XMLwriter):
 
         self._xml_end_tag('a:r')
 
-    def _write_a_r_pr(self, self, font):
+    def _write_a_r_pr(self, font):
         # Write the <a:rPr> element.
         # my $self = shift;
         # my $font  = shift;
