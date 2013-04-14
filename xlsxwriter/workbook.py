@@ -21,6 +21,7 @@ from . import xmlwriter
 from xlsxwriter.worksheet import Worksheet
 from xlsxwriter.sharedstrings import SharedStringTable
 from xlsxwriter.format import Format
+from xlsxwriter.chart import Chart
 from xlsxwriter.packager import Packager
 
 
@@ -148,6 +149,72 @@ class Workbook(xmlwriter.XMLwriter):
         self.formats.append(xf_format)
 
         return xf_format
+
+    def add_chart(self, options):
+        """
+        Create a chart for embedding or as as new sheet.
+
+        Args:
+            options: The chart creation options.
+
+        Returns:
+            Reference to a Chart object.
+
+        """
+        # Create a chart for embedding or as as new sheet.
+        name = ''
+        # index = self.worksheets
+
+        # Type must be specified so we can create the required chart instance.
+        chart_type = options.get('type', 'None')
+        if chart_type is None:
+            warn("Chart type must be defined in add_chart()")
+            return
+
+        # Ensure that the chart defaults to non embedded.
+        embedded = options.get('embedded', False)
+
+        # Check the worksheet name for non-embedded charts.
+        if not embedded:
+            name = self._check_sheetname(options.get(name), True)
+
+        # init_data = {}
+
+        chart = Chart()
+
+        # If the chart isn't embedded let the workbook control it.
+        if not embedded:
+
+            # TODO
+            # drawing = Drawing()
+            chartsheet = {}
+
+            # chart.palette = self.palette
+
+            # chartsheet.chart = chart
+            # chartsheet.drawing = drawing
+
+            # self.worksheets[index] = chartsheet
+            # self.sheetnames[index] = name
+
+            self.charts.append(chart)
+
+            return chartsheet
+        else:
+
+            # Set the embedded chart name if present.
+            if 'name' in options:
+                chart.chart_name = options['name']
+
+            # Set index to 0 so that the activate() and set_first_sheet()
+            # methods point back to the first worksheet if used for
+            # embedded charts.
+            chart.index = 0
+            chart.palette = self.palette
+            chart._set_embedded_config_data()
+            self.charts.append(chart)
+
+            return chart
 
     def close(self):
         """

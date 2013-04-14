@@ -4,6 +4,7 @@
 #
 # Copyright 2013, John McNamara, jmcnamara@cpan.org
 #
+from warnings import warn
 
 from . import xmlwriter
 
@@ -29,6 +30,308 @@ class Chart(xmlwriter.XMLwriter):
 
         super(Chart, self).__init__()
 
+        self.sheet_type = 0x0200
+        self.orientation = 0x0
+        self.series = []
+        self.embedded = 0
+        self.id = ''
+        self.series_index = 0
+        self.style_id = 2
+        self.axis_ids = []
+        self.axis2_ids = []
+        self.cat_has_num_fmt = 0
+        self.requires_category = 0
+        self.legend_position = 'right'
+        self.cat_axis_position = 'b'
+        self.val_axis_position = 'l'
+        self.formula_ids = {}
+        self.formula_data = []
+        self.horiz_cat_axis = 0
+        self.horiz_val_axis = 1
+        self.protection = 0
+        self.chartarea = {}
+        self.plotarea = {}
+        self.x_axis = {}
+        self.y_axis = {}
+        self.y2_axis = {}
+        self.x2_axis = {}
+        self.chart_name = ''
+        self.show_blanks = 'gap'
+        self.show_hidden_data = 0
+        self.show_crosses = 1
+        self.width = 480
+        self.height = 288
+        self.x_scale = 1
+        self.y_scale = 1
+        self.x_offset = 0
+        self.y_offset = 0
+        self.table = None
+
+    def add_series(self, options):
+        # Add a series and it's properties to a chart.
+
+        # Check that the required input has been specified.
+        if not 'values' in options:
+            warn("Must specify 'values' in add_series()")
+            return
+
+        if self.requires_category and not 'categories' in options:
+            warn("Must specify 'categories' in add_series() "
+                 "for this chart type")
+
+        # Convert list into a formula string.
+        values = self._list_to_formula(options.get('values'))
+        categories = self._list_to_formula(options.get('categories'))
+
+        # Switch name and name_formula parameters if required.
+        name, name_formula = self._process_names(options.get('name'),
+                                                 options.get('name_formula'))
+
+        # Get an id for the data equivalent to the range formula.
+        cat_id = self._get_data_id(categories, options.get('categories_data'))
+        val_id = self._get_data_id(values, options.get('values_data'))
+        name_id = self._get_data_id(name_formula, options.get('name_data'))
+
+        # Set the line properties for the series.
+        line = self._get_line_properties(options.get('line'))
+
+        # Allow 'border' as a synonym for 'line' in bar/column style charts.
+        if options.get('border'):
+            line = self._get_line_properties(options['border'])
+
+        # Set the fill properties for the series.
+        fill = self._get_fill_properties(options.get('fill'))
+
+        # Set the marker properties for the series.
+        marker = self._get_marker_properties(options.get('marker'))
+
+        # Set the trendline properties for the series.
+        trendline = self._get_trendline_properties(options.get('trendline'))
+
+        # Set the error bars properties for the series.
+        y_error_bars = self._get_error_bars_props(options.get('y_error_bars'))
+        x_error_bars = self._get_error_bars_props(options.get('x_error_bars'))
+
+        error_bars = {'x_error_bars': x_error_bars,
+                      'y_error_bars': y_error_bars},
+
+        # Set the point properties for the series.
+        points = self._get_points_properties(options.get('points'))
+
+        # Set the labels properties for the series.
+        labels = self._get_labels_properties(options.get('data_labels'))
+
+        # Set the "invert if negative" fill property.
+        invert_if_neg = options.get('invert_if_negative', False)
+
+        # Set the gap for Bar/Column charts.
+        if options.get('gap'):
+            self.series_gap = options['gap']
+
+        # Set the overlap for Bar/Column charts.
+        if options.get('overlap'):
+            self.series_overlap = options['overlap']
+
+        # Set the secondary axis properties.
+        x2_axis = options.get('x2_axis')
+        y2_axis = options.get('y2_axis')
+
+        # Add the user supplied data to the internal structures.
+        series = {
+            'values': values,
+            'categories': categories,
+            'name': name,
+            'name_formula': name_formula,
+            'name_id': name_id,
+            'val_data_id': val_id,
+            'cat_data_id': cat_id,
+            'line': line,
+            'fill': fill,
+            'marker': marker,
+            'trendline': trendline,
+            'labels': labels,
+            'invert_if_neg': invert_if_neg,
+            'x2_axis': x2_axis,
+            'y2_axis': y2_axis,
+            'points': points,
+            'error_bars': error_bars,
+        }
+
+        self.series.append(series)
+
+    def set_x_axis(self, options):
+        # Set the properties of the X-axis.
+        axis = self._convert_axis_args(self.x_axis, options)
+
+        self.x_axis = axis
+
+    def set_y_axis(self, options):
+        # Set the properties of the Y-axis.
+        axis = self._convert_axis_args(self.y_axis, options)
+
+        self.y_axis = axis
+
+    def set_x2_axis(self, options):
+        # Set the properties of the secondary X-axis.
+        axis = self._convert_axis_args(self.x2_axis, options)
+
+        self.x2_axis = axis
+
+    def set_y2_axis(self, options):
+        # Set the properties of the secondary Y-axis.
+        axis = self._convert_axis_args(self.y2_axis, options)
+
+        self.y2_axis = axis
+
+    def set_title(self, options):
+        # Set the properties of the chart title.
+
+        name, name_formula = self._process_names(options.get('name'),
+                                                 options.get('name_formula'))
+
+        data_id = self._get_data_id(name_formula, options.get('data'))
+
+        self.title_name = name
+        self.title_formula = name_formula
+        self.title_data_id = data_id
+
+        # Set the font properties if present.
+        self.title_font = self._convert_font_args(options.get('name_font'))
+
+    def set_legend(self, options):
+        # Set the properties of the chart legend.
+
+        self.legend_position = options.get('position', 'right')
+        self.legend_delete_series = options.get('delete_series')
+
+    def set_plotarea(self, options):
+        # Set the properties of the chart plotarea.
+        # Convert the user defined properties to internal properties.
+        self.plotarea = self._get_area_properties(options)
+
+    def set_chartarea(self, options):
+        # Set the properties of the chart chartarea.
+        # Convert the user defined properties to internal properties.
+        self.chartarea = self._get_area_properties(options)
+
+    def set_style(self, style_id):
+        # Set one of the 42 built-in Excel chart styles. The default is 2.
+        if style_id is None:
+            style_id = 2
+
+        if style_id < 0 or style_id > 42:
+            style_id = 2
+
+        self.style_id = style_id
+
+    def show_blanks_as(self, option):
+        # Set the option for displaying blank data in a chart.
+        if not option:
+            return
+
+        valid_options = {
+            'gap': 1,
+            'zero': 1,
+            'span': 1,
+        }
+
+        if not 'option' in valid_options:
+            warn("Unknown show_blanks_as() option '%s'" % option)
+            return
+
+        self.show_blanks = option
+
+    def show_hidden_data(self):
+        # Display data in hidden rows or columns.
+        self.show_hidden_data = 1
+
+    def set_size(self, options):
+        # Set dimensions or scale for the chart.
+        self.width = options.get('width')
+        self.height = options.get('height')
+        self.x_scale = options.get('x_scale')
+        self.y_scale = options.get('y_scale')
+        self.x_offset = options.get('x_offset')
+        self.x_offset = options.get('y_offset')
+
+    def set_table(self, args):
+        # Set properties for an axis data table.
+        table = {
+            'horizontal': 1,
+            'vertical': 1,
+            'outline': 1,
+            'show_keys': 0,
+        }
+
+        if 'horizontal' in args:
+            table['horizontal'] = args.get('horizontal')
+
+        if 'vertical' in args:
+            table['vertical'] = args.get('vertical')
+
+        if 'outline' in args:
+            table['outline'] = args.get('outline')
+
+        if 'show_keys' in args:
+            table['show_keys'] = args.get('show_keys')
+
+        self.table = table
+
+    def set_up_down_bars(self, options):
+        # Set properties for the chart up-down bars.
+        if options is None:
+            return
+
+        # Defaults.
+        up_line = None
+        up_fill = None
+        down_line = None
+        down_fill = None
+
+        # Set properties for 'up' bar.
+        if options.get('up'):
+            # Map border to line.
+            if 'border' in options['up']:
+                options['up']['line'] = options['up']['border']
+
+            if 'line' in options['up']:
+                up_line = self._get_line_properties(options['up']['line'])
+
+            if 'fill' in options['up']:
+                up_line = self._get_line_properties(options['up']['fill'])
+
+        # Set properties for 'down' bar.
+        if options.get('down'):
+            # Map border to line.
+            if 'border' in options['down']:
+                options['down']['line'] = options['down']['border']
+
+            if 'line' in options['down']:
+                down_line = self._get_line_properties(options['down']['line'])
+
+            if 'fill' in options['down']:
+                down_line = self._get_line_properties(options['down']['fill'])
+
+        self.up_down_bars = {'up': {'line': up_line,
+                                    'fill': up_fill,
+                                    },
+                             'down': {'line': down_line,
+                                      'fill': down_fill,
+                                      },
+                             }
+
+    def set_drop_lines(self, options):
+        # Set properties for the chart drop lines.
+        line = self._get_line_properties(options.get('line'))
+
+        self.drop_lines = {'line': line}
+
+    def set_high_low_lines(self, options):
+        # Set properties for the chart high-low lines.
+        line = self._get_line_properties(options.get('line'))
+
+        self.hi_low_lines = {'line': line}
+
     ###########################################################################
     #
     # Private API.
@@ -41,8 +344,33 @@ class Chart(xmlwriter.XMLwriter):
         # Write the XML declaration.
         self._xml_declaration()
 
+        # Write the c:chartSpace element.
+        self._write_chart_space()
+
+        # Write the c:lang element.
+        self._write_lang()
+
+        # Write the c:style element.
+        self._write_style()
+
+        # Write the c:protection element.
+        self._write_protection()
+
+        # Write the c:chart element.
+        self._write_chart()
+
+        # Write the c:spPr element for the chartarea formatting.
+        self._write_sp_pr(self.chartarea)
+
+        # Write the c:printSettings element.
+        if self.embedded:
+            self._write_print_settings()
+
+        # Close the worksheet tag.
+        self._xml_end_tag('c:chartSpace')
         # Close the file.
         self._xml_close()
+
 
     ###########################################################################
     #
@@ -136,29 +464,26 @@ class Chart(xmlwriter.XMLwriter):
         self._write_chart_type({'primary_axes': False})
 
         # Write c:catAx and c:valAx elements for series using primary axes.
-        self._write_cat_axis({
-            'x_axis': self.x_axis,
-            'y_axis': self.y_axis,
-            'axis_ids': self.axis_ids
-            })
+        self._write_cat_axis({'x_axis': self.x_axis,
+                              'y_axis': self.y_axis,
+                              'axis_ids': self.axis_ids
+                              })
 
-        self._write_val_axis({
-            'x_axis': self.x_axis,
-            'y_axis': self.y_axis,
-            'axis_ids': self.axis_ids
-            })
+        self._write_val_axis({'x_axis': self.x_axis,
+                              'y_axis': self.y_axis,
+                              'axis_ids': self.axis_ids
+                              })
 
         # Write c:valAx and c:catAx elements for series using secondary axes.
-        self._write_val_axis({
-            'x_axis': self.x2_axis,
-            'y_axis': self.y2_axis,
-            'axis_ids': self.axis2_ids
-            })
-        self._write_cat_axis({
-            'x_axis': self.x2_axis,
-            'y_axis': self.y2_axis,
-            'axis_ids': self.axis2_ids
-            })
+        self._write_val_axis({'x_axis': self.x2_axis,
+                              'y_axis': self.y2_axis,
+                              'axis_ids': self.axis2_ids
+                              })
+
+        self._write_cat_axis({'x_axis': self.x2_axis,
+                              'y_axis': self.y2_axis,
+                              'axis_ids': self.axis2_ids
+                              })
 
         # Write the c:dTable element.
         self._write_d_table()
@@ -259,7 +584,7 @@ class Chart(xmlwriter.XMLwriter):
         data_id = series.cat_data_id
         data = None
 
-        if data_id is not None:
+        if data_id:
             data = self.formula_data[data_id]
 
         # Ignore <c:cat> elements for charts without category values.
@@ -443,7 +768,6 @@ class Chart(xmlwriter.XMLwriter):
 
     def _write_val_axis(self, args):
         # Write the <c:valAx> element. Usually the Y axis.
-        # TODO. Maybe should have a _write_cat_val_axis() method as well for scatter.
         x_axis = args['x_axis']
         y_axis = args['y_axis']
         axis_ids = args['axis_ids']
@@ -461,10 +785,10 @@ class Chart(xmlwriter.XMLwriter):
         self._write_axis_id(axis_ids[1])
 
         # Write the c:scaling element.
-        self._write_scaling(
-            y_axis.reverse, y_axis.min,
-            y_axis.max, y_axis.log_base
-    )
+        self._write_scaling(y_axis.reverse,
+                            y_axis.min,
+                            y_axis.max,
+                            y_axis.log_base)
 
         if not y_axis.visible:
             self._write_delete(1)
@@ -481,7 +805,7 @@ class Chart(xmlwriter.XMLwriter):
         # Write the axis title elements.
         if y_axis.formula:
             self._write_title_formula(y_axis.formula, y_axis.data_id, horiz,
-                y_axis.name_font)
+                                      y_axis.name_font)
         elif y_axis.name:
             self._write_title_rich(y_axis.name, horiz, y_axis.name_font)
 
@@ -522,8 +846,8 @@ class Chart(xmlwriter.XMLwriter):
         self._xml_end_tag('c:valAx')
 
     def _write_cat_val_axis(self, args):
-        # Write the <c:valAx> element. This is for the second valAx in scatter plots.
-        # Usually the X axis.
+        # Write the <c:valAx> element. This is for the second valAx
+        # in scatter plots. Usually the X axis.
         x_axis = args['x_axis']
         y_axis = args['y_axis']
         axis_ids = args['axis_ids']
@@ -541,10 +865,10 @@ class Chart(xmlwriter.XMLwriter):
         self._write_axis_id(axis_ids[0])
 
         # Write the c:scaling element.
-        self._write_scaling(
-            x_axis.reverse, x_axis.min,
-            x_axis.max, x_axis.log_base
-    )
+        self._write_scaling(x_axis.reverse,
+                            x_axis.min,
+                            x_axis.max,
+                            x_axis.log_base)
 
         if not x_axis.visible:
             self._write_delete(1)
@@ -561,7 +885,7 @@ class Chart(xmlwriter.XMLwriter):
         # Write the axis title elements.
         if x_axis.formula:
             self._write_title_formula(x_axis.formula, y_axis.data_id, horiz,
-                x_axis.name_font)
+                                      x_axis.name_font)
         elif x_axis.name:
             self._write_title_rich(x_axis.name_font, horiz, x_axis.name_font)
 
@@ -620,10 +944,10 @@ class Chart(xmlwriter.XMLwriter):
         self._write_axis_id(axis_ids[0])
 
         # Write the c:scaling element.
-        self._write_scaling(
-            x_axis.reverse, x_axis.min,
-            x_axis.max, x_axis.log_base
-    )
+        self._write_scaling(x_axis.reverse,
+                            x_axis.min,
+                            x_axis.max,
+                            x_axis.log_base)
 
         if not x_axis.visible:
             self._write_delete(1)
@@ -681,14 +1005,14 @@ class Chart(xmlwriter.XMLwriter):
         self._write_c_major_unit(x_axis.major_unit)
 
         # Write the c:majorTimeUnit element.
-        if x_axis.major_unit is not None:
+        if x_axis.major_unit:
             self._write_c_major_time_unit(x_axis.major_unit_type)
 
         # Write the c:minorUnit element.
         self._write_c_minor_unit(x_axis.minor_unit)
 
         # Write the c:minorTimeUnit element.
-        if x_axis.minor_unit is not None:
+        if x_axis.minor_unit:
             self._write_c_minor_time_unit(x_axis.minor_unit_type)
 
         self._xml_end_tag('c:dateAx')
@@ -736,7 +1060,7 @@ class Chart(xmlwriter.XMLwriter):
     def _write_c_max(self, max_val):
         # Write the <c:max_val> element.
 
-        if not max_val is not None:
+        if max_val is None:
             return
 
         attributes = [('val', max_val)]
@@ -746,7 +1070,7 @@ class Chart(xmlwriter.XMLwriter):
     def _write_c_min(self, min_val):
         # Write the <c:min_val> element.
 
-        if not min_val is not None:
+        if min_val is None:
             return
 
         attributes = [('val', min_val)]
@@ -767,9 +1091,10 @@ class Chart(xmlwriter.XMLwriter):
         self._xml_empty_tag('c:axPos', attributes)
 
     def _write_number_format(self, axis):
-        # Write the <c:numberFormat> element. Note: It is assumed that if a user
-        # defined number format is supplied (i.e., non-default) then the sourceLinked
-        # attribute is 0. The user can override this if required.
+        # Write the <c:numberFormat> element. Note: It is assumed that if
+        # a user defined number format is supplied (i.e., non-default) then
+        # the sourceLinked attribute is 0.
+        # The user can override this if required.
         format_code = axis.num_format
         source_linked = 1
 
@@ -789,8 +1114,8 @@ class Chart(xmlwriter.XMLwriter):
         self._xml_empty_tag('c:numFmt', attributes)
 
     def _write_cat_number_format(self, axis):
-        # Write the <c:numFmt> element. Special case handler for category axes which
-        # don't always have a number format.
+        # Write the <c:numFmt> element. Special case handler for category
+        # axes which don't always have a number format.
         format_code = axis.num_format
         source_linked = 1
         default_format = 1
@@ -1131,7 +1456,7 @@ class Chart(xmlwriter.XMLwriter):
         self._xml_end_tag('c:tx')
 
     def _write_tx_value(self, title):
-        # Write the <c:tx> element with a simple value such as for series names.
+        # Write the <c:tx> element with a value such as for series names.
 
         self._xml_start_tag('c:tx')
 
@@ -1520,7 +1845,7 @@ class Chart(xmlwriter.XMLwriter):
     def _write_name(self, data):
         # Write the <c:name> element.
 
-        if not data is not None:
+        if data is None:
             return
 
         self._xml_data_element('c:name', data)
