@@ -21,13 +21,18 @@ class ChartBar(chart.Chart):
     #
     ###########################################################################
 
-    def __init__(self):
+    def __init__(self, options=None):
         """
         Constructor.
 
         """
 
         super(ChartBar, self).__init__()
+
+        if options is None:
+            options = {}
+
+        self.subtype = options.get('subtype')
 
         if not self.subtype:
             self.subtype = 'clustered'

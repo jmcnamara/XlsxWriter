@@ -24,7 +24,7 @@ class Chart(xmlwriter.XMLwriter):
     #
     ###########################################################################
 
-    def __init__(self):
+    def __init__(self, options=None):
         """
         Constructor.
 
@@ -2090,7 +2090,7 @@ class Chart(xmlwriter.XMLwriter):
         ]
 
         if not horiz:
-            attributes = [()]
+            attributes = []
 
         self._xml_empty_tag('a:bodyPr', attributes)
 
@@ -2190,13 +2190,6 @@ class Chart(xmlwriter.XMLwriter):
 
     def _write_a_r_pr(self, font):
         # Write the <a:rPr> element.
-        # my $self = shift;
-        # my $font  = shift;
-        # my $lang = 'en-US';
-        # my @attributes = ( 'lang' => $lang, );
-        # my @font_attrs = $self->_get_font_style_attributes($font);
-        # push @attributes, @font_attrs;
-        # $self->xml_empty_tag( 'a:rPr', @attributes );
         has_color = 0
         lang = 'en-US'
 
@@ -2207,7 +2200,7 @@ class Chart(xmlwriter.XMLwriter):
             has_color = 1
 
         # Add the lang type to the attributes.
-        style_attributes = [('lang', lang, style_attributes)]
+        style_attributes.insert(0, ('lang', lang))
 
         if latin_attributes or has_color:
             self._xml_start_tag('a:rPr', style_attributes)

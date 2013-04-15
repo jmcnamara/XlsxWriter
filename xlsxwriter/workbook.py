@@ -181,7 +181,7 @@ class Workbook(xmlwriter.XMLwriter):
 
         # init_data = {}
 
-        chart = ChartBar()
+        chart = ChartBar(options)
 
         # If the chart isn't embedded let the workbook control it.
         if not embedded:
@@ -211,7 +211,6 @@ class Workbook(xmlwriter.XMLwriter):
             # methods point back to the first worksheet if used for
             # embedded charts.
             chart.index = 0
-            chart.palette = self.palette
             chart._set_embedded_config_data()
             self.charts.append(chart)
 
@@ -934,7 +933,8 @@ class Workbook(xmlwriter.XMLwriter):
 
         for chart in self.charts:
 
-            for c_range, r_id in chart.formula_ids.iteritems():
+            for c_range in chart.formula_ids.keys():
+                r_id = chart.formula_ids[c_range]
 
                 # Skip if the series has user defined data.
                 if chart.formula_data[r_id] is not None:
