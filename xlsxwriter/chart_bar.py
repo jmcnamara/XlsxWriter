@@ -56,8 +56,7 @@ class ChartBar(chart.Chart):
 
     def _write_chart_type(self, args):
         # Override the virtual superclass method with a chart specific method.
-        print ">> 2 _write_chart_type"
-        if 'primary_axes' in args:
+        if args['primary_axes']:
             # Reverse X and Y axes for Bar charts.
             tmp = self.y_axis
             self.y_axis = self.x_axis
@@ -72,7 +71,7 @@ class ChartBar(chart.Chart):
     def _write_bar_chart(self, args):
         # Write the <c:barChart> element.
 
-        if 'primary_axes' in args:
+        if args['primary_axes']:
             series = self._get_primary_axes_series()
         else:
             series = self._get_secondary_axes_series()

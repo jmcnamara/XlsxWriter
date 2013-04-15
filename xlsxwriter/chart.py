@@ -40,8 +40,8 @@ class Chart(xmlwriter.XMLwriter):
         self.id = ''
         self.series_index = 0
         self.style_id = 2
-        self.axis_ids = [None, None]
-        self.axis2_ids = [None, None]
+        self.axis_ids = []
+        self.axis2_ids = []
         self.cat_has_num_fmt = 0
         self.requires_category = 0
         self.legend_position = 'right'
@@ -410,8 +410,12 @@ class Chart(xmlwriter.XMLwriter):
             'label_position': options.get('label_position'),
             'num_format': options.get('num_format'),
             'num_format_linked': options.get('num_format_linked'),
-            'visible': options.get('visible'),
         }
+
+        if 'visible' in options:
+            axis['visible'] = options.get('visible')
+        else:
+            axis['visible'] = 1
 
         # Map major_gridlines properties.
         if (options.get('major_gridlines')
@@ -747,7 +751,6 @@ class Chart(xmlwriter.XMLwriter):
         position = labels.get('position')
 
         if position:
-
             positions = {
                 'center': 'ctr',
                 'right': 'r',
@@ -833,7 +836,7 @@ class Chart(xmlwriter.XMLwriter):
         secondary_axes_series = []
 
         for series in (self.series):
-            if not series['y2_axis']:
+            if series['y2_axis']:
                 secondary_axes_series.append(series)
 
         return secondary_axes_series
@@ -1143,9 +1146,7 @@ class Chart(xmlwriter.XMLwriter):
         data_id = series['cat_data_id']
         data = None
 
-        print ">>", data_id
-
-        if data_id:
+        if data_id is not None:
             data = self.formula_data[data_id]
 
         # Ignore <c:cat> elements for charts without category values.
@@ -1253,22 +1254,26 @@ class Chart(xmlwriter.XMLwriter):
         y_axis = args['y_axis']
         axis_ids = args['axis_ids']
 
-        # if there are no axis_ids then we don't need to write this element
-        if not axis_ids or not len(axis_ids):
+        # If there are no axis_ids then we don't need to write this element.
+        if axis_ids is None or not len(axis_ids):
             return
 
         position = self.cat_axis_position
         horiz = self.horiz_cat_axis
 
         # Overwrite the default axis position with a user supplied value.
-        position = x_axis.get('position', position)
+        if x_axis.get('position'):
+            position = x_axis['position']
 
         self._xml_start_tag('c:catAx')
 
         self._write_axis_id(axis_ids[0])
 
         # Write the c:scaling element.
-        self._write_scaling(x_axis.get('reverse'), None, None, None)
+        self._write_scaling(x_axis.get('reverse'),
+                            None,
+                            None,
+                            None)
 
         if not x_axis.get('visible'):
             self._write_delete(1)
@@ -1336,7 +1341,8 @@ class Chart(xmlwriter.XMLwriter):
         position = args.get('position', self.val_axis_position)
         horiz = self.horiz_val_axis
 
-        if not axis_ids and len(axis_ids):
+        # If there are no axis_ids then we don't need to write this element.
+        if axis_ids is None or not len(axis_ids):
             return
 
         # Overwrite the default axis position with a user supplied value.
@@ -1418,7 +1424,8 @@ class Chart(xmlwriter.XMLwriter):
         position = args['position'] or self.val_axis_position
         horiz = self.horiz_val_axis
 
-        if not axis_ids and len(axis_ids):
+        # If there are no axis_ids then we don't need to write this element.
+        if axis_ids is None or not len(axis_ids):
             return
 
         # Overwrite the default axis position with a user supplied value.
@@ -1497,7 +1504,8 @@ class Chart(xmlwriter.XMLwriter):
         y_axis = args['y_axis']
         axis_ids = args['axis_ids']
 
-        if not axis_ids and len(axis_ids):
+        # If there are no axis_ids then we don't need to write this element.
+        if axis_ids is None or not len(axis_ids):
             return
 
         position = self.cat_axis_position
@@ -1725,8 +1733,8 @@ class Chart(xmlwriter.XMLwriter):
 
     def _write_tick_label_pos(self, val=None):
         # Write the <c:tickLblPos> element.
-        if val is None or val == 'continue_to':
-            val = 'continueTo'
+        if val is None or val == 'next_to':
+            val = 'nextTo'
 
         attributes = [('val', val)]
 
@@ -1865,7 +1873,7 @@ class Chart(xmlwriter.XMLwriter):
     def _write_legend(self):
         # Write the <c:legend> element.
         position = self.legend_position
-        delete_series = ()
+        delete_series = []
         overlay = 0
 
         # if (self.legend_delete_series is not None
@@ -1874,7 +1882,6 @@ class Chart(xmlwriter.XMLwriter):
 
         # if position =~ s/^overlay_//:
         #    overlay = 1
-
         allowed = {
             'right': 'r',
             'left': 'l',
@@ -1884,10 +1891,11 @@ class Chart(xmlwriter.XMLwriter):
 
         if position == 'none':
             return
-        if not 'position' in allowed:
+
+        if not position in allowed:
             return
 
-        position = allowed['position']
+        position = allowed[position]
 
         self._xml_start_tag('c:legend')
 

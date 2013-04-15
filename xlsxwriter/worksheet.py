@@ -423,7 +423,6 @@ class Worksheet(xmlwriter.XMLwriter):
             -1: Row or column is out of worksheet bounds.
 
         """
-        # Convert to Excel's number precision.
         number = float(number)
 
         # Check that row and col are valid and store max and min values.
@@ -3962,16 +3961,13 @@ class Worksheet(xmlwriter.XMLwriter):
                 continue
 
             for col_num in range(col_start, col_end + 1):
-                print ">>> 1"
 
                 if col_num in self.table[row_num]:
-                    print ">>> 2"
-
                     cell = self.table[row_num][col_num]
 
                     if type(cell).__name__ == 'Number':
-                        # Store a number.
-                        data.append(cell.number)
+                        # Store a number with Excel's precision.
+                        data.append("%.15g" % cell.number)
 
                     elif type(cell).__name__ == 'String':
                         # Store a string.

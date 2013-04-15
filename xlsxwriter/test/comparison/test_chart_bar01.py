@@ -75,9 +75,6 @@ class TestCompareXLSXFiles(unittest.TestCase):
 
     def tearDown(self):
         # Cleanup.
-
-
-        return  # TODO
         if os.path.exists(self.got_filename):
             os.remove(self.got_filename)
 

@@ -968,8 +968,6 @@ class Workbook(xmlwriter.XMLwriter):
                 # Get the data from the worksheet table.
                 data = worksheet._get_range_data(*cells)
 
-                print ">>>", data, "\n"
-
                 # Convert shared string indexes to strings.
                 # for token in data:
                 #    if ref token:
