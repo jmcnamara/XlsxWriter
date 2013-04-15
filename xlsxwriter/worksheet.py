@@ -423,7 +423,7 @@ class Worksheet(xmlwriter.XMLwriter):
             -1: Row or column is out of worksheet bounds.
 
         """
-        # TODO catch and re-raise exception if token isn't a number.
+        # Convert to Excel's number precision.
         number = float(number)
 
         # Check that row and col are valid and store max and min values.
@@ -917,7 +917,7 @@ class Worksheet(xmlwriter.XMLwriter):
             row:     The cell row (zero indexed).
             col:     The cell column (zero indexed).
             image:   Path and filename for image in PNG, JPG or BMP format.
-            options: Position and scale of the image..
+            options: Position and scale of the image.
 
         Returns:
             0:  Success.
@@ -931,6 +931,41 @@ class Worksheet(xmlwriter.XMLwriter):
         #    croak "Couldn't locate image: $!"
 
         self.images.append([row, col, image, x_offset, y_offset,
+                            x_scale, y_scale])
+
+    @convert_cell_args
+    def insert_chart(self, row, col, chart, options={}):
+        """
+        Insert an chart with its top-left corner in a worksheet cell.
+        Args:
+            row:     The cell row (zero indexed).
+            col:     The cell column (zero indexed).
+            chart:   Chart object.
+            options: Position and scale of the chart.
+
+        Returns:
+            0:  Success.
+        """
+        x_offset = options.get('x_offset', 0)
+        y_offset = options.get('y_offset', 0)
+        x_scale = options.get('x_scale', 1)
+        y_scale = options.get('y_scale', 1)
+
+        # Allow Chart to override the scale and offset.
+        if chart.x_scale != 1:
+            x_scale = chart.x_scale
+
+        if chart.y_scale != 1:
+            y_scale = chart.y_scale
+
+        if chart.x_offset:
+            x_offset = chart.x_offset
+
+        if chart.y_offset:
+            x_offset = chart.y_offset
+
+        self.charts.append([row, col, chart,
+                            x_offset, y_offset,
                             x_scale, y_scale])
 
     @convert_cell_args
@@ -3467,6 +3502,56 @@ class Worksheet(xmlwriter.XMLwriter):
                                    + str(image_id) + '.'
                                    + image_type])
 
+    def _prepare_chart(self, index, chart_id, drawing_id):
+        # Set up chart/drawings.
+        drawing_type = 1
+
+        (row, col, chart, x_offset, y_offset, x_scale, y_scale) = \
+            self.charts[index]
+
+        chart.id = chart_id - 1
+
+        # Use user specified dimensions, if any.
+        if chart.width:
+            width = chart.width
+
+        if chart.height:
+            height = chart.height
+
+        width = int(0.5 + (width * x_scale))
+        height = int(0.5 + (height * y_scale))
+
+        dimensions = self._position_object_emus(col, row, x_offset, y_offset,
+                                                width, height)
+
+        # Set the chart name for the embedded object if it has been specified.
+        name = chart.chart_name
+
+        # Create a Drawing obj to use with worksheet unless one already exists.
+        if not self.drawing:
+            drawing = Drawing()
+            drawing.embedded = 1
+
+            self.drawing = drawing
+
+            self.external_drawing_links.append(['/drawing',
+                                                '../drawings/drawing'
+                                                + str(drawing_id)
+                                                + '.xml'])
+        else:
+            drawing = self.drawing
+
+        drawing_object = [drawing_type]
+        drawing_object.extend(dimensions)
+        drawing_object.extend([width, height, name, None])
+
+        drawing._add_drawing_object(drawing_object)
+
+        self.drawing_links.append(['/chart',
+                                   '../charts/chart'
+                                   + str(chart_id)
+                                   + '.xml'])
+
     def _position_object_emus(self, col_start, row_start, x1, y1,
                               width, height):
         # Calculate the vertices that define the position of a graphical
@@ -3857,6 +3942,60 @@ class Worksheet(xmlwriter.XMLwriter):
             return
 
         sparkline[user_color] = {'rgb': xl_color(options[user_color])}
+
+    def _get_range_data(self, row_start, col_start, row_end, col_end):
+        # Returns a range of data from the worksheet _table to be used in
+        # chart cached data. Strings are returned as SST ids and decoded
+        # in the workbook. Return None for data that doesn't exist since
+        # Excel can chart series with data missing.
+
+        if self.optimization:
+            return ()
+
+        data = []
+
+        # Iterate through the table data.
+        for row_num in range(row_start, row_end + 1):
+            # Store None if row doesn't exist.
+            if not row_num in self.table:
+                data.append(None)
+                continue
+
+            for col_num in range(col_start, col_end + 1):
+                print ">>> 1"
+
+                if col_num in self.table[row_num]:
+                    print ">>> 2"
+
+                    cell = self.table[row_num][col_num]
+
+                    if type(cell).__name__ == 'Number':
+                        # Store a number.
+                        data.append(cell.number)
+
+                    elif type(cell).__name__ == 'String':
+                        # Store a string.
+                        data.append(cell.string)
+
+                    elif (type(cell).__name__ == 'Formula'
+                            or type(cell).__name__ == 'ArrayFormula'):
+                        # Store the formula value.
+                        value = cell.value
+
+                        if value is None:
+                            value = 0
+
+                        data.append(value)
+
+                    elif type(cell).__name__ == 'Blank':
+                        # Store a empty cell.
+                        data.append('')
+                else:
+
+                    # Store None if column doesn't exist.
+                    data.append(None)
+
+        return data
 
     ###########################################################################
     #

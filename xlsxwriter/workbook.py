@@ -21,8 +21,9 @@ from . import xmlwriter
 from xlsxwriter.worksheet import Worksheet
 from xlsxwriter.sharedstrings import SharedStringTable
 from xlsxwriter.format import Format
-from xlsxwriter.chart import Chart
+from xlsxwriter.chart_bar import ChartBar
 from xlsxwriter.packager import Packager
+from .utility import xl_cell_to_rowcol
 
 
 class Workbook(xmlwriter.XMLwriter):
@@ -180,7 +181,7 @@ class Workbook(xmlwriter.XMLwriter):
 
         # init_data = {}
 
-        chart = Chart()
+        chart = ChartBar()
 
         # If the chart isn't embedded let the workbook control it.
         if not embedded:
@@ -381,7 +382,7 @@ class Workbook(xmlwriter.XMLwriter):
         self._prepare_drawings()
 
         # Add cached data to charts.
-        # self._add_chart_data()
+        self._add_chart_data()
 
         # Package the workbook.
         packager._add_workbook(self)
@@ -735,7 +736,7 @@ class Workbook(xmlwriter.XMLwriter):
 
             for index in range(chart_count):
                 chart_ref_id += 1
-                # sheet._prepare_chart(index, chart_ref_id, drawing_id)
+                sheet._prepare_chart(index, chart_ref_id, drawing_id)
 
             for index in range(image_count):
                 filename = sheet.images[index][2]
@@ -920,6 +921,100 @@ class Workbook(xmlwriter.XMLwriter):
             xf = self.add_format({'font_name': 'Tahoma', 'font_size': 8,
                                   'color_indexed': 81, 'font_only': True})
             xf._get_xf_index()
+
+    def _add_chart_data(self):
+        # Add "cached" data to charts to provide the numCache and strCacher
+        # data for series and title/axis ranges.
+        worksheets = {}
+        seen_ranges = {}
+
+        # Map worksheet names to worksheet objects.
+        for worksheet in self.worksheets():
+            worksheets[worksheet.name] = worksheet
+
+        for chart in self.charts:
+
+            for c_range, r_id in chart.formula_ids.iteritems():
+
+                # Skip if the series has user defined data.
+                if chart.formula_data[r_id] is not None:
+                    if (not c_range in seen_ranges
+                            or seen_ranges[c_range] is None):
+                        data = chart.formula_data[r_id]
+                        seen_ranges[c_range] = data
+                    continue
+
+                # Check to see if the data is already cached locally.
+                if c_range in seen_ranges:
+                    chart.formula_data[r_id] = seen_ranges[c_range]
+                    continue
+
+                # Convert the range formula to a sheet name and cell range.
+                (sheetname, cells) = self._get_chart_range(c_range)
+
+                # Skip if we couldn't parse the formula.
+                if sheetname is None:
+                    continue
+
+                # Die if the name is unknown since it indicates a user error in
+                # a chart series formula.
+                if not sheetname in worksheets:
+                    warn("Unknown worksheet reference '%s' in range "
+                         "'%d' passed to add_series()" % (sheetname, c_range))
+
+                # Find the worksheet object based on the sheet name.
+                worksheet = worksheets[sheetname]
+
+                # Get the data from the worksheet table.
+                data = worksheet._get_range_data(*cells)
+
+                print ">>>", data, "\n"
+
+                # Convert shared string indexes to strings.
+                # for token in data:
+                #    if ref token:
+                #        token = self.str_array.[ token[sst_id] ]
+
+                #        # Ignore rich strings for now. Deparse later if necessary.
+                #        if token =~ m{^<r>} and token =~ m{</r>$}:
+                #            token = ''
+
+                # Add the data to the chart.
+                chart.formula_data[r_id] = data
+
+                # Store range data locally to avoid lookup if seen again.
+                seen_ranges[c_range] = data
+
+    def _get_chart_range(self, c_range):
+        # Convert a range formula such as Sheet1!$B$1:$B$5 into a sheet name
+        # and cell range such as ( 'Sheet1', 0, 1, 4, 1 ).
+
+        # Split the range formula into sheetname and cells at the last '!'.
+        # TODO. Fix this to match from right.
+        pos = c_range.find('!')
+        if pos > 0:
+            sheetname, cells = c_range.split('!')
+        else:
+            return None
+
+        # Split the cell range into 2 cells or else use single cell for both.
+        if cells.find(':'):
+            (cell_1, cell_2) = cells.split(':')
+        else:
+            (cell_1, cell_2) = (cells, cells)
+
+        # Remove leading/trailing quotes and convert escaped quotes to single.
+        sheetname = sheetname.strip("'")
+        sheetname = sheetname.replace("''", "'")
+
+        (row_start, col_start) = xl_cell_to_rowcol(cell_1)
+        (row_end, col_end) = xl_cell_to_rowcol(cell_2)
+
+        # Check that we have a 1D range only.
+        if row_start != row_end and col_start != col_end:
+            return None
+
+        return (sheetname, [row_start, col_start, row_end, col_end])
 
     ###########################################################################
     #

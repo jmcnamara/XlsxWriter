@@ -4,9 +4,11 @@
 #
 # Copyright 2013, John McNamara, jmcnamara@cpan.org
 #
+import re
 from warnings import warn
 
 from . import xmlwriter
+from .utility import xl_color
 
 
 class Chart(xmlwriter.XMLwriter):
@@ -30,6 +32,7 @@ class Chart(xmlwriter.XMLwriter):
 
         super(Chart, self).__init__()
 
+        self.subtype = None
         self.sheet_type = 0x0200
         self.orientation = 0x0
         self.series = []
@@ -37,8 +40,8 @@ class Chart(xmlwriter.XMLwriter):
         self.id = ''
         self.series_index = 0
         self.style_id = 2
-        self.axis_ids = []
-        self.axis2_ids = []
+        self.axis_ids = [None, None]
+        self.axis2_ids = [None, None]
         self.cat_has_num_fmt = 0
         self.requires_category = 0
         self.legend_position = 'right'
@@ -66,6 +69,14 @@ class Chart(xmlwriter.XMLwriter):
         self.x_offset = 0
         self.y_offset = 0
         self.table = None
+        self.title_formula = None
+        self.title_name = None
+        self.cross_between = None
+        self.default_marker = None
+        self.series_gap = None
+        self.series_overlap = None
+
+        self._set_default_properties()
 
     def add_series(self, options):
         # Add a series and it's properties to a chart.
@@ -113,7 +124,7 @@ class Chart(xmlwriter.XMLwriter):
         x_error_bars = self._get_error_bars_props(options.get('x_error_bars'))
 
         error_bars = {'x_error_bars': x_error_bars,
-                      'y_error_bars': y_error_bars},
+                      'y_error_bars': y_error_bars}
 
         # Set the point properties for the series.
         points = self._get_points_properties(options.get('points'))
@@ -371,6 +382,555 @@ class Chart(xmlwriter.XMLwriter):
         # Close the file.
         self._xml_close()
 
+    def _convert_axis_args(self, axis, user_options):
+        # Convert user defined axis values into private hash values.
+        options = axis['defaults'].copy()
+        options.update(user_options)
+
+        name, name_formula = self._process_names(options.get('name'),
+                                                 options.get('name_formula'))
+
+        data_id = self._get_data_id(name_formula, options.get('data'))
+
+        axis = {
+            'defaults': axis['defaults'],
+            'name': name,
+            'formula': name_formula,
+            'data_id': data_id,
+            'reverse': options.get('reverse'),
+            'min': options.get('min'),
+            'max': options.get('max'),
+            'minor_unit': options.get('minor_unit'),
+            'major_unit': options.get('major_unit'),
+            'minor_unit_type': options.get('minor_unit_type'),
+            'major_unit_type': options.get('major_unit_type'),
+            'log_base': options.get('log_base'),
+            'crossing': options.get('crossing'),
+            'position': options.get('position'),
+            'label_position': options.get('label_position'),
+            'num_format': options.get('num_format'),
+            'num_format_linked': options.get('num_format_linked'),
+            'visible': options.get('visible'),
+        }
+
+        # Map major_gridlines properties.
+        if (options.get('major_gridlines')
+                and options['major_gridlines']['visible']):
+            axis['major_gridlines'] = \
+                self._get_gridline_properties(options['major_gridlines'])
+
+        # Map minor_gridlines properties.
+        if (options.get('minor_gridlines')
+                and options['minor_gridlines']['visible']):
+            axis['minor_gridlines'] = \
+                self._get_gridline_properties(options['minor_gridlines'])
+
+        # Only use the first letter of bottom, top, left or right.
+        if axis.get('position'):
+            axis['position'] = axis['position'].lower()[0]
+
+        # Set the font properties if present.
+        axis['num_font'] = self._convert_font_args(options.get('num_font'))
+        axis['name_font'] = self._convert_font_args(options.get('name_font'))
+
+        return axis
+
+    def _convert_font_args(self, options):
+        # Convert user defined font values into private dict values.
+        if not options:
+            return
+
+        font = {
+            'name': options.get('name'),
+            'color': options.get('color'),
+            'size': options.get('size'),
+            'bold': options.get('bold'),
+            'italic': options.get('italic'),
+            'underline': options.get('underline'),
+            'pitch_family': options.get('pitch_family'),
+            'charset': options.get('charset'),
+            'baseline': options.get('baseline', 0),
+        }
+
+        # Convert font size units.
+        if font['size']:
+            font['size'] *= 100
+
+        return font
+
+    def _list_to_formula(self, data):
+        # Convert and list of row col values to a range formula.
+
+        # If it isn't an array ref it is probably a formula already.
+        if not type(data) is list:
+            return data
+
+        # formula = xl_range_formula(*data)
+        formula = 'TODO!A1:A1'
+
+        return formula
+
+    def _process_names(self, name, name_formula):
+        # Switch name and name_formula parameters if required.
+
+        # Name looks like a formula, use it to set name_formula.
+        if name is not None and re.match('/^=[^!]+!\$/', name):
+            name_formula = name
+            name = ''
+
+        return name, name_formula
+
+    def _get_data_type(self, data):
+        # Find the overall type of the data associated with a series.
+
+        # Check for no data in the series.
+        if data is None or len(data) == 0:
+            return 'none'
+
+        # Determine if data is numeric or strings.
+        for token in (data):
+            if token is None:
+                continue
+
+            try:
+                float(token)
+            except ValueError:
+                # Not a number. Assume entire data series is string data.
+                return 'str'
+
+        # The series data was all numeric.
+        return 'num'
+
+    def _get_data_id(self, formula, data):
+        # Assign an id to a each unique series formula or title/axis formula.
+        # Repeated formulas such as for categories get the same id. If the
+        # series or title has user specified data associated with it then
+        # that is also stored. This data is used to populate cached Excel
+        # data when creating a chart. If there is no user defined data then
+        # it will be populated by the parent Workbook._add_chart_data().
+
+        # Ignore series without a range formula.
+        if not formula:
+            return
+
+        # Strip the leading '=' from the formula.
+        if formula.startswith('='):
+            formula = formula.lstrip('=')
+
+        # Store the data id in a hash keyed by the formula and store the data
+        # in a separate array with the same id.
+        if not formula in self.formula_ids:
+            # Haven't seen this formula before.
+            formula_id = len(self.formula_data)
+
+            self.formula_data.append(data)
+            self.formula_ids[formula] = formula_id
+        else:
+            # Formula already seen. Return existing id.
+            formula_id = self.formula_ids[formula]
+
+            # Store user defined data if it isn't already there.
+            if self.formula_data[formula_id] is None:
+                self.formula_data[formula_id] = data
+
+        return formula_id
+
+    def _get_color(self, color):
+        # Convert the user specified colour index or string to a rgb colour.
+        return xl_color(color)
+
+    def _get_line_properties(self, line):
+        # Convert user line properties to the structure required internally.
+
+        if not line:
+            return {'defined': False}
+
+        dash_types = {
+            'solid': 'solid',
+            'round_dot': 'sysDot',
+            'square_dot': 'sysDash',
+            'dash': 'dash',
+            'dash_dot': 'dashDot',
+            'long_dash': 'lgDash',
+            'long_dash_dot': 'lgDashDot',
+            'long_dash_dot_dot': 'lgDashDotDot',
+            'dot': 'dot',
+            'system_dash_dot': 'sysDashDot',
+            'system_dash_dot_dot': 'sysDashDotDot',
+        }
+
+        # Check the dash type.
+        dash_type = line.get('dash_type')
+
+        if dash_type is not None:
+            if dash_type in dash_types:
+                line['dash_type'] = dash_types[dash_type]
+            else:
+                warn("Unknown dash type '%'" % dash_type)
+                return
+
+        line['defined'] = True
+
+        return line
+
+    def _get_fill_properties(self, fill):
+        # Convert user fill properties to the structure required internally.
+
+        if not fill:
+            return {'defined': False}
+
+        fill['defined'] = True
+
+        return fill
+
+    def _get_marker_properties(self, marker):
+        # Convert user marker properties to the structure required internally.
+
+        if not marker:
+            return
+
+        types = {
+            'automatic': 'automatic',
+            'none': 'none',
+            'square': 'square',
+            'diamond': 'diamond',
+            'triangle': 'triangle',
+            'x': 'x',
+            'star': 'start',
+            'dot': 'dot',
+            'short_dash': 'dot',
+            'dash': 'dash',
+            'long_dash': 'dash',
+            'circle': 'circle',
+            'plus': 'plus',
+            'picture': 'picture',
+        }
+
+        # Check for valid types.
+        marker_type = marker.get('type')
+
+        if marker_type is not None:
+            if marker_type == 'automatic':
+                marker['automatic'] = 1
+
+            if marker_type in types:
+                marker['type'] = types[marker_type]
+            else:
+                warn("Unknown marker type '%s" % marker_type)
+                return
+
+        # Set the line properties for the marker..
+        line = self._get_line_properties(marker.get('line'))
+
+        # Allow 'border' as a synonym for 'line'.
+        if 'border' in marker:
+            line = self._get_line_properties(marker['border'])
+
+        # Set the fill properties for the marker.
+        fill = self._get_fill_properties(marker.get('fill'))
+
+        marker['line'] = line
+        marker['fill'] = fill
+
+        return marker
+
+    def _get_trendline_properties(self, trendline):
+        # Convert user trendline properties to structure required internally.
+
+        if not trendline:
+            return
+
+        types = {
+            'exponential': 'exp',
+            'linear': 'linear',
+            'log': 'log',
+            'moving_average': 'movingAvg',
+            'polynomial': 'poly',
+            'power': 'power',
+        }
+
+        # Check the trendline type.
+        trend_type = trendline.get('type')
+
+        if trend_type in types:
+            trendline['type'] = types[trend_type]
+        else:
+            warn("Unknown trendline type 'trend_type'" % trend_type)
+            return
+
+        # Set the line properties for the trendline..
+        line = self._get_line_properties(trendline.get('line'))
+
+        # Allow 'border' as a synonym for 'line'.
+        if 'border' in trendline:
+            line = self._get_line_properties(trendline['border'])
+
+        # Set the fill properties for the trendline.
+        fill = self._get_fill_properties(trendline.get('fill'))
+
+        trendline['line'] = line
+        trendline['fill'] = fill
+
+        return trendline
+
+    def _get_error_bars_props(self, options):
+        # Convert user error bars properties to structure required internally.
+        if not options:
+            return
+
+        # Default values.
+        error_bars = {
+            'type': 'fixedVal',
+            'value': 1,
+            'endcap': 1,
+            'direction': 'both'
+        }
+
+        types = {
+            'fixed': 'fixedVal',
+            'percentage': 'percentage',
+            'standard_deviation': 'stdDev',
+            'standard_error': 'stdErr',
+        }
+
+        # Check the error bars type.
+        error_type = options[type]
+
+        if error_type in types:
+            error_bars['type'] = types[error_type]
+        else:
+            warn("Unknown error bars type 'error_type" % error_type)
+            return
+
+        # Set the value for error types that require it.
+        if 'value' in options:
+            error_bars['value'] = options['value']
+
+        # Set the end-cap style.
+        if 'end_style' in options:
+            error_bars['endcap'] = options['end_style']
+
+        # Set the error bar direction.
+        if 'direction' in options:
+            if options['direction'] == 'minus':
+                error_bars['direction'] = 'minus'
+            elif options['direction'] == 'plus':
+                error_bars['direction'] = 'plus'
+            else:
+                # Default to 'both'.
+                pass
+
+        # Set the line properties for the error bars.
+        error_bars['line'] = self._get_line_properties(options.get('line'))
+
+        return error_bars
+
+    def _get_gridline_properties(self, options):
+        # Convert user gridline properties to structure required internally.
+        gridline = {}
+
+        # Set the visible property for the gridline.
+        gridline['visible'] = options.get('visible')
+
+        # Set the line properties for the gridline.
+        gridline['line'] = self._get_line_properties(options.get('line'))
+
+        return gridline
+
+    def _get_labels_properties(self, labels):
+        # Convert user labels properties to the structure required internally.
+
+        if not labels:
+            return None
+
+        # Map user defined label positions to Excel positions.
+        position = labels.get('position')
+
+        if position:
+
+            positions = {
+                'center': 'ctr',
+                'right': 'r',
+                'left': 'l',
+                'top': 't',
+                'above': 't',
+                'bottom': 'b',
+                'below': 'b',
+                'inside_end': 'inEnd',
+                'outside_end': 'outEnd',
+                'best_fit': 'bestFit',
+            }
+
+            if position in positions:
+                labels['position'] = positions[position]
+            else:
+                warn("Unknown label position '%s'" % position)
+                return
+
+        return labels
+
+    def _get_area_properties(self, options):
+        # Convert user area properties to the structure required internally.
+        area = {}
+
+        # Handle Excel::Writer::XLSX style properties.
+        # Set the line properties for the chartarea.
+        line = self._get_line_properties(options.get('line'))
+
+        # Allow 'border' as a synonym for 'line'.
+        if options.get('border'):
+            line = self._get_line_properties(options['border'])
+
+        # Set the fill properties for the chartarea.
+        fill = self._get_fill_properties(options.get('fill'))
+
+        area['line'] = line
+        area['fill'] = fill
+
+        return area
+
+    def _get_points_properties(self, user_points):
+        # Convert user points properties to structure required internally.
+        points = []
+
+        if not user_points:
+            return
+
+        for user_point in (user_points):
+            point = {}
+
+            if user_point is not None:
+
+                # Set the line properties for the point.
+                line = self._get_line_properties(user_point.get('line'))
+
+                # Allow 'border' as a synonym for 'line'.
+                if 'border' in user_point:
+                    line = self._get_line_properties(user_point['border'])
+
+                # Set the fill properties for the chartarea.
+                fill = self._get_fill_properties(user_point.get('fill'))
+
+                point['line'] = line
+                point['fill'] = fill
+
+            points.append(point)
+
+        return points
+
+    def _get_primary_axes_series(self):
+        # Returns series which use the primary axes.
+        primary_axes_series = []
+
+        for series in (self.series):
+            if not series['y2_axis']:
+                primary_axes_series.append(series)
+
+        return primary_axes_series
+
+    def _get_secondary_axes_series(self):
+        # Returns series which use the secondary axes.
+        secondary_axes_series = []
+
+        for series in (self.series):
+            if not series['y2_axis']:
+                secondary_axes_series.append(series)
+
+        return secondary_axes_series
+
+    def _add_axis_ids(self, args):
+        # Add unique ids for primary or secondary axes
+        chart_id = 1 + int(self.id)
+        axis_count = 1 + len(self.axis2_ids) + len(self.axis_ids)
+
+        id1 = '5%03d%04d' % (chart_id, axis_count)
+        id2 = '5%03d%04d' % (chart_id, axis_count + 1)
+
+        if 'primary_axes' in args:
+            self.axis_ids.append(id1)
+            self.axis_ids.append(id2)
+
+        if not 'primary_axes' in args:
+            self.axis2_ids.append(id1)
+            self.axis2_ids.append(id2)
+
+    def _get_font_style_attributes(self, font):
+        # _get_font_style_attributes.
+        attributes = []
+
+        if not font:
+            return attributes
+
+        if 'size' in font:
+            attributes.append(('sz', font['size']))
+
+        if 'bold' in font:
+            attributes.append(('b', 1))
+
+        if 'italic' in font:
+            attributes.append(('i', 1))
+
+        if 'underline' in font:
+            attributes.append(('u', 'sng'))
+
+        attributes.append(('baseline', 1))
+
+        return attributes
+
+    def _get_font_latin_attributes(self, font):
+        # _get_font_latin_attributes.
+        attributes = []
+
+        if not font:
+            return attributes
+
+        if 'name' in font:
+            attributes.append(('typeface', font['name']))
+
+        if 'pitch_family' in font:
+            attributes.append(('pitchFamily', font['pitch_family']))
+
+        if 'charset' in font:
+            attributes.append(('charset', font['charset']))
+
+        return attributes
+
+    def _set_default_properties(self):
+        # Setup the default properties for a chart.
+
+        self.x_axis['defaults'] = {
+            'num_format': 'General',
+            'major_gridlines': {'visible': 0}
+        }
+
+        self.y_axis['defaults'] = {
+            'num_format': 'General',
+            'major_gridlines': {'visible': 1}
+        }
+
+        self.x2_axis['defaults'] = {
+            'num_format': 'General',
+            'label_position': 'none',
+            'crossing': 'max',
+            'visible': 0
+        }
+
+        self.y2_axis['defaults'] = {
+            'num_format': 'General',
+            'major_gridlines': {'visible': 0},
+            'position': 'right',
+            'visible': 1
+        }
+
+        self.set_x_axis({})
+        self.set_y_axis({})
+
+        self.set_x2_axis({})
+        self.set_y2_axis({})
+
+    def _set_embedded_config_data(self):
+        # Setup the default configuration data for an embedded chart.
+        self.embedded = 1
 
     ###########################################################################
     #
@@ -379,7 +939,6 @@ class Chart(xmlwriter.XMLwriter):
     ###########################################################################
 
     def _write_chart_space(self):
-        # XML writing methods.
         # Write the <c:chartSpace> element.
         schema = 'http://schemas.openxmlformats.org/'
         xmlns_c = schema + 'drawingml/2006/chart'
@@ -497,10 +1056,10 @@ class Chart(xmlwriter.XMLwriter):
         # Write the <c:layout> element.
         self._xml_empty_tag('c:layout')
 
-    def _write_chart_type(self):
-        # Write the chart type element. This method should be overridden by the
-        # subclasses.
-        pass
+    def _write_chart_type(self, options):
+        # Write the chart type element. This method should be overridden
+        # by the subclasses.
+        return
 
     def _write_grouping(self, val):
         # Write the <c:grouping> element.
@@ -532,22 +1091,22 @@ class Chart(xmlwriter.XMLwriter):
         self._write_sp_pr(series)
 
         # Write the c:marker element.
-        self._write_marker(series.marker)
+        self._write_marker(series['marker'])
 
         # Write the c:invertIfNegative element.
-        self._write_c_invert_if_negative(series.invert_if_neg)
+        self._write_c_invert_if_negative(series['invert_if_neg'])
 
         # Write the c:dPt element.
-        self._write_d_pt(series.points)
+        self._write_d_pt(series['points'])
 
         # Write the c:dLbls element.
-        self._write_d_lbls(series.labels)
+        self._write_d_lbls(series['labels'])
 
         # Write the c:trendline element.
-        self._write_trendline(series.trendline)
+        self._write_trendline(series['trendline'])
 
         # Write the c:errBars element.
-        self._write_error_bars(series.error_bars)
+        self._write_error_bars(series['error_bars'])
 
         # Write the c:cat element.
         self._write_cat(series)
@@ -573,16 +1132,18 @@ class Chart(xmlwriter.XMLwriter):
 
     def _write_series_name(self, series):
         # Write the series name.
-        if series.name_formula:
-            self._write_tx_formula(series.name_formula, series.name_id)
-        elif series.name:
-            self._write_tx_value(series.name)
+        if series.get('name_formula'):
+            self._write_tx_formula(series['name_formula'], series['name_id'])
+        elif series.get('name'):
+            self._write_tx_value(series['name'])
 
     def _write_cat(self, series):
         # Write the <c:cat> element.
-        formula = series.categories
-        data_id = series.cat_data_id
+        formula = series['categories']
+        data_id = series['cat_data_id']
         data = None
+
+        print ">>", data_id
 
         if data_id:
             data = self.formula_data[data_id]
@@ -609,8 +1170,8 @@ class Chart(xmlwriter.XMLwriter):
 
     def _write_val(self, series):
         # Write the <c:val> element.
-        formula = series.values
-        data_id = series.val_data_id
+        formula = series['values']
+        data_id = series['val_data_id']
         data = self.formula_data[data_id]
 
         self._xml_start_tag('c:val')
@@ -700,60 +1261,61 @@ class Chart(xmlwriter.XMLwriter):
         horiz = self.horiz_cat_axis
 
         # Overwrite the default axis position with a user supplied value.
-        position = x_axis.position or position
+        position = x_axis.get('position', position)
 
         self._xml_start_tag('c:catAx')
 
         self._write_axis_id(axis_ids[0])
 
         # Write the c:scaling element.
-        self._write_scaling(x_axis.reverse)
+        self._write_scaling(x_axis.get('reverse'), None, None, None)
 
-        if not x_axis.visible:
+        if not x_axis.get('visible'):
             self._write_delete(1)
 
         # Write the c:axPos element.
-        self._write_axis_pos(position, y_axis.reverse)
+        self._write_axis_pos(position, y_axis.get('reverse'))
 
         # Write the c:majorGridlines element.
-        self._write_major_gridlines(x_axis.major_gridlines)
+        self._write_major_gridlines(x_axis.get('major_gridlines'))
 
         # Write the c:minorGridlines element.
-        self._write_minor_gridlines(x_axis.minor_gridlines)
+        self._write_minor_gridlines(x_axis.get('minor_gridlines'))
 
         # Write the axis title elements.
-        if x_axis.formula:
-            self._write_title_formula(x_axis.formula, x_axis.data_id, horiz,
-                                      x_axis.name_font)
-        elif x_axis.name:
-            self._write_title_rich(x_axis.name, horiz, x_axis.name_font)
+        if x_axis.get('formula'):
+            self._write_title_formula(x_axis['formula'], x_axis['data_id'],
+                                      horiz, x_axis['name_font'])
+        elif x_axis.get('name'):
+            self._write_title_rich(x_axis['name'], horiz, x_axis['name_font'])
 
         # Write the c:numFmt element.
         self._write_cat_number_format(x_axis)
 
         # Write the c:majorTickMark element.
-        self._write_major_tick_mark(x_axis.major_tick_mark)
+        self._write_major_tick_mark(x_axis.get('major_tick_mark'))
 
         # Write the c:tickLblPos element.
-        self._write_tick_label_pos(x_axis.label_position)
+        self._write_tick_label_pos(x_axis.get('label_position'))
 
         # Write the axis font elements.
-        self._write_axis_font(x_axis.num_font)
+        self._write_axis_font(x_axis.get('num_font'))
 
         # Write the c:crossAx element.
         self._write_cross_axis(axis_ids[1])
 
-        if self.show_crosses or x_axis.visible:
+        if self.show_crosses or x_axis.get('visible'):
 
             # Note, the category crossing comes from the value axis.
-            if y_axis.crossing is None or y_axis.crossing == 'max':
+            if (y_axis.get('crossing') is None
+                    or y_axis.get('crossing') == 'max'):
 
                 # Write the c:crosses element.
-                self._write_crosses(y_axis.crossing)
+                self._write_crosses(y_axis.get('crossing'))
             else:
 
                 # Write the c:crossesAt element.
-                self._write_c_crosses_at(y_axis.crossing)
+                self._write_c_crosses_at(y_axis.get('crossing'))
 
         # Write the c:auto element.
         self._write_auto(1)
@@ -771,77 +1333,79 @@ class Chart(xmlwriter.XMLwriter):
         x_axis = args['x_axis']
         y_axis = args['y_axis']
         axis_ids = args['axis_ids']
-        position = args['position'] or self.val_axis_position
+        position = args.get('position', self.val_axis_position)
         horiz = self.horiz_val_axis
 
         if not axis_ids and len(axis_ids):
             return
 
         # Overwrite the default axis position with a user supplied value.
-        position = y_axis.position or position
+        position = y_axis.get('position') or position
 
         self._xml_start_tag('c:valAx')
 
         self._write_axis_id(axis_ids[1])
 
         # Write the c:scaling element.
-        self._write_scaling(y_axis.reverse,
-                            y_axis.min,
-                            y_axis.max,
-                            y_axis.log_base)
+        self._write_scaling(y_axis.get('reverse'),
+                            y_axis.get('min'),
+                            y_axis.get('max'),
+                            y_axis.get('log_base'))
 
-        if not y_axis.visible:
+        if not y_axis.get('visible'):
             self._write_delete(1)
 
         # Write the c:axPos element.
-        self._write_axis_pos(position, x_axis.reverse)
+        self._write_axis_pos(position, x_axis.get('reverse'))
 
         # Write the c:majorGridlines element.
-        self._write_major_gridlines(y_axis.major_gridlines)
+        self._write_major_gridlines(y_axis.get('major_gridlines'))
 
         # Write the c:minorGridlines element.
-        self._write_minor_gridlines(y_axis.minor_gridlines)
+        self._write_minor_gridlines(y_axis.get('minor_gridlines'))
 
         # Write the axis title elements.
-        if y_axis.formula:
-            self._write_title_formula(y_axis.formula, y_axis.data_id, horiz,
-                                      y_axis.name_font)
-        elif y_axis.name:
-            self._write_title_rich(y_axis.name, horiz, y_axis.name_font)
+        if y_axis.get('formula'):
+            self._write_title_formula(y_axis['formula'], y_axis['data_id'],
+                                      horiz, y_axis['name_font'])
+        elif y_axis.get('name'):
+            self._write_title_rich(y_axis['name'],
+                                   horiz,
+                                   y_axis.get('name_font'))
 
         # Write the c:numberFormat element.
         self._write_number_format(y_axis)
 
         # Write the c:majorTickMark element.
-        self._write_major_tick_mark(y_axis.major_tick_mark)
+        self._write_major_tick_mark(y_axis.get('major_tick_mark'))
 
         # Write the c:tickLblPos element.
-        self._write_tick_label_pos(y_axis.label_position)
+        self._write_tick_label_pos(y_axis.get('label_position'))
 
         # Write the axis font elements.
-        self._write_axis_font(y_axis.num_font)
+        self._write_axis_font(y_axis.get('num_font'))
 
         # Write the c:crossAx element.
         self._write_cross_axis(axis_ids[0])
 
         # Note, the category crossing comes from the value axis.
-        if x_axis.crossing is None or x_axis.crossing == 'max':
+        if x_axis.get('crossing') is None or x_axis['crossing'] == 'max':
 
             # Write the c:crosses element.
-            self._write_crosses(x_axis.crossing)
+            self._write_crosses(x_axis.get('crossing'))
         else:
 
             # Write the c:crossesAt element.
-            self._write_c_crosses_at(x_axis.crossing)
+            self._write_c_crosses_at(x_axis.get('crossing'))
 
         # Write the c:crossBetween element.
         self._write_cross_between()
 
         # Write the c:majorUnit element.
-        self._write_c_major_unit(y_axis.major_unit)
+        self._write_c_major_unit(y_axis.get('major_unit'))
 
         # Write the c:minorUnit element.
-        self._write_c_minor_unit(y_axis.minor_unit)
+        self._write_c_minor_unit(y_axis.get('minor_unit'))
 
         self._xml_end_tag('c:valAx')
 
@@ -858,70 +1422,72 @@ class Chart(xmlwriter.XMLwriter):
             return
 
         # Overwrite the default axis position with a user supplied value.
-        position = x_axis.position or position
+        position = x_axis.get('position') or position
 
         self._xml_start_tag('c:valAx')
 
         self._write_axis_id(axis_ids[0])
 
         # Write the c:scaling element.
-        self._write_scaling(x_axis.reverse,
-                            x_axis.min,
-                            x_axis.max,
-                            x_axis.log_base)
+        self._write_scaling(x_axis.get('reverse'),
+                            x_axis.get('min'),
+                            x_axis.get('max'),
+                            x_axis.get('log_base'))
 
-        if not x_axis.visible:
+        if not x_axis.get('visible'):
             self._write_delete(1)
 
         # Write the c:axPos element.
-        self._write_axis_pos(position, y_axis.reverse)
+        self._write_axis_pos(position, y_axis.get('reverse'))
 
         # Write the c:majorGridlines element.
-        self._write_major_gridlines(x_axis.major_gridlines)
+        self._write_major_gridlines(x_axis.get('major_gridlines'))
 
         # Write the c:minorGridlines element.
-        self._write_minor_gridlines(x_axis.minor_gridlines)
+        self._write_minor_gridlines(x_axis.get('minor_gridlines'))
 
         # Write the axis title elements.
-        if x_axis.formula:
-            self._write_title_formula(x_axis.formula, y_axis.data_id, horiz,
-                                      x_axis.name_font)
-        elif x_axis.name:
-            self._write_title_rich(x_axis.name_font, horiz, x_axis.name_font)
+        if x_axis.get('formula'):
+            self._write_title_formula(x_axis['formula'], y_axis['data_id'],
+                                      horiz, x_axis['name_font'])
+        elif x_axis.get('name'):
+            self._write_title_rich(x_axis['name_font'],
+                                   horiz,
+                                   x_axis['name_font'])
 
         # Write the c:numberFormat element.
         self._write_number_format(x_axis)
 
         # Write the c:majorTickMark element.
-        self._write_major_tick_mark(x_axis.major_tick_mark)
+        self._write_major_tick_mark(x_axis.get('major_tick_mark'))
 
         # Write the c:tickLblPos element.
-        self._write_tick_label_pos(x_axis.label_position)
+        self._write_tick_label_pos(x_axis.get('label_position'))
 
         # Write the axis font elements.
-        self._write_axis_font(x_axis.num_font)
+        self._write_axis_font(x_axis.get('num_font'))
 
         # Write the c:crossAx element.
         self._write_cross_axis(axis_ids[1])
 
         # Note, the category crossing comes from the value axis.
-        if y_axis.crossing is None or y_axis.crossing == 'max':
+        if y_axis.get('crossing') is None or y_axis['crossing'] == 'max':
 
             # Write the c:crosses element.
-            self._write_crosses(y_axis.crossing)
+            self._write_crosses(y_axis.get('crossing'))
         else:
 
             # Write the c:crossesAt element.
-            self._write_c_crosses_at(y_axis.crossing)
+            self._write_c_crosses_at(y_axis.get('crossing'))
 
         # Write the c:crossBetween element.
         self._write_cross_between()
 
         # Write the c:majorUnit element.
-        self._write_c_major_unit(x_axis.major_unit)
+        self._write_c_major_unit(x_axis.get('major_unit'))
 
         # Write the c:minorUnit element.
-        self._write_c_minor_unit(x_axis.minor_unit)
+        self._write_c_minor_unit(x_axis.get('minor_unit'))
 
         self._xml_end_tag('c:valAx')
 
@@ -937,63 +1503,68 @@ class Chart(xmlwriter.XMLwriter):
         position = self.cat_axis_position
 
         # Overwrite the default axis position with a user supplied value.
-        position = x_axis.position or position
+        position = x_axis.get('position') or position
 
         self._xml_start_tag('c:dateAx')
 
         self._write_axis_id(axis_ids[0])
 
         # Write the c:scaling element.
-        self._write_scaling(x_axis.reverse,
-                            x_axis.min,
-                            x_axis.max,
-                            x_axis.log_base)
+        self._write_scaling(x_axis.get('reverse'),
+                            x_axis.get('min'),
+                            x_axis.get('max'),
+                            x_axis.get('log_base'))
 
-        if not x_axis.visible:
+        if not x_axis.get('visible'):
             self._write_delete(1)
 
         # Write the c:axPos element.
-        self._write_axis_pos(position, y_axis.reverse)
+        self._write_axis_pos(position, y_axis.get('reverse'))
 
         # Write the c:majorGridlines element.
-        self._write_major_gridlines(x_axis.major_gridlines)
+        self._write_major_gridlines(x_axis.get('major_gridlines'))
 
         # Write the c:minorGridlines element.
-        self._write_minor_gridlines(x_axis.minor_gridlines)
+        self._write_minor_gridlines(x_axis.get('minor_gridlines'))
 
         # Write the axis title elements.
-        if x_axis.formula:
-            self._write_title_formula(x_axis.formula, x_axis.data_id, None,
-                                      x_axis.name_font)
-        elif x_axis.name:
-            self._write_title_rich(x_axis.name_font, None, x_axis.name_font)
+        if x_axis.get('formula'):
+            self._write_title_formula(x_axis['formula'],
+                                      x_axis['data_id'],
+                                      None,
+                                      x_axis['name_font'])
+        elif x_axis.get('name'):
+            self._write_title_rich(x_axis['name_font'],
+                                   None,
+                                   x_axis['name_font'])
 
         # Write the c:numFmt element.
         self._write_number_format(x_axis)
 
         # Write the c:majorTickMark element.
-        self._write_major_tick_mark(x_axis.major_tick_mark)
+        self._write_major_tick_mark(x_axis.get('major_tick_mark'))
 
         # Write the c:tickLblPos element.
-        self._write_tick_label_pos(x_axis.label_position)
+        self._write_tick_label_pos(x_axis.get('label_position'))
 
         # Write the axis font elements.
-        self._write_axis_font(x_axis.num_font)
+        self._write_axis_font(x_axis.get('num_font'))
 
         # Write the c:crossAx element.
         self._write_cross_axis(axis_ids[1])
 
-        if self.show_crosses or x_axis.visible:
+        if self.show_crosses or x_axis.get('visible'):
 
             # Note, the category crossing comes from the value axis.
-            if y_axis.crossing is None or y_axis.crossing == 'max':
+            if (y_axis.get('crossing') is None
+                    or y_axis.get('crossing') == 'max'):
 
                 # Write the c:crosses element.
-                self._write_crosses(y_axis.crossing)
+                self._write_crosses(y_axis.get('crossing'))
             else:
 
                 # Write the c:crossesAt element.
-                self._write_c_crosses_at(y_axis.crossing)
+                self._write_c_crosses_at(y_axis.get('crossing'))
 
         # Write the c:auto element.
         self._write_auto(1)
@@ -1002,18 +1573,18 @@ class Chart(xmlwriter.XMLwriter):
         self._write_label_offset(100)
 
         # Write the c:majorUnit element.
-        self._write_c_major_unit(x_axis.major_unit)
+        self._write_c_major_unit(x_axis.get('major_unit'))
 
         # Write the c:majorTimeUnit element.
-        if x_axis.major_unit:
-            self._write_c_major_time_unit(x_axis.major_unit_type)
+        if x_axis.get('major_unit'):
+            self._write_c_major_time_unit(x_axis['major_unit_type'])
 
         # Write the c:minorUnit element.
-        self._write_c_minor_unit(x_axis.minor_unit)
+        self._write_c_minor_unit(x_axis.get('minor_unit'))
 
         # Write the c:minorTimeUnit element.
-        if x_axis.minor_unit:
-            self._write_c_minor_time_unit(x_axis.minor_unit_type)
+        if x_axis.get('minor_unit'):
+            self._write_c_minor_time_unit(x_axis['minor_unit_type'])
 
         self._xml_end_tag('c:dateAx')
 
@@ -1095,15 +1666,16 @@ class Chart(xmlwriter.XMLwriter):
         # a user defined number format is supplied (i.e., non-default) then
         # the sourceLinked attribute is 0.
         # The user can override this if required.
-        format_code = axis.num_format
+        format_code = axis.get('num_format')
         source_linked = 1
 
         # Check if a user defined number format has been set.
-        if format_code != axis.defaults['num_format']:
+        if (format_code is not None
+                and format_code != axis['defaults']['num_format']):
             source_linked = 0
 
         # User override of sourceLinked.
-        if axis.num_format_linked:
+        if axis.get('num_format_linked'):
             source_linked = 1
 
         attributes = [
@@ -1116,17 +1688,18 @@ class Chart(xmlwriter.XMLwriter):
     def _write_cat_number_format(self, axis):
         # Write the <c:numFmt> element. Special case handler for category
         # axes which don't always have a number format.
-        format_code = axis.num_format
+        format_code = axis.get('num_format')
         source_linked = 1
         default_format = 1
 
         # Check if a user defined number format has been set.
-        if format_code != axis.defaults['num_format']:
+        if (format_code is not None
+                and format_code != axis['defaults']['num_format']):
             source_linked = 0
             default_format = 0
 
         # User override of linkedSource.
-        if axis.num_format_linked:
+        if axis.get('num_format_linked'):
             source_linked = 1
 
         # Skip if cat doesn't have a num format (unless it is non-default).
@@ -1189,9 +1762,8 @@ class Chart(xmlwriter.XMLwriter):
 
         self._xml_empty_tag('c:auto', attributes)
 
-    def _write_label_align(self):
+    def _write_label_align(self, val):
         # Write the <c:labelAlign> element.
-        val = 'ctr'
 
         attributes = [('val', val)]
 
@@ -1209,7 +1781,8 @@ class Chart(xmlwriter.XMLwriter):
 
         if not gridlines:
             return
-        if not gridlines.visible:
+
+        if not gridlines['visible']:
             return
 
         if gridlines['line']['defined']:
@@ -1242,7 +1815,10 @@ class Chart(xmlwriter.XMLwriter):
 
     def _write_cross_between(self):
         # Write the <c:crossBetween> element.
-        val = self.cross_between or 'between'
+        val = self.cross_between
+
+        if val is None:
+            val = 'between'
 
         attributes = [('val', val)]
 
@@ -1567,14 +2143,14 @@ class Chart(xmlwriter.XMLwriter):
         style_attributes = self._get_font_style_attributes(font)
         latin_attributes = self._get_font_latin_attributes(font)
 
-        if font and font.color:
+        if font and 'color' in font:
             has_color = 1
 
         if latin_attributes or has_color:
             self._xml_start_tag('a:defRPr', style_attributes)
 
             if has_color:
-                self._write_a_solid_fill({'color': font.color})
+                self._write_a_solid_fill({'color': font['color']})
 
             if latin_attributes:
                 self._write_a_latin(latin_attributes)
@@ -1619,7 +2195,7 @@ class Chart(xmlwriter.XMLwriter):
         style_attributes = self._get_font_style_attributes(font)
         latin_attributes = self._get_font_latin_attributes(font)
 
-        if font and font.color:
+        if font and 'color' in font:
             has_color = 1
 
         # Add the lang type to the attributes.
@@ -1629,7 +2205,7 @@ class Chart(xmlwriter.XMLwriter):
             self._xml_start_tag('a:rPr', style_attributes)
 
             if has_color:
-                self._write_a_solid_fill({'color': font.color})
+                self._write_a_solid_fill({'color': font['color']})
 
             if latin_attributes:
                 self._write_a_latin(latin_attributes)
@@ -1711,26 +2287,33 @@ class Chart(xmlwriter.XMLwriter):
 
     def _write_sp_pr(self, series):
         # Write the <c:spPr> element.
+        has_fill = False
+        has_line = False
 
-        # if (not series.line.and is not None series.fill.) is not None:
-        #    return
+        if 'fill' in series and series['fill']['defined']:
+            has_fill = True
+
+        if 'line' in series and series['line']['defined']:
+            has_line = True
+
+        if not has_fill and not has_line:
+            return
 
         self._xml_start_tag('c:spPr')
 
         # Write the fill elements for solid charts such as pie and bar.
-        if (series['fill']['defined']) is not None:
-
+        if 'fill' in series and series['fill']['defined']:
             if series.fill['none']:
 
                 # Write the a:noFill element.
                 self._write_a_no_fill()
             else:
                 # Write the a:solidFill element.
-                self._write_a_solid_fill(series.fill)
+                self._write_a_solid_fill(series['fill'])
 
         # Write the a:ln element.
-        if (series['line']['defined']) is not None:
-            self._write_a_ln(series.line)
+        if 'line' in series and series['line']['defined']:
+            self._write_a_ln(series['line'])
 
         self._xml_end_tag('c:spPr')
 
@@ -1934,7 +2517,10 @@ class Chart(xmlwriter.XMLwriter):
 
     def _write_num_cache(self, data):
         # Write the <c:numCache> element.
-        count = len(data)
+        if data:
+            count = len(data)
+        else:
+            count = 0
 
         self._xml_start_tag('c:numCache')
 
@@ -1944,17 +2530,20 @@ class Chart(xmlwriter.XMLwriter):
         # Write the c:ptCount element.
         self._write_pt_count(count)
 
-        # for i (0 .. count - 1):
-        #    token = data[i]
+        for i in range(count):
+            token = data[i]
 
-            # Write non-numeric data as 0.
-            # if (token is not None
-            #    and token !~ /^([+-]?)(?=\d|\.\d)\d*(\.\d*)?([Ee]([+-]?\d+))?$/)
-            # :
-            #    token = 0
+            if token is None:
+                continue
+
+            try:
+                float(token)
+            except ValueError:
+                # Write non-numeric data as 0.
+                token = 0
 
             # Write the c:pt element.
-            # self._write_pt(i, token)
+            self._write_pt(i, token)
 
         self._xml_end_tag('c:numCache')
 
@@ -2222,11 +2811,11 @@ class Chart(xmlwriter.XMLwriter):
         if not error_bars:
             return
 
-        if error_bars.x_error_bars:
-            self._write_err_bars('x', error_bars.x_error_bars)
+        if error_bars['x_error_bars']:
+            self._write_err_bars(('x', error_bars['x_error_bars']))
 
-        if error_bars.y_error_bars:
-            self._write_err_bars('y', error_bars.y_error_bars)
+        if error_bars['y_error_bars']:
+            self._write_err_bars(('y', error_bars['y_error_bars']))
 
     def _write_err_bars(self, direction, error_bars):
         # Write the <c:errBars> element.
@@ -2240,20 +2829,20 @@ class Chart(xmlwriter.XMLwriter):
         self._write_err_dir(direction)
 
         # Write the c:errBarType element.
-        self._write_err_bar_type(error_bars.direction)
+        self._write_err_bar_type(error_bars['direction'])
 
         # Write the c:errValType element.
-        self._write_err_val_type(error_bars.type)
+        self._write_err_val_type(error_bars['type'])
 
-        if not error_bars.endcap:
+        if not error_bars['endcap']:
 
             # Write the c:noEndCap element.
             self._write_no_end_cap()
 
-        if error_bars.type != 'stdErr':
+        if error_bars['type'] != 'stdErr':
 
             # Write the c:val element.
-            self._write_error_val(error_bars.value)
+            self._write_error_val(error_bars['value'])
 
         # Write the c:spPr element.
         self._write_sp_pr(error_bars)
@@ -2307,10 +2896,10 @@ class Chart(xmlwriter.XMLwriter):
         self._write_gap_width(150)
 
         # Write the c:upBars element.
-        self._write_up_bars(up_down_bars.up)
+        self._write_up_bars(up_down_bars['up'])
 
         # Write the c:downBars element.
-        self._write_down_bars(up_down_bars.down)
+        self._write_down_bars(up_down_bars['down'])
 
         self._xml_end_tag('c:upDownBars')
 
