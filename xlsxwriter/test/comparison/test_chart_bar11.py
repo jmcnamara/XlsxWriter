@@ -38,9 +38,9 @@ class TestCompareXLSXFiles(unittest.TestCase):
         workbook = Workbook(filename)
 
         worksheet = workbook.add_worksheet()
-        chart1 = workbook.add_chart({'type': 'bar', 'embedded': 1})
-        chart2 = workbook.add_chart({'type': 'bar', 'embedded': 1})
-        chart3 = workbook.add_chart({'type': 'bar', 'embedded': 1})
+        chart1 = workbook.add_chart({'type': 'bar'})
+        chart2 = workbook.add_chart({'type': 'bar'})
+        chart3 = workbook.add_chart({'type': 'bar'})
 
         chart1.axis_ids = [40274944, 40294272]
         chart2.axis_ids = [62355328, 62356864]

@@ -39,7 +39,7 @@ class TestCompareXLSXFiles(unittest.TestCase):
 
         worksheet1 = workbook.add_worksheet()
         worksheet2 = workbook.add_worksheet()
-        chart = workbook.add_chart({'type': 'bar', 'embedded': 1})
+        chart = workbook.add_chart({'type': 'bar'})
 
         chart.axis_ids = [93218304, 93219840]
 

@@ -1,6 +1,6 @@
 ###############################################################################
 #
-# ChartBar - A class for writing the Excel XLSX Bar charts.
+# ChartColumn - A class for writing the Excel XLSX Column charts.
 #
 # Copyright 2013, John McNamara, jmcnamara@cpan.org
 #
@@ -8,9 +8,9 @@
 from . import chart
 
 
-class ChartBar(chart.Chart):
+class ChartColumn(chart.Chart):
     """
-    A class for writing the Excel XLSX Bar charts.
+    A class for writing the Excel XLSX Column charts.
 
 
     """
@@ -26,7 +26,7 @@ class ChartBar(chart.Chart):
         Constructor.
 
         """
-        super(ChartBar, self).__init__()
+        super(ChartColumn, self).__init__()
 
         if options is None:
             options = {}
@@ -36,20 +36,11 @@ class ChartBar(chart.Chart):
         if not self.subtype:
             self.subtype = 'clustered'
 
-        self.cat_axis_position = 'l'
-        self.val_axis_position = 'b'
         self.horiz_val_axis = 0
-        self.horiz_cat_axis = 1
-        self.show_crosses = 0
-
-        # Override and reset the default axis values.
-        self.x_axis['defaults']['major_gridlines'] = {'visible': 1}
-        self.y_axis['defaults']['major_gridlines'] = {'visible': 0}
 
         if self.subtype == 'percent_stacked':
-            self.x_axis['defaults']['num_format'] = '0%'
+            self.y_axis['defaults']['num_format'] = '0%'
 
-        self.set_x_axis({})
         self.set_y_axis({})
 
     ###########################################################################
@@ -60,14 +51,6 @@ class ChartBar(chart.Chart):
 
     def _write_chart_type(self, args):
         # Override the virtual superclass method with a chart specific method.
-        if args['primary_axes']:
-            # Reverse X and Y axes for Bar charts.
-            tmp = self.y_axis
-            self.y_axis = self.x_axis
-            self.x_axis = tmp
-
-            if self.y2_axis['position'] == 'r':
-                self.y2_axis['position'] = 't'
 
         # Write the c:barChart element.
         self._write_bar_chart(args)
@@ -126,12 +109,12 @@ class ChartBar(chart.Chart):
 
     def _write_bar_dir(self):
         # Write the <c:barDir> element.
-        val = 'bar'
+        val = 'col'
 
         attributes = [('val', val)]
 
         self._xml_empty_tag('c:barDir', attributes)
 
     def _write_err_dir(self):
-        # Overridden from Chart class since it is not used in Bar charts.
+        # Overridden from Chart class since it is not used in Column charts.
         pass

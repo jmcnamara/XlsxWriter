@@ -20,7 +20,7 @@ class TestCompareXLSXFiles(unittest.TestCase):
     def setUp(self):
         self.maxDiff = None
 
-        filename = 'chart_bar07.xlsx'
+        filename = 'chart_column02.xlsx'
 
         test_dir = 'xlsxwriter/test/comparison/'
         self.got_filename = test_dir + '_test_' + filename
@@ -38,9 +38,9 @@ class TestCompareXLSXFiles(unittest.TestCase):
         workbook = Workbook(filename)
 
         worksheet = workbook.add_worksheet()
-        chart = workbook.add_chart({'type': 'bar'})
+        chart = workbook.add_chart({'type': 'column', 'subtype': 'stacked'})
 
-        chart.axis_ids = [66558592, 66569344]
+        chart.axis_ids = [49388544, 69387008]
 
         data = [
             [1, 2, 3, 4, 5],
@@ -55,10 +55,6 @@ class TestCompareXLSXFiles(unittest.TestCase):
         chart.add_series({'values': '=Sheet1!$A$1:$A$5'})
         chart.add_series({'values': '=Sheet1!$B$1:$B$5'})
         chart.add_series({'values': '=Sheet1!$C$1:$C$5'})
-
-        chart.set_x_axis({'name_formula': '=Sheet1!$A$2', 'data': [2]})
-        chart.set_y_axis({'name_formula': '=Sheet1!$A$3', 'data': [3]})
-        chart.set_title({'name_formula': '=Sheet1!$A$1', 'data': [1]})
 
         worksheet.insert_chart('E9', chart)
 

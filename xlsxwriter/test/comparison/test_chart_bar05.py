@@ -38,7 +38,7 @@ class TestCompareXLSXFiles(unittest.TestCase):
         workbook = Workbook(filename)
 
         worksheet = workbook.add_worksheet()
-        chart = workbook.add_chart({'type': 'bar', 'embedded': 1})
+        chart = workbook.add_chart({'type': 'bar'})
 
         chart.axis_ids = [64264064, 64447232]
 
@@ -52,9 +52,9 @@ class TestCompareXLSXFiles(unittest.TestCase):
         worksheet.write_column('B1', data[1])
         worksheet.write_column('C1', data[2])
 
-        chart.add_series({'values': '=Sheet1!$A$1:$A$5'})
-        chart.add_series({'values': '=Sheet1!$B$1:$B$5'})
-        chart.add_series({'values': '=Sheet1!$C$1:$C$5'})
+        chart.add_series({'values': ['Sheet1', 0, 0, 4, 0]})
+        chart.add_series({'values': ['Sheet1', 0, 1, 4, 1]})
+        chart.add_series({'values': ['Sheet1', 0, 2, 4, 2]})
 
         worksheet.insert_chart('E9', chart)
 

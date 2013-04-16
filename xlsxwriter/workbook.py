@@ -21,9 +21,10 @@ from . import xmlwriter
 from xlsxwriter.worksheet import Worksheet
 from xlsxwriter.sharedstrings import SharedStringTable
 from xlsxwriter.format import Format
-from xlsxwriter.chart_bar import ChartBar
 from xlsxwriter.packager import Packager
 from .utility import xl_cell_to_rowcol
+from xlsxwriter.chart_bar import ChartBar
+from xlsxwriter.chart_column import ChartColumn
 
 
 class Workbook(xmlwriter.XMLwriter):
@@ -153,18 +154,15 @@ class Workbook(xmlwriter.XMLwriter):
 
     def add_chart(self, options):
         """
-        Create a chart for embedding or as as new sheet.
+        Create a chart object.
 
         Args:
-            options: The chart creation options.
+            options: The chart options.
 
         Returns:
             Reference to a Chart object.
 
         """
-        # Create a chart for embedding or as as new sheet.
-        name = ''
-        # index = self.worksheets
 
         # Type must be specified so we can create the required chart instance.
         chart_type = options.get('type', 'None')
@@ -172,49 +170,22 @@ class Workbook(xmlwriter.XMLwriter):
             warn("Chart type must be defined in add_chart()")
             return
 
-        # Ensure that the chart defaults to non embedded.
-        embedded = options.get('embedded', False)
-
-        # Check the worksheet name for non-embedded charts.
-        if not embedded:
-            name = self._check_sheetname(options.get(name), True)
-
-        # init_data = {}
-
-        chart = ChartBar(options)
-
-        # If the chart isn't embedded let the workbook control it.
-        if not embedded:
-
-            # TODO
-            # drawing = Drawing()
-            chartsheet = {}
-
-            # chart.palette = self.palette
-
-            # chartsheet.chart = chart
-            # chartsheet.drawing = drawing
-
-            # self.worksheets[index] = chartsheet
-            # self.sheetnames[index] = name
-
-            self.charts.append(chart)
-
-            return chartsheet
+        if chart_type == 'bar':
+            chart = ChartBar(options)
+        elif chart_type == 'column':
+            chart = ChartColumn(options)
         else:
+            warn("Unknown chart type '%s' in add_chart()" % chart_type)
+            return
 
-            # Set the embedded chart name if present.
-            if 'name' in options:
-                chart.chart_name = options['name']
+        # Set the embedded chart name if present.
+        if 'name' in options:
+            chart.chart_name = options['name']
 
-            # Set index to 0 so that the activate() and set_first_sheet()
-            # methods point back to the first worksheet if used for
-            # embedded charts.
-            chart.index = 0
-            chart._set_embedded_config_data()
-            self.charts.append(chart)
+        chart._set_embedded_config_data()
+        self.charts.append(chart)
 
-            return chart
+        return chart
 
     def close(self):
         """
@@ -968,6 +939,7 @@ class Workbook(xmlwriter.XMLwriter):
                 # Get the data from the worksheet table.
                 data = worksheet._get_range_data(*cells)
 
+                # TODO
                 # Convert shared string indexes to strings.
                 # for token in data:
                 #    if ref token:
@@ -996,7 +968,7 @@ class Workbook(xmlwriter.XMLwriter):
             return None
 
         # Split the cell range into 2 cells or else use single cell for both.
-        if cells.find(':'):
+        if cells.find(':') > 0:
             (cell_1, cell_2) = cells.split(':')
         else:
             (cell_1, cell_2) = (cells, cells)

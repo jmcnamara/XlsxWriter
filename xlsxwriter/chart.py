@@ -9,6 +9,7 @@ from warnings import warn
 
 from . import xmlwriter
 from .utility import xl_color
+from .utility import xl_rowcol_to_cell
 
 
 class Chart(xmlwriter.XMLwriter):
@@ -466,19 +467,20 @@ class Chart(xmlwriter.XMLwriter):
         # Convert and list of row col values to a range formula.
 
         # If it isn't an array ref it is probably a formula already.
-        if not type(data) is list:
+        if type(data) is not list:
             return data
 
-        # formula = xl_range_formula(*data)
-        formula = 'TODO!A1:A1'
+        sheet = data[0]
+        range1 = xl_rowcol_to_cell(data[1], data[2], True, True)
+        range2 = xl_rowcol_to_cell(data[3], data[4], True, True)
 
-        return formula
+        return sheet + '!' + range1 + ':' + range2
 
     def _process_names(self, name, name_formula):
         # Switch name and name_formula parameters if required.
 
         # Name looks like a formula, use it to set name_formula.
-        if name is not None and re.match('/^=[^!]+!\$/', name):
+        if name is not None and re.match(r'^=[^!]+!\$', name):
             name_formula = name
             name = ''
 
