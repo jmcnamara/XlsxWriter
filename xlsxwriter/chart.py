@@ -76,6 +76,9 @@ class Chart(xmlwriter.XMLwriter):
         self.default_marker = None
         self.series_gap = None
         self.series_overlap = None
+        self.drop_lines = {}
+        self.hi_low_lines = {}
+        self.up_down_bars = {}
 
         self._set_default_properties()
 
@@ -2245,7 +2248,7 @@ class Chart(xmlwriter.XMLwriter):
 
         if not marker:
             return
-        if marker['automatic']:
+        if 'automatic' in marker:
             return
 
         self._xml_start_tag('c:marker')
@@ -2254,9 +2257,8 @@ class Chart(xmlwriter.XMLwriter):
         self._write_symbol(marker['type'])
 
         # Write the c:size element.
-        size = marker['size']
-        if size:
-            self._write_marker_size(size)
+        if marker.get('size'):
+            self._write_marker_size(marker['size'])
 
         # Write the c:spPr element.
         self._write_sp_pr(marker)

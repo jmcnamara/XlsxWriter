@@ -25,6 +25,7 @@ from xlsxwriter.packager import Packager
 from .utility import xl_cell_to_rowcol
 from xlsxwriter.chart_bar import ChartBar
 from xlsxwriter.chart_column import ChartColumn
+from xlsxwriter.chart_line import ChartLine
 
 
 class Workbook(xmlwriter.XMLwriter):
@@ -174,6 +175,8 @@ class Workbook(xmlwriter.XMLwriter):
             chart = ChartBar(options)
         elif chart_type == 'column':
             chart = ChartColumn(options)
+        elif chart_type == 'line':
+            chart = ChartLine(options)
         else:
             warn("Unknown chart type '%s' in add_chart()" % chart_type)
             return
