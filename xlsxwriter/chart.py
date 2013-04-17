@@ -76,9 +76,9 @@ class Chart(xmlwriter.XMLwriter):
         self.default_marker = None
         self.series_gap = None
         self.series_overlap = None
-        self.drop_lines = {}
-        self.hi_low_lines = {}
-        self.up_down_bars = {}
+        self.drop_lines = None
+        self.hi_low_lines = None
+        self.up_down_bars = None
 
         self._set_default_properties()
 
@@ -2478,10 +2478,10 @@ class Chart(xmlwriter.XMLwriter):
         # Write the <c:hiLowLines> element.
         hi_low_lines = self.hi_low_lines
 
-        if not hi_low_lines:
+        if hi_low_lines is None:
             return
 
-        if hi_low_lines.line['defined']:
+        if 'line' in hi_low_lines and hi_low_lines['line']['defined']:
 
             self._xml_start_tag('c:hiLowLines')
 
@@ -2496,7 +2496,7 @@ class Chart(xmlwriter.XMLwriter):
         # Write the <c:dropLines> element.
         drop_lines = self.drop_lines
 
-        if not drop_lines:
+        if drop_lines is None:
             return
 
         if drop_lines.line['defined']:
@@ -2892,7 +2892,7 @@ class Chart(xmlwriter.XMLwriter):
         # Write the <c:upDownBars> element.
         up_down_bars = self.up_down_bars
 
-        if not up_down_bars:
+        if up_down_bars is None:
             return
 
         self._xml_start_tag('c:upDownBars')

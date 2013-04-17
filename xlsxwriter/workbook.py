@@ -30,6 +30,7 @@ from xlsxwriter.chart_line import ChartLine
 from xlsxwriter.chart_pie import ChartPie
 from xlsxwriter.chart_radar import ChartRadar
 from xlsxwriter.chart_scatter import ChartScatter
+from xlsxwriter.chart_stock import ChartStock
 
 
 class Workbook(xmlwriter.XMLwriter):
@@ -189,6 +190,8 @@ class Workbook(xmlwriter.XMLwriter):
             chart = ChartRadar(options)
         elif chart_type == 'scatter':
             chart = ChartScatter(options)
+        elif chart_type == 'stock':
+            chart = ChartStock(options)
         else:
             warn("Unknown chart type '%s' in add_chart()" % chart_type)
             return
@@ -960,7 +963,7 @@ class Workbook(xmlwriter.XMLwriter):
                 #    if ref token:
                 #        token = self.str_array.[ token[sst_id] ]
 
-                #        # Ignore rich strings for now. Deparse later if necessary.
+                #   # Ignore rich strings for now. Deparse later if necessary.
                 #        if token =~ m{^<r>} and token =~ m{</r>$}:
                 #            token = ''
 

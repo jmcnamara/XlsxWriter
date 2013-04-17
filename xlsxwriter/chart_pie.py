@@ -177,4 +177,3 @@ class ChartPie(chart.Chart):
         attributes = [('val', 0)]
 
         self._xml_empty_tag('c:firstSliceAng', attributes)
-

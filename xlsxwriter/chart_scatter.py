@@ -250,7 +250,7 @@ class ChartScatter(chart.Chart):
         subtype = self.subtype
         val = 1
 
-        if not 'smooth'  in subtype:
+        if not 'smooth' in subtype:
             return
 
         attributes = [('val', val)]
@@ -280,7 +280,7 @@ class ChartScatter(chart.Chart):
 
             # Go through each series and define default values.
             for series in self.series:
-                # Set a marker type unless there is already a user defined type.
+                # Set a marker type unless there is a user defined type.
                 if series['marker'] is None or not series['marker']['defined']:
                     series['marker'] = {'type': 'none',
                                         'defined': 1,

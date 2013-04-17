@@ -36,7 +36,7 @@ class TestAssembleWorksheet(unittest.TestCase):
         # Set up sparklines.
         worksheet.add_sparkline('F1', {'range': 'A1:E1',
                                        'max': 0.5,
-                                       'min':-0.5,
+                                       'min': -0.5,
                                        'axis': True,
                                        'reverse': True,
                                        'empty_cells': 'zero',
