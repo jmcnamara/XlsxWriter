@@ -23,9 +23,11 @@ from xlsxwriter.sharedstrings import SharedStringTable
 from xlsxwriter.format import Format
 from xlsxwriter.packager import Packager
 from .utility import xl_cell_to_rowcol
+from xlsxwriter.chart_area import ChartArea
 from xlsxwriter.chart_bar import ChartBar
 from xlsxwriter.chart_column import ChartColumn
 from xlsxwriter.chart_line import ChartLine
+from xlsxwriter.chart_scatter import ChartScatter
 
 
 class Workbook(xmlwriter.XMLwriter):
@@ -177,6 +179,10 @@ class Workbook(xmlwriter.XMLwriter):
             chart = ChartColumn(options)
         elif chart_type == 'line':
             chart = ChartLine(options)
+        elif chart_type == 'area':
+            chart = ChartArea(options)
+        elif chart_type == 'scatter':
+            chart = ChartScatter(options)
         else:
             warn("Unknown chart type '%s' in add_chart()" % chart_type)
             return

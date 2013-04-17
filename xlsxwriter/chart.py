@@ -2327,11 +2327,11 @@ class Chart(xmlwriter.XMLwriter):
         attributes = []
 
         # Add the line width as an attribute.
-        width = line['width']
+        width = line.get('width')
 
         if width:
             # Round width to nearest 0.25, like Excel.
-            width = int((width + 0.125) * 4) / 4
+            width = int((width + 0.125) * 4) / 4.0
 
             # Convert to internal units.
             width = int(0.5 + (12700 * width))
@@ -2351,7 +2351,7 @@ class Chart(xmlwriter.XMLwriter):
             self._write_a_solid_fill(line)
 
         # Write the line/dash type.
-        line_type = line['dash_type']
+        line_type = line.get('dash_type')
         if line_type:
             # Write the a:prstDash element.
             self._write_a_prst_dash(line_type)
