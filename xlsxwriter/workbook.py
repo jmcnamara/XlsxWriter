@@ -27,6 +27,7 @@ from xlsxwriter.chart_area import ChartArea
 from xlsxwriter.chart_bar import ChartBar
 from xlsxwriter.chart_column import ChartColumn
 from xlsxwriter.chart_line import ChartLine
+from xlsxwriter.chart_pie import ChartPie
 from xlsxwriter.chart_scatter import ChartScatter
 
 
@@ -173,14 +174,16 @@ class Workbook(xmlwriter.XMLwriter):
             warn("Chart type must be defined in add_chart()")
             return
 
-        if chart_type == 'bar':
+        if chart_type == 'area':
+            chart = ChartArea(options)
+        elif chart_type == 'bar':
             chart = ChartBar(options)
         elif chart_type == 'column':
             chart = ChartColumn(options)
         elif chart_type == 'line':
             chart = ChartLine(options)
-        elif chart_type == 'area':
-            chart = ChartArea(options)
+        elif chart_type == 'pie':
+            chart = ChartPie(options)
         elif chart_type == 'scatter':
             chart = ChartScatter(options)
         else:
