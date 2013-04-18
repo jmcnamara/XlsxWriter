@@ -61,7 +61,7 @@ class Chart(xmlwriter.XMLwriter):
         self.x2_axis = {}
         self.chart_name = ''
         self.show_blanks = 'gap'
-        self.show_hidden_data = 0
+        self.show_hidden = 0
         self.show_crosses = 1
         self.width = 480
         self.height = 288
@@ -250,7 +250,7 @@ class Chart(xmlwriter.XMLwriter):
             'span': 1,
         }
 
-        if not 'option' in valid_options:
+        if not option in valid_options:
             warn("Unknown show_blanks_as() option '%s'" % option)
             return
 
@@ -258,7 +258,7 @@ class Chart(xmlwriter.XMLwriter):
 
     def show_hidden_data(self):
         # Display data in hidden rows or columns.
-        self.show_hidden_data = 1
+        self.show_hidden = 1
 
     def set_size(self, options):
         # Set dimensions or scale for the chart.
@@ -545,8 +545,13 @@ class Chart(xmlwriter.XMLwriter):
         return formula_id
 
     def _get_color(self, color):
-        # Convert the user specified colour index or string to a rgb colour.
-        return xl_color(color)
+        # Convert the user specified colour to an RGB colour.
+        rgb_color = xl_color(color)
+
+        # Remove leading FF from RGB colour for charts.
+        rgb_color = re.sub(r'^FF', '', rgb_color)
+
+        return rgb_color
 
     def _get_line_properties(self, line):
         # Convert user line properties to the structure required internally.
@@ -1963,7 +1968,7 @@ class Chart(xmlwriter.XMLwriter):
         val = 1
 
         # Ignore this element if we are plotting hidden data.
-        if self.show_hidden_data:
+        if self.show_hidden:
             return
 
         attributes = [('val', val)]
@@ -2315,9 +2320,8 @@ class Chart(xmlwriter.XMLwriter):
         self._xml_start_tag('c:spPr')
 
         # Write the fill elements for solid charts such as pie and bar.
-        if 'fill' in series and series['fill']['defined']:
-            if series.fill['none']:
-
+        if series['fill'] is not None and series['fill']['defined']:
+            if 'none' in series['fill']:
                 # Write the a:noFill element.
                 self._write_a_no_fill()
             else:
@@ -2349,12 +2353,10 @@ class Chart(xmlwriter.XMLwriter):
         self._xml_start_tag('a:ln', attributes)
 
         # Write the line fill.
-        if line['none']:
-
+        if 'none' in line:
             # Write the a:noFill element.
             self._write_a_no_fill()
         elif line['color']:
-
             # Write the a:solidFill element.
             self._write_a_solid_fill(line)
 
