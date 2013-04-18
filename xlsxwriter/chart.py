@@ -346,11 +346,15 @@ class Chart(xmlwriter.XMLwriter):
 
         self.drop_lines = {'line': line, 'fill': fill}
 
-    def set_high_low_lines(self, options):
+    def set_high_low_lines(self, options=None):
         # Set properties for the chart high-low lines.
-        line = self._get_line_properties(options.get('line'))
+        if options is None:
+            options = {}
 
-        self.hi_low_lines = {'line': line}
+        line = self._get_line_properties(options.get('line'))
+        fill = self._get_fill_properties(options.get('fill'))
+
+        self.hi_low_lines = {'line': line, 'fill': fill}
 
     ###########################################################################
     #
