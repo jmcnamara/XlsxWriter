@@ -342,8 +342,9 @@ class Chart(xmlwriter.XMLwriter):
             options = {}
 
         line = self._get_line_properties(options.get('line'))
+        fill = self._get_fill_properties(options.get('fill'))
 
-        self.drop_lines = {'line': line, 'fill': {'defined': False}}
+        self.drop_lines = {'line': line, 'fill': fill}
 
     def set_high_low_lines(self, options):
         # Set properties for the chart high-low lines.
@@ -753,6 +754,7 @@ class Chart(xmlwriter.XMLwriter):
 
         # Set the line properties for the gridline.
         gridline['line'] = self._get_line_properties(options.get('line'))
+        gridline['fill'] = self._get_line_properties(options.get('fill'))
 
         return gridline
 
@@ -1830,7 +1832,8 @@ class Chart(xmlwriter.XMLwriter):
 
         if not gridlines:
             return
-        if not gridlines.visible:
+
+        if not gridlines['visible']:
             return
 
         if gridlines['line']['defined']:
@@ -2325,7 +2328,7 @@ class Chart(xmlwriter.XMLwriter):
         self._xml_start_tag('c:spPr')
 
         # Write the fill elements for solid charts such as pie and bar.
-        if (series['fill'] is not None and series['fill']['defined']):
+        if series['fill'] is not None and series['fill']['defined']:
             if 'none' in series['fill']:
                 # Write the a:noFill element.
                 self._write_a_no_fill()
