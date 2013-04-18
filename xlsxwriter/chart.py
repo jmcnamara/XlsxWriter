@@ -335,8 +335,11 @@ class Chart(xmlwriter.XMLwriter):
                                       },
                              }
 
-    def set_drop_lines(self, options):
+    def set_drop_lines(self, options=None):
         # Set properties for the chart drop lines.
+        if options is None:
+            options = {}
+
         line = self._get_line_properties(options.get('line'))
 
         self.drop_lines = {'line': line}
@@ -2508,7 +2511,7 @@ class Chart(xmlwriter.XMLwriter):
         if drop_lines is None:
             return
 
-        if drop_lines.line['defined']:
+        if drop_lines['line']['defined']:
 
             self._xml_start_tag('c:dropLines')
 
