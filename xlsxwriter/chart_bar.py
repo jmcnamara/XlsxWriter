@@ -132,6 +132,6 @@ class ChartBar(chart.Chart):
 
         self._xml_empty_tag('c:barDir', attributes)
 
-    def _write_err_dir(self):
+    def _write_err_dir(self, val):
         # Overridden from Chart class since it is not used in Bar charts.
         pass

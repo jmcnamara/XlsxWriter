@@ -342,7 +342,7 @@ class Chart(xmlwriter.XMLwriter):
 
         line = self._get_line_properties(options.get('line'))
 
-        self.drop_lines = {'line': line}
+        self.drop_lines = {'line': line, 'fill': {'defined': False}}
 
     def set_high_low_lines(self, options):
         # Set properties for the chart high-low lines.
@@ -711,7 +711,7 @@ class Chart(xmlwriter.XMLwriter):
         }
 
         # Check the error bars type.
-        error_type = options[type]
+        error_type = options['type']
 
         if error_type in types:
             error_bars['type'] = types[error_type]
@@ -739,6 +739,7 @@ class Chart(xmlwriter.XMLwriter):
 
         # Set the line properties for the error bars.
         error_bars['line'] = self._get_line_properties(options.get('line'))
+        error_bars['fill'] = self._get_line_properties(options.get('fill'))
 
         return error_bars
 
@@ -2322,7 +2323,7 @@ class Chart(xmlwriter.XMLwriter):
         self._xml_start_tag('c:spPr')
 
         # Write the fill elements for solid charts such as pie and bar.
-        if series['fill'] is not None and series['fill']['defined']:
+        if (series['fill'] is not None and series['fill']['defined']):
             if 'none' in series['fill']:
                 # Write the a:noFill element.
                 self._write_a_no_fill()
@@ -2829,10 +2830,10 @@ class Chart(xmlwriter.XMLwriter):
             return
 
         if error_bars['x_error_bars']:
-            self._write_err_bars(('x', error_bars['x_error_bars']))
+            self._write_err_bars('x', error_bars['x_error_bars'])
 
         if error_bars['y_error_bars']:
-            self._write_err_bars(('y', error_bars['y_error_bars']))
+            self._write_err_bars('y', error_bars['y_error_bars'])
 
     def _write_err_bars(self, direction, error_bars):
         # Write the <c:errBars> element.

@@ -20,7 +20,7 @@ class TestCompareXLSXFiles(unittest.TestCase):
     def setUp(self):
         self.maxDiff = None
 
-        filename = 'chart_stock01.xlsx'
+        filename = 'chart_errorbars07.xlsx'
 
         test_dir = 'xlsxwriter/test/comparison/'
         self.got_filename = test_dir + '_test_' + filename
@@ -30,7 +30,7 @@ class TestCompareXLSXFiles(unittest.TestCase):
         self.ignore_elements = {'xl/charts/chart1.xml': ['<c:formatCode']}
 
     def test_create_file(self):
-        """Test the creation of a simple XlsxWriter file."""
+        """Test the creation of an XlsxWriter file with error bars."""
         filename = self.got_filename
 
         ####################################################
@@ -41,7 +41,7 @@ class TestCompareXLSXFiles(unittest.TestCase):
         chart = workbook.add_chart({'type': 'stock'})
         date_format = workbook.add_format({'num_format': 14})
 
-        chart.axis_ids = [40522880, 40524416]
+        chart.axis_ids = [45470848, 45472768]
 
         data = [
             [39083, 39084, 39085, 39086, 39087],
@@ -58,17 +58,23 @@ class TestCompareXLSXFiles(unittest.TestCase):
 
         worksheet.set_column('A:D', 11)
 
-        chart.add_series({'categories': '=Sheet1!$A$1:$A$5',
-                          'values': '=Sheet1!$B$1:$B$5',
-                          })
+        chart.add_series({
+            'categories': '=Sheet1!$A$1:$A$5',
+            'values': '=Sheet1!$B$1:$B$5',
+            'y_error_bars': { 'type': 'standard_error' },
+        })
 
-        chart.add_series({'categories': '=Sheet1!$A$1:$A$5',
-                          'values': '=Sheet1!$C$1:$C$5',
-                          })
+        chart.add_series({
+            'categories': '=Sheet1!$A$1:$A$5',
+            'values': '=Sheet1!$C$1:$C$5',
+            'y_error_bars': { 'type': 'standard_error' },
+        })
 
-        chart.add_series({'categories': '=Sheet1!$A$1:$A$5',
-                          'values': '=Sheet1!$D$1:$D$5',
-                          })
+        chart.add_series({
+            'categories': '=Sheet1!$A$1:$A$5',
+            'values': '=Sheet1!$D$1:$D$5',
+            'y_error_bars': { 'type': 'standard_error' },
+        })
 
         worksheet.insert_chart('E9', chart)
 
