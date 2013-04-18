@@ -786,7 +786,6 @@ class Chart(xmlwriter.XMLwriter):
         # Convert user area properties to the structure required internally.
         area = {}
 
-        # Handle Excel::Writer::XLSX style properties.
         # Set the line properties for the chartarea.
         line = self._get_line_properties(options.get('line'))
 
@@ -2356,7 +2355,7 @@ class Chart(xmlwriter.XMLwriter):
         if 'none' in line:
             # Write the a:noFill element.
             self._write_a_no_fill()
-        elif line['color']:
+        elif 'color' in line:
             # Write the a:solidFill element.
             self._write_a_solid_fill(line)
 
