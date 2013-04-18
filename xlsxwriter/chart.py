@@ -79,6 +79,7 @@ class Chart(xmlwriter.XMLwriter):
         self.drop_lines = None
         self.hi_low_lines = None
         self.up_down_bars = None
+        self.legend_delete_series = None
 
         self._set_default_properties()
 
@@ -1897,12 +1898,13 @@ class Chart(xmlwriter.XMLwriter):
         delete_series = []
         overlay = 0
 
-        # if (self.legend_delete_series is not None
-        #    and ref self.legend_delete_series == 'ARRAY'):
-        #    delete_series =  self.legend_delete_series
+        if (self.legend_delete_series is not None
+                and type(self.legend_delete_series) is list):
+            delete_series = self.legend_delete_series
 
-        # if position =~ s/^overlay_//:
-        #    overlay = 1
+        if 'overlay' in position:
+            overlay = 1
+
         allowed = {
             'right': 'r',
             'left': 'l',
@@ -2412,7 +2414,7 @@ class Chart(xmlwriter.XMLwriter):
         self._xml_start_tag('c:trendline')
 
         # Write the c:name element.
-        self._write_name(trendline['name'])
+        self._write_name(trendline.get('name'))
 
         # Write the c:spPr element.
         self._write_sp_pr(trendline)
@@ -2422,17 +2424,17 @@ class Chart(xmlwriter.XMLwriter):
 
         # Write the c:order element for polynomial trendlines.
         if trendline['type'] == 'poly':
-            self._write_trendline_order(trendline['order'])
+            self._write_trendline_order(trendline.get('order'))
 
         # Write the c:period element for moving average trendlines.
         if trendline['type'] == 'movingAvg':
-            self._write_period(trendline['period'])
+            self._write_period(trendline.get('period'))
 
         # Write the c:forward element.
-        self._write_forward(trendline['forward'])
+        self._write_forward(trendline.get('forward'))
 
         # Write the c:backward element.
-        self._write_backward(trendline['backward'])
+        self._write_backward(trendline.get('backward'))
 
         self._xml_end_tag('c:trendline')
 
@@ -2655,27 +2657,27 @@ class Chart(xmlwriter.XMLwriter):
         self._xml_start_tag('c:dLbls')
 
         # Write the c:dLblPos element.
-        if labels['position']:
+        if labels.get('position'):
             self._write_d_lbl_pos(labels['position'])
 
         # Write the c:showVal element.
-        if labels['value']:
+        if labels.get('value'):
             self._write_show_val()
 
         # Write the c:showCatName element.
-        if labels['category']:
+        if labels.get('category'):
             self._write_show_cat_name()
 
         # Write the c:showSerName element.
-        if labels['series_name']:
+        if labels.get('series_name'):
             self._write_show_ser_name()
 
         # Write the c:showPercent element.
-        if labels['percentage']:
+        if labels.get('percentage'):
             self._write_show_percent()
 
         # Write the c:showLeaderLines element.
-        if labels['leader_lines']:
+        if labels.get('leader_lines'):
             self._write_show_leader_lines()
 
         self._xml_end_tag('c:dLbls')
