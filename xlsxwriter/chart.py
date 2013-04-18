@@ -141,7 +141,7 @@ class Chart(xmlwriter.XMLwriter):
         invert_if_neg = options.get('invert_if_negative', False)
 
         # Set the gap for Bar/Column charts.
-        if options.get('gap'):
+        if options.get('gap') is not None:
             self.series_gap = options['gap']
 
         # Set the overlap for Bar/Column charts.
