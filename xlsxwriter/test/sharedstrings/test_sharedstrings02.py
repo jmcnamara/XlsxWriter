@@ -32,6 +32,8 @@ class TestAssembleSharedStrings(unittest.TestCase):
         index = string_table._get_shared_string_index('abcdefg   ')
         self.assertEqual(index, 2)
 
+        string_table._sort_string_data()
+
         fh = StringIO()
         sharedstrings = SharedStrings()
         sharedstrings._set_filehandle(fh)

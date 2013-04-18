@@ -986,11 +986,10 @@ class Chart(xmlwriter.XMLwriter):
         self._xml_start_tag('c:chart')
 
         # Write the chart title elements.
-
-        if self.title_formula:
+        if self.title_formula is not None:
             self._write_title_formula(self.title_formula, self.title_data_id,
                                       None, self.title_font)
-        elif self.title_name:
+        elif self.title_name is not None:
             self._write_title_rich(self.title_name, None, self.title_font)
 
         # Write the c:plotArea element.
@@ -1140,9 +1139,10 @@ class Chart(xmlwriter.XMLwriter):
 
     def _write_series_name(self, series):
         # Write the series name.
-        if series.get('name_formula'):
+
+        if series['name_formula'] is not None:
             self._write_tx_formula(series['name_formula'], series['name_id'])
-        elif series.get('name'):
+        elif series['name'] is not None:
             self._write_tx_value(series['name'])
 
     def _write_cat(self, series):
@@ -1293,11 +1293,15 @@ class Chart(xmlwriter.XMLwriter):
         self._write_minor_gridlines(x_axis.get('minor_gridlines'))
 
         # Write the axis title elements.
-        if x_axis.get('formula'):
-            self._write_title_formula(x_axis['formula'], x_axis['data_id'],
-                                      horiz, x_axis['name_font'])
-        elif x_axis.get('name'):
-            self._write_title_rich(x_axis['name'], horiz, x_axis['name_font'])
+        if x_axis['formula'] is not None:
+            self._write_title_formula(x_axis['formula'],
+                                      x_axis['data_id'],
+                                      horiz,
+                                      x_axis['name_font'])
+        elif x_axis['name'] is not None:
+            self._write_title_rich(x_axis['name'],
+                                   horiz,
+                                   x_axis['name_font'])
 
         # Write the c:numFmt element.
         self._write_cat_number_format(x_axis)
@@ -1376,10 +1380,12 @@ class Chart(xmlwriter.XMLwriter):
         self._write_minor_gridlines(y_axis.get('minor_gridlines'))
 
         # Write the axis title elements.
-        if y_axis.get('formula'):
-            self._write_title_formula(y_axis['formula'], y_axis['data_id'],
-                                      horiz, y_axis['name_font'])
-        elif y_axis.get('name'):
+        if y_axis['formula'] is not None:
+            self._write_title_formula(y_axis['formula'],
+                                      y_axis['data_id'],
+                                      horiz,
+                                      y_axis['name_font'])
+        elif y_axis['name'] is not None:
             self._write_title_rich(y_axis['name'],
                                    horiz,
                                    y_axis.get('name_font'))
@@ -1459,11 +1465,13 @@ class Chart(xmlwriter.XMLwriter):
         self._write_minor_gridlines(x_axis.get('minor_gridlines'))
 
         # Write the axis title elements.
-        if x_axis.get('formula'):
-            self._write_title_formula(x_axis['formula'], y_axis['data_id'],
-                                      horiz, x_axis['name_font'])
-        elif x_axis.get('name'):
-            self._write_title_rich(x_axis['name_font'],
+        if x_axis['formula'] is not None:
+            self._write_title_formula(x_axis['formula'],
+                                      y_axis['data_id'],
+                                      horiz,
+                                      x_axis['name_font'])
+        elif x_axis['name'] is not None:
+            self._write_title_rich(x_axis['name'],
                                    horiz,
                                    x_axis['name_font'])
 
@@ -1541,13 +1549,13 @@ class Chart(xmlwriter.XMLwriter):
         self._write_minor_gridlines(x_axis.get('minor_gridlines'))
 
         # Write the axis title elements.
-        if x_axis.get('formula'):
+        if x_axis['formula'] is not None:
             self._write_title_formula(x_axis['formula'],
                                       x_axis['data_id'],
                                       None,
                                       x_axis['name_font'])
-        elif x_axis.get('name'):
-            self._write_title_rich(x_axis['name_font'],
+        elif x_axis['name'] is not None:
+            self._write_title_rich(x_axis['name'],
                                    None,
                                    x_axis['name_font'])
 
@@ -2923,7 +2931,6 @@ class Chart(xmlwriter.XMLwriter):
 
         # if (format.line.or is not None format.fill.) is not None:
         if not 'TODO':
-
             self._xml_start_tag('c:upBars')
 
             # Write the c:spPr element.

@@ -120,6 +120,7 @@ class SharedStringTable(object):
         self.count = 0
         self.unique_count = 0
         self.string_table = {}
+        self.string_array = []
 
     def _get_shared_string_index(self, string):
         """" Get the index of the string in the Shared String table. """
@@ -136,5 +137,16 @@ class SharedStringTable(object):
             self.count += 1
             return index
 
+    def _get_shared_string(self, index):
+        """" Get a shared string from the index. """
+        return self.string_array[index]
+
+    def _sort_string_data(self):
+        """" Sort the shared string data and convert from dict to list. """
+        self.string_array = sorted(self.string_table,
+                                   key=self.string_table.__getitem__)
+        self.string_table = {}
+
     def _get_strings(self):
-        return sorted(self.string_table, key=self.string_table.__getitem__)
+        """" Return the sorted string list. """
+        return self.string_array

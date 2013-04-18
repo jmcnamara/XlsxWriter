@@ -3966,16 +3966,19 @@ class Worksheet(xmlwriter.XMLwriter):
                     cell = self.table[row_num][col_num]
 
                     if type(cell).__name__ == 'Number':
-                        # Store a number with Excel's precision.
+                        # Return a number with Excel's precision.
                         data.append("%.15g" % cell.number)
 
                     elif type(cell).__name__ == 'String':
-                        # Store a string.
-                        data.append(cell.string)
+                        # Return a string from it's shared string index.
+                        index = cell.string
+                        string = self.str_table._get_shared_string(index)
+
+                        data.append(string)
 
                     elif (type(cell).__name__ == 'Formula'
                             or type(cell).__name__ == 'ArrayFormula'):
-                        # Store the formula value.
+                        # Return the formula value.
                         value = cell.value
 
                         if value is None:
@@ -3984,7 +3987,7 @@ class Worksheet(xmlwriter.XMLwriter):
                         data.append(value)
 
                     elif type(cell).__name__ == 'Blank':
-                        # Store a empty cell.
+                        # Return a empty cell.
                         data.append('')
                 else:
 

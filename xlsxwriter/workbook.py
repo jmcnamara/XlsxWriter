@@ -358,7 +358,7 @@ class Workbook(xmlwriter.XMLwriter):
                 sheet.active = 1
 
         # Convert the SST strings data structure.
-        # self._prepare_sst_string_data()
+        self._prepare_sst_string_data()
 
         # Prepare the worksheet VML elements such as comments and buttons.
         self._prepare_vml()
@@ -958,11 +958,6 @@ class Workbook(xmlwriter.XMLwriter):
                 data = worksheet._get_range_data(*cells)
 
                 # TODO
-                # Convert shared string indexes to strings.
-                # for token in data:
-                #    if ref token:
-                #        token = self.str_array.[ token[sst_id] ]
-
                 #   # Ignore rich strings for now. Deparse later if necessary.
                 #        if token =~ m{^<r>} and token =~ m{</r>$}:
                 #            token = ''
@@ -1003,6 +998,10 @@ class Workbook(xmlwriter.XMLwriter):
             return None
 
         return (sheetname, [row_start, col_start, row_end, col_end])
+
+    def _prepare_sst_string_data(self):
+        # Convert the SST string data from a dict to a list.
+        self.str_table._sort_string_data()
 
     ###########################################################################
     #
