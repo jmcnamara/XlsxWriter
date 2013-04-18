@@ -486,7 +486,7 @@ class Chart(xmlwriter.XMLwriter):
         # Switch name and name_formula parameters if required.
 
         # Name looks like a formula, use it to set name_formula.
-        if name is not None and re.match(r'^=[^!]+!\$', name):
+        if name is not None and re.match(r'^=?[^!]+!', name):
             name_formula = name
             name = ''
 
@@ -877,19 +877,19 @@ class Chart(xmlwriter.XMLwriter):
         if not font:
             return attributes
 
-        if 'size' in font:
+        if font['size']:
             attributes.append(('sz', font['size']))
 
-        if 'bold' in font:
-            attributes.append(('b', 1))
+        if font['bold'] is not None:
+            attributes.append(('b', 0 + font['bold']))
 
-        if 'italic' in font:
-            attributes.append(('i', 1))
+        if font['italic'] is not None:
+            attributes.append(('i', 0 + font['italic']))
 
-        if 'underline' in font:
+        if font['underline'] is not None:
             attributes.append(('u', 'sng'))
 
-        attributes.append(('baseline', 1))
+        attributes.append(('baseline', font['baseline']))
 
         return attributes
 
@@ -900,13 +900,13 @@ class Chart(xmlwriter.XMLwriter):
         if not font:
             return attributes
 
-        if 'name' in font:
+        if font['name'] is not None:
             attributes.append(('typeface', font['name']))
 
-        if 'pitch_family' in font:
+        if font['pitch_family'] is not None:
             attributes.append(('pitchFamily', font['pitch_family']))
 
-        if 'charset' in font:
+        if font['charset'] is not None:
             attributes.append(('charset', font['charset']))
 
         return attributes
@@ -2172,7 +2172,7 @@ class Chart(xmlwriter.XMLwriter):
         style_attributes = self._get_font_style_attributes(font)
         latin_attributes = self._get_font_latin_attributes(font)
 
-        if font and 'color' in font:
+        if font and font['color'] is not None:
             has_color = 1
 
         if latin_attributes or has_color:
@@ -2217,7 +2217,7 @@ class Chart(xmlwriter.XMLwriter):
         style_attributes = self._get_font_style_attributes(font)
         latin_attributes = self._get_font_latin_attributes(font)
 
-        if font and 'color' in font:
+        if font and font['color'] is not None:
             has_color = 1
 
         # Add the lang type to the attributes.
@@ -2762,10 +2762,8 @@ class Chart(xmlwriter.XMLwriter):
         self._xml_end_tag('a:p')
         self._xml_end_tag('c:txPr')
 
-    def _write_a_latin(self):
+    def _write_a_latin(self, attributes):
         # Write the <a:latin> element.
-        attributes = _
-
         self._xml_empty_tag('a:latin', attributes)
 
     def _write_d_table(self):
