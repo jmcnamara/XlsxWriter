@@ -55,8 +55,8 @@ class TestCompareXLSXFiles(unittest.TestCase):
 
         chart.add_series({
             'values': '=Sheet1!$A$1:$A$5',
-            'border': { 'none': 1 },
-            'fill': { 'none': 1 }
+            'border': {'none': 1},
+            'fill': {'none': 1}
         })
         chart.add_series({'values': '=Sheet1!$B$1:$B$5'})
         chart.add_series({'values': '=Sheet1!$C$1:$C$5'})

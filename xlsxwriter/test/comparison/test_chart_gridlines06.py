@@ -64,13 +64,13 @@ class TestCompareXLSXFiles(unittest.TestCase):
         })
 
         chart.set_x_axis({
-            'major_gridlines': { 'visible': 1 },
-            'minor_gridlines': { 'visible': 1 },
+            'major_gridlines': {'visible': 1},
+            'minor_gridlines': {'visible': 1},
         })
 
         chart.set_y_axis({
-            'major_gridlines': { 'visible': 1 },
-            'minor_gridlines': { 'visible': 1 },
+            'major_gridlines': {'visible': 1},
+            'minor_gridlines': {'visible': 1},
         })
 
         worksheet.insert_chart('E9', chart)

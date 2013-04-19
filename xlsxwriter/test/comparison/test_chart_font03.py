@@ -59,19 +59,19 @@ class TestCompareXLSXFiles(unittest.TestCase):
 
         chart.set_title({
             'name': 'Title',
-            'name_font': { 'bold': 0, 'italic': 1 },
+            'name_font': {'bold': 0, 'italic': 1},
         })
 
         chart.set_x_axis({
             'name': 'XXX',
-            'name_font': { 'bold': 0, 'italic': 1 },
-            'num_font': { 'size': 11, 'bold': 1, 'italic': 1 },
+            'name_font': {'bold': 0, 'italic': 1},
+            'num_font': {'size': 11, 'bold': 1, 'italic': 1},
         })
 
         chart.set_y_axis({
             'name': 'YYY',
-            'name_font': { 'bold': 1, 'italic': 1 },
-            'num_font': { 'size': 9, 'bold': 0, 'italic': 1 },
+            'name_font': {'bold': 1, 'italic': 1},
+            'num_font': {'size': 9, 'bold': 0, 'italic': 1},
         })
 
         worksheet.insert_chart('E9', chart)

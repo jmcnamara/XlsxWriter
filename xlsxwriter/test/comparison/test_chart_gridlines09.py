@@ -60,24 +60,24 @@ class TestCompareXLSXFiles(unittest.TestCase):
         chart.set_x_axis({
             'major_gridlines': {
                 'visible': 1,
-                'line': { 'color': 'red', 'width': 0.5, 'dash_type': 'square_dot' }
+                'line': {'color': 'red', 'width': 0.5, 'dash_type': 'square_dot'}
             },
 
             'minor_gridlines': {
                 'visible': 1,
-                'line': { 'color': 'yellow' }
+                'line': {'color': 'yellow'}
             },
         })
 
         chart.set_y_axis({
             'major_gridlines': {
                 'visible': 1,
-                'line': { 'width': 1.25, 'dash_type': 'dash' }
+                'line': {'width': 1.25, 'dash_type': 'dash'}
             },
 
             'minor_gridlines': {
                 'visible': 1,
-                'line': { 'color': '#00B050' }
+                'line': {'color': '#00B050'}
             },
         })
 

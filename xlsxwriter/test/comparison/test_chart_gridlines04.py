@@ -57,7 +57,7 @@ class TestCompareXLSXFiles(unittest.TestCase):
         chart.add_series({'values': '=Sheet1!$B$1:$B$5'})
         chart.add_series({'values': '=Sheet1!$C$1:$C$5'})
 
-        chart.set_y_axis({'major_gridlines': { 'visible': 0 }})
+        chart.set_y_axis({'major_gridlines': {'visible': 0}})
         chart.y_axis['major_tick_mark'] = 'cross'
 
         worksheet.insert_chart('E9', chart)

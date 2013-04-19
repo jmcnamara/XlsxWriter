@@ -61,19 +61,19 @@ class TestCompareXLSXFiles(unittest.TestCase):
         chart.add_series({
             'categories': '=Sheet1!$A$1:$A$5',
             'values': '=Sheet1!$B$1:$B$5',
-            'y_error_bars': { 'type': 'standard_error' },
+            'y_error_bars': {'type': 'standard_error'},
         })
 
         chart.add_series({
             'categories': '=Sheet1!$A$1:$A$5',
             'values': '=Sheet1!$C$1:$C$5',
-            'y_error_bars': { 'type': 'standard_error' },
+            'y_error_bars': {'type': 'standard_error'},
         })
 
         chart.add_series({
             'categories': '=Sheet1!$A$1:$A$5',
             'values': '=Sheet1!$D$1:$D$5',
-            'y_error_bars': { 'type': 'standard_error' },
+            'y_error_bars': {'type': 'standard_error'},
         })
 
         worksheet.insert_chart('E9', chart)

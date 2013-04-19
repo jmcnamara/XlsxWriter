@@ -58,7 +58,7 @@ class TestCompareXLSXFiles(unittest.TestCase):
             'values': '=Sheet1!$B$1:$B$5',
             'y_error_bars': {
                 'type': 'standard_error',
-                'line': { 'color': 'red', 'dash_type': 'round_dot' }
+                'line': {'color': 'red', 'dash_type': 'round_dot'}
             },
         })
 

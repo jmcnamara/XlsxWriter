@@ -75,7 +75,7 @@ class TestCompareXLSXFiles(unittest.TestCase):
                 'charset': 0,
                 'color': '#92D050'
             },
-            'num_font':{
+            'num_font': {
                 'name': 'Arial',
                 'pitch_family': 34,
                 'charset': 0,

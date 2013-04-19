@@ -63,8 +63,8 @@ class TestCompareXLSXFiles(unittest.TestCase):
             'values': '=Sheet1!$C$1:$C$5',
         })
 
-        chart.set_x_axis({'major_gridlines': { 'visible': 1 }})
-        chart.set_y_axis({'major_gridlines': { 'visible': 0 }})
+        chart.set_x_axis({'major_gridlines': {'visible': 1}})
+        chart.set_y_axis({'major_gridlines': {'visible': 0}})
 
         worksheet.insert_chart('E9', chart)
 

@@ -49,10 +49,10 @@ class TestCompareXLSXFiles(unittest.TestCase):
         chart.add_series({
             'values': '=Sheet1!$A$1:$A$3',
             'points': [
-                { 'fill': { 'color': '#FF0000' } },
-                { 'fill': { 'color': '#CC0000' } },
-                { 'fill': { 'color': '#990000' } },
-           ],
+                {'fill': {'color': '#FF0000'}},
+                {'fill': {'color': '#CC0000'}},
+                {'fill': {'color': '#990000'}},
+            ],
         })
 
         worksheet.insert_chart('E9', chart)

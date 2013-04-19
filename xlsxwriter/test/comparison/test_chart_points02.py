@@ -47,9 +47,9 @@ class TestCompareXLSXFiles(unittest.TestCase):
         chart.add_series({
             'values': '=Sheet1!$A$1:$A$6',
             'points': [
-                None, {'border': { 'color': 'red', 'dash_type': 'square_dot' } },
-                None, { 'fill': { 'color': 'yellow' } }
-           ],
+                None, {'border': {'color': 'red', 'dash_type': 'square_dot'}},
+                None, {'fill': {'color': 'yellow'}}
+            ],
         })
 
         worksheet.insert_chart('E9', chart)

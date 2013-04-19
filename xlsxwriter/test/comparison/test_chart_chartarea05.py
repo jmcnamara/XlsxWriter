@@ -55,12 +55,12 @@ class TestCompareXLSXFiles(unittest.TestCase):
 
         chart.set_chartarea({
             'border': {'color': '#FFFF00', 'dash_type': 'long_dash'},
-            'fill': {'color': '#92D050' }
+            'fill': {'color': '#92D050'}
         })
 
         chart.set_plotarea({
             'border': {'dash_type': 'dash_dot'},
-            'fill': {'color': '#FFC000' }
+            'fill': {'color': '#FFC000'}
         })
 
         worksheet.insert_chart('E9', chart)

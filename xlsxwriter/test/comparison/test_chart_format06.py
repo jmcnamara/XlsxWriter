@@ -56,7 +56,7 @@ class TestCompareXLSXFiles(unittest.TestCase):
         chart.add_series({
             'categories': '=Sheet1!$A$1:$A$5',
             'values': '=Sheet1!$B$1:$B$5',
-            'marker': { 'type': 'diamond', 'size': 7 },
+            'marker': {'type': 'diamond', 'size': 7},
         })
 
         chart.add_series({

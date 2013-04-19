@@ -57,15 +57,15 @@ class TestCompareXLSXFiles(unittest.TestCase):
             'categories': '=Sheet1!$A$1:$A$5',
             'values': '=Sheet1!$B$1:$B$5',
             'points': [
-                { 'fill': { 'color': 'red' } },
-                { 'fill': { 'color': 'yellow' } }
-             ],
+                {'fill': {'color': 'red'}},
+                {'fill': {'color': 'yellow'}}
+            ],
         })
 
         chart.add_series({
             'categories': '=Sheet1!$A$1:$A$5',
             'values': '=Sheet1!$C$1:$C$5',
-            'points': [None, None, { 'fill': { 'color': 'yellow' } }],
+            'points': [None, None, {'fill': {'color': 'yellow'}}],
         })
 
         worksheet.insert_chart('E9', chart)

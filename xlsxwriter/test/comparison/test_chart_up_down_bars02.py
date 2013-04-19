@@ -54,11 +54,11 @@ class TestCompareXLSXFiles(unittest.TestCase):
 
         chart.set_up_down_bars({
             'up': {
-                'fill': { 'color': 'red' },
-                'line': { 'color': 'yellow' }
+                'fill': {'color': 'red'},
+                'line': {'color': 'yellow'}
             },
             'down': {
-                'fill': { 'color': '#00B050' },
+                'fill': {'color': '#00B050'},
                 'border': {
                     'color': '#00B0F0',
                     'dash_type': 'square_dot'

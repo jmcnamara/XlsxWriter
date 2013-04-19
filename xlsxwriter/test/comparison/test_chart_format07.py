@@ -59,8 +59,8 @@ class TestCompareXLSXFiles(unittest.TestCase):
             'marker': {
                 'type': 'square',
                 'size': 5,
-                'line': { 'color': 'yellow' },
-                'fill': { 'color': 'red' },
+                'line': {'color': 'yellow'},
+                'fill': {'color': 'red'},
             },
         })
 

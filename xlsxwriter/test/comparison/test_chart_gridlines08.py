@@ -58,8 +58,8 @@ class TestCompareXLSXFiles(unittest.TestCase):
         chart.add_series({'values': '=Sheet1!$C$1:$C$5'})
 
         chart.set_y_axis({
-            'major_gridlines': { 'visible': 1 },
-            'minor_gridlines': { 'visible': 1 },
+            'major_gridlines': {'visible': 1},
+            'minor_gridlines': {'visible': 1},
         })
 
         chart.y_axis['major_tick_mark'] = 'cross'

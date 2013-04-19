@@ -56,7 +56,7 @@ class TestCompareXLSXFiles(unittest.TestCase):
         chart.add_series({
             'categories': '=Sheet1!$A$1:$A$5',
             'values': '=Sheet1!$B$1:$B$5',
-            'line': { 'color': 'red' },
+            'line': {'color': 'red'},
         })
 
         chart.add_series({

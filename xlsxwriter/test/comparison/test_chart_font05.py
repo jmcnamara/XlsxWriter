@@ -61,12 +61,12 @@ class TestCompareXLSXFiles(unittest.TestCase):
 
         chart.set_x_axis({
             'name': 'XXX',
-            'num_font': { 'name': 'Arial', 'pitch_family': 34, 'charset': 0 }
+            'num_font': {'name': 'Arial', 'pitch_family': 34, 'charset': 0}
         })
 
         chart.set_y_axis({
             'name': 'YYY',
-            'num_font': { 'bold': 1, 'italic': 1, 'underline': 1, }
+            'num_font': {'bold': 1, 'italic': 1, 'underline': 1}
         })
 
         worksheet.insert_chart('E9', chart)
