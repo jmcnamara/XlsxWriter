@@ -743,10 +743,6 @@ class Workbook(xmlwriter.XMLwriter):
 
         # Sort the workbook charts references into the order that the were
         # written from the worksheets above.
-        # chart_data =  self.charts
-        # chart_data = sort { a.id <=> b.id } chart_data
-        # self.charts = chart_data
-
         self.charts = sorted(self.charts, key=lambda chart: chart.id)
 
         self.drawing_count = drawing_id
