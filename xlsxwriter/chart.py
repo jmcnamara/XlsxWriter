@@ -270,26 +270,18 @@ class Chart(xmlwriter.XMLwriter):
         self.x_offset = options.get('x_offset', 0)
         self.x_offset = options.get('y_offset', 0)
 
-    def set_table(self, args):
+    def set_table(self, options=None):
         # Set properties for an axis data table.
-        table = {
-            'horizontal': 1,
-            'vertical': 1,
-            'outline': 1,
-            'show_keys': 0,
-        }
 
-        if 'horizontal' in args:
-            table['horizontal'] = args.get('horizontal')
+        if options is None:
+            options = {}
 
-        if 'vertical' in args:
-            table['vertical'] = args.get('vertical')
+        table = {}
 
-        if 'outline' in args:
-            table['outline'] = args.get('outline')
-
-        if 'show_keys' in args:
-            table['show_keys'] = args.get('show_keys')
+        table['horizontal'] = options.get('horizontal', 1)
+        table['vertical'] = options.get('vertical', 1)
+        table['outline'] = options.get('outline', 1)
+        table['show_keys'] = options.get('show_keys', 0)
 
         self.table = table
 
@@ -2785,23 +2777,19 @@ class Chart(xmlwriter.XMLwriter):
 
         self._xml_start_tag('c:dTable')
 
-        if table.horizontal:
-
+        if table['horizontal']:
             # Write the c:showHorzBorder element.
             self._write_show_horz_border()
 
-        if table.vertical:
-
+        if table['vertical']:
             # Write the c:showVertBorder element.
             self._write_show_vert_border()
 
-        if table.outline:
-
+        if table['outline']:
             # Write the c:showOutline element.
             self._write_show_outline()
 
-        if table.show_keys:
-
+        if table['show_keys']:
             # Write the c:showKeys element.
             self._write_show_keys()
 
