@@ -293,10 +293,10 @@ class Chart(xmlwriter.XMLwriter):
 
         self.table = table
 
-    def set_up_down_bars(self, options):
         # Set properties for the chart up-down bars.
+    def set_up_down_bars(self, options=None):
         if options is None:
-            return
+            options = {}
 
         # Defaults.
         up_line = None
@@ -306,27 +306,28 @@ class Chart(xmlwriter.XMLwriter):
 
         # Set properties for 'up' bar.
         if options.get('up'):
-            # Map border to line.
             if 'border' in options['up']:
-                options['up']['line'] = options['up']['border']
+                # Map border to line.
+                up_line = self._get_line_properties(options['up']['border'])
 
             if 'line' in options['up']:
                 up_line = self._get_line_properties(options['up']['line'])
 
             if 'fill' in options['up']:
-                up_line = self._get_line_properties(options['up']['fill'])
+                up_fill = self._get_line_properties(options['up']['fill'])
 
         # Set properties for 'down' bar.
         if options.get('down'):
-            # Map border to line.
             if 'border' in options['down']:
-                options['down']['line'] = options['down']['border']
+                # Map border to line.
+                down_line = \
+                    self._get_line_properties(options['down']['border'])
 
             if 'line' in options['down']:
                 down_line = self._get_line_properties(options['down']['line'])
 
             if 'fill' in options['down']:
-                down_line = self._get_line_properties(options['down']['fill'])
+                down_fill = self._get_line_properties(options['down']['fill'])
 
         self.up_down_bars = {'up': {'line': up_line,
                                     'fill': up_fill,
@@ -2921,10 +2922,10 @@ class Chart(xmlwriter.XMLwriter):
         self._write_gap_width(150)
 
         # Write the c:upBars element.
-        self._write_up_bars(up_down_bars['up'])
+        self._write_up_bars(up_down_bars.get('up'))
 
         # Write the c:downBars element.
-        self._write_down_bars(up_down_bars['down'])
+        self._write_down_bars(up_down_bars.get('down'))
 
         self._xml_end_tag('c:upDownBars')
 
@@ -2941,8 +2942,7 @@ class Chart(xmlwriter.XMLwriter):
     def _write_up_bars(self, bar_format):
         # Write the <c:upBars> element.
 
-        # if (format.line.or is not None format.fill.) is not None:
-        if not 'TODO':
+        if bar_format['line'] and bar_format['line']['defined']:
             self._xml_start_tag('c:upBars')
 
             # Write the c:spPr element.
@@ -2951,3 +2951,16 @@ class Chart(xmlwriter.XMLwriter):
             self._xml_end_tag('c:upBars')
         else:
             self._xml_empty_tag('c:upBars')
+
+    def _write_down_bars(self, bar_format):
+        # Write the <c:downBars> element.
+
+        if bar_format['line'] and bar_format['line']['defined']:
+            self._xml_start_tag('c:downBars')
+
+            # Write the c:spPr element.
+            self._write_sp_pr(bar_format)
+
+            self._xml_end_tag('c:downBars')
+        else:
+            self._xml_empty_tag('c:downBars')
