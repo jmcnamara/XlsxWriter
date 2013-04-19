@@ -747,6 +747,8 @@ class Workbook(xmlwriter.XMLwriter):
         # chart_data = sort { a.id <=> b.id } chart_data
         # self.charts = chart_data
 
+        self.charts = sorted(self.charts, key=lambda chart: chart.id)
+
         self.drawing_count = drawing_id
 
     def _get_image_properties(self, filename):
