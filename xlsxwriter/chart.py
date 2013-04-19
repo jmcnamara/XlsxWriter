@@ -263,12 +263,12 @@ class Chart(xmlwriter.XMLwriter):
 
     def set_size(self, options):
         # Set dimensions or scale for the chart.
-        self.width = options.get('width')
-        self.height = options.get('height')
-        self.x_scale = options.get('x_scale')
-        self.y_scale = options.get('y_scale')
-        self.x_offset = options.get('x_offset')
-        self.x_offset = options.get('y_offset')
+        self.width = options.get('width', self.width)
+        self.height = options.get('height', self.height)
+        self.x_scale = options.get('x_scale', 1)
+        self.y_scale = options.get('y_scale', 1)
+        self.x_offset = options.get('x_offset', 0)
+        self.x_offset = options.get('y_offset', 0)
 
     def set_table(self, args):
         # Set properties for an axis data table.
