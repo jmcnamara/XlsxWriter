@@ -130,6 +130,11 @@ See the :ref:`format` and :ref:`working_with_formats` sections for more details
 about Format properties and how to set them.
 
 
+workbook.add_format()
+---------------------
+
+TODO.
+
 workbook.close()
 ----------------
 

@@ -18,6 +18,7 @@ XlsxWriter supports the following features in version |version|:
 * Write hyperlinks to cells.
 * Full cell formatting.
 * Multiple worksheets.
+* Charts.
 * Page setup methods for printing.
 * Merged cells.
 * Defined names.
@@ -68,6 +69,7 @@ XlsxWriter supports the following features in version |version|:
    worksheet.rst
    page_setup.rst
    format.rst
+   chart.rst
 
 .. toctree::
    :maxdepth: 1
@@ -75,6 +77,7 @@ XlsxWriter supports the following features in version |version|:
    working_with_cell_notation.rst
    working_with_formats.rst
    working_with_dates_and_time.rst
+   working_with_charts.rst
    working_with_autofilters.rst
    working_with_data_validation.rst
    working_with_conditional_formats.rst

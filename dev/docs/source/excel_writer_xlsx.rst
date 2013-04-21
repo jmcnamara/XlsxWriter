@@ -8,14 +8,11 @@ The XlsxWriter module is a port of the Perl
 module with more Pythonic interfaces.
 
 XlsxWriter supports almost all of Excel::Writer::XLSX's features apart from
-those noted in the tables below. Remaining features such as sparklines and
-charts are in progress.
+those noted in the tables below.
 
 
 Workbook
 --------
-
-Status: ongoing.
 
 +--------------------------+------------+---------------------+
 | Workbook Methods         | XlsxWriter | Excel::Writer::XLSX |
@@ -24,7 +21,7 @@ Status: ongoing.
 +--------------------------+------------+---------------------+
 | :func:`add_format()`     | Yes        | Yes                 |
 +--------------------------+------------+---------------------+
-| add_chart()              | **No**     | Yes                 |
+| :func:`add_chart()`      | Yes        | Yes                 |
 +--------------------------+------------+---------------------+
 | :func:`close()`          | Yes        | Yes                 |
 +--------------------------+------------+---------------------+
@@ -54,8 +51,6 @@ Status: ongoing.
 
 Worksheet
 ---------
-
-Status: ongoing.
 
 +-------------------------------+------------+---------------------+
 | Worksheet Methods             | XlsxWriter | Excel::Writer::XLSX |
@@ -90,13 +85,13 @@ Status: ongoing.
 +-------------------------------+------------+---------------------+
 | :func:`insert_image()`        | Yes        | Yes                 |
 +-------------------------------+------------+---------------------+
-| insert_chart()                | **No**     | Yes                 |
+| :func:`insert_chart()`        | Yes        | Yes                 |
 +-------------------------------+------------+---------------------+
 | :func:`data_validation()`     | Yes        | Yes                 |
 +-------------------------------+------------+---------------------+
 | :func:`conditional_format()`  | Yes        | Yes                 |
 +-------------------------------+------------+---------------------+
-| add_sparkline()               | **No**     | Yes                 |
+| :func:`add_sparkline()`       | Yes        | Yes                 |
 +-------------------------------+------------+---------------------+
 | :func:`add_table()`           | Yes        | Yes                 |
 +-------------------------------+------------+---------------------+
@@ -158,8 +153,6 @@ Status: ongoing.
 Page Setup
 ----------
 
-Status: complete.
-
 +---------------------------------+------------+---------------------+
 | Page Set-up Methods             | XlsxWriter | Excel::Writer::XLSX |
 +=================================+============+=====================+
@@ -206,8 +199,6 @@ Status: complete.
 
 Format
 ------
-
-Status: complete.
 
 +------------------------------+------------+---------------------+
 | Format Methods               | XlsxWriter | Excel::Writer::XLSX |

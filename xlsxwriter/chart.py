@@ -84,6 +84,16 @@ class Chart(xmlwriter.XMLwriter):
         self._set_default_properties()
 
     def add_series(self, options):
+        """
+        Add a data series to a chart.
+
+        Args:
+            options:  A dictionary of chart series options.
+
+        Returns:
+            Nothing.
+
+        """
         # Add a series and it's properties to a chart.
 
         # Check that the required input has been specified.
@@ -176,32 +186,76 @@ class Chart(xmlwriter.XMLwriter):
         self.series.append(series)
 
     def set_x_axis(self, options):
-        # Set the properties of the X-axis.
+        """
+        Set the chart X axis options.
+
+        Args:
+            options:  A dictionary of axis options.
+
+        Returns:
+            Nothing.
+
+        """
         axis = self._convert_axis_args(self.x_axis, options)
 
         self.x_axis = axis
 
     def set_y_axis(self, options):
-        # Set the properties of the Y-axis.
+        """
+        Set the chart Y axis options.
+
+        Args:
+            options: A dictionary of axis options.
+
+        Returns:
+            Nothing.
+
+        """
         axis = self._convert_axis_args(self.y_axis, options)
 
         self.y_axis = axis
 
     def set_x2_axis(self, options):
-        # Set the properties of the secondary X-axis.
+        """
+        Set the chart secondary X axis options.
+
+        Args:
+            options: A dictionary of axis options.
+
+        Returns:
+            Nothing.
+
+        """
         axis = self._convert_axis_args(self.x2_axis, options)
 
         self.x2_axis = axis
 
     def set_y2_axis(self, options):
-        # Set the properties of the secondary Y-axis.
+        """
+        Set the chart secondary Y axis options.
+
+        Args:
+            options: A dictionary of axis options.
+
+        Returns:
+            Nothing.
+
+        """
         axis = self._convert_axis_args(self.y2_axis, options)
 
         self.y2_axis = axis
 
     def set_title(self, options):
-        # Set the properties of the chart title.
+        """
+        Set the chart title options.
 
+        Args:
+            options: A dictionary of chart title options.
+
+        Returns:
+            Nothing.
+
+        """
         name, name_formula = self._process_names(options.get('name'),
                                                  options.get('name_formula'))
 
@@ -215,22 +269,54 @@ class Chart(xmlwriter.XMLwriter):
         self.title_font = self._convert_font_args(options.get('name_font'))
 
     def set_legend(self, options):
-        # Set the properties of the chart legend.
+        """
+        Set the chart legend options.
 
+        Args:
+            options: A dictionary of chart legend options.
+
+        Returns:
+            Nothing.
+        """
         self.legend_position = options.get('position', 'right')
         self.legend_delete_series = options.get('delete_series')
 
     def set_plotarea(self, options):
-        # Set the properties of the chart plotarea.
+        """
+        Set the chart plot area options.
+
+        Args:
+            options: A dictionary of chart plot area options.
+
+        Returns:
+            Nothing.
+        """
         # Convert the user defined properties to internal properties.
         self.plotarea = self._get_area_properties(options)
 
     def set_chartarea(self, options):
-        # Set the properties of the chart chartarea.
+        """
+        Set the chart area options.
+
+        Args:
+            options: A dictionary of chart area options.
+
+        Returns:
+            Nothing.
+        """
         # Convert the user defined properties to internal properties.
         self.chartarea = self._get_area_properties(options)
 
     def set_style(self, style_id):
+        """
+        Set the chart style type.
+
+        Args:
+            style_id: An int representing the chart style.
+
+        Returns:
+            Nothing.
+        """
         # Set one of the 42 built-in Excel chart styles. The default is 2.
         if style_id is None:
             style_id = 2
@@ -241,7 +327,15 @@ class Chart(xmlwriter.XMLwriter):
         self.style_id = style_id
 
     def show_blanks_as(self, option):
-        # Set the option for displaying blank data in a chart.
+        """
+        Set the option for displaying blank data in a chart.
+
+        Args:
+            option: A string representing the display option.
+
+        Returns:
+            Nothing.
+        """
         if not option:
             return
 
@@ -258,10 +352,28 @@ class Chart(xmlwriter.XMLwriter):
         self.show_blanks = option
 
     def show_hidden_data(self):
-        # Display data in hidden rows or columns.
+        """
+        Display data on charts from hidden rows or columns.
+
+        Args:
+            option: A string representing the display option.
+
+        Returns:
+            Nothing.
+        """
         self.show_hidden = 1
 
     def set_size(self, options):
+        """
+        Set size or scale of the chart.
+
+        Args:
+            options: A dictionary of chart size options.
+
+        Returns:
+            Nothing.
+        """
+
         # Set dimensions or scale for the chart.
         self.width = options.get('width', self.width)
         self.height = options.get('height', self.height)
@@ -271,8 +383,16 @@ class Chart(xmlwriter.XMLwriter):
         self.x_offset = options.get('y_offset', 0)
 
     def set_table(self, options=None):
-        # Set properties for an axis data table.
+        """
+        Set properties for an axis data table.
 
+        Args:
+            options: A dictionary of axis table options.
+
+        Returns:
+            Nothing.
+
+        """
         if options is None:
             options = {}
 
@@ -285,8 +405,17 @@ class Chart(xmlwriter.XMLwriter):
 
         self.table = table
 
-        # Set properties for the chart up-down bars.
     def set_up_down_bars(self, options=None):
+        """
+        Set properties for the chart up-down bars.
+
+        Args:
+            options: A dictionary of options.
+
+        Returns:
+            Nothing.
+
+        """
         if options is None:
             options = {}
 
@@ -330,7 +459,16 @@ class Chart(xmlwriter.XMLwriter):
                              }
 
     def set_drop_lines(self, options=None):
-        # Set properties for the chart drop lines.
+        """
+        Set properties for the chart drop lines.
+
+        Args:
+            options: A dictionary of options.
+
+        Returns:
+            Nothing.
+
+        """
         if options is None:
             options = {}
 
@@ -340,7 +478,16 @@ class Chart(xmlwriter.XMLwriter):
         self.drop_lines = {'line': line, 'fill': fill}
 
     def set_high_low_lines(self, options=None):
-        # Set properties for the chart high-low lines.
+        """
+        Set properties for the chart high-low lines.
+
+        Args:
+            options: A dictionary of options.
+
+        Returns:
+            Nothing.
+
+        """
         if options is None:
             options = {}
 
@@ -862,11 +1009,11 @@ class Chart(xmlwriter.XMLwriter):
         id1 = '5%03d%04d' % (chart_id, axis_count)
         id2 = '5%03d%04d' % (chart_id, axis_count + 1)
 
-        if 'primary_axes' in args:
+        if args['primary_axes']:
             self.axis_ids.append(id1)
             self.axis_ids.append(id2)
 
-        if not 'primary_axes' in args:
+        if not args['primary_axes']:
             self.axis2_ids.append(id1)
             self.axis2_ids.append(id2)
 
@@ -1245,7 +1392,6 @@ class Chart(xmlwriter.XMLwriter):
         self._add_axis_ids(args)
 
         if args['primary_axes']:
-
             # Write the axis ids for the primary axes.
             self._write_axis_id(self.axis_ids[0])
             self._write_axis_id(self.axis_ids[1])
