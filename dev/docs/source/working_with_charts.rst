@@ -3,13 +3,37 @@
 Working with Charts
 ===================
 
-TODO
+TODO Add intro
+
+.. _chart_val_cat_axes:
+
+Value and Category Axes
+-----------------------
+
+Excel differentiates between a chart axis that is used for series
+**categories** and an axis that is used for series **values**.
+
+In the example above the X axis is the category axis and each of the values is
+evenly spaced. The Y axis (in this case) is the value axis and points are
+displayed according to their value.
+
+Since Excel treats the axes differently it also handles their formatting
+differently and exposes different properties for each.
+
+As such some of ``XlsxWriter`` axis properties can be set for a value axis,
+some can be set for a category axis and some properties can be set for both.
+
+For example the ``min`` and ``max`` properties can only be set for value axes
+and ``reverse`` can be set for both. The type of axis that a property applies
+to is shown in the ``set_x_axis()`` section of the documentation above.
+
+Some charts such as ``Scatter`` and ``Stock`` have two value axes.
 
 
 .. _chart_series_options:
 
 Chart Series Options
-====================
+--------------------
 
 This section details the following properties of ``add_series()`` in more
 detail::
@@ -22,8 +46,10 @@ detail::
     points
 
 
-Marker
-------
+.. _chart_series_option_marker:
+
+Chart series option: Marker
+---------------------------
 
 The marker format specifies the properties of the markers used to distinguish
 series on a chart. In general only Line and Scatter chart types and trendlines
@@ -90,9 +116,10 @@ Nested ``border`` and ``fill`` properties can also be set for a marker. See the
             },
         })
 
+.. _chart_series_option_trendline:
 
-Trendline
----------
+Chart series option: Trendline
+------------------------------
 
 A trendline can be added to a chart series to indicate trends in the data such
 as a moving average or a polynomial fit.
@@ -180,9 +207,10 @@ Several of these properties can be set in one go::
 Trendlines cannot be added to series in a stacked chart or pie chart, radar
 chart or (when implemented) to 3D, surface, or doughnut charts.
 
+.. _chart_series_option_error_bars:
 
-Error Bars
-----------
+Chart series option: Error Bars
+-------------------------------
 
 Error bars can be added to a chart series to indicate error bounds in the data.
 The error bars can be vertical ``y_error_bars`` (the most common type) or
@@ -241,8 +269,10 @@ are 1 (the default) or 0 (for no end cap)::
     })
 
 
-Data Labels
------------
+.. _chart_series_option_data_labels:
+
+Chart series option: Data Labels
+--------------------------------
 
 Data labels can be added to a chart series to indicate the values of the
 plotted data points.
@@ -310,8 +340,10 @@ appear if the data label is moved manually or if the data labels are very
 close and need to be adjusted automatically.
 
 
-Points
-------
+.. _chart_series_option_points:
+
+Chart series option: Points
+---------------------------
 
 In general formatting is applied to an entire series in a chart. However, it is
 occasionally required to format individual points in a series. In particular
@@ -354,7 +386,7 @@ pass ``undef`` values in the array ref::
 .. _chart_formatting:
 
 Chart Formatting
-================
+----------------
 
 The following chart formatting properties can be set for any chart object that
 they apply to (and that are supported by XlsxWriter) such as chart lines,
@@ -381,9 +413,10 @@ contain ``border`` and ``fill`` sub-properties::
         },
     })
 
+.. _chart_formatting_line:
 
-Line
-----
+Chart formatting: Line
+----------------------
 
 The line format is used to specify properties of line objects that appear in a
 chart such as a plotted line on a chart or a border.
@@ -449,9 +482,10 @@ More than one ``line`` property can be specified at a time::
         },
     })
 
+.. _chart_formatting_border:    
 
-Border
-------
+Chart formatting: Border
+------------------------
 
 The ``border`` property is a synonym for ``line``.
 
@@ -460,9 +494,10 @@ Bar and Column that have a border and fill style rather than a line style. In
 general chart objects with a ``border`` property will also have a fill
 property.
 
+.. _chart_formatting_fill:
 
-Fill
-----
+Chart formatting: Fill
+----------------------
 
 The fill format is used to specify filled areas of chart objects such as the
 interior of a column or the background of the chart itself.
@@ -503,7 +538,7 @@ which has the same properties as a ``line`` format::
 .. _chart_fonts:
 
 Chart Fonts
-===========
+-----------
 
 The following font properties can be set for any chart object that they apply
 to (and that are supported by XlsxWriter) such as chart titles, axis labels
@@ -514,27 +549,27 @@ object properties. See "FORMAT_METHODS" in XlsxWriter for more information::
 
 The following explains the available font properties::
 
-* ``name`` Set the font name::
+* ``name``: Set the font name::
 
     chart.set_x_axis(num_font, { name, 'Arial' })
 
-* ``size`` Set the font size::
+* ``size``: Set the font size::
 
     chart.set_x_axis(num_font, { name, 'Arial', size, 10 })
 
-* ``bold`` Set the font bold property, should be 0 or 1::
+* ``bold``: Set the font bold property, should be 0 or 1::
 
     chart.set_x_axis(num_font, { bold, 1 })
 
-* ``italic`` Set the font italic property, should be 0 or 1::
+* ``italic``: Set the font italic property, should be 0 or 1::
 
     chart.set_x_axis(num_font, { italic, 1 })
 
-* ``underline`` Set the font underline property, should be 0 or 1::
+* ``underline``: Set the font underline property, should be 0 or 1::
 
     chart.set_x_axis(num_font, { underline, 1 })
 
-* ``color`` Set the font color property. Can be a color index, a color name
+* ``color``: Set the font color property. Can be a color index, a color name
   or HTML style RGB colour::
 
     chart.set_x_axis(num_font, { color, 'red' })
@@ -569,65 +604,18 @@ Here is an example of Font formatting in a Chart program::
     })
 
 
-Worksheet Methods
-=================
+.. _chart_secondary_axes:
 
-In Excel a chartsheet (i.e, a chart that isn't embedded) shares properties with
-data worksheets such as tab selection, headers, footers, margins, and print
-properties.
-
-In XlsxWriter you can set chartsheet properties using the same methods that are
-used for Worksheet objects.
-
-The following Worksheet methods are also available through a non-embedded Chart
-object::
-
-    get_name()
-    activate()
-    select()
-    hide()
-    set_first_sheet()
-    protect()
-    set_zoom()
-    set_tab_color()
-
-    set_landscape()
-    set_portrait()
-    set_paper()
-    set_margins()
-    set_header()
-    set_footer()
-
-See XlsxWriter for a detailed explanation of these methods.
-
-
-.. _chart_val_cat_axes:
-
-Value and Category Axes
-=======================
-
-Excel differentiates between a chart axis that is used for series
-**categories** and an axis that is used for series **values**.
-
-In the example above the X axis is the category axis and each of the values is
-evenly spaced. The Y axis (in this case) is the value axis and points are
-displayed according to their value.
-
-Since Excel treats the axes differently it also handles their formatting
-differently and exposes different properties for each.
-
-As such some of ``XlsxWriter`` axis properties can be set for a value axis,
-some can be set for a category axis and some properties can be set for both.
-
-For example the ``min`` and ``max`` properties can only be set for value axes
-and ``reverse`` can be set for both. The type of axis that a property applies
-to is shown in the ``set_x_axis()`` section of the documentation above.
-
-Some charts such as ``Scatter`` and ``Stock`` have two value axes.
-
+Secondary Axes
+--------------
 
 TODO
-====
+
+
+
+
+Chart Limitations
+-----------------
 
 The chart feature in XlsxWriter is under active development. More chart types
 and features will be added in time.

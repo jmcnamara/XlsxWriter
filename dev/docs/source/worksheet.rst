@@ -924,6 +924,24 @@ to avoid BMP images since they aren't compressed. If used, BMP images must be
 
 See also :ref:`ex_insert_image`.
 
+worksheet.insert_chart()
+------------------------
+
+.. py:function:: insert_chart(row, col, chart[, options])
+
+   Write a string to a worksheet cell.
+
+   :param row:         The cell row (zero indexed).
+   :param col:         The cell column (zero indexed).
+   :param chart:       A chart object.
+   :param options:     Optional parameters to position and scale the chart.
+   :type  row:         int
+   :type  col:         int
+   :type  options:     dict
+
+TODO
+
+
 
 worksheet.data_validation()
 ---------------------------
