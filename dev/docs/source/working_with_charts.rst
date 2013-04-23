@@ -13,8 +13,11 @@ Value and Category Axes
 Excel differentiates between a chart axis that is used for series
 **categories** and an axis that is used for series **values**.
 
+.. image:: _static/chart_simple.png
+   :scale: 75 %
+
 In the example above the X axis is the category axis and each of the values is
-evenly spaced. The Y axis (in this case) is the value axis and points are
+evenly spaced. The Y axis (in this case) is the value axis and columns are
 displayed according to their value.
 
 Since Excel treats the axes differently it also handles their formatting
@@ -24,8 +27,7 @@ As such some of ``XlsxWriter`` axis properties can be set for a value axis,
 some can be set for a category axis and some properties can be set for both.
 
 For example the ``min`` and ``max`` properties can only be set for value axes
-and ``reverse`` can be set for both. The type of axis that a property applies
-to is shown in the ``set_x_axis()`` section of the documentation above.
+and ``reverse`` can be set for both.
 
 Some charts such as ``Scatter`` and ``Stock`` have two value axes.
 
@@ -35,8 +37,8 @@ Some charts such as ``Scatter`` and ``Stock`` have two value axes.
 Chart Series Options
 --------------------
 
-This section details the following properties of ``add_series()`` in more
-detail::
+This following sections outline the following options of the
+:func:`add_series()` in more detail::
 
     marker
     trendline
@@ -64,11 +66,14 @@ The following properties can be set for ``marker`` formats in a chart::
 
 The ``type`` property sets the type of marker that is used with a series::
 
-        chart.add_series({
-            'values': '=Sheet1!$B$1:$B$5',
-            'marker': {'type': 'diamond'},
-        })
+    chart.add_series({
+        'values': '=Sheet1!$B$1:$B$5',
+        'marker': {'type': 'diamond'},
+    })
 
+.. image:: _static/chart_marker1.png
+   :scale: 75 %
+   
 The following ``type`` properties can be set for ``marker`` formats in a chart.
 These are shown in the same order as in the Excel format dialog::
 
@@ -87,7 +92,7 @@ The ``automatic`` type is a special case which turns on a marker using the
 default marker style for the particular series number::
 
     chart.add_series({
-        'values': '=Sheet1!$B$2:$B$7',
+        'values': '=Sheet1!$B$1:$B$5',
         'marker': {'type': 'automatic'},
     })
 
@@ -97,24 +102,26 @@ fill cannot be set.
 The ``size`` property sets the size of the marker and is generally used in
 conjunction with ``type``::
 
-        chart.add_series({
-            'values': '=Sheet1!$B$1:$B$5',
-            'marker': {'type': 'diamond', 'size': 7},
-        })
-        
+    chart.add_series({
+        'values': '=Sheet1!$B$2:$B$7',
+        'marker': {'type': 'diamond', 'size': 7},
+    })
+
 Nested ``border`` and ``fill`` properties can also be set for a marker. See the
 "CHART FORMATTING" section below::
 
-        chart.add_series({
-            'categories': '=Sheet1!$A$1:$A$5',
-            'values': '=Sheet1!$B$1:$B$5',
-            'marker': {
-                'type': 'square',
-                'size': 5,
-                'line': {'color': 'yellow'},
-                'fill': {'color': 'red'},
-            },
-        })
+    chart.add_series({
+        'values': '=Sheet1!$B$1:$B$5',
+        'marker': {
+            'type': 'square',
+            'size': 8,
+            'border': {'color': 'black'},
+            'fill':   {'color': 'red'},
+        },
+    })
+
+.. image:: _static/chart_marker2.png
+   :scale: 75 %
 
 .. _chart_series_option_trendline:
 
@@ -136,8 +143,9 @@ The following properties can be set for trendlines in a chart series::
 
 The ``type`` property sets the type of trendline in the series::
 
-    chart.add_series({
-        values, '=Sheet1not B1:B5', trendline, { type, 'linear' },
+    chart1.add_series({
+        'values':    '=Sheet1!$C$2:$C$7',
+        'trendline': {'type': 'linear'},
     })
 
 The available ``trendline`` types are::
@@ -153,26 +161,40 @@ A ``polynomial`` trendline can also specify the ``order`` of the polynomial.
 The default value is 2::
 
     chart.add_series({
-        values, '=Sheet1!B1:B5', trendline,:
-            type, 'polynomial', order, 3,
+        'values': '=Sheet1!$B$2:$B$7',
+        'trendline': {
+            'type': 'polynomial',
+            'order': 3,
         },
     })
+
+.. image:: _static/chart_trendline1.png
+   :scale: 75 %
 
 A ``moving_average`` trendline can also specify the ``period`` of the moving
 average. The default value is 2::
 
     chart.add_series({
-        values, '=Sheet1!B1:B5', trendline,:
-            type, 'moving_average', period, 3,
+        'values': '=Sheet1!$B$1:$B$5',
+        'trendline': {
+            'type': 'moving_average',
+            'period': 2,
         },
     })
+
+
+.. image:: _static/chart_trendline2.png
+   :scale: 75 %
 
 The ``forward`` and ``backward`` properties set the forecast period of the
 trendline::
 
     chart.add_series({
-        values, '=Sheet1!B1:B5', trendline,:
-            type, 'linear', forward, 0.5, backward, 0.5,
+        'values': '=Sheet1!$B$1:$B$5',
+        'trendline': {
+            'type': 'polynomial',
+            'name': 'My trend name',
+            'order': 2,
         },
     })
 
@@ -182,27 +204,37 @@ displayed. This is usually a combination of the trendline type and the series
 name::
 
     chart.add_series({
-        values, '=Sheet1!B1:B5', trendline,:
-            type, 'linear', name, 'Interpolated trend',
+        'values': '=Sheet1!$B$1:$B$5',
+        'trendline': {
+            'type': 'polynomial',
+            'order': 2,
+            'forward': 0.5,
+            'backward': 0.5,
         },
     })
-
+    
 Several of these properties can be set in one go::
 
     chart.add_series({
-        values, '=Sheet1!B1:B5',
-        trendline,:
-            type, 'linear',
-            name, 'My trend name',
-            forward, 0.5,
-            backward, 0.5,
-            line,:
-                color, 'red',
-                width, 1,
-                dash_type, 'long_dash',
+        'categories': '=Sheet1!$A$1:$A$5',
+        'values': '=Sheet1!$B$1:$B$5',
+        'trendline': {
+            'type': 'polynomial',
+            'name': 'My trend name',
+            'order': 2,
+            'forward': 0.5,
+            'backward': 0.5,
+            'line': {
+                'color': 'red',
+                'width': 1,
+                'dash_type': 'long_dash',
             },
         },
     })
+
+
+.. image:: _static/chart_trendline3.png
+   :scale: 75 %
 
 Trendlines cannot be added to series in a stacked chart or pie chart, radar
 chart or (when implemented) to 3D, surface, or doughnut charts.
@@ -293,7 +325,8 @@ The ``category`` property turns on the *Category Name* data label for a series::
         values, '=Sheet1!B1:B5', data_labels, { category, 1 },
     })
 
-The ``series_name`` property turns on the *Series Name* data label for a series::
+The ``series_name`` property turns on the *Series Name* data label for a
+series::
 
     chart.add_series({
         values, '=Sheet1!B1:B5', data_labels, { series_name, 1 },
@@ -425,7 +458,9 @@ The following properties can be set for ``line`` formats in a chart::
 
     none color width dash_type
 
-The ``none`` property is uses to turn the ``line`` off (it is always on by default except in Scatter charts). This is useful if you wish to plot a series with markers but without a line::
+The ``none`` property is uses to turn the ``line`` off (it is always on by
+default except in Scatter charts). This is useful if you wish to plot a series
+with markers but without a line::
 
     chart.add_series({
         values, '=Sheet1!B1:B5', line, { none, 1 },
