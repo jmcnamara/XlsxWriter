@@ -3,31 +3,56 @@
 Working with Charts
 ===================
 
-TODO Add intro
+This section explains how to work with some of the options and features of
+:ref:`chart_class`.
+
+The majority of the examples in this section are based on a variation of the
+following program::
+
+    from xlsxwriter.workbook import Workbook
+
+    workbook = Workbook('chart_line.xlsx')
+    worksheet = workbook.add_worksheet()
+
+    # Add the worksheet data to be plotted.
+    data = [10, 40, 50, 20, 10, 50]
+    worksheet.write_column('A1', data)
+
+    # Create a new chart object.
+    chart = workbook.add_chart({'type': 'line'})
+
+    # Add a series to the chart.
+    chart.add_series({'values': '=Sheet1!$A$1:$A$6'})
+
+    # Insert the chart into the worksheet.
+    worksheet.insert_chart('C1', chart)
+
+    workbook.close()
+
+.. image:: _static/chart_working.png
+
 
 .. _chart_val_cat_axes:
 
 Value and Category Axes
 -----------------------
 
-Excel differentiates between a chart axis that is used for series
-**categories** and an axis that is used for series **values**.
+A key point when working with Excel charts is to understand how it
+differentiates between a chart axis that is used for series categories and a
+chart axis that is used for series values.
 
-.. image:: _static/chart_simple.png
-   :scale: 75 %
+In the example above the X axis is the **category** axis and each of the values
+is evenly spaced and sequential. The Y axis is the **value** axis and points
+are displayed according to their value.
 
-In the example above the X axis is the category axis and each of the values is
-evenly spaced. The Y axis (in this case) is the value axis and columns are
-displayed according to their value.
-
-Since Excel treats the axes differently it also handles their formatting
-differently and exposes different properties for each.
+Excel treats the the two types of axis differently and exposes different
+properties for each.
 
 As such some of ``XlsxWriter`` axis properties can be set for a value axis,
 some can be set for a category axis and some properties can be set for both.
 
 For example the ``min`` and ``max`` properties can only be set for value axes
-and ``reverse`` can be set for both.
+and ``reverse`` can be set for either category or value axes.
 
 Some charts such as ``Scatter`` and ``Stock`` have two value axes.
 
@@ -37,8 +62,8 @@ Some charts such as ``Scatter`` and ``Stock`` have two value axes.
 Chart Series Options
 --------------------
 
-This following sections outline the following options of the
-:func:`add_series()` in more detail::
+This following sections detail the more complex options of the
+:func:`add_series()` Chart method::
 
     marker
     trendline
@@ -67,7 +92,7 @@ The following properties can be set for ``marker`` formats in a chart::
 The ``type`` property sets the type of marker that is used with a series::
 
     chart.add_series({
-        'values': '=Sheet1!$B$1:$B$5',
+        'values': '=Sheet1!$A$1:$A$6',
         'marker': {'type': 'diamond'},
     })
 
@@ -92,7 +117,7 @@ The ``automatic`` type is a special case which turns on a marker using the
 default marker style for the particular series number::
 
     chart.add_series({
-        'values': '=Sheet1!$B$1:$B$5',
+        'values': '=Sheet1!$A$1:$A$6',
         'marker': {'type': 'automatic'},
     })
 
@@ -103,7 +128,7 @@ The ``size`` property sets the size of the marker and is generally used in
 conjunction with ``type``::
 
     chart.add_series({
-        'values': '=Sheet1!$B$2:$B$7',
+        'values': '=Sheet1!$A$1:$A$6',
         'marker': {'type': 'diamond', 'size': 7},
     })
 
@@ -111,7 +136,7 @@ Nested ``border`` and ``fill`` properties can also be set for a marker. See the
 "CHART FORMATTING" section below::
 
     chart.add_series({
-        'values': '=Sheet1!$B$1:$B$5',
+        'values': '=Sheet1!$A$1:$A$6',
         'marker': {
             'type': 'square',
             'size': 8,
@@ -143,8 +168,8 @@ The following properties can be set for trendlines in a chart series::
 
 The ``type`` property sets the type of trendline in the series::
 
-    chart1.add_series({
-        'values':    '=Sheet1!$C$2:$C$7',
+    chart.add_series({
+        'values':    '=Sheet1!$A$1:$A$6',
         'trendline': {'type': 'linear'},
     })
 
@@ -161,7 +186,7 @@ A ``polynomial`` trendline can also specify the ``order`` of the polynomial.
 The default value is 2::
 
     chart.add_series({
-        'values': '=Sheet1!$B$2:$B$7',
+        'values': '=Sheet1!$A$1:$A$6',
         'trendline': {
             'type': 'polynomial',
             'order': 3,
@@ -175,7 +200,7 @@ A ``moving_average`` trendline can also specify the ``period`` of the moving
 average. The default value is 2::
 
     chart.add_series({
-        'values': '=Sheet1!$B$1:$B$5',
+        'values': '=Sheet1!$A$1:$A$6',
         'trendline': {
             'type': 'moving_average',
             'period': 2,
@@ -190,7 +215,7 @@ The ``forward`` and ``backward`` properties set the forecast period of the
 trendline::
 
     chart.add_series({
-        'values': '=Sheet1!$B$1:$B$5',
+        'values': '=Sheet1!$A$1:$A$6',
         'trendline': {
             'type': 'polynomial',
             'name': 'My trend name',
@@ -204,7 +229,7 @@ displayed. This is usually a combination of the trendline type and the series
 name::
 
     chart.add_series({
-        'values': '=Sheet1!$B$1:$B$5',
+        'values': '=Sheet1!$A$1:$A$6',
         'trendline': {
             'type': 'polynomial',
             'order': 2,
@@ -216,8 +241,7 @@ name::
 Several of these properties can be set in one go::
 
     chart.add_series({
-        'categories': '=Sheet1!$A$1:$A$5',
-        'values': '=Sheet1!$B$1:$B$5',
+        'values': '=Sheet1!$A$1:$A$6',
         'trendline': {
             'type': 'polynomial',
             'name': 'My trend name',
@@ -232,12 +256,12 @@ Several of these properties can be set in one go::
         },
     })
 
-
 .. image:: _static/chart_trendline3.png
    :scale: 75 %
 
 Trendlines cannot be added to series in a stacked chart or pie chart, radar
 chart or (when implemented) to 3D, surface, or doughnut charts.
+
 
 .. _chart_series_option_error_bars:
 
@@ -250,15 +274,21 @@ horizontal ``x_error_bars`` (for Bar and Scatter charts only).
 
 The following properties can be set for error bars in a chart series::
 
-    type value (for all types except standard error) direction end_style
+    type 
+    value     (for all types except standard error) 
+    direction 
+    end_style
     line
 
 The ``type`` property sets the type of error bars in the series::
 
     chart.add_series({
-        values, '=Sheet1!B1:B5', y_error_bars, { type,
-        'standard_error' },
+        'values': '=Sheet1!$A$1:$A$6',
+        'y_error_bars': {'type': 'standard_error'},  
     })
+
+.. image:: _static/chart_error_bars1.png
+   :scale: 75 %
 
 The available error bars types are available::
 
@@ -273,32 +303,36 @@ All error bar types, except for ``standard_error`` must also have a value
 associated with it for the error bounds::
 
     chart.add_series({
-        values, '=Sheet1!B1:B5',
-        y_error_bars,:
-            type, 'percentage',
-            value, 5,
+        'values': '=Sheet1!$A$1:$A$6',
+        'y_error_bars': {
+            'type': 'percentage',
+            'value': 5,
         },
     })
+
 
 The ``direction`` property sets the direction of the error bars. It should be
 one of the following::
 
-    plus # Positive direction only.
-    minus # Negative direction only.
-    both # Plus and minus directions, The default.
+    plus   # Positive direction only.
+    minus  # Negative direction only.
+    both   # Plus and minus directions, The default.
 
 The ``end_style`` property sets the style of the error bar end cap. The options
 are 1 (the default) or 0 (for no end cap)::
 
     chart.add_series({
-        values, '=Sheet1!B1:B5',
-        y_error_bars,:
-            type, 'fixed',
-            value, 2,
-            end_style, 0,
-            direction, 'minus'
+        'values': '=Sheet1!$A$1:$A$6',
+        'y_error_bars': {
+            'type': 'fixed',
+            'value': 2,
+            'end_style': 0,
+            'direction': 'minus'
         },
     })
+
+.. image:: _static/chart_error_bars2.png
+   :scale: 75 %
 
 
 .. _chart_series_option_data_labels:
@@ -311,32 +345,43 @@ plotted data points.
 
 The following properties can be set for ``data_labels`` formats in a chart::
 
-    value category series_name position leader_lines percentage
+    value 
+    category 
+    series_name 
+    position 
+    leader_lines 
+    percentage
 
 The ``value`` property turns on the *Value* data label for a series::
 
     chart.add_series({
-        values, '=Sheet1!B1:B5', data_labels, { value, 1 },
+        'values': '=Sheet1!$A$1:$A$6',
+        'data_labels': {'value': True}, 
     })
+
+.. image:: _static/chart_data_labels1.png
+   :scale: 75 %
 
 The ``category`` property turns on the *Category Name* data label for a series::
 
     chart.add_series({
-        values, '=Sheet1!B1:B5', data_labels, { category, 1 },
+        'values': '=Sheet1!$A$1:$A$6',
+        'data_labels': {'category': True}, 
     })
 
 The ``series_name`` property turns on the *Series Name* data label for a
 series::
 
     chart.add_series({
-        values, '=Sheet1!B1:B5', data_labels, { series_name, 1 },
+        'values': '=Sheet1!$A$1:$A$6',
+        'data_labels': {'series_name': True}, 
     })
 
 The ``position`` property is used to position the data label for a series::
 
     chart.add_series({
-        values, '=Sheet1!B1:B5', data_labels, { value, 1, position,
-        'center' },
+        'values': '=Sheet1!$A$1:$A$6',
+        'data_labels': {'series_name': True, 'position': 'center'}, 
     })
 
 Valid positions are::
@@ -346,31 +391,34 @@ Valid positions are::
     left
     top
     bottom
-    above # Same as top
-    below # Same as bottom
-    inside_end # Pie chart mainly.
-    outside_end # Pie chart mainly.
-    best_fit # Pie chart mainly.
+    above        # Same as top
+    below        # Same as bottom
+    inside_end   # Pie chart mainly.
+    outside_end  # Pie chart mainly.
+    best_fit     # Pie chart mainly.
 
 The ``percentage`` property is used to turn on the display of data labels as a
 *Percentage* for a series. It is mainly used for pie charts::
 
     chart.add_series({
-        values, '=Sheet1!B1:B5', data_labels, { percentage, 1 },
+        'values': '=Sheet1!$A$1:$A$6',
+        'data_labels': {'percentage': True}, 
     })
 
 The ``leader_lines`` property is used to turn on *Leader Lines* for the data
 label for a series. It is mainly used for pie charts::
 
     chart.add_series({
-        values, '=Sheet1!B1:B5', data_labels, { value, 1,
-        leader_lines, 1 },
+        'values': '=Sheet1!$A$1:$A$6',
+        'data_labels': {'value': True, 'leader_lines': True}, 
     })
 
-Note: Even when leader lines are turned on they aren't automatically visible in
-Excel or XlsxWriter. Due to an Excel limitation (or design) leader lines only
-appear if the data label is moved manually or if the data labels are very
-close and need to be adjusted automatically.
+.. Note::
+  Even when leader lines are turned on they aren't automatically visible in
+  Excel or XlsxWriter. Due to an Excel limitation (or design) leader lines
+  only appear if the data label is moved manually or if the data labels are
+  very close and need to be adjusted automatically.
+
 
 
 .. _chart_series_option_points:
@@ -383,38 +431,60 @@ occasionally required to format individual points in a series. In particular
 this is required for Pie charts where each segment is represented by a point.
 
 In these cases it is possible to use the ``points`` property of
-``add_series()``::
+:func:`add_series()`::
+
+    from xlsxwriter.workbook import Workbook
+
+    workbook = Workbook('chart_pie.xlsx')
+
+    worksheet = workbook.add_worksheet()
+    chart = workbook.add_chart({'type': 'pie'})
+
+    data = [
+        ['Pass', 'Fail'],
+        [90, 10],
+    ]
+
+    worksheet.write_column('A1', data[0])
+    worksheet.write_column('B1', data[1])
 
     chart.add_series({
-        values, '=Sheet1!A1:A3',
-        points, [
-            { fill, { color, '#FF0000' } },
-            { fill, { color, '#CC0000' } },
-            { fill, { color, '#990000' } },
+        'categories': '=Sheet1!$A$1:$A$2',
+        'values':     '=Sheet1!$B$1:$B$2',
+        'points': [
+            {'fill': {'color': 'green'}},
+            {'fill': {'color': 'red'}},
         ],
     })
 
-The ``points`` property takes an array ref of format options (see the "CHART
-FORMATTING" section below). To assign default properties to points in a series
-pass ``undef`` values in the array ref::
+    worksheet.insert_chart('C3', chart)
+
+    workbook.close()
+
+.. image:: _static/chart_points1.png
+   :scale: 75 %
+
+The ``points`` property takes a list of format options (see the "Chart
+Formatting" section below). To assign default properties to points in a series
+pass ``None`` values in the array ref::
 
     # Format point 3 of 3 only.
     chart.add_series({
-        values, '=Sheet1!A1:A3',
-        points, [
+        'values': '=Sheet1!A1:A3',
+        'points': [
             None,
             None,
-            { fill, { color, '#990000' } },
+            {'fill': {'color': '#990000'}},
         ],
     })
 
-    # Format the first point only. chart.add_series({
-        values, '=Sheet1!A1:A3', points, [ { fill, { color,
-        '#FF0000' } } ],
+    # Format point 1 of 3 only.
+    chart.add_series({
+        'values': '=Sheet1!A1:A3',
+        'points': [
+            {'fill': {'color': '#990000'}},
+        ],
     })
-
-
-
 
 .. _chart_formatting:
 
@@ -446,6 +516,7 @@ contain ``border`` and ``fill`` sub-properties::
         },
     })
 
+
 .. _chart_formatting_line:
 
 Chart formatting: Line
@@ -456,7 +527,10 @@ chart such as a plotted line on a chart or a border.
 
 The following properties can be set for ``line`` formats in a chart::
 
-    none color width dash_type
+    none 
+    color 
+    width 
+    dash_type
 
 The ``none`` property is uses to turn the ``line`` off (it is always on by
 default except in Scatter charts). This is useful if you wish to plot a series
@@ -580,9 +654,14 @@ to (and that are supported by XlsxWriter) such as chart titles, axis labels
 and axis numbering. They correspond to the equivalent Worksheet cell Format
 object properties. See "FORMAT_METHODS" in XlsxWriter for more information::
 
-    name size bold italic underline color
+    name 
+    size 
+    bold 
+    italic 
+    underline 
+    color
 
-The following explains the available font properties::
+The following explains the available font properties:
 
 * ``name``: Set the font name::
 

@@ -40,9 +40,9 @@ The constructor options are:
 
        workbook = Workbook(filename, {'constant_memory': True})
 
-  Note, in this mode  a row of data is written and then discarded when a
-  cell in a new row is added via one of the worksheet ``write_()`` methods.
-  As such data should be written in sequential row order once this mode is on.
+  Note, in this mode  a row of data is written and then discarded when a cell
+  in a new row is added via one of the worksheet ``write_()`` methods. As such
+  data should be written in sequential row order once this mode is on.
 
   See :ref:`memory_perf` for more details.
 
@@ -104,9 +104,8 @@ Excel convention will be followed, i.e. Sheet1, Sheet2, etc.::
 .. image:: _static/workbook02.png
 
 The worksheet name must be a valid Excel worksheet name, i.e. it cannot contain
-any of the characters ``' [ ] : * ? / \ '`` and it must be less than 32
-characters. In addition, you cannot use the same, case insensitive,
-``sheetname`` for more than one worksheet.
+any of the characters ``' [ ] : * ? / \
+'`` and it must be less than 32 characters. In addition, you cannot use the same, case insensitive, ``sheetname`` for more than one worksheet.
 
 workbook.add_format()
 ---------------------

@@ -1,4 +1,4 @@
-.. chart:
+.. _chart_class:
 
 The Chart Class
 ===============
