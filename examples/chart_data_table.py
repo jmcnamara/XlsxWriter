@@ -25,7 +25,10 @@ worksheet.write_column('B2', data[1])
 worksheet.write_column('C2', data[2])
 
 
+#######################################################################
+#
 # Create a column chart with a data table.
+#
 chart1 = workbook.add_chart({'type': 'column'})
 
 # Configure the first series.
@@ -54,8 +57,9 @@ chart1.set_table()
 # Insert the chart into the worksheet (with an offset).
 worksheet.insert_chart('D2', chart1, {'x_offset': 25, 'y_offset': 10})
 
+#######################################################################
 #
-# Create a second chart.
+# Create a column chart with a data table and legend keys.
 #
 chart2 = workbook.add_chart({'type': 'column'})
 
@@ -81,7 +85,7 @@ chart2.set_y_axis({'name': 'Sample length (mm)'})
 # Set a data table on the X-Axis with the legend keys shown.
 chart2.set_table({'show_keys': True})
 
-# Hide the chart legend since the keys are show on the data table.
+# Hide the chart legend since the keys are shown on the data table.
 chart2.set_legend({'position': 'none'})
 
 # Insert the chart into the worksheet (with an offset).

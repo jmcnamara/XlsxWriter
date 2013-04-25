@@ -95,6 +95,11 @@ XlsxWriter supports the following features in version |version|:
 .. toctree::
    :maxdepth: 1
 
+   chart_examples.rst
+
+.. toctree::
+   :maxdepth: 1
+
    excel_writer_xlsx.rst
    alternatives.rst
    bugs.rst

@@ -27,6 +27,7 @@ Contents
    working_with_outlines.rst
    working_with_memory.rst
    examples.rst
+   chart_examples.rst
    excel_writer_xlsx.rst
    alternatives.rst
    bugs.rst

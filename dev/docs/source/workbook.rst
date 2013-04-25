@@ -129,10 +129,16 @@ See the :ref:`format` and :ref:`working_with_formats` sections for more details
 about Format properties and how to set them.
 
 
-workbook.add_format()
----------------------
+workbook.add_chart()
+--------------------
+
+.. py:function:: add_chart()
+ 
+   Create a chart object that can be added to a worksheet.  
 
 TODO.
+
+
 
 workbook.close()
 ----------------

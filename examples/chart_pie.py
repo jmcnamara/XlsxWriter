@@ -28,7 +28,10 @@ worksheet.write_row('A1', headings, bold)
 worksheet.write_column('A2', data[0])
 worksheet.write_column('B2', data[1])
 
+#######################################################################
+#
 # Create a new chart object.
+#
 chart1 = workbook.add_chart({'type': 'pie'})
 
 # Configure the series. Note the use of the list syntax to define ranges:
@@ -48,9 +51,11 @@ chart1.set_style(10)
 # Insert the chart into the worksheet (with an offset).
 worksheet.insert_chart('C2', chart1, {'x_offset': 25, 'y_offset': 10})
 
+#######################################################################
 #
 # Create a Pie chart with user defined segment colors.
 #
+
 # Create an example Pie chart like above.
 chart2 = workbook.add_chart({'type': 'pie', 'embedded': 1})
 

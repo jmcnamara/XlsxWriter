@@ -1,6 +1,6 @@
 #######################################################################
 #
-# An example of creating a Excel Column charts with Python and XlsxWriter.
+# An example of creating Excel Column charts with Python and XlsxWriter.
 #
 # Copyright 2013, John McNamara, jmcnamara@cpan.org
 #
@@ -23,7 +23,10 @@ worksheet.write_column('A2', data[0])
 worksheet.write_column('B2', data[1])
 worksheet.write_column('C2', data[2])
 
-# Create a new chart object. In this case an embedded chart.
+#######################################################################
+#
+# Create a new column chart.
+#
 chart1 = workbook.add_chart({'type': 'column'})
 
 # Configure the first series.
@@ -33,7 +36,7 @@ chart1.add_series({
     'values':     '=Sheet1!$B$2:$B$7',
 })
 
-# Configure second series. Note use of alternative syntax to define ranges.
+# Configure a second series. Note use of alternative syntax to define ranges.
 # List is [ sheet_name, first_row, first_col, last_row, last_col ].
 chart1.add_series({
     'name':       '=Sheet1!$C$1',
@@ -46,14 +49,15 @@ chart1.set_title ({'name': 'Results of sample analysis'})
 chart1.set_x_axis({'name': 'Test number'})
 chart1.set_y_axis({'name': 'Sample length (mm)'})
 
-# Set an Excel chart style. Blue colors with white outline and shadow.
+# Set an Excel chart style.
 chart1.set_style(11)
 
 # Insert the chart into the worksheet (with an offset).
 worksheet.insert_chart('D2', chart1, {'x_offset': 25, 'y_offset': 10})
 
+#######################################################################
 #
-# Create a stacked chart sub-type
+# Create a stacked chart sub-type.
 #
 chart2 = workbook.add_chart({'type': 'column', 'subtype': 'stacked'})
 
@@ -76,14 +80,15 @@ chart2.set_title ({'name': 'Stacked Chart'})
 chart2.set_x_axis({'name': 'Test number'})
 chart2.set_y_axis({'name': 'Sample length (mm)'})
 
-# Set an Excel chart style. Blue colors with white outline and shadow.
+# Set an Excel chart style.
 chart2.set_style(12)
 
 # Insert the chart into the worksheet (with an offset).
 worksheet.insert_chart('D18', chart2, {'x_offset': 25, 'y_offset': 10})
 
+#######################################################################
 #
-# Create a percent stacked chart sub-type
+# Create a percentage stacked chart sub-type.
 #
 chart3 = workbook.add_chart({'type': 'column', 'subtype': 'percent_stacked'})
 
@@ -106,7 +111,7 @@ chart3.set_title ({'name': 'Percent Stacked Chart'})
 chart3.set_x_axis({'name': 'Test number'})
 chart3.set_y_axis({'name': 'Sample length (mm)'})
 
-# Set an Excel chart style. Blue colors with white outline and shadow.
+# Set an Excel chart style.
 chart3.set_style(13)
 
 # Insert the chart into the worksheet (with an offset).

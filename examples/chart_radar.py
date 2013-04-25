@@ -23,7 +23,10 @@ worksheet.write_column('A2', data[0])
 worksheet.write_column('B2', data[1])
 worksheet.write_column('C2', data[2])
 
-# Create a new chart object. In this case an embedded chart.
+#######################################################################
+#
+# Create a new radar chart.
+#
 chart1 = workbook.add_chart({'type': 'radar'})
 
 # Configure the first series.
@@ -46,14 +49,15 @@ chart1.set_title ({'name': 'Results of sample analysis'})
 chart1.set_x_axis({'name': 'Test number'})
 chart1.set_y_axis({'name': 'Sample length (mm)'})
 
-# Set an Excel chart style. Blue colors with white outline and shadow.
+# Set an Excel chart style.
 chart1.set_style(11)
 
 # Insert the chart into the worksheet (with an offset).
 worksheet.insert_chart('D2', chart1, {'x_offset': 25, 'y_offset': 10})
 
+#######################################################################
 #
-# Create a with_markers chart sub-type
+# Create a radar chart with markers chart sub-type.
 #
 chart2 = workbook.add_chart({'type': 'radar', 'subtype': 'with_markers'})
 
@@ -72,18 +76,19 @@ chart2.add_series({
 })
 
 # Add a chart title and some axis labels.
-chart2.set_title ({'name': 'With Markers Chart'})
+chart2.set_title ({'name': 'Radar Chart With Markers'})
 chart2.set_x_axis({'name': 'Test number'})
 chart2.set_y_axis({'name': 'Sample length (mm)'})
 
-# Set an Excel chart style. Blue colors with white outline and shadow.
+# Set an Excel chart style.
 chart2.set_style(12)
 
 # Insert the chart into the worksheet (with an offset).
 worksheet.insert_chart('D18', chart2, {'x_offset': 25, 'y_offset': 10})
 
+#######################################################################
 #
-# Create a filled chart sub-type
+# Create a filled radar chart sub-type.
 #
 chart3 = workbook.add_chart({'type': 'radar', 'subtype': 'filled'})
 
@@ -102,11 +107,11 @@ chart3.add_series({
 })
 
 # Add a chart title and some axis labels.
-chart3.set_title ({'name': 'Filled Chart'})
+chart3.set_title ({'name': 'Filled Radar Chart'})
 chart3.set_x_axis({'name': 'Test number'})
 chart3.set_y_axis({'name': 'Sample length (mm)'})
 
-# Set an Excel chart style. Blue colors with white outline and shadow.
+# Set an Excel chart style.
 chart3.set_style(13)
 
 # Insert the chart into the worksheet (with an offset).

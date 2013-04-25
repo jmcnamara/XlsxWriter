@@ -24,7 +24,10 @@ worksheet.write_column('B2', data[1])
 worksheet.write_column('C2', data[2])
 
 
-# Create a new chart object. In this case an embedded chart.
+#######################################################################
+#
+# Create a new scatter chart.
+#
 chart1 = workbook.add_chart({'type': 'scatter'})
 
 # Configure the first series.
@@ -47,12 +50,13 @@ chart1.set_title ({'name': 'Results of sample analysis'})
 chart1.set_x_axis({'name': 'Test number'})
 chart1.set_y_axis({'name': 'Sample length (mm)'})
 
-# Set an Excel chart style. Blue colors with white outline and shadow.
+# Set an Excel chart style.
 chart1.set_style(11)
 
 # Insert the chart into the worksheet (with an offset).
 worksheet.insert_chart('D2', chart1, {'x_offset': 25, 'y_offset': 10})
 
+#######################################################################
 #
 # Create a scatter chart sub-type with straight lines and markers.
 #
@@ -78,12 +82,13 @@ chart2.set_title ({'name': 'Straight line with markers'})
 chart2.set_x_axis({'name': 'Test number'})
 chart2.set_y_axis({'name': 'Sample length (mm)'})
 
-# Set an Excel chart style. Blue colors with white outline and shadow.
+# Set an Excel chart style.
 chart2.set_style(12)
 
 # Insert the chart into the worksheet (with an offset).
 worksheet.insert_chart('D18', chart2, {'x_offset': 25, 'y_offset': 10})
 
+#######################################################################
 #
 # Create a scatter chart sub-type with straight lines and no markers.
 #
@@ -109,12 +114,13 @@ chart3.set_title ({'name': 'Straight line'})
 chart3.set_x_axis({'name': 'Test number'})
 chart3.set_y_axis({'name': 'Sample length (mm)'})
 
-# Set an Excel chart style. Blue colors with white outline and shadow.
+# Set an Excel chart style.
 chart3.set_style(13)
 
 # Insert the chart into the worksheet (with an offset).
 worksheet.insert_chart('D34', chart3, {'x_offset': 25, 'y_offset': 10})
 
+#######################################################################
 #
 # Create a scatter chart sub-type with smooth lines and markers.
 #
@@ -140,12 +146,13 @@ chart4.set_title ({'name': 'Smooth line with markers'})
 chart4.set_x_axis({'name': 'Test number'})
 chart4.set_y_axis({'name': 'Sample length (mm)'})
 
-# Set an Excel chart style. Blue colors with white outline and shadow.
+# Set an Excel chart style.
 chart4.set_style(14)
 
 # Insert the chart into the worksheet (with an offset).
 worksheet.insert_chart('D51', chart4, {'x_offset': 25, 'y_offset': 10})
 
+#######################################################################
 #
 # Create a scatter chart sub-type with smooth lines and no markers.
 #
@@ -171,7 +178,7 @@ chart5.set_title ({'name': 'Smooth line'})
 chart5.set_x_axis({'name': 'Test number'})
 chart5.set_y_axis({'name': 'Sample length (mm)'})
 
-# Set an Excel chart style. Blue colors with white outline and shadow.
+# Set an Excel chart style.
 chart5.set_style(15)
 
 # Insert the chart into the worksheet (with an offset).
