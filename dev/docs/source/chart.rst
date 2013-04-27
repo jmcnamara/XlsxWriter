@@ -20,18 +20,18 @@ It is then inserted into a worksheet as an embedded chart using the
 
 .. Note::
    Chart sheets, i.e, charts that occupy an entire worksheet in a workbook
-   are note yet supported. They will be added in the next 1-2 releases.
+   are not supported yet. They will be added in the next 1-2 releases.
 
 The following is a small working example or adding an embedded chart::
 
     from xlsxwriter.workbook import Workbook
-    
+
     workbook = Workbook('chart.xlsx')
     worksheet = workbook.add_worksheet()
-    
+
     # Create a new Chart object.
     chart = workbook.add_chart({'type': 'column'})
-    
+
     # Write some data to add to plot on the chart.
     data = [
         [1, 2, 3, 4, 5],
@@ -42,15 +42,15 @@ The following is a small working example or adding an embedded chart::
     worksheet.write_column('A1', data[0])
     worksheet.write_column('B1', data[1])
     worksheet.write_column('C1', data[2])
-    
+
     # Configure the chart. In simplest case we add one or more data series.
     chart.add_series({'values': '=Sheet1!$A$1:$A$5'})
     chart.add_series({'values': '=Sheet1!$B$1:$B$5'})
     chart.add_series({'values': '=Sheet1!$C$1:$C$5'})
-    
+
     # Insert the chart into the worksheet.
     worksheet.insert_chart('A7', chart)
-    
+
     workbook.close()
 
 .. image:: _static/chart_simple.png
@@ -136,7 +136,7 @@ properties for a series::
         'categories': ['Sheet1', 0, 0, 4, 0],
         'values':     ['Sheet1', 0, 1, 4, 1],
         'line':       {'color': 'red'},
-    })   
+    })
 
 As shown above the ``categories`` and ``values`` can take either a range
 formula such as ``=Sheet1!$A$2:$A$7`` or, more usefully when generating the
@@ -289,9 +289,9 @@ the axis types.
 
 * ``num_format``: Set the number format for the axis. (Applicable to category
   and value axes)::
-  
-    chart.set_x_axis({'num_format': '#,##0.00'})  
-    chart.set_y_axis({'num_format': '0.00%'})  
+
+    chart.set_x_axis({'num_format': '#,##0.00'})
+    chart.set_y_axis({'num_format': '0.00%'})
 
   The number format is similar to the Worksheet Cell Format ``num_format``
   apart from the fact that a format index cannot be used. An explicit format
@@ -453,7 +453,7 @@ The default properties for this axis are::
 chart.set_size()
 ----------------
 
-.. py:function:: add_series(options)
+.. py:function:: set_size(options)
 
    Set the size or scale of the chart.
 
@@ -796,3 +796,5 @@ Display data in hidden rows or columns on the chart::
 
     chart.show_hidden_data()
 
+
+See also :ref:`working_with_charts` and :ref:`chart_examples`.

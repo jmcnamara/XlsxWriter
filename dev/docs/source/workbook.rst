@@ -132,12 +132,50 @@ about Format properties and how to set them.
 workbook.add_chart()
 --------------------
 
-.. py:function:: add_chart()
- 
-   Create a chart object that can be added to a worksheet.  
+.. py:function:: add_chart(options)
 
-TODO.
+   Create a chart object that can be added to a worksheet.
 
+   :param dictionary options: An dictionary of chart type options.
+   :rtype: A :ref:`Chart <chart_class>` object.
+
+This method is use to create a new chart object that can be inserted into a
+worksheet via the :func:`insert_chart()` Worksheet method::
+
+    chart = workbook.add_chart({'type': 'column'})
+
+The properties that can be set are::
+
+    type    (required)
+    subtype (optional)
+
+* ``type``
+
+  This is a required parameter. It defines the type of chart that will be
+  created::
+
+    chart = workbook.add_chart({'type': 'line'})
+
+  The available types are::
+
+    area
+    bar
+    column
+    line
+    pie
+    radar
+    scatter
+    stock
+
+* ``subtype``
+
+  Used to define a chart subtype where available::
+
+    workbook.add_chart({'type': 'bar', 'subtype': 'stacked'})
+
+See the :ref:`chart_class` for a list of available chart subtypes.
+
+See also :ref:`working_with_charts` and :ref:`chart_examples`.
 
 
 workbook.close()

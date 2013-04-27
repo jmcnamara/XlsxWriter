@@ -1,3 +1,5 @@
+.. _chart_examples:
+
 Chart Examples
 ==============
 

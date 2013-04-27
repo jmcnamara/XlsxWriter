@@ -163,7 +163,7 @@ class Workbook(xmlwriter.XMLwriter):
         Create a chart object.
 
         Args:
-            options: The chart options.
+            options: The chart type and subtype options.
 
         Returns:
             Reference to a Chart object.

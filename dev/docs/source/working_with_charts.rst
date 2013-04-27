@@ -34,8 +34,8 @@ following program::
 
 .. _chart_val_cat_axes:
 
-Value and Category Axes
------------------------
+Chart Value and Category Axes
+-----------------------------
 
 A key point when working with Excel charts is to understand how it
 differentiates between a chart axis that is used for series categories and a
@@ -84,9 +84,9 @@ use markers.
 
 The following properties can be set for ``marker`` formats in a chart::
 
-    type 
-    size 
-    border 
+    type
+    size
+    border
     fill
 
 The ``type`` property sets the type of marker that is used with a series::
@@ -98,18 +98,18 @@ The ``type`` property sets the type of marker that is used with a series::
 
 .. image:: _static/chart_marker1.png
    :scale: 75 %
-   
+
 The following ``type`` properties can be set for ``marker`` formats in a chart.
 These are shown in the same order as in the Excel format dialog::
 
-    automatic 
-    none 
-    square 
-    diamond 
-    triangle 
-    x 
-    star 
-    short_dash 
+    automatic
+    none
+    square
+    diamond
+    triangle
+    x
+    star
+    short_dash
     long_dash
     circle plus
 
@@ -132,8 +132,7 @@ conjunction with ``type``::
         'marker': {'type': 'diamond', 'size': 7},
     })
 
-Nested ``border`` and ``fill`` properties can also be set for a marker. See the
-"CHART FORMATTING" section below::
+Nested ``border`` and ``fill`` properties can also be set for a marker::
 
     chart.add_series({
         'values': '=Sheet1!$A$1:$A$6',
@@ -158,12 +157,12 @@ as a moving average or a polynomial fit.
 
 The following properties can be set for trendlines in a chart series::
 
-    type 
-    order      (for polynomial trends) 
-    period     (for moving average) 
-    forward    (for all except moving average) 
+    type
+    order      (for polynomial trends)
+    period     (for moving average)
+    forward    (for all except moving average)
     backward   (for all except moving average)
-    name 
+    name
     line
 
 The ``type`` property sets the type of trendline in the series::
@@ -237,7 +236,7 @@ name::
             'backward': 0.5,
         },
     })
-    
+
 Several of these properties can be set in one go::
 
     chart.add_series({
@@ -274,17 +273,17 @@ horizontal ``x_error_bars`` (for Bar and Scatter charts only).
 
 The following properties can be set for error bars in a chart series::
 
-    type 
-    value     (for all types except standard error) 
-    direction 
+    type
+    value     (for all types except standard error)
+    direction
     end_style
     line
 
 The ``type`` property sets the type of error bars in the series::
 
     chart.add_series({
-        'values': '=Sheet1!$A$1:$A$6',
-        'y_error_bars': {'type': 'standard_error'},  
+        'values':       '=Sheet1!$A$1:$A$6',
+        'y_error_bars': {'type': 'standard_error'},
     })
 
 .. image:: _static/chart_error_bars1.png
@@ -345,18 +344,18 @@ plotted data points.
 
 The following properties can be set for ``data_labels`` formats in a chart::
 
-    value 
-    category 
-    series_name 
-    position 
-    leader_lines 
+    value
+    category
+    series_name
+    position
+    leader_lines
     percentage
 
 The ``value`` property turns on the *Value* data label for a series::
 
     chart.add_series({
-        'values': '=Sheet1!$A$1:$A$6',
-        'data_labels': {'value': True}, 
+        'values':      '=Sheet1!$A$1:$A$6',
+        'data_labels': {'value': True},
     })
 
 .. image:: _static/chart_data_labels1.png
@@ -365,23 +364,23 @@ The ``value`` property turns on the *Value* data label for a series::
 The ``category`` property turns on the *Category Name* data label for a series::
 
     chart.add_series({
-        'values': '=Sheet1!$A$1:$A$6',
-        'data_labels': {'category': True}, 
+        'values':      '=Sheet1!$A$1:$A$6',
+        'data_labels': {'category': True},
     })
 
 The ``series_name`` property turns on the *Series Name* data label for a
 series::
 
     chart.add_series({
-        'values': '=Sheet1!$A$1:$A$6',
-        'data_labels': {'series_name': True}, 
+        'values':      '=Sheet1!$A$1:$A$6',
+        'data_labels': {'series_name': True},
     })
 
 The ``position`` property is used to position the data label for a series::
 
     chart.add_series({
-        'values': '=Sheet1!$A$1:$A$6',
-        'data_labels': {'series_name': True, 'position': 'center'}, 
+        'values':      '=Sheet1!$A$1:$A$6',
+        'data_labels': {'series_name': True, 'position': 'center'},
     })
 
 Valid positions are::
@@ -401,16 +400,16 @@ The ``percentage`` property is used to turn on the display of data labels as a
 *Percentage* for a series. It is mainly used for pie charts::
 
     chart.add_series({
-        'values': '=Sheet1!$A$1:$A$6',
-        'data_labels': {'percentage': True}, 
+        'values':      '=Sheet1!$A$1:$A$6',
+        'data_labels': {'percentage': True},
     })
 
 The ``leader_lines`` property is used to turn on *Leader Lines* for the data
 label for a series. It is mainly used for pie charts::
 
     chart.add_series({
-        'values': '=Sheet1!$A$1:$A$6',
-        'data_labels': {'value': True, 'leader_lines': True}, 
+        'values':      '=Sheet1!$A$1:$A$6',
+        'data_labels': {'value': True, 'leader_lines': True},
     })
 
 .. Note::
@@ -494,27 +493,37 @@ Chart Formatting
 The following chart formatting properties can be set for any chart object that
 they apply to (and that are supported by XlsxWriter) such as chart lines,
 column fill areas, plot area borders, markers, gridlines and other chart
-elements documented above::
+elements::
 
-    line 
-    border 
+    line
+    border
     fill
 
-Chart formatting properties are generally set using hash refs::
+Chart formatting properties are generally set using dicts::
 
     chart.add_series({
-        values, '=Sheet1!B1:B5', line, { color, 'blue' },
+        'values': '=Sheet1!$A$1:$A$6',
+        'line':   {'color': 'red'},
     })
+
+.. image:: _static/chart_formatting1.png
+   :scale: 75 %
 
 In some cases the format properties can be nested. For example a ``marker`` may
 contain ``border`` and ``fill`` sub-properties::
 
     chart.add_series({
-        values, '=Sheet1!B1:B5', line, { color, 'blue' }, marker,:
-            type, 'square', size, 5, border, { color, 'red' },
-            fill, { color, 'yellow' },
+        'values': '=Sheet1!$A$1:$A$6',
+        'line':   {'color': 'blue'},
+        'marker': {'type': 'square',
+                   'size,': 5,
+                   'border': {'color': 'red'},
+                   'fill':   {'color': 'yellow'}
         },
     })
+
+.. image:: _static/chart_formatting2.png
+   :scale: 75 %
 
 
 .. _chart_formatting_line:
@@ -527,9 +536,9 @@ chart such as a plotted line on a chart or a border.
 
 The following properties can be set for ``line`` formats in a chart::
 
-    none 
-    color 
-    width 
+    none
+    color
+    width
     dash_type
 
 The ``none`` property is uses to turn the ``line`` off (it is always on by
@@ -537,61 +546,81 @@ default except in Scatter charts). This is useful if you wish to plot a series
 with markers but without a line::
 
     chart.add_series({
-        values, '=Sheet1!B1:B5', line, { none, 1 },
+        'values': '=Sheet1!$A$1:$A$6',
+        'line':   {'none': True},
+        'marker': {'type': 'automatic'},
     })
+
+.. image:: _static/chart_formatting3.png
+   :scale: 75 %
+
 
 The ``color`` property sets the color of the ``line``::
 
     chart.add_series({
-        values, '=Sheet1!B1:B5', line, { color, 'red' },
+        'values': '=Sheet1!$A$1:$A$6',
+        'line':   {'color': 'red'},
     })
 
 The available colours are shown in the main XlsxWriter documentation. It is
-also possible to set the colour of a line with a HTML style RGB colour::
+also possible to set the colour of a line with a Html style ``#RRGGBB`` string
+or a limited number named colours, see :ref:`format_colors`::
 
     chart.add_series({
-        line, { color, '#FF0000' },
+        'values': '=Sheet1!$A$1:$A$6',
+        'line':   {'color': '#FF9900'},
     })
+
+.. image:: _static/chart_formatting4.png
+   :scale: 75 %
+
 
 The ``width`` property sets the width of the ``line``. It should be specified
 in increments of 0.25 of a point as in Excel::
 
     chart.add_series({
-        values, '=Sheet1!B1:B5', line, { width, 3.25 },
+        'values': '=Sheet1!$A$1:$A$6',
+        'line':   {'width': 3.25},
     })
+
 
 The ``dash_type`` property sets the dash style of the line::
 
     chart.add_series({
-        values, '=Sheet1!B1:B5', line, { dash_type, 'dash_dot' },
+        'values': '=Sheet1!$A$1:$A$6',
+        'line':   {'dash_type': 'dash_dot'},
     })
+
+.. image:: _static/chart_formatting5.png
+   :scale: 75 %
 
 The following ``dash_type`` values are available. They are shown in the order
 that they appear in the Excel dialog::
 
-    solid 
-    round_dot 
-    square_dot 
-    dash 
-    dash_dot 
-    long_dash 
+    solid
+    round_dot
+    square_dot
+    dash
+    dash_dot
+    long_dash
     long_dash_dot
     long_dash_dot_dot
 
-The default line style is ``solid``    })
+The default line style is ``solid``.
 
 More than one ``line`` property can be specified at a time::
 
     chart.add_series({
-        values, '=Sheet1!B1:B5',
-        line,:
-            color, 'red',
-            width, 1.25,
-            dash_type, 'square_dot',
-        },
+        'values': '=Sheet1!$A$1:$A$6',
+         'line': {
+             'color': 'red',
+             'width': 1.25,
+             'dash_type': 'square_dot',
+         },
     })
 
-.. _chart_formatting_border:    
+
+.. _chart_formatting_border:
 
 Chart formatting: Border
 ------------------------
@@ -603,6 +632,7 @@ Bar and Column that have a border and fill style rather than a line style. In
 general chart objects with a ``border`` property will also have a fill
 property.
 
+
 .. _chart_formatting_fill:
 
 Chart formatting: Fill
@@ -613,34 +643,48 @@ interior of a column or the background of the chart itself.
 
 The following properties can be set for ``fill`` formats in a chart::
 
-    none color
+    none
+    color
 
 The ``none`` property is used to turn the ``fill`` property off (it is
 generally on by default)::
 
     chart.add_series({
-        values, '=Sheet1!B1:B5', fill, { none, 1 },
+        'values': '=Sheet1!$A$1:$A$6',
+        'fill':   {'none': True},
+        'border': {'color': 'black'}
     })
+
+.. image:: _static/chart_fill1.png
+   :scale: 75 %
 
 The ``color`` property sets the colour of the ``fill`` area::
 
     chart.add_series({
-        values, '=Sheet1!B1:B5', fill, { color, 'red' },
+        'values': '=Sheet1!$A$1:$A$6',
+        'fill':   {'color': 'red'}
     })
+
 
 The available colours are shown in the main XlsxWriter documentation. It is
-also possible to set the colour of a fill with a HTML style RGB colour::
+also possible to set the colour of a fill with a Html style ``#RRGGBB`` string
+or a limited number named colours, see :ref:`format_colors`::
 
     chart.add_series({
-        fill, { color, '#FF0000' },
+        'values': '=Sheet1!$A$1:$A$6',
+        'fill':   {'color': '#FF9900'}
     })
+
+.. image:: _static/chart_fill2.png
+   :scale: 75 %
 
 The ``fill`` format is generally used in conjunction with a ``border`` format
 which has the same properties as a ``line`` format::
 
     chart.add_series({
-        values, '=Sheet1!B1:B5', border, { color, 'red' }, fill, {
-        color, 'yellow' },
+        'values': '=Sheet1!$A$1:$A$6',
+        'fill':   {'color': 'red'},
+        'border': {'color': 'black'}
     })
 
 
@@ -651,94 +695,156 @@ Chart Fonts
 
 The following font properties can be set for any chart object that they apply
 to (and that are supported by XlsxWriter) such as chart titles, axis labels
-and axis numbering. They correspond to the equivalent Worksheet cell Format
-object properties. See "FORMAT_METHODS" in XlsxWriter for more information::
+and axis numbering::
 
-    name 
-    size 
-    bold 
-    italic 
-    underline 
+    name
+    size
+    bold
+    italic
+    underline
     color
+
+These properties correspond to the equivalent Worksheet cell Format object
+properties. See the :ref:`format` and :ref:`working_with_formats` sections for
+more details about Format properties and how to set them.
 
 The following explains the available font properties:
 
+
 * ``name``: Set the font name::
 
-    chart.set_x_axis(num_font, { name, 'Arial' })
+    chart.set_x_axis({'num_font':  {'name': 'Arial'}})
 
 * ``size``: Set the font size::
 
-    chart.set_x_axis(num_font, { name, 'Arial', size, 10 })
+    chart.set_x_axis({'num_font':  {'name': 'Arial', 'size': 9}})
 
-* ``bold``: Set the font bold property, should be 0 or 1::
+* ``bold``: Set the font bold property::
 
-    chart.set_x_axis(num_font, { bold, 1 })
+    chart.set_x_axis({'num_font':  {'bold': True}})
 
-* ``italic``: Set the font italic property, should be 0 or 1::
+* ``italic``: Set the font italic property::
 
-    chart.set_x_axis(num_font, { italic, 1 })
+    chart.set_x_axis({'num_font':  {'italic': True}})
 
-* ``underline``: Set the font underline property, should be 0 or 1::
+* ``underline``: Set the font underline property::
 
-    chart.set_x_axis(num_font, { underline, 1 })
+    chart.set_x_axis({'num_font':  {'underline': True}})
+
 
 * ``color``: Set the font color property. Can be a color index, a color name
   or HTML style RGB colour::
 
-    chart.set_x_axis(num_font, { color, 'red' })
-    chart.set_y_axis(num_font, { color, '#92D050' })
+    chart.set_x_axis({'num_font': {'color': 'red' }})
+    chart.set_y_axis({'num_font': {'color': '#92D050'}})
 
 
 Here is an example of Font formatting in a Chart program::
 
-    # Format the chart title.
+
     chart.set_title({
-        name, 'Sales Results Chart',
-        name_font,:
-            name, 'Calibri',
-            color, 'yellow',
+        'name': 'Test Results',
+        'name_font': {
+            'name': 'Calibri',
+            'color': 'blue',
         },
     })
 
-    # Format the X-axis. chart.set_x_axis({
-        name, 'Month', name_font,:
-            name, 'Arial', color, '#92D050'
-        }, num_font,:
-            name, 'Courier New', color, '#00B0F0',
+    chart.set_x_axis({
+        'name': 'Month',
+        'name_font': {
+            'name': 'Courier New',
+            'color': '#92D050'
+        },
+        'num_font': {
+            'name': 'Arial',
+            'color': '#00B0F0',
         },
     })
 
-    # Format the Y-axis. chart.set_y_axis({
-        name, 'Sales (1000 units)', name_font,:
-            name, 'Century', underline, 1, color, 'red'
-        }, num_font,:
-            bold, 1, italic, 1, color, '#7030A0',
+    chart.set_y_axis({
+        'name': 'Units',
+        'name_font': {
+            'name': 'Century',
+            'color': 'red'
+        },
+        'num_font': {
+            'bold': True,
+            'italic': True,
+            'underline': True,
+            'color': '#7030A0',
         },
     })
+
+.. image:: _static/chart_font1.png
+   :scale: 75 %
 
 
 .. _chart_secondary_axes:
 
-Secondary Axes
---------------
+Chart Secondary Axes
+--------------------
 
-TODO
+It is possible to add a secondary axis of the same type to a chart by setting
+the ``y2_axis`` or ``x2_axis`` property of the series::
 
+    from xlsxwriter.workbook import Workbook
 
+    workbook = Workbook('chart_secondary_axis.xlsx')
+    worksheet = workbook.add_worksheet()
+
+    data = [
+        [2, 3, 4, 5, 6, 7],
+        [10, 40, 50, 20, 10, 50],
+    ]
+
+    worksheet.write_column('A2', data[0])
+    worksheet.write_column('B2', data[1])
+
+    chart = workbook.add_chart({'type': 'line'})
+
+    # Configure a series with a secondary axis.
+    chart.add_series({
+        'values': '=Sheet1!$A$2:$A$7',
+        'y2_axis': True,
+    })
+
+    # Configure a primary (default) Axis.
+    chart.add_series({
+        'values': '=Sheet1!$B$2:$B$7',
+    })
+
+    chart.set_legend({'position': 'none'})
+
+    chart.set_y_axis({'name': 'Primary Y axis'})
+    chart.set_y2_axis({'name': 'Secondary Y axis'})
+
+    worksheet.insert_chart('D2', chart)
+
+    workbook.close()
+
+.. image:: _static/chart_secondary_axis2.png
+   :scale: 75 %
+
+Note it isn't currently possible to add a secondary axis of a different chart
+type (for example line and column).
 
 
 Chart Limitations
 -----------------
 
-The chart feature in XlsxWriter is under active development. More chart types
-and features will be added in time.
+The following chart features aren't supported in XlsxWriter:
 
-Features that are on the TODO list and will be added are::
+* Chart sheet (worksheets as charts). This will be added in an upcoming
+  release.
+* Secondary axes of a different chart type to the main chart type.
+* 3D charts and controls.
+* Bubble, Doughnut or other chart types not listed in :ref:`chart_class`.
 
-* Add more chart sub-types.
-* Additional formatting options.
-* More axis controls.
-* 3D charts.
-* Additional chart types such as Bubble or Doughnut.
+
+Chart Examples
+--------------
+
+See :ref:`chart_examples`.
+
 

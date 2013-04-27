@@ -2528,8 +2528,7 @@ class Chart(xmlwriter.XMLwriter):
 
         self._xml_start_tag('a:solidFill')
 
-        if line['color']:
-
+        if 'color' in line:
             color = self._get_color(line['color'])
 
             # Write the a:srgbClr element.

@@ -908,13 +908,11 @@ insert images with other dpi values you can use the scale parameters.
 
 
 .. Note::
-   You must call ``set_row()`` or ``set_column()`` before ``insert_image()``
-   if you wish to change the default dimensions of any of the rows or
-   columns that the image occupies. The height of a row can also change if you
-   use a font that is larger than the default or have text wrapping turned on.
-   This in turn will affect the scaling of your image. To avoid this you
-   should explicitly set the height of the row using ``set_row()`` if it
-   contains a font size that will change the row height.
+  The scaling of a image may be affected if is crosses a row that has its
+  default height changed due to a font that is larger than the default font
+  size or that has text wrapping turned on. To avoid this you should
+  explicitly set the height of the row using ``set_row()`` if it crosses an
+  inserted image.
 
 Inserting images into headers or a footers isn't supported.
 
@@ -939,8 +937,49 @@ worksheet.insert_chart()
    :type  col:         int
    :type  options:     dict
 
-TODO
+This method can be used to insert a chart into a worksheet. A chart object is
+created via the Workbook :func:`add_chart()` method where the chart type is
+specified::
 
+    chart = workbook.add_chart({type, 'column'})
+
+It is then inserted into a worksheet as an embedded chart::
+
+    worksheet.insert_chart('B5', chart)
+
+.. image:: _static/chart_simple.png
+   :scale: 75 %
+
+See :ref:`chart_class`, :ref:`working_with_charts` and :ref:`chart_examples`.
+
+The ``insert_chart()`` method takes optional parameters in a dictionary to
+position and scale the chart. The available parameters with their default
+values are::
+
+    {
+        'x_offset': 0,
+        'y_offset': 0,
+        'x_scale':  1,
+        'y_scale':  1,
+    }
+
+The offset values are in pixels::
+
+    worksheet.insert_chart('B5', chart, {'x_offset': 25, 'y_offset': 10})
+
+The ``x_scale`` and ``y_scale`` parameters can be used to scale the chart
+horizontally and vertically::
+
+    worksheet.insert_chart('B5', chart, {'x_scale': 0.5, 'y_scale': 0.5})
+
+These properties can also be set via the Chart :func:`set_size` method.
+
+.. Note::
+  The scaling of a chart may be affected if is crosses a row that has its
+  default height changed due to a font that is larger than the default font
+  size or that has text wrapping turned on. To avoid this you should
+  explicitly set the height of the row using ``set_row()`` if it crosses an
+  inserted chart.
 
 
 worksheet.data_validation()
@@ -1105,7 +1144,7 @@ This method contains a lot of parameters and is described in detail in
 
 See also :ref:`ex_sparklines1` and :ref:`ex_sparklines2`.
 
-.. Note:: 
+.. Note::
    Sparklines are a feature of Excel 2010+ only. You can write them to
    an XLSX file that can be read by Excel 2007 but they won't be displayed.
 
@@ -1742,7 +1781,7 @@ worksheet.set_default_row()
    :param float height:          Default height. Optional, defaults to 15.
    :param bool hide_unused_rows: Hide unused rows. Optional, defaults to False.
 
-   
+
 The ``set_default_row()`` method is used to set the limited number of default
 row properties allowed by Excel which are the default height and the option to
 hide unused rows. These parameters are an optimisation used by Excel to set
