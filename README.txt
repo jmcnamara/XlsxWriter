@@ -7,6 +7,7 @@ XlsxWriter supports the following features:
 * Write hyperlinks to cells.
 * Full cell formatting.
 * Multiple worksheets.
+* Charts.
 * Page setup methods for printing.
 * Merged cells.
 * Defined names.

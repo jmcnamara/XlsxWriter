@@ -16,7 +16,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '',
-        VERSION:     '0.3.0',
+        VERSION:     '0.3.1',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -69,6 +69,7 @@
 <li class="toctree-l2"><a class="reference internal" href="workbook.html#constructor">Constructor</a></li>
 <li class="toctree-l2"><a class="reference internal" href="workbook.html#workbook-add-worksheet">workbook.add_worksheet()</a></li>
 <li class="toctree-l2"><a class="reference internal" href="workbook.html#workbook-add-format">workbook.add_format()</a></li>
+<li class="toctree-l2"><a class="reference internal" href="workbook.html#workbook-add-chart">workbook.add_chart()</a></li>
 <li class="toctree-l2"><a class="reference internal" href="workbook.html#workbook-close">workbook.close()</a></li>
 <li class="toctree-l2"><a class="reference internal" href="workbook.html#workbook-set-properties">workbook.set_properties()</a></li>
 <li class="toctree-l2"><a class="reference internal" href="workbook.html#workbook-define-name">workbook.define_name()</a></li>
@@ -90,6 +91,7 @@
 <li class="toctree-l2"><a class="reference internal" href="worksheet.html#worksheet-set-row">worksheet.set_row()</a></li>
 <li class="toctree-l2"><a class="reference internal" href="worksheet.html#worksheet-set-column">worksheet.set_column()</a></li>
 <li class="toctree-l2"><a class="reference internal" href="worksheet.html#worksheet-insert-image">worksheet.insert_image()</a></li>
+<li class="toctree-l2"><a class="reference internal" href="worksheet.html#worksheet-insert-chart">worksheet.insert_chart()</a></li>
 <li class="toctree-l2"><a class="reference internal" href="worksheet.html#worksheet-data-validation">worksheet.data_validation()</a></li>
 <li class="toctree-l2"><a class="reference internal" href="worksheet.html#worksheet-conditional-format">worksheet.conditional_format()</a></li>
 <li class="toctree-l2"><a class="reference internal" href="worksheet.html#worksheet-add-table">worksheet.add_table()</a></li>
@@ -175,6 +177,26 @@
 <li class="toctree-l2"><a class="reference internal" href="format.html#format-set-right-color">format.set_right_color()</a></li>
 </ul>
 </li>
+<li class="toctree-l1"><a class="reference internal" href="chart.html">The Chart Class</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="chart.html#chart-add-series">chart.add_series()</a></li>
+<li class="toctree-l2"><a class="reference internal" href="chart.html#chart-set-x-axis">chart.set_x_axis()</a></li>
+<li class="toctree-l2"><a class="reference internal" href="chart.html#chart-set-y-axis">chart.set_y_axis()</a></li>
+<li class="toctree-l2"><a class="reference internal" href="chart.html#chart-set-x2-axis">chart.set_x2_axis()</a></li>
+<li class="toctree-l2"><a class="reference internal" href="chart.html#chart-set-y2-axis">chart.set_y2_axis()</a></li>
+<li class="toctree-l2"><a class="reference internal" href="chart.html#chart-set-size">chart.set_size()</a></li>
+<li class="toctree-l2"><a class="reference internal" href="chart.html#chart-set-title">chart.set_title()</a></li>
+<li class="toctree-l2"><a class="reference internal" href="chart.html#chart-set-legend">chart.set_legend()</a></li>
+<li class="toctree-l2"><a class="reference internal" href="chart.html#chart-set-chartarea">chart.set_chartarea()</a></li>
+<li class="toctree-l2"><a class="reference internal" href="chart.html#chart-set-plotarea">chart.set_plotarea()</a></li>
+<li class="toctree-l2"><a class="reference internal" href="chart.html#chart-set-style">chart.set_style()</a></li>
+<li class="toctree-l2"><a class="reference internal" href="chart.html#chart-set-table">chart.set_table()</a></li>
+<li class="toctree-l2"><a class="reference internal" href="chart.html#chart-set-up-down-bars">chart.set_up_down_bars()</a></li>
+<li class="toctree-l2"><a class="reference internal" href="chart.html#chart-set-drop-lines">chart.set_drop_lines()</a></li>
+<li class="toctree-l2"><a class="reference internal" href="chart.html#chart-set-high-low-lines">chart.set_high_low_lines()</a></li>
+<li class="toctree-l2"><a class="reference internal" href="chart.html#chart-show-blanks-as">chart.show_blanks_as()</a></li>
+<li class="toctree-l2"><a class="reference internal" href="chart.html#chart-show-hidden-data">chart.show_hidden_data()</a></li>
+</ul>
+</li>
 <li class="toctree-l1"><a class="reference internal" href="working_with_cell_notation.html">Working with Cell Notation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="working_with_formats.html">Working with Formats</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="working_with_formats.html#creating-and-using-a-format-object">Creating and using a Format object</a></li>
@@ -185,6 +207,24 @@
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="working_with_dates_and_time.html">Working with Dates and Time</a></li>
+<li class="toctree-l1"><a class="reference internal" href="working_with_charts.html">Working with Charts</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="working_with_charts.html#chart-value-and-category-axes">Chart Value and Category Axes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="working_with_charts.html#chart-series-options">Chart Series Options</a></li>
+<li class="toctree-l2"><a class="reference internal" href="working_with_charts.html#chart-series-option-marker">Chart series option: Marker</a></li>
+<li class="toctree-l2"><a class="reference internal" href="working_with_charts.html#chart-series-option-trendline">Chart series option: Trendline</a></li>
+<li class="toctree-l2"><a class="reference internal" href="working_with_charts.html#chart-series-option-error-bars">Chart series option: Error Bars</a></li>
+<li class="toctree-l2"><a class="reference internal" href="working_with_charts.html#chart-series-option-data-labels">Chart series option: Data Labels</a></li>
+<li class="toctree-l2"><a class="reference internal" href="working_with_charts.html#chart-series-option-points">Chart series option: Points</a></li>
+<li class="toctree-l2"><a class="reference internal" href="working_with_charts.html#chart-formatting">Chart Formatting</a></li>
+<li class="toctree-l2"><a class="reference internal" href="working_with_charts.html#chart-formatting-line">Chart formatting: Line</a></li>
+<li class="toctree-l2"><a class="reference internal" href="working_with_charts.html#chart-formatting-border">Chart formatting: Border</a></li>
+<li class="toctree-l2"><a class="reference internal" href="working_with_charts.html#chart-formatting-fill">Chart formatting: Fill</a></li>
+<li class="toctree-l2"><a class="reference internal" href="working_with_charts.html#chart-fonts">Chart Fonts</a></li>
+<li class="toctree-l2"><a class="reference internal" href="working_with_charts.html#chart-secondary-axes">Chart Secondary Axes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="working_with_charts.html#chart-limitations">Chart Limitations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="working_with_charts.html#chart-examples">Chart Examples</a></li>
+</ul>
+</li>
 <li class="toctree-l1"><a class="reference internal" href="working_with_autofilters.html">Working with Autofilters</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="working_with_autofilters.html#applying-an-autofilter">Applying an autofilter</a></li>
 <li class="toctree-l2"><a class="reference internal" href="working_with_autofilters.html#filter-data-in-an-autofilter">Filter data in an autofilter</a></li>
@@ -281,6 +321,21 @@
 <li class="toctree-l2"><a class="reference internal" href="example_protection.html">Example: Enabling Cell protection in Worksheets</a></li>
 <li class="toctree-l2"><a class="reference internal" href="example_hide_sheet.html">Example: Hiding Worksheets</a></li>
 <li class="toctree-l2"><a class="reference internal" href="example_hide_row_col.html">Example: Hiding Rows and Columns</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="chart_examples.html">Chart Examples</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="example_chart_simple.html">Example: Chart (Simple)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="example_chart_area.html">Example: Area Chart</a></li>
+<li class="toctree-l2"><a class="reference internal" href="example_chart_bar.html">Example: Bar Chart</a></li>
+<li class="toctree-l2"><a class="reference internal" href="example_chart_column.html">Example: Column Chart</a></li>
+<li class="toctree-l2"><a class="reference internal" href="example_chart_line.html">Example: Line Chart</a></li>
+<li class="toctree-l2"><a class="reference internal" href="example_chart_pie.html">Example: Pie Chart</a></li>
+<li class="toctree-l2"><a class="reference internal" href="example_chart_scatter.html">Example: Scatter Chart</a></li>
+<li class="toctree-l2"><a class="reference internal" href="example_chart_radar.html">Example: Radar Chart</a></li>
+<li class="toctree-l2"><a class="reference internal" href="example_chart_stock.html">Example: Stock Chart</a></li>
+<li class="toctree-l2"><a class="reference internal" href="example_chart_secondary_axis.html">Example: Secondary Axis Chart</a></li>
+<li class="toctree-l2"><a class="reference internal" href="example_chart_data_table.html">Example: Charts with Data Tables</a></li>
+<li class="toctree-l2"><a class="reference internal" href="example_chart_data_tools.html">Example: Charts with Data Tools</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="excel_writer_xlsx.html">Comparison with Excel::Writer::XLSX</a><ul>

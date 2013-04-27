@@ -16,7 +16,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '',
-        VERSION:     '0.3.0',
+        VERSION:     '0.3.1',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -996,19 +996,81 @@ horizontally and vertically:</p>
 insert images with other dpi values you can use the scale parameters.</p>
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
-<p class="last">You must call <tt class="docutils literal"><span class="pre">set_row()</span></tt> or <tt class="docutils literal"><span class="pre">set_column()</span></tt> before <tt class="docutils literal"><span class="pre">insert_image()</span></tt>
-if you wish to change the default dimensions of any of the rows or
-columns that the image occupies. The height of a row can also change if you
-use a font that is larger than the default or have text wrapping turned on.
-This in turn will affect the scaling of your image. To avoid this you
-should explicitly set the height of the row using <tt class="docutils literal"><span class="pre">set_row()</span></tt> if it
-contains a font size that will change the row height.</p>
+<p class="last">The scaling of a image may be affected if is crosses a row that has its
+default height changed due to a font that is larger than the default font
+size or that has text wrapping turned on. To avoid this you should
+explicitly set the height of the row using <tt class="docutils literal"><span class="pre">set_row()</span></tt> if it crosses an
+inserted image.</p>
 </div>
 <p>Inserting images into headers or a footers isn&#8217;t supported.</p>
 <p>BMP images are only supported for backward compatibility. In general it is best
 to avoid BMP images since they aren&#8217;t compressed. If used, BMP images must be
 24 bit, true colour, bitmaps.</p>
 <p>See also <a class="reference internal" href="example_images.html#ex-insert-image"><em>Example: Inserting images into a worksheet</em></a>.</p>
+</div>
+<div class="section" id="worksheet-insert-chart">
+<h2>worksheet.insert_chart()</h2>
+<dl class="function">
+<dt id="insert_chart">
+<tt class="descname">insert_chart</tt><big>(</big><em>row</em>, <em>col</em>, <em>chart</em><span class="optional">[</span>, <em>options</em><span class="optional">]</span><big>)</big></dt>
+<dd><p>Write a string to a worksheet cell.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>row</strong> (<a class="reference external" href="http://docs.python.org/2/library/functions.html#int" title="(in Python v2.7)"><em>int</em></a>) &#8211; The cell row (zero indexed).</li>
+<li><strong>col</strong> (<a class="reference external" href="http://docs.python.org/2/library/functions.html#int" title="(in Python v2.7)"><em>int</em></a>) &#8211; The cell column (zero indexed).</li>
+<li><strong>chart</strong> &#8211; A chart object.</li>
+<li><strong>options</strong> (<a class="reference external" href="http://docs.python.org/2/library/stdtypes.html#dict" title="(in Python v2.7)"><em>dict</em></a>) &#8211; Optional parameters to position and scale the chart.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<p>This method can be used to insert a chart into a worksheet. A chart object is
+created via the Workbook <a class="reference internal" href="workbook.html#add_chart" title="add_chart"><tt class="xref py py-func docutils literal"><span class="pre">add_chart()</span></tt></a> method where the chart type is
+specified:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">chart</span> <span class="o">=</span> <span class="n">workbook</span><span class="o">.</span><span class="n">add_chart</span><span class="p">({</span><span class="nb">type</span><span class="p">,</span> <span class="s">&#39;column&#39;</span><span class="p">})</span>
+</pre></div>
+</div>
+<p>It is then inserted into a worksheet as an embedded chart:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">worksheet</span><span class="o">.</span><span class="n">insert_chart</span><span class="p">(</span><span class="s">&#39;B5&#39;</span><span class="p">,</span> <span class="n">chart</span><span class="p">)</span>
+</pre></div>
+</div>
+<a class="reference internal image-reference" href="_images/chart_simple.png"><img alt="_images/chart_simple.png" src="_images/chart_simple.png" style="width: 704.25px; height: 402.75px;" /></a>
+<p>See <a class="reference internal" href="chart.html#chart-class"><em>The Chart Class</em></a>, <a class="reference internal" href="working_with_charts.html#working-with-charts"><em>Working with Charts</em></a> and <a class="reference internal" href="chart_examples.html#chart-examples"><em>Chart Examples</em></a>.</p>
+<p>The <tt class="docutils literal"><span class="pre">insert_chart()</span></tt> method takes optional parameters in a dictionary to
+position and scale the chart. The available parameters with their default
+values are:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="p">{</span>
+    <span class="s">&#39;x_offset&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+    <span class="s">&#39;y_offset&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+    <span class="s">&#39;x_scale&#39;</span><span class="p">:</span>  <span class="mi">1</span><span class="p">,</span>
+    <span class="s">&#39;y_scale&#39;</span><span class="p">:</span>  <span class="mi">1</span><span class="p">,</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>The offset values are in pixels:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">worksheet</span><span class="o">.</span><span class="n">insert_chart</span><span class="p">(</span><span class="s">&#39;B5&#39;</span><span class="p">,</span> <span class="n">chart</span><span class="p">,</span> <span class="p">{</span><span class="s">&#39;x_offset&#39;</span><span class="p">:</span> <span class="mi">25</span><span class="p">,</span> <span class="s">&#39;y_offset&#39;</span><span class="p">:</span> <span class="mi">10</span><span class="p">})</span>
+</pre></div>
+</div>
+<p>The <tt class="docutils literal"><span class="pre">x_scale</span></tt> and <tt class="docutils literal"><span class="pre">y_scale</span></tt> parameters can be used to scale the chart
+horizontally and vertically:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">worksheet</span><span class="o">.</span><span class="n">insert_chart</span><span class="p">(</span><span class="s">&#39;B5&#39;</span><span class="p">,</span> <span class="n">chart</span><span class="p">,</span> <span class="p">{</span><span class="s">&#39;x_scale&#39;</span><span class="p">:</span> <span class="mf">0.5</span><span class="p">,</span> <span class="s">&#39;y_scale&#39;</span><span class="p">:</span> <span class="mf">0.5</span><span class="p">})</span>
+</pre></div>
+</div>
+<p>These properties can also be set via the Chart <a class="reference internal" href="chart.html#set_size" title="set_size"><tt class="xref py py-func docutils literal"><span class="pre">set_size()</span></tt></a> method.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">The scaling of a chart may be affected if is crosses a row that has its
+default height changed due to a font that is larger than the default font
+size or that has text wrapping turned on. To avoid this you should
+explicitly set the height of the row using <tt class="docutils literal"><span class="pre">set_row()</span></tt> if it crosses an
+inserted chart.</p>
+</div>
 </div>
 <div class="section" id="worksheet-data-validation">
 <h2>worksheet.data_validation()</h2>
@@ -1960,6 +2022,7 @@ parameters.</p>
 <li><a class="reference internal" href="#worksheet-set-row">worksheet.set_row()</a></li>
 <li><a class="reference internal" href="#worksheet-set-column">worksheet.set_column()</a></li>
 <li><a class="reference internal" href="#worksheet-insert-image">worksheet.insert_image()</a></li>
+<li><a class="reference internal" href="#worksheet-insert-chart">worksheet.insert_chart()</a></li>
 <li><a class="reference internal" href="#worksheet-data-validation">worksheet.data_validation()</a></li>
 <li><a class="reference internal" href="#worksheet-conditional-format">worksheet.conditional_format()</a></li>
 <li><a class="reference internal" href="#worksheet-add-table">worksheet.add_table()</a></li>

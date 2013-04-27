@@ -1,0 +1,981 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>The Chart Class &mdash; XlsxWriter Documentation</title>
+    
+    <link rel="stylesheet" href="_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '',
+        VERSION:     '0.3.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="XlsxWriter Documentation" href="index.html" />
+    <link rel="next" title="Working with Cell Notation" href="working_with_cell_notation.html" />
+    <link rel="prev" title="The Format Class" href="format.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="working_with_cell_notation.html" title="Working with Cell Notation"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="format.html" title="The Format Class"
+             accesskey="P">previous</a> |</li>
+        <li><a href="index.html">XlsxWriter Documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="the-chart-class">
+<span id="chart-class"></span><h1>The Chart Class</h1>
+<p>The <tt class="docutils literal"><span class="pre">Chart</span></tt> module is a base class for modules that implement charts in
+XlsxWriter. The information in this section is applicable to all of the
+available chart subclasses, such as Area, Bar, Column, Line, Pie, Scatter,
+Stock and Radar.</p>
+<p>A chart object is created via the Workbook <a class="reference internal" href="workbook.html#add_chart" title="add_chart"><tt class="xref py py-func docutils literal"><span class="pre">add_chart()</span></tt></a> method where the
+chart type is specified:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">chart</span> <span class="o">=</span> <span class="n">workbook</span><span class="o">.</span><span class="n">add_chart</span><span class="p">({</span><span class="nb">type</span><span class="p">,</span> <span class="s">&#39;column&#39;</span><span class="p">})</span>
+</pre></div>
+</div>
+<p>It is then inserted into a worksheet as an embedded chart using the
+<a class="reference internal" href="worksheet.html#insert_chart" title="insert_chart"><tt class="xref py py-func docutils literal"><span class="pre">insert_chart()</span></tt></a> Worksheet method:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">worksheet</span><span class="o">.</span><span class="n">insert_chart</span><span class="p">(</span><span class="s">&#39;A7&#39;</span><span class="p">,</span> <span class="n">chart</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Chart sheets, i.e, charts that occupy an entire worksheet in a workbook
+are not supported yet. They will be added in the next 1-2 releases.</p>
+</div>
+<p>The following is a small working example or adding an embedded chart:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">xlsxwriter.workbook</span> <span class="kn">import</span> <span class="n">Workbook</span>
+
+<span class="n">workbook</span> <span class="o">=</span> <span class="n">Workbook</span><span class="p">(</span><span class="s">&#39;chart.xlsx&#39;</span><span class="p">)</span>
+<span class="n">worksheet</span> <span class="o">=</span> <span class="n">workbook</span><span class="o">.</span><span class="n">add_worksheet</span><span class="p">()</span>
+
+<span class="c"># Create a new Chart object.</span>
+<span class="n">chart</span> <span class="o">=</span> <span class="n">workbook</span><span class="o">.</span><span class="n">add_chart</span><span class="p">({</span><span class="s">&#39;type&#39;</span><span class="p">:</span> <span class="s">&#39;column&#39;</span><span class="p">})</span>
+
+<span class="c"># Write some data to add to plot on the chart.</span>
+<span class="n">data</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">],</span>
+    <span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">10</span><span class="p">],</span>
+    <span class="p">[</span><span class="mi">3</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">9</span><span class="p">,</span> <span class="mi">12</span><span class="p">,</span> <span class="mi">15</span><span class="p">],</span>
+<span class="p">]</span>
+
+<span class="n">worksheet</span><span class="o">.</span><span class="n">write_column</span><span class="p">(</span><span class="s">&#39;A1&#39;</span><span class="p">,</span> <span class="n">data</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+<span class="n">worksheet</span><span class="o">.</span><span class="n">write_column</span><span class="p">(</span><span class="s">&#39;B1&#39;</span><span class="p">,</span> <span class="n">data</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+<span class="n">worksheet</span><span class="o">.</span><span class="n">write_column</span><span class="p">(</span><span class="s">&#39;C1&#39;</span><span class="p">,</span> <span class="n">data</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span>
+
+<span class="c"># Configure the chart. In simplest case we add one or more data series.</span>
+<span class="n">chart</span><span class="o">.</span><span class="n">add_series</span><span class="p">({</span><span class="s">&#39;values&#39;</span><span class="p">:</span> <span class="s">&#39;=Sheet1!$A$1:$A$5&#39;</span><span class="p">})</span>
+<span class="n">chart</span><span class="o">.</span><span class="n">add_series</span><span class="p">({</span><span class="s">&#39;values&#39;</span><span class="p">:</span> <span class="s">&#39;=Sheet1!$B$1:$B$5&#39;</span><span class="p">})</span>
+<span class="n">chart</span><span class="o">.</span><span class="n">add_series</span><span class="p">({</span><span class="s">&#39;values&#39;</span><span class="p">:</span> <span class="s">&#39;=Sheet1!$C$1:$C$5&#39;</span><span class="p">})</span>
+
+<span class="c"># Insert the chart into the worksheet.</span>
+<span class="n">worksheet</span><span class="o">.</span><span class="n">insert_chart</span><span class="p">(</span><span class="s">&#39;A7&#39;</span><span class="p">,</span> <span class="n">chart</span><span class="p">)</span>
+
+<span class="n">workbook</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+</pre></div>
+</div>
+<a class="reference internal image-reference" href="_images/chart_simple.png"><img alt="_images/chart_simple.png" src="_images/chart_simple.png" style="width: 704.25px; height: 402.75px;" /></a>
+<p>The supported chart types are:</p>
+<ul class="simple">
+<li><tt class="docutils literal"><span class="pre">area</span></tt>: Creates an Area (filled line) style chart.</li>
+<li><tt class="docutils literal"><span class="pre">bar</span></tt>: Creates a Bar style (transposed histogram) chart.</li>
+<li><tt class="docutils literal"><span class="pre">column</span></tt>: Creates a column style (histogram) chart.</li>
+<li><tt class="docutils literal"><span class="pre">line</span></tt>: Creates a Line style chart.</li>
+<li><tt class="docutils literal"><span class="pre">pie</span></tt>: Creates a Pie style chart.</li>
+<li><tt class="docutils literal"><span class="pre">scatter</span></tt>: Creates a Scatter style chart.</li>
+<li><tt class="docutils literal"><span class="pre">stock</span></tt>: Creates a Stock style chart.</li>
+<li><tt class="docutils literal"><span class="pre">radar</span></tt>: Creates a Radar style chart.</li>
+</ul>
+<p>Chart subtypes are also supported for some chart types:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">workbook</span><span class="o">.</span><span class="n">add_chart</span><span class="p">({</span><span class="s">&#39;type&#39;</span><span class="p">:</span> <span class="s">&#39;bar&#39;</span><span class="p">,</span> <span class="s">&#39;subtype&#39;</span><span class="p">:</span> <span class="s">&#39;stacked&#39;</span><span class="p">})</span>
+</pre></div>
+</div>
+<p>The available subtypes are:</p>
+<div class="highlight-python"><pre>area
+    stacked
+    percent_stacked
+
+bar
+    stacked
+    percent_stacked
+
+column
+    stacked
+    percent_stacked
+
+scatter
+    straight_with_markers
+    straight
+    smooth_with_markers
+    smooth
+
+radar
+    with_markers
+    filled</pre>
+</div>
+<p>Methods that are common to all chart types are documented below. See
+<a class="reference internal" href="working_with_charts.html#working-with-charts"><em>Working with Charts</em></a> for chart specific information.</p>
+<div class="section" id="chart-add-series">
+<h2>chart.add_series()</h2>
+<dl class="function">
+<dt id="add_series">
+<tt class="descname">add_series</tt><big>(</big><em>options</em><big>)</big></dt>
+<dd><p>Add a data series to a chart.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>options</strong> (<a class="reference external" href="http://docs.python.org/2/library/stdtypes.html#dict" title="(in Python v2.7)"><em>dict</em></a>) &#8211; A dictionary of chart series options.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<p>In Excel a chart <strong>series</strong> is a collection of information hat define which
+data is plotted such as values, axis labels and formatting.</p>
+<p>For an XlsxWriter chart object the <tt class="docutils literal"><span class="pre">add_series()</span></tt> method is used to set the
+properties for a series:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">chart</span><span class="o">.</span><span class="n">add_series</span><span class="p">({</span>
+    <span class="s">&#39;categories&#39;</span><span class="p">:</span> <span class="s">&#39;=Sheet1!$A$1:$A$5&#39;</span><span class="p">,</span>
+    <span class="s">&#39;values&#39;</span><span class="p">:</span>     <span class="s">&#39;=Sheet1!$B$1:$B$5&#39;</span><span class="p">,</span>
+    <span class="s">&#39;line&#39;</span><span class="p">:</span>       <span class="p">{</span><span class="s">&#39;color&#39;</span><span class="p">:</span> <span class="s">&#39;red&#39;</span><span class="p">},</span>
+<span class="p">})</span>
+
+<span class="c"># Or using a list of values instead of category/value formulas:</span>
+<span class="c">#     [sheetname, first_row, first_col, last_row, last_col]</span>
+<span class="n">chart1</span><span class="o">.</span><span class="n">add_series</span><span class="p">({</span>
+    <span class="s">&#39;categories&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s">&#39;Sheet1&#39;</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
+    <span class="s">&#39;values&#39;</span><span class="p">:</span>     <span class="p">[</span><span class="s">&#39;Sheet1&#39;</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span>
+    <span class="s">&#39;line&#39;</span><span class="p">:</span>       <span class="p">{</span><span class="s">&#39;color&#39;</span><span class="p">:</span> <span class="s">&#39;red&#39;</span><span class="p">},</span>
+<span class="p">})</span>
+</pre></div>
+</div>
+<p>As shown above the <tt class="docutils literal"><span class="pre">categories</span></tt> and <tt class="docutils literal"><span class="pre">values</span></tt> can take either a range
+formula such as <tt class="docutils literal"><span class="pre">=Sheet1!$A$2:$A$7</span></tt> or, more usefully when generating the
+range programmatically, a list with zero indexed row/column values.</p>
+<p>The series options that can be set are:</p>
+<ul>
+<li><p class="first"><tt class="docutils literal"><span class="pre">values</span></tt>: This is the most important property of a series and is the only
+mandatory option for every chart object. This option links the chart with
+the worksheet data that it displays. The data range can be set using a
+formula as shown in the first example above or using a list of values as
+shown in the second example.</p>
+</li>
+<li><p class="first"><tt class="docutils literal"><span class="pre">categories</span></tt>: This sets the chart category labels. The category is more
+or less the same as the X axis. In most chart types the <tt class="docutils literal"><span class="pre">categories</span></tt>
+property is optional and the chart will just assume a sequential series from
+<tt class="docutils literal"><span class="pre">1..n</span></tt>.</p>
+</li>
+<li><p class="first"><tt class="docutils literal"><span class="pre">name</span></tt>: Set the name for the series. The name is displayed in the chart
+legend and in the formula bar. The name property is optional and if it isn&#8217;t
+supplied it will default to <tt class="docutils literal"><span class="pre">Series</span> <span class="pre">1..n</span></tt>.</p>
+</li>
+<li><p class="first"><tt class="docutils literal"><span class="pre">line</span></tt>: Set the properties of the series line type such as colour and
+width. See <a class="reference internal" href="working_with_charts.html#chart-formatting-line"><em>Chart formatting: Line</em></a>.</p>
+</li>
+<li><p class="first"><tt class="docutils literal"><span class="pre">border</span></tt>: Set the border properties of the series such as colour and
+style. See <a class="reference internal" href="working_with_charts.html#chart-formatting-border"><em>Chart formatting: Border</em></a>.</p>
+</li>
+<li><p class="first"><tt class="docutils literal"><span class="pre">fill</span></tt>: Set the fill properties of the series such as colour. See
+<a class="reference internal" href="working_with_charts.html#chart-formatting-fill"><em>Chart formatting: Fill</em></a>.</p>
+</li>
+<li><p class="first"><tt class="docutils literal"><span class="pre">marker</span></tt>: Set the properties of the series marker such as style and
+colour. See <a class="reference internal" href="working_with_charts.html#chart-series-option-marker"><em>Chart series option: Marker</em></a>.</p>
+</li>
+<li><p class="first"><tt class="docutils literal"><span class="pre">trendline</span></tt>: Set the properties of the series trendline such as linear,
+polynomial and moving average types. See
+<a class="reference internal" href="working_with_charts.html#chart-series-option-trendline"><em>Chart series option: Trendline</em></a>.</p>
+</li>
+<li><p class="first"><tt class="docutils literal"><span class="pre">y_error_bars</span></tt>: Set vertical error bounds for a chart series. See
+<a class="reference internal" href="working_with_charts.html#chart-series-option-error-bars"><em>Chart series option: Error Bars</em></a>.</p>
+</li>
+<li><p class="first"><tt class="docutils literal"><span class="pre">x_error_bars</span></tt>: Set horizontal error bounds for a chart series. See
+<a class="reference internal" href="working_with_charts.html#chart-series-option-error-bars"><em>Chart series option: Error Bars</em></a>.</p>
+</li>
+<li><p class="first"><tt class="docutils literal"><span class="pre">data_labels</span></tt>: Set data labels for the series. See
+<a class="reference internal" href="working_with_charts.html#chart-series-option-data-labels"><em>Chart series option: Data Labels</em></a>.</p>
+</li>
+<li><p class="first"><tt class="docutils literal"><span class="pre">points</span></tt>: Set properties for individual points in a series. See
+<a class="reference internal" href="working_with_charts.html#chart-series-option-points"><em>Chart series option: Points</em></a>.</p>
+</li>
+<li><p class="first"><tt class="docutils literal"><span class="pre">invert_if_negative</span></tt>: Invert the fill colour for negative values. Usually
+only applicable to column and bar charts.</p>
+</li>
+<li><p class="first"><tt class="docutils literal"><span class="pre">overlap</span></tt>: Set the overlap between series in a Bar/Column chart. The
+range is +/- 100. The default is 0:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">chart</span><span class="o">.</span><span class="n">add_series</span><span class="p">({</span>
+    <span class="s">&#39;categories&#39;</span><span class="p">:</span> <span class="s">&#39;=Sheet1!$A$1:$A$5&#39;</span><span class="p">,</span>
+    <span class="s">&#39;values&#39;</span><span class="p">:</span>     <span class="s">&#39;=Sheet1!$B$1:$B$5&#39;</span><span class="p">,</span>
+    <span class="s">&#39;overlap&#39;</span><span class="p">:</span>    <span class="mi">10</span><span class="p">,</span>
+<span class="p">})</span>
+</pre></div>
+</div>
+<p>Note, it is only necessary to apply the <tt class="docutils literal"><span class="pre">overlap</span></tt> property to one series
+in the chart.</p>
+</li>
+<li><p class="first"><tt class="docutils literal"><span class="pre">gap</span></tt>: Set the gap between series in a Bar/Column chart. The range is 0
+to 500. The default is 150:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">chart</span><span class="o">.</span><span class="n">add_series</span><span class="p">({</span>
+    <span class="s">&#39;categories&#39;</span><span class="p">:</span> <span class="s">&#39;=Sheet1!$A$1:$A$5&#39;</span><span class="p">,</span>
+    <span class="s">&#39;values&#39;</span><span class="p">:</span>     <span class="s">&#39;=Sheet1!$B$1:$B$5&#39;</span><span class="p">,</span>
+    <span class="s">&#39;gap&#39;</span><span class="p">:</span>        <span class="mi">200</span><span class="p">,</span>
+<span class="p">})</span>
+</pre></div>
+</div>
+<p>Note, it is only necessary to apply the <tt class="docutils literal"><span class="pre">gap</span></tt> property to one series in
+the chart.</p>
+</li>
+</ul>
+<p>More than one series can be added to a chart. In fact, some chart types such as
+<tt class="docutils literal"><span class="pre">stock</span></tt> require it. The series numbering and order in the Excel chart will
+be the same as the order in which they are added in XlsxWriter.</p>
+</div>
+<div class="section" id="chart-set-x-axis">
+<h2>chart.set_x_axis()</h2>
+<dl class="function">
+<dt id="set_x_axis">
+<tt class="descname">set_x_axis</tt><big>(</big><em>options</em><big>)</big></dt>
+<dd><p>Set the chart X axis options.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>options</strong> (<a class="reference external" href="http://docs.python.org/2/library/stdtypes.html#dict" title="(in Python v2.7)"><em>dict</em></a>) &#8211; A dictionary of axis options.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<p>The <tt class="docutils literal"><span class="pre">set_x_axis()</span></tt> method is used to set properties of the X axis:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">chart</span><span class="o">.</span><span class="n">set_x_axis</span><span class="p">({</span>
+    <span class="s">&#39;name&#39;</span><span class="p">:</span> <span class="s">&#39;Earnings per Quarter&#39;</span><span class="p">,</span>
+    <span class="s">&#39;name_font&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s">&#39;size&#39;</span><span class="p">:</span> <span class="mi">14</span><span class="p">,</span> <span class="s">&#39;bold&#39;</span><span class="p">:</span> <span class="bp">True</span><span class="p">},</span>
+    <span class="s">&#39;num_font&#39;</span><span class="p">:</span>  <span class="p">{</span><span class="s">&#39;italic&#39;</span><span class="p">:</span> <span class="bp">True</span> <span class="p">},</span>
+<span class="p">})</span>
+</pre></div>
+</div>
+<a class="reference internal image-reference" href="_images/chart_x_axis.png"><img alt="_images/chart_x_axis.png" src="_images/chart_x_axis.png" style="width: 704.25px; height: 402.75px;" /></a>
+<p>The options that can be set are:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">name</span>
+<span class="n">name_font</span>
+<span class="n">num_font</span>
+<span class="n">num_format</span>
+<span class="nb">min</span>
+<span class="nb">max</span>
+<span class="n">minor_unit</span>
+<span class="n">major_unit</span>
+<span class="n">crossing</span>
+<span class="n">reverse</span>
+<span class="n">log_base</span>
+<span class="n">label_position</span>
+<span class="n">major_gridlines</span>
+<span class="n">minor_gridlines</span>
+<span class="n">visible</span>
+</pre></div>
+</div>
+<p>These options are explained below. Some properties are only applicable to
+<strong>value</strong> or <strong>category</strong> axes (this is noted in each case). See
+<a class="reference internal" href="working_with_charts.html#chart-val-cat-axes"><em>Chart Value and Category Axes</em></a> for an explanation of Excel&#8217;s distinction between
+the axis types.</p>
+<ul>
+<li><p class="first"><tt class="docutils literal"><span class="pre">name</span></tt>: Set the name (also known as title or caption) for the axis. The
+name is displayed below the X axis. (Applicable to category and value
+axes.):</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">chart</span><span class="o">.</span><span class="n">set_x_axis</span><span class="p">({</span><span class="s">&#39;name&#39;</span><span class="p">:</span> <span class="s">&#39;Earnings per Quarter&#39;</span><span class="p">})</span>
+</pre></div>
+</div>
+<p>This property is optional. The default is to have no axis name.</p>
+<p>The name can also be a formula such as <tt class="docutils literal"><span class="pre">=Sheet1!$A$1</span></tt>.</p>
+</li>
+<li><p class="first"><tt class="docutils literal"><span class="pre">name_font</span></tt>: Set the font properties for the axis name. (Applicable to
+category and value axes.):</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">chart</span><span class="o">.</span><span class="n">set_x_axis</span><span class="p">({</span><span class="s">&#39;name_font&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s">&#39;bold&#39;</span><span class="p">:</span> <span class="bp">True</span><span class="p">,</span> <span class="s">&#39;italic&#39;</span><span class="p">:</span> <span class="bp">True</span><span class="p">}})</span>
+</pre></div>
+</div>
+<p>See the <a class="reference internal" href="working_with_charts.html#chart-fonts"><em>Chart Fonts</em></a> section for more details on font properties.</p>
+</li>
+<li><p class="first"><tt class="docutils literal"><span class="pre">num_font</span></tt>: Set the font properties for the axis numbers. (Applicable to
+category and value axes):</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">chart</span><span class="o">.</span><span class="n">set_x_axis</span><span class="p">({</span><span class="s">&#39;name_font&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s">&#39;bold&#39;</span><span class="p">:</span> <span class="bp">True</span><span class="p">,</span> <span class="s">&#39;italic&#39;</span><span class="p">:</span> <span class="bp">True</span><span class="p">}})</span>
+</pre></div>
+</div>
+<p>See the <a class="reference internal" href="working_with_charts.html#chart-fonts"><em>Chart Fonts</em></a> section for more details on font properties.</p>
+</li>
+<li><p class="first"><tt class="docutils literal"><span class="pre">num_format</span></tt>: Set the number format for the axis. (Applicable to category
+and value axes):</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">chart</span><span class="o">.</span><span class="n">set_x_axis</span><span class="p">({</span><span class="s">&#39;num_format&#39;</span><span class="p">:</span> <span class="s">&#39;#,##0.00&#39;</span><span class="p">})</span>
+<span class="n">chart</span><span class="o">.</span><span class="n">set_y_axis</span><span class="p">({</span><span class="s">&#39;num_format&#39;</span><span class="p">:</span> <span class="s">&#39;0.00%&#39;</span><span class="p">})</span>
+</pre></div>
+</div>
+<p>The number format is similar to the Worksheet Cell Format <tt class="docutils literal"><span class="pre">num_format</span></tt>
+apart from the fact that a format index cannot be used. An explicit format
+string must be used as shown above. See <a class="reference internal" href="format.html#set_num_format" title="set_num_format"><tt class="xref py py-func docutils literal"><span class="pre">set_num_format()</span></tt></a> for more
+information.</p>
+</li>
+<li><p class="first"><tt class="docutils literal"><span class="pre">min</span></tt>: Set the minimum value for the axis range. (Applicable to value
+axes only.):</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">chart</span><span class="o">.</span><span class="n">set_x_axis</span><span class="p">({</span><span class="s">&#39;min&#39;</span><span class="p">:</span> <span class="mi">3</span><span class="p">,</span> <span class="s">&#39;max&#39;</span><span class="p">:</span> <span class="mi">6</span><span class="p">})</span>
+</pre></div>
+</div>
+<a class="reference internal image-reference" href="_images/chart_max_min.png"><img alt="_images/chart_max_min.png" src="_images/chart_max_min.png" style="width: 705.0px; height: 402.75px;" /></a>
+</li>
+<li><p class="first"><tt class="docutils literal"><span class="pre">max</span></tt>: Set the maximum value for the axis range. (Applicable to value
+axes only.)</p>
+</li>
+<li><p class="first"><tt class="docutils literal"><span class="pre">minor_unit</span></tt>: Set the increment of the minor units in the axis range.
+(Applicable to value axes only.):</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">chart</span><span class="o">.</span><span class="n">set_x_axis</span><span class="p">({</span><span class="s">&#39;minor_unit&#39;</span><span class="p">:</span> <span class="mf">0.4</span><span class="p">,</span> <span class="s">&#39;major_unit&#39;</span><span class="p">:</span> <span class="mi">2</span><span class="p">})</span>
+</pre></div>
+</div>
+</li>
+<li><p class="first"><tt class="docutils literal"><span class="pre">major_unit</span></tt>: Set the increment of the major units in the axis range.
+(Applicable to value axes only.)</p>
+</li>
+<li><p class="first"><tt class="docutils literal"><span class="pre">crossing</span></tt>: Set the position where the y axis will cross the x axis.
+(Applicable to category and value axes.)</p>
+<p>The <tt class="docutils literal"><span class="pre">crossing</span></tt> value can either be the string <tt class="docutils literal"><span class="pre">'max'</span></tt> to set the
+crossing at the maximum axis value or a numeric value:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">chart</span><span class="o">.</span><span class="n">set_x_axis</span><span class="p">({</span><span class="s">&#39;crossing&#39;</span><span class="p">:</span> <span class="mi">3</span><span class="p">})</span>
+<span class="n">chart</span><span class="o">.</span><span class="n">set_y_axis</span><span class="p">({</span><span class="s">&#39;crossing&#39;</span><span class="p">:</span> <span class="s">&#39;max&#39;</span><span class="p">})</span>
+</pre></div>
+</div>
+<p><strong>For category axes the numeric value must be an integer</strong> to represent the
+category number that the axis crosses at. For value axes it can have any
+value associated with the axis. See also <a class="reference internal" href="working_with_charts.html#chart-val-cat-axes"><em>Chart Value and Category Axes</em></a>.</p>
+<p>If crossing is omitted (the default) the crossing will be set automatically
+by Excel based on the chart data.</p>
+</li>
+<li><p class="first"><tt class="docutils literal"><span class="pre">reverse</span></tt>: Reverse the order of the axis categories or values.
+(Applicable to category and value axes.):</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">chart</span><span class="o">.</span><span class="n">set_y_axis</span><span class="p">({</span><span class="s">&#39;reverse&#39;</span><span class="p">:</span> <span class="bp">True</span><span class="p">})</span>
+</pre></div>
+</div>
+<a class="reference internal image-reference" href="_images/chart_reverse.png"><img alt="_images/chart_reverse.png" src="_images/chart_reverse.png" style="width: 704.25px; height: 402.75px;" /></a>
+</li>
+<li><p class="first"><tt class="docutils literal"><span class="pre">log_base</span></tt>: Set the log base of the axis range. (Applicable to value axes
+only.):</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">chart</span><span class="o">.</span><span class="n">set_y_axis</span><span class="p">({</span><span class="s">&#39;log_base&#39;</span><span class="p">:</span> <span class="mi">10</span><span class="p">})</span>
+</pre></div>
+</div>
+</li>
+<li><p class="first"><tt class="docutils literal"><span class="pre">label_position</span></tt>: Set the &#8220;Axis labels&#8221; position for the axis. The
+following positions are available:</p>
+<div class="highlight-python"><pre>next_to (the default)
+high
+low
+none</pre>
+</div>
+<p>For example:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">chart</span><span class="o">.</span><span class="n">set_x_axis</span><span class="p">({</span><span class="s">&#39;label_position&#39;</span><span class="p">:</span> <span class="s">&#39;high&#39;</span><span class="p">})</span>
+<span class="n">chart</span><span class="o">.</span><span class="n">set_y_axis</span><span class="p">({</span><span class="s">&#39;label_position&#39;</span><span class="p">:</span> <span class="s">&#39;low&#39;</span><span class="p">})</span>
+</pre></div>
+</div>
+</li>
+<li><p class="first"><tt class="docutils literal"><span class="pre">major_gridlines</span></tt>: Configure the major gridlines for the axis. The
+available properties are:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">visible</span>
+<span class="n">line</span>
+</pre></div>
+</div>
+<p>For example:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">chart</span><span class="o">.</span><span class="n">set_x_axis</span><span class="p">({</span>
+    <span class="s">&#39;major_gridlines&#39;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s">&#39;visible&#39;</span><span class="p">:</span> <span class="bp">True</span><span class="p">,</span>
+        <span class="s">&#39;line&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s">&#39;width&#39;</span><span class="p">:</span> <span class="mf">1.25</span><span class="p">,</span> <span class="s">&#39;dash_type&#39;</span><span class="p">:</span> <span class="s">&#39;dash&#39;</span><span class="p">}</span>
+    <span class="p">},</span>
+<span class="p">})</span>
+</pre></div>
+</div>
+<a class="reference internal image-reference" href="_images/chart_gridlines.png"><img alt="_images/chart_gridlines.png" src="_images/chart_gridlines.png" style="width: 704.25px; height: 402.75px;" /></a>
+<p>The <tt class="docutils literal"><span class="pre">visible</span></tt> property is usually on for the X axis but it depends on the
+type of chart.</p>
+<p>The <tt class="docutils literal"><span class="pre">line</span></tt> property sets the gridline properties such as colour and
+width. See <a class="reference internal" href="working_with_charts.html#chart-formatting"><em>Chart Formatting</em></a>.</p>
+</li>
+<li><p class="first"><tt class="docutils literal"><span class="pre">minor_gridlines</span></tt>: This takes the same options as <tt class="docutils literal"><span class="pre">major_gridlines</span></tt>
+above.</p>
+<p>The minor gridline <tt class="docutils literal"><span class="pre">visible</span></tt> property is off by default for all chart
+types.</p>
+</li>
+<li><p class="first"><tt class="docutils literal"><span class="pre">visible</span></tt>: Configure the visibility of the axis:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">chart</span><span class="o">.</span><span class="n">set_y_axis</span><span class="p">({</span><span class="s">&#39;visible&#39;</span><span class="p">:</span> <span class="bp">False</span><span class="p">})</span>
+</pre></div>
+</div>
+<p>Axes are visible by default.</p>
+</li>
+</ul>
+</div>
+<div class="section" id="chart-set-y-axis">
+<h2>chart.set_y_axis()</h2>
+<dl class="function">
+<dt id="set_y_axis">
+<tt class="descname">set_y_axis</tt><big>(</big><em>options</em><big>)</big></dt>
+<dd><p>Set the chart Y axis options.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>options</strong> (<a class="reference external" href="http://docs.python.org/2/library/stdtypes.html#dict" title="(in Python v2.7)"><em>dict</em></a>) &#8211; A dictionary of axis options.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<p>The <tt class="docutils literal"><span class="pre">set_y_axis()</span></tt> method is used to set properties of the Y axis.</p>
+<p>The properties that can be set are the same as for <tt class="docutils literal"><span class="pre">set_x_axis</span></tt>, see above.</p>
+</div>
+<div class="section" id="chart-set-x2-axis">
+<h2>chart.set_x2_axis()</h2>
+<dl class="function">
+<dt id="set_x2_axis">
+<tt class="descname">set_x2_axis</tt><big>(</big><em>options</em><big>)</big></dt>
+<dd><p>Set the chart secondary X axis options.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>options</strong> (<a class="reference external" href="http://docs.python.org/2/library/stdtypes.html#dict" title="(in Python v2.7)"><em>dict</em></a>) &#8211; A dictionary of axis options.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<p>The <tt class="docutils literal"><span class="pre">set_x2_axis()</span></tt> method is used to set properties of the secondary X axis,
+see <tt class="xref py py-func docutils literal"><span class="pre">chart_secondary_axes()</span></tt>.</p>
+<p>The properties that can be set are the same as for <tt class="docutils literal"><span class="pre">set_x_axis</span></tt>, see above.</p>
+<p>The default properties for this axis are:</p>
+<div class="highlight-python"><pre>'label_position': 'none',
+'crossing':       'max',
+'visible':        False,</pre>
+</div>
+</div>
+<div class="section" id="chart-set-y2-axis">
+<h2>chart.set_y2_axis()</h2>
+<dl class="function">
+<dt id="set_y2_axis">
+<tt class="descname">set_y2_axis</tt><big>(</big><em>options</em><big>)</big></dt>
+<dd><p>Set the chart secondary Y axis options.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>options</strong> (<a class="reference external" href="http://docs.python.org/2/library/stdtypes.html#dict" title="(in Python v2.7)"><em>dict</em></a>) &#8211; A dictionary of axis options.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<p>The <tt class="docutils literal"><span class="pre">set_y2_axis()</span></tt> method is used to set properties of the secondary Y axis,
+see <tt class="xref py py-func docutils literal"><span class="pre">chart_secondary_axes()</span></tt>.</p>
+<p>The properties that can be set are the same as for <tt class="docutils literal"><span class="pre">set_x_axis</span></tt>, see above.</p>
+<p>The default properties for this axis are:</p>
+<div class="highlight-python"><pre>'major_gridlines': {'visible': True}</pre>
+</div>
+</div>
+<div class="section" id="chart-set-size">
+<h2>chart.set_size()</h2>
+<dl class="function">
+<dt id="set_size">
+<tt class="descname">set_size</tt><big>(</big><em>options</em><big>)</big></dt>
+<dd><p>Set the size or scale of the chart.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>options</strong> (<a class="reference external" href="http://docs.python.org/2/library/stdtypes.html#dict" title="(in Python v2.7)"><em>dict</em></a>) &#8211; A dictionary of chart size options.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<p>The <tt class="docutils literal"><span class="pre">set_size()</span></tt> method is used to set the dimensions of the chart. The size
+properties that can be set are:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">width</span>
+<span class="n">height</span>
+<span class="n">x_scale</span>
+<span class="n">y_scale</span>
+<span class="n">x_offset</span>
+<span class="n">y_offset</span>
+</pre></div>
+</div>
+<p>The <tt class="docutils literal"><span class="pre">width</span></tt> and <tt class="docutils literal"><span class="pre">height</span></tt> are in pixels. The default chart width x height is
+480 x 288 pixels. The size of the chart can be modified by setting the
+<tt class="docutils literal"><span class="pre">width</span></tt> and <tt class="docutils literal"><span class="pre">height</span></tt> or by setting the <tt class="docutils literal"><span class="pre">x_scale</span></tt> and <tt class="docutils literal"><span class="pre">y_scale</span></tt>:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">chart</span><span class="o">.</span><span class="n">set_size</span><span class="p">({</span><span class="s">&#39;width&#39;</span><span class="p">:</span> <span class="mi">720</span><span class="p">,</span> <span class="s">&#39;height&#39;</span><span class="p">:</span> <span class="mi">576</span><span class="p">})</span>
+<span class="c"># Same as:</span>
+<span class="n">chart</span><span class="o">.</span><span class="n">set_size</span><span class="p">({</span><span class="s">&#39;x_scale&#39;</span><span class="p">,</span> <span class="mf">1.5</span><span class="p">,</span> <span class="s">&#39;y_scale&#39;</span><span class="p">,</span> <span class="mi">2</span><span class="p">})</span>
+</pre></div>
+</div>
+<p>The <tt class="docutils literal"><span class="pre">x_offset</span></tt> and <tt class="docutils literal"><span class="pre">y_offset</span></tt> position the top left corner of the chart in
+the cell that it is inserted into.</p>
+<p>Note: the <tt class="docutils literal"><span class="pre">x_offset</span></tt> and <tt class="docutils literal"><span class="pre">y_offset</span></tt> parameters can also be set via the
+<a class="reference internal" href="worksheet.html#insert_chart" title="insert_chart"><tt class="xref py py-func docutils literal"><span class="pre">insert_chart()</span></tt></a> method:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">worksheet</span><span class="o">.</span><span class="n">insert_chart</span><span class="p">(</span><span class="s">&#39;E2&#39;</span><span class="p">,</span> <span class="n">chart</span><span class="p">,</span> <span class="p">{</span><span class="s">&#39;x_offset&#39;</span><span class="p">:</span> <span class="mi">25</span><span class="p">,</span> <span class="s">&#39;y_offset&#39;</span><span class="p">:</span> <span class="mi">10</span><span class="p">})</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="chart-set-title">
+<h2>chart.set_title()</h2>
+<dl class="function">
+<dt id="set_title">
+<tt class="descname">set_title</tt><big>(</big><em>options</em><big>)</big></dt>
+<dd><p>Set the chart title options.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>options</strong> (<a class="reference external" href="http://docs.python.org/2/library/stdtypes.html#dict" title="(in Python v2.7)"><em>dict</em></a>) &#8211; A dictionary of chart size options.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<p>The <tt class="docutils literal"><span class="pre">set_title()</span></tt> method is used to set properties of the chart title:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">chart</span><span class="o">.</span><span class="n">set_title</span><span class="p">({</span><span class="s">&#39;name&#39;</span><span class="p">:</span> <span class="s">&#39;Year End Results&#39;</span><span class="p">})</span>
+</pre></div>
+</div>
+<a class="reference internal image-reference" href="_images/chart_title.png"><img alt="_images/chart_title.png" src="_images/chart_title.png" style="width: 704.25px; height: 402.75px;" /></a>
+<p>The properties that can be set are:</p>
+<ul class="simple">
+<li><tt class="docutils literal"><span class="pre">name</span></tt>: Set the name (title) for the chart. The name is displayed above
+the chart. The name can also be a formula such as <tt class="docutils literal"><span class="pre">=Sheet1!$A$1</span></tt>. The name
+property is optional. The default is to have no chart title.</li>
+<li><tt class="docutils literal"><span class="pre">name_font</span></tt>: Set the font properties for the chart title. See
+<a class="reference internal" href="working_with_charts.html#chart-fonts"><em>Chart Fonts</em></a>.</li>
+</ul>
+</div>
+<div class="section" id="chart-set-legend">
+<h2>chart.set_legend()</h2>
+<dl class="function">
+<dt id="set_legend">
+<tt class="descname">set_legend</tt><big>(</big><em>options</em><big>)</big></dt>
+<dd><p>Set the chart legend options.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>options</strong> (<a class="reference external" href="http://docs.python.org/2/library/stdtypes.html#dict" title="(in Python v2.7)"><em>dict</em></a>) &#8211; A dictionary of chart legend options.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<p>The <tt class="docutils literal"><span class="pre">set_legend()</span></tt> method is used to set properties of the chart legend. For
+example it can be used to turn off the default chart legend:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">chart</span><span class="o">.</span><span class="n">set_legend</span><span class="p">({</span><span class="s">&#39;position&#39;</span><span class="p">:</span> <span class="s">&#39;none&#39;</span><span class="p">})</span>
+</pre></div>
+</div>
+<a class="reference internal image-reference" href="_images/chart_legend_none.png"><img alt="_images/chart_legend_none.png" src="_images/chart_legend_none.png" style="width: 704.25px; height: 402.75px;" /></a>
+<p>The options that can be set are:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">position</span>
+<span class="n">delete_series</span>
+</pre></div>
+</div>
+<ul>
+<li><p class="first"><tt class="docutils literal"><span class="pre">position</span></tt>: Set the position of the chart legend:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">chart</span><span class="o">.</span><span class="n">set_legend</span><span class="p">({</span><span class="s">&#39;position&#39;</span><span class="p">:</span> <span class="s">&#39;bottom&#39;</span><span class="p">})</span>
+</pre></div>
+</div>
+<a class="reference internal image-reference" href="_images/chart_legend_bottom.png"><img alt="_images/chart_legend_bottom.png" src="_images/chart_legend_bottom.png" style="width: 704.25px; height: 402.75px;" /></a>
+<p>The default legend position is <tt class="docutils literal"><span class="pre">right</span></tt>. The available positions are:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">none</span>
+<span class="n">top</span>
+<span class="n">bottom</span>
+<span class="n">left</span>
+<span class="n">right</span>
+<span class="n">overlay_left</span>
+<span class="n">overlay_right</span>
+</pre></div>
+</div>
+</li>
+<li><p class="first"><tt class="docutils literal"><span class="pre">delete_series</span></tt>: This allows you to remove one or more series from the
+the legend (the series will still display on the chart). This property takes
+a list as an argument and the series are zero indexed:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="c"># Delete/hide series index 0 and 2 from the legend.</span>
+<span class="n">chart</span><span class="o">.</span><span class="n">set_legend</span><span class="p">({</span><span class="s">&#39;delete_series&#39;</span><span class="p">:</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">]})</span>
+</pre></div>
+</div>
+<a class="reference internal image-reference" href="_images/chart_legend_delete.png"><img alt="_images/chart_legend_delete.png" src="_images/chart_legend_delete.png" style="width: 704.25px; height: 402.75px;" /></a>
+</li>
+</ul>
+</div>
+<div class="section" id="chart-set-chartarea">
+<h2>chart.set_chartarea()</h2>
+<dl class="function">
+<dt id="set_chartarea">
+<tt class="descname">set_chartarea</tt><big>(</big><em>options</em><big>)</big></dt>
+<dd><p>Set the chart area options.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>options</strong> (<a class="reference external" href="http://docs.python.org/2/library/stdtypes.html#dict" title="(in Python v2.7)"><em>dict</em></a>) &#8211; A dictionary of chart area options.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<p>The <tt class="docutils literal"><span class="pre">set_chartarea()</span></tt> method is used to set the properties of the chart area:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">chart</span><span class="o">.</span><span class="n">set_chartarea</span><span class="p">({</span>
+    <span class="s">&#39;border&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s">&#39;none&#39;</span><span class="p">:</span> <span class="bp">True</span><span class="p">},</span>
+    <span class="s">&#39;fill&#39;</span><span class="p">:</span>   <span class="p">{</span><span class="s">&#39;color&#39;</span><span class="p">:</span> <span class="s">&#39;red&#39;</span><span class="p">}</span>
+<span class="p">})</span>
+</pre></div>
+</div>
+<a class="reference internal image-reference" href="_images/chart_chartarea.png"><img alt="_images/chart_chartarea.png" src="_images/chart_chartarea.png" style="width: 702.75px; height: 401.25px;" /></a>
+<p>The properties that can be set are:</p>
+<ul class="simple">
+<li><tt class="docutils literal"><span class="pre">border</span></tt>: Set the border properties of the chartarea such as colour and
+style. See <a class="reference internal" href="working_with_charts.html#chart-formatting"><em>Chart Formatting</em></a>.</li>
+<li><tt class="docutils literal"><span class="pre">fill</span></tt>: Set the fill properties of the chartarea such as colour. See
+<a class="reference internal" href="working_with_charts.html#chart-formatting"><em>Chart Formatting</em></a>.</li>
+</ul>
+</div>
+<div class="section" id="chart-set-plotarea">
+<h2>chart.set_plotarea()</h2>
+<dl class="function">
+<dt id="set_plotarea">
+<tt class="descname">set_plotarea</tt><big>(</big><em>options</em><big>)</big></dt>
+<dd><p>Set the plot area options.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>options</strong> (<a class="reference external" href="http://docs.python.org/2/library/stdtypes.html#dict" title="(in Python v2.7)"><em>dict</em></a>) &#8211; A dictionary of plot area options.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<p>The <tt class="docutils literal"><span class="pre">set_plotarea()</span></tt> method is used to set properties of the plot area of a
+chart:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">chart</span><span class="o">.</span><span class="n">set_plotarea</span><span class="p">({</span>
+    <span class="s">&#39;border&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s">&#39;color&#39;</span><span class="p">:</span> <span class="s">&#39;red&#39;</span><span class="p">,</span> <span class="s">&#39;width&#39;</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span> <span class="s">&#39;dash_type&#39;</span><span class="p">:</span> <span class="s">&#39;dash&#39;</span><span class="p">},</span>
+    <span class="s">&#39;fill&#39;</span><span class="p">:</span>   <span class="p">{</span><span class="s">&#39;color&#39;</span><span class="p">:</span> <span class="s">&#39;#FFFFC2&#39;</span><span class="p">}</span>
+<span class="p">})</span>
+</pre></div>
+</div>
+<a class="reference internal image-reference" href="_images/chart_plotarea.png"><img alt="_images/chart_plotarea.png" src="_images/chart_plotarea.png" style="width: 704.25px; height: 402.75px;" /></a>
+<p>The properties that can be set are:</p>
+<ul class="simple">
+<li><tt class="docutils literal"><span class="pre">border</span></tt>: Set the border properties of the plotarea such as colour and
+style. See <a class="reference internal" href="working_with_charts.html#chart-formatting"><em>Chart Formatting</em></a>.</li>
+<li><tt class="docutils literal"><span class="pre">fill</span></tt>: Set the fill properties of the plotarea such as colour. See
+<a class="reference internal" href="working_with_charts.html#chart-formatting"><em>Chart Formatting</em></a>.</li>
+</ul>
+</div>
+<div class="section" id="chart-set-style">
+<h2>chart.set_style()</h2>
+<dl class="function">
+<dt id="set_style">
+<tt class="descname">set_style</tt><big>(</big><em>style_id</em><big>)</big></dt>
+<dd><p>Set the chart style type.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>style_id</strong> (<a class="reference external" href="http://docs.python.org/2/library/functions.html#int" title="(in Python v2.7)"><em>int</em></a>) &#8211; An index representing the chart style.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<p>The <tt class="docutils literal"><span class="pre">set_style()</span></tt> method is used to set the style of the chart to one of the
+48 built-in styles available on the &#8216;Design&#8217; tab in Excel:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">chart</span><span class="o">.</span><span class="n">set_style</span><span class="p">(</span><span class="mi">37</span><span class="p">)</span>
+</pre></div>
+</div>
+<a class="reference internal image-reference" href="_images/chart_style.png"><img alt="_images/chart_style.png" src="_images/chart_style.png" style="width: 704.25px; height: 402.75px;" /></a>
+<p>The style index number is counter from 1 on the top left. The default style is
+2.</p>
+</div>
+<div class="section" id="chart-set-table">
+<h2>chart.set_table()</h2>
+<dl class="function">
+<dt id="set_table">
+<tt class="descname">set_table</tt><big>(</big><em>options</em><big>)</big></dt>
+<dd><p>Set properties for an axis data table.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>options</strong> (<a class="reference external" href="http://docs.python.org/2/library/stdtypes.html#dict" title="(in Python v2.7)"><em>dict</em></a>) &#8211; A dictionary of axis table options.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<p>The <tt class="docutils literal"><span class="pre">set_table()</span></tt> method adds a data table below the horizontal axis with the
+data used to plot the chart:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">chart</span><span class="o">.</span><span class="n">set_table</span><span class="p">()</span>
+</pre></div>
+</div>
+<a class="reference internal image-reference" href="_images/chart_table.png"><img alt="_images/chart_table.png" src="_images/chart_table.png" style="width: 704.25px; height: 402.75px;" /></a>
+<p>The available options, with default values are:</p>
+<div class="highlight-python"><pre>'horizontal': True   # Display vertical lines in the table.
+'vertical':   True   # Display horizontal lines in the table.
+'outline':    True   # Display an outline in the table.
+'show_keys':  False  # Show the legend keys with the table data.
+
+chart.set_table({'show_keys': True})</pre>
+</div>
+<p>The data table can only be shown with Bar, Column, Line, Area and stock charts.</p>
+</div>
+<div class="section" id="chart-set-up-down-bars">
+<h2>chart.set_up_down_bars()</h2>
+<dl class="function">
+<dt id="set_up_down_bars">
+<tt class="descname">set_up_down_bars</tt><big>(</big><em>options</em><big>)</big></dt>
+<dd><p>Set properties for the chart up-down bars.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>options</strong> (<a class="reference external" href="http://docs.python.org/2/library/stdtypes.html#dict" title="(in Python v2.7)"><em>dict</em></a>) &#8211; A dictionary of options.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<p>The <tt class="docutils literal"><span class="pre">set_up_down_bars()</span></tt> method adds Up-Down bars to Line charts to indicate
+the difference between the first and last data series:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">chart</span><span class="o">.</span><span class="n">set_up_down_bars</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>It is possible to format the up and down bars to add <tt class="docutils literal"><span class="pre">fill</span></tt> and <tt class="docutils literal"><span class="pre">border</span></tt>
+properties if required. See <a class="reference internal" href="working_with_charts.html#chart-formatting"><em>Chart Formatting</em></a>:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">chart</span><span class="o">.</span><span class="n">set_up_down_bars</span><span class="p">({</span>
+    <span class="s">&#39;up&#39;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s">&#39;fill&#39;</span><span class="p">:</span>   <span class="p">{</span><span class="s">&#39;color&#39;</span><span class="p">:</span> <span class="s">&#39;#00B050&#39;</span><span class="p">},</span>
+        <span class="s">&#39;border&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s">&#39;color&#39;</span><span class="p">:</span> <span class="s">&#39;black&#39;</span><span class="p">}</span>
+    <span class="p">},</span>
+    <span class="s">&#39;down&#39;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s">&#39;fill&#39;</span><span class="p">:</span>   <span class="p">{</span><span class="s">&#39;color&#39;</span><span class="p">:</span> <span class="s">&#39;red&#39;</span><span class="p">},</span>
+        <span class="s">&#39;border&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s">&#39;color&#39;</span><span class="p">:</span> <span class="s">&#39;black&#39;</span><span class="p">},</span>
+    <span class="p">},</span>
+<span class="p">})</span>
+</pre></div>
+</div>
+<a class="reference internal image-reference" href="_images/chart_up_down_bars.png"><img alt="_images/chart_up_down_bars.png" src="_images/chart_up_down_bars.png" style="width: 705.0px; height: 402.75px;" /></a>
+<p>Up-down bars can only be applied to Line charts and to Stock charts (by
+default).</p>
+</div>
+<div class="section" id="chart-set-drop-lines">
+<h2>chart.set_drop_lines()</h2>
+<dl class="function">
+<dt id="set_drop_lines">
+<tt class="descname">set_drop_lines</tt><big>(</big><em>options</em><big>)</big></dt>
+<dd><p>Set properties for the chart drop lines.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>options</strong> (<a class="reference external" href="http://docs.python.org/2/library/stdtypes.html#dict" title="(in Python v2.7)"><em>dict</em></a>) &#8211; A dictionary of options.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<p>The <tt class="docutils literal"><span class="pre">set_drop_lines()</span></tt> method adds Drop Lines to charts to show the Category
+value of points in the data:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">chart</span><span class="o">.</span><span class="n">set_drop_lines</span><span class="p">()</span>
+</pre></div>
+</div>
+<a class="reference internal image-reference" href="_images/chart_drop_lines.png"><img alt="_images/chart_drop_lines.png" src="_images/chart_drop_lines.png" style="width: 705.0px; height: 402.75px;" /></a>
+<p>It is possible to format the Drop Line <tt class="docutils literal"><span class="pre">line</span></tt> properties if required. See
+<a class="reference internal" href="working_with_charts.html#chart-formatting"><em>Chart Formatting</em></a>:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">chart</span><span class="o">.</span><span class="n">set_drop_lines</span><span class="p">({</span><span class="s">&#39;line&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s">&#39;color&#39;</span><span class="p">:</span> <span class="s">&#39;red&#39;</span><span class="p">,</span>
+                               <span class="s">&#39;dash_type&#39;</span><span class="p">:</span> <span class="s">&#39;square_dot&#39;</span><span class="p">}})</span>
+</pre></div>
+</div>
+<p>Drop Lines are only available in Line, Area and Stock charts.</p>
+</div>
+<div class="section" id="chart-set-high-low-lines">
+<h2>chart.set_high_low_lines()</h2>
+<dl class="function">
+<dt id="set_high_low_lines">
+<tt class="descname">set_high_low_lines</tt><big>(</big><em>options</em><big>)</big></dt>
+<dd><p>Set properties for the chart high-low lines.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>options</strong> (<a class="reference external" href="http://docs.python.org/2/library/stdtypes.html#dict" title="(in Python v2.7)"><em>dict</em></a>) &#8211; A dictionary of options.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<p>The <tt class="docutils literal"><span class="pre">set_high_low_lines()</span></tt> method adds High-Low lines to charts to show the
+maximum and minimum values of points in a Category:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">chart</span><span class="o">.</span><span class="n">set_high_low_lines</span><span class="p">()</span>
+</pre></div>
+</div>
+<a class="reference internal image-reference" href="_images/chart_high_low_lines.png"><img alt="_images/chart_high_low_lines.png" src="_images/chart_high_low_lines.png" style="width: 705.0px; height: 402.75px;" /></a>
+<p>It is possible to format the High-Low Line <tt class="docutils literal"><span class="pre">line</span></tt> properties if required. See
+<a class="reference internal" href="working_with_charts.html#chart-formatting"><em>Chart Formatting</em></a>:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">chart</span><span class="o">.</span><span class="n">set_high_low_lines</span><span class="p">({</span>
+    <span class="s">&#39;line&#39;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s">&#39;color&#39;</span><span class="p">:</span> <span class="s">&#39;red&#39;</span><span class="p">,</span>
+        <span class="s">&#39;dash_type&#39;</span><span class="p">:</span> <span class="s">&#39;square_dot&#39;</span>
+    <span class="p">}</span>
+<span class="p">})</span>
+</pre></div>
+</div>
+<p>High-Low Lines are only available in Line and Stock charts.</p>
+</div>
+<div class="section" id="chart-show-blanks-as">
+<h2>chart.show_blanks_as()</h2>
+<dl class="function">
+<dt id="show_blanks_as">
+<tt class="descname">show_blanks_as</tt><big>(</big><em>option</em><big>)</big></dt>
+<dd><p>Set the option for displaying blank data in a chart.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>option</strong> (<a class="reference external" href="http://docs.python.org/2/library/string.html#string" title="(in Python v2.7)"><em>string</em></a>) &#8211; A string representing the display option.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<p>The <tt class="docutils literal"><span class="pre">show_blanks_as()</span></tt> method controls how blank data is displayed in a
+chart:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">chart</span><span class="o">.</span><span class="n">show_blanks_as</span><span class="p">(</span><span class="s">&#39;span&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>The available options are:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="s">&#39;gap&#39;</span>   <span class="c"># Blank data is shown as a gap. The default.</span>
+<span class="s">&#39;zero&#39;</span>  <span class="c"># Blank data is displayed as zero.</span>
+<span class="s">&#39;span&#39;</span>  <span class="c"># Blank data is connected with a line.</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="chart-show-hidden-data">
+<h2>chart.show_hidden_data()</h2>
+<dl class="function">
+<dt id="show_hidden_data">
+<tt class="descname">show_hidden_data</tt><big>(</big><big>)</big></dt>
+<dd><p>Display data on charts from hidden rows or columns.</p>
+</dd></dl>
+
+<p>Display data in hidden rows or columns on the chart:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">chart</span><span class="o">.</span><span class="n">show_hidden_data</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>See also <a class="reference internal" href="working_with_charts.html#working-with-charts"><em>Working with Charts</em></a> and <a class="reference internal" href="chart_examples.html#chart-examples"><em>Chart Examples</em></a>.</p>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="index.html">
+              <img class="logo" src="_static/logo.png" alt="Logo"/>
+            </a></p>
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">The Chart Class</a><ul>
+<li><a class="reference internal" href="#chart-add-series">chart.add_series()</a></li>
+<li><a class="reference internal" href="#chart-set-x-axis">chart.set_x_axis()</a></li>
+<li><a class="reference internal" href="#chart-set-y-axis">chart.set_y_axis()</a></li>
+<li><a class="reference internal" href="#chart-set-x2-axis">chart.set_x2_axis()</a></li>
+<li><a class="reference internal" href="#chart-set-y2-axis">chart.set_y2_axis()</a></li>
+<li><a class="reference internal" href="#chart-set-size">chart.set_size()</a></li>
+<li><a class="reference internal" href="#chart-set-title">chart.set_title()</a></li>
+<li><a class="reference internal" href="#chart-set-legend">chart.set_legend()</a></li>
+<li><a class="reference internal" href="#chart-set-chartarea">chart.set_chartarea()</a></li>
+<li><a class="reference internal" href="#chart-set-plotarea">chart.set_plotarea()</a></li>
+<li><a class="reference internal" href="#chart-set-style">chart.set_style()</a></li>
+<li><a class="reference internal" href="#chart-set-table">chart.set_table()</a></li>
+<li><a class="reference internal" href="#chart-set-up-down-bars">chart.set_up_down_bars()</a></li>
+<li><a class="reference internal" href="#chart-set-drop-lines">chart.set_drop_lines()</a></li>
+<li><a class="reference internal" href="#chart-set-high-low-lines">chart.set_high_low_lines()</a></li>
+<li><a class="reference internal" href="#chart-show-blanks-as">chart.show_blanks_as()</a></li>
+<li><a class="reference internal" href="#chart-show-hidden-data">chart.show_hidden_data()</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="format.html"
+                        title="previous chapter">The Format Class</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="working_with_cell_notation.html"
+                        title="next chapter">Working with Cell Notation</a></p>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="_sources/chart.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="working_with_cell_notation.html" title="Working with Cell Notation"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="format.html" title="The Format Class"
+             >previous</a> |</li>
+        <li><a href="index.html">XlsxWriter Documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2013, John McNamara.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.3.
+    </div>
+  </body>
+</html>

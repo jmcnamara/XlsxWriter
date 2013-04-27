@@ -16,7 +16,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '',
-        VERSION:     '0.3.0',
+        VERSION:     '0.3.1',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -27,7 +27,7 @@
     <script type="text/javascript" src="_static/doctools.js"></script>
     <link rel="top" title="XlsxWriter Documentation" href="index.html" />
     <link rel="next" title="Alternative modules for handling Excel files" href="alternatives.html" />
-    <link rel="prev" title="Example: Hiding Rows and Columns" href="example_hide_row_col.html" /> 
+    <link rel="prev" title="Example: Charts with Data Tools" href="example_chart_data_tools.html" /> 
   </head>
   <body>
     <div class="related">
@@ -40,7 +40,7 @@
           <a href="alternatives.html" title="Alternative modules for handling Excel files"
              accesskey="N">next</a> |</li>
         <li class="right" >
-          <a href="example_hide_row_col.html" title="Example: Hiding Rows and Columns"
+          <a href="example_chart_data_tools.html" title="Example: Charts with Data Tools"
              accesskey="P">previous</a> |</li>
         <li><a href="index.html">XlsxWriter Documentation</a> &raquo;</li> 
       </ul>
@@ -57,11 +57,9 @@
 <a class="reference external" href="http://search.cpan.org/~jmcnamara/Excel-Writer-XLSX/">Excel::Writer::XLSX</a>
 module with more Pythonic interfaces.</p>
 <p>XlsxWriter supports almost all of Excel::Writer::XLSX&#8217;s features apart from
-those noted in the tables below. Remaining features such as sparklines and
-charts are in progress.</p>
+those noted in the tables below.</p>
 <div class="section" id="workbook">
 <h2>Workbook</h2>
-<p>Status: ongoing.</p>
 <table border="1" class="docutils">
 <colgroup>
 <col width="44%" />
@@ -83,8 +81,8 @@ charts are in progress.</p>
 <td>Yes</td>
 <td>Yes</td>
 </tr>
-<tr class="row-even"><td>add_chart()</td>
-<td><strong>No</strong></td>
+<tr class="row-even"><td><a class="reference internal" href="workbook.html#add_chart" title="add_chart"><tt class="xref py py-func docutils literal"><span class="pre">add_chart()</span></tt></a></td>
+<td>Yes</td>
 <td>Yes</td>
 </tr>
 <tr class="row-odd"><td><a class="reference internal" href="workbook.html#close" title="close"><tt class="xref py py-func docutils literal"><span class="pre">close()</span></tt></a></td>
@@ -137,7 +135,6 @@ charts are in progress.</p>
 </div>
 <div class="section" id="worksheet">
 <h2>Worksheet</h2>
-<p>Status: ongoing.</p>
 <table border="1" class="docutils">
 <colgroup>
 <col width="48%" />
@@ -211,8 +208,8 @@ charts are in progress.</p>
 <td>Yes</td>
 <td>Yes</td>
 </tr>
-<tr class="row-odd"><td>insert_chart()</td>
-<td><strong>No</strong></td>
+<tr class="row-odd"><td><a class="reference internal" href="worksheet.html#insert_chart" title="insert_chart"><tt class="xref py py-func docutils literal"><span class="pre">insert_chart()</span></tt></a></td>
+<td>Yes</td>
 <td>Yes</td>
 </tr>
 <tr class="row-even"><td><a class="reference internal" href="worksheet.html#data_validation" title="data_validation"><tt class="xref py py-func docutils literal"><span class="pre">data_validation()</span></tt></a></td>
@@ -223,8 +220,8 @@ charts are in progress.</p>
 <td>Yes</td>
 <td>Yes</td>
 </tr>
-<tr class="row-even"><td>add_sparkline()</td>
-<td><strong>No</strong></td>
+<tr class="row-even"><td><a class="reference internal" href="worksheet.html#add_sparkline" title="add_sparkline"><tt class="xref py py-func docutils literal"><span class="pre">add_sparkline()</span></tt></a></td>
+<td>Yes</td>
 <td>Yes</td>
 </tr>
 <tr class="row-odd"><td><a class="reference internal" href="worksheet.html#add_table" title="add_table"><tt class="xref py py-func docutils literal"><span class="pre">add_table()</span></tt></a></td>
@@ -338,7 +335,6 @@ API. They probably won&#8217;t be ported.</li>
 </div>
 <div class="section" id="page-setup">
 <h2>Page Setup</h2>
-<p>Status: complete.</p>
 <table border="1" class="docutils">
 <colgroup>
 <col width="50%" />
@@ -437,7 +433,6 @@ API. They probably won&#8217;t be ported.</li>
 </div>
 <div class="section" id="format">
 <h2>Format</h2>
-<p>Status: complete.</p>
 <table border="1" class="docutils">
 <colgroup>
 <col width="48%" />
@@ -601,8 +596,8 @@ API. They probably won&#8217;t be ported.</li>
 </ul>
 
   <h4>Previous topic</h4>
-  <p class="topless"><a href="example_hide_row_col.html"
-                        title="previous chapter">Example: Hiding Rows and Columns</a></p>
+  <p class="topless"><a href="example_chart_data_tools.html"
+                        title="previous chapter">Example: Charts with Data Tools</a></p>
   <h4>Next topic</h4>
   <p class="topless"><a href="alternatives.html"
                         title="next chapter">Alternative modules for handling Excel files</a></p>
@@ -638,7 +633,7 @@ API. They probably won&#8217;t be ported.</li>
           <a href="alternatives.html" title="Alternative modules for handling Excel files"
              >next</a> |</li>
         <li class="right" >
-          <a href="example_hide_row_col.html" title="Example: Hiding Rows and Columns"
+          <a href="example_chart_data_tools.html" title="Example: Charts with Data Tools"
              >previous</a> |</li>
         <li><a href="index.html">XlsxWriter Documentation</a> &raquo;</li> 
       </ul>

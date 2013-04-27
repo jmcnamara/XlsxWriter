@@ -16,7 +16,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '',
-        VERSION:     '0.3.0',
+        VERSION:     '0.3.1',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -98,9 +98,9 @@ large files can be written efficiently:</p>
 <div class="highlight-python"><div class="highlight"><pre><span class="n">workbook</span> <span class="o">=</span> <span class="n">Workbook</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="p">{</span><span class="s">&#39;constant_memory&#39;</span><span class="p">:</span> <span class="bp">True</span><span class="p">})</span>
 </pre></div>
 </div>
-<p>Note, in this mode  a row of data is written and then discarded when a
-cell in a new row is added via one of the worksheet <tt class="docutils literal"><span class="pre">write_()</span></tt> methods.
-As such data should be written in sequential row order once this mode is on.</p>
+<p>Note, in this mode  a row of data is written and then discarded when a cell
+in a new row is added via one of the worksheet <tt class="docutils literal"><span class="pre">write_()</span></tt> methods. As such
+data should be written in sequential row order once this mode is on.</p>
 <p>See <a class="reference internal" href="working_with_memory.html#memory-perf"><em>Working with Memory and Performance</em></a> for more details.</p>
 </li>
 <li><p class="first"><strong>tmpdir</strong>: <tt class="docutils literal"><span class="pre">XlsxWriter</span></tt> stores worksheet data in a temporary directory
@@ -166,9 +166,8 @@ Excel convention will be followed, i.e. Sheet1, Sheet2, etc.:</p>
 </div>
 <img alt="_images/workbook02.png" src="_images/workbook02.png" />
 <p>The worksheet name must be a valid Excel worksheet name, i.e. it cannot contain
-any of the characters <tt class="docutils literal"><span class="pre">'</span> <span class="pre">[</span> <span class="pre">]</span> <span class="pre">:</span> <span class="pre">*</span> <span class="pre">?</span> <span class="pre">/</span> <span class="pre">\</span> <span class="pre">'</span></tt> and it must be less than 32
-characters. In addition, you cannot use the same, case insensitive,
-<tt class="docutils literal"><span class="pre">sheetname</span></tt> for more than one worksheet.</p>
+any of the characters <tt class="docutils literal"><span class="pre">'</span> <span class="pre">[</span> <span class="pre">]</span> <span class="pre">:</span> <span class="pre">*</span> <span class="pre">?</span> <span class="pre">/</span> <span class="pre">\</span>
+<span class="pre">'</span></tt> and it must be less than 32 characters. In addition, you cannot use the same, case insensitive, <tt class="docutils literal"><span class="pre">sheetname</span></tt> for more than one worksheet.</p>
 </div>
 <div class="section" id="workbook-add-format">
 <h2>workbook.add_format()</h2>
@@ -198,6 +197,63 @@ via method calls:</p>
 </div>
 <p>See the <a class="reference internal" href="format.html#format"><em>The Format Class</em></a> and <a class="reference internal" href="working_with_formats.html#working-with-formats"><em>Working with Formats</em></a> sections for more details
 about Format properties and how to set them.</p>
+</div>
+<div class="section" id="workbook-add-chart">
+<h2>workbook.add_chart()</h2>
+<dl class="function">
+<dt id="add_chart">
+<tt class="descname">add_chart</tt><big>(</big><em>options</em><big>)</big></dt>
+<dd><p>Create a chart object that can be added to a worksheet.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>options</strong> (<em>dictionary</em>) &#8211; An dictionary of chart type options.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body">A <a class="reference internal" href="chart.html#chart-class"><em>Chart</em></a> object.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<p>This method is use to create a new chart object that can be inserted into a
+worksheet via the <a class="reference internal" href="worksheet.html#insert_chart" title="insert_chart"><tt class="xref py py-func docutils literal"><span class="pre">insert_chart()</span></tt></a> Worksheet method:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">chart</span> <span class="o">=</span> <span class="n">workbook</span><span class="o">.</span><span class="n">add_chart</span><span class="p">({</span><span class="s">&#39;type&#39;</span><span class="p">:</span> <span class="s">&#39;column&#39;</span><span class="p">})</span>
+</pre></div>
+</div>
+<p>The properties that can be set are:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="nb">type</span>    <span class="p">(</span><span class="n">required</span><span class="p">)</span>
+<span class="n">subtype</span> <span class="p">(</span><span class="n">optional</span><span class="p">)</span>
+</pre></div>
+</div>
+<ul>
+<li><p class="first"><tt class="docutils literal"><span class="pre">type</span></tt></p>
+<p>This is a required parameter. It defines the type of chart that will be
+created:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">chart</span> <span class="o">=</span> <span class="n">workbook</span><span class="o">.</span><span class="n">add_chart</span><span class="p">({</span><span class="s">&#39;type&#39;</span><span class="p">:</span> <span class="s">&#39;line&#39;</span><span class="p">})</span>
+</pre></div>
+</div>
+<p>The available types are:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">area</span>
+<span class="n">bar</span>
+<span class="n">column</span>
+<span class="n">line</span>
+<span class="n">pie</span>
+<span class="n">radar</span>
+<span class="n">scatter</span>
+<span class="n">stock</span>
+</pre></div>
+</div>
+</li>
+<li><p class="first"><tt class="docutils literal"><span class="pre">subtype</span></tt></p>
+<p>Used to define a chart subtype where available:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">workbook</span><span class="o">.</span><span class="n">add_chart</span><span class="p">({</span><span class="s">&#39;type&#39;</span><span class="p">:</span> <span class="s">&#39;bar&#39;</span><span class="p">,</span> <span class="s">&#39;subtype&#39;</span><span class="p">:</span> <span class="s">&#39;stacked&#39;</span><span class="p">})</span>
+</pre></div>
+</div>
+</li>
+</ul>
+<p>See the <a class="reference internal" href="chart.html#chart-class"><em>The Chart Class</em></a> for a list of available chart subtypes.</p>
+<p>See also <a class="reference internal" href="working_with_charts.html#working-with-charts"><em>Working with Charts</em></a> and <a class="reference internal" href="chart_examples.html#chart-examples"><em>Chart Examples</em></a>.</p>
 </div>
 <div class="section" id="workbook-close">
 <h2>workbook.close()</h2>
@@ -352,6 +408,7 @@ workbook:</p>
 <li><a class="reference internal" href="#constructor">Constructor</a></li>
 <li><a class="reference internal" href="#workbook-add-worksheet">workbook.add_worksheet()</a></li>
 <li><a class="reference internal" href="#workbook-add-format">workbook.add_format()</a></li>
+<li><a class="reference internal" href="#workbook-add-chart">workbook.add_chart()</a></li>
 <li><a class="reference internal" href="#workbook-close">workbook.close()</a></li>
 <li><a class="reference internal" href="#workbook-set-properties">workbook.set_properties()</a></li>
 <li><a class="reference internal" href="#workbook-define-name">workbook.define_name()</a></li>

@@ -1,3 +1,8 @@
+Release 0.3.1 - April 27 2013
+-----------------------------
+
+* Added chart support. See the :ref:`chart_class`, :ref:`working_with_charts` 
+  and :ref:`chart_examples`.
 
 
 Release 0.3.0 - April 7 2013

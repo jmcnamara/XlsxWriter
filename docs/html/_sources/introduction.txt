@@ -7,8 +7,8 @@ Introduction
 file format.
 
 It can be used to write text, numbers, and formulas to multiple worksheets and
-it supports features such as formatting, images, page setup, autofilters,
-conditional formatting and many others.
+it supports features such as formatting, images, charts, page setup,
+autofilters, conditional formatting and many others.
 
 This module cannot be used to modify or write to an existing Excel XLSX file.
 There are some :ref:`alternatives` Python modules that do that.
