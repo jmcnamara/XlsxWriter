@@ -7,7 +7,7 @@
 import re
 from warnings import warn
 
-
+COL_NAMES = {}
 range_parts = re.compile(r'(\$?)([A-Z]{1,3})(\$?)(\d+)')
 
 
@@ -23,6 +23,20 @@ def xl_rowcol_to_cell(row, col, row_abs=0, col_abs=0):
     col_str = xl_col_to_name(col, col_abs)
 
     return col_str + row_abs + str(row)
+
+
+def xl_rowcol_to_cell_fast(row, col):
+    """
+    Optimised version of the xl_rowcol_to_cell function.
+
+    """
+    if col in COL_NAMES:
+        col_str = COL_NAMES[col]
+    else:
+        col_str = xl_col_to_name(col)
+        COL_NAMES[col] = col_str
+
+    return col_str + str(row + 1)
 
 
 def xl_col_to_name(col_num, col_abs=0):

@@ -27,6 +27,7 @@ from .format import Format
 from .drawing import Drawing
 from .xmlwriter import XMLwriter
 from .utility import xl_rowcol_to_cell
+from .utility import xl_rowcol_to_cell_fast
 from .utility import xl_cell_to_rowcol
 from .utility import xl_col_to_name
 from .utility import xl_range
@@ -4622,7 +4623,7 @@ class Worksheet(xmlwriter.XMLwriter):
         # Write the <cell> element.
         #
         # Note. This is the innermost loop so efficiency is important.
-        cell_range = xl_rowcol_to_cell(row, col)
+        cell_range = xl_rowcol_to_cell_fast(row, col)
 
         attributes = [('r', cell_range)]
 
