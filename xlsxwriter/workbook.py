@@ -23,6 +23,7 @@ from xlsxwriter.sharedstrings import SharedStringTable
 from xlsxwriter.format import Format
 from xlsxwriter.packager import Packager
 from .utility import xl_cell_to_rowcol
+from .utility import encode_utf8
 from xlsxwriter.chart_area import ChartArea
 from xlsxwriter.chart_bar import ChartBar
 from xlsxwriter.chart_column import ChartColumn
@@ -118,6 +119,9 @@ class Workbook(xmlwriter.XMLwriter):
         """
         sheet_index = len(self.worksheets_objs)
         name = self._check_sheetname(name)
+
+        # Encode any string options passed by the user.
+        name = encode_utf8(name)
 
         # Initialisation data to pass to the worksheet.
         init_data = {

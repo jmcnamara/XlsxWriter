@@ -9,7 +9,6 @@
 import re
 import datetime
 import tempfile
-import codecs
 import os
 from warnings import warn
 from collections import defaultdict
@@ -33,6 +32,7 @@ from .utility import xl_col_to_name
 from .utility import xl_range
 from .utility import xl_color
 from .utility import get_sparkline_style
+from .utility import encode_utf8
 
 
 ###############################################################################
@@ -392,6 +392,10 @@ class Worksheet(xmlwriter.XMLwriter):
         if len(string) > self.xls_strmax:
             string = string[:self.xls_strmax]
             str_error = -2
+
+        # Encode any string options passed by the user.
+        string = encode_utf8(string)
+        # string = string.encode('utf-8')
 
         # Write a shared string or an in-line string in optimisation mode.
         if self.optimization == 0:
@@ -802,10 +806,10 @@ class Worksheet(xmlwriter.XMLwriter):
                 if previous != 'format':
                     # If previous token wasn't a format add one before string.
                     fragments.append(default)
-                    fragments.append(token)
+                    fragments.append(encode_utf8(token))
                 else:
                     # If previous token was a format just add the string.
-                    fragments.append(token)
+                    fragments.append(encode_utf8(token))
 
                 # Keep track of actual string str_length.
                 str_length += len(token)
@@ -3003,14 +3007,9 @@ class Worksheet(xmlwriter.XMLwriter):
         if self.date_1904:
             self.epoch = datetime.datetime(1904, 1, 1)
 
-        # Open a temp filehandle to store row data in optimization mode.
         if self.optimization == 1:
-            # This make be sub-optimal or insecure. It seems like too much
-            # work to create a temp file with utf8 encoding in Python < 3.
-            (fd, filename) = tempfile.mkstemp(dir=self.tmpdir)
-            os.close(fd)
-            self.row_data_filename = filename
-            self.row_data_fh = codecs.open(filename, 'w+', 'utf-8')
+            # Open a temp filehandle to store row data in optimization mode.
+            self.row_data_fh = tempfile.TemporaryFile(mode='w+', dir=self.tmpdir)
 
             # Also use this as the worksheet filehandle until the file is
             # due to be assembled.
@@ -4325,7 +4324,6 @@ class Worksheet(xmlwriter.XMLwriter):
                 data = self.row_data_fh.read(buff_size)
 
             self.row_data_fh.close()
-            os.unlink(self.row_data_filename)
 
             self._xml_end_tag('sheetData')
 

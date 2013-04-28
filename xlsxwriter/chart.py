@@ -10,6 +10,7 @@ from warnings import warn
 from . import xmlwriter
 from .utility import xl_color
 from .utility import xl_rowcol_to_cell
+from .utility import encode_utf8
 
 
 class Chart(xmlwriter.XMLwriter):
@@ -564,6 +565,9 @@ class Chart(xmlwriter.XMLwriter):
             'num_format': options.get('num_format'),
             'num_format_linked': options.get('num_format_linked'),
         }
+
+        # Encode any string options passed by the user.
+        axis['num_format'] = encode_utf8(axis['num_format'])
 
         if 'visible' in options:
             axis['visible'] = options.get('visible')
