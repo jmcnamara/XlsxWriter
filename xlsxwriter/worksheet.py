@@ -9,7 +9,6 @@
 import re
 import datetime
 import tempfile
-import os
 from warnings import warn
 from collections import defaultdict
 from collections import namedtuple
@@ -395,7 +394,6 @@ class Worksheet(xmlwriter.XMLwriter):
 
         # Encode any string options passed by the user.
         string = encode_utf8(string)
-        # string = string.encode('utf-8')
 
         # Write a shared string or an in-line string in optimisation mode.
         if self.optimization == 0:
@@ -507,6 +505,9 @@ class Worksheet(xmlwriter.XMLwriter):
         if formula.startswith('='):
             formula = formula.lstrip('=')
 
+        # Encode any string options passed by the user.
+        formula = encode_utf8(formula)
+
         # Write previous row if in in-line string optimization mode.
         if self.optimization and row > self.previous_row:
             self._write_single_row(row)
@@ -561,6 +562,9 @@ class Worksheet(xmlwriter.XMLwriter):
             formula = formula[1:]
         if formula[-1] == '}':
             formula = formula[:-1]
+
+        # Encode any string options passed by the user.
+        formula = encode_utf8(formula)
 
         # Write previous row if in in-line string optimization mode.
         if self.optimization and first_row > self.previous_row:
@@ -743,6 +747,11 @@ class Worksheet(xmlwriter.XMLwriter):
 
         # Write the hyperlink string.
         self.write_string(row, col, string, cell_format)
+
+        # Encode any string options passed by the user.
+        url = encode_utf8(url)
+        url_str = encode_utf8(url_str)
+        tip = encode_utf8(tip)
 
         # Store the hyperlink data in a separate structure.
         self.hyperlinks[row][col] = {
@@ -1000,6 +1009,9 @@ class Worksheet(xmlwriter.XMLwriter):
         self.has_vml = 1
         self.has_comments = 1
 
+        # Encode any string options passed by the user.
+        comment = encode_utf8(comment)
+
         # Process the properties of the cell comment.
         self.comments[row][col] = \
             self._comment_params(row, col, comment, options)
@@ -1028,7 +1040,7 @@ class Worksheet(xmlwriter.XMLwriter):
             Nothing.
 
         """
-        self.comments_author = author
+        self.comments_author = encode_utf8(author)
 
     def get_name(self):
         """
@@ -2747,7 +2759,7 @@ class Worksheet(xmlwriter.XMLwriter):
             warn('Header string must be less than 255 characters')
             return
 
-        self.header = header
+        self.header = encode_utf8(header)
         self.margin_header = margin
         self.header_footer_changed = 1
 
@@ -2767,7 +2779,7 @@ class Worksheet(xmlwriter.XMLwriter):
             warn('Footer string must be less than 255 characters')
             return
 
-        self.footer = footer
+        self.footer = encode_utf8(footer)
         self.margin_footer = margin
         self.header_footer_changed = 1
 
@@ -3768,6 +3780,9 @@ class Worksheet(xmlwriter.XMLwriter):
         for key in options.keys():
             params[key] = options[key]
 
+        # Encode any string options passed by the user.
+        params['author'] = encode_utf8(params['author'])
+
         # Ensure that a width and height have been set.
         if not params['width']:
             params['width'] = default_width
@@ -4672,12 +4687,14 @@ class Worksheet(xmlwriter.XMLwriter):
 
         elif type(cell).__name__ == 'Formula':
             # Write a formula. First check if the formula value is a string.
+            value = cell.value
             try:
-                float(cell.value)
+                float(value)
             except ValueError:
                 attributes.append(('t', 'str'))
+                value = encode_utf8(value)
 
-            self._xml_formula_element(cell.formula, cell.value, attributes)
+            self._xml_formula_element(cell.formula, value, attributes)
 
         elif type(cell).__name__ == 'ArrayFormula':
             # Write a array formula.
@@ -4702,6 +4719,11 @@ class Worksheet(xmlwriter.XMLwriter):
         # Write the cell value <v> element.
         if value is None:
             value = ''
+
+        try:
+            float(value)
+        except ValueError:
+            value = encode_utf8(value)
 
         self._xml_data_element('v', value)
 

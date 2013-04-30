@@ -285,6 +285,10 @@ class Workbook(xmlwriter.XMLwriter):
             warn("Name looks like a cell name in defined_name(): '%s'" % name)
             return -1
 
+        # Encode any string options passed by the user.
+        name = encode_utf8(name)
+        formula = encode_utf8(formula)
+
         self.defined_names.append([name, sheet_index, formula, False])
 
     def worksheets(self):

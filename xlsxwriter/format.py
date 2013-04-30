@@ -7,6 +7,7 @@
 
 # Package imports.
 from . import xmlwriter
+from .utility import encode_utf8
 
 
 class Format(xmlwriter.XMLwriter):
@@ -123,7 +124,7 @@ class Format(xmlwriter.XMLwriter):
             Nothing.
 
         """
-        self.font_name = font_name
+        self.font_name = encode_utf8(font_name)
 
     def set_font_size(self, font_size=11):
         """
@@ -253,6 +254,11 @@ class Format(xmlwriter.XMLwriter):
             Nothing.
 
         """
+        try:
+            float(num_format)
+        except ValueError:
+            num_format = encode_utf8(num_format)
+
         self.num_format = num_format
 
     def set_locked(self, locked=1):

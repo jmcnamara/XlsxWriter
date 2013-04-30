@@ -640,6 +640,9 @@ class Chart(xmlwriter.XMLwriter):
             name_formula = name
             name = ''
 
+        name = encode_utf8(name)
+        name_formula = encode_utf8(name_formula)
+
         return name, name_formula
 
     def _get_data_type(self, data):

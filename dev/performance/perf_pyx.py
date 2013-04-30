@@ -29,14 +29,14 @@ col_max = 50
 start_time = clock()
 
 # Start of program being tested.
-workbook = Workbook('py_ewx.xlsx', {'reduce_memory': optimise})
+workbook = Workbook('py_ewx.xlsx', {'constant_memory': optimise})
 worksheet = workbook.add_worksheet()
 
 worksheet.set_column(0, col_max, 18)
 
-    for row in range(0, row_max):
-        for col in range(0, col_max):
-            worksheet.write_string(row * 2, col, "Row: %d Col: %d" % (row, col))
+for row in range(0, row_max):
+    for col in range(0, col_max):
+        worksheet.write_string(row * 2, col, "Row: %d Col: %d" % (row, col))
     for col in range(0, col_max + 1):
         worksheet.write_number(row * 2 + 1, col, row + col)
 

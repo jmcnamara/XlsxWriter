@@ -10,6 +10,7 @@ from datetime import datetime
 
 # Package imports.
 from . import xmlwriter
+from .utility import encode_utf8
 
 
 class Core(xmlwriter.XMLwriter):
@@ -105,13 +106,13 @@ class Core(xmlwriter.XMLwriter):
         # Write the <dc:creator> element.
         data = self.properties.get('author', '')
 
-        self._xml_data_element('dc:creator', data)
+        self._xml_data_element('dc:creator', encode_utf8(data))
 
     def _write_cp_last_modified_by(self):
         # Write the <cp:lastModifiedBy> element.
         data = self.properties.get('author', '')
 
-        self._xml_data_element('cp:lastModifiedBy', data)
+        self._xml_data_element('cp:lastModifiedBy', encode_utf8(data))
 
     def _write_dcterms_created(self):
         # Write the <dcterms:created> element.
@@ -144,7 +145,7 @@ class Core(xmlwriter.XMLwriter):
         else:
             return
 
-        self._xml_data_element('dc:title', data)
+        self._xml_data_element('dc:title', encode_utf8(data))
 
     def _write_dc_subject(self):
         # Write the <dc:subject> element.
@@ -153,7 +154,7 @@ class Core(xmlwriter.XMLwriter):
         else:
             return
 
-        self._xml_data_element('dc:subject', data)
+        self._xml_data_element('dc:subject', encode_utf8(data))
 
     def _write_cp_keywords(self):
         # Write the <cp:keywords> element.
@@ -162,7 +163,7 @@ class Core(xmlwriter.XMLwriter):
         else:
             return
 
-        self._xml_data_element('cp:keywords', data)
+        self._xml_data_element('cp:keywords', encode_utf8(data))
 
     def _write_dc_description(self):
         # Write the <dc:description> element.
@@ -171,7 +172,7 @@ class Core(xmlwriter.XMLwriter):
         else:
             return
 
-        self._xml_data_element('dc:description', data)
+        self._xml_data_element('dc:description', encode_utf8(data))
 
     def _write_cp_category(self):
         # Write the <cp:category> element.
@@ -180,7 +181,7 @@ class Core(xmlwriter.XMLwriter):
         else:
             return
 
-        self._xml_data_element('cp:category', data)
+        self._xml_data_element('cp:category', encode_utf8(data))
 
     def _write_cp_content_status(self):
         # Write the <cp:contentStatus> element.
@@ -189,4 +190,4 @@ class Core(xmlwriter.XMLwriter):
         else:
             return
 
-        self._xml_data_element('cp:contentStatus', data)
+        self._xml_data_element('cp:contentStatus', encode_utf8(data))
