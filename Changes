@@ -1,3 +1,9 @@
+Release 0.3.2 - May 1 2013
+-----------------------------
+
+* Speed optimisations. The module is now 10-15% faster on average. 
+
+
 Release 0.3.1 - April 27 2013
 -----------------------------
 

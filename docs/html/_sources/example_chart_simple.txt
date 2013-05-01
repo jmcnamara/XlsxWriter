@@ -8,4 +8,7 @@ Example of a simple column chart with 3 data series:
 .. image:: _static/chart_simple.png
    :scale: 75 %
 
+
+See the :ref:`chart_class` and :ref:`working_with_charts` for more details.
+
 .. literalinclude:: ../../../examples/chart.py
