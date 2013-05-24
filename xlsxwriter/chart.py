@@ -861,6 +861,7 @@ class Chart(xmlwriter.XMLwriter):
             'percentage': 'percentage',
             'standard_deviation': 'stdDev',
             'standard_error': 'stdErr',
+            'custom': 'cust',
         }
 
         # Check the error bars type.
@@ -1350,23 +1351,24 @@ class Chart(xmlwriter.XMLwriter):
 
         self._xml_end_tag('c:val')
 
-    def _write_num_ref(self, formula, data, ref_type):
+    def _write_num_ref(self, formula, data=None, ref_type=None):
         # Write the <c:numRef> element.
         self._xml_start_tag('c:numRef')
 
         # Write the c:f element.
         self._write_series_formula(formula)
 
-        if ref_type == 'num':
-            # Write the c:numCache element.
-            self._write_num_cache(data)
-        elif ref_type == 'str':
-            # Write the c:strCache element.
-            self._write_str_cache(data)
+        if data:
+            if ref_type == 'num':
+                # Write the c:numCache element.
+                self._write_num_cache(data)
+            elif ref_type == 'str':
+                # Write the c:strCache element.
+                self._write_str_cache(data)
 
         self._xml_end_tag('c:numRef')
 
-    def _write_str_ref(self, formula, data, ref_type):
+    def _write_str_ref(self, formula, data=None, ref_type=None):
         # Write the <c:strRef> element.
 
         self._xml_start_tag('c:strRef')
@@ -1374,12 +1376,13 @@ class Chart(xmlwriter.XMLwriter):
         # Write the c:f element.
         self._write_series_formula(formula)
 
-        if ref_type == 'num':
-            # Write the c:numCache element.
-            self._write_num_cache(data)
-        elif ref_type == 'str':
-            # Write the c:strCache element.
-            self._write_str_cache(data)
+        if data:
+            if ref_type == 'num':
+                # Write the c:numCache element.
+                self._write_num_cache(data)
+            elif ref_type == 'str':
+                # Write the c:strCache element.
+                self._write_str_cache(data)
 
         self._xml_end_tag('c:strRef')
 
@@ -3007,8 +3010,8 @@ class Chart(xmlwriter.XMLwriter):
 
         if error_bars['type'] != 'stdErr':
 
-            # Write the c:val element.
-            self._write_error_val(error_bars['value'])
+            # Write the c:val element (or c:plus/c:minus for type 'custom')
+            self._write_error_val(error_bars['type'], error_bars['value'])
 
         # Write the c:spPr element.
         self._write_sp_pr(error_bars)
@@ -3042,12 +3045,23 @@ class Chart(xmlwriter.XMLwriter):
 
         self._xml_empty_tag('c:noEndCap', attributes)
 
-    def _write_error_val(self, val):
-        # Write the <c:val> element for error bars.
+    def _write_error_val(self, type, val):
+        # Write the <c:val> element for error bars,
+        # or <c:plus>, <c:minus> for type 'custom'
 
-        attributes = [('val', val)]
+        if type == 'cust':
+            if val[0]:
+                self._xml_start_tag('c:plus')
+                self._write_num_ref(val[0])
+                self._xml_end_tag('c:plus')
+            if val[1]:
+                self._xml_start_tag('c:minus')
+                self._write_num_ref(val[0])
+                self._xml_end_tag('c:minus')
+        else:
+            attributes = [('val', val)]
 
-        self._xml_empty_tag('c:val', attributes)
+            self._xml_empty_tag('c:val', attributes)
 
     def _write_up_down_bars(self):
         # Write the <c:upDownBars> element.
