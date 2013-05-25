@@ -2835,6 +2835,10 @@ class Chart(xmlwriter.XMLwriter):
         if labels.get('leader_lines'):
             self._write_show_leader_lines()
 
+        # Write the c:showLegendKey element.
+        if labels.get('legend_key'):
+            self._write_show_legend_key()
+
         self._xml_end_tag('c:dLbls')
 
     def _write_show_val(self):
@@ -2876,6 +2880,14 @@ class Chart(xmlwriter.XMLwriter):
         attributes = [('val', val)]
 
         self._xml_empty_tag('c:showLeaderLines', attributes)
+
+    def _write_show_legend_key(self):
+        # Write the <c:showLegendKey> element.
+        val = 1
+
+        attributes = [('val', val)]
+
+        self._xml_empty_tag('c:showLegendKey', attributes)
 
     def _write_d_lbl_pos(self, val):
         # Write the <c:dLblPos> element.
