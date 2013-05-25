@@ -3022,7 +3022,7 @@ class Chart(xmlwriter.XMLwriter):
 
         if error_bars['type'] != 'stdErr':
 
-            # Write the c:val element (or c:plus/c:minus for type 'custom')
+            # Write the c:val element (or c:minus/c:plus for type 'custom')
             self._write_error_val(error_bars['type'], error_bars['value'])
 
         # Write the c:spPr element.
@@ -3059,20 +3059,19 @@ class Chart(xmlwriter.XMLwriter):
 
     def _write_error_val(self, type, val):
         # Write the <c:val> element for error bars,
-        # or <c:plus>, <c:minus> for type 'custom'
+        # or <c:minus>, <c:plus> for type 'custom'
 
         if type == 'cust':
             if val[0]:
-                self._xml_start_tag('c:plus')
-                self._write_num_ref(val[0])
-                self._xml_end_tag('c:plus')
-            if val[1]:
                 self._xml_start_tag('c:minus')
                 self._write_num_ref(val[0])
                 self._xml_end_tag('c:minus')
+            if val[1]:
+                self._xml_start_tag('c:plus')
+                self._write_num_ref(val[1])
+                self._xml_end_tag('c:plus')
         else:
             attributes = [('val', val)]
-
             self._xml_empty_tag('c:val', attributes)
 
     def _write_up_down_bars(self):
