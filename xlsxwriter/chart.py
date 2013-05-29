@@ -1196,7 +1196,7 @@ class Chart(xmlwriter.XMLwriter):
         self._xml_start_tag('c:plotArea')
 
         # Write the c:layout element.
-        self._write_layout()
+        self._write_layout(self.plotarea.get('layout'))
 
         # Write  subclass chart type elements for primary and secondary axes.
         self._write_chart_type({'primary_axes': True})
@@ -1232,9 +1232,24 @@ class Chart(xmlwriter.XMLwriter):
 
         self._xml_end_tag('c:plotArea')
 
-    def _write_layout(self):
+    def _write_layout(self, layout=None):
         # Write the <c:layout> element.
-        self._xml_empty_tag('c:layout')
+        if layout:
+            self._xml_start_tag('c:layout')
+            self._xml_start_tag('c:manualLayout')
+
+            self._xml_empty_tag('c:layoutTarget', [('val', 'inner')])
+            self._xml_empty_tag('c:xMode', [('val', 'edge')])
+            self._xml_empty_tag('c:yMode', [('val', 'edge')])
+            self._xml_empty_tag('c:x', [('val', layout['x'])])
+            self._xml_empty_tag('c:y', [('val', layout['y'])])
+            self._xml_empty_tag('c:w', [('val', layout['w'])])
+            self._xml_empty_tag('c:h', [('val', layout['h'])])
+
+            self._xml_end_tag('c:manualLayout')
+            self._xml_end_tag('c:layout')
+        else:
+            self._xml_empty_tag('c:layout')
 
     def _write_chart_type(self, options):
         # Write the chart type element. This method should be overridden
