@@ -2570,20 +2570,32 @@ class Chart(xmlwriter.XMLwriter):
 
         self._xml_start_tag('a:solidFill')
 
-        if 'color' in line:
-            color = self._get_color(line['color'])
-
+        if 'color' in line or 'alpha' in line:
             # Write the a:srgbClr element.
-            self._write_a_srgb_clr(color)
+            self._write_a_srgb_clr(line)
 
         self._xml_end_tag('a:solidFill')
 
-    def _write_a_srgb_clr(self, val):
+    def _write_a_srgb_clr(self, line):
         # Write the <a:srgbClr> element.
+
+        color = self._get_color(line['color'])
+        attributes = [('val', color)]
+
+        self._xml_start_tag('a:srgbClr', attributes)
+
+        if 'alpha' in line:
+            alpha_val = line['alpha']
+            self._write_a_alpha(alpha_val)
+
+        self._xml_end_tag('a:srgbClr')
+
+    def _write_a_alpha(self, val):
+        # Write the <a:alpha> element.
 
         attributes = [('val', val)]
 
-        self._xml_empty_tag('a:srgbClr', attributes)
+        self._xml_empty_tag('a:alpha', attributes)
 
     def _write_a_prst_dash(self, val):
         # Write the <a:prstDash> element.
