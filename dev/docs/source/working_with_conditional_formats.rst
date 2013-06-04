@@ -507,7 +507,7 @@ style conditional format::
 .. image:: _static/conditional_format4.png
 
 This conditional type can be modified with ``min_type``, ``max_type``,
-``min_value``, ``min_value``, ``min_color`` and ``max_color``, see below.
+``min_value``, ``max_value``, ``min_color`` and ``max_color``, see below.
 
 type: 3_color_scale
 *******************
@@ -518,7 +518,7 @@ style conditional format::
     worksheet.conditional_format('A1:A12', {'type': '3_color_scale'})
 
 This conditional type can be modified with ``min_type``, ``mid_type``,
-``max_type``, ``min_value``, ``mid_value``, ``min_value``, ``min_color``,
+``max_type``, ``min_value``, ``mid_value``, ``max_value``, ``min_color``,
 ``mid_color`` and ``max_color``, see below.
 
 
@@ -531,7 +531,7 @@ conditional format::
     worksheet.conditional_format('A1:A12', {'type': 'data_bar'})
 
 This conditional type can be modified with ``min_type``, ``max_type``,
-``min_value``, ``min_value`` and ``bar_color``, see below.
+``min_value``, ``max_value`` and ``bar_color``, see below.
 
 
 type: formula
