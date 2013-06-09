@@ -955,7 +955,7 @@ class Workbook(xmlwriter.XMLwriter):
                 # a chart series formula.
                 if not sheetname in worksheets:
                     warn("Unknown worksheet reference '%s' in range "
-                         "'%d' passed to add_series()" % (sheetname, c_range))
+                         "'%s' passed to add_series()" % (sheetname, c_range))
 
                 # Find the worksheet object based on the sheet name.
                 worksheet = worksheets[sheetname]
