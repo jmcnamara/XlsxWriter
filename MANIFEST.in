@@ -3,5 +3,7 @@ include Changes
 include LICENSE.txt
 include xlsxwriter/*.py
 include examples/*.py
+include examples/*.txt
+include examples/*.bin
 recursive-include docs *
 
