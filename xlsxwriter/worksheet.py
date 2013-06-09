@@ -1382,7 +1382,7 @@ class Worksheet(xmlwriter.XMLwriter):
             (_, col) = xl_cell_to_rowcol(col + '1')
 
             if col >= self.xls_colmax:
-                warn("Invalid column '%d'" % col_letter)
+                warn("Invalid column '%s'" % col_letter)
                 return
 
         (col_first, col_last) = self.filter_range
@@ -1441,7 +1441,7 @@ class Worksheet(xmlwriter.XMLwriter):
             (_, col) = xl_cell_to_rowcol(col + '1')
 
             if col >= self.xls_colmax:
-                warn("Invalid column '%d'" % col_letter)
+                warn("Invalid column '%s'" % col_letter)
                 return
 
         (col_first, col_last) = self.filter_range
@@ -2628,7 +2628,7 @@ class Worksheet(xmlwriter.XMLwriter):
             if key in defaults:
                 defaults[key] = options[key]
             else:
-                warn("Unknown protection object: '%s'\n" % key)
+                warn("Unknown protection object: '%s'" % key)
 
         # Set the password after the user defined values.
         defaults['password'] = password

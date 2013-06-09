@@ -736,7 +736,7 @@ class Chart(xmlwriter.XMLwriter):
             if dash_type in dash_types:
                 line['dash_type'] = dash_types[dash_type]
             else:
-                warn("Unknown dash type '%'" % dash_type)
+                warn("Unknown dash type '%s'" % dash_type)
                 return
 
         line['defined'] = True
@@ -825,7 +825,7 @@ class Chart(xmlwriter.XMLwriter):
         if trend_type in types:
             trendline['type'] = types[trend_type]
         else:
-            warn("Unknown trendline type 'trend_type'" % trend_type)
+            warn("Unknown trendline type '%s'" % trend_type)
             return
 
         # Set the line properties for the trendline..
@@ -869,7 +869,7 @@ class Chart(xmlwriter.XMLwriter):
         if error_type in types:
             error_bars['type'] = types[error_type]
         else:
-            warn("Unknown error bars type 'error_type" % error_type)
+            warn("Unknown error bars type '%s" % error_type)
             return
 
         # Set the value for error types that require it.
