@@ -9,6 +9,7 @@
 
 # Standard packages.
 import re
+import sys
 
 
 class XMLwriter(object):
@@ -32,7 +33,10 @@ class XMLwriter(object):
         # done using _set_filehandle(), usually for testing, or later via
         # this method, when assembling the xlsx file.
         self.internal_fh = True
-        self.fh = open(filename, 'w')
+        if sys.version_info >= (3, 0):
+            self.fh = open(filename, 'w', encoding='utf-8')
+        else:
+            self.fh = open(filename, 'w')
 
     def _xml_close(self):
         # Close the XML filehandle if we created it.
