@@ -1,3 +1,15 @@
+Release 0.3.3 - June 10 2013
+-----------------------------
+
+* Minor packaging fixes, #14 and #19.
+
+* Fixed explicit UTF-8 file encoding for Python 3. 
+  PR from Alexandr Shadchin, #15.
+
+* Fixed invalid string formatting resulted in misleading stacktrace.
+  PR from Andrei Korostelev, #21.  
+
+
 Release 0.3.2 - May 1 2013
 -----------------------------
 
