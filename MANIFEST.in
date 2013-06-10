@@ -5,5 +5,5 @@ include xlsxwriter/*.py
 include examples/*.py
 include examples/*.txt
 include examples/*.bin
-recursive-include docs *
-
+include docs/readme.html
+recursive-include docs/_static *

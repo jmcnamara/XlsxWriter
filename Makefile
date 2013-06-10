@@ -17,6 +17,9 @@ alldocs: cleandocs docs pdf
 	@cp -r dev/docs/build/html docs
 	@cp -r dev/docs/build/latex/XlsxWriter.pdf docs
 
+pdf_release: pdf
+	@cp -r dev/docs/build/latex/XlsxWriter.pdf docs
+
 install:
 	@python setup.py install
 	@rm -rf build
