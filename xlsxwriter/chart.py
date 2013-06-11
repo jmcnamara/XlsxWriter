@@ -182,6 +182,7 @@ class Chart(xmlwriter.XMLwriter):
             'y2_axis': y2_axis,
             'points': points,
             'error_bars': error_bars,
+            'smooth': options.get('smooth', False)
         }
 
         self.series.append(series)
@@ -1283,6 +1284,9 @@ class Chart(xmlwriter.XMLwriter):
         # Write the c:val element.
         self._write_val(series)
 
+        # Write the c:smooth element.
+        self._write_smooth(series)
+        
         self._xml_end_tag('c:ser')
 
     def _write_idx(self, val):
@@ -1306,6 +1310,12 @@ class Chart(xmlwriter.XMLwriter):
             self._write_tx_formula(series['name_formula'], series['name_id'])
         elif series['name'] is not None:
             self._write_tx_value(series['name'])
+
+    def _write_smooth(self, series):
+        # Write the <c:order> element.
+        
+        if series.get('smooth', False):
+            self._xml_empty_tag('c:smooth', [('val', '1')])
 
     def _write_cat(self, series):
         # Write the <c:cat> element.
