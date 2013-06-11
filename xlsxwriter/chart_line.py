@@ -31,6 +31,11 @@ class ChartLine(chart.Chart):
         if options is None:
             options = {}
 
+        self.subtype = options.get('subtype')
+
+        if not self.subtype:
+            self.subtype = 'straight'
+
         self.default_marker = {'type': 'none'}
 
     ###########################################################################
@@ -60,6 +65,8 @@ class ChartLine(chart.Chart):
 
         if not len(series):
             return
+
+        self._modify_series_formatting()
 
         self._xml_start_tag('c:lineChart')
 
@@ -104,3 +111,40 @@ class ChartLine(chart.Chart):
         self._xml_end_tag('c:marker')
 
         self._xml_end_tag('c:dPt')
+    
+    def _modify_series_formatting(self):
+        # Add default formatting to the series data unless it has already been
+        # specified by the user.
+        subtype = self.subtype
+
+        # The default scatter style "markers only" requires a line type.
+        if subtype == 'marker_only':
+
+            # Go through each series and define default values.
+            for series in self.series:
+
+                # Set a line type unless there is already a user defined type.
+                if not series['line']['defined']:
+                    series['line'] = {'width': 2.25,
+                                      'none': 1,
+                                      'defined': 1,
+                                      }
+
+        # Turn markers on for subtypes that have them.
+        if 'marker' in subtype:
+
+            # Go through each series and define default values.
+            for series in self.series:
+                # Set a marker type unless there is a user defined type.
+                if series['marker'] is None or not series['marker']['defined']:
+                    series['marker'] = {'type': 'automatic',
+                                        'automatic': 1,
+                                        'defined': 1,
+                                        'line': self._get_line_properties(None),
+                                        'fill': self._get_fill_properties(None)
+                                        }
+
+        # Turn on smoothing if required
+        if 'smooth' in subtype:
+            for series in self.series:
+                series['smooth'] = True
