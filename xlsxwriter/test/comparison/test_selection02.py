@@ -44,12 +44,12 @@ class TestCompareXLSXFiles(unittest.TestCase):
         worksheet5 = workbook.add_worksheet()
         worksheet6 = workbook.add_worksheet()
 
-        worksheet1.set_selection(3, 2, 3, 2);  # 1. Cell C4.
-        worksheet2.set_selection(3, 2, 6, 6);  # 2. Cells C4 to G7.
-        worksheet3.set_selection(6, 6, 3, 2);  # 3. Cells G7 to C4.
-        worksheet4.set_selection('C4');  # Same as 1.
-        worksheet5.set_selection('C4:G7');  # Same as 2.
-        worksheet6.set_selection('G7:C4');  # Same as 3.
+        worksheet1.set_selection(3, 2, 3, 2)
+        worksheet2.set_selection(3, 2, 6, 6)
+        worksheet3.set_selection(6, 6, 3, 2)
+        worksheet4.set_selection('C4')
+        worksheet5.set_selection('C4:G7')
+        worksheet6.set_selection('G7:C4')
 
         workbook.close()
 

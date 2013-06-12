@@ -3021,7 +3021,8 @@ class Worksheet(xmlwriter.XMLwriter):
 
         if self.optimization == 1:
             # Open a temp filehandle to store row data in optimization mode.
-            self.row_data_fh = tempfile.TemporaryFile(mode='w+', dir=self.tmpdir)
+            self.row_data_fh = tempfile.TemporaryFile(mode='w+',
+                                                      dir=self.tmpdir)
 
             # Also use this as the worksheet filehandle until the file is
             # due to be assembled.

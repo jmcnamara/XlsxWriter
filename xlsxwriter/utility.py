@@ -490,4 +490,3 @@ def encode_utf8(string):
         return string
     else:
         return string.encode('utf-8')
-
