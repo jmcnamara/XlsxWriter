@@ -7,7 +7,7 @@ Sparklines are a feature of Excel 2010+ which allows you to add small charts to
 worksheet cells. These are useful for showing visual trends in data in a
 compact format.
 
-.. image:: _static/sparklines1.png
+.. image:: _images/sparklines1.png
 
 Sparklines were invented by Edward Tufte:
 http://en.wikipedia.org/wiki/Sparklines
@@ -83,7 +83,7 @@ Other, less commonly used parameters are:
 | low_color      |
 +----------------+
 
-.. image:: _static/sparklines2.png
+.. image:: _images/sparklines2.png
 
 
 These parameters are explained in the sections below.

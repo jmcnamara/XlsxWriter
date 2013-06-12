@@ -10,7 +10,7 @@ trends in data.
 
 See the :ref:`sparklines` method for more details.
 
-.. image:: _static/sparklines1.png
+.. image:: _images/sparklines1.png
 
 .. literalinclude:: ../../../examples/sparklines1.py
 

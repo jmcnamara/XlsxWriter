@@ -9,7 +9,7 @@ spacing see the Scatter chart type.
 
 Chart 1 in the following example is:
 
-.. image:: _static/chart_line1.png
+.. image:: _images/chart_line1.png
    :scale: 75 %
 
 .. literalinclude:: ../../../examples/chart_line.py

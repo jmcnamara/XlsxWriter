@@ -17,7 +17,7 @@ each one, (of approximately 1 million rows). To do this we use the
 Columns don't require this optimisation and can be hidden using
 :func:`set_column`.
 
-.. image:: _static/hide_row_col.png
+.. image:: _images/hide_row_col.png
 
 .. literalinclude:: ../../../examples/hide_row_col.py
 

@@ -91,7 +91,7 @@ Save this to a file called ``hello.py`` and run it as follows::
 This will output a file called ``hello.xlsx`` which should look something like
 the following:
 
-.. image:: _static/hello01.png
+.. image:: _images/hello01.png
 
 If you downloaded a tarball or cloned the repo, as shown above, you should also
 have a directory called

@@ -6,6 +6,6 @@ Example: Outline and Grouping
 Examples of how use XlsxWriter to generate Excel outlines and grouping. See
 also :ref:`outlines`.
 
-.. image:: _static/outline1.png
+.. image:: _images/outline1.png
 
 .. literalinclude:: ../../../examples/outline.py

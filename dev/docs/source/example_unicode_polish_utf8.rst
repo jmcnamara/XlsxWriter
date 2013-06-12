@@ -13,7 +13,7 @@ writing the encoding to the Excel file.
 The encoding of the input data shouldn't matter once it can be converted
 to UTF-8 via the :mod:`codecs` module.
 
-.. image:: _static/unicode_polish_utf8.png
+.. image:: _images/unicode_polish_utf8.png
 
 .. literalinclude:: ../../../examples/unicode_polish_utf8.py
 

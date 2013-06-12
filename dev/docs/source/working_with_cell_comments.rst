@@ -8,7 +8,7 @@ Cell comments are a way of adding notation to cells in Excel. For example::
     worksheet.write('A1', 'Hello')
     worksheet.write_comment('A1', 'This is a comment')
 
-.. image:: _static/comments1.png
+.. image:: _images/comments1.png
 
 
 Setting Comment Properties

@@ -19,7 +19,7 @@ This time let's extend the data we want to write to include some dates::
 
 The corresponding spreadsheet will look like this:
 
-.. image:: _static/tutorial03.png
+.. image:: _images/tutorial03.png
 
 The differences here are that we have added a **Date** column, formatted the
 dates and made column 'B' a little wider to accommodate the dates.
@@ -103,7 +103,7 @@ spreadsheet, make the first column wider and enter the following data::
 
 You should see something like the following:
 
-.. image:: _static/tutorial03_2.png
+.. image:: _images/tutorial03_2.png
 
 There are a few things to notice here. The first is that the numbers in the
 first three rows are stored as numbers and are aligned to the right of the

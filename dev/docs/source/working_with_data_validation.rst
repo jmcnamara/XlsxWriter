@@ -19,12 +19,12 @@ XlsxWriter we could do that as follows::
                                       'input_title': 'Enter an integer:',
                                       'input_message': 'between 1 and 100'})
 
-.. image:: _static/data_validate1.png
+.. image:: _images/data_validate1.png
 
 If the user inputs a value that doesn't match the specified criteria an error
 message is displayed:
 
-.. image:: _static/data_validate2.png
+.. image:: _images/data_validate2.png
 
     
 For more information on data validation see the Microsoft support article
@@ -272,7 +272,7 @@ displayed when a cell is entered. It has no default value::
 
 The input message generated from the above example is:
 
-.. image:: _static/data_validate3.png
+.. image:: _images/data_validate3.png
 
 The message can be split over several lines using newlines. The maximum message
 length is 255 characters.

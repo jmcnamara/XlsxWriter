@@ -10,6 +10,6 @@ structure that can be referenced in a formula or formatted collectively.
 
 See also :ref:`tables`.
 
-.. image:: _static/tables12.png
+.. image:: _images/tables12.png
 
 .. literalinclude:: ../../../examples/tables.py

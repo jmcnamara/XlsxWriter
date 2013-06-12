@@ -6,7 +6,7 @@ Example: Simple Feature Demonstration
 This program is an example of writing some of the features of the XlsxWriter
 module.
 
-.. image:: _static/demo.png
+.. image:: _images/demo.png
 
 .. literalinclude:: ../../../examples/demo.py
 

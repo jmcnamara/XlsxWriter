@@ -31,7 +31,7 @@ given filename::
 
     worksheet.write(0, 0, 'Hello Excel')
 
-.. image:: _static/workbook01.png
+.. image:: _images/workbook01.png
 
 The constructor options are:
 
@@ -101,7 +101,7 @@ Excel convention will be followed, i.e. Sheet1, Sheet2, etc.::
     worksheet3 = workbook.add_worksheet('Data')     # Data
     worksheet4 = workbook.add_worksheet()           # Sheet4
 
-.. image:: _static/workbook02.png
+.. image:: _images/workbook02.png
 
 The worksheet name must be a valid Excel worksheet name, i.e. it cannot contain
 any of the characters ``' [ ] : * ? / \
@@ -242,7 +242,7 @@ The properties should be passed in dictionary format as follows::
         'keywords': 'Sample, Example, Properties',
         'comments': 'Created with Python and XlsxWriter'})
 
-.. image:: _static/doc_properties.png
+.. image:: _images/doc_properties.png
 
 See also :ref:`ex_doc_properties`.
 

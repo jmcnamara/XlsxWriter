@@ -17,7 +17,7 @@ object::
 
     worksheet1.write('A1', 123)
 
-.. image:: _static/worksheet00.png
+.. image:: _images/worksheet00.png
 
 
 worksheet.write()
@@ -60,7 +60,7 @@ The general rule is that if the data looks like a *something* then a
 
 This creates a worksheet like the following:
 
-.. image:: _static/worksheet01.png
+.. image:: _images/worksheet01.png
 
 The ``write()`` method supports two forms of notation to designate the position
 of cells: **Row-column** notation and **A1** notation::
@@ -128,7 +128,7 @@ your source file in also UTF-8 encoded::
 
     worksheet.write('A1', u'Some UTF-8 text')
 
-.. image:: _static/worksheet02.png
+.. image:: _images/worksheet02.png
 
 Alternatively, you can read data from an encoded file, convert it to UTF-8
 during reading and then write the data to an Excel file. There are several
@@ -539,7 +539,7 @@ formats. For example to write the string "This is **bold** and this is
                                 ' and this is ',
                                 italic, 'italic')
 
-.. image:: _static/rich_strings_small.png
+.. image:: _images/rich_strings_small.png
 
 The basic rule is to break the string into fragments and put a
 :func:`Format <format>` object before the fragment that you want to format.
@@ -872,7 +872,7 @@ PNG, JPEG or BMP format::
 
     worksheet.insert_image('B2', 'python.png')
 
-.. image:: _static/insert_image.png
+.. image:: _images/insert_image.png
 
 A file path can be specified with the image name::
 
@@ -947,7 +947,7 @@ It is then inserted into a worksheet as an embedded chart::
 
     worksheet.insert_chart('B5', chart)
 
-.. image:: _static/chart_simple.png
+.. image:: _images/chart_simple.png
    :scale: 75 %
 
 See :ref:`chart_class`, :ref:`working_with_charts` and :ref:`chart_examples`.
@@ -1014,7 +1014,7 @@ or to limit the user input to a dropdown list of values::
     worksheet.data_validation('B13', {'validate': 'list',
                                       'source': ['open', 'high', 'close']})
 
-.. image:: _static/data_validate1.png
+.. image:: _images/data_validate1.png
 
 The data validation can be applied to a single cell or a range of cells. As
 usual you can use A1 or Row/Column notation, see :ref:`cell_notation`.
@@ -1063,7 +1063,7 @@ range of cells based on user defined criteria::
                                             'value':    50,
                                             'format':   format1})
 
-.. image:: _static/conditional_format1.png
+.. image:: _images/conditional_format1.png
 
 The conditional format can be applied to a single cell or a range of cells. As
 usual you can use A1 or Row/Column notation, see :ref:`cell_notation`.
@@ -1130,7 +1130,7 @@ worksheet.add_sparkline()
 Sparklines are small charts that fit in a single cell and are used to show
 trends in data.
 
-.. image:: _static/sparklines1.png
+.. image:: _images/sparklines1.png
 
 The ``add_sparkline()`` worksheet method is used to add sparklines to a cell or
 a range of cells::
@@ -1174,7 +1174,7 @@ The following example shows how to add a comment to a cell::
     worksheet.write('A1', 'Hello')
     worksheet.write_comment('A1', 'This is a comment')
 
-.. image:: _static/comments1.png
+.. image:: _images/comments1.png
 
 As usual you can replace the ``row`` and ``col`` parameters with an ``A1`` cell
 reference. See :ref:`cell_notation` for more details.
@@ -1284,7 +1284,7 @@ visible in a multi-sheet workbook::
 
     worksheet3.activate()
 
-.. image:: _static/worksheet_activate.png
+.. image:: _images/worksheet_activate.png
 
 More than one worksheet can be selected via the ``select()`` method, see below,
 however only one worksheet can be active.
@@ -1326,7 +1326,7 @@ The ``hide()`` method is used to hide a worksheet::
 You may wish to hide a worksheet in order to avoid confusing a user with
 intermediate data or calculations.
 
-.. image:: _static/hide_sheet.png
+.. image:: _images/hide_sheet.png
 
 A hidden worksheet can not be activated or selected so this method is mutually
 exclusive with the :func:`activate()` and :func:`select()` methods. In
@@ -1404,7 +1404,7 @@ It is possible to apply other formatting to the merged cells as well::
 
     worksheet.merge_range('B3:D4', 'Merged Cells', merge_format)
 
-.. image:: _static/merge_range.png
+.. image:: _images/merge_range.png
 
 The ``merge_range()`` method writes its ``data`` argument using
 :func:`write()`. Therefore it will handle numbers, strings and formulas as
@@ -1437,7 +1437,7 @@ autofilter is a way of adding drop down lists to the headers of a 2D range of
 worksheet data. This allows users to filter the data based on simple criteria
 so that some data is shown and some is hidden.
 
-.. image:: _static/autofilter3.png
+.. image:: _images/autofilter3.png
 
 To add an autofilter to a worksheet::
 

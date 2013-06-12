@@ -6,7 +6,7 @@ Working with Autofilters
 An autofilter in Excel is a way of filtering a 2D range of data based on
 some simple criteria.
 
-.. image:: _static/autofilter1.png
+.. image:: _images/autofilter1.png
 
 
 Applying an autofilter
@@ -150,7 +150,7 @@ specify 1 or more 'or' style criteria. For example if your column
 contained data for the months of the year you could filter the data
 based on certain months:
 
-.. image:: _static/autofilter2.png
+.. image:: _images/autofilter2.png
 
 
 The :func:`filter_column_list()` method can be used to represent these types

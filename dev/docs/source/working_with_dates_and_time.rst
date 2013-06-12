@@ -48,7 +48,7 @@ a date you must apply an Excel number format to it. Here are some examples:
 
     workbook.close()
 
-.. image:: _static/working_with_dates_and_times01.png
+.. image:: _images/working_with_dates_and_times01.png
 
 To make working with dates and times a little easier the XlsxWriter module
 provides a :func:`write_datetime` method to write dates in standard library
@@ -134,4 +134,4 @@ formats:
         row += 1
 
 
-.. image:: _static/working_with_dates_and_times02.png
+.. image:: _images/working_with_dates_and_times02.png

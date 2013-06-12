@@ -8,7 +8,7 @@ that has common formatting or that can be referenced from formulas. Tables can
 have column headers, autofilters, total rows, column formulas and default
 formatting.
 
-.. image:: _static/tables12.png
+.. image:: _images/tables12.png
 
 For more information see
 `An Overview of Excel Tables <http://office.microsoft.com/en-us/excel-help/overview-of-excel-tables-HA010048546.aspx>`_
@@ -34,7 +34,7 @@ The data range can be specified in 'A1' or 'Row/Column' notation (see
     # Same as:
     worksheet.add_table(2, 1, 6, 5)
 
-.. image:: _static/tables1.png
+.. image:: _images/tables1.png
 
 The options parameter should be a dict containing the parameters that describe
 the table options and data. The available options are:
@@ -85,7 +85,7 @@ table::
 
     worksheet.add_table('B3:F7', {data, data})
 
-.. image:: _static/tables2.png
+.. image:: _images/tables2.png
 
 Table data can also be written separately, as an array or individual cells::
 
@@ -113,7 +113,7 @@ the table. It is on by default::
     # Turn off the header row.
     worksheet.add_table('B4:F7', {'header_row': False})
 
-.. image:: _static/tables4.png
+.. image:: _images/tables4.png
 
 
 The header row will contain default captions such as ``Column 1``,
@@ -130,7 +130,7 @@ the header row. It is on by default::
     # Turn off the default autofilter.
     worksheet.add_table('B3:F7', {'autofilter': False})
 
-.. image:: _static/tables3.png
+.. image:: _images/tables3.png
 
 The ``autofilter`` is only shown if the ``header_row`` is on. Filter conditions
 within the table are not supported.
@@ -145,7 +145,7 @@ colour in the table. It is on by default::
     # Turn off banded rows.
     worksheet.add_table('B3:F7', {'banded_rows': False})
 
-.. image:: _static/tables6.png
+.. image:: _images/tables6.png
 
 banded_columns
 --------------
@@ -168,7 +168,7 @@ may be bold text or a different colour. It is off by default::
     # Turn on highlighting for the first column in the table.
     worksheet.add_table('B3:F7', {'first_column': True})
 
-.. image:: _static/tables5.png
+.. image:: _images/tables5.png
 
 last_column
 -----------
@@ -191,7 +191,7 @@ Excel table format names should be used (with matching capitalisation)::
     worksheet.add_table('B3:F7', {'data': data,
                                   'style': 'Table Style Light 11'})
 
-.. image:: _static/tables11.png
+.. image:: _images/tables11.png
 
 The default table style is 'Table Style Medium 9'.
 
@@ -223,7 +223,7 @@ formatting and also with dropdown ``SUBTOTAL`` functions::
 
     worksheet.add_table('B3:F7', {'total_row': True})
 
-.. image:: _static/tables9.png
+.. image:: _images/tables9.png
 
 The default total row doesn't have any captions or functions. These must by
 specified via the ``columns`` parameter below.
@@ -235,7 +235,7 @@ columns
 The ``columns`` parameter can be used to set properties for columns within the
 table.
 
-.. image:: _static/tables7.png
+.. image:: _images/tables7.png
 
 The sub-properties that can be set are:
 
@@ -291,7 +291,7 @@ Column formulas can by applied using the column ``formula`` property::
                                                'formula': formula},
                                               ]})
 
-.. image:: _static/tables8.png
+.. image:: _images/tables8.png
 
 The Excel 2007 ``[#This Row]`` and Excel 2010 ``@`` structural references are
 supported within the formula.
@@ -356,7 +356,7 @@ Formats can also be applied to columns::
                                                },
                                               ]})
 
-.. image:: _static/tables12.png
+.. image:: _images/tables12.png
 
 Standard XlsxWriter :ref:`Format object <format>` objects are used for this
 formatting. However, they should be limited to numerical formats. Overriding

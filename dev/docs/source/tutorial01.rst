@@ -54,7 +54,7 @@ To do that we can start with a small program like the following:
 
 If we run this program we should get a spreadsheet that looks like this:
 
-.. image:: _static/tutorial01.png
+.. image:: _images/tutorial01.png
 
 This is a simple example but the steps involved are representative of all
 programs that use XlsxWriter, so let's break it down into separate parts.

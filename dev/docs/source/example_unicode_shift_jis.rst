@@ -13,7 +13,7 @@ writing the encoding to the Excel file.
 The encoding of the input data shouldn't matter once it can be converted
 to UTF-8 via the :mod:`codecs` module.
 
-.. image:: _static/unicode_shift_jis.png
+.. image:: _images/unicode_shift_jis.png
 
 .. literalinclude:: ../../../examples/unicode_shift_jis.py
 

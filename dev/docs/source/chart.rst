@@ -53,7 +53,7 @@ The following is a small working example or adding an embedded chart::
 
     workbook.close()
 
-.. image:: _static/chart_simple.png
+.. image:: _images/chart_simple.png
    :scale: 75 %
 
 
@@ -237,7 +237,7 @@ The ``set_x_axis()`` method is used to set properties of the X axis::
         'num_font':  {'italic': True },
     })
 
-.. image:: _static/chart_x_axis.png
+.. image:: _images/chart_x_axis.png
    :scale: 75 %
 
 The options that can be set are::
@@ -303,7 +303,7 @@ the axis types.
 
     chart.set_x_axis({'min': 3, 'max': 6})
 
-  .. image:: _static/chart_max_min.png
+  .. image:: _images/chart_max_min.png
      :scale: 75 %
 
 * ``max``: Set the maximum value for the axis range. (Applicable to value
@@ -338,7 +338,7 @@ the axis types.
 
     chart.set_y_axis({'reverse': True})
 
-  .. image:: _static/chart_reverse.png
+  .. image:: _images/chart_reverse.png
      :scale: 75 %
 
 * ``log_base``: Set the log base of the axis range. (Applicable to value axes
@@ -374,7 +374,7 @@ the axis types.
         },
     })
 
-  .. image:: _static/chart_gridlines.png
+  .. image:: _images/chart_gridlines.png
      :scale: 75 %
 
   The ``visible`` property is usually on for the X axis but it depends on the
@@ -499,7 +499,7 @@ The ``set_title()`` method is used to set properties of the chart title::
 
     chart.set_title({'name': 'Year End Results'})
 
-.. image:: _static/chart_title.png
+.. image:: _images/chart_title.png
    :scale: 75 %
 
 The properties that can be set are:
@@ -526,7 +526,7 @@ example it can be used to turn off the default chart legend::
 
     chart.set_legend({'position': 'none'})
 
-.. image:: _static/chart_legend_none.png
+.. image:: _images/chart_legend_none.png
    :scale: 75 %
 
 The options that can be set are::
@@ -539,7 +539,7 @@ The options that can be set are::
 
     chart.set_legend({'position': 'bottom'})
 
-  .. image:: _static/chart_legend_bottom.png
+  .. image:: _images/chart_legend_bottom.png
      :scale: 75 %
 
   The default legend position is ``right``. The available positions are::
@@ -559,7 +559,7 @@ The options that can be set are::
     # Delete/hide series index 0 and 2 from the legend.
     chart.set_legend({'delete_series': [0, 2]})
 
-  .. image:: _static/chart_legend_delete.png
+  .. image:: _images/chart_legend_delete.png
      :scale: 75 %
 
 
@@ -579,7 +579,7 @@ The ``set_chartarea()`` method is used to set the properties of the chart area::
         'fill':   {'color': 'red'}
     })
 
-.. image:: _static/chart_chartarea.png
+.. image:: _images/chart_chartarea.png
    :scale: 75 %
 
 The properties that can be set are:
@@ -609,7 +609,7 @@ chart::
         'fill':   {'color': '#FFFFC2'}
     })
 
-.. image:: _static/chart_plotarea.png
+.. image:: _images/chart_plotarea.png
    :scale: 75 %
 
 The properties that can be set are:
@@ -636,7 +636,7 @@ The ``set_style()`` method is used to set the style of the chart to one of the
 
     chart.set_style(37)
 
-.. image:: _static/chart_style.png
+.. image:: _images/chart_style.png
    :scale: 75 %
 
 The style index number is counter from 1 on the top left. The default style is
@@ -657,7 +657,7 @@ data used to plot the chart::
 
     chart.set_table()
 
-.. image:: _static/chart_table.png
+.. image:: _images/chart_table.png
    :scale: 75 %
 
 The available options, with default values are::
@@ -700,7 +700,7 @@ properties if required. See :ref:`chart_formatting`::
         },
     })
 
-.. image:: _static/chart_up_down_bars.png
+.. image:: _images/chart_up_down_bars.png
    :scale: 75 %
 
 Up-down bars can only be applied to Line charts and to Stock charts (by
@@ -721,7 +721,7 @@ value of points in the data::
 
     chart.set_drop_lines()
 
-.. image:: _static/chart_drop_lines.png
+.. image:: _images/chart_drop_lines.png
    :scale: 75 %
 
 It is possible to format the Drop Line ``line`` properties if required. See
@@ -747,7 +747,7 @@ maximum and minimum values of points in a Category::
 
     chart.set_high_low_lines()
 
-.. image:: _static/chart_high_low_lines.png
+.. image:: _images/chart_high_low_lines.png
    :scale: 75 %
 
 It is possible to format the High-Low Line ``line`` properties if required. See

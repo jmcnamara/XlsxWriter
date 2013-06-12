@@ -21,15 +21,15 @@ For example the following rules are used to highlight cells in the
 
 Which gives criteria like this:
 
-.. image:: _static/conditional_format3.png
+.. image:: _images/conditional_format3.png
 
 And output which looks like this:
 
-.. image:: _static/conditional_format1.png
+.. image:: _images/conditional_format1.png
 
 It is also possible to create color scales and data bars:
 
-.. image:: _static/conditional_format2.png
+.. image:: _images/conditional_format2.png
 
 
 The conditional_format() method
@@ -504,7 +504,7 @@ style conditional format::
 
     worksheet.conditional_format('A1:A12', {'type': '2_color_scale'})
 
-.. image:: _static/conditional_format4.png
+.. image:: _images/conditional_format4.png
 
 This conditional type can be modified with ``min_type``, ``max_type``,
 ``min_value``, ``max_value``, ``min_color`` and ``max_color``, see below.

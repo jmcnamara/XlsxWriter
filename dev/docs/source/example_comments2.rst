@@ -7,6 +7,6 @@ Another example of adding cell comments to a worksheet. This example
 demonstrates most of the available comment formatting options. For more
 details see :ref:`cell_comments`.
 
-.. image:: _static/comments2.png
+.. image:: _images/comments2.png
 
 .. literalinclude:: ../../../examples/comments2.py
