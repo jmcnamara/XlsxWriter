@@ -702,6 +702,7 @@ and axis numbering::
     bold
     italic
     underline
+    rotation
     color
 
 These properties correspond to the equivalent Worksheet cell Format object
@@ -731,6 +732,11 @@ The following explains the available font properties:
 
     chart.set_x_axis({'num_font':  {'underline': True}})
 
+* ``rotation``: Set the font rotation property in the range -90 to 90 deg::
+
+    chart.set_x_axis({'num_font':  {'rotation': 45}})
+
+  This is useful for displaying axis data such as dates in a more compact format.
 
 * ``color``: Set the font color property. Can be a color index, a color name
   or HTML style RGB colour::

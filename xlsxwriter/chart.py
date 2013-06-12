@@ -611,11 +611,16 @@ class Chart(xmlwriter.XMLwriter):
             'pitch_family': options.get('pitch_family'),
             'charset': options.get('charset'),
             'baseline': options.get('baseline', 0),
+            'rotation': options.get('rotation'),
         }
 
         # Convert font size units.
         if font['size']:
             font['size'] *= 100
+
+        # Convert rotation into 60,000ths of a degree.
+        if (font['rotation']):
+            font['rotation'] = 60000 * int(font['rotation'])
 
         return font
 
@@ -2270,6 +2275,15 @@ class Chart(xmlwriter.XMLwriter):
 
         self._xml_empty_tag('a:bodyPr', attributes)
 
+    def _write_axis_body_pr(self, rotation):
+        # Write the <a:bodyPr> element for axis fonts.
+        attributes = []
+
+        if rotation is not None:
+            attributes.append(('rot', rotation))
+
+        self._xml_empty_tag('a:bodyPr', attributes)
+
     def _write_a_lst_style(self):
         # Write the <a:lstStyle> element.
         self._xml_empty_tag('a:lstStyle')
@@ -2906,7 +2920,7 @@ class Chart(xmlwriter.XMLwriter):
             return
 
         self._xml_start_tag('c:txPr')
-        self._xml_empty_tag('a:bodyPr')
+        self._write_axis_body_pr(font.get('rotation'))
         self._write_a_lst_style()
         self._xml_start_tag('a:p')
 
