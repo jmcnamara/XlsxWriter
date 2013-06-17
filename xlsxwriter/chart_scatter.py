@@ -39,6 +39,7 @@ class ChartScatter(chart.Chart):
         self.cross_between = 'midCat'
         self.horiz_val_axis = 0
         self.val_axis_postion = 'b'
+        self.smooth_allowed = True
 
     ###########################################################################
     #
@@ -150,7 +151,10 @@ class ChartScatter(chart.Chart):
         self._write_y_val(series)
 
         # Write the c:smooth element.
-        self._write_c_smooth()
+        if 'smooth' in self.subtype and series['smooth'] is None:
+            self._write_c_smooth(True)
+        else:
+            self._write_c_smooth(series['smooth'])
 
         self._xml_end_tag('c:ser')
 
@@ -244,18 +248,6 @@ class ChartScatter(chart.Chart):
         attributes = [('val', val)]
 
         self._xml_empty_tag('c:scatterStyle', attributes)
-
-    def _write_c_smooth(self):
-        # Write the <c:smooth> element.
-        subtype = self.subtype
-        val = 1
-
-        if not 'smooth' in subtype:
-            return
-
-        attributes = [('val', val)]
-
-        self._xml_empty_tag('c:smooth', attributes)
 
     def _modify_series_formatting(self):
         # Add default formatting to the series data unless it has already been

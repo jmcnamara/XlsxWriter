@@ -37,6 +37,7 @@ class ChartLine(chart.Chart):
             self.subtype = 'straight'
 
         self.default_marker = {'type': 'none'}
+        self.smooth_allowed = True
 
     ###########################################################################
     #
@@ -147,4 +148,5 @@ class ChartLine(chart.Chart):
         # Turn on smoothing if required
         if 'smooth' in subtype:
             for series in self.series:
-                series['smooth'] = True
+                if series['smooth'] is None:
+                    series['smooth'] = True
