@@ -137,7 +137,7 @@ class Chart(xmlwriter.XMLwriter):
         trendline = self._get_trendline_properties(options.get('trendline'))
 
         # Set the line smooth property for the series.
-        smooth = options.get('smooth') 
+        smooth = options.get('smooth')
 
         # Set the error bars properties for the series.
         y_error_bars = self._get_error_bars_props(options.get('y_error_bars'))
@@ -1291,7 +1291,7 @@ class Chart(xmlwriter.XMLwriter):
         # Write the c:smooth element.
         if self.smooth_allowed:
             self._write_c_smooth(series['smooth'])
-        
+
         self._xml_end_tag('c:ser')
 
     def _write_idx(self, val):
@@ -1318,7 +1318,7 @@ class Chart(xmlwriter.XMLwriter):
 
     def _write_c_smooth(self, smooth):
         # Write the <c:smooth> element.
-        
+
         if smooth:
             self._xml_empty_tag('c:smooth', [('val', '1')])
 

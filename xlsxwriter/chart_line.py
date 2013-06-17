@@ -112,7 +112,7 @@ class ChartLine(chart.Chart):
         self._xml_end_tag('c:marker')
 
         self._xml_end_tag('c:dPt')
-    
+
     def _modify_series_formatting(self):
         # Add default formatting to the series data unless it has already been
         # specified by the user.
