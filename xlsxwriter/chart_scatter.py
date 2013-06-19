@@ -152,6 +152,7 @@ class ChartScatter(chart.Chart):
 
         # Write the c:smooth element.
         if 'smooth' in self.subtype and series['smooth'] is None:
+            # Default is on for smooth scatter charts.
             self._write_c_smooth(True)
         else:
             self._write_c_smooth(series['smooth'])
