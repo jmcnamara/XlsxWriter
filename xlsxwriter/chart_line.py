@@ -32,6 +32,7 @@ class ChartLine(chart.Chart):
             options = {}
 
         self.default_marker = {'type': 'none'}
+        self.smooth_allowed = True
 
     ###########################################################################
     #
