@@ -214,6 +214,19 @@ The series options that can be set are:
   Note, it is only necessary to apply the ``gap`` property to one series in
   the chart.
 
+* ``smooth``: Ask the points in the series to be fit to a smooth curve,
+  rather than straight line segments.  This currently applies only to ``line``
+  and ``scatter`` charts.  Setting this option will override the behavior
+  suggested by the ``subtype`` option for a ``scatter`` chart.  The default value
+  is ``None``, in which case the default behavior depends on the chart type and 
+  subtype::
+    
+    chart.add_series({
+        'categories': '=Sheet1!$A$1:$A$5',
+        'values':     '=Sheet1!$B$1:$B$5',
+        'smooth':     True,
+    })
+
 
 More than one series can be added to a chart. In fact, some chart types such as
 ``stock`` require it. The series numbering and order in the Excel chart will
