@@ -3715,8 +3715,8 @@ class Worksheet(xmlwriter.XMLwriter):
         # the column width to the nearest pixel. If the width hasn't been set
         # by the user we use the default value. If the column is hidden it
         # has a value of zero.
-        max_digit_width = 7  # For Calabri 11.
-        padding = 5
+        max_digit_width = 7.0  # For Calabri 11.
+        padding = 5.0
         pixels = 0
 
         # Look up the cell value to see if it has been changed.
@@ -3727,7 +3727,7 @@ class Worksheet(xmlwriter.XMLwriter):
             if width == 0:
                 pixels = 0
             elif width < 1:
-                pixels = int(width * 12 + 0.5)
+                pixels = int(width * (max_digit_width + padding) + 0.5)
             else:
                 pixels = int(width * max_digit_width + 0.5) + padding
         else:
@@ -4286,10 +4286,15 @@ class Worksheet(xmlwriter.XMLwriter):
         # Convert column width from user units to character width.
         if width > 0:
             # For Calabri 11.
-            max_digit_width = 7
-            padding = 5
-            width = int((float(width) * max_digit_width + padding)
-                        / max_digit_width * 256.0) / 256.0
+            max_digit_width = 7.0
+            padding = 5.0
+
+            if width < 1:
+                width = int((int(width * (max_digit_width + padding) + 0.5))
+                            / max_digit_width * 256.0) / 256.0
+            else:
+                width = int((int(width * max_digit_width + 0.5) + padding)
+                            / max_digit_width * 256.0) / 256.0
 
         attributes = [
             ('min', col_min + 1),
@@ -5641,12 +5646,12 @@ class Worksheet(xmlwriter.XMLwriter):
     def _calculate_x_split_width(self, width):
         # Convert column width from user units to pane split width.
 
-        max_digit_width = 7  # For Calabri 11.
-        padding = 5
+        max_digit_width = 7.0  # For Calabri 11.
+        padding = 5.0
 
         # Convert to pixels.
         if width < 1:
-            pixels = int(width * 12 + 0.5)
+            pixels = int(width * (max_digit_width + padding) + 0.5)
         else:
             pixels = int(width * max_digit_width + 0.5) + padding
 
