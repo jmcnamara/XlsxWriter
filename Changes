@@ -1,3 +1,17 @@
+Release 0.3.4 - June 27 2013
+-----------------------------
+
+* Added Chart line smoothing option. Thanks to Dieter Vandenbussche.
+
+* Added Http Server example (:ref:`ex_http_server`). Thanks to
+  Alexander Afanasiev.
+
+* Fixed inaccurate column width calculation. Closes #27. Thanks to
+  John Yeung.
+
+* Added chart axis font rotation.
+
+
 Release 0.3.3 - June 10 2013
 -----------------------------
 
