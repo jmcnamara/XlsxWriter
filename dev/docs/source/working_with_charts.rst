@@ -71,6 +71,7 @@ This following sections detail the more complex options of the
     x_error_bars
     data_labels
     points
+    smooth
 
 
 .. _chart_series_option_marker:
@@ -484,6 +485,20 @@ pass ``None`` values in the array ref::
             {'fill': {'color': '#990000'}},
         ],
     })
+
+
+Chart series option: Smooth
+---------------------------
+
+The ``smooth`` option is used to set the smooth property of a line series. It
+is only applicable to the ``line`` and ``scatter`` chart types::
+
+    chart.add_series({
+        'categories': '=Sheet1!$A$1:$A$5',
+        'values':     '=Sheet1!$B$1:$B$5',
+        'smooth':     True,
+    })
+
 
 .. _chart_formatting:
 
