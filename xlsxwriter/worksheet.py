@@ -3693,16 +3693,6 @@ class Worksheet(xmlwriter.XMLwriter):
             height -= self._size_row(row_end)
             row_end += 1
 
-        # TODO, is this required? Write testcase for image that fits cell.
-        #
-        # The following is only required for positioning drawing/chart objects
-        # and not comments. It is probably the result of a bug.
-        # if is_drawing:
-        #    if width == 0:
-        #        col_end -= 1
-        #    if height == 0:
-        #        row_end -= 1
-
         # The end vertices are whatever is left from the width and height.
         x2 = width
         y2 = height
