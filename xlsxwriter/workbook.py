@@ -23,7 +23,6 @@ from xlsxwriter.sharedstrings import SharedStringTable
 from xlsxwriter.format import Format
 from xlsxwriter.packager import Packager
 from .utility import xl_cell_to_rowcol
-from .utility import encode_utf8
 from xlsxwriter.chart_area import ChartArea
 from xlsxwriter.chart_bar import ChartBar
 from xlsxwriter.chart_column import ChartColumn
@@ -119,9 +118,6 @@ class Workbook(xmlwriter.XMLwriter):
         """
         sheet_index = len(self.worksheets_objs)
         name = self._check_sheetname(name)
-
-        # Encode any string options passed by the user.
-        name = encode_utf8(name)
 
         # Initialisation data to pass to the worksheet.
         init_data = {
@@ -284,10 +280,6 @@ class Workbook(xmlwriter.XMLwriter):
         if re.match(r'^[a-zA-Z][a-zA-Z]?[a-dA-D]?[0-9]+$', name):
             warn("Name looks like a cell name in defined_name(): '%s'" % name)
             return -1
-
-        # Encode any string options passed by the user.
-        name = encode_utf8(name)
-        formula = encode_utf8(formula)
 
         self.defined_names.append([name, sheet_index, formula, False])
 
@@ -536,11 +528,15 @@ class Workbook(xmlwriter.XMLwriter):
             # Check if num_format is an index to a built-in number format.
             # Also check for a string of zeros, which is a valid number
             # format string but would evaluate to zero.
-            if (is_number.match(str(num_format))
-                    and not is_zeroes.match(str(num_format))):
-                # Index to a built-in number xf_format.
-                xf_format.num_format_index = num_format
-                continue
+
+            try:
+                if (is_number.match(str(num_format))
+                        and not is_zeroes.match(str(num_format))):
+                    # Index to a built-in number xf_format.
+                    xf_format.num_format_index = num_format
+                    continue
+            except (TypeError, UnicodeEncodeError):
+                pass
 
             if num_format in num_formats:
                 # Number xf_format has already been used.

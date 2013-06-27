@@ -5,7 +5,6 @@
 # Copyright 2013, John McNamara, jmcnamara@cpan.org
 #
 import re
-import sys
 from warnings import warn
 
 COL_NAMES = {}
@@ -479,14 +478,3 @@ def get_sparkline_style(style_id):
     ]
 
     return styles[style_id]
-
-
-def encode_utf8(string):
-    """
-    Encode any strings passed by the user to UTF8 in Python 2.
-
-    """
-    if string is None or sys.version_info >= (3, 0):
-        return string
-    else:
-        return string.encode('utf-8')

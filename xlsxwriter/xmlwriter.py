@@ -9,7 +9,7 @@
 
 # Standard packages.
 import re
-import sys
+import codecs
 
 
 class XMLwriter(object):
@@ -33,10 +33,7 @@ class XMLwriter(object):
         # done using _set_filehandle(), usually for testing, or later via
         # this method, when assembling the xlsx file.
         self.internal_fh = True
-        if sys.version_info >= (3, 0):
-            self.fh = open(filename, 'w', encoding='utf-8')
-        else:
-            self.fh = open(filename, 'w')
+        self.fh = codecs.open(filename, 'w', 'utf-8')
 
     def _xml_close(self):
         # Close the XML filehandle if we created it.
@@ -144,7 +141,7 @@ class XMLwriter(object):
 
         self.fh.write("""<c%s><f>%s</f><v>%s</v></c>"""
                       % (attr, self._escape_data(formula),
-                      self._escape_data(str(result))))
+                      self._escape_data(result)))
 
     def _xml_inline_string(self, string, preserve, attributes=[]):
         # Optimised tag writer for inlineStr cell elements in the inner loop.

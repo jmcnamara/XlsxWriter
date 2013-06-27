@@ -7,7 +7,6 @@
 
 # Package imports.
 from . import xmlwriter
-from .utility import encode_utf8
 
 
 class App(xmlwriter.XMLwriter):
@@ -161,16 +160,14 @@ class App(xmlwriter.XMLwriter):
     def _write_company(self):
         company = self.properties.get('company', '')
 
-        self._xml_data_element('Company', encode_utf8(company))
+        self._xml_data_element('Company', company)
 
     def _write_manager(self):
         # Write the <Manager> element.
         if not 'manager' in self.properties:
             return
 
-        manager = encode_utf8(self.properties['manager'])
-
-        self._xml_data_element('Manager', manager)
+        self._xml_data_element('Manager', self.properties['manager'])
 
     def _write_links_up_to_date(self):
         # Write the <LinksUpToDate> element.

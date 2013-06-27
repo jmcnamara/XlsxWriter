@@ -7,7 +7,6 @@
 
 # Package imports.
 from . import xmlwriter
-from .utility import encode_utf8
 
 
 class Format(xmlwriter.XMLwriter):
@@ -124,7 +123,7 @@ class Format(xmlwriter.XMLwriter):
             Nothing.
 
         """
-        self.font_name = encode_utf8(font_name)
+        self.font_name = font_name
 
     def set_font_size(self, font_size=11):
         """
@@ -254,11 +253,6 @@ class Format(xmlwriter.XMLwriter):
             Nothing.
 
         """
-        try:
-            float(num_format)
-        except ValueError:
-            num_format = encode_utf8(num_format)
-
         self.num_format = num_format
 
     def set_locked(self, locked=1):
@@ -860,7 +854,7 @@ class Format(xmlwriter.XMLwriter):
 
     def _get_format_key(self):
         # Returns a unique hash key for a font. Used by Workbook.
-        key = ':'.join(str(x) for x in (
+        key = ':'.join(self._to_string(x) for x in (
             self._get_font_key(),
             self._get_border_key(),
             self._get_fill_key(),
@@ -873,7 +867,7 @@ class Format(xmlwriter.XMLwriter):
 
     def _get_font_key(self):
         # Returns a unique hash key for a font. Used by Workbook.
-        key = ':'.join(str(x) for x in (
+        key = ':'.join(self._to_string(x) for x in (
             self.bold,
             self.font_color,
             self.font_charset,
@@ -891,7 +885,7 @@ class Format(xmlwriter.XMLwriter):
 
     def _get_border_key(self):
         # Returns a unique hash key for a border style. Used by Workbook.
-        key = ':'.join(str(x) for x in (
+        key = ':'.join(self._to_string(x) for x in (
             self.bottom,
             self.bottom_color,
             self.diag_border,
@@ -908,7 +902,7 @@ class Format(xmlwriter.XMLwriter):
 
     def _get_fill_key(self):
         # Returns a unique hash key for a fill style. Used by Workbook.
-        key = ':'.join(str(x) for x in (
+        key = ':'.join(self._to_string(x) for x in (
             self.pattern,
             self.bg_color,
             self.fg_color))
@@ -918,7 +912,7 @@ class Format(xmlwriter.XMLwriter):
     def _get_alignment_key(self):
         # Returns a unique hash key for alignment formats.
 
-        key = ':'.join(str(x) for x in (
+        key = ':'.join(self._to_string(x) for x in (
             self.text_h_align,
             self.text_v_align,
             self.indent,
@@ -995,6 +989,13 @@ class Format(xmlwriter.XMLwriter):
             color = named_colors[color]
 
         return color
+
+    def _to_string(self, value):
+        # Convert number to a string but allow for utf-8 strings in Python 2.
+        try:
+            return str(value)
+        except UnicodeEncodeError:
+            return value.encode('utf-8')
 
     ###########################################################################
     #
