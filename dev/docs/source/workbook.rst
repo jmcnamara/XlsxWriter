@@ -72,9 +72,18 @@ The constructor options are:
 When specifying a filename it is recommended that you use an ``.xlsx``
 extension or Excel will generate a warning opening the file.
 
-.. note::
-   A later version of the module will support writing to filehandles like
-   :ref:`Excel::Writer::XLSX <ewx>`.
+It is possible to write files to in-memory strings using StringIO as follows::
+
+    output = StringIO()
+    workbook = Workbook(output)
+    worksheet = workbook.add_worksheet()
+
+    worksheet.write('A1', 'Hello')
+    workbook.close()
+
+    xlsx_data = output.getvalue()
+
+See also :ref:`ex_http_server`.
 
 
 workbook.add_worksheet()

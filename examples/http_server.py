@@ -26,7 +26,7 @@ class Handler(SimpleHTTPServer.SimpleHTTPRequestHandler):
         output = StringIO.StringIO()
 
         workbook = Workbook(output)
-        worksheet = workbook.add_worksheet('test')
+        worksheet = workbook.add_worksheet()
 
         # Write some test data.
         worksheet.write(0, 0, 'Hello, world!')
