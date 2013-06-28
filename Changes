@@ -1,3 +1,10 @@
+Release 0.3.5 - June 28 2013
+-----------------------------
+
+* Reverted back to using codecs for file encoding (versions <= 0.3.1) to avoid
+  numerous UTF-8 issues in Python2/3.
+
+
 Release 0.3.4 - June 27 2013
 -----------------------------
 
