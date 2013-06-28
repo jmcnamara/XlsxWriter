@@ -533,7 +533,7 @@ class Workbook(xmlwriter.XMLwriter):
                 if (is_number.match(str(num_format))
                         and not is_zeroes.match(str(num_format))):
                     # Index to a built-in number xf_format.
-                    xf_format.num_format_index = num_format
+                    xf_format.num_format_index = int(num_format)
                     continue
             except (TypeError, UnicodeEncodeError):
                 pass
