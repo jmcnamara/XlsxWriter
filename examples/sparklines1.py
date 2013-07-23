@@ -9,9 +9,9 @@
 #
 # Copyright 2013, John McNamara, jmcnamara@cpan.org
 #
-from xlsxwriter.workbook import Workbook
+import xlsxwriter
 
-workbook = Workbook('sparklines1.xlsx')
+workbook = xlsxwriter.Workbook('sparklines1.xlsx')
 worksheet = workbook.add_worksheet()
 
 # Some sample data to plot.

@@ -5,10 +5,10 @@
 #
 # Copyright 2013, John McNamara, jmcnamara@cpan.org
 #
-from xlsxwriter.workbook import Workbook
+import xlsxwriter
 
 # Create a new workbook and add a worksheet
-workbook = Workbook('array_formula.xlsx')
+workbook = xlsxwriter.Workbook('array_formula.xlsx')
 worksheet = workbook.add_worksheet()
 
 # Write some test data.

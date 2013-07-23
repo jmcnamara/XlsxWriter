@@ -32,9 +32,9 @@
 #
 # Copyright 2013, John McNamara, jmcnamara@cpan.org
 #
-from xlsxwriter.workbook import Workbook
+import xlsxwriter
 
-workbook = Workbook('headers_footers.xlsx')
+workbook = xlsxwriter.Workbook('headers_footers.xlsx')
 preview = 'Select Print Preview to see the header and footer'
 
 ######################################################################

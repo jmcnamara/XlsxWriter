@@ -6,9 +6,9 @@
 #
 # Copyright 2013, John McNamara, jmcnamara@cpan.org
 #
-from xlsxwriter.workbook import Workbook
+import xlsxwriter
 
-workbook = Workbook('cell_indentation.xlsx')
+workbook = xlsxwriter.Workbook('cell_indentation.xlsx')
 
 worksheet = workbook.add_worksheet()
 

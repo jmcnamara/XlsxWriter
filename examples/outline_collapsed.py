@@ -8,10 +8,10 @@
 #
 # Copyright 2013, John McNamara, jmcnamara@cpan.org
 #
-from xlsxwriter.workbook import Workbook
+import xlsxwriter
 
 # Create a new workbook and add some worksheets
-workbook = Workbook('outline_collapsed.xlsx')
+workbook = xlsxwriter.Workbook('outline_collapsed.xlsx')
 worksheet1 = workbook.add_worksheet('Outlined Rows')
 worksheet2 = workbook.add_worksheet('Collapsed Rows 1')
 worksheet3 = workbook.add_worksheet('Collapsed Rows 2')

@@ -8,9 +8,9 @@
 #
 # Copyright 2013, John McNamara, jmcnamara@cpan.org
 #
-from xlsxwriter.workbook import Workbook
+import xlsxwriter
 
-workbook = Workbook('sparklines2.xlsx')
+workbook = xlsxwriter.Workbook('sparklines2.xlsx')
 worksheet1 = workbook.add_worksheet()
 worksheet2 = workbook.add_worksheet()
 bold = workbook.add_format({'bold': True})

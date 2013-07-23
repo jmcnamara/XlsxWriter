@@ -5,9 +5,9 @@
 #
 # Copyright 2013, John McNamara, jmcnamara@cpan.org
 #
-from xlsxwriter.workbook import Workbook
+import xlsxwriter
 
-workbook = Workbook('protection.xlsx')
+workbook = xlsxwriter.Workbook('protection.xlsx')
 worksheet = workbook.add_worksheet()
 
 # Create some cell formats with protection properties.

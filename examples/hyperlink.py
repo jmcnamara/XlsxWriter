@@ -4,10 +4,10 @@
 #
 # Copyright 2013, John McNamara, jmcnamara@cpan.org
 #
-from xlsxwriter.workbook import Workbook
+import xlsxwriter
 
 # Create a new workbook and add a worksheet
-workbook = Workbook('hyperlink.xlsx')
+workbook = xlsxwriter.Workbook('hyperlink.xlsx')
 worksheet = workbook.add_worksheet('Hyperlinks')
 
 # Format the first column

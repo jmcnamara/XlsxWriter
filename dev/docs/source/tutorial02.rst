@@ -27,10 +27,10 @@ To do this we can extend our program as follows:
 .. code-block:: python
    :emphasize-lines: 7-15, 32, 36-37
 
-    from xlsxwriter.workbook import Workbook
+    import xlsxwriter
 
     # Create a workbook and add a worksheet.
-    workbook = Workbook('Expenses02.xlsx')
+    workbook = xlsxwriter.Workbook('Expenses02.xlsx')
     worksheet = workbook.add_worksheet()
 
     # Add a bold format to use to highlight cells.

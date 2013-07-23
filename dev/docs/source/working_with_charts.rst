@@ -9,9 +9,9 @@ This section explains how to work with some of the options and features of
 The majority of the examples in this section are based on a variation of the
 following program::
 
-    from xlsxwriter.workbook import Workbook
+    import xlsxwriter
 
-    workbook = Workbook('chart_line.xlsx')
+    workbook = xlsxwriter.Workbook('chart_line.xlsx')
     worksheet = workbook.add_worksheet()
 
     # Add the worksheet data to be plotted.
@@ -433,9 +433,9 @@ this is required for Pie charts where each segment is represented by a point.
 In these cases it is possible to use the ``points`` property of
 :func:`add_series()`::
 
-    from xlsxwriter.workbook import Workbook
+    import xlsxwriter
 
-    workbook = Workbook('chart_pie.xlsx')
+    workbook = xlsxwriter.Workbook('chart_pie.xlsx')
 
     worksheet = workbook.add_worksheet()
     chart = workbook.add_chart({'type': 'pie'})
@@ -809,9 +809,9 @@ Chart Secondary Axes
 It is possible to add a secondary axis of the same type to a chart by setting
 the ``y2_axis`` or ``x2_axis`` property of the series::
 
-    from xlsxwriter.workbook import Workbook
+    import xlsxwriter
 
-    workbook = Workbook('chart_secondary_axis.xlsx')
+    workbook = xlsxwriter.Workbook('chart_secondary_axis.xlsx')
     worksheet = workbook.add_worksheet()
 
     data = [

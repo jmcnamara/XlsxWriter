@@ -6,9 +6,9 @@
 #
 # Copyright 2013, John McNamara, jmcnamara@cpan.org
 #
-from xlsxwriter.workbook import Workbook
+import xlsxwriter
 
-workbook = Workbook('hide_row_col.xlsx')
+workbook = xlsxwriter.Workbook('hide_row_col.xlsx')
 worksheet = workbook.add_worksheet()
 
 # Write some data.

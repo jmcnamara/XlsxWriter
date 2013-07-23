@@ -5,9 +5,9 @@
 #
 # Copyright 2013, John McNamara, jmcnamara@cpan.org
 #
-from xlsxwriter.workbook import Workbook
+import xlsxwriter
 
-workbook = Workbook('panes.xlsx')
+workbook = xlsxwriter.Workbook('panes.xlsx')
 
 worksheet1 = workbook.add_worksheet('Panes 1')
 worksheet2 = workbook.add_worksheet('Panes 2')

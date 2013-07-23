@@ -9,10 +9,10 @@
 # Copyright 2013, John McNamara, jmcnamara@cpan.org
 #
 from datetime import datetime
-from xlsxwriter.workbook import Workbook
+import xlsxwriter
 
 # Create a workbook and add a worksheet.
-workbook = Workbook('Expenses03.xlsx')
+workbook = xlsxwriter.Workbook('Expenses03.xlsx')
 worksheet = workbook.add_worksheet()
 
 # Add a bold format to use to highlight cells.

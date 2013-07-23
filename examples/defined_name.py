@@ -7,10 +7,10 @@
 #
 # Copyright 2013, John McNamara, jmcnamara@cpan.org
 #
-from xlsxwriter.workbook import Workbook
+import xlsxwriter
 
 
-workbook = Workbook('defined_name.xlsx')
+workbook = xlsxwriter.Workbook('defined_name.xlsx')
 worksheet1 = workbook.add_worksheet()
 worksheet2 = workbook.add_worksheet()
 

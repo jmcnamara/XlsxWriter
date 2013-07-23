@@ -5,9 +5,9 @@
 #
 # Copyright 2013, John McNamara, jmcnamara@cpan.org
 #
-from xlsxwriter.workbook import Workbook
+import xlsxwriter
 
-workbook = Workbook('rich_strings.xlsx')
+workbook = xlsxwriter.Workbook('rich_strings.xlsx')
 worksheet = workbook.add_worksheet()
 
 worksheet.set_column('A:A', 30)

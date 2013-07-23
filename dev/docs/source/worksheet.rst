@@ -10,7 +10,7 @@ A worksheet object isn't instantiated directly. Instead a new worksheet is
 created by calling the :func:`add_worksheet()` method from a :func:`Workbook`
 object::
 
-    workbook   = Workbook('filename.xlsx')
+    workbook   = xlsxwriter.Workbook('filename.xlsx')
 
     worksheet1 = workbook.add_worksheet()
     worksheet2 = workbook.add_worksheet()

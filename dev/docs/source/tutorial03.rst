@@ -34,10 +34,10 @@ To do this we can extend our program as follows:
    :emphasize-lines: 1, 15, 18, 27-30, 39-43
 
     from datetime import datetime
-    from xlsxwriter.workbook import Workbook
+    import xlsxwriter
 
     # Create a workbook and add a worksheet.
-    workbook = Workbook('Expenses03.xlsx')
+    workbook = xlsxwriter.Workbook('Expenses03.xlsx')
     worksheet = workbook.add_worksheet()
 
     # Add a bold format to use to highlight cells.

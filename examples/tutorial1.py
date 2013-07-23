@@ -8,10 +8,10 @@
 #
 # Copyright 2013, John McNamara, jmcnamara@cpan.org
 #
-from xlsxwriter.workbook import Workbook
+import xlsxwriter
 
 # Create a workbook and add a worksheet.
-workbook = Workbook('Expenses01.xlsx')
+workbook = xlsxwriter.Workbook('Expenses01.xlsx')
 worksheet = workbook.add_worksheet()
 
 # Some data we want to write to the worksheet.

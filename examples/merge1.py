@@ -4,11 +4,11 @@
 #
 # Copyright 2013, John McNamara, jmcnamara@cpan.org
 #
-from xlsxwriter.workbook import Workbook
+import xlsxwriter
 
 
 # Create an new Excel file and add a worksheet.
-workbook = Workbook('merge1.xlsx')
+workbook = xlsxwriter.Workbook('merge1.xlsx')
 worksheet = workbook.add_worksheet()
 
 # Increase the cell size of the merged cells to highlight the formatting.

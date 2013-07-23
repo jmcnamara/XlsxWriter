@@ -23,7 +23,7 @@ run out of memory creating large files.
 Fortunately, this memory usage can be reduced almost completely by using the
 :func:`Workbook` ``'constant_memory'`` property::
 
-    workbook = Workbook(filename, {'constant_memory': True})
+    workbook = xlsxwriter.Workbook(filename, {'constant_memory': True})
 
 The optimisation works by flushing each row after a subsequent row is written.
 In this way the largest amount of data held in memory for a worksheet is the

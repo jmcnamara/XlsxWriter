@@ -9,13 +9,13 @@
 # Copyright 2013, John McNamara, jmcnamara@cpan.org
 #
 import codecs
-from xlsxwriter.workbook import Workbook
+import xlsxwriter
 
 # Open the input file with the correct encoding.
 textfile = codecs.open('unicode_shift_jis.txt', 'r', 'shift_jis')
 
 # Create an new Excel file and convert the text data.
-workbook = Workbook('unicode_shift_jis.xlsx')
+workbook = xlsxwriter.Workbook('unicode_shift_jis.xlsx')
 worksheet = workbook.add_worksheet()
 
 # Widen the first column to make the text clearer.

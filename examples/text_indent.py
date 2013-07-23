@@ -6,9 +6,9 @@
 #
 # Copyright 2013, John McNamara, jmcnamara@cpan.org
 #
-from xlsxwriter.workbook import Workbook
+import xlsxwriter
 
-workbook = Workbook('text_indent.xlsx')
+workbook = xlsxwriter.Workbook('text_indent.xlsx')
 
 worksheet = workbook.add_worksheet()
 indent1 = workbook.add_format({'indent': 1})

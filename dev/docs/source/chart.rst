@@ -24,9 +24,9 @@ It is then inserted into a worksheet as an embedded chart using the
 
 The following is a small working example or adding an embedded chart::
 
-    from xlsxwriter.workbook import Workbook
+    import xlsxwriter
 
-    workbook = Workbook('chart.xlsx')
+    workbook = xlsxwriter.Workbook('chart.xlsx')
     worksheet = workbook.add_worksheet()
 
     # Create a new Chart object.

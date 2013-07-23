@@ -7,9 +7,9 @@
 #
 # Copyright 2013, John McNamara, jmcnamara@cpan.org
 #
-from xlsxwriter.workbook import Workbook
+import xlsxwriter
 
-workbook = Workbook('comments1.xlsx')
+workbook = xlsxwriter.Workbook('comments1.xlsx')
 worksheet = workbook.add_worksheet()
 
 worksheet.write('A1', 'Hello')

@@ -22,10 +22,10 @@ To do that we can start with a small program like the following:
 
 .. code-block:: python
 
-    from xlsxwriter.workbook import Workbook
+    import xlsxwriter
 
     # Create a workbook and add a worksheet.
-    workbook = Workbook('Expenses01.xlsx')
+    workbook = xlsxwriter.Workbook('Expenses01.xlsx')
     worksheet = workbook.add_worksheet()
 
     # Some data we want to write to the worksheet.
@@ -59,9 +59,9 @@ If we run this program we should get a spreadsheet that looks like this:
 This is a simple example but the steps involved are representative of all
 programs that use XlsxWriter, so let's break it down into separate parts.
 
-The first step is to import the module and the main method that we will call::
+The first step is to import the module::
 
-    from xlsxwriter.workbook import Workbook
+    import xlsxwriter
 
 The next step is to create a new workbook object using the ``Workbook()``
 constructor.
@@ -69,7 +69,7 @@ constructor.
 :func:`Workbook` takes one, non-optional, argument which is the filename that
 we want to create::
 
-    workbook = Workbook('Expenses01.xlsx')
+    workbook = xlsxwriter.Workbook('Expenses01.xlsx')
 
 .. note::
    XlsxWriter can only create *new files*. It cannot read or modify existing

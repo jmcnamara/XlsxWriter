@@ -6,9 +6,9 @@
 #
 # Copyright 2013, John McNamara, jmcnamara@cpan.org
 #
-from xlsxwriter.workbook import Workbook
+import xlsxwriter
 
-workbook = Workbook('right_to_left.xlsx')
+workbook = xlsxwriter.Workbook('right_to_left.xlsx')
 
 # Add two worksheets.
 worksheet1 = workbook.add_worksheet()

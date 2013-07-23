@@ -5,11 +5,11 @@
 #
 # Copyright 2013, John McNamara, jmcnamara@cpan.org
 #
-from xlsxwriter.workbook import Workbook
+import xlsxwriter
 
 
 # Create an new Excel file and add a worksheet.
-workbook = Workbook('images.xlsx')
+workbook = xlsxwriter.Workbook('images.xlsx')
 worksheet = workbook.add_worksheet()
 
 # Widen the first column to make the text clearer.

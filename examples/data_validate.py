@@ -11,9 +11,9 @@
 # Copyright 2013, John McNamara, jmcnamara@cpan.org
 #
 from datetime import date, time
-from xlsxwriter.workbook import Workbook
+import xlsxwriter
 
-workbook = Workbook('data_validate.xlsx')
+workbook = xlsxwriter.Workbook('data_validate.xlsx')
 worksheet = workbook.add_worksheet()
 
 # Add a format for the header cells.

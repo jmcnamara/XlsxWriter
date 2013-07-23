@@ -16,7 +16,7 @@ import SimpleHTTPServer
 import SocketServer
 import StringIO
 
-from xlsxwriter.workbook import Workbook
+import xlsxwriter
 
 
 class Handler(SimpleHTTPServer.SimpleHTTPRequestHandler):
@@ -25,7 +25,7 @@ class Handler(SimpleHTTPServer.SimpleHTTPRequestHandler):
         # Create a new workbook in memory and add a worksheet
         output = StringIO.StringIO()
 
-        workbook = Workbook(output)
+        workbook = xlsxwriter.Workbook(output)
         worksheet = workbook.add_worksheet()
 
         # Write some test data.

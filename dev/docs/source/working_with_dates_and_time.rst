@@ -14,9 +14,9 @@ a date you must apply an Excel number format to it. Here are some examples:
 
 .. code-block:: python
 
-    from xlsxwriter.workbook import Workbook
+    import xlsxwriter
     
-    workbook = Workbook('date_examples.xlsx')
+    workbook = xlsxwriter.Workbook('date_examples.xlsx')
     worksheet = workbook.add_worksheet()
 
     # Widen column A for extra visibility.
@@ -78,10 +78,10 @@ formats:
 .. code-block:: python
 
     from datetime import datetime
-    from xlsxwriter.workbook import Workbook
+    import xlsxwriter
     
     # Create a workbook and add a worksheet.
-    workbook = Workbook('datetimes.xlsx')
+    workbook = xlsxwriter.Workbook('datetimes.xlsx')
     worksheet = workbook.add_worksheet()
     bold = workbook.add_format({'bold': True})
     

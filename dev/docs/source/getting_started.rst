@@ -75,9 +75,9 @@ the following to verify that the module works correctly:
 
 .. code-block:: python
 
-    from xlsxwriter.workbook import Workbook
+    import xlsxwriter
         
-    workbook = Workbook('hello.xlsx')
+    workbook = xlsxwriter.Workbook('hello.xlsx')
     worksheet = workbook.add_worksheet()
     
     worksheet.write('A1', 'Hello world')

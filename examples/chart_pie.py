@@ -10,9 +10,9 @@
 #
 # Copyright 2013, John McNamara, jmcnamara@cpan.org
 #
-from xlsxwriter.workbook import Workbook
+import xlsxwriter
 
-workbook = Workbook('chart_pie.xlsx')
+workbook = xlsxwriter.Workbook('chart_pie.xlsx')
 
 worksheet = workbook.add_worksheet()
 bold = workbook.add_format({'bold': 1})

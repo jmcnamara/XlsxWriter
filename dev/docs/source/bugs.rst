@@ -115,9 +115,9 @@ analyse your question and respond to it more quickly.
 
    Here is some code that demonstrates the problem::
 
-       from xlsxwriter.workbook import Workbook
+       import xlsxwriter
 
-       workbook = Workbook('hello.xlsx')
+       workbook = xlsxwriter.Workbook('hello.xlsx')
        worksheet = workbook.add_worksheet()
 
        worksheet.write('A1', 'Hello world')

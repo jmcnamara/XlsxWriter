@@ -1,3 +1,9 @@
+Release 0.3.6 - July XX 2013
+-----------------------------
+
+* Simplified import based on a suggestion from John Yeung. Issue #26.
+
+
 Release 0.3.5 - June 28 2013
 -----------------------------
 
@@ -24,30 +30,30 @@ Release 0.3.3 - June 10 2013
 
 * Minor packaging fixes, #14 and #19.
 
-* Fixed explicit UTF-8 file encoding for Python 3. 
+* Fixed explicit UTF-8 file encoding for Python 3.
   PR from Alexandr Shadchin, #15.
 
 * Fixed invalid string formatting resulted in misleading stacktrace.
-  PR from Andrei Korostelev, #21.  
+  PR from Andrei Korostelev, #21.
 
 
 Release 0.3.2 - May 1 2013
 -----------------------------
 
-* Speed optimisations. The module is now 10-15% faster on average. 
+* Speed optimisations. The module is now 10-15% faster on average.
 
 
 Release 0.3.1 - April 27 2013
 -----------------------------
 
-* Added chart support. See the :ref:`chart_class`, :ref:`working_with_charts` 
+* Added chart support. See the :ref:`chart_class`, :ref:`working_with_charts`
   and :ref:`chart_examples`.
 
 
 Release 0.3.0 - April 7 2013
 -----------------------------
 
-* Added worksheet sparklines. See :ref:`sparklines`, :ref:`ex_sparklines1` and 
+* Added worksheet sparklines. See :ref:`sparklines`, :ref:`ex_sparklines1` and
   :ref:`ex_sparklines2`
 
 
@@ -56,7 +62,7 @@ Release 0.2.9 - April 7 2013
 
 * Added worksheet tables. See :ref:`tables` and :ref:`ex_tables`.
 
-* Tested with the new Python stable releases 2.7.4 and 3.3.1. All tests now 
+* Tested with the new Python stable releases 2.7.4 and 3.3.1. All tests now
   pass in the following versions:
 
     * Python 2.6
@@ -70,7 +76,7 @@ Release 0.2.9 - April 7 2013
 
 * There are now over 700 unit tests including more than 170 tests that
   compare against the output of Excel.
- 
+
 
 Release 0.2.8 - April 4 2013
 -----------------------------
@@ -344,4 +350,3 @@ Release 0.0.1 - February 17 2013
 --------------------------------
 
 * First public release.
-

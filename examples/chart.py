@@ -4,9 +4,9 @@
 #
 # Copyright 2013, John McNamara, jmcnamara@cpan.org
 #
-from xlsxwriter.workbook import Workbook
+import xlsxwriter
 
-workbook = Workbook('chart.xlsx')
+workbook = xlsxwriter.Workbook('chart.xlsx')
 worksheet = workbook.add_worksheet()
 
 # Create a new Chart object.

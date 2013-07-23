@@ -4,9 +4,9 @@
 #
 # Copyright 2013, John McNamara, jmcnamara@cpan.org
 #
-from xlsxwriter.workbook import Workbook
+import xlsxwriter
 
-workbook = Workbook('hide_sheet.xlsx')
+workbook = xlsxwriter.Workbook('hide_sheet.xlsx')
 worksheet1 = workbook.add_worksheet()
 worksheet2 = workbook.add_worksheet()
 worksheet3 = workbook.add_worksheet()

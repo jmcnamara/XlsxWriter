@@ -4,9 +4,9 @@
 #
 # Copyright 2013, John McNamara, jmcnamara@cpan.org
 #
-from xlsxwriter.workbook import Workbook
+import xlsxwriter
 
-workbook = Workbook('chart_area.xlsx')
+workbook = xlsxwriter.Workbook('chart_area.xlsx')
 worksheet = workbook.add_worksheet()
 bold = workbook.add_format({'bold': 1})
 
