@@ -7,6 +7,7 @@
 
 import unittest
 import os
+from datetime import date
 from ...workbook import Workbook
 from ..helperfunctions import _compare_xlsx_files
 
@@ -132,6 +133,29 @@ class TestCompareXLSXFiles(unittest.TestCase):
 
         worksheet.write_string(row=0, col=0, string='Hello')
         worksheet.write_number(row=1, col=0, number=123)
+
+        workbook.close()
+
+        ####################################################
+
+        got, exp = _compare_xlsx_files(self.got_filename,
+                                       self.exp_filename,
+                                       self.ignore_files,
+                                       self.ignore_elements)
+
+        self.assertEqual(got, exp)
+
+    def test_create_file_write_date_default(self):
+        """Test writing a datetime without a format. Issue #33"""
+        filename = self.got_filename
+
+        ####################################################
+
+        workbook = Workbook(filename)
+        worksheet = workbook.add_worksheet()
+
+        worksheet.write('A1', 'Hello')
+        worksheet.write('A2', date(1900, 5, 2))
 
         workbook.close()
 

@@ -578,7 +578,7 @@ class Worksheet(xmlwriter.XMLwriter):
         return 0
 
     @convert_cell_args
-    def write_datetime(self, row, col, date, cell_format):
+    def write_datetime(self, row, col, date, cell_format=None):
         """
         Write a date or time to a worksheet cell.
 
