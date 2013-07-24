@@ -3,6 +3,8 @@ Release 0.3.6 - July XX 2013
 
 * Simplified import based on a suggestion from John Yeung. Issue #26.
 
+* Fix for NAN/INF converted to invalid numbers in write(). Issue #30.
+
 
 Release 0.3.5 - June 28 2013
 -----------------------------

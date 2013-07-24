@@ -11,6 +11,8 @@ import datetime
 import tempfile
 import codecs
 import os
+import sys
+import math
 from warnings import warn
 from collections import defaultdict
 from collections import namedtuple
@@ -307,6 +309,8 @@ class Worksheet(xmlwriter.XMLwriter):
         self.epoch = datetime.datetime(1899, 12, 31)
         self.hyperlinks = defaultdict(dict)
 
+        self.text_to_number = True
+
     @convert_cell_args
     def write(self, row, col, *args):
         """
@@ -333,21 +337,29 @@ class Worksheet(xmlwriter.XMLwriter):
         # The first arg should be the token for all write calls.
         token = args[0]
 
-        # Convert None to an empty string and thus a blank cell.
+        # Write None as a blank cell.
         if token is None:
-            token = ''
+            return self.write_blank(row, col, *args)
 
-        # Check for a datetime object.
+        # Write datetime objects.
         if self._is_supported_datetime(token):
             return self.write_datetime(row, col, *args)
 
-        # Then check if the token to write is a number.
-        try:
-            float(token)
+        # Types to check in Python 2/3.
+        if sys.version_info[0] == 2:
+            num_types = (float, int, long)
+            str_types = basestring
+        else:
+            num_types = (float, int)
+            str_types = str
+
+        # Write number types.
+        if isinstance(token, num_types):
             return self.write_number(row, col, *args)
-        except ValueError:
-            # Not a number. Continue to the checks below.
-            pass
+
+        # The only other type that we handle now is a string.
+        if not isinstance(token, str_types):
+            raise TypeError("Unsupported data type in write()")
 
         # Map the data to the appropriate write_*() method.
         if token == '':
@@ -363,6 +375,17 @@ class Worksheet(xmlwriter.XMLwriter):
         elif re.match('(in|ex)ternal:', token):
             return self.write_url(row, col, *args)
         else:
+            # We have a plain string.
+            if self.text_to_number:
+                # Convert number string to a number to avoid Excel warning.
+                try:
+                    f = float(token)
+                    if not math.isnan(f) and not math.isinf(f):
+                        return self.write_number(row, col, f, *args[1:])
+                except ValueError:
+                    # Not a number, write as a string.
+                    pass
+
             return self.write_string(row, col, *args)
 
     @convert_cell_args
@@ -424,7 +447,8 @@ class Worksheet(xmlwriter.XMLwriter):
             -1: Row or column is out of worksheet bounds.
 
         """
-        number = float(number)
+        if math.isnan(number) or math.isinf(number):
+            raise TypeError("NAN/INF not supported in write_number()")
 
         # Check that row and col are valid and store max and min values.
         if self._check_dimensions(row, col):

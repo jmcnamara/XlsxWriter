@@ -195,6 +195,9 @@ Excel handles numbers as IEEE-754 64-bit double-precision floating point. This
 means that, in most cases, the maximum number of digits that can be stored in
 Excel without losing precision is 15.
 
+.. note::
+   NAN and INF are not supported and will raise a TypeError exception.
+
 
 worksheet.write_formula()
 -------------------------
