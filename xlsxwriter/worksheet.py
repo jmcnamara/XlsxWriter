@@ -309,7 +309,7 @@ class Worksheet(xmlwriter.XMLwriter):
         self.epoch = datetime.datetime(1899, 12, 31)
         self.hyperlinks = defaultdict(dict)
 
-        self.text_to_number = True
+        self.strings_to_numbers = True
 
     @convert_cell_args
     def write(self, row, col, *args):
@@ -376,7 +376,7 @@ class Worksheet(xmlwriter.XMLwriter):
             return self.write_url(row, col, *args)
         else:
             # We have a plain string.
-            if self.text_to_number:
+            if self.strings_to_numbers:
                 # Convert number string to a number to avoid Excel warning.
                 try:
                     f = float(token)
@@ -3023,6 +3023,7 @@ class Worksheet(xmlwriter.XMLwriter):
         self.optimization = init_data['optimization']
         self.tmpdir = init_data['tmpdir']
         self.date_1904 = init_data['date_1904']
+        self.strings_to_numbers = init_data['strings_to_numbers']
 
         if self.date_1904:
             self.epoch = datetime.datetime(1904, 1, 1)

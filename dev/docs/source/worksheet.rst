@@ -41,11 +41,31 @@ more specific methods:
 * :func:`write_number()`
 * :func:`write_blank()`
 * :func:`write_formula()`
+* :func:`write_datetime()`
 * :func:`write_url()`
 
-The general rule is that if the data looks like a *something* then a
-*something* is written. Here are some examples::
+The rules for handling data in ``write()`` are as follows:
 
+* Data types ``float``, ``int``, and ``long`` are written using
+  :func:`write_number()`.
+* Data types :class:`datetime.datetime`, :class:`datetime.date` or
+  :class:`datetime.time`  are written using :func:`write_datetime()` .
+* ``None`` and empty strings ``""`` are written using :func:`write_blank()`.
+
+All other data must be string types ``str`` and ``unicode``. Strings are then
+handled as follows:
+
+* Strings that match formula or array formula notation are written using
+  :func:`write_formula()`.
+* Strings that match supported URL types are written using
+  :func:`write_url()`.
+* Strings that converts to numbers using :func:`float()` are written using
+  :func:`write_number()` in order to avoid Excel warnings about "Numbers
+  Stored as Text". This behaviour can be overridden, see below.
+* Strings that don't match any of the above criteria are written using
+  :func:`write_string()`.
+
+ Here are some examples::
 
     worksheet.write(0, 0, 'Hello')          # write_string()
     worksheet.write(1, 0, 'World')          # write_string()
@@ -68,25 +88,26 @@ of cells: **Row-column** notation and **A1** notation::
 
 See :ref:`cell_notation` for more details.
 
-
-The ``cell_format`` parameter is used to apply formatting to the cell. This
-parameter is optional but when present is should be a valid
-:ref:`Format <format>` object::
+The ``cell_format`` parameter in the sub ``write`` methods is used to apply
+formatting to the cell. This parameter is optional but when present it should
+be a valid :ref:`Format <format>` object::
 
     cell_format = workbook.add_format({'bold': True, 'italic': True})
 
     worksheet.write(0, 0, 'Hello', cell_format)  # Cell is bold and italic.
 
-The ``write()`` method will ignore empty strings or ``None`` unless a format is
-also supplied. As such you needn't worry about special handling for empty or
-``None`` values in your data. See also the :func:`write_blank()` method.
 
+.. note::
+   The `write()` method converts strings to numbers, where possible, using
+   :func:`float()` in order to avoid an Excel warning about "Numbers Stored as
+   Text". To override this behaviour you can set the :func:`Workbook`
+   constructor ``strings_to_numbers`` option to ``False``::
 
-One problem with the ``write()`` method is that occasionally data looks like a
-number but you don't want it treated as a number. For example, Zip codes or ID
-numbers or often start with a leading zero. If you write this data as a number
-then the leading zero(s) will be stripped. In this case you shouldn't use the
-``write()`` method and should use ``write_string()`` instead.
+      workbook = xlsxwriter.Workbook(filename, {'strings_to_numbers': False})
+
+   This is useful for data that looks like a number but you don't want it
+   treated as a number. For example, Zip codes or ID numbers that start
+   with a leading zero.
 
 
 worksheet.write_string()

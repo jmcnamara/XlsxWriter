@@ -147,19 +147,21 @@ alias for several more specific methods:
 
 * :func:`write_string()`
 * :func:`write_number()`
-* :func:`write_datetime()`
 * :func:`write_blank()`
 * :func:`write_formula()`
+* :func:`write_datetime()`
+* :func:`write_url()`
+
 
 So, let's see how all of this affects our program.
 
 The main change in our example program is the addition of date handling. As we
 saw above Excel stores dates as numbers. XlsxWriter makes the required
-conversion if the date and time are Python :mod:`datetime` objects.
-To convert the date strings in our example to ``datetime.datetime`` objects we
-use the :meth:`datetime.strptime <datetime.datetime.strptime>` function. We
-then use the :func:`write_datetime()` function to write it to a file. However,
-since the date is converted to a number we also need to add a number format to
+conversion if the date and time are Python :mod:`datetime` objects. To convert
+the date strings in our example to ``datetime.datetime`` objects we use the
+:meth:`datetime.strptime <datetime.datetime.strptime>` function. We then use
+the :func:`write_datetime()` function to write it to a file. However, since
+the date is converted to a number we also need to add a number format to
 ensure that Excel displays it as as date::
 
     from datetime import datetime
