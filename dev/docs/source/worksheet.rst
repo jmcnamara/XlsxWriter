@@ -23,17 +23,14 @@ object::
 worksheet.write()
 -----------------
 
-.. py:function:: write(row, col, data[, cell_format])
+.. py:function:: write(row, col, *args)
 
    Write generic data to a worksheet cell.
 
    :param row:         The cell row (zero indexed).
    :param col:         The cell column (zero indexed).
-   :param data:        Cell data to write. Variable types.
-   :param cell_format: Optional Format object.
-   :type  row:         int
-   :type  col:         int
-   :type  cell_format: :ref:`Format <format>`
+   :param \*args:      The additional args that are passed to the sub methods
+                       such as number, string and cell_format.
 
 Excel makes a distinction between data types such as strings, numbers, blanks,
 formulas and hyperlinks. To simplify the process of writing data to an
