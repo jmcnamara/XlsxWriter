@@ -1,9 +1,15 @@
-Release 0.3.6 - July XX 2013
+Release 0.3.6 - July 26 2013
 -----------------------------
 
 * Simplified import based on a suggestion from John Yeung. Issue #26.
 
 * Fix for NAN/INF converted to invalid numbers in write(). Issue #30.
+
+* Added :func:`Workbook` constructor option ``strings_to_numbers`` to
+  override default conversion of number strings to numbers in write().
+
+* Added :func:`Workbook` constructor option ``default_date_format`` to
+  allow a default date format string to be set. Issue #5.
 
 
 Release 0.3.5 - June 28 2013
