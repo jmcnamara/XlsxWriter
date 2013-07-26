@@ -150,8 +150,7 @@ your source file in also UTF-8 encoded::
 
 Alternatively, you can read data from an encoded file, convert it to UTF-8
 during reading and then write the data to an Excel file. There are several
-sample
-``unicode_*.py`` programs like this in the ``examples`` directory of the XlsxWriter source tree.
+sample``unicode_\*.py`` programs like this in the ``examples`` directory of the XlsxWriter source tree.
 
 The maximum string size supported by Excel is 32,767 characters. Strings longer
 than this will be truncated by ``write_string()``.
@@ -412,12 +411,15 @@ There are many way to create datetime objects, for example the
 
 See the :mod:`datetime` documentation for other date/time creation methods.
 
-A date/time should always have a ``cell_format`` of type
-:ref:`Format <format>`, otherwise it will appear as a number::
+A date/time should have a ``cell_format`` of type :ref:`Format <format>`,
+otherwise it will appear as a number::
 
     date_format = workbook.add_format({'num_format': 'd mmmm yyyy'})
 
     worksheet.write_datetime('A1', date_time, date_format)
+
+If required, a default date format string can be set using the :func:`Workbook`
+constructor ``default_date_format`` option.
 
 See :ref:`working_with_dates_and_time` for more details.
 

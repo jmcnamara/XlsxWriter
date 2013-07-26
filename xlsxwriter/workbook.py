@@ -58,6 +58,7 @@ class Workbook(xmlwriter.XMLwriter):
         self.tmpdir = options.get('tmpdir', None)
         self.date_1904 = options.get('date_1904', False)
         self.strings_to_numbers = options.get('strings_to_numbers', True)
+        self.default_date_format = options.get('default_date_format', None)
         self.worksheet_meta = WorksheetMeta()
         self.selected = 0
         self.fileclosed = 0
@@ -101,6 +102,11 @@ class Workbook(xmlwriter.XMLwriter):
         # Add the default cell format.
         self.add_format({'xf_index': 0})
 
+        # Add the default date format.
+        if self.default_date_format is not None:
+            self.default_date_format = \
+                self.add_format({'num_format': self.default_date_format})
+
     def __del__(self):
         """Close file in destructor if it hasn't been closed explicitly."""
         if not self.fileclosed:
@@ -130,6 +136,7 @@ class Workbook(xmlwriter.XMLwriter):
             'tmpdir': self.tmpdir,
             'date_1904': self.date_1904,
             'strings_to_numbers': self.strings_to_numbers,
+            'default_date_format': self.default_date_format,
         }
 
         worksheet = Worksheet()
@@ -483,9 +490,14 @@ class Workbook(xmlwriter.XMLwriter):
             self.dxf_formats[index] = dxf_format
 
     def _set_default_xf_indices(self):
-        # Set the default index for each format. Mainly used for testing.
-        for xf_format in self.formats:
-            xf_format._get_xf_index()
+        # Set the default index for each format. Only used for testing.
+        if self.default_date_format is not None:
+            # Skip initialising format[1] if there is a default date format.
+            for xf_format in self.formats[:1] + self.formats[2:]:
+                xf_format._get_xf_index()
+        else:
+            for xf_format in self.formats:
+                xf_format._get_xf_index()
 
     def _prepare_fonts(self):
         # Iterate through the XF Format objects and give them an index to

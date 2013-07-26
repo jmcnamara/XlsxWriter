@@ -310,6 +310,7 @@ class Worksheet(xmlwriter.XMLwriter):
         self.hyperlinks = defaultdict(dict)
 
         self.strings_to_numbers = True
+        self.default_date_format = None
 
     @convert_cell_args
     def write(self, row, col, *args):
@@ -320,9 +321,7 @@ class Worksheet(xmlwriter.XMLwriter):
         Args:
             row:     The cell row (zero indexed).
             col:     The cell column (zero indexed).
-            token:   Cell data.
-            format:  An optional cell Format object.
-            options: Any options to pass to sub function.
+            *args:   Args to pass to sub functions.
 
         Returns:
              0:    Success.
@@ -627,6 +626,10 @@ class Worksheet(xmlwriter.XMLwriter):
 
         # Convert datetime to an Excel date.
         number = self._convert_date_time(date)
+
+        # Add the default date format.
+        if cell_format is None:
+            cell_format = self.default_date_format
 
         # Store the cell data in the worksheet data table.
         self.table[row][col] = cell_number_tuple(number, cell_format)
@@ -3024,6 +3027,7 @@ class Worksheet(xmlwriter.XMLwriter):
         self.tmpdir = init_data['tmpdir']
         self.date_1904 = init_data['date_1904']
         self.strings_to_numbers = init_data['strings_to_numbers']
+        self.default_date_format = init_data['default_date_format']
 
         if self.date_1904:
             self.epoch = datetime.datetime(1904, 1, 1)
