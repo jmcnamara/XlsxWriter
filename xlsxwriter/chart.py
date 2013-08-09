@@ -566,6 +566,7 @@ class Chart(xmlwriter.XMLwriter):
             'label_position': options.get('label_position'),
             'num_format': options.get('num_format'),
             'num_format_linked': options.get('num_format_linked'),
+            'auto': options.get('auto')
         }
 
         # Encode any string options passed by the user.
@@ -1075,14 +1076,16 @@ class Chart(xmlwriter.XMLwriter):
             'num_format': 'General',
             'major_gridlines': {'visible': 0},
             'major_tick_mark': 'out',
-            'minor_tick_mark': 'none'
+            'minor_tick_mark': 'none',
+            'auto': 1
         }
 
         self.y_axis['defaults'] = {
             'num_format': 'General',
             'major_gridlines': {'visible': 1},
             'major_tick_mark': 'out',
-            'minor_tick_mark': 'none'
+            'minor_tick_mark': 'none',
+            'auto': 1
         }
 
         self.x2_axis['defaults'] = {
@@ -1091,7 +1094,8 @@ class Chart(xmlwriter.XMLwriter):
             'crossing': 'max',
             'visible': 0,
             'major_tick_mark': 'out',
-            'minor_tick_mark': 'none'
+            'minor_tick_mark': 'none',
+            'auto': 1
         }
 
         self.y2_axis['defaults'] = {
@@ -1100,7 +1104,8 @@ class Chart(xmlwriter.XMLwriter):
             'position': 'right',
             'visible': 1,
             'major_tick_mark': 'out',
-            'minor_tick_mark': 'none'
+            'minor_tick_mark': 'none',
+            'auto': 1
         }
 
         self.set_x_axis({})
@@ -1524,7 +1529,7 @@ class Chart(xmlwriter.XMLwriter):
                 self._write_c_crosses_at(y_axis.get('crossing'))
 
         # Write the c:auto element.
-        self._write_auto(1)
+        self._write_auto(x_axis.get('auto'))
 
         # Write the c:labelAlign element.
         self._write_label_align('ctr')
@@ -1789,7 +1794,7 @@ class Chart(xmlwriter.XMLwriter):
                 self._write_c_crosses_at(y_axis.get('crossing'))
 
         # Write the c:auto element.
-        self._write_auto(1)
+        self._write_auto(y_axis.get('auto'))
 
         # Write the c:labelOffset element.
         self._write_label_offset(100)
