@@ -566,7 +566,9 @@ class Chart(xmlwriter.XMLwriter):
             'label_position': options.get('label_position'),
             'num_format': options.get('num_format'),
             'num_format_linked': options.get('num_format_linked'),
-            'auto': options.get('auto')
+            'auto': options.get('auto'),
+            'tick_mark_skip': options.get('tick_mark_skip'),
+            'tick_label_skip': options.get('tick_label_skip')
         }
 
         # Encode any string options passed by the user.
@@ -1536,6 +1538,12 @@ class Chart(xmlwriter.XMLwriter):
 
         # Write the c:labelOffset element.
         self._write_label_offset(100)
+
+        # Write the c:tickLblSkip element.
+        self._write_tick_label_skip(x_axis.get('tick_label_skip'))
+
+        # Write the c:tickMarkSkip element.
+        self._write_tick_mark_skip(x_axis.get('tick_mark_skip'))
 
         self._xml_end_tag('c:catAx')
 
@@ -3193,3 +3201,24 @@ class Chart(xmlwriter.XMLwriter):
             self._xml_end_tag('c:downBars')
         else:
             self._xml_empty_tag('c:downBars')
+
+    def _write_tick_label_skip(self, val):
+        # Write the <c:tickLblSkip> element.
+
+        if val is None:
+            return
+
+        attributes = [('val', val)]
+
+        self._xml_empty_tag('c:tickLblSkip', attributes)
+
+    def _write_tick_mark_skip(self, val):
+        # Write the <c:tickMarkSkip> element.
+
+        if val is None:
+            return
+
+        attributes = [('val', val)]
+
+        self._xml_empty_tag('c:tickMarkSkip', attributes)
+
