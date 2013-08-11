@@ -42,6 +42,7 @@ more specific methods:
 * :func:`write_blank()`
 * :func:`write_formula()`
 * :func:`write_datetime()`
+* :func:`write_boolean()`
 * :func:`write_url()`
 
 The rules for handling data in ``write()`` are as follows:
@@ -51,6 +52,7 @@ The rules for handling data in ``write()`` are as follows:
 * Data types :class:`datetime.datetime`, :class:`datetime.date` or
   :class:`datetime.time`  are written using :func:`write_datetime()` .
 * ``None`` and empty strings ``""`` are written using :func:`write_blank()`.
+* Data type ``bool`` is written using :func:`write_boolean()`.
 
 All other data must be string types ``str`` and ``unicode``. Strings are then
 handled as follows:
@@ -376,6 +378,35 @@ without special treatment for ``None`` or empty string values.
 
 As shown above, both row-column and A1 style notation are supported. See
 :ref:`cell_notation` for more details.
+
+worksheet.write_boolean()
+-------------------------
+
+.. py:function:: write_boolean(row, col, boolean[, cell_format])
+
+   Write a boolean value to a worksheet cell.
+
+   :param row:         The cell row (zero indexed).
+   :param col:         The cell column (zero indexed).
+   :param boolean:     Boolean value to write to cell.
+   :param cell_format: Optional Format object.
+   :type  row:         int
+   :type  col:         int
+   :type  boolean:     bool
+   :type  cell_format: :ref:`Format <format>`
+
+The ``write_boolean()`` method writes a boolean value to the cell specified by
+``row`` and ``column``::
+
+    worksheet.write_boolean(0, 0, True)
+    worksheet.write_boolean('A2', False)
+
+Both row-column and A1 style notation are supported. See :ref:`cell_notation`
+for more details.
+
+The ``cell_format`` parameter is used to apply formatting to the cell. This
+parameter is optional but when present is should be a valid
+:ref:`Format <format>` object.
 
 
 worksheet.write_datetime()

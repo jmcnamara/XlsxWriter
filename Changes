@@ -1,3 +1,12 @@
+
+Release 0.3.7 - August XX 2013
+------------------------------
+
+* Added :func:`write_boolean()` function to write Excel boolean values. Issue
+  #37. Added explicit handling of Python bool values to the :func:`write()`
+  function.
+
+
 Release 0.3.6 - July 26 2013
 -----------------------------
 

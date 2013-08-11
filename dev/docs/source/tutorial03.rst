@@ -150,6 +150,7 @@ alias for several more specific methods:
 * :func:`write_blank()`
 * :func:`write_formula()`
 * :func:`write_datetime()`
+* :func:`write_boolean()`
 * :func:`write_url()`
 
 

@@ -127,6 +127,7 @@ def convert_column_args(method):
 cell_string_tuple = namedtuple('String', 'string, format')
 cell_number_tuple = namedtuple('Number', 'number, format')
 cell_blank_tuple = namedtuple('Blank', 'format')
+cell_boolean_tuple = namedtuple('Boolean', 'boolean, format')
 cell_formula_tuple = namedtuple('Formula', 'formula, format, value')
 cell_arformula_tuple = namedtuple('ArrayFormula',
                                   'formula, format, value, range')
@@ -339,6 +340,10 @@ class Worksheet(xmlwriter.XMLwriter):
         # Write None as a blank cell.
         if token is None:
             return self.write_blank(row, col, *args)
+
+        # Write boolean types.
+        if isinstance(token, bool):
+            return self.write_boolean(row, col, *args)
 
         # Write datetime objects.
         if self._is_supported_datetime(token):
@@ -633,6 +638,40 @@ class Worksheet(xmlwriter.XMLwriter):
 
         # Store the cell data in the worksheet data table.
         self.table[row][col] = cell_number_tuple(number, cell_format)
+
+        return 0
+
+    @convert_cell_args
+    def write_boolean(self, row, col, boolean, cell_format=None):
+        """
+        Write a boolean value to a worksheet cell.
+
+        Args:
+            row:         The cell row (zero indexed).
+            col:         The cell column (zero indexed).
+            boolean:     Cell data. bool type.
+            cell_format: An optional cell Format object.
+
+        Returns:
+            0:  Success.
+            -1: Row or column is out of worksheet bounds.
+
+        """
+        # Check that row and col are valid and store max and min values.
+        if self._check_dimensions(row, col):
+            return -1
+
+        # Write previous row if in in-line string optimization mode.
+        if self.optimization and row > self.previous_row:
+            self._write_single_row(row)
+
+        if boolean:
+            value = 1
+        else:
+            value = 0
+
+        # Store the cell data in the worksheet data table.
+        self.table[row][col] = cell_boolean_tuple(value, cell_format)
 
         return 0
 
@@ -4723,6 +4762,13 @@ class Worksheet(xmlwriter.XMLwriter):
         elif type(cell).__name__ == 'Blank':
             # Write a empty cell.
             self._xml_empty_tag('c', attributes)
+
+        elif type(cell).__name__ == 'Boolean':
+            # Write a boolean cell.
+            attributes.append(('t', 'b'))
+            self._xml_start_tag('c', attributes)
+            self._write_cell_value(cell.boolean)
+            self._xml_end_tag('c')
 
     def _write_cell_value(self, value):
         # Write the cell value <v> element.
