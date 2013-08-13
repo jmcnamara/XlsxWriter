@@ -35,7 +35,8 @@ class TestCompareXLSXFiles(unittest.TestCase):
 
         ####################################################
 
-        workbook = Workbook(filename, {'constant_memory': True})
+        workbook = Workbook(filename, {'constant_memory': True,
+                                       'strings_to_numbers': True})
         worksheet = workbook.add_worksheet()
 
         worksheet.write('A1', 'Hello')
