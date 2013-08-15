@@ -61,9 +61,10 @@ handled as follows:
   :func:`write_formula()`.
 * Strings that match supported URL types are written using
   :func:`write_url()`.
-* Strings that converts to numbers using :func:`float()` are written using
-  :func:`write_number()` in order to avoid Excel warnings about "Numbers
-  Stored as Text". This behaviour can be overridden, see below.
+* When the :func:`Workbook` constructor ``strings_to_numbers`` option is
+  ``True`` strings that converts to numbers using :func:`float()` are written
+  using :func:`write_number()` in order to avoid Excel warnings about "Numbers
+  Stored as Text". See the note below.
 * Strings that don't match any of the above criteria are written using
   :func:`write_string()`.
 
@@ -100,16 +101,19 @@ be a valid :ref:`Format <format>` object::
 
 
 .. note::
-   The `write()` method converts strings to numbers, where possible, using
-   :func:`float()` in order to avoid an Excel warning about "Numbers Stored as
-   Text". To override this behaviour you can set the :func:`Workbook`
-   constructor ``strings_to_numbers`` option to ``False``::
+   When the :func:`Workbook` constructor option ``strings_to_numbers``
+   option is ``True`` the `write()` method converts strings to numbers, where
+   possible, using  :func:`float()` in order to avoid an Excel warning about
+   "Numbers Stored as Text"::
 
       workbook = xlsxwriter.Workbook(filename, {'strings_to_numbers': False})
 
-   This is useful for data that looks like a number but you don't want it
-   treated as a number. For example, Zip codes or ID numbers that start
-   with a leading zero.
+   The default ``strings_to_numbers`` option was ``False`` prior to XlsxWriter
+   version 0.3.7.
+
+   Some care is required when this option is enabled since string data that
+   appears numeric but isn't, such as Zip codes or ID numbers with leading
+   zeroes, is also converted to numbers.
 
 
 worksheet.write_string()
@@ -161,24 +165,6 @@ than this will be truncated by ``write_string()``.
    Even though Excel allows strings of 32,767 characters in a cell, Excel
    can only **display** 1000. All 32,767 characters are displayed in the
    formula bar.
-
-In general it is sufficient to use the ``write()`` method when dealing with
-string data. However, you may sometimes need to use ``write_string()`` to
-write data that looks like a number but that you don't want treated as a
-number. For example, Zip codes or phone numbers::
-
-    # Write ID number as a plain string.
-    worksheet.write_string('A1', '01209')
-
-However, if the user edits this string Excel may convert it back to a number.
-To get around this you can use the Excel text format ``'@'``::
-
-    # Format as a string. Doesn't change to a number when edited
-    str_format = workbook.add_format({'num_format': '@'})
-    worksheet.write_string('A1', '01209', str_format)
-
-This behaviour, while slightly tedious, is unfortunately consistent with the
-way Excel handles string data that looks like numbers. See :ref:`tutorial3`.
 
 
 worksheet.write_number()

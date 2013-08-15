@@ -188,9 +188,8 @@ methods for different types of data::
 This is mainly to show that if you need more control over the type of data you
 write to a worksheet you can use the appropriate method. In this simplified
 example the :func:`write()` method would have worked just as well but it is
-important to note that in cases where ``write()`` doesn't do the right thing,
-such as the number with leading zeroes discussed above, you will need to be
-explicit.
+important to note that in cases where ``write()`` doesn't do the right thing
+you will need to be explicit.
 
 Finally, the last addition to our program is the :func:`set_column` method to
 adjust the width of column 'B' so that the dates are more clearly visible::
