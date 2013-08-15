@@ -4678,9 +4678,9 @@ class Worksheet(xmlwriter.XMLwriter):
         else:
             self._xml_start_tag_unencoded('row', attributes)
 
-    def _write_empty_row(self, row, spans):
+    def _write_empty_row(self, row, spans, properties=None):
         # Write and empty <row> element.
-        self._write_row(row, spans, empty_row=True)
+        self._write_row(row, spans, properties, empty_row=True)
 
     def _write_cell(self, row, col, cell):
         # Write the <cell> element.
