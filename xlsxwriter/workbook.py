@@ -57,7 +57,7 @@ class Workbook(xmlwriter.XMLwriter):
         self.filename = filename
         self.tmpdir = options.get('tmpdir', None)
         self.date_1904 = options.get('date_1904', False)
-        self.strings_to_numbers = options.get('strings_to_numbers', True)
+        self.strings_to_numbers = options.get('strings_to_numbers', False)
         self.default_date_format = options.get('default_date_format', None)
         self.worksheet_meta = WorksheetMeta()
         self.selected = 0

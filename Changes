@@ -1,10 +1,15 @@
 
-Release 0.3.7 - August XX 2013
+Release 0.3.7 - August 16 2013
 ------------------------------
 
 * Added :func:`write_boolean()` function to write Excel boolean values. Issue
-  #37. Added explicit handling of Python bool values to the :func:`write()`
-  function.
+  #37. Also added explicit handling of Python bool values to the
+  :func:`write()` function.
+
+* **Backward incompatibility**: Changed :func:`Workbook` constructor option
+  ``strings_to_numbers`` default option to False so that there is no implicit
+  conversion of numbers in strings to numbers. The previous behaviour can be
+  obtained by setting the constructor option to True.
 
 
 Release 0.3.6 - July 26 2013

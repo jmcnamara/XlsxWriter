@@ -58,6 +58,13 @@ class TestCompareXLSXFiles(unittest.TestCase):
             # Split the input data based on whitespace.
             data = line.strip("\n").split()
 
+            # Convert the number data from the text file.
+            for i, item in enumerate(data):
+                try:
+                    data[i] = float(item)
+                except ValueError:
+                    pass
+
             # Write out the row data.
             worksheet.write_row(row, 0, data)
 

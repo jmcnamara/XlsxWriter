@@ -68,12 +68,12 @@ The constructor options are:
 
       workbook = xlsxwriter.Workbook(filename, {'date_1904': True})
 
-* **strings_to_numbers**: The :ref:`worksheet. <Worksheet>`:func:`write()`
-  method converts strings to numbers, where possible, using :func:`float()` in
-  order to avoid an Excel warning about "Numbers Stored as Text". To avoid
-  this you can set the ``strings_to_numbers`` option to ``False``::
+* **strings_to_numbers**: Enable the
+  :ref:`worksheet. <Worksheet>`:func:`write()` method to convert strings to
+  numbers, where possible, using :func:`float()` in order to avoid an Excel
+  warning about "Numbers Stored as Text". The default is ``False``::
 
-      workbook = xlsxwriter.Workbook(filename, {'strings_to_numbers': False})
+      workbook = xlsxwriter.Workbook(filename, {'strings_to_numbers': True})
 
 * **default_date_format**: This option is used to specify a default date
   format string for use with the
