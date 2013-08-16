@@ -384,7 +384,7 @@ class Worksheet(xmlwriter.XMLwriter):
                 # Convert number string to a number to avoid Excel warning.
                 try:
                     f = float(token)
-                    if not math.isnan(f) and not math.isinf(f):
+                    if not self._isnan(f) and not self._isinf(f):
                         return self.write_number(row, col, f, *args[1:])
                 except ValueError:
                     # Not a number, write as a string.
@@ -451,7 +451,7 @@ class Worksheet(xmlwriter.XMLwriter):
             -1: Row or column is out of worksheet bounds.
 
         """
-        if math.isnan(number) or math.isinf(number):
+        if self._isnan(number) or self._isinf(number):
             raise TypeError("NAN/INF not supported in write_number()")
 
         # Check that row and col are valid and store max and min values.
@@ -3174,6 +3174,17 @@ class Worksheet(xmlwriter.XMLwriter):
         # Close the file.
         self._xml_close()
 
+
+    def _isnan(self, x):
+        # Could use math.isnan, but it's not present in python 2.5
+        return x != x
+
+
+    def _isinf(self, x):
+        # Could use math.isinf, but it's not present in python 2.5
+        return (x - x) != 0
+
+
     def _check_dimensions(self, row, col, ignore_row=False, ignore_col=False):
         # Check that row and col are valid and store the max and min
         # values for use in other methods/elements. The ignore_row /
@@ -4678,9 +4689,9 @@ class Worksheet(xmlwriter.XMLwriter):
         else:
             self._xml_start_tag_unencoded('row', attributes)
 
-    def _write_empty_row(self, *args):
+    def _write_empty_row(self, row, spans, properties=None):
         # Write and empty <row> element.
-        self._write_row(*args, empty_row=True)
+        self._write_row(row, spans, properties, empty_row=True)
 
     def _write_cell(self, row, col, cell):
         # Write the <cell> element.
