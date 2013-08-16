@@ -791,12 +791,13 @@ class Workbook(xmlwriter.XMLwriter):
             exif_str = 'EXIF'
             bm_str = 'BM'
         else:
-            # For Python 2.6+ (especially for Python 3.x), define binary
-            # literals
-            png_str = b'PNG'
-            jfif_str = b'JFIF'
-            exif_str = b'EXIF'
-            bm_str = b'BM'
+            # For Python 2.6+ (especially for Python 3.x),
+            # define binary literals.
+            # This needs to go in an eval to avoid Python 2.5 choking on it.
+            png_str = eval("b'PNG'")
+            jfif_str = eval("b'JFIF'")
+            exif_str = eval("b'EXIF'")
+            bm_str = eval("b'BM'")
 
         if marker1 == png_str:
             self.image_types['png'] = 1
