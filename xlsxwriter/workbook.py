@@ -6,6 +6,7 @@
 #
 
 # Standard packages.
+import sys
 import re
 import os
 import tempfile
@@ -783,16 +784,30 @@ class Workbook(xmlwriter.XMLwriter):
         marker3 = (unpack('4s', data[6:10]))[0]
         marker4 = (unpack('2s', data[:2]))[0]
 
-        if marker1 == 'PNG':
+        if sys.version_info < (2, 6, 0):
+            # Python 2.5 compatibility
+            png_str = 'PNG'
+            jfif_str = 'JFIF'
+            exif_str = 'EXIF'
+            bm_str = 'BM'
+        else:
+            # For Python 2.6+ (especially for Python 3.x), define binary
+            # literals
+            png_str = b'PNG'
+            jfif_str = b'JFIF'
+            exif_str = b'EXIF'
+            bm_str = b'BM'
+
+        if marker1 == png_str:
             self.image_types['png'] = 1
             (image_type, width, height) = self._process_png(data)
 
         elif (marker2 == 0xFFD8 and
-              (marker3 == 'JFIF' or marker3 == 'EXIF')):
+              (marker3 == jfif_str or marker3 == exif_str)):
             self.image_types['jpeg'] = 1
             (image_type, width, height) = self._process_jpg(data)
 
-        elif (marker4 == 'BM'):
+        elif (marker4 == bm_str):
             self.image_types['bmp'] = 1
             (image_type, width, height) = self._process_bmp(data)
 
