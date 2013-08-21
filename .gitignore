@@ -20,4 +20,4 @@ build/
 .buildinfo
 objects.inv
 __pycache__
-
+.tox/
