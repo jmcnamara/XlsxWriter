@@ -53,12 +53,19 @@ testpythonsall:
 	@echo "Testing with Python 3.3.1:"
 	@~/.pythonbrew/pythons/Python-3.3.1/bin/python -m unittest discover
 
+test25:
+	# Not all test currently pass with Python 2.5
+	@echo "Testing with Python 2.5 (errors should = 15):"
+	@~/.pythonbrew/pythons/Python-2.5.6/bin/python -m          discover
+
 travistest:
 	# Test runner for Travis-CI.
 	@python -m discover
 
 pep8:
-	@ls -1 xlsxwriter/*.py | grep -v theme.py | xargs pep8
+	@ls -1 xlsxwriter/*.py | egrep -v "theme|compat" | xargs pep8
+	@pep8 --ignore=E501 xlsxwriter/theme.py
+	@pep8 --ignore=E501 xlsxwriter/compat_collections.py
 	@find xlsxwriter/test -name \*.py | xargs pep8 --ignore=E501
 
 releasecheck:

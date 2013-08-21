@@ -785,30 +785,28 @@ class Workbook(xmlwriter.XMLwriter):
         marker4 = (unpack('2s', data[:2]))[0]
 
         if sys.version_info < (2, 6, 0):
-            # Python 2.5 compatibility
-            png_str = 'PNG'
-            jfif_str = 'JFIF'
-            exif_str = 'EXIF'
-            bm_str = 'BM'
+            # Python 2.5/Jython.
+            png_marker = 'PNG'
+            jfif_marker = 'JFIF'
+            exif_marker = 'EXIF'
+            bmp_marker = 'BM'
         else:
-            # For Python 2.6+ (especially for Python 3.x),
-            # define binary literals.
-            # This needs to go in an eval to avoid Python 2.5 choking on it.
-            png_str = eval("b'PNG'")
-            jfif_str = eval("b'JFIF'")
-            exif_str = eval("b'EXIF'")
-            bm_str = eval("b'BM'")
+            # Eval the binary literals for Python 2.5/Jython compatibility.
+            png_marker = eval("b'PNG'")
+            jfif_marker = eval("b'JFIF'")
+            exif_marker = eval("b'EXIF'")
+            bmp_marker = eval("b'BM'")
 
-        if marker1 == png_str:
+        if marker1 == png_marker:
             self.image_types['png'] = 1
             (image_type, width, height) = self._process_png(data)
 
         elif (marker2 == 0xFFD8 and
-              (marker3 == jfif_str or marker3 == exif_str)):
+              (marker3 == jfif_marker or marker3 == exif_marker)):
             self.image_types['jpeg'] = 1
             (image_type, width, height) = self._process_jpg(data)
 
-        elif (marker4 == bm_str):
+        elif (marker4 == bmp_marker):
             self.image_types['bmp'] = 1
             (image_type, width, height) = self._process_bmp(data)
 
@@ -905,10 +903,8 @@ class Workbook(xmlwriter.XMLwriter):
         else:
             return None
 
-    #
-    # Iterate through the worksheets and set up the VML objects.
-    #
     def _prepare_vml(self):
+        # Iterate through the worksheets and set up the VML objects.
         comment_id = 0
         vml_data_id = 1
         vml_shape_id = 1024

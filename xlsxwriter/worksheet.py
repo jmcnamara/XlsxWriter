@@ -12,10 +12,16 @@ import tempfile
 import codecs
 import os
 import sys
-import math
 from warnings import warn
-from collections import defaultdict
-from collections import namedtuple
+
+try:
+    # For Python 2.6+.
+    from collections import defaultdict
+    from collections import namedtuple
+except ImportError:
+    # For Python 2.5 support.
+    from .compat_collections import defaultdict
+    from .compat_collections import namedtuple
 
 # For compatibility between Python 2 and 3.
 try:
@@ -3174,17 +3180,6 @@ class Worksheet(xmlwriter.XMLwriter):
         # Close the file.
         self._xml_close()
 
-
-    def _isnan(self, x):
-        # Could use math.isnan, but it's not present in python 2.5
-        return x != x
-
-
-    def _isinf(self, x):
-        # Could use math.isinf, but it's not present in python 2.5
-        return (x - x) != 0
-
-
     def _check_dimensions(self, row, col, ignore_row=False, ignore_col=False):
         # Check that row and col are valid and store the max and min
         # values for use in other methods/elements. The ignore_row /
@@ -4156,6 +4151,14 @@ class Worksheet(xmlwriter.XMLwriter):
             color = color[1:]
 
         return "FF" + color.upper()
+
+    def _isnan(self, x):
+        # Workaround for lack of math.isnan in Python 2.5/Jython.
+        return x != x
+
+    def _isinf(self, x):
+        # Workaround for lack of math.isinf in Python 2.5/Jython.
+        return (x - x) != 0
 
     ###########################################################################
     #

@@ -107,20 +107,25 @@ def _compare_xlsx_files(got_file, exp_file, ignore_files, ignore_elements):
     try:
         # Open the XlsxWriter as a zip file for testing.
         got_zip = ZipFile(got_file, 'r')
-    except IOError as e:
+    except IOError:
+        e = sys.exc_info()[1]
         error = "XlsxWriter file error: " + str(e)
         return error, ''
-    except (BadZipfile, LargeZipFile) as e:
+    except (BadZipfile, LargeZipFile):
+        e = sys.exc_info()[1]
         error = "XlsxWriter zipfile error, '" + exp_file + "': " + str(e)
         return error, ''
 
     try:
         # Open the Excel as a zip file for testing.
         exp_zip = ZipFile(exp_file, 'r')
-    except IOError as e:
+    except IOError:
+        # For Python 2.5+ compatibility.
+        e = sys.exc_info()[1]
         error = "Excel file error: " + str(e)
         return error, ''
-    except (BadZipfile, LargeZipFile) as e:
+    except (BadZipfile, LargeZipFile):
+        e = sys.exc_info()[1]
         error = "Excel zipfile error, '" + exp_file + "': " + str(e)
         return error, ''
 
