@@ -1938,7 +1938,7 @@ class Worksheet(xmlwriter.XMLwriter):
             elif options['criteria'] == 'last7Days':
                 options['formula'] = \
                     ('AND(TODAY()-FLOOR(%s,1)<=6,FLOOR(%s,1)<=TODAY())' %
-                    (start_cell, start_cell))
+                     (start_cell, start_cell))
 
             elif options['criteria'] == 'lastWeek':
                 options['formula'] = \
@@ -1967,7 +1967,7 @@ class Worksheet(xmlwriter.XMLwriter):
             elif options['criteria'] == 'thisMonth':
                 options['formula'] = \
                     ('AND(MONTH(%s)=MONTH(TODAY()),YEAR(%s)=YEAR(TODAY()))' %
-                    (start_cell, start_cell))
+                     (start_cell, start_cell))
 
             elif options['criteria'] == 'continueMonth':
                 options['formula'] = \
@@ -3227,7 +3227,7 @@ class Worksheet(xmlwriter.XMLwriter):
         delta = dt_obj - self.epoch
         excel_time = (delta.days
                       + (float(delta.seconds)
-                      + float(delta.microseconds) / 1E6)
+                         + float(delta.microseconds) / 1E6)
                       / (60 * 60 * 24))
 
         # Special case for datetime where time only has been specified and
