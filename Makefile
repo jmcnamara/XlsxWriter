@@ -28,39 +28,26 @@ test:
 	@python -m unittest discover
 
 testpythons:
-	# Test with Python 2/3 stable releases.
+	# Test with stable Python 2/3 releases.
 	@echo "Testing with Python 2.7.4:"
 	@~/.pythonbrew/pythons/Python-2.7.4/bin/python -m unittest discover
-	@echo "Testing with Python 3.3.1:"
-	@~/.pythonbrew/pythons/Python-3.3.1/bin/python -m unittest discover
+	@echo "Testing with Python 3.3.2:"
+	@~/.pythonbrew/pythons/Python-3.3.2/bin/python -m unittest discover
 
 testpythonsall:
-	# Test with all installed Python 2/3 releases.
-	@echo "Testing with Python 2.6:"
-	@~/.pythonbrew/pythons/Python-2.6/bin/python   -m          discover
-	@echo "Testing with Python 2.7.2:"
-	@~/.pythonbrew/pythons/Python-2.7.2/bin/python -m unittest discover
-	@echo "Testing with Python 2.7.3:"
-	@~/.pythonbrew/pythons/Python-2.7.3/bin/python -m unittest discover
+	# Test with all stable Python 2/3 releases.
+	@echo "Testing with Python 2.5.6:"
+	@~/.pythonbrew/pythons/Python-2.5.6/bin/py.test -q
+	@echo "Testing with Python 2.6.8:"
+	@~/.pythonbrew/pythons/Python-2.6.8/bin/py.test -q
 	@echo "Testing with Python 2.7.4:"
-	@~/.pythonbrew/pythons/Python-2.7.4/bin/python -m unittest discover
-	@echo "Testing with Python 3.1:"
-	@~/.pythonbrew/pythons/Python-3.1/bin/python   -m          discover
-	@echo "Testing with Python 3.2:"
-	@~/.pythonbrew/pythons/Python-3.2/bin/python   -m unittest discover
-	@echo "Testing with Python 3.3.0:"
-	@~/.pythonbrew/pythons/Python-3.3.0/bin/python -m unittest discover
-	@echo "Testing with Python 3.3.1:"
-	@~/.pythonbrew/pythons/Python-3.3.1/bin/python -m unittest discover
-
-test25:
-	# Not all test currently pass with Python 2.5
-	@echo "Testing with Python 2.5 (errors=16):"
-	@~/.pythonbrew/pythons/Python-2.5.6/bin/python -m          discover
-
-travistest:
-	# Test runner for Travis-CI.
-	@python -m discover
+	@~/.pythonbrew/pythons/Python-2.7.4/bin/py.test -q
+	@echo "Testing with Python 3.1.5:"
+	@~/.pythonbrew/pythons/Python-3.1.5/bin/py.test -q
+	@echo "Testing with Python 3.2.5:"
+	@~/.pythonbrew/pythons/Python-3.2.5/bin/py.test -q
+	@echo "Testing with Python 3.3.2:"
+	@~/.pythonbrew/pythons/Python-3.3.2/bin/py.test -q
 
 pep8:
 	@ls -1 xlsxwriter/*.py | egrep -v "theme|compat" | xargs pep8
@@ -77,4 +64,3 @@ release: releasecheck
 	@python setup.py sdist upload
 	@curl -X POST http://readthedocs.org/build/6277
 	@rm -rf build
-
