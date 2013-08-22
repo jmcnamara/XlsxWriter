@@ -1,4 +1,4 @@
-#!/usr/bin/perl -i
+#!/usr/bin/perl
 
 # Simple script to increment x.y.z style version numbers in a file.
 

@@ -83,12 +83,33 @@ function check_versions {
             exit 1
         else
             echo "    Updating versions...";
-            perl dev/release/update_revison.pl setup.py dev/docs/source/conf.py xlsxwriter/__init__.py
+            perl -i dev/release/update_revison.pl setup.py dev/docs/source/conf.py xlsxwriter/__init__.py
             check_versions
          fi
     fi
 }
 
+#############################################################
+#
+# Check that the PDF doc is up to date.
+#
+function check_pdf_doc {
+
+    clear
+    echo
+    echo -n     "Is the PDF doc up to date?   [y/N]: "
+    read RESPONSE
+
+    if [ "$RESPONSE" != "y" ]; then
+        echo -n "    Rebuild pdf?             [y/N]: "
+        read RESPONSE
+
+        if [ "$RESPONSE" == "y" ]; then
+            make -C dev/docs latexpdf
+            cp -r dev/docs/build/latex/XlsxWriter.pdf docs
+        fi
+    fi
+}
 
 #############################################################
 #
@@ -113,6 +134,8 @@ function check_git_status {
     if [ "$RESPONSE" != "y" ]; then
         echo
         echo -e "Please fix git status.\n";
+
+        git tag -l -n1 | tail -1 | perl -lane 'printf "git commit -m \"Prep for relase %s\"\ngit tag \"%s\"\n\n", $F[4], $F[0]' | perl dev/release/update_revison.pl
         exit 1
     fi
 }
@@ -120,6 +143,7 @@ function check_git_status {
 check_test_status
 check_changefile
 check_versions
+check_pdf_doc
 check_git_status
 
 
