@@ -7,6 +7,8 @@
 
 import unittest
 import os
+from decimal import Decimal
+from fractions import Fraction
 from ...workbook import Workbook
 from ..helperfunctions import _compare_xlsx_files
 
@@ -20,7 +22,7 @@ class TestCompareXLSXFiles(unittest.TestCase):
     def setUp(self):
         self.maxDiff = None
 
-        filename = 'types02.xlsx'
+        filename = 'types03.xlsx'
 
         test_dir = 'xlsxwriter/test/comparison/'
         self.got_filename = test_dir + '_test_' + filename
@@ -29,8 +31,8 @@ class TestCompareXLSXFiles(unittest.TestCase):
         self.ignore_files = []
         self.ignore_elements = {}
 
-    def test_write_boolean(self):
-        """Test writing boolean."""
+    def test_write_number_float(self):
+        """Test writing number types."""
         filename = self.got_filename
 
         ####################################################
@@ -38,8 +40,8 @@ class TestCompareXLSXFiles(unittest.TestCase):
         workbook = Workbook(filename)
         worksheet = workbook.add_worksheet()
 
-        worksheet.write_boolean(0, 0, True)
-        worksheet.write_boolean(1, 0, False)
+        worksheet.write('A1', 0.5)
+        worksheet.write_number('A2', 0.5)
 
         workbook.close()
 
@@ -52,8 +54,8 @@ class TestCompareXLSXFiles(unittest.TestCase):
 
         self.assertEqual(got, exp)
 
-    def test_write_boolean_write(self):
-        """Test writing boolean with write()."""
+    def test_write_number_decimal(self):
+        """Test writing number types."""
         filename = self.got_filename
 
         ####################################################
@@ -61,8 +63,31 @@ class TestCompareXLSXFiles(unittest.TestCase):
         workbook = Workbook(filename)
         worksheet = workbook.add_worksheet()
 
-        worksheet.write(0, 0, True)
-        worksheet.write(1, 0, False)
+        worksheet.write('A1', Decimal('0.5'))
+        worksheet.write_number('A2', Decimal('0.5'))
+
+        workbook.close()
+
+        ####################################################
+
+        got, exp = _compare_xlsx_files(self.got_filename,
+                                       self.exp_filename,
+                                       self.ignore_files,
+                                       self.ignore_elements)
+
+        self.assertEqual(got, exp)
+
+    def test_write_number_fraction(self):
+        """Test writing number types."""
+        filename = self.got_filename
+
+        ####################################################
+
+        workbook = Workbook(filename)
+        worksheet = workbook.add_worksheet()
+
+        worksheet.write('A1', Fraction(1, 2))
+        worksheet.write_number('A2', Fraction(2, 4))
 
         workbook.close()
 

@@ -55,7 +55,7 @@ testpythonsall:
 
 test25:
 	# Not all test currently pass with Python 2.5
-	@echo "Testing with Python 2.5 (errors should = 15):"
+	@echo "Testing with Python 2.5 (errors=16):"
 	@~/.pythonbrew/pythons/Python-2.5.6/bin/python -m          discover
 
 travistest:

@@ -12,7 +12,15 @@ import tempfile
 import codecs
 import os
 import sys
-from warnings import warn
+from decimal import Decimal
+
+try:
+    # For Python 2.6+.
+    from fractions import Fraction
+    from warnings import warn
+except ImportError:
+    Fraction = float
+    Decimal = float
 
 try:
     # For Python 2.6+.
@@ -326,9 +334,9 @@ class Worksheet(xmlwriter.XMLwriter):
         method based on the type of data being passed.
 
         Args:
-            row:     The cell row (zero indexed).
-            col:     The cell column (zero indexed).
-            *args:   Args to pass to sub functions.
+            row:   The cell row (zero indexed).
+            col:   The cell column (zero indexed).
+            *args: Args to pass to sub functions.
 
         Returns:
              0:    Success.
@@ -357,10 +365,10 @@ class Worksheet(xmlwriter.XMLwriter):
 
         # Types to check in Python 2/3.
         if sys.version_info[0] == 2:
-            num_types = (float, int, long)
+            num_types = (float, int, long, Decimal, Fraction)
             str_types = basestring
         else:
-            num_types = (float, int)
+            num_types = (float, int, Decimal, Fraction)
             str_types = str
 
         # Write number types.
@@ -369,7 +377,8 @@ class Worksheet(xmlwriter.XMLwriter):
 
         # The only other type that we handle now is a string.
         if not isinstance(token, str_types):
-            raise TypeError("Unsupported data type in write()")
+            raise TypeError("Unsupported data type %s in write()"
+                            % type(token))
 
         # Map the data to the appropriate write_*() method.
         if token == '':
