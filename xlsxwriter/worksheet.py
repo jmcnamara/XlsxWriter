@@ -351,6 +351,16 @@ class Worksheet(xmlwriter.XMLwriter):
         # The first arg should be the token for all write calls.
         token = args[0]
 
+        # Types to check in Python 2/3.
+        if sys.version_info[0] == 2:
+            num_types = (float, int, long, Decimal, Fraction)
+            str_types = basestring
+            date_types = (datetime.datetime, datetime.date, datetime.time)
+        else:
+            num_types = (float, int, Decimal, Fraction)
+            str_types = str
+            date_types = (datetime.datetime, datetime.date, datetime.time)
+
         # Write None as a blank cell.
         if token is None:
             return self.write_blank(row, col, *args)
@@ -360,52 +370,56 @@ class Worksheet(xmlwriter.XMLwriter):
             return self.write_boolean(row, col, *args)
 
         # Write datetime objects.
-        if self._is_supported_datetime(token):
+        if isinstance(token, date_types):
             return self.write_datetime(row, col, *args)
-
-        # Types to check in Python 2/3.
-        if sys.version_info[0] == 2:
-            num_types = (float, int, long, Decimal, Fraction)
-            str_types = basestring
-        else:
-            num_types = (float, int, Decimal, Fraction)
-            str_types = str
 
         # Write number types.
         if isinstance(token, num_types):
             return self.write_number(row, col, *args)
 
-        # The only other type that we handle now is a string.
-        if not isinstance(token, str_types):
-            raise TypeError("Unsupported data type %s in write()"
-                            % type(token))
+        # Write string types.
+        if isinstance(token, str_types):
+            # Map the data to the appropriate write_*() method.
+            if token == '':
+                return self.write_blank(row, col, *args)
+            elif token.startswith('='):
+                return self.write_formula(row, col, *args)
+            elif token.startswith('{') and token.endswith('}'):
+                return self.write_formula(row, col, *args)
+            elif re.match('[fh]tt?ps?://', token):
+                return self.write_url(row, col, *args)
+            elif re.match('mailto:', token):
+                return self.write_url(row, col, *args)
+            elif re.match('(in|ex)ternal:', token):
+                return self.write_url(row, col, *args)
+            else:
+                # We have a plain string.
+                if self.strings_to_numbers:
+                    # Convert number string to a number to avoid Excel warning.
+                    try:
+                        f = float(token)
+                        if not self._isnan(f) and not self._isinf(f):
+                            return self.write_number(row, col, f, *args[1:])
+                    except ValueError:
+                        # Not a number, write as a string.
+                        pass
 
-        # Map the data to the appropriate write_*() method.
-        if token == '':
-            return self.write_blank(row, col, *args)
-        elif token.startswith('='):
-            return self.write_formula(row, col, *args)
-        elif token.startswith('{') and token.endswith('}'):
-            return self.write_formula(row, col, *args)
-        elif re.match('[fh]tt?ps?://', token):
-            return self.write_url(row, col, *args)
-        elif re.match('mailto:', token):
-            return self.write_url(row, col, *args)
-        elif re.match('(in|ex)ternal:', token):
-            return self.write_url(row, col, *args)
-        else:
-            # We have a plain string.
-            if self.strings_to_numbers:
-                # Convert number string to a number to avoid Excel warning.
-                try:
-                    f = float(token)
-                    if not self._isnan(f) and not self._isinf(f):
-                        return self.write_number(row, col, f, *args[1:])
-                except ValueError:
-                    # Not a number, write as a string.
-                    pass
+                return self.write_string(row, col, *args)
 
+        # We haven't matched a supported type. Try float.
+        try:
+            f = float(token)
+            if not self._isnan(f) and not self._isinf(f):
+                return self.write_number(row, col, f, *args[1:])
+        except ValueError:
+            pass
+
+        # Finally try string.
+        try:
+            str(token)
             return self.write_string(row, col, *args)
+        except ValueError:
+            raise TypeError("Unsupported type %s in write()" % type(token))
 
     @convert_cell_args
     def write_string(self, row, col, string, cell_format=None):
@@ -3982,9 +3996,9 @@ class Worksheet(xmlwriter.XMLwriter):
 
     def _is_supported_datetime(self, dt):
         # Determine is an argument is a supported datetime object.
-        return(isinstance(dt, datetime.datetime) or
-               isinstance(dt, datetime.date) or
-               isinstance(dt, datetime.time))
+        return(isinstance(dt, (datetime.datetime,
+                               datetime.date,
+                               datetime.time)))
 
     def _table_function_to_formula(self, function, col_name):
         # Convert a table total function to a worksheet formula.
