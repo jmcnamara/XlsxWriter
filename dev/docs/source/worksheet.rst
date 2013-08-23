@@ -47,8 +47,8 @@ more specific methods:
 
 The rules for handling data in ``write()`` are as follows:
 
-* Data types ``float``, ``int``, and ``long`` are written using
-  :func:`write_number()`.
+* Data types ``float``, ``int``, ``long``, :class:`decimal.Decimal` and
+  :class:`fractions.Fraction`  are written using :func:`write_number()`.
 * Data types :class:`datetime.datetime`, :class:`datetime.date` or
   :class:`datetime.time`  are written using :func:`write_datetime()` .
 * ``None`` and empty strings ``""`` are written using :func:`write_blank()`.
