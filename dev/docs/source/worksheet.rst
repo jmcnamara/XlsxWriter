@@ -54,8 +54,7 @@ The rules for handling data in ``write()`` are as follows:
 * ``None`` and empty strings ``""`` are written using :func:`write_blank()`.
 * Data type ``bool`` is written using :func:`write_boolean()`.
 
-All other data must be string types ``str`` and ``unicode``. Strings are then
-handled as follows:
+Strings are then handled as follows:
 
 * Strings that match formula or array formula notation are written using
   :func:`write_formula()`.
@@ -68,7 +67,18 @@ handled as follows:
 * Strings that don't match any of the above criteria are written using
   :func:`write_string()`.
 
- Here are some examples::
+If none of the above types are matched the value is evaluated with ``float()``
+to see if it corresponds to a user defined float type. If it does then it is
+written using :func:`write_number()`.
+
+If not then it is evaluated with ``str()`` to see if it corresponds to a user
+defined string type. If it does then it is written using
+:func:`write_string()`.
+
+Finally, if none of these rules are matched then a ``TypeError`` exception is
+raised.
+
+Here are some examples::
 
     worksheet.write(0, 0, 'Hello')          # write_string()
     worksheet.write(1, 0, 'World')          # write_string()

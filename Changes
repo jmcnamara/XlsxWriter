@@ -1,4 +1,13 @@
 
+Release 0.3.8 - August 23 2013
+------------------------------
+
+* Added handling for Decimal(), Fraction() and other float types to the
+  :func:`write()` function.
+
+* Added Python 2.5 and Jython support. Thanks to Jonas Diemer for the patch.
+
+
 Release 0.3.7 - August 16 2013
 ------------------------------
 
@@ -6,10 +15,11 @@ Release 0.3.7 - August 16 2013
   #37. Also added explicit handling of Python bool values to the
   :func:`write()` function.
 
-* **Backward incompatibility**: Changed :func:`Workbook` constructor option
+* Changed :func:`Workbook` constructor option
   ``strings_to_numbers`` default option to False so that there is no implicit
   conversion of numbers in strings to numbers. The previous behaviour can be
   obtained by setting the constructor option to True.
+  **Note** This is a backward incompatibility.
 
 
 Release 0.3.6 - July 26 2013

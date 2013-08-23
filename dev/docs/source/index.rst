@@ -36,7 +36,7 @@ XlsxWriter supports the following features in version |version|:
 * Outlines and Grouping.
 * Memory optimisation mode for writing large files.
 * Standard libraries only.
-* Python 2.6, 2.7, 3.1, 3.2, 3.3 and PyPy support.
+* Python 2.5, 2.6, 2.7, 3.1, 3.2, 3.3, Jython and PyPy support.
 
 .. only:: html
 

@@ -384,7 +384,7 @@ class Worksheet(xmlwriter.XMLwriter):
                 return self.write_blank(row, col, *args)
             elif token.startswith('='):
                 return self.write_formula(row, col, *args)
-            elif token.startswith('{') and token.endswith('}'):
+            elif re.match(r'{=', token) and token.endswith('}'):
                 return self.write_formula(row, col, *args)
             elif re.match('[fh]tt?ps?://', token):
                 return self.write_url(row, col, *args)
