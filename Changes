@@ -1,4 +1,13 @@
 
+Release 0.3.9 - August XX 2013
+------------------------------
+
+* Added fix for minor issue with :func:`insert_image` for images that extend
+  over several cells.
+
+* Added fix to ensure formula calculation on load regardless of Excel version.
+
+
 Release 0.3.8 - August 23 2013
 ------------------------------
 

@@ -953,10 +953,6 @@ horizontally and vertically::
 
     worksheet.insert_image('B3', 'python.png', {'x_scale': 0.5, 'y_scale': 0.5})
 
-Currently only 96 dpi images are supported without modification. If you need to
-insert images with other dpi values you can use the scale parameters.
-
-
 .. Note::
   The scaling of a image may be affected if is crosses a row that has its
   default height changed due to a font that is larger than the default font

@@ -20,14 +20,6 @@ This appears to be an issue with the implicit destructor on Windows. It is
 under investigation. Use ``close()`` as a workaround.
 
 
-Formula results not displaying in Excel
----------------------------------------
-
-Some early versions of Excel 2007 do not display the calculated values of
-formulas written by XlsxWriter. Applying all available Service Packs to Excel
-should fix this.
-
-
 Formula results displaying as zero in non-Excel applications
 ------------------------------------------------------------
 
@@ -58,6 +50,22 @@ and instead are written "in-line".
 This is a documented Excel feature that is supported by most spreadsheet
 applications. One known exception is Apple Numbers for Mac where the string
 data isn't displayed.
+
+
+Images not displayed correctly in Excel 2001 for Mac and non-Excel applications
+-------------------------------------------------------------------------------
+
+Images inserted into worksheet via :func:`insert_image` may not display
+correctly in Excel 2011 for Mac and non-Excel applications such as OpenOffice
+and LibreOffice. Specifically the images may looked stretched or squashed.
+
+This is not just an issue that affects XlsxWriter files. It also occurs with
+files created in Excel 2007 and Excel 2010.
+
+XlsxWriter is fully compatible with images created in Excel 2007 and Excel
+2010. However, there may occasionally by slight differences due to non-integer
+DPI values in the inserted images. In general, these difference aren't visible
+in Excel and isn't related to the issue with non-Excel applications.
 
 
 Reporting Bugs
@@ -96,8 +104,8 @@ The official XlsxWriter
 Pointers for submitting a bug report
 ------------------------------------
 
-1. Describe the problem as clearly and as concisely as possible.
-2. Include a sample program. This is probably the most important step. Also,
+1. Describe the problem as clearly and as concisely as possible. 2. Include a
+sample program. This is probably the most important step. Also,
    it is often easier to describe a problem in code than in written prose.
 3. The sample program should be as small as possible to demonstrate the
    problem. Don't copy and past large sections of your program. The program

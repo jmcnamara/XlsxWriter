@@ -1143,10 +1143,8 @@ class Workbook(xmlwriter.XMLwriter):
 
     def _write_calc_pr(self):
         # Write the <calcPr> element.
-
-        calc_id = '124519'
-
-        attributes = [('calcId', calc_id)]
+        attributes = [('calcId', '124519'),
+                      ('fullCalcOnLoad', '1')]
 
         self._xml_empty_tag('calcPr', attributes)
 

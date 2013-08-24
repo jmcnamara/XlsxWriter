@@ -26,7 +26,7 @@ class TestWriteCalcPr(unittest.TestCase):
 
         self.workbook._write_calc_pr()
 
-        exp = """<calcPr calcId="124519"/>"""
+        exp = """<calcPr calcId="124519" fullCalcOnLoad="1"/>"""
         got = self.fh.getvalue()
 
         self.assertEqual(got, exp)
