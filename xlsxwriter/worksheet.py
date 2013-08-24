@@ -3731,7 +3731,7 @@ class Worksheet(xmlwriter.XMLwriter):
 
         # Calculate the absolute x offset of the top-left vertex.
         if self.col_size_changed:
-            for col_id in range(1, col_start + 1):
+            for col_id in range(col_start):
                 x_abs += self._size_col(col_id)
         else:
             # Optimisation for when the column widths haven't changed.
@@ -3742,7 +3742,7 @@ class Worksheet(xmlwriter.XMLwriter):
         # Calculate the absolute y offset of the top-left vertex.
         # Store the column change to allow optimisations.
         if self.row_size_changed:
-            for row_id in range(1, row_start + 1):
+            for row_id in range(row_start):
                 y_abs += self._size_row(row_id)
         else:
             # Optimisation for when the row heights haven't changed.
