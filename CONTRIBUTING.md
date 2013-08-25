@@ -1,6 +1,5 @@
 # XlsxWriter: Bug Reports and Contributing
 
-----
 
 ## Reporting Bugs
 
@@ -60,8 +59,6 @@ A sample bug report is shown below. This format helps to analyse and respond to 
 
 Submit the bug report using the [XlsxWriter issue tracker](https://github.com/jmcnamara/XlsxWriter/issues).
 
-
-----
 
 ## Contributing to XlsxWriter
 
