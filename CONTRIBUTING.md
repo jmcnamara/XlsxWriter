@@ -1,28 +1,103 @@
-## How to Contribute to XlsxWriter
+# XlsxWriter: Bug Reports and Contributing
 
-All patches and pull requests should be made via [Github](https://github.com/jmcnamara/XlsxWriter).
+----
 
+## Reporting Bugs
 
-## Getting Started
-
-1. For bug fixes submit an issue in the XlsxWriter [issue tracker](https://github.com/jmcnamara/XlsxWriter/issues). See the [suggestions on submitting a bug report](https://github.com/jmcnamara/XlsxWriter/issues/1).
-2. New features should also start with an issue tracker. Describe what you plan to do. If possible try to gauge if there is general interest in the feature that you are proposing.
-3. Fork the repository.
-4. Run all the tests to make sure the code works using `make test`.
+Here are some tips on reporting bugs in XlsxWriter.
 
 
-## Write Tests
+### Upgrade to the latest version of the module
 
-This is the most important step. XlsxWriter has approximately 1000 tests and a 2:1 test to code ratio. Patches and pull requests for anything other than minor fixes or typos will not be accepted without tests.
+The bug you are reporting may already be fixed in the latest version of the
+module. You can check which version of xlsxwriter that you are using as follows:
+
+    python -c 'import xlsxwriter; print xlsxwriter.__version__'
+
+
+The [Changes](https://github.com/jmcnamara/XlsxWriter/blob/master/Changes) file lists what has changed in the latest versions.
+
+
+### Read the documentation
+
+Read or search the [XlsxWriter documentation](https://xlsxwriter.readthedocs.org/en/latest/index.html) to see if issue you are encountering is already explained.
+
+### Look at the example programs
+
+There are [several example programs](https://github.com/jmcnamara/XlsxWriter/tree/master/examples) in the distribution. Try to identify an example program that corresponds to your query and adapt it to use as a bug report.
+
+
+### Pointers for submitting a bug report
+
+1. Describe the problem as clearly and as concisely as possible.
+2. Include a sample program. This is probably the most important step. It is generally easier to describe a problem in code than in written prose.
+3. The sample program should be as small as possible to demonstrate the problem. Don't copy and paste large non-relevant sections of your program.
+
+
+### Sample Bug Report
+
+A sample bug report is shown below. This format helps to analyse and respond to the bug report more quickly.
+
+> **Issue with SOMETHING**
+>
+>   I am using XlsxWriter to do SOMETHING but it appears to do SOMETHING ELSE.
+>
+>   I am using Python version X.Y.Z and XlsxWriter x.y.z.
+>
+>   Here is some code that demonstrates the problem::
+>
+>       import xlsxwriter
+>
+>       workbook = xlsxwriter.Workbook('hello.xlsx')
+>       worksheet = workbook.add_worksheet()
+>
+>       worksheet.write('A1', 'Hello world')
+>
+>       workbook.close()
+
+
+### Use the XlsxWriter GitHub issue tracker
+
+Submit the bug report using the [XlsxWriter issue tracker](https://github.com/jmcnamara/XlsxWriter/issues).
+
+
+----
+
+## Contributing to XlsxWriter
+
+All patches and pull requests are welcome.
+
+
+### Getting Started
+
+1. New feature proposals should start with an [issue tracker](https://github.com/jmcnamara/XlsxWriter/issues). Describe what you plan to do. If there are API changes add some code example to demonstrate them.
+2. Fork the repository.
+3. Run all the tests to make sure the current code work on your system using `make test`.
+4. Create a feature branch for your new feature.
+5. Enable Travis CI on your fork, see below.
+
+
+### Enabling Travis CI via your GitHub account
+
+Travis CI is a free Continuous Integration service that will test any code you push to Github with Python 2.5, 2.6, 2.7, 3.2, 3.3 and PyPy.
+
+See the [Travis CI Getting Started](http://about.travis-ci.org/docs/user/getting-started/) instructions.
+
+You only have to do steps 1 and 2. Step 3, creating a `.travis.yml` file, is already done in the XlsxWriter repo.
+
+
+### Writing Tests
+
+This is the most important step. XlsxWriter has approximately 1000 tests and a 2:1 test to code ratio. Patches and pull requests for anything other than minor fixes or typos will not be merged without tests.
 
 Use the existing tests in `XlsxWriter/xlsxwriter/test/` as examples.
 
-New features should be accompanied by tests that compare XlsxWriter output against actual Excel 2007 files. See the `XlsxWriter/xlsxwriter/test/comparison` test files for examples. Tests against other versions of Excel or other Spreadsheet applications aren't appropriate.
+Ideally, new features should be accompanied by tests that compare XlsxWriter output against actual Excel 2007 files. See the `XlsxWriter/xlsxwriter/test/comparison` test files for examples. If you don't have access to Excel 2007 I can help you create input files for test cases.
 
 Tests should use the standard [unittest](http://docs.python.org/2/library/unittest.html) Python module.
 
 
-## Write Code
+### Code Style
 
 Follow the general style of the surrounding code and format it to the [PEP8](http://www.python.org/dev/peps/pep-0008/) coding standards.
 
@@ -33,41 +108,42 @@ There is a make target that will verify the source and test files:
     make pep8
 
 
-## Run the tests
+### Running tests
 
-Tests should be run using Python 2 and Python 3.
-
-The author uses [pythonbrew](https://github.com/utahta/pythonbrew) to test with a variety of Python versions. See the Makefile for example test targets.
-
-When you push your changes they will also be tested for a variety of Python versions using [Travis CI](https://travis-ci.org/jmcnamara/XlsxWriter/).
+As a minimum tests should be run using Python 2.7 and Python 3.3.
 
 
-## Write Documentation
+    make test
+    # or
+    py.test
 
-Write some [rST](http://docutils.sourceforge.net/rst.html) documentation in [Sphinx](http://sphinx-doc.org) format or add to the existing documentation.
+The author uses [pythonbrew](https://github.com/utahta/pythonbrew) and [Tox](http://tox.readthedocs.org/en/latest/) to test with a variety of Python versions. See the Makefile for example test targets. A `tox.ini` file is already configured.
 
-The docs can be built using:
+When you push your changes they will also be tested using [Travis CI](https://travis-ci.org/jmcnamara/XlsxWriter/) as explained above.
+
+
+### Documentation
+
+If your feature requires it then write some [RST](http://docutils.sourceforge.net/rst.html) documentation in [Sphinx](http://sphinx-doc.org) format or add to the existing documentation.
+
+The docs, in `dev/docs/source` can be built in Html format using:
 
     make docs
 
 
-## Write an example program
+### Example programs
 
 If applicable add an example program to the `examples` directory.
 
 
-## Copyright and License
+### Copyright and License
 
-Copyright remains with the original author. Do not include additional copyright claims or Licensing requirements.
-
-
-## Submit the changes
-
-Push your changes to GitHub and submit a Pull Request. Ideally that should be attached to the Issue tracker that was opened above.
+Copyright remains with the original author. Do not include additional copyright claims or Licensing requirements. GitHub and the `git` repository will record your contribution an it will be acknowledged it in the Changes file.
 
 
-## Too much work?
+### Submitting the Pull Request
 
-Best effort counts as well.
+If your change involves several incremental `git` commits then `rebase` or `squash` them onto another branch so that the Pull Request is a single commit or a small number of logical commits.
 
-And remember, the module author went though each of these steps for each (30+) release of the module.
+Push your changes to GitHub and submit the Pull Request. In the `git` commit link to the to the Issue tracker that was opened above.
+
