@@ -23,7 +23,7 @@ class TestCompareXLSXFiles(unittest.TestCase):
         filename = 'chart_size01.xlsx'
 
         test_dir = 'xlsxwriter/test/comparison/'
-        self.got_filename = test_dir + '_test_' + filename
+        self.got_filename = test_dir + '_test_2_' + filename
         self.exp_filename = test_dir + 'xlsx_files/' + filename
 
         self.ignore_files = []
