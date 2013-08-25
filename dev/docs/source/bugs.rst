@@ -55,17 +55,13 @@ data isn't displayed.
 Images not displayed correctly in Excel 2001 for Mac and non-Excel applications
 -------------------------------------------------------------------------------
 
-Images inserted into worksheet via :func:`insert_image` may not display
+Images inserted into worksheets via :func:`insert_image` may not display
 correctly in Excel 2011 for Mac and non-Excel applications such as OpenOffice
 and LibreOffice. Specifically the images may looked stretched or squashed.
 
-This is not just an issue that affects XlsxWriter files. It also occurs with
-files created in Excel 2007 and Excel 2010.
+This is not specifically an XlsxWriter issue. It also occurs with files created
+in Excel 2007 and Excel 2010.
 
-XlsxWriter is fully compatible with images created in Excel 2007 and Excel
-2010. However, there may occasionally by slight differences due to non-integer
-DPI values in the inserted images. In general, these difference aren't visible
-in Excel and isn't related to the issue with non-Excel applications.
 
 
 Reporting Bugs
@@ -108,7 +104,7 @@ Pointers for submitting a bug report
 sample program. This is probably the most important step. Also,
    it is often easier to describe a problem in code than in written prose.
 3. The sample program should be as small as possible to demonstrate the
-   problem. Don't copy and past large sections of your program. The program
+   problem. Don't copy and paste large sections of your program. The program
    should also be self contained and working.
 
 A sample bug report is shown below. If you use this format then it will help to
