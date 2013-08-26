@@ -15,9 +15,6 @@ py25_ignore = [
     # No fractions or decimal.
     'xlsxwriter/test/comparison/test_types03.py',
 
-    # No namedtuple or defaultdict
-    'xlsxwriter/test/worksheet/test_write_cell.py',
-
     # No unicode_literals.
     'xlsxwriter/test/comparison/test_chart_axis25.py',
     'xlsxwriter/test/comparison/test_utf8_01.py',
