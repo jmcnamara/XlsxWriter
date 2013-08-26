@@ -781,37 +781,32 @@ class Workbook(xmlwriter.XMLwriter):
         # Look for some common image file markers.
         marker1 = (unpack('3s', data[1:4]))[0]
         marker2 = (unpack('>H', data[:2]))[0]
-        marker3 = (unpack('4s', data[6:10]))[0]
-        marker4 = (unpack('2s', data[:2]))[0]
+        marker3 = (unpack('2s', data[:2]))[0]
 
         if sys.version_info < (2, 6, 0):
             # Python 2.5/Jython.
             png_marker = 'PNG'
-            jfif_marker = 'JFIF'
-            exif_marker = 'EXIF'
             bmp_marker = 'BM'
         else:
             # Eval the binary literals for Python 2.5/Jython compatibility.
             png_marker = eval("b'PNG'")
-            jfif_marker = eval("b'JFIF'")
-            exif_marker = eval("b'EXIF'")
             bmp_marker = eval("b'BM'")
 
         if marker1 == png_marker:
             self.image_types['png'] = 1
             (image_type, width, height) = self._process_png(data)
 
-        elif (marker2 == 0xFFD8 and
-              (marker3 == jfif_marker or marker3 == exif_marker)):
+        elif (marker2 == 0xFFD8):
             self.image_types['jpeg'] = 1
             (image_type, width, height) = self._process_jpg(data)
 
-        elif (marker4 == bmp_marker):
+        elif (marker3 == bmp_marker):
             self.image_types['bmp'] = 1
             (image_type, width, height) = self._process_bmp(data)
 
         else:
-            raise Exception("%s: Unknown or unsupported file type." % filename)
+            raise Exception("%s: Unknown or unsupported image file format."
+                            % filename)
 
         # Check that we found the required data.
         if not height or not width:
