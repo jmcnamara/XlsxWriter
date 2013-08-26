@@ -1,4 +1,14 @@
 
+Release 0.4.0 - August 26 2013
+------------------------------
+
+* Added more generic support for JPEG files. Issue #40 reported by Simon
+  Breuss.
+
+* Fix for harmless Python 3 installation warning. Issue #41 reported by James
+  Reeves.
+
+
 Release 0.3.9 - August 24 2013
 ------------------------------
 
