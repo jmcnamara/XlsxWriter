@@ -9,9 +9,9 @@ Here are some tips on reporting bugs in XlsxWriter.
 ### Upgrade to the latest version of the module
 
 The bug you are reporting may already be fixed in the latest version of the
-module. You can check which version of xlsxwriter that you are using as follows:
+module. You can check which version of xlsxWriter that you are using as follows:
 
-    python -c 'import xlsxwriter; print xlsxwriter.__version__'
+    python -c 'import xlsxwriter; print(xlsxwriter.__version__)'
 
 
 The [Changes](https://github.com/jmcnamara/XlsxWriter/blob/master/Changes) file lists what has changed in the latest versions.
@@ -19,7 +19,7 @@ The [Changes](https://github.com/jmcnamara/XlsxWriter/blob/master/Changes) file 
 
 ### Read the documentation
 
-Read or search the [XlsxWriter documentation](https://xlsxwriter.readthedocs.org/en/latest/index.html) to see if issue you are encountering is already explained.
+Read or search the [XlsxWriter documentation](https://xlsxwriter.readthedocs.org/en/latest/index.html) to see if the issue you are encountering is already explained.
 
 ### Look at the example programs
 
