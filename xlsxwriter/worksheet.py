@@ -1332,6 +1332,9 @@ class Worksheet(xmlwriter.XMLwriter):
         # Store the row change to allow optimisations.
         self.row_size_changed = 1
 
+        if hidden:
+            height = 0
+
         # Store the row sizes for use when calculating image vertices.
         self.row_sizes[row] = height
 
@@ -3795,7 +3798,7 @@ class Worksheet(xmlwriter.XMLwriter):
         pixels = 0
 
         # Look up the cell value to see if it has been changed.
-        if col in self.col_sizes:
+        if col in self.col_sizes and self.col_sizes[col] is not None:
             width = self.col_sizes[col]
 
             # Convert to pixels.
