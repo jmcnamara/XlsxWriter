@@ -103,6 +103,10 @@ class Workbook(xmlwriter.XMLwriter):
         # Add the default cell format.
         self.add_format({'xf_index': 0})
 
+        # Add a default URL format.
+        self.default_url_format = self.add_format({'color': 'blue',
+                                                   'underline': 1})
+
         # Add the default date format.
         if self.default_date_format is not None:
             self.default_date_format = \
@@ -138,6 +142,7 @@ class Workbook(xmlwriter.XMLwriter):
             'date_1904': self.date_1904,
             'strings_to_numbers': self.strings_to_numbers,
             'default_date_format': self.default_date_format,
+            'default_url_format': self.default_url_format,
         }
 
         worksheet = Worksheet()
@@ -492,13 +497,19 @@ class Workbook(xmlwriter.XMLwriter):
 
     def _set_default_xf_indices(self):
         # Set the default index for each format. Only used for testing.
+
+        formats = list(self.formats)
+
+        # Delete the default url format.
+        del formats[1]
+
+        # Skip the default date format if set.
         if self.default_date_format is not None:
-            # Skip initialising format[1] if there is a default date format.
-            for xf_format in self.formats[:1] + self.formats[2:]:
-                xf_format._get_xf_index()
-        else:
-            for xf_format in self.formats:
-                xf_format._get_xf_index()
+            del formats[1]
+
+        # Set the remaining formats.
+        for xf_format in formats:
+            xf_format._get_xf_index()
 
     def _prepare_fonts(self):
         # Iterate through the XF Format objects and give them an index to

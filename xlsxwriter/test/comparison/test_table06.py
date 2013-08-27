@@ -38,6 +38,9 @@ class TestCompareXLSXFiles(unittest.TestCase):
 
         workbook = Workbook(filename)
 
+        # Turn off default URL format for testing.
+        workbook.default_url_format = None
+
         worksheet = workbook.add_worksheet()
 
         worksheet.set_column('C:H', 10.288)

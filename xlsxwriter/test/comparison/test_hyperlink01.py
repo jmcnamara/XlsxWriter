@@ -37,6 +37,9 @@ class TestCompareXLSXFiles(unittest.TestCase):
 
         workbook = Workbook(filename)
 
+        # Turn off default URL format for testing.
+        workbook.default_url_format = None
+
         worksheet = workbook.add_worksheet()
 
         worksheet.write_url('A1', 'http://www.perl.org/')
@@ -59,6 +62,9 @@ class TestCompareXLSXFiles(unittest.TestCase):
         ####################################################
 
         workbook = Workbook(filename)
+
+        # Turn off default URL format for testing.
+        workbook.default_url_format = None
 
         worksheet = workbook.add_worksheet()
 

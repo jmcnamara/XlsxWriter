@@ -326,6 +326,7 @@ class Worksheet(xmlwriter.XMLwriter):
 
         self.strings_to_numbers = True
         self.default_date_format = None
+        self.default_url_format = None
 
     @convert_cell_args
     def write(self, row, col, *args):
@@ -831,6 +832,10 @@ class Worksheet(xmlwriter.XMLwriter):
         # Write previous row if in in-line string optimization mode.
         if self.optimization == 1 and row > self.previous_row:
             self._write_single_row(row)
+
+        # Add the default URL format.
+        if cell_format is None:
+            cell_format = self.default_url_format
 
         # Write the hyperlink string.
         self.write_string(row, col, string, cell_format)
@@ -3096,6 +3101,7 @@ class Worksheet(xmlwriter.XMLwriter):
         self.date_1904 = init_data['date_1904']
         self.strings_to_numbers = init_data['strings_to_numbers']
         self.default_date_format = init_data['default_date_format']
+        self.default_url_format = init_data['default_url_format']
 
         if self.date_1904:
             self.epoch = datetime.datetime(1904, 1, 1)

@@ -34,7 +34,7 @@ string = 'Python home'
 tip = 'Get the latest Python news here.'
 
 # Write some hyperlinks
-worksheet.write('A1', 'http://www.python.org/', url_format)
+worksheet.write('A1', 'http://www.python.org/')  # Implicit format.
 worksheet.write('A3', 'http://www.python.org/', url_format, string)
 worksheet.write('A5', 'http://www.python.org/', url_format, string, tip)
 worksheet.write('A7', 'http://www.python.org/', red_format)

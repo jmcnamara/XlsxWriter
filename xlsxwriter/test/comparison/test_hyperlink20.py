@@ -20,7 +20,7 @@ class TestCompareXLSXFiles(unittest.TestCase):
     def setUp(self):
         self.maxDiff = None
 
-        filename = 'hyperlink04.xlsx'
+        filename = 'hyperlink20.xlsx'
 
         test_dir = 'xlsxwriter/test/comparison/'
         self.got_filename = test_dir + '_test_' + filename
@@ -29,28 +29,23 @@ class TestCompareXLSXFiles(unittest.TestCase):
         self.ignore_files = []
         self.ignore_elements = {}
 
-    def test_create_file(self):
-        """Test the creation of a simple XlsxWriter file with hyperlinks."""
+    def test_hyperlink_formating_explicit(self):
+        """Test the creation of a simple XlsxWriter file with hyperlinks. This example has link formatting."""
         filename = self.got_filename
 
         ####################################################
 
         workbook = Workbook(filename)
 
-        # Turn off default URL format for testing.
-        workbook.default_url_format = None
+        # Simulate custom colour for testing.
+        workbook.custom_colors = ['FF0000FF']
 
-        worksheet1 = workbook.add_worksheet()
-        worksheet2 = workbook.add_worksheet()
-        worksheet3 = workbook.add_worksheet('Data Sheet')
+        worksheet = workbook.add_worksheet()
+        format1 = workbook.add_format({'color': 'blue', 'underline': 1})
+        format2 = workbook.add_format({'color': 'red', 'underline': 1})
 
-        worksheet1.write_url('A1', "internal:Sheet2!A1")
-        worksheet1.write_url('A3', "internal:Sheet2!A1:A5")
-        worksheet1.write_url('A5', "internal:'Data Sheet'!D5", None, 'Some text')
-        worksheet1.write_url('E12', "internal:Sheet1!J1")
-        worksheet1.write_url('G17', "internal:Sheet2!A1", None, 'Some text')
-        worksheet1.write_url('A18', "internal:Sheet2!A1", None, None, 'Tool Tip 1')
-        worksheet1.write_url('A20', "internal:Sheet2!A1", None, 'More text', 'Tool Tip 2')
+        worksheet.write_url('A1', 'http://www.python.org/1', format1)
+        worksheet.write_url('A2', 'http://www.python.org/2', format2)
 
         workbook.close()
 
@@ -63,28 +58,23 @@ class TestCompareXLSXFiles(unittest.TestCase):
 
         self.assertEqual(got, exp)
 
-    def test_create_file_write(self):
-        """Test the creation of a simple XlsxWriter file with hyperlinks with write()"""
+    def test_hyperlink_formating_implicit(self):
+        """Test the creation of a simple XlsxWriter file with hyperlinks. This example has link formatting."""
         filename = self.got_filename
 
         ####################################################
 
         workbook = Workbook(filename)
 
-        # Turn off default URL format for testing.
-        workbook.default_url_format = None
+        # Simulate custom colour for testing.
+        workbook.custom_colors = ['FF0000FF']
 
-        worksheet1 = workbook.add_worksheet()
-        worksheet2 = workbook.add_worksheet()
-        worksheet3 = workbook.add_worksheet('Data Sheet')
+        worksheet = workbook.add_worksheet()
+        format1 = None
+        format2 = workbook.add_format({'color': 'red', 'underline': 1})
 
-        worksheet1.write('A1', "internal:Sheet2!A1")
-        worksheet1.write('A3', "internal:Sheet2!A1:A5")
-        worksheet1.write('A5', "internal:'Data Sheet'!D5", None, 'Some text')
-        worksheet1.write('E12', "internal:Sheet1!J1")
-        worksheet1.write('G17', "internal:Sheet2!A1", None, 'Some text')
-        worksheet1.write('A18', "internal:Sheet2!A1", None, None, 'Tool Tip 1')
-        worksheet1.write('A20', "internal:Sheet2!A1", None, 'More text', 'Tool Tip 2')
+        worksheet.write_url('A1', 'http://www.python.org/1', format1)
+        worksheet.write_url('A2', 'http://www.python.org/2', format2)
 
         workbook.close()
 
