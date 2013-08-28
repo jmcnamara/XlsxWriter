@@ -1,4 +1,12 @@
 
+Release 0.4.1 - August 28 2013
+------------------------------
+
+* Fix for charts and images that cross rows and columns that are hidden or 
+  formatted but which don't have size changes. Issue #42 reported by
+  Kristian Stobbe.
+
+
 Release 0.4.0 - August 26 2013
 ------------------------------
 
