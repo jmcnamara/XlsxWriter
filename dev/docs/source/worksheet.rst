@@ -461,7 +461,7 @@ worksheet.write_url()
    :param row:         The cell row (zero indexed).
    :param col:         The cell column (zero indexed).
    :param url:         Hyperlink url.
-   :param cell_format: Optional Format object.
+   :param cell_format: Optional Format object. Defaults to blue underline.
    :param string:      An optional display string for the hyperlink.
    :param tip:         An optional tooltip.
    :type  row:         int
@@ -480,31 +480,41 @@ Both row-column and A1 style notation are supported. See :ref:`cell_notation`
 for more details.
 
 The ``cell_format`` parameter is used to apply formatting to the cell. This
-parameter is optional, however, without a format the link won't look like a
-link. The suggested :ref:`Format <format>`  is::
+parameter is optional. Since a hyperlink without a format doesn't look like a
+link the following default :ref:`Format <format>` is used::
+
+    workbook.add_format({'color': 'blue', 'underline': 1})
+
+Therefore the following are equivalent::
 
     link_format = workbook.add_format({'color': 'blue', 'underline': 1})
+    worksheet.write_url('A1', 'ftp://www.python.org/', link_format)
 
-There are four web style URI's supported: ``http://``, ``https://``, ``ftp://``
-and ``mailto:``::
+    # Same as:
+    worksheet.write_url('A1', 'ftp://www.python.org/')  # Default format.
 
-    worksheet.write_url('A1', 'ftp://www.python.org/',    link_format)
-    worksheet.write_url('A2', 'http://www.python.org/',   link_format)
-    worksheet.write_url('A3', 'https://www.python.org/',  link_format)
-    worksheet.write_url('A4', 'mailto:jmcnamaracpan.org', link_format)
+Four web style URI's are supported: ``http://``, ``https://``, ``ftp://`` and
+``mailto:``::
+
+    worksheet.write_url('A1', 'ftp://www.python.org/')
+    worksheet.write_url('A2', 'http://www.python.org/')
+    worksheet.write_url('A3', 'https://www.python.org/')
+    worksheet.write_url('A4', 'mailto:jmcnamaracpan.org')
 
 All of the these URI types are recognised by the :func:`write()` method, so the
 following are equivalent::
 
-    worksheet.write_url('A2', 'http://www.python.org/', link_format)
-    worksheet.write    ('A2', 'http://www.python.org/', link_format)  # Same.
+    worksheet.write_url('A2', 'http://www.python.org/')
+    worksheet.write    ('A2', 'http://www.python.org/')  # Same.
 
 You can display an alternative string using the ``string`` parameter::
 
     worksheet.write_url('A1', 'http://www.python.org', link_format, 'Python')
 
-If you wish to have some other cell data such as a number or a formula you can
-overwrite the cell using another call to ``write_*()``::
+.. Note::
+
+  If you wish to have some other cell data such as a number or a formula
+  you can overwrite the cell using another call to ``write_*()``::
 
     worksheet.write_url('A1', 'http://www.python.org/', link_format)
 
@@ -515,15 +525,15 @@ There are two local URIs supported: ``internal:`` and ``external:``. These are
 used for hyperlinks to internal worksheet references or external workbook and
 worksheet references::
 
-    worksheet.write_url('A1',  'internal:Sheet2!A1',             link_format)
-    worksheet.write_url('A2',  'internal:Sheet2!A1',             link_format)
-    worksheet.write_url('A3',  'internal:Sheet2!A1:B2',          link_format)
-    worksheet.write_url('A4',  "internal:'Sales Data'!A1",       link_format)
-    worksheet.write_url('A5', r'external:c:\temp\foo.xlsx',      link_format)
-    worksheet.write_url('A6', r'external:c:\foo.xlsx#Sheet2!A1', link_format)
-    worksheet.write_url('A7', r'external:..\foo.xlsx',           link_format)
-    worksheet.write_url('A8', r'external:..\foo.xlsx#Sheet2!A1', link_format)
-    worksheet.write_url('A9', r'external:\\NET\share\foo.xlsx',  link_format)
+    worksheet.write_url('A1',  'internal:Sheet2!A1')
+    worksheet.write_url('A2',  'internal:Sheet2!A1')
+    worksheet.write_url('A3',  'internal:Sheet2!A1:B2')
+    worksheet.write_url('A4',  "internal:'Sales Data'!A1")
+    worksheet.write_url('A5', r'external:c:\temp\foo.xlsx')
+    worksheet.write_url('A6', r'external:c:\foo.xlsx#Sheet2!A1')
+    worksheet.write_url('A7', r'external:..\foo.xlsx')
+    worksheet.write_url('A8', r'external:..\foo.xlsx#Sheet2!A1')
+    worksheet.write_url('A9', r'external:\\NET\share\foo.xlsx')
 
 Worksheet references are typically of the form ``Sheet1!A1``. You can also link
 to a worksheet range using the standard Excel notation: ``Sheet1!A1:B2``.
