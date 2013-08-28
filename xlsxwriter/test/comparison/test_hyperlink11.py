@@ -29,8 +29,8 @@ class TestCompareXLSXFiles(unittest.TestCase):
         self.ignore_files = []
         self.ignore_elements = {}
 
-    def test_create_file(self):
-        """Test the creation of a simple XlsxWriter file with hyperlinks.This example has link formatting."""
+    def test_link_format_explicit(self):
+        """Test the creation of a simple XlsxWriter file with hyperlinks. This example has link formatting."""
         filename = self.got_filename
 
         ####################################################
@@ -41,6 +41,52 @@ class TestCompareXLSXFiles(unittest.TestCase):
         format = workbook.add_format({'color': 'blue', 'underline': 1})
 
         worksheet.write_url('A1', 'http://www.perl.org/', format)
+
+        workbook.close()
+
+        ####################################################
+
+        got, exp = _compare_xlsx_files(self.got_filename,
+                                       self.exp_filename,
+                                       self.ignore_files,
+                                       self.ignore_elements)
+
+        self.assertEqual(got, exp)
+
+    def test_link_format_implicit(self):
+        """Test the creation of a simple XlsxWriter file with hyperlinks. This example has link formatting."""
+        filename = self.got_filename
+
+        ####################################################
+
+        workbook = Workbook(filename)
+
+        worksheet = workbook.add_worksheet()
+
+        worksheet.write_url('A1', 'http://www.perl.org/')
+
+        workbook.close()
+
+        ####################################################
+
+        got, exp = _compare_xlsx_files(self.got_filename,
+                                       self.exp_filename,
+                                       self.ignore_files,
+                                       self.ignore_elements)
+
+        self.assertEqual(got, exp)
+
+    def test_link_format_none(self):
+        """Test the creation of a simple XlsxWriter file with hyperlinks. This example has link formatting."""
+        filename = self.got_filename
+
+        ####################################################
+
+        workbook = Workbook(filename)
+
+        worksheet = workbook.add_worksheet()
+
+        worksheet.write_url('A1', 'http://www.perl.org/', None)
 
         workbook.close()
 
