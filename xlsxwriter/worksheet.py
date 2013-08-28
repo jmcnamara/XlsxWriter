@@ -324,7 +324,10 @@ class Worksheet(xmlwriter.XMLwriter):
         self.epoch = datetime.datetime(1899, 12, 31)
         self.hyperlinks = defaultdict(dict)
 
-        self.strings_to_numbers = True
+        self.strings_to_numbers = False
+        self.strings_to_urls = True
+        self.strings_to_formulas = True
+
         self.default_date_format = None
         self.default_url_format = None
 
@@ -383,28 +386,32 @@ class Worksheet(xmlwriter.XMLwriter):
             # Map the data to the appropriate write_*() method.
             if token == '':
                 return self.write_blank(row, col, *args)
-            elif token.startswith('='):
+
+            elif self.strings_to_formulas and token.startswith('='):
                 return self.write_formula(row, col, *args)
-            elif re.match(r'{=', token) and token.endswith('}'):
-                return self.write_formula(row, col, *args)
-            elif re.match('[fh]tt?ps?://', token):
+
+            elif self.strings_to_urls and re.match('(ftp|http)s?://', token):
                 return self.write_url(row, col, *args)
-            elif re.match('mailto:', token):
+
+            elif self.strings_to_urls and re.match('mailto:', token):
                 return self.write_url(row, col, *args)
-            elif re.match('(in|ex)ternal:', token):
+
+            elif self.strings_to_urls and re.match('(in|ex)ternal:', token):
                 return self.write_url(row, col, *args)
+
+            elif self.strings_to_numbers:
+                try:
+                    f = float(token)
+                    if not self._isnan(f) and not self._isinf(f):
+                        return self.write_number(row, col, f, *args[1:])
+                except ValueError:
+                    # Not a number, write as a string.
+                    pass
+
+                return self.write_string(row, col, *args)
+
             else:
                 # We have a plain string.
-                if self.strings_to_numbers:
-                    # Convert number string to a number to avoid Excel warning.
-                    try:
-                        f = float(token)
-                        if not self._isnan(f) and not self._isinf(f):
-                            return self.write_number(row, col, f, *args[1:])
-                    except ValueError:
-                        # Not a number, write as a string.
-                        pass
-
                 return self.write_string(row, col, *args)
 
         # We haven't matched a supported type. Try float.
@@ -3100,6 +3107,8 @@ class Worksheet(xmlwriter.XMLwriter):
         self.tmpdir = init_data['tmpdir']
         self.date_1904 = init_data['date_1904']
         self.strings_to_numbers = init_data['strings_to_numbers']
+        self.strings_to_formulas = init_data['strings_to_formulas']
+        self.strings_to_urls = init_data['strings_to_urls']
         self.default_date_format = init_data['default_date_format']
         self.default_url_format = init_data['default_url_format']
 
