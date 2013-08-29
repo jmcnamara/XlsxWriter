@@ -37,6 +37,9 @@ class TestCompareXLSXFiles(unittest.TestCase):
 
         workbook = Workbook(filename)
 
+        # Turn off default URL format for testing.
+        workbook.default_url_format = None
+
         worksheet1 = workbook.add_worksheet("Start")
         worksheet2 = workbook.add_worksheet("A & B")
 

@@ -37,6 +37,9 @@ class TestCompareXLSXFiles(unittest.TestCase):
 
         workbook = Workbook(filename)
 
+        # Turn off default URL format for testing.
+        workbook.default_url_format = None
+
         worksheet = workbook.add_worksheet()
         chart1 = workbook.add_chart({'type': 'bar'})
         chart2 = workbook.add_chart({'type': 'bar'})

@@ -75,13 +75,25 @@ The constructor options are:
 
       workbook = xlsxwriter.Workbook(filename, {'strings_to_numbers': True})
 
+* **strings_to_formulas**: Enable the
+  :ref:`worksheet. <Worksheet>`:func:`write()` method to convert strings to
+  formulas. The default is ``True``::
+
+      workbook = xlsxwriter.Workbook(filename, {'strings_to_formulas': False})
+
+* **strings_to_urls**: Enable the
+  :ref:`worksheet. <Worksheet>`:func:`write()` method to convert strings to
+  urls. The default is ``True``::
+
+      workbook = xlsxwriter.Workbook(filename, {'strings_to_urls': True})
+
 * **default_date_format**: This option is used to specify a default date
   format string for use with the
   :ref:`worksheet. <Worksheet>`:func:`write_datetime()` method when an
   explicit format isn't given. See :ref:`working_with_dates_and_time` for more
   details::
 
-      workbook = xlsxwriter.Workbook(filename, {'default_date_format': 'dd/mm/yy'})
+      xlsxwriter.Workbook(filename, {'default_date_format': 'dd/mm/yy'})
 
 When specifying a filename it is recommended that you use an ``.xlsx``
 extension or Excel will generate a warning opening the file.
