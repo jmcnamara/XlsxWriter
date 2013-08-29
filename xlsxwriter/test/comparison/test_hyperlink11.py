@@ -38,9 +38,9 @@ class TestCompareXLSXFiles(unittest.TestCase):
         workbook = Workbook(filename)
 
         worksheet = workbook.add_worksheet()
-        format = workbook.add_format({'color': 'blue', 'underline': 1})
+        url_format = workbook.add_format({'color': 'blue', 'underline': 1})
 
-        worksheet.write_url('A1', 'http://www.perl.org/', format)
+        worksheet.write_url('A1', 'http://www.perl.org/', url_format)
 
         workbook.close()
 
