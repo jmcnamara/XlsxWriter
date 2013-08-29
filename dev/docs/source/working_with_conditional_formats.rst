@@ -616,7 +616,7 @@ conditional formatting type is ``2_color_scale``, ``3_color_scale`` or
                                             'max_color': '#538ED5'})
 
 The colour can be a Html style ``#RRGGBB`` string or a limited number
-named colours, see :ref:`format_colors`.
+named colours, see :ref:`colors`.
 
 mid_color:
 **********

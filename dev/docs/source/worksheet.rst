@@ -49,21 +49,27 @@ The rules for handling data in ``write()`` are as follows:
 
 * Data types ``float``, ``int``, ``long``, :class:`decimal.Decimal` and
   :class:`fractions.Fraction`  are written using :func:`write_number()`.
+
 * Data types :class:`datetime.datetime`, :class:`datetime.date` or
   :class:`datetime.time`  are written using :func:`write_datetime()` .
+
 * ``None`` and empty strings ``""`` are written using :func:`write_blank()`.
+
 * Data type ``bool`` is written using :func:`write_boolean()`.
 
 Strings are then handled as follows:
 
-* Strings that match formula or array formula notation are written using
-  :func:`write_formula()`.
+* Strings that start with ``"="`` are take to match a formula and are written
+  using :func:`write_formula()`. This can be overridden, see below.
+
 * Strings that match supported URL types are written using
-  :func:`write_url()`.
+  :func:`write_url()`. This can be overridden, see below.
+
 * When the :func:`Workbook` constructor ``strings_to_numbers`` option is
-  ``True`` strings that converts to numbers using :func:`float()` are written
+  ``True`` strings that convert to numbers using :func:`float()` are written
   using :func:`write_number()` in order to avoid Excel warnings about "Numbers
   Stored as Text". See the note below.
+
 * Strings that don't match any of the above criteria are written using
   :func:`write_string()`.
 
@@ -109,22 +115,15 @@ be a valid :ref:`Format <format>` object::
 
     worksheet.write(0, 0, 'Hello', cell_format)  # Cell is bold and italic.
 
-
 .. note::
-   When the :func:`Workbook` constructor option ``strings_to_numbers``
-   option is ``True`` the `write()` method converts strings to numbers, where
-   possible, using  :func:`float()` in order to avoid an Excel warning about
-   "Numbers Stored as Text"::
 
-      workbook = xlsxwriter.Workbook(filename, {'strings_to_numbers': False})
+   The :func:`Workbook` constructor option takes three optional arguments
+   that can be used to override string handling in the ``write()`` function.
+   These options are shown below with their default values::
 
-   The default ``strings_to_numbers`` option was ``False`` prior to XlsxWriter
-   version 0.3.7.
-
-   Some care is required when this option is enabled since string data that
-   appears numeric but isn't, such as Zip codes or ID numbers with leading
-   zeroes, is also converted to numbers.
-
+       xlsxwriter.Workbook(filename, {'strings_to_numbers':  False,
+                                      'strings_to_formulas': True,
+                                      'strings_to_urls':     True})
 
 worksheet.write_string()
 ------------------------
@@ -513,8 +512,8 @@ You can display an alternative string using the ``string`` parameter::
 
 .. Note::
 
-  If you wish to have some other cell data such as a number or a formula
-  you can overwrite the cell using another call to ``write_*()``::
+  If you wish to have some other cell data such as a number or a formula you
+  can overwrite the cell using another call to ``write_*()``::
 
     worksheet.write_url('A1', 'http://www.python.org/', link_format)
 
@@ -1757,7 +1756,7 @@ tab::
     worksheet2.set_tab_color('#FF9900')  # Orange
 
 The colour can be a Html style ``#RRGGBB`` string or a limited number named
-colours, see :ref:`format_colors`.
+colours, see :ref:`colors`.
 
 See :ref:`ex_tab_colors` for more details.
 

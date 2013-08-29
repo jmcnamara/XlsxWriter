@@ -15,8 +15,8 @@ Setting Comment Properties
 --------------------------
 
 The properties of the cell comment can be modified by passing an optional
-dictionary of key/value pairs to control the format of the comment.
-For example::
+dictionary of key/value pairs to control the format of the comment. For
+example::
 
     worksheet.write_comment('C3', 'Hello', {'x_scale': 1.2, 'y_scale': 0.8})
 
@@ -40,8 +40,8 @@ The options are explained in detail below:
 * ``author``: This option is used to indicate who is the author of the cell
   comment. Excel displays the author of the comment in the status bar at the
   bottom of the worksheet. This is usually of interest in corporate
-  environments where several people might review and provide comments
-  to a workbook::
+  environments where several people might review and provide comments to a
+  workbook::
 
     worksheet.write_comment('C3', 'Atonement', {'author': 'Ian McEwan'})
 
@@ -86,9 +86,9 @@ The options are explained in detail below:
 
     worksheet.write_comment('C3', 'Hello', {'height': 200})
 
-* ``color``: This option is used to set the background colour of cell
-  comment box. You can use one of the named colours recognised by XlsxWriter
-  or a Html color. See :ref:`format_colors`::
+* ``color``: This option is used to set the background colour of cell comment
+  box. You can use one of the named colours recognised by XlsxWriter or a Html
+  color. See :ref:`colors`::
   
     worksheet.write_comment('C3', 'Hello', {'color': 'green'  })
     worksheet.write_comment('C4', 'Hello', {'color': '#CCFFCC'})
@@ -101,8 +101,8 @@ The options are explained in detail below:
   
     worksheet.write_comment('C3', 'Hello', {'start_cell': 'E2'})
 
-* ``start_row``: This option is used to set the row in which the comment
-  will appear. See the ``start_cell`` option above. The row is zero indexed::
+* ``start_row``: This option is used to set the row in which the comment will
+  appear. See the ``start_cell`` option above. The row is zero indexed::
   
     worksheet.write_comment('C3', 'Hello', {'start_row': 0})
 
@@ -112,13 +112,13 @@ The options are explained in detail below:
   
     worksheet.write_comment('C3', 'Hello', {'start_col': 4})
 
-* ``x_offset``: This option is used to change the x offset, in pixels,
-  of a comment within a cell::
+* ``x_offset``: This option is used to change the x offset, in pixels, of a
+  comment within a cell::
 
     worksheet.write_comment('C3', comment, {'x_offset': 30})
 
-* ``y_offset``: This option is used to change the y offset, in pixels,
-  of a comment within a cell::
+* ``y_offset``: This option is used to change the y offset, in pixels, of a
+  comment within a cell::
   
     worksheet.write_comment('C3', comment, {'y_offset': 30})
 

@@ -579,7 +579,7 @@ The ``color`` property sets the color of the ``line``::
 
 The available colours are shown in the main XlsxWriter documentation. It is
 also possible to set the colour of a line with a Html style ``#RRGGBB`` string
-or a limited number named colours, see :ref:`format_colors`::
+or a limited number named colours, see :ref:`colors`::
 
     chart.add_series({
         'values': '=Sheet1!$A$1:$A$6',
@@ -683,7 +683,7 @@ The ``color`` property sets the colour of the ``fill`` area::
 
 The available colours are shown in the main XlsxWriter documentation. It is
 also possible to set the colour of a fill with a Html style ``#RRGGBB`` string
-or a limited number named colours, see :ref:`format_colors`::
+or a limited number named colours, see :ref:`colors`::
 
     chart.add_series({
         'values': '=Sheet1!$A$1:$A$6',

@@ -69,7 +69,7 @@ Set the font colour::
     worksheet.write(0, 0, 'wheelbarrow', format)
 
 The color can be a Html style ``#RRGGBB`` string or a limited number of named
-colors, see :ref:`format_colors`.
+colors, see :ref:`colors`.
 
 Note: The ``set_font_color()`` method is used to set the colour of the font in
 a cell. To set the colour of a cell use the :func:`set_bg_color()` and
@@ -576,7 +576,7 @@ Here is an example of how to set up a solid fill in a cell::
 .. image:: _images/formats_set_bg_color.png
 
 The color can be a Html style ``#RRGGBB`` string or a limited number of named
-colors, see :ref:`format_colors`.
+colors, see :ref:`colors`.
 
 
 
@@ -593,7 +593,7 @@ The ``set_fg_color()`` method can be used to set the foreground colour of a
 pattern.
 
 The color can be a Html style ``#RRGGBB`` string or a limited number of named
-colors, see :ref:`format_colors`.
+colors, see :ref:`colors`.
 
 
 
@@ -748,7 +748,7 @@ the bottom, top, left and right. These can be set to the same colour using
 above.
 
 The color can be a Html style ``#RRGGBB`` string or a limited number of named
-colors, see :ref:`format_colors`.
+colors, see :ref:`colors`.
 
 
 format.set_bottom_color()
