@@ -1,4 +1,13 @@
 
+Release 0.4.2 - August 30 2013
+------------------------------
+
+* Added a default blue underline hyperlink format for :func:`write_url()`.
+
+* Added :func:`Workbook` constructor options ``strings_to_formulas`` and
+  ``strings_to_urls`` to override default conversion of strings in write().
+
+
 Release 0.4.1 - August 28 2013
 ------------------------------
 
