@@ -1,8 +1,9 @@
-XlsxWriter
-==========
 
 .. image:: https://raw.github.com/jmcnamara/XlsxWriter/master/dev/docs/source/_images/logo.png
    :target: https://github.com/jmcnamara/XlsxWriter
+
+XlsxWriter
+==========
 
 .. image:: https://travis-ci.org/jmcnamara/XlsxWriter.png?branch=master
    :target: https://travis-ci.org/jmcnamara/XlsxWriter
@@ -14,36 +15,30 @@ XlsxWriter
    :target: https://crate.io/packages/XlsxWriter
 
 
-XlsxWriter is a Python module for creating Excel XLSX files.
+XlsxWriter is a Python module for writing files in the Excel 2007+ XLSX
+file format.
 
-XlsxWriter supports the following features:
+XlsxWriter can be used to write text, numbers, formulas and hyperlinks to
+multiple worksheets and it supports features such as formatting and many more,
+including:
 
 * 100% compatible Excel XLSX files.
-* Write text, numbers, formulas, dates to cells.
-* Write hyperlinks to cells.
-* Full cell formatting.
-* Multiple worksheets.
-* Charts.
-* Page setup methods for printing.
+* Full formatting.
 * Merged cells.
 * Defined names.
+* Charts.
 * Autofilters.
 * Data validation and drop down lists.
 * Conditional formatting.
 * Worksheet PNG/JPEG images.
 * Rich multi-format strings.
 * Cell comments.
-* Document properties.
-* Worksheet cell protection.
-* Freeze and split worksheet panes.
-* Worksheet Tables.
-* Sparklines.
-* Outlines and Grouping.
 * Memory optimisation mode for writing large files.
-* Standard libraries only.
-* Python 2.5, 2.6, 2.7, 3.1, 3.2, 3.3, Jython and PyPy support.
 
-Here is a small example::
+It supports Python 2.5, 2.6, 2.7, 3.1, 3.2, 3.3, Jython and PyPy and uses
+standard libraries only.
+
+.. code-block:: python
 
    import xlsxwriter
 
@@ -75,7 +70,7 @@ Here is a small example::
 
 .. image:: https://raw.github.com/jmcnamara/XlsxWriter/master/dev/docs/source/_images/demo.png
 
-See the full documentation at: https://xlsxwriter.readthedocs.org/en/latest/
+See the full documentation at: http://xlsxwriter.readthedocs.org
 
 Release notes: https://xlsxwriter.readthedocs.org/en/latest/changes.html
 
