@@ -9,5 +9,5 @@ setup(
     packages=['xlsxwriter'],
     license='BSD',
     description='A Python module for creating Excel XLSX files.',
-    long_description=open('README.txt').read(),
+    long_description=open('README.rst').read(),
 )

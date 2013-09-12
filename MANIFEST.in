@@ -1,4 +1,4 @@
-include README.txt
+include README.rst
 include Changes
 include LICENSE.txt
 include xlsxwriter/*.py

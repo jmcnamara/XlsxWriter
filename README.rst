@@ -15,7 +15,7 @@ XlsxWriter
    :target: https://crate.io/packages/XlsxWriter
 
 
-XlsxWriter is a Python module for writing files in the Excel 2007+ XLSX
+**XlsxWriter** is a Python module for writing files in the Excel 2007+ XLSX
 file format.
 
 XlsxWriter can be used to write text, numbers, formulas and hyperlinks to
