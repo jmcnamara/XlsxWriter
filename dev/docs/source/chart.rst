@@ -20,7 +20,7 @@ It is then inserted into a worksheet as an embedded chart using the
 
 .. Note::
    Chart sheets, i.e, charts that occupy an entire worksheet in a workbook
-   are not supported yet. They will be added in the next 1-2 releases.
+   are not supported yet. They will be added in a future release.
 
 The following is a small working example or adding an embedded chart::
 
@@ -118,7 +118,7 @@ chart.add_series()
 
    :param dict options: A dictionary of chart series options.
 
-In Excel a chart **series** is a collection of information hat define which
+In Excel a chart **series** is a collection of information that define which
 data is plotted such as values, axis labels and formatting.
 
 For an XlsxWriter chart object the ``add_series()`` method is used to set the
@@ -574,7 +574,8 @@ chart.set_chartarea()
 
    :param dict options: A dictionary of chart area options.
 
-The ``set_chartarea()`` method is used to set the properties of the chart area::
+The ``set_chartarea()`` method is used to set the properties of the chart area.
+In Excel the chart area is the background area behind the chart::
 
     chart.set_chartarea({
         'border': {'none': True},
@@ -604,7 +605,8 @@ chart.set_plotarea()
    :param dict options: A dictionary of plot area options.
 
 The ``set_plotarea()`` method is used to set properties of the plot area of a
-chart::
+chart. In Excel the plot area is the area between the axes on which the chart
+series are plotted::
 
     chart.set_plotarea({
         'border': {'color': 'red', 'width': 2, 'dash_type': 'dash'},
@@ -641,7 +643,7 @@ The ``set_style()`` method is used to set the style of the chart to one of the
 .. image:: _images/chart_style.png
    :scale: 75 %
 
-The style index number is counter from 1 on the top left. The default style is
+The style index number is counted from 1 on the top left. The default style is
 2.
 
 

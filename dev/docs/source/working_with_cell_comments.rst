@@ -1,4 +1,4 @@
-.. _cell_comments: 
+.. _cell_comments:
 
 Working with Cell Comments
 ==========================
@@ -47,7 +47,7 @@ The options are explained in detail below:
 
   The default author for all cell comments in a worksheet can be set using
   the :func:`set_comments_author` method::
-  
+
      worksheet.set_comments_author('John Smith')
 
 * ``visible``: This option is used to make a cell comment visible when the
@@ -55,18 +55,18 @@ The options are explained in detail below:
   initially hidden. However, it is also possible in Excel to make individual
   comments or all comments visible. In XlsxWriter individual comments can be
   made visible as follows::
-  
+
     worksheet.write_comment('C3', 'Hello', {'visible': True})
 
   It is possible to make all comments in a worksheet visible using the
   :func:`show_comments()` worksheet method. Alternatively, if all of the cell
   comments have been made visible you can hide individual comments::
-  
+
     worksheet.write_comment('C3', 'Hello', {'visible': False})
 
 * ``x_scale``: This option is used to set the width of the cell comment box
   as a factor of the default width::
-  
+
     worksheet.write_comment('C3', 'Hello', {'x_scale': 2  })
     worksheet.write_comment('C4', 'Hello', {'x_scale': 4.2})
 
@@ -77,7 +77,7 @@ The options are explained in detail below:
 
 * ``y_scale``: This option is used to set the height of the cell comment box
   as a factor of the default height::
-  
+
     worksheet.write_comment('C3', 'Hello', {'y_scale': 2  })
     worksheet.write_comment('C4', 'Hello', {'y_scale': 4.2})
 
@@ -89,7 +89,7 @@ The options are explained in detail below:
 * ``color``: This option is used to set the background colour of cell comment
   box. You can use one of the named colours recognised by XlsxWriter or a Html
   color. See :ref:`colors`::
-  
+
     worksheet.write_comment('C3', 'Hello', {'color': 'green'  })
     worksheet.write_comment('C4', 'Hello', {'color': '#CCFFCC'})
 
@@ -98,18 +98,18 @@ The options are explained in detail below:
   one cell above the cell to which the comment relates. However, you can
   change this behaviour if you wish. In the following example the comment
   which would appear by default in cell ``D2`` is moved to ``E2``::
-  
+
     worksheet.write_comment('C3', 'Hello', {'start_cell': 'E2'})
 
 * ``start_row``: This option is used to set the row in which the comment will
   appear. See the ``start_cell`` option above. The row is zero indexed::
-  
+
     worksheet.write_comment('C3', 'Hello', {'start_row': 0})
 
 * ``start_col``: This option is used to set the column in which the comment
   will appear. See the ``start_cell`` option above. The column is zero
   indexed::
-  
+
     worksheet.write_comment('C3', 'Hello', {'start_col': 4})
 
 * ``x_offset``: This option is used to change the x offset, in pixels, of a
@@ -119,7 +119,7 @@ The options are explained in detail below:
 
 * ``y_offset``: This option is used to change the y offset, in pixels, of a
   comment within a cell::
-  
+
     worksheet.write_comment('C3', comment, {'y_offset': 30})
 
 
@@ -143,4 +143,4 @@ these options in use see :ref:`ex_comments2`.
    the comment box is stretched with the row. Use the ``set_row()`` method
    to specify the row height explicitly and avoid this problem. See example 8
    of :ref:`ex_comments2`.
- 
+

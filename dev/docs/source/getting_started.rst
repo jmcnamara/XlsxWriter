@@ -49,7 +49,7 @@ A tarball of the latest code can be downloaded from GitHub as follows::
 
     $ curl -O -L http://github.com/jmcnamara/XlsxWriter/archive/master.tar.gz
 
-    $ tar zxvf master.tar.gz 
+    $ tar zxvf master.tar.gz
     $ cd XlsxWriter-master/
     $ sudo python setup.py install
 
@@ -76,10 +76,10 @@ the following to verify that the module works correctly:
 .. code-block:: python
 
     import xlsxwriter
-        
+
     workbook = xlsxwriter.Workbook('hello.xlsx')
     worksheet = workbook.add_worksheet()
-    
+
     worksheet.write('A1', 'Hello world')
 
     workbook.close()

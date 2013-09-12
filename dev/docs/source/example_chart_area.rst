@@ -9,7 +9,7 @@ Chart 1 in the following example is a default area chart:
 
 .. image:: _images/chart_area1.png
    :scale: 75 %
-   
+
 Chart 2 is a stacked area chart:
 
 .. image:: _images/chart_area2.png

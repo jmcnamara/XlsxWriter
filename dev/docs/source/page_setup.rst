@@ -62,52 +62,93 @@ worksheet.set_paper()
 This method is used to set the paper format for the printed output of a
 worksheet. The following paper styles are available:
 
-    =====   ====================    ================
-    Index   Paper format            Paper size
-    =====   ====================    ================
-      0     Printer default
-      1     Letter                  8 1/2 x 11 in
-      2     Letter Small            8 1/2 x 11 in
-      3     Tabloid                 11 x 17 in
-      4     Ledger                  17 x 11 in
-      5     Legal                   8 1/2 x 14 in
-      6     Statement               5 1/2 x 8 1/2 in
-      7     Executive               7 1/4 x 10 1/2 in
-      8     A3                      297 x 420 mm
-      9     A4                      210 x 297 mm
-     10     A4 Small                210 x 297 mm
-     11     A5                      148 x 210 mm
-     12     B4                      250 x 354 mm
-     13     B5                      182 x 257 mm
-     14     Folio                   8 1/2 x 13 in
-     15     Quarto                  215 x 275 mm
-     16                             10x14 in
-     17                             11x17 in
-     18     Note                    8 1/2 x 11 in
-     19     Envelope  9             3 7/8 x 8 7/8
-     20     Envelope 10             4 1/8 x 9 1/2
-     21     Envelope 11             4 1/2 x 10 3/8
-     22     Envelope 12             4 3/4 x 11
-     23     Envelope 14             5 x 11 1/2
-     24     C size sheet
-     25     D size sheet
-     26     E size sheet
-     27     Envelope DL             110 x 220 mm
-     28     Envelope C3             324 x 458 mm
-     29     Envelope C4             229 x 324 mm
-     30     Envelope C5             162 x 229 mm
-     31     Envelope C6             114 x 162 mm
-     32     Envelope C65            114 x 229 mm
-     33     Envelope B4             250 x 353 mm
-     34     Envelope B5             176 x 250 mm
-     35     Envelope B6             176 x 125 mm
-     36     Envelope                110 x 230 mm
-     37     Monarch                 3.875 x 7.5 in
-     38     Envelope                3 5/8 x 6 1/2 in
-     39     Fanfold                 14 7/8 x 11 in
-     40     German Std Fanfold      8 1/2 x 12 in
-     41     German Legal Fanfold    8 1/2 x 13 in
-    =====   ====================    ================
++-------+----------------------+-------------------+
+| Index | Paper format         | Paper size        |
++=======+======================+===================+
+| 0     | Printer default      | Printer default   |
++-------+----------------------+-------------------+
+| 1     | Letter               | 8 1/2 x 11 in     |
++-------+----------------------+-------------------+
+| 2     | Letter Small         | 8 1/2 x 11 in     |
++-------+----------------------+-------------------+
+| 3     | Tabloid              | 11 x 17 in        |
++-------+----------------------+-------------------+
+| 4     | Ledger               | 17 x 11 in        |
++-------+----------------------+-------------------+
+| 5     | Legal                | 8 1/2 x 14 in     |
++-------+----------------------+-------------------+
+| 6     | Statement            | 5 1/2 x 8 1/2 in  |
++-------+----------------------+-------------------+
+| 7     | Executive            | 7 1/4 x 10 1/2 in |
++-------+----------------------+-------------------+
+| 8     | A3                   | 297 x 420 mm      |
++-------+----------------------+-------------------+
+| 9     | A4                   | 210 x 297 mm      |
++-------+----------------------+-------------------+
+| 10    | A4 Small             | 210 x 297 mm      |
++-------+----------------------+-------------------+
+| 11    | A5                   | 148 x 210 mm      |
++-------+----------------------+-------------------+
+| 12    | B4                   | 250 x 354 mm      |
++-------+----------------------+-------------------+
+| 13    | B5                   | 182 x 257 mm      |
++-------+----------------------+-------------------+
+| 14    | Folio                | 8 1/2 x 13 in     |
++-------+----------------------+-------------------+
+| 15    | Quarto               | 215 x 275 mm      |
++-------+----------------------+-------------------+
+| 16    | ---                  | 10x14 in          |
++-------+----------------------+-------------------+
+| 17    | ---                  | 11x17 in          |
++-------+----------------------+-------------------+
+| 18    | Note                 | 8 1/2 x 11 in     |
++-------+----------------------+-------------------+
+| 19    | Envelope 9           | 3 7/8 x 8 7/8     |
++-------+----------------------+-------------------+
+| 20    | Envelope 10          | 4 1/8 x 9 1/2     |
++-------+----------------------+-------------------+
+| 21    | Envelope 11          | 4 1/2 x 10 3/8    |
++-------+----------------------+-------------------+
+| 22    | Envelope 12          | 4 3/4 x 11        |
++-------+----------------------+-------------------+
+| 23    | Envelope 14          | 5 x 11 1/2        |
++-------+----------------------+-------------------+
+| 24    | C size sheet         | ---               |
++-------+----------------------+-------------------+
+| 25    | D size sheet         | ---               |
++-------+----------------------+-------------------+
+| 26    | E size sheet         | ---               |
++-------+----------------------+-------------------+
+| 27    | Envelope DL          | 110 x 220 mm      |
++-------+----------------------+-------------------+
+| 28    | Envelope C3          | 324 x 458 mm      |
++-------+----------------------+-------------------+
+| 29    | Envelope C4          | 229 x 324 mm      |
++-------+----------------------+-------------------+
+| 30    | Envelope C5          | 162 x 229 mm      |
++-------+----------------------+-------------------+
+| 31    | Envelope C6          | 114 x 162 mm      |
++-------+----------------------+-------------------+
+| 32    | Envelope C65         | 114 x 229 mm      |
++-------+----------------------+-------------------+
+| 33    | Envelope B4          | 250 x 353 mm      |
++-------+----------------------+-------------------+
+| 34    | Envelope B5          | 176 x 250 mm      |
++-------+----------------------+-------------------+
+| 35    | Envelope B6          | 176 x 125 mm      |
++-------+----------------------+-------------------+
+| 36    | Envelope             | 110 x 230 mm      |
++-------+----------------------+-------------------+
+| 37    | Monarch              | 3.875 x 7.5 in    |
++-------+----------------------+-------------------+
+| 38    | Envelope             | 3 5/8 x 6 1/2 in  |
++-------+----------------------+-------------------+
+| 39    | Fanfold              | 14 7/8 x 11 in    |
++-------+----------------------+-------------------+
+| 40    | German Std Fanfold   | 8 1/2 x 12 in     |
++-------+----------------------+-------------------+
+| 41    | German Legal Fanfold | 8 1/2 x 13 in     |
++-------+----------------------+-------------------+
 
 
 Note, it is likely that not all of these paper types will be available to the
@@ -172,36 +213,50 @@ worksheet.set_header()
    :param string header: Header string with Excel control characters.
    :param float margin:  Header margin in inches. Default 0.3.
 
-Headers and footers are generated using a string which is a combination
-of plain text and control characters.
+Headers and footers are generated using a string which is a combination of
+plain text and control characters.
 
 The available control character are:
 
-    ==================  ==================  ================================
-    Control             Category            Description
-    ==================  ==================  ================================
-    &L                  Justification       Left
-    &C                                      Center
-    &R                                      Right
 
-    &P                  Information         Page number
-    &N                                      Total number of pages
-    &D                                      Date
-    &T                                      Time
-    &F                                      File name
-    &A                                      Worksheet name
-    &Z                                      Workbook path
++---------------+---------------+-----------------------+
+| Control       | Category      | Description           |
++===============+===============+=======================+
+| &L            | Justification | Left                  |
++---------------+---------------+-----------------------+
+| &C            |               | Center                |
++---------------+---------------+-----------------------+
+| &R            |               | Right                 |
++---------------+---------------+-----------------------+
+| &P            | Information   | Page number           |
++---------------+---------------+-----------------------+
+| &N            |               | Total number of pages |
++---------------+---------------+-----------------------+
+| &D            |               | Date                  |
++---------------+---------------+-----------------------+
+| &T            |               | Time                  |
++---------------+---------------+-----------------------+
+| &F            |               | File name             |
++---------------+---------------+-----------------------+
+| &A            |               | Worksheet name        |
++---------------+---------------+-----------------------+
+| &Z            |               | Workbook path         |
++---------------+---------------+-----------------------+
+| &fontsize     | Font          | Font size             |
++---------------+---------------+-----------------------+
+| &"font,style" |               | Font name and style   |
++---------------+---------------+-----------------------+
+| &U            |               | Single underline      |
++---------------+---------------+-----------------------+
+| &E            |               | Double underline      |
++---------------+---------------+-----------------------+
+| &S            |               | Strikethrough         |
++---------------+---------------+-----------------------+
+| &X            |               | Superscript           |
++---------------+---------------+-----------------------+
+| &Y            |               | Subscript             |
++---------------+---------------+-----------------------+
 
-    &fontsize           Font                Font size
-    &"font,style"                           Font name and style
-    &U                                      Single underline
-    &E                                      Double underline
-    &S                                      Strikethrough
-    &X                                      Superscript
-    &Y                                      Subscript
-
-    &&                  Miscellaneous       Literal ampersand &
-    ==================  ==================  ================================
 
 Text in headers and footers can be justified (aligned) to the left, center and
 right by prefixing the text with the control characters ``&L``, ``&C`` and
@@ -301,7 +356,7 @@ the equivalent VBA code looks like this::
 To include a single literal ampersand ``&`` in a header or footer you should
 use a double ampersand ``&&``::
 
-    worksheet1.set_header('&CCuriouser and Curiouser - Attorneys at Law')
+    worksheet1.set_header('&CCuriouser && Curiouser - Attorneys at Law')
 
 As stated above the margin parameter is optional. As with the other margins the
 value should be in inches. The default header and footer margin is 0.3 inch.
@@ -395,12 +450,11 @@ gridlines::
 
 The following values of ``option`` are valid:
 
-0. Don't hide gridlines.
-1. Hide printed gridlines only.
-2. Hide screen and printed gridlines.
+0. Don't hide gridlines. 1. Hide printed gridlines only. 2. Hide screen and
+printed gridlines.
 
-If you don't supply an argument the default option is 1, i.e. only the
-printed gridlines are hidden.
+If you don't supply an argument the default option is 1, i.e. only the printed
+gridlines are hidden.
 
 
 worksheet.print_row_col_headers()
@@ -483,9 +537,9 @@ worksheet.fit_to_pages()
 
 The ``fit_to_pages()`` method is used to fit the printed area to a specific
 number of pages both vertically and horizontally. If the printed area exceeds
-the specified number of pages it will be scaled down to fit. This ensures
-that the printed area will always appear on the specified number of pages
-even if the page size or margins change::
+the specified number of pages it will be scaled down to fit. This ensures that
+the printed area will always appear on the specified number of pages even if
+the page size or margins change::
 
     worksheet1.fit_to_pages(1, 1)  # Fit to 1x1 pages.
     worksheet2.fit_to_pages(2, 1)  # Fit to 2x1 pages.
@@ -502,9 +556,9 @@ zero::
 
 .. Note::
    Although it is valid to use both :func:`fit_to_pages()` and
-   :func:`set_print_scale()` on the same worksheet only one of these options
-   can be active at a time. The last method call made will set the active
-   option.
+   :func:`set_print_scale()` on the same worksheet Excel only one of these
+   options to be active at a time. The last method call made will set the
+   active option.
 
 .. Note::
    The :func:`fit_to_pages()` will override any manual page breaks that are
@@ -528,6 +582,7 @@ worksheet.set_start_page()
 The ``set_start_page()`` method is used to set the number of the starting page
 when the worksheet is printed out::
 
+    # Start print from page 2.
     worksheet.set_start_page(2)
 
 worksheet.set_print_scale()
@@ -552,8 +607,9 @@ the scale of the visible page in Excel. For that you should use
 :func:`set_zoom()`.
 
 Note also that although it is valid to use both ``fit_to_pages()`` and
-``set_print_scale()`` on the same worksheet only one of these options can
-be active at a time. The last method call made will set the active option.
+``set_print_scale()`` on the same worksheet Excel only allows one of these
+options to be active at a time. The last method call made will set the active
+option.
 
 
 worksheet.set_h_pagebreaks()
@@ -565,12 +621,12 @@ worksheet.set_h_pagebreaks()
 
    :param list breaks: List of pagebreak rows.
 
-The ``set_h_pagebreaks()`` method adds horizontal page breaks to a worksheet.
-A page break causes all the data that follows it to be printed on the next
-page. Horizontal page breaks act between rows. To create a page break between
-rows 20 and 21 you must specify the break at row 21. However in zero index
-notation this is actually row 20. So you can pretend for a small while that
-you are using 1 index notation::
+The ``set_h_pagebreaks()`` method adds horizontal page breaks to a worksheet. A
+page break causes all the data that follows it to be printed on the next page.
+Horizontal page breaks act between rows. To create a page break between rows
+20 and 21 you must specify the break at row 21. However in zero index notation
+this is actually row 20. So you can pretend for a small while that you are
+using 1 index notation::
 
     worksheet1.set_h_pagebreaks([20])  # Break between row 20 and 21.
 
@@ -582,8 +638,8 @@ The ``set_v_pagebreaks()`` method takes a list of page breaks::
    Note: If you specify the "fit to page" option via the ``fit_to_pages()``
    method it will override all manual page breaks.
 
-There is a silent limitation of 1023 horizontal page breaks per worksheet
-in line with an Excel internal limitation.
+There is a silent limitation of 1023 horizontal page breaks per worksheet in
+line with an Excel internal limitation.
 
 
 worksheet.set_v_pagebreaks()

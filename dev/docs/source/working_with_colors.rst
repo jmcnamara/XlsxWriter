@@ -1,4 +1,4 @@
-.. _colors: 
+.. _colors:
 
 Working with Colors
 ===================

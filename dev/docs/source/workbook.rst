@@ -40,9 +40,9 @@ The constructor options are:
 
        workbook = xlsxwriter.Workbook(filename, {'constant_memory': True})
 
-  Note, in this mode  a row of data is written and then discarded when a cell
+  Note, in this mode a row of data is written and then discarded when a cell
   in a new row is added via one of the worksheet ``write_()`` methods. As such
-  data should be written in sequential row order once this mode is on.
+  once this mode is on data should be written in sequential row order.
 
   See :ref:`memory_perf` for more details.
 
@@ -62,9 +62,8 @@ The constructor options are:
   Mac uses an epoch of 1904. However, Excel on either platform will convert
   automatically between one system and the other. XlsxWriter stores dates in
   the 1900 format by default. If you wish to change this you can use the
-  ``date_1904`` workbook option. This option is mainly for backward
-  compatibility with Excel::Writer::XLSX and in general isn't required very
-  often::
+  ``date_1904`` workbook option. This option is mainly for enhanced
+  compatibility with Excel and in general isn't required very often::
 
       workbook = xlsxwriter.Workbook(filename, {'date_1904': True})
 
@@ -96,7 +95,7 @@ The constructor options are:
       xlsxwriter.Workbook(filename, {'default_date_format': 'dd/mm/yy'})
 
 When specifying a filename it is recommended that you use an ``.xlsx``
-extension or Excel will generate a warning opening the file.
+extension or Excel will generate a warning when opening the file.
 
 It is possible to write files to in-memory strings using StringIO as follows::
 
@@ -230,13 +229,9 @@ An explicit ``close()`` is required if the file must be closed prior to
 performing some external action on it such as copying it, reading its size or
 attaching it to an email.
 
-In addition, ``close()`` may be occasionally required to prevent Python's
+In addition, ``close()`` may occasionally be required to prevent Python's
 garbage collector from disposing of the Workbook, Worksheet and Format objects
 in the wrong order.
-
-In general, if an XlsxWriter file is created with a size of 0 bytes or fails to
-be created for some unknown silent reason you should add ``close()`` to your
-program.
 
 
 workbook.set_properties()
@@ -265,7 +260,8 @@ The properties that can be set are:
 * ``comments``
 * ``status``
 
-The properties should be passed in dictionary format as follows::
+The properties are all optional and should be passed in dictionary format as
+follows::
 
     workbook.set_properties({
         'title':    'This is an example spreadsheet',
@@ -292,22 +288,26 @@ workbook.define_name()
    :param string formula: The cell or range that the defined name refers to.
 
 This method is used to defined a name that can be used to represent a value, a
-single cell or a range of cells in a workbook.
+single cell or a range of cells in a workbook. These defined names can then be
+used in formulas::
 
-For example to set a global/workbook name::
-
-    # Global/workbook names.
     workbook.define_name('Exchange_rate', '=0.96')
+    worksheet.write('B3', '=B2*Exchange_rate')
+
+As in Excel a name defined like this is "global" to the workbook and can be
+referred to from any worksheet::
+
+    # Global workbook name.
     workbook.define_name('Sales',         '=Sheet1!$G$1:$H$10')
 
 It is also possible to define a local/worksheet name by prefixing it with the
 sheet name using the syntax ``'sheetname!definedname'``::
 
-    # Local/worksheet name.
+    # Local worksheet name.
     workbook.define_name('Sheet2!Sales', '=Sheet2!$G$1:$G$10')
 
-If the sheet name contains spaces or special characters you must enclose it in
-single quotes like in Excel::
+If the sheet name contains spaces or special characters you must follow the
+Excel convention and enclose it in single quotes::
 
     workbook.define_name("'New Data'!Sales", '=Sheet2!$G$1:$G$10')
 

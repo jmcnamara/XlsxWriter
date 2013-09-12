@@ -12,8 +12,8 @@ Q. Can XlsxWriter use an existing Excel file as a template?
 
 No.
 
-XlsxWriter is designed only as a file *writer*. It cannot read or modify
-an existing Excel file.
+XlsxWriter is designed only as a file *writer*. It cannot read or modify an
+existing Excel file.
 
 
 Q. Why do my formulas show a zero result in some, non-Excel applications?
@@ -47,9 +47,6 @@ Q. Is feature X supported or will it be supported?
 --------------------------------------------------
 
 All supported features are documented.
-
-Future features will match features that are available in Excel::Writer::XLSX.
-Check the feature matrix in the :ref:`ewx` section.
 
 
 Q. Is there an "AutoFit" option for columns?

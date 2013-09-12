@@ -4,9 +4,8 @@ Working with Formats
 ====================
 
 The methods and properties used to add formatting to a cell are shown in
-:ref:`format`.
-
-This section provides some additional information about working with formats.
+:ref:`format`. This section provides some additional information about working
+with formats.
 
 
 Creating and using a Format object
@@ -28,7 +27,7 @@ can be passed as an argument to the worksheet ``write`` methods as follows::
     worksheet.write_blank (3, 0, '',    format)
 
 Formats can also be passed to the worksheet ``set_row()`` and ``set_column()``
-methods to define the default property for a row or column::
+methods to define the default formatting properties for a row or column::
 
     worksheet.set_row(0, 18, format)
     worksheet.set_column('A:D', 20, format)
@@ -123,10 +122,9 @@ to the `add_format()` constructor::
 
     format = workbook.add_format({'bold': True, 'font_color': 'red'})
 
-The object method interface is mainly provided for backward compatibility with
-:ref:`Excel::Writer::XLSX <ewx>`. The key/value interface has proved to be
-more flexible in real world programs and is the recommended method for setting
-format properties.
+The object method interface is mainly provided for backward compatibility. The
+key/value interface has proved to be more flexible in real world programs and
+is the recommended method for setting format properties.
 
 Format Colors
 -------------
@@ -146,20 +144,20 @@ Format Defaults
 The default Excel 2007+ cell format is Calibri 11 with all other properties off.
 
 In general a format method call without an argument will turn a property on,
-for example:: 
+for example::
 
-    format1 = workbook.add_format() 
-    
+    format1 = workbook.add_format()
+
     format1.set_bold()   # Turns bold on.
     format1.set_bold(1)  # Also turns bold on.
 
 
 Since most properties are already off by default it isn't generally required to
 turn them off. However, it is possible if required::
-    
+
     format1.set_bold(0); # Turns bold off.
 
-    
+
 Modifying Formats
 -----------------
 
@@ -172,7 +170,7 @@ following example::
     format = workbook.add_format({'bold': True, 'font_color': 'red'})
     worksheet.write('A1', 'Cell A1', format)
 
-    # Later...        
+    # Later...
     format.set_font_color('green')
     worksheet.write('B1', 'Cell B1', format)
 

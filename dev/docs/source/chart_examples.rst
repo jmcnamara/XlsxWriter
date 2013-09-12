@@ -9,7 +9,7 @@ directory of the XlsxWriter distribution.
 
 .. toctree::
    :maxdepth: 1
- 
+
    example_chart_simple.rst
    example_chart_area.rst
    example_chart_bar.rst
@@ -22,4 +22,4 @@ directory of the XlsxWriter distribution.
    example_chart_secondary_axis.rst
    example_chart_data_table.rst
    example_chart_data_tools.rst
- 
+

@@ -5,7 +5,7 @@ Example: Hiding Rows and Columns
 
 This program is an example of how to hide rows and columns in XlsxWriter.
 
-An individual row can be hidden using the :func:`set_row` method:: 
+An individual row can be hidden using the :func:`set_row` method::
 
     worksheet.set_row(0, None, None, {'hidden': True})
 

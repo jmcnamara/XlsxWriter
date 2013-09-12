@@ -7,7 +7,7 @@ directory of the XlsxWriter distribution.
 
 .. toctree::
    :maxdepth: 1
- 
+
    example_hello_world.rst
    example_demo.rst
    example_datetimes.rst
@@ -36,4 +36,4 @@ directory of the XlsxWriter distribution.
    example_protection.rst
    example_hide_sheet.rst
    example_hide_row_col.rst
- 
+

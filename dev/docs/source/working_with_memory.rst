@@ -1,24 +1,13 @@
-.. _memory_perf: 
+.. _memory_perf:
 
 Working with Memory and Performance
 ===================================
 
-The Python XlsxWriter module is based on the design of the Perl module
-:ref:`Excel::Writer::XLSX <ewx>` which in turn is based on an older Perl
-module called
-`Spreadsheet::WriteExcel <http://search.cpan.org/~jmcnamara/Spreadsheet-WriteExcel/>`_.
+By default XlsxWriter holds all cell data in memory. This is to allow future
+features when formatting is applied separately from the data.
 
-Spreadsheet::WriteExcel was written to optimise speed and reduce memory usage.
-However, these design goals meant that it wasn't easy to implement features
-that many users requested such as writing formatting and data separately.
-
-As a result XlsxWriter (and Excel::Writer::XLSX) takes a different design
-approach and holds a lot more data in memory so that it is functionally more
-flexible.
-
-The effect of this is that XlsxWriter can consume a lot of memory. In addition
-the extended row and column ranges in Excel 2007+ mean that it is possible to
-run out of memory creating large files.
+The effect of this is that XlsxWriter can consume a lot of memory and it is
+possible to run out of memory when creating large files.
 
 Fortunately, this memory usage can be reduced almost completely by using the
 :func:`Workbook` ``'constant_memory'`` property::

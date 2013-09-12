@@ -1,14 +1,13 @@
-.. _outlines: 
+.. _outlines:
 
 Working with Outlines and Grouping
 ==================================
 
-Excel allows you to group rows or columns so that they can be hidden
-or displayed with a single mouse click. This feature is referred to as
-outlines and grouping.
+Excel allows you to group rows or columns so that they can be hidden or
+displayed with a single mouse click. This feature is referred to as outlines
+and grouping.
 
-Outlines can reduce complex data down to a few salient sub-totals or
-summaries.
+Outlines can reduce complex data down to a few salient sub-totals or summaries.
 
 For example the following is a worksheet with three outlines. Rows 2-11 are
 grouped at level 1 and rows 2-5 and 7-10 are grouped at level 2. The lines at
@@ -23,7 +22,7 @@ that the data in the outline is hidden.
 
 .. image:: _images/outline5.png
 
-This shows the usefulness of outlines: with 2 mouse clicks we have reduce the
+This shows the usefulness of outlines: with 2 mouse clicks we have reduced the
 amount of visual data down to 2 sub-totals and a master total.
 
 Clicking on the minus sign on the level 1 outline will collapse the remaining
@@ -67,8 +66,8 @@ The following example sets an outline level of 1 for rows 1 and 2
 
 .. image:: _images/outline3.png
 
-Excel allows up to 7 outline levels. Therefore the ``level``
-parameter should be in the range ``0 <= level <= 7``.
+Excel allows up to 7 outline levels. Therefore the ``level`` parameter should
+be in the range ``0 <= level <= 7``.
 
 .. image:: _images/outline4.png
 
@@ -90,6 +89,6 @@ the collapsed ``'+'`` symbol::
 
 For a more complete examples see :ref:`ex_outline1` and :ref:`ex_outline2`.
 
-Some additional outline properties can be set via the
-:func:`outline_settings` worksheet method.
+Some additional outline properties can be set via the :func:`outline_settings`
+worksheet method.
 

@@ -48,11 +48,11 @@ are displayed according to their value.
 Excel treats the the two types of axis differently and exposes different
 properties for each.
 
-As such some of ``XlsxWriter`` axis properties can be set for a value axis,
+As such some of the ``XlsxWriter`` axis properties can be set for a value axis,
 some can be set for a category axis and some properties can be set for both.
 
-For example the ``min`` and ``max`` properties can only be set for value axes
-and ``reverse`` can be set for either category or value axes.
+For example ``reverse`` can be set for either category or value axes while the
+``min`` and ``max`` properties can only be set for value axes.
 
 Some charts such as ``Scatter`` and ``Stock`` have two value axes.
 
@@ -751,7 +751,8 @@ The following explains the available font properties:
 
     chart.set_x_axis({'num_font':  {'rotation': 45}})
 
-  This is useful for displaying axis data such as dates in a more compact format.
+  This is useful for displaying axis data such as dates in a more compact
+  format.
 
 * ``color``: Set the font color property. Can be a color index, a color name
   or HTML style RGB colour::

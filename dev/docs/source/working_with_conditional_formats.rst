@@ -13,7 +13,7 @@ For example the following rules are used to highlight cells in the
                                             'criteria': '>=',
                                             'value':    50,
                                             'format':   format1})
-    
+
     worksheet.conditional_format('B3:K12', {'type':     'cell',
                                             'criteria': '<',
                                             'value':    50,
@@ -90,96 +90,95 @@ The ``type`` option is a required parameter and it has no
 default value. Allowable ``type`` values and their associated
 parameters are:
 
-
- +----------------+----------------+
- |  Type          | Parameters     |
- +================+================+
- |  cell          | criteria       |
- +----------------+----------------+
- |                | value          |
- +----------------+----------------+
- |                | minimum        |
- +----------------+----------------+
- |                | maximum        |
- +----------------+----------------+
- |  date          | criteria       |
- +----------------+----------------+
- |                | value          |
- +----------------+----------------+
- |                | minimum        |
- +----------------+----------------+
- |                | maximum        |
- +----------------+----------------+
- |  time_period   | criteria       |
- +----------------+----------------+
- |  text          | criteria       |
- +----------------+----------------+
- |                | value          |
- +----------------+----------------+
- |  average       | criteria       |
- +----------------+----------------+
- |  duplicate     | (none)         |
- +----------------+----------------+
- |  unique        | (none)         |
- +----------------+----------------+
- |  top           | criteria       |
- +----------------+----------------+
- |                | value          |
- +----------------+----------------+
- |  bottom        | criteria       |
- +----------------+----------------+
- |                | value          |
- +----------------+----------------+
- |  blanks        | (none)         |
- +----------------+----------------+
- |  no_blanks     | (none)         |
- +----------------+----------------+
- |  errors        | (none)         |
- +----------------+----------------+
- |  no_errors     | (none)         |
- +----------------+----------------+
- |  2_color_scale | min_type       |
- +----------------+----------------+
- |                | max_type       |
- +----------------+----------------+
- |                | min_value      |
- +----------------+----------------+
- |                | max_value      |
- +----------------+----------------+
- |                | min_color      |
- +----------------+----------------+
- |                | max_color      |
- +----------------+----------------+
- |  3_color_scale | min_type       |
- +----------------+----------------+
- |                | mid_type       |
- +----------------+----------------+
- |                | max_type       |
- +----------------+----------------+
- |                | min_value      |
- +----------------+----------------+
- |                | mid_value      |
- +----------------+----------------+
- |                | max_value      |
- +----------------+----------------+
- |                | min_color      |
- +----------------+----------------+
- |                | mid_color      |
- +----------------+----------------+
- |                | max_color      |
- +----------------+----------------+
- |  data_bar      | min_type       |
- +----------------+----------------+
- |                | max_type       |
- +----------------+----------------+
- |                | min_value      |
- +----------------+----------------+
- |                | max_value      |
- +----------------+----------------+
- |                | bar_color      |
- +----------------+----------------+
- |  formula       | criteria       |
- +----------------+----------------+
++---------------+------------+
+| Type          | Parameters |
++===============+============+
+| cell          | criteria   |
++---------------+------------+
+|               | value      |
++---------------+------------+
+|               | minimum    |
++---------------+------------+
+|               | maximum    |
++---------------+------------+
+| date          | criteria   |
++---------------+------------+
+|               | value      |
++---------------+------------+
+|               | minimum    |
++---------------+------------+
+|               | maximum    |
++---------------+------------+
+| time_period   | criteria   |
++---------------+------------+
+| text          | criteria   |
++---------------+------------+
+|               | value      |
++---------------+------------+
+| average       | criteria   |
++---------------+------------+
+| duplicate     | (none)     |
++---------------+------------+
+| unique        | (none)     |
++---------------+------------+
+| top           | criteria   |
++---------------+------------+
+|               | value      |
++---------------+------------+
+| bottom        | criteria   |
++---------------+------------+
+|               | value      |
++---------------+------------+
+| blanks        | (none)     |
++---------------+------------+
+| no_blanks     | (none)     |
++---------------+------------+
+| errors        | (none)     |
++---------------+------------+
+| no_errors     | (none)     |
++---------------+------------+
+| 2_color_scale | min_type   |
++---------------+------------+
+|               | max_type   |
++---------------+------------+
+|               | min_value  |
++---------------+------------+
+|               | max_value  |
++---------------+------------+
+|               | min_color  |
++---------------+------------+
+|               | max_color  |
++---------------+------------+
+| 3_color_scale | min_type   |
++---------------+------------+
+|               | mid_type   |
++---------------+------------+
+|               | max_type   |
++---------------+------------+
+|               | min_value  |
++---------------+------------+
+|               | mid_value  |
++---------------+------------+
+|               | max_value  |
++---------------+------------+
+|               | min_color  |
++---------------+------------+
+|               | mid_color  |
++---------------+------------+
+|               | max_color  |
++---------------+------------+
+| data_bar      | min_type   |
++---------------+------------+
+|               | max_type   |
++---------------+------------+
+|               | min_value  |
++---------------+------------+
+|               | max_value  |
++---------------+------------+
+|               | bar_color  |
++---------------+------------+
+| formula       | criteria   |
++---------------+------------+
 
 
 All conditional formatting types have an associated :ref:`Format <format>`
@@ -206,7 +205,7 @@ Or, using a range and the ``between`` criteria::
                                            'minimum':  20,
                                            'maximum':  30,
                                            'format':   green_format})
-                                  
+
 Other types are shown below, after the other main options.
 
 
@@ -217,28 +216,27 @@ The ``criteria`` parameter is used to set the criteria by which the
 cell data will be evaluated. It has no default value. The most common
 criteria as applied to ``{'type': 'cell'}`` are:
 
-+------------------------------+--------+--------+
-| ``between``                  |        |        |
-+------------------------------+--------+--------+
-| ``not between``              |        |        |
-+------------------------------+--------+--------+
-| ``equal to``                 | ``==`` | ``=``  |
-+------------------------------+--------+--------+
-| ``not equal to``             | ``!=`` | ``<>`` |
-+------------------------------+--------+--------+
-| ``greater than``             | ``>``  |        |
-+------------------------------+--------+--------+
-| ``less than``                | ``<``  |        |
-+------------------------------+--------+--------+
-| ``greater than or equal to`` | ``>=`` |        |
-+------------------------------+--------+--------+
-| ``less than or equal to``    | ``<=`` |        |
-+------------------------------+--------+--------+
++------------------------------+--------+
+| ``between``                  |        |
++------------------------------+--------+
+| ``not between``              |        |
++------------------------------+--------+
+| ``equal to``                 | ``==`` |
++------------------------------+--------+
+| ``not equal to``             | ``!=`` |
++------------------------------+--------+
+| ``greater than``             | ``>``  |
++------------------------------+--------+
+| ``less than``                | ``<``  |
++------------------------------+--------+
+| ``greater than or equal to`` | ``>=`` |
++------------------------------+--------+
+| ``less than or equal to``    | ``<=`` |
++------------------------------+--------+
 
 
 You can either use Excel's textual description strings, in the first
-column above, or the more common symbolic alternatives shown in the other
-columns.
+column above, or the more common symbolic alternatives.
 
 Additional criteria which are specific to other conditional format
 types are shown in the relevant sections below.
@@ -273,17 +271,25 @@ met. The format is created using the :func:`add_format()` method in the
 same way as cell formats::
 
     format1 = workbook.add_format({'bold': 1, 'italic': 1})
-    
+
     worksheet.conditional_format('A1', {'type':     'cell',
                                         'criteria': '>',
                                         'value':    5,
                                         'format':   format1})
 
-.. Note:: 
+.. Note::
+
    In Excel, a conditional format is superimposed over the existing cell
-   format and not all cell format properties can be modified.
-   Properties that cannot be modified are font name, font size,
+   format and not all cell format properties can be modified. Properties that
+   cannot be modified in a conditional format are font name, font size,
    superscript and subscript and diagonal borders.
+
+
+
+
+
+
+
 
 Excel specifies some default formats to be used with conditional
 formatting. These can be replicated using the following XlsxWriter

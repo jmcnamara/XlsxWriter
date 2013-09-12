@@ -63,9 +63,9 @@ format.set_font_color()
 Set the font colour::
 
     format = workbook.add_format()
-    
+
     format.set_font_color('red')
-    
+
     worksheet.write(0, 0, 'wheelbarrow', format)
 
 The color can be a Html style ``#RRGGBB`` string or a limited number of named
@@ -106,7 +106,7 @@ format.set_underline()
 .. py:function:: set_underline()
 
    Turn on underline for the format.
-   
+
    :param int style: Underline style.
 
 Set the underline property of the format::
@@ -147,7 +147,7 @@ format.set_num_format()
 .. py:function:: set_num_format(format_string)
 
    Set the number format for a cell.
-   
+
    :param string format_string: The cell number format.
 
 This method is used to define the numerical format of a number in Excel. It
@@ -159,7 +159,7 @@ index to one of Excel's built-in formats::
 
     format1 = workbook.add_format()
     format2 = workbook.add_format()
-    
+
     format1.set_num_format('d mmm yyyy')  # Format string.
     format2.set_num_format(0x0F)          # Format index.
 
@@ -295,10 +295,15 @@ Excel's built-in formats are shown in the following table:
 +-------+-------+--------------------------------------------------------+
 
 .. note::
-   Numeric formats 23 to 36 are not documented by Microsoft and
-   may differ in international versions.
+
+   Numeric formats 23 to 36 are not documented by Microsoft and may differ
+   in international versions. The listed date and currency formats may also
+   vary depending on system settings.
+
 .. note::
-   The dollar sign appears as the defined local currency symbol.
+
+   The dollar sign in the above format appears as the defined local currency
+   symbol.
 
 
 format.set_locked()
@@ -307,7 +312,7 @@ format.set_locked()
 .. py:function:: set_locked(state)
 
    Set the cell locked state.
-   
+
    :param bool state: Turn cell locking on or off. Defaults to True.
 
 This property can be used to prevent modification of a cells contents.
@@ -337,7 +342,7 @@ format.set_hidden()
 .. py:function:: set_hidden()
 
    Hide formulas in a cell.
-  
+
 
 This property is used to hide a formula while still displaying its result. This
 is generally used to hide complex calculations from end users who are only
@@ -398,10 +403,10 @@ The following are the available vertical alignments:
 As in Excel, vertical and horizontal alignments can be combined::
 
     format = workbook.add_format()
-    
+
     format.set_align('center')
     format.set_align('vcenter')
-    
+
     worksheet.set_row(0, 30)
     worksheet.write(0, 0, 'Some Text', format)
 
@@ -570,7 +575,7 @@ Here is an example of how to set up a solid fill in a cell::
 
     format.set_pattern(1)  # This is optional when using a solid fill.
     format.set_bg_color('green')
-    
+
     worksheet.write('A1', 'Ray', format)
 
 .. image:: _images/formats_set_bg_color.png
@@ -601,7 +606,7 @@ format.set_border()
 -------------------
 
 .. py:function:: set_border(style)
-   
+
    Set the cell border style.
 
    :param int style: Border style index. Default is 1.
@@ -677,7 +682,7 @@ format.set_bottom()
 -------------------
 
 .. py:function:: set_bottom(style)
-   
+
    Set the cell bottom border style.
 
    :param int style: Border style index. Default is 1.
@@ -690,7 +695,7 @@ format.set_top()
 ----------------
 
 .. py:function:: set_top(style)
-   
+
    Set the cell top border style.
 
    :param int style: Border style index. Default is 1.
@@ -703,7 +708,7 @@ format.set_left()
 -----------------
 
 .. py:function:: set_left(style)
-   
+
    Set the cell left border style.
 
    :param int style: Border style index. Default is 1.
@@ -716,7 +721,7 @@ format.set_right()
 ------------------
 
 .. py:function:: set_right(style)
-   
+
    Set the cell right border style.
 
    :param int style: Border style index. Default is 1.
@@ -733,7 +738,7 @@ format.set_border_color()
    Set the color of the cell border.
 
    :param string color: The cell border color.
-   
+
 Individual border elements can be configured using the following methods with
 the same parameters:
 

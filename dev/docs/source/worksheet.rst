@@ -98,6 +98,16 @@ This creates a worksheet like the following:
 
 .. image:: _images/worksheet01.png
 
+.. note::
+
+   The :func:`Workbook` constructor option takes three optional arguments
+   that can be used to override string handling in the ``write()`` function.
+   These options are shown below with their default values::
+
+       xlsxwriter.Workbook(filename, {'strings_to_numbers':  False,
+                                      'strings_to_formulas': True,
+                                      'strings_to_urls':     True})
+
 The ``write()`` method supports two forms of notation to designate the position
 of cells: **Row-column** notation and **A1** notation::
 
@@ -114,16 +124,6 @@ be a valid :ref:`Format <format>` object::
     cell_format = workbook.add_format({'bold': True, 'italic': True})
 
     worksheet.write(0, 0, 'Hello', cell_format)  # Cell is bold and italic.
-
-.. note::
-
-   The :func:`Workbook` constructor option takes three optional arguments
-   that can be used to override string handling in the ``write()`` function.
-   These options are shown below with their default values::
-
-       xlsxwriter.Workbook(filename, {'strings_to_numbers':  False,
-                                      'strings_to_formulas': True,
-                                      'strings_to_urls':     True})
 
 worksheet.write_string()
 ------------------------
@@ -171,8 +171,9 @@ The maximum string size supported by Excel is 32,767 characters. Strings longer
 than this will be truncated by ``write_string()``.
 
 .. note::
-   Even though Excel allows strings of 32,767 characters in a cell, Excel
-   can only **display** 1000. All 32,767 characters are displayed in the
+
+   Even though Excel allows strings of 32,767 characters it can only
+   **display** 1000 in a cell. However, all 32,767 characters are displayed in the
    formula bar.
 
 
@@ -192,11 +193,22 @@ worksheet.write_number()
    :type  number:      int or float
    :type  cell_format: :ref:`Format <format>`
 
-The ``write_number()`` method writes an integer or a float to the cell
-specified by ``row`` and ``column``::
+The ``write_number()`` method writes numeric types to the cell specified by
+``row`` and ``column``::
 
     worksheet.write_number(0, 0, 123456)
     worksheet.write_number('A2', 2.3451)
+
+The numeric types supported are ``float``, ``int``, ``long``,
+:class:`decimal.Decimal` and :class:`fractions.Fraction` or anything that can
+be converted via ``float()``.
+
+When written to an Excel file numbers are converted to IEEE-754 64-bit
+double-precision floating point. This means that, in most cases, the maximum
+number of digits that can be stored in Excel without losing precision is 15.
+
+.. note::
+   NAN and INF are not supported and will raise a TypeError exception.
 
 Both row-column and A1 style notation are supported. See :ref:`cell_notation`
 for more details.
@@ -204,13 +216,6 @@ for more details.
 The ``cell_format`` parameter is used to apply formatting to the cell. This
 parameter is optional but when present is should be a valid
 :ref:`Format <format>` object.
-
-Excel handles numbers as IEEE-754 64-bit double-precision floating point. This
-means that, in most cases, the maximum number of digits that can be stored in
-Excel without losing precision is 15.
-
-.. note::
-   NAN and INF are not supported and will raise a TypeError exception.
 
 
 worksheet.write_formula()
@@ -267,11 +272,6 @@ formula. The calculated ``value`` is added at the end of the argument list::
 
     worksheet.write('A1', '=2+2', num_format, 4)
 
-.. note::
-   Some early versions of Excel 2007 do not display the calculated values of
-   formulas written by XlsxWriter. Applying all available Office Service
-   Packs should fix this.
-
 
 worksheet.write_array_formula()
 -------------------------------
@@ -299,7 +299,15 @@ Excel an array formula is a formula that performs a calculation on a set of
 values. It can return a single value or a range of values.
 
 An array formula is indicated by a pair of braces around the formula:
-``{=SUM(A1:B1*A2:B2)}``. If the array formula returns a single value then the ``first_`` and ``last_`` parameters should be the same::
+``{=SUM(A1:B1*A2:B2)}``.
+
+For array formulas that return a range of values you must specify the range
+that the return values will be written to::
+
+    worksheet.write_array_formula('A1:A3',    '{=TREND(C1:C3,B1:B3)}')
+    worksheet.write_array_formula(0, 0, 2, 0, '{=TREND(C1:C3,B1:B3)}')
+
+If the array formula returns a single value then the ``first_`` and ``last_`` parameters should be the same::
 
     worksheet.write_array_formula('A1:A1', '{=SUM(B1:C1*B2:C2)}')
 
@@ -309,12 +317,6 @@ It this case however it is easier to just use the ``write_formula()`` or
     # Same as above but more concise.
     worksheet.write('A1', '{=SUM(B1:C1*B2:C2)}')
     worksheet.write_formula('A1', '{=SUM(B1:C1*B2:C2)}')
-
-For array formulas that return a range of values you must specify the range
-that the return values will be written to::
-
-    worksheet.write_array_formula('A1:A3',    '{=TREND(C1:C3,B1:B3)}')
-    worksheet.write_array_formula(0, 0, 2, 0, '{=TREND(C1:C3,B1:B3)}')
 
 As shown above, both row-column and A1 style notation are supported. See
 :ref:`cell_notation` for more details.
@@ -330,11 +332,8 @@ applications that don't calculate the value of the formula. The calculated
 
     worksheet.write_array_formula('A1:A3', '{=TREND(C1:C3,B1:B3)}', format, 105)
 
-In addition, some early versions of Excel 2007 don't calculate the values of
-array formulas when they aren't supplied. Installing the latest Office Service
-Pack should fix this issue.
-
 See also :ref:`ex_array_formula`.
+
 
 worksheet.write_blank()
 -----------------------
@@ -359,9 +358,9 @@ This method is used to add formatting to a cell which doesn't contain a string
 or number value.
 
 Excel differentiates between an "Empty" cell and a "Blank" cell. An "Empty"
-cell is a cell which doesn't contain data whilst a "Blank" cell is a cell
-which doesn't contain data but does contain formatting. Excel stores "Blank"
-cells but ignores "Empty" cells.
+cell is a cell which doesn't contain data or formatting whilst a "Blank" cell
+doesn't contain data but does contain formatting. Excel stores "Blank" cells
+but ignores "Empty" cells.
 
 As such, if you write an empty cell without formatting it is ignored::
 
@@ -751,7 +750,7 @@ If you wish to set the format of a row without changing the height you can pass
 ``None`` as the height parameter or use the default row height of 15::
 
     worksheet.set_row(1, None, cell_format)
-    worksheet.set_row(1, 15,   cell_format)  # Same as this.
+    worksheet.set_row(1, 15,   cell_format)  # Same as above.
 
 The ``cell_format`` parameter will be applied to any cells in the row that
 don't have a format. As with Excel it is overidden by an explicit cell format.
@@ -1794,21 +1793,21 @@ dictionary in the ``options`` argument with any or all of the following keys::
 
     # Default values shown.
     options = {
-        'objects':               0,
-        'scenarios':             0,
-        'format_cells':          0,
-        'format_columns':        0,
-        'format_rows':           0,
-        'insert_columns':        0,
-        'insert_rows':           0,
-        'insert_hyperlinks':     0,
-        'delete_columns':        0,
-        'delete_rows':           0,
-        'select_locked_cells':   1,
-        'sort':                  0,
-        'autofilter':            0,
-        'pivot_tables':          0,
-        'select_unlocked_cells': 1,
+        'objects':               False,
+        'scenarios':             False,
+        'format_cells':          False,
+        'format_columns':        False,
+        'format_rows':           False,
+        'insert_columns':        False,
+        'insert_rows':           False,
+        'insert_hyperlinks':     False,
+        'delete_columns':        False,
+        'delete_rows':           False,
+        'select_locked_cells':   True,
+        'sort':                  False,
+        'autofilter':            False,
+        'pivot_tables':          False,
+        'select_unlocked_cells': True,
     }
 
 The default boolean values are shown above. Individual elements can be

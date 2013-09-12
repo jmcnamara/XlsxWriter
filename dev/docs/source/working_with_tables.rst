@@ -1,4 +1,4 @@
-.. _tables: 
+.. _tables:
 
 Working with Worksheet Tables
 =============================
@@ -14,7 +14,7 @@ For more information see
 `An Overview of Excel Tables <http://office.microsoft.com/en-us/excel-help/overview-of-excel-tables-HA010048546.aspx>`_
 in the Microsoft Office documentation.
 
-.. Note:: 
+.. Note::
 
    Tables aren't available in XlsxWriter when :func:`Workbook`
    ``'constant_memory'`` mode is enabled.
@@ -83,7 +83,7 @@ table::
 
     ]
 
-    worksheet.add_table('B3:F7', {data, data})
+    worksheet.add_table('B3:F7', {'data' data})
 
 .. image:: _images/tables2.png
 
@@ -92,7 +92,7 @@ Table data can also be written separately, as an array or individual cells::
     # These statements are the same as the single statement above.
     worksheet.add_table('B3:F7')
     worksheet.write_row('B4', data[0])
-    worksheet.write_row('B5', data[1]) 
+    worksheet.write_row('B5', data[1])
     worksheet.write_row('B6', data[2])
     worksheet.write_row('B7', data[3])
 
@@ -139,8 +139,8 @@ within the table are not supported.
 banded_rows
 -----------
 
-The ``banded_rows`` parameter can be used to used to create rows of alternating
-colour in the table. It is on by default::
+The ``banded_rows`` parameter can be used to create rows of alternating colour
+in the table. It is on by default::
 
     # Turn off banded rows.
     worksheet.add_table('B3:F7', {'banded_rows': False})
@@ -280,7 +280,7 @@ hash ref and the defaults will be applied::
 Column formulas can by applied using the column ``formula`` property::
 
     formula = '=SUM(Table8[@[Quarter 1]:[Quarter 4]])'
-    
+
     worksheet.add_table('B3:G7', {'data': data,
                                   'columns': [{'header': 'Product'},
                                               {'header': 'Quarter 1'},
@@ -293,8 +293,8 @@ Column formulas can by applied using the column ``formula`` property::
 
 .. image:: _images/tables8.png
 
-The Excel 2007 ``[#This Row]`` and Excel 2010 ``@`` structural references are
-supported within the formula.
+The Excel 2007 style ``[#This Row]`` and Excel 2010 style ``@`` structural
+references are supported within the formula.
 
 As stated above the ``total_row`` table parameter turns on the "Total" row in
 the table but it doesn't populate it with any defaults. Total captions and
@@ -313,7 +313,7 @@ functions must be specified via the ``columns`` property and the
                             'total_function': 'sum'
                             },
                            ]}
-    
+
     # Add a table to the worksheet.
     worksheet.add_table('B3:G8', options)
 

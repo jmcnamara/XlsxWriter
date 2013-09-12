@@ -1,4 +1,4 @@
-.. _cell_notation: 
+.. _cell_notation:
 
 Working with Cell Notation
 ==========================
@@ -30,7 +30,7 @@ formulas::
 
 In general when using the XlsxWriter module you can use A1 notation anywhere
 you can use row-column notation::
-   
+
     # These are equivalent.
     worksheet.write(0, 7, 200)
     worksheet.write('H1', 200)
@@ -39,11 +39,11 @@ you can use row-column notation::
 The ``XlsxWriter`` ``utility`` contains several helper functions for dealing
 with A1 notation, for example::
 
-    from utility import xl_cell_to_rowcol, import xl_rowcol_to_cell 
+    from utility import xl_cell_to_rowcol, import xl_rowcol_to_cell
 
     (row, col) = xl_cell_to_rowcol('C2')  # -> (1, 2)
     string     = xl_rowcol_to_cell(1, 2)  # -> C2
 
-.. note:: 
+.. note::
    In Excel it is also possible to use R1C1 notation. This is not
    supported by XlsxWriter.

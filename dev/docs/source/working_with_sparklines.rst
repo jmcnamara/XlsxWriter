@@ -1,4 +1,4 @@
-.. _sparklines: 
+.. _sparklines:
 
 Working with Sparklines
 =======================
@@ -88,7 +88,7 @@ Other, less commonly used parameters are:
 
 These parameters are explained in the sections below.
 
-.. Note:: 
+.. Note::
    Sparklines are a feature of Excel 2010+ only. You can write them to an
    XLSX file that can be read by Excel 2007 but they won't be displayed.
 
@@ -114,7 +114,7 @@ If the worksheet contains spaces or special characters you should quote the
 worksheet name in the same way that Excel does::
 
     worksheet.add_sparkline('F1', {'range': "'Monthly Data'!A1:E1"})
-    
+
 
 type
 ----
@@ -198,12 +198,7 @@ Adjust the default line weight (thickness) for ``line`` style sparklines::
 
 The weight value should be one of the following values allowed by Excel::
 
-    0.25 0.5 0.75
-    1 1.25
-    2.25
-    3
-    4.25
-    6
+    0.25, 0.5, 0.75, 1, 1.25, 2.25, 3, 4.25, 6
 
 high_point, low_point, first_point, last_point
 ----------------------------------------------
