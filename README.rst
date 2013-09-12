@@ -38,6 +38,8 @@ including:
 It supports Python 2.5, 2.6, 2.7, 3.1, 3.2, 3.3, Jython and PyPy and uses
 standard libraries only.
 
+Here is a simple example:
+
 .. code-block:: python
 
    import xlsxwriter
