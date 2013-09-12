@@ -1,4 +1,10 @@
 
+Release 0.4.3 - September 12 2013
+---------------------------------
+
+* Fix for comments overlying columns with non-default width. Issue #45.
+
+
 Release 0.4.2 - August 30 2013
 ------------------------------
 
