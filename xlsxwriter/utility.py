@@ -11,9 +11,18 @@ COL_NAMES = {}
 range_parts = re.compile(r'(\$?)([A-Z]{1,3})(\$?)(\d+)')
 
 
-def xl_rowcol_to_cell(row, col, row_abs=0, col_abs=0):
+def xl_rowcol_to_cell(row, col, row_abs=False, col_abs=False):
     """
-    TODO. Add Utility.py docs.
+    Convert a zero indexed row and column cell reference to a A1 style string.
+
+    Args:
+       row:     The cell row. Int.
+       col:     The cell column. Int.
+       row_abs: Optional flag to make the row absolute. Bool.
+       col_abs: Optional flag to make the column absolute.  Bool.
+
+    Returns:
+        A1 style string.
 
     """
     row += 1  # Change to 1-index.
@@ -27,7 +36,14 @@ def xl_rowcol_to_cell(row, col, row_abs=0, col_abs=0):
 
 def xl_rowcol_to_cell_fast(row, col):
     """
-    Optimised version of the xl_rowcol_to_cell function.
+    Optimised version of the xl_rowcol_to_cell function. Only used internally.
+
+    Args:
+       row: The cell row. Int.
+       col: The cell column. Int.
+
+    Returns:
+        A1 style string.
 
     """
     if col in COL_NAMES:
@@ -39,9 +55,16 @@ def xl_rowcol_to_cell_fast(row, col):
     return col_str + str(row + 1)
 
 
-def xl_col_to_name(col_num, col_abs=0):
+def xl_col_to_name(col_num, col_abs=False):
     """
-    TODO. Add Utility.py docs.
+    Convert a zero indexed column cell reference to a string.
+
+    Args:
+       col:     The cell column. Int.
+       col_abs: Optional flag to make the column absolute.  Bool.
+
+    Returns:
+        Column style string.
 
     """
     col_num += 1  # Change to 1-index.
@@ -100,7 +123,7 @@ def xl_cell_to_rowcol_abs(cell_str):
 
     """
     if not cell_str:
-        return (0, 0, 0, 0)
+        return (0, 0, False, False)
 
     match = range_parts.match(cell_str)
 
@@ -110,14 +133,14 @@ def xl_cell_to_rowcol_abs(cell_str):
     row_str = match.group(4)
 
     if col_abs:
-        col_abs = 1
+        col_abs = True
     else:
-        col_abs = 0
+        col_abs = False
 
     if row_abs:
-        row_abs = 1
+        row_abs = True
     else:
-        row_abs = 0
+        row_abs = False
 
     # Convert base26 column string to number.
     expn = 0

@@ -307,7 +307,8 @@ that the return values will be written to::
     worksheet.write_array_formula('A1:A3',    '{=TREND(C1:C3,B1:B3)}')
     worksheet.write_array_formula(0, 0, 2, 0, '{=TREND(C1:C3,B1:B3)}')
 
-If the array formula returns a single value then the ``first_`` and ``last_`` parameters should be the same::
+If the array formula returns a single value then the ``first_`` and ``last_``
+parameters should be the same::
 
     worksheet.write_array_formula('A1:A1', '{=SUM(B1:C1*B2:C2)}')
 
