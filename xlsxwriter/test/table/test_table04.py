@@ -28,6 +28,7 @@ class TestAssembleTable(unittest.TestCase):
         worksheet.str_table = SharedStringTable()
 
         worksheet.add_table('C3:F13', {'autofilter': False})
+        worksheet._prepare_tables(1)
 
         fh = StringIO()
         table = Table()

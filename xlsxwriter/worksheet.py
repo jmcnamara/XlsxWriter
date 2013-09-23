@@ -2151,10 +2151,6 @@ class Worksheet(xmlwriter.XMLwriter):
                 warn("Unknown parameter '%s' in add_table()" % param_key)
                 return -3
 
-        # Table count is a member of Workbook, global to all Worksheet.
-        self.worksheet_meta.table_count += 1
-        table['id'] = self.worksheet_meta.table_count
-
         # Turn on Excel's defaults.
         options['banded_rows'] = options.get('banded_rows', True)
         options['header_row'] = options.get('header_row', True)
@@ -2171,9 +2167,6 @@ class Worksheet(xmlwriter.XMLwriter):
         # Set the table name.
         if 'name' in options:
             table['name'] = options['name']
-        else:
-            # Set a default name.
-            table['name'] = 'Table' + str(table['id'])
 
         # Set the table style.
         if 'style' in options:
@@ -2324,12 +2317,6 @@ class Worksheet(xmlwriter.XMLwriter):
 
         # Store the table data.
         self.tables.append(table)
-
-        # Store the link used for the rels file.
-        self.external_table_links.append(['/table',
-                                          '../tables/table'
-                                          + str(table['id'])
-                                          + '.xml'])
 
         return table
 
@@ -4011,6 +3998,22 @@ class Worksheet(xmlwriter.XMLwriter):
         self.vml_shape_id = vml_shape_id
 
         return count
+
+    def _prepare_tables(self, table_id):
+        # Set the table ids for the worksheet tables.
+        for table in self.tables:
+            table['id'] = table_id
+
+            if table.get('name') is None:
+                # Set a default name.
+                table['name'] = 'Table' + str(table_id)
+
+            # Store the link used for the rels file.
+            self.external_table_links.append(['/table',
+                                              '../tables/table'
+                                              + str(table_id)
+                                              + '.xml'])
+            table_id += 1
 
     def _is_supported_datetime(self, dt):
         # Determine is an argument is a supported datetime object.

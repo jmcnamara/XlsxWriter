@@ -39,6 +39,7 @@ class TestAssembleTable(unittest.TestCase):
                                                     'format': dxf_format,
                                                     'formula': 'SUM(Table1[[#This Row],[Column1]:[Column3]])'},
                                                    ]})
+        worksheet._prepare_tables(1)
 
         fh = StringIO()
         table = Table()

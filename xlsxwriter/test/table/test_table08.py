@@ -34,6 +34,7 @@ class TestAssembleTable(unittest.TestCase):
                                                    {},
                                                    {'total_function': 'count'}
                                                    ]})
+        worksheet._prepare_tables(1)
 
         fh = StringIO()
         table = Table()

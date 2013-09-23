@@ -391,6 +391,9 @@ class Workbook(xmlwriter.XMLwriter):
         # Add cached data to charts.
         self._add_chart_data()
 
+        # Prepare the worksheet tables.
+        self._prepare_tables()
+
         # Package the workbook.
         packager._add_workbook(self)
         packager._set_package_dir(temp_dir)
@@ -948,6 +951,19 @@ class Workbook(xmlwriter.XMLwriter):
                                   'color_indexed': 81, 'font_only': True})
             xf._get_xf_index()
 
+    def _prepare_tables(self):
+        # Set the table ids for the worksheet tables.
+        table_id = 0
+
+        for sheet in self.worksheets():
+            table_count = len(sheet.tables)
+
+            if not table_count:
+                continue
+
+            sheet._prepare_tables(table_id + 1)
+            table_id += table_count
+
     def _add_chart_data(self):
         # Add "cached" data to charts to provide the numCache and strCacher
         # data for series and title/axis ranges.
@@ -1198,4 +1214,3 @@ class WorksheetMeta(object):
     def __init__(self):
         self.activesheet = 0
         self.firstsheet = 0
-        self.table_count = 0

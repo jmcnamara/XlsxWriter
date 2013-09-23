@@ -28,6 +28,7 @@ class TestAssembleTable(unittest.TestCase):
         worksheet.str_table = SharedStringTable()
 
         worksheet.add_table('D4:I15', {'style': 'Table Style Light 17'})
+        worksheet._prepare_tables(1)
 
         fh = StringIO()
         table = Table()
