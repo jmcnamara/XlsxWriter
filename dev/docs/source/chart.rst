@@ -132,7 +132,7 @@ properties for a series::
 
     # Or using a list of values instead of category/value formulas:
     #     [sheetname, first_row, first_col, last_row, last_col]
-    chart1.add_series({
+    chart.add_series({
         'categories': ['Sheet1', 0, 0, 4, 0],
         'values':     ['Sheet1', 0, 1, 4, 1],
         'line':       {'color': 'red'},
