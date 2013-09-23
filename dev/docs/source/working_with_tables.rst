@@ -294,7 +294,11 @@ Column formulas can by applied using the column ``formula`` property::
 .. image:: _images/tables8.png
 
 The Excel 2007 style ``[#This Row]`` and Excel 2010 style ``@`` structural
-references are supported within the formula.
+references are supported within the formula. However, other Excel 2010
+additions to structural references aren't supported and formulas should
+conform to Excel 2007 style formulas. See the Microsoft documentation on
+`Using structured references with Excel tables <http://office.microsoft.com/en-us/excel-help/using-structured-references-with-excel-tables-HA010155686.aspx>`_
+for details.
 
 As stated above the ``total_row`` table parameter turns on the "Total" row in
 the table but it doesn't populate it with any defaults. Total captions and
