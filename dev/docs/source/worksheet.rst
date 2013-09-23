@@ -272,6 +272,19 @@ formula. The calculated ``value`` is added at the end of the argument list::
 
     worksheet.write('A1', '=2+2', num_format, 4)
 
+.. note::
+
+   Excel stores formulas in US style formatting regardless of the Locale or
+   Language of the Excel version. Therefore all formula names written using
+   XlsxWriter must be in English (use the following
+   `formula translator <http://fr.excel-translator.de>`_ if necessary). Also,
+   formulas must be written with the US style separator/range operator which
+   is a comma (not semi-colon). Therefore a formula with multiple values
+   should be written as follows::
+
+      worksheet.write_formula('A1', '=SUM(1, 2, 3)')  # OK
+      worksheet.write_formula('A2', '=SUM(1; 2; 3)')  # NO. Error on load.
+
 
 worksheet.write_array_formula()
 -------------------------------
