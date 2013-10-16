@@ -16,10 +16,10 @@ def xl_rowcol_to_cell(row, col, row_abs=False, col_abs=False):
     Convert a zero indexed row and column cell reference to a A1 style string.
 
     Args:
-       row:     The cell row. Int.
+       row:     The cell row.    Int.
        col:     The cell column. Int.
-       row_abs: Optional flag to make the row absolute. Bool.
-       col_abs: Optional flag to make the column absolute.  Bool.
+       row_abs: Optional flag to make the row absolute.    Bool.
+       col_abs: Optional flag to make the column absolute. Bool.
 
     Returns:
         A1 style string.
@@ -39,7 +39,7 @@ def xl_rowcol_to_cell_fast(row, col):
     Optimised version of the xl_rowcol_to_cell function. Only used internally.
 
     Args:
-       row: The cell row. Int.
+       row: The cell row.    Int.
        col: The cell column. Int.
 
     Returns:
@@ -61,7 +61,7 @@ def xl_col_to_name(col_num, col_abs=False):
 
     Args:
        col:     The cell column. Int.
-       col_abs: Optional flag to make the column absolute.  Bool.
+       col_abs: Optional flag to make the column absolute. Bool.
 
     Returns:
         Column style string.
@@ -72,7 +72,6 @@ def xl_col_to_name(col_num, col_abs=False):
     col_abs = '$' if col_abs else ''
 
     while col_num:
-
         # Set remainder from 1 .. 26
         remainder = col_num % 26
 
@@ -93,7 +92,13 @@ def xl_col_to_name(col_num, col_abs=False):
 
 def xl_cell_to_rowcol(cell_str):
     """
-    TODO. Add Utility.py docs.
+    Convert a cell reference in A1 notation to a zero indexed row and column.
+
+    Args:
+       cell_str:  A1 style string.
+
+    Returns:
+        row, col: Zero indexed cell row and column indices.
 
     """
     if not cell_str:
@@ -119,7 +124,14 @@ def xl_cell_to_rowcol(cell_str):
 
 def xl_cell_to_rowcol_abs(cell_str):
     """
-    TODO. Add Utility.py docs.
+    Convert an absolute cell reference in A1 notation to a zero indexed
+    row and column, with True/False values for absolute rows or columns.
+
+    Args:
+       cell_str: A1 style string.
+
+    Returns:
+        row, col, row_abs, col_abs:  Zero indexed cell row and column indices.
 
     """
     if not cell_str:
@@ -158,11 +170,41 @@ def xl_cell_to_rowcol_abs(cell_str):
 
 def xl_range(first_row, first_col, last_row, last_col):
     """
-    TODO. Add Utility.py docs.
+    Convert zero indexed row and col cell references to a A1:B1 range string.
+
+    Args:
+       first_row: The first cell row.    Int.
+       first_col: The first cell column. Int.
+       last_row:  The last cell row.     Int.
+       last_col:  The last cell column.  Int.
+
+    Returns:
+        A1:B1 style range string.
 
     """
     range1 = xl_rowcol_to_cell(first_row, first_col)
     range2 = xl_rowcol_to_cell(last_row, last_col)
+
+    return range1 + ':' + range2
+
+
+def xl_range_abs(first_row, first_col, last_row, last_col):
+    """
+    Convert zero indexed row and col cell references to a $A$1:$B$1 absolute
+    range string.
+
+    Args:
+       first_row: The first cell row.    Int.
+       first_col: The first cell column. Int.
+       last_row:  The last cell row.     Int.
+       last_col:  The last cell column.  Int.
+
+    Returns:
+        $A$1:$B$1 style range string.
+
+    """
+    range1 = xl_rowcol_to_cell(first_row, first_col, True, True)
+    range2 = xl_rowcol_to_cell(last_row, last_col, True, True)
 
     return range1 + ':' + range2
 
