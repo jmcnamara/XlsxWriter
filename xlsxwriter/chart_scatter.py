@@ -275,8 +275,7 @@ class ChartScatter(chart.Chart):
             for series in self.series:
                 # Set a marker type unless there is a user defined type.
                 if not series.get('marker') or not series['marker']['defined']:
-                    series['marker'] = {'type': 'none', 'defined': 1,
-                                        }
+                    series['marker'] = {'type': 'none', 'defined': 1}
 
     def _write_d_pt_point(self, index, point):
         # Write an individual <c:dPt> element. Override the parent method to
