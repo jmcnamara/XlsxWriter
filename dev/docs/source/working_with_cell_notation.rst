@@ -59,6 +59,8 @@ Some functions such as :func:`conditional_format()` require absolute
 references.
 
 
+.. _cell_utility:
+
 Cell Utility Functions
 ======================
 

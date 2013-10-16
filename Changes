@@ -1,3 +1,11 @@
+Release 0.4.4 - October 16 2013
+---------------------------------
+
+* Documented use of :ref:`cell utility <cell_utility>` functions.
+
+* Fix for tables added in non-sequential order. Closes #51 reported by 
+  calfzhou.
+
 
 Release 0.4.3 - September 12 2013
 ---------------------------------

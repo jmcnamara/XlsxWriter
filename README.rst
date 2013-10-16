@@ -1,19 +1,5 @@
-
-.. image:: https://raw.github.com/jmcnamara/XlsxWriter/master/dev/docs/source/_images/logo.png
-   :target: https://github.com/jmcnamara/XlsxWriter
-
 XlsxWriter
 ==========
-
-.. image:: https://travis-ci.org/jmcnamara/XlsxWriter.png?branch=master
-   :target: https://travis-ci.org/jmcnamara/XlsxWriter
-
-.. image:: https://pypip.in/v/XlsxWriter/badge.png
-   :target: https://crate.io/packages/XlsxWriter
-
-.. image:: https://pypip.in/d/XlsxWriter/badge.png
-   :target: https://crate.io/packages/XlsxWriter
-
 
 **XlsxWriter** is a Python module for writing files in the Excel 2007+ XLSX
 file format.
