@@ -286,15 +286,9 @@ created using the :func:`add_format()` method in the same way as cell formats::
 
    In Excel, a conditional format is superimposed over the existing cell
    format and not all cell format properties can be modified. Properties that
-   cannot be modified in a conditional format are font name, font size,
-   superscript and subscript and diagonal borders.
-
-
-
-
-
-
-
+   **cannot** be modified in a conditional format are font name, font size,
+   superscript and subscript, diagonal borders, all alignment properties and
+   all protection properties.
 
 Excel specifies some default formats to be used with conditional formatting.
 These can be replicated using the following XlsxWriter formats::
