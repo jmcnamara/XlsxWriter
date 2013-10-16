@@ -3,8 +3,8 @@
 Working with Conditional Formatting
 ===================================
 
-Conditional formatting is a feature of Excel which allows you to apply
-a format to a cell or a range of cells based on certain criteria.
+Conditional formatting is a feature of Excel which allows you to apply a format
+to a cell or a range of cells based on certain criteria.
 
 For example the following rules are used to highlight cells in the
 :ref:`conditional_format.py <ex_cond_format>` example::
@@ -38,14 +38,13 @@ The conditional_format() method
 The :func:`conditional_format` worksheet method is used to apply formatting
 based on user defined criteria to an XlsxWriter file.
 
-The conditional format can be applied to a single cell or a range of cells.
-As usual you can use A1 or Row/Column notation (:ref:`cell_notation`).
+The conditional format can be applied to a single cell or a range of cells. As
+usual you can use A1 or Row/Column notation (:ref:`cell_notation`).
 
 With Row/Column notation you must specify all four cells in the range:
-``(first_row, first_col, last_row, last_col)``.
-If you need to refer to a single cell set the ``last_*`` values equal to the
-``first_*`` values. With A1 notation you can refer to a single cell or a
-range of cells::
+``(first_row, first_col, last_row, last_col)``. If you need to refer to a
+single cell set the ``last_*`` values equal to the ``first_*`` values. With A1
+notation you can refer to a single cell or a range of cells::
 
     worksheet.conditional_format(0, 0, 4, 1, {...})
     worksheet.conditional_format('B1',       {...})
@@ -80,15 +79,14 @@ Other, less commonly used parameters are:
 Conditional Format Options
 --------------------------
 
-The conditional format options that can be used with
-:func:`conditional_format` are explained in the following sections.
+The conditional format options that can be used with :func:`conditional_format`
+are explained in the following sections.
 
 type
 ****
 
-The ``type`` option is a required parameter and it has no
-default value. Allowable ``type`` values and their associated
-parameters are:
+The ``type`` option is a required parameter and it has no default value.
+Allowable ``type`` values and their associated parameters are:
 
 +---------------+------------+
 | Type          | Parameters |
@@ -188,8 +186,8 @@ parameter, see below.
 type: cell
 **********
 
-This is the most common conditional formatting type. It is used when a
-format is applied to a cell based on a simple criterion.
+This is the most common conditional formatting type. It is used when a format
+is applied to a cell based on a simple criterion.
 
 For example using a single cell and the ``greater than`` criteria::
 
@@ -212,9 +210,9 @@ Other types are shown below, after the other main options.
 criteria:
 *********
 
-The ``criteria`` parameter is used to set the criteria by which the
-cell data will be evaluated. It has no default value. The most common
-criteria as applied to ``{'type': 'cell'}`` are:
+The ``criteria`` parameter is used to set the criteria by which the cell data
+will be evaluated. It has no default value. The most common criteria as
+applied to ``{'type': 'cell'}`` are:
 
 +------------------------------+--------+
 | ``between``                  |        |
@@ -235,18 +233,18 @@ criteria as applied to ``{'type': 'cell'}`` are:
 +------------------------------+--------+
 
 
-You can either use Excel's textual description strings, in the first
-column above, or the more common symbolic alternatives.
+You can either use Excel's textual description strings, in the first column
+above, or the more common symbolic alternatives.
 
-Additional criteria which are specific to other conditional format
-types are shown in the relevant sections below.
+Additional criteria which are specific to other conditional format types are
+shown in the relevant sections below.
 
 
 value:
 ******
 
-The ``value`` is generally used along with the ``criteria`` parameter
-to set the rule by which the cell data will be evaluated::
+The ``value`` is generally used along with the ``criteria`` parameter to set
+the rule by which the cell data will be evaluated::
 
     worksheet.conditional_format('A1', {'type':     'cell',
                                         'criteria': 'greater than',
@@ -261,14 +259,21 @@ The ``value`` property can also be an cell reference::
                                         'value':    '$C$1',
                                         'format':   red_format})
 
+.. note::
+
+   In general any ``value`` property that refers to a cell reference should
+   use an :ref:`absolute reference <abs_reference>`, especially if the
+   conditional formatting is applied to a range of values. Without an absolute
+   cell reference the conditional format will not be applied correctly by
+   Excel from the first cell in the formatted range.
+
 
 format:
 *******
 
-The ``format`` parameter is used to specify the format that will be
-applied to the cell when the conditional formatting criterion is
-met. The format is created using the :func:`add_format()` method in the
-same way as cell formats::
+The ``format`` parameter is used to specify the format that will be applied to
+the cell when the conditional formatting criterion is met. The format is
+created using the :func:`add_format()` method in the same way as cell formats::
 
     format1 = workbook.add_format({'bold': 1, 'italic': 1})
 
@@ -291,9 +296,8 @@ same way as cell formats::
 
 
 
-Excel specifies some default formats to be used with conditional
-formatting. These can be replicated using the following XlsxWriter
-formats::
+Excel specifies some default formats to be used with conditional formatting.
+These can be replicated using the following XlsxWriter formats::
 
     # Light red fill with dark red text.
     format1 = workbook.add_format({'bg_color':   '#FFC7CE',
@@ -312,8 +316,8 @@ See also :ref:`working_with_formats`.
 minimum:
 ********
 
-The ``minimum`` parameter is used to set the lower limiting value when
-the ``criteria`` is either ``'between'`` or ``'not between'``::
+The ``minimum`` parameter is used to set the lower limiting value when the
+``criteria`` is either ``'between'`` or ``'not between'``::
 
         worksheet.conditional_format('A1', {'type':     'cell',
                                             'criteria': 'between',
@@ -325,18 +329,17 @@ the ``criteria`` is either ``'between'`` or ``'not between'``::
 maximum:
 ********
 
-The ``maximum`` parameter is used to set the upper limiting value when
-the ``criteria`` is either ``'between'`` or ``'not between'``. See the
-previous example.
+The ``maximum`` parameter is used to set the upper limiting value when the
+``criteria`` is either ``'between'`` or ``'not between'``. See the previous
+example.
 
 
 type: date
 **********
 
-The ``date`` type is similar the ``cell`` type and uses the same
-criteria and values. However, the ``value``, ``minimum`` and
-``maximum`` properties are specified as a datetime object as shown
-in :ref:`working_with_dates_and_time`::
+The ``date`` type is similar the ``cell`` type and uses the same criteria and
+values. However, the ``value``, ``minimum`` and ``maximum`` properties are
+specified as a datetime object as shown in :ref:`working_with_dates_and_time`::
 
 
     date = datetime.datetime.strptime('2011-01-01', "%Y-%m-%d")
@@ -350,15 +353,14 @@ in :ref:`working_with_dates_and_time`::
 type: time_period
 *****************
 
-The ``time_period`` type is used to specify Excel's "Dates Occurring"
-style conditional format::
+The ``time_period`` type is used to specify Excel's "Dates Occurring" style
+conditional format::
 
     worksheet.conditional_format('A1:A4', {'type':     'time_period',
                                            'criteria': 'yesterday',
                                            'format':   format1})
 
-The period is set in the ``criteria`` and can have one of the
-following values::
+The period is set in the ``criteria`` and can have one of the following values::
 
         'criteria': 'yesterday',
         'criteria': 'today',
@@ -374,9 +376,9 @@ following values::
 type: text
 **********
 
-The ``text`` type is used to specify Excel's "Specific Text" style
-conditional format. It is used to do simple string matching using the
-``criteria`` and ``value`` parameters::
+The ``text`` type is used to specify Excel's "Specific Text" style conditional
+format. It is used to do simple string matching using the ``criteria`` and
+``value`` parameters::
 
     worksheet.conditional_format('A1:A4', {'type':     'text',
                                            'criteria': 'containing',
@@ -396,15 +398,15 @@ The ``value`` parameter should be a string or single character.
 type: average
 *************
 
-The ``average`` type is used to specify Excel's "Average" style
-conditional format::
+The ``average`` type is used to specify Excel's "Average" style conditional
+format::
 
     worksheet.conditional_format('A1:A4', {'type':     'average',
                                            'criteria': 'above',
                                            'format':   format1})
 
-The type of average for the conditional format range is specified by
-the ``criteria``::
+The type of average for the conditional format range is specified by the
+``criteria``::
 
     'criteria': 'above',
     'criteria': 'below',
@@ -421,8 +423,7 @@ the ``criteria``::
 type: duplicate
 ***************
 
-The ``duplicate`` type is used to highlight duplicate cells in a
-range::
+The ``duplicate`` type is used to highlight duplicate cells in a range::
 
     worksheet.conditional_format('A1:A4', {'type':   'duplicate',
                                            'format': format1})
@@ -447,8 +448,8 @@ percentage in a range::
                                            'value':  10,
                                            'format': format1})
 
-The ``criteria`` can be used to indicate that a percentage condition
-is required::
+The ``criteria`` can be used to indicate that a percentage condition is
+required::
 
     worksheet.conditional_format('A1:A4', {'type':     'top',
                                            'value':    10,
@@ -459,8 +460,8 @@ is required::
 type: bottom
 ************
 
-The ``bottom`` type is used to specify the bottom ``n`` values by
-number or percentage in a range.
+The ``bottom`` type is used to specify the bottom ``n`` values by number or
+percentage in a range.
 
 It takes the same parameters as ``top``, see above.
 
@@ -477,8 +478,7 @@ The ``blanks`` type is used to highlight blank cells in a range::
 type: no_blanks
 ***************
 
-The ``no_blanks`` type is used to highlight non blank cells in a
-range::
+The ``no_blanks`` type is used to highlight non blank cells in a range::
 
     worksheet.conditional_format('A1:A4', {'type':   'no_blanks',
                                            'format': format1})
@@ -505,8 +505,8 @@ The ``no_errors`` type is used to highlight non error cells in a range::
 type: 2_color_scale
 *******************
 
-The ``2_color_scale`` type is used to specify Excel's "2 Color Scale"
-style conditional format::
+The ``2_color_scale`` type is used to specify Excel's "2 Color Scale" style
+conditional format::
 
     worksheet.conditional_format('A1:A12', {'type': '2_color_scale'})
 
@@ -518,8 +518,8 @@ This conditional type can be modified with ``min_type``, ``max_type``,
 type: 3_color_scale
 *******************
 
-The ``3_color_scale`` type is used to specify Excel's "3 Color Scale"
-style conditional format::
+The ``3_color_scale`` type is used to specify Excel's "3 Color Scale" style
+conditional format::
 
     worksheet.conditional_format('A1:A12', {'type': '3_color_scale'})
 
@@ -531,8 +531,8 @@ This conditional type can be modified with ``min_type``, ``mid_type``,
 type: data_bar
 **************
 
-The ``data_bar`` type is used to specify Excel's "Data Bar" style
-conditional format::
+The ``data_bar`` type is used to specify Excel's "Data Bar" style conditional
+format::
 
     worksheet.conditional_format('A1:A12', {'type': 'data_bar'})
 
@@ -543,8 +543,8 @@ This conditional type can be modified with ``min_type``, ``max_type``,
 type: formula
 *************
 
-The ``formula`` type is used to specify a conditional format based on
-a user defined formula::
+The ``formula`` type is used to specify a conditional format based on a user
+defined formula::
 
     worksheet.conditional_format('A1:A4', {'type':     'formula',
                                            'criteria': '=A1>5',
@@ -555,10 +555,10 @@ The formula is specified in the ``criteria``.
 min_type:
 *********
 
-The ``min_type`` and ``max_type`` properties are available when the
-conditional formatting type is ``2_color_scale``, ``3_color_scale`` or
-``data_bar``. The ``mid_type`` is available for ``3_color_scale``. The
-properties are used as follows::
+The ``min_type`` and ``max_type`` properties are available when the conditional
+formatting type is ``2_color_scale``, ``3_color_scale`` or ``data_bar``. The
+``mid_type`` is available for ``3_color_scale``. The properties are used as
+follows::
 
     worksheet.conditional_format('A1:A12', {'type':     '2_color_scale',
                                             'min_type': 'percent',
@@ -589,8 +589,8 @@ min_value:
 
 The ``min_value`` and ``max_value`` properties are available when the
 conditional formatting type is ``2_color_scale``, ``3_color_scale`` or
-``data_bar``. The ``mid_value`` is available for
-``3_color_scale``. The properties are used as follows::
+``data_bar``. The ``mid_value`` is available for ``3_color_scale``. The
+properties are used as follows::
 
     worksheet.conditional_format('A1:A12', {'type':      '2_color_scale',
                                             'min_value': 10,
@@ -614,15 +614,15 @@ min_color:
 
 The ``min_color`` and ``max_color`` properties are available when the
 conditional formatting type is ``2_color_scale``, ``3_color_scale`` or
-``data_bar``. The ``mid_color`` is available for
-``3_color_scale``. The properties are used as follows::
+``data_bar``. The ``mid_color`` is available for ``3_color_scale``. The
+properties are used as follows::
 
     worksheet.conditional_format('A1:A12', {'type':      '2_color_scale',
                                             'min_color': '#C5D9F1',
                                             'max_color': '#538ED5'})
 
-The colour can be a Html style ``#RRGGBB`` string or a limited number
-named colours, see :ref:`colors`.
+The colour can be a Html style ``#RRGGBB`` string or a limited number named
+colours, see :ref:`colors`.
 
 mid_color:
 **********
