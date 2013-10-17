@@ -72,7 +72,7 @@ class Chart(xmlwriter.XMLwriter):
         self.table = None
         self.title_formula = None
         self.title_name = None
-        self.cross_between = None
+        self.cross_between = 'between'
         self.default_marker = None
         self.series_gap = None
         self.series_overlap = None
@@ -564,6 +564,7 @@ class Chart(xmlwriter.XMLwriter):
             'major_unit_type': options.get('major_unit_type'),
             'log_base': options.get('log_base'),
             'crossing': options.get('crossing'),
+            'crossing_position': options.get('crossing_position'),
             'position': options.get('position'),
             'label_position': options.get('label_position'),
             'num_format': options.get('num_format'),
@@ -590,6 +591,17 @@ class Chart(xmlwriter.XMLwriter):
         # Only use the first letter of bottom, top, left or right.
         if axis.get('position'):
             axis['position'] = axis['position'].lower()[0]
+
+        # Set the position for a category axis on or between the tick marks.
+        if axis.get('crossing_position'):
+            if axis['crossing_position'] == 'on_tick':
+                axis['crossing_position'] = 'midCat'
+            elif axis['crossing_position'] == 'between':
+               # Doesn't need to be modified.
+               pass
+            else:
+                # Otherwise use the default value.
+                axis['crossing_position']
 
         # Set the font properties if present.
         axis['num_font'] = self._convert_font_args(options.get('num_font'))
@@ -1590,7 +1602,7 @@ class Chart(xmlwriter.XMLwriter):
             self._write_c_crosses_at(x_axis.get('crossing'))
 
         # Write the c:crossBetween element.
-        self._write_cross_between()
+        self._write_cross_between(x_axis.get('crossing_position'))
 
         # Write the c:majorUnit element.
         self._write_c_major_unit(y_axis.get('major_unit'))
@@ -1675,7 +1687,7 @@ class Chart(xmlwriter.XMLwriter):
             self._write_c_crosses_at(y_axis.get('crossing'))
 
         # Write the c:crossBetween element.
-        self._write_cross_between()
+        self._write_cross_between(y_axis.get('crossing_position'))
 
         # Write the c:majorUnit element.
         self._write_c_major_unit(x_axis.get('major_unit'))
@@ -2009,12 +2021,10 @@ class Chart(xmlwriter.XMLwriter):
         else:
             self._xml_empty_tag('c:minorGridlines')
 
-    def _write_cross_between(self):
+    def _write_cross_between(self, val):
         # Write the <c:crossBetween> element.
-        val = self.cross_between
-
         if val is None:
-            val = 'between'
+            val = self.cross_between
 
         attributes = [('val', val)]
 
