@@ -49,7 +49,7 @@ class TestCompareXLSXFiles(unittest.TestCase):
 
         ]
 
-        chart.set_y_axis({'crossing_position': 'on_tick'})
+        chart.set_y_axis({'position_axis': 'on_tick'})
 
         worksheet.write_column('A1', data[0])
         worksheet.write_column('B1', data[1])

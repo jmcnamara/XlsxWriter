@@ -49,7 +49,7 @@ class TestCompareXLSXFiles(unittest.TestCase):
 
         ]
 
-        chart.set_x_axis({'crossing_position': 'between'})
+        chart.set_x_axis({'position_axis': 'between'})
 
         worksheet.write_column('A1', data[0])
         worksheet.write_column('B1', data[1])
