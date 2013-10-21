@@ -157,7 +157,9 @@ The series options that can be set are:
 
 * ``name``: Set the name for the series. The name is displayed in the chart
   legend and in the formula bar. The name property is optional and if it isn't
-  supplied it will default to ``Series 1..n``.
+  supplied it will default to ``Series 1..n``. The name can also be a formula
+  such as ``=Sheet1!$A$1`` or a list with a sheetname, row and column such as
+  ``['Sheet1', 0, 0]``.
 
 * ``line``: Set the properties of the series line type such as colour and
   width. See :ref:`chart_formatting_line`.
@@ -274,7 +276,8 @@ the axis types.
 
   This property is optional. The default is to have no axis name.
 
-  The name can also be a formula such as ``=Sheet1!$A$1``.
+  The name can also be a formula such as ``=Sheet1!$A$1`` or a list with a
+  sheetname, row and column such as ``['Sheet1', 0, 0]``.
 
 * ``name_font``: Set the font properties for the axis name. (Applicable to
   category and value axes.)::
@@ -516,7 +519,8 @@ The ``set_title()`` method is used to set properties of the chart title::
 The properties that can be set are:
 
 * ``name``: Set the name (title) for the chart. The name is displayed above
-  the chart. The name can also be a formula such as ``=Sheet1!$A$1``. The name
+  the chart. The name can also be a formula such as ``=Sheet1!$A$1`` or a list
+  with a sheetname, row and column such as ``['Sheet1', 0, 0]``. The name
   property is optional. The default is to have no chart title.
 
 * ``name_font``: Set the font properties for the chart title. See
