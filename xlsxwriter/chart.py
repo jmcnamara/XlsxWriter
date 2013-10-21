@@ -653,10 +653,16 @@ class Chart(xmlwriter.XMLwriter):
     def _process_names(self, name, name_formula):
         # Switch name and name_formula parameters if required.
 
-        # Name looks like a formula, use it to set name_formula.
-        if name is not None and re.match(r'^=?[^!]+!', name):
-            name_formula = name
-            name = ''
+        if name is not None:
+            if isinstance(name, list):
+                # Convert an list of values into a name formula.
+                cell = xl_rowcol_to_cell(name[1], name[2], True, True)
+                name_formula = name[0] + '!' + cell
+                name = ''
+            elif re.match(r'^=?[^!]+!', name):
+                # Name looks like a formula, use it to set name_formula.
+                name_formula = name
+                name = ''
 
         return name, name_formula
 
