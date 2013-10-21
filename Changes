@@ -1,3 +1,11 @@
+Release 0.4.5 - October 21 2013
+---------------------------------
+
+* Added ``position_axis`` chart axis option.
+
+* Added optional list handling for chart names.
+
+
 Release 0.4.4 - October 16 2013
 ---------------------------------
 
