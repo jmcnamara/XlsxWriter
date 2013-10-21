@@ -253,6 +253,7 @@ The options that can be set are::
     minor_unit
     major_unit
     crossing
+    position_axis
     reverse
     log_base
     label_position
@@ -334,6 +335,14 @@ the axis types.
 
   If crossing is omitted (the default) the crossing will be set automatically
   by Excel based on the chart data.
+
+* ``position_axis``: Position the axis on or between the axis tick marks.
+  (Applicable to category axes only.)
+
+  There are two allowable values ``on_tick`` and ``between``::
+  
+    chart.set_x_axis({'position_axis': 'on_tick'})
+    chart.set_x_axis({'position_axis': 'between'})
 
 * ``reverse``: Reverse the order of the axis categories or values.
   (Applicable to category and value axes.)::
