@@ -798,6 +798,8 @@ Here is an example of Font formatting in a Chart program::
         },
     })
 
+    chart.set_legend({'font': {'bold': 1, 'italic': 1}})
+
 .. image:: _images/chart_font1.png
    :scale: 75 %
 

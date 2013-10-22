@@ -547,6 +547,7 @@ example it can be used to turn off the default chart legend::
 The options that can be set are::
 
     position
+    font
     delete_series
 
 
@@ -566,6 +567,12 @@ The options that can be set are::
     right
     overlay_left
     overlay_right
+
+* ``font``: Set the font properties of the chart legend::
+
+    chart.set_legend({'font': {'size': 9, 'bold': 1}})
+
+  See the :ref:`chart_fonts` section for more details on font properties.
 
 * ``delete_series``: This allows you to remove one or more series from the
   the legend (the series will still display on the chart). This property takes

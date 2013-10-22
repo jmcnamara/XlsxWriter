@@ -46,6 +46,8 @@ class Chart(xmlwriter.XMLwriter):
         self.cat_has_num_fmt = 0
         self.requires_category = 0
         self.legend_position = 'right'
+        self.legend_delete_series = None
+        self.legend_font = None
         self.cat_axis_position = 'b'
         self.val_axis_position = 'l'
         self.formula_ids = {}
@@ -79,7 +81,6 @@ class Chart(xmlwriter.XMLwriter):
         self.drop_lines = None
         self.hi_low_lines = None
         self.up_down_bars = None
-        self.legend_delete_series = None
         self.smooth_allowed = False
 
         self._set_default_properties()
@@ -285,6 +286,7 @@ class Chart(xmlwriter.XMLwriter):
         """
         self.legend_position = options.get('position', 'right')
         self.legend_delete_series = options.get('delete_series')
+        self.legend_font = self._convert_font_args(options.get('font'))
 
     def set_plotarea(self, options):
         """
@@ -597,8 +599,8 @@ class Chart(xmlwriter.XMLwriter):
             if axis['position_axis'] == 'on_tick':
                 axis['position_axis'] = 'midCat'
             elif axis['position_axis'] == 'between':
-               # Doesn't need to be modified.
-               pass
+                # Doesn't need to be modified.
+                pass
             else:
                 # Otherwise use the default value.
                 axis['position_axis']
@@ -1064,7 +1066,9 @@ class Chart(xmlwriter.XMLwriter):
         if font['underline'] is not None:
             attributes.append(('u', 'sng'))
 
-        attributes.append(('baseline', font['baseline']))
+        # Turn off baseline for fonts that don't use it.
+        if font['baseline'] != -1:
+            attributes.append(('baseline', font['baseline']))
 
         return attributes
 
@@ -2077,6 +2081,7 @@ class Chart(xmlwriter.XMLwriter):
     def _write_legend(self):
         # Write the <c:legend> element.
         position = self.legend_position
+        font = self.legend_font
         delete_series = []
         overlay = 0
 
@@ -2109,12 +2114,14 @@ class Chart(xmlwriter.XMLwriter):
 
         # Remove series labels from the legend.
         for index in (delete_series):
-
             # Write the c:legendEntry element.
             self._write_legend_entry(index)
 
         # Write the c:layout element.
         self._write_layout()
+
+        if font:
+            self._write_tx_pr(None, font)
 
         # Write the c:overlay element.
         if overlay:
