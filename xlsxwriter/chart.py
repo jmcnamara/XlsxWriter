@@ -568,6 +568,8 @@ class Chart(xmlwriter.XMLwriter):
             'major_unit': options.get('major_unit'),
             'minor_unit_type': options.get('minor_unit_type'),
             'major_unit_type': options.get('major_unit_type'),
+            'minor_tick_mark': options.get('minor_tick_mark'),
+            'major_tick_mark': options.get('major_tick_mark'),
             'log_base': options.get('log_base'),
             'crossing': options.get('crossing'),
             'position_axis': options.get('position_axis'),
@@ -575,6 +577,9 @@ class Chart(xmlwriter.XMLwriter):
             'label_position': options.get('label_position'),
             'num_format': options.get('num_format'),
             'num_format_linked': options.get('num_format_linked'),
+            'auto': options.get('auto'),
+            'tick_mark_skip': options.get('tick_mark_skip'),
+            'tick_label_skip': options.get('tick_label_skip')
         }
 
         if 'visible' in options:
@@ -888,6 +893,7 @@ class Chart(xmlwriter.XMLwriter):
             'percentage': 'percentage',
             'standard_deviation': 'stdDev',
             'standard_error': 'stdErr',
+            'custom': 'cust',
         }
 
         # Check the error bars type.
@@ -1099,26 +1105,38 @@ class Chart(xmlwriter.XMLwriter):
 
         self.x_axis['defaults'] = {
             'num_format': 'General',
-            'major_gridlines': {'visible': 0}
+            'major_gridlines': {'visible': 0},
+            'major_tick_mark': 'out',
+            'minor_tick_mark': 'none',
+            'auto': 1
         }
 
         self.y_axis['defaults'] = {
             'num_format': 'General',
-            'major_gridlines': {'visible': 1}
+            'major_gridlines': {'visible': 1},
+            'major_tick_mark': 'out',
+            'minor_tick_mark': 'none',
+            'auto': 1
         }
 
         self.x2_axis['defaults'] = {
             'num_format': 'General',
             'label_position': 'none',
             'crossing': 'max',
-            'visible': 0
+            'visible': 0,
+            'major_tick_mark': 'out',
+            'minor_tick_mark': 'none',
+            'auto': 1
         }
 
         self.y2_axis['defaults'] = {
             'num_format': 'General',
             'major_gridlines': {'visible': 0},
             'position': 'right',
-            'visible': 1
+            'visible': 1,
+            'major_tick_mark': 'out',
+            'minor_tick_mark': 'none',
+            'auto': 1
         }
 
         self.set_x_axis({})
@@ -1214,7 +1232,7 @@ class Chart(xmlwriter.XMLwriter):
         self._xml_start_tag('c:plotArea')
 
         # Write the c:layout element.
-        self._write_layout()
+        self._write_layout(self.plotarea.get('layout'))
 
         # Write  subclass chart type elements for primary and secondary axes.
         self._write_chart_type({'primary_axes': True})
@@ -1250,9 +1268,24 @@ class Chart(xmlwriter.XMLwriter):
 
         self._xml_end_tag('c:plotArea')
 
-    def _write_layout(self):
+    def _write_layout(self, layout=None):
         # Write the <c:layout> element.
-        self._xml_empty_tag('c:layout')
+        if layout:
+            self._xml_start_tag('c:layout')
+            self._xml_start_tag('c:manualLayout')
+
+            self._xml_empty_tag('c:layoutTarget', [('val', 'inner')])
+            self._xml_empty_tag('c:xMode', [('val', 'edge')])
+            self._xml_empty_tag('c:yMode', [('val', 'edge')])
+            self._xml_empty_tag('c:x', [('val', layout['x'])])
+            self._xml_empty_tag('c:y', [('val', layout['y'])])
+            self._xml_empty_tag('c:w', [('val', layout['w'])])
+            self._xml_empty_tag('c:h', [('val', layout['h'])])
+
+            self._xml_end_tag('c:manualLayout')
+            self._xml_end_tag('c:layout')
+        else:
+            self._xml_empty_tag('c:layout')
 
     def _write_chart_type(self, options):
         # Write the chart type element. This method should be overridden
@@ -1389,23 +1422,24 @@ class Chart(xmlwriter.XMLwriter):
 
         self._xml_end_tag('c:val')
 
-    def _write_num_ref(self, formula, data, ref_type):
+    def _write_num_ref(self, formula, data=None, ref_type=None):
         # Write the <c:numRef> element.
         self._xml_start_tag('c:numRef')
 
         # Write the c:f element.
         self._write_series_formula(formula)
 
-        if ref_type == 'num':
-            # Write the c:numCache element.
-            self._write_num_cache(data)
-        elif ref_type == 'str':
-            # Write the c:strCache element.
-            self._write_str_cache(data)
+        if data:
+            if ref_type == 'num':
+                # Write the c:numCache element.
+                self._write_num_cache(data)
+            elif ref_type == 'str':
+                # Write the c:strCache element.
+                self._write_str_cache(data)
 
         self._xml_end_tag('c:numRef')
 
-    def _write_str_ref(self, formula, data, ref_type):
+    def _write_str_ref(self, formula, data=None, ref_type=None):
         # Write the <c:strRef> element.
 
         self._xml_start_tag('c:strRef')
@@ -1413,12 +1447,13 @@ class Chart(xmlwriter.XMLwriter):
         # Write the c:f element.
         self._write_series_formula(formula)
 
-        if ref_type == 'num':
-            # Write the c:numCache element.
-            self._write_num_cache(data)
-        elif ref_type == 'str':
-            # Write the c:strCache element.
-            self._write_str_cache(data)
+        if data:
+            if ref_type == 'num':
+                # Write the c:numCache element.
+                self._write_num_cache(data)
+            elif ref_type == 'str':
+                # Write the c:strCache element.
+                self._write_str_cache(data)
 
         self._xml_end_tag('c:strRef')
 
@@ -1509,6 +1544,9 @@ class Chart(xmlwriter.XMLwriter):
         # Write the c:majorTickMark element.
         self._write_major_tick_mark(x_axis.get('major_tick_mark'))
 
+        # Write the c:minorTickMark element.
+        self._write_minor_tick_mark(x_axis.get('minor_tick_mark'))
+
         # Write the c:tickLblPos element.
         self._write_tick_label_pos(x_axis.get('label_position'))
 
@@ -1532,13 +1570,19 @@ class Chart(xmlwriter.XMLwriter):
                 self._write_c_crosses_at(y_axis.get('crossing'))
 
         # Write the c:auto element.
-        self._write_auto(1)
+        self._write_auto(x_axis.get('auto'))
 
         # Write the c:labelAlign element.
         self._write_label_align('ctr')
 
         # Write the c:labelOffset element.
         self._write_label_offset(100)
+
+        # Write the c:tickLblSkip element.
+        self._write_tick_label_skip(x_axis.get('tick_label_skip'))
+
+        # Write the c:tickMarkSkip element.
+        self._write_tick_mark_skip(x_axis.get('tick_mark_skip'))
 
         self._xml_end_tag('c:catAx')
 
@@ -1595,6 +1639,9 @@ class Chart(xmlwriter.XMLwriter):
 
         # Write the c:majorTickMark element.
         self._write_major_tick_mark(y_axis.get('major_tick_mark'))
+
+        # Write the c:minorTickMark element.
+        self._write_minor_tick_mark(y_axis.get('minor_tick_mark'))
 
         # Write the c:tickLblPos element.
         self._write_tick_label_pos(y_axis.get('label_position'))
@@ -1681,6 +1728,9 @@ class Chart(xmlwriter.XMLwriter):
         # Write the c:majorTickMark element.
         self._write_major_tick_mark(x_axis.get('major_tick_mark'))
 
+        # Write the c:minorTickMark element.
+        self._write_minor_tick_mark(x_axis.get('minor_tick_mark'))
+
         # Write the c:tickLblPos element.
         self._write_tick_label_pos(x_axis.get('label_position'))
 
@@ -1765,6 +1815,9 @@ class Chart(xmlwriter.XMLwriter):
         # Write the c:majorTickMark element.
         self._write_major_tick_mark(x_axis.get('major_tick_mark'))
 
+        # Write the c:majorTickMark element.
+        self._write_minor_tick_mark(x_axis.get('minor_tick_mark'))
+
         # Write the c:tickLblPos element.
         self._write_tick_label_pos(x_axis.get('label_position'))
 
@@ -1788,7 +1841,7 @@ class Chart(xmlwriter.XMLwriter):
                 self._write_c_crosses_at(y_axis.get('crossing'))
 
         # Write the c:auto element.
-        self._write_auto(1)
+        self._write_auto(y_axis.get('auto'))
 
         # Write the c:labelOffset element.
         self._write_label_offset(100)
@@ -1943,6 +1996,16 @@ class Chart(xmlwriter.XMLwriter):
         attributes = [('val', val)]
 
         self._xml_empty_tag('c:majorTickMark', attributes)
+
+    def _write_minor_tick_mark(self, val):
+        # Write the <c:minorTickMark> element.
+
+        if not val:
+            return
+
+        attributes = [('val', val)]
+
+        self._xml_empty_tag('c:minorTickMark', attributes)
 
     def _write_tick_label_pos(self, val=None):
         # Write the <c:tickLblPos> element.
@@ -2584,20 +2647,32 @@ class Chart(xmlwriter.XMLwriter):
 
         self._xml_start_tag('a:solidFill')
 
-        if 'color' in line:
-            color = self._get_color(line['color'])
-
+        if 'color' in line or 'alpha' in line:
             # Write the a:srgbClr element.
-            self._write_a_srgb_clr(color)
+            self._write_a_srgb_clr(line)
 
         self._xml_end_tag('a:solidFill')
 
-    def _write_a_srgb_clr(self, val):
+    def _write_a_srgb_clr(self, line):
         # Write the <a:srgbClr> element.
+
+        color = self._get_color(line['color'])
+        attributes = [('val', color)]
+
+        self._xml_start_tag('a:srgbClr', attributes)
+
+        if 'alpha' in line:
+            alpha_val = line['alpha']
+            self._write_a_alpha(alpha_val)
+
+        self._xml_end_tag('a:srgbClr')
+
+    def _write_a_alpha(self, val):
+        # Write the <a:alpha> element.
 
         attributes = [('val', val)]
 
-        self._xml_empty_tag('a:srgbClr', attributes)
+        self._xml_empty_tag('a:alpha', attributes)
 
     def _write_a_prst_dash(self, val):
         # Write the <a:prstDash> element.
@@ -2881,6 +2956,10 @@ class Chart(xmlwriter.XMLwriter):
         if labels.get('leader_lines'):
             self._write_show_leader_lines()
 
+        # Write the c:showLegendKey element.
+        if labels.get('legend_key'):
+            self._write_show_legend_key()
+
         self._xml_end_tag('c:dLbls')
 
     def _write_show_val(self):
@@ -2922,6 +3001,14 @@ class Chart(xmlwriter.XMLwriter):
         attributes = [('val', val)]
 
         self._xml_empty_tag('c:showLeaderLines', attributes)
+
+    def _write_show_legend_key(self):
+        # Write the <c:showLegendKey> element.
+        val = 1
+
+        attributes = [('val', val)]
+
+        self._xml_empty_tag('c:showLegendKey', attributes)
 
     def _write_d_lbl_pos(self, val):
         # Write the <c:dLblPos> element.
@@ -3056,8 +3143,8 @@ class Chart(xmlwriter.XMLwriter):
 
         if error_bars['type'] != 'stdErr':
 
-            # Write the c:val element.
-            self._write_error_val(error_bars['value'])
+            # Write the c:val element (or c:minus/c:plus for type 'custom')
+            self._write_error_val(error_bars['type'], error_bars['value'])
 
         # Write the c:spPr element.
         self._write_sp_pr(error_bars)
@@ -3091,12 +3178,22 @@ class Chart(xmlwriter.XMLwriter):
 
         self._xml_empty_tag('c:noEndCap', attributes)
 
-    def _write_error_val(self, val):
-        # Write the <c:val> element for error bars.
+    def _write_error_val(self, type, val):
+        # Write the <c:val> element for error bars,
+        # or <c:minus>, <c:plus> for type 'custom'
 
-        attributes = [('val', val)]
-
-        self._xml_empty_tag('c:val', attributes)
+        if type == 'cust':
+            if val[0]:
+                self._xml_start_tag('c:minus')
+                self._write_num_ref(val[0])
+                self._xml_end_tag('c:minus')
+            if val[1]:
+                self._xml_start_tag('c:plus')
+                self._write_num_ref(val[1])
+                self._xml_end_tag('c:plus')
+        else:
+            attributes = [('val', val)]
+            self._xml_empty_tag('c:val', attributes)
 
     def _write_up_down_bars(self):
         # Write the <c:upDownBars> element.
@@ -3153,3 +3250,24 @@ class Chart(xmlwriter.XMLwriter):
             self._xml_end_tag('c:downBars')
         else:
             self._xml_empty_tag('c:downBars')
+
+    def _write_tick_label_skip(self, val):
+        # Write the <c:tickLblSkip> element.
+
+        if val is None:
+            return
+
+        attributes = [('val', val)]
+
+        self._xml_empty_tag('c:tickLblSkip', attributes)
+
+    def _write_tick_mark_skip(self, val):
+        # Write the <c:tickMarkSkip> element.
+
+        if val is None:
+            return
+
+        attributes = [('val', val)]
+
+        self._xml_empty_tag('c:tickMarkSkip', attributes)
+
