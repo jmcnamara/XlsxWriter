@@ -82,6 +82,10 @@ class Chart(xmlwriter.XMLwriter):
         self.hi_low_lines = None
         self.up_down_bars = None
         self.smooth_allowed = False
+        self.title_font = None
+        self.title_name = None
+        self.title_formula = None
+        self.title_data_id = None
 
         self._set_default_properties()
 
@@ -603,7 +607,7 @@ class Chart(xmlwriter.XMLwriter):
                 pass
             else:
                 # Otherwise use the default value.
-                axis['position_axis']
+                axis['position_axis'] = None
 
         # Set the font properties if present.
         axis['num_font'] = self._convert_font_args(options.get('num_font'))
@@ -634,7 +638,7 @@ class Chart(xmlwriter.XMLwriter):
             font['size'] *= 100
 
         # Convert rotation into 60,000ths of a degree.
-        if (font['rotation']):
+        if font['rotation']:
             font['rotation'] = 60000 * int(font['rotation'])
 
         return font
@@ -676,7 +680,7 @@ class Chart(xmlwriter.XMLwriter):
             return 'none'
 
         # Determine if data is numeric or strings.
-        for token in (data):
+        for token in data:
             if token is None:
                 continue
 
@@ -924,7 +928,7 @@ class Chart(xmlwriter.XMLwriter):
         gridline = {}
 
         # Set the visible property for the gridline.
-        gridline['visible'] = options.get('visible')
+        gridline = {'visible': options.get('visible')}
 
         # Set the line properties for the gridline.
         gridline['line'] = self._get_line_properties(options.get('line'))
@@ -989,7 +993,7 @@ class Chart(xmlwriter.XMLwriter):
         if not user_points:
             return
 
-        for user_point in (user_points):
+        for user_point in user_points:
             point = {}
 
             if user_point is not None:
@@ -1015,7 +1019,7 @@ class Chart(xmlwriter.XMLwriter):
         # Returns series which use the primary axes.
         primary_axes_series = []
 
-        for series in (self.series):
+        for series in self.series:
             if not series['y2_axis']:
                 primary_axes_series.append(series)
 
@@ -1025,7 +1029,7 @@ class Chart(xmlwriter.XMLwriter):
         # Returns series which use the secondary axes.
         secondary_axes_series = []
 
-        for series in (self.series):
+        for series in self.series:
             if series['y2_axis']:
                 secondary_axes_series.append(series)
 
@@ -2113,7 +2117,7 @@ class Chart(xmlwriter.XMLwriter):
         self._write_legend_pos(position)
 
         # Remove series labels from the legend.
-        for index in (delete_series):
+        for index in delete_series:
             # Write the c:legendEntry element.
             self._write_legend_entry(index)
 
@@ -2825,7 +2829,7 @@ class Chart(xmlwriter.XMLwriter):
         if not points:
             return
 
-        for point in (points):
+        for point in points:
             index += 1
             if not point:
                 continue

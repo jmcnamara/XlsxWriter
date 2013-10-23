@@ -121,7 +121,7 @@ class Table(xmlwriter.XMLwriter):
 
         self._xml_start_tag('tableColumns', attributes)
 
-        for col_data in (columns):
+        for col_data in columns:
             # Write the tableColumn element.
             self._write_table_column(col_data)
 

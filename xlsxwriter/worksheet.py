@@ -200,6 +200,8 @@ class Worksheet(xmlwriter.XMLwriter):
         self.panes = []
         self.active_pane = 3
         self.selected = 0
+        self.activesheet = 0
+        self.firstsheet = 0
 
         self.page_setup_changed = 0
         self.paper_size = 0
@@ -330,6 +332,12 @@ class Worksheet(xmlwriter.XMLwriter):
 
         self.default_date_format = None
         self.default_url_format = None
+
+        self.row_data_filename = None
+        self.row_data_fh = None
+        self.worksheet_meta = None
+        self.vml_data_id = None
+        self.vml_shape_id = None
 
     @convert_cell_args
     def write(self, row, col, *args):
@@ -813,7 +821,7 @@ class Worksheet(xmlwriter.XMLwriter):
 
             # Add the file:/// URI to the url if non-local.
             # Windows style "C:/" link. # Network share.
-            if (re.match('\w:', url) or re.match(r'\\', url)):
+            if re.match('\w:', url) or re.match(r'\\', url):
                 url = 'file:///' + url
 
             # Convert a .\dir\file.xlsx link to dir\file.xlsx.
@@ -903,7 +911,7 @@ class Worksheet(xmlwriter.XMLwriter):
         previous = 'format'
         pos = 0
 
-        for token in (tokens):
+        for token in tokens:
             if not isinstance(token, Format):
                 # Token is a string.
                 if previous != 'format':
@@ -933,7 +941,7 @@ class Worksheet(xmlwriter.XMLwriter):
             self.rstring._xml_start_tag('r')
 
         # Write the XML elements for the $format $string fragments.
-        for token in (fragments):
+        for token in fragments:
             if isinstance(token, Format):
                 # Write the font run.
                 self.rstring._xml_start_tag('r')
@@ -985,7 +993,7 @@ class Worksheet(xmlwriter.XMLwriter):
             other: Return value of write() method.
 
         """
-        for token in (data):
+        for token in data:
             error = self.write(row, col, token, cell_format)
             if error:
                 return error
@@ -1008,7 +1016,7 @@ class Worksheet(xmlwriter.XMLwriter):
             other: Return value of write() method.
 
         """
-        for token in (data):
+        for token in data:
             error = self.write(row, col, token, cell_format)
             if error:
                 return error
@@ -1242,7 +1250,7 @@ class Worksheet(xmlwriter.XMLwriter):
             (firstcol, lastcol) = (lastcol, firstcol)
 
         # Don't modify the row dimensions when checking the columns.
-        ignore_row = 1
+        ignore_row = True
 
         # Set optional column values.
         hidden = options.get('hidden', False)
@@ -1250,9 +1258,9 @@ class Worksheet(xmlwriter.XMLwriter):
         level = options.get('level', 0)
         # Store the column dimension only in some conditions.
         if cell_format or (width and hidden):
-            ignore_col = 0
+            ignore_col = False
         else:
-            ignore_col = 1
+            ignore_col = True
 
         # Check that each column is valid and store the max and min values.
         if self._check_dimensions(0, lastcol, ignore_row, ignore_col):
@@ -1569,9 +1577,9 @@ class Worksheet(xmlwriter.XMLwriter):
             -2: Incorrect parameter or option.
         """
         # Check that row and col are valid without storing the values.
-        if self._check_dimensions(first_row, first_col, 1, 1):
+        if self._check_dimensions(first_row, first_col, True, True):
             return -1
-        if self._check_dimensions(last_row, last_col, 1, 1):
+        if self._check_dimensions(last_row, last_col, True, True):
             return -1
 
         # List of valid input parameters.
@@ -1766,9 +1774,9 @@ class Worksheet(xmlwriter.XMLwriter):
             -2: Incorrect parameter or option.
         """
         # Check that row and col are valid without storing the values.
-        if self._check_dimensions(first_row, first_col, 1, 1):
+        if self._check_dimensions(first_row, first_col, True, True):
             return -1
-        if self._check_dimensions(last_row, last_col, 1, 1):
+        if self._check_dimensions(last_row, last_col, True, True):
             return -1
 
         if options is None:
@@ -1870,7 +1878,7 @@ class Worksheet(xmlwriter.XMLwriter):
             'continue month': 'continueMonth'}
 
         # Check for valid criteria types.
-        if ('criteria' in options and options['criteria'] in criteria_type):
+        if 'criteria' in options and options['criteria'] in criteria_type:
             options['criteria'] = criteria_type[options['criteria']]
 
         # Convert date/times value if required.
@@ -2125,9 +2133,9 @@ class Worksheet(xmlwriter.XMLwriter):
             return -1
 
         # Check that row and col are valid without storing the values.
-        if self._check_dimensions(first_row, first_col, 1, 1):
+        if self._check_dimensions(first_row, first_col, True, True):
             return -2
-        if self._check_dimensions(last_row, last_col, 1, 1):
+        if self._check_dimensions(last_row, last_col, True, True):
             return -2
 
         # List of valid input parameters.
@@ -2338,11 +2346,10 @@ class Worksheet(xmlwriter.XMLwriter):
         """
 
         # Check that row and col are valid without storing the values.
-        if self._check_dimensions(row, col, 1, 1):
+        if self._check_dimensions(row, col, True, True):
             return -1
 
-        sparkline = {}
-        sparkline['locations'] = [xl_rowcol_to_cell(row, col)]
+        sparkline = {'locations': [xl_rowcol_to_cell(row, col)]}
 
         # List of valid input parameters.
         valid_parameters = {
@@ -3308,7 +3315,7 @@ class Worksheet(xmlwriter.XMLwriter):
                 or self.vbreaks > 0):
             print_changed = 1
 
-        if (print_changed or setup_changed):
+        if print_changed or setup_changed:
             options_changed = 1
 
         if self.screen_gridlines == 0:
@@ -3316,7 +3323,7 @@ class Worksheet(xmlwriter.XMLwriter):
         if self.filter_on:
             options_changed = 1
 
-        return (options_changed, print_changed, setup_changed)
+        return options_changed, print_changed, setup_changed
 
     def _quote_sheetname(self, sheetname):
         # Sheetnames used in references should be quoted if they
@@ -3483,7 +3490,7 @@ class Worksheet(xmlwriter.XMLwriter):
         if re.match('top|bottom', tokens[0].lower()):
             value = int(tokens[1])
 
-            if (value < 1 or value > 500):
+            if value < 1 or value > 500:
                 warn("The value '%d' in expression '%s' "
                      "must be in the range 1 to 500" % (value, expression))
 
@@ -3544,12 +3551,12 @@ class Worksheet(xmlwriter.XMLwriter):
         count = len(plaintext)
         digits = []
 
-        for char in (plaintext):
+        for char in plaintext:
             i += 1
             char = ord(char) << i
             low_15 = char & 0x7fff
             high_15 = char & 0x7fff << 15
-            high_15 = high_15 >> 15
+            high_15 >>= 15
             char = low_15 | high_15
             digits.append(char)
 
@@ -3614,14 +3621,8 @@ class Worksheet(xmlwriter.XMLwriter):
         chart.id = chart_id - 1
 
         # Use user specified dimensions, if any.
-        if chart.width:
-            width = chart.width
-
-        if chart.height:
-            height = chart.height
-
-        width = int(0.5 + (width * x_scale))
-        height = int(0.5 + (height * y_scale))
+        width = int(0.5 + (chart.width * x_scale))
+        height = int(0.5 + (chart.height * y_scale))
 
         dimensions = self._position_object_emus(col, row, x_offset, y_offset,
                                                 width, height)
@@ -4113,21 +4114,21 @@ class Worksheet(xmlwriter.XMLwriter):
     ###########################################################################
     def _write_font(self, xf_format):
         # Write the <font> element.
-        xmlwriter = self.rstring
+        xml_writer = self.rstring
 
-        xmlwriter._xml_start_tag('rPr')
+        xml_writer._xml_start_tag('rPr')
 
         # Handle the main font properties.
         if xf_format.bold:
-            xmlwriter._xml_empty_tag('b')
+            xml_writer._xml_empty_tag('b')
         if xf_format.italic:
-            xmlwriter._xml_empty_tag('i')
+            xml_writer._xml_empty_tag('i')
         if xf_format.font_strikeout:
-            xmlwriter._xml_empty_tag('strike')
+            xml_writer._xml_empty_tag('strike')
         if xf_format.font_outline:
-            xmlwriter._xml_empty_tag('outline')
+            xml_writer._xml_empty_tag('outline')
         if xf_format.font_shadow:
-            xmlwriter._xml_empty_tag('shadow')
+            xml_writer._xml_empty_tag('shadow')
 
         # Handle the underline variants.
         if xf_format.underline:
@@ -4140,7 +4141,7 @@ class Worksheet(xmlwriter.XMLwriter):
             self._write_vert_align('subscript')
 
         # Write the font size
-        xmlwriter._xml_empty_tag('sz', [('val', xf_format.font_size)])
+        xml_writer._xml_empty_tag('sz', [('val', xf_format.font_size)])
 
         # Handle colors.
         if xf_format.theme:
@@ -4154,14 +4155,14 @@ class Worksheet(xmlwriter.XMLwriter):
             self._write_rstring_color('theme', 1)
 
         # Write some other font properties related to font families.
-        xmlwriter._xml_empty_tag('rFont', [('val', xf_format.font_name)])
-        xmlwriter._xml_empty_tag('family', [('val', xf_format.font_family)])
+        xml_writer._xml_empty_tag('rFont', [('val', xf_format.font_name)])
+        xml_writer._xml_empty_tag('family', [('val', xf_format.font_family)])
 
         if xf_format.font_name == 'Calibri' and not xf_format.hyperlink:
-            xmlwriter._xml_empty_tag('scheme',
-                                     [('val', xf_format.font_scheme)])
+            xml_writer._xml_empty_tag('scheme',
+                                      [('val', xf_format.font_scheme)])
 
-        xmlwriter._xml_end_tag('rPr')
+        xml_writer._xml_end_tag('rPr')
 
     def _write_underline(self, underline):
         # Write the underline font element.
@@ -4441,7 +4442,7 @@ class Worksheet(xmlwriter.XMLwriter):
             self.row_data_fh.seek(0)
             data = self.row_data_fh.read(buff_size)
 
-            while(data):
+            while data:
                 self.fh.write(data)
                 data = self.row_data_fh.read(buff_size)
 
@@ -4925,7 +4926,7 @@ class Worksheet(xmlwriter.XMLwriter):
 
         self._xml_start_tag('rowBreaks', attributes)
 
-        for row_num in (page_breaks):
+        for row_num in page_breaks:
             self._write_brk(row_num, 16383)
 
         self._xml_end_tag('rowBreaks')
@@ -4946,7 +4947,7 @@ class Worksheet(xmlwriter.XMLwriter):
 
         self._xml_start_tag('colBreaks', attributes)
 
-        for col_num in (page_breaks):
+        for col_num in page_breaks:
             self._write_brk(col_num, 1048575)
 
         self._xml_end_tag('colBreaks')
@@ -4972,7 +4973,7 @@ class Worksheet(xmlwriter.XMLwriter):
 
         self._xml_start_tag('mergeCells', attributes)
 
-        for merged_range in (merged_cells):
+        for merged_range in merged_cells:
 
             # Write the mergeCell element.
             self._write_merge_cell(merged_range)
@@ -5007,12 +5008,12 @@ class Worksheet(xmlwriter.XMLwriter):
             return
 
         # Iterate over the rows.
-        for row_num in (row_nums):
+        for row_num in row_nums:
             # Sort the hyperlinks into column order.
             col_nums = sorted(self.hyperlinks[row_num].keys())
 
             # Iterate over the columns.
-            for col_num in (col_nums):
+            for col_num in col_nums:
                 # Get the link data for this cell.
                 link = self.hyperlinks[row_num][col_num]
                 link_type = link["link_type"]
@@ -5053,7 +5054,7 @@ class Worksheet(xmlwriter.XMLwriter):
         # Write the hyperlink elements.
         self._xml_start_tag('hyperlinks')
 
-        for args in (hlink_refs):
+        for args in hlink_refs:
             link_type = args.pop(0)
 
             if link_type == 1:
@@ -5156,7 +5157,7 @@ class Worksheet(xmlwriter.XMLwriter):
             # General case.
             self._xml_start_tag('filters')
 
-            for autofilter in (filters):
+            for autofilter in filters:
                 self._write_filter(autofilter)
 
             self._xml_end_tag('filters')
@@ -5306,7 +5307,7 @@ class Worksheet(xmlwriter.XMLwriter):
 
         self._xml_start_tag('dataValidations', attributes)
 
-        for validation in (validations):
+        for validation in validations:
 
             # Write the dataValidation element.
             self._write_data_validation(validation)
@@ -5425,7 +5426,7 @@ class Worksheet(xmlwriter.XMLwriter):
         if not ranges:
             return
 
-        for cond_range in (ranges):
+        for cond_range in ranges:
             self._write_conditional_formatting(cond_range,
                                                self.cond_formats[cond_range])
 
@@ -5433,7 +5434,7 @@ class Worksheet(xmlwriter.XMLwriter):
         # Write the <conditionalFormatting> element.
         attributes = [('sqref', cond_range)]
         self._xml_start_tag('conditionalFormatting', attributes)
-        for param in (params):
+        for param in params:
             # Write the cfRule element.
             self._write_cf_rule(param)
         self._xml_end_tag('conditionalFormatting')

@@ -27,7 +27,6 @@ def xl_rowcol_to_cell(row, col, row_abs=False, col_abs=False):
     """
     row += 1  # Change to 1-index.
     row_abs = '$' if row_abs else ''
-    col_abs = '$' if col_abs else ''
 
     col_str = xl_col_to_name(col, col_abs)
 
@@ -102,7 +101,7 @@ def xl_cell_to_rowcol(cell_str):
 
     """
     if not cell_str:
-        return (0, 0)
+        return 0, 0
 
     match = range_parts.match(cell_str)
     col_str = match.group(2)
@@ -135,7 +134,7 @@ def xl_cell_to_rowcol_abs(cell_str):
 
     """
     if not cell_str:
-        return (0, 0, False, False)
+        return 0, 0, False, False
 
     match = range_parts.match(cell_str)
 

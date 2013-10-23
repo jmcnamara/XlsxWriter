@@ -61,7 +61,6 @@ class ContentTypes(xmlwriter.XMLwriter):
         # Write the XML declaration.
         self._xml_declaration()
 
-        self._xml_declaration
         self._write_types()
         self._write_defaults()
         self._write_overrides()

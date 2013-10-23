@@ -76,7 +76,7 @@ All patches and pull requests are welcome.
 
 ### Enabling Travis CI via your GitHub account
 
-Travis CI is a free Continuous Integration service that will test any code you push to Github with Python 2.5, 2.6, 2.7, 3.2, 3.3 and PyPy.
+Travis CI is a free Continuous Integration service that will test any code you push to GitHub with Python 2.5, 2.6, 2.7, 3.2, 3.3 and PyPy.
 
 See the [Travis CI Getting Started](http://about.travis-ci.org/docs/user/getting-started/) instructions.
 

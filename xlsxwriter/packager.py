@@ -86,6 +86,8 @@ class Packager(object):
         self.chart_count = 0
         self.drawing_count = 0
         self.table_count = 0
+        self.num_vml_files = 0
+        self.num_comment_files = 0
         self.named_ranges = []
 
     ###########################################################################
@@ -557,7 +559,7 @@ class Packager(object):
             rels = Relationships()
 
             for link_data in external_links:
-                rels._add_worksheet_relationship(link_data)
+                rels._add_worksheet_relationship(*link_data)
 
             # Create .rels file such as /xl/chartsheets/_rels/sheet1.xml.rels.
             rels._set_xml_writer(xlsx_dir + '/xl/chartsheets/_rels/sheet'

@@ -79,7 +79,7 @@ class Comments(xmlwriter.XMLwriter):
 
         self._xml_start_tag('authors')
 
-        for comment in (comment_data):
+        for comment in comment_data:
             author = comment[3]
 
             if author is not None and not author in self.author_ids:
@@ -100,7 +100,7 @@ class Comments(xmlwriter.XMLwriter):
         # Write the <commentList> element.
         self._xml_start_tag('commentList')
 
-        for comment in (comment_data):
+        for comment in comment_data:
             row = comment[0]
             col = comment[1]
             text = comment[2]

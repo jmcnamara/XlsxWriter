@@ -619,7 +619,7 @@ class Styles(xmlwriter.XMLwriter):
             for xf_format in self.dxf_formats:
                 self._xml_start_tag('dxf')
                 if xf_format.has_dxf_font:
-                    self._write_font(xf_format, 1)
+                    self._write_font(xf_format, True)
 
                 if xf_format.num_format_index:
                     self._write_num_fmt(xf_format.num_format_index,

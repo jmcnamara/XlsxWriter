@@ -67,6 +67,7 @@ class Format(xmlwriter.XMLwriter):
         self.text_v_align = 0
         self.text_justlast = 0
         self.rotation = 0
+        self.center_across = 0
 
         self.fg_color = 0
         self.bg_color = 0

@@ -81,7 +81,7 @@ class Vml(xmlwriter.XMLwriter):
         width *= 0.75
         height *= 0.75
 
-        return (left, top, width, height)
+        return left, top, width, height
 
     ###########################################################################
     #

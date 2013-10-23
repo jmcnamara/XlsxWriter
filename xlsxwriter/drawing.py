@@ -148,7 +148,7 @@ class Drawing(xmlwriter.XMLwriter):
 
         self._xml_end_tag('xdr:twoCellAnchor')
 
-    def _write_absolute_anchor(self, index):
+    def _write_absolute_anchor(self, frame_index):
         self._xml_start_tag('xdr:absoluteAnchor')
         # Write the <xdr:absoluteAnchor> element.
 
@@ -168,7 +168,7 @@ class Drawing(xmlwriter.XMLwriter):
             self._write_ext(6162675, 6124575)
 
         # Write the xdr:graphicFrame element.
-        self._write_graphic_frame(index)
+        self._write_graphic_frame(frame_index, 'Name')
 
         # Write the xdr:clientData element.
         self._write_client_data()
@@ -406,8 +406,8 @@ class Drawing(xmlwriter.XMLwriter):
 
             # Write the xdr:txBody element.
             if shape.text:
-                self._write_txBody(col_absolute, row_absolute, width, height,
-                                   shape)
+                self._write_tx_body(col_absolute, row_absolute, width, height,
+                                    shape)
 
             self._xml_end_tag('xdr:sp')
 
@@ -659,7 +659,7 @@ class Drawing(xmlwriter.XMLwriter):
                     suffix = ''
 
                 # Scale Adjustments: 100,000 = 100%.
-                adj_int = int(adj * 1000)
+                adj_int = str(int(adj * 1000))
 
                 attributes = [('name', 'adj' + suffix),
                               ('fmla', 'val' + adj_int)]
@@ -716,7 +716,7 @@ class Drawing(xmlwriter.XMLwriter):
 
         self._xml_end_tag('a:ln')
 
-    def _write_txBody(self, col_absolute, row_absolute, width, height, shape):
+    def _write_tx_body(self, col_absolute, row_absolute, width, height, shape):
         # Write the <xdr:txBody> element.
         attributes = [
             ('vertOverflow', "clip"),

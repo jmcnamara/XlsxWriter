@@ -101,6 +101,9 @@ class Workbook(xmlwriter.XMLwriter):
         self.vba_codename = None
         self.image_types = {}
         self.images = []
+        self.border_count = 0
+        self.fill_count = 0
+        self.drawing_count = 0
 
         # Add the default cell format.
         self.add_format({'xf_index': 0})
@@ -631,7 +634,7 @@ class Workbook(xmlwriter.XMLwriter):
 
         # Store the DXF colours separately since them may be reversed below.
         for xf_format in self.dxf_formats:
-            if (xf_format.pattern or xf_format.bg_color or xf_format.fg_color):
+            if xf_format.pattern or xf_format.bg_color or xf_format.fg_color:
                 xf_format.has_dxf_fill = 1
                 xf_format.dxf_bg_color = xf_format.bg_color
                 xf_format.dxf_fg_color = xf_format.fg_color
@@ -814,11 +817,11 @@ class Workbook(xmlwriter.XMLwriter):
             self.image_types['png'] = 1
             (image_type, width, height) = self._process_png(data)
 
-        elif (marker2 == 0xFFD8):
+        elif marker2 == 0xFFD8:
             self.image_types['jpeg'] = 1
             (image_type, width, height) = self._process_jpg(data)
 
-        elif (marker3 == bmp_marker):
+        elif marker3 == bmp_marker:
             self.image_types['bmp'] = 1
             (image_type, width, height) = self._process_bmp(data)
 
@@ -834,14 +837,14 @@ class Workbook(xmlwriter.XMLwriter):
         self.images.append([filename, image_type])
 
         fh.close()
-        return (image_type, width, height, image_name)
+        return image_type, width, height, image_name
 
     def _process_png(self, data):
         # Extract width and height information from a PNG file.
         width = (unpack('>I', data[16:20]))[0]
         height = (unpack('>I', data[20:24]))[0]
 
-        return ('png', width, height)
+        return 'png', width, height
 
     def _process_jpg(self, data):
         # Extract width and height information from a JPEG file.
@@ -852,6 +855,8 @@ class Workbook(xmlwriter.XMLwriter):
         # The height and width are contained in the data for that
         # sub-element.
         found = 0
+        width = 0
+        height = 0
         while not found and offset < data_length:
 
             marker = (unpack('>H', data[offset + 0:offset + 2]))[0]
@@ -869,20 +874,20 @@ class Workbook(xmlwriter.XMLwriter):
                 found = 1
                 continue
 
-        return ('jpeg', width, height)
+        return 'jpeg', width, height
 
     def _process_bmp(self, data):
         # Extract width and height information from a BMP file.
         width = (unpack('<L', data[18:22]))[0]
         height = (unpack('<L', data[22:26]))[0]
-        return ('bmp', width, height)
+        return 'bmp', width, height
 
     def _extract_named_ranges(self, defined_names):
         # Extract the named ranges from the sorted list of defined names.
         # These are used in the App.xml file.
         named_ranges = []
 
-        for defined_name in (defined_names):
+        for defined_name in defined_names:
 
             name = defined_name[0]
             index = defined_name[1]
@@ -1051,7 +1056,7 @@ class Workbook(xmlwriter.XMLwriter):
         if row_start != row_end and col_start != col_end:
             return None
 
-        return (sheetname, [row_start, col_start, row_end, col_end])
+        return sheetname, [row_start, col_start, row_end, col_end]
 
     def _prepare_sst_string_data(self):
         # Convert the SST string data from a dict to a list.
@@ -1181,7 +1186,7 @@ class Workbook(xmlwriter.XMLwriter):
 
         self._xml_start_tag('definedNames')
 
-        for defined_name in (self.defined_names):
+        for defined_name in self.defined_names:
             self._write_defined_name(defined_name)
 
         self._xml_end_tag('definedNames')

@@ -767,7 +767,7 @@ If you wish to set the format of a row without changing the height you can pass
     worksheet.set_row(1, 15,   cell_format)  # Same as above.
 
 The ``cell_format`` parameter will be applied to any cells in the row that
-don't have a format. As with Excel it is overidden by an explicit cell format.
+don't have a format. As with Excel it is overridden by an explicit cell format.
 For example::
 
     worksheet.set_row(0, None, format1)      # Row 1 has format1.
