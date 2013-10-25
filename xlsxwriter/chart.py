@@ -888,6 +888,7 @@ class Chart(xmlwriter.XMLwriter):
             'percentage': 'percentage',
             'standard_deviation': 'stdDev',
             'standard_error': 'stdErr',
+            'custom': 'cust',
         }
 
         # Check the error bars type.
@@ -916,6 +917,16 @@ class Chart(xmlwriter.XMLwriter):
             else:
                 # Default to 'both'.
                 pass
+
+        # Set any custom values.
+        if 'plus_values'in options:
+            error_bars['plus_values'] = options['plus_values']
+        if 'minus_values'in options:
+            error_bars['minus_values'] = options['minus_values']
+        if 'plus_data'in options:
+            error_bars['plus_data'] = options['plus_data']
+        if 'minus_data'in options:
+            error_bars['minus_data'] = options['minus_data']
 
         # Set the line properties for the error bars.
         error_bars['line'] = self._get_line_properties(options.get('line'))
@@ -3050,12 +3061,16 @@ class Chart(xmlwriter.XMLwriter):
         self._write_err_val_type(error_bars['type'])
 
         if not error_bars['endcap']:
-
             # Write the c:noEndCap element.
             self._write_no_end_cap()
 
-        if error_bars['type'] != 'stdErr':
-
+        if error_bars['type'] == 'stdErr':
+            # Don't need to write a c:errValType tag.
+            pass
+        elif error_bars['type'] == 'cust':
+            # Write the custom error tags.
+            self._write_custom_error(error_bars)
+        else:
             # Write the c:val element.
             self._write_error_val(error_bars['value'])
 
@@ -3097,6 +3112,63 @@ class Chart(xmlwriter.XMLwriter):
         attributes = [('val', val)]
 
         self._xml_empty_tag('c:val', attributes)
+
+    def _write_custom_error(self, error_bars):
+        # Write the custom error bars tags.
+
+        if error_bars['plus_values']:
+            # Write the c:plus element.
+            self._xml_start_tag('c:plus')
+
+            if isinstance(error_bars['plus_values'], list):
+                self._write_num_lit(error_bars['plus_values'])
+            else:
+                self._write_num_ref(error_bars['plus_values'],
+                                    error_bars['plus_data'],
+                                    'num')
+            self._xml_end_tag('c:plus')
+
+        if error_bars['minus_values']:
+            # Write the c:minus element.
+            self._xml_start_tag('c:minus')
+
+            if isinstance(error_bars['minus_values'], list):
+                self._write_num_lit(error_bars['minus_values'])
+            else:
+                self._write_num_ref(error_bars['minus_values'],
+                                    error_bars['minus_data'],
+                                    'num')
+            self._xml_end_tag('c:minus')
+
+    def _write_num_lit(self, data):
+        # Write the <c:numLit> element for literal number list elements.
+        count = len(data)
+
+        # Write the c:numLit element.
+        self._xml_start_tag('c:numLit')
+
+        # Write the c:formatCode element.
+        self._write_format_code('General')
+
+        # Write the c:ptCount element.
+        self._write_pt_count(count)
+
+        for i in range(count):
+            token = data[i]
+
+            if token is None:
+                continue
+
+            try:
+                float(token)
+            except ValueError:
+                # Write non-numeric data as 0.
+                token = 0
+
+            # Write the c:pt element.
+            self._write_pt(i, token)
+
+        self._xml_end_tag('c:numLit')
 
     def _write_up_down_bars(self):
         # Write the <c:upDownBars> element.

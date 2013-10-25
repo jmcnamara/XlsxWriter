@@ -275,7 +275,9 @@ horizontal ``x_error_bars`` (for Bar and Scatter charts only).
 The following properties can be set for error bars in a chart series::
 
     type
-    value     (for all types except standard error)
+    value        (for all types except standard error and custom)
+    plus_values  (for custom only)
+    minus_values (for custom only)
     direction
     end_style
     line
@@ -296,11 +298,10 @@ The available error bars types are available::
     percentage
     standard_deviation
     standard_error
+    custom
 
-Note, the "custom" error bars type is not supported.
-
-All error bar types, except for ``standard_error`` must also have a value
-associated with it for the error bounds::
+All error bar types, except for ``standard_error`` and ``custom`` must also
+have a value associated with it for the error bounds::
 
     chart.add_series({
         'values': '=Sheet1!$A$1:$A$6',
@@ -310,6 +311,33 @@ associated with it for the error bounds::
         },
     })
 
+The ``custom`` error bar type must specify ``plus_values`` and ``minus_values``
+which should either by a ``Sheet1!$A$1:$A$5`` type range formula or a list of
+values::
+
+     chart.add_series({
+         'categories': '=Sheet1!$A$1:$A$5',
+         'values':     '=Sheet1!$B$1:$B$5',
+         'y_error_bars': {
+             'type':         'custom',
+             'plus_values':  '=Sheet1!$C$1:$C$5',
+             'minus_values': '=Sheet1!$D$1:$D$5',
+         },
+     })
+
+    # or
+
+     chart.add_series({
+         'categories': '=Sheet1!$A$1:$A$5',
+         'values':     '=Sheet1!$B$1:$B$5',
+         'y_error_bars': {
+             'type':         'custom',
+             'plus_values':  [1, 1, 1, 1, 1],
+             'minus_values': [2, 2, 2, 2, 2],
+         },
+     })
+
+Note, as in Excel the items in the ``minus_values`` do not need to be negative.
 
 The ``direction`` property sets the direction of the error bars. It should be
 one of the following::
