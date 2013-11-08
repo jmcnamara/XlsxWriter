@@ -270,11 +270,10 @@ class ChartScatter(chart.Chart):
 
         # Turn markers off for subtypes that don't have them.
         if not 'marker' in subtype:
-
             # Go through each series and define default values.
             for series in self.series:
                 # Set a marker type unless there is a user defined type.
-                if not series.get('marker') or not series['marker']['defined']:
+                if not series.get('marker'):
                     series['marker'] = {'type': 'none', 'defined': 1}
 
     def _write_d_pt_point(self, index, point):
