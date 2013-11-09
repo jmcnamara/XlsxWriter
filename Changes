@@ -1,3 +1,16 @@
+Release 0.4.7 - November 9 2013
+-------------------------------
+
+* Added fix for markers on non-marker scatter charts. Issue
+  `#62 <https://github.com/jmcnamara/XlsxWriter/issues/62>`_.
+
+* Added custom error bar option. Thanks to input from Alex Birmingham.
+
+* Changed Html docs to Bootstap theme.
+
+* Added :ref:`ex_merge_rich`.
+
+
 Release 0.4.6 - October 23 2013
 -------------------------------
 
@@ -17,14 +30,16 @@ Release 0.4.4 - October 16 2013
 
 * Documented use of :ref:`cell utility <cell_utility>` functions.
 
-* Fix for tables added in non-sequential order. Closes #51 reported by
+* Fix for tables added in non-sequential order. Closes
+  `#51 <https://github.com/jmcnamara/XlsxWriter/issues/51>`_ reported by
   calfzhou.
 
 
 Release 0.4.3 - September 12 2013
 ---------------------------------
 
-* Fix for comments overlying columns with non-default width. Issue #45.
+* Fix for comments overlying columns with non-default width. Issue
+  `#45 <https://github.com/jmcnamara/XlsxWriter/issues/45>`_.
 
 
 Release 0.4.2 - August 30 2013
@@ -40,17 +55,20 @@ Release 0.4.1 - August 28 2013
 ------------------------------
 
 * Fix for charts and images that cross rows and columns that are hidden or
-  formatted but which don't have size changes. Issue #42 reported by
+  formatted but which don't have size changes. Issue
+  `#42 <https://github.com/jmcnamara/XlsxWriter/issues/42>`_ reported by
   Kristian Stobbe.
 
 
 Release 0.4.0 - August 26 2013
 ------------------------------
 
-* Added more generic support for JPEG files. Issue #40 reported by Simon
+* Added more generic support for JPEG files. Issue
+  `#40 <https://github.com/jmcnamara/XlsxWriter/issues/40>`_ reported by Simon
   Breuss.
 
-* Fix for harmless Python 3 installation warning. Issue #41 reported by James
+* Fix for harmless Python 3 installation warning. Issue
+  `#41 <https://github.com/jmcnamara/XlsxWriter/issues/41>`_ reported by James
   Reeves.
 
 
@@ -76,8 +94,8 @@ Release 0.3.7 - August 16 2013
 ------------------------------
 
 * Added :func:`write_boolean()` function to write Excel boolean values. Issue
-  #37. Also added explicit handling of Python bool values to the
-  :func:`write()` function.
+  `#37 <https://github.com/jmcnamara/XlsxWriter/issues/37>`_. Also added
+  explicit handling of Python bool values to the :func:`write()` function.
 
 * Changed :func:`Workbook` constructor option
   ``strings_to_numbers`` default option to False so that there is no implicit
@@ -89,15 +107,18 @@ Release 0.3.7 - August 16 2013
 Release 0.3.6 - July 26 2013
 -----------------------------
 
-* Simplified import based on a suggestion from John Yeung. Issue #26.
+* Simplified import based on a suggestion from John Yeung. Issue
+  `#26 <https://github.com/jmcnamara/XlsxWriter/issues/26>`_.
 
-* Fix for NAN/INF converted to invalid numbers in write(). Issue #30.
+* Fix for NAN/INF converted to invalid numbers in write(). Issue
+  `#30 <https://github.com/jmcnamara/XlsxWriter/issues/30>`_.
 
 * Added :func:`Workbook` constructor option ``strings_to_numbers`` to
   override default conversion of number strings to numbers in write().
 
 * Added :func:`Workbook` constructor option ``default_date_format`` to
-  allow a default date format string to be set. Issue #5.
+  allow a default date format string to be set. Issue
+  `#5 <https://github.com/jmcnamara/XlsxWriter/issues/5>`_.
 
 
 Release 0.3.5 - June 28 2013
@@ -115,7 +136,8 @@ Release 0.3.4 - June 27 2013
 * Added Http Server example (:ref:`ex_http_server`). Thanks to
   Alexander Afanasiev.
 
-* Fixed inaccurate column width calculation. Closes #27. Thanks to
+* Fixed inaccurate column width calculation. Closes
+  `#27 <https://github.com/jmcnamara/XlsxWriter/issues/27>`_. Thanks to
   John Yeung.
 
 * Added chart axis font rotation.
@@ -124,13 +146,17 @@ Release 0.3.4 - June 27 2013
 Release 0.3.3 - June 10 2013
 -----------------------------
 
-* Minor packaging fixes, #14 and #19.
+* Minor packaging fixes
+  `#14 <https://github.com/jmcnamara/XlsxWriter/issues/14>`_ and
+  `#19 <https://github.com/jmcnamara/XlsxWriter/issues/19>`_.
 
 * Fixed explicit UTF-8 file encoding for Python 3.
-  PR from Alexandr Shadchin, #15.
+  PR from Alexandr Shadchin,
+  `#15 <https://github.com/jmcnamara/XlsxWriter/issues/15>`_.
 
 * Fixed invalid string formatting resulted in misleading stacktrace.
-  PR from Andrei Korostelev, #21.
+  PR from Andrei Korostelev,
+  `#21 <https://github.com/jmcnamara/XlsxWriter/issues/21>`_.
 
 
 Release 0.3.2 - May 1 2013
@@ -240,7 +266,8 @@ Release 0.2.1 - March 25 2013
 -----------------------------
 
 * Added support for datetime.datetime, datetime.date and datetime.time
-  to the :func:`write_datetime` method. GitHub issue #3.
+  to the :func:`write_datetime` method. GitHub issue
+  `#3 <https://github.com/jmcnamara/XlsxWriter/issues/3>`_.
   Thanks to Eduardo (eazb) and Josh English for the prompt.
 
 
