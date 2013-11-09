@@ -11,8 +11,8 @@
 # All configuration values have a default; values that are commented out
 # serve to show the default.
 
-# import sys
-# import os
+import sys
+import os
 
 # If extensions (or modules to document with autodoc) are in another directory,
 # add these directories to sys.path here. If the directory is relative to the
@@ -95,22 +95,25 @@ intersphinx_mapping = {'http://docs.python.org/2/': None}
 
 # The theme to use for HTML and HTML Help pages.  See the documentation for
 # a list of builtin themes.
-html_theme = 'default'
+# html_theme = 'default'
+sys.path.append(os.path.abspath('_themes'))
+html_theme_path = ['_themes']
+html_theme = 'bootstrap'
 
 # Theme options are theme-specific and customize the look and feel of a theme
 # further.  For a list of options available for each theme, see the
 # documentation.
-html_theme_options = {
-                      # 'nosidebar': True,
-                      'sidebarbgcolor': '#F2F2F2',
-                      'relbarbgcolor': '#9CB640',
-                      'linkcolor': '#9CB640',
-                      'sidebarlinkcolor': '#9CB640',
-                      'footerbgcolor': '#FFFFFF',
-                      'footertextcolor': '#9CB640',
-                      'headtextcolor': '#9CB640',
-                      'codebgcolor': '#FFFFFF',
-                      }
+# html_theme_options = {
+#                       # 'nosidebar': True,
+#                       'sidebarbgcolor': '#F2F2F2',
+#                       'relbarbgcolor': '#9CB640',
+#                       'linkcolor': '#9CB640',
+#                       'sidebarlinkcolor': '#9CB640',
+#                       'footerbgcolor': '#FFFFFF',
+#                       'footertextcolor': '#9CB640',
+#                       'headtextcolor': '#9CB640',
+#                       'codebgcolor': '#FFFFFF',
+#                       }
 
 # Add any paths that contain custom themes here, relative to this directory.
 # html_theme_path = []
@@ -161,7 +164,7 @@ html_static_path = ['_static']
 # html_split_index = False
 
 # If true, links to the reST sources are added to the pages.
-html_show_sourcelink = True
+# html_show_sourcelink = True
 
 # If true, "Created using Sphinx" is shown in the HTML footer. Default is True.
 html_show_sphinx = True

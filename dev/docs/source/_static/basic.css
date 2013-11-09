@@ -278,6 +278,7 @@ p.topic-title {
     font-size: 1.1em;
     font-weight: bold;
     margin-top: 10px;
+    width: 825px;
 }
 
 /* -- admonitions ----------------------------------------------------------- */
@@ -286,6 +287,7 @@ div.admonition {
     margin-top: 10px;
     margin-bottom: 10px;
     padding: 7px;
+    /* width: 842px; */
 }
 
 div.admonition dt {
@@ -487,7 +489,7 @@ tt.descclassname {
 
 tt.xref, a tt {
     background-color: transparent;
-    font-weight: bold;
+    /* font-weight: bold; */
 }
 
 h1 tt, h2 tt, h3 tt, h4 tt, h5 tt, h6 tt {

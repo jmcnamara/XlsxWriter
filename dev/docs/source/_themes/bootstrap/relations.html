@@ -1,0 +1,8 @@
+{%- if prev %}
+  <li><a href="{{ prev.link|e }}"
+         title="{{ _('Previous Chapter: ') + prev.title|striptags }}">{{ "&laquo;"|safe }} {{ prev.title|striptags|truncate(length=16, killwords=True) }}</a></li>
+{%- endif %}
+{%- if next %}
+  <li><a href="{{ next.link|e }}"
+         title="{{ _('Next Chapter: ') + next.title|striptags }}">{{ next.title|striptags|truncate(length=16, killwords=True) }} {{ "&raquo;"|safe }}</a></li>
+{%- endif %}
