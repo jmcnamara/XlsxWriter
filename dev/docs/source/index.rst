@@ -93,7 +93,6 @@ standard libraries only.
 .. toctree::
    :maxdepth: 1
 
-   excel_writer_xlsx.rst
    alternatives.rst
    bugs.rst
    faq.rst
