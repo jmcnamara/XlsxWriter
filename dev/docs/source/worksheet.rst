@@ -669,7 +669,7 @@ centers a rich string in the cell::
                                 center)
 
 
-See also :ref:`ex_rich_strings`.
+See also :ref:`ex_rich_strings` and :ref:`ex_merge_rich`.
 
 worksheet.write_row()
 ---------------------
@@ -767,8 +767,8 @@ If you wish to set the format of a row without changing the height you can pass
     worksheet.set_row(1, 15,   cell_format)  # Same as above.
 
 The ``cell_format`` parameter will be applied to any cells in the row that
-don't have a format. As with Excel it is overridden by an explicit cell format.
-For example::
+don't have a format. As with Excel it is overridden by an explicit cell
+format. For example::
 
     worksheet.set_row(0, None, format1)      # Row 1 has format1.
 
@@ -1474,14 +1474,16 @@ It is possible to apply other formatting to the merged cells as well::
 
 .. image:: _images/merge_range.png
 
+See :ref:`ex_merge1` for more details.
+
 The ``merge_range()`` method writes its ``data`` argument using
 :func:`write()`. Therefore it will handle numbers, strings and formulas as
-usual. If this doesn't handle you data correctly then you can overwrite the
+usual. If this doesn't handle your data correctly then you can overwrite the
 first cell with a call to one of the other
 ``write_*()`` methods using the same :ref:`Format
-<format>` as in the merged cells.
+<format>` as in the merged cells. See :ref:`ex_merge_rich`.
 
-See :ref:`ex_merge1` for more details.
+.. image:: _images/merge_rich.png
 
 
 worksheet.autofilter()

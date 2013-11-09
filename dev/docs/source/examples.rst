@@ -18,6 +18,7 @@ directory of the XlsxWriter distribution.
    example_conditional_format.rst
    example_merge1.rst
    example_rich_strings.rst
+   example_merge_rich.rst
    example_images.rst
    example_http_server.rst
    example_headers_footers.rst
