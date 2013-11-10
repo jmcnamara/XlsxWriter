@@ -1,3 +1,6 @@
+#!/usr/bin/env python
+# -*- coding:utf-8 -*-
+
 ###############################################################################
 #
 # Worksheet - A class for writing the Excel XLSX Worksheet file.
@@ -5393,7 +5396,7 @@ class Worksheet(xmlwriter.XMLwriter):
         # Write the <formula1> element.
 
         if type(formula) is list:
-            formula = ','.join([str(item) for item in formula])
+            formula = ','.join([unicode(item) for item in formula])
             formula = '"%s"' % formula
         else:
             # Check if the formula is a number.
