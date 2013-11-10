@@ -112,7 +112,8 @@ These are shown in the same order as in the Excel format dialog::
     star
     short_dash
     long_dash
-    circle plus
+    circle
+    plus
 
 The ``automatic`` type is a special case which turns on a marker using the
 default marker style for the particular series number::
