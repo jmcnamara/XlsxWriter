@@ -35,6 +35,10 @@
               <li>{% include "sourcelink.html" %}</li>
             {% endif %}
           </ul>
+
+          {% block navbarsearch %}
+            {% include "navbarsearchbox.html" %}
+          {% endblock %}
         </div>
       </div>
     </div>
