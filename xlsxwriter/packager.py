@@ -164,6 +164,7 @@ class Packager(object):
                 continue
 
             if worksheet.optimization == 1:
+                worksheet._opt_reopen()
                 worksheet._write_single_row()
 
             worksheet._set_xml_writer(

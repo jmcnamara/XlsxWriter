@@ -339,6 +339,10 @@ class Worksheet(xmlwriter.XMLwriter):
         self.vml_data_id = None
         self.vml_shape_id = None
 
+        self.row_data_filename = None
+        self.row_data_fh = None
+        self.row_data_fh_closed = False
+
     @convert_cell_args
     def write(self, row, col, *args):
         """
@@ -4204,6 +4208,20 @@ class Worksheet(xmlwriter.XMLwriter):
     def _isinf(self, x):
         # Workaround for lack of math.isinf in Python 2.5/Jython.
         return (x - x) != 0
+
+    def _opt_close(self):
+        # Close the row data filehandle in optimization mode.
+        if not self.row_data_fh_closed:
+            self.row_data_fh.close()
+            self.row_data_fh_closed = True
+
+    def _opt_reopen(self):
+        # Reopen the row data filehandle in optimization mode.
+        if self.row_data_fh_closed:
+            filename = self.row_data_filename
+            self.row_data_fh = codecs.open(filename, 'w+', 'utf-8')
+            self.row_data_fh_closed = False
+            self.fh = self.row_data_fh
 
     ###########################################################################
     #
