@@ -37,9 +37,11 @@ class TestCompareXLSXFiles(unittest.TestCase):
 
         workbook = Workbook(filename, {'constant_memory': True})
 
-        for i in range(10):
+        for i in range(1, 10):
             worksheet = workbook.add_worksheet()
-            worksheet.write('A1', 'Hello world')
+            worksheet.write('A1', 'Hello 1')
+            worksheet.write('A2', 'Hello 2')
+            worksheet.write('A4', 'Hello 3')
 
         workbook.close()
 
@@ -60,9 +62,11 @@ class TestCompareXLSXFiles(unittest.TestCase):
 
         workbook = Workbook(filename, {'constant_memory': True})
 
-        for i in range(10):
+        for i in range(1, 10):
             worksheet = workbook.add_worksheet()
-            worksheet.write('A1', 'Hello world')
+            worksheet.write('A1', 'Hello 1')
+            worksheet.write('A2', 'Hello 2')
+            worksheet.write('A4', 'Hello 3')
             worksheet._opt_close()
 
         workbook.close()
@@ -84,9 +88,15 @@ class TestCompareXLSXFiles(unittest.TestCase):
 
         workbook = Workbook(filename, {'constant_memory': True})
 
-        for i in range(10):
+        for i in range(1, 10):
             worksheet = workbook.add_worksheet()
-            worksheet.write('A1', 'Hello world')
+            worksheet.write('A1', 'Hello 1')
+            worksheet._opt_close()
+            worksheet._opt_reopen()
+            worksheet.write('A2', 'Hello 2')
+            worksheet._opt_close()
+            worksheet._opt_reopen()
+            worksheet.write('A4', 'Hello 3')
             worksheet._opt_close()
             worksheet._opt_reopen()
             worksheet._opt_close()

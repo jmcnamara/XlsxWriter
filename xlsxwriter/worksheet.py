@@ -4219,7 +4219,7 @@ class Worksheet(xmlwriter.XMLwriter):
         # Reopen the row data filehandle in optimization mode.
         if self.row_data_fh_closed:
             filename = self.row_data_filename
-            self.row_data_fh = codecs.open(filename, 'w+', 'utf-8')
+            self.row_data_fh = codecs.open(filename, 'a+', 'utf-8')
             self.row_data_fh_closed = False
             self.fh = self.row_data_fh
 
