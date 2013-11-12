@@ -8,6 +8,9 @@
 import codecs
 import sys
 
+# Standard packages in Python 2/3 compatibility mode.
+from .compatibility import StringIO
+
 
 class Theme(object):
     """
@@ -29,6 +32,7 @@ class Theme(object):
         """
         super(Theme, self).__init__()
         self.fh = None
+        self.internal_fh = False
 
     ###########################################################################
     #
@@ -39,11 +43,17 @@ class Theme(object):
     def _assemble_xml_file(self):
         # Assemble and write the XML file.
         self._write_theme_file()
-        self.fh.close()
+        if self.internal_fh:
+            self.fh.close()
 
     def _set_xml_writer(self, filename):
         # Set the XML writer filehandle for the object.
-        self.fh = codecs.open(filename, 'w', 'utf-8')
+        if isinstance(filename, StringIO):
+            self.internal_fh = False
+            self.fh = filename
+        else:
+            self.internal_fh = True
+            self.fh = codecs.open(filename, 'w', 'utf-8')
 
     ###########################################################################
     #

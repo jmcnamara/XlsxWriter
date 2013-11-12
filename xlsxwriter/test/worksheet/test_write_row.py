@@ -6,7 +6,7 @@
 #
 
 import unittest
-from ..compatibility import StringIO
+from ...compatibility import StringIO
 from ...worksheet import Worksheet
 from ...format import Format
 

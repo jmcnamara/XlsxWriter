@@ -11,6 +11,9 @@
 import re
 import codecs
 
+# Standard packages in Python 2/3 compatibility mode.
+from .compatibility import StringIO
+
 
 class XMLwriter(object):
     """
@@ -29,11 +32,13 @@ class XMLwriter(object):
         self.internal_fh = False
 
     def _set_xml_writer(self, filename):
-        # Set the XML writer filehandle for the object. This can either be
-        # done using _set_filehandle(), usually for testing, or later via
-        # this method, when assembling the xlsx file.
-        self.internal_fh = True
-        self.fh = codecs.open(filename, 'w', 'utf-8')
+        # Set the XML writer filehandle for the object.
+        if isinstance(filename, StringIO):
+            self.internal_fh = False
+            self.fh = filename
+        else:
+            self.internal_fh = True
+            self.fh = codecs.open(filename, 'w', 'utf-8')
 
     def _xml_close(self):
         # Close the XML filehandle if we created it.

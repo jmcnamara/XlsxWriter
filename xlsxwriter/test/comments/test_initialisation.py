@@ -6,7 +6,7 @@
 #
 
 import unittest
-from ..compatibility import StringIO
+from ...compatibility import StringIO
 from ...comments import Comments
 
 

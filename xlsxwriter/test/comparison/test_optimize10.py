@@ -41,7 +41,7 @@ class TestCompareXLSXFiles(unittest.TestCase):
         textfile = codecs.open(self.txt_filename, 'r', 'utf-8')
 
         # Create an new Excel file and convert the text data.
-        workbook = Workbook(filename, {'constant_memory': True})
+        workbook = Workbook(filename, {'constant_memory': True, 'in_memory': False})
         worksheet = workbook.add_worksheet()
 
         # Widen the first column to make the text clearer.

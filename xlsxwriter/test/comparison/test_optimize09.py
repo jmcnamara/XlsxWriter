@@ -36,7 +36,7 @@ class TestCompareXLSXFiles(unittest.TestCase):
 
         ####################################################
 
-        workbook = Workbook(filename, {'constant_memory': True})
+        workbook = Workbook(filename, {'constant_memory': True, 'in_memory': False})
         worksheet = workbook.add_worksheet()
 
         smiley = "\u263a"

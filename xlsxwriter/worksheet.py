@@ -13,29 +13,13 @@ import codecs
 import os
 import sys
 from decimal import Decimal
+from warnings import warn
 
-try:
-    # For Python 2.6+.
-    from fractions import Fraction
-    from warnings import warn
-except ImportError:
-    Fraction = float
-    Decimal = float
-
-try:
-    # For Python 2.6+.
-    from collections import defaultdict
-    from collections import namedtuple
-except ImportError:
-    # For Python 2.5 support.
-    from .compat_collections import defaultdict
-    from .compat_collections import namedtuple
-
-# For compatibility between Python 2 and 3.
-try:
-    from StringIO import StringIO
-except ImportError:
-    from io import StringIO
+# Standard packages in Python 2/3 compatibility mode.
+from .compatibility import StringIO
+from .compatibility import Fraction
+from .compatibility import defaultdict
+from .compatibility import namedtuple
 
 # Package imports.
 from . import xmlwriter
@@ -3118,15 +3102,14 @@ class Worksheet(xmlwriter.XMLwriter):
 
         # Open a temp filehandle to store row data in optimization mode.
         if self.optimization == 1:
-            # This make be sub-optimal or insecure. It seems like too much
-            # work to create a temp file with utf8 encoding in Python < 3.
+            # This is sub-optimal but we need to create a temp file
+            # with utf8 encoding in Python < 3.
             (fd, filename) = tempfile.mkstemp(dir=self.tmpdir)
             os.close(fd)
             self.row_data_filename = filename
             self.row_data_fh = codecs.open(filename, 'w+', 'utf-8')
 
-            # Also use this as the worksheet filehandle until the file is
-            # due to be assembled.
+            # Set as the worksheet filehandle until the file is assembled.
             self.fh = self.row_data_fh
 
     def _assemble_xml_file(self):

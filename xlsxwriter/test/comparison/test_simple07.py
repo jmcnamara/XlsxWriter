@@ -56,6 +56,33 @@ class TestCompareXLSXFiles(unittest.TestCase):
 
         self.assertEqual(got, exp)
 
+    def test_create_file_in_memory(self):
+        """Test write with NAN/INF. Issue #30"""
+        filename = self.got_filename
+
+        ####################################################
+
+        workbook = Workbook(filename, {'in_memory': True})
+        worksheet = workbook.add_worksheet()
+
+        worksheet.write_string(0, 0, 'Foo')
+        worksheet.write_number(1, 0, 123)
+        worksheet.write_string(2, 0, 'NAN')
+        worksheet.write_string(3, 0, 'nan')
+        worksheet.write_string(4, 0, 'INF')
+        worksheet.write_string(5, 0, 'infinity')
+
+        workbook.close()
+
+        ####################################################
+
+        got, exp = _compare_xlsx_files(self.got_filename,
+                                       self.exp_filename,
+                                       self.ignore_files,
+                                       self.ignore_elements)
+
+        self.assertEqual(got, exp)
+
     def tearDown(self):
         # Cleanup.
         if os.path.exists(self.got_filename):

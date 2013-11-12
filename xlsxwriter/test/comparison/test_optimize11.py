@@ -35,7 +35,7 @@ class TestCompareXLSXFiles(unittest.TestCase):
 
         ####################################################
 
-        workbook = Workbook(filename, {'constant_memory': True})
+        workbook = Workbook(filename, {'constant_memory': True, 'in_memory': False})
 
         for i in range(10):
             worksheet = workbook.add_worksheet()
@@ -58,7 +58,7 @@ class TestCompareXLSXFiles(unittest.TestCase):
 
         ####################################################
 
-        workbook = Workbook(filename, {'constant_memory': True})
+        workbook = Workbook(filename, {'constant_memory': True, 'in_memory': False})
 
         for i in range(10):
             worksheet = workbook.add_worksheet()
@@ -82,7 +82,7 @@ class TestCompareXLSXFiles(unittest.TestCase):
 
         ####################################################
 
-        workbook = Workbook(filename, {'constant_memory': True})
+        workbook = Workbook(filename, {'constant_memory': True, 'in_memory': False})
 
         for i in range(10):
             worksheet = workbook.add_worksheet()
