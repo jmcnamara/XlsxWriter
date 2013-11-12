@@ -6,7 +6,7 @@
 #
 
 import unittest
-from ..compatibility import StringIO
+from ...compatibility import StringIO
 from ...compat_collections import namedtuple
 from ...worksheet import Worksheet
 

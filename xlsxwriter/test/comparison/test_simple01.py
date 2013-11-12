@@ -168,6 +168,29 @@ class TestCompareXLSXFiles(unittest.TestCase):
 
         self.assertEqual(got, exp)
 
+    def test_create_file_in_memory(self):
+        """Test the creation of a simple workbook."""
+        filename = self.got_filename
+
+        ####################################################
+
+        workbook = Workbook(filename, {'in_memory': True})
+        worksheet = workbook.add_worksheet()
+
+        worksheet.write_string(0, 0, 'Hello')
+        worksheet.write_number(1, 0, 123)
+
+        workbook.close()
+
+        ####################################################
+
+        got, exp = _compare_xlsx_files(self.got_filename,
+                                       self.exp_filename,
+                                       self.ignore_files,
+                                       self.ignore_elements)
+
+        self.assertEqual(got, exp)
+
     def tearDown(self):
         # Cleanup.
         if os.path.exists(self.got_filename):

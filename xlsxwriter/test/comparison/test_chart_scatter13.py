@@ -61,7 +61,7 @@ class TestCompareXLSXFiles(unittest.TestCase):
         chart.add_series({
             'categories': '=Sheet1!$A$1:$A$5',
             'values': '=Sheet1!$C$1:$C$5',
-            'marker': { 'type': 'none' },
+            'marker': {'type': 'none'},
         })
 
         worksheet.insert_chart('E9', chart)

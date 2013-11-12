@@ -62,6 +62,8 @@ class Workbook(xmlwriter.XMLwriter):
         self.strings_to_formulas = options.get('strings_to_formulas', True)
         self.strings_to_urls = options.get('strings_to_urls', True)
         self.default_date_format = options.get('default_date_format', None)
+        self.optimization = options.get('constant_memory', False)
+        self.in_memory = options.get('in_memory', False)
         self.worksheet_meta = WorksheetMeta()
         self.selected = 0
         self.fileclosed = 0
@@ -90,7 +92,6 @@ class Workbook(xmlwriter.XMLwriter):
         self.localtime = datetime.now()
         self.num_vml_files = 0
         self.num_comment_files = 0
-        self.optimization = options.get('constant_memory', 0)
         self.x_window = 240
         self.y_window = 15
         self.window_width = 16095
@@ -104,6 +105,10 @@ class Workbook(xmlwriter.XMLwriter):
         self.border_count = 0
         self.fill_count = 0
         self.drawing_count = 0
+
+        # We can't do 'constant_memory' mode while doing 'in_memory' mode.
+        if self.in_memory:
+            self.optimization = False
 
         # Add the default cell format.
         self.add_format({'xf_index': 0})
@@ -362,7 +367,6 @@ class Workbook(xmlwriter.XMLwriter):
 
     def _store_workbook(self):
         # Assemble worksheets into a workbook.
-        temp_dir = tempfile.mkdtemp(dir=self.tmpdir)
         packager = Packager()
 
         # Add a default worksheet if non have been added.
@@ -399,25 +403,26 @@ class Workbook(xmlwriter.XMLwriter):
 
         # Package the workbook.
         packager._add_workbook(self)
-        packager._set_package_dir(temp_dir)
-        packager._create_package()
+        packager._set_tmpdir(self.tmpdir)
+        packager._set_in_memory(self.in_memory)
+        xml_files = packager._create_package()
 
         # Free up the Packager object.
         packager = None
 
         xlsx_file = ZipFile(self.filename, "w", compression=ZIP_DEFLATED)
 
-        # Add separator to temp dir so we have a root to strip from paths.
-        dir_root = os.path.join(temp_dir, '')
+        # Add XML sub-files to the Zip file with their Excel filename.
+        for os_filename, xml_filename in xml_files:
+            if self.in_memory:
+                # The files are in-memory StringIOs.
+                xlsx_file.writestr(xml_filename,
+                                   os_filename.getvalue().encode('utf-8'))
+            else:
+                # The files are tempfiles.
+                xlsx_file.write(os_filename, xml_filename)
+                os.remove(os_filename)
 
-        # Iterate through files in the temp dir and add them to the xlsx file.
-        for dirpath, _, filenames in os.walk(temp_dir):
-            for name in filenames:
-                abs_filename = os.path.join(dirpath, name)
-                rel_filename = abs_filename.replace(dir_root, '')
-                xlsx_file.write(abs_filename, rel_filename)
-
-        shutil.rmtree(temp_dir)
         xlsx_file.close()
 
     def _check_sheetname(self, sheetname, is_chart=False):

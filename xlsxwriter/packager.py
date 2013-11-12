@@ -7,7 +7,11 @@
 
 # Standard packages.
 import os
+import sys
+import tempfile
 from shutil import copy
+
+from .compatibility import StringIO
 
 # Package imports.
 from xlsxwriter.app import App
@@ -35,7 +39,7 @@ class Packager(object):
     entity such as an Open XML Paper Specification (OpenXPS)
     document. http://en.wikipedia.org/wiki/Open_Packaging_Conventions.
 
-    At its simplest an Excel XLSX file contains the following elements:
+    At its simplest an Excel XLSX file contains the following elements::
 
          ____ [Content_Types].xml
         |
@@ -78,7 +82,8 @@ class Packager(object):
 
         super(Packager, self).__init__()
 
-        self.package_dir = ''
+        self.tmpdir = ''
+        self.in_memory = False
         self.workbook = None
         self.sheet_names = []
         self.worksheet_count = 0
@@ -89,6 +94,7 @@ class Packager(object):
         self.num_vml_files = 0
         self.num_comment_files = 0
         self.named_ranges = []
+        self.filenames = []
 
     ###########################################################################
     #
@@ -96,9 +102,13 @@ class Packager(object):
     #
     ###########################################################################
 
-    def _set_package_dir(self, package_dir):
-        # Set the XLSX OPC package directory.
-        self.package_dir = package_dir
+    def _set_tmpdir(self, tmpdir):
+        # Set an optional user defined temp directory.
+        self.tmpdir = tmpdir
+
+    def _set_in_memory(self, in_memory):
+        # Set the optional 'in_memory' mode.
+        self.in_memory = in_memory
 
     def _add_workbook(self, workbook):
         # Add the Excel::Writer::XLSX::Workbook object to the package.
@@ -140,24 +150,30 @@ class Packager(object):
         self._add_image_files()
         self._add_vba_project()
 
+        return self.filenames
+
+    def _filename(self, xml_filename):
+        # Create a temp filename to write the XML data to and store the Excel
+        # filename to use as the name in the Zip container.
+        if self.in_memory:
+            os_filename = StringIO()
+        else:
+            (fd, os_filename) = tempfile.mkstemp(dir=self.tmpdir)
+            os.close(fd)
+
+        self.filenames.append((os_filename, xml_filename))
+
+        return os_filename
+
     def _write_workbook_file(self):
         # Write the workbook.xml file.
-        xlsx_dir = self.package_dir
         workbook = self.workbook
 
-        self._mkdir(xlsx_dir + '/xl')
-
-        workbook._set_xml_writer(xlsx_dir + '/xl/workbook.xml')
+        workbook._set_xml_writer(self._filename('xl/workbook.xml'))
         workbook._assemble_xml_file()
 
     def _write_worksheet_files(self):
         # Write the worksheet files.
-
-        xlsx_dir = self.package_dir
-
-        self._mkdir(xlsx_dir + '/xl')
-        self._mkdir(xlsx_dir + '/xl/worksheets')
-
         index = 1
         for worksheet in self.workbook.worksheets():
             if worksheet.is_chartsheet:
@@ -167,82 +183,57 @@ class Packager(object):
                 worksheet._opt_reopen()
                 worksheet._write_single_row()
 
-            worksheet._set_xml_writer(
-                xlsx_dir + '/xl/worksheets/sheet' + str(index) + '.xml')
+            worksheet._set_xml_writer(self._filename('xl/worksheets/sheet'
+                                                     + str(index) + '.xml'))
             worksheet._assemble_xml_file()
             index += 1
 
     def _write_chartsheet_files(self):
         # Write the chartsheet files.
-
-        xlsx_dir = self.package_dir
-
         index = 1
         for worksheet in self.workbook.worksheets():
             if not worksheet.is_chartsheet:
                 continue
 
-            self._mkdir(xlsx_dir + '/xl')
-            self._mkdir(xlsx_dir + '/xl/chartsheets')
-
-            worksheet._set_xml_writer(
-                xlsx_dir + '/xl/chartsheets/sheet' + str(index) + '.xml')
+            worksheet._set_xml_writer(self._filename('xl/chartsheets/sheet'
+                                                     + str(index) + '.xml'))
             worksheet._assemble_xml_file()
             index += 1
 
     def _write_chart_files(self):
         # Write the chart files.
-
-        xlsx_dir = self.package_dir
-
         if not self.workbook.charts:
             return
 
-        self._mkdir(xlsx_dir + '/xl')
-        self._mkdir(xlsx_dir + '/xl/charts')
-
         index = 1
         for chart in self.workbook.charts:
-            chart._set_xml_writer(
-                xlsx_dir + '/xl/charts/chart' + str(index) + '.xml')
+            chart._set_xml_writer(self._filename('xl/charts/chart'
+                                                 + str(index) + '.xml'))
             chart._assemble_xml_file()
             index += 1
 
     def _write_drawing_files(self):
         # Write the drawing files.
-
-        xlsx_dir = self.package_dir
-
         if not self.drawing_count:
             return
 
-        self._mkdir(xlsx_dir + '/xl')
-        self._mkdir(xlsx_dir + '/xl/drawings')
-
         index = 1
         for drawing in self.workbook.drawings:
-            drawing._set_xml_writer(
-                xlsx_dir + '/xl/drawings/drawing' + str(index) + '.xml')
+            drawing._set_xml_writer(self._filename('xl/drawings/drawing'
+                                                   + str(index) + '.xml'))
             drawing._assemble_xml_file()
             index += 1
 
     def _write_vml_files(self):
         # Write the comment VML files.
-        xlsx_dir = self.package_dir
-
         index = 1
         for worksheet in self.workbook.worksheets():
             if not worksheet.has_vml:
                 continue
 
             vml = Vml()
-
-            self._mkdir(xlsx_dir + '/xl')
-            self._mkdir(xlsx_dir + '/xl/drawings')
-
-            vml._set_xml_writer(xlsx_dir
-                                + '/xl/drawings/vmlDrawing'
-                                + str(index) + '.vml')
+            vml._set_xml_writer(self._filename('xl/drawings/vmlDrawing'
+                                               + str(index) + '.vml'))
             vml._assemble_xml_file(worksheet.vml_data_id,
                                    worksheet.vml_shape_id,
                                    worksheet.comments_array,
@@ -251,45 +242,32 @@ class Packager(object):
 
     def _write_comment_files(self):
         # Write the comment files.
-        xlsx_dir = self.package_dir
-
         index = 1
         for worksheet in self.workbook.worksheets():
             if not worksheet.has_comments:
                 continue
 
             comment = Comments()
-
-            self._mkdir(xlsx_dir + '/xl')
-            self._mkdir(xlsx_dir + '/xl/drawings')
-
-            comment._set_xml_writer(xlsx_dir + '/xl/comments'
-                                    + str(index) + '.xml')
+            comment._set_xml_writer(self._filename('xl/comments'
+                                                   + str(index) + '.xml'))
             comment._assemble_xml_file(worksheet.comments_array)
             index += 1
 
     def _write_shared_strings_file(self):
         # Write the sharedStrings.xml file.
-        xlsx_dir = self.package_dir
         sst = SharedStrings()
-
         sst.string_table = self.workbook.str_table
 
         if not self.workbook.str_table.count:
             return
 
-        self._mkdir(xlsx_dir + '/xl')
-
-        sst._set_xml_writer(xlsx_dir + '/xl/sharedStrings.xml')
+        sst._set_xml_writer(self._filename('xl/sharedStrings.xml'))
         sst._assemble_xml_file()
 
     def _write_app_file(self):
         # Write the app.xml file.
-        xlsx_dir = self.package_dir
         properties = self.workbook.doc_properties
         app = App()
-
-        self._mkdir(xlsx_dir + '/docProps')
 
         # Add the Worksheet heading pairs.
         app._add_heading_pair(['Worksheets', self.worksheet_count])
@@ -319,26 +297,21 @@ class Packager(object):
 
         app._set_properties(properties)
 
-        app._set_xml_writer(xlsx_dir + '/docProps/app.xml')
+        app._set_xml_writer(self._filename('docProps/app.xml'))
         app._assemble_xml_file()
 
     def _write_core_file(self):
         # Write the core.xml file.
-        xlsx_dir = self.package_dir
         properties = self.workbook.doc_properties
         core = Core()
 
-        self._mkdir(xlsx_dir + '/docProps')
-
         core._set_properties(properties)
-        core._set_xml_writer(xlsx_dir + '/docProps/core.xml')
+        core._set_xml_writer(self._filename('docProps/core.xml'))
         core._assemble_xml_file()
 
     def _write_content_types_file(self):
         # Write the ContentTypes.xml file.
-        xlsx_dir = self.package_dir
         content = ContentTypes()
-
         content._add_image_types(self.workbook.image_types)
 
         worksheet_index = 1
@@ -374,12 +347,11 @@ class Packager(object):
         if self.workbook.vba_project:
             content._add_vba_project()
 
-        content._set_xml_writer(xlsx_dir + '/[Content_Types].xml')
+        content._set_xml_writer(self._filename('[Content_Types].xml'))
         content._assemble_xml_file()
 
     def _write_styles_file(self):
         # Write the style xml file.
-        xlsx_dir = self.package_dir
         xf_formats = self.workbook.xf_formats
         palette = self.workbook.palette
         font_count = self.workbook.font_count
@@ -390,9 +362,6 @@ class Packager(object):
         dxf_formats = self.workbook.dxf_formats
 
         styles = Styles()
-
-        self._mkdir(xlsx_dir + '/xl')
-
         styles._set_style_properties([
             xf_formats,
             palette,
@@ -403,24 +372,18 @@ class Packager(object):
             custom_colors,
             dxf_formats])
 
-        styles._set_xml_writer(xlsx_dir + '/xl/styles.xml')
+        styles._set_xml_writer(self._filename('xl/styles.xml'))
         styles._assemble_xml_file()
 
     def _write_theme_file(self):
         # Write the theme xml file.
-        xlsx_dir = self.package_dir
         theme = Theme()
 
-        self._mkdir(xlsx_dir + '/xl')
-        self._mkdir(xlsx_dir + '/xl/theme')
-
-        theme._set_xml_writer(xlsx_dir + '/xl/theme/theme1.xml')
+        theme._set_xml_writer(self._filename('xl/theme/theme1.xml'))
         theme._assemble_xml_file()
 
     def _write_table_files(self):
         # Write the table files.
-        xlsx_dir = self.package_dir
-
         index = 1
         for worksheet in self.workbook.worksheets():
             table_props = worksheet.tables
@@ -428,13 +391,10 @@ class Packager(object):
             if not table_props:
                 continue
 
-            self._mkdir(xlsx_dir + '/xl')
-            self._mkdir(xlsx_dir + '/xl/tables')
-
             for table_props in table_props:
                 table = Table()
-                table._set_xml_writer(xlsx_dir + '/xl/tables/table'
-                                      + str(index) + '.xml')
+                table._set_xml_writer(self._filename('xl/tables/table'
+                                                     + str(index) + '.xml'))
                 table._set_properties(table_props)
                 table._assemble_xml_file()
                 self.table_count += 1
@@ -442,11 +402,7 @@ class Packager(object):
 
     def _write_root_rels_file(self):
         # Write the _rels/.rels xml file.
-
-        xlsx_dir = self.package_dir
         rels = Relationships()
-
-        self._mkdir(xlsx_dir + '/_rels')
 
         rels._add_document_relationship('/officeDocument', 'xl/workbook.xml')
         rels._add_package_relationship('/metadata/core-properties',
@@ -454,17 +410,12 @@ class Packager(object):
         rels._add_document_relationship('/extended-properties',
                                         'docProps/app.xml')
 
-        rels._set_xml_writer(xlsx_dir + '/_rels/.rels')
+        rels._set_xml_writer(self._filename('_rels/.rels'))
         rels._assemble_xml_file()
 
     def _write_workbook_rels_file(self):
         # Write the _rels/.rels xml file.
-
-        xlsx_dir = self.package_dir
         rels = Relationships()
-
-        self._mkdir(xlsx_dir + '/xl')
-        self._mkdir(xlsx_dir + '/xl/_rels')
 
         worksheet_index = 1
         chartsheet_index = 1
@@ -495,13 +446,11 @@ class Packager(object):
         if self.workbook.vba_project:
             rels._add_ms_package_relationship('/vbaProject', 'vbaProject.bin')
 
-        rels._set_xml_writer(xlsx_dir + '/xl/_rels/workbook.xml.rels')
+        rels._set_xml_writer(self._filename('xl/_rels/workbook.xml.rels'))
         rels._assemble_xml_file()
 
     def _write_worksheet_rels_files(self):
-        # data such as hyperlinks or drawings.
-        xlsx_dir = self.package_dir
-
+        # Write data such as hyperlinks or drawings.
         index = 0
         for worksheet in self.workbook.worksheets():
 
@@ -520,25 +469,18 @@ class Packager(object):
                 continue
 
             # Create the worksheet .rels dirs.
-            self._mkdir(xlsx_dir + '/xl')
-            self._mkdir(xlsx_dir + '/xl/worksheets')
-            self._mkdir(xlsx_dir + '/xl/worksheets/_rels')
-
             rels = Relationships()
 
             for link_data in external_links:
                 rels._add_worksheet_relationship(*link_data)
 
             # Create .rels file such as /xl/worksheets/_rels/sheet1.xml.rels.
-            rels._set_xml_writer(xlsx_dir + '/xl/worksheets/_rels/sheet'
-                                 + str(index) + '.xml.rels')
+            rels._set_xml_writer(self._filename('xl/worksheets/_rels/sheet'
+                                                + str(index) + '.xml.rels'))
             rels._assemble_xml_file()
 
     def _write_chartsheet_rels_files(self):
         # Write the chartsheet .rels files for links to drawing files.
-
-        xlsx_dir = self.package_dir
-
         index = 0
         for worksheet in self.workbook.worksheets():
 
@@ -553,25 +495,18 @@ class Packager(object):
                 continue
 
             # Create the chartsheet .rels xlsx_dir.
-            self._mkdir(xlsx_dir + '/xl')
-            self._mkdir(xlsx_dir + '/xl/chartsheets')
-            self._mkdir(xlsx_dir + '/xl/chartsheets/_rels')
-
             rels = Relationships()
 
             for link_data in external_links:
                 rels._add_worksheet_relationship(*link_data)
 
             # Create .rels file such as /xl/chartsheets/_rels/sheet1.xml.rels.
-            rels._set_xml_writer(xlsx_dir + '/xl/chartsheets/_rels/sheet'
-                                 + str(index) + '.xml.rels')
+            rels._set_xml_writer(self._filename('xl/chartsheets/_rels/sheet'
+                                                + str(index) + '.xml.rels'))
             rels._assemble_xml_file()
 
     def _write_drawing_rels_files(self):
         # Write the drawing .rels files for worksheets with charts or drawings.
-
-        xlsx_dir = self.package_dir
-
         index = 0
         for worksheet in self.workbook.worksheets():
             if not worksheet.drawing_links:
@@ -579,49 +514,51 @@ class Packager(object):
             index += 1
 
             # Create the drawing .rels xlsx_dir.
-            self._mkdir(xlsx_dir + '/xl')
-            self._mkdir(xlsx_dir + '/xl/drawings')
-            self._mkdir(xlsx_dir + '/xl/drawings/_rels')
-
             rels = Relationships()
 
             for drawing_data in worksheet.drawing_links:
                 rels._add_document_relationship(*drawing_data)
 
             # Create .rels file such as /xl/drawings/_rels/sheet1.xml.rels.
-            rels._set_xml_writer(xlsx_dir + '/xl/drawings/_rels/drawing'
-                                 + str(index) + '.xml.rels')
+            rels._set_xml_writer(self._filename('xl/drawings/_rels/drawing'
+                                                + str(index) + '.xml.rels'))
             rels._assemble_xml_file()
 
     def _add_image_files(self):
         # Write the /xl/media/image?.xml files.
-        xlsx_dir = self.package_dir
         workbook = self.workbook
         index = 1
 
         for image in workbook.images:
             filename = image[0]
-            extension = '.' + image[1]
+            ext = '.' + image[1]
 
-            self._mkdir(xlsx_dir + '/xl')
-            self._mkdir(xlsx_dir + '/xl/media')
+            os_filename = self._filename('xl/media/image' + str(index) + ext)
 
-            copy(filename,
-                 xlsx_dir + '/xl/media/image' + str(index) + extension)
+            if not self.in_memory:
+                # In file mode we just copy the image file.
+                copy(filename, os_filename)
+            else:
+                # For in-memory mode we read the image into a string.
+                image_file = open(filename, mode='rb')
+                image_data = image_file.read()
+
+                if sys.version_info < (2, 6, 0):
+                    os_filename = StringIO(image_data)
+                else:
+                    from io import BytesIO
+                    os_filename = BytesIO(image_data)
+
+                image_file.close()
+
             index += 1
 
     def _add_vba_project(self):
+        # Note: not implemented yet.
         # Write the vbaProject.bin file.
-        # xlsx_dir = self.package_dir
         vba_project = self.workbook.vba_project
 
         if not vba_project:
             return
 
-        # self._mkdir(xlsx_dir + '/xl')
         # copy(vba_project, xlsx_dir + '/xl/vbaProject.bin')
-
-    def _mkdir(self, xlsx_dir):
-        # TODO Wrap in try/catch.
-        if not os.path.exists(xlsx_dir):
-            os.makedirs(xlsx_dir)
