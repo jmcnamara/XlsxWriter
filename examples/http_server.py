@@ -1,10 +1,8 @@
 ##############################################################################
 #
 # Example of using Python and XlsxWriter to create an Excel XLSX file in an
-# in memory string suitable for serving via SimpleHTTPServer or Django.
-#
-# Note, this doesn't currently work with the Google App Engine since it
-# needs to access a temporary directory. See Github issue #28.
+# in memory string suitable for serving via SimpleHTTPServer or Django
+# or with the Google App Engine.
 #
 # Copyright 2013, John McNamara, jmcnamara@cpan.org
 #
@@ -22,10 +20,14 @@ import xlsxwriter
 class Handler(SimpleHTTPServer.SimpleHTTPRequestHandler):
 
     def do_GET(self):
-        # Create a new workbook in memory and add a worksheet
+        # Create an in-memory output file for the new workbook.
         output = StringIO.StringIO()
 
-        workbook = xlsxwriter.Workbook(output)
+        # Even though the final file will be in memory the module uses temp
+        # files during assembly for efficiency. To avoid this on servers that
+        # don't allow temp files, for example the Google APP Engine, set the
+        # 'in_memory' constructor option to True:
+        workbook = xlsxwriter.Workbook(output, {'in_memory': True})
         worksheet = workbook.add_worksheet()
 
         # Write some test data.
@@ -46,6 +48,6 @@ class Handler(SimpleHTTPServer.SimpleHTTPRequestHandler):
         return
 
 
-print("Server listening on port 8000...")
-httpd = SocketServer.TCPServer(("", 8000), Handler)
+print('Server listening on port 8000...')
+httpd = SocketServer.TCPServer(('', 8000), Handler)
 httpd.serve_forever()
