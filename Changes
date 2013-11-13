@@ -1,3 +1,11 @@
+Release 0.4.8 - November 13 2013
+--------------------------------
+
+* Added ``in_memory`` :func:`Workbook` constructor option to allow XlsxWriter
+  to work on Google App Engine. Issue
+  `#28 <https://github.com/jmcnamara/XlsxWriter/issues/28>`_.
+
+
 Release 0.4.7 - November 9 2013
 -------------------------------
 
