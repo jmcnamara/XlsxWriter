@@ -9,9 +9,7 @@
 import sys
 import re
 import os
-import tempfile
 import operator
-import shutil
 from warnings import warn
 from datetime import datetime
 from zipfile import ZipFile, ZIP_DEFLATED
