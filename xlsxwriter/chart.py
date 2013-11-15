@@ -73,8 +73,6 @@ class Chart(xmlwriter.XMLwriter):
         self.x_offset = 0
         self.y_offset = 0
         self.table = None
-        self.title_formula = None
-        self.title_name = None
         self.cross_between = 'between'
         self.default_marker = None
         self.series_gap = None
@@ -89,6 +87,7 @@ class Chart(xmlwriter.XMLwriter):
         self.title_data_id = None
         self.title_layout = None
         self.title_overlay = None
+        self.title_none = False
 
         self._set_default_properties()
 
@@ -286,6 +285,9 @@ class Chart(xmlwriter.XMLwriter):
                                                         True)
         # Set the title overlay option.
         self.title_overlay = options.get('overlay')
+
+        # Set the automatic title option.
+        self.title_none = options.get('none')
 
     def set_legend(self, options):
         """
@@ -1250,14 +1252,24 @@ class Chart(xmlwriter.XMLwriter):
         # Write the <c:chart> element.
         self._xml_start_tag('c:chart')
 
-        # Write the chart title elements.
-        if self.title_formula is not None:
-            self._write_title_formula(self.title_formula, self.title_data_id,
-                                      None, self.title_font,
-                                      self.title_layout, self.title_overlay)
-        elif self.title_name is not None:
-            self._write_title_rich(self.title_name, None, self.title_font,
-                                   self.title_layout, self.title_overlay)
+        if self.title_none:
+            # Turn off the title.
+            self._write_c_auto_title_deleted()
+        else:
+            # Write the chart title elements.
+            if self.title_formula is not None:
+                self._write_title_formula(self.title_formula,
+                                          self.title_data_id,
+                                          None,
+                                          self.title_font,
+                                          self.title_layout,
+                                          self.title_overlay)
+            elif self.title_name is not None:
+                self._write_title_rich(self.title_name,
+                                       None,
+                                       self.title_font,
+                                       self.title_layout,
+                                       self.title_overlay)
 
         # Write the c:plotArea element.
         self._write_plot_area()
@@ -2329,6 +2341,10 @@ class Chart(xmlwriter.XMLwriter):
     def _write_page_setup(self):
         # Write the <c:pageSetup> element.
         self._xml_empty_tag('c:pageSetup')
+
+    def _write_c_auto_title_deleted(self):
+        # Write the <c:autoTitleDeleted> element.
+        self._xml_empty_tag('c:autoTitleDeleted', [('val', 1)])
 
     def _write_title_rich(self, title, horiz, font, layout, overlay=False):
         # Write the <c:title> element for a rich string.

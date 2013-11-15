@@ -557,6 +557,11 @@ The properties that can be set are:
 
   See the :ref:`chart_layout` section for more details.
 
+* ``none``: By default Excel adds an automatic chart title to charts with a
+  single series and a user defined series name. The ``none`` option turns this
+  default title off. It also turns off all other ``set_title()`` options::
+
+   chart.set_title({'none': True})
 
 chart.set_legend()
 ------------------
