@@ -832,6 +832,92 @@ Here is an example of Font formatting in a Chart program::
 .. image:: _images/chart_font1.png
    :scale: 75 %
 
+.. _chart_layout:
+
+Chart Layout
+------------
+
+The position of the chart in the worksheet is controlled by the
+:func:`set_size()` method.
+
+It is also possible to change the layout of the following chart sub-objects::
+
+    plotarea
+    legend
+    title
+    x_axis caption
+    y_axis caption
+
+Here are some examples::
+
+        chart.set_plotarea({
+            'layout': {
+                'x':      0.13,
+                'y':      0.26,
+                'width':  0.73,
+                'height': 0.57,
+            }
+        })
+
+        chart.set_legend({
+            'layout': {
+                'x':      0.80,
+                'y':      0.37,
+                'width':  0.12,
+                'height': 0.25,
+            }
+        })
+
+        chart.set_title({
+            'name':    'Title',
+            'overlay': True,
+            'layout': {
+                'x': 0.42,
+                'y': 0.14,
+            }
+        })
+
+        chart.set_x_axis({
+            'name': 'X axis',
+            'name_layout': {
+                'x': 0.34,
+                'y': 0.85,
+            }
+        })
+
+See :func:`set_plotarea()`, :func:`set_legend()`, :func:`set_title()` and
+:func:`set_x_axis()`,
+
+.. note::
+
+   It is only possible to change the width and height for the ``plotarea``
+   and ``legend`` objects. For the other text based objects the width and
+   height are changed by the font dimensions.
+
+The layout units must be a float in the range ``0 < x <= 1`` and are expressed
+as a percentage of the chart dimensions as shown below:
+
+.. image:: _images/chart_layout.png
+   :scale: 75 %
+
+From this the layout units are calculated as follows::
+
+    layout:
+        x      = a / W
+        y      = b / H
+        width  = w / W
+        height = h / H
+
+These units are cumbersome and can vary depending on other elements in the
+chart such as text lengths. However, these are the units that are required by
+Excel to allow relative positioning. Some trial and error is generally
+required.
+
+.. note::
+
+   The ``plotarea`` origin is the top left corner in the plotarea itself and
+   does not take into account the axes.
+
 
 .. _chart_secondary_axes:
 

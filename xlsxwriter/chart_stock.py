@@ -101,7 +101,7 @@ class ChartStock(chart.Chart):
         self._xml_start_tag('c:plotArea')
 
         # Write the c:layout element.
-        self._write_layout()
+        self._write_layout(self.plotarea.get('layout'), 'plot')
 
         # Write the subclass chart elements for primary and secondary axes.
         self._write_chart_type({'primary_axes': 1})

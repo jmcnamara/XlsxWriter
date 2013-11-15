@@ -248,6 +248,7 @@ The options that can be set are::
 
     name
     name_font
+    name_layout
     num_font
     num_format
     min
@@ -285,6 +286,19 @@ the axis types.
     chart.set_x_axis({'name_font': {'bold': True, 'italic': True}})
 
   See the :ref:`chart_fonts` section for more details on font properties.
+
+* ``name_layout``: Set the ``(x, y)`` position of the axis caption in chart
+  relative units. (Applicable to category and value axes.)::
+
+    chart.set_x_axis({
+        'name': 'X axis',
+        'name_layout': {
+            'x': 0.34,
+            'y': 0.85,
+        }
+    })
+
+  See the :ref:`chart_layout` section for more details.
 
 * ``num_font``: Set the font properties for the axis numbers. (Applicable to
   category and value axes)::
@@ -526,6 +540,23 @@ The properties that can be set are:
 * ``name_font``: Set the font properties for the chart title. See
   :ref:`chart_fonts`.
 
+* ``overlay``: Allow the title to be overlaid on the chart. Generally used
+  with the layout property below.
+
+* ``layout``: Set the ``(x, y)`` position of the title in chart relative
+  units::
+
+     chart.set_title({
+         'name': 'Title',
+         'overlay': True,
+         'layout': {
+             'x': 0.42,
+             'y': 0.14,
+         }
+     })
+
+  See the :ref:`chart_layout` section for more details.
+
 
 chart.set_legend()
 ------------------
@@ -547,6 +578,7 @@ example it can be used to turn off the default chart legend::
 The options that can be set are::
 
     position
+    layout
     font
     delete_series
 
@@ -567,6 +599,20 @@ The options that can be set are::
     right
     overlay_left
     overlay_right
+
+* ``layout``: Set the ``(x, y)`` position of the legend in chart relative
+  units::
+
+     chart.set_legend({
+         'layout': {
+             'x':      0.80,
+             'y':      0.37,
+             'width':  0.12,
+             'height': 0.25,
+         }
+     })
+
+  See the :ref:`chart_layout` section for more details.
 
 * ``font``: Set the font properties of the chart legend::
 
@@ -644,6 +690,19 @@ The properties that can be set are:
 * ``fill``: Set the fill properties of the plotarea such as colour. See
   :ref:`chart_formatting`.
 
+* ``layout``: Set the ``(x, y)`` position of the plotarea in chart relative
+  units::
+
+     chart.set_plotarea({
+         'layout': {
+             'x':      0.13,
+             'y':      0.26,
+             'width':  0.73,
+             'height': 0.57,
+         }
+     })
+
+  See the :ref:`chart_layout` section for more details.
 
 
 chart.set_style()

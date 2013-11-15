@@ -48,6 +48,7 @@ class Chart(xmlwriter.XMLwriter):
         self.legend_position = 'right'
         self.legend_delete_series = None
         self.legend_font = None
+        self.legend_layout = None
         self.cat_axis_position = 'b'
         self.val_axis_position = 'l'
         self.formula_ids = {}
@@ -86,6 +87,8 @@ class Chart(xmlwriter.XMLwriter):
         self.title_name = None
         self.title_formula = None
         self.title_data_id = None
+        self.title_layout = None
+        self.title_overlay = None
 
         self._set_default_properties()
 
@@ -278,6 +281,12 @@ class Chart(xmlwriter.XMLwriter):
         # Set the font properties if present.
         self.title_font = self._convert_font_args(options.get('name_font'))
 
+        # Set the axis name layout.
+        self.title_layout = self._get_layout_properties(options.get('layout'),
+                                                        True)
+        # Set the title overlay option.
+        self.title_overlay = options.get('overlay')
+
     def set_legend(self, options):
         """
         Set the chart legend options.
@@ -291,6 +300,8 @@ class Chart(xmlwriter.XMLwriter):
         self.legend_position = options.get('position', 'right')
         self.legend_delete_series = options.get('delete_series')
         self.legend_font = self._convert_font_args(options.get('font'))
+        self.legend_layout = self._get_layout_properties(options.get('layout'),
+                                                         False)
 
     def set_plotarea(self, options):
         """
@@ -612,6 +623,10 @@ class Chart(xmlwriter.XMLwriter):
         # Set the font properties if present.
         axis['num_font'] = self._convert_font_args(options.get('num_font'))
         axis['name_font'] = self._convert_font_args(options.get('name_font'))
+
+        # Set the axis name layout.
+        axis['name_layout'] = \
+            self._get_layout_properties(options.get('name_layout'), True)
 
         return axis
 
@@ -992,10 +1007,58 @@ class Chart(xmlwriter.XMLwriter):
         # Set the fill properties for the chartarea.
         fill = self._get_fill_properties(options.get('fill'))
 
+        # Set the plotarea layout.
+        layout = self._get_layout_properties(options.get('layout'), False)
+
         area['line'] = line
         area['fill'] = fill
+        area['layout'] = layout
 
         return area
+
+    def _get_layout_properties(self, args, is_text):
+        # Convert user defined layout properties to format used internally.
+        layout = {}
+
+        if not args:
+            return
+
+        if is_text:
+            properties = ('x', 'y')
+        else:
+            properties = ('x', 'y', 'width', 'height')
+
+        # Check for valid properties.
+        for key in args.keys():
+            if key not in properties:
+                warn("Property '%s' not allowed in layout options" % key)
+                return
+
+        # Set the layout properties.
+        for prop in properties:
+            if prop not in args.keys():
+                warn("Property '%s' must be specified in layout options"
+                     % prop)
+                return
+
+            value = args[prop]
+
+            try:
+                float(value)
+            except ValueError:
+                warn("Property '%s' value '%s' must be numeric in layout" %
+                     (prop, value))
+                return
+
+            if value < 0 or value > 1:
+                warn("Property '%s' value '%s' must be in range "
+                     "0 < x <= 1 in layout options" % (prop, value))
+                return
+
+            # Convert to the format used by Excel for easier testing
+            layout[prop] = "%.17g" % value
+
+        return layout
 
     def _get_points_properties(self, user_points):
         # Convert user points properties to structure required internally.
@@ -1190,9 +1253,11 @@ class Chart(xmlwriter.XMLwriter):
         # Write the chart title elements.
         if self.title_formula is not None:
             self._write_title_formula(self.title_formula, self.title_data_id,
-                                      None, self.title_font)
+                                      None, self.title_font,
+                                      self.title_layout, self.title_overlay)
         elif self.title_name is not None:
-            self._write_title_rich(self.title_name, None, self.title_font)
+            self._write_title_rich(self.title_name, None, self.title_font,
+                                   self.title_layout, self.title_overlay)
 
         # Write the c:plotArea element.
         self._write_plot_area()
@@ -1225,7 +1290,7 @@ class Chart(xmlwriter.XMLwriter):
         self._xml_start_tag('c:plotArea')
 
         # Write the c:layout element.
-        self._write_layout()
+        self._write_layout(self.plotarea.get('layout'), 'plot')
 
         # Write  subclass chart type elements for primary and secondary axes.
         self._write_chart_type({'primary_axes': True})
@@ -1261,9 +1326,38 @@ class Chart(xmlwriter.XMLwriter):
 
         self._xml_end_tag('c:plotArea')
 
-    def _write_layout(self):
+    def _write_layout(self, layout, layout_type):
         # Write the <c:layout> element.
-        self._xml_empty_tag('c:layout')
+
+        if not layout:
+            # Automatic layout.
+            self._xml_empty_tag('c:layout')
+        else:
+            # User defined manual layout.
+            self._xml_start_tag('c:layout')
+            self._write_manual_layout(layout, layout_type)
+            self._xml_end_tag('c:layout')
+
+    def _write_manual_layout(self, layout, layout_type):
+        # Write the <c:manualLayout> element.
+        self._xml_start_tag('c:manualLayout')
+
+        # Plotarea has a layoutTarget element.
+        if layout_type == 'plot':
+            self._xml_empty_tag('c:layoutTarget', [('val', 'inner')])
+
+        # Set the x, y positions.
+        self._xml_empty_tag('c:xMode', [('val', 'edge')])
+        self._xml_empty_tag('c:yMode', [('val', 'edge')])
+        self._xml_empty_tag('c:x', [('val', layout['x'])])
+        self._xml_empty_tag('c:y', [('val', layout['y'])])
+
+        # For plotarea and legend set the width and height.
+        if layout_type != 'text':
+            self._xml_empty_tag('c:w', [('val', layout['width'])])
+            self._xml_empty_tag('c:h', [('val', layout['height'])])
+
+        self._xml_end_tag('c:manualLayout')
 
     def _write_chart_type(self, options):
         # Write the chart type element. This method should be overridden
@@ -1508,11 +1602,13 @@ class Chart(xmlwriter.XMLwriter):
             self._write_title_formula(x_axis['formula'],
                                       x_axis['data_id'],
                                       horiz,
-                                      x_axis['name_font'])
+                                      x_axis['name_font'],
+                                      x_axis['name_layout'])
         elif x_axis['name'] is not None:
             self._write_title_rich(x_axis['name'],
                                    horiz,
-                                   x_axis['name_font'])
+                                   x_axis['name_font'],
+                                   x_axis['name_layout'])
 
         # Write the c:numFmt element.
         self._write_cat_number_format(x_axis)
@@ -1595,11 +1691,13 @@ class Chart(xmlwriter.XMLwriter):
             self._write_title_formula(y_axis['formula'],
                                       y_axis['data_id'],
                                       horiz,
-                                      y_axis['name_font'])
+                                      y_axis['name_font'],
+                                      y_axis['name_layout'])
         elif y_axis['name'] is not None:
             self._write_title_rich(y_axis['name'],
                                    horiz,
-                                   y_axis.get('name_font'))
+                                   y_axis.get('name_font'),
+                                   y_axis.get('name_layout'))
 
         # Write the c:numberFormat element.
         self._write_number_format(y_axis)
@@ -1680,11 +1778,13 @@ class Chart(xmlwriter.XMLwriter):
             self._write_title_formula(x_axis['formula'],
                                       y_axis['data_id'],
                                       horiz,
-                                      x_axis['name_font'])
+                                      x_axis['name_font'],
+                                      x_axis['name_layout'])
         elif x_axis['name'] is not None:
             self._write_title_rich(x_axis['name'],
                                    horiz,
-                                   x_axis['name_font'])
+                                   x_axis['name_font'],
+                                   x_axis['name_layout'])
 
         # Write the c:numberFormat element.
         self._write_number_format(x_axis)
@@ -1764,11 +1864,13 @@ class Chart(xmlwriter.XMLwriter):
             self._write_title_formula(x_axis['formula'],
                                       x_axis['data_id'],
                                       None,
-                                      x_axis['name_font'])
+                                      x_axis['name_font'],
+                                      x_axis['name_layout'])
         elif x_axis['name'] is not None:
             self._write_title_rich(x_axis['name'],
                                    None,
-                                   x_axis['name_font'])
+                                   x_axis['name_font'],
+                                   x_axis['name_layout'])
 
         # Write the c:numFmt element.
         self._write_number_format(x_axis)
@@ -2104,7 +2206,8 @@ class Chart(xmlwriter.XMLwriter):
                 and type(self.legend_delete_series) is list):
             delete_series = self.legend_delete_series
 
-        if 'overlay' in position:
+        if position.startswith('overlay_'):
+            position = position.replace('overlay_', '')
             overlay = 1
 
         allowed = {
@@ -2133,7 +2236,7 @@ class Chart(xmlwriter.XMLwriter):
             self._write_legend_entry(index)
 
         # Write the c:layout element.
-        self._write_layout()
+        self._write_layout(self.legend_layout, 'legend')
 
         if font:
             self._write_tx_pr(None, font)
@@ -2227,7 +2330,7 @@ class Chart(xmlwriter.XMLwriter):
         # Write the <c:pageSetup> element.
         self._xml_empty_tag('c:pageSetup')
 
-    def _write_title_rich(self, title, horiz, font):
+    def _write_title_rich(self, title, horiz, font, layout, overlay=False):
         # Write the <c:title> element for a rich string.
 
         self._xml_start_tag('c:title')
@@ -2236,11 +2339,16 @@ class Chart(xmlwriter.XMLwriter):
         self._write_tx_rich(title, horiz, font)
 
         # Write the c:layout element.
-        self._write_layout()
+        self._write_layout(layout, 'text')
+
+        # Write the c:overlay element.
+        if overlay:
+            self._write_overlay()
 
         self._xml_end_tag('c:title')
 
-    def _write_title_formula(self, title, data_id, horiz, font):
+    def _write_title_formula(self, title, data_id, horiz, font, layout,
+                             overlay=False):
         # Write the <c:title> element for a rich string.
 
         self._xml_start_tag('c:title')
@@ -2249,7 +2357,11 @@ class Chart(xmlwriter.XMLwriter):
         self._write_tx_formula(title, data_id)
 
         # Write the c:layout element.
-        self._write_layout()
+        self._write_layout(layout, 'text')
+
+        # Write the c:overlay element.
+        if overlay:
+            self._write_overlay()
 
         # Write the c:txPr element.
         self._write_tx_pr(horiz, font)

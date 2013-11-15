@@ -76,7 +76,7 @@ class ChartPie(chart.Chart):
         self._xml_start_tag('c:plotArea')
 
         # Write the c:layout element.
-        self._write_layout()
+        self._write_layout(self.plotarea.get('layout'), 'plot')
 
         # Write the subclass chart type element.
         self._write_chart_type(None)
@@ -114,7 +114,7 @@ class ChartPie(chart.Chart):
         self._write_legend_pos(position)
 
         # Write the c:layout element.
-        self._write_layout()
+        self._write_layout(self.legend_layout, 'legend')
 
         # Write the c:overlay element.
         if overlay:
