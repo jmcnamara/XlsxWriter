@@ -26,6 +26,7 @@ py25_ignore = [
     'xlsxwriter/test/comparison/test_utf8_08.py',
     'xlsxwriter/test/comparison/test_utf8_09.py',
     'xlsxwriter/test/comparison/test_utf8_10.py',
+    'xlsxwriter/test/comparison/test_defined_name04.py',
     ]
 
 if sys.version_info < (2, 6, 0):
