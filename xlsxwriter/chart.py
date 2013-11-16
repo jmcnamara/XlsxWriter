@@ -304,6 +304,9 @@ class Chart(xmlwriter.XMLwriter):
         self.legend_font = self._convert_font_args(options.get('font'))
         self.legend_layout = self._get_layout_properties(options.get('layout'),
                                                          False)
+        # Turn off the legend.
+        if options.get('none'):
+            self.legend_position = 'none'
 
     def set_plotarea(self, options):
         """

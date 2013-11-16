@@ -575,18 +575,28 @@ chart.set_legend()
 The ``set_legend()`` method is used to set properties of the chart legend. For
 example it can be used to turn off the default chart legend::
 
-    chart.set_legend({'position': 'none'})
+    chart.set_legend({'none': True})
 
 .. image:: _images/chart_legend_none.png
    :scale: 75 %
 
 The options that can be set are::
 
+    none
     position
     layout
     font
     delete_series
 
+* ``none``: In Excel chart legends are on by default. The ``none`` option
+  turns off the chart legend::
+
+      chart.set_legend({'none': True})
+
+  For backward compatibility, it is also possible to turn off the legend via
+  the ``position`` property::
+
+    chart.set_legend({'position': 'none'})
 
 * ``position``: Set the position of the chart legend::
 
@@ -597,13 +607,13 @@ The options that can be set are::
 
   The default legend position is ``right``. The available positions are::
 
-    none
     top
     bottom
     left
     right
     overlay_left
     overlay_right
+    none
 
 * ``layout``: Set the ``(x, y)`` position of the legend in chart relative
   units::
