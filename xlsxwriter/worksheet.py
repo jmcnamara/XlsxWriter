@@ -1770,6 +1770,9 @@ class Worksheet(xmlwriter.XMLwriter):
         if options is None:
             options = {}
 
+        # Copy the user defined options so they aren't modified.
+        options = options.copy()
+
         # List of valid input parameters.
         valid_parameter = {
             'type': 1,
