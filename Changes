@@ -1,3 +1,18 @@
+Release 0.4.9 - November 17 2013
+--------------------------------
+
+* Added :ref:`chart object positioning and sizing <chart_layout>` to allow
+  positioning of plotarea, legend, title and axis names.
+  `#66 <https://github.com/jmcnamara/XlsxWriter/issues/66>`_.
+
+* Added :func:`set_title()` ``none`` option to turn off automatic titles.
+
+* Improved :func:`define_name()` name validation.
+
+* Fix to prevent modification of user parameters in
+  :func:`condtional_format()`.
+
+
 Release 0.4.8 - November 13 2013
 --------------------------------
 
