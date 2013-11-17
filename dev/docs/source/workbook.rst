@@ -148,7 +148,10 @@ Excel convention will be followed, i.e. Sheet1, Sheet2, etc.::
 
 The worksheet name must be a valid Excel worksheet name, i.e. it cannot contain
 any of the characters ``' [ ] : * ? / \
-'`` and it must be less than 32 characters. In addition, you cannot use the same, case insensitive, ``sheetname`` for more than one worksheet.
+'`` and it must be less than 32 characters.
+
+In addition, you cannot use the same, case insensitive, ``sheetname`` for more
+than one worksheet.
 
 workbook.add_format()
 ---------------------
@@ -219,6 +222,32 @@ The properties that can be set are::
 See the :ref:`chart_class` for a list of available chart subtypes.
 
 See also :ref:`working_with_charts` and :ref:`chart_examples`.
+
+workbook.add_chartsheet()
+-------------------------
+
+.. function:: add_chartsheet([sheetname])
+
+   Add a new add_chartsheet to a workbook.
+
+   :param string sheetname: Optional chartsheet name, defaults to Chart1, etc.
+   :rtype: A :ref:`chartsheet <Chartsheet>` object.
+
+The ``add_chartsheet()`` method adds a new chartsheet to a workbook.
+
+.. image:: _images/chartsheet.png
+
+See :ref:`chartsheet` for details.
+
+The ``sheetname`` parameter is optional. If it is not specified the default
+Excel convention will be followed, i.e. Chart1, Chart2, etc.
+
+The chartsheet name must be a valid Excel worksheet name, i.e. it cannot contain
+any of the characters ``' [ ] : * ? / \
+'`` and it must be less than 32 characters.
+
+In addition, you cannot use the same, case insensitive, ``sheetname`` for more
+than one chartsheet.
 
 
 workbook.close()

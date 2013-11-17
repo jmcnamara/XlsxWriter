@@ -968,14 +968,25 @@ the ``y2_axis`` or ``x2_axis`` property of the series::
 Note it isn't currently possible to add a secondary axis of a different chart
 type (for example line and column).
 
+Chartsheets
+-----------
+
+The examples shown above and in general the most common type of charts in Excel
+are embedded charts.
+
+However, it is also possible to create "Chartsheets" which are worksheets that
+are comprised of a single chart:
+
+.. image:: _images/chartsheet.png
+
+See :ref:`chartsheet` for details.
+
 
 Chart Limitations
 -----------------
 
 The following chart features aren't supported in XlsxWriter:
 
-* Chart sheet (worksheets as charts). This will be added in an upcoming
-  release.
 * Secondary axes of a different chart type to the main chart type.
 * 3D charts and controls.
 * Bubble, Doughnut or other chart types not listed in :ref:`chart_class`.

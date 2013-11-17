@@ -20,7 +20,7 @@ class TestCompareXLSXFiles(unittest.TestCase):
     def setUp(self):
         self.maxDiff = None
 
-        filename = 'cond_format04.xlsx'
+        filename = 'chartsheet09.xlsx'
 
         test_dir = 'xlsxwriter/test/comparison/'
         self.got_filename = test_dir + '_test_' + filename
@@ -30,7 +30,7 @@ class TestCompareXLSXFiles(unittest.TestCase):
         self.ignore_elements = {}
 
     def test_create_file(self):
-        """Test the creation of an XlsxWriter file with conditional formatting."""
+        """Test the worksheet properties of an XlsxWriter chartsheet filewith series format properties."""
         filename = self.got_filename
 
         ####################################################
@@ -38,29 +38,34 @@ class TestCompareXLSXFiles(unittest.TestCase):
         workbook = Workbook(filename)
 
         worksheet = workbook.add_worksheet()
+        chartsheet = workbook.add_chartsheet()
 
-        format1 = workbook.add_format({'num_format': 2, 'dxf_index': 1})
-        format2 = workbook.add_format({'num_format': '0.000', 'dxf_index': 0})
+        chart = workbook.add_chart({'type': 'bar'})
 
-        worksheet.write('A1', 10)
-        worksheet.write('A2', 20)
-        worksheet.write('A3', 30)
-        worksheet.write('A4', 40)
+        chart.axis_ids = [49044480, 49055232]
 
-        options = {
-            'type': 'cell',
-            'format': format1,
-            'criteria': '>',
-            'value': 2,
-        }
+        data = [
+            [1, 2, 3, 4, 5],
+            [2, 4, 6, 8, 10],
+            [3, 6, 9, 12, 15],
 
-        worksheet.conditional_format('A1', options)
+        ]
 
-        options['criteria'] = '<'
-        options['value'] = 8
-        options['format'] = format2
+        worksheet.write_column('A1', data[0])
+        worksheet.write_column('B1', data[1])
+        worksheet.write_column('C1', data[2])
 
-        worksheet.conditional_format('A2', options)
+        chart.add_series({
+            'values': '=Sheet1!$A$1:$A$5',
+            'border': {'color': 'yellow'},
+            'fill': {'color': 'red'},
+        })
+
+        chart.add_series({'values': '=Sheet1!$B$1:$B$5'})
+        chart.add_series({'values': '=Sheet1!$C$1:$C$5'})
+
+        chartsheet.set_chart(chart)
+        chartsheet.activate()
 
         workbook.close()
 

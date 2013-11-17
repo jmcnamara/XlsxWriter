@@ -18,6 +18,7 @@ from struct import unpack
 # Package imports.
 from . import xmlwriter
 from xlsxwriter.worksheet import Worksheet
+from xlsxwriter.chartsheet import Chartsheet
 from xlsxwriter.sharedstrings import SharedStringTable
 from xlsxwriter.format import Format
 from xlsxwriter.packager import Packager
@@ -163,6 +164,44 @@ class Workbook(xmlwriter.XMLwriter):
 
         return worksheet
 
+    def add_chartsheet(self, name=None):
+        """
+        Add a new chartsheet to the Excel workbook.
+
+        Args:
+            name: The chartsheet name. Defaults to 'Sheet1', etc.
+
+        Returns:
+            Reference to a chartsheet object.
+
+        """
+        sheet_index = len(self.worksheets_objs)
+        name = self._check_sheetname(name, is_chart=True)
+
+        # Initialisation data to pass to the chartsheet.
+        init_data = {
+            'name': name,
+            'index': sheet_index,
+            'str_table': self.str_table,
+            'worksheet_meta': self.worksheet_meta,
+            'optimization': self.optimization,
+            'tmpdir': self.tmpdir,
+            'date_1904': self.date_1904,
+            'strings_to_numbers': self.strings_to_numbers,
+            'strings_to_formulas': self.strings_to_formulas,
+            'strings_to_urls': self.strings_to_urls,
+            'default_date_format': self.default_date_format,
+            'default_url_format': self.default_url_format,
+        }
+
+        chartsheet = Chartsheet()
+        chartsheet._initialize(init_data)
+
+        self.worksheets_objs.append(chartsheet)
+        self.sheetnames.append(name)
+
+        return chartsheet
+
     def add_format(self, properties={}):
         """
         Add a new Format to the Excel Workbook.
@@ -225,7 +264,7 @@ class Workbook(xmlwriter.XMLwriter):
         if 'name' in options:
             chart.chart_name = options['name']
 
-        chart._set_embedded_config_data()
+        chart.embedded = True
         self.charts.append(chart)
 
         return chart

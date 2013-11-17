@@ -956,7 +956,6 @@ class Chart(xmlwriter.XMLwriter):
 
     def _get_gridline_properties(self, options):
         # Convert user gridline properties to structure required internally.
-        gridline = {}
 
         # Set the visible property for the gridline.
         gridline = {'visible': options.get('visible')}
@@ -1205,10 +1204,6 @@ class Chart(xmlwriter.XMLwriter):
 
         self.set_x2_axis({})
         self.set_y2_axis({})
-
-    def _set_embedded_config_data(self):
-        # Setup the default configuration data for an embedded chart.
-        self.embedded = 1
 
     ###########################################################################
     #

@@ -62,6 +62,7 @@ standard libraries only.
    page_setup.rst
    format.rst
    chart.rst
+   chartsheet.rst
 
 .. toctree::
    :maxdepth: 1

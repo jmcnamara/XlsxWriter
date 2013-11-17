@@ -162,6 +162,7 @@ class Worksheet(xmlwriter.XMLwriter):
         self.palette = None
         self.optimization = 0
         self.tmpdir = None
+        self.is_chartsheet = False
 
         self.ext_sheets = []
         self.fileclosed = 0
@@ -2665,7 +2666,7 @@ class Worksheet(xmlwriter.XMLwriter):
 
     def protect(self, password='', options=None):
         """
-        Set the colour of the worksheet tab.
+        Set the password and protection options of the worksheet.
 
         Args:
             password: An optional password string.
@@ -3148,12 +3149,6 @@ class Worksheet(xmlwriter.XMLwriter):
         # Write the sheetProtection element.
         self._write_sheet_protection()
 
-        # Write the worksheet calculation properties.
-        # self._write_sheet_calc_pr()
-
-        # Write the worksheet phonetic properties.
-        # self._write_phonetic_pr()
-
         # Write the autoFilter element.
         self._write_auto_filter()
 
@@ -3624,7 +3619,6 @@ class Worksheet(xmlwriter.XMLwriter):
         if not self.drawing:
             drawing = Drawing()
             drawing.embedded = 1
-
             self.drawing = drawing
 
             self.external_drawing_links.append(['/drawing',

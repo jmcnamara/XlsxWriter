@@ -168,7 +168,7 @@ class Drawing(xmlwriter.XMLwriter):
             self._write_ext(6162675, 6124575)
 
         # Write the xdr:graphicFrame element.
-        self._write_graphic_frame(frame_index, 'Name')
+        self._write_graphic_frame(frame_index)
 
         # Write the xdr:clientData element.
         self._write_client_data()
@@ -241,7 +241,7 @@ class Drawing(xmlwriter.XMLwriter):
 
         self._xml_empty_tag('xdr:ext', attributes)
 
-    def _write_graphic_frame(self, index, name):
+    def _write_graphic_frame(self, index, name=None):
         # Write the <xdr:graphicFrame> element.
         attributes = [('macro', '')]
 
