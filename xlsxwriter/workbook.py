@@ -137,32 +137,7 @@ class Workbook(xmlwriter.XMLwriter):
             Reference to a worksheet object.
 
         """
-        sheet_index = len(self.worksheets_objs)
-        name = self._check_sheetname(name)
-
-        # Initialisation data to pass to the worksheet.
-        init_data = {
-            'name': name,
-            'index': sheet_index,
-            'str_table': self.str_table,
-            'worksheet_meta': self.worksheet_meta,
-            'optimization': self.optimization,
-            'tmpdir': self.tmpdir,
-            'date_1904': self.date_1904,
-            'strings_to_numbers': self.strings_to_numbers,
-            'strings_to_formulas': self.strings_to_formulas,
-            'strings_to_urls': self.strings_to_urls,
-            'default_date_format': self.default_date_format,
-            'default_url_format': self.default_url_format,
-        }
-
-        worksheet = Worksheet()
-        worksheet._initialize(init_data)
-
-        self.worksheets_objs.append(worksheet)
-        self.sheetnames.append(name)
-
-        return worksheet
+        return self._add_sheet(name, is_chartsheet=False)
 
     def add_chartsheet(self, name=None):
         """
@@ -175,32 +150,7 @@ class Workbook(xmlwriter.XMLwriter):
             Reference to a chartsheet object.
 
         """
-        sheet_index = len(self.worksheets_objs)
-        name = self._check_sheetname(name, is_chart=True)
-
-        # Initialisation data to pass to the chartsheet.
-        init_data = {
-            'name': name,
-            'index': sheet_index,
-            'str_table': self.str_table,
-            'worksheet_meta': self.worksheet_meta,
-            'optimization': self.optimization,
-            'tmpdir': self.tmpdir,
-            'date_1904': self.date_1904,
-            'strings_to_numbers': self.strings_to_numbers,
-            'strings_to_formulas': self.strings_to_formulas,
-            'strings_to_urls': self.strings_to_urls,
-            'default_date_format': self.default_date_format,
-            'default_url_format': self.default_url_format,
-        }
-
-        chartsheet = Chartsheet()
-        chartsheet._initialize(init_data)
-
-        self.worksheets_objs.append(chartsheet)
-        self.sheetnames.append(name)
-
-        return chartsheet
+        return self._add_sheet(name, is_chartsheet=True)
 
     def add_format(self, properties={}):
         """
@@ -470,20 +420,54 @@ class Workbook(xmlwriter.XMLwriter):
 
         xlsx_file.close()
 
-    def _check_sheetname(self, sheetname, is_chart=False):
+    def _add_sheet(self, name, is_chartsheet):
+        # Utility for shared code in add_worksheet() and add_chartsheet().
+
+        sheet_index = len(self.worksheets_objs)
+        name = self._check_sheetname(name, is_chartsheet)
+
+        # Initialisation data to pass to the worksheet.
+        init_data = {
+            'name': name,
+            'index': sheet_index,
+            'str_table': self.str_table,
+            'worksheet_meta': self.worksheet_meta,
+            'optimization': self.optimization,
+            'tmpdir': self.tmpdir,
+            'date_1904': self.date_1904,
+            'strings_to_numbers': self.strings_to_numbers,
+            'strings_to_formulas': self.strings_to_formulas,
+            'strings_to_urls': self.strings_to_urls,
+            'default_date_format': self.default_date_format,
+            'default_url_format': self.default_url_format,
+        }
+
+        if is_chartsheet:
+            worksheet = Chartsheet()
+        else:
+            worksheet = Worksheet()
+
+        worksheet._initialize(init_data)
+
+        self.worksheets_objs.append(worksheet)
+        self.sheetnames.append(name)
+
+        return worksheet
+
+    def _check_sheetname(self, sheetname, is_chartsheet=False):
         # Check for valid worksheet names. We check the length, if it contains
         # any invalid chars and if the sheetname is unique in the workbook.
         invalid_char = re.compile(r'[\[\]:*?/\\]')
 
         # Increment the Sheet/Chart number used for default sheet names below.
-        if is_chart:
+        if is_chartsheet:
             self.chartname_count += 1
         else:
             self.sheetname_count += 1
 
         # Supply default Sheet/Chart sheetname if none has been defined.
         if sheetname is None:
-            if is_chart:
+            if is_chartsheet:
                 sheetname = self.chart_name + str(self.chartname_count)
             else:
                 sheetname = self.sheet_name + str(self.sheetname_count)
