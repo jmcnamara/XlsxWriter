@@ -35,9 +35,8 @@ worksheet.write_column('B2', data[1])
 chart1 = workbook.add_chart({'type': 'pie'})
 
 # Configure the series. Note the use of the list syntax to define ranges:
-# List is [ sheet_name, first_row, first_col, last_row, last_col ].
 chart1.add_series({
-    'name': 'Pie sales data',
+    'name':       'Pie sales data',
     'categories': ['Sheet1', 1, 0, 3, 0],
     'values':     ['Sheet1', 1, 1, 3, 1],
 })

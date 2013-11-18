@@ -34,9 +34,8 @@ chart1.add_series({
 })
 
 # Configure second series. Note use of alternative syntax to define ranges.
-# List is [ sheet_name, first_row, first_col, last_row, last_col ].
 chart1.add_series({
-    'name':       '=Sheet1!$C$1',
+    'name':       ['Sheet1', 0, 2],
     'categories': ['Sheet1', 1, 0, 6, 0],
     'values':     ['Sheet1', 1, 2, 6, 2],
 })
