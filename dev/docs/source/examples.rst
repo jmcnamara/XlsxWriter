@@ -31,6 +31,8 @@ directory of the XlsxWriter distribution.
    example_outline1.rst
    example_outline2.rst
    example_doc_properties.rst
+   example_unicode_python2.rst
+   example_unicode_python3.rst
    example_unicode_polish_utf8.rst
    example_unicode_shift_jis.rst
    example_tab_colors.rst

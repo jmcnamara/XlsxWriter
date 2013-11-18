@@ -8,7 +8,7 @@
 
 # To write Unicode text in UTF-8 to a xlsxwriter file in Python 3:
 #
-# 1. Encode the file at UTF-8.
+# 1. Encode the file as UTF-8.
 #
 #
 
