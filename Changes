@@ -1,8 +1,15 @@
+Release 0.5.0 - November 17 2013
+--------------------------------
+
+* Added :ref:`Chartsheets <Chartsheet>` to allow single worksheet charts.
+  Issue `#10 <https://github.com/jmcnamara/XlsxWriter/issues/10>`_.
+
+
 Release 0.4.9 - November 17 2013
 --------------------------------
 
 * Added :ref:`chart object positioning and sizing <chart_layout>` to allow
-  positioning of plotarea, legend, title and axis names.
+  positioning of plotarea, legend, title and axis names. Issue
   `#66 <https://github.com/jmcnamara/XlsxWriter/issues/66>`_.
 
 * Added :func:`set_title()` ``none`` option to turn off automatic titles.
