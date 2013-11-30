@@ -2419,10 +2419,15 @@ class Chart(xmlwriter.XMLwriter):
     def _write_rich(self, title, horiz, font):
         # Write the <c:rich> element.
 
+        if font and font.get('rotation'):
+            rotation = font['rotation']
+        else:
+            rotation = None
+
         self._xml_start_tag('c:rich')
 
         # Write the a:bodyPr element.
-        self._write_a_body_pr(horiz)
+        self._write_a_body_pr(rotation, horiz)
 
         # Write the a:lstStyle element.
         self._write_a_lst_style()
@@ -2432,27 +2437,18 @@ class Chart(xmlwriter.XMLwriter):
 
         self._xml_end_tag('c:rich')
 
-    def _write_a_body_pr(self, horiz):
+    def _write_a_body_pr(self, rotation, horiz):
         # Write the <a:bodyPr> element.
-        rot = -5400000
-        vert = 'horz'
-
-        attributes = [
-            ('rot', rot),
-            ('vert', vert),
-        ]
-
-        if not horiz:
-            attributes = []
-
-        self._xml_empty_tag('a:bodyPr', attributes)
-
-    def _write_axis_body_pr(self, rotation):
-        # Write the <a:bodyPr> element for axis fonts.
         attributes = []
+
+        if rotation is None and horiz:
+            rotation = -5400000
 
         if rotation is not None:
             attributes.append(('rot', rotation))
+
+        if horiz:
+            attributes.append(('vert', 'horz'))
 
         self._xml_empty_tag('a:bodyPr', attributes)
 
@@ -2585,10 +2581,15 @@ class Chart(xmlwriter.XMLwriter):
     def _write_tx_pr(self, horiz, font):
         # Write the <c:txPr> element.
 
+        if font and font.get('rotation'):
+            rotation = font['rotation']
+        else:
+            rotation = None
+
         self._xml_start_tag('c:txPr')
 
         # Write the a:bodyPr element.
-        self._write_a_body_pr(horiz)
+        self._write_a_body_pr(rotation, horiz)
 
         # Write the a:lstStyle element.
         self._write_a_lst_style()
@@ -3092,7 +3093,7 @@ class Chart(xmlwriter.XMLwriter):
             return
 
         self._xml_start_tag('c:txPr')
-        self._write_axis_body_pr(font.get('rotation'))
+        self._write_a_body_pr(font.get('rotation'), None)
         self._write_a_lst_style()
         self._xml_start_tag('a:p')
 
