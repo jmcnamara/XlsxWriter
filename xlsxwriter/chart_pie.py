@@ -88,9 +88,16 @@ class ChartPie(chart.Chart):
         # Write the <c:legend> element.
 
         position = self.legend_position
+        font = self.legend_font
+        delete_series = []
         overlay = 0
 
-        if 'overlay' in position:
+        if (self.legend_delete_series is not None
+                and type(self.legend_delete_series) is list):
+            delete_series = self.legend_delete_series
+
+        if position.startswith('overlay_'):
+            position = position.replace('overlay_', '')
             overlay = 1
 
         allowed = {
@@ -113,6 +120,11 @@ class ChartPie(chart.Chart):
         # Write the c:legendPos element.
         self._write_legend_pos(position)
 
+        # Remove series labels from the legend.
+        for index in delete_series:
+            # Write the c:legendEntry element.
+            self._write_legend_entry(index)
+
         # Write the c:layout element.
         self._write_layout(self.legend_layout, 'legend')
 
@@ -121,48 +133,52 @@ class ChartPie(chart.Chart):
             self._write_overlay()
 
         # Write the c:txPr element. Over-ridden.
-        self._write_tx_pr_legend()
+        self._write_tx_pr_legend(None, font)
 
         self._xml_end_tag('c:legend')
 
-    def _write_tx_pr_legend(self):
+    def _write_tx_pr_legend(self, horiz, font):
         # Write the <c:txPr> element for legends.
-        horiz = 0
+
+        if font and font.get('rotation'):
+            rotation = font['rotation']
+        else:
+            rotation = None
 
         self._xml_start_tag('c:txPr')
 
         # Write the a:bodyPr element.
-        self._write_a_body_pr(None, horiz)
+        self._write_a_body_pr(rotation, horiz)
 
         # Write the a:lstStyle element.
         self._write_a_lst_style()
 
         # Write the a:p element.
-        self._write_a_p_legend()
+        self._write_a_p_legend(font)
 
         self._xml_end_tag('c:txPr')
 
-    def _write_a_p_legend(self):
+    def _write_a_p_legend(self, font):
         # Write the <a:p> element for legends.
 
         self._xml_start_tag('a:p')
 
         # Write the a:pPr element.
-        self._write_a_p_pr_legend()
+        self._write_a_p_pr_legend(font)
 
         # Write the a:endParaRPr element.
         self._write_a_end_para_rpr()
 
         self._xml_end_tag('a:p')
 
-    def _write_a_p_pr_legend(self):
+    def _write_a_p_pr_legend(self, font):
         # Write the <a:pPr> element for legends.
         attributes = [('rtl', 0)]
 
         self._xml_start_tag('a:pPr', attributes)
 
         # Write the a:defRPr element.
-        self._write_a_def_rpr(None)
+        self._write_a_def_rpr(font)
 
         self._xml_end_tag('a:pPr')
 
