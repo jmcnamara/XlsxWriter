@@ -255,6 +255,7 @@ The options that can be set are::
     max
     minor_unit
     major_unit
+    interval_unit
     crossing
     position_axis
     reverse
@@ -336,6 +337,11 @@ the axis types.
 
 * ``major_unit``: Set the increment of the major units in the axis range.
   (Applicable to value axes only.)
+
+* ``interval_unit``: Set the interval unit for a category axis. Should be and
+  integer value. (Applicable to category axes only.):: 
+
+    chart.set_x_axis({'interval_unit': 2})
 
 * ``crossing``: Set the position where the y axis will cross the x axis.
   (Applicable to category and value axes.)

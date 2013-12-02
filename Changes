@@ -1,3 +1,14 @@
+Release 0.5.1 - December 2 2013
+--------------------------------
+
+* Added interval unit option for category axes.
+  Issue `#69 <https://github.com/jmcnamara/XlsxWriter/issues/69>`_.
+
+* Fix for axis name font rotation.
+
+* Fix for several minor issues with Pie chart legends.
+
+
 Release 0.5.0 - November 17 2013
 --------------------------------
 
