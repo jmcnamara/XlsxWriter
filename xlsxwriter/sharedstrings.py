@@ -86,17 +86,18 @@ class SharedStrings(xmlwriter.XMLwriter):
         # Write the <si> element.
         attributes = []
 
-        # TODO: Fix control char encoding when unit test is ported.
         # Excel escapes control characters with _xHHHH_ and also escapes any
         # literal strings of that type by encoding the leading underscore.
         # So "\0" -> _x0000_ and "_x0000_" -> _x005F_x0000_.
         # The following substitutions deal with those cases.
 
         # Escape the escape.
-        # string =~ s/(_x[0-9a-fA-F]{4}_)/_x005F1/g
+        string = re.sub('(_x[0-9a-fA-F]{4}_)', r'_x005F\1', string)
 
         # Convert control character to the _xHHHH_ escape.
-        # string =~ s/([\x00-\x08\x0B-\x1F])/sprintf "_x04X_", ord(1)/eg
+        string = re.sub(r'([\x00-\x08\x0B-\x1F])',
+                        lambda match: "_x%04X_" %
+                        ord(match.group(1)), string)
 
         # Add attribute to preserve leading or trailing whitespace.
         if re.search('^\s', string) or re.search('\s$', string):

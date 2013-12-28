@@ -20,6 +20,8 @@ def _xml_to_list(xml_str):
     parser = re.compile(r'>\s*<')
     elements = parser.split(xml_str.strip())
 
+    elements = [s.replace("\r", "") for s in elements]
+
     # Add back the removed brackets.
     for index, element in enumerate(elements):
         if not element[0] == '<':
@@ -108,6 +110,7 @@ def _compare_xlsx_files(got_file, exp_file, ignore_files, ignore_elements):
         # Open the XlsxWriter as a zip file for testing.
         got_zip = ZipFile(got_file, 'r')
     except IOError:
+        # For Python 2.5+ compatibility.
         e = sys.exc_info()[1]
         error = "XlsxWriter file error: " + str(e)
         return error, ''
@@ -120,7 +123,6 @@ def _compare_xlsx_files(got_file, exp_file, ignore_files, ignore_elements):
         # Open the Excel as a zip file for testing.
         exp_zip = ZipFile(exp_file, 'r')
     except IOError:
-        # For Python 2.5+ compatibility.
         e = sys.exc_info()[1]
         error = "Excel file error: " + str(e)
         return error, ''

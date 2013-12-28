@@ -20,7 +20,7 @@ class TestCompareXLSXFiles(unittest.TestCase):
     def setUp(self):
         self.maxDiff = None
 
-        filename = 'rich_string12.xlsx'
+        filename = 'shared_strings02.xlsx'
 
         test_dir = 'xlsxwriter/test/comparison/'
         self.got_filename = test_dir + '_test_' + filename
@@ -39,17 +39,24 @@ class TestCompareXLSXFiles(unittest.TestCase):
 
         worksheet = workbook.add_worksheet()
 
-        worksheet.set_column('A:A', 30)
-        worksheet.set_row(2, 60)
+        strings = [
+            "_",
+            "_x",
+            "_x0",
+            "_x00",
+            "_x000",
+            "_x0000",
+            "_x0000_",
+            "_x005F_",
+            "_x000G_",
+            "_X0000_",
+            "_x000a_",
+            "_x000A_",
+            "_x0000__x0000_",
+            "__x0000__",
+        ]
 
-        bold = workbook.add_format({'bold': 1})
-        italic = workbook.add_format({'italic': 1})
-        wrap = workbook.add_format({'text_wrap': 1})
-
-        worksheet.write('A1', 'Foo', bold)
-        worksheet.write('A2', 'Bar', italic)
-
-        worksheet.write_rich_string('A3', "This is\n", bold, "bold\n", "and this is\n", italic, 'italic', wrap)
+        worksheet.write_column(0, 0, strings)
 
         workbook.close()
 

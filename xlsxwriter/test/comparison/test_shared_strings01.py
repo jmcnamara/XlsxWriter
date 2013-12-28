@@ -20,7 +20,7 @@ class TestCompareXLSXFiles(unittest.TestCase):
     def setUp(self):
         self.maxDiff = None
 
-        filename = 'rich_string12.xlsx'
+        filename = 'shared_strings01.xlsx'
 
         test_dir = 'xlsxwriter/test/comparison/'
         self.got_filename = test_dir + '_test_' + filename
@@ -39,17 +39,14 @@ class TestCompareXLSXFiles(unittest.TestCase):
 
         worksheet = workbook.add_worksheet()
 
-        worksheet.set_column('A:A', 30)
-        worksheet.set_row(2, 60)
+        # Test that control characters and any other single byte characters are
+        # handled correctly by the sharedstrings module. We skip chr 34 = " in
+        # this test since it isn't encoded by Excel as &quot;.
+        chars = list(range(127))
+        del chars[34]
 
-        bold = workbook.add_format({'bold': 1})
-        italic = workbook.add_format({'italic': 1})
-        wrap = workbook.add_format({'text_wrap': 1})
-
-        worksheet.write('A1', 'Foo', bold)
-        worksheet.write('A2', 'Bar', italic)
-
-        worksheet.write_rich_string('A3', "This is\n", bold, "bold\n", "and this is\n", italic, 'italic', wrap)
+        for char in chars:
+            worksheet.write_string(char, 0, chr(char))
 
         workbook.close()
 
