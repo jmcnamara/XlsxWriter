@@ -176,7 +176,7 @@ class Worksheet(xmlwriter.XMLwriter):
         self.dim_colmin = None
         self.dim_colmax = None
 
-        self.colinfo = []
+        self.colinfo = {}
         self.selections = []
         self.hidden = 0
         self.active = 0
@@ -1266,9 +1266,10 @@ class Worksheet(xmlwriter.XMLwriter):
         if level > self.outline_col_level:
             self.outline_col_level = level
 
-        # Store the column data.
-        self.colinfo.append([firstcol, lastcol, width, cell_format, hidden,
-                             level, collapsed])
+        # Store the column data. Padded for sorting.
+        self.colinfo["%05d" % firstcol] = [firstcol, lastcol, width,
+                                           cell_format, hidden, level,
+                                           collapsed]
 
         # Store the column change to allow optimisations.
         self.col_size_changed = 1
@@ -4354,8 +4355,8 @@ class Worksheet(xmlwriter.XMLwriter):
 
         self._xml_start_tag('cols')
 
-        for col_info in self.colinfo:
-            self._write_col_info(col_info)
+        for col in sorted(self.colinfo.keys()):
+            self._write_col_info(self.colinfo[col])
 
         self._xml_end_tag('cols')
 
