@@ -104,8 +104,8 @@ Documentation
 -------------
 
 The latest version of this document is hosted on
-`Read The Docs <https://xlsxwriter.readthedocs.org/en/latest/>`_. It is
-also available as a
+`Read The Docs <https://xlsxwriter.readthedocs.org/en/latest/>`_. It is also
+available as a
 `PDF <https://github.com/jmcnamara/XlsxWriter/raw/master/docs/XlsxWriter.pdf>`_.
 
 Once you are happy that the module is installed and operational you can have a

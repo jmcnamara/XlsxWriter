@@ -6,6 +6,22 @@ Known Issues and Bugs
 This section lists known issues and bugs and gives some information on how to
 submit bug reports.
 
+Content is Unreadable. Open and Repair
+--------------------------------------
+
+Very, very occasionally you may see an Excel warning when opening an XlsxWriter
+file like:
+
+   Excel could not open file.xlsx because some content is unreadable. Do you
+   want to open and repair this workbook.
+
+This ominous sounding message is Excel's default warning for any validation
+error in the XML used for the components of the XLSX file.
+
+If you encounter an issue like this you should open an issue on GitHub with a
+program to replicate the issue (see below) or send one of the failing output
+files to the :ref:`author`.
+
 
 'unknown encoding: utf-8' Error
 -------------------------------
@@ -18,6 +34,24 @@ at the end of the program::
 
 This appears to be an issue with the implicit destructor on Windows. It is
 under investigation. Use ``close()`` as a workaround.
+
+Formulas displayed as ``#NAME?`` until edited
+---------------------------------------------
+
+Excel 2010 and 2013 added functions which weren't defined in the original file
+specification. These functions are referred to as *future* functions. Examples
+of these functions are ``ACOT``, ``CHISQ.DIST.RT`` , ``CONFIDENCE.NORM``,
+``STDEV.P``, ``STDEV.S`` and ``WORKDAY.INTL``. The full list is given in the
+`MS XLSX extensions documentation on future functions <http://msdn.microsoft.com/en-us/library/dd907480%28v=office.12%29.aspx>`_.
+
+When written using ``write_formula()`` these functions need to be fully
+qualified with the ``_xlfn.`` prefix as they are shown in the MS XLSX
+documentation link above. For example::
+
+    worksheet.write_formula('A1', '=_xlfn.STDEV.S(B1:B10)')
+
+
+
 
 
 Formula results displaying as zero in non-Excel applications
@@ -79,8 +113,7 @@ follows::
 
     python -c 'import xlsxwriter; print(xlsxwriter.__version__)'
 
-Check the :ref:`changes` section to see what has changed in the latest
-versions.
+Check the :ref:`changes` section to see what has changed in the latest versions.
 
 
 Read the documentation

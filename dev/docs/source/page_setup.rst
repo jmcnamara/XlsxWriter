@@ -619,20 +619,22 @@ worksheet.set_h_pagebreaks()
 
    Set the horizontal page breaks on a worksheet.
 
-   :param list breaks: List of pagebreak rows.
+   :param list breaks: List of page break rows.
 
 The ``set_h_pagebreaks()`` method adds horizontal page breaks to a worksheet. A
 page break causes all the data that follows it to be printed on the next page.
-Horizontal page breaks act between rows. To create a page break between rows
-20 and 21 you must specify the break at row 21. However in zero index notation
-this is actually row 20. So you can pretend for a small while that you are
-using 1 index notation::
+Horizontal page breaks act between rows.
 
-    worksheet1.set_h_pagebreaks([20])  # Break between row 20 and 21.
+The ``set_h_pagebreaks()`` method takes a list of one or more page breaks::
 
-The ``set_v_pagebreaks()`` method takes a list of page breaks::
-
+    worksheet1.set_v_pagebreaks([20])
     worksheet2.set_v_pagebreaks([20, 40, 60, 80, 100])
+
+To create a page break between rows 20 and 21 you must specify the break at row
+21. However in zero index notation this is actually row 20. So you can pretend
+for a small while that you are using 1 index notation::
+
+    worksheet.set_h_pagebreaks([20])  # Break between row 20 and 21.
 
 .. Note::
    Note: If you specify the "fit to page" option via the ``fit_to_pages()``
@@ -649,7 +651,7 @@ worksheet.set_v_pagebreaks()
 
    Set the vertical page breaks on a worksheet.
 
-   :param list breaks: List of pagebreak columns.
+   :param list breaks: List of page break columns.
 
 The ``set_v_pagebreaks()`` method is the same as the above
 :func:`set_h_pagebreaks()` method except it adds page breaks between columns.

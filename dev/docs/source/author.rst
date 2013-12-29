@@ -15,8 +15,9 @@ You can contact me at jmcnamara@cpan.org.
 Donations
 ---------
 
-If you would like to donate to the XlsxWriter project to keep it active you
-can do so via `PayPal <https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=RRZCPSL65X858>`_.
+If you would like to donate to the XlsxWriter project to keep it active you can
+do so via
+`PayPal <https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=RRZCPSL65X858>`_.
 
 .. raw:: html
 
