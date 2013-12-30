@@ -223,6 +223,13 @@ More than one series can be added to a chart. In fact, some chart types such as
 ``stock`` require it. The series numbering and order in the Excel chart will
 be the same as the order in which they are added in XlsxWriter.
 
+It is also possible to specify non-contiguous ranges::
+
+    chart.add_series({
+        'categories': '=(Sheet1!$A$1:$A$9,Sheet1!$A$14:$A$25)',
+        'values':     '=(Sheet1!$B$1:$B$9,Sheet1!$B$14:$B$25)',
+    })
+
 
 chart.set_x_axis()
 ------------------

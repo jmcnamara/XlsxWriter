@@ -1038,11 +1038,22 @@ class Workbook(xmlwriter.XMLwriter):
                 if sheetname is None:
                     continue
 
-                # Die if the name is unknown since it indicates a user error in
-                # a chart series formula.
+                # Handle non-contiguous ranges like:
+                #     (Sheet1!$A$1:$A$2,Sheet1!$A$4:$A$5).
+                # We don't try to parse them. We just return an empty list.
+                if sheetname.startswith('('):
+                    chart.formula_data[r_id] = []
+                    seen_ranges[c_range] = []
+                    continue
+
+                # Warn if the name is unknown since it indicates a user error
+                # in a chart series formula.
                 if not sheetname in worksheets:
                     warn("Unknown worksheet reference '%s' in range "
                          "'%s' passed to add_series()" % (sheetname, c_range))
+                    chart.formula_data[r_id] = []
+                    seen_ranges[c_range] = []
+                    continue
 
                 # Find the worksheet object based on the sheet name.
                 worksheet = worksheets[sheetname]
@@ -1050,10 +1061,7 @@ class Workbook(xmlwriter.XMLwriter):
                 # Get the data from the worksheet table.
                 data = worksheet._get_range_data(*cells)
 
-                # TODO
-                #   # Ignore rich strings for now. Deparse later if necessary.
-                #        if token =~ m{^<r>} and token =~ m{</r>$}:
-                #            token = ''
+                # TODO. Handle SST string ids if required.
 
                 # Add the data to the chart.
                 chart.formula_data[r_id] = data
@@ -1069,13 +1077,13 @@ class Workbook(xmlwriter.XMLwriter):
         # TODO. Fix this to match from right.
         pos = c_range.find('!')
         if pos > 0:
-            sheetname, cells = c_range.split('!')
+            sheetname, cells = c_range.split('!', 1)
         else:
             return None
 
         # Split the cell range into 2 cells or else use single cell for both.
         if cells.find(':') > 0:
-            (cell_1, cell_2) = cells.split(':')
+            (cell_1, cell_2) = cells.split(':', 1)
         else:
             (cell_1, cell_2) = (cells, cells)
 
