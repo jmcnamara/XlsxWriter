@@ -32,6 +32,7 @@ class ChartStock(chart.Chart):
 
         self.show_crosses = 0
         self.hi_low_lines = {}
+        self.date_category = True
 
         # Override and reset the default axis values.
         self.x_axis['defaults']['num_format'] = 'dd/mm/yyyy'
@@ -95,47 +96,6 @@ class ChartStock(chart.Chart):
         self._write_axis_ids(args)
 
         self._xml_end_tag('c:stockChart')
-
-    def _write_plot_area(self):
-        # Overridden to use _write_date_axis() instead of _write_cat_axis().
-        self._xml_start_tag('c:plotArea')
-
-        # Write the c:layout element.
-        self._write_layout(self.plotarea.get('layout'), 'plot')
-
-        # Write the subclass chart elements for primary and secondary axes.
-        self._write_chart_type({'primary_axes': 1})
-        self._write_chart_type({'primary_axes': 0})
-
-        # Write c:catAx and c:valAx elements for series using primary axes.
-        self._write_date_axis({'x_axis': self.x_axis,
-                               'y_axis': self.y_axis,
-                               'axis_ids': self.axis_ids
-                               })
-
-        self._write_val_axis({'x_axis': self.x_axis,
-                              'y_axis': self.y_axis,
-                              'axis_ids': self.axis_ids
-                              })
-
-        # Write c:valAx and c:catAx elements for series using secondary axes.
-        self._write_val_axis({'x_axis': self.x2_axis,
-                              'y_axis': self.y2_axis,
-                              'axis_ids': self.axis2_ids
-                              })
-
-        self._write_date_axis({'x_axis': self.x2_axis,
-                               'y_axis': self.y2_axis,
-                               'axis_ids': self.axis2_ids
-                               })
-
-        # Write the c:dTable element.
-        self._write_d_table()
-
-        # Write the c:spPr element for the plotarea formatting.
-        self._write_sp_pr(self.plotarea)
-
-        self._xml_end_tag('c:plotArea')
 
     def _modify_series_formatting(self):
         # Add default formatting to the series data.

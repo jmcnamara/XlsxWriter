@@ -56,6 +56,8 @@ For example ``reverse`` can be set for either category or value axes while the
 
 Some charts such as ``Scatter`` and ``Stock`` have two value axes.
 
+:ref:`date_category_axes` are a special type of category axis that allow some
+additional options not available in ordinary category axes, see below.
 
 .. _chart_series_options:
 
@@ -917,6 +919,48 @@ required.
 
    The ``plotarea`` origin is the top left corner in the plotarea itself and
    does not take into account the axes.
+
+
+.. _date_category_axes:
+
+Date Category Axes
+------------------
+
+Date Category Axes are category axes that display time or date information. In
+XlsxWriter Date Category Axes are set using the ``date_axis`` option in
+:func:`set_x_axis` or :func:`set_y_axis`::
+
+    chart.set_x_axis({'date_axis': True})
+
+In general you should also specify a number format for a date axis although
+Excel will usually default to the same format as the data being plotted::
+
+    chart.set_x_axis({
+        'date_axis':  True,
+        'num_format': 'dd/mm/yyyy',
+    })
+
+Excel doesn't normally allow minimum and maximum values to be set for category
+axes. However, date axes are an exception. The ``min`` and ``max`` values
+should be set as Excel times or dates::
+
+    chart.set_x_axis({
+        'date_axis': True,
+        'min': worksheet._convert_date_time(date(2013, 1, 2)),
+        'max': worksheet._convert_date_time(date(2013, 1, 9)),
+        'num_format': 'dd/mm/yyyy',
+    })
+
+For date axes it is also possible to set the type of the major and minor units::
+
+    chart.set_x_axis({
+        'date_axis':       True,
+        'minor_unit':      4,
+        'minor_unit_type': 'months',
+        'major_unit':      1,
+        'major_unit_type': 'years',
+        'num_format':      'dd/mm/yyyy',
+    })
 
 
 .. _chart_secondary_axes:

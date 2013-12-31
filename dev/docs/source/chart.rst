@@ -271,6 +271,9 @@ The options that can be set are::
     major_gridlines
     minor_gridlines
     visible
+    date_axis
+    minor_unit_type
+    major_unit_type
 
 These options are explained below. Some properties are only applicable to
 **value** or **category** axes (this is noted in each case). See
@@ -435,6 +438,29 @@ the axis types.
     chart.set_y_axis({'visible': False})
 
   Axes are visible by default.
+
+* ``date_axis``: This option is used to treat a category axis with date or
+  time data as a Date Axis. (Applicable to category axes only.)::
+
+    chart.set_x_axis({'date_axis': True})
+
+  This option also allows you to set ``max`` and ``min`` values for a
+  category axis which isn't allowed by Excel for non-date category axes.
+
+  See :ref:`date_category_axes` for more details.
+
+* ``minor_unit_type``: For ``date_axis`` axes, see above, this option is used
+  to set the type of the minor units. (Applicable to date category axes
+  only.)::
+
+    chart.set_x_axis({
+        'date_axis': True,
+        'minor_unit': 4,
+        'minor_unit_type': 'months',
+    })
+
+* ``major_unit_type``: Same as ``minor_unit_type``, see above, but for major
+  axes unit types.
 
 
 chart.set_y_axis()
