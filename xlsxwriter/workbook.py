@@ -215,6 +215,8 @@ class Workbook(xmlwriter.XMLwriter):
             chart.chart_name = options['name']
 
         chart.embedded = True
+        chart.date_1904 = self.date_1904
+
         self.charts.append(chart)
 
         return chart

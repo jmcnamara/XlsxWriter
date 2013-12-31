@@ -5,6 +5,7 @@
 # Copyright 2013, John McNamara, jmcnamara@cpan.org
 #
 import re
+import datetime
 from warnings import warn
 
 COL_NAMES = {}
@@ -542,3 +543,52 @@ def get_sparkline_style(style_id):
     ]
 
     return styles[style_id]
+
+
+def supported_datetime(dt):
+    # Determine is an argument is a supported datetime object.
+    return(isinstance(dt, (datetime.datetime,
+                           datetime.date,
+                           datetime.time)))
+
+
+def datetime_to_excel_datetime(dt_obj, date_1904):
+    # Convert a datetime object to an Excel serial date and time. The integer
+    # part of the number stores the number of days since the epoch and the
+    # fractional part stores the percentage of the day.
+
+    if date_1904:
+        # Excel for Mac date epoch.
+        epoch = datetime.datetime(1904, 1, 1)
+    else:
+        # Default Excel epoch.
+        epoch = datetime.datetime(1899, 12, 31)
+
+    # We handle datetime .datetime, .date and .time objects but convert
+    # them to datetime.datetime objects and process them in the same way.
+    if isinstance(dt_obj, datetime.datetime):
+        pass
+    elif isinstance(dt_obj, datetime.date):
+        dt_obj = datetime.datetime.fromordinal(dt_obj.toordinal())
+    elif isinstance(dt_obj, datetime.time):
+        dt_obj = datetime.datetime.combine(epoch, dt_obj)
+    else:
+        raise TypeError("Unknown or unsupported datetime type")
+
+    # Convert a Python datetime.datetime value to an Excel date number.
+    delta = dt_obj - epoch
+    excel_time = (delta.days
+                  + (float(delta.seconds)
+                     + float(delta.microseconds) / 1E6)
+                  / (60 * 60 * 24))
+
+    # Special case for datetime where time only has been specified and
+    # the default date of 1900-01-01 is used.
+    if dt_obj.isocalendar() == (1900, 1, 1):
+        excel_time -= 1
+
+    # Account for Excel erroneously treating 1900 as a leap year.
+    if not date_1904 and excel_time > 59:
+        excel_time += 1
+
+    return excel_time

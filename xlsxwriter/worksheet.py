@@ -33,6 +33,8 @@ from .utility import xl_col_to_name
 from .utility import xl_range
 from .utility import xl_color
 from .utility import get_sparkline_style
+from .utility import supported_datetime
+from .utility import datetime_to_excel_datetime
 
 
 ###############################################################################
@@ -308,7 +310,6 @@ class Worksheet(xmlwriter.XMLwriter):
         self.vba_codename = None
 
         self.date_1904 = False
-        self.epoch = datetime.datetime(1899, 12, 31)
         self.hyperlinks = defaultdict(dict)
 
         self.strings_to_numbers = False
@@ -1707,7 +1708,7 @@ class Worksheet(xmlwriter.XMLwriter):
         if options['validate'] == 'date' or options['validate'] == 'time':
 
             if options['value']:
-                if not self._is_supported_datetime(options['value']):
+                if not supported_datetime(options['value']):
                     warn("Data validation 'value/minimum' must be a "
                          "datetime object.")
                     return -2
@@ -1717,7 +1718,7 @@ class Worksheet(xmlwriter.XMLwriter):
                     options['value'] = "%.15g" % date_time
 
             if options['maximum']:
-                if not self._is_supported_datetime(options['maximum']):
+                if not supported_datetime(options['maximum']):
                     warn("Conditional format 'maximum' must be a "
                          "datetime object.")
                     return -2
@@ -1879,7 +1880,7 @@ class Worksheet(xmlwriter.XMLwriter):
             options['type'] = 'cellIs'
 
             if 'value' in options:
-                if not self._is_supported_datetime(options['value']):
+                if not supported_datetime(options['value']):
                     warn("Conditional format 'value' must be a "
                          "datetime object.")
                     return -2
@@ -1889,7 +1890,7 @@ class Worksheet(xmlwriter.XMLwriter):
                     options['value'] = "%.15g" % date_time
 
             if 'minimum' in options:
-                if not self._is_supported_datetime(options['minimum']):
+                if not supported_datetime(options['minimum']):
                     warn("Conditional format 'minimum' must be a "
                          "datetime object.")
                     return -2
@@ -1898,7 +1899,7 @@ class Worksheet(xmlwriter.XMLwriter):
                     options['minimum'] = "%.15g" % date_time
 
             if 'maximum' in options:
-                if not self._is_supported_datetime(options['maximum']):
+                if not supported_datetime(options['maximum']):
                     warn("Conditional format 'maximum' must be a "
                          "datetime object.")
                     return -2
@@ -3102,9 +3103,6 @@ class Worksheet(xmlwriter.XMLwriter):
         self.default_date_format = init_data['default_date_format']
         self.default_url_format = init_data['default_url_format']
 
-        if self.date_1904:
-            self.epoch = datetime.datetime(1904, 1, 1)
-
         # Open a temp filehandle to store row data in optimization mode.
         if self.optimization == 1:
             # This is sub-optimal but we need to create a temp file
@@ -3233,34 +3231,8 @@ class Worksheet(xmlwriter.XMLwriter):
         return 0
 
     def _convert_date_time(self, dt_obj):
-        # We handle datetime .datetime, .date and .time objects but convert
-        # them to datetime.datetime objects and process them in the same way.
-        if isinstance(dt_obj, datetime.datetime):
-            pass
-        elif isinstance(dt_obj, datetime.date):
-            dt_obj = datetime.datetime.fromordinal(dt_obj.toordinal())
-        elif isinstance(dt_obj, datetime.time):
-            dt_obj = datetime.datetime.combine(self.epoch, dt_obj)
-        else:
-            raise TypeError("Unknown or unsupported datetime type")
-
-        # Convert a Python datetime.datetime value to an Excel date number.
-        delta = dt_obj - self.epoch
-        excel_time = (delta.days
-                      + (float(delta.seconds)
-                         + float(delta.microseconds) / 1E6)
-                      / (60 * 60 * 24))
-
-        # Special case for datetime where time only has been specified and
-        # the default date of 1900-01-01 is used.
-        if dt_obj.isocalendar() == (1900, 1, 1):
-            excel_time -= 1
-
-        # Account for Excel erroneously treating 1900 as a leap year.
-        if not self.date_1904 and excel_time > 59:
-            excel_time += 1
-
-        return excel_time
+        # Convert a datetime object to an Excel serial date and time.
+        return datetime_to_excel_datetime(dt_obj, self.date_1904)
 
     def _options_changed(self):
         # Check to see if any of the worksheet options have changed.
@@ -4000,12 +3972,6 @@ class Worksheet(xmlwriter.XMLwriter):
                                               + str(table_id)
                                               + '.xml'])
             table_id += 1
-
-    def _is_supported_datetime(self, dt):
-        # Determine is an argument is a supported datetime object.
-        return(isinstance(dt, (datetime.datetime,
-                               datetime.date,
-                               datetime.time)))
 
     def _table_function_to_formula(self, function, col_name):
         # Convert a table total function to a worksheet formula.

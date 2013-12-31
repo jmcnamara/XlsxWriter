@@ -10,6 +10,8 @@ from warnings import warn
 from . import xmlwriter
 from .utility import xl_color
 from .utility import xl_rowcol_to_cell
+from .utility import supported_datetime
+from .utility import datetime_to_excel_datetime
 
 
 class Chart(xmlwriter.XMLwriter):
@@ -89,6 +91,7 @@ class Chart(xmlwriter.XMLwriter):
         self.title_overlay = None
         self.title_none = False
         self.date_category = False
+        self.date_1904 = False
 
         self._set_default_properties()
 
@@ -630,6 +633,14 @@ class Chart(xmlwriter.XMLwriter):
         # Set the category axis as a date axis.
         if options.get('date_axis'):
             self.date_category = True
+
+        # Convert datetime args if required.
+        if axis.get('min') and supported_datetime(axis['min']):
+            axis['min'] = datetime_to_excel_datetime(axis['min'],
+                                                     self.date_1904)
+        if axis.get('max') and supported_datetime(axis['max']):
+            axis['max'] = datetime_to_excel_datetime(axis['max'],
+                                                     self.date_1904)
 
         # Set the font properties if present.
         axis['num_font'] = self._convert_font_args(options.get('num_font'))
@@ -1314,9 +1325,9 @@ class Chart(xmlwriter.XMLwriter):
 
         # Write the category and value elements for the primary axes.
         args = {'x_axis': self.x_axis,
-               'y_axis': self.y_axis,
-               'axis_ids': self.axis_ids
-               }
+                'y_axis': self.y_axis,
+                'axis_ids': self.axis_ids
+                }
 
         if self.date_category:
             self._write_date_axis(args)
