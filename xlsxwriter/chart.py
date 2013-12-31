@@ -641,6 +641,9 @@ class Chart(xmlwriter.XMLwriter):
         if axis.get('max') and supported_datetime(axis['max']):
             axis['max'] = datetime_to_excel_datetime(axis['max'],
                                                      self.date_1904)
+        if axis.get('crossing') and supported_datetime(axis['crossing']):
+            axis['crossing'] = datetime_to_excel_datetime(axis['crossing'],
+                                                          self.date_1904)
 
         # Set the font properties if present.
         axis['num_font'] = self._convert_font_args(options.get('num_font'))

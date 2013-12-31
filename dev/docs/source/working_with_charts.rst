@@ -52,12 +52,11 @@ As such some of the ``XlsxWriter`` axis properties can be set for a value axis,
 some can be set for a category axis and some properties can be set for both.
 
 For example ``reverse`` can be set for either category or value axes while the
-``min`` and ``max`` properties can only be set for value axes.
+``min`` and ``max`` properties can only be set for value axes (and Date Axes).
 
-Some charts such as ``Scatter`` and ``Stock`` have two value axes.
-
-:ref:`date_category_axes` are a special type of category axis that allow some
-additional options not available in ordinary category axes, see below.
+:ref:`date_category_axes` are a special type of category axis that give them
+some of the properties of Values axes such as ``min`` and ``max`` when used
+with date or time values.
 
 .. _chart_series_options:
 
@@ -946,8 +945,8 @@ should be set as Excel times or dates::
 
     chart.set_x_axis({
         'date_axis': True,
-        'min': worksheet._convert_date_time(date(2013, 1, 2)),
-        'max': worksheet._convert_date_time(date(2013, 1, 9)),
+        'min': date(2013, 1, 2),
+        'max': date(2013, 1, 9),
         'num_format': 'dd/mm/yyyy',
     })
 
@@ -962,6 +961,7 @@ For date axes it is also possible to set the type of the major and minor units::
         'num_format':      'dd/mm/yyyy',
     })
 
+See :ref:`ex_chart_date_axis`.
 
 .. _chart_secondary_axes:
 

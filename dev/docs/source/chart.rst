@@ -276,12 +276,12 @@ The options that can be set are::
     major_unit_type
 
 These options are explained below. Some properties are only applicable to
-**value** or **category** axes (this is noted in each case). See
+**value**, **category** or **date** axes (this is noted in each case). See
 :ref:`chart_val_cat_axes` for an explanation of Excel's distinction between
 the axis types.
 
 * ``name``: Set the name (also known as title or caption) for the axis. The
-  name is displayed below the X axis. (Applicable to category and value
+  name is displayed below the X axis. (Applicable to category, date and value
   axes.)::
 
     chart.set_x_axis({'name': 'Earnings per Quarter'})
@@ -292,14 +292,14 @@ the axis types.
   sheetname, row and column such as ``['Sheet1', 0, 0]``.
 
 * ``name_font``: Set the font properties for the axis name. (Applicable to
-  category and value axes.)::
+  category, date and value axes.)::
 
     chart.set_x_axis({'name_font': {'bold': True, 'italic': True}})
 
   See the :ref:`chart_fonts` section for more details on font properties.
 
 * ``name_layout``: Set the ``(x, y)`` position of the axis caption in chart
-  relative units. (Applicable to category and value axes.)::
+  relative units. (Applicable to category, date and value axes.)::
 
     chart.set_x_axis({
         'name': 'X axis',
@@ -312,14 +312,14 @@ the axis types.
   See the :ref:`chart_layout` section for more details.
 
 * ``num_font``: Set the font properties for the axis numbers. (Applicable to
-  category and value axes)::
+  category, date and value axes.)::
 
     chart.set_x_axis({'name_font': {'bold': True, 'italic': True}})
 
   See the :ref:`chart_fonts` section for more details on font properties.
 
-* ``num_format``: Set the number format for the axis. (Applicable to category
-  and value axes)::
+* ``num_format``: Set the number format for the axis. (Applicable to
+  category, date and value axes.)::
 
     chart.set_x_axis({'num_format': '#,##0.00'})
     chart.set_y_axis({'num_format': '0.00%'})
@@ -329,32 +329,32 @@ the axis types.
   string must be used as shown above. See :func:`set_num_format()` for more
   information.
 
-* ``min``: Set the minimum value for the axis range. (Applicable to value
-  axes only.)::
+* ``min``: Set the minimum value for the axis range. (Applicable to value and
+  date axes only.)::
 
     chart.set_x_axis({'min': 3, 'max': 6})
 
   .. image:: _images/chart_max_min.png
      :scale: 75 %
 
-* ``max``: Set the maximum value for the axis range. (Applicable to value
-  axes only.)
+* ``max``: Set the maximum value for the axis range. (Applicable to value and
+  date axes only.)
 
 * ``minor_unit``: Set the increment of the minor units in the axis range.
-  (Applicable to value axes only.)::
+  (Applicable to value and date axes only.)::
 
     chart.set_x_axis({'minor_unit': 0.4, 'major_unit': 2})
 
 * ``major_unit``: Set the increment of the major units in the axis range.
-  (Applicable to value axes only.)
+  (Applicable to value and date axes only.)
 
-* ``interval_unit``: Set the interval unit for a category axis. Should be and
+* ``interval_unit``: Set the interval unit for a category axis. Should be an
   integer value. (Applicable to category axes only.):: 
 
     chart.set_x_axis({'interval_unit': 2})
 
 * ``crossing``: Set the position where the y axis will cross the x axis.
-  (Applicable to category and value axes.)
+  (Applicable to all axes.)
 
   The ``crossing`` value can either be the string ``'max'`` to set the
   crossing at the maximum axis value or a numeric value::
@@ -363,8 +363,8 @@ the axis types.
     chart.set_y_axis({'crossing': 'max'})
 
   **For category axes the numeric value must be an integer** to represent the
-  category number that the axis crosses at. For value axes it can have any
-  value associated with the axis. See also :ref:`chart_val_cat_axes`.
+  category number that the axis crosses at. For value and date axes it can
+  have any value associated with the axis. See also :ref:`chart_val_cat_axes`.
 
   If crossing is omitted (the default) the crossing will be set automatically
   by Excel based on the chart data.
@@ -378,7 +378,7 @@ the axis types.
     chart.set_x_axis({'position_axis': 'between'})
 
 * ``reverse``: Reverse the order of the axis categories or values.
-  (Applicable to category and value axes.)::
+  (Applicable to category, date and value axes.)::
 
     chart.set_y_axis({'reverse': True})
 
@@ -440,7 +440,7 @@ the axis types.
   Axes are visible by default.
 
 * ``date_axis``: This option is used to treat a category axis with date or
-  time data as a Date Axis. (Applicable to category axes only.)::
+  time data as a Date Axis. (Applicable to date category axes only.)::
 
     chart.set_x_axis({'date_axis': True})
 
