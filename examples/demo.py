@@ -15,7 +15,7 @@ worksheet = workbook.add_worksheet()
 worksheet.set_column('A:A', 20)
 
 # Add a bold format to use to highlight cells.
-bold = workbook.add_format({'bold': 1})
+bold = workbook.add_format({'bold': True})
 
 # Write some simple text.
 worksheet.write('A1', 'Hello')

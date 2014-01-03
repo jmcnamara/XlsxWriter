@@ -56,7 +56,7 @@ worksheet.insert_chart('C2', chart1, {'x_offset': 25, 'y_offset': 10})
 #
 
 # Create an example Pie chart like above.
-chart2 = workbook.add_chart({'type': 'pie', 'embedded': 1})
+chart2 = workbook.add_chart({'type': 'pie'})
 
 # Configure the series and add user defined segment colours.
 chart2.add_series({
