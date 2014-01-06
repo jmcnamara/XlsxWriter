@@ -60,5 +60,5 @@ Here is a simple example:
 
 See the full documentation at: http://xlsxwriter.readthedocs.org
 
-Release notes: https://xlsxwriter.readthedocs.org/en/latest/changes.html
+Release notes: http://xlsxwriter.readthedocs.org/changes.html
 

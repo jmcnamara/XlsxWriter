@@ -104,7 +104,7 @@ Documentation
 -------------
 
 The latest version of this document is hosted on
-`Read The Docs <https://xlsxwriter.readthedocs.org/en/latest/>`_. It is also
+`Read The Docs <http://xlsxwriter.readthedocs.org>`_. It is also
 available as a
 `PDF <https://github.com/jmcnamara/XlsxWriter/raw/master/docs/XlsxWriter.pdf>`_.
 
