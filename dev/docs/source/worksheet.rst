@@ -737,7 +737,7 @@ For example::
     data = ('Foo', 'Bar', 'Baz')
 
     # Write the data to a sequence of cells.
-    worksheet.write_row('A1', data)
+    worksheet.write_column('A1', data)
 
     # The above example is equivalent to:
     worksheet.write('A1', data[0])
