@@ -367,3 +367,27 @@ workbook::
 
     for worksheet in workbook.worksheets():
         worksheet.write('A1', 'Hello')
+
+workbook.set_calc_mode()
+------------------------
+
+.. py:function:: set_calc_mode(mode)
+
+   Set the Excel calculation mode for the workbook.
+
+   :param string mode: The calculation mode string
+
+Set the calculation mode for formulas in the workbook. This is mainly of use
+for workbooks with slow formulas where you want to allow the user to
+calculate them manually.
+
+The ``mode`` parameter can be:
+
+* ``auto``: The default. Excel will re-calculate formulas when a formula or 
+  a value affecting the formula changes.
+
+* ``auto_except_tables``: Excel will automatically re-calculate formulas
+  except for tables.
+
+* ``manual``: Only re-calculate formulas when the user requires it. Generally
+  by pressing F9.
