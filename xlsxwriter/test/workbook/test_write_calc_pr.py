@@ -31,6 +31,36 @@ class TestWriteCalcPr(unittest.TestCase):
 
         self.assertEqual(got, exp)
 
+    def test_calc_mode_auto_except_tables(self):
+        """
+        Test the _write_calc_pr() method with the calculation mode set
+        to auto_except_tables
+
+        """
+
+        self.workbook.set_calc_mode("auto_except_tables")
+        self.workbook._write_calc_pr()
+
+        exp = """<calcPr calcId="124519" calcMode="autoNoTable" fullCalcOnLoad="1"/>"""
+        got = self.fh.getvalue()
+
+        self.assertEqual(got, exp)
+
+    def test_calc_mode_manual(self):
+        """
+        Test the _write_calc_pr() method with the calculation mode set to
+        manual
+
+        """
+
+        self.workbook.set_calc_mode("manual")
+        self.workbook._write_calc_pr()
+
+        exp = """<calcPr calcId="124519" calcMode="manual" calcOnSave="0"/>"""
+        got = self.fh.getvalue()
+
+        self.assertEqual(got, exp)
+
     def tearDown(self):
         self.workbook.fileclosed = 1
 
