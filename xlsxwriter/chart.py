@@ -3290,7 +3290,7 @@ class Chart(xmlwriter.XMLwriter):
                 self._write_num_lit(error_bars['plus_values'])
             else:
                 self._write_num_ref(error_bars['plus_values'],
-                                    error_bars['plus_data'],
+                                    error_bars['plus_values'],
                                     'num')
             self._xml_end_tag('c:plus')
 
@@ -3302,7 +3302,7 @@ class Chart(xmlwriter.XMLwriter):
                 self._write_num_lit(error_bars['minus_values'])
             else:
                 self._write_num_ref(error_bars['minus_values'],
-                                    error_bars['minus_data'],
+                                    error_bars['minus_values'],
                                     'num')
             self._xml_end_tag('c:minus')
 
