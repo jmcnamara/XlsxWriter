@@ -7,8 +7,7 @@
 # Copyright 2013, John McNamara, jmcnamara@cpan.org
 #
 
-# Note: This is a Python 2 example. For Python 3 use http.server (or
-#       equivalent) and io.BytesIO.
+# Note: This is a Python 2 example. For Python 3 see http_server_py3.py.
 
 import SimpleHTTPServer
 import SocketServer

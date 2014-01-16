@@ -12,5 +12,5 @@ module uses temp files during assembly for efficiency. To avoid this on
 servers that don't allow temp files, for example the Google APP Engine, set
 the ``in_memory`` constructor option to ``True``.
 
-.. literalinclude:: ../../../examples/http_server.py
+.. literalinclude:: ../../../examples/http_server_py2.py
 
