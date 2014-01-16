@@ -8,7 +8,7 @@
 #
 
 # Note: This is a Python 2 example. For Python 3 use http.server (or
-#       equivalent) and io.StringIO.
+#       equivalent) and io.BytesIO.
 
 import SimpleHTTPServer
 import SocketServer
