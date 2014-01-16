@@ -7,21 +7,20 @@
 # Copyright 2013, John McNamara, jmcnamara@cpan.org
 #
 
-# Note: This is a Python 2 example. For Python 3 use http.server (or
-#       equivalent) and io.BytesIO.
+# Note: This is a Python 3 example. For Python 2 see http_server.py.
 
-import SimpleHTTPServer
-import SocketServer
-import StringIO
+import http.server
+import socketserver
+import io
 
 import xlsxwriter
 
 
-class Handler(SimpleHTTPServer.SimpleHTTPRequestHandler):
+class Handler(http.server.SimpleHTTPRequestHandler):
 
     def do_GET(self):
         # Create an in-memory output file for the new workbook.
-        output = StringIO.StringIO()
+        output = io.BytesIO()
 
         # Even though the final file will be in memory the module uses temp
         # files during assembly for efficiency. To avoid this on servers that
@@ -49,5 +48,5 @@ class Handler(SimpleHTTPServer.SimpleHTTPRequestHandler):
 
 
 print('Server listening on port 8000...')
-httpd = SocketServer.TCPServer(('', 8000), Handler)
+httpd = socketserver.TCPServer(('', 8000), Handler)
 httpd.serve_forever()
