@@ -1015,7 +1015,7 @@ class Worksheet(xmlwriter.XMLwriter):
         return 0
 
     @convert_cell_args
-    def insert_image(self, row, col, image, options={}):
+    def insert_image(self, row, col, image, options={}, url=None, tip=None):
         """
         Insert an image with its top-left corner in a worksheet cell.
         Args:
@@ -1023,6 +1023,8 @@ class Worksheet(xmlwriter.XMLwriter):
             col:     The cell column (zero indexed).
             image:   Path and filename for image in PNG, JPG or BMP format.
             options: Position and scale of the image.
+            url:     Hyperlink url.
+            tip:     An optional tooltip.
 
         Returns:
             0:  Success.
@@ -1036,7 +1038,7 @@ class Worksheet(xmlwriter.XMLwriter):
         #    croak "Couldn't locate image: $!"
 
         self.images.append([row, col, image, x_offset, y_offset,
-                            x_scale, y_scale])
+                            x_scale, y_scale, url, tip])
 
     @convert_cell_args
     def insert_chart(self, row, col, chart, options={}):
@@ -3532,7 +3534,7 @@ class Worksheet(xmlwriter.XMLwriter):
                        name, image_type):
         # Set up images/drawings.
         drawing_type = 2
-        (row, col, _, x_offset, y_offset, x_scale, y_scale) = \
+        (row, col, _, x_offset, y_offset, x_scale, y_scale, url, tip) = \
             self.images[index]
 
         width *= x_scale
@@ -3562,7 +3564,22 @@ class Worksheet(xmlwriter.XMLwriter):
         drawing_object.extend(dimensions)
         drawing_object.extend([width, height, name, None])
 
-        drawing._add_drawing_object(drawing_object)
+        drawing._add_drawing_object(drawing_object, url, tip)
+
+        # Create rel to url
+        if url:
+            rel_type = "/hyperlink"
+            target_mode = "External"
+
+            if re.match('(ftp|http)s?://', url):
+                target = url
+            if re.match('external:', url):
+                target = url.replace('external:', '')
+            if re.match("internal:", url):
+                target = url.replace('internal:', '#')
+                target_mode = None
+
+            self.drawing_links.append([rel_type, target, target_mode])
 
         self.drawing_links.append(['/image',
                                    '../media/image'
