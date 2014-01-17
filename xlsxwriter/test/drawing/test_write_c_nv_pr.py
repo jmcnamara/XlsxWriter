@@ -31,6 +31,14 @@ class TestWriteXdrcNvPr(unittest.TestCase):
 
         self.assertEqual(got, exp)
 
+        url = 'https://www.github.com'
+        self.drawing._write_c_nv_pr(2, 'Chart 1', url=url, tip='tip')
+
+        exp = """<xdr:cNvPr id="2" name="Chart 1"/><xdr:cNvPr id="2" name="Chart 1"><a:hlinkClick xmlns:r="http://schemas.openxmlformats.org/officeDocument/2006/relationships" r:id="rId1" tooltip="tip"/></xdr:cNvPr>"""
+        got = self.fh.getvalue()
+
+        self.assertEqual(got, exp)
+
 
 if __name__ == '__main__':
     unittest.main()
