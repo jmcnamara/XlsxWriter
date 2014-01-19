@@ -52,10 +52,12 @@ class Drawing(xmlwriter.XMLwriter):
             index = 1
             for drawing in self.drawings:
                 # Write the xdr:twoCellAnchor element.
-                self._write_two_cell_anchor(index, **drawing)
+                self._write_two_cell_anchor(index, drawing)
                 index += 1
+
                 if drawing['url']:
                     index += 1
+
         else:
             # Write the xdr:absoluteAnchor element.
             self._write_absolute_anchor(1)
@@ -65,13 +67,32 @@ class Drawing(xmlwriter.XMLwriter):
         # Close the file.
         self._xml_close()
 
-    def _add_drawing_object(self, drawing_object, url=None, tooltip=None):
+    def _add_drawing_object(self, drawing_object):
         # Add a chart, image or shape sub object to the drawing.
-        obj = { 
-            'dimensions' : drawing_object,
-            'url' : url,
-            'tooltip' : tooltip
+        obj = {
+            'anchor_type': drawing_object[0],
+            'col_from': drawing_object[1],
+            'row_from': drawing_object[2],
+            'col_from_offset': drawing_object[3],
+            'row_from_offset': drawing_object[4],
+            'col_to': drawing_object[5],
+            'row_to': drawing_object[6],
+            'col_to_offset': drawing_object[7],
+            'row_to_offset': drawing_object[8],
+            'col_absolute': drawing_object[9],
+            'row_absolute': drawing_object[10],
+            'width': drawing_object[11],
+            'height': drawing_object[12],
+            'description': drawing_object[13],
+            'shape': drawing_object[14],
+            'url': None,
+            'tip': None
         }
+
+        if len(drawing_object) > 15:
+            obj['url'] = drawing_object[15]
+            obj['tip'] = drawing_object[16]
+
         self.drawings.append(obj)
 
     ###########################################################################
@@ -93,28 +114,20 @@ class Drawing(xmlwriter.XMLwriter):
 
         self._xml_start_tag('xdr:wsDr', attributes)
 
-    def _write_two_cell_anchor(self, index, dimensions, url=None, tooltip=None):
+    def _write_two_cell_anchor(self, index, drawing):
         # Write the <xdr:twoCellAnchor> element.
-        anchor_type = dimensions[0]
-        col_from = dimensions[1]
-        row_from = dimensions[2]
-        col_from_offset = dimensions[3]
-        row_from_offset = dimensions[4]
-        col_to = dimensions[5]
-        row_to = dimensions[6]
-        col_to_offset = dimensions[7]
-        row_to_offset = dimensions[8]
-        col_absolute = dimensions[9]
-        row_absolute = dimensions[10]
-        width = dimensions[11]
-        height = dimensions[12]
-        description = dimensions[13]
-        shape = dimensions[14]
+        shape = drawing['shape']
+
+        options = {
+            'description': drawing['description'],
+            'url': drawing['url'],
+            'tip': drawing['tip']
+        }
 
         attributes = []
 
         # Add attribute for images.
-        if anchor_type == 2:
+        if drawing['anchor_type'] == 2:
             attributes.append(('editAs', 'oneCell'))
 
         # Add editAs attribute for shapes.
@@ -125,29 +138,37 @@ class Drawing(xmlwriter.XMLwriter):
 
         # Write the xdr:from element.
         self._write_from(
-            col_from,
-            row_from,
-            col_from_offset,
-            row_from_offset)
+            drawing['col_from'],
+            drawing['row_from'],
+            drawing['col_from_offset'],
+            drawing['row_from_offset'])
 
         # Write the xdr:from element.
         self._write_to(
-            col_to,
-            row_to,
-            col_to_offset,
-            row_to_offset)
+            drawing['col_to'],
+            drawing['row_to'],
+            drawing['col_to_offset'],
+            drawing['row_to_offset'])
 
-        if anchor_type == 1:
+        if drawing['anchor_type'] == 1:
             # Graphic frame.
             # Write the xdr:graphicFrame element for charts.
-            self._write_graphic_frame(index, description)
-        elif anchor_type == 2:
+            self._write_graphic_frame(index, drawing['description'])
+        elif drawing['anchor_type'] == 2:
             # Write the xdr:pic element.
-            self._write_pic(index, col_absolute, row_absolute, width,
-                            height, description, url, tooltip)
+            self._write_pic(index,
+                            drawing['col_absolute'],
+                            drawing['row_absolute'],
+                            drawing['width'],
+                            drawing['height'],
+                            options)
         else:
             # Write the xdr:sp element for shapes.
-            self._write_sp(index, col_absolute, row_absolute, width, height,
+            self._write_sp(index,
+                           drawing['col_absolute'],
+                           drawing['row_absolute'],
+                           drawing['width'],
+                           drawing['height'],
                            shape)
 
         # Write the xdr:clientData element.
@@ -281,25 +302,31 @@ class Drawing(xmlwriter.XMLwriter):
 
         self._xml_end_tag('xdr:nvGraphicFramePr')
 
-    def _write_c_nv_pr(self, index, name, descr=None, url=None, tip=None):
+    def _write_c_nv_pr(self, index, name, options={}):
         # Write the <xdr:cNvPr> element.
+        descr = options.get('description', None)
+        url = options.get('url', None)
+        tip = options.get('tip', None)
 
         attributes = [('id', index), ('name', name)]
 
         # Add description attribute for images.
         if descr is not None:
             attributes.append(('descr', descr))
-        
+
         if url:
             self._xml_start_tag('xdr:cNvPr', attributes)
+            schema = "http://schemas.openxmlformats.org"
             att = [
-                ('xmlns:r',"http://schemas.openxmlformats.org/officeDocument/2006/relationships"),
-                ('r:id',"rId" + str(index - 1))
+                ('xmlns:r', schema + "/officeDocument/2006/relationships"),
+                ('r:id', "rId" + str(index - 1))
             ]
+
             if tip:
-                att.append(('tooltip',tip))
+                att.append(('tooltip', tip))
+
             self._xml_empty_tag('a:hlinkClick', att)
-            self._xml_end_tag('xdr:cNvPr')            
+            self._xml_end_tag('xdr:cNvPr')
         else:
             self._xml_empty_tag('xdr:cNvPr', attributes)
 
@@ -475,16 +502,17 @@ class Drawing(xmlwriter.XMLwriter):
         self._xml_end_tag('xdr:nvSpPr')
 
     def _write_pic(self, index, col_absolute, row_absolute,
-                   width, height, description, url, tooltip):
+                   width, height, options):
         # Write the <xdr:pic> element.
         self._xml_start_tag('xdr:pic')
 
         # Write the xdr:nvPicPr element.
-        self._write_nv_pic_pr(index, description, url, tooltip)
+        self._write_nv_pic_pr(index, options)
 
         # Write the xdr:blipFill element.
-        if url:
-            index = index + 1        
+        if options.get('url', None):
+            index = index + 1
+
         self._write_blip_fill(index)
 
         # Pictures are rectangle shapes by default.
@@ -496,12 +524,12 @@ class Drawing(xmlwriter.XMLwriter):
 
         self._xml_end_tag('xdr:pic')
 
-    def _write_nv_pic_pr(self, index, description, url, tooltip):
+    def _write_nv_pic_pr(self, index, options):
         # Write the <xdr:nvPicPr> element.
         self._xml_start_tag('xdr:nvPicPr')
 
         # Write the xdr:cNvPr element.
-        self._write_c_nv_pr(index + 1, 'Picture ' + str(index), description, url, tooltip)
+        self._write_c_nv_pr(index + 1, 'Picture ' + str(index), options)
 
         # Write the xdr:cNvPicPr element.
         self._write_c_nv_pic_pr()

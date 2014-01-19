@@ -45,15 +45,15 @@ class TestCompareXLSXFiles(unittest.TestCase):
         workbook.add_worksheet()
 
         # External link
-        url = 'https://www.github.com'
-        worksheet.insert_image('C2', self.image_dir + 'train.jpg', url=url)
+        options = {'url': 'https://www.github.com'}
+        worksheet.insert_image('C2', self.image_dir + 'train.jpg', options)
 
-        url = 'external:./subdir/blank.xlsx'
-        worksheet.insert_image('C30', self.image_dir + 'train.jpg', url=url)
+        options = {'url': 'external:./subdir/blank.xlsx'}
+        worksheet.insert_image('C30', self.image_dir + 'train.jpg', options)
 
         # Internal link
-        url = 'internal:Sheet2!A1'
-        worksheet.insert_image('C60', self.image_dir + 'train.jpg', url=url)
+        options = {'url': 'internal:Sheet2!A1'}
+        worksheet.insert_image('C60', self.image_dir + 'train.jpg', options)
 
         workbook.close()
 
@@ -69,7 +69,7 @@ class TestCompareXLSXFiles(unittest.TestCase):
     def tearDown(self):
         # Cleanup.
         if os.path.exists(self.got_filename):
-           os.remove(self.got_filename)
+            os.remove(self.got_filename)
 
 
 if __name__ == '__main__':

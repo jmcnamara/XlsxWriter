@@ -77,7 +77,6 @@ class TestAssembleDrawing(unittest.TestCase):
 
         self.assertEqual(got, exp)
 
-
     def test_assemble_xml_file_with_url(self):
         """Test writing a drawing with no cell data."""
         self.maxDiff = None
@@ -91,7 +90,7 @@ class TestAssembleDrawing(unittest.TestCase):
 
         tip = 'this is a tooltip'
         url = 'https://www.github.com'
-        drawing._add_drawing_object([2, 2, 1, 0, 0, 3, 6, 533257, 190357, 1219200, 190500, 1142857, 1142857, 'republic.png', None], url=url, tooltip=tip)
+        drawing._add_drawing_object([2, 2, 1, 0, 0, 3, 6, 533257, 190357, 1219200, 190500, 1142857, 1142857, 'republic.png', None, url, tip])
         drawing.embedded = 1
 
         drawing._assemble_xml_file()
@@ -145,8 +144,6 @@ class TestAssembleDrawing(unittest.TestCase):
         got = _xml_to_list(fh.getvalue())
 
         self.assertEqual(got, exp)
-
-
 
 if __name__ == '__main__':
     unittest.main()

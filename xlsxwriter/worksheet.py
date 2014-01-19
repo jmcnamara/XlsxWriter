@@ -1015,17 +1015,14 @@ class Worksheet(xmlwriter.XMLwriter):
         return 0
 
     @convert_cell_args
-    def insert_image(self, row, col, image, options={}, url=None, tip=None):
+    def insert_image(self, row, col, image, options={}):
         """
         Insert an image with its top-left corner in a worksheet cell.
         Args:
             row:     The cell row (zero indexed).
             col:     The cell column (zero indexed).
             image:   Path and filename for image in PNG, JPG or BMP format.
-            options: Position and scale of the image.
-            url:     Hyperlink url.
-            tip:     An optional tooltip.
-
+            options: Position, scale and url of the image.
         Returns:
             0:  Success.
         """
@@ -1033,6 +1030,8 @@ class Worksheet(xmlwriter.XMLwriter):
         y_offset = options.get('y_offset', 0)
         x_scale = options.get('x_scale', 1)
         y_scale = options.get('y_scale', 1)
+        url = options.get('url', None)
+        tip = options.get('tip', None)
 
         # if not -e image:
         #    croak "Couldn't locate image: $!"
@@ -3562,19 +3561,20 @@ class Worksheet(xmlwriter.XMLwriter):
 
         drawing_object = [drawing_type]
         drawing_object.extend(dimensions)
-        drawing_object.extend([width, height, name, None])
+        drawing_object.extend([width, height, name, None, url, tip])
 
-        drawing._add_drawing_object(drawing_object, url, tip)
+        drawing._add_drawing_object(drawing_object)
 
-        # Create rel to url
         if url:
             rel_type = "/hyperlink"
             target_mode = "External"
 
             if re.match('(ftp|http)s?://', url):
                 target = url
+
             if re.match('external:', url):
                 target = url.replace('external:', '')
+
             if re.match("internal:", url):
                 target = url.replace('internal:', '#')
                 target_mode = None
