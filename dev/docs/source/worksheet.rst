@@ -970,6 +970,8 @@ values are::
         'y_offset': 0,
         'x_scale':  1,
         'y_scale':  1,
+        'url': None,
+        'tip': None
     }
 
 The offset values are in pixels::
@@ -984,6 +986,11 @@ The ``x_scale`` and ``y_scale`` parameters can be used to scale the image
 horizontally and vertically::
 
     worksheet.insert_image('B3', 'python.png', {'x_scale': 0.5, 'y_scale': 0.5})
+
+The ``url`` parameter can be used to add an url to the image this can be a 
+local URI or a web style URI, with ``tip`` a tooltip can be added. 
+
+See also :ref:`write_url`
 
 .. Note::
   The scaling of a image may be affected if is crosses a row that has its
