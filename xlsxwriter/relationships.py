@@ -55,11 +55,11 @@ class Relationships(xmlwriter.XMLwriter):
         # Close the file.
         self._xml_close()
 
-    def _add_document_relationship(self, rel_type, target):
+    def _add_document_relationship(self, rel_type, target, target_mode=None):
         # Add container relationship to XLSX .rels xml files.
         rel_type = document_schema + rel_type
 
-        self.relationships.append((rel_type, target, None))
+        self.relationships.append((rel_type, target, target_mode))
 
     def _add_package_relationship(self, rel_type, target):
         # Add container relationship to XLSX .rels xml files.
