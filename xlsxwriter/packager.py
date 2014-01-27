@@ -161,7 +161,7 @@ class Packager(object):
             (fd, os_filename) = tempfile.mkstemp(dir=self.tmpdir)
             os.close(fd)
 
-        self.filenames.append((os_filename, xml_filename))
+        self.filenames.append((os_filename, xml_filename, False))
 
         return os_filename
 
@@ -533,10 +533,11 @@ class Packager(object):
             filename = image[0]
             ext = '.' + image[1]
 
-            os_filename = self._filename('xl/media/image' + str(index) + ext)
+            xml_image_name = 'xl/media/image' + str(index) + ext
 
             if not self.in_memory:
                 # In file mode we just copy the image file.
+                os_filename = self._filename(xml_image_name)
                 copy(filename, os_filename)
             else:
                 # For in-memory mode we read the image into a string.
@@ -549,6 +550,7 @@ class Packager(object):
                     from io import BytesIO
                     os_filename = BytesIO(image_data)
 
+                self.filenames.append((os_filename, xml_image_name, True))
                 image_file.close()
 
             index += 1

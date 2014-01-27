@@ -433,11 +433,14 @@ class Workbook(xmlwriter.XMLwriter):
         xlsx_file = ZipFile(self.filename, "w", compression=ZIP_DEFLATED)
 
         # Add XML sub-files to the Zip file with their Excel filename.
-        for os_filename, xml_filename in xml_files:
+        for os_filename, xml_filename, is_binary in xml_files:
             if self.in_memory:
                 # The files are in-memory StringIOs.
-                xlsx_file.writestr(xml_filename,
-                                   os_filename.getvalue().encode('utf-8'))
+                if is_binary:
+                    xlsx_file.writestr(xml_filename, os_filename.getvalue())
+                else:
+                    xlsx_file.writestr(xml_filename,
+                                       os_filename.getvalue().encode('utf-8'))
             else:
                 # The files are tempfiles.
                 xlsx_file.write(os_filename, xml_filename)

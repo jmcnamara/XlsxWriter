@@ -146,15 +146,18 @@ def _compare_xlsx_files(got_file, exp_file, ignore_files, ignore_elements):
     # Compare each file in the XLSX containers.
     for filename in exp_files:
 
-        # Skip comparison of binary files based on extension.
-        extension = os.path.splitext(filename)[1]
-        if extension in ('.png', '.jpeg', '.bmp'):
-            continue
-
         got_xml_str = got_zip.read(filename)
         exp_xml_str = exp_zip.read(filename)
 
-        if sys.hexversion >= 0x030000:
+        # Compare binary files with string comparison based on extension.
+        extension = os.path.splitext(filename)[1]
+        if extension in ('.png', '.jpeg', '.bmp'):
+            if got_xml_str == exp_xml_str:
+                return 'Ok', 'Ok'
+            else:
+                return 'got: %s' % filename, 'exp: %s' % filename
+
+        if sys.version_info >= (3, 0, 0):
             got_xml_str = got_xml_str.decode('utf-8')
             exp_xml_str = exp_xml_str.decode('utf-8')
 
