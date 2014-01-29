@@ -618,23 +618,18 @@ class Workbook(xmlwriter.XMLwriter):
         index = 164
         num_format_count = 0
 
-        is_number = re.compile(r'^\d+$')
-        is_zeroes = re.compile(r'^0+\d')
-
         for xf_format in (self.xf_formats + self.dxf_formats):
             num_format = xf_format.num_format
-            # Check if num_format is an index to a built-in number format.
-            # Also check for a string of zeros, which is a valid number
-            # format string but would evaluate to zero.
 
-            try:
-                if (is_number.match(str(num_format))
-                        and not is_zeroes.match(str(num_format))):
-                    # Index to a built-in number xf_format.
-                    xf_format.num_format_index = int(num_format)
-                    continue
-            except (TypeError, UnicodeEncodeError):
-                pass
+            if sys.version_info[0] == 2:
+                str_types = basestring
+            else:
+                str_types = str
+
+            # Check if num_format is an index to a built-in number format.
+            if not isinstance(num_format, str_types):
+                xf_format.num_format_index = int(num_format)
+                continue
 
             if num_format in num_formats:
                 # Number xf_format has already been used.

@@ -42,9 +42,8 @@ class TestCompareXLSXFiles(unittest.TestCase):
 
         worksheet.set_column(0, 0, 12)
 
-        # Qoute number indices. GitHub issue #13.
-        format1 = workbook.add_format({'num_format': '20'})
-        format2 = workbook.add_format({'num_format': '14'})
+        format1 = workbook.add_format({'num_format': 20})
+        format2 = workbook.add_format({'num_format': 14})
 
         date1 = datetime.strptime('12:00', "%H:%M")
         date2 = datetime.strptime('2013-01-27', "%Y-%m-%d")
@@ -203,9 +202,8 @@ class TestCompareXLSXFiles(unittest.TestCase):
 
         worksheet.set_column(0, 0, 12)
 
-        # Qoute number indices. GitHub issue #13.
-        format1 = workbook.add_format({'num_format': '20'})
-        format2 = workbook.add_format({'num_format': '14'})
+        format1 = workbook.add_format({'num_format': 20})
+        format2 = workbook.add_format({'num_format': 14})
 
         date1 = datetime.strptime('12:00', "%H:%M")
         date2 = datetime.strptime('2013-01-27', "%Y-%m-%d")
