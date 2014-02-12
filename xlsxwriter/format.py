@@ -749,15 +749,6 @@ class Format(xmlwriter.XMLwriter):
     #
     ###########################################################################
 
-    def _assemble_xml_file(self):
-        # Assemble and write the XML file.
-
-        # Write the XML declaration.
-        self._xml_declaration()
-
-        # Close the file.
-        self._xml_close()
-
     def _get_align_properties(self):
         # Return properties for an Style xf <alignment> sub-element.
         changed = 0
