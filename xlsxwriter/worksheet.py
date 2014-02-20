@@ -1727,6 +1727,40 @@ class Worksheet(xmlwriter.XMLwriter):
                     date_time = self._convert_date_time(options['maximum'])
                     options['maximum'] = "%.15g" % date_time
 
+        # Check that the input title dosen't exceed the maximum length.
+        if options.get('input_title') and len(options['input_title']) > 32:
+            warn("Length of input title '%s' exceeds Excel's limit of 32"
+                 % options['input_title'])
+            return -2
+
+        # Check that the error title doesn't exceed the maximum length.
+        if options.get('error_title') and len(options['error_title']) > 32:
+            warn("Length of error title '%s' exceeds Excel's limit of 32"
+                 % options['error_title'])
+            return -2
+
+        # Check that the input message dosen't exceed the maximum length.
+        if (options.get('input_message')
+                and len(options['input_message']) > 255):
+            warn("Length of input message '%s' exceeds Excel's limit of 255"
+                 % options['input_message'])
+            return -2
+
+        # Check that the error message doesn't exceed the maximum length.
+        if (options.get('error_message')
+                and len(options['error_message']) > 255):
+            warn("Length of error message '%s' exceeds Excel's limit of 255"
+                 % options['error_message'])
+            return -2
+
+        # Check that the input list doesn't exceed the maximum length.
+        if options['validate'] == 'list' and type(options['value']) is list:
+            formula = ','.join([str(item) for item in options['value']])
+            if len(formula) > 255:
+                warn("Length of list items '%s' exceeds Excel's limit of "
+                     "255, use a formula range instead" % formula)
+                return -2
+
         # Set some defaults if they haven't been defined by the user.
         if not 'ignore_blank' in options:
             options['ignore_blank'] = 1

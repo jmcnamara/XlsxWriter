@@ -613,7 +613,7 @@ class Workbook(xmlwriter.XMLwriter):
                 xf_format.has_dxf_font = 1
 
     def _prepare_num_formats(self):
-        # User records is not None start from index 0xA4.
+        # User defined records in Excel start from index 0xA4.
         num_formats = {}
         index = 164
         num_format_count = 0
@@ -795,9 +795,10 @@ class Workbook(xmlwriter.XMLwriter):
 
             name_list.append(defined_name + "::" + sheet_name)
 
-        # Remove the extra key for sorting.
+        # Sort based on the normalised key.
         names.sort(key=operator.itemgetter(4))
 
+        # Remove the extra key used for sorting.
         for name_list in names:
             name_list.pop()
 
