@@ -705,7 +705,7 @@ class Chart(xmlwriter.XMLwriter):
                 cell = xl_rowcol_to_cell(name[1], name[2], True, True)
                 name_formula = name[0] + '!' + cell
                 name = ''
-            elif re.match(r'^=?[^!]+!\$', name):
+            elif re.match(r'^=?[^!]+!\$?[A-Z]+\$?[0-9]+', name):
                 # Name looks like a formula, use it to set name_formula.
                 name_formula = name
                 name = ''
