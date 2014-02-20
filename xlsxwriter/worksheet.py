@@ -1033,9 +1033,6 @@ class Worksheet(xmlwriter.XMLwriter):
         url = options.get('url', None)
         tip = options.get('tip', None)
 
-        # if not -e image:
-        #    croak "Couldn't locate image: $!"
-
         self.images.append([row, col, image, x_offset, y_offset,
                             x_scale, y_scale, url, tip])
 

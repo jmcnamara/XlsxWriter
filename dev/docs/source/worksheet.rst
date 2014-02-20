@@ -943,7 +943,7 @@ worksheet.insert_image()
    :param row:         The cell row (zero indexed).
    :param col:         The cell column (zero indexed).
    :param image:       Image filename (with path if required).
-   :param options:     Optional parameters to position and scale the image.
+   :param options:     Optional parameters for image position, scale and url.
    :type  row:         int
    :type  col:         int
    :type  image:       string
@@ -970,6 +970,8 @@ values are::
         'y_offset': 0,
         'x_scale':  1,
         'y_scale':  1,
+        'url':      None,
+        'tip':      None,
     }
 
 The offset values are in pixels::
@@ -984,6 +986,13 @@ The ``x_scale`` and ``y_scale`` parameters can be used to scale the image
 horizontally and vertically::
 
     worksheet.insert_image('B3', 'python.png', {'x_scale': 0.5, 'y_scale': 0.5})
+
+The ``url`` parameter can used to add a hyperlink/url to the image. The ``tip``
+parameter gives an option mouseover tooltip for images with hyperlinks::
+
+    worksheet.insert_image('By', 'python.png', {'url': 'http://python.org'})
+
+See also :func:`write_url` for details on supported URIs.
 
 .. Note::
   The scaling of a image may be affected if is crosses a row that has its
