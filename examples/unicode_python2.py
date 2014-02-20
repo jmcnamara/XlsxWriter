@@ -3,7 +3,7 @@
 #
 # A simple Unicode spreadsheet in Python 2 using the XlsxWriter Python module.
 #
-# Copyright 2013, John McNamara, jmcnamara@cpan.org
+# Copyright 2013-2014, John McNamara, jmcnamara@cpan.org
 #
 
 # To write Unicode text in UTF-8 to a xlsxwriter file in Python 2:

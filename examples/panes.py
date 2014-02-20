@@ -3,7 +3,7 @@
 # Example of using Python and the XlsxWriter module to create
 # worksheet panes.
 #
-# Copyright 2013, John McNamara, jmcnamara@cpan.org
+# Copyright 2013-2014, John McNamara, jmcnamara@cpan.org
 #
 import xlsxwriter
 

@@ -2,7 +2,7 @@
 #
 # Helper functions for testing XlsxWriter.
 #
-# Copyright (c), 2013, John McNamara, jmcnamara@cpan.org
+# Copyright (c), 2013-2014, John McNamara, jmcnamara@cpan.org
 #
 
 import re

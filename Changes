@@ -1,8 +1,32 @@
 
+
+Release 0.5.3 - February 20 2014
+--------------------------------
+
+* Added checks and warnings for data validation limits.
+  Issue `#89 <https://github.com/jmcnamara/XlsxWriter/issues/89>`_.
+
+* Added option to add hyperlinks to images. Thanks to Paul Tax.
+
+* Added Python 3 Http server example. Thanks to Krystian Rosinski.
+
+* Added :func:`set_calc_mode` method to control automatic calculation of
+  formulas when worksheet is opened. Thanks to Chris Tompkinson.
+
+* Added :func:`use_zip64` method to allow ZIP64 extensions when writing
+  very large files.
+
+* Fix to handle '0' and other number like strings as number formats.
+  Issue `#103 <https://github.com/jmcnamara/XlsxWriter/issues/103>`_.
+
+* Fix for missing images in ``in_memory`` mode.
+  Issue `#102 <https://github.com/jmcnamara/XlsxWriter/issues/102>`_.
+
+
 Release 0.5.2 - December 31 2013
 --------------------------------
 
-* Added date axis handling to charts. See :ref:`ex_chart_date_axis`. 
+* Added date axis handling to charts. See :ref:`ex_chart_date_axis`.
   Issue `#73 <https://github.com/jmcnamara/XlsxWriter/issues/73>`_.
 
 * Added support for non-contiguous chart ranges.

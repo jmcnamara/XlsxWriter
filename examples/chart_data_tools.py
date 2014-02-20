@@ -6,7 +6,7 @@
 # These include, Trendlines, Data Labels, Error Bars, Drop Lines,
 # High-Low Lines and Up-Down Bars.
 #
-# Copyright 2013, John McNamara, jmcnamara@cpan.org
+# Copyright 2013-2014, John McNamara, jmcnamara@cpan.org
 #
 import xlsxwriter
 

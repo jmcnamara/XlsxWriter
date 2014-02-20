@@ -4,7 +4,7 @@
 # in memory string suitable for serving via SimpleHTTPServer or Django
 # or with the Google App Engine.
 #
-# Copyright 2013, John McNamara, jmcnamara@cpan.org
+# Copyright 2013-2014, John McNamara, jmcnamara@cpan.org
 #
 
 # Note: This is a Python 2 example. For Python 3 see http_server_py3.py.
