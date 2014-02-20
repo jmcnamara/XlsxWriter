@@ -106,6 +106,7 @@ class Workbook(xmlwriter.XMLwriter):
         self.drawing_count = 0
         self.calc_mode = "auto"
         self.calc_on_load = True
+        self.allow_zip64 = False
 
         # We can't do 'constant_memory' mode while doing 'in_memory' mode.
         if self.in_memory:
@@ -343,6 +344,19 @@ class Workbook(xmlwriter.XMLwriter):
         """
         return self.worksheets_objs
 
+    def use_zip64(self):
+        """
+        Allow ZIP64 extensions when writing xlsx file zip container.
+
+        Args:
+            None.
+
+        Returns:
+            Nothing.
+
+        """
+        self.allow_zip64 = True
+
     ###########################################################################
     #
     # Private API.
@@ -430,7 +444,8 @@ class Workbook(xmlwriter.XMLwriter):
         # Free up the Packager object.
         packager = None
 
-        xlsx_file = ZipFile(self.filename, "w", compression=ZIP_DEFLATED)
+        xlsx_file = ZipFile(self.filename, "w", compression=ZIP_DEFLATED,
+                            allowZip64=self.allow_zip64)
 
         # Add XML sub-files to the Zip file with their Excel filename.
         for os_filename, xml_filename, is_binary in xml_files:

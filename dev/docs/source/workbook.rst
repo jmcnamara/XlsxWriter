@@ -242,8 +242,8 @@ See :ref:`chartsheet` for details.
 The ``sheetname`` parameter is optional. If it is not specified the default
 Excel convention will be followed, i.e. Chart1, Chart2, etc.
 
-The chartsheet name must be a valid Excel worksheet name, i.e. it cannot contain
-any of the characters ``' [ ] : * ? / \
+The chartsheet name must be a valid Excel worksheet name, i.e. it cannot
+contain any of the characters ``' [ ] : * ? / \
 '`` and it must be less than 32 characters.
 
 In addition, you cannot use the same, case insensitive, ``sheetname`` for more
@@ -378,16 +378,28 @@ workbook.set_calc_mode()
    :param string mode: The calculation mode string
 
 Set the calculation mode for formulas in the workbook. This is mainly of use
-for workbooks with slow formulas where you want to allow the user to
-calculate them manually.
+for workbooks with slow formulas where you want to allow the user to calculate
+them manually.
 
 The ``mode`` parameter can be:
 
-* ``auto``: The default. Excel will re-calculate formulas when a formula or 
-  a value affecting the formula changes.
+* ``auto``: The default. Excel will re-calculate formulas when a formula or a
+  value affecting the formula changes.
 
 * ``auto_except_tables``: Excel will automatically re-calculate formulas
   except for tables.
 
 * ``manual``: Only re-calculate formulas when the user requires it. Generally
   by pressing F9.
+
+
+workbook.use_zip64()
+--------------------
+
+.. py:function:: use_zip64()
+
+   Allow ZIP64 extensions when writing xlsx file zip container.
+
+Use ZIP64 extensions when writing the xlsx file zip container and allow files
+greater than 4 GB.
+
