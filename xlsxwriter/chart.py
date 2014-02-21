@@ -1004,6 +1004,7 @@ class Chart(xmlwriter.XMLwriter):
                 'above': 't',
                 'bottom': 'b',
                 'below': 'b',
+                'inside_base': 'inBase',
                 'inside_end': 'inEnd',
                 'outside_end': 'outEnd',
                 'best_fit': 'bestFit',
