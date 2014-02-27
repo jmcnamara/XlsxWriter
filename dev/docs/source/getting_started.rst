@@ -32,7 +32,7 @@ Using Easy_Install
 If ``pip`` doesn't work you can try
 `easy_install <http://peak.telecommunity.com/DevCenter/EasyInstall>`_::
 
-    $ sudo easy_install install XlsxWriter
+    $ sudo easy_install XlsxWriter
 
 Installing from a tarball
 *************************
