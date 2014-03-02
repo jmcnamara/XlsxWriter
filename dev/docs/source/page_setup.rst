@@ -185,8 +185,8 @@ Center the worksheet data vertically between the margins on the printed page::
 
     worksheet.center_vertically()
 
-worksheet.worksheet.set_margins()
----------------------------------
+worksheet.set_margins()
+-----------------------
 
 .. py:function:: set_margins([left=0.7,] right=0.7,] top=0.75,] bottom=0.75]]])
 

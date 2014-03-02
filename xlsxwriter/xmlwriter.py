@@ -80,7 +80,7 @@ class XMLwriter(object):
         self.fh.write("<%s/>" % tag)
 
     def _xml_empty_tag_unencoded(self, tag, attributes=[]):
-        # Write an XML start tag with optional, unencoded, attributes.
+        # Write an empty XML tag with optional, unencoded, attributes.
         # This is a minor speed optimisation for elements that don't
         # need encoding.
         for key, value in attributes:
