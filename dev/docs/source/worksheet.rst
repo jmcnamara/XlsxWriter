@@ -966,12 +966,13 @@ position and scale the image. The available parameters with their default
 values are::
 
     {
-        'x_offset': 0,
-        'y_offset': 0,
-        'x_scale':  1,
-        'y_scale':  1,
-        'url':      None,
-        'tip':      None,
+        'x_offset':    0,
+        'y_offset':    0,
+        'x_scale':     1,
+        'y_scale':     1,
+        'url':         None,
+        'tip':         None,
+        'positioning': None
     }
 
 The offset values are in pixels::
@@ -993,6 +994,18 @@ parameter gives an option mouseover tooltip for images with hyperlinks::
     worksheet.insert_image('By', 'python.png', {'url': 'http://python.org'})
 
 See also :func:`write_url` for details on supported URIs.
+
+The ``positioning`` parameter can be used to control the object positioning
+of the image::
+
+    worksheet.insert_image('B3', 'python.png', {'positioning': 1})
+
+Where ``positioning`` has the following allowable values:
+
+1. Move and size with cells.
+2. Move but don't size with cells (the default).
+3. Don't move or size with cells.
+
 
 .. Note::
   The scaling of a image may be affected if is crosses a row that has its
