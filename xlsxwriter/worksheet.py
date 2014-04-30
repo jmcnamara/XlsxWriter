@@ -1035,9 +1035,10 @@ class Worksheet(xmlwriter.XMLwriter):
         y_scale = options.get('y_scale', 1)
         url = options.get('url', None)
         tip = options.get('tip', None)
+        anchor = options.get('positioning', None)
 
         self.images.append([row, col, image, x_offset, y_offset,
-                            x_scale, y_scale, url, tip])
+                            x_scale, y_scale, url, tip, anchor])
 
     @convert_cell_args
     def insert_chart(self, row, col, chart, options={}):
@@ -3567,8 +3568,8 @@ class Worksheet(xmlwriter.XMLwriter):
                        name, image_type):
         # Set up images/drawings.
         drawing_type = 2
-        (row, col, _, x_offset, y_offset, x_scale, y_scale, url, tip) = \
-            self.images[index]
+        (row, col, _, x_offset, y_offset,
+            x_scale, y_scale, url, tip, anchor) = self.images[index]
 
         width *= x_scale
         height *= y_scale
@@ -3595,7 +3596,7 @@ class Worksheet(xmlwriter.XMLwriter):
 
         drawing_object = [drawing_type]
         drawing_object.extend(dimensions)
-        drawing_object.extend([width, height, name, None, url, tip])
+        drawing_object.extend([width, height, name, None, url, tip, anchor])
 
         drawing._add_drawing_object(drawing_object)
 

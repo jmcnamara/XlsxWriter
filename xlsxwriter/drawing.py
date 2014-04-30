@@ -86,12 +86,14 @@ class Drawing(xmlwriter.XMLwriter):
             'description': drawing_object[13],
             'shape': drawing_object[14],
             'url': None,
-            'tip': None
+            'tip': None,
+            'anchor': None
         }
 
         if len(drawing_object) > 15:
             obj['url'] = drawing_object[15]
             obj['tip'] = drawing_object[16]
+            obj['anchor'] = drawing_object[17]
 
         self.drawings.append(obj)
 
@@ -128,7 +130,12 @@ class Drawing(xmlwriter.XMLwriter):
 
         # Add attribute for images.
         if drawing['anchor_type'] == 2:
-            attributes.append(('editAs', 'oneCell'))
+            if drawing['anchor'] == 3:
+                attributes.append(('editAs', 'absolute'))
+            elif drawing['anchor'] == 1:
+                pass
+            else:
+                attributes.append(('editAs', 'oneCell'))
 
         # Add editAs attribute for shapes.
         if shape and shape.editAs:
