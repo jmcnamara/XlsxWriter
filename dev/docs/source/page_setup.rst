@@ -450,8 +450,9 @@ gridlines::
 
 The following values of ``option`` are valid:
 
-0. Don't hide gridlines. 1. Hide printed gridlines only. 2. Hide screen and
-printed gridlines.
+#. Don't hide gridlines.
+#. Hide printed gridlines only.
+#. Hide screen and printed gridlines.
 
 If you don't supply an argument the default option is 1, i.e. only the printed
 gridlines are hidden.
@@ -484,7 +485,6 @@ worksheet.print_area()
    :param first_col:   The first column of the range.
    :param last_row:    The last row of the range.
    :param last_col:    The last col of the range.
-   :param formula:     Array formula to write to cell.
    :type  first_row:   integer
    :type  first_col:   integer
    :type  last_row:    integer
@@ -655,4 +655,3 @@ worksheet.set_v_pagebreaks()
 
 The ``set_v_pagebreaks()`` method is the same as the above
 :func:`set_h_pagebreaks()` method except it adds page breaks between columns.
-

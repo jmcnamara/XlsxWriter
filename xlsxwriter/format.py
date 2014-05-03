@@ -22,7 +22,7 @@ class Format(xmlwriter.XMLwriter):
     #
     ###########################################################################
 
-    def __init__(self, properties={}, xf_indicies=None, dxf_indicies=None):
+    def __init__(self, properties={}, xf_indices=None, dxf_indices=None):
         """
         Constructor.
 
@@ -30,8 +30,8 @@ class Format(xmlwriter.XMLwriter):
 
         super(Format, self).__init__()
 
-        self.xf_format_indices = xf_indicies
-        self.dxf_format_indices = dxf_indicies
+        self.xf_format_indices = xf_indices
+        self.dxf_format_indices = dxf_indices
         self.xf_index = None
         self.dxf_index = None
 
@@ -916,7 +916,7 @@ class Format(xmlwriter.XMLwriter):
         return key
 
     def _get_xf_index(self):
-        # Returns the index index number used by Excel to identify a format.
+        # Returns the XF index number used by Excel to identify a format.
         if self.xf_index is not None:
             # Format already has an index number so return it.
             return self.xf_index
@@ -936,7 +936,7 @@ class Format(xmlwriter.XMLwriter):
                 return index
 
     def _get_dxf_index(self):
-        # Returns the index index number used by Excel to identify a format.
+        # Returns the DXF index number used by Excel to identify a format.
         if self.dxf_index is not None:
             # Format already has an index number so return it.
             return self.dxf_index

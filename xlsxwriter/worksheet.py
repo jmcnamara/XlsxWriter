@@ -59,7 +59,7 @@ def convert_cell_args(method):
             new_args = list(xl_cell_to_rowcol(args[0]))
             new_args.extend(args[1:])
             args = new_args
-            
+
         return method(self, *args, **kwargs)
 
     return cell_wrapper
@@ -90,7 +90,7 @@ def convert_range_args(method):
             new_args = [row_1, col_1, row_2, col_2]
             new_args.extend(args[1:])
             args = new_args
-            
+
         return method(self, *args, **kwargs)
 
     return cell_wrapper
@@ -116,7 +116,7 @@ def convert_column_args(method):
             new_args = [col_1, col_2]
             new_args.extend(args[1:])
             args = new_args
-        
+
         return method(self, *args, **kwargs)
 
     return column_wrapper
@@ -190,8 +190,6 @@ class Worksheet(xmlwriter.XMLwriter):
         self.panes = []
         self.active_pane = 3
         self.selected = 0
-        self.activesheet = 0
-        self.firstsheet = 0
 
         self.page_setup_changed = 0
         self.paper_size = 0
@@ -1197,8 +1195,9 @@ class Worksheet(xmlwriter.XMLwriter):
 
         # A hidden worksheet shouldn't be active or selected.
         self.selected = 0
-        self.activesheet = 0
-        self.firstsheet = 0
+
+        # TODO. Should add a check to see if the sheet is the global
+        # activesheet or firstsheet and reset them.
 
     def set_first_sheet(self):
         """
