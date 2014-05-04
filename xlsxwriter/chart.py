@@ -959,14 +959,10 @@ class Chart(xmlwriter.XMLwriter):
                 pass
 
         # Set any custom values.
-        if 'plus_values'in options:
-            error_bars['plus_values'] = options['plus_values']
-        if 'minus_values'in options:
-            error_bars['minus_values'] = options['minus_values']
-        if 'plus_data'in options:
-            error_bars['plus_data'] = options['plus_data']
-        if 'minus_data'in options:
-            error_bars['minus_data'] = options['minus_data']
+        error_bars['plus_values'] = options.get('plus_values')
+        error_bars['minus_values'] = options.get('minus_values')
+        error_bars['plus_data'] = options.get('plus_data')
+        error_bars['minus_data'] = options.get('minus_data')
 
         # Set the line properties for the error bars.
         error_bars['line'] = self._get_line_properties(options.get('line'))
