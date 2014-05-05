@@ -135,7 +135,7 @@ function check_git_status {
         echo
         echo -e "Please fix git status.\n";
 
-        git tag -l -n1 | tail -1 | perl -lane 'printf "git commit -m \"Prep for relase %s\"\ngit tag \"%s\"\n\n", $F[4], $F[0]' | perl dev/release/update_revison.pl
+        git tag -l -n1 | tail -1 | perl -lane 'printf "git commit -m \"Prep for release %s\"\ngit tag \"%s\"\n\n", $F[4], $F[0]' | perl dev/release/update_revison.pl
         exit 1
     fi
 }

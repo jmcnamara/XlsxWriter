@@ -411,7 +411,7 @@ class Chart(xmlwriter.XMLwriter):
         self.x_scale = options.get('x_scale', 1)
         self.y_scale = options.get('y_scale', 1)
         self.x_offset = options.get('x_offset', 0)
-        self.x_offset = options.get('y_offset', 0)
+        self.y_offset = options.get('y_offset', 0)
 
     def set_table(self, options=None):
         """

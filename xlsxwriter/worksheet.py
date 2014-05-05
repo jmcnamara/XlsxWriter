@@ -1067,7 +1067,7 @@ class Worksheet(xmlwriter.XMLwriter):
             x_offset = chart.x_offset
 
         if chart.y_offset:
-            x_offset = chart.y_offset
+            y_offset = chart.y_offset
 
         self.charts.append([row, col, chart,
                             x_offset, y_offset,
