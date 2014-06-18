@@ -1755,7 +1755,7 @@ class Worksheet(xmlwriter.XMLwriter):
 
         # Check that the input list doesn't exceed the maximum length.
         if options['validate'] == 'list' and type(options['value']) is list:
-            formula = ','.join([str(item) for item in options['value']])
+            formula = ','.join([item if type(item) in [str, unicode] else str(item) for item in options['value']])
             if len(formula) > 255:
                 warn("Length of list items '%s' exceeds Excel's limit of "
                      "255, use a formula range instead" % formula)
@@ -5409,7 +5409,7 @@ class Worksheet(xmlwriter.XMLwriter):
         # Write the <formula1> element.
 
         if type(formula) is list:
-            formula = ','.join([str(item) for item in formula])
+            formula = ','.join([item if type(item) in [str, unicode] else str(item) for item in formula])
             formula = '"%s"' % formula
         else:
             # Check if the formula is a number.
