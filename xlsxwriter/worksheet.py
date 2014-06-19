@@ -1755,7 +1755,7 @@ class Worksheet(xmlwriter.XMLwriter):
 
         # Check that the input list doesn't exceed the maximum length.
         if options['validate'] == 'list' and type(options['value']) is list:
-            formula = ','.join([str(item) for item in options['value']])
+            formula = self._csv_join(*options['value'])
             if len(formula) > 255:
                 warn("Length of list items '%s' exceeds Excel's limit of "
                      "255, use a formula range instead" % formula)
@@ -4108,6 +4108,21 @@ class Worksheet(xmlwriter.XMLwriter):
 
         return data
 
+    def _csv_join(self, *items):
+        # Create a csv string for use with data validation formulas and lists.
+
+        # We need to ensure that it works with unicode strings in Python 2/3.
+        if sys.version_info[0] == 2:
+            str_type = basestring
+        else:
+            str_type = str
+
+        # Convert non string types to string.
+        items = [str(item) if not isinstance(item, str_type) else item
+                 for item in items]
+
+        return ','.join(items)
+
     ###########################################################################
     #
     # The following font methods are, more or less, duplicated from the
@@ -5409,7 +5424,7 @@ class Worksheet(xmlwriter.XMLwriter):
         # Write the <formula1> element.
 
         if type(formula) is list:
-            formula = ','.join([str(item) for item in formula])
+            formula = self._csv_join(*formula)
             formula = '"%s"' % formula
         else:
             # Check if the formula is a number.
