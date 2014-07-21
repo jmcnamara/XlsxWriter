@@ -497,7 +497,10 @@ All four parameters must be specified. You can also use A1 notation, see
 
     worksheet1.print_area('A1:H20')     # Cells A1 to H20.
     worksheet2.print_area(0, 0, 19, 7)  # The same as above.
-    worksheet3.print_area('A:H')        # Columns A to H if rows have data.
+
+In order to set a row or column range you must specify the entire range::
+
+    worksheet3.print_area('A1:H1048576')  # Same as A:H.
 
 
 worksheet.print_across()
