@@ -133,6 +133,7 @@ formats:
 
         row += 1
 
+    workbook.close()
 
 .. image:: _images/working_with_dates_and_times02.png
 

@@ -31,6 +31,8 @@ given filename::
 
     worksheet.write(0, 0, 'Hello Excel')
 
+    workbook.close()
+
 .. image:: _images/workbook01.png
 
 The constructor options are:
@@ -257,19 +259,17 @@ workbook.close()
 
    Close the Workbook object and write the XLSX file.
 
-In general your Excel file will be closed automatically when your program ends
-or when the Workbook object goes out of scope, however the ``close()`` method
-can be used to explicitly close an Excel file::
+The workbook ``close()`` method writes all data to the xlsx file and closes
+it. This is a mandatory method call::
 
     workbook.close()
 
-An explicit ``close()`` is required if the file must be closed prior to
-performing some external action on it such as copying it, reading its size or
-attaching it to an email.
+.. Note::
 
-In addition, ``close()`` may occasionally be required to prevent Python's
-garbage collector from disposing of the Workbook, Worksheet and Format objects
-in the wrong order.
+   Earlier versions of XlsxWriter allowed an implicit ``close()`` that was
+   triggered by the garbage collector. However, this proved to be too
+   problematic and non-deterministic. An implicit ``close()`` is now
+   recommended in all XlsxWriter programs.
 
 
 workbook.set_properties()

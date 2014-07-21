@@ -29,3 +29,5 @@ for worksheet in workbook.worksheets():
     worksheet.write('A3', 'Example formula in cell B3 ->')
 
     worksheet.write('B3', '=Exchange_rate')
+
+workbook.close()

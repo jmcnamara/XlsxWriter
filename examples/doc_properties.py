@@ -23,3 +23,5 @@ workbook.set_properties({
 
 worksheet.set_column('A:A', 70)
 worksheet.write('A1', "Select 'Workbook Properties' to see properties.")
+
+workbook.close()

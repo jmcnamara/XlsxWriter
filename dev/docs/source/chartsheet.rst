@@ -20,6 +20,9 @@ from a :ref:`Workbook <Workbook>` object::
     workbook   = xlsxwriter.Workbook('filename.xlsx')
     worksheet  = workbook.add_worksheet()  # Required for the chart data.
     chartsheet = workbook.add_chartsheet()
+    #...
+    workbook.close()
+
 
 A chartsheet object functions as a worksheet and not as a chart. In order to
 have it display data a :ref:`Chart <chart_class>` object must be created and

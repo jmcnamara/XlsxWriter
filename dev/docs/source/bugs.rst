@@ -6,8 +6,8 @@ Known Issues and Bugs
 This section lists known issues and bugs and gives some information on how to
 submit bug reports.
 
-Content is Unreadable. Open and Repair
---------------------------------------
+"Content is Unreadable. Open and Repair"
+----------------------------------------
 
 Very, very occasionally you may see an Excel warning when opening an XlsxWriter
 file like:
@@ -23,17 +23,21 @@ program to replicate the issue (see below) or send one of the failing output
 files to the :ref:`author`.
 
 
-'unknown encoding: utf-8' Error
--------------------------------
+"Exception caught in workbook destructor. Explicit close() may be required"
+---------------------------------------------------------------------------
 
-The following error can occur on Windows if the :func:`close` method isn't used
-at the end of the program::
+The following exception, or similar, can occur if the :func:`close` method
+isn't used at the end of the program::
 
-    Exception LookupError: 'unknown encoding: utf-8' in <bound method
-    Workbook.__del__ of <xlsxwriter.workbook.Workbook object at 0x022C1450>>
+    Exception Exception: Exception('Exception caught in workbook destructor.
+    Explicit close() may be required for workbook.',)
+    in <bound method Workbook.__del__ of <xlsxwriter.workbook.Workbookobject
+    at 0x103297d50>>
 
-This appears to be an issue with the implicit destructor on Windows. It is
-under investigation. Use ``close()`` as a workaround.
+Note, it is possible that this exception will also be raised as part of
+another exception that occurs during workbook destruction. In either case
+ensure that there is an explicit ``workbook.close()`` in the program.
+
 
 Formulas displayed as ``#NAME?`` until edited
 ---------------------------------------------
@@ -49,10 +53,6 @@ qualified with the ``_xlfn.`` prefix as they are shown in the MS XLSX
 documentation link above. For example::
 
     worksheet.write_formula('A1', '=_xlfn.STDEV.S(B1:B10)')
-
-
-
-
 
 Formula results displaying as zero in non-Excel applications
 ------------------------------------------------------------

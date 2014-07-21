@@ -126,8 +126,12 @@ class Workbook(xmlwriter.XMLwriter):
 
     def __del__(self):
         """Close file in destructor if it hasn't been closed explicitly."""
-        if not self.fileclosed:
-            self.close()
+        try:
+            if not self.fileclosed:
+                self.close()
+        except:
+            raise Exception("Exception caught in workbook destructor. "
+                            "Explicit close() may be required for workbook.")
 
     def add_worksheet(self, name=None):
         """

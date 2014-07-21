@@ -17,6 +17,9 @@ object::
 
     worksheet1.write('A1', 123)
 
+    workbook.close()
+
+
 .. image:: _images/worksheet00.png
 
 
