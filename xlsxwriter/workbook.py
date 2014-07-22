@@ -15,6 +15,8 @@ from datetime import datetime
 from zipfile import ZipFile, ZIP_DEFLATED
 from struct import unpack
 
+from .compatibility import str_types
+
 # Package imports.
 from . import xmlwriter
 from xlsxwriter.worksheet import Worksheet
@@ -639,11 +641,6 @@ class Workbook(xmlwriter.XMLwriter):
 
         for xf_format in (self.xf_formats + self.dxf_formats):
             num_format = xf_format.num_format
-
-            if sys.version_info[0] == 2:
-                str_types = basestring
-            else:
-                str_types = str
 
             # Check if num_format is an index to a built-in number format.
             if not isinstance(num_format, str_types):

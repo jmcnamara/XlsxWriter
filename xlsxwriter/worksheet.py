@@ -7,19 +7,17 @@
 
 # Standard packages.
 import re
-import datetime
 import tempfile
 import codecs
 import os
-import sys
-from decimal import Decimal
+
 from warnings import warn
 
 # Standard packages in Python 2/3 compatibility mode.
 from .compatibility import StringIO
-from .compatibility import Fraction
 from .compatibility import defaultdict
 from .compatibility import namedtuple
+from .compatibility import num_types, str_types, date_types
 
 # Package imports.
 from . import xmlwriter
@@ -353,16 +351,6 @@ class Worksheet(xmlwriter.XMLwriter):
 
         # The first arg should be the token for all write calls.
         token = args[0]
-
-        # Types to check in Python 2/3.
-        if sys.version_info[0] == 2:
-            num_types = (float, int, long, Decimal, Fraction)
-            str_types = basestring
-            date_types = (datetime.datetime, datetime.date, datetime.time)
-        else:
-            num_types = (float, int, Decimal, Fraction)
-            str_types = str
-            date_types = (datetime.datetime, datetime.date, datetime.time)
 
         # Write None as a blank cell.
         if token is None:
@@ -1293,7 +1281,6 @@ class Worksheet(xmlwriter.XMLwriter):
     def set_row(self, row, height=None, cell_format=None, options={}):
         """
         Set the width, and other properties of a row.
-        range of columns.
 
         Args:
             row:         Row number (zero-indexed).
@@ -4111,14 +4098,8 @@ class Worksheet(xmlwriter.XMLwriter):
     def _csv_join(self, *items):
         # Create a csv string for use with data validation formulas and lists.
 
-        # We need to ensure that it works with unicode strings in Python 2/3.
-        if sys.version_info[0] == 2:
-            str_type = basestring
-        else:
-            str_type = str
-
         # Convert non string types to string.
-        items = [str(item) if not isinstance(item, str_type) else item
+        items = [str(item) if not isinstance(item, str_types) else item
                  for item in items]
 
         return ','.join(items)
@@ -4827,9 +4808,7 @@ class Worksheet(xmlwriter.XMLwriter):
 
         elif type(cell).__name__ == 'Formula':
             # Write a formula. First check if the formula value is a string.
-            try:
-                float(cell.value)
-            except ValueError:
+            if isinstance(cell.value, str_types):
                 attributes.append(('t', 'str'))
 
             self._xml_formula_element(cell.formula, cell.value, attributes)
