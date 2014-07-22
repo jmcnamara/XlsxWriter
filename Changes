@@ -1,4 +1,20 @@
 
+Release 0.5.6 - July 22 2014
+----------------------------
+
+* Fix for spurious exception message when :func:`close()` isn't used.
+  Issue `#131 <https://github.com/jmcnamara/XlsxWriter/issues/131>`_.
+
+* Fix for formula string values that look like numbers.
+  Issue `#122 <https://github.com/jmcnamara/XlsxWriter/issues/122>`_.
+
+* Clarify :func:`print_area()` documentation for complete row/column ranges.
+  Issue `#139 <https://github.com/jmcnamara/XlsxWriter/issues/139>`_.
+
+* Fix for unicode strings in data validation lists.
+  Issue `#135 <https://github.com/jmcnamara/XlsxWriter/issues/135>`_.
+
+
 Release 0.5.5 - May 6 2014
 --------------------------
 
