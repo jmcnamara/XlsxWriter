@@ -450,9 +450,9 @@ gridlines::
 
 The following values of ``option`` are valid:
 
-#. Don't hide gridlines.
-#. Hide printed gridlines only.
-#. Hide screen and printed gridlines.
+0. Don't hide gridlines.
+1. Hide printed gridlines only.
+2. Hide screen and printed gridlines.
 
 If you don't supply an argument the default option is 1, i.e. only the printed
 gridlines are hidden.
