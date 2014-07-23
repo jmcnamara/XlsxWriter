@@ -268,7 +268,7 @@ it. This is a mandatory method call::
 
    Earlier versions of XlsxWriter allowed an implicit ``close()`` that was
    triggered by the garbage collector. However, this proved to be too
-   problematic and non-deterministic. An implicit ``close()`` is now
+   problematic and non-deterministic. An explicit ``close()`` is now
    recommended in all XlsxWriter programs.
 
 
@@ -402,4 +402,3 @@ workbook.use_zip64()
 
 Use ZIP64 extensions when writing the xlsx file zip container and allow files
 greater than 4 GB.
-
