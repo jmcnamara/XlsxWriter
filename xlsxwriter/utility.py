@@ -549,7 +549,8 @@ def supported_datetime(dt):
     # Determine is an argument is a supported datetime object.
     return(isinstance(dt, (datetime.datetime,
                            datetime.date,
-                           datetime.time)))
+                           datetime.time,
+                           datetime.timedelta)))
 
 
 def datetime_to_excel_datetime(dt_obj, date_1904):
@@ -567,16 +568,19 @@ def datetime_to_excel_datetime(dt_obj, date_1904):
     # We handle datetime .datetime, .date and .time objects but convert
     # them to datetime.datetime objects and process them in the same way.
     if isinstance(dt_obj, datetime.datetime):
-        pass
+        delta = dt_obj - epoch
     elif isinstance(dt_obj, datetime.date):
         dt_obj = datetime.datetime.fromordinal(dt_obj.toordinal())
+        delta = dt_obj - epoch
     elif isinstance(dt_obj, datetime.time):
         dt_obj = datetime.datetime.combine(epoch, dt_obj)
+        delta = dt_obj - epoch
+    elif isinstance(dt_obj, datetime.timedelta):
+        delta = dt_obj
     else:
         raise TypeError("Unknown or unsupported datetime type")
 
     # Convert a Python datetime.datetime value to an Excel date number.
-    delta = dt_obj - epoch
     excel_time = (delta.days
                   + (float(delta.seconds)
                      + float(delta.microseconds) / 1E6)
@@ -584,7 +588,8 @@ def datetime_to_excel_datetime(dt_obj, date_1904):
 
     # Special case for datetime where time only has been specified and
     # the default date of 1900-01-01 is used.
-    if dt_obj.isocalendar() == (1900, 1, 1):
+    if (not isinstance(dt_obj, datetime.timedelta)
+            and dt_obj.isocalendar() == (1900, 1, 1)):
         excel_time -= 1
 
     # Account for Excel erroneously treating 1900 as a leap year.

@@ -55,7 +55,7 @@ provides a :func:`write_datetime` method to write dates in standard library
 :mod:`datetime` format.
 
 Specifically it supports datetime objects of type :class:`datetime.datetime`,
-:class:`datetime.date` and :class:`datetime.time`.
+:class:`datetime.date`, :class:`datetime.time` and :class:`datetime.timedelta`.
 
 There are many way to create datetime objects, for example the
 :meth:`datetime.datetime.strptime` method::

@@ -124,13 +124,21 @@ class TestConvertDateTime(unittest.TestCase):
             ('9999-12-31T23:59:59.000', 2958465.999988426),
         ]
 
+        epoch = datetime(1899, 12, 31)
+
         for excel_date in excel_dates:
             date = datetime.strptime(excel_date[0], "%Y-%m-%dT%H:%M:%S.%f")
 
             got = self.worksheet._convert_date_time(date)
             exp = excel_date[1]
-
             self.assertEqual(got, exp)
+
+            # Also test time deltas.
+            delta = date - epoch
+            got = self.worksheet._convert_date_time(delta)
+            exp = excel_date[1]
+            self.assertEqual(got, exp)
+
 
 
 if __name__ == '__main__':

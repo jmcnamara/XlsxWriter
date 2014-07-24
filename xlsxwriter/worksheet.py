@@ -17,7 +17,7 @@ from warnings import warn
 from .compatibility import StringIO
 from .compatibility import defaultdict
 from .compatibility import namedtuple
-from .compatibility import num_types, str_types, date_types
+from .compatibility import num_types, str_types
 
 # Package imports.
 from . import xmlwriter
@@ -361,7 +361,7 @@ class Worksheet(xmlwriter.XMLwriter):
             return self.write_boolean(row, col, *args)
 
         # Write datetime objects.
-        if isinstance(token, date_types):
+        if supported_datetime(token):
             return self.write_datetime(row, col, *args)
 
         # Write number types.

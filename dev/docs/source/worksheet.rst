@@ -53,8 +53,9 @@ The rules for handling data in ``write()`` are as follows:
 * Data types ``float``, ``int``, ``long``, :class:`decimal.Decimal` and
   :class:`fractions.Fraction`  are written using :func:`write_number()`.
 
-* Data types :class:`datetime.datetime`, :class:`datetime.date` or
-  :class:`datetime.time`  are written using :func:`write_datetime()` .
+* Data types :class:`datetime.datetime`, :class:`datetime.date`
+  :class:`datetime.time` or :class:`datetime.timedelta` are written using
+  :func:`write_datetime()` .
 
 * ``None`` and empty strings ``""`` are written using :func:`write_blank()`.
 
@@ -439,7 +440,7 @@ worksheet.write_datetime()
 
    :param row:         The cell row (zero indexed).
    :param col:         The cell column (zero indexed).
-   :param datetime:    A datetime.datetime, .date or .time object.
+   :param datetime:    A datetime.datetime, .date, .time or .delta object.
    :param cell_format: Optional Format object.
    :type  row:         int
    :type  col:         int
@@ -452,9 +453,9 @@ specified by ``row`` and ``column``::
 
     worksheet.write_datetime(0, 0, datetime, date_format)
 
-The datetime should be a :class:`datetime.datetime`, :class:`datetime.date` or
-:class:`datetime.time` object. The :mod:`datetime` class is part of the
-standard Python libraries.
+The datetime should be a :class:`datetime.datetime`, :class:`datetime.date`
+:class:`datetime.time` or :class:`datetime.timedelta` object. The
+:mod:`datetime` class is part of the standard Python libraries.
 
 There are many way to create datetime objects, for example the
 :meth:`datetime.datetime.strptime` method::

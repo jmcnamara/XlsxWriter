@@ -6,7 +6,6 @@
 #
 
 import sys
-import datetime
 from decimal import Decimal
 
 try:
@@ -34,8 +33,6 @@ except ImportError:
 if sys.version_info[0] == 2:
     num_types = (float, int, long, Decimal, Fraction)
     str_types = basestring
-    date_types = (datetime.datetime, datetime.date, datetime.time)
 else:
     num_types = (float, int, Decimal, Fraction)
     str_types = str
-    date_types = (datetime.datetime, datetime.date, datetime.time)
