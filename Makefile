@@ -31,8 +31,8 @@ testpythons:
 	# Test with stable Python 2/3 releases.
 	@echo "Testing with Python 2.7.4:"
 	@~/.pythonbrew/pythons/Python-2.7.4/bin/python -m unittest discover
-	@echo "Testing with Python 3.3.2:"
-	@~/.pythonbrew/pythons/Python-3.3.2/bin/python -m unittest discover
+	@echo "Testing with Python 3.4.1:"
+	@~/.pythonbrew/pythons/Python-3.4.1/bin/python -m unittest discover
 
 testpythonsall:
 	# Test with all stable Python 2/3 releases.
@@ -48,6 +48,8 @@ testpythonsall:
 	@~/.pythonbrew/pythons/Python-3.2.5/bin/py.test -q
 	@echo "Testing with Python 3.3.2:"
 	@~/.pythonbrew/pythons/Python-3.3.2/bin/py.test -q
+	@echo "Testing with Python 3.4.1:"
+	@~/.pythonbrew/pythons/Python-3.4.1/bin/py.test -q
 
 pep8:
 	@ls -1 xlsxwriter/*.py | egrep -v "theme|compat" | xargs pep8
