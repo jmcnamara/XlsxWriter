@@ -862,7 +862,6 @@ class Workbook(xmlwriter.XMLwriter):
         self.drawing_count = drawing_id
 
     def _get_image_properties(self, filename):
-        '''NEEDS TESTING'''
         # Extract dimension information from the image file.
         height = 0
         width = 0
