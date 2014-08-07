@@ -866,12 +866,27 @@ class Workbook(xmlwriter.XMLwriter):
         height = 0
         width = 0
 
-        # Open the image file and read in the data.
-        fh = open(filename, "rb")
-        data = fh.read()
-
-        # Get the image filename without the path.
-        image_name = os.path.basename(filename)
+        # Get image data from <filename>
+        try: # Is filename a path to image?
+            # Open the image file and read in the data.
+            fh = open(filename, "rb")
+            data = fh.read()
+            # Get the image filename without the path.
+            image_name = os.path.basename(filename)
+        # Is filename not a path?
+        except TypeError:
+            # Is filename a StringIO instance?
+            if filename.__class__.__name__ == 'StringIO':
+                data = filename.getvalue()
+                image_name = 'img_from_memory'
+            # Is filename a byte string?
+            elif type(filename) is str:
+                data = filename
+                image_name = 'img_from_bytestring'
+            else:
+                raise TypeError(
+                    'Unknown argument (filename): {}'.format(filename)
+                )
 
         # Look for some common image file markers.
         marker1 = (unpack('3s', data[1:4]))[0]
