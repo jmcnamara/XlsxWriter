@@ -1,4 +1,15 @@
 
+Release 0.5.7 - August 13 2014
+------------------------------
+
+* Added support for :func:`insert_image` images from byte streams to allow
+  images from URLs and other sources.
+  Feature request `#118 <https://github.com/jmcnamara/XlsxWriter/issues/118>`_.
+
+* Added :func:`write_datetime` support for datetime.timedelta.
+  Feature request `#128 <https://github.com/jmcnamara/XlsxWriter/issues/128>`_.
+
+
 Release 0.5.6 - July 22 2014
 ----------------------------
 
