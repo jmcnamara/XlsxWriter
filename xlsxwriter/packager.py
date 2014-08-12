@@ -12,6 +12,7 @@ import tempfile
 from shutil import copy
 
 from .compatibility import StringIO
+from .compatibility import BytesIO
 
 # Package imports.
 from xlsxwriter.app import App
@@ -532,26 +533,34 @@ class Packager(object):
         for image in workbook.images:
             filename = image[0]
             ext = '.' + image[1]
+            image_data = image[2]
 
             xml_image_name = 'xl/media/image' + str(index) + ext
 
             if not self.in_memory:
                 # In file mode we just copy the image file.
                 os_filename = self._filename(xml_image_name)
-                copy(filename, os_filename)
+
+                if image_data:
+                    os_file = open(os_filename, mode='wb')
+                    os_file.write(image_data.getvalue())
+                    os_file.close()
+                else:
+                    copy(filename, os_filename)
+
             else:
                 # For in-memory mode we read the image into a string.
-                image_file = open(filename, mode='rb')
-                image_data = image_file.read()
-
-                if sys.version_info < (2, 6, 0):
-                    os_filename = StringIO(image_data)
+                if image_data:
+                    os_filename = image_data
                 else:
-                    from io import BytesIO
+                    image_file = open(filename, mode='rb')
+                    image_data = image_file.read()
+
                     os_filename = BytesIO(image_data)
 
+                    image_file.close()
+
                 self.filenames.append((os_filename, xml_image_name, True))
-                image_file.close()
 
             index += 1
 

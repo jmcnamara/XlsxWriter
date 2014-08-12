@@ -842,8 +842,9 @@ class Workbook(xmlwriter.XMLwriter):
 
             for index in range(image_count):
                 filename = sheet.images[index][2]
+                image_data = sheet.images[index][10]
                 (image_type, width, height, name) = \
-                    self._get_image_properties(filename)
+                    self._get_image_properties(filename, image_data)
                 image_ref_id += 1
 
                 sheet._prepare_image(index, image_ref_id, drawing_id, width,
@@ -861,14 +862,18 @@ class Workbook(xmlwriter.XMLwriter):
 
         self.drawing_count = drawing_id
 
-    def _get_image_properties(self, filename):
+    def _get_image_properties(self, filename, image_data):
         # Extract dimension information from the image file.
         height = 0
         width = 0
 
-        # Open the image file and read in the data.
-        fh = open(filename, "rb")
-        data = fh.read()
+        if not image_data:
+            # Open the image file and read in the data.
+            fh = open(filename, "rb")
+            data = fh.read()
+        else:
+            # Read the image date from the user supplied buffer.
+            data = image_data.getvalue()
 
         # Get the image filename without the path.
         image_name = os.path.basename(filename)
@@ -908,9 +913,11 @@ class Workbook(xmlwriter.XMLwriter):
             raise Exception("%s: no size data found in image file." % filename)
 
         # Store image data to copy it into file container.
-        self.images.append([filename, image_type])
+        self.images.append([filename, image_type, image_data])
 
-        fh.close()
+        if not image_data:
+            fh.close()
+
         return image_type, width, height, image_name
 
     def _process_png(self, data):

@@ -1004,14 +1004,14 @@ class Worksheet(xmlwriter.XMLwriter):
         return 0
 
     @convert_cell_args
-    def insert_image(self, row, col, image, options={}):
+    def insert_image(self, row, col, filename, options={}):
         """
         Insert an image with its top-left corner in a worksheet cell.
         Args:
-            row:     The cell row (zero indexed).
-            col:     The cell column (zero indexed).
-            image:   Path and filename for image in PNG, JPG or BMP format.
-            options: Position, scale and url of the image.
+            row:      The cell row (zero indexed).
+            col:      The cell column (zero indexed).
+            filename: Path and filename for image in PNG, JPG or BMP format.
+            options:  Position, scale and url of the image.
         Returns:
             0:  Success.
         """
@@ -1022,9 +1022,10 @@ class Worksheet(xmlwriter.XMLwriter):
         url = options.get('url', None)
         tip = options.get('tip', None)
         anchor = options.get('positioning', None)
+        image_data = options.get('image_data', None)
 
-        self.images.append([row, col, image, x_offset, y_offset,
-                            x_scale, y_scale, url, tip, anchor])
+        self.images.append([row, col, filename, x_offset, y_offset,
+                            x_scale, y_scale, url, tip, anchor, image_data])
 
     @convert_cell_args
     def insert_chart(self, row, col, chart, options={}):
@@ -3555,7 +3556,7 @@ class Worksheet(xmlwriter.XMLwriter):
         # Set up images/drawings.
         drawing_type = 2
         (row, col, _, x_offset, y_offset,
-            x_scale, y_scale, url, tip, anchor) = self.images[index]
+            x_scale, y_scale, url, tip, anchor, _) = self.images[index]
 
         width *= x_scale
         height *= y_scale

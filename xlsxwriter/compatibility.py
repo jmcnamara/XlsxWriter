@@ -36,3 +36,9 @@ if sys.version_info[0] == 2:
 else:
     num_types = (float, int, Decimal, Fraction)
     str_types = str
+
+
+if sys.version_info < (2, 6, 0):
+    from StringIO import StringIO as BytesIO
+else:
+    from io import BytesIO as BytesIO
