@@ -20,6 +20,7 @@ directory of the XlsxWriter distribution.
    example_rich_strings.rst
    example_merge_rich.rst
    example_images.rst
+   example_images_bytesio.rst
    example_http_server.rst
    example_headers_footers.rst
    example_panes.rst

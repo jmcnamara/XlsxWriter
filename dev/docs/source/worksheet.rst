@@ -976,7 +976,8 @@ values are::
         'y_scale':     1,
         'url':         None,
         'tip':         None,
-        'positioning': None
+        'image_data':  None,
+        'positioning': None,
     }
 
 The offset values are in pixels::
@@ -995,9 +996,26 @@ horizontally and vertically::
 The ``url`` parameter can used to add a hyperlink/url to the image. The ``tip``
 parameter gives an option mouseover tooltip for images with hyperlinks::
 
-    worksheet.insert_image('By', 'python.png', {'url': 'http://python.org'})
+    worksheet.insert_image('B4', 'python.png', {'url': 'http://python.org'})
 
 See also :func:`write_url` for details on supported URIs.
+
+The ``image_data`` parameter is used to add an in-memory byte stream in
+:class:`io.BytesIO` format::
+
+    worksheet.insert_image('B5', 'python.png', {'image_data': image_data})
+
+This is generally used for inserting images from URLs::
+
+    url = 'http://python.org/logo.png'
+    image_data = io.BytesIO(urllib2.urlopen(url).read())
+
+    worksheet.insert_image('B5', url, {'image_data': image_data})
+
+When using the ``image_data`` parameter a filename must still be passed to
+``insert_image()`` since it is required by Excel. In the previous example
+the filename is extracted from the URL string. See also
+:ref:`ex_images_bytesio`.
 
 The ``positioning`` parameter can be used to control the object positioning
 of the image::

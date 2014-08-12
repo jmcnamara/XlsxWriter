@@ -9,7 +9,7 @@
 # Import the byte stream handler.
 from io import BytesIO
 
-# Import urlopen() for both Python 2 or 3.
+# Import urlopen() for either Python 2 or 3.
 try:
     from urllib.request import urlopen
 except ImportError:
@@ -18,6 +18,7 @@ except ImportError:
 
 import xlsxwriter
 
+# Create the workbook and add a worksheet.
 workbook  = xlsxwriter.Workbook('images_bytesio.xlsx')
 worksheet = workbook.add_worksheet()
 
