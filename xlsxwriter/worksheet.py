@@ -1011,7 +1011,7 @@ class Worksheet(xmlwriter.XMLwriter):
             row:      The cell row (zero indexed).
             col:      The cell column (zero indexed).
             filename: Path and filename for image in PNG, JPG or BMP format.
-            options:  Position, scale and url of the image.
+            options:  Position, scale, url and data stram of the image.
         Returns:
             0:  Success.
         """

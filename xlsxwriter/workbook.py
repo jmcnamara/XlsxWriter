@@ -872,7 +872,7 @@ class Workbook(xmlwriter.XMLwriter):
             fh = open(filename, "rb")
             data = fh.read()
         else:
-            # Read the image date from the user supplied buffer.
+            # Read the image data from the user supplied byte stream.
             data = image_data.getvalue()
 
         # Get the image filename without the path.

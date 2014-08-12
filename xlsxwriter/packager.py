@@ -538,10 +538,11 @@ class Packager(object):
             xml_image_name = 'xl/media/image' + str(index) + ext
 
             if not self.in_memory:
-                # In file mode we just copy the image file.
+                # In file mode we just write or copy the image file.
                 os_filename = self._filename(xml_image_name)
 
                 if image_data:
+                    # The data is in a byte stream. Write it to the target.
                     os_file = open(os_filename, mode='wb')
                     os_file.write(image_data.getvalue())
                     os_file.close()
@@ -549,15 +550,14 @@ class Packager(object):
                     copy(filename, os_filename)
 
             else:
-                # For in-memory mode we read the image into a string.
+                # For in-memory mode we read the image into a stream.
                 if image_data:
+                    # The data is already in a byte stream.
                     os_filename = image_data
                 else:
                     image_file = open(filename, mode='rb')
                     image_data = image_file.read()
-
                     os_filename = BytesIO(image_data)
-
                     image_file.close()
 
                 self.filenames.append((os_filename, xml_image_name, True))
@@ -571,5 +571,3 @@ class Packager(object):
 
         if not vba_project:
             return
-
-        # copy(vba_project, xlsx_dir + '/xl/vbaProject.bin')
