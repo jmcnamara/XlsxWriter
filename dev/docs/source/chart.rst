@@ -18,9 +18,12 @@ It is then inserted into a worksheet as an embedded chart using the
 
     worksheet.insert_chart('A7', chart)
 
-.. Note::
-   Chart sheets, i.e, charts that occupy an entire worksheet in a workbook
-   are not supported yet. They will be added in a future release.
+Or it can be set in a chartsheet using the :func:`set_chart` Chartsheet method::
+
+    chartsheet = workbook.add_chartsheet()
+    # ...
+    chartsheet.set_chart(chart)
+
 
 The following is a small working example or adding an embedded chart::
 
@@ -349,7 +352,7 @@ the axis types.
   (Applicable to value and date axes only.)
 
 * ``interval_unit``: Set the interval unit for a category axis. Should be an
-  integer value. (Applicable to category axes only.):: 
+  integer value. (Applicable to category axes only.)::
 
     chart.set_x_axis({'interval_unit': 2})
 
@@ -373,7 +376,7 @@ the axis types.
   (Applicable to category axes only.)
 
   There are two allowable values ``on_tick`` and ``between``::
-  
+
     chart.set_x_axis({'position_axis': 'on_tick'})
     chart.set_x_axis({'position_axis': 'between'})
 
