@@ -109,6 +109,7 @@ class Workbook(xmlwriter.XMLwriter):
         self.calc_mode = "auto"
         self.calc_on_load = True
         self.allow_zip64 = False
+        self.calc_id = 124519
 
         # We can't do 'constant_memory' mode while doing 'in_memory' mode.
         if self.in_memory:
@@ -258,7 +259,7 @@ class Workbook(xmlwriter.XMLwriter):
         """
         self.doc_properties = properties
 
-    def set_calc_mode(self, mode):
+    def set_calc_mode(self, mode, calc_id=None):
         """
         Set the Excel caclcuation mode for the workbook.
 
@@ -278,6 +279,10 @@ class Workbook(xmlwriter.XMLwriter):
             self.calc_on_load = False
         elif mode == 'auto_except_tables':
             self.calc_mode = 'autoNoTable'
+
+        # Leave undocumented for now. Rarely required.
+        if calc_id:
+            self.calc_id = calc_id
 
     def define_name(self, name, formula):
         # Create a defined name in Excel. We handle global/workbook level
@@ -1263,7 +1268,7 @@ class Workbook(xmlwriter.XMLwriter):
 
     def _write_calc_pr(self):
         # Write the <calcPr> element.
-        attributes = [('calcId', '124519')]
+        attributes = [('calcId', self.calc_id)]
 
         if self.calc_mode == 'manual':
             attributes.append(('calcMode', self.calc_mode))

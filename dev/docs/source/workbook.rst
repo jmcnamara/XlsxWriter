@@ -386,11 +386,11 @@ The ``mode`` parameter can be:
 * ``auto``: The default. Excel will re-calculate formulas when a formula or a
   value affecting the formula changes.
 
-* ``auto_except_tables``: Excel will automatically re-calculate formulas
-  except for tables.
-
 * ``manual``: Only re-calculate formulas when the user requires it. Generally
   by pressing F9.
+
+* ``auto_except_tables``: Excel will automatically re-calculate formulas
+  except for tables.
 
 
 workbook.use_zip64()
