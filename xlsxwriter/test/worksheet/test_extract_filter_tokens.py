@@ -123,7 +123,3 @@ class TestExtractFilterTokens(unittest.TestCase):
             got = self.worksheet._extract_filter_tokens(expression)
 
             self.assertEqual(got, exp)
-
-
-if __name__ == '__main__':
-    unittest.main()

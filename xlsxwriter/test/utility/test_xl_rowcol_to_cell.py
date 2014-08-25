@@ -85,6 +85,3 @@ class TestUtility(unittest.TestCase):
             exp = string
             got = xl_rowcol_to_cell_fast(row, col)
             self.assertEqual(got, exp)
-
-if __name__ == '__main__':
-    unittest.main()

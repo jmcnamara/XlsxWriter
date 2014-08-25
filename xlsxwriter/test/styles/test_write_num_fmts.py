@@ -37,7 +37,3 @@ class TestWriteNumFmts(unittest.TestCase):
         got = self.fh.getvalue()
 
         self.assertEqual(got, exp)
-
-
-if __name__ == '__main__':
-    unittest.main()

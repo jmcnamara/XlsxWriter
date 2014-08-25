@@ -257,7 +257,3 @@ class TestConvertDateTime(unittest.TestCase):
             exp = excel_date[1]
 
             self.assertAlmostEqual(got, exp, places=15)
-
-
-if __name__ == '__main__':
-    unittest.main()

@@ -463,7 +463,3 @@ class TestConvertDateTime(unittest.TestCase):
             exp = excel_date[1]
 
             self.assertEqual(got, exp)
-
-
-if __name__ == '__main__':
-    unittest.main()

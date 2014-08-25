@@ -43,7 +43,3 @@ class TestAssembleChartsheet(unittest.TestCase):
         got = _xml_to_list(fh.getvalue())
 
         self.assertEqual(got, exp)
-
-
-if __name__ == '__main__':
-    unittest.main()

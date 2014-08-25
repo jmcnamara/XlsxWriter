@@ -63,7 +63,3 @@ class TestUtility(unittest.TestCase):
             exp = cell_range
             got = xl_range_abs(first_row, first_col, last_row, last_col)
             self.assertEqual(got, exp)
-
-
-if __name__ == '__main__':
-    unittest.main()

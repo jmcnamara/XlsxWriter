@@ -33,7 +33,3 @@ class TestWriteWorkbookPr(unittest.TestCase):
 
     def tearDown(self):
         self.workbook.fileclosed = 1
-
-
-if __name__ == '__main__':
-    unittest.main()

@@ -923,6 +923,3 @@ class TestWriteDataValidations(unittest.TestCase):
         got = _xml_to_list(got)
 
         self.assertEqual(got, exp)
-
-if __name__ == '__main__':
-    unittest.main()

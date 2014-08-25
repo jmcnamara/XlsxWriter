@@ -89,7 +89,3 @@ class TestCompareXLSXFiles(unittest.TestCase):
         # Cleanup.
         if os.path.exists(self.got_filename):
             os.remove(self.got_filename)
-
-
-if __name__ == '__main__':
-    unittest.main()

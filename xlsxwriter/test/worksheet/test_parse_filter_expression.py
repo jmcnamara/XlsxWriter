@@ -155,7 +155,3 @@ class TestParseFilterExpression(unittest.TestCase):
             got = self.worksheet._parse_filter_expression(expression, tokens)
 
             self.assertEqual(got, exp)
-
-
-if __name__ == '__main__':
-    unittest.main()
