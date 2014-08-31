@@ -5,14 +5,12 @@
 # Copyright (c), 2013-2014, John McNamara, jmcnamara@cpan.org
 #
 
-import unittest
-import os
+from ..excel_comparsion_test import ExcelComparisonTest
 from datetime import datetime, date, time
 from ...workbook import Workbook
-from ..helperfunctions import _compare_xlsx_files
 
 
-class TestCompareXLSXFiles(unittest.TestCase):
+class TestCompareXLSXFiles(ExcelComparisonTest):
     """
     Test file created by XlsxWriter against a file created by Excel.
 
@@ -32,11 +30,8 @@ class TestCompareXLSXFiles(unittest.TestCase):
 
     def test_create_file(self):
         """Test dates and times."""
-        filename = self.got_filename
 
-        ####################################################
-
-        workbook = Workbook(filename)
+        workbook = Workbook(self.got_filename)
 
         worksheet = workbook.add_worksheet()
 
@@ -53,22 +48,12 @@ class TestCompareXLSXFiles(unittest.TestCase):
 
         workbook.close()
 
-        ####################################################
-
-        got, exp = _compare_xlsx_files(self.got_filename,
-                                       self.exp_filename,
-                                       self.ignore_files,
-                                       self.ignore_elements)
-
-        self.assertEqual(got, exp)
+        self.assertExcelEqual()
 
     def test_create_file_write(self):
         """Test dates and times with write() method."""
-        filename = self.got_filename
 
-        ####################################################
-
-        workbook = Workbook(filename)
+        workbook = Workbook(self.got_filename)
 
         worksheet = workbook.add_worksheet()
 
@@ -85,22 +70,12 @@ class TestCompareXLSXFiles(unittest.TestCase):
 
         workbook.close()
 
-        ####################################################
-
-        got, exp = _compare_xlsx_files(self.got_filename,
-                                       self.exp_filename,
-                                       self.ignore_files,
-                                       self.ignore_elements)
-
-        self.assertEqual(got, exp)
+        self.assertExcelEqual()
 
     def test_create_file_A1(self):
         """Test dates and times in A1 notation."""
-        filename = self.got_filename
 
-        ####################################################
-
-        workbook = Workbook(filename)
+        workbook = Workbook(self.got_filename)
 
         worksheet = workbook.add_worksheet()
 
@@ -117,22 +92,12 @@ class TestCompareXLSXFiles(unittest.TestCase):
 
         workbook.close()
 
-        ####################################################
-
-        got, exp = _compare_xlsx_files(self.got_filename,
-                                       self.exp_filename,
-                                       self.ignore_files,
-                                       self.ignore_elements)
-
-        self.assertEqual(got, exp)
+        self.assertExcelEqual()
 
     def test_create_file_date_and_time1(self):
         """Test dates and times with datetime .date and .time."""
-        filename = self.got_filename
 
-        ####################################################
-
-        workbook = Workbook(filename)
+        workbook = Workbook(self.got_filename)
 
         worksheet = workbook.add_worksheet()
 
@@ -149,22 +114,12 @@ class TestCompareXLSXFiles(unittest.TestCase):
 
         workbook.close()
 
-        ####################################################
-
-        got, exp = _compare_xlsx_files(self.got_filename,
-                                       self.exp_filename,
-                                       self.ignore_files,
-                                       self.ignore_elements)
-
-        self.assertEqual(got, exp)
+        self.assertExcelEqual()
 
     def test_create_file_date_and_time2(self):
         """Test dates and times with datetime .date and .time. and write()"""
-        filename = self.got_filename
 
-        ####################################################
-
-        workbook = Workbook(filename)
+        workbook = Workbook(self.got_filename)
 
         worksheet = workbook.add_worksheet()
 
@@ -181,22 +136,12 @@ class TestCompareXLSXFiles(unittest.TestCase):
 
         workbook.close()
 
-        ####################################################
-
-        got, exp = _compare_xlsx_files(self.got_filename,
-                                       self.exp_filename,
-                                       self.ignore_files,
-                                       self.ignore_elements)
-
-        self.assertEqual(got, exp)
+        self.assertExcelEqual()
 
     def test_create_file_in_memory(self):
         """Test dates and times."""
-        filename = self.got_filename
 
-        ####################################################
-
-        workbook = Workbook(filename, {'in_memory': True})
+        workbook = Workbook(self.got_filename, {'in_memory': True})
 
         worksheet = workbook.add_worksheet()
 
@@ -213,16 +158,4 @@ class TestCompareXLSXFiles(unittest.TestCase):
 
         workbook.close()
 
-        ####################################################
-
-        got, exp = _compare_xlsx_files(self.got_filename,
-                                       self.exp_filename,
-                                       self.ignore_files,
-                                       self.ignore_elements)
-
-        self.assertEqual(got, exp)
-
-    def tearDown(self):
-        # Cleanup.
-        if os.path.exists(self.got_filename):
-            os.remove(self.got_filename)
+        self.assertExcelEqual()

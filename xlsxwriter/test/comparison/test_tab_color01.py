@@ -5,13 +5,11 @@
 # Copyright (c), 2013-2014, John McNamara, jmcnamara@cpan.org
 #
 
-import unittest
-import os
+from ..excel_comparsion_test import ExcelComparisonTest
 from ...workbook import Workbook
-from ..helperfunctions import _compare_xlsx_files
 
 
-class TestCompareXLSXFiles(unittest.TestCase):
+class TestCompareXLSXFiles(ExcelComparisonTest):
     """
     Test file created by XlsxWriter against a file created by Excel.
 
@@ -31,11 +29,8 @@ class TestCompareXLSXFiles(unittest.TestCase):
 
     def test_create_file(self):
         """Test the creation of a simple XlsxWriter file with a coloured tab."""
-        filename = self.got_filename
 
-        ####################################################
-
-        workbook = Workbook(filename)
+        workbook = Workbook(self.got_filename)
 
         worksheet = workbook.add_worksheet()
 
@@ -44,16 +39,4 @@ class TestCompareXLSXFiles(unittest.TestCase):
 
         workbook.close()
 
-        ####################################################
-
-        got, exp = _compare_xlsx_files(self.got_filename,
-                                       self.exp_filename,
-                                       self.ignore_files,
-                                       self.ignore_elements)
-
-        self.assertEqual(got, exp)
-
-    def tearDown(self):
-        # Cleanup.
-        if os.path.exists(self.got_filename):
-            os.remove(self.got_filename)
+        self.assertExcelEqual()

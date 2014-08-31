@@ -5,13 +5,11 @@
 # Copyright (c), 2013-2014, John McNamara, jmcnamara@cpan.org
 #
 
-import unittest
-import os
+from ..excel_comparsion_test import ExcelComparisonTest
 from ...workbook import Workbook
-from ..helperfunctions import _compare_xlsx_files
 
 
-class TestCompareXLSXFiles(unittest.TestCase):
+class TestCompareXLSXFiles(ExcelComparisonTest):
     """
     Test file created by XlsxWriter against a file created by Excel.
 
@@ -31,11 +29,8 @@ class TestCompareXLSXFiles(unittest.TestCase):
 
     def test_write_url_default(self):
         """Test writing hyperlinks with strings_to_urls on."""
-        filename = self.got_filename
 
-        ####################################################
-
-        workbook = Workbook(filename)
+        workbook = Workbook(self.got_filename)
         worksheet = workbook.add_worksheet()
         red = workbook.add_format({'font_color': 'red'})
 
@@ -44,22 +39,12 @@ class TestCompareXLSXFiles(unittest.TestCase):
 
         workbook.close()
 
-        ####################################################
-
-        got, exp = _compare_xlsx_files(self.got_filename,
-                                       self.exp_filename,
-                                       self.ignore_files,
-                                       self.ignore_elements)
-
-        self.assertEqual(got, exp)
+        self.assertExcelEqual()
 
     def test_write_url_implicit(self):
         """Test writing hyperlinks with strings_to_urls on."""
-        filename = self.got_filename
 
-        ####################################################
-
-        workbook = Workbook(filename, {'strings_to_urls': True})
+        workbook = Workbook(self.got_filename, {'strings_to_urls': True})
         worksheet = workbook.add_worksheet()
         red = workbook.add_format({'font_color': 'red'})
 
@@ -68,22 +53,12 @@ class TestCompareXLSXFiles(unittest.TestCase):
 
         workbook.close()
 
-        ####################################################
-
-        got, exp = _compare_xlsx_files(self.got_filename,
-                                       self.exp_filename,
-                                       self.ignore_files,
-                                       self.ignore_elements)
-
-        self.assertEqual(got, exp)
+        self.assertExcelEqual()
 
     def test_write_url_explicit(self):
         """Test writing hyperlinks with strings_to_urls off."""
-        filename = self.got_filename
 
-        ####################################################
-
-        workbook = Workbook(filename, {'strings_to_urls': False})
+        workbook = Workbook(self.got_filename, {'strings_to_urls': False})
         worksheet = workbook.add_worksheet()
         red = workbook.add_format({'font_color': 'red'})
 
@@ -92,16 +67,4 @@ class TestCompareXLSXFiles(unittest.TestCase):
 
         workbook.close()
 
-        ####################################################
-
-        got, exp = _compare_xlsx_files(self.got_filename,
-                                       self.exp_filename,
-                                       self.ignore_files,
-                                       self.ignore_elements)
-
-        self.assertEqual(got, exp)
-
-    def tearDown(self):
-        # Cleanup.
-        if os.path.exists(self.got_filename):
-            os.remove(self.got_filename)
+        self.assertExcelEqual()
