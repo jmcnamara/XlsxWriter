@@ -244,7 +244,10 @@ class Styles(xmlwriter.XMLwriter):
         if not is_dxf_format:
             self._xml_empty_tag('sz', [('val', xf_format.font_size)])
 
-        if xf_format.theme:
+        if xf_format.theme == -1:
+            # Ignore for excel2003_style.
+            pass
+        elif xf_format.theme:
             self._write_color('theme', xf_format.theme)
         elif xf_format.color_indexed:
             self._write_color('indexed', xf_format.color_indexed)
@@ -256,7 +259,9 @@ class Styles(xmlwriter.XMLwriter):
 
         if not is_dxf_format:
             self._xml_empty_tag('name', [('val', xf_format.font_name)])
-            self._xml_empty_tag('family', [('val', xf_format.font_family)])
+
+            if xf_format.font_family:
+                self._xml_empty_tag('family', [('val', xf_format.font_family)])
 
             if xf_format.font_name == 'Calibri' and not xf_format.hyperlink:
                 self._xml_empty_tag(

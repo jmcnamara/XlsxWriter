@@ -57,6 +57,7 @@ class Workbook(xmlwriter.XMLwriter):
         super(Workbook, self).__init__()
 
         self.filename = filename
+
         self.tmpdir = options.get('tmpdir', None)
         self.date_1904 = options.get('date_1904', False)
         self.strings_to_numbers = options.get('strings_to_numbers', False)
@@ -65,6 +66,8 @@ class Workbook(xmlwriter.XMLwriter):
         self.default_date_format = options.get('default_date_format', None)
         self.optimization = options.get('constant_memory', False)
         self.in_memory = options.get('in_memory', False)
+        self.excel2003_style = options.get('excel2003_style', False)
+
         self.worksheet_meta = WorksheetMeta()
         self.selected = 0
         self.fileclosed = 0
@@ -116,7 +119,10 @@ class Workbook(xmlwriter.XMLwriter):
             self.optimization = False
 
         # Add the default cell format.
-        self.add_format({'xf_index': 0})
+        if self.excel2003_style:
+            self.add_format({'xf_index': 0, 'font_family': 0})
+        else:
+            self.add_format({'xf_index': 0})
 
         # Add a default URL format.
         self.default_url_format = self.add_format({'color': 'blue',
@@ -173,7 +179,15 @@ class Workbook(xmlwriter.XMLwriter):
             Reference to a Format object.
 
         """
-        xf_format = Format(properties,
+        format_properties = {}
+
+        if self.excel2003_style:
+            format_properties = {'font_name': 'Arial', 'font_size': 10,
+                                 'theme': 1 * -1}
+
+        format_properties.update(properties)
+
+        xf_format = Format(format_properties,
                            self.xf_format_indices,
                            self.dxf_format_indices)
 
@@ -494,6 +508,7 @@ class Workbook(xmlwriter.XMLwriter):
             'strings_to_urls': self.strings_to_urls,
             'default_date_format': self.default_date_format,
             'default_url_format': self.default_url_format,
+            'excel2003_style': self.excel2003_style,
         }
 
         if is_chartsheet:

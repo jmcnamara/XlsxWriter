@@ -170,6 +170,7 @@ class Worksheet(xmlwriter.XMLwriter):
         self.ext_sheets = []
         self.fileclosed = 0
         self.excel_version = 2007
+        self.excel2003_style = False
 
         self.xls_rowmax = 1048576
         self.xls_colmax = 16384
@@ -203,6 +204,7 @@ class Worksheet(xmlwriter.XMLwriter):
         self.header_footer_changed = 0
         self.header = ''
         self.footer = ''
+        self.header_footer_aligns = False
 
         self.margin_left = 0.7
         self.margin_right = 0.7
@@ -247,7 +249,10 @@ class Worksheet(xmlwriter.XMLwriter):
         self.outline_on = 1
         self.outline_changed = 0
 
+        self.original_row_height = 15
         self.default_row_height = 15
+        self.default_row_pixels = 20
+        self.default_col_pixels = 64
         self.default_row_zeroed = 0
 
         self.names = {}
@@ -1338,7 +1343,7 @@ class Worksheet(xmlwriter.XMLwriter):
         # Store the row sizes for use when calculating image vertices.
         self.row_sizes[row] = height
 
-    def set_default_row(self, height=15, hide_unused_rows=False):
+    def set_default_row(self, height=None, hide_unused_rows=False):
         """
         Set the default row properties.
 
@@ -1350,7 +1355,10 @@ class Worksheet(xmlwriter.XMLwriter):
             Nothing.
 
         """
-        if height != 15:
+        if height is None:
+            height = self.default_row_height
+
+        if height != self.original_row_height:
             # Store the row change to allow optimisations.
             self.row_size_changed = 1
             self.default_row_height = height
@@ -3125,6 +3133,19 @@ class Worksheet(xmlwriter.XMLwriter):
         self.strings_to_urls = init_data['strings_to_urls']
         self.default_date_format = init_data['default_date_format']
         self.default_url_format = init_data['default_url_format']
+        self.excel2003_style = init_data['excel2003_style']
+
+        if self.excel2003_style:
+            self.original_row_height = 12.75
+            self.default_row_height = 12.75
+            self.default_row_pixels = 17
+            self.margin_left = 0.75
+            self.margin_right = 0.75
+            self.margin_top = 1
+            self.margin_bottom = 1
+            self.margin_header = 0.5
+            self.margin_footer = 0.5
+            self.header_footer_aligns = 1
 
         # Open a temp filehandle to store row data in optimization mode.
         if self.optimization == 1:
@@ -3170,6 +3191,10 @@ class Worksheet(xmlwriter.XMLwriter):
 
         # Write the sheetProtection element.
         self._write_sheet_protection()
+
+        # Write the phoneticPr element.
+        if self.excel2003_style:
+            self._write_phonetic_pr()
 
         # Write the autoFilter element.
         self._write_auto_filter()
@@ -3737,7 +3762,7 @@ class Worksheet(xmlwriter.XMLwriter):
                 x_abs += self._size_col(col_id)
         else:
             # Optimisation for when the column widths haven't changed.
-            x_abs += 64 * col_start
+            x_abs += self.default_col_pixels * col_start
 
         x_abs += x1
 
@@ -3748,7 +3773,7 @@ class Worksheet(xmlwriter.XMLwriter):
                 y_abs += self._size_row(row_id)
         else:
             # Optimisation for when the row heights haven't changed.
-            y_abs += 20 * row_start
+            y_abs += self.default_row_pixels * row_start
 
         y_abs += y1
 
@@ -3808,7 +3833,7 @@ class Worksheet(xmlwriter.XMLwriter):
             else:
                 pixels = int(width * max_digit_width + 0.5) + padding
         else:
-            pixels = 64
+            pixels = self.default_col_pixels
 
         return pixels
 
@@ -4344,7 +4369,7 @@ class Worksheet(xmlwriter.XMLwriter):
 
         attributes = [('defaultRowHeight', default_row_height)]
 
-        if self.default_row_height != 15:
+        if self.default_row_height != self.original_row_height:
             attributes.append(('customHeight', 1))
 
         if self.default_row_zeroed:
@@ -4559,18 +4584,20 @@ class Worksheet(xmlwriter.XMLwriter):
 
     def _write_header_footer(self):
         # Write the <headerFooter> element.
+        attributes = []
 
-        if not self.header_footer_changed:
-            return
+        if self.header_footer_aligns:
+            attributes.append(('alignWithMargins', 0))
 
-        self._xml_start_tag('headerFooter')
-
-        if self.header:
-            self._write_odd_header()
-        if self.footer:
-            self._write_odd_footer()
-
-        self._xml_end_tag('headerFooter')
+        if self.header_footer_changed:
+            self._xml_start_tag('headerFooter', attributes)
+            if self.header:
+                self._write_odd_header()
+            if self.footer:
+                self._write_odd_footer()
+            self._xml_end_tag('headerFooter')
+        elif self.excel2003_style:
+            self._xml_empty_tag('headerFooter', attributes)
 
     def _write_odd_header(self):
         # Write the <headerFooter> element.
@@ -4732,11 +4759,11 @@ class Worksheet(xmlwriter.XMLwriter):
             attributes.append(('s', xf_index))
         if cell_format:
             attributes.append(('customFormat', 1))
-        if height != 15:
+        if height != self.original_row_height:
             attributes.append(('ht', height))
         if hidden:
             attributes.append(('hidden', 1))
-        if height != 15:
+        if height != self.original_row_height:
             attributes.append(('customHeight', 1))
         if level:
             attributes.append(('outlineLevel', level))
@@ -6043,3 +6070,12 @@ class Worksheet(xmlwriter.XMLwriter):
     def _write_color_low(self, color):
         # Write the <x14:colorLow> element.
         self._write_spark_color('x14:colorLow', color)
+
+    def _write_phonetic_pr(self):
+        # Write the <phoneticPr> element.
+        attributes = [
+            ('fontId', '0'),
+            ('type', 'noConversion'),
+        ]
+
+        self._xml_empty_tag('phoneticPr', attributes)
