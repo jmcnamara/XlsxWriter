@@ -67,6 +67,8 @@ class Workbook(xmlwriter.XMLwriter):
         self.optimization = options.get('constant_memory', False)
         self.in_memory = options.get('in_memory', False)
         self.excel2003_style = options.get('excel2003_style', False)
+        self.default_format_properties = \
+            options.get('default_format_properties', {})
 
         self.worksheet_meta = WorksheetMeta()
         self.selected = 0
@@ -179,7 +181,7 @@ class Workbook(xmlwriter.XMLwriter):
             Reference to a Format object.
 
         """
-        format_properties = {}
+        format_properties = self.default_format_properties.copy()
 
         if self.excel2003_style:
             format_properties = {'font_name': 'Arial', 'font_size': 10,
