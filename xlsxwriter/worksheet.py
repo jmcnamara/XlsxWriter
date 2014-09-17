@@ -413,6 +413,8 @@ class Worksheet(xmlwriter.XMLwriter):
                 return self.write_number(row, col, f, *args[1:])
         except ValueError:
             pass
+        except TypeError:
+            raise TypeError("Unsupported type %s in write()" % type(token))
 
         # Finally try string.
         try:
