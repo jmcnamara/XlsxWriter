@@ -63,6 +63,6 @@ releasecheck:
 release: releasecheck
 	@git push origin master
 	@git push --tags
-	@python setup.py sdist upload
+	@python setup.py sdist bdist_wheel upload
 	@curl -X POST http://readthedocs.org/build/6277
 	@rm -rf build
