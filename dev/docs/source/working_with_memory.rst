@@ -59,19 +59,19 @@ increase more of less linearly with the number of rows:
 +-------+---------+----------+----------------+
 | Rows  | Columns | Time (s) | Memory (bytes) |
 +=======+=========+==========+================+
-| 200   | 50      | 0.65     | 2050552        |
+| 200   | 50      | 0.43     | 2346728        |
 +-------+---------+----------+----------------+
-| 400   | 50      | 1.32     | 4478272        |
+| 400   | 50      | 0.84     | 4670904        |
 +-------+---------+----------+----------------+
-| 800   | 50      | 2.64     | 8083072        |
+| 800   | 50      | 1.68     | 8325928        |
 +-------+---------+----------+----------------+
-| 1600  | 50      | 5.31     | 17799424       |
+| 1600  | 50      | 3.39     | 17855192       |
 +-------+---------+----------+----------------+
-| 3200  | 50      | 10.74    | 32218624       |
+| 3200  | 50      | 6.82     | 32279672       |
 +-------+---------+----------+----------------+
-| 6400  | 50      | 21.63    | 64792576       |
+| 6400  | 50      | 13.66    | 64862232       |
 +-------+---------+----------+----------------+
-| 12800 | 50      | 43.49    | 128760832      |
+| 12800 | 50      | 27.60    | 128851880      |
 +-------+---------+----------+----------------+
 
 XlsxWriter in ``constant_memory`` mode: the execution time still increases
@@ -81,27 +81,57 @@ constant:
 +-------+---------+----------+----------------+
 | Rows  | Columns | Time (s) | Memory (bytes) |
 +=======+=========+==========+================+
-| 200   | 50      | 0.35     | 54248          |
+| 200   | 50      | 0.37     | 62208          |
 +-------+---------+----------+----------------+
-| 400   | 50      | 0.69     | 54248          |
+| 400   | 50      | 0.74     | 62208          |
 +-------+---------+----------+----------------+
-| 800   | 50      | 1.36     | 54248          |
+| 800   | 50      | 1.46     | 62208          |
 +-------+---------+----------+----------------+
-| 1600  | 50      | 2.74     | 54248          |
+| 1600  | 50      | 2.93     | 62208          |
 +-------+---------+----------+----------------+
-| 3200  | 50      | 5.46     | 54248          |
+| 3200  | 50      | 5.90     | 62208          |
 +-------+---------+----------+----------------+
-| 6400  | 50      | 10.99    | 54248          |
+| 6400  | 50      | 11.84    | 62208          |
 +-------+---------+----------+----------------+
-| 12800 | 50      | 21.82    | 54248          |
+| 12800 | 50      | 23.63    | 62208          |
 +-------+---------+----------+----------------+
 
-In the ``constant_memory`` mode the performance is also increased. There will
-be further optimisation in both modes in later releases.
+In the ``constant_memory`` mode the performance is also increased slightly.
 
 These figures were generated using programs in the ``dev/performance``
-directory of the XlsxWriter source code.
+directory of the XlsxWriter repo.
 
 
+Benchmark of Python Excel Writers
+---------------------------------
 
+If you wish to compare the performance of different Python Excel writing
+modules there is a progam called `bench_excel_writers.py
+<https://raw.githubusercontent.com/jmcnamara/XlsxWriter/master/dev/performance/bench_excel_writers.py>`_
+in the ``dev/performance`` directory of the XlsxWriter repo.
 
+And here is the output for 10,000 rows x 50 columns using the latest version
+of the modules at the time of writing::
+
+    Versions:
+        python      : 2.7.4
+        openpyxl    : 2.1.0
+        pyexcelerate: 0.6.3
+        xlsxwriter  : 0.5.7
+        xlwt        : 0.7.5
+
+    Dimensions:
+        Rows = 10000
+        Cols = 50
+
+    Times:
+        pyexcelerate          :  10.11
+        xlwt                  :  15.67
+        xlsxwriter (optimised):  19.70
+        xlsxwriter            :  23.50
+        openpyxl   (optimised):  95.82
+        openpyxl              :  95.90
+
+As with any benchmark the results will depend on Python/module versions, CPU,
+RAM and Disk I/O and on the benchmark itself. So make sure to verify these
+results for your own setup.

@@ -8,26 +8,48 @@
 # Copyright 2013-2014, John McNamara, jmcnamara@cpan.org
 
 echo ""
-echo "Python and XlsxWriter"
+echo "Python and XlsxWriter. Speed only."
 echo "Rows, Columns, Time, Memory"
-sleep 1; python perf_pyx.py 200
-sleep 1; python perf_pyx.py 400
-sleep 1; python perf_pyx.py 800
-sleep 1; python perf_pyx.py 1600
-sleep 1; python perf_pyx.py 3200
-sleep 1; python perf_pyx.py 6400
-sleep 1; python perf_pyx.py 12800
+sleep 1; python perf_pyx.py 200   0 0
+sleep 1; python perf_pyx.py 400   0 0
+sleep 1; python perf_pyx.py 800   0 0
+sleep 1; python perf_pyx.py 1600  0 0
+sleep 1; python perf_pyx.py 3200  0 0
+sleep 1; python perf_pyx.py 6400  0 0
+sleep 1; python perf_pyx.py 12800 0 0
 
 echo ""
-echo "Python and XlsxWriter in optimisation mode"
+echo "Python and XlsxWriter. Memory only."
 echo "Rows, Columns, Time, Memory"
-sleep 1; python perf_pyx.py 200   1
-sleep 1; python perf_pyx.py 400   1
-sleep 1; python perf_pyx.py 800   1
-sleep 1; python perf_pyx.py 1600  1
-sleep 1; python perf_pyx.py 3200  1
-sleep 1; python perf_pyx.py 6400  1
-sleep 1; python perf_pyx.py 12800 1
+sleep 1; python perf_pyx.py 200   0 1
+sleep 1; python perf_pyx.py 400   0 1
+sleep 1; python perf_pyx.py 800   0 1
+sleep 1; python perf_pyx.py 1600  0 1
+sleep 1; python perf_pyx.py 3200  0 1
+sleep 1; python perf_pyx.py 6400  0 1
+sleep 1; python perf_pyx.py 12800 0 1
+
+echo ""
+echo "Python and XlsxWriter in optimisation mode. Speed only."
+echo "Rows, Columns, Time, Memory"
+sleep 1; python perf_pyx.py 200   1 0
+sleep 1; python perf_pyx.py 400   1 0
+sleep 1; python perf_pyx.py 800   1 0
+sleep 1; python perf_pyx.py 1600  1 0
+sleep 1; python perf_pyx.py 3200  1 0
+sleep 1; python perf_pyx.py 6400  1 0
+sleep 1; python perf_pyx.py 12800 1 0
+
+echo ""
+echo "Python and XlsxWriter in optimisation mode. Memory only."
+echo "Rows, Columns, Time, Memory"
+sleep 1; python perf_pyx.py 200   1 1
+sleep 1; python perf_pyx.py 400   1 1
+sleep 1; python perf_pyx.py 800   1 1
+sleep 1; python perf_pyx.py 1600  1 1
+sleep 1; python perf_pyx.py 3200  1 1
+sleep 1; python perf_pyx.py 6400  1 1
+sleep 1; python perf_pyx.py 12800 1 1
 
 echo ""
 echo "Perl and Excel::Writer::XSLX"

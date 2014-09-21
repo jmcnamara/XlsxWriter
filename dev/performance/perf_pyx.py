@@ -18,10 +18,16 @@ if len(sys.argv) > 1:
 else:
     row_max = 1000
 
-if len(sys.argv) > 2:
+if len(sys.argv) > 2 and int(sys.argv[2]) == 1:
     optimise = 1
 else:
     optimise = 0
+
+if len(sys.argv) > 3 and int(sys.argv[3]) == 1:
+    get_memory_size = 1
+else:
+    get_memory_size = 0
+
 
 col_max = 50
 
@@ -42,7 +48,10 @@ for row in range(0, row_max):
         worksheet.write_number(row * 2 + 1, col, row + col)
 
 # Get total memory size for workbook object before closing it.
-total_size = asizeof(workbook)
+if get_memory_size:
+    total_size = asizeof(workbook)
+else:
+    total_size = 0
 
 workbook.close()
 
