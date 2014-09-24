@@ -30,6 +30,7 @@ from xlsxwriter.chart_bar import ChartBar
 from xlsxwriter.chart_column import ChartColumn
 from xlsxwriter.chart_line import ChartLine
 from xlsxwriter.chart_pie import ChartPie
+from xlsxwriter.chart_doughnut import ChartDoughnut
 from xlsxwriter.chart_radar import ChartRadar
 from xlsxwriter.chart_scatter import ChartScatter
 from xlsxwriter.chart_stock import ChartStock
@@ -226,6 +227,8 @@ class Workbook(xmlwriter.XMLwriter):
             chart = ChartLine(options)
         elif chart_type == 'pie':
             chart = ChartPie(options)
+        elif chart_type == 'doughnut':
+            chart = ChartDoughnut(options)
         elif chart_type == 'radar':
             chart = ChartRadar(options)
         elif chart_type == 'scatter':

@@ -1034,7 +1034,7 @@ The following chart features aren't supported in XlsxWriter:
 
 * Secondary axes of a different chart type to the main chart type.
 * 3D charts and controls.
-* Bubble, Doughnut or other chart types not listed in :ref:`chart_class`.
+* Bubble or other chart types not listed in :ref:`chart_class`.
 
 
 Chart Examples
