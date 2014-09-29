@@ -5,8 +5,8 @@ The Chart Class
 
 The ``Chart`` module is a base class for modules that implement charts in
 XlsxWriter. The information in this section is applicable to all of the
-available chart subclasses, such as Area, Bar, Column, Line, Pie, Scatter,
-Stock and Radar.
+available chart subclasses, such as Area, Bar, Column, Doughnut, Line, Pie,
+Scatter, Stock and Radar.
 
 A chart object is created via the Workbook :func:`add_chart()` method where the
 chart type is specified::
@@ -71,6 +71,8 @@ The supported chart types are:
 * ``line``: Creates a Line style chart.
 
 * ``pie``: Creates a Pie style chart.
+
+* ``doughnut``: Creates a Doughnut style chart.
 
 * ``scatter``: Creates a Scatter style chart.
 
@@ -935,6 +937,46 @@ chart.show_hidden_data()
 Display data in hidden rows or columns on the chart::
 
     chart.show_hidden_data()
+
+
+chart.set_rotation()
+--------------------
+
+.. py:function:: set_rotation(rotation)
+   :noindex:
+
+   Set the Pie/Doughnut chart rotation.
+
+   :param int rotation: The angle of rotation.
+
+The ``set_rotation()`` method is used to set the rotation of the first segment
+of a Pie/Doughnut chart. This has the effect of rotating the entire chart::
+
+    chart->set_rotation(90)
+
+The angle of rotation must be ``0 <= rotation <= 360``.
+
+This option is only available for Pie/Doughnut charts.
+
+
+
+chart.set_hole_size()
+---------------------
+
+.. py:function:: set_hole_size(size)
+
+   Set the Doughnut chart hole size.
+
+   :param int size: The hole size as a percentage.
+
+The ``set_hole_size()`` method is used to set the hole size of a Doughnut
+chart::
+
+    chart->set_hole_size(33)
+
+The angle of hole size must be ``10 <= size <= 90``.
+
+This option is only available for Doughnut charts.
 
 
 See also :ref:`working_with_charts` and :ref:`chart_examples`.

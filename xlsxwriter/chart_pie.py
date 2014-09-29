@@ -5,6 +5,7 @@
 # Copyright 2013-2014, John McNamara, jmcnamara@cpan.org
 #
 
+from warnings import warn
 from . import chart
 
 
@@ -32,6 +33,29 @@ class ChartPie(chart.Chart):
             options = {}
 
         self.vary_data_color = 1
+        self.rotation = 0
+
+    def set_rotation(self, rotation):
+        """
+        Set the Pie/Doughnut chart rotation: the angle of the first slice.
+
+        Args:
+            rotation: First segment angle: 0 <= rotation <= 360.
+
+        Returns:
+            Nothing.
+
+        """
+        if rotation is None:
+            return
+
+        # Ensure the rotation is in Excel's range.
+        if rotation < 0 or rotation > 360:
+            warn("Chart rotation %d outside Excel range: 0 <= rotation <= 360"
+                 % rotation)
+            return
+
+        self.rotation = int(rotation)
 
     ###########################################################################
     #
@@ -190,6 +214,6 @@ class ChartPie(chart.Chart):
 
     def _write_first_slice_ang(self):
         # Write the <c:firstSliceAng> element.
-        attributes = [('val', 0)]
+        attributes = [('val', self.rotation)]
 
         self._xml_empty_tag('c:firstSliceAng', attributes)

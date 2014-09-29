@@ -261,8 +261,8 @@ Several of these properties can be set in one go::
 .. image:: _images/chart_trendline3.png
    :scale: 75 %
 
-Trendlines cannot be added to series in a stacked chart or pie chart, radar
-chart or (when implemented) to 3D, surface, or doughnut charts.
+Trendlines cannot be added to series in a stacked chart or pie chart, doughnut
+chart, radar chart or (when implemented) to 3D or surface charts.
 
 
 .. _chart_series_option_error_bars:
@@ -457,9 +457,10 @@ label for a series. It is mainly used for pie charts::
 Chart series option: Points
 ---------------------------
 
-In general formatting is applied to an entire series in a chart. However, it is
-occasionally required to format individual points in a series. In particular
-this is required for Pie charts where each segment is represented by a point.
+In general formatting is applied to an entire series in a chart. However, it
+is occasionally required to format individual points in a series. In
+particular this is required for Pie/Doughnute charts where each segment is
+represented by a point.
 
 In these cases it is possible to use the ``points`` property of
 :func:`add_series()`::
@@ -1034,7 +1035,7 @@ The following chart features aren't supported in XlsxWriter:
 
 * Secondary axes of a different chart type to the main chart type.
 * 3D charts and controls.
-* Bubble, Doughnut or other chart types not listed in :ref:`chart_class`.
+* Bubble, Surface or other chart types not listed in :ref:`chart_class`.
 
 
 Chart Examples

@@ -16,6 +16,7 @@ directory of the XlsxWriter distribution.
    example_chart_column.rst
    example_chart_line.rst
    example_chart_pie.rst
+   example_chart_doughnut.rst
    example_chart_scatter.rst
    example_chart_radar.rst
    example_chart_stock.rst

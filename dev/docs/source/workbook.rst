@@ -209,6 +209,7 @@ The properties that can be set are::
     area
     bar
     column
+    doughnut
     line
     pie
     radar

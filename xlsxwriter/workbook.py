@@ -28,6 +28,7 @@ from .utility import xl_cell_to_rowcol
 from xlsxwriter.chart_area import ChartArea
 from xlsxwriter.chart_bar import ChartBar
 from xlsxwriter.chart_column import ChartColumn
+from xlsxwriter.chart_doughnut import ChartDoughnut
 from xlsxwriter.chart_line import ChartLine
 from xlsxwriter.chart_pie import ChartPie
 from xlsxwriter.chart_radar import ChartRadar
@@ -222,6 +223,8 @@ class Workbook(xmlwriter.XMLwriter):
             chart = ChartBar(options)
         elif chart_type == 'column':
             chart = ChartColumn(options)
+        elif chart_type == 'doughnut':
+            chart = ChartDoughnut(options)
         elif chart_type == 'line':
             chart = ChartLine(options)
         elif chart_type == 'pie':
