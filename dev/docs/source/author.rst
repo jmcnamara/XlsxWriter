@@ -12,6 +12,13 @@ XlsxWriter was written by John McNamara.
 
 You can contact me at jmcnamara@cpan.org.
 
+
+Sponsorship
+-----------
+
+If your company would like to sponsor a feature then let me know.
+
+
 Donations
 ---------
 
@@ -29,4 +36,3 @@ do so via
    <img alt="" border="0" src="https://www.paypalobjects.com/en_US/i/scr/pixel.gif" width="1" height="1">
    </form>
    </center>
-
