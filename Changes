@@ -8,7 +8,7 @@ Release 0.5.8 - September 28 2014
 * Added support for wheel packages.
   Feature request `#156 <https://github.com/jmcnamara/XlsxWriter/issues/156>`_.
 
-* Made the exception handlint in ``write()`` clearer for unsupported types so
+* Made the exception handling in ``write()`` clearer for unsupported types so
   that it raises a more accurate TypeError instead of a ValueError.
   Issue `#153 <https://github.com/jmcnamara/XlsxWriter/issues/153>`_.
 
