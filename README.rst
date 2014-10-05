@@ -21,7 +21,7 @@ including:
 * Cell comments.
 * Memory optimisation mode for writing large files.
 
-It supports Python 2.5, 2.6, 2.7, 3.1, 3.2, 3.3, Jython and PyPy and uses
+It supports Python 2.5, 2.6, 2.7, 3.1, 3.2, 3.3, 3.4, Jython and PyPy and uses
 standard libraries only.
 
 Here is a simple example:

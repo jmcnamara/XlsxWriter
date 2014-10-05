@@ -547,7 +547,7 @@ The ``width`` and ``height`` are in pixels. The default chart width x height is
 
     chart.set_size({'width': 720, 'height': 576})
     # Same as:
-    chart.set_size({'x_scale', 1.5, 'y_scale', 2})
+    chart.set_size({'x_scale': 1.5, 'y_scale': 2})
 
 The ``x_offset`` and ``y_offset`` position the top left corner of the chart in
 the cell that it is inserted into.
