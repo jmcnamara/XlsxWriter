@@ -205,6 +205,9 @@ class Worksheet(xmlwriter.XMLwriter):
         self.header = ''
         self.footer = ''
         self.header_footer_aligns = False
+        self.header_images = []
+        self.footer_images = []
+        self.header_images_list = []
 
         self.margin_left = 0.7
         self.margin_right = 0.7
@@ -261,14 +264,16 @@ class Worksheet(xmlwriter.XMLwriter):
         self.merge = []
         self.row_spans = {}
 
-        self.has_vml = 0
-        self.has_comments = 0
+        self.has_vml = False
+        self.has_header_vml = False
+        self.has_comments = False
         self.comments = defaultdict(dict)
-        self.comments_array = []
+        self.comments_list = []
         self.comments_author = ''
         self.comments_visible = 0
         self.vml_shape_id = 1024
-        self.buttons_array = []
+        self.buttons_list = []
+        self.vml_header_id = 0
 
         self.autofilter_area = ''
         self.autofilter_ref = None
@@ -294,6 +299,7 @@ class Worksheet(xmlwriter.XMLwriter):
         self.external_vml_links = []
         self.external_table_links = []
         self.drawing_links = []
+        self.vml_drawing_links = []
         self.charts = []
         self.images = []
         self.tables = []
@@ -2858,13 +2864,14 @@ class Worksheet(xmlwriter.XMLwriter):
         self.margin_top = top
         self.margin_bottom = bottom
 
-    def set_header(self, header='', margin=0.3):
+    def set_header(self, header='', margin=None, options={}):
         """
         Set the page header caption and optional margin.
 
         Args:
-            header: Header string.
-            margin: Header margin.
+            header:  Header string.
+            margin:  Header margin.
+            options: Header options, mainly for images.
 
         Returns:
             Nothing.
@@ -2874,17 +2881,36 @@ class Worksheet(xmlwriter.XMLwriter):
             warn('Header string must be less than 255 characters')
             return
 
+        if margin is None:
+            margin = 0.3
+
         self.header = header
         self.margin_header = margin
         self.header_footer_changed = 1
 
-    def set_footer(self, footer='', margin=0.3):
+        # Reset the list in case the function is called more than once.
+        self.header_images = []
+
+        if options.get('image_left'):
+            self.header_images.append([options.get('image_left'), 'LH'])
+            self.has_header_vml = True
+
+        if options.get('image_center'):
+            self.header_images.append([options.get('image_center'), 'CH'])
+            self.has_header_vml = True
+
+        if options.get('image_right'):
+            self.header_images.append([options.get('image_right'), 'RH'])
+            self.has_header_vml = True
+
+    def set_footer(self, footer='', margin=None, options={}):
         """
         Set the page footer caption and optional margin.
 
         Args:
-            footer: Footer string.
-            margin: Footer margin.
+            footer:  Footer string.
+            margin:  Footer margin.
+            options: Footer options, mainly for images.
 
         Returns:
             Nothing.
@@ -2894,9 +2920,27 @@ class Worksheet(xmlwriter.XMLwriter):
             warn('Footer string must be less than 255 characters')
             return
 
+        if margin is None:
+            margin = 0.3
+
         self.footer = footer
         self.margin_footer = margin
         self.header_footer_changed = 1
+
+        # Reset the list in case the function is called more than once.
+        self.footer_images = []
+
+        if options.get('image_left'):
+            self.footer_images.append([options.get('image_left'), 'LF'])
+            self.has_header_vml = True
+
+        if options.get('image_center'):
+            self.footer_images.append([options.get('image_center'), 'CF'])
+            self.has_header_vml = True
+
+        if options.get('image_right'):
+            self.footer_images.append([options.get('image_right'), 'RF'])
+            self.has_header_vml = True
 
     def repeat_rows(self, first_row, last_row=None):
         """
@@ -3236,6 +3280,9 @@ class Worksheet(xmlwriter.XMLwriter):
 
         # Write the legacyDrawing element.
         self._write_legacy_drawing()
+
+        # Write the legacyDrawingHF element.
+        self._write_legacy_drawing_hf()
 
         # Write the tableParts element.
         self._write_table_parts()
@@ -3635,6 +3682,20 @@ class Worksheet(xmlwriter.XMLwriter):
                                    + str(image_id) + '.'
                                    + image_type])
 
+    def _prepare_header_image(self, image_id, width, height, name, image_type,
+                              position):
+        # Set up an image without a drawing object for header/footer images.
+
+        # Strip the extension from the filename.
+        name = re.sub('\..*$', '', name)
+
+        self.header_images_list.append([width, height, name, position])
+
+        self.vml_drawing_links.append(['/image',
+                                       '../media/image'
+                                       + str(image_id) + '.'
+                                       + image_type])
+
     def _prepare_chart(self, index, chart_id, drawing_id):
         # Set up chart/drawings.
         drawing_type = 1
@@ -4003,7 +4064,7 @@ class Worksheet(xmlwriter.XMLwriter):
                                         + '.vml'])
 
         if self.has_comments:
-            self.comments_array = comments
+            self.comments_list = comments
 
             self.external_comment_links.append(['/comments',
                                                 '../comments'
@@ -4022,6 +4083,15 @@ class Worksheet(xmlwriter.XMLwriter):
         self.vml_shape_id = vml_shape_id
 
         return count
+
+    def _prepare_header_vml_objects(self, vml_header_id, vml_drawing_id):
+        # Set up external linkage for VML header/footer images.
+
+        self.vml_header_id = vml_header_id
+
+        self.external_vml_links.append(['/vmlDrawing',
+                                        '../drawings/vmlDrawing' \
+                                        + str(vml_drawing_id) + '.vml'])
 
     def _prepare_tables(self, table_id):
         # Set the table ids for the worksheet tables.
@@ -5334,6 +5404,19 @@ class Worksheet(xmlwriter.XMLwriter):
         attributes = [('r:id', r_id)]
 
         self._xml_empty_tag('legacyDrawing', attributes)
+
+    def _write_legacy_drawing_hf(self):
+        # Write the <legacyDrawingHF> element.
+        if not self.has_header_vml:
+            return
+
+        # Increment the relationship id for any drawings or comments.
+        self.rel_count += 1
+        r_id = 'rId' + str(self.rel_count)
+
+        attributes = [('r:id', r_id)]
+
+        self._xml_empty_tag('legacyDrawingHF', attributes)
 
     def _write_data_validations(self):
         # Write the <dataValidations> element.

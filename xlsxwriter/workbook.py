@@ -856,15 +856,25 @@ class Workbook(xmlwriter.XMLwriter):
             image_count = len(sheet.images)
             shape_count = len(sheet.shapes)
 
-            if not (chart_count + image_count + shape_count):
+            header_image_count = len(sheet.header_images)
+            footer_image_count = len(sheet.footer_images)
+            has_drawing = False
+
+            if not (chart_count or image_count or shape_count
+                    or header_image_count or footer_image_count):
                 continue
 
-            drawing_id += 1
+            # Don't increase the drawing_id header/footer images.
+            if chart_count or image_count or shape_count:
+                drawing_id += 1
+                has_drawing = True
 
+            # Prepare the worksheet charts.
             for index in range(chart_count):
                 chart_ref_id += 1
                 sheet._prepare_chart(index, chart_ref_id, drawing_id)
 
+            # Prepare the worksheet images.
             for index in range(image_count):
                 filename = sheet.images[index][2]
                 image_data = sheet.images[index][10]
@@ -875,11 +885,39 @@ class Workbook(xmlwriter.XMLwriter):
                 sheet._prepare_image(index, image_ref_id, drawing_id, width,
                                      height, name, image_type)
 
-            # for index in range(shape_count):
-            #    sheet._prepare_shape(index, drawing_id)
+            # Prepare the header images.
+            for index in range(header_image_count):
 
-            drawing = sheet.drawing
-            self.drawings.append(drawing)
+                filename = sheet.header_images[index][0]
+                position = sheet.header_images[index][1]
+                image_data = None  # TODO
+
+                (image_type, width, height, name) = \
+                  self._get_image_properties(filename, image_data)
+
+                image_ref_id += 1
+
+                sheet._prepare_header_image(image_ref_id, width, height,
+                    name, image_type, position)
+
+            # Prepare the footer images.
+            for index in range(footer_image_count):
+
+                filename = sheet.footer_images[index][0]
+                position = sheet.footer_images[index][1]
+                image_data = None  # TODO
+
+                (image_type, width, height, name) = \
+                  self._get_image_properties(filename, image_data)
+
+                image_ref_id += 1
+
+                sheet._prepare_header_image(image_ref_id, width, height,
+                    name, image_type, position)
+
+            if has_drawing:
+                drawing = sheet.drawing
+                self.drawings.append(drawing)
 
         # Sort the workbook charts references into the order that the were
         # written from the worksheets above.
@@ -1030,31 +1068,40 @@ class Workbook(xmlwriter.XMLwriter):
     def _prepare_vml(self):
         # Iterate through the worksheets and set up the VML objects.
         comment_id = 0
+        vml_drawing_id = 0
         vml_data_id = 1
+        vml_header_id = 0
         vml_shape_id = 1024
         vml_files = 0
         comment_files = 0
 
         for sheet in self.worksheets():
-            if not sheet.has_vml:
+            if not sheet.has_vml and not sheet.has_header_vml:
                 continue
 
             vml_files += 1
 
-            if sheet.has_comments:
-                comment_files += 1
+            if sheet.has_vml:
+                if sheet.has_comments:
+                    comment_files += 1
 
-            comment_id += 1
-            count = sheet._prepare_vml_objects(vml_data_id,
-                                               vml_shape_id,
-                                               comment_id)
+                comment_id += 1
+                count = sheet._prepare_vml_objects(vml_data_id,
+                                                   vml_shape_id,
+                                                   comment_id)
 
-            # Each VML file should start with a shape id incremented by 1024.
-            vml_data_id += 1 * int((1024 + count) / 1024)
-            vml_shape_id += 1024 * int((1024 + count) / 1024)
+                # Each VML should start with a shape id incremented by 1024.
+                vml_data_id += 1 * int((1024 + count) / 1024)
+                vml_shape_id += 1024 * int((1024 + count) / 1024)
 
-        self.num_vml_files = vml_files
-        self.num_comment_files = comment_files
+            if sheet.has_header_vml:
+                vml_header_id += 1
+                vml_drawing_id += 1
+                sheet._prepare_header_vml_objects(vml_header_id,
+                    vml_drawing_id)
+
+            self.num_vml_files = vml_files
+            self.num_comment_files = comment_files
 
         # Add a font format for cell comments.
         if comment_files > 0:

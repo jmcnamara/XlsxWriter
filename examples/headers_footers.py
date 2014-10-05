@@ -26,6 +26,8 @@
 #     &X                                      Superscript
 #     &Y                                      Subscript
 #
+#     &G                  Images              Image placeholder
+#
 #     &&                  Miscellaneous       Literal ampersand &
 #
 # See the main XlsxWriter documentation for more information.
@@ -51,58 +53,76 @@ worksheet1.set_footer(footer1)
 worksheet1.set_column('A:A', 50)
 worksheet1.write('A1', preview)
 
+
+######################################################################
+#
+# Insert a header image.
+#
+worksheet2 = workbook.add_worksheet('Image')
+header2 = '&L&G'
+
+# Adjust the page top margin to allow space for the header image.
+worksheet2.set_margins(top=2.0)
+
+worksheet2.set_header(header2, None,
+                      {'image_left': 'python-200x80.png'})
+
+worksheet2.set_column('A:A', 50)
+worksheet2.write('A1', preview)
+
+
 ######################################################################
 #
 # This is an example of some of the header/footer variables.
 #
-worksheet2 = workbook.add_worksheet('Variables')
-header2 = '&LPage &P of &N' + '&CFilename: &F' + '&RSheetname: &A'
-footer2 = '&LCurrent date: &D' + '&RCurrent time: &T'
-
-worksheet2.set_header(header2)
-worksheet2.set_footer(footer2)
-
-worksheet2.set_column('A:A', 50)
-worksheet2.write('A1', preview)
-worksheet2.write('A21', 'Next sheet')
-worksheet2.set_h_pagebreaks([20])
-
-######################################################################
-#
-# This example shows how to use more than one font
-#
-worksheet3 = workbook.add_worksheet('Mixed fonts')
-header3 = '&C&"Courier New,Bold"Hello &"Arial,Italic"World'
-footer3 = '&C&"Symbol"e&"Arial" = mc&X2'
+worksheet3 = workbook.add_worksheet('Variables')
+header3 = '&LPage &P of &N' + '&CFilename: &F' + '&RSheetname: &A'
+footer3 = '&LCurrent date: &D' + '&RCurrent time: &T'
 
 worksheet3.set_header(header3)
 worksheet3.set_footer(footer3)
 
 worksheet3.set_column('A:A', 50)
 worksheet3.write('A1', preview)
+worksheet3.write('A21', 'Next sheet')
+worksheet3.set_h_pagebreaks([20])
 
 ######################################################################
 #
-# Example of line wrapping
+# This example shows how to use more than one font
 #
-worksheet4 = workbook.add_worksheet('Word wrap')
-header4 = "&CHeading 1\nHeading 2"
+worksheet4 = workbook.add_worksheet('Mixed fonts')
+header4 = '&C&"Courier New,Bold"Hello &"Arial,Italic"World'
+footer4 = '&C&"Symbol"e&"Arial" = mc&X2'
 
 worksheet4.set_header(header4)
+worksheet4.set_footer(footer4)
 
 worksheet4.set_column('A:A', 50)
 worksheet4.write('A1', preview)
 
 ######################################################################
 #
-# Example of inserting a literal ampersand &
+# Example of line wrapping
 #
-worksheet5 = workbook.add_worksheet('Ampersand')
-header5 = '&CCuriouser && Curiouser - Attorneys at Law'
+worksheet5 = workbook.add_worksheet('Word wrap')
+header5 = "&CHeading 1\nHeading 2"
 
 worksheet5.set_header(header5)
 
 worksheet5.set_column('A:A', 50)
 worksheet5.write('A1', preview)
+
+######################################################################
+#
+# Example of inserting a literal ampersand &
+#
+worksheet6 = workbook.add_worksheet('Ampersand')
+header6 = '&CCuriouser && Curiouser - Attorneys at Law'
+
+worksheet6.set_header(header6)
+
+worksheet6.set_column('A:A', 50)
+worksheet6.write('A1', preview)
 
 workbook.close()

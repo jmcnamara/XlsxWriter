@@ -229,17 +229,31 @@ class Packager(object):
         # Write the comment VML files.
         index = 1
         for worksheet in self.workbook.worksheets():
-            if not worksheet.has_vml:
+            if not worksheet.has_vml and not worksheet.has_header_vml:
                 continue
+            if worksheet.has_vml:
+                vml = Vml()
+                vml._set_xml_writer(self._filename('xl/drawings/vmlDrawing'
+                                                   + str(index) + '.vml'))
+                vml._assemble_xml_file(worksheet.vml_data_id,
+                                       worksheet.vml_shape_id,
+                                       worksheet.comments_list,
+                                       worksheet.buttons_list)
+                index += 1
 
-            vml = Vml()
-            vml._set_xml_writer(self._filename('xl/drawings/vmlDrawing'
-                                               + str(index) + '.vml'))
-            vml._assemble_xml_file(worksheet.vml_data_id,
-                                   worksheet.vml_shape_id,
-                                   worksheet.comments_array,
-                                   worksheet.buttons_array)
-            index += 1
+            if worksheet.has_header_vml:
+                vml = Vml()
+
+                vml._set_xml_writer(self._filename('/xl/drawings/vmlDrawing'
+                                                   + str(index) + '.vml'))
+                vml._assemble_xml_file(worksheet.vml_header_id,
+                                       worksheet.vml_header_id * 1024,
+                                       None,
+                                       None,
+                                       worksheet.header_images_list)
+
+                self._write_vml_drawing_rels_file(worksheet, index)
+                index += 1
 
     def _write_comment_files(self):
         # Write the comment files.
@@ -251,7 +265,7 @@ class Packager(object):
             comment = Comments()
             comment._set_xml_writer(self._filename('xl/comments'
                                                    + str(index) + '.xml'))
-            comment._assemble_xml_file(worksheet.comments_array)
+            comment._assemble_xml_file(worksheet.comments_list)
             index += 1
 
     def _write_shared_strings_file(self):
@@ -524,6 +538,22 @@ class Packager(object):
             rels._set_xml_writer(self._filename('xl/drawings/_rels/drawing'
                                                 + str(index) + '.xml.rels'))
             rels._assemble_xml_file()
+
+    def _write_vml_drawing_rels_file(self, worksheet, index):
+        # Write the vmlDdrawing .rels files for worksheets with images in
+        # headers or footers.
+
+        # Create the drawing .rels dir.
+        rels = Relationships()
+
+        for drawing_data in worksheet.vml_drawing_links:
+            rels._add_document_relationship(*drawing_data)
+
+        # Create the .rels file such as /xl/drawings/_rels/vmlDrawing1.vml.rels.
+        rels._set_xml_writer(self._filename('/xl/drawings/_rels/vmlDrawing'
+                                            + str(index)
+                                            + '.vml.rels'))
+        rels._assemble_xml_file()
 
     def _add_image_files(self):
         # Write the /xl/media/image?.xml files.

@@ -35,8 +35,8 @@ class Vml(xmlwriter.XMLwriter):
     # Private API.
     #
     ###########################################################################
-    def _assemble_xml_file(self, data_id, vml_shape_id, comments_data,
-                           buttons_data):
+    def _assemble_xml_file(self, data_id, vml_shape_id, comments_data=None,
+                           buttons_data=None, header_images_data=None):
         # Assemble and write the XML file.
         z_index = 1
 
@@ -64,6 +64,18 @@ class Vml(xmlwriter.XMLwriter):
                 vml_shape_id += 1
                 self._write_comment_shape(vml_shape_id, z_index, comment)
                 z_index += 1
+
+        if header_images_data:
+
+            # Write the v:shapetype element.
+            self._write_image_shapetype()
+
+            index = 1
+            for image in header_images_data:
+                # Write the v:shape element.
+                vml_shape_id += 1
+                self._write_image_shape(vml_shape_id, index, image)
+                index += 1
 
         self._xml_end_tag('xml')
 
@@ -174,6 +186,42 @@ class Vml(xmlwriter.XMLwriter):
 
         self._xml_end_tag('v:shapetype')
 
+    def _write_image_shapetype(self):
+        # Write the <v:shapetype> element.
+        shape_id = '_x0000_t75'
+        coordsize = '21600,21600'
+        spt = 75
+        o_preferrelative = 't'
+        path = 'm@4@5l@4@11@9@11@9@5xe'
+        filled = 'f'
+        stroked = 'f'
+
+        attributes = [
+            ('id', shape_id),
+            ('coordsize', coordsize),
+            ('o:spt', spt),
+            ('o:preferrelative', o_preferrelative),
+            ('path', path),
+            ('filled', filled),
+            ('stroked', stroked),
+        ]
+
+        self._xml_start_tag('v:shapetype', attributes)
+
+        # Write the v:stroke element.
+        self._write_stroke()
+
+        # Write the v:formulas element.
+        self._write_formulas()
+
+        # Write the v:path element.
+        self._write_image_path()
+
+        # Write the o:lock element.
+        self._write_aspect_ratio_lock()
+
+        self._xml_end_tag('v:shapetype')
+
     def _write_stroke(self):
         # Write the <v:stroke> element.
         joinstyle = 'miter'
@@ -211,6 +259,20 @@ class Vml(xmlwriter.XMLwriter):
 
         self._xml_empty_tag('v:path', attributes)
 
+    def _write_image_path(self):
+        # Write the <v:path> element.
+        extrusionok = 'f'
+        gradientshapeok = 't'
+        connecttype = 'rect'
+
+        attributes = [
+            ('o:extrusionok', extrusionok),
+            ('gradientshapeok', gradientshapeok),
+            ('o:connecttype', connecttype),
+        ]
+
+        self._xml_empty_tag('v:path', attributes)
+
     def _write_shapetype_lock(self):
         # Write the <o:lock> element.
         ext = 'edit'
@@ -231,6 +293,18 @@ class Vml(xmlwriter.XMLwriter):
         attributes = [
             ('v:ext', ext),
             ('rotation', rotation),
+        ]
+
+        self._xml_empty_tag('o:lock', attributes)
+
+    def _write_aspect_ratio_lock(self):
+        # Write the <o:lock> element.
+        ext = 'edit'
+        aspectratio = 't'
+
+        attributes = [
+            ('v:ext', ext),
+            ('aspectratio', aspectratio),
         ]
 
         self._xml_empty_tag('o:lock', attributes)
@@ -339,6 +413,47 @@ class Vml(xmlwriter.XMLwriter):
 
         # Write the x:ClientData element.
         self._write_button_client_data(button)
+
+        self._xml_end_tag('v:shape')
+
+    def _write_image_shape(self, shape_id, z_index, image_data):
+        # Write the <v:shape> element.
+        shape_type = '#_x0000_t75'
+
+        # Set the shape index.
+        shape_id = '_x0000_s' + str(shape_id)
+
+        # Get the image parameters
+        width = image_data[0]
+        height = image_data[1]
+        name = image_data[2]
+        position = image_data[3]
+
+        width *= 0.75
+        height *= 0.75
+
+        style = (
+            'position:absolute;'
+            'margin-left:0;'
+            'margin-top:0;'
+            'width:%.15gpt;'
+            'height:%.15gpt;'
+            'z-index:%d' % (width, height, z_index))
+
+        attributes = [
+            ('id', position),
+            ('o:spid', shape_id),
+            ('type', shape_type),
+            ('style', style),
+        ]
+
+        self._xml_start_tag('v:shape', attributes)
+
+        # Write the v:imagedata element.
+        self._write_imagedata(z_index, name)
+
+        # Write the o:lock element.
+        self._write_rotation_lock()
 
         self._xml_end_tag('v:shape')
 
@@ -547,3 +662,38 @@ class Vml(xmlwriter.XMLwriter):
     def _write_fmla_macro(self, data):
         # Write the <x:FmlaMacro> element.
         self._xml_data_element('x:FmlaMacro', data)
+
+    def _write_imagedata(self, image_index, o_title):
+        # Write the <v:imagedata> element.
+        attributes = [
+            ('o:relid', 'rId' + str(image_index)),
+            ('o:title', o_title),
+        ]
+
+        self._xml_empty_tag('v:imagedata', attributes)
+
+    def _write_formulas(self):
+        # Write the <v:formulas> element.
+        self._xml_start_tag('v:formulas')
+
+        # Write the v:f elements.
+        self._write_formula('if lineDrawn pixelLineWidth 0')
+        self._write_formula('sum @0 1 0')
+        self._write_formula('sum 0 0 @1')
+        self._write_formula('prod @2 1 2')
+        self._write_formula('prod @3 21600 pixelWidth')
+        self._write_formula('prod @3 21600 pixelHeight')
+        self._write_formula('sum @0 0 1')
+        self._write_formula('prod @6 1 2')
+        self._write_formula('prod @7 21600 pixelWidth')
+        self._write_formula('sum @8 21600 0')
+        self._write_formula('prod @7 21600 pixelHeight')
+        self._write_formula('sum @10 21600 0')
+
+        self._xml_end_tag('v:formulas')
+
+    def _write_formula(self, eqn):
+        # Write the <v:f> element.
+        attributes = [('eqn', eqn)]
+
+        self._xml_empty_tag('v:f', attributes)
