@@ -1810,7 +1810,7 @@ class Chart(xmlwriter.XMLwriter):
         # Write the axis title elements.
         if x_axis['formula'] is not None:
             self._write_title_formula(x_axis['formula'],
-                                      y_axis['data_id'],
+                                      x_axis['data_id'],
                                       horiz,
                                       x_axis['name_font'],
                                       x_axis['name_layout'])
