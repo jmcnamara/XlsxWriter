@@ -23,4 +23,5 @@ objects.inv
 __pycache__
 .tox/
 .idea
+XlsxWriter.egg-info/
 
