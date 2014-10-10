@@ -19,31 +19,25 @@ import xlsxwriter
 class Handler(SimpleHTTPServer.SimpleHTTPRequestHandler):
 
     def do_GET(self):
-        # Create an in-memory output file for the new workbook.
-        output = StringIO.StringIO()
-
-        # Even though the final file will be in memory the module uses temp
-        # files during assembly for efficiency. To avoid this on servers that
-        # don't allow temp files, for example the Google APP Engine, set the
-        # 'in_memory' constructor option to True:
-        workbook = xlsxwriter.Workbook(output, {'in_memory': True})
-        worksheet = workbook.add_worksheet()
-
-        # Write some test data.
-        worksheet.write(0, 0, 'Hello, world!')
-
-        # Close the workbook before streaming the data.
-        workbook.close()
-
-        # Rewind the buffer.
-        output.seek(0)
-
         # Construct a server response.
         self.send_response(200)
         self.send_header('Content-Disposition', 'attachment; filename=test.xlsx')
         self.send_header('Content-type', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
         self.end_headers()
-        self.wfile.write(output.read())
+
+        # Even though the final file will be in memory the module uses temp
+        # files during assembly for efficiency. To avoid this on servers that
+        # don't allow temp files, for example the Google APP Engine, set the
+        # 'in_memory' constructor option to True:
+        workbook = xlsxwriter.Workbook(self.wfile, {'in_memory': True})
+        worksheet = workbook.add_worksheet()
+
+        # Write some test data.
+        worksheet.write(0, 0, 'Hello, world!')
+
+        # Finally close the workbook.
+        workbook.close()
+
         return
 
 
