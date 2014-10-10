@@ -37,7 +37,7 @@ class TestCompareXLSXFiles(ExcelComparisonTest):
         worksheet2 = workbook.add_worksheet()
 
         worksheet1.set_header('&L&G', None,
-                             {'image_left': self.image_dir + 'red.jpg'})
+                              {'image_left': self.image_dir + 'red.jpg'})
 
         worksheet2.write('A1', 'Foo')
         worksheet2.write_comment('B2', 'Some text')

@@ -269,7 +269,7 @@ class ChartScatter(chart.Chart):
                                       }
 
         # Turn markers off for subtypes that don't have them.
-        if not 'marker' in subtype:
+        if 'marker' not in subtype:
             # Go through each series and define default values.
             for series in self.series:
                 # Set a marker type unless there is a user defined type.

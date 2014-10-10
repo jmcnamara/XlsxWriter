@@ -164,7 +164,7 @@ class App(xmlwriter.XMLwriter):
 
     def _write_manager(self):
         # Write the <Manager> element.
-        if not 'manager' in self.properties:
+        if 'manager' not in self.properties:
             return
 
         self._xml_data_element('Manager', self.properties['manager'])

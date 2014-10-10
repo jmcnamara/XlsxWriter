@@ -35,8 +35,8 @@ class TestCompareXLSXFiles(ExcelComparisonTest):
         worksheet = workbook.add_worksheet()
 
         format1 = workbook.add_format({'bg_color': '#FFFF00',
-                                      'fg_color': '#FF0000',
-                                      'pattern': 12})
+                                       'fg_color': '#FF0000',
+                                       'pattern': 12})
 
         worksheet.write('A1', 'Hello', format1)
 

@@ -549,7 +549,7 @@ class Packager(object):
         for drawing_data in worksheet.vml_drawing_links:
             rels._add_document_relationship(*drawing_data)
 
-        # Create the .rels file such as /xl/drawings/_rels/vmlDrawing1.vml.rels.
+        # Create .rels file such as /xl/drawings/_rels/vmlDrawing1.vml.rels.
         rels._set_xml_writer(self._filename('/xl/drawings/_rels/vmlDrawing'
                                             + str(index)
                                             + '.vml.rels'))

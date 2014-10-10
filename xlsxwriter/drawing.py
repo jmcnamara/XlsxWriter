@@ -727,7 +727,7 @@ class Drawing(xmlwriter.XMLwriter):
 
     def _write_a_solid_fill(self, rgb):
         # Write the <a:solidFill> element.
-        if not rgb is not None:
+        if rgb is not None:
             rgb = '000000'
 
         attributes = [('val', rgb)]
@@ -791,7 +791,7 @@ class Drawing(xmlwriter.XMLwriter):
         self._xml_start_tag('a:p')
 
         rotation = shape.format.rotation
-        if not rotation is not None:
+        if rotation is not None:
             rotation = 0
         rotation *= 60000
 
@@ -805,16 +805,16 @@ class Drawing(xmlwriter.XMLwriter):
         self._xml_start_tag('a:r')
 
         size = shape.format.size
-        if not size is not None:
+        if size is not None:
             size = 8
         size *= 100
 
         bold = shape.format.bold
-        if not bold is not None:
+        if bold is not None:
             bold = 0
 
         italic = shape.format.italic
-        if not italic is not None:
+        if italic is not None:
             italic = 0
 
         underline = shape['format']['underline']

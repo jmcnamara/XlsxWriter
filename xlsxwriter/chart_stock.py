@@ -59,8 +59,8 @@ class ChartStock(chart.Chart):
     ###########################################################################
 
     def _write_stock_chart(self, args):
-    # Write the <c:stockChart> element.
-    # Overridden to add hi_low_lines().
+        # Write the <c:stockChart> element.
+        # Overridden to add hi_low_lines().
 
         if args['primary_axes']:
             series = self._get_primary_axes_series()

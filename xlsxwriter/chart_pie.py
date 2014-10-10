@@ -134,7 +134,7 @@ class ChartPie(chart.Chart):
         if position == 'none':
             return
 
-        if not position in allowed:
+        if position not in allowed:
             return
 
         position = allowed[position]

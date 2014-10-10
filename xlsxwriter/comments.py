@@ -82,7 +82,7 @@ class Comments(xmlwriter.XMLwriter):
         for comment in comment_data:
             author = comment[3]
 
-            if author is not None and not author in self.author_ids:
+            if author is not None and author not in self.author_ids:
                 # Store the author id.
                 self.author_ids[author] = author_count
                 author_count += 1

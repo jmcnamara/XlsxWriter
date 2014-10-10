@@ -109,11 +109,11 @@ class Chart(xmlwriter.XMLwriter):
         # Add a series and it's properties to a chart.
 
         # Check that the required input has been specified.
-        if not 'values' in options:
+        if 'values' not in options:
             warn("Must specify 'values' in add_series()")
             return
 
-        if self.requires_category and not 'categories' in options:
+        if self.requires_category and 'categories' not in options:
             warn("Must specify 'categories' in add_series() "
                  "for this chart type")
 
@@ -376,7 +376,7 @@ class Chart(xmlwriter.XMLwriter):
             'span': 1,
         }
 
-        if not option in valid_options:
+        if option not in valid_options:
             warn("Unknown show_blanks_as() option '%s'" % option)
             return
 
@@ -751,7 +751,7 @@ class Chart(xmlwriter.XMLwriter):
 
         # Store the data id in a hash keyed by the formula and store the data
         # in a separate array with the same id.
-        if not formula in self.formula_ids:
+        if formula not in self.formula_ids:
             # Haven't seen this formula before.
             formula_id = len(self.formula_data)
 
@@ -1052,7 +1052,7 @@ class Chart(xmlwriter.XMLwriter):
         # Check for valid properties.
         for key in args.keys():
             if key not in properties:
-                warn("Property '%s' not allowed in layout options" % key)
+                warn("Property '%s' allowed not in layout options" % key)
                 return
 
         # Set the layout properties.
@@ -2266,7 +2266,7 @@ class Chart(xmlwriter.XMLwriter):
         if position == 'none':
             return
 
-        if not position in allowed:
+        if position not in allowed:
             return
 
         position = allowed[position]

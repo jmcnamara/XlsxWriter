@@ -1600,7 +1600,7 @@ class Worksheet(xmlwriter.XMLwriter):
 
         # Check for valid input parameters.
         for param_key in options.keys():
-            if not param_key in valid_parameters:
+            if param_key not in valid_parameters:
                 warn("Unknown parameter 'param_key' in data_validation()")
                 return -2
 
@@ -1611,7 +1611,7 @@ class Worksheet(xmlwriter.XMLwriter):
             options['value'] = options['minimum']
 
         # 'validate' is a required parameter.
-        if not 'validate' in options:
+        if 'validate' not in options:
             warn("Parameter 'validate' is required in data_validation()")
             return -2
 
@@ -1650,7 +1650,7 @@ class Worksheet(xmlwriter.XMLwriter):
             options['maximum'] = None
 
         # 'criteria' is a required parameter.
-        if not 'criteria' in options:
+        if 'criteria' not in options:
             warn("Parameter 'criteria' is required in data_validation()")
             return -2
 
@@ -1685,7 +1685,7 @@ class Worksheet(xmlwriter.XMLwriter):
         # 'Between' and 'Not between' criteria require 2 values.
         if (options['criteria'] == 'between' or
                 options['criteria'] == 'notBetween'):
-            if not 'maximum' in options:
+            if 'maximum' not in options:
                 warn("Parameter 'maximum' is required in data_validation() "
                      "when using 'between' or 'not between' criteria")
                 return -2
@@ -1700,7 +1700,7 @@ class Worksheet(xmlwriter.XMLwriter):
         }
 
         # Check for valid error dialog types.
-        if not 'error_type' in options:
+        if 'error_type' not in options:
             options['error_type'] = 0
         elif not options['error_type'] in error_types:
             warn("Unknown criteria type '%s' for parameter 'error_type' "
@@ -1766,13 +1766,13 @@ class Worksheet(xmlwriter.XMLwriter):
                 return -2
 
         # Set some defaults if they haven't been defined by the user.
-        if not 'ignore_blank' in options:
+        if 'ignore_blank' not in options:
             options['ignore_blank'] = 1
-        if not 'dropdown' in options:
+        if 'dropdown' not in options:
             options['dropdown'] = 1
-        if not 'show_input' in options:
+        if 'show_input' not in options:
             options['show_input'] = 1
-        if not 'show_error' in options:
+        if 'show_error' not in options:
             options['show_error'] = 1
 
         # These are the cells to which the validation is applied.
@@ -2113,7 +2113,7 @@ class Worksheet(xmlwriter.XMLwriter):
             options['max_color'] = xl_color(options['max_color'])
 
             # Set a default mid value.
-            if not 'mid_value' in options:
+            if 'mid_value' not in options:
                 options['mid_value'] = 50
 
         # Special handling for data bar.
@@ -2151,7 +2151,7 @@ class Worksheet(xmlwriter.XMLwriter):
 
         Returns:
             0:  Success.
-            -1: Not supported in optimisation mode.
+            -1: supported not in optimisation mode.
             -2: Row or column is out of worksheet bounds.
             -3: Incorrect parameter or option.
         """
@@ -2188,7 +2188,7 @@ class Worksheet(xmlwriter.XMLwriter):
 
         # Check for valid input parameters.
         for param_key in options.keys():
-            if not param_key in valid_parameter:
+            if param_key not in valid_parameter:
                 warn("Unknown parameter '%s' in add_table()" % param_key)
                 return -3
 
@@ -2416,12 +2416,12 @@ class Worksheet(xmlwriter.XMLwriter):
 
         # Check for valid input parameters.
         for param_key in options.keys():
-            if not param_key in valid_parameters:
+            if param_key not in valid_parameters:
                 warn("Unknown parameter '%s' in add_sparkline()" % param_key)
                 return -1
 
         # 'range' is a required parameter.
-        if not 'range' in options:
+        if 'range' not in options:
             warn("Parameter 'range' is required in add_sparkline()")
             return -2
 
@@ -3574,7 +3574,7 @@ class Worksheet(xmlwriter.XMLwriter):
             # Only allow Equals or NotEqual in this context.
             if operator != 2 and operator != 5:
                 warn("The operator '%s' in expression '%s' "
-                     "is not valid in relation to Blanks/NonBlanks'"
+                     "is valid not in relation to Blanks/NonBlanks'"
                      % (tokens[1], expression))
 
             token = token.lower()
@@ -4090,7 +4090,7 @@ class Worksheet(xmlwriter.XMLwriter):
         self.vml_header_id = vml_header_id
 
         self.external_vml_links.append(['/vmlDrawing',
-                                        '../drawings/vmlDrawing' \
+                                        '../drawings/vmlDrawing'
                                         + str(vml_drawing_id) + '.vml'])
 
     def _prepare_tables(self, table_id):
@@ -4134,7 +4134,7 @@ class Worksheet(xmlwriter.XMLwriter):
 
     def _set_spark_color(self, sparkline, options, user_color):
         # Set the sparkline colour.
-        if not user_color in options:
+        if user_color not in options:
             return
 
         sparkline[user_color] = {'rgb': xl_color(options[user_color])}
@@ -4153,7 +4153,7 @@ class Worksheet(xmlwriter.XMLwriter):
         # Iterate through the table data.
         for row_num in range(row_start, row_end + 1):
             # Store None if row doesn't exist.
-            if not row_num in self.table:
+            if row_num not in self.table:
                 data.append(None)
                 continue
 
@@ -5232,7 +5232,7 @@ class Worksheet(xmlwriter.XMLwriter):
 
         for col in range(col1, col2 + 1):
             # Skip if column doesn't have an active filter.
-            if not col in self.filter_cols:
+            if col not in self.filter_cols:
                 continue
 
             # Retrieve the filter tokens and write the autofilter records.

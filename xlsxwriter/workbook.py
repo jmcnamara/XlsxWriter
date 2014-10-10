@@ -893,12 +893,12 @@ class Workbook(xmlwriter.XMLwriter):
                 image_data = None  # TODO
 
                 (image_type, width, height, name) = \
-                  self._get_image_properties(filename, image_data)
+                    self._get_image_properties(filename, image_data)
 
                 image_ref_id += 1
 
                 sheet._prepare_header_image(image_ref_id, width, height,
-                    name, image_type, position)
+                                            name, image_type, position)
 
             # Prepare the footer images.
             for index in range(footer_image_count):
@@ -908,12 +908,12 @@ class Workbook(xmlwriter.XMLwriter):
                 image_data = None  # TODO
 
                 (image_type, width, height, name) = \
-                  self._get_image_properties(filename, image_data)
+                    self._get_image_properties(filename, image_data)
 
                 image_ref_id += 1
 
                 sheet._prepare_header_image(image_ref_id, width, height,
-                    name, image_type, position)
+                                            name, image_type, position)
 
             if has_drawing:
                 drawing = sheet.drawing
@@ -1098,7 +1098,7 @@ class Workbook(xmlwriter.XMLwriter):
                 vml_header_id += 1
                 vml_drawing_id += 1
                 sheet._prepare_header_vml_objects(vml_header_id,
-                    vml_drawing_id)
+                                                  vml_drawing_id)
 
             self.num_vml_files = vml_files
             self.num_comment_files = comment_files
@@ -1139,7 +1139,7 @@ class Workbook(xmlwriter.XMLwriter):
 
                 # Skip if the series has user defined data.
                 if chart.formula_data[r_id] is not None:
-                    if (not c_range in seen_ranges
+                    if (c_range not in seen_ranges
                             or seen_ranges[c_range] is None):
                         data = chart.formula_data[r_id]
                         seen_ranges[c_range] = data
@@ -1167,7 +1167,7 @@ class Workbook(xmlwriter.XMLwriter):
 
                 # Warn if the name is unknown since it indicates a user error
                 # in a chart series formula.
-                if not sheetname in worksheets:
+                if sheetname not in worksheets:
                     warn("Unknown worksheet reference '%s' in range "
                          "'%s' passed to add_series()" % (sheetname, c_range))
                     chart.formula_data[r_id] = []
