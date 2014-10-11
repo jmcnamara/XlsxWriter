@@ -1,4 +1,13 @@
 
+
+Release 0.5.9 - October 11 2014
+---------------------------------
+
+* Removed `egg_base` requirement from `setup.cfg` which was preventing
+  installation on Windows.
+  Issue `#162 <https://github.com/jmcnamara/XlsxWriter/issues/162>`_.
+
+
 Release 0.5.8 - September 28 2014
 ---------------------------------
 

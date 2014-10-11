@@ -5,7 +5,7 @@ except ImportError:
 
 setup(
     name='XlsxWriter',
-    version='0.5.8',
+    version='0.5.9',
     author='John McNamara',
     author_email='jmcnamara@cpan.org',
     url='https://github.com/jmcnamara/XlsxWriter',
