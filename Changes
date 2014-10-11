@@ -3,9 +3,13 @@
 Release 0.5.9 - October 11 2014
 ---------------------------------
 
-* Removed `egg_base` requirement from `setup.cfg` which was preventing
+* Removed ``egg_base`` requirement from ``setup.cfg`` which was preventing
   installation on Windows.
   Issue `#162 <https://github.com/jmcnamara/XlsxWriter/issues/162>`_.
+
+* Fix for issue where X axis title formula was overwritten by the Y axis
+  title.
+  Issue `#161 <https://github.com/jmcnamara/XlsxWriter/issues/161>`_.
 
 
 Release 0.5.8 - September 28 2014
