@@ -26,7 +26,7 @@ class TestCompareXLSXFiles(ExcelComparisonTest):
         self.exp_filename = test_dir + 'xlsx_files/' + filename
 
         self.ignore_files = []
-        self.ignore_elements = {}
+        self.ignore_elements = {'xl/worksheets/sheet1.xml': ['<pageMargins', '<pageSetup']}
 
     def test_create_file(self):
         """Test the creation of a simple XlsxWriter file with image(s)."""

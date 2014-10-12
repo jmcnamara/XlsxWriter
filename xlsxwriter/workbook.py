@@ -900,7 +900,8 @@ class Workbook(xmlwriter.XMLwriter):
                 image_ref_id += 1
 
                 sheet._prepare_header_image(image_ref_id, width, height,
-                                            name, image_type, position)
+                                            name, image_type, position,
+                                            x_dpi, y_dpi)
 
             # Prepare the footer images.
             for index in range(footer_image_count):
@@ -915,7 +916,8 @@ class Workbook(xmlwriter.XMLwriter):
                 image_ref_id += 1
 
                 sheet._prepare_header_image(image_ref_id, width, height,
-                                            name, image_type, position)
+                                            name, image_type, position,
+                                            x_dpi, y_dpi)
 
             if has_drawing:
                 drawing = sheet.drawing
@@ -998,9 +1000,9 @@ class Workbook(xmlwriter.XMLwriter):
         y_dpi = 96
 
         # Look for numbers rather than strings for Python 2.6/3 compatibility.
-        marker_ihdr = 0x49484452
-        marker_phys = 0x70485973
-        marker_iend = 0X49454E44
+        marker_ihdr = 0x49484452  # IHDR
+        marker_phys = 0x70485973  # pHYs
+        marker_iend = 0X49454E44  # IEND
 
         # Search through the image data to read the height and width in the
         # IHDR element. Also read the DPI in the pHYs element.
@@ -1140,10 +1142,13 @@ class Workbook(xmlwriter.XMLwriter):
             if sheet.has_vml:
                 if sheet.has_comments:
                     comment_files += 1
+                    comment_id += 1
 
-                comment_id += 1
+                vml_drawing_id += 1
+
                 count = sheet._prepare_vml_objects(vml_data_id,
                                                    vml_shape_id,
+                                                   vml_drawing_id,
                                                    comment_id)
 
                 # Each VML should start with a shape id incremented by 1024.

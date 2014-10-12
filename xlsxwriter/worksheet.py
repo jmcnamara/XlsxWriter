@@ -3687,13 +3687,14 @@ class Worksheet(xmlwriter.XMLwriter):
                                    + image_type])
 
     def _prepare_header_image(self, image_id, width, height, name, image_type,
-                              position):
+                              position, x_dpi, y_dpi):
         # Set up an image without a drawing object for header/footer images.
 
         # Strip the extension from the filename.
         name = re.sub('\..*$', '', name)
 
-        self.header_images_list.append([width, height, name, position])
+        self.header_images_list.append([width, height, name, position,
+                                        x_dpi, y_dpi])
 
         self.vml_drawing_links.append(['/image',
                                        '../media/image'
@@ -4041,7 +4042,8 @@ class Worksheet(xmlwriter.XMLwriter):
         return ([row, col, string, params['author'],
                  params['visible'], params['color']] + [vertices])
 
-    def _prepare_vml_objects(self, vml_data_id, vml_shape_id, comment_id):
+    def _prepare_vml_objects(self, vml_data_id, vml_shape_id, vml_drawing_id,
+                             comment_id):
         comments = []
         # Sort the comments into row/column order for easier comparison
         # testing and set the external links for comments and buttons.
@@ -4064,7 +4066,7 @@ class Worksheet(xmlwriter.XMLwriter):
 
         self.external_vml_links.append(['/vmlDrawing',
                                         '../drawings/vmlDrawing'
-                                        + str(comment_id)
+                                        + str(vml_drawing_id)
                                         + '.vml'])
 
         if self.has_comments:

@@ -428,9 +428,16 @@ class Vml(xmlwriter.XMLwriter):
         height = image_data[1]
         name = image_data[2]
         position = image_data[3]
+        x_dpi = image_data[4]
+        y_dpi = image_data[5]
 
-        width *= 0.75
-        height *= 0.75
+        # Scale the height/width by the resolution, relative to 72dpi.
+        width = width * 72.0 / x_dpi
+        height = height * 72.0 / y_dpi
+
+        # Excel uses a rounding based around 72 and 96 dpi.
+        width = 72.0 / 96 * int(width * 96.0 / 72 + 0.25)
+        height = 72.0 / 96 * int(height * 96.0 / 72 + 0.25)
 
         style = (
             'position:absolute;'

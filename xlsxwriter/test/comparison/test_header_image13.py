@@ -18,7 +18,7 @@ class TestCompareXLSXFiles(ExcelComparisonTest):
     def setUp(self):
         self.maxDiff = None
 
-        filename = 'header_image07.xlsx'
+        filename = 'header_image13.xlsx'
 
         test_dir = 'xlsxwriter/test/comparison/'
         self.image_dir = test_dir + 'images/'
@@ -35,10 +35,11 @@ class TestCompareXLSXFiles(ExcelComparisonTest):
 
         worksheet = workbook.add_worksheet()
 
-        worksheet.insert_image('B3', self.image_dir + 'red.jpg')
-
-        worksheet.set_header('&L&G', None,
-                             {'image_left': self.image_dir + 'blue.jpg'})
+        worksheet.set_header('&L&G&C&G&R&G', None,
+                             {'image_left': self.image_dir + 'black_72.jpg',
+                              'image_center': self.image_dir + 'black_150.jpg',
+                              'image_right': self.image_dir + 'black_300.jpg',
+                              })
 
         workbook.close()
 

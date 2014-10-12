@@ -145,17 +145,15 @@ def _compare_xlsx_files(got_file, exp_file, ignore_files, ignore_elements):
 
     # Compare each file in the XLSX containers.
     for filename in exp_files:
-
         got_xml_str = got_zip.read(filename)
         exp_xml_str = exp_zip.read(filename)
 
         # Compare binary files with string comparison based on extension.
         extension = os.path.splitext(filename)[1]
         if extension in ('.png', '.jpeg', '.bmp'):
-            if got_xml_str == exp_xml_str:
-                return 'Ok', 'Ok'
-            else:
+            if got_xml_str != exp_xml_str:
                 return 'got: %s' % filename, 'exp: %s' % filename
+            continue
 
         if sys.version_info >= (3, 0, 0):
             got_xml_str = got_xml_str.decode('utf-8')
@@ -185,7 +183,7 @@ def _compare_xlsx_files(got_file, exp_file, ignore_files, ignore_elements):
         if re.match(r'xl/worksheets/sheet\d.xml', filename):
             exp_xml_str = re.sub(r'horizontalDpi="200" ', '', exp_xml_str)
             exp_xml_str = re.sub(r'verticalDpi="200" ', '', exp_xml_str)
-            exp_xml_str = re.sub(r'(<pageSetup.*) r:id="rId1"',
+            exp_xml_str = re.sub(r'(<pageSetup[^>]*) r:id="rId1"',
                                  r'\1', exp_xml_str)
 
         # Remove Chart pageMargin dimensions which are almost always different.
