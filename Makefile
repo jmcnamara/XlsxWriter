@@ -66,3 +66,4 @@ release: releasecheck
 	@python setup.py sdist bdist_wheel upload
 	@curl -X POST http://readthedocs.org/build/6277
 	@rm -rf build
+	@rm -rf XlsxWriter.egg-info/

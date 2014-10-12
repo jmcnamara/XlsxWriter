@@ -3626,7 +3626,7 @@ class Worksheet(xmlwriter.XMLwriter):
         return "%X" % password_hash
 
     def _prepare_image(self, index, image_id, drawing_id, width, height,
-                       name, image_type):
+                       name, image_type, x_dpi, y_dpi):
         # Set up images/drawings.
         drawing_type = 2
         (row, col, _, x_offset, y_offset,
@@ -3634,6 +3634,10 @@ class Worksheet(xmlwriter.XMLwriter):
 
         width *= x_scale
         height *= y_scale
+
+        # Scale by non 96dpi resoultions.
+        width *= 96.0 / x_dpi
+        height *= 96.0 / y_dpi
 
         dimensions = self._position_object_emus(col, row, x_offset, y_offset,
                                                 width, height)

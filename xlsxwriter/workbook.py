@@ -850,6 +850,8 @@ class Workbook(xmlwriter.XMLwriter):
         chart_ref_id = 0
         image_ref_id = 0
         drawing_id = 0
+        x_dpi = 96
+        y_dpi = 96
 
         for sheet in self.worksheets():
             chart_count = len(sheet.charts)
@@ -878,12 +880,12 @@ class Workbook(xmlwriter.XMLwriter):
             for index in range(image_count):
                 filename = sheet.images[index][2]
                 image_data = sheet.images[index][10]
-                (image_type, width, height, name) = \
+                (image_type, width, height, name, x_dpi, y_dpi) = \
                     self._get_image_properties(filename, image_data)
                 image_ref_id += 1
 
                 sheet._prepare_image(index, image_ref_id, drawing_id, width,
-                                     height, name, image_type)
+                                     height, name, image_type, x_dpi, y_dpi)
 
             # Prepare the header images.
             for index in range(header_image_count):
@@ -892,7 +894,7 @@ class Workbook(xmlwriter.XMLwriter):
                 position = sheet.header_images[index][1]
                 image_data = None  # TODO
 
-                (image_type, width, height, name) = \
+                (image_type, width, height, name, x_dpi, y_dpi) = \
                     self._get_image_properties(filename, image_data)
 
                 image_ref_id += 1
@@ -907,7 +909,7 @@ class Workbook(xmlwriter.XMLwriter):
                 position = sheet.footer_images[index][1]
                 image_data = None  # TODO
 
-                (image_type, width, height, name) = \
+                (image_type, width, height, name, x_dpi, y_dpi) = \
                     self._get_image_properties(filename, image_data)
 
                 image_ref_id += 1
@@ -929,6 +931,8 @@ class Workbook(xmlwriter.XMLwriter):
         # Extract dimension information from the image file.
         height = 0
         width = 0
+        x_dpi = 96
+        y_dpi = 96
 
         if not image_data:
             # Open the image file and read in the data.
@@ -957,11 +961,11 @@ class Workbook(xmlwriter.XMLwriter):
 
         if marker1 == png_marker:
             self.image_types['png'] = 1
-            (image_type, width, height) = self._process_png(data)
+            (image_type, width, height, x_dpi, y_dpi) = self._process_png(data)
 
         elif marker2 == 0xFFD8:
             self.image_types['jpeg'] = 1
-            (image_type, width, height) = self._process_jpg(data)
+            (image_type, width, height, x_dpi, y_dpi) = self._process_jpg(data)
 
         elif marker3 == bmp_marker:
             self.image_types['bmp'] = 1
@@ -981,44 +985,96 @@ class Workbook(xmlwriter.XMLwriter):
         if not image_data:
             fh.close()
 
-        return image_type, width, height, image_name
+        return image_type, width, height, image_name, x_dpi, y_dpi
 
     def _process_png(self, data):
         # Extract width and height information from a PNG file.
-        width = (unpack('>I', data[16:20]))[0]
-        height = (unpack('>I', data[20:24]))[0]
+        offset = 8
+        data_length = len(data)
+        end_marker = False
+        width = 0
+        height = 0
+        x_dpi = 96
+        y_dpi = 96
 
-        return 'png', width, height
+        # Look for numbers rather than strings for Python 2.6/3 compatibility.
+        marker_ihdr = 0x49484452
+        marker_phys = 0x70485973
+        marker_iend = 0X49454E44
+
+        # Search through the image data to read the height and width in the
+        # IHDR element. Also read the DPI in the pHYs element.
+        while not end_marker and offset < data_length:
+
+            length = (unpack('>I', data[offset + 0:offset + 4]))[0]
+            marker = (unpack('>I', data[offset + 4:offset + 8]))[0]
+
+            # Read the image dimensions.
+            if marker == marker_ihdr:
+                width = (unpack('>I', data[offset + 8:offset + 12]))[0]
+                height = (unpack('>I', data[offset + 12:offset + 16]))[0]
+
+            # Read the image DPI.
+            if marker == marker_phys:
+                x_density = (unpack('>I', data[offset + 8:offset + 12]))[0]
+                y_density = (unpack('>I', data[offset + 12:offset + 16]))[0]
+                units = (unpack('b', data[offset + 16:offset + 17]))[0]
+
+                if units == 1:
+                    x_dpi = x_density * 0.0254
+                    y_dpi = y_density * 0.0254
+
+            if marker == marker_iend:
+                end_marker = True
+                continue
+
+            offset = offset + length + 12
+
+        return 'png', width, height, x_dpi, y_dpi
 
     def _process_jpg(self, data):
         # Extract width and height information from a JPEG file.
         offset = 2
         data_length = len(data)
-
-        # Search through the image data to find the 0xFFC0 marker.
-        # The height and width are contained in the data for that
-        # sub-element.
-        found = 0
+        end_marker = False
         width = 0
         height = 0
-        while not found and offset < data_length:
+        x_dpi = 96
+        y_dpi = 96
+
+        # Search through the image data to read the height and width in the
+        # 0xFFC0/C2 element. Also read the DPI in the 0xFFE0 element.
+        while not end_marker and offset < data_length:
 
             marker = (unpack('>H', data[offset + 0:offset + 2]))[0]
             length = (unpack('>H', data[offset + 2:offset + 4]))[0]
 
+            # Read the image dimensions.
             if marker == 0xFFC0 or marker == 0xFFC2:
                 height = (unpack('>H', data[offset + 5:offset + 7]))[0]
                 width = (unpack('>H', data[offset + 7:offset + 9]))[0]
-                found = 1
+
+            # Read the image DPI.
+            if marker == 0xFFE0:
+                units = (unpack('b', data[offset + 11:offset + 12]))[0]
+                x_density = (unpack('>H', data[offset + 12:offset + 14]))[0]
+                y_density = (unpack('>H', data[offset + 14:offset + 16]))[0]
+
+                if units == 1:
+                    x_dpi = x_density
+                    y_dpi = y_density
+
+                if units == 2:
+                    x_dpi = x_density * 2.54
+                    y_dpi = y_density * 2.54
+
+            if marker == 0xFFDA:
+                end_marker = True
                 continue
 
             offset = offset + length + 2
 
-            if marker == 0xFFDA:
-                found = 1
-                continue
-
-        return 'jpeg', width, height
+        return 'jpeg', width, height, x_dpi, y_dpi
 
     def _process_bmp(self, data):
         # Extract width and height information from a BMP file.
