@@ -43,3 +43,19 @@ class TestCompareXLSXFiles(ExcelComparisonTest):
         workbook.close()
 
         self.assertExcelEqual()
+
+    def test_create_file_with_picture(self):
+        """Test the creation of a simple XlsxWriter file with image(s)."""
+
+        workbook = Workbook(self.got_filename)
+
+        worksheet = workbook.add_worksheet()
+
+        worksheet.set_footer('&L&[Picture]&C&G&R&[Picture]', None,
+                             {'image_left': self.image_dir + 'red.jpg',
+                              'image_center': self.image_dir + 'blue.jpg',
+                              'image_right': self.image_dir + 'yellow.jpg'})
+
+        workbook.close()
+
+        self.assertExcelEqual()

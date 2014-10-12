@@ -2877,6 +2877,8 @@ class Worksheet(xmlwriter.XMLwriter):
             Nothing.
 
         """
+        header = header.replace('&[Picture]', '&G')
+
         if len(header) >= 255:
             warn('Header string must be less than 255 characters')
             return
@@ -2916,6 +2918,8 @@ class Worksheet(xmlwriter.XMLwriter):
             Nothing.
 
         """
+        footer = footer.replace('&[Picture]', '&G')
+
         if len(footer) >= 255:
             warn('Footer string must be less than 255 characters')
             return
