@@ -1,4 +1,4 @@
-# XlsxWriter: Bug Reports and Contributing
+# XlsxWriter: Bug Reports and Pull Requests
 
 
 ## Reporting Bugs
@@ -9,7 +9,7 @@ Here are some tips on reporting bugs in XlsxWriter.
 ### Upgrade to the latest version of the module
 
 The bug you are reporting may already be fixed in the latest version of the
-module. You can check which version of xlsxWriter that you are using as follows:
+module. You can check which version of xlsxwriter that you are using as follows:
 
     python -c 'import xlsxwriter; print(xlsxwriter.__version__)'
 
@@ -60,18 +60,19 @@ A sample bug report is shown below. This format helps to analyse and respond to 
 Submit the bug report using the [XlsxWriter issue tracker](https://github.com/jmcnamara/XlsxWriter/issues).
 
 
-## Contributing to XlsxWriter
+## Pull Requests and Contributing to XlsxWriter
 
-All patches and pull requests are welcome.
+All patches and pull requests are welcome but must start with an issue tracker.
 
 
 ### Getting Started
 
-1. New feature proposals should start with an [issue tracker](https://github.com/jmcnamara/XlsxWriter/issues). Describe what you plan to do. If there are API changes add some code example to demonstrate them.
-2. Fork the repository.
-3. Run all the tests to make sure the current code work on your system using `make test`.
-4. Create a feature branch for your new feature.
-5. Enable Travis CI on your fork, see below.
+1. Pull requests and new feature proposals must start with an [issue tracker](https://github.com/jmcnamara/XlsxWriter/issues). This serves as the focal point for the design discussion.
+2. Describe what you plan to do. If there are API changes add some code example to demonstrate them.
+3. Fork the repository.
+4. Run all the tests to make sure the current code work on your system using `make test`.
+5. Create a feature branch for your new feature.
+6. Enable Travis CI on your fork, see below.
 
 
 ### Enabling Travis CI via your GitHub account
@@ -80,7 +81,7 @@ Travis CI is a free Continuous Integration service that will test any code you p
 
 See the [Travis CI Getting Started](http://about.travis-ci.org/docs/user/getting-started/) instructions.
 
-You only have to do steps 1 and 2. Step 3, creating a `.travis.yml` file, is already done in the XlsxWriter repo.
+Note there is already a `.travis.yml` file in the XlsxWriter repo so that doesn't need to be created.
 
 
 ### Writing Tests
@@ -114,7 +115,7 @@ As a minimum tests should be run using Python 2.7 and Python 3.3.
     # or
     py.test
 
-The author uses [pythonbrew](https://github.com/utahta/pythonbrew) and [Tox](http://tox.readthedocs.org/en/latest/) to test with a variety of Python versions. See the Makefile for example test targets. A `tox.ini` file is already configured.
+I use [pythonbrew](https://github.com/utahta/pythonbrew) and [Tox](http://tox.readthedocs.org/en/latest/) to test with a variety of Python versions. See the Makefile for example test targets. A `tox.ini` file is already configured.
 
 When you push your changes they will also be tested using [Travis CI](https://travis-ci.org/jmcnamara/XlsxWriter/) as explained above.
 
@@ -142,5 +143,5 @@ Copyright remains with the original author. Do not include additional copyright 
 
 If your change involves several incremental `git` commits then `rebase` or `squash` them onto another branch so that the Pull Request is a single commit or a small number of logical commits.
 
-Push your changes to GitHub and submit the Pull Request. In the `git` commit link to the to the Issue tracker that was opened above.
+Push your changes to GitHub and submit the Pull Request with a hash link to the to the Issue tracker that was opened above.
 
