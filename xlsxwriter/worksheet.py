@@ -2864,7 +2864,7 @@ class Worksheet(xmlwriter.XMLwriter):
         self.margin_top = top
         self.margin_bottom = bottom
 
-    def set_header(self, header='', margin=None, options={}):
+    def set_header(self, header='', options=None, margin=None):
         """
         Set the page header caption and optional margin.
 
@@ -2883,11 +2883,19 @@ class Worksheet(xmlwriter.XMLwriter):
             warn('Header string must be less than 255 characters')
             return
 
-        if margin is None:
-            margin = 0.3
+        if options is not None:
+            # For backward compatibility allow options to be the margin.
+            if not isinstance(options, dict):
+                options = {'margin': options}
+        else:
+            options = {}
+
+        # For backward compatibility.
+        if margin is not None:
+            options['margin'] = margin
 
         self.header = header
-        self.margin_header = margin
+        self.margin_header = options.get('margin', 0.3)
         self.header_footer_changed = 1
 
         # Reset the list in case the function is called more than once.
@@ -2905,7 +2913,7 @@ class Worksheet(xmlwriter.XMLwriter):
             self.header_images.append([options.get('image_right'), 'RH'])
             self.has_header_vml = True
 
-    def set_footer(self, footer='', margin=None, options={}):
+    def set_footer(self, footer='', options=None, margin=None):
         """
         Set the page footer caption and optional margin.
 
@@ -2924,11 +2932,19 @@ class Worksheet(xmlwriter.XMLwriter):
             warn('Footer string must be less than 255 characters')
             return
 
-        if margin is None:
-            margin = 0.3
+        if options is not None:
+            # For backward compatibility allow options to be the margin.
+            if not isinstance(options, dict):
+                options = {'margin': options}
+        else:
+            options = {}
+
+        # For backward compatibility.
+        if margin is not None:
+            options['margin'] = margin
 
         self.footer = footer
-        self.margin_footer = margin
+        self.margin_footer = options.get('margin', 0.3)
         self.header_footer_changed = 1
 
         # Reset the list in case the function is called more than once.

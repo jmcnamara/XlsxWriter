@@ -42,7 +42,7 @@ class TestCompareXLSXFiles(ExcelComparisonTest):
 
         worksheet1.set_comments_author('John')
 
-        worksheet2.set_header('&L&G', None,
+        worksheet2.set_header('&L&G',
                               {'image_left': self.image_dir + 'red.jpg'})
 
         workbook.close()

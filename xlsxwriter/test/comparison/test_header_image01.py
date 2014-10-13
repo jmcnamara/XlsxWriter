@@ -35,7 +35,7 @@ class TestCompareXLSXFiles(ExcelComparisonTest):
 
         worksheet = workbook.add_worksheet()
 
-        worksheet.set_header('&L&G', None,
+        worksheet.set_header('&L&G',
                              {'image_left': self.image_dir + 'red.jpg'})
 
         workbook.close()

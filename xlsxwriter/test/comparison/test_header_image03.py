@@ -35,7 +35,7 @@ class TestCompareXLSXFiles(ExcelComparisonTest):
 
         worksheet = workbook.add_worksheet()
 
-        worksheet.set_header('&L&G&C&G&R&G', None,
+        worksheet.set_header('&L&G&C&G&R&G',
                              {'image_left': self.image_dir + 'red.jpg',
                               'image_center': self.image_dir + 'blue.jpg',
                               'image_right': self.image_dir + 'yellow.jpg'})
@@ -51,7 +51,7 @@ class TestCompareXLSXFiles(ExcelComparisonTest):
 
         worksheet = workbook.add_worksheet()
 
-        worksheet.set_header('&L&[Picture]&C&G&R&[Picture]', None,
+        worksheet.set_header('&L&[Picture]&C&G&R&[Picture]',
                              {'image_left': self.image_dir + 'red.jpg',
                               'image_center': self.image_dir + 'blue.jpg',
                               'image_right': self.image_dir + 'yellow.jpg'})
