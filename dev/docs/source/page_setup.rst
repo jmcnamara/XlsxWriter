@@ -206,18 +206,17 @@ default values corresponding to the default Excel values.
 worksheet.set_header()
 ----------------------
 
-.. py:function:: set_header([header='',] margin=0.3]])
+.. py:function:: set_header([header='',] options]])
 
-   Set the printed page header caption and optional margin.
+   Set the printed page header caption and options.
 
    :param string header: Header string with Excel control characters.
-   :param float margin:  Header margin in inches. Default 0.3.
+   :param dict options:  Header options.
 
 Headers and footers are generated using a string which is a combination of
 plain text and control characters.
 
 The available control character are:
-
 
 +---------------+---------------+-----------------------+
 | Control       | Category      | Description           |
@@ -256,13 +255,17 @@ The available control character are:
 +---------------+---------------+-----------------------+
 | &Y            |               | Subscript             |
 +---------------+---------------+-----------------------+
+| &[Picture]    | Images        | Image placeholder     |
++---------------+---------------+-----------------------+
+| &G            |               | Same as &[Picture]    |
++---------------+---------------+-----------------------+
 
 
 Text in headers and footers can be justified (aligned) to the left, center and
 right by prefixing the text with the control characters ``&L``, ``&C`` and
 ``&R``.
 
-For example (with ASCII art representation of the results)::
+For example::
 
     worksheet.set_header('&LHello')
 
@@ -327,6 +330,15 @@ format::
        |                    Updated at 12:30 PM                        |
        |                                                               |
 
+Images can be inserted using the ``options`` shown below. Each image must
+have a placeholder in header string using the ``&[Picture]`` or ``&G``
+control characters::
+
+    worksheet.set_header('&L&G', {'image_left': 'logo.jpg'})
+
+.. image:: _images/header_image.png
+
+
 You can specify the font size of a section of the text by prefixing it with the
 control character ``&n`` where ``n`` is the font size::
 
@@ -358,28 +370,46 @@ use a double ampersand ``&&``::
 
     worksheet1.set_header('&CCuriouser && Curiouser - Attorneys at Law')
 
-As stated above the margin parameter is optional. As with the other margins the
-value should be in inches. The default header and footer margin is 0.3 inch.
-The header and footer margin size can be set as follows::
+The available optons are:
 
-    worksheet.set_header('&CHello', 0.75)
+* ``margin``: (float) Header margin in inches. Defaults to 0.3 inch.
+* ``image_left``: (string) The path to the image. Needs ``&G`` placeholder.
+* ``image_center``: (string) Same as above.
+* ``image_right``: (string) Same as above.
+* ``scale_with_doc``: (boolean) Scale header with document. Defaults to True.
+* ``align_with_margins``: (boolean) Align header to margins. Defaults to True.
 
-The header and footer margins are independent of the top and bottom margins.
+As with the other margins the ``margin`` value should be in inches. The
+default header and footer margin is 0.3 inch. It can be changed as follows::
 
-Note, the header or footer string must be less than 255 characters. Strings
-longer than this will not be written and an exception will be thrown.
+    worksheet.set_header('&CHello', {'margin': 0.75})
+
+The header and footer margins are independent of, and should not be confused
+with, the top and bottom worksheet margins.
+
+The image options must have an accompanying ``&[Picture]`` or ``&G`` control
+character in the header string::
+
+     worksheet.set_header('&L&[Picture]&C&[Picture]&R&[Picture]',
+                          {'image_left':   'red.jpg',
+                           'image_center': 'blue.jpg',
+                           'image_right':  'yellow.jpg'})
+
+Note, Excel does not allow header or footer strings longer than 255 characters,
+including control characters. Strings longer than this will not be written
+and an exception will be thrown.
 
 See also :ref:`ex_headers_footers`.
 
 worksheet.set_footer()
 ----------------------
 
-.. py:function:: set_footer([footer='',] margin=0.3]])
+.. py:function:: set_footer([footer='',] options]])
 
-   Set the printed page footer caption and optional margin.
+   Set the printed page footer caption and options.
 
    :param string footer: Footer string with Excel control characters.
-   :param float margin:  Footer margin in inches. Default 0.3.
+   :param dict options:  Footer options.
 
 The syntax of the ``set_footer()`` method is the same as :func:`set_header`.
 
