@@ -190,18 +190,18 @@ class Worksheet(xmlwriter.XMLwriter):
         self.active_pane = 3
         self.selected = 0
 
-        self.page_setup_changed = 0
+        self.page_setup_changed = False
         self.paper_size = 0
         self.orientation = 1
 
-        self.print_options_changed = 0
+        self.print_options_changed = False
         self.hcenter = 0
         self.vcenter = 0
         self.print_gridlines = 0
         self.screen_gridlines = 1
         self.print_headers = 0
 
-        self.header_footer_changed = 0
+        self.header_footer_changed = False
         self.header = ''
         self.footer = ''
         self.header_footer_aligns = False
@@ -250,7 +250,7 @@ class Worksheet(xmlwriter.XMLwriter):
         self.outline_below = 1
         self.outline_right = 1
         self.outline_on = 1
-        self.outline_changed = 0
+        self.outline_changed = False
 
         self.original_row_height = 15
         self.default_row_height = 15
@@ -286,8 +286,8 @@ class Worksheet(xmlwriter.XMLwriter):
         self.col_sizes = {}
         self.row_sizes = {}
         self.col_formats = {}
-        self.col_size_changed = 0
-        self.row_size_changed = 0
+        self.col_size_changed = False
+        self.row_size_changed = False
 
         self.last_shape_id = 1
         self.rel_count = 0
@@ -1276,7 +1276,7 @@ class Worksheet(xmlwriter.XMLwriter):
                                            collapsed]
 
         # Store the column change to allow optimisations.
-        self.col_size_changed = 1
+        self.col_size_changed = True
 
         # Store the col sizes for use when calculating image vertices taking
         # hidden columns into account. Also store the column formats.
@@ -1343,7 +1343,7 @@ class Worksheet(xmlwriter.XMLwriter):
         self.set_rows[row] = [height, cell_format, hidden, level, collapsed]
 
         # Store the row change to allow optimisations.
-        self.row_size_changed = 1
+        self.row_size_changed = True
 
         if hidden:
             height = 0
@@ -1368,7 +1368,7 @@ class Worksheet(xmlwriter.XMLwriter):
 
         if height != self.original_row_height:
             # Store the row change to allow optimisations.
-            self.row_size_changed = 1
+            self.row_size_changed = True
             self.default_row_height = height
 
         if hide_unused_rows:
@@ -2605,7 +2605,7 @@ class Worksheet(xmlwriter.XMLwriter):
         self.outline_right = outline_right
         self.outline_style = outline_style
 
-        self.outline_changed = 1
+        self.outline_changed = True
 
     @convert_cell_args
     def freeze_panes(self, row, col, top_row=None, left_col=None, pane_type=0):
@@ -2773,7 +2773,7 @@ class Worksheet(xmlwriter.XMLwriter):
 
         """
         self.orientation = 0
-        self.page_setup_changed = 1
+        self.page_setup_changed = True
 
     def set_portrait(self):
         """
@@ -2787,7 +2787,7 @@ class Worksheet(xmlwriter.XMLwriter):
 
         """
         self.orientation = 1
-        self.page_setup_changed = 1
+        self.page_setup_changed = True
 
     def set_page_view(self):
         """
@@ -2815,7 +2815,7 @@ class Worksheet(xmlwriter.XMLwriter):
         """
         if paper_size:
             self.paper_size = paper_size
-            self.page_setup_changed = 1
+            self.page_setup_changed = True
 
     def center_horizontally(self):
         """
@@ -2828,7 +2828,7 @@ class Worksheet(xmlwriter.XMLwriter):
             Nothing.
 
         """
-        self.print_options_changed = 1
+        self.print_options_changed = True
         self.hcenter = 1
 
     def center_vertically(self):
@@ -2842,7 +2842,7 @@ class Worksheet(xmlwriter.XMLwriter):
             Nothing.
 
         """
-        self.print_options_changed = 1
+        self.print_options_changed = True
         self.vcenter = 1
 
     def set_margins(self, left=0.7, right=0.7, top=0.75, bottom=0.75):
@@ -2877,6 +2877,7 @@ class Worksheet(xmlwriter.XMLwriter):
             Nothing.
 
         """
+        header_orig = header
         header = header.replace('&[Picture]', '&G')
 
         if len(header) >= 255:
@@ -2894,23 +2895,33 @@ class Worksheet(xmlwriter.XMLwriter):
         if margin is not None:
             options['margin'] = margin
 
-        self.header = header
-        self.margin_header = options.get('margin', 0.3)
-        self.header_footer_changed = 1
-
         # Reset the list in case the function is called more than once.
         self.header_images = []
 
         if options.get('image_left'):
             self.header_images.append([options.get('image_left'), 'LH'])
-            self.has_header_vml = True
 
         if options.get('image_center'):
             self.header_images.append([options.get('image_center'), 'CH'])
-            self.has_header_vml = True
 
         if options.get('image_right'):
             self.header_images.append([options.get('image_right'), 'RH'])
+
+        placeholder_count = header.count('&G')
+        image_count = len(self.header_images)
+
+        if placeholder_count != image_count:
+            warn("Number of header images (%s) doesn't match placeholder "
+                 "count (%s) in string: %s"
+                 % (image_count, placeholder_count, header_orig))
+            self.header_images = []
+            return
+
+        self.header = header
+        self.margin_header = options.get('margin', 0.3)
+        self.header_footer_changed = True
+
+        if image_count:
             self.has_header_vml = True
 
     def set_footer(self, footer='', options=None, margin=None):
@@ -2926,6 +2937,7 @@ class Worksheet(xmlwriter.XMLwriter):
             Nothing.
 
         """
+        footer_orig = footer
         footer = footer.replace('&[Picture]', '&G')
 
         if len(footer) >= 255:
@@ -2943,23 +2955,33 @@ class Worksheet(xmlwriter.XMLwriter):
         if margin is not None:
             options['margin'] = margin
 
-        self.footer = footer
-        self.margin_footer = options.get('margin', 0.3)
-        self.header_footer_changed = 1
-
         # Reset the list in case the function is called more than once.
         self.footer_images = []
 
         if options.get('image_left'):
             self.footer_images.append([options.get('image_left'), 'LF'])
-            self.has_header_vml = True
 
         if options.get('image_center'):
             self.footer_images.append([options.get('image_center'), 'CF'])
-            self.has_header_vml = True
 
         if options.get('image_right'):
             self.footer_images.append([options.get('image_right'), 'RF'])
+
+        placeholder_count = footer.count('&G')
+        image_count = len(self.footer_images)
+
+        if placeholder_count != image_count:
+            warn("Number of footer images (%s) doesn't match placeholder "
+                 "count (%s) in string: %s"
+                 % (image_count, placeholder_count, footer_orig))
+            self.footer_images = []
+            return
+
+        self.footer = footer
+        self.margin_footer = options.get('margin', 0.3)
+        self.header_footer_changed = True
+
+        if image_count:
             self.has_header_vml = True
 
     def repeat_rows(self, first_row, last_row=None):
@@ -3031,7 +3053,7 @@ class Worksheet(xmlwriter.XMLwriter):
         if option == 0:
             self.print_gridlines = 1
             self.screen_gridlines = 1
-            self.print_options_changed = 1
+            self.print_options_changed = True
         elif option == 1:
             self.print_gridlines = 0
             self.screen_gridlines = 1
@@ -3051,7 +3073,7 @@ class Worksheet(xmlwriter.XMLwriter):
 
         """
         self.print_headers = 1
-        self.print_options_changed = 1
+        self.print_options_changed = True
 
     @convert_range_args
     def print_area(self, first_row, first_col, last_row, last_col):
@@ -3094,7 +3116,7 @@ class Worksheet(xmlwriter.XMLwriter):
 
         """
         self.page_order = 1
-        self.page_setup_changed = 1
+        self.page_setup_changed = True
 
     def fit_to_pages(self, width, height):
         """
@@ -3112,7 +3134,7 @@ class Worksheet(xmlwriter.XMLwriter):
         self.fit_page = 1
         self.fit_width = width
         self.fit_height = height
-        self.page_setup_changed = 1
+        self.page_setup_changed = True
 
     def set_start_page(self, start_page):
         """
@@ -3148,7 +3170,7 @@ class Worksheet(xmlwriter.XMLwriter):
         self.fit_page = 0
 
         self.print_scale = int(scale)
-        self.page_setup_changed = 1
+        self.page_setup_changed = True
 
     def set_h_pagebreaks(self, breaks):
         """
@@ -3353,9 +3375,9 @@ class Worksheet(xmlwriter.XMLwriter):
 
     def _options_changed(self):
         # Check to see if any of the worksheet options have changed.
-        options_changed = 0
-        print_changed = 0
-        setup_changed = 0
+        options_changed = False
+        print_changed = False
+        setup_changed = False
 
         if (self.orientation == 0
                 or self.hcenter == 1
@@ -3368,11 +3390,11 @@ class Worksheet(xmlwriter.XMLwriter):
                 or self.margin_right != 0.75
                 or self.margin_top != 1.00
                 or self.margin_bottom != 1.00):
-            setup_changed = 1
+            setup_changed = True
 
         # Special case for 1x1 page fit.
         if self.fit_width == 1 and self.fit_height == 1:
-            options_changed = 1
+            options_changed = True
             self.fit_width = 0
             self.fit_height = 0
 
@@ -3388,15 +3410,15 @@ class Worksheet(xmlwriter.XMLwriter):
                 or self.print_headers == 1
                 or self.hbreaks > 0
                 or self.vbreaks > 0):
-            print_changed = 1
+            print_changed = True
 
         if print_changed or setup_changed:
-            options_changed = 1
+            options_changed = True
 
         if self.screen_gridlines == 0:
-            options_changed = 1
+            options_changed = True
         if self.filter_on:
-            options_changed = 1
+            options_changed = True
 
         return options_changed, print_changed, setup_changed
 
