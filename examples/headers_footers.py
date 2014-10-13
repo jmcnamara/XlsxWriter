@@ -26,7 +26,8 @@
 #     &X                                      Superscript
 #     &Y                                      Subscript
 #
-#     &G                  Images              Image placeholder
+#     &[Picture]          Images              Image placeholder
+#     &G                                      Same as &[Picture]
 #
 #     &&                  Miscellaneous       Literal ampersand &
 #
@@ -62,10 +63,9 @@ worksheet2 = workbook.add_worksheet('Image')
 header2 = '&L&G'
 
 # Adjust the page top margin to allow space for the header image.
-worksheet2.set_margins(top=2.0)
+worksheet2.set_margins(top=1.3)
 
-worksheet2.set_header(header2, None,
-                      {'image_left': 'python-200x80.png'})
+worksheet2.set_header(header2, {'image_left': 'python-200x80.png'})
 
 worksheet2.set_column('A:A', 50)
 worksheet2.write('A1', preview)

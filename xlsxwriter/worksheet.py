@@ -204,7 +204,8 @@ class Worksheet(xmlwriter.XMLwriter):
         self.header_footer_changed = False
         self.header = ''
         self.footer = ''
-        self.header_footer_aligns = False
+        self.header_footer_aligns = True
+        self.header_footer_scales = True
         self.header_images = []
         self.footer_images = []
         self.header_images_list = []
@@ -2917,6 +2918,12 @@ class Worksheet(xmlwriter.XMLwriter):
             self.header_images = []
             return
 
+        if 'align_with_margins' in options:
+            self.header_footer_aligns = options['align_with_margins']
+
+        if 'scale_with_doc' in options:
+            self.header_footer_scales = options['scale_with_doc']
+
         self.header = header
         self.margin_header = options.get('margin', 0.3)
         self.header_footer_changed = True
@@ -2976,6 +2983,12 @@ class Worksheet(xmlwriter.XMLwriter):
                  % (image_count, placeholder_count, footer_orig))
             self.footer_images = []
             return
+
+        if 'align_with_margins' in options:
+            self.header_footer_aligns = options['align_with_margins']
+
+        if 'scale_with_doc' in options:
+            self.header_footer_scales = options['scale_with_doc']
 
         self.footer = footer
         self.margin_footer = options.get('margin', 0.3)
@@ -3233,7 +3246,7 @@ class Worksheet(xmlwriter.XMLwriter):
             self.margin_bottom = 1
             self.margin_header = 0.5
             self.margin_footer = 0.5
-            self.header_footer_aligns = 1
+            self.header_footer_aligns = False
 
         # Open a temp filehandle to store row data in optimization mode.
         if self.optimization == 1:
@@ -4706,7 +4719,10 @@ class Worksheet(xmlwriter.XMLwriter):
         # Write the <headerFooter> element.
         attributes = []
 
-        if self.header_footer_aligns:
+        if not self.header_footer_scales:
+            attributes.append(('scaleWithDoc', 0))
+
+        if not self.header_footer_aligns:
             attributes.append(('alignWithMargins', 0))
 
         if self.header_footer_changed:
