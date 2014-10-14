@@ -2900,13 +2900,19 @@ class Worksheet(xmlwriter.XMLwriter):
         self.header_images = []
 
         if options.get('image_left'):
-            self.header_images.append([options.get('image_left'), 'LH'])
+            self.header_images.append([options.get('image_left'),
+                                       options.get('image_data_left'),
+                                       'LH'])
 
         if options.get('image_center'):
-            self.header_images.append([options.get('image_center'), 'CH'])
+            self.header_images.append([options.get('image_center'),
+                                       options.get('image_data_center'),
+                                       'CH'])
 
         if options.get('image_right'):
-            self.header_images.append([options.get('image_right'), 'RH'])
+            self.header_images.append([options.get('image_right'),
+                                       options.get('image_data_right'),
+                                       'RH'])
 
         placeholder_count = header.count('&G')
         image_count = len(self.header_images)
@@ -2966,13 +2972,19 @@ class Worksheet(xmlwriter.XMLwriter):
         self.footer_images = []
 
         if options.get('image_left'):
-            self.footer_images.append([options.get('image_left'), 'LF'])
+            self.footer_images.append([options.get('image_left'),
+                                       options.get('image_data_left'),
+                                       'LF'])
 
         if options.get('image_center'):
-            self.footer_images.append([options.get('image_center'), 'CF'])
+            self.footer_images.append([options.get('image_center'),
+                                       options.get('image_data_center'),
+                                       'CF'])
 
         if options.get('image_right'):
-            self.footer_images.append([options.get('image_right'), 'RF'])
+            self.footer_images.append([options.get('image_right'),
+                                       options.get('image_data_right'),
+                                       'RF'])
 
         placeholder_count = footer.count('&G')
         image_count = len(self.footer_images)

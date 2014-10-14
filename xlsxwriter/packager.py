@@ -244,7 +244,7 @@ class Packager(object):
             if worksheet.has_header_vml:
                 vml = Vml()
 
-                vml._set_xml_writer(self._filename('/xl/drawings/vmlDrawing'
+                vml._set_xml_writer(self._filename('xl/drawings/vmlDrawing'
                                                    + str(index) + '.vml'))
                 vml._assemble_xml_file(worksheet.vml_header_id,
                                        worksheet.vml_header_id * 1024,
@@ -550,7 +550,7 @@ class Packager(object):
             rels._add_document_relationship(*drawing_data)
 
         # Create .rels file such as /xl/drawings/_rels/vmlDrawing1.vml.rels.
-        rels._set_xml_writer(self._filename('/xl/drawings/_rels/vmlDrawing'
+        rels._set_xml_writer(self._filename('xl/drawings/_rels/vmlDrawing'
                                             + str(index)
                                             + '.vml.rels'))
         rels._assemble_xml_file()

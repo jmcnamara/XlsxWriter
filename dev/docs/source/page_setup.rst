@@ -376,6 +376,9 @@ The available optons are:
 * ``image_left``: (string) The path to the image. Needs ``&G`` placeholder.
 * ``image_center``: (string) Same as above.
 * ``image_right``: (string) Same as above.
+* ``image_data_left``: (BytesIO) A byte stream of the image data.
+* ``image_data_center``: (BytesIO) Same as above.
+* ``image_data_right``: (BytesIO) Same as above.
 * ``scale_with_doc``: (boolean) Scale header with document. Defaults to True.
 * ``align_with_margins``: (boolean) Align header to margins. Defaults to True.
 
@@ -394,6 +397,21 @@ character in the header string::
                           {'image_left':   'red.jpg',
                            'image_center': 'blue.jpg',
                            'image_right':  'yellow.jpg'})
+
+
+The ``image_data_`` parameters are used to add an in-memory byte stream in
+:class:`io.BytesIO` format::
+
+     image_file = open('logo.jpg', 'rb')
+     image_data = BytesIO(image_file.read())
+
+     worksheet.set_header('&L&G',
+                          {'image_left': 'logo.jpg',
+                           'image_data_left': image_data})
+
+When using the ``image_data_`` parameters a filename must still be passed to
+to the equivalent ``image_`` parameter since it is required by Excel. See also
+:func:`insert_image` for details on handling images from byte streams.
 
 Note, Excel does not allow header or footer strings longer than 255 characters,
 including control characters. Strings longer than this will not be written

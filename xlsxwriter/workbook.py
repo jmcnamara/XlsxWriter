@@ -891,8 +891,8 @@ class Workbook(xmlwriter.XMLwriter):
             for index in range(header_image_count):
 
                 filename = sheet.header_images[index][0]
-                position = sheet.header_images[index][1]
-                image_data = None  # TODO
+                image_data = sheet.header_images[index][1]
+                position = sheet.header_images[index][2]
 
                 (image_type, width, height, name, x_dpi, y_dpi) = \
                     self._get_image_properties(filename, image_data)
@@ -907,8 +907,8 @@ class Workbook(xmlwriter.XMLwriter):
             for index in range(footer_image_count):
 
                 filename = sheet.footer_images[index][0]
-                position = sheet.footer_images[index][1]
-                image_data = None  # TODO
+                image_data = sheet.footer_images[index][1]
+                position = sheet.footer_images[index][2]
 
                 (image_type, width, height, name, x_dpi, y_dpi) = \
                     self._get_image_properties(filename, image_data)
