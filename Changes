@@ -1,7 +1,20 @@
 
+Release 0.6.0 - October 15 2014
+-------------------------------
+
+* Added option to add images to headers and footers. See
+  :ref:`ex_headers_footers`.
+  Issue `#133 <https://github.com/jmcnamara/XlsxWriter/issues/133>`_.
+
+* Fixed issue where non 96dpi images weren't scaled properly in Excel.
+  Issue `#164 <https://github.com/jmcnamara/XlsxWriter/issues/164>`_.
+
+* Added option to not scale heaader/footer with page. See :func:`set_header`.
+  Issue `#134 <https://github.com/jmcnamara/XlsxWriter/issues/134>`_.
+
 
 Release 0.5.9 - October 11 2014
----------------------------------
+-------------------------------
 
 * Removed ``egg_base`` requirement from ``setup.cfg`` which was preventing
   installation on Windows.
