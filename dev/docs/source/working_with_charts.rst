@@ -381,6 +381,8 @@ The following properties can be set for ``data_labels`` formats in a chart::
     position
     leader_lines
     percentage
+    separator
+    legend_key
 
 The ``value`` property turns on the *Value* data label for a series::
 
@@ -453,7 +455,7 @@ The ``percentage`` property is used to turn on the display of data labels as a
     })
 
 The ``leader_lines`` property is used to turn on *Leader Lines* for the data
-label for a series. It is mainly used for pie charts::
+label of a series. It is mainly used for pie charts::
 
     chart.add_series({
         'values':      '=Sheet1!$A$1:$A$6',
@@ -466,6 +468,29 @@ label for a series. It is mainly used for pie charts::
   only appear if the data label is moved manually or if the data labels are
   very close and need to be adjusted automatically.
 
+The ``separator`` property is used to change the separator between multiple
+data label items::
+
+    chart.add_series({
+        'values':      '=Sheet1!$A$1:$A$6',
+        'data_labels': {'value': 1, 'category': 1, 'separator': "\n"},
+    })
+
+The separator value must be one of the following strings::
+
+            ','
+            ';'
+            '.'
+            '\n'
+            ' '
+
+The ``legend_key`` property is used to turn on the *Legend Key* for the data
+label of a series::
+
+    chart.add_series({
+        'values':      '=Sheet1!$A$1:$A$6',
+        'data_labels': {'value': True, 'legend_key': True},
+    })
 
 
 .. _chart_series_option_points:
