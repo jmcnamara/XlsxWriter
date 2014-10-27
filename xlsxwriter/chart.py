@@ -994,7 +994,6 @@ class Chart(xmlwriter.XMLwriter):
         position = labels.get('position')
 
         if position:
-
             if position in self.label_positions:
                 if position == self.label_position_default:
                     labels['position'] = None
@@ -1003,6 +1002,23 @@ class Chart(xmlwriter.XMLwriter):
             else:
                 warn("Unsupported label position '%s' for this chart type"
                      % position)
+                return
+
+        # Map the user defined label separator to the Excel separator.
+        separator = labels.get('separator')
+        separators = {
+            ',': ', ',
+            ';': '; ',
+            '.': '. ',
+            "\n": "\n",
+            ' ': ' ',
+        }
+
+        if separator:
+            if separator in separators:
+                labels['separator'] = separators[separator]
+            else:
+                warn("Unsupported label separator")
                 return
 
         return labels
@@ -3044,6 +3060,10 @@ class Chart(xmlwriter.XMLwriter):
         if labels.get('percentage'):
             self._write_show_percent()
 
+        # Write the c:separator element.
+        if labels.get('separator'):
+            self._write_separator(labels['separator'])
+
         # Write the c:showLeaderLines element.
         if labels.get('leader_lines'):
             self._write_show_leader_lines()
@@ -3081,6 +3101,10 @@ class Chart(xmlwriter.XMLwriter):
         attributes = [('val', val)]
 
         self._xml_empty_tag('c:showPercent', attributes)
+
+    def _write_separator(self, data):
+        # Write the <c:separator> element.
+        self._xml_data_element('c:separator', data)
 
     def _write_show_leader_lines(self):
         # Write the <c:showLeaderLines> element.
