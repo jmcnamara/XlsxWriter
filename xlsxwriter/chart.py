@@ -92,6 +92,8 @@ class Chart(xmlwriter.XMLwriter):
         self.title_none = False
         self.date_category = False
         self.date_1904 = False
+        self.label_positions = {}
+        self.label_position_default = ''
 
         self._set_default_properties()
 
@@ -992,24 +994,15 @@ class Chart(xmlwriter.XMLwriter):
         position = labels.get('position')
 
         if position:
-            positions = {
-                'center': 'ctr',
-                'right': 'r',
-                'left': 'l',
-                'top': 't',
-                'above': 't',
-                'bottom': 'b',
-                'below': 'b',
-                'inside_base': 'inBase',
-                'inside_end': 'inEnd',
-                'outside_end': 'outEnd',
-                'best_fit': 'bestFit',
-            }
 
-            if position in positions:
-                labels['position'] = positions[position]
+            if position in self.label_positions:
+                if position == self.label_position_default:
+                    labels['position'] = None
+                else:
+                    labels['position'] = self.label_positions[position]
             else:
-                warn("Unknown label position '%s'" % position)
+                warn("Unsupported label position '%s' for this chart type"
+                     % position)
                 return
 
         return labels

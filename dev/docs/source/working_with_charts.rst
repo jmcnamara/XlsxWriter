@@ -414,19 +414,35 @@ The ``position`` property is used to position the data label for a series::
         'data_labels': {'series_name': True, 'position': 'center'},
     })
 
-Valid positions are::
+In Excel the allowable data label positions vary for different chart types.
+The allowable positions are:
 
-    center
-    right
-    left
-    top
-    bottom
-    above        # Same as top
-    below        # Same as bottom
-    inside_base  # Mainly for Bar/Column charts.
-    inside_end   # Pie chart mainly.
-    outside_end  # Pie chart mainly.
-    best_fit     # Pie chart mainly.
++-------------+----------+--------+----------+-------+
+| Position    | Line,    | Bar,   | Pie,     | Area, |
+|             | Scatter, | Column | Doughnut | Radar |
+|             | Stock    |        |          |       |
++=============+==========+========+==========+=======+
+| center      | Yes      | Yes    | Yes      | Yes*  |
++-------------+----------+--------+----------+-------+
+| right       | Yes*     |        |          |       |
++-------------+----------+--------+----------+-------+
+| left        | Yes      |        |          |       |
++-------------+----------+--------+----------+-------+
+| above       | Yes      |        |          |       |
++-------------+----------+--------+----------+-------+
+| below       | Yes      |        |          |       |
++-------------+----------+--------+----------+-------+
+| inside_base |          | Yes    |          |       |
++-------------+----------+--------+----------+-------+
+| inside_end  |          | Yes    | Yes      |       |
++-------------+----------+--------+----------+-------+
+| outside_end |          | Yes*   | Yes      |       |
++-------------+----------+--------+----------+-------+
+| best_fit    |          |        | Yes*     |       |
++-------------+----------+--------+----------+-------+
+
+Note: The * indicates the default position for each chart type in Excel, if
+a position isn't specified.
 
 The ``percentage`` property is used to turn on the display of data labels as a
 *Percentage* for a series. It is mainly used for pie charts::
@@ -1042,5 +1058,3 @@ Chart Examples
 --------------
 
 See :ref:`chart_examples`.
-
-

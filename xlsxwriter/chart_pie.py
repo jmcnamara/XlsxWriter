@@ -35,6 +35,14 @@ class ChartPie(chart.Chart):
         self.vary_data_color = 1
         self.rotation = 0
 
+        # Set the available data label positions for this chart type.
+        self.label_position_default = 'best_fit'
+        self.label_positions = {
+            'center': 'ctr',
+            'inside_end': 'inEnd',
+            'outside_end': 'outEnd',
+            'best_fit': 'bestFit'}
+
     def set_rotation(self, rotation):
         """
         Set the Pie/Doughnut chart rotation: the angle of the first slice.

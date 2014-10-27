@@ -49,6 +49,14 @@ class ChartBar(chart.Chart):
         if self.subtype == 'percent_stacked':
             self.x_axis['defaults']['num_format'] = '0%'
 
+        # Set the available data label positions for this chart type.
+        self.label_position_default = 'outside_end'
+        self.label_positions = {
+            'center': 'ctr',
+            'inside_base': 'inBase',
+            'inside_end': 'inEnd',
+            'outside_end': 'outEnd'}
+
         self.set_x_axis({})
         self.set_y_axis({})
 

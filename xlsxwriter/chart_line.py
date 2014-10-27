@@ -34,6 +34,18 @@ class ChartLine(chart.Chart):
         self.default_marker = {'type': 'none'}
         self.smooth_allowed = True
 
+        # Set the available data label positions for this chart type.
+        self.label_position_default = 'right'
+        self.label_positions = {
+            'center': 'ctr',
+            'right': 'r',
+            'left': 'l',
+            'above': 't',
+            'below': 'b',
+            # For backward compatibility.
+            'top': 't',
+            'bottom': 'b'}
+
     ###########################################################################
     #
     # Private API.
