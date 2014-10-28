@@ -2093,6 +2093,17 @@ class Chart(xmlwriter.XMLwriter):
 
         self._xml_empty_tag('c:numFmt', attributes)
 
+    def _write_data_label_number_format(self, format_code):
+        # Write the <c:numberFormat> element for data labels.
+        source_linked = 0
+
+        attributes = [
+            ('formatCode', format_code),
+            ('sourceLinked', source_linked),
+        ]
+
+        self._xml_empty_tag('c:numFmt', attributes)
+
     def _write_major_tick_mark(self, val):
         # Write the <c:majorTickMark> element.
 
@@ -3039,6 +3050,10 @@ class Chart(xmlwriter.XMLwriter):
             return
 
         self._xml_start_tag('c:dLbls')
+
+        # Write the c:numFmt element.
+        if labels.get('num_format'):
+            self._write_data_label_number_format(labels['num_format'])
 
         # Write the c:dLblPos element.
         if labels.get('position'):

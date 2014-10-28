@@ -383,6 +383,7 @@ The following properties can be set for ``data_labels`` formats in a chart::
     percentage
     separator
     legend_key
+    number_format
 
 The ``value`` property turns on the *Value* data label for a series::
 
@@ -473,7 +474,7 @@ data label items::
 
     chart.add_series({
         'values':      '=Sheet1!$A$1:$A$6',
-        'data_labels': {'value': 1, 'category': 1, 'separator': "\n"},
+        'data_labels': {'value': True, 'category': True, 'separator': "\n"},
     })
 
 The separator value must be one of the following strings::
@@ -492,6 +493,19 @@ label of a series::
         'data_labels': {'value': True, 'legend_key': True},
     })
 
+
+The ``num_format`` property is used to set the number format for the data
+labels of a series::
+
+     chart.add_series({
+         'values':      '=Sheet1!$A$1:$A$5',
+         'data_labels': {'value': True, 'num_format': '#,##0.00'},
+     })
+
+The number format is similar to the Worksheet Cell Format ``num_format``
+apart from the fact that a format index cannot be used. An explicit format
+string must be used as shown above. See :func:`set_num_format()` for more
+information.
 
 .. _chart_series_option_points:
 
