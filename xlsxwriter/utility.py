@@ -597,3 +597,16 @@ def datetime_to_excel_datetime(dt_obj, date_1904):
         excel_time += 1
 
     return excel_time
+
+def sheet_name_to_formula_form(sheet_name):
+    # Surround sheet_name with single quotes after escaping any single quotes
+    # contained in it. This is necessary for constructing Excel ranges, e.g.:
+    # 'Sheet name'!A1:B10.
+
+    if sheet_name == '' or sheet_name.isalnum():
+    # If sheet_name has no special characters then return it unchanged. This is for
+    # simplicity, brevity, and to avoid changing existing files that were
+    # produced with versions of XlsxWriter that did not feature this
+    # function.
+        return sheet_name
+    return "'" + sheet_name.replace("'", "''") + "'"
