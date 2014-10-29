@@ -10,6 +10,7 @@ from warnings import warn
 from . import xmlwriter
 from .utility import xl_color
 from .utility import xl_rowcol_to_cell
+from .utility import xl_range_formula
 from .utility import supported_datetime
 from .utility import datetime_to_excel_datetime
 
@@ -692,11 +693,9 @@ class Chart(xmlwriter.XMLwriter):
         if type(data) is not list:
             return data
 
-        sheet = data[0]
-        range1 = xl_rowcol_to_cell(data[1], data[2], True, True)
-        range2 = xl_rowcol_to_cell(data[3], data[4], True, True)
+        formula = xl_range_formula(*data)
 
-        return sheet + '!' + range1 + ':' + range2
+        return formula
 
     def _process_names(self, name, name_formula):
         # Switch name and name_formula parameters if required.

@@ -1254,10 +1254,10 @@ class Workbook(xmlwriter.XMLwriter):
         # and cell range such as ( 'Sheet1', 0, 1, 4, 1 ).
 
         # Split the range formula into sheetname and cells at the last '!'.
-        # TODO. Fix this to match from right.
-        pos = c_range.find('!')
+        pos = c_range.rfind('!')
         if pos > 0:
-            sheetname, cells = c_range.split('!', 1)
+            sheetname = c_range[:pos]
+            cells = c_range[pos + 1:]
         else:
             return None
 

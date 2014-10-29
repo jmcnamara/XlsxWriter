@@ -33,6 +33,7 @@ from .utility import xl_color
 from .utility import get_sparkline_style
 from .utility import supported_datetime
 from .utility import datetime_to_excel_datetime
+from .utility import quote_sheetname
 
 
 ###############################################################################
@@ -2463,7 +2464,7 @@ class Worksheet(xmlwriter.XMLwriter):
         sparkline['count'] = len(sparkline['locations'])
 
         # Get the worksheet name for the range conversion below.
-        sheetname = self._quote_sheetname(self.name)
+        sheetname = quote_sheetname(self.name)
 
         # Cleanup the input ranges.
         new_ranges = []
@@ -3032,7 +3033,7 @@ class Worksheet(xmlwriter.XMLwriter):
         area = '$%d:$%d' % (first_row, last_row)
 
         # Build up the print titles area "Sheet1!$1:$2"
-        sheetname = self._quote_sheetname(self.name)
+        sheetname = quote_sheetname(self.name)
         self.repeat_row_range = sheetname + '!' + area
 
     @convert_column_args
@@ -3059,7 +3060,7 @@ class Worksheet(xmlwriter.XMLwriter):
         area = first_col + ':' + last_col
 
         # Build up the print area range "=Sheet2!$C:$D"
-        sheetname = self._quote_sheetname(self.name)
+        sheetname = quote_sheetname(self.name)
         self.repeat_col_range = sheetname + "!" + area
 
     def hide_gridlines(self, option=1):
@@ -3447,16 +3448,6 @@ class Worksheet(xmlwriter.XMLwriter):
 
         return options_changed, print_changed, setup_changed
 
-    def _quote_sheetname(self, sheetname):
-        # Sheetnames used in references should be quoted if they
-        # contain any spaces, special characters or if the look like
-        # something that isn't a sheet name.
-        # TODO. Probably need to handle more special cases.
-        if re.match(r'Sheet\d+', sheetname):
-            return sheetname
-        else:
-            return "'%s'" % sheetname
-
     def _convert_name_area(self, row_num_1, col_num_1, row_num_2, col_num_2):
         # Convert zero indexed rows and columns to the format required by
         # worksheet named ranges, eg, "Sheet1!$A$1:$C$13".
@@ -3492,7 +3483,7 @@ class Worksheet(xmlwriter.XMLwriter):
             area = range1 + ':' + range2
 
         # Build up the print area range "Sheet1!$A$1:$C$13".
-        sheetname = self._quote_sheetname(self.name)
+        sheetname = quote_sheetname(self.name)
         area = sheetname + "!" + area
 
         return area

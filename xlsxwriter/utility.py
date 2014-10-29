@@ -209,6 +209,52 @@ def xl_range_abs(first_row, first_col, last_row, last_col):
     return range1 + ':' + range2
 
 
+def xl_range_formula(sheetname, first_row, first_col, last_row, last_col):
+    """
+    Convert worksheet name and zero indexed row and col cell references to
+    a Sheet1!A1:B1 range formula string.
+
+    Args:
+       sheetname: The worksheet name.    String.
+       first_row: The first cell row.    Int.
+       first_col: The first cell column. Int.
+       last_row:  The last cell row.     Int.
+       last_col:  The last cell column.  Int.
+
+    Returns:
+        A1:B1 style range string.
+
+    """
+    cell_range = xl_range_abs(first_row, first_col, last_row, last_col)
+    sheetname = quote_sheetname(sheetname)
+
+    return sheetname + '!' + cell_range
+
+
+def quote_sheetname(sheetname):
+    """
+    Convert a worksheet name to a quoted  name if it contains spaces or
+    special characters.
+
+    Args:
+       sheetname: The worksheet name. String.
+
+    Returns:
+        A quoted worksheet string.
+
+    """
+
+    # TODO. Possibly extend this to quote sheetnames that look like ranges.
+    if not sheetname.isalnum() and not sheetname.startswith("'"):
+        # Double quote any single quotes.
+        sheetname = sheetname.replace("'", "''")
+
+        # Singe quote the sheet name.
+        sheetname = "'%s'" % sheetname
+
+    return sheetname
+
+
 def xl_color(color):
     # Used in conjunction with the XlsxWriter *color() methods to convert
     # a colour name into an RGB formatted string. These colours are for
