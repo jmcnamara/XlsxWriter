@@ -1,4 +1,21 @@
 
+Release 0.6.1 - October 29 2014
+-------------------------------
+
+* Added chart specific handling of data label positions since not all positions
+  are available for all chart types.
+  Issue `#170 <https://github.com/jmcnamara/XlsxWriter/issues/170>`_.
+
+* Added number formatting
+  (issue `#130 <https://github.com/jmcnamara/XlsxWriter/issues/130>`_),
+  font handling, separator and legend key for data labels.
+  See :ref:`chart_series_option_data_labels`
+
+* Fix for non-quoted worksheet names containing spaces and non-alphanumeric
+  characters.
+  Issue `#167 <https://github.com/jmcnamara/XlsxWriter/issues/167>`_.
+
+
 Release 0.6.0 - October 15 2014
 -------------------------------
 
