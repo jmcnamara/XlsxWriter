@@ -383,7 +383,8 @@ The following properties can be set for ``data_labels`` formats in a chart::
     percentage
     separator
     legend_key
-    number_format
+    num_format
+    font
 
 The ``value`` property turns on the *Value* data label for a series::
 
@@ -506,6 +507,18 @@ The number format is similar to the Worksheet Cell Format ``num_format``
 apart from the fact that a format index cannot be used. An explicit format
 string must be used as shown above. See :func:`set_num_format()` for more
 information.
+
+The ``font`` property is used to set the font of the data labels of a series::
+
+     chart.add_series({
+         'values': '=Sheet1!$A$1:$A$5',
+         'data_labels': {
+             'value': True,
+             'font': {'name': 'Consolas'}
+         },
+     })
+
+See :ref:`chart_fonts`.
 
 .. _chart_series_option_points:
 
@@ -796,8 +809,8 @@ Chart Fonts
 -----------
 
 The following font properties can be set for any chart object that they apply
-to (and that are supported by XlsxWriter) such as chart titles, axis labels
-and axis numbering::
+to (and that are supported by XlsxWriter) such as chart titles, axis labels,
+axis numbering and data labels::
 
     name
     size

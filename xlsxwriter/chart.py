@@ -1162,20 +1162,20 @@ class Chart(xmlwriter.XMLwriter):
         if not font:
             return attributes
 
-        if font['size']:
+        if font.get('size'):
             attributes.append(('sz', font['size']))
 
-        if font['bold'] is not None:
+        if font.get('bold') is not None:
             attributes.append(('b', 0 + font['bold']))
 
-        if font['italic'] is not None:
+        if font.get('italic') is not None:
             attributes.append(('i', 0 + font['italic']))
 
-        if font['underline'] is not None:
+        if font.get('underline') is not None:
             attributes.append(('u', 'sng'))
 
         # Turn off baseline for fonts that don't use it.
-        if font['baseline'] != -1:
+        if font.get('baseline') != -1:
             attributes.append(('baseline', font['baseline']))
 
         return attributes
@@ -2565,7 +2565,7 @@ class Chart(xmlwriter.XMLwriter):
         style_attributes = self._get_font_style_attributes(font)
         latin_attributes = self._get_font_latin_attributes(font)
 
-        if font and font['color'] is not None:
+        if font and font.get('color') is not None:
             has_color = 1
 
         if latin_attributes or has_color:
@@ -3054,6 +3054,10 @@ class Chart(xmlwriter.XMLwriter):
         # Write the c:numFmt element.
         if labels.get('num_format'):
             self._write_data_label_number_format(labels['num_format'])
+
+        # Write the data label font elements.
+        if labels.get('font'):
+            self._write_axis_font(labels['font'])
 
         # Write the c:dLblPos element.
         if labels.get('position'):
