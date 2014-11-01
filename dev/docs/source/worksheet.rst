@@ -1889,7 +1889,7 @@ See also the :func:`set_locked` and :func:`set_hidden` format methods and
 :ref:`ex_protection`.
 
 .. Note::
-   Worksheet level passwords in Excel offer very weak protection. They not
+   Worksheet level passwords in Excel offer very weak protection. They do not
    encrypt your data and are very easy to deactivate. Full workbook encryption
    is not supported by ``XlsxWriter`` since it requires a completely different
    file format and would take several man months to implement.
