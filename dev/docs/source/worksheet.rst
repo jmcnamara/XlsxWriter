@@ -1835,7 +1835,7 @@ worksheet.protect()
 
 .. py:function:: protect()
 
-   Set the colour of the worksheet tab.
+   Protect elements of a worksheet from modification.
 
    :param string password: A worksheet password.
    :param dict   options:  A dictionary of worksheet options to protect.
