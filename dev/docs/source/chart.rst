@@ -263,6 +263,8 @@ The options that can be set are::
     name_layout
     num_font
     num_format
+    line
+    fill
     min
     max
     minor_unit
@@ -333,6 +335,16 @@ the axis types.
   apart from the fact that a format index cannot be used. An explicit format
   string must be used as shown above. See :func:`set_num_format()` for more
   information.
+
+* ``line``: Set the properties of the axis line type such as colour and
+  width. See :ref:`chart_formatting_line`::
+
+    chart.set_x_axis({'line': {'none': True}})
+
+* ``fill``: Set the fill properties of the axis such as colour. See
+  :ref:`chart_formatting_fill`.  Note, in Excel the axis fill is applied to
+  the area of the numbers of the axis and not to the area of the axis bounding
+  box. That background is set from the chartarea fill.
 
 * ``min``: Set the minimum value for the axis range. (Applicable to value and
   date axes only.)::

@@ -656,6 +656,12 @@ class Chart(xmlwriter.XMLwriter):
         axis['name_layout'] = \
             self._get_layout_properties(options.get('name_layout'), True)
 
+        # Set the line properties for the axis.
+        axis['line'] = self._get_line_properties(options.get('line'))
+
+        # Set the fill properties for the axis.
+        axis['fill'] = self._get_fill_properties(options.get('fill'))
+
         return axis
 
     def _convert_font_args(self, options):
@@ -857,7 +863,7 @@ class Chart(xmlwriter.XMLwriter):
                 warn("Unknown marker type '%s" % marker_type)
                 return
 
-        # Set the line properties for the marker..
+        # Set the line properties for the marker.
         line = self._get_line_properties(marker.get('line'))
 
         # Allow 'border' as a synonym for 'line'.
@@ -896,7 +902,7 @@ class Chart(xmlwriter.XMLwriter):
             warn("Unknown trendline type '%s'" % trend_type)
             return
 
-        # Set the line properties for the trendline..
+        # Set the line properties for the trendline.
         line = self._get_line_properties(trendline.get('line'))
 
         # Allow 'border' as a synonym for 'line'.
@@ -1658,6 +1664,9 @@ class Chart(xmlwriter.XMLwriter):
         # Write the c:tickLblPos element.
         self._write_tick_label_pos(x_axis.get('label_position'))
 
+        # Write the c:spPr element for the axis line.
+        self._write_sp_pr(x_axis)
+
         # Write the axis font elements.
         self._write_axis_font(x_axis.get('num_font'))
 
@@ -1750,6 +1759,9 @@ class Chart(xmlwriter.XMLwriter):
         # Write the c:tickLblPos element.
         self._write_tick_label_pos(y_axis.get('label_position'))
 
+        # Write the c:spPr element for the axis line.
+        self._write_sp_pr(y_axis)
+
         # Write the axis font elements.
         self._write_axis_font(y_axis.get('num_font'))
 
@@ -1837,6 +1849,9 @@ class Chart(xmlwriter.XMLwriter):
         # Write the c:tickLblPos element.
         self._write_tick_label_pos(x_axis.get('label_position'))
 
+        # Write the c:spPr element for the axis line.
+        self._write_sp_pr(x_axis)
+
         # Write the axis font elements.
         self._write_axis_font(x_axis.get('num_font'))
 
@@ -1922,6 +1937,9 @@ class Chart(xmlwriter.XMLwriter):
 
         # Write the c:tickLblPos element.
         self._write_tick_label_pos(x_axis.get('label_position'))
+
+        # Write the c:spPr element for the axis line.
+        self._write_sp_pr(x_axis)
 
         # Write the axis font elements.
         self._write_axis_font(x_axis.get('num_font'))
