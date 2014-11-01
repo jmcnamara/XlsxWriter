@@ -1,4 +1,11 @@
 
+Release 0.6.2 - November 1 2014
+-------------------------------
+
+* Added chart axis line and fill properties.
+  Issue `#88 <https://github.com/jmcnamara/XlsxWriter/issues/88>`_.
+
+
 Release 0.6.1 - October 29 2014
 -------------------------------
 
