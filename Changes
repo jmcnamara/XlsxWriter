@@ -33,7 +33,7 @@ Release 0.6.0 - October 15 2014
 * Fixed issue where non 96dpi images weren't scaled properly in Excel.
   Issue `#164 <https://github.com/jmcnamara/XlsxWriter/issues/164>`_.
 
-* Added option to not scale heaader/footer with page. See :func:`set_header`.
+* Added option to not scale header/footer with page. See :func:`set_header`.
   Issue `#134 <https://github.com/jmcnamara/XlsxWriter/issues/134>`_.
 
 
