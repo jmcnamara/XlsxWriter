@@ -250,6 +250,19 @@ class Workbook(xmlwriter.XMLwriter):
 
         return chart
 
+    def add_vba_project(self, vba_project):
+        """
+        Add a vbaProject binary to the Excel workbook.
+
+        Args:
+            vba_project: The vbaProject binary name.
+
+        Returns:
+            Nothing.
+
+        """
+        self.vba_project = vba_project
+
     def close(self):
         """
         Call finalisation code and close file.

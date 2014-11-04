@@ -2758,6 +2758,27 @@ class Worksheet(xmlwriter.XMLwriter):
 
         self.protect_options = defaults
 
+    @convert_cell_args
+    def insert_button(self, row, col, options={}):
+        """
+        Insert a button form object into the worksheet.
+
+        Args:
+            row:     The cell row (zero indexed).
+            col:     The cell column (zero indexed).
+            options: Button formatting options.
+
+        Returns:
+            0:  Success.
+            -1: Row or column is out of worksheet bounds.
+
+        """
+        button = self._button_params(row, col, options)
+
+        self.buttons_list.append(button)
+
+        self.has_vml = 1
+
     ###########################################################################
     #
     # Public API. Page Setup methods.
@@ -4088,7 +4109,7 @@ class Worksheet(xmlwriter.XMLwriter):
         params['width'] = int(0.5 + params['width'])
         params['height'] = int(0.5 + params['height'])
 
-        # Calculate the positions of comment object.
+        # Calculate the positions of the comment object.
         vertices = self._position_object_pixels(
             params['start_col'], params['start_row'], params['x_offset'],
             params['y_offset'], params['width'], params['height'])
@@ -4099,6 +4120,67 @@ class Worksheet(xmlwriter.XMLwriter):
 
         return ([row, col, string, params['author'],
                  params['visible'], params['color']] + [vertices])
+
+    def _button_params(self, row, col, options):
+        # This method handles the parameters passed to insert_button() as well
+        # as calculating the comment object position and vertices.
+        default_width = 64
+        default_height = 20
+        button_number = 1 + len(self.buttons_list)
+        button = {'row': row, 'col': col, 'font': {}}
+        params = {}
+
+        # Overwrite the defaults with any user supplied values. Incorrect or
+        # misspelled parameters are silently ignored.
+        for key in options.keys():
+            params[key] = options[key]
+
+        # Set the button caption.
+        caption = params.get('caption')
+
+        # Set a default caption if none was specified by user.
+        if caption is None:
+            caption = 'Button %d' % button_number
+
+        button['font']['caption'] = caption
+
+        # Set the macro name.
+        if params.get('macro'):
+            button['macro'] = '[0]!' + params['macro']
+        else:
+            button['macro'] = '[0]!Button%d_Click' % button_number
+
+        # Ensure that a width and height have been set.
+        params['width'] = params.get('width', default_width)
+        params['height'] = params.get('height', default_height)
+
+        # Set the x/y offsets.
+        params['x_offset'] = params.get('x_offset', 0)
+        params['y_offset'] = params.get('y_offset', 0)
+
+        # Scale the size of the button if required.
+        params['width'] = params['width'] * params.get('x_scale', 1)
+        params['height'] = params['height'] * params.get('y_scale', 1)
+
+        # Round the dimensions to the nearest pixel.
+        params['width'] = int(0.5 + params['width'])
+        params['height'] = int(0.5 + params['height'])
+
+        params['start_row'] = row
+        params['start_col'] = col
+
+        # Calculate the positions of the button object.
+        vertices = self._position_object_pixels(
+            params['start_col'], params['start_row'], params['x_offset'],
+            params['y_offset'], params['width'], params['height'])
+
+        # Add the width and height for VML.
+        vertices.append(params['width'])
+        vertices.append(params['height'])
+
+        button['vertices'] = vertices
+
+        return button
 
     def _prepare_vml_objects(self, vml_data_id, vml_shape_id, vml_drawing_id,
                              comment_id):

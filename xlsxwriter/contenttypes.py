@@ -5,6 +5,7 @@
 # Copyright 2013-2014, John McNamara, jmcnamara@cpan.org
 #
 
+import copy
 from . import xmlwriter
 
 # Long namespace strings used in the class.
@@ -12,16 +13,16 @@ app_package = 'application/vnd.openxmlformats-package.'
 app_document = 'application/vnd.openxmlformats-officedocument.'
 
 defaults = [
-    ('rels', app_package + 'relationships+xml'),
-    ('xml', 'application/xml'),
+    ['rels', app_package + 'relationships+xml'],
+    ['xml', 'application/xml'],
 ]
 
 overrides = [
-    ('/docProps/app.xml', app_document + 'extended-properties+xml'),
-    ('/docProps/core.xml', app_package + 'core-properties+xml'),
-    ('/xl/styles.xml', app_document + 'spreadsheetml.styles+xml'),
-    ('/xl/theme/theme1.xml', app_document + 'theme+xml'),
-    ('/xl/workbook.xml', app_document + 'spreadsheetml.sheet.main+xml'),
+    ['/docProps/app.xml', app_document + 'extended-properties+xml'],
+    ['/docProps/core.xml', app_package + 'core-properties+xml'],
+    ['/xl/styles.xml', app_document + 'spreadsheetml.styles+xml'],
+    ['/xl/theme/theme1.xml', app_document + 'theme+xml'],
+    ['/xl/workbook.xml', app_document + 'spreadsheetml.sheet.main+xml'],
 ]
 
 
@@ -46,8 +47,9 @@ class ContentTypes(xmlwriter.XMLwriter):
 
         super(ContentTypes, self).__init__()
 
-        self.defaults = defaults[:]
-        self.overrides = overrides[:]
+        # Copy the defaults in case we need to change them.
+        self.defaults = copy.deepcopy(defaults)
+        self.overrides = copy.deepcopy(overrides)
 
     ###########################################################################
     #
@@ -140,11 +142,11 @@ class ContentTypes(xmlwriter.XMLwriter):
     def _add_vba_project(self):
         # Add a vbaProject to the ContentTypes defaults.
 
-        # TODO: Fix when test is ported.
-        # Change the workbook.xml content-type from xlsx to xlsx.
-        # for aref in self.overrides:
-        #    if aref[0] == '/xl/workbook.xml':
-        #        aref[1]='application/vnd.ms-excel.sheet.macroEnabled.main+xml'
+        # Change the workbook.xml content-type from xlsx to xlsm.
+        for i, override in enumerate(self.overrides):
+            if override[0] == '/xl/workbook.xml':
+                self.overrides[i][1] = 'application/vnd.ms-excel.' \
+                    'sheet.macroEnabled.main+xml'
 
         self._add_default(('bin', 'application/vnd.ms-office.vbaProject'))
 
