@@ -103,7 +103,7 @@ Tests should conform to `PEP8` but can ignore `E501` for long lines to allow the
 
 There is a make target that will verify the source and test files:
 
-    make pep8
+    make testpep8
 
 
 ### Running tests
