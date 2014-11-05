@@ -1039,6 +1039,10 @@ class Worksheet(xmlwriter.XMLwriter):
         anchor = options.get('positioning', None)
         image_data = options.get('image_data', None)
 
+        if not image_data and not os.path.exists(filename):
+            warn("Image file '%s' not found." % filename)
+            return -1
+
         self.images.append([row, col, filename, x_offset, y_offset,
                             x_scale, y_scale, url, tip, anchor, image_data])
 

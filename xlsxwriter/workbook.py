@@ -106,6 +106,7 @@ class Workbook(xmlwriter.XMLwriter):
         self.tab_ratio = 500
         self.str_table = SharedStringTable()
         self.vba_project = None
+        self.vba_is_stream = False
         self.vba_codename = None
         self.image_types = {}
         self.images = []
@@ -250,18 +251,24 @@ class Workbook(xmlwriter.XMLwriter):
 
         return chart
 
-    def add_vba_project(self, vba_project):
+    def add_vba_project(self, vba_project, is_stream=False):
         """
         Add a vbaProject binary to the Excel workbook.
 
         Args:
-            vba_project: The vbaProject binary name.
+            vba_project: The vbaProject binary file name.
+            is_stream:   vba_project is an in memory byte stream.
 
         Returns:
             Nothing.
 
         """
+        if not is_stream and not os.path.exists(vba_project):
+            warn("VBA project binary file '%s' not found." % vba_project)
+            return -1
+
         self.vba_project = vba_project
+        self.vba_is_stream = is_stream
 
     def close(self):
         """

@@ -595,15 +595,12 @@ class Packager(object):
             index += 1
 
     def _add_vba_project(self):
-        # Note: not implemented yet.
-        # Write the vbaProject.bin file.
+        # Copy in a vbaProject.bin file.
         vba_project = self.workbook.vba_project
+        vba_is_stream = self.workbook.vba_is_stream
 
         if not vba_project:
             return
-
-        filename = vba_project
-        vba_data = False
 
         xml_vba_name = 'xl/vbaProject.bin'
 
@@ -611,23 +608,23 @@ class Packager(object):
             # In file mode we just write or copy the VBA file.
             os_filename = self._filename(xml_vba_name)
 
-            if vba_data:
+            if vba_is_stream:
                 # The data is in a byte stream. Write it to the target.
                 os_file = open(os_filename, mode='wb')
-                os_file.write(vba_data.getvalue())
+                os_file.write(vba_project.getvalue())
                 os_file.close()
             else:
-                copy(filename, os_filename)
+                copy(vba_project, os_filename)
 
         else:
             # For in-memory mode we read the vba into a stream.
-            if vba_data:
+            if vba_is_stream:
                 # The data is already in a byte stream.
-                os_filename = vba_data
+                os_filename = vba_project
             else:
-                vba_file = open(filename, mode='rb')
+                vba_file = open(vba_project, mode='rb')
                 vba_data = vba_file.read()
                 os_filename = BytesIO(vba_data)
                 vba_file.close()
 
-                self.filenames.append((os_filename, xml_vba_name, True))
+            self.filenames.append((os_filename, xml_vba_name, True))
