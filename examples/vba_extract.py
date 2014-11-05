@@ -1,3 +1,5 @@
+#!/usr/bin/python
+
 ##############################################################################
 #
 # vba_extract - A simple utility to extract a vbaProject.bin binary from an
@@ -17,7 +19,12 @@ vba_filename = 'vbaProject.bin'
 if len(sys.argv) > 1:
     xlsm_file = sys.argv[1]
 else:
-    print("Usage: vba_extract file.xlsm")
+    print("Utility to extract a vbaProject.bin binary from an Excel 2007+ "
+          "xlsm macro file for insertion into an XlsxWriter file."
+          "\n"
+          "See: http://xlsxwriter.readthedocs.org\n"
+          "\n"
+          "Usage: vba_extract file.xlsm\n")
     exit()
 
 try:

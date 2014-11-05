@@ -10,6 +10,7 @@ setup(
     author_email='jmcnamara@cpan.org',
     url='https://github.com/jmcnamara/XlsxWriter',
     packages=['xlsxwriter'],
+    scripts=['examples/vba_extract.py'],
     license='BSD',
     description='A Python module for creating Excel XLSX files.',
     long_description=open('README.rst').read(),
