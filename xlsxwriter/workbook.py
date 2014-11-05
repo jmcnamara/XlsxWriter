@@ -213,7 +213,7 @@ class Workbook(xmlwriter.XMLwriter):
         """
 
         # Type must be specified so we can create the required chart instance.
-        chart_type = options.get('type', 'None')
+        chart_type = options.get('type')
         if chart_type is None:
             warn("Chart type must be defined in add_chart()")
             return
