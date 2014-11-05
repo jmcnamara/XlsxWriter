@@ -407,6 +407,23 @@ class Workbook(xmlwriter.XMLwriter):
         """
         self.allow_zip64 = True
 
+    def set_vba_name(self, name=None):
+        """
+        Set the VBA name for the workbook. By default the workbook is referred
+        to as ThisWorkbook in VBA.
+
+        Args:
+            name: The VBA name for the workbook.
+
+        Returns:
+            Nothing.
+
+        """
+        if name is not None:
+            self.vba_codename = name
+        else:
+            self.vba_codename = 'ThisWorkbook'
+
     ###########################################################################
     #
     # Private API.
@@ -1152,6 +1169,7 @@ class Workbook(xmlwriter.XMLwriter):
         vml_shape_id = 1024
         vml_files = 0
         comment_files = 0
+        has_button = False
 
         for sheet in self.worksheets():
             if not sheet.has_vml and not sheet.has_header_vml:
@@ -1184,11 +1202,24 @@ class Workbook(xmlwriter.XMLwriter):
             self.num_vml_files = vml_files
             self.num_comment_files = comment_files
 
+            if len(sheet.buttons_list):
+                has_button = True
+
+                # Set the sheet vba_codename if it has a button and the
+                # workbook has a vbaProject binary.
+                if self.vba_project and sheet.vba_codename is None:
+                    sheet.set_vba_name()
+
         # Add a font format for cell comments.
         if comment_files > 0:
             xf = self.add_format({'font_name': 'Tahoma', 'font_size': 8,
                                   'color_indexed': 81, 'font_only': True})
             xf._get_xf_index()
+
+        # Set the workbook vba_codename if one of the sheets has a button and
+        # the workbook has a vbaProject binary.
+        if has_button and self.vba_project and self.vba_codename is None:
+            self.set_vba_name()
 
     def _prepare_tables(self):
         # Set the table ids for the worksheet tables.

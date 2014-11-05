@@ -35,12 +35,46 @@ class TestCompareXLSXFiles(ExcelComparisonTest):
 
         worksheet = workbook.add_worksheet()
 
-        workbook.vba_codename = 'ThisWorkbook'
-        worksheet.vba_codename = 'Sheet1'
+        workbook.set_vba_name()
+        worksheet.set_vba_name()
 
         worksheet.insert_button('C2', {'macro': 'say_hello',
-                                       'caption': 'Hello',
-                                       })
+                                       'caption': 'Hello'})
+
+        workbook.add_vba_project(self.vba_dir + 'vbaProject02.bin')
+
+        workbook.close()
+
+        self.assertExcelEqual()
+
+    def test_create_file_explicit_vba_names(self):
+        """Test the creation of a simple XlsxWriter file."""
+
+        workbook = Workbook(self.got_filename)
+
+        worksheet = workbook.add_worksheet()
+
+        workbook.set_vba_name('ThisWorkbook')
+        worksheet.set_vba_name('Sheet1')
+
+        worksheet.insert_button('C2', {'macro': 'say_hello',
+                                       'caption': 'Hello'})
+
+        workbook.add_vba_project(self.vba_dir + 'vbaProject02.bin')
+
+        workbook.close()
+
+        self.assertExcelEqual()
+
+    def test_create_file_implicit_vba_names(self):
+        """Test the creation of a simple XlsxWriter file."""
+
+        workbook = Workbook(self.got_filename)
+
+        worksheet = workbook.add_worksheet()
+
+        worksheet.insert_button('C2', {'macro': 'say_hello',
+                                       'caption': 'Hello'})
 
         workbook.add_vba_project(self.vba_dir + 'vbaProject02.bin')
 

@@ -3236,11 +3236,6 @@ class Worksheet(xmlwriter.XMLwriter):
         """
         self.hbreaks = breaks
 
-    #
-    # set_v_pagebreaks(@breaks)
-    #
-    # Store the vertical page breaks on a worksheet.
-    #
     def set_v_pagebreaks(self, breaks):
         """
         Set the horizontal page breaks on a worksheet.
@@ -3253,6 +3248,23 @@ class Worksheet(xmlwriter.XMLwriter):
 
         """
         self.vbreaks = breaks
+
+    def set_vba_name(self, name=None):
+        """
+        Set the VBA name for the worksheet. By default this is the
+        same as the sheet name: i.e., Sheet1 etc.
+
+        Args:
+            name: The VBA name for the worksheet.
+
+        Returns:
+            Nothing.
+
+        """
+        if name is not None:
+            self.vba_codename = name
+        else:
+            self.vba_codename = self.name
 
     ###########################################################################
     #
