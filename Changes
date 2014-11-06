@@ -1,4 +1,11 @@
 
+Release 0.6.3 - November 6 2014
+-------------------------------
+
+* Added support for adding VBA macros to workbooks. See :ref:`macros`.
+  Issue `#126 <https://github.com/jmcnamara/XlsxWriter/issues/126>`_.
+
+
 Release 0.6.2 - November 1 2014
 -------------------------------
 
