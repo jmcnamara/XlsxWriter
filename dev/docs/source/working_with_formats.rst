@@ -174,8 +174,7 @@ following example::
     format.set_font_color('green')
     worksheet.write('B1', 'Cell B1', format)
 
-Cell A1 is assigned a format which is initially has the font set to the colour
+Cell A1 is assigned a format which initially has the font set to the colour
 red. However, the colour is subsequently set to green. When Excel displays
 Cell A1 it will display the final state of the Format which in this case will
 be the colour green.
-

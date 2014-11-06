@@ -3,7 +3,7 @@
 # An example of adding macros to an XlsxWriter file using a VBA project 
 # file extracted from an existing Excel xlsm file.
 #
-# The extract_vba utility supplied with XlsxWriter can be used to extract
+# The vba_extract.py utility supplied with XlsxWriter can be used to extract
 # the vbaProject.bin file.
 #
 # An embedded macro is connected to a form button on the worksheet.
@@ -28,7 +28,6 @@ worksheet.write('A3', 'Press the button to say hello.')
 worksheet.insert_button('B3',{'macro': 'say_hello',
                               'caption': 'Press Me',
                               'width': 80,
-                              'height': 30
-                              })
+                              'height': 30})
 
 workbook.close()

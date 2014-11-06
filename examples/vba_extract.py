@@ -19,10 +19,10 @@ vba_filename = 'vbaProject.bin'
 if len(sys.argv) > 1:
     xlsm_file = sys.argv[1]
 else:
-    print("Utility to extract a vbaProject.bin binary from an Excel 2007+ "
+    print("\nUtility to extract a vbaProject.bin binary from an Excel 2007+ "
           "xlsm macro file for insertion into an XlsxWriter file."
           "\n"
-          "See: http://xlsxwriter.readthedocs.org\n"
+          "See: http://xlsxwriter.readthedocs.org/working_with_macros.html\n"
           "\n"
           "Usage: vba_extract file.xlsm\n")
     exit()

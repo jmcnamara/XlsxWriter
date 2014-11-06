@@ -353,6 +353,48 @@ Excel convention and enclose it in single quotes::
 See also the ``defined_name.py`` program in the examples directory.
 
 
+workbook.add_vba_project()
+--------------------------
+
+.. py:function:: add_vba_project(vba_project[, is_stream])
+
+   Add a vbaProject binary to the Excel workbook.
+
+   :param      vba_project: The vbaProject binary file name.
+   :param bool is_stream:   The vba_project is an in memory byte stream.
+
+The ``add_vba_project()`` method can be used to add macros or functions to a
+workbook using a binary VBA project file that has been extracted from an
+existing Excel xlsm file::
+
+    workbook.add_vba_project('./vbaProject.bin')
+
+Only one ``vbaProject.bin`` file can be added per workbook.
+
+The ``is_stream`` parameter is used to indicate that ``vba_project`` refers to
+a BytesIO byte stream rather than a physical file. This can be used when
+working with the workbook ``in_memory`` mode.
+
+See :ref:`macros` for more details.
+
+
+workbook.set_vba_name()
+-----------------------
+
+.. py:function:: set_vba_name(name)
+
+   Set the VBA name for the workbook.
+
+   :param string name: The VBA name for the workbook.
+
+The ``set_vba_name()`` method can be used to set the VBA codename for the
+workbook. This is sometimes required when a vbaProject macro included via
+``add_vba_project()`` refers to the workbook. The default Excel VBA name of
+``ThisWorkbook`` is used if a user defined name isn't specified.
+
+See :ref:`macros` for more details.
+
+
 workbook.worksheets()
 ---------------------
 

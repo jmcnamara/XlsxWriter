@@ -1104,6 +1104,66 @@ These properties can also be set via the Chart :func:`set_size` method.
   inserted chart.
 
 
+worksheet.insert_button()
+-------------------------
+
+.. py:function:: insert_button(row, col[, options])
+
+   Insert a VBA button control on a worksheet.
+
+   :param row:         The cell row (zero indexed).
+   :param col:         The cell column (zero indexed).
+   :param options:     Optional parameters to position and scale the button.
+   :type  row:         int
+   :type  col:         int
+   :type  options:     dict
+
+The ``insert_button(``) method can be used to insert an Excel form button into a worksheet.
+
+This method is generally only useful when used in conjunction with the
+Workbook :func:`add_vba_project` method to tie the button to a macro from an
+embedded VBA project::
+
+    # Add the VBA project binary.
+    workbook.add_vba_project('./vbaProject.bin')
+
+    # Add a button tied to a macro in the VBA project.
+    worksheet.insert_button('B3',{'macro':   'say_hello',
+                                  'caption': 'Press Me'})
+
+.. image:: _images/macros.png
+
+See :ref:`macros` and :ref:`ex_macros` for more details.
+
+The ``insert_button()`` method takes optional parameters in a dictionary to
+position and scale the chart. The available parameters with their default
+values are::
+
+    {
+        'macro':    None,
+        'caption':  'Button 1',
+        'width':    64,
+        'height':   20.
+        'x_offset': 0,
+        'y_offset': 0,
+        'x_scale':  1,
+        'y_scale':  1,
+    }
+
+The ``macro`` option is used to set the macro that the button will invoke when
+the user clicks on it. The macro should be included using the Workbook
+``add_vba_project()`` method shown above.
+
+The ``caption`` is used to set the caption on the button. The default is
+``Button n`` where ``n`` is the button number.
+
+The default button ``width`` is 64 pixels which is the width of a default cell
+and the default button ``height`` is 20 pixels which is the height of a
+default cell.
+
+The offset and scale options are the same as for ``insert_chart()``, see above.
+
+
 worksheet.data_validation()
 ---------------------------
 
@@ -1281,7 +1341,7 @@ worksheet.write_comment()
    :param row:         The cell row (zero indexed).
    :param col:         The cell column (zero indexed).
    :param comment:     String to write to cell.
-   :param options:     Comment formatting options..
+   :param options:     Comment formatting options.
    :type  row:         int
    :type  col:         int
    :type  comment:     string
@@ -1967,6 +2027,25 @@ The default settings for all of these parameters correspond to Excel's default
 parameters.
 
 The worksheet parameters controlled by ``outline_settings()`` are rarely used.
+
+
+worksheet.set_vba_name()
+------------------------
+
+.. py:function:: set_vba_name(name)
+   :noindex:
+
+   Set the VBA name for the worksheet.
+
+   :param string name: The VBA name for the worksheet.
+
+The ``set_vba_name()`` method can be used to set the VBA codename for the
+worksheet (there is a similar method for the workbook VBA name). This is
+sometimes required when a vbaProject macro included via ``add_vba_project()``
+refers to the worksheet. The default Excel VBA name of ``Sheet1``, etc., is
+used if a user defined name isn't specified.
+
+See :ref:`macros` for more details.
 
 
 
