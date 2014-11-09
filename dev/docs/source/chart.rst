@@ -279,6 +279,7 @@ The options that can be set are::
     minor_gridlines
     visible
     date_axis
+    text_axis
     minor_unit_type
     major_unit_type
 
@@ -465,6 +466,11 @@ the axis types.
   category axis which isn't allowed by Excel for non-date category axes.
 
   See :ref:`date_category_axes` for more details.
+
+* ``text_axis``: This option is used to treat a category axis explicitly
+  as a Text Axis. (Applicable to category axes only.)::
+
+    chart.set_x_axis({'text_axis': True})
 
 * ``minor_unit_type``: For ``date_axis`` axes, see above, this option is used
   to set the type of the minor units. (Applicable to date category axes

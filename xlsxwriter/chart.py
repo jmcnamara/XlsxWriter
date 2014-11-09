@@ -607,6 +607,7 @@ class Chart(xmlwriter.XMLwriter):
             'num_format': options.get('num_format'),
             'num_format_linked': options.get('num_format_linked'),
             'interval_unit': options.get('interval_unit'),
+            'text_axis': False,
         }
 
         if 'visible' in options:
@@ -644,6 +645,11 @@ class Chart(xmlwriter.XMLwriter):
         # Set the category axis as a date axis.
         if options.get('date_axis'):
             self.date_category = True
+
+        # Set the category axis as a text axis.
+        if options.get('text_axis'):
+            self.date_category = False
+            axis['text_axis'] = True
 
         # Convert datetime args if required.
         if axis.get('min') and supported_datetime(axis['min']):
@@ -1695,7 +1701,8 @@ class Chart(xmlwriter.XMLwriter):
                 self._write_c_crosses_at(y_axis.get('crossing'))
 
         # Write the c:auto element.
-        self._write_auto(1)
+        if not x_axis.get('text_axis'):
+            self._write_auto(1)
 
         # Write the c:labelAlign element.
         self._write_label_align('ctr')
