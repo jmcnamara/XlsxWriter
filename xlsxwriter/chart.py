@@ -78,8 +78,10 @@ class Chart(xmlwriter.XMLwriter):
         self.table = None
         self.cross_between = 'between'
         self.default_marker = None
-        self.series_gap = None
-        self.series_overlap = None
+        self.series_gap_1 = None
+        self.series_gap_2 = None
+        self.series_overlap_1 = None
+        self.series_overlap_2 = None
         self.drop_lines = None
         self.hi_low_lines = None
         self.up_down_bars = None
@@ -168,17 +170,23 @@ class Chart(xmlwriter.XMLwriter):
         # Set the "invert if negative" fill property.
         invert_if_neg = options.get('invert_if_negative', False)
 
-        # Set the gap for Bar/Column charts.
-        if options.get('gap') is not None:
-            self.series_gap = options['gap']
-
-        # Set the overlap for Bar/Column charts.
-        if options.get('overlap'):
-            self.series_overlap = options['overlap']
-
         # Set the secondary axis properties.
         x2_axis = options.get('x2_axis')
         y2_axis = options.get('y2_axis')
+
+        # Set the gap for Bar/Column charts.
+        if options.get('gap') is not None:
+            if y2_axis:
+                self.series_gap_2 = options['gap']
+            else:
+                self.series_gap_1 = options['gap']
+
+        # Set the overlap for Bar/Column charts.
+        if options.get('overlap'):
+            if y2_axis:
+                self.series_overlap_2 = options['overlap']
+            else:
+                self.series_overlap_1 = options['overlap']
 
         # Add the user supplied data to the internal structures.
         series = {

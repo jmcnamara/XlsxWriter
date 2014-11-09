@@ -97,8 +97,8 @@ class ChartBar(chart.Chart):
 
         # Set a default overlap for stacked charts.
         if 'stacked' in self.subtype:
-            if self.series_overlap is None:
-                self.series_overlap = 100
+            if self.series_overlap_1 is None:
+                self.series_overlap_1 = 100
 
         self._xml_start_tag('c:barChart')
 
@@ -116,10 +116,16 @@ class ChartBar(chart.Chart):
         self._write_marker_value()
 
         # Write the c:gapWidth element.
-        self._write_gap_width(self.series_gap)
+        if args['primary_axes']:
+            self._write_gap_width(self.series_gap_1)
+        else:
+            self._write_gap_width(self.series_gap_2)
 
         # Write the c:overlap element.
-        self._write_overlap(self.series_overlap)
+        if args['primary_axes']:
+            self._write_overlap(self.series_overlap_1)
+        else:
+            self._write_overlap(self.series_overlap_2)
 
         # Write the c:axId elements
         self._write_axis_ids(args)
