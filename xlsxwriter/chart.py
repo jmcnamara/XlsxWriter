@@ -1040,6 +1040,9 @@ class Chart(xmlwriter.XMLwriter):
                 warn("Unsupported label separator")
                 return
 
+        # Set the font properties if present.
+        labels['font'] = self._convert_font_args(labels.get('font'))
+
         return labels
 
     def _get_area_properties(self, options):
