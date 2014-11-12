@@ -541,10 +541,17 @@ The ``formula`` type is used to specify a conditional format based on a user
 defined formula::
 
     worksheet.conditional_format('A1:A4', {'type':     'formula',
-                                           'criteria': '=A1>5',
+                                           'criteria': '=$A$1>5',
                                            'format':   format1})
 
 The formula is specified in the ``criteria``.
+
+Formulas must be written with the US style separator/range operator which is a
+comma (not semi-colon) and should follow the same rules as
+:func:`write_formula`. Also any cell or range references in the formula should
+be :ref:`absolute references <abs_reference>` if they are applied to the full
+range of the conditional format. See the note in the ``value`` section above.
+
 
 min_type:
 *********
