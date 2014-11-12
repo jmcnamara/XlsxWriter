@@ -16,6 +16,7 @@ directory of the XlsxWriter distribution.
    example_autofilter.rst
    example_data_validate.rst
    example_conditional_format.rst
+   example_defined_name.rst
    example_merge1.rst
    example_rich_strings.rst
    example_merge_rich.rst

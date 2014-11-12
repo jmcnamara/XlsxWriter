@@ -59,6 +59,18 @@ Some functions such as :func:`conditional_format()` require absolute
 references.
 
 
+Defined Names and Named Ranges
+==============================
+
+It is also possible to define and use "Defined names/Named ranges" in
+workbooks and worksheets, see :func:`define_name`::
+
+    workbook.define_name('Exchange_rate', '=0.96')
+    worksheet.write('B3', '=B2*Exchange_rate')
+
+See also :ref:`ex_defined_name`.
+
+
 .. _cell_utility:
 
 Cell Utility Functions

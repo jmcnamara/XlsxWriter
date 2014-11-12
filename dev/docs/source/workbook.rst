@@ -327,17 +327,22 @@ workbook.define_name()
    :param string formula: The cell or range that the defined name refers to.
 
 This method is used to defined a name that can be used to represent a value, a
-single cell or a range of cells in a workbook. These defined names can then be
-used in formulas::
+single cell or a range of cells in a workbook. These are sometimes referred to
+as a "Named Range".
+
+Defined names are generally used to simplify or clarify formulas by using
+descriptive variable names::
 
     workbook.define_name('Exchange_rate', '=0.96')
     worksheet.write('B3', '=B2*Exchange_rate')
+
+.. image:: _images/defined_name.png
 
 As in Excel a name defined like this is "global" to the workbook and can be
 referred to from any worksheet::
 
     # Global workbook name.
-    workbook.define_name('Sales',         '=Sheet1!$G$1:$H$10')
+    workbook.define_name('Sales', '=Sheet1!$G$1:$H$10')
 
 It is also possible to define a local/worksheet name by prefixing it with the
 sheet name using the syntax ``'sheetname!definedname'``::
@@ -350,7 +355,11 @@ Excel convention and enclose it in single quotes::
 
     workbook.define_name("'New Data'!Sales", '=Sheet2!$G$1:$G$10')
 
-See also the ``defined_name.py`` program in the examples directory.
+The rules for names in Excel are explained in the `Miscrosoft Office
+documentation
+<http://office.microsoft.com/en-001/excel-help/define-and-use-names-in-formulas-HA010147120.aspx>`_.
+
+See also :ref:`ex_defined_name`.
 
 
 workbook.add_vba_project()
