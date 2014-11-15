@@ -1,7 +1,15 @@
+import sys
+from warnings import warn
+
 try:
     from setuptools import setup
 except ImportError:
     from distutils.core import setup
+
+if sys.version_info < (2, 5, 0):
+    warn("The minimum Python version supported by XlsxWriter is 2.5.0.")
+    exit()
+
 
 setup(
     name='XlsxWriter',
