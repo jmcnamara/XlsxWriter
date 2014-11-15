@@ -1,4 +1,19 @@
 
+Release 0.6.4 - November 15 2014
+--------------------------------
+
+* Fix for issue where fonts applied to data labels raised exception.
+  Issue `#179 <https://github.com/jmcnamara/XlsxWriter/issues/179>`_.
+
+* Added option to allow explicit text axis types for charts, similar to date
+  axes.
+  Issue `#178 <https://github.com/jmcnamara/XlsxWriter/issues/178>`_.
+
+* Fix for issue where the bar/column chart gap and overlap weren't
+  applied to the secondary axis.
+  Issue `#177 <https://github.com/jmcnamara/XlsxWriter/issues/177>`_.
+
+
 Release 0.6.3 - November 6 2014
 -------------------------------
 
