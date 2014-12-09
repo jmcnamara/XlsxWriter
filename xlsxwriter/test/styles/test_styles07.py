@@ -25,7 +25,7 @@ class TestAssembleStyles(unittest.TestCase):
         style = Styles()
         style._set_filehandle(fh)
 
-        workbook = Workbook()
+        workbook = Workbook('test.xlsx')
 
         workbook.add_format({'pattern': 1, 'bg_color': 'red'})
         workbook.add_format({'pattern': 11, 'bg_color': 'red'})

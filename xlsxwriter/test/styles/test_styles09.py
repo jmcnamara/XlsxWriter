@@ -25,7 +25,7 @@ class TestAssembleStyles(unittest.TestCase):
         style = Styles()
         style._set_filehandle(fh)
 
-        workbook = Workbook()
+        workbook = Workbook('test.xlsx')
 
         format1 = workbook.add_format({
             'font_color': '#9C0006',

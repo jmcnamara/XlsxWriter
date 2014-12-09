@@ -18,7 +18,7 @@ class TestWriteSheets(unittest.TestCase):
 
     def setUp(self):
         self.fh = StringIO()
-        self.workbook = Workbook()
+        self.workbook = Workbook('test.xlsx')
         self.workbook._set_filehandle(self.fh)
 
     def test_write_sheets(self):

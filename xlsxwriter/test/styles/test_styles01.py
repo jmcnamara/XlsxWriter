@@ -25,7 +25,7 @@ class TestAssembleStyles(unittest.TestCase):
         style = Styles()
         style._set_filehandle(fh)
 
-        workbook = Workbook()
+        workbook = Workbook('test.xlsx')
         workbook._prepare_format_properties()
 
         style._set_style_properties([

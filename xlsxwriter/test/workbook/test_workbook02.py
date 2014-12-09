@@ -21,7 +21,7 @@ class TestAssembleWorkbook(unittest.TestCase):
         self.maxDiff = None
 
         fh = StringIO()
-        workbook = Workbook()
+        workbook = Workbook('test.xlsx')
         workbook._set_filehandle(fh)
 
         workbook.add_worksheet()

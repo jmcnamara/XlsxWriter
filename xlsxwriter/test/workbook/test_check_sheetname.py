@@ -16,7 +16,7 @@ class TestCheckSheetname(unittest.TestCase):
     """
 
     def setUp(self):
-        self.workbook = Workbook()
+        self.workbook = Workbook('test.xlsx')
 
     def test_check_sheetname(self):
         """Test the _check_sheetname() method"""

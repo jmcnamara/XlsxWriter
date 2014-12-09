@@ -25,7 +25,7 @@ class TestAssembleStyles(unittest.TestCase):
         style = Styles()
         style._set_filehandle(fh)
 
-        workbook = Workbook()
+        workbook = Workbook('test.xlsx')
 
         workbook.add_format({'num_format': 2})
         workbook.add_format({'num_format': 2, 'bold': 1})
