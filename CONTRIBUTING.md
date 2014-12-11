@@ -55,6 +55,9 @@ A sample bug report is shown below. This format helps to analyse and respond to 
 >       workbook.close()
 
 
+See also how [How to create a Minimal, Complete, and Verifiable example](http://stackoverflow.com/help/mcve) from StackOverflow.
+
+
 ### Use the XlsxWriter GitHub issue tracker
 
 Submit the bug report using the [XlsxWriter issue tracker](https://github.com/jmcnamara/XlsxWriter/issues).
