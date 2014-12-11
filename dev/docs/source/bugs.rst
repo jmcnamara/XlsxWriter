@@ -166,4 +166,5 @@ the bug report more quickly.
 
        workbook.close()
 
-
+See also how `How to create a Minimal, Complete, and Verifiable example
+<http://stackoverflow.com/help/mcve>`_ from StackOverflow.

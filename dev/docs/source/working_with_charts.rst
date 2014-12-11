@@ -847,7 +847,7 @@ The following explains the available font properties:
 
     chart.set_x_axis({'num_font':  {'underline': True}})
 
-* ``rotation``: Set the font rotation property in the range -90 to 90 deg::
+* ``rotation``: Set the font rotation/angle property in the range -90 to 90 deg::
 
     chart.set_x_axis({'num_font':  {'rotation': 45}})
 
