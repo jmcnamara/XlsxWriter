@@ -359,11 +359,11 @@ class Chart(xmlwriter.XMLwriter):
         Returns:
             Nothing.
         """
-        # Set one of the 42 built-in Excel chart styles. The default is 2.
+        # Set one of the 48 built-in Excel chart styles. The default is 2.
         if style_id is None:
             style_id = 2
 
-        if style_id < 0 or style_id > 42:
+        if style_id < 0 or style_id > 48:
             style_id = 2
 
         self.style_id = style_id

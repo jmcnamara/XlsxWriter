@@ -802,6 +802,14 @@ The ``set_style()`` method is used to set the style of the chart to one of the
 The style index number is counted from 1 on the top left. The default style is
 2.
 
+.. Note::
+
+   In Excel 2013 the Styles section of the 'Design' tab in Excel shows what
+   were referred to as 'Layouts' in previous versions of Excel. These layouts
+   are not defined in the file format. They are a collection of modifications
+   to the base chart type. They can be replicated using the XlsxWriter Chart
+   API but they cannot be defined by the ``set_style()`` method.
+
 
 chart.set_table()
 -----------------

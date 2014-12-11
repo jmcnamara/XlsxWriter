@@ -18,7 +18,7 @@ class TestCompareXLSXFiles(ExcelComparisonTest):
     def setUp(self):
         self.maxDiff = None
 
-        filename = 'chart_data_labels24.xlsx'
+        filename = 'chart_column11.xlsx'
 
         test_dir = 'xlsxwriter/test/comparison/'
         self.got_filename = test_dir + '_test_' + filename
@@ -35,7 +35,7 @@ class TestCompareXLSXFiles(ExcelComparisonTest):
         worksheet = workbook.add_worksheet()
         chart = workbook.add_chart({'type': 'column'})
 
-        chart.axis_ids = [45937792, 45939712]
+        chart.axis_ids = [46847488, 46849408]
 
         data = [
             [1, 2, 3, 4, 5],
@@ -48,24 +48,11 @@ class TestCompareXLSXFiles(ExcelComparisonTest):
         worksheet.write_column('B1', data[1])
         worksheet.write_column('C1', data[2])
 
-        chart.add_series({
-            'values': '=Sheet1!$A$1:$A$5',
-            'data_labels': {
-                'value': 1,
-                'font': {'name': 'Consolas',
-                         'size': 12,
-                         'baseline': 1 * -1,
-                         'pitch_family': 49,
-                         'charset': 0}
-            },
-        })
-
-        chart.add_series({
-            'values': '=Sheet1!$B$1:$B$5',
-            'data_labels': {'value': 1, 'position': 'inside_base'},
-        })
-
+        chart.add_series({'values': '=Sheet1!$A$1:$A$5'})
+        chart.add_series({'values': '=Sheet1!$B$1:$B$5'})
         chart.add_series({'values': '=Sheet1!$C$1:$C$5'})
+
+        chart.set_style(1)
 
         worksheet.insert_chart('E9', chart)
 
