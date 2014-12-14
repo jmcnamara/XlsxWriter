@@ -45,7 +45,7 @@ In the example above the X axis is the **category** axis and each of the values
 is evenly spaced and sequential. The Y axis is the **value** axis and points
 are displayed according to their value.
 
-Excel treats the the two types of axis differently and exposes different
+Excel treats these two types of axis differently and exposes different
 properties for each.
 
 As such some of the ``XlsxWriter`` axis properties can be set for a value axis,
