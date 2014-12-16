@@ -40,6 +40,7 @@ class ChartScatter(chart.Chart):
         self.horiz_val_axis = 0
         self.val_axis_postion = 'b'
         self.smooth_allowed = True
+        self.requires_category = True
 
         # Set the available data label positions for this chart type.
         self.label_position_default = 'right'

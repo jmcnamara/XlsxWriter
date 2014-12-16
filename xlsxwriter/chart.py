@@ -47,7 +47,7 @@ class Chart(xmlwriter.XMLwriter):
         self.axis_ids = []
         self.axis2_ids = []
         self.cat_has_num_fmt = 0
-        self.requires_category = 0
+        self.requires_category = False
         self.legend_position = 'right'
         self.legend_delete_series = None
         self.legend_font = None
