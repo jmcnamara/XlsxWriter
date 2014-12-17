@@ -960,8 +960,13 @@ class Workbook(xmlwriter.XMLwriter):
                 drawing = sheet.drawing
                 self.drawings.append(drawing)
 
+        # Remove charts that were created but not inserted into worksheets.
+        for chart in self.charts[:]:
+            if chart.id == -1:
+                self.charts.remove(chart)
+
         # Sort the workbook charts references into the order that the were
-        # written from the worksheets above.
+        # written to the worksheets above.
         self.charts = sorted(self.charts, key=lambda chart: chart.id)
 
         self.drawing_count = drawing_id

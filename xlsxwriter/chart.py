@@ -41,7 +41,7 @@ class Chart(xmlwriter.XMLwriter):
         self.orientation = 0x0
         self.series = []
         self.embedded = 0
-        self.id = ''
+        self.id = -1
         self.series_index = 0
         self.style_id = 2
         self.axis_ids = []
