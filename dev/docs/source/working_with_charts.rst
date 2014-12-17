@@ -37,7 +37,7 @@ following program::
 Chart Value and Category Axes
 -----------------------------
 
-A key point when working with Excel charts is to understand how it
+When working with charts it is important to understand how Excel
 differentiates between a chart axis that is used for series categories and a
 chart axis that is used for series values.
 
@@ -327,7 +327,7 @@ values::
          },
      })
 
-    # or
+     # or
 
      chart.add_series({
          'categories': '=Sheet1!$A$1:$A$5',
