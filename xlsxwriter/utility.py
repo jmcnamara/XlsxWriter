@@ -614,6 +614,7 @@ def datetime_to_excel_datetime(dt_obj, date_1904):
     # We handle datetime .datetime, .date and .time objects but convert
     # them to datetime.datetime objects and process them in the same way.
     if isinstance(dt_obj, datetime.datetime):
+        epoch = epoch.replace(tzinfo=dt_obj.tzinfo)
         delta = dt_obj - epoch
     elif isinstance(dt_obj, datetime.date):
         dt_obj = datetime.datetime.fromordinal(dt_obj.toordinal())
