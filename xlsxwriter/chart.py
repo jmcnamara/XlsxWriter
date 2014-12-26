@@ -13,6 +13,7 @@ from .utility import xl_rowcol_to_cell
 from .utility import xl_range_formula
 from .utility import supported_datetime
 from .utility import datetime_to_excel_datetime
+from .utility import quote_sheetname
 
 
 class Chart(xmlwriter.XMLwriter):
@@ -724,7 +725,7 @@ class Chart(xmlwriter.XMLwriter):
             if isinstance(name, list):
                 # Convert an list of values into a name formula.
                 cell = xl_rowcol_to_cell(name[1], name[2], True, True)
-                name_formula = name[0] + '!' + cell
+                name_formula = quote_sheetname(name[0]) + '!' + cell
                 name = ''
             elif re.match(r'^=?[^!]+!\$?[A-Z]+\$?[0-9]+', name):
                 # Name looks like a formula, use it to set name_formula.
