@@ -607,7 +607,7 @@ zero::
 
 .. Note::
    Although it is valid to use both :func:`fit_to_pages()` and
-   :func:`set_print_scale()` on the same worksheet Excel only one of these
+   :func:`set_print_scale()` on the same worksheet in Excel only one of these
    options to be active at a time. The last method call made will set the
    active option.
 
