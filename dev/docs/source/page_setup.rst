@@ -365,6 +365,24 @@ the equivalent VBA code looks like this::
     .CenterHeader = "&""Times New Roman,Regular""Hello"
     .RightHeader = ""
 
+Alternatively you can inspect the header and footer strings in an Excel file
+by unzipping it and grepping the XML sub-files. The following shows how to do
+that using `libxml's xmllint <http://xmlsoft.org/xmllint.html>`_ to format the
+XML for clarity::
+
+    $ unzip myfile.xlsm -d myfile
+    $ xmllint --format `find myfile -name "*.xml" | xargs` | egrep "Header|Footer"
+
+      <headerFooter scaleWithDoc="0">
+        <oddHeader>&amp;L&amp;P</oddHeader>
+      </headerFooter>
+
+Note that in this case you need to unescape the Html. In the above example the
+header string would be::
+
+      '&L&P'
+
+
 To include a single literal ampersand ``&`` in a header or footer you should
 use a double ampersand ``&&``::
 
