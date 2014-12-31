@@ -1,4 +1,27 @@
 
+Release 0.6.5 - December 31 2014
+--------------------------------
+
+* Added worksheet quoting for chart names in lists.
+  Issue `#205 <https://github.com/jmcnamara/XlsxWriter/issues/205>`_.
+
+* Added docs on how to find and set VBA codenames.
+  Issue `#202 <https://github.com/jmcnamara/XlsxWriter/issues/202>`_.
+
+* Fix Python3 issue with unused charts.
+  Issue `#200 <https://github.com/jmcnamara/XlsxWriter/issues/200>`_.
+
+* Enabled warning for missing category is scatter chart.
+  Issue `#197 <https://github.com/jmcnamara/XlsxWriter/issues/197>`_.
+
+* Fix for upper chart style limit. Increased the chart style limit from
+  42 to the correct 48.
+  Issue `#192 <https://github.com/jmcnamara/XlsxWriter/issues/192>`_.
+
+* Raise warning if a chart is inserted more than once.
+  Issue `#184 <https://github.com/jmcnamara/XlsxWriter/issues/184>`_.
+
+
 Release 0.6.4 - November 15 2014
 --------------------------------
 
