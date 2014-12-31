@@ -1072,6 +1072,13 @@ It is then inserted into a worksheet as an embedded chart::
 .. image:: _images/chart_simple.png
    :scale: 75 %
 
+
+.. Note::
+
+   A chart can only be inserted into a worksheet once. If several similar
+   charts are required then each one must be created separately with
+   :func:`add_chart()`.
+
 See :ref:`chart_class`, :ref:`working_with_charts` and :ref:`chart_examples`.
 
 The ``insert_chart()`` method takes optional parameters in a dictionary to

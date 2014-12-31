@@ -98,7 +98,7 @@ class Chart(xmlwriter.XMLwriter):
         self.date_1904 = False
         self.label_positions = {}
         self.label_position_default = ''
-
+        self.already_inserted = False
         self._set_default_properties()
 
     def add_series(self, options):

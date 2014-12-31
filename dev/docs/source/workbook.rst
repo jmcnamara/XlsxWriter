@@ -224,6 +224,14 @@ The properties that can be set are::
 
 See the :ref:`chart_class` for a list of available chart subtypes.
 
+
+.. Note::
+
+   A chart can only be inserted into a worksheet once. If several similar
+   charts are required then each one must be created separately with
+   ``add_chart()``.
+
+
 See also :ref:`working_with_charts` and :ref:`chart_examples`.
 
 workbook.add_chartsheet()
