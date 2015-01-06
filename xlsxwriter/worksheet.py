@@ -341,6 +341,9 @@ class Worksheet(xmlwriter.XMLwriter):
         self.row_data_fh = None
         self.row_data_fh_closed = False
 
+        self.vertical_dpi = 0
+        self.horizontal_dpi = 0
+
     @convert_cell_args
     def write(self, row, col, *args):
         """
@@ -4796,6 +4799,13 @@ class Worksheet(xmlwriter.XMLwriter):
         # Set start page for printing.
         if self.page_start != 0:
             attributes.append(('useFirstPageNumber', self.page_start))
+
+        # Set the DPI. Mainly only for testing.
+        if self.vertical_dpi:
+            attributes.append(('verticalDpi', self.vertical_dpi))
+
+        if self.horizontal_dpi:
+            attributes.append(('horizontalDpi', self.horizontal_dpi))
 
         self._xml_empty_tag('pageSetup', attributes)
 
