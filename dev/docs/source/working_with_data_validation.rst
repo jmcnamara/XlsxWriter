@@ -119,8 +119,7 @@ It is always required and it has no default value. Allowable values are::
   'whole number'.
 * **decimal**: restricts the cell to decimal values.
 * **list**: restricts the cell to a set of user specified values. These can
-  be passed in a Python list or as an Excel cell range. Excel requires that
-  range references are restricted to cells on the same worksheet.
+  be passed in a Python list or as an Excel cell range.
 * **date**: restricts the cell to date values specified as a datetime object
   as shown in :ref:`working_with_dates_and_time`.
 * **time**: restricts the cell to time values specified as a datetime object
