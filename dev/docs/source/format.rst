@@ -804,3 +804,47 @@ format.set_right_color()
 See :func:`set_border_color` for details on the border colors.
 
 
+format.set_diag_border()
+------------------------
+
+.. py:function:: set_diag_border(style)
+
+   Set the diagonal cell border style.
+
+   :param int style: Border style index. Default is 1.
+
+Set the style for a diagonal border. The `style` is the same as those used in
+:func:`set_border`.
+
+See :ref:`ex_diagonal_border`.
+
+.. image:: _images/diagonal_border.png
+
+
+format.set_diag_type()
+------------------------
+
+.. py:function:: set_diag_type(style)
+
+   Set the diagonal cell border type.
+
+   :param int style: Border type, 1-3. No default.
+
+Set the type of the diagonal border. The `style` should be one of the
+following values:
+
+1. From bottom left to top right.
+2. From top left to bottom right.
+3. Same as type 1 and 2 combined.
+
+
+format.set_diag_color()
+-----------------------
+
+.. py:function:: set_diag_color(color)
+
+   Set the color of the diagonal cell border.
+
+   :param string color: The cell border color.
+
+See :func:`set_border_color` for details on the border colors.
