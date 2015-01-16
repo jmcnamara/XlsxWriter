@@ -1,4 +1,14 @@
 
+Release 0.6.6 - January 16 2014
+-------------------------------
+
+* Fix for incorrect shebang line in `vba_extract.py` packaged in wheel.
+  Issue `#211 <https://github.com/jmcnamara/XlsxWriter/issues/211>`_.
+
+* Added docs and example for diagonal cell border.
+  See :ref:`ex_diagonal_border`.
+
+
 Release 0.6.5 - December 31 2014
 --------------------------------
 
