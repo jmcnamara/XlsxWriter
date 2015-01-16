@@ -33,7 +33,7 @@
 #
 # See the main XlsxWriter documentation for more information.
 #
-# Copyright 2013-2014, John McNamara, jmcnamara@cpan.org
+# Copyright 2013-2015, John McNamara, jmcnamara@cpan.org
 #
 import xlsxwriter
 

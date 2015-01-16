@@ -2,7 +2,7 @@
 #
 # An example of creating Excel Bar charts with Python and XlsxWriter.
 #
-# Copyright 2013-2014, John McNamara, jmcnamara@cpan.org
+# Copyright 2013-2015, John McNamara, jmcnamara@cpan.org
 #
 import xlsxwriter
 

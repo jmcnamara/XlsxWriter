@@ -5,7 +5,7 @@
 #
 # python perf_pyx.py [num_rows] [optimization_mode]
 #
-# Copyright 2013-2014, John McNamara, jmcnamara@cpan.org
+# Copyright 2013-2015, John McNamara, jmcnamara@cpan.org
 
 import sys
 import xlsxwriter

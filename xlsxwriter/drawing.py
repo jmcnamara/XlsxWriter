@@ -2,7 +2,7 @@
 #
 # Drawing - A class for writing the Excel XLSX Drawing file.
 #
-# Copyright 2013-2014, John McNamara, jmcnamara@cpan.org
+# Copyright 2013-2015, John McNamara, jmcnamara@cpan.org
 #
 
 from . import xmlwriter

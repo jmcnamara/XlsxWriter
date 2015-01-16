@@ -2,7 +2,7 @@
 #
 # ChartPie - A class for writing the Excel XLSX Pie charts.
 #
-# Copyright 2013-2014, John McNamara, jmcnamara@cpan.org
+# Copyright 2013-2015, John McNamara, jmcnamara@cpan.org
 #
 
 from warnings import warn

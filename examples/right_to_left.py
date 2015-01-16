@@ -4,7 +4,7 @@
 # default worksheet direction from left-to-right to right-to-left as
 # required by some middle eastern versions of Excel.
 #
-# Copyright 2013-2014, John McNamara, jmcnamara@cpan.org
+# Copyright 2013-2015, John McNamara, jmcnamara@cpan.org
 #
 import xlsxwriter
 
