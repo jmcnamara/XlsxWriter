@@ -130,7 +130,7 @@ Format Colors
 -------------
 
 Format property colors are specified using a Html sytle ``#RRGGBB`` value or a
-imited number of named colors::
+limited number of named colors::
 
     cell_format1.set_font_color('#FF0000')
     cell_format2.set_font_color('red')
