@@ -3420,6 +3420,8 @@ class Worksheet(xmlwriter.XMLwriter):
         # flags are use by set_row() and data_validate.
 
         # Check that the row/col are within the worksheet bounds.
+        if row < 0 or col < 0:
+            return -1
         if row >= self.xls_rowmax or col >= self.xls_colmax:
             return -1
 
