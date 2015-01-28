@@ -1,5 +1,5 @@
 
-Release 0.6.6 - January 16 2014
+Release 0.6.6 - January 16 2015
 -------------------------------
 
 * Fix for incorrect shebang line in `vba_extract.py` packaged in wheel.
