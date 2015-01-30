@@ -2276,6 +2276,7 @@ class Worksheet(xmlwriter.XMLwriter):
                 'name': 'Column' + str(col_id),
                 'total_string': '',
                 'total_function': '',
+                'total_value': 0,
                 'formula': '',
                 'format': None,
             }
@@ -2329,7 +2330,10 @@ class Worksheet(xmlwriter.XMLwriter):
                             self._table_function_to_formula(function,
                                                             col_data['name'])
 
-                        self.write_formula(last_row, col_num, formula, xformat)
+                        value = user_data.get('total_value', 0)
+
+                        self.write_formula(last_row, col_num, formula, xformat,
+                                           value)
 
                     elif user_data.get('total_string'):
                         # Total label only (not a function).

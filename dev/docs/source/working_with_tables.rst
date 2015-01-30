@@ -248,6 +248,8 @@ The sub-properties that can be set are:
 +----------------+
 | total_function |
 +----------------+
+| total_value    |
++----------------+
 | format         |
 +----------------+
 
@@ -343,6 +345,24 @@ The supported totals row ``SUBTOTAL`` functions are:
 
 User defined functions or formulas aren't supported.
 
+It is also possible to set a calculated value for the ``total_function`` using
+the ``total_value`` sub property. This is only necessary when creating
+workbooks for applications that cannot calculate the value of formulas
+automatically. This is similar to setting the ``value`` optional property in
+:func:`write_formula`::
+
+
+    options = {'data': data,
+               'total_row': 1,
+               'columns': [{'total_string': 'Totals'},
+                           {'total_function': 'sum', 'total_value': 150},
+                           {'total_function': 'sum', 'total_value': 200},
+                           {'total_function': 'sum', 'total_value': 333},
+                           {'total_function': 'sum', 'total_value': 124},
+                           {'formula': '=SUM(Table10[@[Quarter 1]:[Quarter 4]])',
+                            'total_function': 'sum',
+                            'total_value': 807}]}
+
 Formats can also be applied to columns::
 
     currency_format = workbook.add_format(num_format, '$#,##0')
@@ -371,6 +391,3 @@ Example
 -------
 
 All of the images shown above are taken from :ref:`ex_tables`.
-
-
-
