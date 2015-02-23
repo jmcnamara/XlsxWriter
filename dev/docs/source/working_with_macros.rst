@@ -82,17 +82,17 @@ worksheet using the :func:`insert_button` method::
     worksheet.write('A3', 'Press the button to say hello.')
 
     # Add a button tied to a macro in the VBA project.
-    worksheet.insert_button('B3',{'macro':   'say_hello',
-                                  'caption': 'Press Me',
-                                  'width':   80,
-                                  'height':  30})
+    worksheet.insert_button('B3', {'macro':   'say_hello',
+                                   'caption': 'Press Me',
+                                   'width':   80,
+                                   'height':  30})
 
     workbook.close()
 
 It may be necessary to specify a more explicit macro name prefixed by the
 workbook VBA name as follows::
 
-    worksheet.insert_button('B3',{'macro': 'ThisWorkbook.say_hello'})
+    worksheet.insert_button('B3', {'macro': 'ThisWorkbook.say_hello'})
 
 See :ref:`ex_macros` from the examples directory for a working example.
 
