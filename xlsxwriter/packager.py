@@ -150,6 +150,7 @@ class Packager(object):
         self._write_drawing_rels_files()
         self._add_image_files()
         self._add_vba_project()
+        self._add_custom_uis()
 
         return self.filenames
 
@@ -425,6 +426,12 @@ class Packager(object):
         rels._add_document_relationship('/extended-properties',
                                         'docProps/app.xml')
 
+        for custom_ui, version in self.workbook.custom_uis:
+            xml_custom_ui_name = os.path.split(custom_ui)[1]
+            rels._add_ms_package_relationship('/ui/extensibility',
+                                              'customUI/%s' % xml_custom_ui_name,
+                                              version=version)
+
         rels._set_xml_writer(self._filename('_rels/.rels'))
         rels._assemble_xml_file()
 
@@ -628,3 +635,26 @@ class Packager(object):
                 vba_file.close()
 
             self.filenames.append((os_filename, xml_vba_name, True))
+
+    def _add_custom_uis(self):
+        # Copy the custom ui xml files
+        custom_uis = self.workbook.custom_uis
+
+        if not custom_uis:
+            return
+
+        for custom_ui, _ in custom_uis:
+            xml_custom_ui_name = os.path.split(custom_ui)[1]
+            if not self.in_memory:
+                # In file mode we just copy the xml files.
+                os_filename = self._filename('customUI/%s' % xml_custom_ui_name)
+                copy(custom_ui, os_filename)
+
+            else:
+                # For in-memory mode we read the custom ui into a stream.
+                custom_ui_file = open(custom_ui, mode='r')
+                custom_ui_data = custom_ui_file.read()
+                os_filename = StringIO(custom_ui_data)
+                custom_ui_file.close()
+
+                self.filenames.append((os_filename, xml_custom_ui_name, True))

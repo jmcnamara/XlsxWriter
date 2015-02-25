@@ -107,6 +107,7 @@ class Workbook(xmlwriter.XMLwriter):
         self.str_table = SharedStringTable()
         self.vba_project = None
         self.vba_is_stream = False
+        self.custom_uis = []
         self.vba_codename = None
         self.image_types = {}
         self.images = []
@@ -269,6 +270,23 @@ class Workbook(xmlwriter.XMLwriter):
 
         self.vba_project = vba_project
         self.vba_is_stream = is_stream
+
+    def add_custom_ui(self, custom_ui, version=2006):
+        """
+        Add a custom ui xml to the Excel workbook.
+
+        Args:
+            custom_ui: The custom_ui xml file name.
+
+        Returns:
+            Nothing.
+
+        """
+        if not os.path.exists(custom_ui):
+            warn("Custom ui xml file '%s' not found." % custom_ui)
+            return -1
+
+        self.custom_uis.append((custom_ui, version))
 
     def close(self):
         """
