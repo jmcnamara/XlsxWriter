@@ -656,12 +656,12 @@ Release 0.0.7 - February 25 2013
 
 * Added final page setup methods to complete the page setup section.
 
-    * print_area()
-    * fit_to_pages()
-    * set_start_page()
-    * set_print_scale()
-    * set_h_pagebreaks()
-    * set_v_pagebreaks()
+    * :func:`print_area`
+    * :func:`fit_to_pages`
+    * :func:`set_start_page`
+    * :func:`set_print_scale`
+    * :func:`set_h_pagebreaks`
+    * :func:`set_v_pagebreaks`
 
 
 Release 0.0.6 - February 22 2013
@@ -669,7 +669,7 @@ Release 0.0.6 - February 22 2013
 
 * Added page setup method.
 
-    * print_row_col_headers
+    * :func:`print_row_col_headers`
 
 
 Release 0.0.5 - February 21 2013
@@ -677,8 +677,8 @@ Release 0.0.5 - February 21 2013
 
 * Added page setup methods.
 
-    * repeat_rows()
-    * repeat_columns()
+    * :func:`repeat_rows`
+    * :func:`repeat_columns`
 
 
 Release 0.0.4 - February 20 2013
@@ -693,11 +693,11 @@ Release 0.0.4 - February 20 2013
 
 * Added page setup methods.
 
-    * center_horizontally()
-    * center_vertically()
-    * set_header()
-    * set_footer()
-    * hide_gridlines()
+    * :func:`center_horizontally`
+    * :func:`center_vertically`
+    * :func:`set_header`
+    * :func:`set_footer`
+    * :func:`hide_gridlines`
 
 
 Release 0.0.3 - February 19 2013
@@ -705,7 +705,7 @@ Release 0.0.3 - February 19 2013
 
 * Added page setup method.
 
-    * set_margins()
+    * :func:`set_margins`
 
 
 Release 0.0.2 - February 18 2013
@@ -713,11 +713,11 @@ Release 0.0.2 - February 18 2013
 
 * Added page setup methods.
 
-    * set_landscape()
-    * set_portrait()
-    * set_page_view()
-    * set_paper()
-    * print_across()
+    * :func:`set_landscape`
+    * :func:`set_portrait`
+    * :func:`set_page_view`
+    * :func:`set_paper`
+    * :func:`print_across`
 
 
 Release 0.0.1 - February 17 2013
