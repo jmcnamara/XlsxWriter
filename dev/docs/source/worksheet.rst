@@ -81,10 +81,6 @@ If none of the above types are matched the value is evaluated with ``float()``
 to see if it corresponds to a user defined float type. If it does then it is
 written using :func:`write_number()`.
 
-If not then it is evaluated with ``str()`` to see if it corresponds to a user
-defined string type. If it does then it is written using
-:func:`write_string()`.
-
 Finally, if none of these rules are matched then a ``TypeError`` exception is
 raised.
 
@@ -128,6 +124,7 @@ be a valid :ref:`Format <format>` object::
     cell_format = workbook.add_format({'bold': True, 'italic': True})
 
     worksheet.write(0, 0, 'Hello', cell_format)  # Cell is bold and italic.
+
 
 worksheet.write_string()
 ------------------------
@@ -2053,7 +2050,3 @@ refers to the worksheet. The default Excel VBA name of ``Sheet1``, etc., is
 used if a user defined name isn't specified.
 
 See :ref:`macros` for more details.
-
-
-
-
