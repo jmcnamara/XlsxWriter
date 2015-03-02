@@ -1,4 +1,14 @@
 
+Release 0.6.7 - March 1 2015
+----------------------------
+
+* Added option to add function value in worksheet :func:`add_table`.
+  Issue `#216 <https://github.com/jmcnamara/XlsxWriter/issues/216>`_.
+
+* Fix for A1 row/col numbers below lower bound.
+  Issue `#212 <https://github.com/jmcnamara/XlsxWriter/issues/212>`_.
+
+
 Release 0.6.6 - January 16 2015
 -------------------------------
 
