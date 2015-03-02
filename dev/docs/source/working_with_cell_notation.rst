@@ -32,6 +32,9 @@ In general when using the XlsxWriter module you can use A1 notation anywhere
 you can use row-column notation.
 
 .. note::
+   Ranges in A1 notation must be in uppercase, like in Excel.
+
+.. note::
    In Excel it is also possible to use R1C1 notation. This is not
    supported by XlsxWriter.
 
