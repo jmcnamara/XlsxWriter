@@ -17,7 +17,7 @@ the :func:`autofilter` method::
 
     worksheet.autofilter('A1:D11')
 
-As usual you can also also use :ref:`Row-Column <cell_notation>` notation::
+As usual you can also use :ref:`Row-Column <cell_notation>` notation::
 
     worksheet.autofilter(0, 0, 10, 3)  # Same as above.
 
