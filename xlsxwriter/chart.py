@@ -5,6 +5,7 @@
 # Copyright 2013-2015, John McNamara, jmcnamara@cpan.org
 #
 import re
+import copy
 from warnings import warn
 
 from . import xmlwriter
@@ -804,6 +805,9 @@ class Chart(xmlwriter.XMLwriter):
         if not line:
             return {'defined': False}
 
+        # Copy the user defined properties since they will be modified.
+        line = copy.deepcopy(line)
+
         dash_types = {
             'solid': 'solid',
             'round_dot': 'sysDot',
@@ -847,6 +851,9 @@ class Chart(xmlwriter.XMLwriter):
 
         if not marker:
             return
+
+        # Copy the user defined properties since they will be modified.
+        marker = copy.deepcopy(marker)
 
         types = {
             'automatic': 'automatic',
@@ -898,6 +905,9 @@ class Chart(xmlwriter.XMLwriter):
 
         if not trendline:
             return
+
+        # Copy the user defined properties since they will be modified.
+        trendline = copy.deepcopy(trendline)
 
         types = {
             'exponential': 'exp',
@@ -1009,6 +1019,9 @@ class Chart(xmlwriter.XMLwriter):
 
         if not labels:
             return None
+
+        # Copy the user defined properties since they will be modified.
+        labels = copy.deepcopy(labels)
 
         # Map user defined label positions to Excel positions.
         position = labels.get('position')
