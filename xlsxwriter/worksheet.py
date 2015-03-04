@@ -4796,6 +4796,10 @@ class Worksheet(xmlwriter.XMLwriter):
         if self.page_order:
             attributes.append(('pageOrder', "overThenDown"))
 
+        # Set start page for printing.
+        if self.page_start > 1:
+            attributes.append(('firstPageNumber', self.page_start))
+
         # Set page orientation.
         if self.orientation:
             attributes.append(('orientation', 'portrait'))
@@ -4804,7 +4808,7 @@ class Worksheet(xmlwriter.XMLwriter):
 
         # Set start page for printing.
         if self.page_start != 0:
-            attributes.append(('useFirstPageNumber', self.page_start))
+            attributes.append(('useFirstPageNumber', '1'))
 
         # Set the DPI. Mainly only for testing.
         if self.vertical_dpi:

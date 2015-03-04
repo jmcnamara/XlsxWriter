@@ -18,7 +18,7 @@ class TestCompareXLSXFiles(ExcelComparisonTest):
     def setUp(self):
         self.maxDiff = None
 
-        filename = 'set_start_page01.xlsx'
+        filename = 'set_start_page02.xlsx'
 
         test_dir = 'xlsxwriter/test/comparison/'
         self.got_filename = test_dir + '_test_' + filename
@@ -34,7 +34,7 @@ class TestCompareXLSXFiles(ExcelComparisonTest):
 
         worksheet = workbook.add_worksheet()
 
-        worksheet.set_start_page(1)
+        worksheet.set_start_page(2)
         worksheet.set_paper(9)
 
         worksheet.vertical_dpi = 200
