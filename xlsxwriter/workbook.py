@@ -272,9 +272,10 @@ class Workbook(xmlwriter.XMLwriter):
             warn("VBA project binary file '%s' not found." % vba_project)
             return -1
 
-        if not signature_is_stream and not os.path.exists(signature):
-            warn("VBA signature binary file '%s' not found." % signature)
-            return -1
+        if signature:
+            if not signature_is_stream and not os.path.exists(signature):
+                warn("VBA signature binary file '%s' not found." % signature)
+                return -1
 
         self.vba_project = vba_project
         self.vba_project_signature = signature
