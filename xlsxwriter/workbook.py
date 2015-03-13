@@ -106,7 +106,9 @@ class Workbook(xmlwriter.XMLwriter):
         self.tab_ratio = 500
         self.str_table = SharedStringTable()
         self.vba_project = None
+        self.vba_project_signature = None
         self.vba_is_stream = False
+        self.vba_signature_is_stream = False
         self.custom_uis = []
         self.vba_codename = None
         self.image_types = {}
@@ -252,13 +254,15 @@ class Workbook(xmlwriter.XMLwriter):
 
         return chart
 
-    def add_vba_project(self, vba_project, is_stream=False):
+    def add_vba_project(self, vba_project, is_stream=False, signature=None, signature_is_stream=False):
         """
         Add a vbaProject binary to the Excel workbook.
 
         Args:
-            vba_project: The vbaProject binary file name.
-            is_stream:   vba_project is an in memory byte stream.
+            vba_project:            The vbaProject binary file name.
+            is_stream:              vba_project is an in memory byte stream.
+            signature:              the signature file name
+            signature_is_stream:    signature is an in memory byte stream.
 
         Returns:
             Nothing.
@@ -268,8 +272,14 @@ class Workbook(xmlwriter.XMLwriter):
             warn("VBA project binary file '%s' not found." % vba_project)
             return -1
 
+        if not signature_is_stream and not os.path.exists(signature):
+            warn("VBA signature binary file '%s' not found." % signature)
+            return -1
+
         self.vba_project = vba_project
+        self.vba_project_signature = signature
         self.vba_is_stream = is_stream
+        self.vba_signature_is_stream = signature_is_stream
 
     def add_custom_ui(self, custom_ui, version=2006):
         """
