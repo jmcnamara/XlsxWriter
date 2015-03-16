@@ -1244,12 +1244,19 @@ class Workbook(xmlwriter.XMLwriter):
         # data for series and title/axis ranges.
         worksheets = {}
         seen_ranges = {}
+        charts = []
 
         # Map worksheet names to worksheet objects.
         for worksheet in self.worksheets():
             worksheets[worksheet.name] = worksheet
 
+        # Build a list of the worksheet charts including any combined charts.
         for chart in self.charts:
+            charts.append(chart)
+            if chart.combined:
+                charts.append(chart.combined)
+
+        for chart in charts:
 
             for c_range in chart.formula_ids.keys():
                 r_id = chart.formula_ids[c_range]

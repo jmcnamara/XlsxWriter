@@ -100,6 +100,7 @@ class Chart(xmlwriter.XMLwriter):
         self.label_positions = {}
         self.label_position_default = ''
         self.already_inserted = False
+        self.combined = None
         self._set_default_properties()
 
     def add_series(self, options):
@@ -539,6 +540,22 @@ class Chart(xmlwriter.XMLwriter):
         fill = self._get_fill_properties(options.get('fill'))
 
         self.hi_low_lines = {'line': line, 'fill': fill}
+
+    def combine(self, chart=None):
+        """
+        Create a combination chart with a secondary chart.
+
+        Args:
+            chart: The secondary chart to combine with the primary chart.
+
+        Returns:
+            Nothing.
+
+        """
+        if chart is None:
+            return
+
+        self.combined = chart
 
     ###########################################################################
     #
@@ -1368,6 +1385,12 @@ class Chart(xmlwriter.XMLwriter):
         self._write_chart_type({'primary_axes': True})
         self._write_chart_type({'primary_axes': False})
 
+        if self.combined:
+            self.combined.fh = self.fh
+            self.combined.series_index = self.series_index
+            self.combined._write_chart_type({'primary_axes': True})
+            self.combined._write_chart_type({'primary_axes': False})
+
         # Write the category and value elements for the primary axes.
         args = {'x_axis': self.x_axis,
                 'y_axis': self.y_axis,
@@ -1386,6 +1409,10 @@ class Chart(xmlwriter.XMLwriter):
                 'y_axis': self.y2_axis,
                 'axis_ids': self.axis2_ids
                 }
+
+        # Check for secondary axis in the combined chart.
+        if self.combined and not self.axis2_ids:
+            args['axis_ids'] = self.combined.axis2_ids
 
         self._write_val_axis(args)
 
