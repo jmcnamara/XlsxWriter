@@ -101,6 +101,7 @@ class Chart(xmlwriter.XMLwriter):
         self.label_position_default = ''
         self.already_inserted = False
         self.combined = None
+        self.is_secondary = False
         self._set_default_properties()
 
     def add_series(self, options):
@@ -176,6 +177,10 @@ class Chart(xmlwriter.XMLwriter):
         # Set the secondary axis properties.
         x2_axis = options.get('x2_axis')
         y2_axis = options.get('y2_axis')
+
+        # Store secondary status for combined charts.
+        if x2_axis or y2_axis:
+            self.is_secondary = True
 
         # Set the gap for Bar/Column charts.
         if options.get('gap') is not None:
@@ -1194,11 +1199,11 @@ class Chart(xmlwriter.XMLwriter):
 
     def _add_axis_ids(self, args):
         # Add unique ids for primary or secondary axes
-        chart_id = 1 + int(self.id)
+        chart_id = 5001 + int(self.id)
         axis_count = 1 + len(self.axis2_ids) + len(self.axis_ids)
 
-        id1 = '5%03d%04d' % (chart_id, axis_count)
-        id2 = '5%03d%04d' % (chart_id, axis_count + 1)
+        id1 = '%04d%04d' % (chart_id, axis_count)
+        id2 = '%04d%04d' % (chart_id, axis_count + 1)
 
         if args['primary_axes']:
             self.axis_ids.append(id1)
@@ -1385,9 +1390,21 @@ class Chart(xmlwriter.XMLwriter):
         self._write_chart_type({'primary_axes': True})
         self._write_chart_type({'primary_axes': False})
 
+        # Configure a combined chart if present.
         if self.combined:
+            # Secondary axis has unique id otherwise use same as primary.
+            if self.combined.is_secondary:
+                self.combined.id = 1000 + self.id
+            else:
+                self.combined.id = self.id
+
+            # Shart the same filehandle for writing.
             self.combined.fh = self.fh
+
+            # Share series index with primary chart.
             self.combined.series_index = self.series_index
+
+            # Write the subclass chart type elements for combined chart.
             self.combined._write_chart_type({'primary_axes': True})
             self.combined._write_chart_type({'primary_axes': False})
 
@@ -1410,8 +1427,8 @@ class Chart(xmlwriter.XMLwriter):
                 'axis_ids': self.axis2_ids
                 }
 
-        # Check for secondary axis in the combined chart.
-        if self.combined and not self.axis2_ids:
+        # Check for secondary axis in the combined chart and adjust axis args.
+        if self.combined and self.combined.is_secondary:
             args['axis_ids'] = self.combined.axis2_ids
 
         self._write_val_axis(args)

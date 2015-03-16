@@ -38,10 +38,6 @@ class TestCompareXLSXFiles(ExcelComparisonTest):
         chart1 = workbook.add_chart({'type': 'column'})
         chart2 = workbook.add_chart({'type': 'line'})
 
-        chart1.axis_ids = [80598912, 80606336]
-        chart2.axis_ids = [89031424, 84584704]
-        chart2.axis2_ids = [89031424, 84584704]
-
         data = [
             [2, 7, 3, 6, 2],
             [20, 25, 10, 10, 20],
