@@ -64,9 +64,9 @@ line_chart = workbook.add_chart({'type': 'line', 'embedded': 1})
 # Add a series, on the secondary axis.
 line_chart.add_series({
     'categories': '=Sheet1!A2:A7',
-    'values': '=Sheet1!C2:C7',
-    'marker': {'type': 'automatic'},
-    'y2_axis': 1,
+    'values':     '=Sheet1!C2:C7',
+    'marker':     {'type': 'automatic'},
+    'y2_axis':    1,
 })
 
 # Combine the charts.
