@@ -10,7 +10,7 @@ workbook = xlsxwriter.Workbook('chart_pareto.xlsx')
 worksheet = workbook.add_worksheet()
 
 # Formats used in the workbook.
-bold = workbook.add_format({'bold': 1})
+bold = workbook.add_format({'bold': True})
 percent_format = workbook.add_format({'num_format': '0.0%'})
 
 # Widen the columns for visibility.
@@ -59,7 +59,7 @@ column_chart.set_y_axis({
 column_chart.set_y2_axis({'max': 1})
 
 # Create a new line chart. This will be the secondary chart.
-line_chart = workbook.add_chart({'type': 'line', 'embedded': 1})
+line_chart = workbook.add_chart({'type': 'line'})
 
 # Add a series, on the secondary axis.
 line_chart.add_series({
