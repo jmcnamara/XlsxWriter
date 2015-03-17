@@ -41,3 +41,12 @@ From the `openpyxl <http://pypi.python.org/pypi/openpyxl>`_ page on PyPI:
    pure python reader and writer of Excel OpenXML files. It is ported from the
    PHPExcel project.
 
+
+Xlwings
+-------
+
+From the `xlwings <http://xlwings.org>`_ webpage:
+
+   Replace your VBA code with Python, a powerful yet easy-to-use programming
+   language that is highly suited for numerical analysis. Supports Windows &
+   Mac.
