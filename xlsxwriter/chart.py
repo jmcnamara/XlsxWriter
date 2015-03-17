@@ -1391,28 +1391,28 @@ class Chart(xmlwriter.XMLwriter):
         self._write_chart_type({'primary_axes': False})
 
         # Configure a combined chart if present.
-        if self.combined:
+        second_chart = self.combined
+        if second_chart:
             # Secondary axis has unique id otherwise use same as primary.
-            if self.combined.is_secondary:
-                self.combined.id = 1000 + self.id
+            if second_chart.is_secondary:
+                second_chart.id = 1000 + self.id
             else:
-                self.combined.id = self.id
+                second_chart.id = self.id
 
             # Shart the same filehandle for writing.
-            self.combined.fh = self.fh
+            second_chart.fh = self.fh
 
             # Share series index with primary chart.
-            self.combined.series_index = self.series_index
+            second_chart.series_index = self.series_index
 
             # Write the subclass chart type elements for combined chart.
-            self.combined._write_chart_type({'primary_axes': True})
-            self.combined._write_chart_type({'primary_axes': False})
+            second_chart._write_chart_type({'primary_axes': True})
+            second_chart._write_chart_type({'primary_axes': False})
 
         # Write the category and value elements for the primary axes.
         args = {'x_axis': self.x_axis,
                 'y_axis': self.y_axis,
-                'axis_ids': self.axis_ids
-                }
+                'axis_ids': self.axis_ids}
 
         if self.date_category:
             self._write_date_axis(args)
@@ -1424,14 +1424,17 @@ class Chart(xmlwriter.XMLwriter):
         # Write the category and value elements for the secondary axes.
         args = {'x_axis': self.x2_axis,
                 'y_axis': self.y2_axis,
-                'axis_ids': self.axis2_ids
-                }
-
-        # Check for secondary axis in the combined chart and adjust axis args.
-        if self.combined and self.combined.is_secondary:
-            args['axis_ids'] = self.combined.axis2_ids
+                'axis_ids': self.axis2_ids}
 
         self._write_val_axis(args)
+
+        # Write the secondary axis for the secondary chart.
+        if second_chart and second_chart.is_secondary:
+            args = {'x_axis': second_chart.x2_axis,
+                    'y_axis': second_chart.y2_axis,
+                    'axis_ids': second_chart.axis2_ids}
+
+            second_chart._write_val_axis(args)
 
         if self.date_category:
             self._write_date_axis(args)
