@@ -5055,6 +5055,9 @@ class Worksheet(xmlwriter.XMLwriter):
         # Write the <cell> element.
         #
         # Note. This is the innermost loop so efficiency is important.
+        error_codes = ['#DIV/0!', '#N/A', '#NAME?', '#NULL!',
+                       '#NUM!', '#REF!', '#VALUE!']
+
         cell_range = xl_rowcol_to_cell_fast(row, col)
 
         attributes = [('r', cell_range)]
@@ -5105,11 +5108,22 @@ class Worksheet(xmlwriter.XMLwriter):
                     self._xml_inline_string(string, preserve, attributes)
 
         elif type(cell).__name__ == 'Formula':
-            # Write a formula. First check if the formula value is a string.
-            if isinstance(cell.value, str_types):
-                attributes.append(('t', 'str'))
+            # Write a formula. First check the formula value type.
+            value = cell.value
+            if type(cell.value) == bool:
+                attributes.append(('t', 'b'))
+                if cell.value:
+                    value = 1
+                else:
+                    value = 0
 
-            self._xml_formula_element(cell.formula, cell.value, attributes)
+            elif isinstance(cell.value, str_types):
+                if cell.value in error_codes:
+                    attributes.append(('t', 'e'))
+                else:
+                    attributes.append(('t', 'str'))
+
+            self._xml_formula_element(cell.formula, value, attributes)
 
         elif type(cell).__name__ == 'ArrayFormula':
             # Write a array formula.
