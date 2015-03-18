@@ -1064,11 +1064,16 @@ class Worksheet(xmlwriter.XMLwriter):
         """
 
         # Ensure a chart isn't inserted more than once.
-        if chart.already_inserted:
-            warn("Chart cannot be inserted in a worksheet more than once.")
+        if (chart.already_inserted or chart.combined
+                and chart.combined.already_inserted):
+
+            warn('Chart cannot be inserted in a worksheet more than once.')
             return
         else:
             chart.already_inserted = True
+
+            if chart.combined:
+                chart.combined.already_inserted = True
 
         x_offset = options.get('x_offset', 0)
         y_offset = options.get('y_offset', 0)

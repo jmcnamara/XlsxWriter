@@ -31,6 +31,7 @@ following program::
 
 .. image:: _images/chart_working.png
 
+See also :ref:`chart_examples`.
 
 .. _chart_val_cat_axes:
 
@@ -1079,8 +1080,104 @@ the ``y2_axis`` or ``x2_axis`` property of the series::
 .. image:: _images/chart_secondary_axis2.png
    :scale: 75 %
 
-Note it isn't currently possible to add a secondary axis of a different chart
-type (for example line and column).
+It is also possible to have a secondary, combined, chart either with a shared
+or secondary axis, see below.
+
+
+.. _chart_combined_charts:
+
+Combined Charts
+---------------
+
+It is also possible to combine two different chart types, for example a column
+and line chart to create a Pareto chart using the Chart :func:`combine()`
+method:
+
+.. image:: _images/chart_pareto.png
+   :scale: 75 %
+
+The combined charts can share the same Y axis like the following example::
+
+    # Usual setup to create workbook and add data...
+
+    # Create a new column chart. This will use this as the primary chart.
+    column_chart = workbook.add_chart({'type': 'column'})
+
+    # Configure the data series for the primary chart.
+    column_chart.add_series({
+        'name':       '=Sheet1!B1',
+        'categories': '=Sheet1!A2:A7',
+        'values':     '=Sheet1!B2:B7',
+    })
+
+    # Create a new column chart. This will use this as the secondary chart.
+    line_chart = workbook.add_chart({'type': 'line'})
+
+    # Configure the data series for the secondary chart.
+    line_chart.add_series({
+        'name':       '=Sheet1!C1',
+        'categories': '=Sheet1!A2:A7',
+        'values':     '=Sheet1!C2:C7',
+    })
+
+    # Combine the charts.
+    column_chart.combine(line_chart)
+
+    # Add a chart title and some axis labels. Note, this is done via the
+    # primary chart.
+    column_chart.set_title({ 'name': 'Combined chart - same Y axis'})
+    column_chart.set_x_axis({'name': 'Test number'})
+    column_chart.set_y_axis({'name': 'Sample length (mm)'})
+
+    # Insert the chart into the worksheet
+    worksheet.insert_chart('E2', column_chart)
+
+
+.. image:: _images/chart_combined1.png
+   :scale: 75 %
+
+
+The secondary chart can also be placed on a secondary axis using the methods
+shown in the previous section.
+
+In this case it is just necessary to add a ``y2_axis`` parameter to the series
+and, if required, add a title using :func:`set_y2_axis()`. The following are
+the additions to the previous example to place the secondary chart on the
+secondary axis::
+
+    # ...
+    line_chart.add_series({
+        'name':       '=Sheet1!C1',
+        'categories': '=Sheet1!A2:A7',
+        'values':     '=Sheet1!C2:C7',
+        'y2_axis':    True,
+    })
+
+    # Add a chart title and some axis labels.
+    # ...
+    column_chart.set_y2_axis({'name': 'Target length (mm)'})
+
+
+.. image:: _images/chart_combined2.png
+   :scale: 75 %
+
+The examples above use the concept of a *primary* and *secondary* chart. The
+primary chart is the chart that defines the primary X and Y axis. It is also
+used for setting all chart properties apart from the secondary data
+series. For example the chart title and axes properties should be set via the
+primary chart.
+
+See also :ref:`ex_chart_combined` and :ref:`ex_chart_pareto` for more detailed
+examples.
+
+There are some limitations on combined charts:
+
+* Pie charts cannot currently be combined.
+* Scatter charts cannot currently be used as a primary chart but they can be
+  used as a secondary chart.
+* Bar charts can only combined secondary charts on a secondary axis. This is
+  an Excel limitation.
+
 
 Chartsheets
 -----------
@@ -1101,7 +1198,6 @@ Chart Limitations
 
 The following chart features aren't supported in XlsxWriter:
 
-* Secondary axes of a different chart type to the main chart type.
 * 3D charts and controls.
 * Bubble, Surface or other chart types not listed in :ref:`chart_class`.
 

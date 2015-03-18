@@ -540,6 +540,36 @@ The default properties for this axis are::
     'major_gridlines': {'visible': True}
 
 
+chart.combine()
+---------------
+
+.. py:function:: combine(chart)
+
+   Combine two charts of different types.
+
+   :param chart: A chart object created with :func:`add_chart()`.
+
+The chart ``combine()`` method is used to combine two charts of different
+types, for example a column and line chart::
+
+    # Create a primary chart.
+    column_chart = workbook.add_chart({'type': 'column'})
+    column_chart.add_series({...})
+
+    # Create a secondary chart.
+    line_chart = workbook.add_chart({'type': 'line'})
+    line_chart.add_series({...})
+
+    # Combine the charts.
+    column_chart.combine(line_chart)
+
+.. image:: _images/chart_combined1.png
+   :scale: 75 %
+
+
+See the :ref:`chart_combined_charts` section for more details.
+
+
 chart.set_size()
 ----------------
 
