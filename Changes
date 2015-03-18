@@ -1,4 +1,13 @@
 
+Release 0.6.8 - March 17 2015
+-----------------------------
+
+* Added option to combine two different chart types. See the
+  :ref:`chart_combined_charts` section and :ref:`ex_chart_combined` and
+  :ref:`ex_chart_pareto` for more details.
+  Issue `#72 <https://github.com/jmcnamara/XlsxWriter/issues/72>`_.
+
+
 Release 0.6.7 - March 1 2015
 ----------------------------
 
