@@ -83,7 +83,7 @@ table::
 
     ]
 
-    worksheet.add_table('B3:F7', {'data' data})
+    worksheet.add_table('B3:F7', {'data': data})
 
 .. image:: _images/tables2.png
 
