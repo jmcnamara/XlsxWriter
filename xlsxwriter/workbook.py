@@ -1322,7 +1322,7 @@ class Workbook(xmlwriter.XMLwriter):
             sheetname = c_range[:pos]
             cells = c_range[pos + 1:]
         else:
-            return None
+            return None, None
 
         # Split the cell range into 2 cells or else use single cell for both.
         if cells.find(':') > 0:
@@ -1337,9 +1337,9 @@ class Workbook(xmlwriter.XMLwriter):
         (row_start, col_start) = xl_cell_to_rowcol(cell_1)
         (row_end, col_end) = xl_cell_to_rowcol(cell_2)
 
-        # Check that we have a 1D range only.
+        # We only handle 1D ranges.
         if row_start != row_end and col_start != col_end:
-            return None
+            return None, None
 
         return sheetname, [row_start, col_start, row_end, col_end]
 

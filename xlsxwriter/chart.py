@@ -764,6 +764,9 @@ class Chart(xmlwriter.XMLwriter):
         if data is None or len(data) == 0:
             return 'none'
 
+        if isinstance(data[0], list):
+            return 'multi_str'
+
         # Determine if data is numeric or strings.
         for token in data:
             if token is None:
@@ -1596,6 +1599,12 @@ class Chart(xmlwriter.XMLwriter):
             self.cat_has_num_fmt = 0
             # Write the c:numRef element.
             self._write_str_ref(formula, data, cat_type)
+
+        elif cat_type == 'multi_str':
+            self.cat_has_num_fmt = 0
+            # Write the c:numRef element.
+            self._write_multi_lvl_str_ref(formula, data)
+
         else:
             self.cat_has_num_fmt = 1
             # Write the c:numRef element.
@@ -1649,6 +1658,36 @@ class Chart(xmlwriter.XMLwriter):
             self._write_str_cache(data)
 
         self._xml_end_tag('c:strRef')
+
+    def _write_multi_lvl_str_ref(self, formula, data):
+        # Write the <c:multiLvlStrRef> element.
+
+        if not data:
+            return
+
+        self._xml_start_tag('c:multiLvlStrRef')
+
+        # Write the c:f element.
+        self._write_series_formula(formula)
+
+        self._xml_start_tag('c:multiLvlStrCache')
+
+        # Write the c:ptCount element.
+        count = len(data[-1])
+        self._write_pt_count(count)
+
+        for cat_data in reversed(data):
+
+            self._xml_start_tag('c:lvl')
+
+            for i, point in enumerate(cat_data):
+                # Write the c:pt element.
+                self._write_pt(i, cat_data[i])
+
+            self._xml_end_tag('c:lvl')
+
+        self._xml_end_tag('c:multiLvlStrCache')
+        self._xml_end_tag('c:multiLvlStrRef')
 
     def _write_series_formula(self, formula):
         # Write the <c:f> element.

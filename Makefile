@@ -10,7 +10,7 @@ docs:
 pdf:
 	@make -C dev/docs latexpdf
 
-cleandocs:
+clean:
 	@make -C dev/docs clean
 
 alldocs: cleandocs docs pdf
