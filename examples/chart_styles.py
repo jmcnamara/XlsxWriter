@@ -33,7 +33,7 @@ for chart_type in chart_types:
             worksheet.insert_chart(row_num, col_num , chart)
             style_number += 1
 
-# Crate a worksheet with data for the charts.
+# Create a worksheet with data for the charts.
 data_worksheet = workbook.add_worksheet('Data')
 data = [10, 40, 50, 20, 10, 50]
 data_worksheet.write_column('A1', data)
