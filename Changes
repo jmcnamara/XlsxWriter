@@ -1,4 +1,13 @@
 
+Release 0.6.9 - March 19 2015
+-----------------------------
+
+* Added support for clustered category charts. See :ref:`ex_chart_clustered`
+  for details.
+  Issue `#180 <https://github.com/jmcnamara/XlsxWriter/issues/180>`_.
+
+* Refactored the :ref:`format` and formatting documentation.
+
 Release 0.6.8 - March 17 2015
 -----------------------------
 
