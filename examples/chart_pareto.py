@@ -39,8 +39,8 @@ column_chart = workbook.add_chart({'type': 'column'})
 
 # Add a series.
 column_chart.add_series({
-    'categories': '=Sheet1!A2:A7',
-    'values':     '=Sheet1!B2:B7',
+    'categories': '=Sheet1!$A$2:$A$7',
+    'values':     '=Sheet1!$B$2:$B$7',
 })
 
 # Add a chart title.
@@ -63,8 +63,8 @@ line_chart = workbook.add_chart({'type': 'line'})
 
 # Add a series, on the secondary axis.
 line_chart.add_series({
-    'categories': '=Sheet1!A2:A7',
-    'values':     '=Sheet1!C2:C7',
+    'categories': '=Sheet1!$A$2:$A$7',
+    'values':     '=Sheet1!$C$2:$C$7',
     'marker':     {'type': 'automatic'},
     'y2_axis':    1,
 })

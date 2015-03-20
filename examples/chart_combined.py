@@ -35,9 +35,9 @@ column_chart1 = workbook.add_chart({'type': 'column'})
 
 # Configure the data series for the primary chart.
 column_chart1.add_series({
-    'name':       '=Sheet1!B1',
-    'categories': '=Sheet1!A2:A7',
-    'values':     '=Sheet1!B2:B7',
+    'name':       '=Sheet1!$B$1',
+    'categories': '=Sheet1!$A$2:$A$7',
+    'values':     '=Sheet1!$B$2:$B$7',
 })
 
 # Create a new column chart. This will use this as the secondary chart.
@@ -45,9 +45,9 @@ line_chart1 = workbook.add_chart({'type': 'line'})
 
 # Configure the data series for the secondary chart.
 line_chart1.add_series({
-    'name':       '=Sheet1!C1',
-    'categories': '=Sheet1!A2:A7',
-    'values':     '=Sheet1!C2:C7',
+    'name':       '=Sheet1!$C$1',
+    'categories': '=Sheet1!$A$2:$A$7',
+    'values':     '=Sheet1!$C$2:$C$7',
 })
 
 # Combine the charts.
@@ -72,9 +72,9 @@ column_chart2 = workbook.add_chart({'type': 'column'})
 
 # Configure the data series for the primary chart.
 column_chart2.add_series({
-    'name':       '=Sheet1!B1',
-    'categories': '=Sheet1!A2:A7',
-    'values':     '=Sheet1!B2:B7',
+    'name':       '=Sheet1!$B$1',
+    'categories': '=Sheet1!$A$2:$A$7',
+    'values':     '=Sheet1!$B$2:$B$7',
 })
 
 # Create a new column chart. This will use this as the secondary chart.
@@ -84,9 +84,9 @@ line_chart2 = workbook.add_chart({'type': 'line'})
 # secondary Y axis via (y2_axis). This is the only difference between
 # this and the first example, apart from the axis label below.
 line_chart2.add_series({
-    'name':       '=Sheet1!C1',
-    'categories': '=Sheet1!A2:A7',
-    'values':     '=Sheet1!C2:C7',
+    'name':       '=Sheet1!$C$1',
+    'categories': '=Sheet1!$A$2:$A$7',
+    'values':     '=Sheet1!$C$2:$C$7',
     'y2_axis':    True,
 })
 
