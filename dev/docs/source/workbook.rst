@@ -69,21 +69,31 @@ The constructor options are:
 * **strings_to_numbers**: Enable the
   :ref:`worksheet. <Worksheet>`:func:`write()` method to convert strings to
   numbers, where possible, using :func:`float()` in order to avoid an Excel
-  warning about "Numbers Stored as Text". The default is ``False``::
+  warning about "Numbers Stored as Text". The default is ``False``. To enable
+  this option use::
 
       workbook = xlsxwriter.Workbook(filename, {'strings_to_numbers': True})
 
 * **strings_to_formulas**: Enable the
   :ref:`worksheet. <Worksheet>`:func:`write()` method to convert strings to
-  formulas. The default is ``True``::
+  formulas. The default is ``True``. To disable this option use::
 
       workbook = xlsxwriter.Workbook(filename, {'strings_to_formulas': False})
 
 * **strings_to_urls**: Enable the
   :ref:`worksheet. <Worksheet>`:func:`write()` method to convert strings to
-  urls. The default is ``True``::
+  urls. The default is ``True``. To disable this option use::
 
-      workbook = xlsxwriter.Workbook(filename, {'strings_to_urls': True})
+      workbook = xlsxwriter.Workbook(filename, {'strings_to_urls': False})
+
+* **nan_inf_to_errors**: Enable the
+  :ref:`worksheet. <Worksheet>`:func:`write()` and :func:`write_number()`
+  methods to convert ``nan``, ``inf`` and ``-inf`` to Excel errors. Excel
+  doesn't handle NAN/INF as numbers so as a workaround they are mapped to
+  formulas that yield the error codes ``#NUM!`` and ``#DIV/0!``.  The default
+  is ``False``. To enable this option use::
+
+      workbook = xlsxwriter.Workbook(filename, {'nan_inf_to_errors': True})
 
 * **default_date_format**: This option is used to specify a default date
   format string for use with the

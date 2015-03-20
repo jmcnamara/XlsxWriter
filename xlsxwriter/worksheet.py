@@ -326,6 +326,7 @@ class Worksheet(xmlwriter.XMLwriter):
 
         self.strings_to_numbers = False
         self.strings_to_urls = True
+        self.nan_inf_to_errors = False
         self.strings_to_formulas = True
 
         self.default_date_format = None
@@ -405,7 +406,8 @@ class Worksheet(xmlwriter.XMLwriter):
             elif self.strings_to_numbers:
                 try:
                     f = float(token)
-                    if not self._isnan(f) and not self._isinf(f):
+                    if (self.nan_inf_to_errors or
+                            (not self._isnan(f) and not self._isinf(f))):
                         return self.write_number(row, col, f, *args[1:])
                 except ValueError:
                     # Not a number, write as a string.
@@ -420,8 +422,7 @@ class Worksheet(xmlwriter.XMLwriter):
         # We haven't matched a supported type. Try float.
         try:
             f = float(token)
-            if not self._isnan(f) and not self._isinf(f):
-                return self.write_number(row, col, f, *args[1:])
+            return self.write_number(row, col, f, *args[1:])
         except ValueError:
             pass
         except TypeError:
@@ -494,7 +495,16 @@ class Worksheet(xmlwriter.XMLwriter):
 
         """
         if self._isnan(number) or self._isinf(number):
-            raise TypeError("NAN/INF not supported in write_number()")
+            if self.nan_inf_to_errors:
+                if self._isnan(number):
+                    return self.write_formula(row, col, '#NUM!', cell_format,
+                                              '#NUM!')
+                elif self._isinf(number):
+                    return self.write_formula(row, col, '1/0', cell_format,
+                                              '#DIV/0!')
+            else:
+                raise TypeError("NAN/INF not supported in write_number() "
+                                "without 'nan_inf_to_errors' Workbook() option")
 
         # Check that row and col are valid and store max and min values.
         if self._check_dimensions(row, col):
@@ -3302,6 +3312,7 @@ class Worksheet(xmlwriter.XMLwriter):
         self.strings_to_numbers = init_data['strings_to_numbers']
         self.strings_to_formulas = init_data['strings_to_formulas']
         self.strings_to_urls = init_data['strings_to_urls']
+        self.nan_inf_to_errors = init_data['nan_inf_to_errors']
         self.default_date_format = init_data['default_date_format']
         self.default_url_format = init_data['default_url_format']
         self.excel2003_style = init_data['excel2003_style']
@@ -5053,8 +5064,8 @@ class Worksheet(xmlwriter.XMLwriter):
 
     def _write_cell(self, row, col, cell):
         # Write the <cell> element.
-        #
         # Note. This is the innermost loop so efficiency is important.
+
         error_codes = ['#DIV/0!', '#N/A', '#NAME?', '#NULL!',
                        '#NUM!', '#REF!', '#VALUE!']
 

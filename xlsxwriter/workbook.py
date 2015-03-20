@@ -64,6 +64,7 @@ class Workbook(xmlwriter.XMLwriter):
         self.strings_to_numbers = options.get('strings_to_numbers', False)
         self.strings_to_formulas = options.get('strings_to_formulas', True)
         self.strings_to_urls = options.get('strings_to_urls', True)
+        self.nan_inf_to_errors = options.get('nan_inf_to_errors', False)
         self.default_date_format = options.get('default_date_format', None)
         self.optimization = options.get('constant_memory', False)
         self.in_memory = options.get('in_memory', False)
@@ -548,6 +549,7 @@ class Workbook(xmlwriter.XMLwriter):
             'strings_to_numbers': self.strings_to_numbers,
             'strings_to_formulas': self.strings_to_formulas,
             'strings_to_urls': self.strings_to_urls,
+            'nan_inf_to_errors': self.nan_inf_to_errors,
             'default_date_format': self.default_date_format,
             'default_url_format': self.default_url_format,
             'excel2003_style': self.excel2003_style,
