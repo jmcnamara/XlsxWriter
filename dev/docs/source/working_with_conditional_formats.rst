@@ -305,7 +305,7 @@ These can be replicated using the following XlsxWriter formats::
     format3 = workbook.add_format({'bg_color':   '#C6EFCE',
                                    'font_color': '#006100'})
 
-See also :ref:`working_with_formats`.
+See also :ref:`format`.
 
 minimum:
 ********

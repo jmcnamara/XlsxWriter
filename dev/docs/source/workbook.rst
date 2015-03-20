@@ -170,11 +170,11 @@ objects which are used to apply formatting to a cell. You can either define
 the properties at creation time via a dictionary of property values or later
 via method calls::
 
-    format1 = workbook.add_format(props); # Set properties at creation.
-    format2 = workbook.add_format();      # Set properties later.
+    format1 = workbook.add_format(props)  # Set properties at creation.
+    format2 = workbook.add_format()       # Set properties later.
 
-See the :ref:`format` and :ref:`working_with_formats` sections for more details
-about Format properties and how to set them.
+See the :ref:`format` section for more details about Format properties and how
+to set them.
 
 
 workbook.add_chart()

@@ -822,8 +822,8 @@ axis numbering and data labels::
     color
 
 These properties correspond to the equivalent Worksheet cell Format object
-properties. See the :ref:`format` and :ref:`working_with_formats` sections for
-more details about Format properties and how to set them.
+properties. See the :ref:`format` section for more details about Format
+properties and how to set them.
 
 The following explains the available font properties:
 
