@@ -31,6 +31,9 @@ formulas::
 In general when using the XlsxWriter module you can use A1 notation anywhere
 you can use row-column notation.
 
+XlsxWriter supports Excels worksheet limits of 1,048,576 rows by 16,384
+columns.
+
 .. note::
    Ranges in A1 notation must be in uppercase, like in Excel.
 
@@ -39,6 +42,8 @@ you can use row-column notation.
    supported by XlsxWriter.
 
 .. _abs_reference:
+
+
 
 Relative and Absolute cell references
 =====================================

@@ -22,6 +22,9 @@ object::
 
 .. image:: _images/worksheet00.png
 
+XlsxWriter supports Excels worksheet limits of 1,048,576 rows by 16,384
+columns.
+
 
 worksheet.write()
 -----------------
