@@ -55,7 +55,6 @@ class TestCompareXLSXFiles(ExcelComparisonTest):
 
         self.assertExcelEqual()
 
-
     def test_write_nan_and_inf_write_as_string(self):
         """Test writing special numbers."""
 

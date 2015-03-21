@@ -623,6 +623,8 @@ class Chart(xmlwriter.XMLwriter):
             'major_unit': options.get('major_unit'),
             'minor_unit_type': options.get('minor_unit_type'),
             'major_unit_type': options.get('major_unit_type'),
+            'display_units': options.get('display_units'),
+            'display_units_visible': options.get('display_units_visible'),
             'log_base': options.get('log_base'),
             'crossing': options.get('crossing'),
             'position_axis': options.get('position_axis'),
@@ -638,6 +640,9 @@ class Chart(xmlwriter.XMLwriter):
             axis['visible'] = options.get('visible')
         else:
             axis['visible'] = 1
+
+        # Convert the display units.
+        axis['display_units'] = self._get_display_units(axis['display_units'])
 
         # Map major_gridlines properties.
         if (options.get('major_gridlines')
@@ -1179,6 +1184,31 @@ class Chart(xmlwriter.XMLwriter):
             points.append(point)
 
         return points
+
+    def _get_display_units(self, display_units):
+        # Convert user defined display units to internal units.
+        if not display_units:
+            return
+
+        types = {
+            'hundreds': 'hundreds',
+            'thousands': 'thousands',
+            'ten_thousands': 'tenThousands',
+            'hundred_thousands': 'hundredThousands',
+            'millions': 'millions',
+            'ten_millions': 'tenMillions',
+            'hundred_millions': 'hundredMillions',
+            'billions': 'billions',
+            'trillions': 'trillions',
+        }
+
+        if display_units in types:
+            display_units = types[display_units]
+        else:
+            warn("Unknown display_units type '%s'" % display_units)
+            return
+
+        return display_units
 
     def _get_primary_axes_series(self):
         # Returns series which use the primary axes.
@@ -1905,6 +1935,10 @@ class Chart(xmlwriter.XMLwriter):
         # Write the c:minorUnit element.
         self._write_c_minor_unit(y_axis.get('minor_unit'))
 
+        # Write the c:dispUnits element.
+        self._write_disp_units(y_axis.get('display_units'),
+                               y_axis.get('display_units_visible'))
+
         self._xml_end_tag('c:valAx')
 
     def _write_cat_val_axis(self, args):
@@ -1994,6 +2028,10 @@ class Chart(xmlwriter.XMLwriter):
 
         # Write the c:minorUnit element.
         self._write_c_minor_unit(x_axis.get('minor_unit'))
+
+        # Write the c:dispUnits element.
+        self._write_disp_units(x_axis.get('display_units'),
+                               x_axis.get('display_units_visible'))
 
         self._xml_end_tag('c:valAx')
 
@@ -3571,3 +3609,21 @@ class Chart(xmlwriter.XMLwriter):
             self._xml_end_tag('c:downBars')
         else:
             self._xml_empty_tag('c:downBars')
+
+    def _write_disp_units(self, units, display):
+        # Write the <c:dispUnits> element.
+
+        if not units:
+            return
+
+        attributes = [('val', units)]
+
+        self._xml_start_tag('c:dispUnits')
+        self._xml_empty_tag('c:builtInUnit', attributes)
+
+        if display:
+            self._xml_start_tag('c:dispUnitsLbl')
+            self._xml_empty_tag('c:layout')
+            self._xml_end_tag('c:dispUnitsLbl')
+
+        self._xml_end_tag('c:dispUnits')

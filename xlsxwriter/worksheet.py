@@ -503,8 +503,9 @@ class Worksheet(xmlwriter.XMLwriter):
                     return self.write_formula(row, col, '1/0', cell_format,
                                               '#DIV/0!')
             else:
-                raise TypeError("NAN/INF not supported in write_number() "
-                                "without 'nan_inf_to_errors' Workbook() option")
+                raise TypeError(
+                    "NAN/INF not supported in write_number() "
+                    "without 'nan_inf_to_errors' Workbook() option")
 
         # Check that row and col are valid and store max and min values.
         if self._check_dimensions(row, col):
