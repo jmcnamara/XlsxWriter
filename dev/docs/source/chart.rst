@@ -282,6 +282,8 @@ The options that can be set are::
     text_axis
     minor_unit_type
     major_unit_type
+    display_units
+    display_units_visible
 
 These options are explained below. Some properties are only applicable to
 **value**, **category** or **date** axes (this is noted in each case). See
@@ -484,6 +486,36 @@ the axis types.
 
 * ``major_unit_type``: Same as ``minor_unit_type``, see above, but for major
   axes unit types.
+
+* ``display_units``: Set the display units for the axis. This can be useful if
+  the axis numbers are very large but you don't want to represent them in
+  scientific notation. The available display units are::
+
+    hundreds
+    thousands
+    ten_thousands
+    hundred_thousands
+    millions
+    ten_millions
+    hundred_millions
+    billions
+    trillions
+
+  Applicable to value axes only.::
+
+    chart.set_x_axis({'display_units': 'thousands'})
+    chart.set_y_axis({'display_units': 'millions'})
+
+  .. image:: _images/chart_display_units.png
+     :scale: 75 %
+
+
+* ``display_units_visible``: Control the visibility of the display units
+  turned on by the previous option. This option is on by default. (Applicable
+  to value axes only.)::
+
+    chart.set_x_axis({'display_units': 'hundreds',
+                      'display_units_visible': False})
 
 
 chart.set_y_axis()

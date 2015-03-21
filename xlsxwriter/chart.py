@@ -624,7 +624,6 @@ class Chart(xmlwriter.XMLwriter):
             'minor_unit_type': options.get('minor_unit_type'),
             'major_unit_type': options.get('major_unit_type'),
             'display_units': options.get('display_units'),
-            'display_units_visible': options.get('display_units_visible'),
             'log_base': options.get('log_base'),
             'crossing': options.get('crossing'),
             'position_axis': options.get('position_axis'),
@@ -643,6 +642,8 @@ class Chart(xmlwriter.XMLwriter):
 
         # Convert the display units.
         axis['display_units'] = self._get_display_units(axis['display_units'])
+        axis['display_units_visible'] = \
+            options.get('display_units_visible', True)
 
         # Map major_gridlines properties.
         if (options.get('major_gridlines')

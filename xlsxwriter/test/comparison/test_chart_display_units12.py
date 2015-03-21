@@ -49,8 +49,10 @@ class TestCompareXLSXFiles(ExcelComparisonTest):
             'values': '=Sheet1!$B$1:$B$5'
         })
 
-        chart.set_y_axis({'display_units': 'hundreds'})
-        chart.set_x_axis({'display_units': 'thousands'})
+        chart.set_y_axis({'display_units': 'hundreds',
+                          'display_units_visible': False})
+        chart.set_x_axis({'display_units': 'thousands',
+                          'display_units_visible': False})
 
         worksheet.insert_chart('E9', chart)
 

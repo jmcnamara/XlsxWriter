@@ -45,7 +45,7 @@ class TestCompareXLSXFiles(ExcelComparisonTest):
 
         chart.add_series({'values': '=Sheet1!$A$1:$A$5'})
 
-        chart.set_y_axis({'display_units': 'hundred_thousands'})
+        chart.set_y_axis({'display_units': 'hundred_thousands', 'display_units_visible': 0})
 
         worksheet.insert_chart('E9', chart)
 
