@@ -929,8 +929,9 @@ class Chart(xmlwriter.XMLwriter):
             return
 
         # Check the colors array has the required number of entries.
-        if len(gradient['colors']) < 2:
-            warn("Gradient colors list must at least 2 values")
+        if not 2 <= len(gradient['colors']) <= 10:
+            warn("Gradient colors list must at least 2 values "
+                 "and not more than 10")
             return
 
         if 'positions' in gradient:

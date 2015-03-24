@@ -680,7 +680,7 @@ The ``color`` property sets the color of the ``line``::
 
 The available colours are shown in the main XlsxWriter documentation. It is
 also possible to set the colour of a line with a Html style ``#RRGGBB`` string
-or a limited number named colours, see :ref:`colors`::
+or a limited number of named colours, see :ref:`colors`::
 
     chart.add_series({
         'values': '=Sheet1!$A$1:$A$6',
@@ -751,11 +751,11 @@ property.
 
 .. _chart_formatting_fill:
 
-Chart formatting: Fill
-----------------------
+Chart formatting: Solid Fill
+----------------------------
 
-The fill format is used to specify filled areas of chart objects such as the
-interior of a column or the background of the chart itself.
+The solid fill format is used to specify filled areas of chart objects such as
+the interior of a column or the background of the chart itself.
 
 The following properties can be set for ``fill`` formats in a chart::
 
@@ -784,7 +784,7 @@ The ``color`` property sets the colour of the ``fill`` area::
 
 The available colours are shown in the main XlsxWriter documentation. It is
 also possible to set the colour of a fill with a Html style ``#RRGGBB`` string
-or a limited number named colours, see :ref:`colors`::
+or a limited number of named colours, see :ref:`colors`::
 
     chart.add_series({
         'values': '=Sheet1!$A$1:$A$6',
@@ -802,6 +802,89 @@ which has the same properties as a ``line`` format::
         'fill':   {'color': 'red'},
         'border': {'color': 'black'}
     })
+
+
+.. _chart_formatting_gradient:
+
+Chart formatting: Gradient Fill
+-------------------------------
+
+The gradient fill format is used to specify gradient filled areas of chart
+objects such as the interior of a column or the background of the chart
+itself.
+
+.. image:: _images/chart_gradient.png
+   :scale: 75 %
+
+The following properties can be set for ``gradient`` fill formats in a chart::
+
+    colors:    a list of colors
+    positions: an optional list of positions for the colors
+    type:      the optional type of gradient fill
+    angle:     the optional angle of the linear fill
+
+If gradient fill is used on a chart object it overrides the solid fill
+properties of the object.
+
+The ``colors`` property sets a list of colours that define the ``gradient``::
+
+    chart.set_plotarea({
+        'gradient': {'colors': ['#FFEFD1', '#F0EBD5', '#B69F66']}
+    })
+
+Excel allows between 2 and 10 colours in a gradient but it is unlikely that
+you will require more than 2 or 3.
+
+As with solid fill it is also possible to set the colours of a gradient with a
+Html style ``#RRGGBB`` string or a limited number of named colours, see
+:ref:`colors`::
+
+    chart.add_series({
+        'values':   '=Sheet1!$A$1:$A$6',
+        'gradient': {'colors': ['red', 'green']}
+    })
+
+The ``positions`` defines an optional list of positions, between 0 and 100, of
+where the colours in the gradient are located. Default values are provided for
+``colors`` lists of between 2 and 4 but they can be specified if required::
+
+    chart.add_series({
+        'values': '=Sheet1!$A$1:$A$5',
+        'gradient': {
+            'colors':    ['#DDEBCF', '#156B13'],
+            'positions': [10,        90],
+        }
+    })
+
+
+The ``type`` property can have one of the following values::
+
+    linear        (the default)
+    radial
+    rectangular
+    path
+
+For example::
+
+    chart.add_series({
+        'values': '=Sheet1!$A$1:$A$5',
+        'gradient': {
+            'colors': ['#DDEBCF', '#9CB86E', '#156B13'],
+            'type': 'radial'
+        }
+    })
+
+If ``type`` isn't specified it defaults to ``linear``.
+
+For a ``linear`` fill the angle of the gradient can also be specified::
+
+    chart.add_series({
+        'values': '=Sheet1!$A$1:$A$5',
+        'gradient': {'colors': ['#DDEBCF', '#9CB86E', '#156B13'],
+                     'angle': 45}
+    })
+
+The default angle is 90 degrees.
 
 
 .. _chart_fonts:

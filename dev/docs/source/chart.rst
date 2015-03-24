@@ -172,8 +172,11 @@ The series options that can be set are:
 * ``border``: Set the border properties of the series such as colour and
   style. See :ref:`chart_formatting_border`.
 
-* ``fill``: Set the fill properties of the series such as colour. See
+* ``fill``: Set the solid fill properties of the series such as colour. See
   :ref:`chart_formatting_fill`.
+
+* ``gradient``: Set the gradient fill properties of the series. See
+  :ref:`chart_formatting_gradient`.
 
 * ``marker``: Set the properties of the series marker such as style and
   colour. See :ref:`chart_series_option_marker`.
@@ -265,6 +268,7 @@ The options that can be set are::
     num_format
     line
     fill
+    gradient
     min
     max
     minor_unit
@@ -344,10 +348,13 @@ the axis types.
 
     chart.set_x_axis({'line': {'none': True}})
 
-* ``fill``: Set the fill properties of the axis such as colour. See
+* ``fill``: Set the solid fill properties of the axis such as colour. See
   :ref:`chart_formatting_fill`.  Note, in Excel the axis fill is applied to
   the area of the numbers of the axis and not to the area of the axis bounding
   box. That background is set from the chartarea fill.
+
+* ``gradient``: Set the gradient fill properties of the axis. See
+  :ref:`chart_formatting_gradient`.
 
 * ``min``: Set the minimum value for the axis range. (Applicable to value and
   date axes only.)::
@@ -793,10 +800,13 @@ In Excel the chart area is the background area behind the chart::
 The properties that can be set are:
 
 * ``border``: Set the border properties of the chartarea such as colour and
-  style. See :ref:`chart_formatting`.
+  style. See :ref:`chart_formatting_border`.
 
-* ``fill``: Set the fill properties of the chartarea such as colour. See
-  :ref:`chart_formatting`.
+* ``fill``: Set the solid fill properties of the chartarea such as colour. See
+  :ref:`chart_formatting_fill`.
+
+* ``gradient``: Set the gradient fill properties of the chartarea. See
+  :ref:`chart_formatting_gradient`.
 
 
 
@@ -824,10 +834,13 @@ series are plotted::
 The properties that can be set are:
 
 * ``border``: Set the border properties of the plotarea such as colour and
-  style. See :ref:`chart_formatting`.
+  style. See :ref:`chart_formatting_border`.
 
-* ``fill``: Set the fill properties of the plotarea such as colour. See
-  :ref:`chart_formatting`.
+* ``fill``: Set the solid fill properties of the plotarea such as colour. See
+  :ref:`chart_formatting_fill`.
+
+* ``gradient``: Set the gradient fill properties of the plotarea. See
+  :ref:`chart_formatting_gradient`.
 
 * ``layout``: Set the ``(x, y)`` position of the plotarea in chart relative
   units::
@@ -916,8 +929,8 @@ the difference between the first and last data series::
 
     chart.set_up_down_bars()
 
-It is possible to format the up and down bars to add ``fill`` and ``border``
-properties if required. See :ref:`chart_formatting`::
+It is possible to format the up and down bars to add ``fill``, or ``gradient``
+and ``border`` properties if required. See :ref:`chart_formatting`::
 
     chart.set_up_down_bars({
         'up': {
