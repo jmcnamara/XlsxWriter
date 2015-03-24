@@ -1,4 +1,12 @@
 
+Release 0.7.1 - March 23 2015
+-----------------------------
+
+* Added gradient fills to chart objects such as the plot area of columns. See
+  :ref:`chart_formatting_gradient` and :ref:`ex_chart_gradient`.
+  Feature request `#228 <https://github.com/jmcnamara/XlsxWriter/issues/228>`_.
+
+
 Release 0.7.0 - March 21 2015
 -----------------------------
 
