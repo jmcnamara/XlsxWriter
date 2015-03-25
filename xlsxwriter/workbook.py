@@ -926,6 +926,10 @@ class Workbook(xmlwriter.XMLwriter):
                 sheet._prepare_image(index, image_ref_id, drawing_id, width,
                                      height, name, image_type, x_dpi, y_dpi)
 
+            # Prepare the worksheet shapes.
+            for index in range(shape_count):
+                sheet._prepare_shape(index, drawing_id)
+
             # Prepare the header images.
             for index in range(header_image_count):
 
@@ -1507,7 +1511,7 @@ class Workbook(xmlwriter.XMLwriter):
 class WorksheetMeta(object):
     """
     A class to track worksheets data such as the active sheet and the
-    first sheet..
+    first sheet.
 
     """
 
