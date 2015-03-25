@@ -8,8 +8,9 @@ import re
 import copy
 from warnings import warn
 
+from .shape import Shape
 from . import xmlwriter
-from .utility import xl_color
+from .utility import get_rgb_color
 from .utility import xl_rowcol_to_cell
 from .utility import xl_range_formula
 from .utility import supported_datetime
@@ -140,17 +141,17 @@ class Chart(xmlwriter.XMLwriter):
         name_id = self._get_data_id(name_formula, options.get('name_data'))
 
         # Set the line properties for the series.
-        line = self._get_line_properties(options.get('line'))
+        line = Shape._get_line_properties(options.get('line'))
 
         # Allow 'border' as a synonym for 'line' in bar/column style charts.
         if options.get('border'):
-            line = self._get_line_properties(options['border'])
+            line = Shape._get_line_properties(options['border'])
 
         # Set the fill properties for the series.
-        fill = self._get_fill_properties(options.get('fill'))
+        fill = Shape._get_fill_properties(options.get('fill'))
 
         # Set the gradient gradient properties for the series.
-        gradient = self._get_gradient_properties(options.get('gradient'))
+        gradient = Shape._get_gradient_properties(options.get('gradient'))
 
         # Gradient fill overrides solid fill.
         if gradient:
@@ -487,26 +488,26 @@ class Chart(xmlwriter.XMLwriter):
         if options.get('up'):
             if 'border' in options['up']:
                 # Map border to line.
-                up_line = self._get_line_properties(options['up']['border'])
+                up_line = Shape._get_line_properties(options['up']['border'])
 
             if 'line' in options['up']:
-                up_line = self._get_line_properties(options['up']['line'])
+                up_line = Shape._get_line_properties(options['up']['line'])
 
             if 'fill' in options['up']:
-                up_fill = self._get_line_properties(options['up']['fill'])
+                up_fill = Shape._get_line_properties(options['up']['fill'])
 
         # Set properties for 'down' bar.
         if options.get('down'):
             if 'border' in options['down']:
                 # Map border to line.
                 down_line = \
-                    self._get_line_properties(options['down']['border'])
+                    Shape._get_line_properties(options['down']['border'])
 
             if 'line' in options['down']:
-                down_line = self._get_line_properties(options['down']['line'])
+                down_line = Shape._get_line_properties(options['down']['line'])
 
             if 'fill' in options['down']:
-                down_fill = self._get_line_properties(options['down']['fill'])
+                down_fill = Shape._get_line_properties(options['down']['fill'])
 
         self.up_down_bars = {'up': {'line': up_line,
                                     'fill': up_fill,
@@ -530,11 +531,11 @@ class Chart(xmlwriter.XMLwriter):
         if options is None:
             options = {}
 
-        line = self._get_line_properties(options.get('line'))
-        fill = self._get_fill_properties(options.get('fill'))
+        line = Shape._get_line_properties(options.get('line'))
+        fill = Shape._get_fill_properties(options.get('fill'))
 
         # Set the gradient gradient properties for the series.
-        gradient = self._get_gradient_properties(options.get('gradient'))
+        gradient = Shape._get_gradient_properties(options.get('gradient'))
 
         # Gradient fill overrides solid fill.
         if gradient:
@@ -556,11 +557,11 @@ class Chart(xmlwriter.XMLwriter):
         if options is None:
             options = {}
 
-        line = self._get_line_properties(options.get('line'))
-        fill = self._get_fill_properties(options.get('fill'))
+        line = Shape._get_line_properties(options.get('line'))
+        fill = Shape._get_fill_properties(options.get('fill'))
 
         # Set the gradient gradient properties for the series.
-        gradient = self._get_gradient_properties(options.get('gradient'))
+        gradient = Shape._get_gradient_properties(options.get('gradient'))
 
         # Gradient fill overrides solid fill.
         if gradient:
@@ -723,14 +724,14 @@ class Chart(xmlwriter.XMLwriter):
             self._get_layout_properties(options.get('name_layout'), True)
 
         # Set the line properties for the axis.
-        axis['line'] = self._get_line_properties(options.get('line'))
+        axis['line'] = Shape._get_line_properties(options.get('line'))
 
         # Set the fill properties for the axis.
-        axis['fill'] = self._get_fill_properties(options.get('fill'))
+        axis['fill'] = Shape._get_fill_properties(options.get('fill'))
 
         # Set the gradient gradient properties for the series.
         axis['gradient'] = \
-            self._get_gradient_properties(options.get('gradient'))
+            Shape._get_gradient_properties(options.get('gradient'))
 
         # Gradient fill overrides solid fill.
         if axis.get('gradient'):
@@ -851,140 +852,6 @@ class Chart(xmlwriter.XMLwriter):
 
         return formula_id
 
-    def _get_color(self, color):
-        # Convert the user specified colour to an RGB colour.
-        rgb_color = xl_color(color)
-
-        # Remove leading FF from RGB colour for charts.
-        rgb_color = re.sub(r'^FF', '', rgb_color)
-
-        return rgb_color
-
-    def _get_line_properties(self, line):
-        # Convert user line properties to the structure required internally.
-
-        if not line:
-            return {'defined': False}
-
-        # Copy the user defined properties since they will be modified.
-        line = copy.deepcopy(line)
-
-        dash_types = {
-            'solid': 'solid',
-            'round_dot': 'sysDot',
-            'square_dot': 'sysDash',
-            'dash': 'dash',
-            'dash_dot': 'dashDot',
-            'long_dash': 'lgDash',
-            'long_dash_dot': 'lgDashDot',
-            'long_dash_dot_dot': 'lgDashDotDot',
-            'dot': 'dot',
-            'system_dash_dot': 'sysDashDot',
-            'system_dash_dot_dot': 'sysDashDotDot',
-        }
-
-        # Check the dash type.
-        dash_type = line.get('dash_type')
-
-        if dash_type is not None:
-            if dash_type in dash_types:
-                line['dash_type'] = dash_types[dash_type]
-            else:
-                warn("Unknown dash type '%s'" % dash_type)
-                return
-
-        line['defined'] = True
-
-        return line
-
-    def _get_fill_properties(self, fill):
-        # Convert user fill properties to the structure required internally.
-
-        if not fill:
-            return {'defined': False}
-
-        fill['defined'] = True
-
-        return fill
-
-    def _get_gradient_properties(self, gradient):
-        # Convert user defined gradient to the structure required internally.
-
-        if not gradient:
-            return
-
-        # Copy the user defined properties since they will be modified.
-        gradient = copy.deepcopy(gradient)
-
-        types = {
-            'linear': 'linear',
-            'radial': 'circle',
-            'rectangular': 'rect',
-            'path': 'shape'
-        }
-
-        # Check the colors array exists and is valid.
-        if 'colors' not in gradient and type(gradient['colors']) != list:
-            warn("Gradient must include colors list")
-            return
-
-        # Check the colors array has the required number of entries.
-        if not 2 <= len(gradient['colors']) <= 10:
-            warn("Gradient colors list must at least 2 values "
-                 "and not more than 10")
-            return
-
-        if 'positions' in gradient:
-            # Check the positions array has the right number of entries.
-            if len(gradient['positions']) != len(gradient['colors']):
-                warn("Gradient positions not equal to number of colors")
-                return
-
-            # Check the positions are in the correct range.
-            for pos in gradient['positions']:
-                if not 0 <= pos <= 100:
-                    warn("Gradient position must be in the range "
-                         "0 <= position <= 100")
-                    return
-        else:
-            # Use the default gradient positions.
-            if len(gradient['colors']) == 2:
-                gradient['positions'] = [0, 100]
-
-            elif len(gradient['colors']) == 3:
-                gradient['positions'] = [0, 50, 100]
-
-            elif len(gradient['colors']) == 4:
-                gradient['positions'] = [0, 33, 66, 100]
-
-            else:
-                warn("Must specify gradient positions")
-                return
-
-        angle = gradient.get('angle')
-        if angle:
-            if not 0 <= angle < 360:
-                warn("Gradient angle must be in the range "
-                     "0 <= angle < 360")
-                return
-        else:
-            gradient['angle'] = 90
-
-        # Check for valid types.
-        gradient_type = gradient.get('type')
-
-        if gradient_type is not None:
-
-            if gradient_type in types:
-                gradient['type'] = types[gradient_type]
-            else:
-                warn("Unknown gradient type '%s" % gradient_type)
-                return
-        else:
-            gradient['type'] = 'linear'
-
-        return gradient
-
     def _get_marker_properties(self, marker):
         # Convert user marker properties to the structure required internally.
 
@@ -1025,17 +892,17 @@ class Chart(xmlwriter.XMLwriter):
                 return
 
         # Set the line properties for the marker.
-        line = self._get_line_properties(marker.get('line'))
+        line = Shape._get_line_properties(marker.get('line'))
 
         # Allow 'border' as a synonym for 'line'.
         if 'border' in marker:
-            line = self._get_line_properties(marker['border'])
+            line = Shape._get_line_properties(marker['border'])
 
         # Set the fill properties for the marker.
-        fill = self._get_fill_properties(marker.get('fill'))
+        fill = Shape._get_fill_properties(marker.get('fill'))
 
         # Set the gradient gradient properties for the series.
-        gradient = self._get_gradient_properties(marker.get('gradient'))
+        gradient = Shape._get_gradient_properties(marker.get('gradient'))
 
         # Gradient fill overrides solid fill.
         if gradient:
@@ -1075,17 +942,17 @@ class Chart(xmlwriter.XMLwriter):
             return
 
         # Set the line properties for the trendline.
-        line = self._get_line_properties(trendline.get('line'))
+        line = Shape._get_line_properties(trendline.get('line'))
 
         # Allow 'border' as a synonym for 'line'.
         if 'border' in trendline:
-            line = self._get_line_properties(trendline['border'])
+            line = Shape._get_line_properties(trendline['border'])
 
         # Set the fill properties for the trendline.
-        fill = self._get_fill_properties(trendline.get('fill'))
+        fill = Shape._get_fill_properties(trendline.get('fill'))
 
         # Set the gradient gradient properties for the series.
-        gradient = self._get_gradient_properties(trendline.get('gradient'))
+        gradient = Shape._get_gradient_properties(trendline.get('gradient'))
 
         # Gradient fill overrides solid fill.
         if gradient:
@@ -1152,8 +1019,8 @@ class Chart(xmlwriter.XMLwriter):
         error_bars['minus_data'] = options.get('minus_data')
 
         # Set the line properties for the error bars.
-        error_bars['line'] = self._get_line_properties(options.get('line'))
-        error_bars['fill'] = self._get_line_properties(options.get('fill'))
+        error_bars['line'] = Shape._get_line_properties(options.get('line'))
+        error_bars['fill'] = Shape._get_line_properties(options.get('fill'))
 
         return error_bars
 
@@ -1164,8 +1031,8 @@ class Chart(xmlwriter.XMLwriter):
         gridline = {'visible': options.get('visible')}
 
         # Set the line properties for the gridline.
-        gridline['line'] = self._get_line_properties(options.get('line'))
-        gridline['fill'] = self._get_line_properties(options.get('fill'))
+        gridline['line'] = Shape._get_line_properties(options.get('line'))
+        gridline['fill'] = Shape._get_line_properties(options.get('fill'))
 
         return gridline
 
@@ -1219,17 +1086,17 @@ class Chart(xmlwriter.XMLwriter):
         area = {}
 
         # Set the line properties for the chartarea.
-        line = self._get_line_properties(options.get('line'))
+        line = Shape._get_line_properties(options.get('line'))
 
         # Allow 'border' as a synonym for 'line'.
         if options.get('border'):
-            line = self._get_line_properties(options['border'])
+            line = Shape._get_line_properties(options['border'])
 
         # Set the fill properties for the chartarea.
-        fill = self._get_fill_properties(options.get('fill'))
+        fill = Shape._get_fill_properties(options.get('fill'))
 
         # Set the gradient gradient properties for the series.
-        gradient = self._get_gradient_properties(options.get('gradient'))
+        gradient = Shape._get_gradient_properties(options.get('gradient'))
 
         # Gradient fill overrides solid fill.
         if gradient:
@@ -1302,18 +1169,18 @@ class Chart(xmlwriter.XMLwriter):
             if user_point is not None:
 
                 # Set the line properties for the point.
-                line = self._get_line_properties(user_point.get('line'))
+                line = Shape._get_line_properties(user_point.get('line'))
 
                 # Allow 'border' as a synonym for 'line'.
                 if 'border' in user_point:
-                    line = self._get_line_properties(user_point['border'])
+                    line = Shape._get_line_properties(user_point['border'])
 
                 # Set the fill properties for the chartarea.
-                fill = self._get_fill_properties(user_point.get('fill'))
+                fill = Shape._get_fill_properties(user_point.get('fill'))
 
                 # Set the gradient gradient properties for the series.
                 gradient = \
-                    self._get_gradient_properties(user_point.get('gradient'))
+                    Shape._get_gradient_properties(user_point.get('gradient'))
 
                 # Gradient fill overrides solid fill.
                 if gradient:
@@ -1387,49 +1254,6 @@ class Chart(xmlwriter.XMLwriter):
         if not args['primary_axes']:
             self.axis2_ids.append(id1)
             self.axis2_ids.append(id2)
-
-    def _get_font_style_attributes(self, font):
-        # _get_font_style_attributes.
-        attributes = []
-
-        if not font:
-            return attributes
-
-        if font.get('size'):
-            attributes.append(('sz', font['size']))
-
-        if font.get('bold') is not None:
-            attributes.append(('b', 0 + font['bold']))
-
-        if font.get('italic') is not None:
-            attributes.append(('i', 0 + font['italic']))
-
-        if font.get('underline') is not None:
-            attributes.append(('u', 'sng'))
-
-        # Turn off baseline for fonts that don't use it.
-        if font.get('baseline') != -1:
-            attributes.append(('baseline', font['baseline']))
-
-        return attributes
-
-    def _get_font_latin_attributes(self, font):
-        # _get_font_latin_attributes.
-        attributes = []
-
-        if not font:
-            return attributes
-
-        if font['name'] is not None:
-            attributes.append(('typeface', font['name']))
-
-        if font['pitch_family'] is not None:
-            attributes.append(('pitchFamily', font['pitch_family']))
-
-        if font['charset'] is not None:
-            attributes.append(('charset', font['charset']))
-
-        return attributes
 
     def _set_default_properties(self):
         # Setup the default properties for a chart.
@@ -2877,8 +2701,8 @@ class Chart(xmlwriter.XMLwriter):
         # Write the <a:defRPr> element.
         has_color = 0
 
-        style_attributes = self._get_font_style_attributes(font)
-        latin_attributes = self._get_font_latin_attributes(font)
+        style_attributes = Shape._get_font_style_attributes(font)
+        latin_attributes = Shape._get_font_latin_attributes(font)
 
         if font and font.get('color') is not None:
             has_color = 1
@@ -2922,8 +2746,8 @@ class Chart(xmlwriter.XMLwriter):
         has_color = 0
         lang = 'en-US'
 
-        style_attributes = self._get_font_style_attributes(font)
-        latin_attributes = self._get_font_latin_attributes(font)
+        style_attributes = Shape._get_font_style_attributes(font)
+        latin_attributes = Shape._get_font_latin_attributes(font)
 
         if font and font['color'] is not None:
             has_color = 1
@@ -3100,7 +2924,7 @@ class Chart(xmlwriter.XMLwriter):
         self._xml_start_tag('a:solidFill')
 
         if 'color' in line:
-            color = self._get_color(line['color'])
+            color = get_rgb_color(line['color'])
 
             # Write the a:srgbClr element.
             self._write_a_srgb_clr(color)
@@ -3815,7 +3639,7 @@ class Chart(xmlwriter.XMLwriter):
 
             # Write the a:srgbClr element.
             # TODO: Wait for a feature request to support transparency.
-            color = self._get_color(colors[i])
+            color = get_rgb_color(colors[i])
             self._write_a_srgb_clr(color)
 
             self._xml_end_tag('a:gs')

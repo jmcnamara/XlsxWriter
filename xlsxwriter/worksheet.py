@@ -23,6 +23,7 @@ from .compatibility import num_types, str_types
 from . import xmlwriter
 from .format import Format
 from .drawing import Drawing
+from .shape import Shape
 from .xmlwriter import XMLwriter
 from .utility import xl_rowcol_to_cell
 from .utility import xl_rowcol_to_cell_fast
@@ -1040,7 +1041,7 @@ class Worksheet(xmlwriter.XMLwriter):
             row:      The cell row (zero indexed).
             col:      The cell column (zero indexed).
             filename: Path and filename for image in PNG, JPG or BMP format.
-            options:  Position, scale, url and data stram of the image.
+            options:  Position, scale, url and data stream of the image.
         Returns:
             0:  Success.
         """
@@ -1059,6 +1060,29 @@ class Worksheet(xmlwriter.XMLwriter):
 
         self.images.append([row, col, filename, x_offset, y_offset,
                             x_scale, y_scale, url, tip, anchor, image_data])
+
+    @convert_cell_args
+    def insert_textbox(self, row, col, text, options=None):
+        """
+        Insert an textbox with its top-left corner in a worksheet cell.
+        Args:
+            row:      The cell row (zero indexed).
+            col:      The cell column (zero indexed).
+            text:     The text for the textbox.
+            options:  Textbox options.
+        Returns:
+            0:  Success.
+        """
+        if options is None:
+            options = {}
+
+        x_offset = options.get('x_offset', 0)
+        y_offset = options.get('y_offset', 0)
+        x_scale = options.get('x_scale', 1)
+        y_scale = options.get('y_scale', 1)
+
+        self.shapes.append([row, col, x_offset, y_offset,
+                            x_scale, y_scale, text, options])
 
     @convert_cell_args
     def insert_chart(self, row, col, chart, options={}):
@@ -3815,6 +3839,49 @@ class Worksheet(xmlwriter.XMLwriter):
                                    + str(image_id) + '.'
                                    + image_type])
 
+    def _prepare_shape(self, index, drawing_id):
+        # Set up shapes/drawings.
+        drawing_type = 3
+
+        (row, col, x_offset, y_offset,
+            x_scale, y_scale, text, options) = self.shapes[index]
+
+        width = options.get('width', self.default_col_pixels * 3)
+        height = options.get('height', self.default_row_pixels * 6)
+
+        width *= x_scale
+        height *= y_scale
+
+        dimensions = self._position_object_emus(col, row, x_offset, y_offset,
+                                                width, height)
+
+        # Convert from pixels to emus.
+        width = int(0.5 + (width * 9525))
+        height = int(0.5 + (height * 9525))
+
+        # Create a Drawing obj to use with worksheet unless one already exists.
+        if not self.drawing:
+            drawing = Drawing()
+            drawing.embedded = 1
+            self.drawing = drawing
+
+            self.external_drawing_links.append(['/drawing',
+                                                '../drawings/drawing'
+                                                + str(drawing_id)
+                                                + '.xml', None])
+        else:
+            drawing = self.drawing
+
+        shape = Shape('rect', 'TextBox', options)
+        shape.text = text
+
+        drawing_object = [drawing_type]
+        drawing_object.extend(dimensions)
+        drawing_object.extend([width, height, None, shape, None,
+                               None, None])
+
+        drawing._add_drawing_object(drawing_object)
+
     def _prepare_header_image(self, image_id, width, height, name, image_type,
                               position, x_dpi, y_dpi):
         # Set up an image without a drawing object for header/footer images.
@@ -4174,8 +4241,10 @@ class Worksheet(xmlwriter.XMLwriter):
     def _button_params(self, row, col, options):
         # This method handles the parameters passed to insert_button() as well
         # as calculating the comment object position and vertices.
-        default_width = 64
-        default_height = 20
+
+        default_height = self.default_row_pixels = 20
+        default_width = self.default_col_pixels = 64
+
         button_number = 1 + len(self.buttons_list)
         button = {'row': row, 'col': col, 'font': {}}
         params = {}

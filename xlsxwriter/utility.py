@@ -288,6 +288,16 @@ def xl_color(color):
     return "FF" + color.lstrip('#').upper()
 
 
+def get_rgb_color(color):
+    # Convert the user specified colour to an RGB colour.
+    rgb_color = xl_color(color)
+
+    # Remove leading FF from RGB colour for charts.
+    rgb_color = re.sub(r'^FF', '', rgb_color)
+
+    return rgb_color
+
+
 def get_sparkline_style(style_id):
     styles = [
         {'series':   {'theme': "4", 'tint': "-0.499984740745262"},

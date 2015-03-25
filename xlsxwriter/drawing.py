@@ -5,7 +5,10 @@
 # Copyright 2013-2015, John McNamara, jmcnamara@cpan.org
 #
 
+import re
+
 from . import xmlwriter
+from .utility import get_rgb_color
 
 
 class Drawing(xmlwriter.XMLwriter):
@@ -69,6 +72,7 @@ class Drawing(xmlwriter.XMLwriter):
 
     def _add_drawing_object(self, drawing_object):
         # Add a chart, image or shape sub object to the drawing.
+
         obj = {
             'anchor_type': drawing_object[0],
             'col_from': drawing_object[1],
@@ -138,8 +142,8 @@ class Drawing(xmlwriter.XMLwriter):
                 attributes.append(('editAs', 'oneCell'))
 
         # Add editAs attribute for shapes.
-        if shape and shape.editAs:
-            attributes.append(('editAs', shape.editAs))
+        if shape and shape.edit_as:
+            attributes.append(('editAs', shape.edit_as))
 
         self._xml_start_tag('xdr:twoCellAnchor', attributes)
 
@@ -168,6 +172,7 @@ class Drawing(xmlwriter.XMLwriter):
                             drawing['row_absolute'],
                             drawing['width'],
                             drawing['height'],
+                            shape,
                             options)
         else:
             # Write the xdr:sp element for shapes.
@@ -446,7 +451,9 @@ class Drawing(xmlwriter.XMLwriter):
             self._xml_end_tag('xdr:cxnSp')
         else:
             # Add attribute for shapes.
-            attributes = [('macro', ''), ('textlink', '')]
+            attributes = [('macro', ''),
+                          ('textlink', '')]
+
             self._xml_start_tag('xdr:sp', attributes)
 
             # Write the xdr:nvSpPr element.
@@ -456,8 +463,11 @@ class Drawing(xmlwriter.XMLwriter):
             self._write_xdr_sp_pr(index, col_absolute, row_absolute, width,
                                   height, shape)
 
+            # Write the xdr:style element.
+            self._write_style()
+
             # Write the xdr:txBody element.
-            if shape.text:
+            if shape.text is not None:
                 self._write_tx_body(col_absolute, row_absolute, width, height,
                                     shape)
 
@@ -467,9 +477,9 @@ class Drawing(xmlwriter.XMLwriter):
         # Write the <xdr:nvCxnSpPr> element.
         self._xml_start_tag('xdr:nvCxnSpPr')
 
-        shape.name = shape.type + ' ' + index
-        if shape.name is not None:
-            self._write_c_nv_pr(shape.id, shape.name)
+        name = shape.name + ' ' + str(index)
+        if name is not None:
+            self._write_c_nv_pr(index, name)
 
         self._xml_start_tag('xdr:cNvCxnSpPr')
 
@@ -483,6 +493,7 @@ class Drawing(xmlwriter.XMLwriter):
         if shape.end:
             attributes = [('id', shape.end), ('idx', shape.end_index)]
             self._xml_empty_tag('a:endCxn', attributes)
+
         self._xml_end_tag('xdr:cNvCxnSpPr')
         self._xml_end_tag('xdr:nvCxnSpPr')
 
@@ -492,24 +503,23 @@ class Drawing(xmlwriter.XMLwriter):
 
         self._xml_start_tag('xdr:nvSpPr')
 
-        shape_name = shape.type + ' ' + index
+        name = shape.name + ' ' + str(index)
 
-        self._write_c_nv_pr(shape.id, shape_name)
+        self._write_c_nv_pr(index + 1, name)
 
-        if shape.txBox:
+        if shape.name == 'TextBox':
             attributes = [('txBox', 1)]
 
-        self._xml_start_tag('xdr:cNvSpPr', attributes)
+        self._xml_empty_tag('xdr:cNvSpPr', attributes)
 
-        attributes = [('noChangeArrowheads', '1')]
+        # attributes = [('noChangeArrowheads', '1')]
+        # self._xml_empty_tag('a:spLocks', attributes)
+        # self._xml_end_tag('xdr:cNvSpPr')
 
-        self._xml_empty_tag('a:spLocks', attributes)
-
-        self._xml_end_tag('xdr:cNvSpPr')
         self._xml_end_tag('xdr:nvSpPr')
 
     def _write_pic(self, index, col_absolute, row_absolute,
-                   width, height, options):
+                   width, height, shape, options):
         # Write the <xdr:pic> element.
         self._xml_start_tag('xdr:pic')
 
@@ -521,9 +531,6 @@ class Drawing(xmlwriter.XMLwriter):
             index = index + 1
 
         self._write_blip_fill(index)
-
-        # Pictures are rectangle shapes by default.
-        shape = {'type': 'rect'}
 
         # Write the xdr:spPr element.
         self._write_sp_pr(col_absolute, row_absolute, width, height,
@@ -596,7 +603,7 @@ class Drawing(xmlwriter.XMLwriter):
         self._xml_empty_tag('a:fillRect')
 
     def _write_sp_pr(self, col_absolute, row_absolute, width, height,
-                     shape={}):
+                     shape=None):
         # Write the <xdr:spPr> element, for charts.
 
         self._xml_start_tag('xdr:spPr')
@@ -610,10 +617,11 @@ class Drawing(xmlwriter.XMLwriter):
         self._xml_end_tag('xdr:spPr')
 
     def _write_xdr_sp_pr(self, index, col_absolute, row_absolute, width,
-                         height, shape={}):
+                         height, shape):
         # Write the <xdr:spPr> element for shapes.
 
-        attributes = [('bwMode', 'auto')]
+        attributes = []
+        # attributes = [('bwMode', 'auto')]
 
         self._xml_start_tag('xdr:spPr', attributes)
 
@@ -623,34 +631,41 @@ class Drawing(xmlwriter.XMLwriter):
         # Write the a:prstGeom element.
         self._write_a_prst_geom(shape)
 
-        fill = shape.fill
+        if shape.fill:
+            if not shape.fill['defined']:
+                # Write the a:solidFill element.
+                self._write_a_solid_fill_scheme('lt1')
+            elif 'none' in shape.fill:
+                # Write the a:noFill element.
+                self._xml_empty_tag('a:noFill')
+            elif 'color' in shape.fill:
+                # Write the a:solidFill element.
+                self._write_a_solid_fill(get_rgb_color(shape.fill['color']))
 
-        if len(fill) > 1:
-
-            # Write the a:solidFill element.
-            self._write_a_solid_fill(fill)
-        else:
-            self._xml_empty_tag('a:noFill')
+        if shape.gradient:
+            # Write the a:gradFill element.
+            self._write_a_grad_fill(shape.gradient)
 
         # Write the a:ln element.
-        self._write_a_ln(shape)
+        self._write_a_ln(shape.line)
 
         self._xml_end_tag('xdr:spPr')
 
     def _write_a_xfrm(self, col_absolute, row_absolute, width, height,
-                      shape={}):
+                      shape=None):
         # Write the <a:xfrm> element.
         attributes = []
 
-        if "rotation" in shape:
-            rotation = shape.rotation
-            rotation *= 60000
-            attributes.append(('rot', rotation))
+        if shape:
+            if shape.rotation:
+                rotation = shape.rotation
+                rotation *= 60000
+                attributes.append(('rot', rotation))
 
-        if 'flip_h' in shape:
-            attributes.append(('flipH', 1))
-        if 'flip_v' in shape:
-            attributes.append(('flipV', 1))
+            if shape.flip_h:
+                attributes.append(('flipH', 1))
+            if shape.flip_v:
+                attributes.append(('flipV', 1))
 
         self._xml_start_tag('a:xfrm', attributes)
 
@@ -680,12 +695,9 @@ class Drawing(xmlwriter.XMLwriter):
 
         self._xml_empty_tag('a:ext', attributes)
 
-    def _write_a_prst_geom(self, shape={}):
+    def _write_a_prst_geom(self, shape=None):
         # Write the <a:prstGeom> element.
-        attributes = []
-
-        if 'type' in shape:
-            attributes = [('prst', shape['type'])]
+        attributes = [('prst', 'rect')]
 
         self._xml_start_tag('a:prstGeom', attributes)
 
@@ -694,12 +706,12 @@ class Drawing(xmlwriter.XMLwriter):
 
         self._xml_end_tag('a:prstGeom')
 
-    def _write_a_av_lst(self, shape={}):
+    def _write_a_av_lst(self, shape=None):
         # Write the <a:avLst> element.
         adjustments = []
 
-        if 'adjustments' in shape:
-            adjustments = shape['adjustments']
+        if shape and shape.adjustments:
+            adjustments = shape.adjustments
 
         if adjustments:
             self._xml_start_tag('a:avLst')
@@ -708,7 +720,7 @@ class Drawing(xmlwriter.XMLwriter):
             for adj in adjustments:
                 i += 1
                 # Only connectors have multiple adjustments.
-                if 'connect' in shape:
+                if shape.connect:
                     suffix = i
                 else:
                     suffix = ''
@@ -727,142 +739,326 @@ class Drawing(xmlwriter.XMLwriter):
 
     def _write_a_solid_fill(self, rgb):
         # Write the <a:solidFill> element.
-        if rgb is not None:
-            rgb = '000000'
-
-        attributes = [('val', rgb)]
+        if rgb is None:
+            rgb = 'FFFFFF'
 
         self._xml_start_tag('a:solidFill')
 
-        self._xml_empty_tag('a:srgbClr', attributes)
+        # Write the a:srgbClr element.
+        self._write_a_srgb_clr(rgb)
 
         self._xml_end_tag('a:solidFill')
 
-    def _write_a_ln(self, shape={}):
-        # Write the <a:ln> element.
-        weight = shape.line_weight
+    def _write_a_solid_fill_scheme(self, color, shade=None):
 
-        attributes = [('w', weight * 9525)]
+        attributes = [('val', color)]
+
+        self._xml_start_tag('a:solidFill')
+
+        if shade:
+            self._xml_start_tag('a:schemeClr', attributes)
+            self._write_a_shade(shade)
+            self._xml_end_tag('a:schemeClr')
+        else:
+            self._xml_empty_tag('a:schemeClr', attributes)
+
+        self._xml_end_tag('a:solidFill')
+
+    def _write_a_ln(self, line):
+        # Write the <a:ln> element.
+
+        width = line.get('width', 0.75)
+
+        # Round width to nearest 0.25, like Excel.
+        width = int((width + 0.125) * 4) / 4.0
+
+        # Convert to internal units.
+        width = int(0.5 + (12700 * width))
+
+        attributes = [
+            ('w', width),
+            ('cmpd', 'sng')
+        ]
 
         self._xml_start_tag('a:ln', attributes)
 
-        line = shape.line
-
-        if len(line) > 1:
-
+        if not line['defined']:
             # Write the a:solidFill element.
-            self._write_a_solid_fill(line)
-        else:
+            self._write_a_solid_fill_scheme('lt1', '50000')
+
+        elif 'none' in line:
+            # Write the a:noFill element.
             self._xml_empty_tag('a:noFill')
 
-        if shape.line_type:
+        elif 'color' in line:
+            # Write the a:solidFill element.
+            self._write_a_solid_fill(get_rgb_color(line['color']))
 
-            attributes = [('val', shape.line_type)]
-            self._xml_empty_tag('a:prstDash', attributes)
-
-        if shape.connect:
-            self._xml_empty_tag('a:round')
-        else:
-            attributes = [('lim', 800000)]
-            self._xml_empty_tag('a:miter', attributes)
-
-        self._xml_empty_tag('a:headEnd')
-        self._xml_empty_tag('a:tailEnd')
+        # Write the line/dash type.
+        line_type = line.get('dash_type')
+        if line_type:
+            # Write the a:prstDash element.
+            self._write_a_prst_dash(line_type)
 
         self._xml_end_tag('a:ln')
 
     def _write_tx_body(self, col_absolute, row_absolute, width, height, shape):
         # Write the <xdr:txBody> element.
         attributes = [
-            ('vertOverflow', "clip"),
             ('wrap', "square"),
-            ('lIns', "27432"),
-            ('tIns', "22860"),
-            ('rIns', "27432"),
-            ('bIns', "22860"),
-            ('anchor', shape.valign),
-            ('upright', "1"),
+            ('rtlCol', "0"),
         ]
+
+        if not shape.align['defined']:
+            attributes.append(('anchor', 't'))
+        else:
+
+            if 'vertical' in shape.align:
+                align = shape.align['vertical']
+                if align == 'top':
+                    attributes.append(('anchor', 't'))
+                elif align == 'middle':
+                    attributes.append(('anchor', 'ctr'))
+                elif align == 'bottom':
+                    attributes.append(('anchor', 'b'))
+            else:
+                attributes.append(('anchor', 't'))
+
+            if 'horizontal' in shape.align:
+                align = shape.align['horizontal']
+                if align == 'center':
+                    attributes.append(('anchorCtr', '1'))
+            else:
+                attributes.append(('anchorCtr', '0'))
 
         self._xml_start_tag('xdr:txBody')
         self._xml_empty_tag('a:bodyPr', attributes)
         self._xml_empty_tag('a:lstStyle')
 
-        self._xml_start_tag('a:p')
-
-        rotation = shape.format.rotation
-        if rotation is not None:
-            rotation = 0
-        rotation *= 60000
-
-        attributes = [('algn', shape.align), ('rtl', rotation)]
-        self._xml_start_tag('a:pPr', attributes)
-
-        attributes = [('sz', "1000")]
-        self._xml_empty_tag('a:defRPr', attributes)
-
-        self._xml_end_tag('a:pPr')
-        self._xml_start_tag('a:r')
-
-        size = shape.format.size
-        if size is not None:
-            size = 8
-        size *= 100
-
-        bold = shape.format.bold
-        if bold is not None:
-            bold = 0
-
-        italic = shape.format.italic
-        if italic is not None:
-            italic = 0
-
-        underline = shape['format']['underline']
-        if underline:
-            underline = 'sng'
-        else:
-            underline = 'none'
-
-        strike = shape['format']['font_strikeout']
-        if strike:
-            strike = 'Strike'
-        else:
-            strike = 'noStrike'
+        lines = shape.text.split('\n')
 
         attributes = [
-            ('lang', 'en-US'),
-            ('sz', size),
-            ('b', bold),
-            ('i', italic),
-            ('u', underline),
-            ('strike', strike),
-            ('baseline', 0),
+            ('lang', "en-US"),
+            ('sz', "1100"),
         ]
 
-        self._xml_start_tag('a:rPr', attributes)
+        for line in lines:
 
-        color = shape.format.color
-        if color is not None:
-            color = shape._get_palette_color(color)
-            # color =~ s/^FF//; # Remove leading FF from rgb for shape color.
-        else:
-            color = '000000'
+            self._xml_start_tag('a:p')
 
-        self._write_a_solid_fill(color)
+            if line == '':
+                self._xml_empty_tag('a:endParaRPr', attributes)
+                self._xml_end_tag('a:p')
+                continue
 
-        font = shape.format.font
-        if font is not None:
-            font = 'Calibri'
+            self._xml_start_tag('a:r')
+            self._xml_empty_tag('a:rPr', attributes)
+            self._xml_data_element('a:t', line)
 
-        attributes = [('typeface', font)]
-        self._xml_empty_tag('a:latin', attributes)
+            self._xml_end_tag('a:r')
+            self._xml_end_tag('a:p')
 
-        self._xml_empty_tag('a:cs', attributes)
-
-        self._xml_end_tag('a:rPr')
-
-        self._xml_data_element('a:t', shape.text)
-
-        self._xml_end_tag('a:r')
-        self._xml_end_tag('a:p')
         self._xml_end_tag('xdr:txBody')
+
+    def _write_style(self):
+        # Write the <xdr:style> element.
+        self._xml_start_tag('xdr:style')
+
+        # Write the a:lnRef element.
+        self._write_a_ln_ref()
+
+        # Write the a:fillRef element.
+        self._write_a_fill_ref()
+
+        # Write the a:effectRef element.
+        self._write_a_effect_ref()
+
+        # Write the a:fontRef element.
+        self._write_a_font_ref()
+
+        self._xml_end_tag('xdr:style')
+
+    def _write_a_ln_ref(self):
+        # Write the <a:lnRef> element.
+        attributes = [('idx', '0')]
+
+        self._xml_start_tag('a:lnRef', attributes)
+
+        # Write the a:scrgbClr element.
+        self._write_a_scrgb_clr()
+
+        self._xml_end_tag('a:lnRef')
+
+    def _write_a_fill_ref(self):
+        # Write the <a:fillRef> element.
+        attributes = [('idx', '0')]
+
+        self._xml_start_tag('a:fillRef', attributes)
+
+        # Write the a:scrgbClr element.
+        self._write_a_scrgb_clr()
+
+        self._xml_end_tag('a:fillRef')
+
+    def _write_a_effect_ref(self):
+        # Write the <a:effectRef> element.
+        attributes = [('idx', '0')]
+
+        self._xml_start_tag('a:effectRef', attributes)
+
+        # Write the a:scrgbClr element.
+        self._write_a_scrgb_clr()
+
+        self._xml_end_tag('a:effectRef')
+
+    def _write_a_scrgb_clr(self):
+        # Write the <a:scrgbClr> element.
+
+        attributes = [
+            ('r', '0'),
+            ('g', '0'),
+            ('b', '0'),
+        ]
+
+        self._xml_empty_tag('a:scrgbClr', attributes)
+
+    def _write_a_font_ref(self):
+        # Write the <a:fontRef> element.
+        attributes = [('idx', 'minor')]
+
+        self._xml_start_tag('a:fontRef', attributes)
+
+        # Write the a:schemeClr element.
+        self._write_a_scheme_clr('dk1')
+
+        self._xml_end_tag('a:fontRef')
+
+    def _write_a_scheme_clr(self, val):
+        # Write the <a:schemeClr> element.
+        attributes = [('val', val)]
+
+        self._xml_empty_tag('a:schemeClr', attributes)
+
+    def _write_a_shade(self, shade):
+        # Write the <a:shade> element.
+        attributes = [('val', shade)]
+
+        self._xml_empty_tag('a:shade', attributes)
+
+    def _write_a_prst_dash(self, val):
+        # Write the <a:prstDash> element.
+
+        attributes = [('val', val)]
+
+        self._xml_empty_tag('a:prstDash', attributes)
+
+    def _write_a_grad_fill(self, gradient):
+        # Write the <a:gradFill> element.
+
+        attributes = [('flip', 'none'), ('rotWithShape', '1')]
+
+        if gradient['type'] == 'linear':
+            attributes = []
+
+        self._xml_start_tag('a:gradFill', attributes)
+
+        # Write the a:gsLst element.
+        self._write_a_gs_lst(gradient)
+
+        if gradient['type'] == 'linear':
+            # Write the a:lin element.
+            self._write_a_lin(gradient['angle'])
+        else:
+            # Write the a:path element.
+            self._write_a_path(gradient['type'])
+
+            # Write the a:tileRect element.
+            self._write_a_tile_rect(gradient['type'])
+
+        self._xml_end_tag('a:gradFill')
+
+    def _write_a_gs_lst(self, gradient):
+        # Write the <a:gsLst> element.
+        positions = gradient['positions']
+        colors = gradient['colors']
+
+        self._xml_start_tag('a:gsLst')
+
+        for i in range(len(colors)):
+            pos = int(positions[i] * 1000)
+            attributes = [('pos', pos)]
+            self._xml_start_tag('a:gs', attributes)
+
+            # Write the a:srgbClr element.
+            # TODO: Wait for a feature request to support transparency.
+            color = get_rgb_color(colors[i])
+            self._write_a_srgb_clr(color)
+
+            self._xml_end_tag('a:gs')
+
+        self._xml_end_tag('a:gsLst')
+
+    def _write_a_lin(self, angle):
+        # Write the <a:lin> element.
+
+        angle = int(60000 * angle)
+
+        attributes = [
+            ('ang', angle),
+            ('scaled', '0'),
+        ]
+
+        self._xml_empty_tag('a:lin', attributes)
+
+    def _write_a_path(self, gradient_type):
+        # Write the <a:path> element.
+
+        attributes = [('path', gradient_type)]
+
+        self._xml_start_tag('a:path', attributes)
+
+        # Write the a:fillToRect element.
+        self._write_a_fill_to_rect(gradient_type)
+
+        self._xml_end_tag('a:path')
+
+    def _write_a_fill_to_rect(self, gradient_type):
+        # Write the <a:fillToRect> element.
+
+        l = '100000'
+        t = '100000'
+
+        if gradient_type == 'shape':
+            attributes = [
+                ('l', '50000'),
+                ('t', '50000'),
+                ('r', '50000'),
+                ('b', '50000'),
+            ]
+        else:
+            attributes = [
+                ('l', '100000'),
+                ('t', '100000'),
+            ]
+
+        self._xml_empty_tag('a:fillToRect', attributes)
+
+    def _write_a_tile_rect(self, gradient_type):
+        # Write the <a:tileRect> element.
+
+        if gradient_type == 'shape':
+            attributes = []
+        else:
+            attributes = [
+                ('r', '-100000'),
+                ('b', '-100000'),
+            ]
+
+        self._xml_empty_tag('a:tileRect', attributes)
+
+    def _write_a_srgb_clr(self, val):
+        # Write the <a:srgbClr> element.
+
+        attributes = [('val', val)]
+
+        self._xml_empty_tag('a:srgbClr', attributes)
