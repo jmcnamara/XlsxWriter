@@ -46,10 +46,12 @@ class Shape(object):
         self.flip_v = 0
         self.rotation = 0
         self.textbox = False
+
         self.align = None
-        self.line = None
         self.fill = None
+        self.font = None
         self.format = None
+        self.line = None
 
         self._set_options(options)
 
@@ -61,10 +63,11 @@ class Shape(object):
 
     def _set_options(self, options):
 
-        self.fill = self._get_fill_properties(options.get('fill'))
-        self.line = self._get_line_properties(options.get('line'))
         self.align = self._get_align_properties(options.get('align'))
+        self.fill = self._get_fill_properties(options.get('fill'))
+        self.font = self._get_font_properties(options.get('font'))
         self.gradient = self._get_gradient_properties(options.get('gradient'))
+        self.line = self._get_line_properties(options.get('line'))
 
         # Gradient fill overrides solid fill.
         if self.gradient:
@@ -208,6 +211,36 @@ class Shape(object):
         return gradient
 
     @staticmethod
+    def _get_font_properties(options):
+        # Convert user defined font values into private dict values.
+        if options is None:
+            options = {}
+
+        font = {
+            'name': options.get('name'),
+            'color': options.get('color'),
+            'size': options.get('size', 11),
+            'bold': options.get('bold'),
+            'italic': options.get('italic'),
+            'underline': options.get('underline'),
+            'pitch_family': options.get('pitch_family'),
+            'charset': options.get('charset'),
+            'baseline': options.get('baseline', -1),
+            'rotation': options.get('rotation'),
+            'lang': options.get('lang', 'en-US'),
+        }
+
+        # Convert font size units.
+        if font['size']:
+            font['size'] *= 100
+
+        # Convert rotation into 60,000ths of a degree.
+        if font['rotation']:
+            font['rotation'] = 60000 * int(font['rotation'])
+
+        return font
+
+    @staticmethod
     def _get_font_style_attributes(font):
         # _get_font_style_attributes.
         attributes = []
@@ -227,7 +260,6 @@ class Shape(object):
         if font.get('underline') is not None:
             attributes.append(('u', 'sng'))
 
-        # Turn off baseline for fonts that don't use it.
         if font.get('baseline') != -1:
             attributes.append(('baseline', font['baseline']))
 

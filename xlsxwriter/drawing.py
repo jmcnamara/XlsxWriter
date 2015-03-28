@@ -8,6 +8,7 @@
 import re
 
 from . import xmlwriter
+from .shape import Shape
 from .utility import get_rgb_color
 
 
@@ -837,28 +838,52 @@ class Drawing(xmlwriter.XMLwriter):
 
         lines = shape.text.split('\n')
 
-        attributes = [
-            ('lang', "en-US"),
-            ('sz', "1100"),
-        ]
+        # Set the font attributes.
+        font = shape.font
+        style_attrs = Shape._get_font_style_attributes(font)
+        latin_attrs = Shape._get_font_latin_attributes(font)
+        style_attrs.insert(0, ('lang', font['lang']))
 
         for line in lines:
-
             self._xml_start_tag('a:p')
 
             if line == '':
-                self._xml_empty_tag('a:endParaRPr', attributes)
+                self._write_font_run(font, style_attrs, latin_attrs,
+                                     'a:endParaRPr')
                 self._xml_end_tag('a:p')
                 continue
 
             self._xml_start_tag('a:r')
-            self._xml_empty_tag('a:rPr', attributes)
+
+            self._write_font_run(font, style_attrs, latin_attrs, 'a:rPr')
+
             self._xml_data_element('a:t', line)
 
             self._xml_end_tag('a:r')
             self._xml_end_tag('a:p')
 
         self._xml_end_tag('xdr:txBody')
+
+    def _write_font_run(self, font, style_attrs, latin_attrs, run_type):
+        # Write a:rPr or a:endParaRPr.
+        if font.get('color') is not None:
+            has_color = True
+        else:
+            has_color = False
+
+        if latin_attrs or has_color:
+            self._xml_start_tag(run_type, style_attrs)
+
+            if has_color:
+                self._write_a_solid_fill(get_rgb_color(font['color']))
+
+            if latin_attrs:
+                self._write_a_latin(latin_attrs)
+                self._write_a_cs(latin_attrs)
+
+            self._xml_end_tag(run_type)
+        else:
+            self._xml_empty_tag(run_type, style_attrs)
 
     def _write_style(self):
         # Write the <xdr:style> element.
@@ -1062,3 +1087,11 @@ class Drawing(xmlwriter.XMLwriter):
         attributes = [('val', val)]
 
         self._xml_empty_tag('a:srgbClr', attributes)
+
+    def _write_a_latin(self, attributes):
+        # Write the <a:latin> element.
+        self._xml_empty_tag('a:latin', attributes)
+
+    def _write_a_cs(self, attributes):
+        # Write the <a:latin> element.
+        self._xml_empty_tag('a:cs', attributes)
