@@ -1,4 +1,12 @@
 
+Release 0.7.2 - March 29 2015
+-----------------------------
+
+* Added support for textboxes in worksheets. See :func:`insert_textbox()` and
+  :ref:`working_with_textboxes` for more details.
+  Feature request `#107 <https://github.com/jmcnamara/XlsxWriter/issues/107>`_.
+
+
 Release 0.7.1 - March 23 2015
 -----------------------------
 
@@ -278,7 +286,7 @@ Release 0.4.9 - November 17 2013
 --------------------------------
 
 * Added :ref:`chart object positioning and sizing <chart_layout>` to allow
-  positioning of plotarea, legend, title and axis names. 
+  positioning of plotarea, legend, title and axis names.
   Feature request `#66 <https://github.com/jmcnamara/XlsxWriter/issues/66>`_.
 
 * Added :func:`set_title()` ``none`` option to turn off automatic titles.
@@ -293,14 +301,14 @@ Release 0.4.8 - November 13 2013
 --------------------------------
 
 * Added ``in_memory`` :func:`Workbook` constructor option to allow XlsxWriter
-  to work on Google App Engine. 
+  to work on Google App Engine.
   Feature request `#28 <https://github.com/jmcnamara/XlsxWriter/issues/28>`_.
 
 
 Release 0.4.7 - November 9 2013
 -------------------------------
 
-* Added fix for markers on non-marker scatter charts. 
+* Added fix for markers on non-marker scatter charts.
   Issue `#62 <https://github.com/jmcnamara/XlsxWriter/issues/62>`_.
 
 * Added custom error bar option. Thanks to input from Alex Birmingham.
@@ -337,7 +345,7 @@ Release 0.4.4 - October 16 2013
 Release 0.4.3 - September 12 2013
 ---------------------------------
 
-* Fix for comments overlying columns with non-default width. 
+* Fix for comments overlying columns with non-default width.
   Issue `#45 <https://github.com/jmcnamara/XlsxWriter/issues/45>`_.
 
 

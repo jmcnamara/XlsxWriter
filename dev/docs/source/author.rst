@@ -13,12 +13,6 @@ XlsxWriter was written by John McNamara.
 You can contact me at jmcnamara@cpan.org.
 
 
-Sponsorship
------------
-
-If your company would like to sponsor a feature then let me know.
-
-
 Donations
 ---------
 
