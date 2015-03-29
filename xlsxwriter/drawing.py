@@ -767,7 +767,6 @@ class Drawing(xmlwriter.XMLwriter):
 
     def _write_a_ln(self, line):
         # Write the <a:ln> element.
-
         width = line.get('width', 0.75)
 
         # Round width to nearest 0.25, like Excel.
@@ -783,17 +782,17 @@ class Drawing(xmlwriter.XMLwriter):
 
         self._xml_start_tag('a:ln', attributes)
 
-        if not line['defined']:
-            # Write the a:solidFill element.
-            self._write_a_solid_fill_scheme('lt1', '50000')
-
-        elif 'none' in line:
+        if 'none' in line:
             # Write the a:noFill element.
             self._xml_empty_tag('a:noFill')
 
         elif 'color' in line:
             # Write the a:solidFill element.
             self._write_a_solid_fill(get_rgb_color(line['color']))
+
+        else:
+            # Write the a:solidFill element.
+            self._write_a_solid_fill_scheme('lt1', '50000')
 
         # Write the line/dash type.
         line_type = line.get('dash_type')

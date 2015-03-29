@@ -69,6 +69,9 @@ class Shape(object):
         self.gradient = self._get_gradient_properties(options.get('gradient'))
         self.line = self._get_line_properties(options.get('line'))
 
+        if options.get('border'):
+            self.line = self._get_line_properties(options['border'])
+
         # Gradient fill overrides solid fill.
         if self.gradient:
             self.fill = None

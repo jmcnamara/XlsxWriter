@@ -1123,6 +1123,61 @@ These properties can also be set via the Chart :func:`set_size` method.
   inserted chart.
 
 
+worksheet.insert_textbox()
+--------------------------
+
+.. py:function:: insert_textbox(row, col, textbox[, options])
+
+   Write a string to a worksheet cell.
+
+   :param row:         The cell row (zero indexed).
+   :param col:         The cell column (zero indexed).
+   :param text:        The text in the textbox.
+   :param options:     Optional parameters to position and scale the textbox.
+   :type  row:         int
+   :type  col:         int
+   :type  text:        string
+   :type  options:     dict
+
+This method can be used to insert a textbox into a worksheet::
+
+    worksheet.insert_textbox('B2', 'A simple textbox with some text')
+
+.. image:: _images/textbox03.png
+
+
+The size and formatting of the textbox can be controlled via the ``options`` dict::
+
+    # Size and position
+    width
+    height
+    x_scale
+    y_scale
+    x_offset
+    y_offset
+
+    # Formatting
+    line
+    border
+    fill
+    gradient
+    font
+    align
+
+These options are explained in more detail in the
+:ref:`working_with_textboxes` section.
+
+See also :ref:`ex_textbox`.
+
+
+.. Note::
+  The scaling of a textbox may be affected if is crosses a row that has its
+  default height changed due to a font that is larger than the default font
+  size or that has text wrapping turned on. To avoid this you should
+  explicitly set the height of the row using ``set_row()`` if it crosses an
+  inserted chart.
+
+
 worksheet.insert_button()
 -------------------------
 

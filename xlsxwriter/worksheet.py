@@ -4242,8 +4242,8 @@ class Worksheet(xmlwriter.XMLwriter):
         # This method handles the parameters passed to insert_button() as well
         # as calculating the comment object position and vertices.
 
-        default_height = self.default_row_pixels = 20
-        default_width = self.default_col_pixels = 64
+        default_height = self.default_row_pixels
+        default_width = self.default_col_pixels
 
         button_number = 1 + len(self.buttons_list)
         button = {'row': row, 'col': col, 'font': {}}

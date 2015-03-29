@@ -18,7 +18,7 @@ class TestCompareXLSXFiles(ExcelComparisonTest):
     def setUp(self):
         self.maxDiff = None
 
-        filename = 'textbox14.xlsx'
+        filename = 'textbox25.xlsx'
 
         test_dir = 'xlsxwriter/test/comparison/'
         self.got_filename = test_dir + '_test_' + filename
@@ -35,7 +35,7 @@ class TestCompareXLSXFiles(ExcelComparisonTest):
         worksheet = workbook.add_worksheet()
 
         worksheet.insert_textbox('E9', 'This is some text',
-                                 {'border': {'none': True}})
+                                 {'line': {'width': 3.25}})
 
         workbook.close()
 

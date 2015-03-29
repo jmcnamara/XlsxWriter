@@ -91,6 +91,7 @@ The following properties can be set for ``marker`` formats in a chart::
     size
     border
     fill
+    gradient
 
 The ``type`` property sets the type of marker that is used with a series::
 
@@ -614,6 +615,7 @@ elements::
     line
     border
     fill
+    gradient
 
 Chart formatting properties are generally set using dicts::
 
