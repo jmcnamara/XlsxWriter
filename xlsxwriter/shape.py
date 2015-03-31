@@ -235,7 +235,7 @@ class Shape(object):
 
         # Convert font size units.
         if font['size']:
-            font['size'] *= 100
+            font['size'] = int(font['size'] * 100)
 
         # Convert rotation into 60,000ths of a degree.
         if font['rotation']:
