@@ -291,6 +291,19 @@ it. This is a mandatory method call::
    recommended in all XlsxWriter programs.
 
 
+It is also possible to use a `with context manager
+<https://docs.python.org/2/reference/compound_stmts.html#with>`_ to control the
+lifetime of the workbook like this::
+
+    with xlsxwriter.Workbook('test.xlsx') as workbook:
+        worksheet = workbook.add_worksheet()
+        ...
+
+The workbook will automatically close when exiting the scope of the ``with``
+statement. 
+
+
+
 workbook.set_properties()
 -------------------------
 

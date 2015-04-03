@@ -67,6 +67,17 @@ class TestCompareXLSXFiles(ExcelComparisonTest):
 
         self.assertExcelEqual()
 
+    def test_create_file_with_statement(self):
+        """Test the creation of a simple workbook using `with` statement."""
+
+        with Workbook(self.got_filename) as workbook:
+            worksheet = workbook.add_worksheet()
+
+            worksheet.write(0, 0, 'Hello')
+            worksheet.write(1, 0, 123)
+
+        self.assertExcelEqual()
+
     def test_create_file_write_A1(self):
         """Test the creation of a simple workbook using write() with A1."""
 
