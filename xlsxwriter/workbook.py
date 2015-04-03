@@ -147,6 +147,14 @@ class Workbook(xmlwriter.XMLwriter):
             raise Exception("Exception caught in workbook destructor. "
                             "Explicit close() may be required for workbook.")
 
+    def __enter__(self):
+        """Return self object to use with "with" statement."""
+        return self
+
+    def __exit__(self, type, value, traceback):
+        """Close workbook when exiting "with" statement."""
+        self.close()
+
     def add_worksheet(self, name=None):
         """
         Add a new worksheet to the Excel workbook.
