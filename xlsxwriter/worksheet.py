@@ -3494,55 +3494,6 @@ class Worksheet(xmlwriter.XMLwriter):
         # Convert a datetime object to an Excel serial date and time.
         return datetime_to_excel_datetime(dt_obj, self.date_1904)
 
-    def _options_changed(self):
-        # Check to see if any of the worksheet options have changed.
-        options_changed = False
-        print_changed = False
-        setup_changed = False
-
-        if (self.orientation == 0
-                or self.hcenter == 1
-                or self.vcenter == 1
-                or self.header != ''
-                or self.footer != ''
-                or self.margin_header != 0.50
-                or self.margin_footer != 0.50
-                or self.margin_left != 0.75
-                or self.margin_right != 0.75
-                or self.margin_top != 1.00
-                or self.margin_bottom != 1.00):
-            setup_changed = True
-
-        # Special case for 1x1 page fit.
-        if self.fit_width == 1 and self.fit_height == 1:
-            options_changed = True
-            self.fit_width = 0
-            self.fit_height = 0
-
-        if (self.fit_width > 1
-                or self.fit_height > 1
-                or self.page_order == 1
-                or self.black_white == 1
-                or self.draft_quality == 1
-                or self.print_comments == 1
-                or self.paper_size != 0
-                or self.print_scale != 100
-                or self.print_gridlines == 1
-                or self.print_headers == 1
-                or self.hbreaks > 0
-                or self.vbreaks > 0):
-            print_changed = True
-
-        if print_changed or setup_changed:
-            options_changed = True
-
-        if self.screen_gridlines == 0:
-            options_changed = True
-        if self.filter_on:
-            options_changed = True
-
-        return options_changed, print_changed, setup_changed
-
     def _convert_name_area(self, row_num_1, col_num_1, row_num_2, col_num_2):
         # Convert zero indexed rows and columns to the format required by
         # worksheet named ranges, eg, "Sheet1!$A$1:$C$13".
