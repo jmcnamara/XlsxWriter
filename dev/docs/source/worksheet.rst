@@ -22,6 +22,9 @@ object::
 
 .. image:: _images/worksheet00.png
 
+XlsxWriter supports Excels worksheet limits of 1,048,576 rows by 16,384
+columns.
+
 
 worksheet.write()
 -----------------
@@ -81,10 +84,6 @@ If none of the above types are matched the value is evaluated with ``float()``
 to see if it corresponds to a user defined float type. If it does then it is
 written using :func:`write_number()`.
 
-If not then it is evaluated with ``str()`` to see if it corresponds to a user
-defined string type. If it does then it is written using
-:func:`write_string()`.
-
 Finally, if none of these rules are matched then a ``TypeError`` exception is
 raised.
 
@@ -128,6 +127,7 @@ be a valid :ref:`Format <format>` object::
     cell_format = workbook.add_format({'bold': True, 'italic': True})
 
     worksheet.write(0, 0, 'Hello', cell_format)  # Cell is bold and italic.
+
 
 worksheet.write_string()
 ------------------------
@@ -225,7 +225,7 @@ parameter is optional but when present is should be a valid
 worksheet.write_formula()
 -------------------------
 
-.. py:function:: write_formula(row, col, formula[, cell_format[, value]])
+.. py:function:: write_formula(row, col, formula[, cell_format[, result]])
 
    Write a formula to a worksheet cell.
 
@@ -233,6 +233,7 @@ worksheet.write_formula()
    :param col:         The cell column (zero indexed).
    :param formula:     Formula to write to cell.
    :param cell_format: Optional Format object.
+   :param result:      Optional result. The value if the formula was calculated.
    :type  row:         int
    :type  col:         int
    :type  formula:     string
@@ -261,7 +262,7 @@ The ``cell_format`` parameter is used to apply formatting to the cell. This
 parameter is optional but when present is should be a valid
 :ref:`Format <format>` object.
 
-XlsxWriter doesn't calculate the value of a formula and instead stores the
+XlsxWriter doesn't calculate the result of a formula and instead stores the
 value 0 as the formula result. It then sets a global flag in the XLSX file to
 say that all formulas and functions should be recalculated when the file is
 opened. This is the method recommended in the Excel documentation and in
@@ -270,11 +271,22 @@ that don't have a facility to calculate formulas, such as Excel Viewer, or
 some mobile applications will only display the 0 results.
 
 If required, it is also possible to specify the calculated result of the
-formula using the options ``value`` parameter. This is occasionally necessary
-when working with non-Excel applications that don't calculate the value of the
-formula. The calculated ``value`` is added at the end of the argument list::
+formula using the optional ``result`` parameter. This is occasionally
+necessary when working with non-Excel applications that don't calculate the
+result of the formula::
 
     worksheet.write('A1', '=2+2', num_format, 4)
+
+The ``result`` parameter can be a number, a string, a bool or one of the
+following Excel error codes::
+
+    #DIV/0!
+    #N/A
+    #NAME?
+    #NULL!
+    #NUM!
+    #REF!
+    #VALUE!
 
 Excel stores formulas in US style formatting regardless of the Locale or
 Language of the Excel version. Therefore all formula names written using
@@ -304,7 +316,7 @@ worksheet.write_array_formula()
 -------------------------------
 
 .. py:function:: write_array_formula(first_row, first_col, last_row, \
-                                    last_col, formula[, cell_format[, value]])
+                                    last_col, formula[, cell_format[, result]])
 
    Write an array formula to a worksheet cell.
 
@@ -314,6 +326,7 @@ worksheet.write_array_formula()
    :param last_col:    The last col of the range.
    :param formula:     Array formula to write to cell.
    :param cell_format: Optional Format object.
+   :param result:      Optional result. The value if the formula was calculated.
    :type  first_row:   int
    :type  first_col:   int
    :type  last_row:    int
@@ -353,10 +366,9 @@ The ``cell_format`` parameter is used to apply formatting to the cell. This
 parameter is optional but when present is should be a valid
 :ref:`Format <format>` object.
 
-If required, it is also possible to specify the calculated value of the
+If required, it is also possible to specify the calculated result of the
 formula. This is occasionally necessary when working with non-Excel
-applications that don't calculate the value of the formula. The calculated
-``value`` is added at the end of the argument list::
+applications that don't calculate the result of the formula::
 
     worksheet.write_array_formula('A1:A3', '{=TREND(C1:C3,B1:B3)}', format, 105)
 
@@ -1105,6 +1117,61 @@ These properties can also be set via the Chart :func:`set_size` method.
 
 .. Note::
   The scaling of a chart may be affected if is crosses a row that has its
+  default height changed due to a font that is larger than the default font
+  size or that has text wrapping turned on. To avoid this you should
+  explicitly set the height of the row using ``set_row()`` if it crosses an
+  inserted chart.
+
+
+worksheet.insert_textbox()
+--------------------------
+
+.. py:function:: insert_textbox(row, col, textbox[, options])
+
+   Write a string to a worksheet cell.
+
+   :param row:         The cell row (zero indexed).
+   :param col:         The cell column (zero indexed).
+   :param text:        The text in the textbox.
+   :param options:     Optional parameters to position and scale the textbox.
+   :type  row:         int
+   :type  col:         int
+   :type  text:        string
+   :type  options:     dict
+
+This method can be used to insert a textbox into a worksheet::
+
+    worksheet.insert_textbox('B2', 'A simple textbox with some text')
+
+.. image:: _images/textbox03.png
+
+
+The size and formatting of the textbox can be controlled via the ``options`` dict::
+
+    # Size and position
+    width
+    height
+    x_scale
+    y_scale
+    x_offset
+    y_offset
+
+    # Formatting
+    line
+    border
+    fill
+    gradient
+    font
+    align
+
+These options are explained in more detail in the
+:ref:`working_with_textboxes` section.
+
+See also :ref:`ex_textbox`.
+
+
+.. Note::
+  The scaling of a textbox may be affected if is crosses a row that has its
   default height changed due to a font that is larger than the default font
   size or that has text wrapping turned on. To avoid this you should
   explicitly set the height of the row using ``set_row()`` if it crosses an
@@ -2053,7 +2120,3 @@ refers to the worksheet. The default Excel VBA name of ``Sheet1``, etc., is
 used if a user defined name isn't specified.
 
 See :ref:`macros` for more details.
-
-
-
-

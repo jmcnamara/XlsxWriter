@@ -8,15 +8,9 @@ XlsxWriter was written by John McNamara.
 * `GitHub <https://github.com/jmcnamara>`_
 * `Twitter @jmcnamara13 <https://twitter.com/jmcnamara13>`_
 * `Coderwall <https://coderwall.com/jmcnamara>`_
-* `Ohloh <https://www.ohloh.net/p/XlsxWriter/contributors/2717606196831029>`_
+* `Ohloh <https://www.openhub.net/accounts/jmcnamara>`_
 
 You can contact me at jmcnamara@cpan.org.
-
-
-Sponsorship
------------
-
-If your company would like to sponsor a feature then let me know.
 
 
 Donations

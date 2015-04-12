@@ -69,21 +69,31 @@ The constructor options are:
 * **strings_to_numbers**: Enable the
   :ref:`worksheet. <Worksheet>`:func:`write()` method to convert strings to
   numbers, where possible, using :func:`float()` in order to avoid an Excel
-  warning about "Numbers Stored as Text". The default is ``False``::
+  warning about "Numbers Stored as Text". The default is ``False``. To enable
+  this option use::
 
       workbook = xlsxwriter.Workbook(filename, {'strings_to_numbers': True})
 
 * **strings_to_formulas**: Enable the
   :ref:`worksheet. <Worksheet>`:func:`write()` method to convert strings to
-  formulas. The default is ``True``::
+  formulas. The default is ``True``. To disable this option use::
 
       workbook = xlsxwriter.Workbook(filename, {'strings_to_formulas': False})
 
 * **strings_to_urls**: Enable the
   :ref:`worksheet. <Worksheet>`:func:`write()` method to convert strings to
-  urls. The default is ``True``::
+  urls. The default is ``True``. To disable this option use::
 
-      workbook = xlsxwriter.Workbook(filename, {'strings_to_urls': True})
+      workbook = xlsxwriter.Workbook(filename, {'strings_to_urls': False})
+
+* **nan_inf_to_errors**: Enable the
+  :ref:`worksheet. <Worksheet>`:func:`write()` and :func:`write_number()`
+  methods to convert ``nan``, ``inf`` and ``-inf`` to Excel errors. Excel
+  doesn't handle NAN/INF as numbers so as a workaround they are mapped to
+  formulas that yield the error codes ``#NUM!`` and ``#DIV/0!``.  The default
+  is ``False``. To enable this option use::
+
+      workbook = xlsxwriter.Workbook(filename, {'nan_inf_to_errors': True})
 
 * **default_date_format**: This option is used to specify a default date
   format string for use with the
@@ -170,11 +180,11 @@ objects which are used to apply formatting to a cell. You can either define
 the properties at creation time via a dictionary of property values or later
 via method calls::
 
-    format1 = workbook.add_format(props); # Set properties at creation.
-    format2 = workbook.add_format();      # Set properties later.
+    format1 = workbook.add_format(props)  # Set properties at creation.
+    format2 = workbook.add_format()       # Set properties later.
 
-See the :ref:`format` and :ref:`working_with_formats` sections for more details
-about Format properties and how to set them.
+See the :ref:`format` section for more details about Format properties and how
+to set them.
 
 
 workbook.add_chart()
@@ -279,6 +289,19 @@ it. This is a mandatory method call::
    triggered by the garbage collector. However, this proved to be too
    problematic and non-deterministic. An explicit ``close()`` is now
    recommended in all XlsxWriter programs.
+
+
+It is also possible to use a `with context manager
+<https://docs.python.org/2/reference/compound_stmts.html#with>`_ to control the
+lifetime of the workbook like this::
+
+    with xlsxwriter.Workbook('test.xlsx') as workbook:
+        worksheet = workbook.add_worksheet()
+        ...
+
+The workbook will automatically close when exiting the scope of the ``with``
+statement. 
+
 
 
 workbook.set_properties()

@@ -64,6 +64,7 @@ class Workbook(xmlwriter.XMLwriter):
         self.strings_to_numbers = options.get('strings_to_numbers', False)
         self.strings_to_formulas = options.get('strings_to_formulas', True)
         self.strings_to_urls = options.get('strings_to_urls', True)
+        self.nan_inf_to_errors = options.get('nan_inf_to_errors', False)
         self.default_date_format = options.get('default_date_format', None)
         self.optimization = options.get('constant_memory', False)
         self.in_memory = options.get('in_memory', False)
@@ -148,6 +149,14 @@ class Workbook(xmlwriter.XMLwriter):
         except:
             raise Exception("Exception caught in workbook destructor. "
                             "Explicit close() may be required for workbook.")
+
+    def __enter__(self):
+        """Return self object to use with "with" statement."""
+        return self
+
+    def __exit__(self, type, value, traceback):
+        """Close workbook when exiting "with" statement."""
+        self.close()
 
     def add_worksheet(self, name=None):
         """
@@ -577,6 +586,7 @@ class Workbook(xmlwriter.XMLwriter):
             'strings_to_numbers': self.strings_to_numbers,
             'strings_to_formulas': self.strings_to_formulas,
             'strings_to_urls': self.strings_to_urls,
+            'nan_inf_to_errors': self.nan_inf_to_errors,
             'default_date_format': self.default_date_format,
             'default_url_format': self.default_url_format,
             'excel2003_style': self.excel2003_style,
@@ -953,6 +963,10 @@ class Workbook(xmlwriter.XMLwriter):
                 sheet._prepare_image(index, image_ref_id, drawing_id, width,
                                      height, name, image_type, x_dpi, y_dpi)
 
+            # Prepare the worksheet shapes.
+            for index in range(shape_count):
+                sheet._prepare_shape(index, drawing_id)
+
             # Prepare the header images.
             for index in range(header_image_count):
 
@@ -1273,12 +1287,19 @@ class Workbook(xmlwriter.XMLwriter):
         # data for series and title/axis ranges.
         worksheets = {}
         seen_ranges = {}
+        charts = []
 
         # Map worksheet names to worksheet objects.
         for worksheet in self.worksheets():
             worksheets[worksheet.name] = worksheet
 
+        # Build a list of the worksheet charts including any combined charts.
         for chart in self.charts:
+            charts.append(chart)
+            if chart.combined:
+                charts.append(chart.combined)
+
+        for chart in charts:
 
             for c_range in chart.formula_ids.keys():
                 r_id = chart.formula_ids[c_range]
@@ -1344,7 +1365,7 @@ class Workbook(xmlwriter.XMLwriter):
             sheetname = c_range[:pos]
             cells = c_range[pos + 1:]
         else:
-            return None
+            return None, None
 
         # Split the cell range into 2 cells or else use single cell for both.
         if cells.find(':') > 0:
@@ -1359,9 +1380,9 @@ class Workbook(xmlwriter.XMLwriter):
         (row_start, col_start) = xl_cell_to_rowcol(cell_1)
         (row_end, col_end) = xl_cell_to_rowcol(cell_2)
 
-        # Check that we have a 1D range only.
+        # We only handle 1D ranges.
         if row_start != row_end and col_start != col_end:
-            return None
+            return None, None
 
         return sheetname, [row_start, col_start, row_end, col_end]
 
@@ -1527,7 +1548,7 @@ class Workbook(xmlwriter.XMLwriter):
 class WorksheetMeta(object):
     """
     A class to track worksheets data such as the active sheet and the
-    first sheet..
+    first sheet.
 
     """
 

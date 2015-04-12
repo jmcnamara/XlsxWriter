@@ -23,6 +23,7 @@ from .compatibility import num_types, str_types
 from . import xmlwriter
 from .format import Format
 from .drawing import Drawing
+from .shape import Shape
 from .xmlwriter import XMLwriter
 from .utility import xl_rowcol_to_cell
 from .utility import xl_rowcol_to_cell_fast
@@ -326,6 +327,7 @@ class Worksheet(xmlwriter.XMLwriter):
 
         self.strings_to_numbers = False
         self.strings_to_urls = True
+        self.nan_inf_to_errors = False
         self.strings_to_formulas = True
 
         self.default_date_format = None
@@ -405,7 +407,8 @@ class Worksheet(xmlwriter.XMLwriter):
             elif self.strings_to_numbers:
                 try:
                     f = float(token)
-                    if not self._isnan(f) and not self._isinf(f):
+                    if (self.nan_inf_to_errors or
+                            (not self._isnan(f) and not self._isinf(f))):
                         return self.write_number(row, col, f, *args[1:])
                 except ValueError:
                     # Not a number, write as a string.
@@ -420,8 +423,7 @@ class Worksheet(xmlwriter.XMLwriter):
         # We haven't matched a supported type. Try float.
         try:
             f = float(token)
-            if not self._isnan(f) and not self._isinf(f):
-                return self.write_number(row, col, f, *args[1:])
+            return self.write_number(row, col, f, *args[1:])
         except ValueError:
             pass
         except TypeError:
@@ -494,7 +496,17 @@ class Worksheet(xmlwriter.XMLwriter):
 
         """
         if self._isnan(number) or self._isinf(number):
-            raise TypeError("NAN/INF not supported in write_number()")
+            if self.nan_inf_to_errors:
+                if self._isnan(number):
+                    return self.write_formula(row, col, '#NUM!', cell_format,
+                                              '#NUM!')
+                elif self._isinf(number):
+                    return self.write_formula(row, col, '1/0', cell_format,
+                                              '#DIV/0!')
+            else:
+                raise TypeError(
+                    "NAN/INF not supported in write_number() "
+                    "without 'nan_inf_to_errors' Workbook() option")
 
         # Check that row and col are valid and store max and min values.
         if self._check_dimensions(row, col):
@@ -1029,7 +1041,7 @@ class Worksheet(xmlwriter.XMLwriter):
             row:      The cell row (zero indexed).
             col:      The cell column (zero indexed).
             filename: Path and filename for image in PNG, JPG or BMP format.
-            options:  Position, scale, url and data stram of the image.
+            options:  Position, scale, url and data stream of the image.
         Returns:
             0:  Success.
         """
@@ -1050,6 +1062,29 @@ class Worksheet(xmlwriter.XMLwriter):
                             x_scale, y_scale, url, tip, anchor, image_data])
 
     @convert_cell_args
+    def insert_textbox(self, row, col, text, options=None):
+        """
+        Insert an textbox with its top-left corner in a worksheet cell.
+        Args:
+            row:      The cell row (zero indexed).
+            col:      The cell column (zero indexed).
+            text:     The text for the textbox.
+            options:  Textbox options.
+        Returns:
+            0:  Success.
+        """
+        if options is None:
+            options = {}
+
+        x_offset = options.get('x_offset', 0)
+        y_offset = options.get('y_offset', 0)
+        x_scale = options.get('x_scale', 1)
+        y_scale = options.get('y_scale', 1)
+
+        self.shapes.append([row, col, x_offset, y_offset,
+                            x_scale, y_scale, text, options])
+
+    @convert_cell_args
     def insert_chart(self, row, col, chart, options={}):
         """
         Insert an chart with its top-left corner in a worksheet cell.
@@ -1064,11 +1099,16 @@ class Worksheet(xmlwriter.XMLwriter):
         """
 
         # Ensure a chart isn't inserted more than once.
-        if chart.already_inserted:
-            warn("Chart cannot be inserted in a worksheet more than once.")
+        if (chart.already_inserted or chart.combined
+                and chart.combined.already_inserted):
+
+            warn('Chart cannot be inserted in a worksheet more than once.')
             return
         else:
             chart.already_inserted = True
+
+            if chart.combined:
+                chart.combined.already_inserted = True
 
         x_offset = options.get('x_offset', 0)
         y_offset = options.get('y_offset', 0)
@@ -1426,7 +1466,7 @@ class Worksheet(xmlwriter.XMLwriter):
             (first_col, last_col) = (last_col, first_col)
 
         # Check that column number is valid and store the max value
-        if self._check_dimensions(last_row, first_col):
+        if self._check_dimensions(last_row, last_col):
             return
 
         # Store the merge range.
@@ -3297,6 +3337,7 @@ class Worksheet(xmlwriter.XMLwriter):
         self.strings_to_numbers = init_data['strings_to_numbers']
         self.strings_to_formulas = init_data['strings_to_formulas']
         self.strings_to_urls = init_data['strings_to_urls']
+        self.nan_inf_to_errors = init_data['nan_inf_to_errors']
         self.default_date_format = init_data['default_date_format']
         self.default_url_format = init_data['default_url_format']
         self.excel2003_style = init_data['excel2003_style']
@@ -3798,6 +3839,49 @@ class Worksheet(xmlwriter.XMLwriter):
                                    + str(image_id) + '.'
                                    + image_type])
 
+    def _prepare_shape(self, index, drawing_id):
+        # Set up shapes/drawings.
+        drawing_type = 3
+
+        (row, col, x_offset, y_offset,
+            x_scale, y_scale, text, options) = self.shapes[index]
+
+        width = options.get('width', self.default_col_pixels * 3)
+        height = options.get('height', self.default_row_pixels * 6)
+
+        width *= x_scale
+        height *= y_scale
+
+        dimensions = self._position_object_emus(col, row, x_offset, y_offset,
+                                                width, height)
+
+        # Convert from pixels to emus.
+        width = int(0.5 + (width * 9525))
+        height = int(0.5 + (height * 9525))
+
+        # Create a Drawing obj to use with worksheet unless one already exists.
+        if not self.drawing:
+            drawing = Drawing()
+            drawing.embedded = 1
+            self.drawing = drawing
+
+            self.external_drawing_links.append(['/drawing',
+                                                '../drawings/drawing'
+                                                + str(drawing_id)
+                                                + '.xml', None])
+        else:
+            drawing = self.drawing
+
+        shape = Shape('rect', 'TextBox', options)
+        shape.text = text
+
+        drawing_object = [drawing_type]
+        drawing_object.extend(dimensions)
+        drawing_object.extend([width, height, None, shape, None,
+                               None, None])
+
+        drawing._add_drawing_object(drawing_object)
+
     def _prepare_header_image(self, image_id, width, height, name, image_type,
                               position, x_dpi, y_dpi):
         # Set up an image without a drawing object for header/footer images.
@@ -4157,8 +4241,10 @@ class Worksheet(xmlwriter.XMLwriter):
     def _button_params(self, row, col, options):
         # This method handles the parameters passed to insert_button() as well
         # as calculating the comment object position and vertices.
-        default_width = 64
-        default_height = 20
+
+        default_height = self.default_row_pixels
+        default_width = self.default_col_pixels
+
         button_number = 1 + len(self.buttons_list)
         button = {'row': row, 'col': col, 'font': {}}
         params = {}
@@ -4796,6 +4882,10 @@ class Worksheet(xmlwriter.XMLwriter):
         if self.page_order:
             attributes.append(('pageOrder', "overThenDown"))
 
+        # Set start page for printing.
+        if self.page_start > 1:
+            attributes.append(('firstPageNumber', self.page_start))
+
         # Set page orientation.
         if self.orientation:
             attributes.append(('orientation', 'portrait'))
@@ -4804,7 +4894,7 @@ class Worksheet(xmlwriter.XMLwriter):
 
         # Set start page for printing.
         if self.page_start != 0:
-            attributes.append(('useFirstPageNumber', self.page_start))
+            attributes.append(('useFirstPageNumber', '1'))
 
         # Set the DPI. Mainly only for testing.
         if self.vertical_dpi:
@@ -5044,8 +5134,11 @@ class Worksheet(xmlwriter.XMLwriter):
 
     def _write_cell(self, row, col, cell):
         # Write the <cell> element.
-        #
         # Note. This is the innermost loop so efficiency is important.
+
+        error_codes = ['#DIV/0!', '#N/A', '#NAME?', '#NULL!',
+                       '#NUM!', '#REF!', '#VALUE!']
+
         cell_range = xl_rowcol_to_cell_fast(row, col)
 
         attributes = [('r', cell_range)]
@@ -5096,11 +5189,22 @@ class Worksheet(xmlwriter.XMLwriter):
                     self._xml_inline_string(string, preserve, attributes)
 
         elif type(cell).__name__ == 'Formula':
-            # Write a formula. First check if the formula value is a string.
-            if isinstance(cell.value, str_types):
-                attributes.append(('t', 'str'))
+            # Write a formula. First check the formula value type.
+            value = cell.value
+            if type(cell.value) == bool:
+                attributes.append(('t', 'b'))
+                if cell.value:
+                    value = 1
+                else:
+                    value = 0
 
-            self._xml_formula_element(cell.formula, cell.value, attributes)
+            elif isinstance(cell.value, str_types):
+                if cell.value in error_codes:
+                    attributes.append(('t', 'e'))
+                else:
+                    attributes.append(('t', 'str'))
+
+            self._xml_formula_element(cell.formula, value, attributes)
 
         elif type(cell).__name__ == 'ArrayFormula':
             # Write a array formula.

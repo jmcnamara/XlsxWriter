@@ -6,6 +6,7 @@
 #
 
 from . import chart
+from warnings import warn
 
 
 class ChartBar(chart.Chart):
@@ -59,6 +60,29 @@ class ChartBar(chart.Chart):
 
         self.set_x_axis({})
         self.set_y_axis({})
+
+    def combine(self, chart=None):
+        """
+        Create a combination chart with a secondary chart.
+
+        Note: Override parent method to add an extra check that is required
+        for Bar charts to ensure that their combined chart is on a secondary
+        axis.
+
+        Args:
+            chart: The secondary chart to combine with the primary chart.
+
+        Returns:
+            Nothing.
+
+        """
+        if chart is None:
+            return
+
+        if not chart.is_secondary:
+            warn('Charts combined with Bar charts must be on a secondary axis')
+
+        self.combined = chart
 
     ###########################################################################
     #

@@ -54,6 +54,25 @@ class ChartScatter(chart.Chart):
             'top': 't',
             'bottom': 'b'}
 
+    def combine(self, chart=None):
+        """
+        Create a combination chart with a secondary chart.
+
+        Note: Override parent method to add a warning.
+
+        Args:
+            chart: The secondary chart to combine with the primary chart.
+
+        Returns:
+            Nothing.
+
+        """
+        if chart is None:
+            return
+
+        warn('Combined chart not currently supported with scatter chart '
+             'as the primary chart')
+
     ###########################################################################
     #
     # Private API.

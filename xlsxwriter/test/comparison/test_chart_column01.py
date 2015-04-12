@@ -75,7 +75,6 @@ class TestCompareXLSXFiles(ExcelComparisonTest):
             [1, 2, 3, 4, 5],
             [2, 4, 6, 8, 10],
             [3, 6, 9, 12, 15],
-
         ]
 
         worksheet.write_column('A1', data[0])

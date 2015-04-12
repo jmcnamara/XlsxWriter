@@ -1,24 +1,40 @@
 import sys
+import subprocess
 from warnings import warn
 
 try:
-    from setuptools import setup
+    from setuptools import setup, Command
 except ImportError:
-    from distutils.core import setup
+    from distutils.core import setup, Command
 
 if sys.version_info < (2, 5, 0):
-    warn("The minimum Python version supported by XlsxWriter is 2.5.3.")
+    warn("The minimum Python version supported by XlsxWriter is 2.5.9.")
     exit()
 
 
+class PyTest(Command):
+
+    user_options = []
+
+    def initialize_options(self):
+        pass
+
+    def finalize_options(self):
+        pass
+
+    def run(self):
+        errno = subprocess.call(['python',  '-m', 'unittest', 'discover'])
+        raise SystemExit(errno)
+
 setup(
     name='XlsxWriter',
-    version='0.6.6',
+    version='0.7.2',
     author='John McNamara',
     author_email='jmcnamara@cpan.org',
     url='https://github.com/jmcnamara/XlsxWriter',
     packages=['xlsxwriter'],
     scripts=['examples/vba_extract.py'],
+    cmdclass={'test': PyTest},
     license='BSD',
     description='A Python module for creating Excel XLSX files.',
     long_description=open('README.rst').read(),

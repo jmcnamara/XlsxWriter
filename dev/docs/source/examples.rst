@@ -30,6 +30,7 @@ directory of the XlsxWriter distribution.
    example_sparklines2.rst
    example_comments1.rst
    example_comments2.rst
+   example_textbox.rst
    example_outline1.rst
    example_outline2.rst
    example_doc_properties.rst

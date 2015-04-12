@@ -26,4 +26,3 @@ worksheet.write('B9', 'Text', format3)
 worksheet.write('B12', 'Text', format4)
 
 workbook.close()
-
