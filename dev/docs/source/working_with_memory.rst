@@ -114,23 +114,24 @@ And here is the output for 10,000 rows x 50 columns using the latest version
 of the modules at the time of writing::
 
     Versions:
-        python      : 2.7.4
-        openpyxl    : 2.1.0
-        pyexcelerate: 0.6.3
-        xlsxwriter  : 0.5.7
-        xlwt        : 0.7.5
+        python      : 2.7.2
+        openpyxl    : 2.2.1
+        pyexcelerate: 0.6.6
+        xlsxwriter  : 0.7.2
+        xlwt        : 1.0.0
 
     Dimensions:
         Rows = 10000
         Cols = 50
 
     Times:
-        pyexcelerate          :  10.11
-        xlwt                  :  15.67
-        xlsxwriter (optimised):  19.70
-        xlsxwriter            :  23.50
-        openpyxl   (optimised):  95.82
-        openpyxl              :  95.90
+        pyexcelerate          :  10.63
+        xlwt                  :  16.93
+        xlsxwriter (optimised):  20.37
+        xlsxwriter            :  24.24
+        openpyxl   (optimised):  26.63
+        openpyxl              :  35.75
+
 
 As with any benchmark the results will depend on Python/module versions, CPU,
 RAM and Disk I/O and on the benchmark itself. So make sure to verify these
