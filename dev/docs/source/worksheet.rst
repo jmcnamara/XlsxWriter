@@ -1749,15 +1749,15 @@ worksheet.filter_column_list()
 The ``filter_column_list()`` method can be used to represent filters with
 multiple selected criteria::
 
-    worksheet.filter_column_list('A', 'March', 'April', 'May')
+    worksheet.filter_column_list('A', ['March', 'April', 'May'])
 
 The ``col`` parameter can either be a zero indexed column number or a string
 column name.
 
 One or more criteria can be selected::
 
-    worksheet.filter_column_list('A', 'March')
-    worksheet.filter_column_list('C', 100, 110, 120, 130)
+    worksheet.filter_column_list('A', ['March'])
+    worksheet.filter_column_list('C', [100, 110, 120, 130])
 
 It isn't sufficient to just specify filters. You must also hide any rows that
 don't match the filter condition. See :ref:`working_with_autofilters` for more
