@@ -1,7 +1,7 @@
 .. _pandas_examples:
 
-Pandas Examples
-===============
+Pandas with XlsxWriter Examples
+===============================
 
 The following are some of the examples included in the
 `examples <https://github.com/jmcnamara/XlsxWriter/tree/master/examples>`_

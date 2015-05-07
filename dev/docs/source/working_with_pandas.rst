@@ -1,7 +1,7 @@
 .. _ewx_pandas:
 
-Working with Python Pandas
-==========================
+Working with Python Pandas and XlsxWriter
+=========================================
 
 Python `Pandas <http://pandas.pydata.org/>`_ is a Python data analysis
 library. It can read, filter and re-arrange small and large data sets and

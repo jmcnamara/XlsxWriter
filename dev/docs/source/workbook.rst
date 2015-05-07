@@ -115,6 +115,14 @@ The constructor options are:
 When specifying a filename it is recommended that you use an ``.xlsx``
 extension or Excel will generate a warning when opening the file.
 
+The ``Workbook()`` method also works using the ``with`` context manager. In
+which case it doesn't need an explicit `close()` statement::
+
+    with xlsxwriter.Workbook('hello_world.xlsx') as workbook:
+        worksheet = workbook.add_worksheet()
+
+        worksheet.write('A1', 'Hello world')
+
 It is possible to write files to in-memory strings using StringIO as follows::
 
     output = StringIO()
@@ -290,17 +298,16 @@ it. This is a mandatory method call::
    problematic and non-deterministic. An explicit ``close()`` is now
    recommended in all XlsxWriter programs.
 
+The ``Workbook`` object also works using the ``with`` context manager. In
+which case it doesn't need an explicit `close()` statement::
 
-It is also possible to use a `with context manager
-<https://docs.python.org/2/reference/compound_stmts.html#with>`_ to control the
-lifetime of the workbook like this::
-
-    with xlsxwriter.Workbook('test.xlsx') as workbook:
+    with xlsxwriter.Workbook('hello_world.xlsx') as workbook:
         worksheet = workbook.add_worksheet()
-        ...
 
-The workbook will automatically close when exiting the scope of the ``with``
-statement. 
+        worksheet.write('A1', 'Hello world')
+
+The workbook will close automatically when exiting the scope of the ``with``
+statement.
 
 
 
