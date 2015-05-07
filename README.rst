@@ -19,6 +19,7 @@ including:
 * Worksheet PNG/JPEG images.
 * Rich multi-format strings.
 * Cell comments.
+* Integration with Pandas.
 * Textboxes.
 * Memory optimisation mode for writing large files.
 

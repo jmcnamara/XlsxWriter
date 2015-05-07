@@ -184,7 +184,7 @@ html_show_copyright = True
 htmlhelp_basename = 'XlsxWriterdoc'
 
 # Remove permalinks.
-html_add_permalinks = False
+html_add_permalinks = ""
 
 
 # -- Options for LaTeX output --------------------------------------------------
