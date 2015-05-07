@@ -3,7 +3,7 @@
 Example: Pandas Excel output with column formatting
 ===================================================
 
-An example of converting a Pandas dataframe to an xlsx file with column
+An example of converting a Pandas dataframe to an Excel file with column
 formats using Pandas and XlsxWriter.
 
 Note: It isn't possible to format any cells that already have a format such as

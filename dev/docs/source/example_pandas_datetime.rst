@@ -3,7 +3,7 @@
 Example: Pandas Excel output with datetimes
 ===========================================
 
-An example of converting a Pandas dataframe with datetimes to an xlsx file
+An example of converting a Pandas dataframe with datetimes to an Excel file
 with a default datetime and date format using Pandas and XlsxWriter.
 
 

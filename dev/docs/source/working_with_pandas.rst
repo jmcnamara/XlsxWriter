@@ -133,9 +133,15 @@ See the full example at :ref:`ex_pandas_column_formats`
 Further Pandas and Excel Information
 ------------------------------------
 
-See all the XlsxWriter Pandas examples at :ref:`pandas_examples`.
+Here are some additional resources in relation to Pandas, Excel and XlsxWriter.
 
-See also `Using Pandas and XlsxWriter to create Excel charts
-<http://pandas-xlsxwriter-charts.readthedocs.org/en/latest/index.html>`_ and
-the series of articles on the Practical Business Python website about `Using
-Pandas and Excel <http://pbpython.com/tag/excel.html>`_.
+* The XlsxWriter Pandas examples later in the document: :ref:`pandas_examples`.
+
+* The Pandas documentation on the `pandas.DataFrame.to_excel() method
+  <http://pandas.pydata.org/pandas-docs/dev/generated/pandas.DataFrame.to_excel.html>`_.
+
+* `Using Pandas and XlsxWriter to create Excel charts
+  <http://pandas-xlsxwriter-charts.readthedocs.org/en/latest/index.html>`_.
+
+* The series of articles on the "Practical Business Python" website about
+  `Using Pandas and Excel <http://pbpython.com/tag/excel.html>`_.
