@@ -127,6 +127,8 @@ It is possible to format any other column data using :func:`set_column()`::
 
 .. image:: _images/pandas_column_formats.png
 
+Note: This feature requires Pandas >= 0.16.
+
 See the full example at :ref:`ex_pandas_column_formats`
 
 
