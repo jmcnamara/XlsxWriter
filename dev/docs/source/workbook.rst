@@ -143,11 +143,11 @@ See also :ref:`ex_http_server`.
 workbook.add_worksheet()
 ------------------------
 
-.. function:: add_worksheet([sheetname])
+.. function:: add_worksheet([name])
 
    Add a new worksheet to a workbook.
 
-   :param string sheetname: Optional worksheet name, defaults to Sheet1, etc.
+   :param string name: Optional worksheet name, defaults to Sheet1, etc.
    :rtype: A :ref:`worksheet <Worksheet>` object.
 
 The ``add_worksheet()`` method adds a new worksheet to a workbook.
@@ -156,7 +156,7 @@ At least one worksheet should be added to a new workbook. The
 :ref:`Worksheet <worksheet>` object is used to write data and configure a
 worksheet in the workbook.
 
-The ``sheetname`` parameter is optional. If it is not specified the default
+The ``name`` parameter is optional. If it is not specified the default
 Excel convention will be followed, i.e. Sheet1, Sheet2, etc.::
 
     worksheet1 = workbook.add_worksheet()           # Sheet1
@@ -170,7 +170,7 @@ The worksheet name must be a valid Excel worksheet name, i.e. it cannot contain
 any of the characters ``' [ ] : * ? / \
 '`` and it must be less than 32 characters.
 
-In addition, you cannot use the same, case insensitive, ``sheetname`` for more
+In addition, you cannot use the same, case insensitive, ``name`` for more
 than one worksheet.
 
 workbook.add_format()
