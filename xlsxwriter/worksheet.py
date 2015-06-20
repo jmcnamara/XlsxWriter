@@ -2208,7 +2208,7 @@ class Worksheet(xmlwriter.XMLwriter):
 
         Returns:
             0:  Success.
-            -1: supported not in optimisation mode.
+            -1: Not supported in optimisation mode.
             -2: Row or column is out of worksheet bounds.
             -3: Incorrect parameter or option.
         """
@@ -3677,7 +3677,7 @@ class Worksheet(xmlwriter.XMLwriter):
             # Only allow Equals or NotEqual in this context.
             if operator != 2 and operator != 5:
                 warn("The operator '%s' in expression '%s' "
-                     "is valid not in relation to Blanks/NonBlanks'"
+                     "is not valid in relation to Blanks/NonBlanks'"
                      % (tokens[1], expression))
 
             token = token.lower()
