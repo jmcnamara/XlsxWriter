@@ -469,7 +469,7 @@ The datetime should be a :class:`datetime.datetime`, :class:`datetime.date`
 :class:`datetime.time` or :class:`datetime.timedelta` object. The
 :mod:`datetime` class is part of the standard Python libraries.
 
-There are many way to create datetime objects, for example the
+There are many ways to create datetime objects, for example the
 :meth:`datetime.datetime.strptime` method::
 
     date_time = datetime.datetime.strptime('2013-01-23', '%Y-%m-%d')
@@ -1621,7 +1621,7 @@ worksheet.merge_range()
 -----------------------
 
 .. py:function:: merge_range(first_row, first_col, \
-                             last_row, last_col, cell_format)
+                             last_row, last_col, data[, cell_format])
 
    Merge a range of cells.
 
