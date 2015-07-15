@@ -225,7 +225,7 @@ parameter is optional but when present is should be a valid
 worksheet.write_formula()
 -------------------------
 
-.. py:function:: write_formula(row, col, formula[, cell_format[, result]])
+.. py:function:: write_formula(row, col, formula[, cell_format[, value]])
 
    Write a formula to a worksheet cell.
 
@@ -233,7 +233,7 @@ worksheet.write_formula()
    :param col:         The cell column (zero indexed).
    :param formula:     Formula to write to cell.
    :param cell_format: Optional Format object.
-   :param result:      Optional result. The value if the formula was calculated.
+   :param value:       Optional result. The value if the formula was calculated.
    :type  row:         int
    :type  col:         int
    :type  formula:     string
@@ -271,13 +271,13 @@ that don't have a facility to calculate formulas, such as Excel Viewer, or
 some mobile applications will only display the 0 results.
 
 If required, it is also possible to specify the calculated result of the
-formula using the optional ``result`` parameter. This is occasionally
+formula using the optional ``value`` parameter. This is occasionally
 necessary when working with non-Excel applications that don't calculate the
 result of the formula::
 
     worksheet.write('A1', '=2+2', num_format, 4)
 
-The ``result`` parameter can be a number, a string, a bool or one of the
+The ``value`` parameter can be a number, a string, a bool or one of the
 following Excel error codes::
 
     #DIV/0!
@@ -316,7 +316,7 @@ worksheet.write_array_formula()
 -------------------------------
 
 .. py:function:: write_array_formula(first_row, first_col, last_row, \
-                                    last_col, formula[, cell_format[, result]])
+                                    last_col, formula[, cell_format[, value]])
 
    Write an array formula to a worksheet cell.
 
@@ -326,7 +326,7 @@ worksheet.write_array_formula()
    :param last_col:    The last col of the range.
    :param formula:     Array formula to write to cell.
    :param cell_format: Optional Format object.
-   :param result:      Optional result. The value if the formula was calculated.
+   :param value:       Optional result. The value if the formula was calculated.
    :type  first_row:   int
    :type  first_col:   int
    :type  last_row:    int
@@ -334,7 +334,7 @@ worksheet.write_array_formula()
    :type  formula:     string
    :type  cell_format: :ref:`Format <format>`
 
-The ``write_array_formula()`` method write an array formula to a cell range. In
+The ``write_array_formula()`` method writes an array formula to a cell range. In
 Excel an array formula is a formula that performs a calculation on a set of
 values. It can return a single value or a range of values.
 
@@ -367,10 +367,12 @@ parameter is optional but when present is should be a valid
 :ref:`Format <format>` object.
 
 If required, it is also possible to specify the calculated result of the
-formula. This is occasionally necessary when working with non-Excel
-applications that don't calculate the result of the formula::
+formula (see discussion of formulas and the ``value`` parameter for the
+``write_formula()`` method above). However, using this parameter only writes
+a single value to the upper left cell in the result array and thus is largely
+unsuitable except for single-cell ranges::
 
-    worksheet.write_array_formula('A1:A3', '{=TREND(C1:C3,B1:B3)}', format, 105)
+    worksheet.write_array_formula('A1:A1', '{=SUM(B1:C1*B2:C2)}', format, 105)
 
 See also :ref:`ex_array_formula`.
 
