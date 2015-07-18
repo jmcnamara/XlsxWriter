@@ -798,7 +798,7 @@ class Worksheet(xmlwriter.XMLwriter):
 
         # External links to URLs and to other Excel workbooks have slightly
         # different characteristics that we have to account for.
-        if link_type == 1:
+        if link_type == 1 or link_type == 3:
             # Escape URL unless it looks already escaped.
             if not re.search('%[0-9a-fA-F]{2}', url):
                 # Can't use url.quote() here because it doesn't match Excel.
@@ -817,7 +817,7 @@ class Worksheet(xmlwriter.XMLwriter):
             # Ordinary URL style external links don't have a "location" string.
             url_str = None
 
-        elif link_type == 3:
+        if link_type == 3:
 
             # External Workbook links need to be modified into correct format.
             # The URL will look something like 'c:\temp\file.xlsx#Sheet!A1'.
