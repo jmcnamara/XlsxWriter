@@ -699,4 +699,4 @@ class Packager(object):
                 os_filename = StringIO(custom_ui_data)
                 custom_ui_file.close()
 
-                self.filenames.append((os_filename, xml_custom_ui_name, True))
+                self.filenames.append((os_filename, 'customUI/%s' % xml_custom_ui_name, True))
