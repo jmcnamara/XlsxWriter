@@ -297,6 +297,7 @@ class Workbook(xmlwriter.XMLwriter):
 
         Args:
             custom_ui: The custom_ui xml file name.
+            version: Excel file version for the custom ui (2006 = pre-excel-2014, 2007 = excel 2014).
 
         Returns:
             Nothing.

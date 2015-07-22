@@ -135,7 +135,29 @@ clarity::
    This step is particulary important for macros created with non-English
    versions of Excel.
 
-TODO add section about ribbons
+
+Adding custom UI elements (Ribbons)
+-----------------------------------
+
+Excel stores definitions for custom UI elements in xml files which are 
+located in the folder ``customUI`` of the uncompressed xlsx file and start 
+with a <customUI xmlns=...> tag. These files can be added to the workbook in 
+XlsxWriter. The generated excel file then contains these definitions and should
+display these custom ui elements.
+
+Usage:
+Custom ui definitions can be added to the workbook as follows::
+
+      # Note: for excel < 2014 the version should be 2006
+      workbook.add_custom_ui(custom_ui_path, version=2006)
+      # Note: for excel 2014 the version should be 2007
+      workbook.add_custom_ui(custom_ui_path, version=2007)
+
+
+.. Note::
+
+   You can add custom ui definitions for both, excel prior to 2014 and excel
+   2014 at the same time.
 
 
 What to do if it doesn't work
