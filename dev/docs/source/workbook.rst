@@ -434,6 +434,7 @@ workbook. This is sometimes required when a vbaProject macro included via
 
 See :ref:`macros` for more details.
 
+TODO add items for ribbon stuff
 
 workbook.worksheets()
 ---------------------

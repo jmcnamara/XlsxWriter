@@ -133,6 +133,7 @@ clarity::
    This step is particulary important for macros created with non-English
    versions of Excel.
 
+TODO add section about ribbons
 
 
 What to do if it doesn't work
