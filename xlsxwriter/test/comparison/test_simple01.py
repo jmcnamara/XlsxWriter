@@ -5,6 +5,7 @@
 # Copyright (c), 2013-2015, John McNamara, jmcnamara@cpan.org
 #
 
+from __future__ import with_statement
 from ..excel_comparsion_test import ExcelComparisonTest
 from datetime import date
 from ...workbook import Workbook

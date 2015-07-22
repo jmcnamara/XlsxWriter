@@ -529,7 +529,7 @@ Chart series option: Points
 
 In general formatting is applied to an entire series in a chart. However, it
 is occasionally required to format individual points in a series. In
-particular this is required for Pie/Doughnute charts where each segment is
+particular this is required for Pie/Doughnut charts where each segment is
 represented by a point.
 
 In these cases it is possible to use the ``points`` property of

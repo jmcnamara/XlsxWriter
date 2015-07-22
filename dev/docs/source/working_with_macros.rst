@@ -112,8 +112,10 @@ codenames aren't specified then XlsxWriter will use the Excel defaults of
 If the macro uses other codenames you can set them using the workbook and
 worksheet ``set_vba_name()`` methods as follows::
 
+      # Note: set codename for workbook and any worksheets.
       workbook.set_vba_name('MyWorkbook')
-      worksheet.set_vba_name('MySheet')
+      worksheet1.set_vba_name('MySheet1')
+      worksheet2.set_vba_name('MySheet2')
 
 You can find the names that are used in the VBA editor or by unzipping the
 ``xlsm`` file and grepping the files. The following shows how to do that using
@@ -160,5 +162,7 @@ help. If things don't work out here are some things to try:
    specify these using the workbook and worksheet :func:`set_vba_name`
    methods::
 
+      # Note: set codename for workbook and any worksheets.
       workbook.set_vba_name('MyWorkbook')
-      worksheet.set_vba_name('MySheet')
+      worksheet1.set_vba_name('MySheet1')
+      worksheet2.set_vba_name('MySheet2')

@@ -115,6 +115,14 @@ The constructor options are:
 When specifying a filename it is recommended that you use an ``.xlsx``
 extension or Excel will generate a warning when opening the file.
 
+The ``Workbook()`` method also works using the ``with`` context manager. In
+which case it doesn't need an explicit `close()` statement::
+
+    with xlsxwriter.Workbook('hello_world.xlsx') as workbook:
+        worksheet = workbook.add_worksheet()
+
+        worksheet.write('A1', 'Hello world')
+
 It is possible to write files to in-memory strings using StringIO as follows::
 
     output = StringIO()
@@ -135,11 +143,11 @@ See also :ref:`ex_http_server`.
 workbook.add_worksheet()
 ------------------------
 
-.. function:: add_worksheet([sheetname])
+.. function:: add_worksheet([name])
 
    Add a new worksheet to a workbook.
 
-   :param string sheetname: Optional worksheet name, defaults to Sheet1, etc.
+   :param string name: Optional worksheet name, defaults to Sheet1, etc.
    :rtype: A :ref:`worksheet <Worksheet>` object.
 
 The ``add_worksheet()`` method adds a new worksheet to a workbook.
@@ -148,7 +156,7 @@ At least one worksheet should be added to a new workbook. The
 :ref:`Worksheet <worksheet>` object is used to write data and configure a
 worksheet in the workbook.
 
-The ``sheetname`` parameter is optional. If it is not specified the default
+The ``name`` parameter is optional. If it is not specified the default
 Excel convention will be followed, i.e. Sheet1, Sheet2, etc.::
 
     worksheet1 = workbook.add_worksheet()           # Sheet1
@@ -162,7 +170,7 @@ The worksheet name must be a valid Excel worksheet name, i.e. it cannot contain
 any of the characters ``' [ ] : * ? / \
 '`` and it must be less than 32 characters.
 
-In addition, you cannot use the same, case insensitive, ``sheetname`` for more
+In addition, you cannot use the same, case insensitive, ``name`` for more
 than one worksheet.
 
 workbook.add_format()
@@ -290,17 +298,16 @@ it. This is a mandatory method call::
    problematic and non-deterministic. An explicit ``close()`` is now
    recommended in all XlsxWriter programs.
 
+The ``Workbook`` object also works using the ``with`` context manager. In
+which case it doesn't need an explicit `close()` statement::
 
-It is also possible to use a `with context manager
-<https://docs.python.org/2/reference/compound_stmts.html#with>`_ to control the
-lifetime of the workbook like this::
-
-    with xlsxwriter.Workbook('test.xlsx') as workbook:
+    with xlsxwriter.Workbook('hello_world.xlsx') as workbook:
         worksheet = workbook.add_worksheet()
-        ...
 
-The workbook will automatically close when exiting the scope of the ``with``
-statement. 
+        worksheet.write('A1', 'Hello world')
+
+The workbook will close automatically when exiting the scope of the ``with``
+statement.
 
 
 

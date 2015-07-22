@@ -29,6 +29,7 @@ Contents
    working_with_outlines.rst
    working_with_memory.rst
    working_with_macros.rst
+   working_with_pandas.rst
    examples.rst
    chart_examples.rst
    alternatives.rst

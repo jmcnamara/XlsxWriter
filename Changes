@@ -1,4 +1,13 @@
 
+Release 0.7.3 - May 7 2015
+--------------------------
+
+* Added documentation on :ref:`ewx_pandas` and :ref:`pandas_examples`.
+
+* Added support for ``with`` context manager.
+  Pull request `#239 <https://github.com/jmcnamara/XlsxWriter/pull/239>`_.
+
+
 Release 0.7.2 - March 29 2015
 -----------------------------
 

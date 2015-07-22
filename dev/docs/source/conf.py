@@ -49,7 +49,7 @@ copyright = u'2013-2015, John McNamara'
 # built documents.
 #
 # The short X.Y version.
-version = '0.7.2'
+version = '0.7.3'
 # The full version, including alpha/beta/rc tags.
 release = version
 
@@ -184,7 +184,7 @@ html_show_copyright = True
 htmlhelp_basename = 'XlsxWriterdoc'
 
 # Remove permalinks.
-html_add_permalinks = False
+html_add_permalinks = ""
 
 
 # -- Options for LaTeX output --------------------------------------------------

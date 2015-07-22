@@ -13,7 +13,7 @@ pdf:
 clean:
 	@make -C dev/docs clean
 
-alldocs: cleandocs docs pdf
+alldocs: clean docs pdf
 	@cp -r dev/docs/build/html docs
 	@cp -r dev/docs/build/latex/XlsxWriter.pdf docs
 

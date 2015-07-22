@@ -118,8 +118,10 @@ Excel also allows some simple string matching operations::
     'x == *b*'     # contains b
     'x != *b*'     # doesn't contains b
 
-You can also use
-``'*'`` to match any character or number and ``'?'`` to match any single character or number. No other regular expression quantifier is supported by Excel's filters. Excel's regular expression characters can be escaped using ``'~'``.
+You can also use ``'*'`` to match any character or number and ``'?'`` to match
+any single character or number. No other regular expression quantifier is
+supported by Excel's filters. Excel's regular expression characters can be
+escaped using ``'~'``.
 
 The placeholder variable ``x`` in the above examples can be replaced by any
 simple string. The actual placeholder name is ignored internally so the
@@ -149,16 +151,18 @@ months of the year you could filter the data based on certain months:
 The :func:`filter_column_list()` method can be used to represent these types of
 filters::
 
-    worksheet.filter_column_list('A', 'March', 'April', 'May')
+    worksheet.filter_column_list('A', ['March', 'April', 'May'])
 
 One or more criteria can be selected::
 
-    worksheet.filter_column_list('A', 'March')
-    worksheet.filter_column_list('B', 100, 110, 120, 130)
+    worksheet.filter_column_list('A', ['March'])
+    worksheet.filter_column_list('B', [100, 110, 120, 130])
+
+As explained above, it isn't sufficient to just specify filters. You must also
+hide any rows that don't match the filter condition.
+
 
 Example
 -------
 
 See :ref:`ex_autofilter` for a full example of all these features.
-
-

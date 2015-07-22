@@ -469,7 +469,7 @@ The datetime should be a :class:`datetime.datetime`, :class:`datetime.date`
 :class:`datetime.time` or :class:`datetime.timedelta` object. The
 :mod:`datetime` class is part of the standard Python libraries.
 
-There are many way to create datetime objects, for example the
+There are many ways to create datetime objects, for example the
 :meth:`datetime.datetime.strptime` method::
 
     date_time = datetime.datetime.strptime('2013-01-23', '%Y-%m-%d')
@@ -1621,7 +1621,7 @@ worksheet.merge_range()
 -----------------------
 
 .. py:function:: merge_range(first_row, first_col, \
-                             last_row, last_col, cell_format)
+                             last_row, last_col, data[, cell_format])
 
    Merge a range of cells.
 
@@ -1749,15 +1749,15 @@ worksheet.filter_column_list()
 The ``filter_column_list()`` method can be used to represent filters with
 multiple selected criteria::
 
-    worksheet.filter_column_list('A', 'March', 'April', 'May')
+    worksheet.filter_column_list('A', ['March', 'April', 'May'])
 
 The ``col`` parameter can either be a zero indexed column number or a string
 column name.
 
 One or more criteria can be selected::
 
-    worksheet.filter_column_list('A', 'March')
-    worksheet.filter_column_list('C', 100, 110, 120, 130)
+    worksheet.filter_column_list('A', ['March'])
+    worksheet.filter_column_list('C', [100, 110, 120, 130])
 
 It isn't sufficient to just specify filters. You must also hide any rows that
 don't match the filter condition. See :ref:`working_with_autofilters` for more
