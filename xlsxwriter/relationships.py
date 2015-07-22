@@ -80,12 +80,6 @@ class Relationships(xmlwriter.XMLwriter):
 
         self.relationships.append((rel_type, target, target_mode))
 
-    # def _add_custom_relationship(self, rel_type, target, target_mode=None):
-    #     Add a relationship with a custom rel-type
-        # rel_type = document_schema + rel_type
-        #
-        self.relationships.append((rel_type, target, target_mode))
-
     ###########################################################################
     #
     # XML methods.
