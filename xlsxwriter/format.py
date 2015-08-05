@@ -375,7 +375,7 @@ class Format(xmlwriter.XMLwriter):
         # Map user angle to Excel angle.
         if rotation == 270:
             rotation = 255
-        elif rotation >= -90 or rotation <= 90:
+        elif -90 <= rotation <= 90:
             if rotation < 0:
                 rotation = -rotation + 90
         else:
