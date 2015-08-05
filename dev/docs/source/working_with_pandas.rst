@@ -142,7 +142,8 @@ Here are some additional resources in relation to Pandas, Excel and XlsxWriter.
 * The Pandas documentation on the `pandas.DataFrame.to_excel() method
   <http://pandas.pydata.org/pandas-docs/dev/generated/pandas.DataFrame.to_excel.html>`_.
 
-* `Using Pandas and XlsxWriter to create Excel charts
+* A more detailed tutorial on `Using Pandas and XlsxWriter to create Excel
+  charts
   <http://pandas-xlsxwriter-charts.readthedocs.org/en/latest/index.html>`_.
 
 * The series of articles on the "Practical Business Python" website about

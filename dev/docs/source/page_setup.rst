@@ -388,7 +388,7 @@ use a double ampersand ``&&``::
 
     worksheet1.set_header('&CCuriouser && Curiouser - Attorneys at Law')
 
-The available optons are:
+The available options are:
 
 * ``margin``: (float) Header margin in inches. Defaults to 0.3 inch.
 * ``image_left``: (string) The path to the image. Needs ``&G`` placeholder.

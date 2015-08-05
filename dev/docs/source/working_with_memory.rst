@@ -106,7 +106,7 @@ Benchmark of Python Excel Writers
 ---------------------------------
 
 If you wish to compare the performance of different Python Excel writing
-modules there is a progam called `bench_excel_writers.py
+modules there is a program called `bench_excel_writers.py
 <https://raw.githubusercontent.com/jmcnamara/XlsxWriter/master/dev/performance/bench_excel_writers.py>`_
 in the ``dev/performance`` directory of the XlsxWriter repo.
 

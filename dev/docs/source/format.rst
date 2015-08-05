@@ -320,7 +320,7 @@ The available options are:
 .. image:: _images/format_font_script.png
 
 
-This property is generally only useful when used in conjuction with :func:`write_rich_string()`.
+This property is generally only useful when used in conjunction with :func:`write_rich_string()`.
 
 
 format.set_num_format()
@@ -623,7 +623,7 @@ Only one cell should contain the text, the other cells should be blank::
     format.set_center_across()
 
     worksheet.write(1, 1, 'Center across selection', format)
-    worksheet.write_blank(1, 2, format)
+    worksheet.write_blank(1, 2, '', format)
 
 For actual merged cells it is better to use the ``merge_range()`` worksheet
 method.

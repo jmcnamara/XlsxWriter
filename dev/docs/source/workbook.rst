@@ -393,7 +393,7 @@ Excel convention and enclose it in single quotes::
 
     workbook.define_name("'New Data'!Sales", '=Sheet2!$G$1:$G$10')
 
-The rules for names in Excel are explained in the `Miscrosoft Office
+The rules for names in Excel are explained in the `Microsoft Office
 documentation
 <http://office.microsoft.com/en-001/excel-help/define-and-use-names-in-formulas-HA010147120.aspx>`_.
 

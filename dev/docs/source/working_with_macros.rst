@@ -132,7 +132,7 @@ clarity::
 
 .. Note::
 
-   This step is particulary important for macros created with non-English
+   This step is particularly important for macros created with non-English
    versions of Excel.
 
 

@@ -537,7 +537,7 @@ Four web style URI's are supported: ``http://``, ``https://``, ``ftp://`` and
     worksheet.write_url('A1', 'ftp://www.python.org/')
     worksheet.write_url('A2', 'http://www.python.org/')
     worksheet.write_url('A3', 'https://www.python.org/')
-    worksheet.write_url('A4', 'mailto:jmcnamaracpan.org')
+    worksheet.write_url('A4', 'mailto:jmcnamara@cpan.org')
 
 All of the these URI types are recognised by the :func:`write()` method, so the
 following are equivalent::
@@ -879,12 +879,21 @@ Examples::
     worksheet.set_column('E:E', 20)  # Column  E   width set to 20.
     worksheet.set_column('F:H', 30)  # Columns F-H width set to 30.
 
-The width corresponds to the column width value that is specified in Excel. It
-is approximately equal to the length of a string in the default font of
-Calibri 11. Unfortunately, there is no way to specify "AutoFit" for a column
-in the Excel file format. This feature is only available at runtime from
-within Excel. It is possible to simulate "AutoFit" by tracking the width of
-the data in the column as your write it.
+The ``width`` parameter sets the column width in the same units used by Excel
+which is: the number of characters in the default font. The default width is
+8.43 in the default font of Calibri 11. So if your maximum string length in a
+column is 20 characters then you can set the column ``width`` to 20::
+
+    worksheet.set_column('E:E', 20)
+
+See also, the `following explanation of column widths
+<https://support.microsoft.com/en-us/kb/214123>`_ from the Microsoft support
+documentation.
+
+Unfortunately, there is no way to specify "AutoFit" for a column in the Excel
+file format. This feature is only available at runtime from within Excel. It
+is possible to simulate "AutoFit" by tracking the maximum width of the data in
+the column as your write it.
 
 As usual the ``cell_format`` :ref:`Format <format>`  parameter is optional. If
 you wish to set the format without changing the width you can pass ``None`` as
@@ -2017,7 +2026,7 @@ dictionary in the ``options`` argument with any or all of the following keys::
 The default boolean values are shown above. Individual elements can be
 protected as follows::
 
-    worksheet.protect('acb123', { 'insert_rows': 1 })
+    worksheet.protect('abc123', { 'insert_rows': 1 })
 
 See also the :func:`set_locked` and :func:`set_hidden` format methods and
 :ref:`ex_protection`.

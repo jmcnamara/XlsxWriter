@@ -3,7 +3,7 @@
 Working with Colors
 ===================
 
-Throughout XlsxWriter colors are specified using a Html sytle ``#RRGGBB``
+Throughout XlsxWriter colors are specified using a Html style ``#RRGGBB``
 value. For example with a :ref:`Format <format>` object::
 
     cell_format.set_font_color('#FF0000')
