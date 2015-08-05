@@ -6289,14 +6289,14 @@ class Worksheet(xmlwriter.XMLwriter):
         empty = options.get('empty')
         attributes = []
 
-        if options.get('max'):
+        if options.get('max') is not None:
             if options['max'] == 'group':
                 options['cust_max'] = 'group'
             else:
                 attributes.append(('manualMax', options['max']))
                 options['cust_max'] = 'custom'
 
-        if options.get('min'):
+        if options.get('min') is not None:
 
             if options['min'] == 'group':
                 options['cust_min'] = 'group'
