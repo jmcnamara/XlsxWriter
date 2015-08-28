@@ -1658,7 +1658,7 @@ class Worksheet(xmlwriter.XMLwriter):
         # Check for valid input parameters.
         for param_key in options.keys():
             if param_key not in valid_parameters:
-                warn("Unknown parameter 'param_key' in data_validation()")
+                warn("Unknown parameter '%s' in data_validation()" % param_key)
                 return -2
 
         # Map alternative parameter names 'source' or 'minimum' to 'value'.
