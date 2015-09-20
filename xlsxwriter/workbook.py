@@ -1348,8 +1348,13 @@ class Workbook(xmlwriter.XMLwriter):
         sheetname = sheetname.strip("'")
         sheetname = sheetname.replace("''", "'")
 
-        (row_start, col_start) = xl_cell_to_rowcol(cell_1)
-        (row_end, col_end) = xl_cell_to_rowcol(cell_2)
+        try:
+            # Get the row, col values from the Excel ranges. We do this in a
+            # try block for ranges that can't be parsed such as defined names.
+            (row_start, col_start) = xl_cell_to_rowcol(cell_1)
+            (row_end, col_end) = xl_cell_to_rowcol(cell_2)
+        except:
+            return None, None
 
         # We only handle 1D ranges.
         if row_start != row_end and col_start != col_end:
