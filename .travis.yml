@@ -5,6 +5,9 @@ python:
   - "3.2"
   - "3.3"
   - "3.4"
+  - "3.5"
+  - "nightly"
   - "pypy"
-install: "pip install pytest --use-mirrors"
+install: "pip install pytest"
 script: py.test
+sudo: false
