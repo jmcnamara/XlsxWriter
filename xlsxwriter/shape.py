@@ -113,7 +113,7 @@ class Shape(object):
             if dash_type in dash_types:
                 line['dash_type'] = dash_types[dash_type]
             else:
-                warn("Unknown dash type '%s'" % dash_type)
+                warn(u"Unknown dash type '%s'" % dash_type)
                 return
 
         line['defined'] = True
@@ -153,25 +153,25 @@ class Shape(object):
 
         # Check the colors array exists and is valid.
         if 'colors' not in gradient or type(gradient['colors']) != list:
-            warn("Gradient must include colors list")
+            warn(u"Gradient must include colors list")
             return
 
         # Check the colors array has the required number of entries.
         if not 2 <= len(gradient['colors']) <= 10:
-            warn("Gradient colors list must at least 2 values "
+            warn(u"Gradient colors list must at least 2 values "
                  "and not more than 10")
             return
 
         if 'positions' in gradient:
             # Check the positions array has the right number of entries.
             if len(gradient['positions']) != len(gradient['colors']):
-                warn("Gradient positions not equal to number of colors")
+                warn(u"Gradient positions not equal to number of colors")
                 return
 
             # Check the positions are in the correct range.
             for pos in gradient['positions']:
                 if not 0 <= pos <= 100:
-                    warn("Gradient position must be in the range "
+                    warn(u"Gradient position must be in the range "
                          "0 <= position <= 100")
                     return
         else:
@@ -186,13 +186,13 @@ class Shape(object):
                 gradient['positions'] = [0, 33, 66, 100]
 
             else:
-                warn("Must specify gradient positions")
+                warn(u"Must specify gradient positions")
                 return
 
         angle = gradient.get('angle')
         if angle:
             if not 0 <= angle < 360:
-                warn("Gradient angle must be in the range "
+                warn(u"Gradient angle must be in the range "
                      "0 <= angle < 360")
                 return
         else:
@@ -206,7 +206,7 @@ class Shape(object):
             if gradient_type in types:
                 gradient['type'] = types[gradient_type]
             else:
-                warn("Unknown gradient type '%s" % gradient_type)
+                warn(u"Unknown gradient type '%s" % gradient_type)
                 return
         else:
             gradient['type'] = 'linear'
@@ -308,7 +308,7 @@ class Shape(object):
             if align_type in align_types:
                 align['vertical'] = align_types[align_type]
             else:
-                warn("Unknown alignment type '%s'" % align_type)
+                warn(u"Unknown alignment type '%s'" % align_type)
                 return {'defined': False}
 
         if 'horizontal' in align:
@@ -323,7 +323,7 @@ class Shape(object):
             if align_type in align_types:
                 align['horizontal'] = align_types[align_type]
             else:
-                warn("Unknown alignment type '%s'" % align_type)
+                warn(u"Unknown alignment type '%s'" % align_type)
                 return {'defined': False}
 
         align['defined'] = True

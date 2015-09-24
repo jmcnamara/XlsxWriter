@@ -80,7 +80,7 @@ class ChartBar(chart.Chart):
             return
 
         if not chart.is_secondary:
-            warn('Charts combined with Bar charts must be on a secondary axis')
+            warn(u'Charts combined with Bar charts must be on a secondary axis')
 
         self.combined = chart
 

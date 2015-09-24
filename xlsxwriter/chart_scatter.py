@@ -70,7 +70,7 @@ class ChartScatter(chart.Chart):
         if chart is None:
             return
 
-        warn('Combined chart not currently supported with scatter chart '
+        warn(u'Combined chart not currently supported with scatter chart '
              'as the primary chart')
 
     ###########################################################################
