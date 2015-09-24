@@ -282,7 +282,7 @@ def xl_color(color):
         color = named_colors[color]
 
     if not re.match('#[0-9a-fA-F]{6}', color):
-        warn("Color '%s' isn't a valid Excel color" % color)
+        warn(u"Color '%s' isn't a valid Excel color" % color)
 
     # Convert the RGB color to the Excel ARGB format.
     return "FF" + color.lstrip('#').upper()

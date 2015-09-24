@@ -224,7 +224,7 @@ class Workbook(xmlwriter.XMLwriter):
         # Type must be specified so we can create the required chart instance.
         chart_type = options.get('type')
         if chart_type is None:
-            warn("Chart type must be defined in add_chart()")
+            warn(u"Chart type must be defined in add_chart()")
             return
 
         if chart_type == 'area':
@@ -246,7 +246,7 @@ class Workbook(xmlwriter.XMLwriter):
         elif chart_type == 'stock':
             chart = ChartStock(options)
         else:
-            warn("Unknown chart type '%s' in add_chart()" % chart_type)
+            warn(u"Unknown chart type '%s' in add_chart()" % chart_type)
             return
 
         # Set the embedded chart name if present.
@@ -273,7 +273,7 @@ class Workbook(xmlwriter.XMLwriter):
 
         """
         if not is_stream and not os.path.exists(vba_project):
-            warn("VBA project binary file '%s' not found." % vba_project)
+            warn(u"VBA project binary file '%s' not found." % vba_project)
             return -1
 
         self.vba_project = vba_project
@@ -364,7 +364,7 @@ class Workbook(xmlwriter.XMLwriter):
 
             # Warn if the sheet index wasn't found.
             if sheet_index is None:
-                warn("Unknown sheet name '%s' in defined_name()" % sheetname)
+                warn(u"Unknown sheet name '%s' in defined_name()" % sheetname)
                 return -1
         else:
             # Use -1 to indicate global names.
@@ -373,18 +373,18 @@ class Workbook(xmlwriter.XMLwriter):
         # Warn if the defined name contains invalid chars as defined by Excel.
         if (not re.match(r'^[\w\\][\w.]*$', name, re.UNICODE)
                 or re.match(r'^\d', name)):
-            warn("Invalid Excel characters in defined_name(): '%s'" % name)
+            warn(u"Invalid Excel characters in defined_name(): '%s'" % name)
             return -1
 
         # Warn if the defined name looks like a cell name.
         if re.match(r'^[a-zA-Z][a-zA-Z]?[a-dA-D]?[0-9]+$', name):
-            warn("Name looks like a cell name in defined_name(): '%s'" % name)
+            warn(u"Name looks like a cell name in defined_name(): '%s'" % name)
             return -1
 
         # Warn if the name looks like a R1C1 cell reference.
         if (re.match(r'^[rcRC]$', name)
                 or re.match(r'^[rcRC]\d+[rcRC]\d+$', name)):
-            warn("Invalid name '%s' like a RC cell ref in defined_name()"
+            warn(u"Invalid name '%s' like a RC cell ref in defined_name()"
                  % name)
             return -1
 
@@ -1306,7 +1306,7 @@ class Workbook(xmlwriter.XMLwriter):
                 # Warn if the name is unknown since it indicates a user error
                 # in a chart series formula.
                 if sheetname not in worksheets:
-                    warn("Unknown worksheet reference '%s' in range "
+                    warn(u"Unknown worksheet reference '%s' in range "
                          "'%s' passed to add_series()" % (sheetname, c_range))
                     chart.formula_data[r_id] = []
                     seen_ranges[c_range] = []

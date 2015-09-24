@@ -120,12 +120,12 @@ class Chart(xmlwriter.XMLwriter):
 
         # Check that the required input has been specified.
         if 'values' not in options:
-            warn("Must specify 'values' in add_series()")
+            warn(u"Must specify 'values' in add_series()")
             return
 
         if self.requires_category and 'categories' not in options:
-            warn("Must specify 'categories' in add_series() "
-                 "for this chart type")
+            warn(u"Must specify 'categories' in add_series() "
+                 u"for this chart type")
 
         # Convert list into a formula string.
         values = self._list_to_formula(options.get('values'))
@@ -405,7 +405,7 @@ class Chart(xmlwriter.XMLwriter):
         }
 
         if option not in valid_options:
-            warn("Unknown show_blanks_as() option '%s'" % option)
+            warn(u"Unknown show_blanks_as() option '%s'" % option)
             return
 
         self.show_blanks = option
@@ -888,7 +888,7 @@ class Chart(xmlwriter.XMLwriter):
             if marker_type in types:
                 marker['type'] = types[marker_type]
             else:
-                warn("Unknown marker type '%s" % marker_type)
+                warn(u"Unknown marker type '%s" % marker_type)
                 return
 
         # Set the line properties for the marker.
@@ -938,7 +938,7 @@ class Chart(xmlwriter.XMLwriter):
         if trend_type in types:
             trendline['type'] = types[trend_type]
         else:
-            warn("Unknown trendline type '%s'" % trend_type)
+            warn(u"Unknown trendline type '%s'" % trend_type)
             return
 
         # Set the line properties for the trendline.
@@ -991,7 +991,7 @@ class Chart(xmlwriter.XMLwriter):
         if error_type in types:
             error_bars['type'] = types[error_type]
         else:
-            warn("Unknown error bars type '%s" % error_type)
+            warn(u"Unknown error bars type '%s" % error_type)
             return
 
         # Set the value for error types that require it.
@@ -1055,7 +1055,7 @@ class Chart(xmlwriter.XMLwriter):
                 else:
                     labels['position'] = self.label_positions[position]
             else:
-                warn("Unsupported label position '%s' for this chart type"
+                warn(u"Unsupported label position '%s' for this chart type"
                      % position)
                 return
 
@@ -1073,7 +1073,7 @@ class Chart(xmlwriter.XMLwriter):
             if separator in separators:
                 labels['separator'] = separators[separator]
             else:
-                warn("Unsupported label separator")
+                warn(u"Unsupported label separator")
                 return
 
         # Set the font properties if present.
@@ -1127,13 +1127,13 @@ class Chart(xmlwriter.XMLwriter):
         # Check for valid properties.
         for key in args.keys():
             if key not in properties:
-                warn("Property '%s' allowed not in layout options" % key)
+                warn(u"Property '%s' allowed not in layout options" % key)
                 return
 
         # Set the layout properties.
         for prop in properties:
             if prop not in args.keys():
-                warn("Property '%s' must be specified in layout options"
+                warn(u"Property '%s' must be specified in layout options"
                      % prop)
                 return
 
@@ -1142,12 +1142,12 @@ class Chart(xmlwriter.XMLwriter):
             try:
                 float(value)
             except ValueError:
-                warn("Property '%s' value '%s' must be numeric in layout" %
+                warn(u"Property '%s' value '%s' must be numeric in layout" %
                      (prop, value))
                 return
 
             if value < 0 or value > 1:
-                warn("Property '%s' value '%s' must be in range "
+                warn(u"Property '%s' value '%s' must be in range "
                      "0 < x <= 1 in layout options" % (prop, value))
                 return
 
@@ -1214,7 +1214,7 @@ class Chart(xmlwriter.XMLwriter):
         if display_units in types:
             display_units = types[display_units]
         else:
-            warn("Unknown display_units type '%s'" % display_units)
+            warn(u"Unknown display_units type '%s'" % display_units)
             return
 
         return display_units
