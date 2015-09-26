@@ -1278,6 +1278,48 @@ are comprised of a single chart:
 See :ref:`chartsheet` for details.
 
 
+.. _charts_from_tables:
+
+Charts from Worksheet Tables
+----------------------------
+
+Charts can by created from :ref:`Worksheet Tables <tables>`. However, Excel
+has a limitation where the data series ``name``, if specifed, must refer to a
+cell within the table (usually one of the headers).
+
+To workaround this Excel limitation you can specify a user defined name in the
+table and refer to that from the chart::
+
+    import xlsxwriter
+
+    workbook = xlsxwriter.Workbook('chart_pie.xlsx')
+
+    worksheet = workbook.add_worksheet()
+
+    data = [
+        ['Apple',  60],
+        ['Cherry', 30],
+        ['Pecan',  10],
+    ]
+
+    worksheet.add_table('A1:B4', {'data': data,
+                                  'columns': [{'header': 'Types'},
+                                             {'header': 'Number'}]}
+    )
+
+    chart = workbook.add_chart({'type': 'pie'})
+
+    chart.add_series({
+        'name':       '=Sheet1!$A$1',
+        'categories': '=Sheet1!$A$2:$A$4',
+        'values':     '=Sheet1!$B$2:$B$4',
+    })
+
+    worksheet.insert_chart('D2', chart)
+
+    workbook.close()
+
+
 Chart Limitations
 -----------------
 
