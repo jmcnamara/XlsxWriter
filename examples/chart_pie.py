@@ -61,8 +61,8 @@ chart2 = workbook.add_chart({'type': 'pie'})
 # Configure the series and add user defined segment colours.
 chart2.add_series({
     'name': 'Pie sales data',
-    'categories': '=Sheet1!A2:A4',
-    'values':     '=Sheet1!B2:B4',
+    'categories': '=Sheet1!$A$2:$A$4',
+    'values':     '=Sheet1!$B$2:$B$4',
     'points': [
         {'fill': {'color': '#5ABA10'}},
         {'fill': {'color': '#FE110E'}},
@@ -87,8 +87,8 @@ chart3 = workbook.add_chart({'type': 'pie'})
 # Configure the series.
 chart3.add_series({
     'name': 'Pie sales data',
-    'categories': '=Sheet1!A2:A4',
-    'values':     '=Sheet1!B2:B4',
+    'categories': '=Sheet1!$A$2:$A$4',
+    'values':     '=Sheet1!$B$2:$B$4',
 })
 
 # Add a title.
