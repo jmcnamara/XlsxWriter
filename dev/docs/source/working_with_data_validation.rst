@@ -128,9 +128,8 @@ It is always required and it has no default value. Allowable values are::
   Excel refers to this as 'Text length'.
 * **custom**: restricts the cell based on an external Excel formula that
   returns a ``TRUE/FALSE`` value.
-* **any**: is used to specify that the type of data is unrestricted. This is
-  the same as not applying a data validation. It is only provided for
-  completeness and isn't required very often.
+* **any**: is used to specify that the type of data is unrestricted. It is
+  mainly used for specifying cell input messages without a data validation.
 
 
 criteria
@@ -398,5 +397,3 @@ Example 7. Displaying a message when the cell is selected::
                                      })
 
 See also :ref:`ex_data_valid`.
-
-

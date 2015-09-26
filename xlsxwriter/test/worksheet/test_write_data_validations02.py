@@ -557,7 +557,7 @@ class TestWriteDataValidations(unittest.TestCase):
 
     def test_write_data_validations_26(self):
         """
-        Test 26 'Any' value shouldn't produce a DV record.
+        Test 26 'Any' shouldn't produce a DV record if there are no messages.
         """
         self.worksheet.data_validation('B5', {'validate': 'any'})
 
@@ -917,6 +917,25 @@ class TestWriteDataValidations(unittest.TestCase):
         self.worksheet._write_data_validations()
 
         exp = '<dataValidations count="2"><dataValidation type="whole" operator="greaterThan" allowBlank="1" showInputMessage="1" showErrorMessage="1" sqref="B5"><formula1>10</formula1></dataValidation><dataValidation type="whole" operator="lessThan" allowBlank="1" showInputMessage="1" showErrorMessage="1" sqref="C10"><formula1>10</formula1></dataValidation></dataValidations>'
+        got = self.fh.getvalue()
+
+        exp = _xml_to_list(exp)
+        got = _xml_to_list(got)
+
+        self.assertEqual(got, exp)
+
+    def test_write_data_validations_21(self):
+        """
+        Test 45 Test 'any' with input messages.
+        """
+        self.worksheet.data_validation('B5', {'validate': 'any',
+                                              'input_title': 'Input title January',
+                                              'input_message': 'Input message February',
+                                              })
+
+        self.worksheet._write_data_validations()
+
+        exp = '<dataValidations count="1"><dataValidation allowBlank="1" showInputMessage="1" showErrorMessage="1" promptTitle="Input title January" prompt="Input message February" sqref="B5"/></dataValidations>'
         got = self.fh.getvalue()
 
         exp = _xml_to_list(exp)

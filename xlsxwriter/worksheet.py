@@ -1696,13 +1696,18 @@ class Worksheet(xmlwriter.XMLwriter):
         else:
             options['validate'] = valid_types[options['validate']]
 
-        # No action is required for validation type 'any'.
-        if options['validate'] == 'none':
+        # No action is required for validation type 'any' if there are no
+        # input messages to display.
+        if (options['validate'] == 'none'
+                and options.get('input_title') is None
+                and options.get('input_message') is None):
             return -2
 
-        # The list and custom validations don't have a criteria so we use
+        # The any, list and custom validations don't have a criteria so we use
         # a default of 'between'.
-        if options['validate'] == 'list' or options['validate'] == 'custom':
+        if (options['validate'] == 'none'
+                or options['validate'] == 'list'
+                or options['validate'] == 'custom'):
             options['criteria'] = 'between'
             options['maximum'] = None
 
@@ -5707,10 +5712,11 @@ class Worksheet(xmlwriter.XMLwriter):
             else:
                 sqref += xl_range(row_first, col_first, row_last, col_last)
 
-        attributes.append(('type', options['validate']))
+        if options['validate'] != 'none':
+            attributes.append(('type', options['validate']))
 
-        if options['criteria'] != 'between':
-            attributes.append(('operator', options['criteria']))
+            if options['criteria'] != 'between':
+                attributes.append(('operator', options['criteria']))
 
         if 'error_type' in options:
             if options['error_type'] == 1:
@@ -5744,16 +5750,19 @@ class Worksheet(xmlwriter.XMLwriter):
 
         attributes.append(('sqref', sqref))
 
-        self._xml_start_tag('dataValidation', attributes)
+        if options['validate'] == 'none':
+            self._xml_empty_tag('dataValidation', attributes)
+        else:
+            self._xml_start_tag('dataValidation', attributes)
 
-        # Write the formula1 element.
-        self._write_formula_1(options['value'])
+            # Write the formula1 element.
+            self._write_formula_1(options['value'])
 
-        # Write the formula2 element.
-        if options['maximum'] is not None:
-            self._write_formula_2(options['maximum'])
+            # Write the formula2 element.
+            if options['maximum'] is not None:
+                self._write_formula_2(options['maximum'])
 
-        self._xml_end_tag('dataValidation')
+            self._xml_end_tag('dataValidation')
 
     def _write_formula_1(self, formula):
         # Write the <formula1> element.
