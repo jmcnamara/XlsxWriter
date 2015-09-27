@@ -1466,7 +1466,7 @@ class Worksheet(xmlwriter.XMLwriter):
             (first_col, last_col) = (last_col, first_col)
 
         # Check that column number is valid and store the max value
-        if self._check_dimensions(last_row, last_col):
+        if self._check_dimensions(last_row, last_col) == -1:
             return
 
         # Store the merge range.
@@ -3478,7 +3478,7 @@ class Worksheet(xmlwriter.XMLwriter):
         # that are already written.
         if not ignore_row and not ignore_col and self.optimization == 1:
             if row < self.previous_row:
-                return -1
+                return -2
 
         if not ignore_row:
             if self.dim_rowmin is None or row < self.dim_rowmin:
