@@ -1379,6 +1379,11 @@ This method contains a lot of parameters and is described in :ref:`tables`.
 
 See also :ref:`ex_tables`.
 
+.. Note::
+
+   Tables aren't available in XlsxWriter when :func:`Workbook`
+   ``'constant_memory'`` mode is enabled.
+
 
 worksheet.add_sparkline()
 -------------------------
@@ -1681,6 +1686,11 @@ first cell with a call to one of the other
 <format>` as in the merged cells. See :ref:`ex_merge_rich`.
 
 .. image:: _images/merge_rich.png
+
+.. Note::
+
+   Merged ranges generally don't work in XlsxWriter when :func:`Workbook`
+   ``'constant_memory'`` mode is enabled.
 
 
 worksheet.autofilter()

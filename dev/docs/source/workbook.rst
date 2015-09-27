@@ -45,7 +45,8 @@ The constructor options are:
   Note, in this mode a row of data is written and then discarded when a cell
   in a new row is added via one of the worksheet ``write_()`` methods.
   Therefore, once this mode is active, data should be written in sequential
-  row order.
+  row order. For this reason the :func:`add_table()` and :func:`merge_range()`
+  Worksheet methods don't work in this mode.
 
   See :ref:`memory_perf` for more details.
 
