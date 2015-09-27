@@ -17,6 +17,7 @@ from warnings import warn
 from .compatibility import StringIO
 from .compatibility import defaultdict
 from .compatibility import namedtuple
+from .compatibility import force_unicode
 from .compatibility import num_types, str_types
 
 # Package imports.
@@ -842,7 +843,7 @@ class Worksheet(xmlwriter.XMLwriter):
         # Excel limits escaped URL to 255 characters.
         if len(url) > 255:
             warn("Ignoring URL '%s' > 255 characters since it exceeds "
-                 "Excel's limit for URLS" % url)
+                 "Excel's limit for URLS" % force_unicode(url))
             return -3
 
         # Check the limit of URLS per worksheet.
@@ -850,7 +851,7 @@ class Worksheet(xmlwriter.XMLwriter):
 
         if self.hlink_count > 65530:
             warn("Ignoring URL '%s' since it exceeds Excel's limit of "
-                 "65,530 URLS per worksheet." % url)
+                 "65,530 URLS per worksheet." % force_unicode(url))
             return -5
 
         # Write previous row if in in-line string optimization mode.
@@ -1055,7 +1056,7 @@ class Worksheet(xmlwriter.XMLwriter):
         image_data = options.get('image_data', None)
 
         if not image_data and not os.path.exists(filename):
-            warn("Image file '%s' not found." % filename)
+            warn("Image file '%s' not found." % force_unicode(filename))
             return -1
 
         self.images.append([row, col, filename, x_offset, y_offset,
@@ -1796,27 +1797,27 @@ class Worksheet(xmlwriter.XMLwriter):
         # Check that the input title dosen't exceed the maximum length.
         if options.get('input_title') and len(options['input_title']) > 32:
             warn("Length of input title '%s' exceeds Excel's limit of 32"
-                 % options['input_title'])
+                 % force_unicode(options['input_title']))
             return -2
 
         # Check that the error title doesn't exceed the maximum length.
         if options.get('error_title') and len(options['error_title']) > 32:
             warn("Length of error title '%s' exceeds Excel's limit of 32"
-                 % options['error_title'])
+                 % force_unicode(options['error_title']))
             return -2
 
         # Check that the input message dosen't exceed the maximum length.
         if (options.get('input_message')
                 and len(options['input_message']) > 255):
             warn("Length of input message '%s' exceeds Excel's limit of 255"
-                 % options['input_message'])
+                 % force_unicode(options['input_message']))
             return -2
 
         # Check that the error message doesn't exceed the maximum length.
         if (options.get('error_message')
                 and len(options['error_message']) > 255):
             warn("Length of error message '%s' exceeds Excel's limit of 255"
-                 % options['error_message'])
+                 % force_unicode(options['error_message']))
             return -2
 
         # Check that the input list doesn't exceed the maximum length.
@@ -1824,7 +1825,8 @@ class Worksheet(xmlwriter.XMLwriter):
             formula = self._csv_join(*options['value'])
             if len(formula) > 255:
                 warn("Length of list items '%s' exceeds Excel's limit of "
-                     "255, use a formula range instead" % formula)
+                     "255, use a formula range instead"
+                     % force_unicode(formula))
                 return -2
 
         # Set some defaults if they haven't been defined by the user.
