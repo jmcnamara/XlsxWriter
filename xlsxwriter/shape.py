@@ -5,6 +5,7 @@
 # Copyright 2013-2015, John McNamara, jmcnamara@cpan.org
 #
 import copy
+from warnings import warn
 
 
 class Shape(object):
