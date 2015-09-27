@@ -881,19 +881,16 @@ Examples::
 
 The ``width`` parameter sets the column width in the same units used by Excel
 which is: the number of characters in the default font. The default width is
-8.43 in the default font of Calibri 11. So if your maximum string length in a
-column is 20 characters then you can set the column ``width`` to 20::
+8.43 in the default font of Calibri 11. The actual relationship between a
+string width and a column width in Excel is complex. See the `following
+explanation of column widths <https://support.microsoft.com/en-us/kb/214123>`_
+from the Microsoft support documentation for more details.
 
-    worksheet.set_column('E:E', 20)
-
-See also, the `following explanation of column widths
-<https://support.microsoft.com/en-us/kb/214123>`_ from the Microsoft support
-documentation.
-
-Unfortunately, there is no way to specify "AutoFit" for a column in the Excel
-file format. This feature is only available at runtime from within Excel. It
-is possible to simulate "AutoFit" by tracking the maximum width of the data in
-the column as your write it.
+There is no way to specify "AutoFit" for a column in the Excel file
+format. This feature is only available at runtime from within Excel. It is
+possible to simulate "AutoFit" in your application by tracking the maximum
+width of the data in the column as your write it and then adjusting the column
+width at the end.
 
 As usual the ``cell_format`` :ref:`Format <format>`  parameter is optional. If
 you wish to set the format without changing the width you can pass ``None`` as
