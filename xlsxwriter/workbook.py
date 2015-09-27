@@ -15,7 +15,7 @@ from datetime import datetime
 from zipfile import ZipFile, ZIP_DEFLATED
 from struct import unpack
 
-from .compatibility import str_types
+from .compatibility import str_types, force_unicode
 
 # Package imports.
 from . import xmlwriter
@@ -273,7 +273,8 @@ class Workbook(xmlwriter.XMLwriter):
 
         """
         if not is_stream and not os.path.exists(vba_project):
-            warn("VBA project binary file '%s' not found." % vba_project)
+            warn("VBA project binary file '%s' not found."
+                 % force_unicode(vba_project))
             return -1
 
         self.vba_project = vba_project
@@ -364,7 +365,8 @@ class Workbook(xmlwriter.XMLwriter):
 
             # Warn if the sheet index wasn't found.
             if sheet_index is None:
-                warn("Unknown sheet name '%s' in defined_name()" % sheetname)
+                warn("Unknown sheet name '%s' in defined_name()"
+                     % force_unicode(sheetname))
                 return -1
         else:
             # Use -1 to indicate global names.
@@ -1307,7 +1309,8 @@ class Workbook(xmlwriter.XMLwriter):
                 # in a chart series formula.
                 if sheetname not in worksheets:
                     warn("Unknown worksheet reference '%s' in range "
-                         "'%s' passed to add_series()" % (sheetname, c_range))
+                         "'%s' passed to add_series()"
+                         % (force_unicode(sheetname), force_unicode(c_range)))
                     chart.formula_data[r_id] = []
                     seen_ranges[c_range] = []
                     continue
