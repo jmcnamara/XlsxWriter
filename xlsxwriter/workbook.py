@@ -1128,6 +1128,12 @@ class Workbook(xmlwriter.XMLwriter):
                     x_dpi = x_density * 2.54
                     y_dpi = y_density * 2.54
 
+                # Workaround for incorrect dpi.
+                if x_dpi == 1:
+                    x_dpi = 96
+                if y_dpi == 1:
+                    y_dpi = 96
+
             if marker == 0xFFDA:
                 end_marker = True
                 continue
