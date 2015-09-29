@@ -4,7 +4,7 @@
 
 .PHONY: docs
 
-docs:
+docs doc:
 	@make -C dev/docs html
 
 pdf:
@@ -50,6 +50,8 @@ testpythonsall:
 	@~/.pythonbrew/pythons/Python-3.3.2/bin/py.test -q
 	@echo "Testing with Python 3.4.1:"
 	@~/.pythonbrew/pythons/Python-3.4.1/bin/py.test -q
+	@echo "Testing with Python 3.5.0:"
+	@~/.pythonbrew/pythons/Python-3.5.0/bin/py.test -q
 
 testpep8:
 	@ls -1 xlsxwriter/*.py | egrep -v "theme|compat" | xargs pep8
