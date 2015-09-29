@@ -108,6 +108,8 @@ To workaround this Excel limitation you can specify a user defined name in the
 table and refer to that from the chart. See :ref:`charts_from_tables`.
 
 
+.. _reporting_bugs:
+
 Reporting Bugs
 ==============
 

@@ -567,10 +567,12 @@ follows::
 
 The available min/mid/max types are::
 
+    min        (for min_type only)
     num
     percent
     percentile
     formula
+    max        (for max_type only)
 
 
 mid_type:
@@ -732,4 +734,3 @@ Highlight blank cells::
                                             'format': format1})
 
 See also :ref:`ex_cond_format`.
-
