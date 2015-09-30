@@ -150,6 +150,7 @@ class Packager(object):
         self._write_drawing_rels_files()
         self._add_image_files()
         self._add_vba_project()
+        self._add_custom_uis()
 
         return self.filenames
 
@@ -362,6 +363,10 @@ class Packager(object):
         if self.workbook.vba_project:
             content._add_vba_project()
 
+        # Add vbaProjectSignature if present.
+        if self.workbook.vba_project_signature:
+            content._add_vba_project_signature()
+
         content._set_xml_writer(self._filename('[Content_Types].xml'))
         content._assemble_xml_file()
 
@@ -424,6 +429,12 @@ class Packager(object):
                                        'docProps/core.xml')
         rels._add_document_relationship('/extended-properties',
                                         'docProps/app.xml')
+
+        for custom_ui, version in self.workbook.custom_uis:
+            xml_custom_ui_name = os.path.split(custom_ui)[1]
+            rels._add_ms_package_relationship('/ui/extensibility',
+                                              'customUI/%s' % xml_custom_ui_name,
+                                              version=version)
 
         rels._set_xml_writer(self._filename('_rels/.rels'))
         rels._assemble_xml_file()
@@ -555,6 +566,14 @@ class Packager(object):
                                             + '.vml.rels'))
         rels._assemble_xml_file()
 
+    def _write_vba_signature_rels_file(self):
+        rels = Relationships()
+
+        rels._add_ms_package_relationship('/vbaProjectSignature', 'vbaProjectSignature.bin')
+
+        rels._set_xml_writer(self._filename('xl/_rels/vbaProject.bin.rels'))
+        rels._assemble_xml_file()
+
     def _add_image_files(self):
         # Write the /xl/media/image?.xml files.
         workbook = self.workbook
@@ -598,11 +617,17 @@ class Packager(object):
         # Copy in a vbaProject.bin file.
         vba_project = self.workbook.vba_project
         vba_is_stream = self.workbook.vba_is_stream
+        vba_project_signature = self.workbook.vba_project_signature
+        vba_signature_is_stream = self.workbook.vba_signature_is_stream
 
         if not vba_project:
             return
 
+        if self.workbook.vba_project_signature:
+            self._write_vba_signature_rels_file()
+
         xml_vba_name = 'xl/vbaProject.bin'
+        xml_vba_signature_name = 'xl/vbaProjectSignature.bin'
 
         if not self.in_memory:
             # In file mode we just write or copy the VBA file.
@@ -616,6 +641,18 @@ class Packager(object):
             else:
                 copy(vba_project, os_filename)
 
+            if vba_project_signature:
+                # In file mode we just write or copy the VBA signature file.
+                os_signature_filename = self._filename(xml_vba_signature_name)
+
+                if vba_signature_is_stream:
+                    # The data is in a byte stream. Write it to the target.
+                    os_file = open(os_signature_filename, mode='wb')
+                    os_file.write(vba_project_signature.getvalue())
+                    os_file.close()
+                else:
+                    copy(vba_project_signature, os_signature_filename)
+
         else:
             # For in-memory mode we read the vba into a stream.
             if vba_is_stream:
@@ -627,4 +664,39 @@ class Packager(object):
                 os_filename = BytesIO(vba_data)
                 vba_file.close()
 
+            if vba_project_signature:
+                if vba_signature_is_stream:
+                    # The data is already in a byte stream.
+                    os_signature_filename = vba_project_signature
+                else:
+                    vba_file = open(vba_project_signature, mode='rb')
+                    vba_data = vba_file.read()
+                    os_signature_filename = BytesIO(vba_data)
+                    vba_file.close()
+
+                self.filenames.append((os_signature_filename, xml_vba_signature_name, True))
+
             self.filenames.append((os_filename, xml_vba_name, True))
+
+    def _add_custom_uis(self):
+        # Copy the custom ui xml files
+        custom_uis = self.workbook.custom_uis
+
+        if not custom_uis:
+            return
+
+        for custom_ui, _ in custom_uis:
+            xml_custom_ui_name = os.path.split(custom_ui)[1]
+            if not self.in_memory:
+                # In file mode we just copy the xml files.
+                os_filename = self._filename('customUI/%s' % xml_custom_ui_name)
+                copy(custom_ui, os_filename)
+
+            else:
+                # For in-memory mode we read the custom ui into a stream.
+                custom_ui_file = open(custom_ui, mode='r')
+                custom_ui_data = custom_ui_file.read()
+                os_filename = StringIO(custom_ui_data)
+                custom_ui_file.close()
+
+                self.filenames.append((os_filename, 'customUI/%s' % xml_custom_ui_name, True))

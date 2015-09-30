@@ -404,7 +404,7 @@ See also :ref:`ex_defined_name`.
 workbook.add_vba_project()
 --------------------------
 
-.. py:function:: add_vba_project(vba_project[, is_stream])
+.. py:function:: add_vba_project(vba_project[, is_stream, signature, signature_is_stream])
 
    Add a vbaProject binary to the Excel workbook.
 
@@ -422,6 +422,27 @@ Only one ``vbaProject.bin`` file can be added per workbook.
 The ``is_stream`` parameter is used to indicate that ``vba_project`` refers to
 a BytesIO byte stream rather than a physical file. This can be used when
 working with the workbook ``in_memory`` mode.
+
+The ``signature`` parameter can be used to attach a digital signature of the macro. The
+signature file should be extracted from the existing excel file containing the signed macro.
+
+See :ref:`macros` for more details.
+
+
+workbook.add_custom_ui()
+-----------------------
+
+.. py:function:: add_custom_ui(custom_ui, version=2006)
+
+   Add a custom ui xml to the Excel workbook.
+
+   :param string custom_ui: The custom_ui xml file name.
+   :param string version: Excel file version for the custom ui (2006 = pre-excel-2014, 2007 = excel 2014).
+
+The ``add_custom_ui()`` method can be used to add an excel-UI file to the
+workbook. These can for example be excel ribbon definitions which can be
+extracted from existing excel workbooks (These are xml files starting with 
+a <customUI xmlns=...> tag).
 
 See :ref:`macros` for more details.
 
