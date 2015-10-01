@@ -19,6 +19,7 @@ workbook.set_properties({
     'keywords': 'Sample, Example, Properties',
     'comments': 'Created with Python and XlsxWriter',
     'status':   'Quo',
+    'hyperlink_base': 'C:\\',
 })
 
 worksheet.set_column('A:A', 70)
