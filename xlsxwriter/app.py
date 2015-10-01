@@ -73,6 +73,7 @@ class App(xmlwriter.XMLwriter):
         self._write_titles_of_parts()
         self._write_manager()
         self._write_company()
+        self._write_hyperlink_base()
         self._write_links_up_to_date()
         self._write_shared_doc()
         self._write_hyperlinks_changed()
@@ -168,6 +169,13 @@ class App(xmlwriter.XMLwriter):
             return
 
         self._xml_data_element('Manager', self.properties['manager'])
+
+    def _write_hyperlink_base(self):
+        # Write the <HyperlinkBase> element.
+        if 'hyperlink_base' not in self.properties:
+            return
+
+        self._xml_data_element('HyperlinkBase', self.properties['hyperlink_base'])
 
     def _write_links_up_to_date(self):
         # Write the <LinksUpToDate> element.
