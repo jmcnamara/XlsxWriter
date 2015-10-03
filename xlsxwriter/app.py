@@ -75,6 +75,7 @@ class App(xmlwriter.XMLwriter):
         self._write_company()
         self._write_links_up_to_date()
         self._write_shared_doc()
+        self._write_hyperlink_base()
         self._write_hyperlinks_changed()
         self._write_app_version()
 
@@ -176,6 +177,15 @@ class App(xmlwriter.XMLwriter):
     def _write_shared_doc(self):
         # Write the <SharedDoc> element.
         self._xml_data_element('SharedDoc', 'false')
+
+    def _write_hyperlink_base(self):
+        # Write the <HyperlinkBase> element.
+        hyperlink_base = self.properties.get('hyperlink_base')
+
+        if hyperlink_base is None:
+            return
+
+        self._xml_data_element('HyperlinkBase', hyperlink_base)
 
     def _write_hyperlinks_changed(self):
         # Write the <HyperlinksChanged> element.

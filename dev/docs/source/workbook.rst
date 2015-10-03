@@ -337,6 +337,7 @@ The properties that can be set are:
 * ``keywords``
 * ``comments``
 * ``status``
+* ``hyperlink_base``
 
 The properties are all optional and should be passed in dictionary format as
 follows::
