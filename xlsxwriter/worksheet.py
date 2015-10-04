@@ -758,26 +758,25 @@ class Worksheet(xmlwriter.XMLwriter):
             -3: URL longer than Excel limit of 255 characters
             -4: Exceeds Excel limit of 65,530 urls per worksheet
         """
-        # Default link type such as http://.
+        # Set the displayed string to the URL unless defined by the user.
+        if string is None:
+            string = url
+
+        # Default externl link type such as http:// or erternal:.
         link_type = 1
 
         # Remove the URI scheme from internal links.
         if re.match("internal:", url):
             url = url.replace('internal:', '')
+            string = string.replace('internal:', '')
             link_type = 2
 
-        # Remove the URI scheme from external links.
+        # Remove the URI scheme from external links and change the directory
+        # separator from Unix to Dos.
         if re.match("external:", url):
             url = url.replace('external:', '')
-            link_type = 3
-
-        # Set the displayed string to the URL unless defined by the user.
-        if string is None:
-            string = url
-
-        # For external links change the directory separator from Unix to Dos.
-        if link_type == 3:
             url = url.replace('/', '\\')
+            string = string.replace('external:', '')
             string = string.replace('/', '\\')
 
         # Strip the mailto header.
@@ -799,7 +798,7 @@ class Worksheet(xmlwriter.XMLwriter):
 
         # External links to URLs and to other Excel workbooks have slightly
         # different characteristics that we have to account for.
-        if link_type == 1 or link_type == 3:
+        if link_type == 1:
             # Escape URL unless it looks already escaped.
             if not re.search('%[0-9a-fA-F]{2}', url):
                 # Can't use url.quote() here because it doesn't match Excel.
@@ -815,35 +814,26 @@ class Worksheet(xmlwriter.XMLwriter):
                 url = url.replace('{', '%7b')
                 url = url.replace('}', '%7d')
 
-            # Ordinary URL style external links don't have a "location" string.
-            url_str = None
-
-        if link_type == 3:
-
-            # External Workbook links need to be modified into correct format.
-            # The URL will look something like 'c:\temp\file.xlsx#Sheet!A1'.
-            # We need the part to the left of the # as the URL and the part to
-            # the right as the "location" string (if it exists).
-            if re.search('#', url):
+            # Split url into the link and optional anchor/location.
+            if '#' in url:
                 url, url_str = url.split('#')
             else:
                 url_str = None
 
-            # Add the file:/// URI to the url if non-local.
-            # Windows style "C:/" link. # Network share.
+            # Add the file:/// URI to the url for Windows style "C:/" link and
+            # Network shares.
             if re.match('\w:', url) or re.match(r'\\', url):
                 url = 'file:///' + url
 
             # Convert a .\dir\file.xlsx link to dir\file.xlsx.
             url = re.sub(r'^\.\\', '', url)
 
-            # Treat as a default external link now the data has been modified.
-            link_type = 1
-
-        # Excel limits escaped URL to 255 characters.
-        if len(url) > 255:
-            warn("Ignoring URL '%s' > 255 characters since it exceeds "
-                 "Excel's limit for URLS" % force_unicode(url))
+        # Excel limits the escaped URL and location/anchor to 255 characters.
+        tmp_url_str = url_str or ''
+        if len(url) > 255 or len(tmp_url_str) > 255:
+            warn("Ignoring URL '%s' with link or location/anchor > 255 "
+                 "characters since it exceeds Excel's limit for URLS" %
+                 force_unicode(url))
             return -3
 
         # Check the limit of URLS per worksheet.

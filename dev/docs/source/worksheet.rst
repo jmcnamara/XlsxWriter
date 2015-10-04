@@ -616,6 +616,9 @@ See also :ref:`ex_hyperlink`.
    style escapes. In which case it is assumed that the URL was escaped
    correctly by the user and will by passed directly to Excel.
 
+.. note::
+   Excel limits hyperlink links and anchor/locations to 255 characters each.
+
 
 worksheet.write_rich_string()
 -----------------------------
