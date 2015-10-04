@@ -1,5 +1,15 @@
 
 
+Release 0.7.5 - October 4 2015
+------------------------------
+
+* Allow hyperlinks longer than 255 characters when the link and anchor are
+  each less than or equal to 255 characters.
+
+* Added hyperlink_base document property.
+  Feature request `#306 <https://github.com/jmcnamara/XlsxWriter/issues/306>`_.
+
+
 Release 0.7.4 - September 29 2015
 ---------------------------------
 
