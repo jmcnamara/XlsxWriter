@@ -8,7 +8,7 @@ except ImportError:
     from distutils.core import setup, Command
 
 if sys.version_info < (2, 5, 0):
-    warn("The minimum Python version supported by XlsxWriter is 2.6.2.")
+    warn("The minimum Python version supported by XlsxWriter is 2.5.0.")
     exit()
 
 
@@ -49,5 +49,6 @@ setup(
         'Programming Language :: Python :: 3.2',
         'Programming Language :: Python :: 3.3',
         'Programming Language :: Python :: 3.4',
+        'Programming Language :: Python :: 3.5',
     ],
 )
