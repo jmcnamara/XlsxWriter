@@ -80,7 +80,7 @@ All patches and pull requests are welcome but must start with an issue tracker.
 
 ### Enabling Travis CI via your GitHub account
 
-Travis CI is a free Continuous Integration service that will test any code you push to GitHub with Python 2.5, 2.6, 2.7, 3.2, 3.3, 3.4 and PyPy.
+Travis CI is a free Continuous Integration service that will test any code you push to GitHub with various versions of Python 2 and 3, and PyPy.
 
 See the [Travis CI Getting Started](http://about.travis-ci.org/docs/user/getting-started/) instructions.
 
@@ -111,7 +111,7 @@ There is a make target that will verify the source and test files:
 
 ### Running tests
 
-As a minimum tests should be run using Python 2.7 and Python 3.3.
+As a minimum tests should be run using Python 2.7 and Python 3.5.
 
 
     make test
