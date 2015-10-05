@@ -3990,12 +3990,12 @@ class Worksheet(xmlwriter.XMLwriter):
 
         # Adjust start column for negative offsets.
         while x1 < 0:
-            x1 += self._size_col(col_start)
+            x1 += self._size_col(col_start -1)
             col_start -= 1
 
         # Adjust start row for negative offsets.
         while y1 < 0:
-            y1 -= self._size_row(row_start)
+            y1 -= self._size_row(row_start -1)
             row_start -= 1
 
         # Adjust start column for offsets that are greater than the col width.
