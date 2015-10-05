@@ -3988,6 +3988,16 @@ class Worksheet(xmlwriter.XMLwriter):
 
         y_abs += y1
 
+        # Adjust start column for negative offsets.
+        while x1 < 0:
+            x1 += self._size_col(col_start)
+            col_start -= 1
+
+        # Adjust start row for negative offsets.
+        while y1 < 0:
+            y1 -= self._size_row(row_start)
+            row_start -= 1
+
         # Adjust start column for offsets that are greater than the col width.
         while x1 >= self._size_col(col_start):
             x1 -= self._size_col(col_start)
