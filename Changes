@@ -1,4 +1,10 @@
 
+Release 0.7.6 - October 7 2015
+------------------------------
+
+* Fix for images with negative offsets.
+  Issue `#273 <https://github.com/jmcnamara/XlsxWriter/issues/273>`_.
+
 
 Release 0.7.5 - October 4 2015
 ------------------------------
@@ -6,7 +12,7 @@ Release 0.7.5 - October 4 2015
 * Allow hyperlinks longer than 255 characters when the link and anchor are
   each less than or equal to 255 characters.
 
-* Added hyperlink_base document property.
+* Added ``hyperlink_base`` document property.
   Feature request `#306 <https://github.com/jmcnamara/XlsxWriter/issues/306>`_.
 
 
