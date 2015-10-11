@@ -3967,11 +3967,21 @@ class Worksheet(xmlwriter.XMLwriter):
         x_abs = 0
         y_abs = 0
 
+        # Adjust start column for negative offsets.
+        while x1 < 0 and col_start > 0:
+            x1 += self._size_col(col_start - 1)
+            col_start -= 1
+
+        # Adjust start row for negative offsets.
+        while y1 < 0 and row_start > 0:
+            y1 += self._size_row(row_start - 1)
+            row_start -= 1
+
         # Ensure that the image isn't shifted off the page at top left.
-        if col_start == 0 and x1 < 0:
+        if x1 < 0:
             x1 = 0
 
-        if row_start == 0 and y1 < 0:
+        if y1 < 0:
             y1 = 0
 
         # Calculate the absolute x offset of the top-left vertex.
@@ -3985,7 +3995,6 @@ class Worksheet(xmlwriter.XMLwriter):
         x_abs += x1
 
         # Calculate the absolute y offset of the top-left vertex.
-        # Store the column change to allow optimisations.
         if self.row_size_changed:
             for row_id in range(row_start):
                 y_abs += self._size_row(row_id)
@@ -3994,16 +4003,6 @@ class Worksheet(xmlwriter.XMLwriter):
             y_abs += self.default_row_pixels * row_start
 
         y_abs += y1
-
-        # Adjust start column for negative offsets.
-        while x1 < 0:
-            x1 += self._size_col(col_start - 1)
-            col_start -= 1
-
-        # Adjust start row for negative offsets.
-        while y1 < 0:
-            y1 += self._size_row(row_start - 1)
-            row_start -= 1
 
         # Adjust start column for offsets that are greater than the col width.
         while x1 >= self._size_col(col_start):
