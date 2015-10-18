@@ -199,13 +199,14 @@ The default table style is 'Table Style Medium 9'.
 name
 ----
 
-The ``name`` parameter can be used to set the name of the table.
+The ``name`` parameter can be used to set the name of the table::
+
+    worksheet.add_table('B3:F7', {'name': 'SalesData'})
 
 By default tables are named ``Table1``, ``Table2``, etc. If you override the
 table name you must ensure that it doesn't clash with an existing table name
-and that it follows Excel's requirements for table names::
-
-    worksheet.add_table('B3:F7', {'name': 'SalesData'})
+and that it follows Excel's requirements for table names (for example that it
+doesn't contain spaces).
 
 If you need to know the name of the table, for example to use it in a formula,
 you can get it as follows::
@@ -363,9 +364,11 @@ automatically. This is similar to setting the ``value`` optional property in
                             'total_function': 'sum',
                             'total_value': 807}]}
 
-Formatting can also be applied to columns, to the column data using ``format`` and to the header using ``header_format``:
+Formatting can also be applied to columns, to the column data using ``format`` and to the header using ``header_format``::
 
-    currency_format = workbook.add_format(num_format, '$#,##0')
+
+    currency_format = workbook.add_format({'num_format': '$#,##0'})
+    wrap_format     = workbook.add_format({'text_wrap': 1})
 
     worksheet.add_table('B3:D8', {'data': data,
                                   'total_row': 1,

@@ -1628,22 +1628,22 @@ class Worksheet(xmlwriter.XMLwriter):
 
         # List of valid input parameters.
         valid_parameters = {
-            'validate': 1,
-            'criteria': 1,
-            'value': 1,
-            'source': 1,
-            'minimum': 1,
-            'maximum': 1,
-            'ignore_blank': 1,
-            'dropdown': 1,
-            'show_input': 1,
-            'input_title': 1,
-            'input_message': 1,
-            'show_error': 1,
-            'error_title': 1,
-            'error_message': 1,
-            'error_type': 1,
-            'other_cells': 1,
+            'validate': True,
+            'criteria': True,
+            'value': True,
+            'source': True,
+            'minimum': True,
+            'maximum': True,
+            'ignore_blank': True,
+            'dropdown': True,
+            'show_input': True,
+            'input_title': True,
+            'input_message': True,
+            'show_error': True,
+            'error_title': True,
+            'error_message': True,
+            'error_type': True,
+            'other_cells': True,
         }
 
         # Check for valid input parameters.
@@ -1871,22 +1871,22 @@ class Worksheet(xmlwriter.XMLwriter):
 
         # List of valid input parameters.
         valid_parameter = {
-            'type': 1,
-            'format': 1,
-            'criteria': 1,
-            'value': 1,
-            'minimum': 1,
-            'maximum': 1,
-            'min_type': 1,
-            'mid_type': 1,
-            'max_type': 1,
-            'min_value': 1,
-            'mid_value': 1,
-            'max_value': 1,
-            'min_color': 1,
-            'mid_color': 1,
-            'max_color': 1,
-            'multi_range': 1,
+            'type': True,
+            'format': True,
+            'criteria': True,
+            'value': True,
+            'minimum': True,
+            'maximum': True,
+            'min_type': True,
+            'mid_type': True,
+            'max_type': True,
+            'min_value': True,
+            'mid_value': True,
+            'max_value': True,
+            'min_color': True,
+            'mid_color': True,
+            'max_color': True,
+            'multi_range': True,
             'bar_color': 1}
 
         # Check for valid input parameters.
@@ -2227,17 +2227,17 @@ class Worksheet(xmlwriter.XMLwriter):
 
         # List of valid input parameters.
         valid_parameter = {
-            'autofilter': 1,
-            'banded_columns': 1,
-            'banded_rows': 1,
-            'columns': 1,
-            'data': 1,
-            'first_column': 1,
-            'header_row': 1,
-            'last_column': 1,
-            'name': 1,
-            'style': 1,
-            'total_row': 1,
+            'autofilter': True,
+            'banded_columns': True,
+            'banded_rows': True,
+            'columns': True,
+            'data': True,
+            'first_column': True,
+            'header_row': True,
+            'last_column': True,
+            'name': True,
+            'style': True,
+            'total_row': True,
         }
 
         # Check for valid input parameters.
@@ -2261,7 +2261,14 @@ class Worksheet(xmlwriter.XMLwriter):
 
         # Set the table name.
         if 'name' in options:
-            table['name'] = options['name']
+            name = options['name']
+            table['name'] =name
+
+            if ' ' in name:
+                warn("Name '%s' in add_table() cannot contain spaces"
+                     % force_unicode(name))
+                return -3
+
 
         # Set the table style.
         if 'style' in options:
@@ -2787,23 +2794,23 @@ class Worksheet(xmlwriter.XMLwriter):
 
         # Default values for objects that can be protected.
         defaults = {
-            'sheet': 1,
-            'content': 0,
-            'objects': 0,
-            'scenarios': 0,
-            'format_cells': 0,
-            'format_columns': 0,
-            'format_rows': 0,
-            'insert_columns': 0,
-            'insert_rows': 0,
-            'insert_hyperlinks': 0,
-            'delete_columns': 0,
-            'delete_rows': 0,
-            'select_locked_cells': 1,
-            'sort': 0,
-            'autofilter': 0,
-            'pivot_tables': 0,
-            'select_unlocked_cells': 1}
+            'sheet': True,
+            'content': False,
+            'objects': False,
+            'scenarios': False,
+            'format_cells': False,
+            'format_columns': False,
+            'format_rows': False,
+            'insert_columns': False,
+            'insert_rows': False,
+            'insert_hyperlinks': False,
+            'delete_columns': False,
+            'delete_rows': False,
+            'select_locked_cells': True,
+            'sort': False,
+            'autofilter': False,
+            'pivot_tables': False,
+            'select_unlocked_cells': True}
 
         # Overwrite the defaults with user specified values.
         for key in (options.keys()):
