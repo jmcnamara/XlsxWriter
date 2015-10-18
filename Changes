@@ -1,4 +1,13 @@
 
+
+Release 0.7.7 - October 19 2015
+-------------------------------
+
+* Added support for table header formatting and a fix for wrapped lines in the
+  header.
+  Issue `#287 <https://github.com/jmcnamara/XlsxWriter/issues/287>`_.
+
+
 Release 0.7.6 - October 7 2015
 ------------------------------
 
