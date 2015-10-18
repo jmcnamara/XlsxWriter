@@ -23,7 +23,7 @@ class XMLwriter(object):
 
     def __init__(self):
         self.fh = None
-        self.escapes = re.compile('["&<>]')
+        self.escapes = re.compile('["&<>\n]')
         self.internal_fh = False
 
     def _set_filehandle(self, filehandle):
@@ -189,6 +189,7 @@ class XMLwriter(object):
         attribute = attribute.replace('"', '&quot;')
         attribute = attribute.replace('<', '&lt;')
         attribute = attribute.replace('>', '&gt;')
+        attribute = attribute.replace('\n', '&#xA;')
 
         return attribute
 

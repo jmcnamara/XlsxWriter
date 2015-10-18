@@ -2316,6 +2316,7 @@ class Worksheet(xmlwriter.XMLwriter):
                 'total_value': 0,
                 'formula': '',
                 'format': None,
+                'name_format': None,
             }
 
             # Overwrite the defaults with any use defined values.
@@ -2330,6 +2331,8 @@ class Worksheet(xmlwriter.XMLwriter):
                     # Map user defined values to internal values.
                     if user_data.get('header'):
                         col_data['name'] = user_data['header']
+
+                    col_data['name_format'] = user_data.get('header_format')
 
                     # Handle the column formula.
                     if 'formula' in user_data and user_data['formula']:
@@ -2393,7 +2396,8 @@ class Worksheet(xmlwriter.XMLwriter):
 
             # Write the column headers to the worksheet.
             if options['header_row']:
-                self.write_string(first_row, col_num, col_data['name'])
+                self.write_string(first_row, col_num, col_data['name'],
+                                  col_data['name_format'])
 
             col_id += 1
 

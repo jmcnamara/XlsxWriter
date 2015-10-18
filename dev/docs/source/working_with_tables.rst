@@ -363,7 +363,7 @@ automatically. This is similar to setting the ``value`` optional property in
                             'total_function': 'sum',
                             'total_value': 807}]}
 
-Formats can also be applied to columns::
+Formatting can also be applied to columns, to the column data using ``format`` and to the header using ``header_format``:
 
     currency_format = workbook.add_format(num_format, '$#,##0')
 
@@ -372,19 +372,18 @@ Formats can also be applied to columns::
                                   'columns': [{'header': 'Product'},
                                               {'header': 'Quarter 1',
                                                'total_function': 'sum',
-                                               'format': currency_format,
-                                               },
+                                               'format': currency_format},
                                               {'header': 'Quarter 2',
+                                               'header_format': wrap_format,
                                                'total_function': 'sum',
-                                               'format': currency_format,
-                                               },
-                                              ]})
+                                               'format': currency_format}]})
 
 .. image:: _images/tables12.png
 
 Standard XlsxWriter :ref:`Format object <format>` objects are used for this
-formatting. However, they should be limited to numerical formats. Overriding
-other table formatting may produce inconsistent results.
+formatting. However, they should be limited to numerical formats for the
+columns and simple formatting like text wrap for the headers. Overriding other
+table formatting may produce inconsistent results.
 
 
 Example
