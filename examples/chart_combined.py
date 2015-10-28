@@ -97,7 +97,9 @@ column_chart2.combine(line_chart2)
 column_chart2.set_title({  'name': 'Combine chart - secondary Y axis'})
 column_chart2.set_x_axis({ 'name': 'Test number'})
 column_chart2.set_y_axis({ 'name': 'Sample length (mm)'})
-column_chart2.set_y2_axis({'name': 'Target length (mm)'})
+
+# Note: the y2 properites are on the secondary chart.
+line_chart2.set_y2_axis({'name': 'Target length (mm)'})
 
 # Insert the chart into the worksheet
 worksheet.insert_chart('E18', column_chart2)
