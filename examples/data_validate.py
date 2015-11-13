@@ -114,7 +114,7 @@ worksheet.data_validation('B13', {'validate': 'list',
 txt = 'Select a value from a drop down list (using a cell range)'
 
 worksheet.write('A15', txt)
-worksheet.data_validation('B10', {'validate': 'list',
+worksheet.data_validation('B15', {'validate': 'list',
                                   'source': '=$E$4:$G$4'})
 
 
