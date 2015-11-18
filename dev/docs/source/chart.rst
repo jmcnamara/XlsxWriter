@@ -166,20 +166,20 @@ The series options that can be set are:
   such as ``=Sheet1!$A$1`` or a list with a sheetname, row and column such as
   ``['Sheet1', 0, 0]``.
 
-* ``line``: Set the properties of the series line type such as colour and
+* ``line``: Set the properties of the series line type such as color and
   width. See :ref:`chart_formatting_line`.
 
-* ``border``: Set the border properties of the series such as colour and
+* ``border``: Set the border properties of the series such as color and
   style. See :ref:`chart_formatting_border`.
 
-* ``fill``: Set the solid fill properties of the series such as colour. See
+* ``fill``: Set the solid fill properties of the series such as color. See
   :ref:`chart_formatting_fill`.
 
 * ``gradient``: Set the gradient fill properties of the series. See
   :ref:`chart_formatting_gradient`.
 
 * ``marker``: Set the properties of the series marker such as style and
-  colour. See :ref:`chart_series_option_marker`.
+  color. See :ref:`chart_series_option_marker`.
 
 * ``trendline``: Set the properties of the series trendline such as linear,
   polynomial and moving average types. See
@@ -199,7 +199,7 @@ The series options that can be set are:
 * ``points``: Set properties for individual points in a series. See
   :ref:`chart_series_option_points`.
 
-* ``invert_if_negative``: Invert the fill colour for negative values. Usually
+* ``invert_if_negative``: Invert the fill color for negative values. Usually
   only applicable to column and bar charts.
 
 * ``overlap``: Set the overlap between series in a Bar/Column chart. The
@@ -343,12 +343,12 @@ the axis types.
   string must be used as shown above. See :func:`set_num_format()` for more
   information.
 
-* ``line``: Set the properties of the axis line type such as colour and
+* ``line``: Set the properties of the axis line type such as color and
   width. See :ref:`chart_formatting_line`::
 
     chart.set_x_axis({'line': {'none': True}})
 
-* ``fill``: Set the solid fill properties of the axis such as colour. See
+* ``fill``: Set the solid fill properties of the axis such as color. See
   :ref:`chart_formatting_fill`.  Note, in Excel the axis fill is applied to
   the area of the numbers of the axis and not to the area of the axis bounding
   box. That background is set from the chartarea fill.
@@ -451,7 +451,7 @@ the axis types.
   The ``visible`` property is usually on for the X axis but it depends on the
   type of chart.
 
-  The ``line`` property sets the gridline properties such as colour and
+  The ``line`` property sets the gridline properties such as color and
   width. See :ref:`chart_formatting`.
 
 * ``minor_gridlines``: This takes the same options as ``major_gridlines``
@@ -799,10 +799,10 @@ In Excel the chart area is the background area behind the chart::
 
 The properties that can be set are:
 
-* ``border``: Set the border properties of the chartarea such as colour and
+* ``border``: Set the border properties of the chartarea such as color and
   style. See :ref:`chart_formatting_border`.
 
-* ``fill``: Set the solid fill properties of the chartarea such as colour. See
+* ``fill``: Set the solid fill properties of the chartarea such as color. See
   :ref:`chart_formatting_fill`.
 
 * ``gradient``: Set the gradient fill properties of the chartarea. See
@@ -833,10 +833,10 @@ series are plotted::
 
 The properties that can be set are:
 
-* ``border``: Set the border properties of the plotarea such as colour and
+* ``border``: Set the border properties of the plotarea such as color and
   style. See :ref:`chart_formatting_border`.
 
-* ``fill``: Set the solid fill properties of the plotarea such as colour. See
+* ``fill``: Set the solid fill properties of the plotarea such as color. See
   :ref:`chart_formatting_fill`.
 
 * ``gradient``: Set the gradient fill properties of the plotarea. See

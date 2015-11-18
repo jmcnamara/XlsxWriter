@@ -282,7 +282,7 @@ class Workbook(xmlwriter.XMLwriter):
 
     def close(self):
         """
-        Call finalisation code and close file.
+        Call finalization code and close file.
 
         Args:
             None.
@@ -310,7 +310,7 @@ class Workbook(xmlwriter.XMLwriter):
 
     def set_calc_mode(self, mode, calc_id=None):
         """
-        Set the Excel caclcuation mode for the workbook.
+        Set the Excel calculation mode for the workbook.
 
         Args:
             mode: String containing one of:
@@ -779,7 +779,7 @@ class Workbook(xmlwriter.XMLwriter):
         fills['0:0:0'] = 0
         fills['17:0:0'] = 1
 
-        # Store the DXF colours separately since them may be reversed below.
+        # Store the DXF colors separately since them may be reversed below.
         for xf_format in self.dxf_formats:
             if xf_format.pattern or xf_format.bg_color or xf_format.fg_color:
                 xf_format.has_dxf_fill = 1
@@ -788,10 +788,10 @@ class Workbook(xmlwriter.XMLwriter):
 
         for xf_format in self.xf_formats:
             # The following logical statements jointly take care of special
-            # cases in relation to cell colours and patterns:
+            # cases in relation to cell colors and patterns:
             # 1. For a solid fill (_pattern == 1) Excel reverses the role of
-            # foreground and background colours, and
-            # 2. If the user specifies a foreground or background colour
+            # foreground and background colors, and
+            # 2. If the user specifies a foreground or background color
             # without a pattern they probably wanted a solid fill, so we fill
             # in the defaults.
             if (xf_format.pattern == 1 and xf_format.bg_color != 0
@@ -871,21 +871,21 @@ class Workbook(xmlwriter.XMLwriter):
         # Sort the list of list of internal and user defined names in
         # the same order as used by Excel.
 
-        # Add a normalise name string to each list for sorting.
+        # Add a normalize name string to each list for sorting.
         for name_list in names:
             (defined_name, _, sheet_name, _) = name_list
 
-            # Normalise the defined name by removing any leading '_xmln.'
+            # Normalize the defined name by removing any leading '_xmln.'
             # from internal names and lowercasing the string.
             defined_name = defined_name.replace('_xlnm.', '').lower()
 
-            # Normalise the sheetname by removing the leading quote and
+            # Normalize the sheetname by removing the leading quote and
             # lowercasing the string.
             sheet_name = sheet_name.lstrip("'").lower()
 
             name_list.append(defined_name + "::" + sheet_name)
 
-        # Sort based on the normalised key.
+        # Sort based on the normalized key.
         names.sort(key=operator.itemgetter(4))
 
         # Remove the extra key used for sorting.
@@ -1262,7 +1262,7 @@ class Workbook(xmlwriter.XMLwriter):
             table_id += table_count
 
     def _add_chart_data(self):
-        # Add "cached" data to charts to provide the numCache and strCacher
+        # Add "cached" data to charts to provide the numCache and strCache
         # data for series and title/axis ranges.
         worksheets = {}
         seen_ranges = {}

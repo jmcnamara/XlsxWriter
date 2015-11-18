@@ -441,7 +441,7 @@ class Format(xmlwriter.XMLwriter):
         Set the Format bg_color property.
 
         Args:
-            bg_color: Background colour. No default.
+            bg_color: Background color. No default.
 
         Returns:
             Nothing.
@@ -454,7 +454,7 @@ class Format(xmlwriter.XMLwriter):
         Set the Format fg_color property.
 
         Args:
-            fg_color: Foreground colour. No default.
+            fg_color: Foreground color. No default.
 
         Returns:
             Nothing.
@@ -956,7 +956,7 @@ class Format(xmlwriter.XMLwriter):
 
     def _get_color(self, color):
         # Used in conjunction with the set_xxx_color methods to convert a
-        # colour name into an RGB formatted string. These colours are for
+        # color name into an RGB formatted string. These colors are for
         # backward compatibility with older versions of Excel.
         named_colors = {
             'black': '#000000',

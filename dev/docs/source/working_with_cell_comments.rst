@@ -51,7 +51,7 @@ The options are explained in detail below:
      worksheet.set_comments_author('John Smith')
 
 * ``visible``: This option is used to make a cell comment visible when the
-  worksheet is opened. The default behaviour in Excel is that comments are
+  worksheet is opened. The default behavior in Excel is that comments are
   initially hidden. However, it is also possible in Excel to make individual
   comments or all comments visible. In XlsxWriter individual comments can be
   made visible as follows::
@@ -86,8 +86,8 @@ The options are explained in detail below:
 
     worksheet.write_comment('C3', 'Hello', {'height': 200})
 
-* ``color``: This option is used to set the background colour of cell comment
-  box. You can use one of the named colours recognised by XlsxWriter or a Html
+* ``color``: This option is used to set the background color of cell comment
+  box. You can use one of the named colors recognized by XlsxWriter or a Html
   color. See :ref:`colors`::
 
     worksheet.write_comment('C3', 'Hello', {'color': 'green'  })
@@ -96,7 +96,7 @@ The options are explained in detail below:
 * ``start_cell``: This option is used to set the cell in which the comment
   will appear. By default Excel displays comments one cell to the right and
   one cell above the cell to which the comment relates. However, you can
-  change this behaviour if you wish. In the following example the comment
+  change this behavior if you wish. In the following example the comment
   which would appear by default in cell ``D2`` is moved to ``E2``::
 
     worksheet.write_comment('C3', 'Hello', {'start_cell': 'E2'})

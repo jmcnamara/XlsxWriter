@@ -1398,7 +1398,7 @@ class Chart(xmlwriter.XMLwriter):
             else:
                 second_chart.id = self.id
 
-            # Shart the same filehandle for writing.
+            # Share the same filehandle for writing.
             second_chart.fh = self.fh
 
             # Share series index with primary chart.

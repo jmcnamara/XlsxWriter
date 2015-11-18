@@ -257,7 +257,7 @@ def quote_sheetname(sheetname):
 
 def xl_color(color):
     # Used in conjunction with the XlsxWriter *color() methods to convert
-    # a colour name into an RGB formatted string. These colours are for
+    # a color name into an RGB formatted string. These colors are for
     # backward compatibility with older versions of Excel.
     named_colors = {
         'black': '#000000',
@@ -289,10 +289,10 @@ def xl_color(color):
 
 
 def get_rgb_color(color):
-    # Convert the user specified colour to an RGB colour.
+    # Convert the user specified color to an RGB color.
     rgb_color = xl_color(color)
 
-    # Remove leading FF from RGB colour for charts.
+    # Remove leading FF from RGB color for charts.
     rgb_color = re.sub(r'^FF', '', rgb_color)
 
     return rgb_color

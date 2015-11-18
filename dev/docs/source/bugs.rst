@@ -158,7 +158,7 @@ Pointers for submitting a bug report
 #. The sample program should be as small as possible to demonstrate the
    problem. Don't copy and paste large non-relevant sections of your program.
 
-A sample bug report is shown below. This format helps to analyse and respond to
+A sample bug report is shown below. This format helps to analyze and respond to
 the bug report more quickly.
 
    **Issue with SOMETHING**

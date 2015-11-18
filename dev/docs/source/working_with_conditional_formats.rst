@@ -624,8 +624,8 @@ properties are used as follows::
                                             'min_color': '#C5D9F1',
                                             'max_color': '#538ED5'})
 
-The colour can be a Html style ``#RRGGBB`` string or a limited number named
-colours, see :ref:`colors`.
+The color can be a Html style ``#RRGGBB`` string or a limited number named
+colors, see :ref:`colors`.
 
 mid_color:
 **********

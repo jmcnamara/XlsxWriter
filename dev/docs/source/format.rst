@@ -6,7 +6,7 @@ The Format Class
 This section describes the methods and properties that are available for
 formatting cells in Excel.
 
-The properties of a cell that can be formatted include: fonts, colours,
+The properties of a cell that can be formatted include: fonts, colors,
 patterns, borders, alignment and number formatting.
 
 .. image:: _images/formats_intro.png
@@ -88,10 +88,10 @@ following example::
     format.set_font_color('green')
     worksheet.write('B1', 'Cell B1', format)
 
-Cell A1 is assigned a format which initially has the font set to the colour
-red. However, the colour is subsequently set to green. When Excel displays
+Cell A1 is assigned a format which initially has the font set to the color
+red. However, the color is subsequently set to green. When Excel displays
 Cell A1 it will display the final state of the Format which in this case will
-be the colour green.
+be the color green.
 
 
 
@@ -226,7 +226,7 @@ format.set_font_color()
    :param string color: The cell font color.
 
 
-Set the font colour::
+Set the font color::
 
     format = workbook.add_format()
 
@@ -239,8 +239,8 @@ Set the font colour::
 The color can be a Html style ``#RRGGBB`` string or a limited number of named
 colors, see :ref:`colors`.
 
-Note: The ``set_font_color()`` method is used to set the colour of the font in
-a cell. To set the colour of a cell use the :func:`set_bg_color()` and
+Note: The ``set_font_color()`` method is used to set the color of the font in
+a cell. To set the color of a cell use the :func:`set_bg_color()` and
 :func:`set_pattern()` methods.
 
 
@@ -378,7 +378,7 @@ Format strings can control any aspect of number formatting allowed by Excel::
     format10.set_num_format('[Green]General;[Red]-General;General')
     worksheet.write(10, 0, 123, format10)  # > 0 Green
     worksheet.write(11, 0, -45, format10)  # < 0 Red
-    worksheet.write(12, 0,   0, format10)  # = 0 Default colour
+    worksheet.write(12, 0,   0, format10)  # = 0 Default color
 
     # Zip code.
     format11.set_num_format('00000')
@@ -389,7 +389,7 @@ Format strings can control any aspect of number formatting allowed by Excel::
 The number system used for dates is described in
 :ref:`working_with_dates_and_time`.
 
-The colour format should have one of the following values::
+The color format should have one of the following values::
 
     [Black] [Blue] [Cyan] [Green] [Magenta] [Red] [White] [Yellow]
 
@@ -611,7 +611,7 @@ format.set_center_across()
 
 .. py:function:: set_center_across()
 
-   Centre text across adjacent cells.
+   Center text across adjacent cells.
 
 Text can be aligned across two or more adjacent cells using the
 ``set_center_across()`` method. This is an alias for the
@@ -752,7 +752,7 @@ format.set_bg_color()
 
    :param string color: The cell font color.
 
-The ``set_bg_color()`` method can be used to set the background colour of a
+The ``set_bg_color()`` method can be used to set the background color of a
 pattern. Patterns are defined via the ``set_pattern()`` method. If a pattern
 hasn't been defined then a solid fill pattern is used as the default.
 
@@ -781,7 +781,7 @@ format.set_fg_color()
 
    :param string color: The cell font color.
 
-The ``set_fg_color()`` method can be used to set the foreground colour of a
+The ``set_fg_color()`` method can be used to set the foreground color of a
 pattern.
 
 The color can be a Html style ``#RRGGBB`` string or a limited number of named
@@ -934,8 +934,8 @@ the same parameters:
 * :func:`set_left_color()`
 * :func:`set_right_color()`
 
-Set the colour of the cell borders. A cell border is comprised of a border on
-the bottom, top, left and right. These can be set to the same colour using
+Set the color of the cell borders. A cell border is comprised of a border on
+the bottom, top, left and right. These can be set to the same color using
 ``set_border_color()`` or individually using the relevant method calls shown
 above.
 

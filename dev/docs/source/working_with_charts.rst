@@ -680,9 +680,9 @@ The ``color`` property sets the color of the ``line``::
         'line':   {'color': 'red'},
     })
 
-The available colours are shown in the main XlsxWriter documentation. It is
-also possible to set the colour of a line with a Html style ``#RRGGBB`` string
-or a limited number of named colours, see :ref:`colors`::
+The available colors are shown in the main XlsxWriter documentation. It is
+also possible to set the color of a line with a Html style ``#RRGGBB`` string
+or a limited number of named colors, see :ref:`colors`::
 
     chart.add_series({
         'values': '=Sheet1!$A$1:$A$6',
@@ -776,7 +776,7 @@ generally on by default)::
 .. image:: _images/chart_fill1.png
    :scale: 75 %
 
-The ``color`` property sets the colour of the ``fill`` area::
+The ``color`` property sets the color of the ``fill`` area::
 
     chart.add_series({
         'values': '=Sheet1!$A$1:$A$6',
@@ -784,9 +784,9 @@ The ``color`` property sets the colour of the ``fill`` area::
     })
 
 
-The available colours are shown in the main XlsxWriter documentation. It is
-also possible to set the colour of a fill with a Html style ``#RRGGBB`` string
-or a limited number of named colours, see :ref:`colors`::
+The available colors are shown in the main XlsxWriter documentation. It is
+also possible to set the color of a fill with a Html style ``#RRGGBB`` string
+or a limited number of named colors, see :ref:`colors`::
 
     chart.add_series({
         'values': '=Sheet1!$A$1:$A$6',
@@ -828,17 +828,17 @@ The following properties can be set for ``gradient`` fill formats in a chart::
 If gradient fill is used on a chart object it overrides the solid fill
 properties of the object.
 
-The ``colors`` property sets a list of colours that define the ``gradient``::
+The ``colors`` property sets a list of colors that define the ``gradient``::
 
     chart.set_plotarea({
         'gradient': {'colors': ['#FFEFD1', '#F0EBD5', '#B69F66']}
     })
 
-Excel allows between 2 and 10 colours in a gradient but it is unlikely that
+Excel allows between 2 and 10 colors in a gradient but it is unlikely that
 you will require more than 2 or 3.
 
-As with solid fill it is also possible to set the colours of a gradient with a
-Html style ``#RRGGBB`` string or a limited number of named colours, see
+As with solid fill it is also possible to set the colors of a gradient with a
+Html style ``#RRGGBB`` string or a limited number of named colors, see
 :ref:`colors`::
 
     chart.add_series({
@@ -847,7 +847,7 @@ Html style ``#RRGGBB`` string or a limited number of named colours, see
     })
 
 The ``positions`` defines an optional list of positions, between 0 and 100, of
-where the colours in the gradient are located. Default values are provided for
+where the colors in the gradient are located. Default values are provided for
 ``colors`` lists of between 2 and 4 but they can be specified if required::
 
     chart.add_series({
@@ -941,7 +941,7 @@ The following explains the available font properties:
   format.
 
 * ``color``: Set the font color property. Can be a color index, a color name
-  or HTML style RGB colour::
+  or HTML style RGB color::
 
     chart.set_x_axis({'num_font': {'color': 'red' }})
     chart.set_y_axis({'num_font': {'color': '#92D050'}})

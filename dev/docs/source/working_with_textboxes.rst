@@ -178,9 +178,9 @@ The ``color`` property sets the color of the ``line``::
 .. image:: _images/textbox13.png
 
 
-The available colours are shown in the main XlsxWriter documentation. It is
-also possible to set the colour of a line with a Html style ``#RRGGBB`` string
-or a limited number of named colours, see :ref:`colors`::
+The available colors are shown in the main XlsxWriter documentation. It is
+also possible to set the color of a line with a Html style ``#RRGGBB`` string
+or a limited number of named colors, see :ref:`colors`::
 
     worksheet.insert_textbox('B2', 'A textbox with a color border',
                              {'line': {'color': '#FF9900'}})
@@ -258,16 +258,16 @@ textbox transparent)::
 
 .. image:: _images/textbox21.png
 
-The ``color`` property sets the colour of the ``fill`` area::
+The ``color`` property sets the color of the ``fill`` area::
 
     worksheet.insert_textbox('B2', 'A textbox with color fill',
                              {'fill': {'color': '#FF9900'}})
 
 .. image:: _images/textbox22.png
 
-The available colours are shown in the main XlsxWriter documentation. It is
-also possible to set the colour of a fill with a Html style ``#RRGGBB`` string
-or a limited number of named colours, see :ref:`colors`::
+The available colors are shown in the main XlsxWriter documentation. It is
+also possible to set the color of a fill with a Html style ``#RRGGBB`` string
+or a limited number of named colors, see :ref:`colors`::
 
     worksheet.insert_textbox('B2', 'A textbox with color fill',
                              {'fill': {'color': 'red'}})
@@ -289,18 +289,18 @@ following properties can be set for ``gradient`` fill formats in a textbox::
 If gradient fill is used on a textbox object it overrides the solid fill
 properties of the object.
 
-The ``colors`` property sets a list of colours that define the ``gradient``::
+The ``colors`` property sets a list of colors that define the ``gradient``::
 
     worksheet.insert_textbox('B2', 'A textbox with gradient fill',
                              {'gradient': {'colors': ['gray', 'white']}})
 
 .. image:: _images/textbox23.png
 
-Excel allows between 2 and 10 colours in a gradient but it is unlikely that
+Excel allows between 2 and 10 colors in a gradient but it is unlikely that
 you will require more than 2 or 3.
 
-As with solid fill it is also possible to set the colours of a gradient with a
-Html style ``#RRGGBB`` string or a limited number of named colours, see
+As with solid fill it is also possible to set the colors of a gradient with a
+Html style ``#RRGGBB`` string or a limited number of named colors, see
 :ref:`colors`::
 
     worksheet.insert_textbox('B2', 'A textbox with gradient fill',
@@ -311,7 +311,7 @@ Html style ``#RRGGBB`` string or a limited number of named colours, see
 .. image:: _images/textbox24.png
 
 The ``positions`` defines an optional list of positions, between 0 and 100, of
-where the colours in the gradient are located. Default values are provided for
+where the colors in the gradient are located. Default values are provided for
 ``colors`` lists of between 2 and 4 but they can be specified if required::
 
     worksheet.insert_textbox('B2', 'A textbox with gradient fill',
@@ -385,7 +385,7 @@ The font properties are:
     {'font':  {'underline': True}}
 
 * ``color``: Set the font color property. Can be a color index, a color name
-  or HTML style RGB colour::
+  or HTML style RGB color::
 
     {'font': {'color': 'red' }}
     {'font': {'color': '#92D050'}}

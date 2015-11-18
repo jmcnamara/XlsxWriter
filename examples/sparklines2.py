@@ -188,7 +188,7 @@ row += 1
 
 ###############################################################################
 #
-text = 'Column with a user defined colour.'
+text = 'Column with a user defined color.'
 
 worksheet1.add_sparkline('A18', {'range': 'Sheet2!A2:J2',
                                  'type': 'column',

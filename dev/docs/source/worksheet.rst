@@ -548,7 +548,7 @@ Four web style URI's are supported: ``http://``, ``https://``, ``ftp://`` and
     worksheet.write_url('A3', 'https://www.python.org/')
     worksheet.write_url('A4', 'mailto:jmcnamara@cpan.org')
 
-All of the these URI types are recognised by the :func:`write()` method, so the
+All of the these URI types are recognized by the :func:`write()` method, so the
 following are equivalent::
 
     worksheet.write_url('A2', 'http://www.python.org/')
@@ -1070,7 +1070,7 @@ Inserting images into headers or a footers isn't supported.
 
 BMP images are only supported for backward compatibility. In general it is best
 to avoid BMP images since they aren't compressed. If used, BMP images must be
-24 bit, true colour, bitmaps.
+24 bit, true color, bitmaps.
 
 See also :ref:`ex_insert_image`.
 
@@ -1465,7 +1465,7 @@ example::
     worksheet.write_comment('C3', 'Hello', {'x_scale': 1.2, 'y_scale': 0.8})
 
 Most of these options are quite specific and in general the default comment
-behaviour will be all that you need. However, should you need greater control
+behavior will be all that you need. However, should you need greater control
 over the format of the cell comment the following options are available::
 
     author
@@ -1664,7 +1664,7 @@ worksheet.merge_range()
 The ``merge_range()`` method allows cells to be merged together so that they
 act as a single area.
 
-Excel generally merges and centers cells at same time. To get similar behaviour
+Excel generally merges and centers cells at same time. To get similar behavior
 with XlsxWriter you need to apply a :ref:`Format <format>`::
 
     merge_format = workbook.add_format({'align': 'center'})
@@ -1976,18 +1976,18 @@ worksheet.set_tab_color()
 
 .. py:function:: set_tab_color()
 
-   Set the colour of the worksheet tab.
+   Set the color of the worksheet tab.
 
    :param string color: The tab color.
 
-The ``set_tab_color()`` method is used to change the colour of the worksheet
+The ``set_tab_color()`` method is used to change the color of the worksheet
 tab::
 
     worksheet1.set_tab_color('red')
     worksheet2.set_tab_color('#FF9900')  # Orange
 
-The colour can be a Html style ``#RRGGBB`` string or a limited number named
-colours, see :ref:`colors`.
+The color can be a Html style ``#RRGGBB`` string or a limited number named
+colors, see :ref:`colors`.
 
 See :ref:`ex_tab_colors` for more details.
 

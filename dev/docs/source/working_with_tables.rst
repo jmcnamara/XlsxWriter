@@ -139,7 +139,7 @@ within the table are not supported.
 banded_rows
 -----------
 
-The ``banded_rows`` parameter can be used to create rows of alternating colour
+The ``banded_rows`` parameter can be used to create rows of alternating color
 in the table. It is on by default::
 
     # Turn off banded rows.
@@ -151,7 +151,7 @@ banded_columns
 --------------
 
 The ``banded_columns`` parameter can be used to used to create columns of
-alternating colour in the table. It is off by default::
+alternating color in the table. It is off by default::
 
     # Turn on banded columns.
     worksheet.add_table('B3:F7', {'banded_columns': True})
@@ -163,7 +163,7 @@ first_column
 
 The ``first_column`` parameter can be used to highlight the first column of the
 table. The type of highlighting will depend on the ``style`` of the table. It
-may be bold text or a different colour. It is off by default::
+may be bold text or a different color. It is off by default::
 
     # Turn on highlighting for the first column in the table.
     worksheet.add_table('B3:F7', {'first_column': True})
@@ -175,7 +175,7 @@ last_column
 
 The ``last_column`` parameter can be used to highlight the last column of the
 table. The type of highlighting will depend on the ``style`` of the table. It
-may be bold text or a different colour. It is off by default::
+may be bold text or a different color. It is off by default::
 
     # Turn on highlighting for the last column in the table.
     worksheet.add_table('B3:F7', {'last_column': True})
@@ -186,7 +186,7 @@ style
 -----
 
 The ``style`` parameter can be used to set the style of the table. Standard
-Excel table format names should be used (with matching capitalisation)::
+Excel table format names should be used (with matching capitalization)::
 
     worksheet.add_table('B3:F7', {'data': data,
                                   'style': 'Table Style Light 11'})

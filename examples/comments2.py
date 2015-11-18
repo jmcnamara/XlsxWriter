@@ -174,7 +174,7 @@ worksheet5.write_comment('C12', comment, {'x_offset': 30, 'y_offset': 12})
 
 ###############################################################################
 #
-# Example 6. Demonstrates changes to the comment background colour.
+# Example 6. Demonstrates changes to the comment background color.
 #
 worksheet6.set_column('C:C', 25)
 worksheet6.set_row(2, 50)
@@ -183,18 +183,18 @@ worksheet6.set_row(8, 50)
 
 worksheet6.show_comments()
 
-cell_text = 'This cell comment has a different colour.'
+cell_text = 'This cell comment has a different color.'
 comment = 'Hello.'
 
 worksheet6.write('C3', cell_text, text_wrap)
 worksheet6.write_comment('C3', comment, {'color': 'green'})
 
-cell_text = 'This cell comment has the default colour.'
+cell_text = 'This cell comment has the default color.'
 
 worksheet6.write('C6', cell_text, text_wrap)
 worksheet6.write_comment('C6', comment)
 
-cell_text = 'This cell comment has a different colour.'
+cell_text = 'This cell comment has a different color.'
 
 worksheet6.write('C9', cell_text, text_wrap)
 worksheet6.write_comment('C9', comment, {'color': '#CCFFCC'})

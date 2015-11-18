@@ -186,7 +186,7 @@ worksheet6.conditional_format('B3:K6', {'type': 'cell',
 #
 # Example 7.
 #
-caption = 'Examples of color scales and data bars. Default colours.'
+caption = 'Examples of color scales and data bars. Default colors.'
 
 data = range(1, 13)
 
@@ -210,7 +210,7 @@ worksheet7.conditional_format('F3:F14', {'type': 'data_bar'})
 #
 # Example 8.
 #
-caption = 'Examples of color scales and data bars. Modified colours.'
+caption = 'Examples of color scales and data bars. Modified colors.'
 
 data = range(1, 13)
 

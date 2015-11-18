@@ -762,7 +762,7 @@ class Worksheet(xmlwriter.XMLwriter):
         if string is None:
             string = url
 
-        # Default externl link type such as http:// or erternal:.
+        # Default external link type such as http:// or er ternal:.
         link_type = 1
 
         # Remove the URI scheme from internal links.
@@ -1323,7 +1323,7 @@ class Worksheet(xmlwriter.XMLwriter):
                                            cell_format, hidden, level,
                                            collapsed]
 
-        # Store the column change to allow optimisations.
+        # Store the column change to allow optimizations.
         self.col_size_changed = True
 
         # Store the col sizes for use when calculating image vertices taking
@@ -1390,7 +1390,7 @@ class Worksheet(xmlwriter.XMLwriter):
         # Store the row properties.
         self.set_rows[row] = [height, cell_format, hidden, level, collapsed]
 
-        # Store the row change to allow optimisations.
+        # Store the row change to allow optimizations.
         self.row_size_changed = True
 
         if hidden:
@@ -1415,7 +1415,7 @@ class Worksheet(xmlwriter.XMLwriter):
             height = self.default_row_height
 
         if height != self.original_row_height:
-            # Store the row change to allow optimisations.
+            # Store the row change to allow optimizations.
             self.row_size_changed = True
             self.default_row_height = height
 
@@ -1784,7 +1784,7 @@ class Worksheet(xmlwriter.XMLwriter):
                     date_time = self._convert_date_time(options['maximum'])
                     options['maximum'] = "%.15g" % date_time
 
-        # Check that the input title dosen't exceed the maximum length.
+        # Check that the input title doesn't exceed the maximum length.
         if options.get('input_title') and len(options['input_title']) > 32:
             warn("Length of input title '%s' exceeds Excel's limit of 32"
                  % force_unicode(options['input_title']))
@@ -1796,7 +1796,7 @@ class Worksheet(xmlwriter.XMLwriter):
                  % force_unicode(options['error_title']))
             return -2
 
-        # Check that the input message dosen't exceed the maximum length.
+        # Check that the input message doesn't exceed the maximum length.
         if (options.get('input_message')
                 and len(options['input_message']) > 255):
             warn("Length of input message '%s' exceeds Excel's limit of 255"
@@ -2603,7 +2603,7 @@ class Worksheet(xmlwriter.XMLwriter):
         sparkline['high_color'] = style['high']
         sparkline['low_color'] = style['low']
 
-        # Override the style colours with user defined colours.
+        # Override the style colors with user defined colors.
         self._set_spark_color(sparkline, options, 'series_color')
         self._set_spark_color(sparkline, options, 'negative_color')
         self._set_spark_color(sparkline, options, 'markers_color')
@@ -2763,7 +2763,7 @@ class Worksheet(xmlwriter.XMLwriter):
 
     def set_tab_color(self, color):
         """
-        Set the colour of the worksheet tab.
+        Set the color of the worksheet tab.
 
         Args:
             color: A #RGB color index.
@@ -3746,7 +3746,7 @@ class Worksheet(xmlwriter.XMLwriter):
         width *= x_scale
         height *= y_scale
 
-        # Scale by non 96dpi resoultions.
+        # Scale by non 96dpi resolutions.
         width *= 96.0 / x_dpi
         height *= 96.0 / y_dpi
 
@@ -4127,10 +4127,10 @@ class Worksheet(xmlwriter.XMLwriter):
         if not params['height']:
             params['height'] = default_height
 
-        # Set the comment background colour.
+        # Set the comment background color.
         params['color'] = xl_color(params['color']).lower()
 
-        # Convert from Excel XML style colour to XML html style colour.
+        # Convert from Excel XML style color to XML html style color.
         params['color'] = params['color'].replace('ff', '#', 1)
 
         # Convert a cell reference to a row and column.
@@ -4372,7 +4372,7 @@ class Worksheet(xmlwriter.XMLwriter):
         return formula
 
     def _set_spark_color(self, sparkline, options, user_color):
-        # Set the sparkline colour.
+        # Set the sparkline color.
         if user_color not in options:
             return
 

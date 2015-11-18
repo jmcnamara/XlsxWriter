@@ -292,7 +292,7 @@ For example::
 
 
 For simple text, if you do not specify any justification the text will be
-centred. However, you must prefix the text with ``&C`` if you specify a font
+centered. However, you must prefix the text with ``&C`` if you specify a font
 name or any other formatting::
 
     worksheet.set_header('Hello')

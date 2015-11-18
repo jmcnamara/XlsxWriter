@@ -162,7 +162,7 @@ worksheet.insert_textbox(row, col, text, options)
 row += 10
 
 # Example
-text = 'Some text in a textbox with formattting'
+text = 'Some text in a textbox with formatting'
 options = {
     'font': {'color': 'white'},
     'align': {'vertical': 'middle',

@@ -60,7 +60,7 @@ testpep8:
 	@find xlsxwriter/test -name \*.py | xargs pep8 --ignore=E501
 
 spellcheck:
-	@for f in dev/docs/source/*.rst; do aspell --lang=en_GB --check $$f; done
+	@for f in dev/docs/source/*.rst; do aspell --lang=en_US --check $$f; done
 
 releasecheck:
 	@dev/release/release_check.sh

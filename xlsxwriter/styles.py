@@ -666,7 +666,7 @@ class Styles(xmlwriter.XMLwriter):
         self._xml_end_tag('colors')
 
     def _write_mru_colors(self, custom_colors):
-        # Write the <mruColors> element for the most recently used colours.
+        # Write the <mruColors> element for the most recently used colors.
 
         # Write the custom custom_colors in reverse order.
         custom_colors.reverse()

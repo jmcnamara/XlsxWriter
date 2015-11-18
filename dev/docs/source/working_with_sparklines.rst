@@ -143,7 +143,7 @@ from 1 .. 36::
                                    'style': 12})
 
 The style number starts in the top left of the style grid and runs left to
-right. The default style is 1. It is possible to override colour elements of
+right. The default style is 1. It is possible to override color elements of
 the sparklines using the ``_color`` parameters below.
 
 
@@ -270,7 +270,7 @@ in the data range.
 series_color
 ------------
 
-It is possible to override the colour of a sparkline style using the following
+It is possible to override the color of a sparkline style using the following
 parameters::
 
     series_color
