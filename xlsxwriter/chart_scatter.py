@@ -38,7 +38,7 @@ class ChartScatter(chart.Chart):
 
         self.cross_between = 'midCat'
         self.horiz_val_axis = 0
-        self.val_axis_postion = 'b'
+        self.val_axis_position = 'b'
         self.smooth_allowed = True
         self.requires_category = True
 
