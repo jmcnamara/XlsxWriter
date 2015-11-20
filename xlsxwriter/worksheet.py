@@ -762,7 +762,7 @@ class Worksheet(xmlwriter.XMLwriter):
         if string is None:
             string = url
 
-        # Default external link type such as http:// or er ternal:.
+        # Default to external link type such as 'http://' or 'external:'.
         link_type = 1
 
         # Remove the URI scheme from internal links.
