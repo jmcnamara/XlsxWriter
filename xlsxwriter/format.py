@@ -690,7 +690,6 @@ class Format(xmlwriter.XMLwriter):
 
     def set_font_family(self, font_family):
         # Set the Format font_family property.
-
         self.font_family = font_family
 
     def set_font_charset(self, font_charset):

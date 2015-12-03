@@ -2262,13 +2262,12 @@ class Worksheet(xmlwriter.XMLwriter):
         # Set the table name.
         if 'name' in options:
             name = options['name']
-            table['name'] =name
+            table['name'] = name
 
             if ' ' in name:
                 warn("Name '%s' in add_table() cannot contain spaces"
                      % force_unicode(name))
                 return -3
-
 
         # Set the table style.
         if 'style' in options:

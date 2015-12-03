@@ -263,6 +263,10 @@ class Styles(xmlwriter.XMLwriter):
             if xf_format.font_family:
                 self._xml_empty_tag('family', [('val', xf_format.font_family)])
 
+            if xf_format.font_charset:
+                self._xml_empty_tag('charset',
+                                    [('val', xf_format.font_charset)])
+
             if xf_format.font_name == 'Calibri' and not xf_format.hyperlink:
                 self._xml_empty_tag(
                     'scheme',
