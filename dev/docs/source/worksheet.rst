@@ -1950,7 +1950,7 @@ worksheet.right_to_left()
 
 The ``right_to_left()`` method is used to change the default direction of the
 worksheet from left-to-right, with the A1 cell in the top left, to
-right-to-left, with the A1 cell in the top right.
+right-to-left, with the A1 cell in the top right::
 
     worksheet.right_to_left()
 
