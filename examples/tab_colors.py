@@ -1,7 +1,7 @@
 #######################################################################
 #
 # Example of how to set Excel worksheet tab colors using Python
-# and the XlsxWriter module..
+# and the XlsxWriter module.
 #
 # Copyright 2013-2015, John McNamara, jmcnamara@cpan.org
 #
