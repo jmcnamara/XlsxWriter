@@ -5079,20 +5079,28 @@ class Worksheet(xmlwriter.XMLwriter):
         # Add row attributes where applicable.
         if spans:
             attributes.append(('spans', spans))
+
         if xf_index:
             attributes.append(('s', xf_index))
+
         if cell_format:
             attributes.append(('customFormat', 1))
+
         if height != self.original_row_height:
             attributes.append(('ht', height))
+
         if hidden:
             attributes.append(('hidden', 1))
+
         if height != self.original_row_height:
             attributes.append(('customHeight', 1))
+
         if level:
             attributes.append(('outlineLevel', level))
+
         if collapsed:
             attributes.append(('collapsed', 1))
+
         if self.excel_version == 2010:
             attributes.append(('x14ac:dyDescent', '0.25'))
 
