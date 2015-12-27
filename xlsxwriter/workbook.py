@@ -522,7 +522,10 @@ class Workbook(xmlwriter.XMLwriter):
         # Free up the Packager object.
         packager = None
 
-        xlsx_file = ZipFile(self.filename, "w", compression=ZIP_DEFLATED,
+        zip_filename = self.filename
+        if isinstance(zip_filename, str):
+            zip_filename = os.path.expanduser(zip_filename)
+        xlsx_file = ZipFile(zip_filename, "w", compression=ZIP_DEFLATED,
                             allowZip64=self.allow_zip64)
 
         # Add XML sub-files to the Zip file with their Excel filename.
