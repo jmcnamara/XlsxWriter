@@ -1066,8 +1066,6 @@ Where ``positioning`` has the following allowable values:
   explicitly set the height of the row using ``set_row()`` if it crosses an
   inserted image.
 
-Inserting images into headers or a footers isn't supported.
-
 BMP images are only supported for backward compatibility. In general it is best
 to avoid BMP images since they aren't compressed. If used, BMP images must be
 24 bit, true color, bitmaps.
