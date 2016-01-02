@@ -972,7 +972,7 @@ worksheet.insert_image()
 
 .. py:function:: insert_image(row, col, image[, options])
 
-   Write a string to a worksheet cell.
+   Insert an image in a worksheet cell.
 
    :param row:         The cell row (zero indexed).
    :param col:         The cell column (zero indexed).
