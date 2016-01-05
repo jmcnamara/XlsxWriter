@@ -77,7 +77,7 @@ formula using the optional ``value`` parameter in :func:`write_formula()`::
 Strings aren't displayed in Apple Numbers in 'constant_memory' mode
 -------------------------------------------------------------------
 
-In :func:`Workbook` ``'constant_memory'`` mode XlsxWriter uses an optimisation
+In :func:`Workbook` ``'constant_memory'`` mode XlsxWriter uses an optimization
 where cell strings aren't stored in an Excel structure call "shared strings"
 and instead are written "in-line".
 

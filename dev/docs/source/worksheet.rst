@@ -2068,7 +2068,7 @@ worksheet.set_default_row()
 
 The ``set_default_row()`` method is used to set the limited number of default
 row properties allowed by Excel which are the default height and the option to
-hide unused rows. These parameters are an optimisation used by Excel to set
+hide unused rows. These parameters are an optimization used by Excel to set
 row properties without generating a very large file with an entry for each row.
 
 To set the default row height::

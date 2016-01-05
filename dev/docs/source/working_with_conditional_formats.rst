@@ -651,7 +651,7 @@ non-contiguous ranges.
 
 It is possible to apply the conditional format to different cell ranges in a
 worksheet using multiple calls to ``conditional_format()``. However, as a
-minor optimisation it is also possible in Excel to apply the same conditional
+minor optimization it is also possible in Excel to apply the same conditional
 format to different non-contiguous cell ranges.
 
 This is replicated in ``conditional_format()`` using the ``multi_range``

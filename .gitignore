@@ -2,6 +2,7 @@ MANIFEST
 dist/*
 *.tar.gz
 *~
+*.bak
 TAGS
 .#*
 *#

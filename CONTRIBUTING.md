@@ -23,7 +23,7 @@ Read or search the [XlsxWriter documentation](https://xlsxwriter.readthedocs.org
 
 ### Look at the example programs
 
-There are [several example programs](https://github.com/jmcnamara/XlsxWriter/tree/master/examples) in the distribution. Try to identify an example program that corresponds to your query and adapt it to use as a bug report.
+There are [many example programs](https://github.com/jmcnamara/XlsxWriter/tree/master/examples) in the distribution. Try to identify an example program that corresponds to your query and adapt it to use as a bug report.
 
 
 ### Pointers for submitting a bug report
@@ -35,7 +35,7 @@ There are [several example programs](https://github.com/jmcnamara/XlsxWriter/tre
 
 ### Sample Bug Report
 
-A sample bug report is shown below. This format helps to analyse and respond to the bug report more quickly.
+A sample bug report is shown below. This format helps to analyze and respond to the bug report more quickly.
 
 > **Issue with SOMETHING**
 >
@@ -71,7 +71,7 @@ All patches and pull requests are welcome but must start with an issue tracker.
 ### Getting Started
 
 1. Pull requests and new feature proposals must start with an [issue tracker](https://github.com/jmcnamara/XlsxWriter/issues). This serves as the focal point for the design discussion.
-2. Describe what you plan to do. If there are API changes add some code example to demonstrate them.
+2. Describe what you plan to do. If there are API changes or additions add some pseudo-code to demonstrate them.
 3. Fork the repository.
 4. Run all the tests to make sure the current code work on your system using `make test`.
 5. Create a feature branch for your new feature.
@@ -89,7 +89,7 @@ Note there is already a `.travis.yml` file in the XlsxWriter repo so that doesn'
 
 ### Writing Tests
 
-This is the most important step. XlsxWriter has approximately 1000 tests and a 2:1 test to code ratio. Patches and pull requests for anything other than minor fixes or typos will not be merged without tests.
+This is the most important step. XlsxWriter has over 1000 tests and a 2:1 test to code ratio. Patches and pull requests for anything other than minor fixes or typos will not be merged without tests.
 
 Use the existing tests in `XlsxWriter/xlsxwriter/test/` as examples.
 
@@ -111,7 +111,7 @@ There is a make target that will verify the source and test files:
 
 ### Running tests
 
-As a minimum tests should be run using Python 2.7 and Python 3.5.
+As a minimum, tests should be run using Python 2.7 and Python 3.5.
 
 
     make test
@@ -139,7 +139,7 @@ If applicable add an example program to the `examples` directory.
 
 ### Copyright and License
 
-Copyright remains with the original author. Do not include additional copyright claims or Licensing requirements. GitHub and the `git` repository will record your contribution an it will be acknowledged it in the Changes file.
+Copyright remains with the original author. Do not include additional copyright claims or Licensing requirements. GitHub and the `git` repository will record your contribution an it will be acknowledged in the Changes file.
 
 
 ### Submitting the Pull Request
@@ -147,4 +147,3 @@ Copyright remains with the original author. Do not include additional copyright 
 If your change involves several incremental `git` commits then `rebase` or `squash` them onto another branch so that the Pull Request is a single commit or a small number of logical commits.
 
 Push your changes to GitHub and submit the Pull Request with a hash link to the to the Issue tracker that was opened above.
-
