@@ -9,8 +9,8 @@ submit bug reports.
 "Content is Unreadable. Open and Repair"
 ----------------------------------------
 
-Very, very occasionally you may see an Excel warning when opening an XlsxWriter
-file like:
+You may occasionally see an Excel warning when opening an XlsxWriter file
+like:
 
    Excel could not open file.xlsx because some content is unreadable. Do you
    want to open and repair this workbook.
@@ -18,9 +18,9 @@ file like:
 This ominous sounding message is Excel's default warning for any validation
 error in the XML used for the components of the XLSX file.
 
-If you encounter an issue like this you should open an issue on GitHub with a
-program to replicate the issue (see below) or send one of the failing output
-files to the :ref:`author`.
+The error message and the actual file aren't helpful in debugging issues like
+this. If you do encounter this warning you should open an issue on GitHub with
+a program to replicate it (see below).
 
 
 "Exception caught in workbook destructor. Explicit close() may be required"

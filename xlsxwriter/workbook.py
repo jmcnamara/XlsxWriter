@@ -373,21 +373,23 @@ class Workbook(xmlwriter.XMLwriter):
             sheet_index = -1
 
         # Warn if the defined name contains invalid chars as defined by Excel.
-        if (not re.match(r'^[\w\\][\w.]*$', name, re.UNICODE)
+        if (not re.match(r'^[\w\\][\w\\.]*$', name, re.UNICODE)
                 or re.match(r'^\d', name)):
-            warn("Invalid Excel characters in defined_name(): '%s'" % name)
+            warn("Invalid Excel characters in defined_name(): '%s'"
+                 % force_unicode(name))
             return -1
 
         # Warn if the defined name looks like a cell name.
         if re.match(r'^[a-zA-Z][a-zA-Z]?[a-dA-D]?[0-9]+$', name):
-            warn("Name looks like a cell name in defined_name(): '%s'" % name)
+            warn("Name looks like a cell name in defined_name(): '%s'"
+                 % force_unicode(name))
             return -1
 
         # Warn if the name looks like a R1C1 cell reference.
         if (re.match(r'^[rcRC]$', name)
                 or re.match(r'^[rcRC]\d+[rcRC]\d+$', name)):
             warn("Invalid name '%s' like a RC cell ref in defined_name()"
-                 % name)
+                 % force_unicode(name))
             return -1
 
         self.defined_names.append([name, sheet_index, formula, False])

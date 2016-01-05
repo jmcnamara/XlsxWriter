@@ -199,14 +199,15 @@ The default table style is 'Table Style Medium 9'.
 name
 ----
 
-The ``name`` parameter can be used to set the name of the table::
+By default tables are named ``Table1``, ``Table2``, etc. The ``name``
+parameter can be used to set the name of the table::
 
     worksheet.add_table('B3:F7', {'name': 'SalesData'})
 
-By default tables are named ``Table1``, ``Table2``, etc. If you override the
-table name you must ensure that it doesn't clash with an existing table name
-and that it follows Excel's requirements for table names (for example that it
-doesn't contain spaces).
+If you override the table name you must ensure that it doesn't clash with an
+existing table name and that it follows Excel's requirements for table names,
+see the `Microsoft Office documentation
+<http://office.microsoft.com/en-001/excel-help/define-and-use-names-in-formulas-HA010147120.aspx>`_.
 
 If you need to know the name of the table, for example to use it in a formula,
 you can get it as follows::

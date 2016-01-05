@@ -2269,6 +2269,28 @@ class Worksheet(xmlwriter.XMLwriter):
                      % force_unicode(name))
                 return -3
 
+            # Warn if the name contains invalid chars as defined by Excel.
+            if (not re.match(r'^[\w\\][\w\\.]*$', name, re.UNICODE)
+                    or re.match(r'^\d', name)):
+                warn("Invalid Excel characters in add_table(): '%s'"
+                     % force_unicode(name))
+                return -1
+
+            # Warn if the name looks like a cell name.
+            if re.match(r'^[a-zA-Z][a-zA-Z]?[a-dA-D]?[0-9]+$', name):
+                warn("Name looks like a cell name in add_table(): '%s'"
+                     % force_unicode(name))
+                return -1
+
+            # Warn if the name looks like a R1C1 cell reference.
+            if (re.match(r'^[rcRC]$', name)
+                    or re.match(r'^[rcRC]\d+[rcRC]\d+$', name)):
+                warn("Invalid name '%s' like a RC cell ref in add_table()"
+                     % force_unicode(name))
+                return -1
+
+
+
         # Set the table style.
         if 'style' in options:
             table['style'] = options['style']
