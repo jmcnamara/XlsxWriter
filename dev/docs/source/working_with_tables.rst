@@ -243,6 +243,8 @@ The sub-properties that can be set are:
 +----------------+
 | header         |
 +----------------+
+| header_format  |
++----------------+
 | formula        |
 +----------------+
 | total_string   |
