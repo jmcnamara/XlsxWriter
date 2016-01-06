@@ -1,5 +1,12 @@
 
 
+Release 0.7.8 - January 6 2016
+------------------------------
+
+* Add checks for valid and non-duplicate worksheet table names.
+  Issue `#319 <https://github.com/jmcnamara/XlsxWriter/issues/319>`_.
+
+
 Release 0.7.7 - October 19 2015
 -------------------------------
 
