@@ -1253,6 +1253,7 @@ class Workbook(xmlwriter.XMLwriter):
     def _prepare_tables(self):
         # Set the table ids for the worksheet tables.
         table_id = 0
+        seen = {}
 
         for sheet in self.worksheets():
             table_count = len(sheet.tables)
@@ -1260,7 +1261,7 @@ class Workbook(xmlwriter.XMLwriter):
             if not table_count:
                 continue
 
-            sheet._prepare_tables(table_id + 1)
+            sheet._prepare_tables(table_id + 1, seen)
             table_id += table_count
 
     def _add_chart_data(self):

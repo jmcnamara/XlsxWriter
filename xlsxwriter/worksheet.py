@@ -2289,8 +2289,6 @@ class Worksheet(xmlwriter.XMLwriter):
                      % force_unicode(name))
                 return -1
 
-
-
         # Set the table style.
         if 'style' in options:
             table['style'] = options['style']
@@ -4353,7 +4351,7 @@ class Worksheet(xmlwriter.XMLwriter):
                                         '../drawings/vmlDrawing'
                                         + str(vml_drawing_id) + '.vml'])
 
-    def _prepare_tables(self, table_id):
+    def _prepare_tables(self, table_id, seen):
         # Set the table ids for the worksheet tables.
         for table in self.tables:
             table['id'] = table_id
@@ -4361,6 +4359,15 @@ class Worksheet(xmlwriter.XMLwriter):
             if table.get('name') is None:
                 # Set a default name.
                 table['name'] = 'Table' + str(table_id)
+
+            # Check for duplicate table names.
+            name = table['name'].lower()
+
+            if name in seen:
+                raise Exception("invalid duplicate table name '%s' found." %
+                                table['name'])
+            else:
+                seen[name] = True
 
             # Store the link used for the rels file.
             self.external_table_links.append(['/table',

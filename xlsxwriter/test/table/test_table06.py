@@ -33,7 +33,7 @@ class TestAssembleTable(unittest.TestCase):
                                                    {},
                                                    {'header': 'Baz'}
                                                    ]})
-        worksheet._prepare_tables(1)
+        worksheet._prepare_tables(1, {})
 
         fh = StringIO()
         table = Table()
