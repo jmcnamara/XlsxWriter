@@ -150,11 +150,19 @@ class Chart(xmlwriter.XMLwriter):
         # Set the fill properties for the series.
         fill = Shape._get_fill_properties(options.get('fill'))
 
-        # Set the gradient gradient properties for the series.
+        # Set the pattern fill properties for the series.
+        pattern = Shape._get_pattern_properties(options.get('pattern'))
+
+        # Set the gradient fill properties for the series.
         gradient = Shape._get_gradient_properties(options.get('gradient'))
 
-        # Gradient fill overrides solid fill.
+        # Pattern fill overrides solid fill.
+        if pattern:
+            self.fill = None
+
+        # Gradient fill overrides the solid and pattern fill.
         if gradient:
+            pattern = None
             fill = None
 
         # Set the marker properties for the series.
@@ -215,6 +223,7 @@ class Chart(xmlwriter.XMLwriter):
             'cat_data_id': cat_id,
             'line': line,
             'fill': fill,
+            'pattern': pattern,
             'gradient': gradient,
             'marker': marker,
             'trendline': trendline,
@@ -534,7 +543,7 @@ class Chart(xmlwriter.XMLwriter):
         line = Shape._get_line_properties(options.get('line'))
         fill = Shape._get_fill_properties(options.get('fill'))
 
-        # Set the gradient gradient properties for the series.
+        # Set the gradient fill properties for the series.
         gradient = Shape._get_gradient_properties(options.get('gradient'))
 
         # Gradient fill overrides solid fill.
@@ -560,7 +569,7 @@ class Chart(xmlwriter.XMLwriter):
         line = Shape._get_line_properties(options.get('line'))
         fill = Shape._get_fill_properties(options.get('fill'))
 
-        # Set the gradient gradient properties for the series.
+        # Set the gradient fill properties for the series.
         gradient = Shape._get_gradient_properties(options.get('gradient'))
 
         # Gradient fill overrides solid fill.
@@ -729,7 +738,7 @@ class Chart(xmlwriter.XMLwriter):
         # Set the fill properties for the axis.
         axis['fill'] = Shape._get_fill_properties(options.get('fill'))
 
-        # Set the gradient gradient properties for the series.
+        # Set the gradient fill properties for the series.
         axis['gradient'] = \
             Shape._get_gradient_properties(options.get('gradient'))
 
@@ -901,7 +910,7 @@ class Chart(xmlwriter.XMLwriter):
         # Set the fill properties for the marker.
         fill = Shape._get_fill_properties(marker.get('fill'))
 
-        # Set the gradient gradient properties for the series.
+        # Set the gradient fill properties for the series.
         gradient = Shape._get_gradient_properties(marker.get('gradient'))
 
         # Gradient fill overrides solid fill.
@@ -951,7 +960,7 @@ class Chart(xmlwriter.XMLwriter):
         # Set the fill properties for the trendline.
         fill = Shape._get_fill_properties(trendline.get('fill'))
 
-        # Set the gradient gradient properties for the series.
+        # Set the gradient fill properties for the series.
         gradient = Shape._get_gradient_properties(trendline.get('gradient'))
 
         # Gradient fill overrides solid fill.
@@ -1095,7 +1104,7 @@ class Chart(xmlwriter.XMLwriter):
         # Set the fill properties for the chartarea.
         fill = Shape._get_fill_properties(options.get('fill'))
 
-        # Set the gradient gradient properties for the series.
+        # Set the gradient fill properties for the series.
         gradient = Shape._get_gradient_properties(options.get('gradient'))
 
         # Gradient fill overrides solid fill.
@@ -1178,7 +1187,7 @@ class Chart(xmlwriter.XMLwriter):
                 # Set the fill properties for the chartarea.
                 fill = Shape._get_fill_properties(user_point.get('fill'))
 
-                # Set the gradient gradient properties for the series.
+                # Set the gradient fill properties for the series.
                 gradient = \
                     Shape._get_gradient_properties(user_point.get('gradient'))
 
@@ -2848,6 +2857,7 @@ class Chart(xmlwriter.XMLwriter):
 
         has_fill = False
         has_line = False
+        has_pattern = series.get('pattern')
         has_gradient = series.get('gradient')
 
         if series.get('fill') and series['fill']['defined']:
@@ -2856,7 +2866,8 @@ class Chart(xmlwriter.XMLwriter):
         if series.get('line') and series['line']['defined']:
             has_line = True
 
-        if not has_fill and not has_line and not has_gradient:
+        if (not has_fill and not has_line and not has_pattern
+                and not has_gradient):
             return
 
         self._xml_start_tag('c:spPr')
@@ -2869,6 +2880,10 @@ class Chart(xmlwriter.XMLwriter):
             else:
                 # Write the a:solidFill element.
                 self._write_a_solid_fill(series['fill'])
+
+        if series.get('pattern'):
+            # Write the a:gradFill element.
+            self._write_a_patt_fill(series['pattern'])
 
         if series.get('gradient'):
             # Write the a:gradFill element.
@@ -3703,3 +3718,42 @@ class Chart(xmlwriter.XMLwriter):
             ]
 
         self._xml_empty_tag('a:tileRect', attributes)
+
+    def _write_a_patt_fill(self, pattern):
+        # Write the <a:pattFill> element.
+
+        attributes = [('prst', pattern['pattern'])]
+
+        self._xml_start_tag('a:pattFill', attributes)
+
+        # Write the a:fgClr element.
+        self._write_a_fg_clr(pattern['fg_color'])
+
+        # Write the a:bgClr element.
+        self._write_a_bg_clr(pattern['bg_color'])
+
+        self._xml_end_tag('a:pattFill')
+
+    def _write_a_fg_clr(self, color):
+        # Write the <a:fgClr> element.
+
+        color = get_rgb_color(color)
+
+        self._xml_start_tag('a:fgClr')
+
+        # Write the a:srgbClr element.
+        self._write_a_srgb_clr(color)
+
+        self._xml_end_tag('a:fgClr')
+
+    def _write_a_bg_clr(self, color):
+        # Write the <a:bgClr> element.
+
+        color = get_rgb_color(color)
+
+        self._xml_start_tag('a:bgClr')
+
+        # Write the a:srgbClr element.
+        self._write_a_srgb_clr(color)
+
+        self._xml_end_tag('a:bgClr')
