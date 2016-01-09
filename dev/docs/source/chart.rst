@@ -175,6 +175,9 @@ The series options that can be set are:
 * ``fill``: Set the solid fill properties of the series such as color. See
   :ref:`chart_formatting_fill`.
 
+* ``pattern``: Set the pattern fill properties of the series. See
+  :ref:`chart_formatting_pattern`.
+
 * ``gradient``: Set the gradient fill properties of the series. See
   :ref:`chart_formatting_gradient`.
 
@@ -268,6 +271,7 @@ The options that can be set are::
     num_format
     line
     fill
+    pattern
     gradient
     min
     max
@@ -352,6 +356,9 @@ the axis types.
   :ref:`chart_formatting_fill`.  Note, in Excel the axis fill is applied to
   the area of the numbers of the axis and not to the area of the axis bounding
   box. That background is set from the chartarea fill.
+
+* ``pattern``: Set the pattern fill properties of the axis. See
+  :ref:`chart_formatting_pattern`.
 
 * ``gradient``: Set the gradient fill properties of the axis. See
   :ref:`chart_formatting_gradient`.
@@ -805,6 +812,9 @@ The properties that can be set are:
 * ``fill``: Set the solid fill properties of the chartarea such as color. See
   :ref:`chart_formatting_fill`.
 
+* ``pattern``: Set the pattern fill properties of the chartarea. See
+  :ref:`chart_formatting_pattern`.
+
 * ``gradient``: Set the gradient fill properties of the chartarea. See
   :ref:`chart_formatting_gradient`.
 
@@ -838,6 +848,9 @@ The properties that can be set are:
 
 * ``fill``: Set the solid fill properties of the plotarea such as color. See
   :ref:`chart_formatting_fill`.
+
+* ``pattern``: Set the pattern fill properties of the plotarea. See
+  :ref:`chart_formatting_pattern`.
 
 * ``gradient``: Set the gradient fill properties of the plotarea. See
   :ref:`chart_formatting_gradient`.
@@ -929,8 +942,9 @@ the difference between the first and last data series::
 
     chart.set_up_down_bars()
 
-It is possible to format the up and down bars to add ``fill``, or ``gradient``
-and ``border`` properties if required. See :ref:`chart_formatting`::
+It is possible to format the up and down bars to add ``fill``, ``pattern`` or
+``gradient`` and ``border`` properties if required. See
+:ref:`chart_formatting`::
 
     chart.set_up_down_bars({
         'up': {

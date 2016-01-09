@@ -91,6 +91,7 @@ The following properties can be set for ``marker`` formats in a chart::
     size
     border
     fill
+    pattern
     gradient
 
 The ``type`` property sets the type of marker that is used with a series::
@@ -615,6 +616,7 @@ elements::
     line
     border
     fill
+    pattern
     gradient
 
 Chart formatting properties are generally set using dicts::
@@ -804,6 +806,94 @@ which has the same properties as a ``line`` format::
         'fill':   {'color': 'red'},
         'border': {'color': 'black'}
     })
+
+
+.. _chart_formatting_pattern:
+
+Chart formatting: Pattern Fill
+------------------------------
+
+The pattern fill format is used to specify pattern filled areas of chart
+objects such as the interior of a column or the background of the chart
+itself.
+
+.. image:: _images/chart_pattern.png
+   :scale: 75 %
+
+The following properties can be set for ``pattern`` fill formats in a chart::
+
+    pattern:   the pattern to be applied (required)
+    fg_color:  the foreground color of the pattern (required)
+    bg_color:  the background color (optional, defaults to white)
+
+
+For example::
+
+    chart.set_plotarea({
+        'pattern': {
+            'pattern': 'percent_5',
+            'fg_color': 'red',
+            'bg_color': 'yellow',
+        }
+    })
+
+The following patterns can be applied:
+
+* ``percent_5``
+* ``percent_10``
+* ``percent_20``
+* ``percent_25``
+* ``percent_30``
+* ``percent_40``
+* ``percent_50``
+* ``percent_60``
+* ``percent_70``
+* ``percent_75``
+* ``percent_80``
+* ``percent_90``
+* ``light_downward_diagonal``
+* ``light_upward_diagonal``
+* ``dark_downward_diagonal``
+* ``dark_upward_diagonal``
+* ``wide_downward_diagonal``
+* ``wide_upward_diagonal``
+* ``light_vertical``
+* ``light_horizontal``
+* ``narrow_vertical``
+* ``narrow_horizontal``
+* ``dark_vertical``
+* ``dark_horizontal``
+* ``dashed_downward_diagonal``
+* ``dashed_upward_diagonal``
+* ``dashed_horizontal``
+* ``dashed_vertical``
+* ``small_confetti``
+* ``large_confetti``
+* ``zigzag``
+* ``wave``
+* ``diagonal_brick``
+* ``horizontal_brick``
+* ``weave``
+* ``plaid``
+* ``divot``
+* ``dotted_grid``
+* ``dotted_diamond``
+* ``shingle``
+* ``trellis``
+* ``sphere``
+* ``small_grid``
+* ``large_grid``
+* ``small_check``
+* ``large_check``
+* ``outlined_diamond``
+* ``solid_diamond``
+
+
+The foreground color, ``fg_color`` is a required parameter and can be a Html
+style ``#RRGGBB`` string or a limited number of named colors, see
+:ref:`colors`.
+
+The background color, ``bg_color`` is optional and defaults to black.
 
 
 .. _chart_formatting_gradient:

@@ -21,6 +21,7 @@ directory of the XlsxWriter distribution.
    example_chart_radar.rst
    example_chart_stock.rst
    example_chart_styles.rst
+   example_chart_pattern.rst
    example_chart_gradient.rst
    example_chart_secondary_axis.rst
    example_chart_combined.rst

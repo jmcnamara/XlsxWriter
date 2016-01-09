@@ -543,14 +543,25 @@ class Chart(xmlwriter.XMLwriter):
         line = Shape._get_line_properties(options.get('line'))
         fill = Shape._get_fill_properties(options.get('fill'))
 
+        # Set the pattern fill properties for the series.
+        pattern = Shape._get_pattern_properties(options.get('pattern'))
+
         # Set the gradient fill properties for the series.
         gradient = Shape._get_gradient_properties(options.get('gradient'))
 
-        # Gradient fill overrides solid fill.
+        # Pattern fill overrides solid fill.
+        if pattern:
+            self.fill = None
+
+        # Gradient fill overrides the solid and pattern fill.
         if gradient:
+            pattern = None
             fill = None
 
-        self.drop_lines = {'line': line, 'fill': fill, 'gradient': gradient}
+        self.drop_lines = {'line': line,
+                           'fill': fill,
+                           'pattern': pattern,
+                           'gradient': gradient}
 
     def set_high_low_lines(self, options=None):
         """
@@ -569,14 +580,25 @@ class Chart(xmlwriter.XMLwriter):
         line = Shape._get_line_properties(options.get('line'))
         fill = Shape._get_fill_properties(options.get('fill'))
 
+        # Set the pattern fill properties for the series.
+        pattern = Shape._get_pattern_properties(options.get('pattern'))
+
         # Set the gradient fill properties for the series.
         gradient = Shape._get_gradient_properties(options.get('gradient'))
 
-        # Gradient fill overrides solid fill.
+        # Pattern fill overrides solid fill.
+        if pattern:
+            self.fill = None
+
+        # Gradient fill overrides the solid and pattern fill.
         if gradient:
+            pattern = None
             fill = None
 
-        self.hi_low_lines = {'line': line, 'fill': fill, 'gradient': gradient}
+        self.hi_low_lines = {'line': line,
+                             'fill': fill,
+                             'pattern': pattern,
+                             'gradient': gradient}
 
     def combine(self, chart=None):
         """
@@ -738,12 +760,20 @@ class Chart(xmlwriter.XMLwriter):
         # Set the fill properties for the axis.
         axis['fill'] = Shape._get_fill_properties(options.get('fill'))
 
+        # Set the pattern fill properties for the series.
+        axis['pattern'] = Shape._get_pattern_properties(options.get('pattern'))
+
         # Set the gradient fill properties for the series.
         axis['gradient'] = \
             Shape._get_gradient_properties(options.get('gradient'))
 
-        # Gradient fill overrides solid fill.
+        # Pattern fill overrides solid fill.
+        if axis.get('pattern'):
+            axis['fill'] = None
+
+        # Gradient fill overrides the solid and pattern fill.
         if axis.get('gradient'):
+            axis['pattern'] = None
             axis['fill'] = None
 
         return axis
@@ -910,15 +940,24 @@ class Chart(xmlwriter.XMLwriter):
         # Set the fill properties for the marker.
         fill = Shape._get_fill_properties(marker.get('fill'))
 
+        # Set the pattern fill properties for the series.
+        pattern = Shape._get_pattern_properties(marker.get('pattern'))
+
         # Set the gradient fill properties for the series.
         gradient = Shape._get_gradient_properties(marker.get('gradient'))
 
-        # Gradient fill overrides solid fill.
+        # Pattern fill overrides solid fill.
+        if pattern:
+            self.fill = None
+
+        # Gradient fill overrides the solid and pattern fill.
         if gradient:
+            pattern = None
             fill = None
 
         marker['line'] = line
         marker['fill'] = fill
+        marker['pattern'] = pattern
         marker['gradient'] = gradient
 
         return marker
@@ -960,15 +999,24 @@ class Chart(xmlwriter.XMLwriter):
         # Set the fill properties for the trendline.
         fill = Shape._get_fill_properties(trendline.get('fill'))
 
+        # Set the pattern fill properties for the series.
+        pattern = Shape._get_pattern_properties(trendline.get('pattern'))
+
         # Set the gradient fill properties for the series.
         gradient = Shape._get_gradient_properties(trendline.get('gradient'))
 
-        # Gradient fill overrides solid fill.
+        # Pattern fill overrides solid fill.
+        if pattern:
+            self.fill = None
+
+        # Gradient fill overrides the solid and pattern fill.
         if gradient:
+            pattern = None
             fill = None
 
         trendline['line'] = line
         trendline['fill'] = fill
+        trendline['pattern'] = pattern
         trendline['gradient'] = gradient
 
         return trendline
@@ -1104,11 +1152,19 @@ class Chart(xmlwriter.XMLwriter):
         # Set the fill properties for the chartarea.
         fill = Shape._get_fill_properties(options.get('fill'))
 
+        # Set the pattern fill properties for the series.
+        pattern = Shape._get_pattern_properties(options.get('pattern'))
+
         # Set the gradient fill properties for the series.
         gradient = Shape._get_gradient_properties(options.get('gradient'))
 
-        # Gradient fill overrides solid fill.
+        # Pattern fill overrides solid fill.
+        if pattern:
+            self.fill = None
+
+        # Gradient fill overrides the solid and pattern fill.
         if gradient:
+            pattern = None
             fill = None
 
         # Set the plotarea layout.
@@ -1116,6 +1172,7 @@ class Chart(xmlwriter.XMLwriter):
 
         area['line'] = line
         area['fill'] = fill
+        area['pattern'] = pattern
         area['layout'] = layout
         area['gradient'] = gradient
 
@@ -1187,16 +1244,26 @@ class Chart(xmlwriter.XMLwriter):
                 # Set the fill properties for the chartarea.
                 fill = Shape._get_fill_properties(user_point.get('fill'))
 
+                # Set the pattern fill properties for the series.
+                pattern = \
+                    Shape._get_pattern_properties(user_point.get('pattern'))
+
                 # Set the gradient fill properties for the series.
                 gradient = \
                     Shape._get_gradient_properties(user_point.get('gradient'))
 
-                # Gradient fill overrides solid fill.
+                # Pattern fill overrides solid fill.
+                if pattern:
+                    self.fill = None
+
+                # Gradient fill overrides the solid and pattern fill.
                 if gradient:
+                    pattern = None
                     fill = None
 
                 point['line'] = line
                 point['fill'] = fill
+                point['pattern'] = pattern
                 point['gradient'] = gradient
 
             points.append(point)
