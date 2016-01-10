@@ -41,12 +41,11 @@ columns.
    In Excel it is also possible to use R1C1 notation. This is not
    supported by XlsxWriter.
 
+
 .. _abs_reference:
 
-
-
 Relative and Absolute cell references
-=====================================
+-------------------------------------
 
 When dealing with Excel cell references it is important to distinguish between
 relative and absolute cell references in Excel.
@@ -68,7 +67,7 @@ references.
 
 
 Defined Names and Named Ranges
-==============================
+------------------------------
 
 It is also possible to define and use "Defined names/Named ranges" in
 workbooks and worksheets, see :func:`define_name`::
@@ -82,7 +81,7 @@ See also :ref:`ex_defined_name`.
 .. _cell_utility:
 
 Cell Utility Functions
-======================
+----------------------
 
 The ``XlsxWriter`` ``utility`` module contains several helper functions for
 dealing with A1 notation as shown below. These functions can be imported as
@@ -94,7 +93,7 @@ follows::
 
 
 xl_rowcol_to_cell()
--------------------
+~~~~~~~~~~~~~~~~~~~
 
 .. py:function:: xl_rowcol_to_cell(row, col[, row_abs, col_abs])
 
@@ -123,7 +122,7 @@ that the row or column is absolute::
 
 
 xl_cell_to_rowcol()
--------------------
+~~~~~~~~~~~~~~~~~~~
 
 .. py:function:: xl_cell_to_rowcol(cell_str)
 
@@ -146,7 +145,7 @@ absolute, ``$``, cell notation::
 
 
 xl_col_to_name()
-----------------
+~~~~~~~~~~~~~~~~
 
 .. py:function:: xl_col_to_name(col[, col_abs])
 
@@ -172,7 +171,7 @@ absolute::
 
 
 xl_range()
-----------
+~~~~~~~~~~
 
 .. py:function:: xl_range(first_row, first_col, last_row, last_col)
 
@@ -195,7 +194,7 @@ to an ``A1:B1`` style range string::
 
 
 xl_range_abs()
---------------
+~~~~~~~~~~~~~~
 
 .. py:function:: xl_range_abs(first_row, first_col, last_row, last_col)
 

@@ -20,7 +20,7 @@ error in the XML used for the components of the XLSX file.
 
 The error message and the actual file aren't helpful in debugging issues like
 this. If you do encounter this warning you should open an issue on GitHub with
-a program to replicate it (see below).
+a program to replicate it (see :ref:`reporting_bugs`).
 
 
 "Exception caught in workbook destructor. Explicit close() may be required"
@@ -42,17 +42,17 @@ ensure that there is an explicit ``workbook.close()`` in the program.
 Formulas displayed as ``#NAME?`` until edited
 ---------------------------------------------
 
-Excel 2010 and 2013 added functions which weren't defined in the original file
-specification. These functions are referred to as *future* functions. Examples
-of these functions are ``ACOT``, ``CHISQ.DIST.RT`` , ``CONFIDENCE.NORM``,
-``STDEV.P``, ``STDEV.S`` and ``WORKDAY.INTL``. The full list is given in the
-`MS XLSX extensions documentation on future functions <http://msdn.microsoft.com/en-us/library/dd907480%28v=office.12%29.aspx>`_.
+There are a few reasons why a formula written by XlsxWriter would generate a
+``#NAME?`` error in Excel:
 
-When written using ``write_formula()`` these functions need to be fully
-qualified with the ``_xlfn.`` prefix as they are shown in the MS XLSX
-documentation link above. For example::
+* Invalid formula syntax.
+* Non-English function names.
+* Semi-colon separators instead of commas.
+* Use of Excel 2010 and later functions without a prefix.
 
-    worksheet.write_formula('A1', '=_xlfn.STDEV.S(B1:B10)')
+See :ref:`working_with_formulas` and :ref:`formula_errors` for a more details
+and a explanation of how to debug the issue.
+
 
 Formula results displaying as zero in non-Excel applications
 ------------------------------------------------------------
@@ -64,14 +64,11 @@ the formula result. It then sets a global flag in the XLSX file to say that
 all formulas and functions should be recalculated when the file is opened.
 
 This is the method recommended in the Excel documentation and in general it
-works fine with spreadsheet applications. However, applications that don't
+works fine with spreadsheet applications. However, applications that don’t
 have a facility to calculate formulas, such as Excel Viewer, or several mobile
 applications, will only display the 0 results.
 
-If required, it is also possible to specify the calculated result of the
-formula using the optional ``value`` parameter in :func:`write_formula()`::
-
-    worksheet.write_formula('A1', '=2+2', num_format, 4)
+See :ref:`formula_result` for more details and a workaround.
 
 
 Strings aren't displayed in Apple Numbers in 'constant_memory' mode

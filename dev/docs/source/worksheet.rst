@@ -262,14 +262,6 @@ The ``cell_format`` parameter is used to apply formatting to the cell. This
 parameter is optional but when present is should be a valid
 :ref:`Format <format>` object.
 
-XlsxWriter doesn't calculate the result of a formula and instead stores the
-value 0 as the formula result. It then sets a global flag in the XLSX file to
-say that all formulas and functions should be recalculated when the file is
-opened. This is the method recommended in the Excel documentation and in
-general it works fine with spreadsheet applications. However, applications
-that don't have a facility to calculate formulas, such as Excel Viewer, or
-some mobile applications will only display the 0 results.
-
 If required, it is also possible to specify the calculated result of the
 formula using the optional ``value`` parameter. This is occasionally
 necessary when working with non-Excel applications that don't calculate the
@@ -277,39 +269,26 @@ result of the formula::
 
     worksheet.write('A1', '=2+2', num_format, 4)
 
-The ``value`` parameter can be a number, a string, a bool or one of the
-following Excel error codes::
-
-    #DIV/0!
-    #N/A
-    #NAME?
-    #NULL!
-    #NUM!
-    #REF!
-    #VALUE!
+See :ref:`formula_result` for more details.
 
 Excel stores formulas in US style formatting regardless of the Locale or
-Language of the Excel version. Therefore all formula names written using
-XlsxWriter must be in English (use the following
-`formula translator <http://fr.excel-translator.de>`_ if necessary). Also,
-formulas must be written with the US style separator/range operator which is a
-comma (not semi-colon). Therefore a formula with multiple values should be
-written as follows::
+Language of the Excel version::
 
-    worksheet.write_formula('A1', '=SUM(1, 2, 3)')  # OK
-    worksheet.write_formula('A2', '=SUM(1; 2; 3)')  # NO. Error on load.
+    worksheet.write_formula('A1', '=SUM(1, 2, 3)')    # OK
+    worksheet.write_formula('A2', '=SOMME(1, 2, 3)')  # French. Error on load.
+
+See :ref:`formula_syntax` for a full explanation.
 
 Excel 2010 and 2013 added functions which weren't defined in the original file
 specification. These functions are referred to as *future* functions. Examples
 of these functions are ``ACOT``, ``CHISQ.DIST.RT`` , ``CONFIDENCE.NORM``,
-``STDEV.P``, ``STDEV.S`` and ``WORKDAY.INTL``. The full list is given in the
-`MS XLSX extensions documentation on future functions <http://msdn.microsoft.com/en-us/library/dd907480%28v=office.12%29.aspx>`_.
-
-When written using ``write_formula()`` these functions need to be fully
-qualified with the ``_xlfn.`` prefix as they are shown in the MS XLSX
-documentation link above. For example::
+``STDEV.P``, ``STDEV.S`` and ``WORKDAY.INTL``. In XlsxWriter these require a
+prefix::
 
     worksheet.write_formula('A1', '=_xlfn.STDEV.S(B1:B10)')
+
+See :ref:`formula_future` for a detailed explanation and full list of
+functions that are affected.
 
 
 worksheet.write_array_formula()
@@ -368,18 +347,9 @@ parameter is optional but when present is should be a valid
 
 If required, it is also possible to specify the calculated result of the
 formula (see discussion of formulas and the ``value`` parameter for the
-``write_formula()`` method above). However, using this parameter only writes
-a single value to the upper left cell in the result array. For a multi-cell
-array formula where the results are required, the other result values can be
-specified by using ``write_number()`` to write to the appropriate cell::
-
-    # Specify the result for a single cell range.
-    worksheet.write_array_formula('A1:A1', '{=SUM(B1:C1*B2:C2)}', format, 2005)
-
-    # Specify the results for a multi cell range.
-    worksheet.write_array_formula('A1:A3', '{=TREND(C1:C3,B1:B3)}', format, 15)
-    worksheet.write_number('A2', 12, format)
-    worksheet.write_number('A3', 14, format)
+``write_formula()`` method above). However, using this parameter only writes a
+single value to the upper left cell in the result array. See
+:ref:`formula_result` for more details.
 
 See also :ref:`ex_array_formula`.
 

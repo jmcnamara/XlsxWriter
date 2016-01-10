@@ -35,6 +35,8 @@ formula using the optional ``value`` parameter in :func:`write_formula()`::
 
     worksheet.write_formula('A1', '=2+2', num_format, 4)
 
+See also :ref:`formula_result`,
+
 
 Q. Can I apply a format to a range of cells in one go?
 ------------------------------------------------------
