@@ -19,7 +19,7 @@ be aware of. These are explained in the following sections.
 Non US Excel functions and syntax
 ---------------------------------
 
-Excel stores formulas and in the format of the US English version, regardless
+Excel stores formulas in the format of the US English version, regardless
 of the language or locale of the end-user's version of Excel. Therefore all
 formula function names written using XlsxWriter must be in English::
 
