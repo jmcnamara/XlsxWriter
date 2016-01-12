@@ -278,6 +278,7 @@ The options that can be set are::
     minor_unit
     major_unit
     interval_unit
+    interval_tick
     crossing
     position_axis
     reverse
@@ -385,7 +386,12 @@ the axis types.
 * ``interval_unit``: Set the interval unit for a category axis. Should be an
   integer value. (Applicable to category axes only.)::
 
-    chart.set_x_axis({'interval_unit': 2})
+    chart.set_x_axis({'interval_unit': 5})
+
+* ``interval_tick``: Set the tick interval for a category axis. Should be an
+  integer value. (Applicable to category axes only.)::
+
+    chart.set_x_axis({'interval_tick': 2})
 
 * ``crossing``: Set the position where the y axis will cross the x axis.
   (Applicable to all axes.)

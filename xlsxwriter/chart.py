@@ -686,6 +686,7 @@ class Chart(xmlwriter.XMLwriter):
             'num_format': options.get('num_format'),
             'num_format_linked': options.get('num_format_linked'),
             'interval_unit': options.get('interval_unit'),
+            'interval_tick': options.get('interval_tick'),
             'text_axis': False,
         }
 
@@ -1888,6 +1889,9 @@ class Chart(xmlwriter.XMLwriter):
         # Write the c:tickLblSkip element.
         self._write_c_tick_lbl_skip(x_axis.get('interval_unit'))
 
+        # Write the c:tickMarkSkip element.
+        self._write_c_tick_mark_skip(x_axis.get('interval_tick'))
+
         self._xml_end_tag('c:catAx')
 
     def _write_val_axis(self, args):
@@ -2167,6 +2171,9 @@ class Chart(xmlwriter.XMLwriter):
         # Write the c:tickLblSkip element.
         self._write_c_tick_lbl_skip(x_axis.get('interval_unit'))
 
+        # Write the c:tickMarkSkip element.
+        self._write_c_tick_mark_skip(x_axis.get('interval_tick'))
+
         # Write the c:majorUnit element.
         self._write_c_major_unit(x_axis.get('major_unit'))
 
@@ -2390,6 +2397,15 @@ class Chart(xmlwriter.XMLwriter):
         attributes = [('val', val)]
 
         self._xml_empty_tag('c:tickLblSkip', attributes)
+
+    def _write_c_tick_mark_skip(self, val):
+        # Write the <c:tickMarkSkip> element.
+        if val is None:
+            return
+
+        attributes = [('val', val)]
+
+        self._xml_empty_tag('c:tickMarkSkip', attributes)
 
     def _write_major_gridlines(self, gridlines):
         # Write the <c:majorGridlines> element.
