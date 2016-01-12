@@ -3,7 +3,7 @@
 # An example of using Python and XlsxWriter to write some "rich strings",
 # i.e., strings with multiple formats.
 #
-# Copyright 2013-2015, John McNamara, jmcnamara@cpan.org
+# Copyright 2013-2016, John McNamara, jmcnamara@cpan.org
 #
 import xlsxwriter
 

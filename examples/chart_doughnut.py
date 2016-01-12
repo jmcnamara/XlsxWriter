@@ -8,7 +8,7 @@
 # case since each segment is represented as a point so it is necessary to
 # assign formatting to each point in the series.
 #
-# Copyright 2013-2015, John McNamara, jmcnamara@cpan.org
+# Copyright 2013-2016, John McNamara, jmcnamara@cpan.org
 #
 import xlsxwriter
 

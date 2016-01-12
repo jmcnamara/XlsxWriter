@@ -3,7 +3,7 @@
 # An example of inserting images from a Python BytesIO byte stream into a
 # worksheet using the XlsxWriter module.
 #
-# Copyright 2013-2015, John McNamara, jmcnamara@cpan.org
+# Copyright 2013-2016, John McNamara, jmcnamara@cpan.org
 #
 
 # Import the byte stream handler.

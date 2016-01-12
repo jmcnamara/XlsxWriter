@@ -3,7 +3,7 @@
 # An example of creating an Excel chart in a chartsheet with Python
 # and XlsxWriter.
 #
-# Copyright 2013-2015, John McNamara, jmcnamara@cpan.org
+# Copyright 2013-2016, John McNamara, jmcnamara@cpan.org
 #
 import xlsxwriter
 

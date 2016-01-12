@@ -6,7 +6,7 @@
 # This program is shown, with explanations, in Tutorial 2 of the XlsxWriter
 # documentation.
 #
-# Copyright 2013-2015, John McNamara, jmcnamara@cpan.org
+# Copyright 2013-2016, John McNamara, jmcnamara@cpan.org
 #
 import xlsxwriter
 

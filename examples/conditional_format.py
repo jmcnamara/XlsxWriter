@@ -5,7 +5,7 @@
 # Conditional formatting allows you to apply a format to a cell or a
 # range of cells based on certain criteria.
 #
-# Copyright 2013-2015, John McNamara, jmcnamara@cpan.org
+# Copyright 2013-2016, John McNamara, jmcnamara@cpan.org
 #
 import xlsxwriter
 

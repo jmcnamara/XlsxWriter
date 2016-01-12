@@ -4,7 +4,7 @@
 # using Python and XlsxWriter. Note, these styles are not the same as
 # the styles available in Excel 2013.
 #
-# Copyright 2013-2015, John McNamara, jmcnamara@cpan.org
+# Copyright 2013-2016, John McNamara, jmcnamara@cpan.org
 #
 import xlsxwriter
 

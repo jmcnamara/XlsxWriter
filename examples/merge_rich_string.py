@@ -3,7 +3,7 @@
 # An  example of merging cells which contain a rich string using the
 # XlsxWriter Python module.
 #
-# Copyright 2013-2015, John McNamara, jmcnamara@cpan.org
+# Copyright 2013-2016, John McNamara, jmcnamara@cpan.org
 #
 import xlsxwriter
 

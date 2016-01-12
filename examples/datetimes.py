@@ -3,7 +3,7 @@
 # A simple program to write some dates and times to an Excel file
 # using the XlsxWriter Python module.
 #
-# Copyright 2013-2015, John McNamara, jmcnamara@cpan.org
+# Copyright 2013-2016, John McNamara, jmcnamara@cpan.org
 #
 from datetime import datetime
 import xlsxwriter
