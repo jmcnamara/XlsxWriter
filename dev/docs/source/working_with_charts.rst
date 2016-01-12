@@ -889,11 +889,14 @@ The following patterns can be applied:
 * ``solid_diamond``
 
 
-The foreground color, ``fg_color`` is a required parameter and can be a Html
+The foreground color, ``fg_color``, is a required parameter and can be a Html
 style ``#RRGGBB`` string or a limited number of named colors, see
 :ref:`colors`.
 
-The background color, ``bg_color`` is optional and defaults to black.
+The background color, ``bg_color``, is optional and defaults to black.
+
+If a pattern fill is used on a chart object it overrides the solid fill
+properties of the object.
 
 
 .. _chart_formatting_gradient:
@@ -915,9 +918,6 @@ The following properties can be set for ``gradient`` fill formats in a chart::
     type:      the optional type of gradient fill
     angle:     the optional angle of the linear fill
 
-If gradient fill is used on a chart object it overrides the solid fill
-properties of the object.
-
 The ``colors`` property sets a list of colors that define the ``gradient``::
 
     chart.set_plotarea({
@@ -927,9 +927,9 @@ The ``colors`` property sets a list of colors that define the ``gradient``::
 Excel allows between 2 and 10 colors in a gradient but it is unlikely that
 you will require more than 2 or 3.
 
-As with solid fill it is also possible to set the colors of a gradient with a
-Html style ``#RRGGBB`` string or a limited number of named colors, see
-:ref:`colors`::
+As with solid or pattern fill it is also possible to set the colors of a
+gradient with a Html style ``#RRGGBB`` string or a limited number of named
+colors, see :ref:`colors`::
 
     chart.add_series({
         'values':   '=Sheet1!$A$1:$A$6',
@@ -977,6 +977,9 @@ For a ``linear`` fill the angle of the gradient can also be specified::
     })
 
 The default angle is 90 degrees.
+
+If gradient fill is used on a chart object it overrides the solid fill and
+pattern fill properties of the object.
 
 
 .. _chart_fonts:
