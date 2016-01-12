@@ -1,6 +1,13 @@
 
 
 
+Release 0.8.1 - January 12 2016
+-------------------------------
+
+* Added option to set chart tick interval.
+  Issue `#251 <https://github.com/jmcnamara/XlsxWriter/issues/251>`_.
+
+
 Release 0.8.0 - January 10 2016
 -------------------------------
 
