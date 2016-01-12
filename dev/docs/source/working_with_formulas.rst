@@ -61,7 +61,8 @@ They will appear without the prefix in Excel:
 The following list is taken from
 `MS XLSX extensions documentation on future functions <http://msdn.microsoft.com/en-us/library/dd907480%28v=office.12%29.aspx>`_.
 
-* ``xlfn.ACOTH``
+* ``_xlfn.ACOT``
+* ``_xlfn.ACOTH``
 * ``_xlfn.AGGREGATE``
 * ``_xlfn.ARABIC``
 * ``_xlfn.BASE``
@@ -259,7 +260,7 @@ some mobile device applications.
 If required, it is also possible to specify the calculated result of the
 formula using the optional ``value`` parameter for :func:`write_formula`::
 
-    worksheet.write('A1', '=2+2', num_format, 4)
+    worksheet.write_formula('A1', '=2+2', num_format, 4)
 
 The ``value`` parameter can be a number, a string, a bool or one of the
 following Excel error codes::
