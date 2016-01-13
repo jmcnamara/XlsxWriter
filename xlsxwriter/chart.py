@@ -3016,25 +3016,41 @@ class Chart(xmlwriter.XMLwriter):
         # Write the <a:noFill> element.
         self._xml_empty_tag('a:noFill')
 
-    def _write_a_solid_fill(self, line):
+    def _write_a_solid_fill(self, fill):
         # Write the <a:solidFill> element.
 
         self._xml_start_tag('a:solidFill')
 
-        if 'color' in line:
-            color = get_rgb_color(line['color'])
-
+        if 'color' in fill:
+            color = get_rgb_color(fill['color'])
+            transparency = fill.get('transparency')
             # Write the a:srgbClr element.
-            self._write_a_srgb_clr(color)
+            self._write_a_srgb_clr(color, transparency)
 
         self._xml_end_tag('a:solidFill')
 
-    def _write_a_srgb_clr(self, val):
+    def _write_a_srgb_clr(self, val, transparency=None):
         # Write the <a:srgbClr> element.
+        attributes = [('val', val)]
+
+        if transparency:
+            self._xml_start_tag('a:srgbClr', attributes)
+
+            # Write the a:alpha element.
+            self._write_a_alpha(transparency)
+
+            self._xml_end_tag('a:srgbClr')
+        else:
+            self._xml_empty_tag('a:srgbClr', attributes)
+
+    def _write_a_alpha(self, val):
+        # Write the <a:alpha> element.
+
+        val = int((100 - int(val)) * 1000)
 
         attributes = [('val', val)]
 
-        self._xml_empty_tag('a:srgbClr', attributes)
+        self._xml_empty_tag('a:alpha', attributes)
 
     def _write_a_prst_dash(self, val):
         # Write the <a:prstDash> element.

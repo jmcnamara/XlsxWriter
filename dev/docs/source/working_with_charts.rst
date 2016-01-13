@@ -765,6 +765,7 @@ The following properties can be set for ``fill`` formats in a chart::
 
     none
     color
+    transparency
 
 The ``none`` property is used to turn the ``fill`` property off (it is
 generally on by default)::
@@ -797,6 +798,12 @@ or a limited number of named colors, see :ref:`colors`::
 
 .. image:: _images/chart_fill2.png
    :scale: 75 %
+
+
+The ``transparency`` property sets the transparency of the solid fill in the
+integer range 1 - 100::
+
+    chart.set_chartarea({'fill': {'color': 'yellow', 'transparency': 75}})
 
 The ``fill`` format is generally used in conjunction with a ``border`` format
 which has the same properties as a ``line`` format::
