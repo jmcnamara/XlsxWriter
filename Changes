@@ -1,11 +1,17 @@
 
+Release 0.8.2 - January 13 2016
+-------------------------------
+
+* Added transparency option to solid fills in chart areas
+  (:ref:`chart_formatting_fill`).
+  Feature request `#298 <https://github.com/jmcnamara/XlsxWriter/issues/298>`_.
 
 
 Release 0.8.1 - January 12 2016
 -------------------------------
 
 * Added option to set chart tick interval.
-  Issue `#251 <https://github.com/jmcnamara/XlsxWriter/issues/251>`_.
+  Feature request `#251 <https://github.com/jmcnamara/XlsxWriter/issues/251>`_.
 
 
 Release 0.8.0 - January 10 2016
@@ -19,7 +25,7 @@ Release 0.7.9 - January 9 2016
 
 * Added chart pattern fills, see :ref:`chart_formatting_pattern` and
   :ref:`ex_chart_pattern`.
-  Issue `#268 <https://github.com/jmcnamara/XlsxWriter/issues/268>`_.
+  Feature request `#268 <https://github.com/jmcnamara/XlsxWriter/issues/268>`_.
 
 
 Release 0.7.8 - January 6 2016
@@ -34,7 +40,7 @@ Release 0.7.7 - October 19 2015
 
 * Added support for table header formatting and a fix for wrapped lines in the
   header.
-  Issue `#287 <https://github.com/jmcnamara/XlsxWriter/issues/287>`_.
+  Feature request `#287 <https://github.com/jmcnamara/XlsxWriter/issues/287>`_.
 
 
 Release 0.7.6 - October 7 2015
