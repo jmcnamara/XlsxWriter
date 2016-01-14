@@ -1,4 +1,10 @@
 
+Release 0.8.3 - January 14 2016
+-------------------------------
+
+* Added options to configure chart axis tick placement. See :func:`set_x_axis()`.
+
+
 Release 0.8.2 - January 13 2016
 -------------------------------
 
