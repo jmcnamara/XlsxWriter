@@ -291,6 +291,8 @@ The options that can be set are::
     text_axis
     minor_unit_type
     major_unit_type
+    minor_tick_mark
+    major_tick_mark
     display_units
     display_units_visible
 
@@ -506,6 +508,22 @@ the axis types.
 
 * ``major_unit_type``: Same as ``minor_unit_type``, see above, but for major
   axes unit types.
+
+* ``minor_tick_mark``: Set the axis minor tick mark type/position to one of
+  the following values::
+
+      none
+      inside
+      outside
+      cross   (inside and outside)
+
+  For example::
+
+      chart.set_x_axis({'major_tick_mark': 'none',
+                        'minor_tick_mark': 'inside'})
+
+* ``major_tick_mark``: Same as ``minor_tick_mark``, see above, but for major
+  axes ticks.
 
 * ``display_units``: Set the display units for the axis. This can be useful if
   the axis numbers are very large but you don't want to represent them in

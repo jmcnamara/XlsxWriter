@@ -55,9 +55,8 @@ class TestCompareXLSXFiles(ExcelComparisonTest):
         chart.set_y_axis({
             'major_gridlines': {'visible': 1},
             'minor_gridlines': {'visible': 1},
+            'major_tick_mark': 'cross'
         })
-
-        chart.y_axis['major_tick_mark'] = 'cross'
 
         worksheet.insert_chart('E9', chart)
 

@@ -18,7 +18,7 @@ class TestCompareXLSXFiles(ExcelComparisonTest):
     def setUp(self):
         self.maxDiff = None
 
-        filename = 'chart_gridlines04.xlsx'
+        filename = 'chart_axis41.xlsx'
 
         test_dir = 'xlsxwriter/test/comparison/'
         self.got_filename = test_dir + '_test_' + filename
@@ -28,14 +28,14 @@ class TestCompareXLSXFiles(ExcelComparisonTest):
         self.ignore_elements = {}
 
     def test_create_file(self):
-        """Test XlsxWriter gridlines."""
+        """Test the creation of a simple XlsxWriter file."""
 
         workbook = Workbook(self.got_filename)
 
         worksheet = workbook.add_worksheet()
-        chart = workbook.add_chart({'type': 'radar'})
+        chart = workbook.add_chart({'type': 'column'})
 
-        chart.axis_ids = [54977280, 54978816]
+        chart.axis_ids = [108321024, 108328448]
 
         data = [
             [1, 2, 3, 4, 5],
@@ -52,8 +52,8 @@ class TestCompareXLSXFiles(ExcelComparisonTest):
         chart.add_series({'values': '=Sheet1!$B$1:$B$5'})
         chart.add_series({'values': '=Sheet1!$C$1:$C$5'})
 
-        chart.set_y_axis({'major_gridlines': {'visible': 0},
-                          'major_tick_mark': 'cross'})
+        chart.set_x_axis({'major_tick_mark': 'none', 'minor_tick_mark': 'inside'})
+        chart.set_y_axis({'minor_tick_mark': 'cross'})
 
         worksheet.insert_chart('E9', chart)
 
