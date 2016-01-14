@@ -800,8 +800,8 @@ or a limited number of named colors, see :ref:`colors`::
    :scale: 75 %
 
 
-The ``transparency`` property sets the transparency of the solid fill in the
-integer range 1 - 100::
+The ``transparency`` property sets the transparency of the solid fill color in
+the integer range 1 - 100::
 
     chart.set_chartarea({'fill': {'color': 'yellow', 'transparency': 75}})
 

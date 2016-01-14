@@ -2,7 +2,7 @@
 Release 0.8.2 - January 13 2016
 -------------------------------
 
-* Added transparency option to solid fills in chart areas
+* Added transparency option to solid fill colors in chart areas
   (:ref:`chart_formatting_fill`).
   Feature request `#298 <https://github.com/jmcnamara/XlsxWriter/issues/298>`_.
 
