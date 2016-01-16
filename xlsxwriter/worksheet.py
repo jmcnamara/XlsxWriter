@@ -816,7 +816,7 @@ class Worksheet(xmlwriter.XMLwriter):
 
             # Split url into the link and optional anchor/location.
             if '#' in url:
-                url, url_str = url.split('#')
+                url, url_str = url.split('#', 1)
             else:
                 url_str = None
 
