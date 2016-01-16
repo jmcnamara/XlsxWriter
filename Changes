@@ -1,4 +1,13 @@
 
+Release 0.8.4 - January 16 2016
+-------------------------------
+
+* Fix for :func:`write_url` exception when the URL contains two ``#``
+  location/anchors. Note, URLs like this aren't strictly valid and cannot be
+  entered manually in Excel.
+  Issue `#330 <https://github.com/jmcnamara/XlsxWriter/issues/330>`_.
+
+
 Release 0.8.3 - January 14 2016
 -------------------------------
 
