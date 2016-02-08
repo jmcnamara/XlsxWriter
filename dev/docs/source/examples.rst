@@ -23,6 +23,7 @@ directory of the XlsxWriter distribution.
    example_images.rst
    example_images_bytesio.rst
    example_http_server.rst
+   example_http_server3.rst
    example_headers_footers.rst
    example_panes.rst
    example_tables.rst

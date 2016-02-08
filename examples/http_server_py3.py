@@ -1,13 +1,13 @@
 ##############################################################################
 #
-# Example of using Python and XlsxWriter to create an Excel XLSX file in an
-# in memory string suitable for serving via SimpleHTTPServer or Django
-# or with the Google App Engine.
+# Example of using Python and XlsxWriter to create an Excel XLSX file in an in
+# memory string suitable for serving via SimpleHTTPRequestHandler or Django or
+# with the Google App Engine.
 #
 # Copyright 2013-2016, John McNamara, jmcnamara@cpan.org
 #
 
-# Note: This is a Python 3 example. For Python 2 see http_server.py.
+# Note: This is a Python 3 example. For Python 2 see http_server_py2.py.
 
 import http.server
 import socketserver
@@ -41,7 +41,8 @@ class Handler(http.server.SimpleHTTPRequestHandler):
         # Construct a server response.
         self.send_response(200)
         self.send_header('Content-Disposition', 'attachment; filename=test.xlsx')
-        self.send_header('Content-type', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
+        self.send_header('Content-type',
+                         'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
         self.end_headers()
         self.wfile.write(output.read())
         return

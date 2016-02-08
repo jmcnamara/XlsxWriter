@@ -138,7 +138,7 @@ It is possible to write files to in-memory strings using StringIO as follows::
 To avoid the use of any temporary files and keep the entire file in-memory use
 the ``in_memory`` constructor option shown above.
 
-See also :ref:`ex_http_server`.
+See also :ref:`ex_http_server` and :ref:`ex_http_server3`.
 
 
 workbook.add_worksheet()
