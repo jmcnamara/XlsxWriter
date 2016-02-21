@@ -61,6 +61,7 @@ testpep8:
 
 spellcheck:
 	@for f in dev/docs/source/*.rst; do aspell --lang=en_US --check $$f; done
+	@for f in .github/*.md;          do aspell --lang=en_US --check $$f; done
 
 releasecheck:
 	@dev/release/release_check.sh
