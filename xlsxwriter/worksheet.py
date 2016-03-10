@@ -330,6 +330,7 @@ class Worksheet(xmlwriter.XMLwriter):
         self.strings_to_urls = True
         self.nan_inf_to_errors = False
         self.strings_to_formulas = True
+        self.override_urls_format = True
 
         self.default_date_format = None
         self.default_url_format = None
@@ -849,7 +850,7 @@ class Worksheet(xmlwriter.XMLwriter):
             self._write_single_row(row)
 
         # Add the default URL format.
-        if cell_format is None:
+        if cell_format is None or not self.override_urls_format:
             cell_format = self.default_url_format
 
         # Write the hyperlink string.
@@ -3367,6 +3368,7 @@ class Worksheet(xmlwriter.XMLwriter):
         self.default_date_format = init_data['default_date_format']
         self.default_url_format = init_data['default_url_format']
         self.excel2003_style = init_data['excel2003_style']
+        self.override_urls_format = init_data['override_urls_format']
 
         if self.excel2003_style:
             self.original_row_height = 12.75
