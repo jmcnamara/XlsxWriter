@@ -71,6 +71,8 @@ class Workbook(xmlwriter.XMLwriter):
         self.excel2003_style = options.get('excel2003_style', False)
         self.default_format_properties = \
             options.get('default_format_properties', {})
+        self.override_urls_format = options.get('override_urls_format', True)
+
 
         self.worksheet_meta = WorksheetMeta()
         self.selected = 0
@@ -565,6 +567,7 @@ class Workbook(xmlwriter.XMLwriter):
             'default_date_format': self.default_date_format,
             'default_url_format': self.default_url_format,
             'excel2003_style': self.excel2003_style,
+            'override_urls_format': self.override_urls_format,
         }
 
         if is_chartsheet:
