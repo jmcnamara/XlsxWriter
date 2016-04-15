@@ -67,7 +67,6 @@ class Format(xmlwriter.XMLwriter):
         self.text_v_align = 0
         self.text_justlast = 0
         self.rotation = 0
-        self.center_across = 0
 
         self.fg_color = 0
         self.bg_color = 0
@@ -333,18 +332,15 @@ class Format(xmlwriter.XMLwriter):
         if alignment == 'vdistributed':
             self.set_text_v_align(5)
 
-    def set_center_across(self, center_across=1):
+    def set_center_across(self):
         """
         Set the Format center_across property.
-
-        Args:
-            center_across: Default is 1, turns property on.
 
         Returns:
             Nothing.
 
         """
-        self.center_across = center_across
+        self.set_text_h_align(6)
 
     def set_text_wrap(self, text_wrap=1):
         """
