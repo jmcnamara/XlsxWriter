@@ -288,16 +288,10 @@ workbook.close()
    Close the Workbook object and write the XLSX file.
 
 The workbook ``close()`` method writes all data to the xlsx file and closes
-it. This is a mandatory method call::
+it::
 
     workbook.close()
 
-.. Note::
-
-   Earlier versions of XlsxWriter allowed an implicit ``close()`` that was
-   triggered by the garbage collector. However, this proved to be too
-   problematic and non-deterministic. An explicit ``close()`` is now
-   recommended in all XlsxWriter programs.
 
 The ``Workbook`` object also works using the ``with`` context manager. In
 which case it doesn't need an explicit `close()` statement::
@@ -310,6 +304,10 @@ which case it doesn't need an explicit `close()` statement::
 The workbook will close automatically when exiting the scope of the ``with``
 statement.
 
+.. Note::
+
+   Unless you are using the ``with`` context manager you should always use an
+   explicit ``close()`` in your XlsxWriter application.
 
 
 workbook.set_properties()

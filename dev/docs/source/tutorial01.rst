@@ -112,17 +112,8 @@ Finally, we close the Excel file via the :func:`close` method::
 
     workbook.close()
 
-Like most file objects in Python an XlsxWriter file is closed implicitly when
-it goes out of scope or is no longer referenced in the program. As such this
-line is generally optional unless you need to close the file explicitly.
-
 And that's it. We now have a file that can be read by Excel and other
 spreadsheet applications.
 
 In the next sections we will see how we can use the XlsxWriter module to add
 formatting and other Excel features.
-
-
-
-
-
