@@ -25,7 +25,7 @@ worksheet.write_column('B2', data[1])
 chart = workbook.add_chart({'type': 'column'})
 
 # Configure the charts. Add two series with patterns. The gap is used to make
-# the pattens more visible.
+# the patterns more visible.
 chart.add_series({
     'name':   '=Sheet1!$A$1',
     'values': '=Sheet1!$A$2:$A$5',
