@@ -1,5 +1,14 @@
 # Opening XlsxWriter Issues
 
+## Asking questions about using XlsxWriter
+
+General questions on how to do something with the XlsxWriter module should be
+asked on [StackOverflow](http://stackoverflow.com/questions/tagged/xlsxwriter).
+Add the ``xlsxwriter`` tag to the question. This has a better chance of
+getting several answers and also helps other who might have similar question
+in the future.
+
+
 See below for information on adding a Bug Report or Feature Request.
 
 
@@ -33,21 +42,22 @@ workbook.close()
 
 Notes:
 
-1. Ensure that the example code can be run to generate a file that demonstrates the issue.
+1. Ensure that the example code can be run to generate a file that
+   demonstrates the issue.
 2. Only include code that relates to the issue.
 3. Remove non-relevant text from this template.
-4. If you are seeing an issue in LibreOffice, OpenOffice or another third party application, also test the output with a version of Excel.
+4. If you are seeing an issue in LibreOffice, OpenOffice or another third
+   party application, also test the output with a version of Excel.
 5. You can get the required version numbers as follows:
 
-       python --version
-       python -c 'import xlsxwriter; print(xlsxwriter.__version__)'
+        python --version
+        python -c 'import xlsxwriter; print(xlsxwriter.__version__)'
 
 
-## Feature request
+## Feature requests
 
 Add `Feature request:` to the title.
 
 In the comment section describe the feature that you would like to be added.
 
 If you are currently using a workaround you can show that workaround.
-
