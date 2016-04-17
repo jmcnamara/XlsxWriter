@@ -1,4 +1,14 @@
 
+
+Release 0.8.5 - April 17 2016
+-----------------------------
+
+* Added additional documentation on :ref:`ewx_pandas` and
+  :ref:`pandas_examples`.
+
+* Added fix for :func:`set_center_across` format method.
+
+
 Release 0.8.4 - January 16 2016
 -------------------------------
 
