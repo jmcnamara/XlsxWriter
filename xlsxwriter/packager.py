@@ -7,7 +7,6 @@
 
 # Standard packages.
 import os
-import sys
 import tempfile
 from shutil import copy
 

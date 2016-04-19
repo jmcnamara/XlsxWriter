@@ -54,7 +54,7 @@ testpythonsall:
 	@~/.pythonbrew/pythons/Python-3.5.0/bin/py.test -q
 
 testpep8:
-	@ls -1 xlsxwriter/*.py | egrep -v "theme|compat" | xargs pep8
+	@ls -1 xlsxwriter/*.py | egrep -v "theme|compat|__init__" | xargs flake8
 	@pep8 --ignore=E501 xlsxwriter/theme.py
 	@pep8 --ignore=E501 xlsxwriter/compat_collections.py
 	@find xlsxwriter/test -name \*.py | xargs pep8 --ignore=E501

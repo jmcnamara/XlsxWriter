@@ -3835,9 +3835,6 @@ class Chart(xmlwriter.XMLwriter):
     def _write_a_fill_to_rect(self, gradient_type):
         # Write the <a:fillToRect> element.
 
-        l = '100000'
-        t = '100000'
-
         if gradient_type == 'shape':
             attributes = [
                 ('l', '50000'),

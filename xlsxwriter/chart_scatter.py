@@ -6,6 +6,7 @@
 #
 
 from . import chart
+from warnings import warn
 
 
 class ChartScatter(chart.Chart):

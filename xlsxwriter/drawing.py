@@ -5,8 +5,6 @@
 # Copyright 2013-2016, John McNamara, jmcnamara@cpan.org
 #
 
-import re
-
 from . import xmlwriter
 from .shape import Shape
 from .utility import get_rgb_color
@@ -1048,9 +1046,6 @@ class Drawing(xmlwriter.XMLwriter):
 
     def _write_a_fill_to_rect(self, gradient_type):
         # Write the <a:fillToRect> element.
-
-        l = '100000'
-        t = '100000'
 
         if gradient_type == 'shape':
             attributes = [
