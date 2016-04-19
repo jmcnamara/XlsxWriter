@@ -5,7 +5,7 @@
 General questions on how to do something with the XlsxWriter module should be
 asked on [StackOverflow](http://stackoverflow.com/questions/tagged/xlsxwriter).
 Add the ``xlsxwriter`` tag to the question. This has a better chance of
-getting several answers and also helps other who might have similar questions
+getting several answers and also helps others who might have similar questions
 in the future.
 
 
