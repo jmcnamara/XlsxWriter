@@ -465,7 +465,7 @@ class Worksheet(xmlwriter.XMLwriter):
             string = string[:self.xls_strmax]
             str_error = -2
 
-        # Write a shared string or an in-line string in optimisation mode.
+        # Write a shared string or an in-line string in optimization mode.
         if self.optimization == 0:
             string_index = self.str_table._get_shared_string_index(string)
         else:
@@ -963,7 +963,7 @@ class Worksheet(xmlwriter.XMLwriter):
         if str_length > self.xls_strmax:
             return -2
 
-        # Write a shared string or an in-line string in optimisation mode.
+        # Write a shared string or an in-line string in optimization mode.
         if self.optimization == 0:
             string_index = self.str_table._get_shared_string_index(string)
         else:
@@ -2205,7 +2205,7 @@ class Worksheet(xmlwriter.XMLwriter):
 
         Returns:
             0:  Success.
-            -1: Not supported in optimisation mode.
+            -1: Not supported in optimization mode.
             -2: Row or column is out of worksheet bounds.
             -3: Incorrect parameter or option.
         """
@@ -4019,7 +4019,7 @@ class Worksheet(xmlwriter.XMLwriter):
             for col_id in range(col_start):
                 x_abs += self._size_col(col_id)
         else:
-            # Optimisation for when the column widths haven't changed.
+            # Optimization for when the column widths haven't changed.
             x_abs += self.default_col_pixels * col_start
 
         x_abs += x1
@@ -4029,7 +4029,7 @@ class Worksheet(xmlwriter.XMLwriter):
             for row_id in range(row_start):
                 y_abs += self._size_row(row_id)
         else:
-            # Optimisation for when the row heights haven't changed.
+            # Optimization for when the row heights haven't changed.
             y_abs += self.default_row_pixels * row_start
 
         y_abs += y1
@@ -4044,7 +4044,7 @@ class Worksheet(xmlwriter.XMLwriter):
             y1 -= self._size_row(row_start)
             row_start += 1
 
-        # Initialise end cell to the same as the start cell.
+        # Initialize end cell to the same as the start cell.
         col_end = col_start
         row_end = row_start
 
@@ -4805,7 +4805,7 @@ class Worksheet(xmlwriter.XMLwriter):
             self._xml_end_tag('sheetData')
 
     def _write_optimized_sheet_data(self):
-        # Write the <sheetData> element when the memory optimisation is on.
+        # Write the <sheetData> element when the memory optimization is on.
         # In this case we read the data stored in the temp file and rewrite
         # it to the XML sheet file.
         if self.dim_rowmin is None:
@@ -5002,10 +5002,10 @@ class Worksheet(xmlwriter.XMLwriter):
 
     def _write_single_row(self, current_row_num=0):
         # Write out the worksheet data as a single row with cells.
-        # This method is used when memory optimisation is on. A single
+        # This method is used when memory optimization is on. A single
         # row is written and the data table is reset. That way only
         # one row of data is kept in memory at any one time. We don't
-        # write span data in the optimised case since it is optional.
+        # write span data in the optimized case since it is optional.
 
         # Set the new previous row as the current row.
         row_num = self.previous_row
@@ -5015,7 +5015,7 @@ class Worksheet(xmlwriter.XMLwriter):
                 or self.table[row_num]):
             # Only process rows with formatting, cell data and/or comments.
 
-            # No span data in optimised mode.
+            # No span data in optimized mode.
             span = None
 
             if self.table[row_num]:
@@ -5040,7 +5040,7 @@ class Worksheet(xmlwriter.XMLwriter):
 
     def _calculate_spans(self):
         # Calculate the "spans" attribute of the <row> tag. This is an
-        # XLSX optimisation and isn't strictly required. However, it
+        # XLSX optimization and isn't strictly required. However, it
         # makes comparing files easier. The span is the same for each
         # block of 16 rows.
         spans = {}
@@ -5179,7 +5179,7 @@ class Worksheet(xmlwriter.XMLwriter):
                 # Write a shared string.
                 self._xml_string_element(string, attributes)
             else:
-                # Write an optimised in-line string.
+                # Write an optimized in-line string.
 
                 # Escape control characters. See SharedString.pm for details.
                 string = re.sub('(_x[0-9a-fA-F]{4}_)', r'_x005F\1', string)

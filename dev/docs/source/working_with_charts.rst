@@ -1384,7 +1384,7 @@ Charts from Worksheet Tables
 ----------------------------
 
 Charts can by created from :ref:`Worksheet Tables <tables>`. However, Excel
-has a limitation where the data series ``name``, if specifed, must refer to a
+has a limitation where the data series ``name``, if specified, must refer to a
 cell within the table (usually one of the headers).
 
 To workaround this Excel limitation you can specify a user defined name in the

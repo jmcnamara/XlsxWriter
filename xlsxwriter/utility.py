@@ -36,7 +36,7 @@ def xl_rowcol_to_cell(row, col, row_abs=False, col_abs=False):
 
 def xl_rowcol_to_cell_fast(row, col):
     """
-    Optimised version of the xl_rowcol_to_cell function. Only used internally.
+    Optimized version of the xl_rowcol_to_cell function. Only used internally.
 
     Args:
        row: The cell row.    Int.

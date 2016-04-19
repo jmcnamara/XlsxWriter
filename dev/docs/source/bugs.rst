@@ -98,7 +98,7 @@ Charts series created from Worksheet Tables cannot have user defined names
 --------------------------------------------------------------------------
 
 In Excel, charts created from :ref:`Worksheet Tables <tables>` have a
-limitation where the data series name, if specifed, must refer to a cell
+limitation where the data series name, if specified, must refer to a cell
 within the table.
 
 To workaround this Excel limitation you can specify a user defined name in the

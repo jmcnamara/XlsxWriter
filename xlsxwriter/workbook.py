@@ -549,7 +549,7 @@ class Workbook(xmlwriter.XMLwriter):
         sheet_index = len(self.worksheets_objs)
         name = self._check_sheetname(name, is_chartsheet)
 
-        # Initialisation data to pass to the worksheet.
+        # Initialization data to pass to the worksheet.
         init_data = {
             'name': name,
             'index': sheet_index,

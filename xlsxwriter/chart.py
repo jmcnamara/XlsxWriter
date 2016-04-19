@@ -2338,7 +2338,7 @@ class Chart(xmlwriter.XMLwriter):
             source_linked = 0
             default_format = 0
 
-        # User override of linkedSource.
+        # User override of sourceLinked.
         if axis.get('num_format_linked'):
             source_linked = 1
 
