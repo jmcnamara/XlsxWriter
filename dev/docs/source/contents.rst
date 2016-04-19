@@ -33,6 +33,7 @@ Contents
    working_with_pandas.rst
    examples.rst
    chart_examples.rst
+   pandas_examples.rst
    alternatives.rst
    bugs.rst
    faq.rst
