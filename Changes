@@ -1,5 +1,12 @@
 
 
+Release 0.8.6 - April 27 2016
+-----------------------------
+
+* Fix for ``external:`` urls where the target/anchor contains spaces.
+  Issue `#350 <https://github.com/jmcnamara/XlsxWriter/issues/350>`_.
+
+
 Release 0.8.5 - April 17 2016
 -----------------------------
 
