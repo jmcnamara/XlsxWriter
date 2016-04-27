@@ -773,11 +773,13 @@ class Worksheet(xmlwriter.XMLwriter):
 
         # Remove the URI scheme from external links and change the directory
         # separator from Unix to Dos.
+        external = False
         if re.match("external:", url):
             url = url.replace('external:', '')
             url = url.replace('/', '\\')
             string = string.replace('external:', '')
             string = string.replace('/', '\\')
+            external = True
 
         # Strip the mailto header.
         string = string.replace('mailto:', '')
@@ -799,26 +801,17 @@ class Worksheet(xmlwriter.XMLwriter):
         # External links to URLs and to other Excel workbooks have slightly
         # different characteristics that we have to account for.
         if link_type == 1:
-            # Escape URL unless it looks already escaped.
-            if not re.search('%[0-9a-fA-F]{2}', url):
-                # Can't use url.quote() here because it doesn't match Excel.
-                url = url.replace('%', '%25')
-                url = url.replace('"', '%22')
-                url = url.replace(' ', '%20')
-                url = url.replace('<', '%3c')
-                url = url.replace('>', '%3e')
-                url = url.replace('[', '%5b')
-                url = url.replace(']', '%5d')
-                url = url.replace('^', '%5e')
-                url = url.replace('`', '%60')
-                url = url.replace('{', '%7b')
-                url = url.replace('}', '%7d')
 
             # Split url into the link and optional anchor/location.
             if '#' in url:
                 url, url_str = url.split('#', 1)
             else:
                 url_str = None
+
+            url = self._escape_url(url)
+
+            if url_str is not None and not external:
+                url_str = self._escape_url(url_str)
 
             # Add the file:/// URI to the url for Windows style "C:/" link and
             # Network shares.
@@ -4468,6 +4461,26 @@ class Worksheet(xmlwriter.XMLwriter):
                  for item in items]
 
         return ','.join(items)
+
+    def _escape_url(self, url):
+        # Don't escape URL if it looks already escaped.
+        if re.search('%[0-9a-fA-F]{2}', url):
+            return url
+
+        # Can't use url.quote() here because it doesn't match Excel.
+        url = url.replace('%', '%25')
+        url = url.replace('"', '%22')
+        url = url.replace(' ', '%20')
+        url = url.replace('<', '%3c')
+        url = url.replace('>', '%3e')
+        url = url.replace('[', '%5b')
+        url = url.replace(']', '%5d')
+        url = url.replace('^', '%5e')
+        url = url.replace('`', '%60')
+        url = url.replace('{', '%7b')
+        url = url.replace('}', '%7d')
+
+        return url
 
     ###########################################################################
     #
