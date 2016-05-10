@@ -97,7 +97,7 @@ class Workbook(xmlwriter.XMLwriter):
         self.named_ranges = []
         self.custom_colors = []
         self.doc_properties = {}
-        self.localtime = datetime.now()
+        self.createtime = datetime.utcnow()
         self.num_vml_files = 0
         self.num_comment_files = 0
         self.x_window = 240

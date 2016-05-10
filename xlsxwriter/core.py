@@ -68,10 +68,10 @@ class Core(xmlwriter.XMLwriter):
         # Set the document properties.
         self.properties = properties
 
-    def _localtime_to_iso8601_date(self, date):
+    def _datetime_to_iso8601_date(self, date):
         # Convert to a ISO 8601 style "2010-01-01T00:00:00Z" date.
         if not date:
-            date = datetime.now()
+            date = datetime.utcnow()
 
         return date.strftime("%Y-%m-%dT%H:%M:%SZ")
 
@@ -115,11 +115,11 @@ class Core(xmlwriter.XMLwriter):
 
     def _write_dcterms_created(self):
         # Write the <dcterms:created> element.
-        date = self.properties.get('created', datetime.now())
+        date = self.properties.get('created', datetime.utcnow())
 
         xsi_type = 'dcterms:W3CDTF'
 
-        date = self._localtime_to_iso8601_date(date)
+        date = self._datetime_to_iso8601_date(date)
 
         attributes = [('xsi:type', xsi_type,)]
 
@@ -127,11 +127,11 @@ class Core(xmlwriter.XMLwriter):
 
     def _write_dcterms_modified(self):
         # Write the <dcterms:modified> element.
-        date = self.properties.get('created', datetime.now())
+        date = self.properties.get('created', datetime.utcnow())
 
         xsi_type = 'dcterms:W3CDTF'
 
-        date = self._localtime_to_iso8601_date(date)
+        date = self._datetime_to_iso8601_date(date)
 
         attributes = [('xsi:type', xsi_type,)]
 
