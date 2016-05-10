@@ -84,7 +84,7 @@ class Workbook(xmlwriter.XMLwriter):
         self.worksheets_objs = []
         self.charts = []
         self.drawings = []
-        self.sheetnames = []
+        self.sheetnames = {}
         self.formats = []
         self.xf_formats = []
         self.xf_format_indices = {}
@@ -407,6 +407,19 @@ class Workbook(xmlwriter.XMLwriter):
         """
         return self.worksheets_objs
 
+    def get_worksheet_by_name(self, name):
+        """
+        Return a worksheet object in the workbook using the sheetname.
+
+        Args:
+            name: The name of the worksheet.
+
+        Returns:
+            A worksheet object or None.
+
+        """
+        return self.sheetnames.get(name)
+
     def use_zip64(self):
         """
         Allow ZIP64 extensions when writing xlsx file zip container.
@@ -575,7 +588,7 @@ class Workbook(xmlwriter.XMLwriter):
         worksheet._initialize(init_data)
 
         self.worksheets_objs.append(worksheet)
-        self.sheetnames.append(name)
+        self.sheetnames[name] = worksheet
 
         return worksheet
 
@@ -1185,7 +1198,7 @@ class Workbook(xmlwriter.XMLwriter):
         sheetname = sheetname.strip("'")
 
         if sheetname in self.sheetnames:
-            return self.sheetnames.index(sheetname)
+            return self.sheetnames[sheetname].index
         else:
             return None
 
