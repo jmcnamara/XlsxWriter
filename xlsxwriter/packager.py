@@ -585,7 +585,7 @@ class Packager(object):
                 else:
                     copy(filename, os_filename)
 
-                    # Allow copies of Windows readonly images to be deleted.
+                    # Allow copies of Windows read-only images to be deleted.
                     try:
                         os.chmod(os_filename,
                                  os.stat(os_filename).st_mode | stat.S_IWRITE)
