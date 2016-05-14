@@ -458,6 +458,23 @@ workbook::
     for worksheet in workbook.worksheets():
         worksheet.write('A1', 'Hello')
 
+
+workbook.get_worksheet_by_name()
+--------------------------------
+
+.. function:: get_worksheet_by_name(name)
+
+   Add a new worksheet to a workbook.
+
+   :param string name: Name of worksheet that you wish to retrieve.
+   :rtype: A :ref:`worksheet <Worksheet>` object.
+
+The ``get_worksheet_by_name()`` method returns the worksheet object with the
+the given ``name`` or ``None`` if it isn't found::
+
+    worksheet = workbook.get_worksheet_by_name('Sheet1')
+
+
 workbook.set_calc_mode()
 ------------------------
 
@@ -490,5 +507,5 @@ workbook.use_zip64()
 
    Allow ZIP64 extensions when writing xlsx file zip container.
 
-Use ZIP64 extensions when writing the xlsx file zip container and allow files
+Use ZIP64 extensions when writing the xlsx file zip container to allow files
 greater than 4 GB.

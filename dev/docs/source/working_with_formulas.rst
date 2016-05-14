@@ -207,11 +207,12 @@ as ``TableX[]`` (like a Python list)::
 
 .. _formula_errors:
 
-Dealing with #NAME? errors
---------------------------
+Dealing with formula errors
+---------------------------
 
 If there is an error in the syntax of a formula it is usually displayed in
-Excel as ``#NAME?``. If you encounter an error like this you can debug it as
+Excel as ``#NAME?``. Alternatively you may get a warning from Excel when the
+file is loaded. If you encounter an error like this you can debug it as
 follows:
 
 #. Ensure the formula is valid in Excel by copying and pasting it into a
