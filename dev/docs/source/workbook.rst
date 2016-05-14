@@ -464,7 +464,7 @@ workbook.get_worksheet_by_name()
 
 .. function:: get_worksheet_by_name(name)
 
-   Add a new worksheet to a workbook.
+   Return a worksheet object in the workbook using the sheetname.
 
    :param string name: Name of worksheet that you wish to retrieve.
    :rtype: A :ref:`worksheet <Worksheet>` object.
