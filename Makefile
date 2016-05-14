@@ -64,6 +64,7 @@ spellcheck:
 	@for f in *.md;                  do aspell --lang=en_US --check $$f; done
 	@for f in xlsxwriter/*.py;       do aspell --lang=en_US --check $$f; done
 	@for f in examples/*.py;         do aspell --lang=en_US --check $$f; done
+	@aspell --lang=en_US --check Changes
 
 releasecheck:
 	@dev/release/release_check.sh

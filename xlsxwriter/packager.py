@@ -86,7 +86,6 @@ class Packager(object):
         self.tmpdir = ''
         self.in_memory = False
         self.workbook = None
-        self.sheet_names = []
         self.worksheet_count = 0
         self.chartsheet_count = 0
         self.chart_count = 0
@@ -114,7 +113,6 @@ class Packager(object):
     def _add_workbook(self, workbook):
         # Add the Excel::Writer::XLSX::Workbook object to the package.
         self.workbook = workbook
-        self.sheet_names = workbook.sheetnames
         self.chart_count = len(workbook.charts)
         self.drawing_count = len(workbook.drawings)
         self.num_vml_files = workbook.num_vml_files
