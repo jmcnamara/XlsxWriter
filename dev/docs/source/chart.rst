@@ -123,7 +123,7 @@ chart.add_series()
 
    :param dict options: A dictionary of chart series options.
 
-In Excel a chart **series** is a collection of information that define which
+In Excel a chart **series** is a collection of information that defines which
 data is plotted such as values, axis labels and formatting.
 
 For an XlsxWriter chart object the ``add_series()`` method is used to set the

@@ -149,7 +149,7 @@ chart4.set_y_axis({'name': 'Sample length (mm)'})
 chart4.set_style(14)
 
 # Insert the chart into the worksheet (with an offset).
-worksheet.insert_chart('D51', chart4, {'x_offset': 25, 'y_offset': 10})
+worksheet.insert_chart('D50', chart4, {'x_offset': 25, 'y_offset': 10})
 
 #######################################################################
 #
