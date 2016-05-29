@@ -150,6 +150,11 @@ class ContentTypes(xmlwriter.XMLwriter):
 
         self._add_default(('bin', 'application/vnd.ms-office.vbaProject'))
 
+    def _add_custom_properties(self):
+        # Add the custom properties to the ContentTypes overrides.
+        self._add_override(('/docProps/custom.xml',
+                           app_document + 'custom-properties+xml'))
+
     ###########################################################################
     #
     # XML methods.

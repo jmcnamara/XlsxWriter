@@ -27,6 +27,7 @@ py25_ignore = [
     'xlsxwriter/test/comparison/test_utf8_09.py',
     'xlsxwriter/test/comparison/test_utf8_10.py',
     'xlsxwriter/test/comparison/test_utf8_11.py',
+    'xlsxwriter/test/comparison/test_properties05.py',
     'xlsxwriter/test/comparison/test_defined_name04.py',
     'xlsxwriter/test/comparison/test_data_validation07.py',
     ]

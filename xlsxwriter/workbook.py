@@ -15,7 +15,7 @@ from datetime import datetime
 from zipfile import ZipFile, ZIP_DEFLATED
 from struct import unpack
 
-from .compatibility import str_types, force_unicode
+from .compatibility import int_types, num_types, str_types, force_unicode
 
 # Package imports.
 from . import xmlwriter
@@ -97,6 +97,7 @@ class Workbook(xmlwriter.XMLwriter):
         self.named_ranges = []
         self.custom_colors = []
         self.doc_properties = {}
+        self.custom_properties = []
         self.createtime = datetime.utcnow()
         self.num_vml_files = 0
         self.num_comment_files = 0
@@ -307,6 +308,52 @@ class Workbook(xmlwriter.XMLwriter):
 
         """
         self.doc_properties = properties
+
+    def set_custom_property(self, name, value, property_type=None):
+        """
+        Set a custom document property.
+
+        Args:
+            name:          The name of the custom property.
+            value:         The value of the custom property.
+            property_type: The type of the custom property. Optional.
+
+        Returns:
+            Nothing.
+
+        """
+        if name is None or value is None:
+            warn("The name and value parameters must be non-None in "
+                 "set_custom_property()")
+            return -1
+
+        if property_type is None:
+            # Determine the property type from the Python type.
+            if isinstance(value, bool):
+                property_type = 'bool'
+            elif isinstance(value, datetime):
+                property_type = 'date'
+            elif isinstance(value, int_types):
+                property_type = 'number_int'
+            elif isinstance(value, num_types):
+                property_type = 'number'
+            else:
+                property_type = 'text'
+
+        if property_type == 'date':
+            value = value.strftime("%Y-%m-%dT%H:%M:%SZ")
+
+        if property_type == 'text' and len(value) > 255:
+            warn("Length of 'value' parameter exceeds Excel's limit of 255 "
+                 "characters in set_custom_property(): '%s'" %
+                 force_unicode(value))
+
+        if len(name) > 255:
+            warn("Length of 'name' parameter exceeds Excel's limit of 255 "
+                 "characters in set_custom_property(): '%s'" %
+                 force_unicode(name))
+
+        self.custom_properties.append((name, value, property_type))
 
     def set_calc_mode(self, mode, calc_id=None):
         """

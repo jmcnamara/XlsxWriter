@@ -18,6 +18,7 @@ from .compatibility import BytesIO
 from xlsxwriter.app import App
 from xlsxwriter.contenttypes import ContentTypes
 from xlsxwriter.core import Core
+from xlsxwriter.custom import Custom
 from xlsxwriter.relationships import Relationships
 from xlsxwriter.sharedstrings import SharedStrings
 from xlsxwriter.styles import Styles
@@ -138,6 +139,7 @@ class Packager(object):
         self._write_shared_strings_file()
         self._write_app_file()
         self._write_core_file()
+        self._write_custom_file()
         self._write_content_types_file()
         self._write_styles_file()
         self._write_theme_file()
@@ -328,6 +330,18 @@ class Packager(object):
         core._set_xml_writer(self._filename('docProps/core.xml'))
         core._assemble_xml_file()
 
+    def _write_custom_file(self):
+        # Write the custom.xml file.
+        properties = self.workbook.custom_properties
+        custom = Custom()
+
+        if not len(properties):
+            return
+
+        custom._set_properties(properties)
+        custom._set_xml_writer(self._filename('docProps/custom.xml'))
+        custom._assemble_xml_file()
+
     def _write_content_types_file(self):
         # Write the ContentTypes.xml file.
         content = ContentTypes()
@@ -365,6 +379,10 @@ class Packager(object):
         # Add vbaProject if present.
         if self.workbook.vba_project:
             content._add_vba_project()
+
+        # Add the custom properties if present.
+        if self.workbook.custom_properties:
+            content._add_custom_properties()
 
         content._set_xml_writer(self._filename('[Content_Types].xml'))
         content._assemble_xml_file()
@@ -424,12 +442,19 @@ class Packager(object):
         rels = Relationships()
 
         rels._add_document_relationship('/officeDocument', 'xl/workbook.xml')
+
         rels._add_package_relationship('/metadata/core-properties',
                                        'docProps/core.xml')
+
         rels._add_document_relationship('/extended-properties',
                                         'docProps/app.xml')
 
+        if self.workbook.custom_properties:
+            rels._add_document_relationship('/custom-properties',
+                                            'docProps/custom.xml')
+
         rels._set_xml_writer(self._filename('_rels/.rels'))
+
         rels._assemble_xml_file()
 
     def _write_workbook_rels_file(self):

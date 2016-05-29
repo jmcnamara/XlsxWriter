@@ -319,7 +319,7 @@ workbook.set_properties()
 
    :param dict properties: Dictionary of document properties.
 
-The ``set_properties`` method can be used to set the document properties of the
+The ``set_properties()`` method can be used to set the document properties of the
 Excel file created by ``XlsxWriter``. These properties are visible when you
 use the ``Office Button -> Prepare -> Properties`` option in Excel and are
 also available to external applications that read or index windows files.
@@ -353,6 +353,57 @@ follows::
 .. image:: _images/doc_properties.png
 
 See also :ref:`ex_doc_properties`.
+
+
+workbook.set_custom_property()
+------------------------------
+
+.. py:function:: set_custom_property(name, value [, property_type])
+
+   Set a custom document property.
+
+   :param name:          The name of the custom property.
+   :param value:         The value of the custom property (various types).
+   :param property_type: The type of the property. Optional.
+   :type name:           string
+   :type property_type:  string
+
+
+The ``set_custom_property()`` method can be used to set one or more custom
+document properties not covered by the standard properties in the
+``set_properties()`` method above.
+
+For example::
+
+    date = datetime.strptime('2016-12-12', '%Y-%m-%d')
+
+    workbook.set_custom_property('Checked by',       'Eve')
+    workbook.set_custom_property('Date completed',   date)
+    workbook.set_custom_property('Document number',  12345)
+    workbook.set_custom_property('Reference number', 1.2345)
+    workbook.set_custom_property('Has review',       True)
+    workbook.set_custom_property('Signed off',       False)
+
+.. image:: _images/custom_properties.png
+
+
+Date parameters should be :class:`datetime.datetime` objects.
+
+The optional ``property_type`` parameter can be used to set an explicit type
+for the custom property, just like in Excel. The available types are::
+
+    text
+    date
+    number
+    bool
+
+However, in almost all cases the type will be inferred correctly from the
+Python type, like in the example above.
+
+
+Note: the ``name`` and ``value`` parameters are limited to 255 characters by
+Excel.
+
 
 workbook.define_name()
 ----------------------

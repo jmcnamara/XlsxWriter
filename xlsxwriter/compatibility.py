@@ -31,9 +31,11 @@ except ImportError:
 
 # Types to check in Python 2/3.
 if sys.version_info[0] == 2:
+    int_types = (int, long)
     num_types = (float, int, long, Decimal, Fraction)
     str_types = basestring
 else:
+    int_types = (int)
     num_types = (float, int, Decimal, Fraction)
     str_types = str
 
