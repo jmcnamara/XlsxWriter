@@ -1,5 +1,13 @@
 
 
+Release 0.8.8 - May 31 2016
+---------------------------
+
+* Added workbook :func:`set_custom_property` method to set custom document
+  properties.
+  Feature request `#355 <https://github.com/jmcnamara/XlsxWriter/issues/355>`_.
+
+
 Release 0.8.7 - May 13 2016
 ---------------------------
 
@@ -9,7 +17,7 @@ Release 0.8.7 - May 13 2016
 * Added :func:`get_worksheet_by_name()` method to allow the retrieval of a
   worksheet from a workbook via its name.
 
-* Fixed issue where internal file creation and modification dates where in the
+* Fixed issue where internal file creation and modification dates were in the
   local timezone instead of UTC.
 
 Release 0.8.6 - April 27 2016
