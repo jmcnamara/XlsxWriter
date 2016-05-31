@@ -1,5 +1,12 @@
 
 
+Release 0.8.9 - June 1 2016
+---------------------------
+
+* Fix for :func:`insert_image` issue when handling images with zero dpi.
+  Issue `#356 <https://github.com/jmcnamara/XlsxWriter/issues/356>`_.
+
+
 Release 0.8.8 - May 31 2016
 ---------------------------
 
