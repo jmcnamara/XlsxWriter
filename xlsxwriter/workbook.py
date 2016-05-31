@@ -1107,6 +1107,12 @@ class Workbook(xmlwriter.XMLwriter):
         if not image_data:
             fh.close()
 
+        # Set a default dpi for images with 0 dpi.
+        if x_dpi == 0:
+            x_dpi = 96
+        if y_dpi == 0:
+            y_dpi = 96
+
         return image_type, width, height, image_name, x_dpi, y_dpi
 
     def _process_png(self, data):
