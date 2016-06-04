@@ -3138,6 +3138,13 @@ class Chart(xmlwriter.XMLwriter):
         # Write the c:backward element.
         self._write_backward(trendline.get('backward'))
 
+        if trendline.get('display_equation'):
+            # Write the c:dispEq element.
+            self._write_c_disp_eq()
+
+            # Write the c:trendlineLbl element.
+            self._write_c_trendline_lbl()
+
         self._xml_end_tag('c:trendline')
 
     def _write_trendline_type(self, val):
@@ -3190,6 +3197,33 @@ class Chart(xmlwriter.XMLwriter):
         attributes = [('val', val)]
 
         self._xml_empty_tag('c:backward', attributes)
+
+    def _write_c_disp_eq(self):
+        # Write the <c:dispEq> element.
+        attributes = [('val', 1)]
+
+        self._xml_empty_tag('c:dispEq', attributes)
+
+    def _write_c_trendline_lbl(self):
+        # Write the <c:trendlineLbl> element.
+        self._xml_start_tag('c:trendlineLbl')
+
+        # Write the c:layout element.
+        self._write_layout(None, None)
+
+        # Write the c:numFmt element.
+        self._write_trendline_num_fmt()
+
+        self._xml_end_tag('c:trendlineLbl')
+
+    def _write_trendline_num_fmt(self):
+        # Write the <c:numFmt> element.
+        attributes = [
+            ('formatCode', 'General'),
+            ('sourceLinked', 0),
+        ]
+
+        self._xml_empty_tag('c:numFmt', attributes)
 
     def _write_hi_low_lines(self):
         # Write the <c:hiLowLines> element.
