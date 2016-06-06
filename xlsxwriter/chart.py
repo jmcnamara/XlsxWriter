@@ -3138,6 +3138,10 @@ class Chart(xmlwriter.XMLwriter):
         # Write the c:backward element.
         self._write_backward(trendline.get('backward'))
 
+        if 'intercept' in trendline:
+            # Write the c:intercept element.
+            self._write_c_intercept(trendline['intercept'])
+
         if trendline.get('display_r_squared'):
             # Write the c:dispRSqr element.
             self._write_c_disp_rsqr()
@@ -3201,6 +3205,12 @@ class Chart(xmlwriter.XMLwriter):
         attributes = [('val', val)]
 
         self._xml_empty_tag('c:backward', attributes)
+
+    def _write_c_intercept(self, val):
+        # Write the <c:intercept> element.
+        attributes = [('val', val)]
+
+        self._xml_empty_tag('c:intercept', attributes)
 
     def _write_c_disp_eq(self):
         # Write the <c:dispEq> element.
