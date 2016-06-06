@@ -3138,6 +3138,10 @@ class Chart(xmlwriter.XMLwriter):
         # Write the c:backward element.
         self._write_backward(trendline.get('backward'))
 
+        if trendline.get('display_r_squared'):
+            # Write the c:dispRSqr element.
+            self._write_c_disp_rsqr()
+
         if trendline.get('display_equation'):
             # Write the c:dispEq element.
             self._write_c_disp_eq()
@@ -3203,6 +3207,12 @@ class Chart(xmlwriter.XMLwriter):
         attributes = [('val', 1)]
 
         self._xml_empty_tag('c:dispEq', attributes)
+
+    def _write_c_disp_rsqr(self):
+        # Write the <c:dispRSqr> element.
+        attributes = [('val', 1)]
+
+        self._xml_empty_tag('c:dispRSqr', attributes)
 
     def _write_c_trendline_lbl(self):
         # Write the <c:trendlineLbl> element.
