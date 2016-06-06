@@ -1,5 +1,14 @@
 
 
+Release 0.9.0 - June 7 2016
+---------------------------
+
+* Added :ref:`trendline properties <chart_series_option_trendline>`:
+  ``intercept``, ``display_equation`` and ``display_r_squared``.
+
+  Feature request `#357 <https://github.com/jmcnamara/XlsxWriter/issues/357>`_.
+
+
 Release 0.8.9 - June 1 2016
 ---------------------------
 
