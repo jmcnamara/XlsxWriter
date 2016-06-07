@@ -18,14 +18,14 @@ class TestCompareXLSXFiles(ExcelComparisonTest):
     def setUp(self):
         self.maxDiff = None
 
-        filename = 'chart_table02.xlsx'
+        filename = 'chart_table03.xlsx'
 
         test_dir = 'xlsxwriter/test/comparison/'
         self.got_filename = test_dir + '_test_' + filename
         self.exp_filename = test_dir + 'xlsx_files/' + filename
 
         self.ignore_files = []
-        self.ignore_elements = {}
+        self.ignore_elements = {'xl/charts/chart1.xml': ['<a:pPr']}
 
     def test_create_file(self):
         """Test XlsxWriter chart axis table properties."""
@@ -35,12 +35,13 @@ class TestCompareXLSXFiles(ExcelComparisonTest):
         worksheet = workbook.add_worksheet()
         chart = workbook.add_chart({'type': 'column'})
 
-        chart.axis_ids = [61354368, 61355904]
+        chart.axis_ids = [108636032, 108643840]
 
         data = [
             [1, 2, 3, 4, 5],
             [2, 4, 6, 8, 10],
             [3, 6, 9, 12, 15],
+
         ]
 
         worksheet.write_column('A1', data[0])
@@ -55,7 +56,8 @@ class TestCompareXLSXFiles(ExcelComparisonTest):
             'vertical': False,
             'horizontal': False,
             'outline': False,
-            'show_keys': True
+            'show_keys': True,
+            'font': {'bold': True, 'italic': True, 'color': 'red', 'baseline': -1}
         })
 
         worksheet.insert_chart('E9', chart)

@@ -470,6 +470,7 @@ class Chart(xmlwriter.XMLwriter):
         table['vertical'] = options.get('vertical', 1)
         table['outline'] = options.get('outline', 1)
         table['show_keys'] = options.get('show_keys', 0)
+        table['font'] = self._convert_font_args(options.get('font'))
 
         self.table = table
 
@@ -3576,6 +3577,10 @@ class Chart(xmlwriter.XMLwriter):
         if table['show_keys']:
             # Write the c:showKeys element.
             self._write_show_keys()
+
+        if table['font']:
+            # Write the table font.
+            self._write_tx_pr(None, table['font'])
 
         self._xml_end_tag('c:dTable')
 

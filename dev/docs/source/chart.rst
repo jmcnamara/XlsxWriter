@@ -946,10 +946,15 @@ The available options, with default values are::
     'vertical':   True   # Display horizontal lines in the table.
     'outline':    True   # Display an outline in the table.
     'show_keys':  False  # Show the legend keys with the table data.
+    'font':       {}     # Standard chart font properties.
+
+For example::
 
     chart.set_table({'show_keys': True})
 
-The data table can only be shown with Bar, Column, Line, Area and stock charts.
+The data table can only be shown with Bar, Column, Line, Area and stock
+charts.  See the :ref:`chart_fonts` section for more details on font
+properties.
 
 
 chart.set_up_down_bars()
