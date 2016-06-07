@@ -557,6 +557,16 @@ The ``font`` property is used to set the font of the data labels of a series::
          },
      })
 
+The ``font`` property is also used to rotate the data labels of a series::
+
+     chart.add_series({
+         'values': '=Sheet1!$A$1:$A$5',
+         'data_labels': {
+             'value': True,
+             'font': {'rotation': 45}
+         },
+     })
+
 See :ref:`chart_fonts`.
 
 .. _chart_series_option_points:
