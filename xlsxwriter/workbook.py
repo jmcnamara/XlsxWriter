@@ -296,6 +296,29 @@ class Workbook(xmlwriter.XMLwriter):
             self.fileclosed = 1
             self._store_workbook()
 
+    def set_size(self, width, height):
+        """
+        Set the size of a workbook window.
+
+        Args:
+            width:  Width  of the window in pixels.
+            height: Height of the window in pixels.
+
+        Returns:
+            Nothing.
+
+        """
+        # Convert the width/height to twips at 96 dpi.
+        if width:
+            self.window_width = int(width * 1440 / 96)
+        else:
+            self.window_width = 16095
+
+        if height:
+            self.window_height = int(height * 1440 / 96)
+        else:
+            self.window_height = 9660
+
     def set_properties(self, properties):
         """
         Set the document properties such as Title, Author etc.
