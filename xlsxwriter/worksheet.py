@@ -2324,6 +2324,7 @@ class Worksheet(xmlwriter.XMLwriter):
         # Add the table columns.
         col_id = 1
         table['columns'] = []
+        seen_names = {}
 
         for col_num in range(first_col, last_col + 1):
             # Set up the default column data.
@@ -2338,10 +2339,11 @@ class Worksheet(xmlwriter.XMLwriter):
                 'name_format': None,
             }
 
-            # Overwrite the defaults with any use defined values.
+            # Overwrite the defaults with any user defined values.
             if 'columns' in options:
                 # Check if there are user defined values for this column.
-                user_data = options['columns'][col_id - 1]
+                if col_id <= len(options['columns']):
+                    user_data = options['columns'][col_id - 1]
 
                 if user_data:
                     # Get the column format.
@@ -2350,6 +2352,16 @@ class Worksheet(xmlwriter.XMLwriter):
                     # Map user defined values to internal values.
                     if user_data.get('header'):
                         col_data['name'] = user_data['header']
+
+                    # Excel requires unique case insensitive header names.
+                    header_name = col_data['name']
+                    name = header_name.lower()
+                    if name in seen_names:
+                        warn("Duplicate header name in add_table(): '%s'"
+                             % force_unicode(name))
+                        return -1
+                    else:
+                        seen_names[name] = True
 
                     col_data['name_format'] = user_data.get('header_format')
 
