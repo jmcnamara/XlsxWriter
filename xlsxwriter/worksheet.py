@@ -1766,7 +1766,7 @@ class Worksheet(xmlwriter.XMLwriter):
                 else:
                     date_time = self._convert_date_time(options['value'])
                     # Format date number to the same precision as Excel.
-                    options['value'] = "%.15g" % date_time
+                    options['value'] = "%.16g" % date_time
 
             if options['maximum']:
                 if not supported_datetime(options['maximum']):
@@ -1775,7 +1775,7 @@ class Worksheet(xmlwriter.XMLwriter):
                     return -2
                 else:
                     date_time = self._convert_date_time(options['maximum'])
-                    options['maximum'] = "%.15g" % date_time
+                    options['maximum'] = "%.16g" % date_time
 
         # Check that the input title doesn't exceed the maximum length.
         if options.get('input_title') and len(options['input_title']) > 32:
@@ -1973,7 +1973,7 @@ class Worksheet(xmlwriter.XMLwriter):
                 else:
                     date_time = self._convert_date_time(options['value'])
                     # Format date number to the same precision as Excel.
-                    options['value'] = "%.15g" % date_time
+                    options['value'] = "%.16g" % date_time
 
             if 'minimum' in options:
                 if not supported_datetime(options['minimum']):
@@ -1982,7 +1982,7 @@ class Worksheet(xmlwriter.XMLwriter):
                     return -2
                 else:
                     date_time = self._convert_date_time(options['minimum'])
-                    options['minimum'] = "%.15g" % date_time
+                    options['minimum'] = "%.16g" % date_time
 
             if 'maximum' in options:
                 if not supported_datetime(options['maximum']):
@@ -1991,7 +1991,7 @@ class Worksheet(xmlwriter.XMLwriter):
                     return -2
                 else:
                     date_time = self._convert_date_time(options['maximum'])
-                    options['maximum'] = "%.15g" % date_time
+                    options['maximum'] = "%.16g" % date_time
 
         # Swap last row/col for first row/col as necessary
         if first_row > last_row:
@@ -4436,7 +4436,7 @@ class Worksheet(xmlwriter.XMLwriter):
 
                     if type(cell).__name__ == 'Number':
                         # Return a number with Excel's precision.
-                        data.append("%.15g" % cell.number)
+                        data.append("%.16g" % cell.number)
 
                     elif type(cell).__name__ == 'String':
                         # Return a string from it's shared string index.
@@ -4803,7 +4803,7 @@ class Worksheet(xmlwriter.XMLwriter):
         attributes = [
             ('min', col_min + 1),
             ('max', col_max + 1),
-            ('width', "%.15g" % width)]
+            ('width', "%.16g" % width)]
 
         if xf_index:
             attributes.append(('style', xf_index))
@@ -6189,10 +6189,10 @@ class Worksheet(xmlwriter.XMLwriter):
 
         # Format splits to the same precision as Excel.
         if x_split:
-            attributes.append(('xSplit', "%.15g" % x_split))
+            attributes.append(('xSplit', "%.16g" % x_split))
 
         if y_split:
-            attributes.append(('ySplit', "%.15g" % y_split))
+            attributes.append(('ySplit', "%.16g" % y_split))
 
         attributes.append(('topLeftCell', top_left_cell))
 

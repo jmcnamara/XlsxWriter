@@ -134,7 +134,7 @@ class XMLwriter(object):
             value = self._escape_attributes(value)
             attr += ' %s="%s"' % (key, value)
 
-        self.fh.write("""<c%s><v>%.15g</v></c>""" % (attr, number))
+        self.fh.write("""<c%s><v>%.16g</v></c>""" % (attr, number))
 
     def _xml_formula_element(self, formula, result, attributes=[]):
         # Optimized tag writer for <c> cell formula elements in the inner loop.
