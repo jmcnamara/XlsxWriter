@@ -1,6 +1,14 @@
 
-Release 0.9.2 - June 13 2016
+Release 0.9.3 - July 8 2016
 ---------------------------
+
+* Added check to :func:`add_table` to prevent duplicate header names which
+  leads to a corrupt Excel file.
+  Issue `#362 <https://github.com/jmcnamara/XlsxWriter/issues/362>`_.
+
+
+Release 0.9.2 - June 13 2016
+----------------------------
 
 * Added workbook :func:`set_size` method to set the workbook window size.
 
