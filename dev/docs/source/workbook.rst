@@ -50,7 +50,7 @@ The constructor options are:
 
   See :ref:`memory_perf` for more details.
 
-* **tmpdir**: ``XlsxWriter`` stores worksheet data in a temporary files prior
+* **tmpdir**: ``XlsxWriter`` stores workbook data in temporary files prior
   to assembling the final XLSX file. The temporary files are created in the
   system's temp directory. If the default temporary directory isn't accessible
   to your application, or doesn't contain enough space, you can specify an
