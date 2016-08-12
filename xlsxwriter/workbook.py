@@ -19,21 +19,21 @@ from .compatibility import int_types, num_types, str_types, force_unicode
 
 # Package imports.
 from . import xmlwriter
-from xlsxwriter.worksheet import Worksheet
-from xlsxwriter.chartsheet import Chartsheet
-from xlsxwriter.sharedstrings import SharedStringTable
-from xlsxwriter.format import Format
-from xlsxwriter.packager import Packager
+from .worksheet import Worksheet
+from .chartsheet import Chartsheet
+from .sharedstrings import SharedStringTable
+from .format import Format
+from .packager import Packager
 from .utility import xl_cell_to_rowcol
-from xlsxwriter.chart_area import ChartArea
-from xlsxwriter.chart_bar import ChartBar
-from xlsxwriter.chart_column import ChartColumn
-from xlsxwriter.chart_doughnut import ChartDoughnut
-from xlsxwriter.chart_line import ChartLine
-from xlsxwriter.chart_pie import ChartPie
-from xlsxwriter.chart_radar import ChartRadar
-from xlsxwriter.chart_scatter import ChartScatter
-from xlsxwriter.chart_stock import ChartStock
+from .chart_area import ChartArea
+from .chart_bar import ChartBar
+from .chart_column import ChartColumn
+from .chart_doughnut import ChartDoughnut
+from .chart_line import ChartLine
+from .chart_pie import ChartPie
+from .chart_radar import ChartRadar
+from .chart_scatter import ChartScatter
+from .chart_stock import ChartStock
 
 
 class Workbook(xmlwriter.XMLwriter):
