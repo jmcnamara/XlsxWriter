@@ -603,6 +603,7 @@ worksheet.write_rich_string()
    :param cell_format:  Optional Format object.
    :type  row:          int
    :type  col:          int
+   :type  string_parts: list
    :type  cell_format:  :ref:`Format <format>`
 
 
