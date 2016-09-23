@@ -155,3 +155,33 @@ In these cases it is possible to specify a default date format string using the
     worksheet.write_datetime(0, 0, date_time)  # Formatted as 'dd/mm/yy'
 
     workbook.close()
+
+
+.. _timezone_handling:
+
+Timezone Handling
+-----------------
+
+Excel doesn't support timezones in datetimes/times so there isn't any fail-safe
+way that XlsxWriter can map a Python timezone aware datetime into an Excel
+datetime. As such the user should handle the timezones in some way that makes
+sense according to their requirements. Usually this will require some
+conversion to a timezone adjusted time and the removal of the ``tzinfo`` from
+the datetime object so that it can be passed to :func:`write_datetime`::
+
+    utc_datetime = datetime(2016, 9, 23, 14, 13, 21, tzinfo=utc)
+    naive_datetime = utc_datetime.replace(tzinfo=None)
+
+    worksheet.write_datetime(row, 0, naive_datetime, date_format)
+
+Alternatively the :func:`Workbook` constructor option ``remove_timezone`` can
+be used to strip the timezone from datetime values passed to
+:func:`write_datetime`. The default is ``False``. To enable this option use::
+
+    workbook = xlsxwriter.Workbook(filename, {'remove_timezone': True})
+
+When :ref:`ewx_pandas` you can pass the argument as follows::
+
+    writer = pd.ExcelWriter('pandas_example.xlsx',
+                            engine='xlsxwriter',
+                            options={'remove_timezone': True})

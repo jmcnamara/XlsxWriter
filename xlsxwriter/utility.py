@@ -608,8 +608,22 @@ def supported_datetime(dt):
                            datetime.time,
                            datetime.timedelta)))
 
+def remove_datetime_timezone(dt_obj, remove_timezone):
+    # Excel doesn't support timezones in datetimes/times so we remove the
+    # tzinfo from the object if the user has specified that option in the
+    # constructor.
+    if remove_timezone:
+        dt_obj = dt_obj.replace(tzinfo=None)
+    else:
+       if dt_obj.tzinfo:
+           raise TypeError(
+               "Excel doesn't support timezones in datetimes. "
+               "Set the tzinfo in the datetime/time object to None or "
+               "use the 'remove_timezone' Workbook() option")
 
-def datetime_to_excel_datetime(dt_obj, date_1904):
+    return dt_obj
+
+def datetime_to_excel_datetime(dt_obj, date_1904, remove_timezone):
     # Convert a datetime object to an Excel serial date and time. The integer
     # part of the number stores the number of days since the epoch and the
     # fractional part stores the percentage of the day.
@@ -624,12 +638,14 @@ def datetime_to_excel_datetime(dt_obj, date_1904):
     # We handle datetime .datetime, .date and .time objects but convert
     # them to datetime.datetime objects and process them in the same way.
     if isinstance(dt_obj, datetime.datetime):
+        dt_obj = remove_datetime_timezone(dt_obj, remove_timezone)
         delta = dt_obj - epoch
     elif isinstance(dt_obj, datetime.date):
         dt_obj = datetime.datetime.fromordinal(dt_obj.toordinal())
         delta = dt_obj - epoch
     elif isinstance(dt_obj, datetime.time):
         dt_obj = datetime.datetime.combine(epoch, dt_obj)
+        dt_obj = remove_datetime_timezone(dt_obj, remove_timezone)
         delta = dt_obj - epoch
     elif isinstance(dt_obj, datetime.timedelta):
         delta = dt_obj

@@ -333,6 +333,7 @@ class Worksheet(xmlwriter.XMLwriter):
 
         self.default_date_format = None
         self.default_url_format = None
+        self.remove_timezone = False
 
         self.row_data_filename = None
         self.row_data_fh = None
@@ -3372,6 +3373,7 @@ class Worksheet(xmlwriter.XMLwriter):
         self.default_date_format = init_data['default_date_format']
         self.default_url_format = init_data['default_url_format']
         self.excel2003_style = init_data['excel2003_style']
+        self.remove_timezone = init_data['remove_timezone']
 
         if self.excel2003_style:
             self.original_row_height = 12.75
@@ -3523,7 +3525,9 @@ class Worksheet(xmlwriter.XMLwriter):
 
     def _convert_date_time(self, dt_obj):
         # Convert a datetime object to an Excel serial date and time.
-        return datetime_to_excel_datetime(dt_obj, self.date_1904)
+        return datetime_to_excel_datetime(dt_obj,
+                                          self.date_1904,
+                                          self.remove_timezone)
 
     def _convert_name_area(self, row_num_1, col_num_1, row_num_2, col_num_2):
         # Convert zero indexed rows and columns to the format required by

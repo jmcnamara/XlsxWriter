@@ -69,6 +69,7 @@ class Workbook(xmlwriter.XMLwriter):
         self.optimization = options.get('constant_memory', False)
         self.in_memory = options.get('in_memory', False)
         self.excel2003_style = options.get('excel2003_style', False)
+        self.remove_timezone = options.get('remove_timezone', False)
         self.default_format_properties = \
             options.get('default_format_properties', {})
 
@@ -648,6 +649,7 @@ class Workbook(xmlwriter.XMLwriter):
             'default_date_format': self.default_date_format,
             'default_url_format': self.default_url_format,
             'excel2003_style': self.excel2003_style,
+            'remove_timezone': self.remove_timezone,
         }
 
         if is_chartsheet:

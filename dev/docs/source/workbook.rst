@@ -104,6 +104,19 @@ The constructor options are:
 
       xlsxwriter.Workbook(filename, {'default_date_format': 'dd/mm/yy'})
 
+* **remove_timezone**: Excel doesn't support timezones in datetimes/times so
+  there isn't any fail-safe way that XlsxWriter can map a Python timezone aware
+  datetime into an Excel datetime in functions such as
+  :func:`write_datetime`. As such the user should convert and remove the
+  timezones in some way that make sense according to their
+  requirements. Alternatively the ``remove_timezone`` option can be used to
+  strip the timezone from datetime values. The default is ``False``. To enable
+  this option use::
+
+      workbook = xlsxwriter.Workbook(filename, {'remove_timezone': True})
+
+  See also :ref:`Timezone Handling in XlsxWriter <timezone_handling>`.
+
 * **date_1904**: Excel for Windows uses a default epoch of 1900 and Excel for
   Mac uses an epoch of 1904. However, Excel on either platform will convert
   automatically between one system and the other. XlsxWriter stores dates in

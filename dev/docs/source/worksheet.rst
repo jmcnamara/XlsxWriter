@@ -465,7 +465,8 @@ otherwise it will appear as a number::
 If required, a default date format string can be set using the :func:`Workbook`
 constructor ``default_date_format`` option.
 
-See :ref:`working_with_dates_and_time` for more details.
+See :ref:`working_with_dates_and_time` for more details and also
+:ref:`Timezone Handling in XlsxWriter <timezone_handling>`.
 
 
 worksheet.write_url()
