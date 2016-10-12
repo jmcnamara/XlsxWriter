@@ -54,7 +54,7 @@ As a minimum, tests should be run using Python 2.7 and Python 3.5.
     # or
     py.test
 
-I use [pythonbrew](https://github.com/utahta/pythonbrew) and [Tox](http://tox.readthedocs.org/en/latest/) to test with a variety of Python versions. See the Makefile for example test targets. A `tox.ini` file is already configured.
+I use [pythonbrew](https://github.com/utahta/pythonbrew) and [Tox](https://tox.readthedocs.io/en/latest/) to test with a variety of Python versions. See the Makefile for example test targets. A `tox.ini` file is already configured.
 
 When you push your changes they will also be tested using [Travis CI](https://travis-ci.org/jmcnamara/XlsxWriter/) as explained above.
 

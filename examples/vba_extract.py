@@ -22,7 +22,7 @@ else:
     print("\nUtility to extract a vbaProject.bin binary from an Excel 2007+ "
           "xlsm macro file for insertion into an XlsxWriter file."
           "\n"
-          "See: http://xlsxwriter.readthedocs.org/working_with_macros.html\n"
+          "See: https://xlsxwriter.readthedocs.io/working_with_macros.html\n"
           "\n"
           "Usage: vba_extract file.xlsm\n")
     exit()
