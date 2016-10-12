@@ -60,7 +60,7 @@ Here is a simple example:
 
 .. image:: https://raw.github.com/jmcnamara/XlsxWriter/master/dev/docs/source/_images/demo.png
 
-See the full documentation at: http://xlsxwriter.readthedocs.org
+See the full documentation at: https://xlsxwriter.readthedocs.io
 
-Release notes: http://xlsxwriter.readthedocs.org/changes.html
+Release notes: https://xlsxwriter.readthedocs.io/changes.html
 

@@ -252,7 +252,7 @@ Here are some additional resources in relation to Pandas, Excel and XlsxWriter.
 
 * A more detailed tutorial on `Using Pandas and XlsxWriter to create Excel
   charts
-  <http://pandas-xlsxwriter-charts.readthedocs.org/en/latest/index.html>`_.
+  <https://pandas-xlsxwriter-charts.readthedocs.io/>`_.
 
 * The series of articles on the "Practical Business Python" website about
   `Using Pandas and Excel <http://pbpython.com/tag/excel.html>`_.
