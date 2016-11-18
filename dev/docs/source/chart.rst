@@ -11,7 +11,7 @@ Scatter, Stock and Radar.
 A chart object is created via the Workbook :func:`add_chart()` method where the
 chart type is specified::
 
-    chart = workbook.add_chart({type, 'column'})
+    chart = workbook.add_chart({'type': 'column'})
 
 It is then inserted into a worksheet as an embedded chart using the
 :func:`insert_chart` Worksheet method::
