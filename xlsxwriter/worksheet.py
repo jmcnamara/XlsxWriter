@@ -1880,6 +1880,8 @@ class Worksheet(xmlwriter.XMLwriter):
             'min_color': True,
             'mid_color': True,
             'max_color': True,
+            'min_length': True,
+            'max_length': True,
             'multi_range': True,
             'bar_color': 1}
 
@@ -6026,7 +6028,15 @@ class Worksheet(xmlwriter.XMLwriter):
 
     def _write_data_bar(self, param):
         # Write the <dataBar> element.
-        self._xml_start_tag('dataBar')
+        attributes = []
+
+        if 'min_length' in param:
+            attributes.append(('minLength', param['min_length']))
+
+        if 'max_length' in param:
+            attributes.append(('maxLength', param['max_length']))
+
+        self._xml_start_tag('dataBar', attributes)
 
         self._write_cfvo(param['min_type'], param['min_value'])
         self._write_cfvo(param['max_type'], param['max_value'])
