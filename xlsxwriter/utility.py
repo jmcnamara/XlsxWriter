@@ -608,6 +608,7 @@ def supported_datetime(dt):
                            datetime.time,
                            datetime.timedelta)))
 
+
 def remove_datetime_timezone(dt_obj, remove_timezone):
     # Excel doesn't support timezones in datetimes/times so we remove the
     # tzinfo from the object if the user has specified that option in the
@@ -615,13 +616,14 @@ def remove_datetime_timezone(dt_obj, remove_timezone):
     if remove_timezone:
         dt_obj = dt_obj.replace(tzinfo=None)
     else:
-       if dt_obj.tzinfo:
-           raise TypeError(
-               "Excel doesn't support timezones in datetimes. "
-               "Set the tzinfo in the datetime/time object to None or "
-               "use the 'remove_timezone' Workbook() option")
+        if dt_obj.tzinfo:
+            raise TypeError(
+                "Excel doesn't support timezones in datetimes. "
+                "Set the tzinfo in the datetime/time object to None or "
+                "use the 'remove_timezone' Workbook() option")
 
     return dt_obj
+
 
 def datetime_to_excel_datetime(dt_obj, date_1904, remove_timezone):
     # Convert a datetime object to an Excel serial date and time. The integer
