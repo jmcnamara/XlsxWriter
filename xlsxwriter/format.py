@@ -151,12 +151,12 @@ class Format(xmlwriter.XMLwriter):
         """
         self.font_color = self._get_color(font_color)
 
-    def set_bold(self, bold=1):
+    def set_bold(self, bold=True):
         """
         Set the Format bold property.
 
         Args:
-            bold: Default is 1, turns property on.
+            bold: Default is True, turns property on.
 
         Returns:
             Nothing.
@@ -164,12 +164,12 @@ class Format(xmlwriter.XMLwriter):
         """
         self.bold = bold
 
-    def set_italic(self, italic=1):
+    def set_italic(self, italic=True):
         """
         Set the Format italic property.
 
         Args:
-            italic: Default is 1, turns property on.
+            italic: Default is True, turns property on.
 
         Returns:
             Nothing.
@@ -190,12 +190,12 @@ class Format(xmlwriter.XMLwriter):
         """
         self.underline = underline
 
-    def set_font_strikeout(self, font_strikeout=1):
+    def set_font_strikeout(self, font_strikeout=True):
         """
         Set the Format font_strikeout property.
 
         Args:
-            font_strikeout: Default is 1, turns property on.
+            font_strikeout: Default is True, turns property on.
 
         Returns:
             Nothing.
@@ -216,12 +216,12 @@ class Format(xmlwriter.XMLwriter):
         """
         self.font_script = font_script
 
-    def set_font_outline(self, font_outline=1):
+    def set_font_outline(self, font_outline=True):
         """
         Set the Format font_outline property.
 
         Args:
-            font_outline: Default is 1, turns property on.
+            font_outline: Default is True, turns property on.
 
         Returns:
             Nothing.
@@ -229,12 +229,12 @@ class Format(xmlwriter.XMLwriter):
         """
         self.font_outline = font_outline
 
-    def set_font_shadow(self, font_shadow=1):
+    def set_font_shadow(self, font_shadow=True):
         """
         Set the Format font_shadow property.
 
         Args:
-            font_shadow: Default is 1, turns property on.
+            font_shadow: Default is True, turns property on.
 
         Returns:
             Nothing.
@@ -255,12 +255,12 @@ class Format(xmlwriter.XMLwriter):
         """
         self.num_format = num_format
 
-    def set_locked(self, locked=1):
+    def set_locked(self, locked=True):
         """
         Set the Format locked property.
 
         Args:
-            locked: Default is 1, turns property on.
+            locked: Default is True, turns property on.
 
         Returns:
             Nothing.
@@ -268,12 +268,12 @@ class Format(xmlwriter.XMLwriter):
         """
         self.locked = locked
 
-    def set_hidden(self, hidden=1):
+    def set_hidden(self, hidden=True):
         """
         Set the Format hidden property.
 
         Args:
-            hidden: Default is 1, turns property on.
+            hidden: Default is True, turns property on.
 
         Returns:
             Nothing.
@@ -332,7 +332,7 @@ class Format(xmlwriter.XMLwriter):
         if alignment == 'vdistributed':
             self.set_text_v_align(5)
 
-    def set_center_across(self):
+    def set_center_across(self, align_type=None):
         """
         Set the Format center_across property.
 
@@ -342,12 +342,12 @@ class Format(xmlwriter.XMLwriter):
         """
         self.set_text_h_align(6)
 
-    def set_text_wrap(self, text_wrap=1):
+    def set_text_wrap(self, text_wrap=True):
         """
         Set the Format text_wrap property.
 
         Args:
-            text_wrap: Default is 1, turns property on.
+            text_wrap: Default is True, turns property on.
 
         Returns:
             Nothing.
@@ -385,7 +385,7 @@ class Format(xmlwriter.XMLwriter):
         Set the Format indent property.
 
         Args:
-            indent: Default is 1, turns property on.
+            indent: Default is 1, first indentation level.
 
         Returns:
             Nothing.
@@ -393,12 +393,12 @@ class Format(xmlwriter.XMLwriter):
         """
         self.indent = indent
 
-    def set_shrink(self, shrink=1):
+    def set_shrink(self, shrink=True):
         """
         Set the Format shrink property.
 
         Args:
-            shrink: Default is 1, turns property on.
+            shrink: Default is True, turns property on.
 
         Returns:
             Nothing.
@@ -406,12 +406,12 @@ class Format(xmlwriter.XMLwriter):
         """
         self.shrink = shrink
 
-    def set_text_justlast(self, text_justlast=1):
+    def set_text_justlast(self, text_justlast=True):
         """
         Set the Format text_justlast property.
 
         Args:
-            text_justlast: Default is 1, turns property on.
+            text_justlast: Default is True, turns property on.
 
         Returns:
             Nothing.
@@ -642,11 +642,11 @@ class Format(xmlwriter.XMLwriter):
     #
     ###########################################################################
 
-    def set_has_font(self, has_font=1):
+    def set_has_font(self, has_font=True):
         # Set the has_font property.
         self.has_font = has_font
 
-    def set_has_fill(self, has_fill=1):
+    def set_has_fill(self, has_fill=True):
         # Set the has_fill property.
         self.has_fill = has_fill
 
@@ -674,7 +674,7 @@ class Format(xmlwriter.XMLwriter):
         # Set the text_v_align property.
         self.text_v_align = text_v_align
 
-    def set_reading_order(self, reading_order=1):
+    def set_reading_order(self, reading_order=True):
         # Set the reading_order property.
         self.reading_order = reading_order
 
@@ -708,7 +708,7 @@ class Format(xmlwriter.XMLwriter):
         # Set the Format theme property.
         self.theme = theme
 
-    def set_hyperlink(self, hyperlink=1):
+    def set_hyperlink(self, hyperlink=True):
         # Set the properties for the hyperlink style. This doesn't
         # currently work. To be fixed when styles are supported.
 

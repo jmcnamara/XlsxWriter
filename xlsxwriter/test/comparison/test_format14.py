@@ -42,3 +42,17 @@ class TestCompareXLSXFiles(ExcelComparisonTest):
         workbook.close()
 
         self.assertExcelEqual()
+
+    def test_create_file_2(self):
+        """Test the center across format."""
+
+        workbook = Workbook(self.got_filename)
+
+        worksheet = workbook.add_worksheet()
+        center = workbook.add_format({"center_across": True})
+
+        worksheet.write('A1', 'foo', center)
+
+        workbook.close()
+
+        self.assertExcelEqual()
