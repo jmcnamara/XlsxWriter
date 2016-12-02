@@ -8,7 +8,7 @@ Release 0.9.4 - Dec 2 2016
   Issue `#257 <https://github.com/jmcnamara/XlsxWriter/issues/257>`_.
 
 * Fix duplicate header warning in :func:`add_table` when there is only one
-  user difined header.
+  user defined header.
   Issue `#380 <https://github.com/jmcnamara/XlsxWriter/issues/380>`_.
 
 * Fix for `center_across` property in :func:`add_format`.
