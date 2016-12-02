@@ -643,7 +643,7 @@ See the :ref:`chart_combined_charts` section for more details.
 chart.set_size()
 ----------------
 
-.. py:function:: set_size(options)
+.. :noindex: py:function:: set_size(options)
 
    Set the size or scale of the chart.
 
