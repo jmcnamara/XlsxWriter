@@ -2347,6 +2347,8 @@ class Worksheet(xmlwriter.XMLwriter):
                 # Check if there are user defined values for this column.
                 if col_id <= len(options['columns']):
                     user_data = options['columns'][col_id - 1]
+                else:
+                    user_data = None
 
                 if user_data:
                     # Get the column format.
