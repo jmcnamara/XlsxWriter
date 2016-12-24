@@ -257,6 +257,7 @@ class Workbook(xmlwriter.XMLwriter):
 
         chart.embedded = True
         chart.date_1904 = self.date_1904
+        chart.remove_timezone = self.remove_timezone
 
         self.charts.append(chart)
 
