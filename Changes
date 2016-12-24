@@ -1,4 +1,12 @@
 
+Release 0.9.5 - Dec 24 2016
+---------------------------
+
+* Fix for missing `remove_timezone` option in Chart class.
+  PR from Thomas Arnhold
+  `#404 <https://github.com/jmcnamara/XlsxWriter/issues/404>`_.
+
+
 Release 0.9.4 - Dec 2 2016
 --------------------------
 
