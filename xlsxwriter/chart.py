@@ -98,6 +98,7 @@ class Chart(xmlwriter.XMLwriter):
         self.title_none = False
         self.date_category = False
         self.date_1904 = False
+        self.remove_timezone = False
         self.label_positions = {}
         self.label_position_default = ''
         self.already_inserted = False
@@ -740,13 +741,16 @@ class Chart(xmlwriter.XMLwriter):
         # Convert datetime args if required.
         if axis.get('min') and supported_datetime(axis['min']):
             axis['min'] = datetime_to_excel_datetime(axis['min'],
-                                                     self.date_1904)
+                                                     self.date_1904,
+                                                     self.remove_timezone)
         if axis.get('max') and supported_datetime(axis['max']):
             axis['max'] = datetime_to_excel_datetime(axis['max'],
-                                                     self.date_1904)
+                                                     self.date_1904,
+                                                     self.remove_timezone)
         if axis.get('crossing') and supported_datetime(axis['crossing']):
             axis['crossing'] = datetime_to_excel_datetime(axis['crossing'],
-                                                          self.date_1904)
+                                                          self.date_1904,
+                                                          self.remove_timezone)
 
         # Set the font properties if present.
         axis['num_font'] = self._convert_font_args(options.get('num_font'))
