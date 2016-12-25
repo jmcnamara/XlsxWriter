@@ -2303,10 +2303,10 @@ class Worksheet(xmlwriter.XMLwriter):
         first_data_row = first_row
         last_data_row = last_row
 
-        if 'header_row' in options:
+        if options.get('header_row'):
             first_data_row += 1
 
-        if 'total_row' in options:
+        if options.get('total_row'):
             last_data_row -= 1
 
         # Set the table and autofilter ranges.
