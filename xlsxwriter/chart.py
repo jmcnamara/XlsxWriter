@@ -130,7 +130,7 @@ class Chart(xmlwriter.XMLwriter):
             return
 
         if len(self.series) == 255:
-            warn("The maxiumn number of series that can be added to an "
+            warn("The maximum number of series that can be added to an "
                  "Excel Chart is 255")
             return
 

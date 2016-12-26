@@ -37,6 +37,34 @@ function check_test_status {
 
 #############################################################
 #
+# Run spellcheck.
+#
+function check_spellcheck {
+
+    echo
+    echo -n "Is the spellcheck ok?                  [y/N]: "
+    read RESPONSE
+
+    if [ "$RESPONSE" != "y" ]; then
+
+        echo -n "    Run spellcheck now?                [y/N]: "
+        read RESPONSE
+
+        if [ "$RESPONSE" != "y" ]; then
+            echo
+            echo -e "Please run: make spellcheck\n";
+            exit 1
+        else
+            echo "    Running spellcheck...";
+            make spellcheck
+            check_spellcheck
+         fi
+    fi
+}
+
+
+#############################################################
+#
 # Check Changes file is up to date.
 #
 function check_changefile {
@@ -141,6 +169,7 @@ function check_git_status {
 }
 
 check_test_status
+check_spellcheck
 check_changefile
 check_versions
 check_pdf_doc

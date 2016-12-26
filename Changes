@@ -1,9 +1,13 @@
 
-Release 0.9.6 - Dec XX 2016
+Release 0.9.6 - Dec 26 2016
 ---------------------------
 
 * Fix for table with data but without a header.
   Issue `#405 <https://github.com/jmcnamara/XlsxWriter/issues/405>`_.
+
+* Add a warning when the number of series in a chart exceeds Excel's limit
+  of 255.
+  Issue `#399 <https://github.com/jmcnamara/XlsxWriter/issues/399>`_.
 
 
 Release 0.9.5 - Dec 24 2016
