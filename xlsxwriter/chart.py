@@ -127,6 +127,12 @@ class Chart(xmlwriter.XMLwriter):
         if self.requires_category and 'categories' not in options:
             warn("Must specify 'categories' in add_series() "
                  "for this chart type")
+            return
+
+        if len(self.series) == 255:
+            warn("The maxiumn number of series that can be added to an "
+                 "Excel Chart is 255")
+            return
 
         # Convert list into a formula string.
         values = self._list_to_formula(options.get('values'))
