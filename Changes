@@ -1,4 +1,11 @@
 
+Release 0.9.6 - Dec XX 2016
+---------------------------
+
+* Fix for table with data but without a header.
+  Issue `#405 <https://github.com/jmcnamara/XlsxWriter/issues/405>`_.
+
+
 Release 0.9.5 - Dec 24 2016
 ---------------------------
 
