@@ -32,6 +32,7 @@ function check_test_status {
             check_test_status
          fi
     fi
+    clear
 }
 
 
@@ -58,6 +59,35 @@ function check_spellcheck {
             echo "    Running spellcheck...";
             make spellcheck
             check_spellcheck
+         fi
+    fi
+    clear
+}
+
+
+#############################################################
+#
+# Run testpep8.
+#
+function check_testpep8 {
+
+    echo
+    echo -n "Is the testpep8 ok?                  [y/N]: "
+    read RESPONSE
+
+    if [ "$RESPONSE" != "y" ]; then
+
+        echo -n "    Run testpep8 now?                [y/N]: "
+        read RESPONSE
+
+        if [ "$RESPONSE" != "y" ]; then
+            echo
+            echo -e "Please run: make testpep8\n";
+            exit 1
+        else
+            echo "    Running testpep8...";
+            make testpep8
+            check_testpep8
          fi
     fi
 }
@@ -170,6 +200,7 @@ function check_git_status {
 
 check_test_status
 check_spellcheck
+check_testpep8
 check_changefile
 check_versions
 check_pdf_doc
