@@ -798,7 +798,7 @@ The options that can be set are::
   See the :ref:`chart_fonts` section for more details on font properties.
 
 * ``delete_series``: This allows you to remove one or more series from the
-  the legend (the series will still display on the chart). This property takes
+  legend (the series will still display on the chart). This property takes
   a list as an argument and the series are zero indexed::
 
     # Delete/hide series index 0 and 2 from the legend.
