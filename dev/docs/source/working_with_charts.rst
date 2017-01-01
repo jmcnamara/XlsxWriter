@@ -849,7 +849,11 @@ or a limited number of named colors, see :ref:`colors`::
 The ``transparency`` property sets the transparency of the solid fill color in
 the integer range 1 - 100::
 
-    chart.set_chartarea({'fill': {'color': 'yellow', 'transparency': 75}})
+    chart.set_chartarea({'fill': {'color': 'yellow', 'transparency': 50}})
+
+.. image:: _images/chart_fill3.png
+   :scale: 75 %
+
 
 The ``fill`` format is generally used in conjunction with a ``border`` format
 which has the same properties as a ``line`` format::
@@ -860,6 +864,8 @@ which has the same properties as a ``line`` format::
         'border': {'color': 'black'}
     })
 
+.. image:: _images/chart_fill4.png
+   :scale: 75 %
 
 .. _chart_formatting_pattern:
 
