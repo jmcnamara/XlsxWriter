@@ -114,12 +114,14 @@ class ChartScatter(chart.Chart):
 
         if subtype == 'straight':
             style = 'lineMarker'
+            self.default_marker = {'type': 'none'}
 
         if subtype == 'smooth_with_markers':
             style = 'smoothMarker'
 
         if subtype == 'smooth':
             style = 'smoothMarker'
+            self.default_marker = {'type': 'none'}
 
         # Add default formatting to the series data.
         self._modify_series_formatting()
@@ -132,9 +134,6 @@ class ChartScatter(chart.Chart):
         # Write the series elements.
         for data in series:
             self._write_ser(data)
-
-        # Write the c:marker element.
-        self._write_marker_value()
 
         # Write the c:axId elements
         self._write_axis_ids(args)
@@ -300,14 +299,6 @@ class ChartScatter(chart.Chart):
                                       'none': 1,
                                       'defined': 1,
                                       }
-
-        # Turn markers off for subtypes that don't have them.
-        if 'marker' not in subtype:
-            # Go through each series and define default values.
-            for series in self.series:
-                # Set a marker type unless there is a user defined type.
-                if not series.get('marker'):
-                    series['marker'] = {'type': 'none', 'defined': 1}
 
     def _write_d_pt_point(self, index, point):
         # Write an individual <c:dPt> element. Override the parent method to

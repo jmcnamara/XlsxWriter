@@ -24,7 +24,7 @@ class ExcelComparisonTest(unittest.TestCase):
                                        self.ignore_files,
                                        self.ignore_elements)
 
-        self.assertEqual(got, exp)
+        self.assertEqual(exp, got)
 
     def tearDown(self):
         # Cleanup by removing the temp excel file created for testing.

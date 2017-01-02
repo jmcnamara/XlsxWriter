@@ -2971,11 +2971,6 @@ class Chart(xmlwriter.XMLwriter):
 
     def _write_marker_value(self):
         # Write the <c:marker> element without a sub-element.
-        style = self.default_marker
-
-        if not style:
-            return
-
         attributes = [('val', 1)]
 
         self._xml_empty_tag('c:marker', attributes)

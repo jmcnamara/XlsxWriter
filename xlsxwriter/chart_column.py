@@ -95,9 +95,6 @@ class ChartColumn(chart.Chart):
         for data in series:
             self._write_ser(data)
 
-        # Write the c:marker element.
-        self._write_marker_value()
-
         # Write the c:gapWidth element.
         if args['primary_axes']:
             self._write_gap_width(self.series_gap_1)
