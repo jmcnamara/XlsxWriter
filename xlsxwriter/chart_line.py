@@ -117,3 +117,9 @@ class ChartLine(chart.Chart):
         self._xml_end_tag('c:marker')
 
         self._xml_end_tag('c:dPt')
+
+    def _write_marker_value(self):
+        # Write the <c:marker> element without a sub-element.
+        attributes = [('val', 1)]
+
+        self._xml_empty_tag('c:marker', attributes)
