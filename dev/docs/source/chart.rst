@@ -422,7 +422,7 @@ the axis types.
 * ``reverse``: Reverse the order of the axis categories or values.
   (Applicable to category, date and value axes.)::
 
-    chart.set_y_axis({'reverse': True})
+    chart.set_x_axis({'reverse': True})
 
   .. image:: _images/chart_reverse.png
      :scale: 75 %

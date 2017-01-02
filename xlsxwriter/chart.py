@@ -2280,7 +2280,7 @@ class Chart(xmlwriter.XMLwriter):
         self._xml_empty_tag('c:orientation', attributes)
 
     def _write_c_max(self, max_val):
-        # Write the <c:max_val> element.
+        # Write the <c:max> element.
 
         if max_val is None:
             return
@@ -2290,7 +2290,7 @@ class Chart(xmlwriter.XMLwriter):
         self._xml_empty_tag('c:max', attributes)
 
     def _write_c_min(self, min_val):
-        # Write the <c:min_val> element.
+        # Write the <c:min> element.
 
         if min_val is None:
             return
