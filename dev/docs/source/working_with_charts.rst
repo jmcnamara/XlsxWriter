@@ -952,7 +952,7 @@ The foreground color, ``fg_color``, is a required parameter and can be a Html
 style ``#RRGGBB`` string or a limited number of named colors, see
 :ref:`colors`.
 
-The background color, ``bg_color``, is optional and defaults to black.
+The background color, ``bg_color``, is optional and defaults to white.
 
 If a pattern fill is used on a chart object it overrides the solid fill
 properties of the object.
