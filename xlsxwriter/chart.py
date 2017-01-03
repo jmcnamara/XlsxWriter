@@ -2951,7 +2951,7 @@ class Chart(xmlwriter.XMLwriter):
         if not marker:
             return
 
-        if marker['type'] is 'automatic':
+        if marker['type'] == 'automatic':
             return
 
         self._xml_start_tag('c:marker')
