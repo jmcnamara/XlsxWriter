@@ -511,7 +511,7 @@ class Chart(xmlwriter.XMLwriter):
                 up_line = Shape._get_line_properties(options['up']['line'])
 
             if 'fill' in options['up']:
-                up_fill = Shape._get_line_properties(options['up']['fill'])
+                up_fill = Shape._get_fill_properties(options['up']['fill'])
 
         # Set properties for 'down' bar.
         if options.get('down'):
@@ -524,7 +524,7 @@ class Chart(xmlwriter.XMLwriter):
                 down_line = Shape._get_line_properties(options['down']['line'])
 
             if 'fill' in options['down']:
-                down_fill = Shape._get_line_properties(options['down']['fill'])
+                down_fill = Shape._get_fill_properties(options['down']['fill'])
 
         self.up_down_bars = {'up': {'line': up_line,
                                     'fill': up_fill,
@@ -1093,7 +1093,6 @@ class Chart(xmlwriter.XMLwriter):
 
         # Set the line properties for the error bars.
         error_bars['line'] = Shape._get_line_properties(options.get('line'))
-        error_bars['fill'] = Shape._get_line_properties(options.get('fill'))
 
         return error_bars
 
@@ -1105,7 +1104,6 @@ class Chart(xmlwriter.XMLwriter):
 
         # Set the line properties for the gridline.
         gridline['line'] = Shape._get_line_properties(options.get('line'))
-        gridline['fill'] = Shape._get_line_properties(options.get('fill'))
 
         return gridline
 
