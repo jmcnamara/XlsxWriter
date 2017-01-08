@@ -38,25 +38,42 @@ See also :ref:`chart_examples`.
 Chart Value and Category Axes
 -----------------------------
 
+
 When working with charts it is important to understand how Excel
 differentiates between a chart axis that is used for series categories and a
 chart axis that is used for series values.
 
-In the example above the X axis is the **category** axis and each of the values
-is evenly spaced and sequential. The Y axis is the **value** axis and points
-are displayed according to their value.
+In the majority of Excel charts the X axis is the **category** axis and each
+of the values is evenly spaced and sequential. The Y axis is the **value**
+axis and points are displayed according to their value:
+
+.. image:: _images/chart_axes01.png
 
 Excel treats these two types of axis differently and exposes different
-properties for each.
+properties for each. For example, here are the properties for a category axis:
 
-As such some of the ``XlsxWriter`` axis properties can be set for a value axis,
-some can be set for a category axis and some properties can be set for both.
+.. image:: _images/chart_axes02.png
 
-For example ``reverse`` can be set for either category or value axes while the
+Here are properties for a value axis:
+
+.. image:: _images/chart_axes03.png
+
+As such, some of the `XlsxWriter` axis properties can be set for a value
+axis, some can be set for a category axis and some properties can be set for
+both. For example ``reverse`` can be set for either category or value axes while the
 ``min`` and ``max`` properties can only be set for value axes (and Date Axes).
+The documentation calls out the type of axis to which properties apply.
+
+For a Bar chart the Category and Value axes are reversed:
+
+.. image:: _images/chart_axes04.png
+
+A Scatter chart (but not a Line chart) has 2 value axes:
+
+.. image:: _images/chart_axes05.png
 
 :ref:`date_category_axes` are a special type of category axis that give them
-some of the properties of Values axes such as ``min`` and ``max`` when used
+some of the properties of values axes such as ``min`` and ``max`` when used
 with date or time values.
 
 .. _chart_series_options:
