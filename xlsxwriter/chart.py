@@ -104,6 +104,7 @@ class Chart(xmlwriter.XMLwriter):
         self.already_inserted = False
         self.combined = None
         self.is_secondary = False
+        self.warn_sheetname = True
         self._set_default_properties()
 
     def add_series(self, options):
@@ -829,6 +830,11 @@ class Chart(xmlwriter.XMLwriter):
 
         # If it isn't an array ref it is probably a formula already.
         if type(data) is not list:
+            # Check for unquoted sheetnames.
+            if (data and ' ' in data and "'" not in data
+                    and self.warn_sheetname):
+                warn("Sheetname in '%s' contains spaces but isn't quoted. "
+                     "This may cause errors in Excel." % data)
             return data
 
         formula = xl_range_formula(*data)
