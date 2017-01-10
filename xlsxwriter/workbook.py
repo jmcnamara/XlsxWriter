@@ -683,10 +683,8 @@ class Workbook(xmlwriter.XMLwriter):
             else:
                 sheetname = self.sheet_name + str(self.sheetname_count)
 
-        # Check that sheet sheetname is <= 31. Excel limit.
-        if len(sheetname) > 31:
-            raise Exception("Excel worksheet name '%s' must be <= 31 chars." %
-                            sheetname)
+        # sheet name must be <= 31. Excel limit.
+        sheetname = sheetname[:31]
 
         # Check that sheetname doesn't contain any invalid characters
         if invalid_char.search(sheetname):

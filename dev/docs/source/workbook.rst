@@ -182,7 +182,7 @@ Excel convention will be followed, i.e. Sheet1, Sheet2, etc.::
 
 The worksheet name must be a valid Excel worksheet name, i.e. it cannot contain
 any of the characters ``' [ ] : * ? / \
-'`` and it must be less than 32 characters.
+'`` and it is cropped at 31 characters.
 
 In addition, you cannot use the same, case insensitive, ``name`` for more
 than one worksheet.
