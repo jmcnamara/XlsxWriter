@@ -54,5 +54,11 @@ class TestCheckSheetname(unittest.TestCase):
         self.workbook.add_worksheet(name1)
         self.assertRaises(Exception, self.workbook.add_worksheet, name2)
 
+    def test_check_sheetname_empty_exception(self):
+        """Test the _check_sheetname() method with empty name"""
+
+        name = ''
+        self.assertRaises(Exception, self.workbook._check_sheetname, name)
+
     def tearDown(self):
         self.workbook.fileclosed = 1
