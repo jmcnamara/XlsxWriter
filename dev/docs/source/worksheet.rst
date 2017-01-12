@@ -543,15 +543,26 @@ There are two local URIs supported: ``internal:`` and ``external:``. These are
 used for hyperlinks to internal worksheet references or external workbook and
 worksheet references::
 
+    # Link to a cell on the current worksheet.
     worksheet.write_url('A1',  'internal:Sheet2!A1')
-    worksheet.write_url('A2',  'internal:Sheet2!A1')
-    worksheet.write_url('A3',  'internal:Sheet2!A1:B2')
-    worksheet.write_url('A4',  "internal:'Sales Data'!A1")
-    worksheet.write_url('A5', r'external:c:\temp\foo.xlsx')
-    worksheet.write_url('A6', r'external:c:\foo.xlsx#Sheet2!A1')
-    worksheet.write_url('A7', r'external:..\foo.xlsx')
-    worksheet.write_url('A8', r'external:..\foo.xlsx#Sheet2!A1')
-    worksheet.write_url('A9', r'external:\\NET\share\foo.xlsx')
+
+    # Link to a cell on another worksheet.
+    worksheet.write_url('A2',  'internal:Sheet2!A1:B2')
+
+    # Worksheet names with spaces should be single quoted like in Excel.
+    worksheet.write_url('A3',  "internal:'Sales Data'!A1")
+
+    # Link to another Excel workbook.
+    worksheet.write_url('A4', r'external:c:\temp\foo.xlsx')
+
+    # Link to a worksheet cell in another workbook.
+    worksheet.write_url('A5', r'external:c:\foo.xlsx#Sheet2!A1')
+
+    # Link to a worksheet in another workbook with a relative link.
+    worksheet.write_url('A7', r'external:..\foo.xlsx#Sheet2!A1')
+
+    # Link to a worksheet in another workbook with a network link.
+    worksheet.write_url('A8', r'external:\\NET\share\foo.xlsx')
 
 Worksheet references are typically of the form ``Sheet1!A1``. You can also link
 to a worksheet range using the standard Excel notation: ``Sheet1!A1:B2``.
