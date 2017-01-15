@@ -1098,7 +1098,7 @@ of a Pie/Doughnut chart. This has the effect of rotating the entire chart::
 
     chart->set_rotation(90)
 
-The angle of rotation must be ``0 <= rotation <= 360``.
+The angle of rotation must be in the range ``0 <= rotation <= 360``.
 
 This option is only available for Pie/Doughnut charts.
 
@@ -1118,7 +1118,7 @@ chart::
 
     chart->set_hole_size(33)
 
-The angle of hole size must be ``10 <= size <= 90``.
+The value of the hole size must be in the range ``10 <= size <= 90``.
 
 This option is only available for Doughnut charts.
 

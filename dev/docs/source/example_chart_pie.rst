@@ -18,4 +18,10 @@ formatting to each point in the series.
 .. image:: _images/chart_pie2.png
    :scale: 75 %
 
+Chart 3 shows how to rotate the segments of the chart:
+
+.. image:: _images/chart_pie3.png
+   :scale: 75 %
+
+
 .. literalinclude:: ../../../examples/chart_pie.py
