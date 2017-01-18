@@ -52,7 +52,7 @@ chart1.add_series({
     'trendline': {'type': 'linear'},
 })
 
-# Add a chart title. and some axis labels.
+# Add a chart title.
 chart1.set_title({'name': 'Chart with Trendlines'})
 
 # Insert the chart into the worksheet (with an offset).
@@ -79,7 +79,7 @@ chart2.add_series({
     'values':     '=Sheet1!$C$2:$C$7',
 })
 
-# Add a chart title. and some axis labels.
+# Add a chart title.
 chart2.set_title({'name': 'Chart with Data Labels and Markers'})
 
 # Insert the chart into the worksheet (with an offset).
@@ -105,7 +105,7 @@ chart3.add_series({
     'values': '=Sheet1!$C$2:$C$7',
 })
 
-# Add a chart title. and some axis labels.
+# Add a chart title.
 chart3.set_title({'name': 'Chart with Error Bars'})
 
 # Insert the chart into the worksheet (with an offset).
@@ -133,7 +133,7 @@ chart4.add_series({
     'values':     '=Sheet1!$C$2:$C$7',
 })
 
-# Add a chart title. and some axis labels.
+# Add a chart title.
 chart4.set_title({'name': 'Chart with Up-Down Bars'})
 
 # Insert the chart into the worksheet (with an offset).
@@ -161,7 +161,7 @@ chart5.add_series({
     'values':     '=Sheet1!$C$2:$C$7',
 })
 
-# Add a chart title. and some axis labels.
+# Add a chart title.
 chart5.set_title({'name': 'Chart with High-Low Lines'})
 
 # Insert the chart into the worksheet (with an offset).
@@ -189,7 +189,7 @@ chart6.add_series({
     'values':     '=Sheet1!$C$2:$C$7',
 })
 
-# Add a chart title. and some axis labels.
+# Add a chart title.
 chart6.set_title({'name': 'Chart with Drop Lines'})
 
 # Insert the chart into the worksheet (with an offset).
