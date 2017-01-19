@@ -32,19 +32,16 @@ chart = workbook.add_chart({'type': 'column'})
 # to column B). This creates the clusters. The series are shown as formula
 # strings for clarity but you can also use the list syntax. See the docs.
 chart.add_series({
-    'name':       '=Sheet1!$C$1',
     'categories': '=Sheet1!$A$2:$B$6',
     'values':     '=Sheet1!$C$2:$C$6',
 })
 
 chart.add_series({
-    'name':       '=Sheet1!$D$1',
     'categories': '=Sheet1!$A$2:$B$6',
     'values':     '=Sheet1!$D$2:$D$6',
 })
 
 chart.add_series({
-    'name':       '=Sheet1!$E$1',
     'categories': '=Sheet1!$A$2:$B$6',
     'values':     '=Sheet1!$E$2:$E$6',
 })
