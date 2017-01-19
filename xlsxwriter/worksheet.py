@@ -1866,6 +1866,9 @@ class Worksheet(xmlwriter.XMLwriter):
         # List of valid input parameters.
         valid_parameter = {
             'type': True,
+            'icon_type': True,
+            'gte': True,
+            'show_value': True,
             'format': True,
             'criteria': True,
             'value': True,
@@ -1900,6 +1903,7 @@ class Worksheet(xmlwriter.XMLwriter):
         # List of  valid validation types.
         valid_type = {
             'cell': 'cellIs',
+            'icon_set': 'iconSet',
             'date': 'date',
             'time': 'time',
             'average': 'aboveAverage',
@@ -1918,11 +1922,39 @@ class Worksheet(xmlwriter.XMLwriter):
             'data_bar': 'dataBar',
             'formula': 'expression'}
 
+        # List of valid icon set styles.
+        valid_icons = [
+            '3Arrows',
+            '3ArrowsGray',
+            '3Flags',
+            '3TrafficLights1',
+            '3TrafficLights2',
+            '3Signs',
+            '3Symbols',
+            '3Symbols2',
+            '4Arrows',
+            '4ArrowsGray',
+            '4RedToBlack',
+            '4Rating',
+            '4TrafficLights',
+            '5Arrows',
+            '5ArrowsGray',
+            '5Rating',
+            '5Quarters'
+        ]
+
         # Check for valid validation types.
         if options['type'] not in valid_type:
             warn("Unknown validation type '%s' for parameter 'type' "
                  "in conditional_formatting()" % options['type'])
             return -2
+        elif options['type'] == 'icon_set' and 'icon_type' not in options:
+            warn("Parameter 'icon_type' is required to use '%s'" % options['type'])
+            return -2
+        elif options['type'] == 'icon_set' and options['icon_type'] is not None:
+            if options['icon_type'] not in valid_icons:
+                warn("Unknown icon type '%s' for parameter '%s'" % (options['icon_type'], options['type']))
+                return -2
         else:
             if options['type'] == 'bottom':
                 options['direction'] = 'bottom'
@@ -2165,6 +2197,27 @@ class Worksheet(xmlwriter.XMLwriter):
             # Set a default mid value.
             if 'mid_value' not in options:
                 options['mid_value'] = 50
+
+        # Special handling for iconSet.
+        if options['type'] == 'icon_set':
+            options['type'] = 'iconSet'
+
+            # Color scales don't use any additional formatting.
+            options['format'] = None
+
+            # Set default showValue as 1 (show icon and value)
+            options.setdefault('show_value', 1)
+            # Check to see if user showValue is 0 or 1 (show only icon, show icon and value)
+            if options['show_value'] not in [0, 1]:
+                warn("Unknown parameter value '%d' for 'show_value', try '0' or '1'" % options['show_value'])
+                return -2
+
+            options.setdefault('min_value', 0)
+            options.setdefault('mid_value', 33)
+            options.setdefault('max_value', 67)
+            options.setdefault('min_type', 'percent')
+            options.setdefault('mid_type', 'percent')
+            options.setdefault('max_type', 'percent')
 
         # Special handling for data bar.
         if options['type'] == 'dataBar':
@@ -5989,6 +6042,11 @@ class Worksheet(xmlwriter.XMLwriter):
             self._write_data_bar(params)
             self._xml_end_tag('cfRule')
 
+        elif params['type'] == 'iconSet':
+            self._xml_start_tag('cfRule', attributes)
+            self._write_icon_set(params)
+            self._xml_end_tag('cfRule')
+
         elif params['type'] == 'expression':
             self._xml_start_tag('cfRule', attributes)
             self._write_formula(params['criteria'])
@@ -6046,9 +6104,35 @@ class Worksheet(xmlwriter.XMLwriter):
 
         self._xml_end_tag('dataBar')
 
-    def _write_cfvo(self, cf_type, val):
+    def _write_icon_set(self, param):
+        # Write the <IconSet> element.
+        attributes = []
+
+        if 'icon_type' in param:
+            attributes.append(('iconSet', param['icon_type']))
+        if 'show_value' in param:
+            attributes.append(('showValue', param['show_value']))
+
+        self._xml_start_tag('iconSet', attributes)
+
+        # Check to see if 'gte' option set.
+        if 'gte' in param:
+            self._write_cfvo(param['min_type'], param['min_value'])
+            self._write_cfvo(param['mid_type'], param['mid_value'])
+            self._write_cfvo(param['max_type'], param['max_value'], param['gte'])
+        else:
+            self._write_cfvo(param['min_type'], param['min_value'])
+            self._write_cfvo(param['mid_type'], param['mid_value'])
+            self._write_cfvo(param['max_type'], param['max_value'])
+
+        self._xml_end_tag('iconSet')
+
+    def _write_cfvo(self, cf_type, val, gte=None):
         # Write the <cfvo> element.
-        attributes = [('type', cf_type), ('val', val)]
+        if gte is not None:
+            attributes = [('type', cf_type), ('val', val), ('gte', gte)]
+        else:
+            attributes = [('type', cf_type), ('val', val)]
 
         self._xml_empty_tag('cfvo', attributes)
 
