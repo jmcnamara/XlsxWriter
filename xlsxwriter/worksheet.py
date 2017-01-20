@@ -1932,6 +1932,8 @@ class Worksheet(xmlwriter.XMLwriter):
             '3Signs',
             '3Symbols',
             '3Symbols2',
+            '3Stars',
+            '3Triangles',
             '4Arrows',
             '4ArrowsGray',
             '4RedToBlack',
@@ -1940,7 +1942,8 @@ class Worksheet(xmlwriter.XMLwriter):
             '5Arrows',
             '5ArrowsGray',
             '5Rating',
-            '5Quarters'
+            '5Quarters',
+            '5Boxes',
         ]
 
         # Check for valid validation types.
