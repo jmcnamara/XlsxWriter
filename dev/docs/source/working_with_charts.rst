@@ -243,8 +243,9 @@ trendline::
         'values': '=Sheet1!$A$1:$A$6',
         'trendline': {
             'type': 'polynomial',
-            'name': 'My trend name',
             'order': 2,
+            'forward': 0.5,
+            'backward': 0.5,
         },
     })
 
@@ -257,9 +258,8 @@ name::
         'values': '=Sheet1!$A$1:$A$6',
         'trendline': {
             'type': 'polynomial',
+            'name': 'My trend name',
             'order': 2,
-            'forward': 0.5,
-            'backward': 0.5,
         },
     })
 

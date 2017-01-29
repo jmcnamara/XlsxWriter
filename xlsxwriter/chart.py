@@ -3175,7 +3175,8 @@ class Chart(xmlwriter.XMLwriter):
 
     def _write_trendline_order(self, val):
         # Write the <c:order> element.
-        # val = _[0] is not None ? _[0]: 2
+        if val < 2:
+            val = 2
 
         attributes = [('val', val)]
 
@@ -3183,7 +3184,8 @@ class Chart(xmlwriter.XMLwriter):
 
     def _write_period(self, val):
         # Write the <c:period> element.
-        # val = _[0] is not None ? _[0]: 2
+        if val < 2:
+            val = 2
 
         attributes = [('val', val)]
 
