@@ -4,7 +4,7 @@ Working with Data Validation
 ============================
 
 Data validation is a feature of Excel which allows you to restrict the data
-that a users enters in a cell and to display associated help and warning
+that a user enters in a cell and to display associated help and warning
 messages. It also allows you to restrict input to values in a drop down list.
 
 A typical use case might be to restrict data in a cell to integer values in a
