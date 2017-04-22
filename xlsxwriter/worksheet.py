@@ -6,10 +6,11 @@
 #
 
 # Standard packages.
-import re
-import tempfile
 import codecs
 import os
+import re
+import sys
+import tempfile
 
 from warnings import warn
 
@@ -5219,6 +5220,17 @@ class Worksheet(xmlwriter.XMLwriter):
                 string = re.sub(r'([\x00-\x08\x0B-\x1F])',
                                 lambda match: "_x%04X_" %
                                 ord(match.group(1)), string)
+
+                # Escape non characters.
+                if sys.version_info[0] == 2:
+                    non_char1 = unichr(0xFFFE)
+                    non_char2 = unichr(0xFFFF)
+                else:
+                    non_char1 = "\uFFFE"
+                    non_char2 = "\uFFFF"
+
+                string = re.sub(non_char1, '_xFFFE_', string)
+                string = re.sub(non_char2, '_xFFFF_', string)
 
                 # Write any rich strings without further tags.
                 if re.search('^<r>', string) and re.search('</r>$', string):

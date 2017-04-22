@@ -7,6 +7,7 @@
 
 # Standard packages.
 import re
+import sys
 
 # Package imports.
 from . import xmlwriter
@@ -98,6 +99,17 @@ class SharedStrings(xmlwriter.XMLwriter):
         string = re.sub(r'([\x00-\x08\x0B-\x1F])',
                         lambda match: "_x%04X_" %
                         ord(match.group(1)), string)
+
+        # Escape Unicode non-characters FFFE and FFFF.
+        if sys.version_info[0] == 2:
+            non_char1 = unichr(0xFFFE)
+            non_char2 = unichr(0xFFFF)
+        else:
+            non_char1 = "\uFFFE"
+            non_char2 = "\uFFFF"
+
+        string = re.sub(non_char1, '_xFFFE_', string)
+        string = re.sub(non_char2, '_xFFFF_', string)
 
         # Add attribute to preserve leading or trailing whitespace.
         if re.search('^\s', string) or re.search('\s$', string):

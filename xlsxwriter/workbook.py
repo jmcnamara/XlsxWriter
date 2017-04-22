@@ -685,7 +685,7 @@ class Workbook(xmlwriter.XMLwriter):
 
         # Check if sheetname is empty.
         if sheetname == '':
-            raise Exception("Excel worksheet name cannot be empty")    
+            raise Exception("Excel worksheet name cannot be empty")
 
         # Check that sheet sheetname is <= 31. Excel limit.
         if len(sheetname) > 31:
