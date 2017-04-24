@@ -66,6 +66,35 @@ def convert_cell_args(method):
 
     return cell_wrapper
 
+def convert_cells_args(method):
+    """
+    Decorator function to convert A1 notation in cell method calls
+    to the default row/col notation.
+
+    """
+    def cell_wrapper(self, *args, **kwargs):
+
+        try:
+            # First arg is an int, default to row/col notation.
+            if len(args):
+                int(args[0])
+        except ValueError:
+            # First arg isn't an int, convert to A1 notation.
+            new_args = list(xl_cell_to_rowcol(args[0]))
+            new_args.extend(args[1:])
+            args = new_args
+        try:
+            # Second arg is an int, default to row/col notation.
+            if len(args):
+                int(args[2])
+        except ValueError:
+            # Second arg isn't an int, convert to A1 notation.
+            args[2:3] = xl_cell_to_rowcol(args[2])
+
+        return method(self, *args, **kwargs)
+
+    return cell_wrapper
+
 
 def convert_range_args(method):
     """
@@ -134,6 +163,7 @@ cell_number_tuple = namedtuple('Number', 'number, format')
 cell_blank_tuple = namedtuple('Blank', 'format')
 cell_boolean_tuple = namedtuple('Boolean', 'boolean, format')
 cell_formula_tuple = namedtuple('Formula', 'formula, format, value')
+cell_data_table_tuple = namedtuple('DataTable', 'ref, r1, r2, format')
 cell_arformula_tuple = namedtuple('ArrayFormula',
                                   'formula, format, value, range')
 
@@ -595,6 +625,52 @@ class Worksheet(xmlwriter.XMLwriter):
         # Store the cell data in the worksheet data table.
         self.table[row][col] = cell_formula_tuple(formula, cell_format, value)
 
+        return 0
+
+    @convert_cells_args
+    def write_data_table(self, start_row, start_col, end_row, end_col, row_input, col_input, cell_format=None):
+        """
+        Write a formula to a worksheet cell.
+
+        Args:
+            start_row:   The start row of the cell range. (zero indexed).
+            start_col:   The start column of the cell range.
+            end_row:     The end row of the cell range. (zero indexed).
+            end_col:     The end column of the cell range.
+            row_input:   What to substitute for row input.
+            col_input:   What to substitute for col input.
+            cell_format: An optional cell Format object.
+
+        Returns:
+            0:  Success.
+            -1: Row or column is out of worksheet bounds.
+
+        """
+
+        # Swap last row/col with start row/col as necessary.
+        if start_row > end_row:
+            start_row, end_row = end_row, start_row
+        if start_col > end_col:
+            start_col, end_col = end_col, start_col
+
+        # Check that row and col are valid and store max and min values
+        if self._check_dimensions(end_row, end_col):
+            return -1
+
+        # Define array range
+        if start_row == end_row and start_col == end_col:
+            cell_range = xl_rowcol_to_cell(start_row, start_col)
+        else:
+            cell_range = (xl_rowcol_to_cell(start_row, start_col) + ':'
+                          + xl_rowcol_to_cell(end_row, end_col))
+        # Add formatting whos values will be overwritten when adding table values
+        if cell_format:
+            for r in range(start_row, end_row + 1):
+                for c in range(start_col, end_col + 1):
+                    self.write_blank(r, c, '', cell_format)
+
+        # Store the cell data in the worksheet data table.
+        self.table[start_row][start_col] = cell_data_table_tuple(cell_range, row_input, col_input, cell_format)
         return 0
 
     @convert_range_args
@@ -5260,6 +5336,21 @@ class Worksheet(xmlwriter.XMLwriter):
                     attributes.append(('t', 'str'))
 
             self._xml_formula_element(cell.formula, value, attributes)
+
+        elif type(cell).__name__ == 'DataTable':
+            #Add Additional Attributes
+            cellAttributes = attributes[:]
+            attributes.append(('t', 'dataTable'))
+            attributes.append(('ref', cell.ref))
+            attributes.append(('ca', '1'))
+            attributes.append(('dt2D', '1'))
+            attributes.append(('dtr', '1'))
+            attributes.append(('r1', cell.r1))
+            attributes.append(('r2', cell.r2))
+
+            self._xml_start_tag('c', cellAttributes)
+            self._xml_empty_tag('f', attributes)
+            self._xml_end_tag('c')
 
         elif type(cell).__name__ == 'ArrayFormula':
             # Write a array formula.
