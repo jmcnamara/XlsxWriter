@@ -298,6 +298,9 @@ class Workbook(xmlwriter.XMLwriter):
             self.fileclosed = 1
             self._store_workbook()
 
+    def remove_sheet(self, name):
+        return self._remove_sheet(name)
+
     def set_size(self, width, height):
         """
         Set the size of a workbook window.
@@ -1473,6 +1476,17 @@ class Workbook(xmlwriter.XMLwriter):
     def _prepare_sst_string_data(self):
         # Convert the SST string data from a dict to a list.
         self.str_table._sort_string_data()
+
+    def _remove_sheet(self, name):
+        if name is None:
+            raise Exception("Name was not specified")
+
+        for worksheet in self.worksheets():
+            if name.lower() == worksheet.name.lower():
+                self.worksheets().remove(worksheet)
+                return
+
+        raise Exception("Worksheet with name '%s' was not found" % name)
 
     ###########################################################################
     #
