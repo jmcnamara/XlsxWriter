@@ -29,7 +29,8 @@ class TestCompareXLSXFiles(ExcelComparisonTest):
         self.ignore_elements = {}
 
     def test_create_file(self):
-        """Test the creation of a XlsxWriter file with date times in 1900 and1904 epochs."""
+        """Test the creation of a XlsxWriter file with date times in 1900 and
+           1904 epochs."""
 
         workbook = Workbook(self.got_filename)
 
