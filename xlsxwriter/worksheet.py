@@ -2397,7 +2397,9 @@ class Worksheet(xmlwriter.XMLwriter):
                         function = function.replace(' ', '')
 
                         # escape metacharacters that break formulas
-                        col_name_clean = self._table_colname_formula_escaper(col_data['name'])
+                        col_name_clean = self._table_colname_formula_escaper(
+                            col_data['name']
+                        )
 
                         if function == 'countnums':
                             function = 'countNums'
@@ -4394,9 +4396,9 @@ class Worksheet(xmlwriter.XMLwriter):
             table_id += 1
 
     def _table_colname_formula_escaper(self, colname):
-        # Some characters are not legal within a formula, and must be prefixed with a '
+        # Some characters are not legal within a formula
+        # these must be prefixed with a '
 
-        # Have only identified '#' so far.
         special_chars = ['#']
         for c in special_chars:
             colname = colname.replace(c, "'" + c)
