@@ -505,7 +505,8 @@ Note: The * indicates the default position for each chart type in Excel, if
 a position isn't specified.
 
 The ``percentage`` property is used to turn on the display of data labels as a
-*Percentage* for a series. It is mainly used for pie charts::
+*Percentage* for a series. In Excel the ``percentage`` data label option is
+only available for Pie and Doughnut chart variants::
 
     chart.add_series({
         'values':      '=Sheet1!$A$1:$A$6',
