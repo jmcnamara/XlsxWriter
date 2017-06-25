@@ -34,6 +34,9 @@ class TestCustomSheet(unittest.TestCase):
     def setUp(self):
         self.workbook = Workbook()
 
+    def tearDown(self):
+        self.workbook.fileclosed = 1
+
     def test_check_chartsheet(self):
         """Test the _check_sheetname() method"""
         sheet = self.workbook.add_chartsheet()
@@ -59,6 +62,9 @@ class TestCustomWorkBook(unittest.TestCase):
 
     def setUp(self):
         self.workbook = MyWorkbook()
+
+    def tearDown(self):
+        self.workbook.fileclosed = 1
 
     def test_check_chartsheet(self):
         """Test the _check_sheetname() method"""
