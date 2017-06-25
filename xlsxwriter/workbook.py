@@ -10,6 +10,7 @@ import sys
 import re
 import os
 import operator
+import warnings
 from warnings import warn
 from datetime import datetime
 from zipfile import ZipFile, ZIP_DEFLATED
@@ -48,6 +49,8 @@ class Workbook(xmlwriter.XMLwriter):
     # Public API.
     #
     ###########################################################################
+    chartsheet_class = Chartsheet
+    worksheet_class = Worksheet
 
     def __init__(self, filename=None, options=None):
         """
@@ -159,7 +162,7 @@ class Workbook(xmlwriter.XMLwriter):
         """Close workbook when exiting "with" statement."""
         self.close()
 
-    def add_worksheet(self, name=None):
+    def add_worksheet(self, name=None, worksheet_class=None):
         """
         Add a new worksheet to the Excel workbook.
 
@@ -170,9 +173,11 @@ class Workbook(xmlwriter.XMLwriter):
             Reference to a worksheet object.
 
         """
-        return self._add_sheet(name, is_chartsheet=False)
+        if worksheet_class is None:
+            worksheet_class = self.worksheet_class
+        return self._add_sheet(name, is_chartsheet=False, worksheet_class=worksheet_class)
 
-    def add_chartsheet(self, name=None):
+    def add_chartsheet(self, name=None, chartsheet_class=None):
         """
         Add a new chartsheet to the Excel workbook.
 
@@ -183,7 +188,9 @@ class Workbook(xmlwriter.XMLwriter):
             Reference to a chartsheet object.
 
         """
-        return self._add_sheet(name, is_chartsheet=True)
+        if chartsheet_class is None:
+            chartsheet_class = self.chartsheet_class
+        return self._add_sheet(name, is_chartsheet=True, worksheet_class=chartsheet_class)
 
     def add_format(self, properties=None):
         """
@@ -631,11 +638,25 @@ class Workbook(xmlwriter.XMLwriter):
 
         xlsx_file.close()
 
-    def _add_sheet(self, name, is_chartsheet):
+    def _add_sheet(self, name, is_chartsheet=None, worksheet_class=None):
         # Utility for shared code in add_worksheet() and add_chartsheet().
+        if is_chartsheet is not None:
+            warnings.warn(
+                "'is_chartsheet' has been deprecated and "
+                "will be removed in the next versions. Use proper 'worksheet_class' to get same result",
+                          PendingDeprecationWarning)
+        if is_chartsheet is None and worksheet_class is None:
+            raise ValueError("You must provide 'is_chartsheet' or 'worksheet_class'")
+        if worksheet_class:
+            worksheet = worksheet_class()
+        else:
+            if is_chartsheet:
+                worksheet = self.chartsheet_class()
+            else:
+                worksheet = self.worksheet_class()
 
         sheet_index = len(self.worksheets_objs)
-        name = self._check_sheetname(name, is_chartsheet)
+        name = self._check_sheetname(name, isinstance(worksheet, Chartsheet))
 
         # Initialization data to pass to the worksheet.
         init_data = {
@@ -655,11 +676,6 @@ class Workbook(xmlwriter.XMLwriter):
             'excel2003_style': self.excel2003_style,
             'remove_timezone': self.remove_timezone,
         }
-
-        if is_chartsheet:
-            worksheet = Chartsheet()
-        else:
-            worksheet = Worksheet()
 
         worksheet._initialize(init_data)
 
