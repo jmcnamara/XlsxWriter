@@ -49,11 +49,13 @@ class Workbook(xmlwriter.XMLwriter):
     #
     ###########################################################################
 
-    def __init__(self, filename=None, options={}):
+    def __init__(self, filename=None, options=None):
         """
         Constructor.
 
         """
+        if options is None:
+            options = {}
 
         super(Workbook, self).__init__()
 
@@ -183,7 +185,7 @@ class Workbook(xmlwriter.XMLwriter):
         """
         return self._add_sheet(name, is_chartsheet=True)
 
-    def add_format(self, properties={}):
+    def add_format(self, properties=None):
         """
         Add a new Format to the Excel Workbook.
 
@@ -200,7 +202,8 @@ class Workbook(xmlwriter.XMLwriter):
             format_properties = {'font_name': 'Arial', 'font_size': 10,
                                  'theme': 1 * -1}
 
-        format_properties.update(properties)
+        if properties:
+            format_properties.update(properties)
 
         xf_format = Format(format_properties,
                            self.xf_format_indices,

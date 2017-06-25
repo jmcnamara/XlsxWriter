@@ -1020,7 +1020,7 @@ class Worksheet(xmlwriter.XMLwriter):
         return 0
 
     @convert_cell_args
-    def insert_image(self, row, col, filename, options={}):
+    def insert_image(self, row, col, filename, options=None):
         """
         Insert an image with its top-left corner in a worksheet cell.
         Args:
@@ -1031,6 +1031,9 @@ class Worksheet(xmlwriter.XMLwriter):
         Returns:
             0:  Success.
         """
+        if options is None:
+            options = {}
+
         x_offset = options.get('x_offset', 0)
         y_offset = options.get('y_offset', 0)
         x_scale = options.get('x_scale', 1)
@@ -1071,7 +1074,7 @@ class Worksheet(xmlwriter.XMLwriter):
                             x_scale, y_scale, text, options])
 
     @convert_cell_args
-    def insert_chart(self, row, col, chart, options={}):
+    def insert_chart(self, row, col, chart, options=None):
         """
         Insert an chart with its top-left corner in a worksheet cell.
         Args:
@@ -1083,6 +1086,8 @@ class Worksheet(xmlwriter.XMLwriter):
         Returns:
             0:  Success.
         """
+        if options is None:
+            options = {}
 
         # Ensure a chart isn't inserted more than once.
         if (chart.already_inserted or chart.combined
@@ -1119,7 +1124,7 @@ class Worksheet(xmlwriter.XMLwriter):
                             x_scale, y_scale])
 
     @convert_cell_args
-    def write_comment(self, row, col, comment, options={}):
+    def write_comment(self, row, col, comment, options=None):
         """
         Write a comment to a worksheet cell.
 
@@ -1135,6 +1140,9 @@ class Worksheet(xmlwriter.XMLwriter):
             -2: String longer than 32k characters.
 
         """
+        if options is None:
+            options = {}
+
         # Check that row and col are valid and store max and min values
         if self._check_dimensions(row, col):
             return -1
@@ -1264,7 +1272,7 @@ class Worksheet(xmlwriter.XMLwriter):
 
     @convert_column_args
     def set_column(self, firstcol, lastcol, width=None, cell_format=None,
-                   options={}):
+                   options=None):
         """
         Set the width, and other properties of a single column or a
         range of columns.
@@ -1281,6 +1289,9 @@ class Worksheet(xmlwriter.XMLwriter):
             -1: Column number is out of worksheet bounds.
 
         """
+        if options is None:
+            options = {}
+
         # Ensure 2nd col is larger than first.
         if firstcol > lastcol:
             (firstcol, lastcol) = (lastcol, firstcol)
@@ -1335,7 +1346,7 @@ class Worksheet(xmlwriter.XMLwriter):
 
         return 0
 
-    def set_row(self, row, height=None, cell_format=None, options={}):
+    def set_row(self, row, height=None, cell_format=None, options=None):
         """
         Set the width, and other properties of a row.
 
@@ -1350,6 +1361,9 @@ class Worksheet(xmlwriter.XMLwriter):
             -1: Row number is out of worksheet bounds.
 
         """
+        if options is None:
+            options = {}
+
         # Use minimum col in _check_dimensions().
         if self.dim_colmin is not None:
             min_col = self.dim_colmin
@@ -2856,7 +2870,7 @@ class Worksheet(xmlwriter.XMLwriter):
         self.protect_options = defaults
 
     @convert_cell_args
-    def insert_button(self, row, col, options={}):
+    def insert_button(self, row, col, options=None):
         """
         Insert a button form object into the worksheet.
 
@@ -2870,6 +2884,9 @@ class Worksheet(xmlwriter.XMLwriter):
             -1: Row or column is out of worksheet bounds.
 
         """
+        if options is None:
+            options = {}
+
         button = self._button_params(row, col, options)
 
         self.buttons_list.append(button)

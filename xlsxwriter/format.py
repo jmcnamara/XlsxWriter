@@ -22,11 +22,13 @@ class Format(xmlwriter.XMLwriter):
     #
     ###########################################################################
 
-    def __init__(self, properties={}, xf_indices=None, dxf_indices=None):
+    def __init__(self, properties=None, xf_indices=None, dxf_indices=None):
         """
         Constructor.
 
         """
+        if properties is None:
+            properties = {}
 
         super(Format, self).__init__()
 
