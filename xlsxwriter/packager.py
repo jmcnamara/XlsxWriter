@@ -180,7 +180,7 @@ class Packager(object):
             if worksheet.is_chartsheet:
                 continue
 
-            if worksheet.optimization == 1:
+            if worksheet.constant_memory:
                 worksheet._opt_reopen()
                 worksheet._write_single_row()
 

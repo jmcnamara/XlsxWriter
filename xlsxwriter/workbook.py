@@ -71,7 +71,7 @@ class Workbook(xmlwriter.XMLwriter):
         self.strings_to_urls = options.get('strings_to_urls', True)
         self.nan_inf_to_errors = options.get('nan_inf_to_errors', False)
         self.default_date_format = options.get('default_date_format', None)
-        self.optimization = options.get('constant_memory', False)
+        self.constant_memory = options.get('constant_memory', False)
         self.in_memory = options.get('in_memory', False)
         self.excel2003_style = options.get('excel2003_style', False)
         self.remove_timezone = options.get('remove_timezone', False)
@@ -128,7 +128,7 @@ class Workbook(xmlwriter.XMLwriter):
 
         # We can't do 'constant_memory' mode while doing 'in_memory' mode.
         if self.in_memory:
-            self.optimization = False
+            self.constant_memory = False
 
         # Add the default cell format.
         if self.excel2003_style:
@@ -673,7 +673,7 @@ class Workbook(xmlwriter.XMLwriter):
             'index': sheet_index,
             'str_table': self.str_table,
             'worksheet_meta': self.worksheet_meta,
-            'optimization': self.optimization,
+            'constant_memory': self.constant_memory,
             'tmpdir': self.tmpdir,
             'date_1904': self.date_1904,
             'strings_to_numbers': self.strings_to_numbers,

@@ -167,7 +167,7 @@ class Worksheet(xmlwriter.XMLwriter):
         self.index = None
         self.str_table = None
         self.palette = None
-        self.optimization = 0
+        self.constant_memory = 0
         self.tmpdir = None
         self.is_chartsheet = False
 
@@ -467,14 +467,14 @@ class Worksheet(xmlwriter.XMLwriter):
             string = string[:self.xls_strmax]
             str_error = -2
 
-        # Write a shared string or an in-line string in optimization mode.
-        if self.optimization == 0:
+        # Write a shared string or an in-line string in constant_memory mode.
+        if not self.constant_memory:
             string_index = self.str_table._get_shared_string_index(string)
         else:
             string_index = string
 
-        # Write previous row if in in-line string optimization mode.
-        if self.optimization and row > self.previous_row:
+        # Write previous row if in in-line string constant_memory mode.
+        if self.constant_memory and row > self.previous_row:
             self._write_single_row(row)
 
         # Store the cell data in the worksheet data table.
@@ -515,8 +515,8 @@ class Worksheet(xmlwriter.XMLwriter):
         if self._check_dimensions(row, col):
             return -1
 
-        # Write previous row if in in-line string optimization mode.
-        if self.optimization and row > self.previous_row:
+        # Write previous row if in in-line string constant_memory mode.
+        if self.constant_memory and row > self.previous_row:
             self._write_single_row(row)
 
         # Store the cell data in the worksheet data table.
@@ -549,8 +549,8 @@ class Worksheet(xmlwriter.XMLwriter):
         if self._check_dimensions(row, col):
             return -1
 
-        # Write previous row if in in-line string optimization mode.
-        if self.optimization and row > self.previous_row:
+        # Write previous row if in in-line string constant_memory mode.
+        if self.constant_memory and row > self.previous_row:
             self._write_single_row(row)
 
         # Store the cell data in the worksheet data table.
@@ -588,8 +588,8 @@ class Worksheet(xmlwriter.XMLwriter):
         if formula.startswith('='):
             formula = formula.lstrip('=')
 
-        # Write previous row if in in-line string optimization mode.
-        if self.optimization and row > self.previous_row:
+        # Write previous row if in in-line string constant_memory mode.
+        if self.constant_memory and row > self.previous_row:
             self._write_single_row(row)
 
         # Store the cell data in the worksheet data table.
@@ -643,8 +643,8 @@ class Worksheet(xmlwriter.XMLwriter):
         if formula[-1] == '}':
             formula = formula[:-1]
 
-        # Write previous row if in in-line string optimization mode.
-        if self.optimization and first_row > self.previous_row:
+        # Write previous row if in in-line string constant_memory mode.
+        if self.constant_memory and first_row > self.previous_row:
             self._write_single_row(first_row)
 
         # Store the cell data in the worksheet data table.
@@ -654,7 +654,7 @@ class Worksheet(xmlwriter.XMLwriter):
                                                                 cell_range)
 
         # Pad out the rest of the area with formatted zeroes.
-        if not self.optimization:
+        if not self.constant_memory:
             for row in range(first_row, last_row + 1):
                 for col in range(first_col, last_col + 1):
                     if row != first_row or col != first_col:
@@ -682,8 +682,8 @@ class Worksheet(xmlwriter.XMLwriter):
         if self._check_dimensions(row, col):
             return -1
 
-        # Write previous row if in in-line string optimization mode.
-        if self.optimization and row > self.previous_row:
+        # Write previous row if in in-line string constant_memory mode.
+        if self.constant_memory and row > self.previous_row:
             self._write_single_row(row)
 
         # Convert datetime to an Excel date.
@@ -718,8 +718,8 @@ class Worksheet(xmlwriter.XMLwriter):
         if self._check_dimensions(row, col):
             return -1
 
-        # Write previous row if in in-line string optimization mode.
-        if self.optimization and row > self.previous_row:
+        # Write previous row if in in-line string constant_memory mode.
+        if self.constant_memory and row > self.previous_row:
             self._write_single_row(row)
 
         if boolean:
@@ -839,8 +839,8 @@ class Worksheet(xmlwriter.XMLwriter):
                  "65,530 URLS per worksheet." % force_unicode(url))
             return -5
 
-        # Write previous row if in in-line string optimization mode.
-        if self.optimization == 1 and row > self.previous_row:
+        # Write previous row if in in-line string constant_memory mode.
+        if self.constant_memory and row > self.previous_row:
             self._write_single_row(row)
 
         # Add the default URL format.
@@ -958,14 +958,14 @@ class Worksheet(xmlwriter.XMLwriter):
         if str_length > self.xls_strmax:
             return -2
 
-        # Write a shared string or an in-line string in optimization mode.
-        if self.optimization == 0:
+        # Write a shared string or an in-line string in constant_memory mode.
+        if not self.constant_memory:
             string_index = self.str_table._get_shared_string_index(string)
         else:
             string_index = string
 
-        # Write previous row if in in-line string optimization mode.
-        if self.optimization and row > self.previous_row:
+        # Write previous row if in in-line string constant_memory mode.
+        if self.constant_memory and row > self.previous_row:
             self._write_single_row(row)
 
         # Store the cell data in the worksheet data table.
@@ -2216,7 +2216,7 @@ class Worksheet(xmlwriter.XMLwriter):
 
         Returns:
             0:  Success.
-            -1: Not supported in optimization mode.
+            -1: Not supported in constant_memory mode.
             -2: Row or column is out of worksheet bounds.
             -3: Incorrect parameter or option.
         """
@@ -2226,8 +2226,8 @@ class Worksheet(xmlwriter.XMLwriter):
         if options is None:
             options = {}
 
-        if self.optimization == 1:
-            warn("add_table() isn't supported when set_optimization() is on")
+        if self.constant_memory:
+            warn("add_table() isn't supported in 'constant_memory' mode")
             return -1
 
         # Check that row and col are valid without storing the values.
@@ -3385,7 +3385,7 @@ class Worksheet(xmlwriter.XMLwriter):
         self.index = init_data['index']
         self.str_table = init_data['str_table']
         self.worksheet_meta = init_data['worksheet_meta']
-        self.optimization = init_data['optimization']
+        self.constant_memory = init_data['constant_memory']
         self.tmpdir = init_data['tmpdir']
         self.date_1904 = init_data['date_1904']
         self.strings_to_numbers = init_data['strings_to_numbers']
@@ -3409,8 +3409,8 @@ class Worksheet(xmlwriter.XMLwriter):
             self.margin_footer = 0.5
             self.header_footer_aligns = False
 
-        # Open a temp filehandle to store row data in optimization mode.
-        if self.optimization == 1:
+        # Open a temp filehandle to store row data in constant_memory mode.
+        if self.constant_memory:
             # This is sub-optimal but we need to create a temp file
             # with utf8 encoding in Python < 3.
             (fd, filename) = tempfile.mkstemp(dir=self.tmpdir)
@@ -3446,7 +3446,7 @@ class Worksheet(xmlwriter.XMLwriter):
         self._write_cols()
 
         # Write the worksheet data such as rows columns and cells.
-        if self.optimization == 0:
+        if not self.constant_memory:
             self._write_sheet_data()
         else:
             self._write_optimized_sheet_data()
@@ -3525,9 +3525,9 @@ class Worksheet(xmlwriter.XMLwriter):
         if row >= self.xls_rowmax or col >= self.xls_colmax:
             return -1
 
-        # In optimization mode we don't change dimensions for rows
+        # In constant_memory mode we don't change dimensions for rows
         # that are already written.
-        if not ignore_row and not ignore_col and self.optimization == 1:
+        if not ignore_row and not ignore_col and self.constant_memory:
             if row < self.previous_row:
                 return -2
 
@@ -4443,7 +4443,7 @@ class Worksheet(xmlwriter.XMLwriter):
         # in the workbook. Return None for data that doesn't exist since
         # Excel can chart series with data missing.
 
-        if self.optimization:
+        if self.constant_memory:
             return ()
 
         data = []
@@ -4620,13 +4620,13 @@ class Worksheet(xmlwriter.XMLwriter):
         return (x - x) != 0
 
     def _opt_close(self):
-        # Close the row data filehandle in optimization mode.
+        # Close the row data filehandle in constant_memory mode.
         if not self.row_data_fh_closed:
             self.row_data_fh.close()
             self.row_data_fh_closed = True
 
     def _opt_reopen(self):
-        # Reopen the row data filehandle in optimization mode.
+        # Reopen the row data filehandle in constant_memory mode.
         if self.row_data_fh_closed:
             filename = self.row_data_filename
             self.row_data_fh = codecs.open(filename, 'a+', 'utf-8')
@@ -4856,9 +4856,9 @@ class Worksheet(xmlwriter.XMLwriter):
             self._xml_end_tag('sheetData')
 
     def _write_optimized_sheet_data(self):
-        # Write the <sheetData> element when the memory optimization is on.
-        # In this case we read the data stored in the temp file and rewrite
-        # it to the XML sheet file.
+        # Write the <sheetData> element when constant_memory is on. In this
+        # case we read the data stored in the temp file and rewrite it to the
+        # XML sheet file.
         if self.dim_rowmin is None:
             # If the dimensions aren't defined then there is no data to write.
             self._xml_empty_tag('sheetData')
@@ -5053,7 +5053,7 @@ class Worksheet(xmlwriter.XMLwriter):
 
     def _write_single_row(self, current_row_num=0):
         # Write out the worksheet data as a single row with cells.
-        # This method is used when memory optimization is on. A single
+        # This method is used when constant_memory is on. A single
         # row is written and the data table is reset. That way only
         # one row of data is kept in memory at any one time. We don't
         # write span data in the optimized case since it is optional.
@@ -5226,7 +5226,7 @@ class Worksheet(xmlwriter.XMLwriter):
             # Write a string.
             string = cell.string
 
-            if not self.optimization:
+            if not self.constant_memory:
                 # Write a shared string.
                 self._xml_string_element(string, attributes)
             else:
