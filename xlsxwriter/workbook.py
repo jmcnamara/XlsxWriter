@@ -175,7 +175,9 @@ class Workbook(xmlwriter.XMLwriter):
         """
         if worksheet_class is None:
             worksheet_class = self.worksheet_class
-        return self._add_sheet(name, is_chartsheet=False, worksheet_class=worksheet_class)
+
+        return self._add_sheet(name, is_chartsheet=False,
+                               worksheet_class=worksheet_class)
 
     def add_chartsheet(self, name=None, chartsheet_class=None):
         """
@@ -190,7 +192,9 @@ class Workbook(xmlwriter.XMLwriter):
         """
         if chartsheet_class is None:
             chartsheet_class = self.chartsheet_class
-        return self._add_sheet(name, is_chartsheet=True, worksheet_class=chartsheet_class)
+
+        return self._add_sheet(name, is_chartsheet=True,
+                               worksheet_class=chartsheet_class)
 
     def add_format(self, properties=None):
         """
@@ -640,13 +644,18 @@ class Workbook(xmlwriter.XMLwriter):
 
     def _add_sheet(self, name, is_chartsheet=None, worksheet_class=None):
         # Utility for shared code in add_worksheet() and add_chartsheet().
+
         if is_chartsheet is not None:
             warnings.warn(
                 "'is_chartsheet' has been deprecated and "
-                "will be removed in the next versions. Use proper 'worksheet_class' to get same result",
-                          PendingDeprecationWarning)
+                "may be removed in a future version. Use 'worksheet_class' "
+                "to get the same result",
+                PendingDeprecationWarning)
+
         if is_chartsheet is None and worksheet_class is None:
-            raise ValueError("You must provide 'is_chartsheet' or 'worksheet_class'")
+            raise ValueError(
+                "You must provide 'is_chartsheet' or 'worksheet_class'")
+
         if worksheet_class:
             worksheet = worksheet_class()
         else:
