@@ -3,7 +3,7 @@
 # A simple example using the XlsxWriter Python module and the "with" context
 # manager. This doesn't require an explicit close().
 #
-# Copyright 2013-2016, John McNamara, jmcnamara@cpan.org
+# Copyright 2013-2017, John McNamara, jmcnamara@cpan.org
 #
 import xlsxwriter
 

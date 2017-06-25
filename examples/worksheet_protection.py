@@ -3,7 +3,7 @@
 # Example of cell locking and formula hiding in an Excel worksheet
 # using Python and the XlsxWriter module.
 #
-# Copyright 2013-2016, John McNamara, jmcnamara@cpan.org
+# Copyright 2013-2017, John McNamara, jmcnamara@cpan.org
 #
 import xlsxwriter
 

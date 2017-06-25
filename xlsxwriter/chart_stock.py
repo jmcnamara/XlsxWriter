@@ -2,7 +2,7 @@
 #
 # ChartStock - A class for writing the Excel XLSX Stock charts.
 #
-# Copyright 2013-2016, John McNamara, jmcnamara@cpan.org
+# Copyright 2013-2017, John McNamara, jmcnamara@cpan.org
 #
 
 from . import chart

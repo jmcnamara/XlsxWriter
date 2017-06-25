@@ -3,7 +3,7 @@
 # An example of creating an Excel charts with gradient fills using
 # Python and XlsxWriter.
 #
-# Copyright 2013-2016, John McNamara, jmcnamara@cpan.org
+# Copyright 2013-2017, John McNamara, jmcnamara@cpan.org
 #
 import xlsxwriter
 

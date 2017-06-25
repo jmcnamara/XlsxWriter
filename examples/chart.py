@@ -2,7 +2,7 @@
 #
 # An example of a simple Excel chart with Python and XlsxWriter.
 #
-# Copyright 2013-2016, John McNamara, jmcnamara@cpan.org
+# Copyright 2013-2017, John McNamara, jmcnamara@cpan.org
 #
 import xlsxwriter
 

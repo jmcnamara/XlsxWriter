@@ -3,7 +3,7 @@
 # An example of inserting images into a worksheet using the XlsxWriter
 # Python module.
 #
-# Copyright 2013-2016, John McNamara, jmcnamara@cpan.org
+# Copyright 2013-2017, John McNamara, jmcnamara@cpan.org
 #
 import xlsxwriter
 

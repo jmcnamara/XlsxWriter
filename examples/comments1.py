@@ -5,7 +5,7 @@
 #
 # For more advanced comment options see comments2.py.
 #
-# Copyright 2013-2016, John McNamara, jmcnamara@cpan.org
+# Copyright 2013-2017, John McNamara, jmcnamara@cpan.org
 #
 import xlsxwriter
 

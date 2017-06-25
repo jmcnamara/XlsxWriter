@@ -2,7 +2,7 @@
 #
 # A hello world spreadsheet using the XlsxWriter Python module.
 #
-# Copyright 2013-2016, John McNamara, jmcnamara@cpan.org
+# Copyright 2013-2017, John McNamara, jmcnamara@cpan.org
 #
 import xlsxwriter
 

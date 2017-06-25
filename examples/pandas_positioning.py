@@ -3,7 +3,7 @@
 # An example of positioning dataframes in a worksheet using Pandas and
 # XlsxWriter.
 #
-# Copyright 2013-2016, John McNamara, jmcnamara@cpan.org
+# Copyright 2013-2017, John McNamara, jmcnamara@cpan.org
 #
 
 import pandas as pd

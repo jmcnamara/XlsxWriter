@@ -4,7 +4,7 @@
 # hide rows without setting each one, (of approximately 1 million rows),
 # Excel uses an optimizations to hide all rows that don't have data.
 #
-# Copyright 2013-2016, John McNamara, jmcnamara@cpan.org
+# Copyright 2013-2017, John McNamara, jmcnamara@cpan.org
 #
 import xlsxwriter
 

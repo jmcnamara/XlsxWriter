@@ -6,7 +6,7 @@
 # These examples focus mainly on collapsed outlines. See also the
 # outlines.py example program for more general examples.
 #
-# Copyright 2013-2016, John McNamara, jmcnamara@cpan.org
+# Copyright 2013-2017, John McNamara, jmcnamara@cpan.org
 #
 import xlsxwriter
 
