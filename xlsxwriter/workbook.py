@@ -176,8 +176,7 @@ class Workbook(xmlwriter.XMLwriter):
         if worksheet_class is None:
             worksheet_class = self.worksheet_class
 
-        return self._add_sheet(name, is_chartsheet=False,
-                               worksheet_class=worksheet_class)
+        return self._add_sheet(name, worksheet_class=worksheet_class)
 
     def add_chartsheet(self, name=None, chartsheet_class=None):
         """
@@ -193,8 +192,7 @@ class Workbook(xmlwriter.XMLwriter):
         if chartsheet_class is None:
             chartsheet_class = self.chartsheet_class
 
-        return self._add_sheet(name, is_chartsheet=True,
-                               worksheet_class=chartsheet_class)
+        return self._add_sheet(name, worksheet_class=chartsheet_class)
 
     def add_format(self, properties=None):
         """
