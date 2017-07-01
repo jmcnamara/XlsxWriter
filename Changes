@@ -1,5 +1,12 @@
 
-Release 0.9.7 - July 25 2017
+Release 0.9.8 - July 1 2017
+---------------------------
+
+* Fixed issue where spurious deprecation warning was raised in ``-Werror`` mode.
+  Issue `#451 <https://github.com/jmcnamara/XlsxWriter/issues/451>`_.
+
+
+Release 0.9.7 - June 25 2017
 ----------------------------
 
 * Minor bug and doc fixes.
