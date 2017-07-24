@@ -11,7 +11,7 @@
 
 import SimpleHTTPServer
 import SocketServer
-import StringIO
+import io
 
 import xlsxwriter
 
@@ -20,7 +20,7 @@ class Handler(SimpleHTTPServer.SimpleHTTPRequestHandler):
 
     def do_GET(self):
         # Create an in-memory output file for the new workbook.
-        output = StringIO.StringIO()
+        output = io.BytesIO()
 
         # Even though the final file will be in memory the module uses temp
         # files during assembly for efficiency. To avoid this on servers that

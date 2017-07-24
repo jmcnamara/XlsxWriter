@@ -137,9 +137,11 @@ which case it doesn't need an explicit `close()` statement::
 
         worksheet.write('A1', 'Hello world')
 
-It is possible to write files to in-memory strings using StringIO as follows::
+It is possible to write files to in-memory strings using BytesIO as follows::
 
-    output = StringIO()
+    from io import BytesIO
+
+    output = BytesIO()
     workbook = xlsxwriter.Workbook(output)
     worksheet = workbook.add_worksheet()
 

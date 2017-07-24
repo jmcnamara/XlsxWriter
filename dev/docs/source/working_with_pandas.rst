@@ -214,21 +214,20 @@ Saving the Dataframe output to a string
 ---------------------------------------
 
 It is also possible to write the Pandas XlsxWriter DataFrame output to a
-string or byte array::
+byte array::
 
     import pandas as pd
-    import StringIO
+    import io
 
     # Create a Pandas dataframe from the data.
     df = pd.DataFrame({'Data': [10, 20, 30, 20, 15, 30, 45]})
 
-    # Note, Python 2 example. For Python 3 use: output = io.BytesIO().
-    output = StringIO.StringIO()
+    output = io.BytesIO().
 
-    # Use the StringIO object as the filehandle.
+    # Use the BytesIO object as the filehandle.
     writer = pd.ExcelWriter(output, engine='xlsxwriter')
 
-    # Write the data frame to the StringIO object.
+    # Write the data frame to the BytesIO object.
     pd.DataFrame().to_excel(writer, sheet_name='Sheet1')
 
     writer.save()

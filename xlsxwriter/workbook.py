@@ -627,7 +627,6 @@ class Workbook(xmlwriter.XMLwriter):
         # Add XML sub-files to the Zip file with their Excel filename.
         for os_filename, xml_filename, is_binary in xml_files:
             if self.in_memory:
-                # The files are in-memory StringIOs.
                 if is_binary:
                     xlsx_file.writestr(xml_filename, os_filename.getvalue())
                 else:
