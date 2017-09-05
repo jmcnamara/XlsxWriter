@@ -73,6 +73,7 @@ Other, less commonly used parameters are:
 * ``mid_color``
 * ``max_color``
 * ``bar_color``
+* ``stop_if_true``
 * ``multi_range``
 
 
@@ -641,6 +642,22 @@ bar_color:
 **********
 
 Used for ``data_bar``. Same as ``min_color``, see above.
+
+stop_if_true
+************
+
+The ``stop_if_true`` parameter can be used to set the "stop if true" feature
+of a conditional formatting rule when more than one rule is applied to a cell
+or a range of cells. When this paramter is set then subsequent rules are not
+evaluated if the current rule is true::
+
+        worksheet.conditional_format('A1',
+                                     {'type': 'cell',
+                                      'format': cell_format,
+                                      'criteria': '>',
+                                      'value': 20,
+                                      'stop_if_true': True
+                                      })
 
 
 multi_range:

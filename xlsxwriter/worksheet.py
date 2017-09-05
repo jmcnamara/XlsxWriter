@@ -1886,6 +1886,7 @@ class Worksheet(xmlwriter.XMLwriter):
             'value': True,
             'minimum': True,
             'maximum': True,
+            'stop_if_true': True,
             'min_type': True,
             'mid_type': True,
             'max_type': True,
@@ -5939,6 +5940,9 @@ class Worksheet(xmlwriter.XMLwriter):
             attributes.append(('dxfId', params['format']))
 
         attributes.append(('priority', params['priority']))
+
+        if params.get('stop_if_true'):
+            attributes.append(('stopIfTrue', 1))
 
         if params['type'] == 'cellIs':
             attributes.append(('operator', params['criteria']))
