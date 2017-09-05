@@ -1,4 +1,12 @@
 
+
+Release 0.9.9 - September 2017
+------------------------------
+
+* Added ``stop_if_true`` parameter to conditional formatting.
+  Feature request `#386 <https://github.com/jmcnamara/XlsxWriter/issues/386>`_.
+
+
 Release 0.9.8 - July 1 2017
 ---------------------------
 
