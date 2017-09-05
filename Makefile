@@ -72,7 +72,9 @@ releasecheck:
 release: releasecheck
 	@git push origin master
 	@git push --tags
-	@python setup.py sdist bdist_wheel upload --repository https://pypi.python.org/pypi
+	@python setup.py sdist bdist_wheel
+	@twine upload dist/*
 	@curl -X POST http://readthedocs.org/build/6277
+	@rm -rf dist
 	@rm -rf build
 	@rm -rf XlsxWriter.egg-info/
