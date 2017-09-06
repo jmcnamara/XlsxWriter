@@ -178,6 +178,24 @@ Allowable ``type`` values and their associated parameters are:
 +---------------+------------+
 | formula       | criteria   |
 +---------------+------------+
+| icon_set      | icon_type  |
++---------------+------------+
+|               | show_value |
++---------------+------------+
+|               | min_value  |
++---------------+------------+
+|               | mid_value  |
++---------------+------------+
+|               | max_value  |
++---------------+------------+
+|               | min_type   |
++---------------+------------+
+|               | mid_type   |
++---------------+------------+
+|               | max_type   |
++---------------+------------+
+|               | gte        |
++---------------+------------+
 
 
 All conditional formatting types have an associated :ref:`Format <format>`
@@ -522,6 +540,18 @@ This conditional type can be modified with ``min_type``, ``mid_type``,
 ``max_type``, ``min_value``, ``mid_value``, ``max_value``, ``min_color``,
 ``mid_color`` and ``max_color``, see below.
 
+type: icon_type
+***************
+The ``icon_set`` type is used to specify Excel's 'Icon Set' style conditional
+format::
+
+    worksheet.conditional_format('A1:A17', {'type':      'icon_set',
+                                            'icon_type': '3Arrows'})
+
+
+This conditional type can be modified with ``show_value``, ``min_value``,
+``mid_value``, ``max_value``, ``min_type``, ``mid_type``, ``max_type``,
+``gte``, see below.
 
 type: data_bar
 **************
@@ -554,11 +584,22 @@ be :ref:`absolute references <abs_reference>` if they are applied to the full
 range of the conditional format. See the note in the ``value`` section above.
 
 
+show_value:
+***********
+
+The ``show_value`` property is available when the conditional formatting type is
+``icon_set``. The property are used as follows::
+
+    worksheet.conditional_format('A1:A17', {'type':       'icon_set',
+                                            'icon_type':  '3Arrows',
+                                            'show_value':  0})
+
+
 min_type:
 *********
 
 The ``min_type`` and ``max_type`` properties are available when the conditional
-formatting type is ``2_color_scale``, ``3_color_scale`` or ``data_bar``. The
+formatting type is ``icon_set``,```2_color_scale``, ``3_color_scale`` or ``data_bar``. The
 ``mid_type`` is available for ``3_color_scale``. The properties are used as
 follows::
 
@@ -592,7 +633,7 @@ min_value:
 **********
 
 The ``min_value`` and ``max_value`` properties are available when the
-conditional formatting type is ``2_color_scale``, ``3_color_scale`` or
+conditional formatting type is ``icon_set``, ``2_color_scale``, ``3_color_scale`` or
 ``data_bar``. The ``mid_value`` is available for ``3_color_scale``. The
 properties are used as follows::
 
