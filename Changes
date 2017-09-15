@@ -1,4 +1,11 @@
 
+Release 1.0.0 - September 2017
+------------------------------
+
+* Added icon sets to conditional formatting. See
+  :ref:`working_with_conditional_formats` and :ref:`ex_cond_format`.
+  Feature request `#387 <https://github.com/jmcnamara/XlsxWriter/issues/387>`_.
+
 
 Release 0.9.9 - September 2017
 ------------------------------
