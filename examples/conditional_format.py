@@ -18,6 +18,7 @@ worksheet5 = workbook.add_worksheet()
 worksheet6 = workbook.add_worksheet()
 worksheet7 = workbook.add_worksheet()
 worksheet8 = workbook.add_worksheet()
+worksheet9 = workbook.add_worksheet()
 
 # Add a format. Light red fill with dark red text.
 format1 = workbook.add_format({'bg_color': '#FFC7CE',
@@ -214,7 +215,6 @@ caption = 'Examples of color scales and data bars. Modified colors.'
 
 data = range(1, 13)
 
-
 worksheet8.write('A1', caption)
 
 worksheet8.write('B2', "2 Color Scale")
@@ -237,5 +237,49 @@ worksheet8.conditional_format('D3:D14', {'type': '3_color_scale',
 
 worksheet8.conditional_format('F3:F14', {'type': 'data_bar',
                                          'bar_color': '#63C384'})
+
+###############################################################################
+#
+# Example 9.
+#
+caption = 'Examples of conditional formats with icon sets.'
+
+data = [
+    [1, 2, 3],
+    [1, 2, 3],
+    [1, 2, 3],
+    [1, 2, 3],
+    [1, 2, 3, 4],
+    [1, 2, 3, 4, 5],
+    [1, 2, 3, 4, 5],
+]
+
+worksheet9.write('A1', caption)
+
+for row, row_data in enumerate(data):
+    worksheet9.write_row(row + 2, 1, row_data)
+
+worksheet9.conditional_format('B3:D3', {'type': 'icon_set',
+                                        'icon_style': '3_traffic_lights'})
+
+worksheet9.conditional_format('B4:D4', {'type': 'icon_set',
+                                        'icon_style': '3_traffic_lights',
+                                        'reverse_icons': True})
+
+worksheet9.conditional_format('B5:D5', {'type': 'icon_set',
+                                        'icon_style': '3_traffic_lights',
+                                        'icons_only': True})
+
+worksheet9.conditional_format('B6:D6', {'type': 'icon_set',
+                                        'icon_style': '3_arrows'})
+
+worksheet9.conditional_format('B7:E8', {'type': 'icon_set',
+                                        'icon_style': '4_arrows'})
+
+worksheet9.conditional_format('B8:F8', {'type': 'icon_set',
+                                        'icon_style': '5_arrows'})
+
+worksheet9.conditional_format('B9:F9', {'type': 'icon_set',
+                                        'icon_style': '5_ratings'})
 
 workbook.close()

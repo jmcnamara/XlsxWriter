@@ -18,7 +18,7 @@ class TestCompareXLSXFiles(ExcelComparisonTest):
     def setUp(self):
         self.maxDiff = None
 
-        filename = 'cond_format16.xlsx'
+        filename = 'cond_format17.xlsx'
 
         test_dir = 'xlsxwriter/test/comparison/'
         self.got_filename = test_dir + '_test_' + filename
@@ -34,28 +34,14 @@ class TestCompareXLSXFiles(ExcelComparisonTest):
 
         worksheet = workbook.add_worksheet()
 
-        cell_format1 = workbook.add_format({'bg_color': 'red'})
-        cell_format2 = workbook.add_format({'bg_color': '#92D050'})
-
         worksheet.write('A1', 10)
         worksheet.write('A2', 20)
         worksheet.write('A3', 30)
         worksheet.write('A4', 40)
 
-        worksheet.conditional_format('A1',
-                                     {'type': 'cell',
-                                      'format': cell_format1,
-                                      'criteria': '<',
-                                      'value': 5,
-                                      'stop_if_true': False
-                                      })
-
-        worksheet.conditional_format('A1',
-                                     {'type': 'cell',
-                                      'format': cell_format2,
-                                      'criteria': '>',
-                                      'value': 20,
-                                      'stop_if_true': True
+        worksheet.conditional_format('A1:A4',
+                                     {'type': 'icon_set',
+                                      'icon_style': '3_arrows'
                                       })
 
         workbook.close()

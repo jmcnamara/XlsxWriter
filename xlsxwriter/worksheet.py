@@ -1635,7 +1635,7 @@ class Worksheet(xmlwriter.XMLwriter):
         if self._check_dimensions(last_row, last_col, True, True):
             return -1
 
-        # List of valid input parameters.
+        # Valid input parameters.
         valid_parameters = {
             'validate': True,
             'criteria': True,
@@ -1716,7 +1716,7 @@ class Worksheet(xmlwriter.XMLwriter):
             warn("Parameter 'criteria' is required in data_validation()")
             return -2
 
-        # List of valid criteria types.
+        # Valid criteria types.
         criteria_types = {
             'between': 'between',
             'not between': 'notBetween',
@@ -1754,7 +1754,7 @@ class Worksheet(xmlwriter.XMLwriter):
         else:
             options['maximum'] = None
 
-        # List of valid error dialog types.
+        # Valid error dialog types.
         error_types = {
             'stop': 0,
             'warning': 1,
@@ -1878,7 +1878,7 @@ class Worksheet(xmlwriter.XMLwriter):
         # Copy the user defined options so they aren't modified.
         options = options.copy()
 
-        # List of valid input parameters.
+        # Valid input parameters.
         valid_parameter = {
             'type': True,
             'format': True,
@@ -1899,21 +1899,25 @@ class Worksheet(xmlwriter.XMLwriter):
             'min_length': True,
             'max_length': True,
             'multi_range': True,
-            'bar_color': 1}
+            'bar_color': True,
+            'icon_style': True,
+            'reverse_icons': True,
+            'icons_only': True,
+            'icons': True}
 
         # Check for valid input parameters.
         for param_key in options.keys():
             if param_key not in valid_parameter:
-                warn("Unknown parameter '%s' in conditional_formatting()" %
+                warn("Unknown parameter '%s' in conditional_format()" %
                      param_key)
                 return -2
 
         # 'type' is a required parameter.
         if 'type' not in options:
-            warn("Parameter 'type' is required in conditional_formatting()")
+            warn("Parameter 'type' is required in conditional_format()")
             return -2
 
-        # List of  valid validation types.
+        # Valid validation types.
         valid_type = {
             'cell': 'cellIs',
             'date': 'date',
@@ -1932,19 +1936,20 @@ class Worksheet(xmlwriter.XMLwriter):
             '2_color_scale': '2_color_scale',
             '3_color_scale': '3_color_scale',
             'data_bar': 'dataBar',
-            'formula': 'expression'}
+            'formula': 'expression',
+            'icon_set': 'iconSet'}
 
         # Check for valid validation types.
         if options['type'] not in valid_type:
             warn("Unknown validation type '%s' for parameter 'type' "
-                 "in conditional_formatting()" % options['type'])
+                 "in conditional_format()" % options['type'])
             return -2
         else:
             if options['type'] == 'bottom':
                 options['direction'] = 'bottom'
             options['type'] = valid_type[options['type']]
 
-        # List of valid criteria types.
+        # Valid criteria types.
         criteria_type = {
             'between': 'between',
             'not between': 'notBetween',
@@ -2015,6 +2020,53 @@ class Worksheet(xmlwriter.XMLwriter):
                     date_time = self._convert_date_time(options['maximum'])
                     options['maximum'] = "%.16g" % date_time
 
+        # Valid icon styles.
+        valid_icons = {
+            "3_arrows": "3Arrows",                          # 1
+            "3_flags": "3Flags",                            # 2
+            "3_traffic_lights_rimmed": "3TrafficLights2",   # 3
+            "3_symbols_circled": "3Symbols",                # 4
+            "4_arrows": "4Arrows",                          # 5
+            "4_red_to_black": "4RedToBlack",                # 6
+            "4_traffic_lights": "4TrafficLights",           # 7
+            "5_arrows_gray": "5ArrowsGray",                 # 8
+            "5_quarters": "5Quarters",                      # 9
+            "3_arrows_gray": "3ArrowsGray",                 # 10
+            "3_traffic_lights": "3TrafficLights",           # 11
+            "3_signs": "3Signs",                            # 12
+            "3_symbols": "3Symbols2",                       # 13
+            "4_arrows_gray": "4ArrowsGray",                 # 14
+            "4_ratings": "4Rating",                         # 15
+            "5_arrows": "5Arrows",                          # 16
+            "5_ratings": "5Rating"}                         # 17
+
+        # Set the icon set properties.
+        if options['type'] == 'iconSet':
+
+            # An icon_set must have an icon style.
+            if not options.get('icon_style'):
+                warn("The 'icon_style' parameter must be specified when "
+                     "'type' == 'icon_set' in conditional_format()")
+                return -3
+
+            # Check for valid icon styles.
+            if options['icon_style'] not in valid_icons:
+                warn("Unknown icon_style '%s' in conditional_format()" %
+                     options['icon_style'])
+                return -2
+            else:
+                options['icon_style'] = valid_icons[options['icon_style']]
+
+            # Set the number of icons for the icon style.
+            options['total_icons'] = 3
+            if options['icon_style'].startswith('4'):
+                options['total_icons'] = 4
+            elif options['icon_style'].startswith('5'):
+                options['total_icons'] = 5
+
+            options['icons'] = self._set_icon_props(options.get('total_icons'),
+                                                    options.get('icons'))
+
         # Swap last row/col for first row/col as necessary
         if first_row > last_row:
             first_row, last_row = last_row, first_row
@@ -2068,8 +2120,8 @@ class Worksheet(xmlwriter.XMLwriter):
                                          len(options['value']),
                                          options['value']))
             else:
-                warn("Invalid text criteria 'options['criteria']' "
-                     "in conditional_formatting()")
+                warn("Invalid text criteria '%s' "
+                     "in conditional_format()" % options['criteria'])
 
         # Special handling of time time_period criteria.
         if options['type'] == 'timePeriod':
@@ -2240,7 +2292,7 @@ class Worksheet(xmlwriter.XMLwriter):
         if self._check_dimensions(last_row, last_col, True, True):
             return -2
 
-        # List of valid input parameters.
+        # Valid input parameters.
         valid_parameter = {
             'autofilter': True,
             'banded_columns': True,
@@ -2501,7 +2553,7 @@ class Worksheet(xmlwriter.XMLwriter):
 
         sparkline = {'locations': [xl_rowcol_to_cell(row, col)]}
 
-        # List of valid input parameters.
+        # Valid input parameters.
         valid_parameters = {
             'location': True,
             'range': True,
@@ -4637,6 +4689,75 @@ class Worksheet(xmlwriter.XMLwriter):
             self.row_data_fh_closed = False
             self.fh = self.row_data_fh
 
+    def _set_icon_props(self, total_icons, user_props=None):
+        # Set the sub-properties for icons.
+        props = []
+
+        # Set the defaults.
+        for _ in range(total_icons):
+            props.append({'criteria': False,
+                          'value': 0,
+                          'type': 'percent'})
+
+        # Set the default icon values based on the number of icons.
+        if total_icons == 3:
+            props[0]['value'] = 67
+            props[1]['value'] = 33
+
+        if total_icons == 4:
+            props[0]['value'] = 75
+            props[1]['value'] = 50
+            props[2]['value'] = 25
+
+        if total_icons == 5:
+            props[0]['value'] = 80
+            props[1]['value'] = 60
+            props[2]['value'] = 40
+            props[3]['value'] = 20
+
+        # Overwrite default properties with user defined properties.
+        if user_props:
+
+            # Ensure we don't set user properties for lowest icon.
+            max_data = len(user_props)
+            if max_data >= total_icons:
+                max_data = total_icons - 1
+
+            for i in range(max_data):
+
+                # Set the user defined 'value' property.
+                if user_props[i].get('value'):
+                    props[i]['value'] = user_props[i]['value']
+
+                    # Remove the formula '=' sign if it exists.
+                    tmp = props[i]['value']
+                    if isinstance(tmp, str_types) and tmp.startswith('='):
+                        props[i]['value'] = tmp.lstrip('=')
+
+                # Set the user defined 'type' property.
+                if user_props[i].get('type'):
+                    valid_types = ('percent',
+                                   'percentile',
+                                   'number',
+                                   'formula')
+
+                    if user_props[i]['type'] not in valid_types:
+                        warn("Unknown icon property type '%s' for sub-"
+                             "property 'type' in conditional_format()" %
+                             user_props[i]['type'])
+                    else:
+                        props[i]['type'] = user_props[i]['type']
+
+                        if props[i]['type'] is 'number':
+                            props[i]['type'] = 'num'
+
+                # Set the user defined 'criteria' property.
+                criteria = user_props[i].get('criteria')
+                if criteria and criteria == '>':
+                    props[i]['criteria'] = True
+
+        return props
+
     ###########################################################################
     #
     # XML methods.
@@ -6030,6 +6151,11 @@ class Worksheet(xmlwriter.XMLwriter):
             self._write_formula(params['criteria'])
             self._xml_end_tag('cfRule')
 
+        elif params['type'] == 'iconSet':
+            self._xml_start_tag('cfRule', attributes)
+            self._write_icon_set(params)
+            self._xml_end_tag('cfRule')
+
     def _write_formula(self, formula):
         # Write the <formula> element.
 
@@ -6082,9 +6208,37 @@ class Worksheet(xmlwriter.XMLwriter):
 
         self._xml_end_tag('dataBar')
 
-    def _write_cfvo(self, cf_type, val):
+    def _write_icon_set(self, param):
+        # Write the <iconSet> element.
+        attributes = []
+
+        # Don't set attribute for default style.
+        if param['icon_style'] != '3TrafficLights':
+            attributes = [('iconSet', param['icon_style'])]
+
+        if param.get('icons_only'):
+            attributes.append(('showValue', 0))
+
+        if param.get('reverse_icons'):
+            attributes.append(('reverse', 1))
+
+        self._xml_start_tag('iconSet', attributes)
+
+        # Write the properties for different icon styles.
+        for icon in reversed(param['icons']):
+            self._write_cfvo(
+                icon['type'],
+                icon['value'],
+                icon['criteria'])
+
+        self._xml_end_tag('iconSet')
+
+    def _write_cfvo(self, cf_type, val, criteria=None):
         # Write the <cfvo> element.
         attributes = [('type', cf_type), ('val', val)]
+
+        if criteria:
+            attributes.append(('gte', 0))
 
         self._xml_empty_tag('cfvo', attributes)
 

@@ -73,6 +73,10 @@ Other, less commonly used parameters are:
 * ``mid_color``
 * ``max_color``
 * ``bar_color``
+* ``icon_style``
+* ``icons``
+* ``reverse_icons``
+* ``icons_only``
 * ``stop_if_true``
 * ``multi_range``
 
@@ -89,99 +93,107 @@ type
 The ``type`` option is a required parameter and it has no default value.
 Allowable ``type`` values and their associated parameters are:
 
-+---------------+------------+
-| Type          | Parameters |
-+===============+============+
-| cell          | criteria   |
-+---------------+------------+
-|               | value      |
-+---------------+------------+
-|               | minimum    |
-+---------------+------------+
-|               | maximum    |
-+---------------+------------+
-| date          | criteria   |
-+---------------+------------+
-|               | value      |
-+---------------+------------+
-|               | minimum    |
-+---------------+------------+
-|               | maximum    |
-+---------------+------------+
-| time_period   | criteria   |
-+---------------+------------+
-| text          | criteria   |
-+---------------+------------+
-|               | value      |
-+---------------+------------+
-| average       | criteria   |
-+---------------+------------+
-| duplicate     | (none)     |
-+---------------+------------+
-| unique        | (none)     |
-+---------------+------------+
-| top           | criteria   |
-+---------------+------------+
-|               | value      |
-+---------------+------------+
-| bottom        | criteria   |
-+---------------+------------+
-|               | value      |
-+---------------+------------+
-| blanks        | (none)     |
-+---------------+------------+
-| no_blanks     | (none)     |
-+---------------+------------+
-| errors        | (none)     |
-+---------------+------------+
-| no_errors     | (none)     |
-+---------------+------------+
-| 2_color_scale | min_type   |
-+---------------+------------+
-|               | max_type   |
-+---------------+------------+
-|               | min_value  |
-+---------------+------------+
-|               | max_value  |
-+---------------+------------+
-|               | min_color  |
-+---------------+------------+
-|               | max_color  |
-+---------------+------------+
-| 3_color_scale | min_type   |
-+---------------+------------+
-|               | mid_type   |
-+---------------+------------+
-|               | max_type   |
-+---------------+------------+
-|               | min_value  |
-+---------------+------------+
-|               | mid_value  |
-+---------------+------------+
-|               | max_value  |
-+---------------+------------+
-|               | min_color  |
-+---------------+------------+
-|               | mid_color  |
-+---------------+------------+
-|               | max_color  |
-+---------------+------------+
-| data_bar      | min_type   |
-+---------------+------------+
-|               | max_type   |
-+---------------+------------+
-|               | min_value  |
-+---------------+------------+
-|               | max_value  |
-+---------------+------------+
-|               | bar_color  |
-+---------------+------------+
-| formula       | criteria   |
-+---------------+------------+
++---------------+---------------+
+| Type          | Parameters    |
++===============+===============+
+| cell          | criteria      |
++---------------+---------------+
+|               | value         |
++---------------+---------------+
+|               | minimum       |
++---------------+---------------+
+|               | maximum       |
++---------------+---------------+
+| date          | criteria      |
++---------------+---------------+
+|               | value         |
++---------------+---------------+
+|               | minimum       |
++---------------+---------------+
+|               | maximum       |
++---------------+---------------+
+| time_period   | criteria      |
++---------------+---------------+
+| text          | criteria      |
++---------------+---------------+
+|               | value         |
++---------------+---------------+
+| average       | criteria      |
++---------------+---------------+
+| duplicate     | (none)        |
++---------------+---------------+
+| unique        | (none)        |
++---------------+---------------+
+| top           | criteria      |
++---------------+---------------+
+|               | value         |
++---------------+---------------+
+| bottom        | criteria      |
++---------------+---------------+
+|               | value         |
++---------------+---------------+
+| blanks        | (none)        |
++---------------+---------------+
+| no_blanks     | (none)        |
++---------------+---------------+
+| errors        | (none)        |
++---------------+---------------+
+| no_errors     | (none)        |
++---------------+---------------+
+| 2_color_scale | min_type      |
++---------------+---------------+
+|               | max_type      |
++---------------+---------------+
+|               | min_value     |
++---------------+---------------+
+|               | max_value     |
++---------------+---------------+
+|               | min_color     |
++---------------+---------------+
+|               | max_color     |
++---------------+---------------+
+| 3_color_scale | min_type      |
++---------------+---------------+
+|               | mid_type      |
++---------------+---------------+
+|               | max_type      |
++---------------+---------------+
+|               | min_value     |
++---------------+---------------+
+|               | mid_value     |
++---------------+---------------+
+|               | max_value     |
++---------------+---------------+
+|               | min_color     |
++---------------+---------------+
+|               | mid_color     |
++---------------+---------------+
+|               | max_color     |
++---------------+---------------+
+| data_bar      | min_type      |
++---------------+---------------+
+|               | max_type      |
++---------------+---------------+
+|               | min_value     |
++---------------+---------------+
+|               | max_value     |
++---------------+---------------+
+|               | bar_color     |
++---------------+---------------+
+| formula       | criteria      |
++---------------+---------------+
+| icon_set      | icon_style    |
++---------------+---------------+
+|               | reverse_icons |
++---------------+---------------+
+|               | icons         |
++---------------+---------------+
+|               | icons_only    |
++---------------+---------------+
 
 
-All conditional formatting types have an associated :ref:`Format <format>`
-parameter, see below.
+All conditional formatting types, apart from ``icon_set`` have an associated
+:ref:`Format <format>` parameter, see below.
 
 
 type: cell
@@ -541,6 +553,7 @@ type: formula
 The ``formula`` type is used to specify a conditional format based on a user
 defined formula::
 
+
     worksheet.conditional_format('A1:A4', {'type':     'formula',
                                            'criteria': '=$A$1>5',
                                            'format':   format1})
@@ -552,6 +565,95 @@ comma (not semi-colon) and should follow the same rules as
 :func:`write_formula`. Also any cell or range references in the formula should
 be :ref:`absolute references <abs_reference>` if they are applied to the full
 range of the conditional format. See the note in the ``value`` section above.
+
+
+type: icon_set
+**************
+
+The ``icon_set`` type is used to specify a conditional format with a set of
+icons such as traffic lights or arrows::
+
+    worksheet.conditional_format('A1:C1', {'type': 'icon_set',
+                                           'icon_style': '3_traffic_lights'})
+
+The icon set style is specified by the ``icon_style`` parameter. Valid options are::
+
+    3_arrows
+    3_arrows_gray
+    3_flags
+    3_signs
+    3_symbols
+    3_symbols_circled
+    3_traffic_lights
+    3_traffic_lights_rimmed
+
+    4_arrows
+    4_arrows_gray
+    4_ratings
+    4_red_to_black
+    4_traffic_lights
+
+    5_arrows
+    5_arrows_gray
+    5_quarters
+    5_ratings
+
+.. image:: _images/conditional_format5.png
+
+The criteria, type and value of each icon can be specified using the ``icon``
+array of dicts with optional ``criteria``, ``type`` and ``value`` parameters::
+
+    worksheet.conditional_format(
+        'A1:D1',
+        {'type': 'icon_set',
+         'icon_style': '4_red_to_black',
+         'icons': [{'criteria': '>=', 'type': 'number',     'value': 90},
+                   {'criteria': '<',  'type': 'percentile', 'value': 50},
+                   {'criteria': '<=', 'type': 'percent',    'value': 25}]}
+    )
+
+
+* The icons ``criteria`` parameter should be either ``>=`` or ``<``. The default
+  ``criteria`` is ``>=``.
+
+* The icons ``type`` parameter should be one of the following values::
+
+      number
+      percentile
+      percent
+      formula
+
+  The default ``type`` is ``percent``.
+
+* The icons ``value`` parameter can be a value or formula::
+
+      worksheet.conditional_format('A1:D1',
+                                   {'type': 'icon_set',
+                                    'icon_style': '4_red_to_black',
+                                    'icons': [{'value': 90},
+                                              {'value': 50},
+                                              {'value': 25}]})
+
+Note: The ``icons`` parameters should start with the highest value and with
+each subsequent one being lower.
+The default ``value`` is ``(n * 100) / number_of_icons``. The lowest number
+icon in an icon set has properties defined by Excel. Therefore in a ``n`` icon
+set, there is no ``n-1`` hash of parameters.
+
+The order of the icons can be reversed using the ``reverse_icons`` parameter::
+
+        worksheet.conditional_format('A1:C1',
+                                     {'type': 'icon_set',
+                                      'icon_style': '3_arrows',
+                                      'reverse_icons': True})
+
+The icons can be displayed without the cell value using the ``icons_only``
+parameter::
+
+        worksheet.conditional_format('A1:C1',
+                                     {'type': 'icon_set',
+                                      'icon_style': '3_flags',
+                                      'icons_only': True})
 
 
 min_type:
@@ -749,5 +851,10 @@ Highlight blank cells::
 
     worksheet.conditional_format('A1:F10', {'type':   'blanks',
                                             'format': format1})
+
+Set traffic light icons in 3 cells::
+
+    worksheet.conditional_format('B3:D3', {'type': 'icon_set',
+                                           'icon_style': '3_traffic_lights'})
 
 See also :ref:`ex_cond_format`.
