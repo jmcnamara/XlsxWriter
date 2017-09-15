@@ -362,10 +362,10 @@ The period is set in the ``criteria`` and can have one of the following values::
         'criteria': 'last 7 days',
         'criteria': 'last week',
         'criteria': 'this week',
-        'criteria': 'continue week',
+        'criteria': 'next week',
         'criteria': 'last month',
         'criteria': 'this month',
-        'criteria': 'continue month'
+        'criteria': 'next month'
 
 
 type: text

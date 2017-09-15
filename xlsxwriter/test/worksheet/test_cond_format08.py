@@ -67,6 +67,7 @@ class TestAssembleWorksheet(unittest.TestCase):
 
         worksheet.conditional_format('A1:A4',
                                      {'type': 'time_period',
+                                      # Test erroneous legacy criteria.
                                       'criteria': 'continue week',
                                       'format': None,
                                       })
@@ -85,6 +86,7 @@ class TestAssembleWorksheet(unittest.TestCase):
 
         worksheet.conditional_format('A1:A4',
                                      {'type': 'time_period',
+                                      # Test erroneous legacy criteria.
                                       'criteria': 'continue month',
                                       'format': None,
                                       })
@@ -140,7 +142,7 @@ class TestAssembleWorksheet(unittest.TestCase):
                     <cfRule type="timePeriod" priority="6" timePeriod="thisWeek">
                       <formula>AND(TODAY()-ROUNDDOWN(A1,0)&lt;=WEEKDAY(TODAY())-1,ROUNDDOWN(A1,0)-TODAY()&lt;=7-WEEKDAY(TODAY()))</formula>
                     </cfRule>
-                    <cfRule type="timePeriod" priority="7" timePeriod="continueWeek">
+                    <cfRule type="timePeriod" priority="7" timePeriod="nextWeek">
                       <formula>AND(ROUNDDOWN(A1,0)-TODAY()&gt;(7-WEEKDAY(TODAY())),ROUNDDOWN(A1,0)-TODAY()&lt;(15-WEEKDAY(TODAY())))</formula>
                     </cfRule>
                     <cfRule type="timePeriod" priority="8" timePeriod="lastMonth">
@@ -149,7 +151,7 @@ class TestAssembleWorksheet(unittest.TestCase):
                     <cfRule type="timePeriod" priority="9" timePeriod="thisMonth">
                       <formula>AND(MONTH(A1)=MONTH(TODAY()),YEAR(A1)=YEAR(TODAY()))</formula>
                     </cfRule>
-                    <cfRule type="timePeriod" priority="10" timePeriod="continueMonth">
+                    <cfRule type="timePeriod" priority="10" timePeriod="nextMonth">
                       <formula>AND(MONTH(A1)=MONTH(TODAY())+1,OR(YEAR(A1)=YEAR(TODAY()),AND(MONTH(A1)=12,YEAR(A1)=YEAR(TODAY())+1)))</formula>
                     </cfRule>
                   </conditionalFormatting>

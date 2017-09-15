@@ -1971,10 +1971,13 @@ class Worksheet(xmlwriter.XMLwriter):
             'last 7 days': 'last7Days',
             'last week': 'lastWeek',
             'this week': 'thisWeek',
-            'continue week': 'continueWeek',
+            'next week': 'nextWeek',
             'last month': 'lastMonth',
             'this month': 'thisMonth',
-            'continue month': 'continueMonth'}
+            'next month': 'nextMonth',
+            # For legacy, but incorrect, support.
+            'continue week': 'nextWeek',
+            'continue month': 'nextMonth'}
 
         # Check for valid criteria types.
         if 'criteria' in options and options['criteria'] in criteria_type:
@@ -2097,7 +2100,7 @@ class Worksheet(xmlwriter.XMLwriter):
                      'ROUNDDOWN(%s,0)-TODAY()<=7-WEEKDAY(TODAY()))' %
                      (start_cell, start_cell))
 
-            elif options['criteria'] == 'continueWeek':
+            elif options['criteria'] == 'nextWeek':
                 options['formula'] = \
                     ('AND(ROUNDDOWN(%s,0)-TODAY()>(7-WEEKDAY(TODAY())),'
                      'ROUNDDOWN(%s,0)-TODAY()<(15-WEEKDAY(TODAY())))' %
@@ -2114,15 +2117,15 @@ class Worksheet(xmlwriter.XMLwriter):
                     ('AND(MONTH(%s)=MONTH(TODAY()),YEAR(%s)=YEAR(TODAY()))' %
                      (start_cell, start_cell))
 
-            elif options['criteria'] == 'continueMonth':
+            elif options['criteria'] == 'nextMonth':
                 options['formula'] = \
                     ('AND(MONTH(%s)=MONTH(TODAY())+1,OR(YEAR(%s)=YEAR('
                      'TODAY()),AND(MONTH(%s)=12,YEAR(%s)=YEAR(TODAY())+1)))' %
                      (start_cell, start_cell, start_cell, start_cell))
 
             else:
-                warn("Invalid time_period criteria 'options['criteria']' "
-                     "in conditional_formatting()")
+                warn("Invalid time_period criteria '%s' "
+                     "in conditional_format()" % options['criteria'])
 
         # Special handling of blanks/error types.
         if options['type'] == 'containsBlanks':
