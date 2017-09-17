@@ -1917,7 +1917,7 @@ class Worksheet(xmlwriter.XMLwriter):
             warn("Parameter 'type' is required in conditional_format()")
             return -2
 
-        # Valid validation types.
+        # Valid types.
         valid_type = {
             'cell': 'cellIs',
             'date': 'date',
@@ -1939,9 +1939,9 @@ class Worksheet(xmlwriter.XMLwriter):
             'formula': 'expression',
             'icon_set': 'iconSet'}
 
-        # Check for valid validation types.
+        # Check for valid types.
         if options['type'] not in valid_type:
-            warn("Unknown validation type '%s' for parameter 'type' "
+            warn("Unknown value '%s' for parameter 'type' "
                  "in conditional_format()" % options['type'])
             return -2
         else:
@@ -2251,7 +2251,7 @@ class Worksheet(xmlwriter.XMLwriter):
 
             options['bar_color'] = xl_color(options['bar_color'])
 
-        # Store the validation information until we close the worksheet.
+        # Store the condtional format until we close the worksheet.
         if cell_range in self.cond_formats:
             self.cond_formats[cell_range].append(options)
         else:
