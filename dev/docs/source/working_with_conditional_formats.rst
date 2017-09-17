@@ -192,7 +192,7 @@ Allowable ``type`` values and their associated parameters are:
 +---------------+---------------+
 
 
-All conditional formatting types, apart from ``icon_set`` have an associated
+All conditional formatting types, apart from ``icon_set``, have an associated
 :ref:`Format <format>` parameter, see below.
 
 
