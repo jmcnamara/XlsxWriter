@@ -25,14 +25,14 @@ or by setting the property as a dictionary of key/value pairs in the
 constructor. For example, a typical use of the object interface would be as
 follows::
 
-    format = workbook.add_format()
-    format.set_bold()
-    format.set_font_color('red')
+    format1 = workbook.add_format()
+    format1.set_bold()
+    format1.set_font_color('red')
 
 By comparison the properties can be set by passing a dictionary of properties
 to the `add_format()` constructor::
 
-    format = workbook.add_format({'bold': True, 'font_color': 'red'})
+    format1 = workbook.add_format({'bold': True, 'font_color': 'red'})
 
 In general the key/value interface is more flexible and clearer than the
 object method and is the recommended method for setting format
@@ -41,16 +41,16 @@ properties. However, both methods produce the same result.
 Once a Format object has been constructed and its properties have been set it
 can be passed as an argument to the worksheet ``write`` methods as follows::
 
-    worksheet.write       (0, 0, 'Foo', format)
-    worksheet.write_string(1, 0, 'Bar', format)
-    worksheet.write_number(2, 0, 3,     format)
-    worksheet.write_blank (3, 0, '',    format)
+    worksheet.write       (0, 0, 'Foo', format1)
+    worksheet.write_string(1, 0, 'Bar', format1)
+    worksheet.write_number(2, 0, 3,     format1)
+    worksheet.write_blank (3, 0, '',    format1)
 
 Formats can also be passed to the worksheet ``set_row()`` and ``set_column()``
 methods to define the default formatting properties for a row or column::
 
-    worksheet.set_row(0, 18, format)
-    worksheet.set_column('A:D', 20, format)
+    worksheet.set_row(0, 18, format1)
+    worksheet.set_column('A:D', 20, format1)
 
 Format Defaults
 ---------------
@@ -60,16 +60,16 @@ The default Excel 2007+ cell format is Calibri 11 with all other properties off.
 In general a format method call without an argument will turn a property on,
 for example::
 
-    format = workbook.add_format()
+    format1 = workbook.add_format()
 
-    format.set_bold()      # Turns bold on.
-    format.set_bold(True)  # Also turns bold on.
+    format1.set_bold()      # Turns bold on.
+    format1.set_bold(True)  # Also turns bold on.
 
 
 Since most properties are already off by default it isn't generally required to
 turn them off. However, it is possible if required::
 
-    format.set_bold(False)  # Turns bold off.
+    format1.set_bold(False)  # Turns bold off.
 
 
 Modifying Formats
@@ -81,12 +81,12 @@ then redefine it for use at a later stage. This is because a Format is applied
 to a cell not in its current state but in its final state. Consider the
 following example::
 
-    format = workbook.add_format({'bold': True, 'font_color': 'red'})
-    worksheet.write('A1', 'Cell A1', format)
+    format1 = workbook.add_format({'bold': True, 'font_color': 'red'})
+    worksheet.write('A1', 'Cell A1', format1)
 
     # Later...
-    format.set_font_color('green')
-    worksheet.write('B1', 'Cell B1', format)
+    format1.set_font_color('green')
+    worksheet.write('B1', 'Cell B1', format1)
 
 Cell A1 is assigned a format which initially has the font set to the color
 red. However, the color is subsequently set to green. When Excel displays
@@ -206,8 +206,8 @@ format.set_font_size()
 
 Set the font size of the cell format::
 
-    format = workbook.add_format()
-    format.set_font_size(30)
+    format1 = workbook.add_format()
+    format1.set_font_size(30)
 
 .. image:: _images/format_font_size.png
 
@@ -228,11 +228,11 @@ format.set_font_color()
 
 Set the font color::
 
-    format = workbook.add_format()
+    format1 = workbook.add_format()
 
-    format.set_font_color('red')
+    format1.set_font_color('red')
 
-    worksheet.write(0, 0, 'wheelbarrow', format)
+    worksheet.write(0, 0, 'wheelbarrow', format1)
 
 .. image:: _images/format_font_color.png
 
@@ -253,7 +253,7 @@ format.set_bold()
 
 Set the bold property of the font::
 
-    format.set_bold()
+    format1.set_bold()
 
 .. image:: _images/format_font_bold.png
 
@@ -267,7 +267,7 @@ format.set_italic()
 
 Set the italic property of the font::
 
-    format.set_italic()
+    format1.set_italic()
 
 .. image:: _images/format_font_italic.png
 
@@ -283,7 +283,7 @@ format.set_underline()
 
 Set the underline property of the format::
 
-    format.set_underline()
+    format1.set_underline()
 
 .. image:: _images/format_font_underlined.png
 
@@ -584,10 +584,10 @@ The following are the available vertical alignments:
 
 As in Excel, vertical and horizontal alignments can be combined::
 
-    format = workbook.add_format()
+    format1 = workbook.add_format()
 
-    format.set_align('center')
-    format.set_align('vcenter')
+    format1.set_align('center')
+    format1.set_align('vcenter')
 
     worksheet.set_row(0, 70)
     worksheet.set_column('A:A', 30)
@@ -619,11 +619,11 @@ Text can be aligned across two or more adjacent cells using the
 
 Only one cell should contain the text, the other cells should be blank::
 
-    format = workbook.add_format()
-    format.set_center_across()
+    format1 = workbook.add_format()
+    format1.set_center_across()
 
-    worksheet.write(1, 1, 'Center across selection', format)
-    worksheet.write_blank(1, 2, '', format)
+    worksheet.write(1, 1, 'Center across selection', format1)
+    worksheet.write_blank(1, 2, '', format1)
 
 For actual merged cells it is better to use the ``merge_range()`` worksheet
 method.
@@ -638,15 +638,15 @@ format.set_text_wrap()
 
 Turn text wrapping on for text in a cell::
 
-    format = workbook.add_format()
-    format.set_text_wrap()
+    format1 = workbook.add_format()
+    format1.set_text_wrap()
 
-    worksheet.write(0, 0, "Some long text to wrap in a cell", format)
+    worksheet.write(0, 0, "Some long text to wrap in a cell", format1)
 
 If you wish to control where the text is wrapped you can add newline characters
 to the string::
 
-    worksheet.write(2, 0, "It's\na bum\nwrap", format)
+    worksheet.write(2, 0, "It's\na bum\nwrap", format1)
 
 .. image:: _images/format_font_text_wrap.png
 
@@ -667,10 +667,10 @@ format.set_rotation()
 Set the rotation of the text in a cell. The rotation can be any angle in the
 range -90 to 90 degrees::
 
-    format = workbook.add_format()
-    format.set_rotation(30)
+    format1 = workbook.add_format()
+    format1.set_rotation(30)
 
-    worksheet.write(0, 0, 'This text is rotated', format)
+    worksheet.write(0, 0, 'This text is rotated', format1)
 
 .. image:: _images/format_font_text_rotated.png
 
@@ -715,10 +715,10 @@ format.set_shrink()
 
 This method can be used to shrink text so that it fits in a cell::
 
-    format = workbook.add_format()
-    format.set_shrink()
+    format1 = workbook.add_format()
+    format1.set_shrink()
 
-    worksheet.write(0, 0, 'Honey, I shrunk the text!', format)
+    worksheet.write(0, 0, 'Honey, I shrunk the text!', format1)
 
 
 format.set_text_justlast()
@@ -758,12 +758,12 @@ hasn't been defined then a solid fill pattern is used as the default.
 
 Here is an example of how to set up a solid fill in a cell::
 
-    format = workbook.add_format()
+    format1 = workbook.add_format()
 
-    format.set_pattern(1)  # This is optional when using a solid fill.
-    format.set_bg_color('green')
+    format1.set_pattern(1)  # This is optional when using a solid fill.
+    format1.set_bg_color('green')
 
-    worksheet.write('A1', 'Ray', format)
+    worksheet.write('A1', 'Ray', format1)
 
 .. image:: _images/formats_set_bg_color.png
 
