@@ -307,8 +307,8 @@ class Workbook(xmlwriter.XMLwriter):
 
         """
         if not self.fileclosed:
-            self.fileclosed = 1
             self._store_workbook()
+            self.fileclosed = 1
 
     def set_size(self, width, height):
         """
