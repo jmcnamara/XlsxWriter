@@ -5,7 +5,7 @@ Working with Data Validation
 
 Data validation is a feature of Excel which allows you to restrict the data
 that a user enters in a cell and to display associated help and warning
-messages. It also allows you to restrict input to values in a drop down list.
+messages. It also allows you to restrict input to values in a dropdown list.
 
 A typical use case might be to restrict data in a cell to integer values in a
 certain range, to provide a help message to indicate the required value and to
@@ -24,7 +24,7 @@ XlsxWriter we could do that as follows::
 If the user inputs a value that doesn't match the specified criteria an error
 message is displayed:
 
-.. image:: _images/data_validate2.png
+.. image:: _images/data_validate4.png
 
 
 For more information on data validation see the Microsoft support article
@@ -136,8 +136,8 @@ criteria
 ********
 
 The ``criteria`` parameter is used to set the criteria by which the data in the
-cell is validated. It is almost always required except for the ``list`` and
-``custom`` validate options. It has no default value::
+cell is validated. It is almost always required except for the ``list``,
+``custom`` and ``any`` validate options. It has no default value::
 
     worksheet.data_validation('A1', {'validate': 'integer',
                                      'criteria': '>',
@@ -175,15 +175,14 @@ above, or the more common symbolic alternatives. The following are equivalent::
                                      'criteria': 'greater than',
                                      'value': 100})
 
-The ``list`` and ``custom`` validate options don't require a ``criteria``. If
-you specify one it will be ignored::
+The ``list``, ``custom`` and ``any`` validate options don't require a
+``criteria``. If you specify one it will be ignored::
 
     worksheet.data_validation('B13', {'validate': 'list',
                                       'source': ['open', 'high', 'close']})
 
     worksheet.data_validation('B23', {'validate': 'custom',
                                       'value': '=AND(F5=50,G5=60)'})
-
 
 value, minimum, source
 **********************
@@ -193,20 +192,31 @@ The ``value`` parameter is used to set the limiting value to which the
 You can also use the synonyms ``minimum`` or ``source`` to make the validation
 a little clearer and closer to Excel's description of the parameter::
 
-    # Use 'value'
+    # Using 'value'.
     worksheet.data_validation('A1', {'validate': 'integer',
                                      'criteria': 'greater than',
                                      'value': 100})
 
-    # Use 'minimum'
+    # Using 'minimum'.
     worksheet.data_validation('B11', {'validate': 'decimal',
                                       'criteria': 'between',
                                       'minimum': 0.1,
                                       'maximum': 0.5})
 
-    # Use 'source'
+    # Using 'source'.
     worksheet.data_validation('B10', {'validate': 'list',
                                       'source': '=$E$4:$G$4'})
+
+    # Using 'source' with a string list.
+    worksheet.data_validation('B13', {'validate': 'list',
+                                      'source': ['open', 'high', 'close']})
+
+
+Note, when using the ``list`` validation with a list of strings, like in the
+last example above, Excel stores the strings internally as a Comma Separated
+Variable string. The total length for this string, including commas, cannot
+exceed the Excel limit of 255 characters. For longer sets of data you should
+use a range reference like the prior example above.
 
 
 maximum
@@ -308,7 +318,11 @@ the cell.". A non-default error message can be displayed as follows::
                                       'input_title': 'Enter an integer:',
                                       'input_message': 'between 1 and 100',
                                       'error_title': 'Input value not valid!',
-                                      'error_message': 'Sorry.'})
+                                      'error_message': 'It should be an integer between 1 and 100'})
+
+Which give the following message:
+
+.. image:: _images/data_validate2.png
 
 The message can be split over several lines using newlines. The maximum message
 length is 255 characters.
