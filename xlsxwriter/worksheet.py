@@ -284,7 +284,6 @@ class Worksheet(xmlwriter.XMLwriter):
         self.autofilter_ref = None
         self.filter_range = []
         self.filter_on = 0
-        self.filter_range = []
         self.filter_cols = {}
         self.filter_type = {}
 
