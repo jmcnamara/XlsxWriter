@@ -2250,7 +2250,7 @@ class Worksheet(xmlwriter.XMLwriter):
 
             options['bar_color'] = xl_color(options['bar_color'])
 
-        # Store the condtional format until we close the worksheet.
+        # Store the conditional format until we close the worksheet.
         if cell_range in self.cond_formats:
             self.cond_formats[cell_range].append(options)
         else:

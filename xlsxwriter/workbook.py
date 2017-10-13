@@ -137,8 +137,7 @@ class Workbook(xmlwriter.XMLwriter):
             self.add_format({'xf_index': 0})
 
         # Add a default URL format.
-        self.default_url_format = self.add_format({'color': 'blue',
-                                                   'underline': 1})
+        self.default_url_format = self.add_format({'hyperlink': True})
 
         # Add the default date format.
         if self.default_date_format is not None:

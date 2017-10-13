@@ -38,6 +38,7 @@ class Styles(xmlwriter.XMLwriter):
         self.fill_count = 0
         self.custom_colors = []
         self.dxf_formats = []
+        self.has_hyperlink = False
 
     ###########################################################################
     #
@@ -272,6 +273,9 @@ class Styles(xmlwriter.XMLwriter):
                     'scheme',
                     [('val', xf_format.font_scheme)])
 
+            if xf_format.hyperlink:
+                self.has_hyperlink = True
+
         self._xml_end_tag('font')
 
     def _write_underline(self, underline):
@@ -489,10 +493,19 @@ class Styles(xmlwriter.XMLwriter):
 
     def _write_cell_style_xfs(self):
         # Write the <cellStyleXfs> element.
-        attributes = [('count', 1)]
+        count = 1
+
+        if self.has_hyperlink:
+            count = 2
+
+        attributes = [('count', count)]
 
         self._xml_start_tag('cellStyleXfs', attributes)
         self._write_style_xf()
+
+        if self.has_hyperlink:
+            self._write_style_xf(True, 1)
+
         self._xml_end_tag('cellStyleXfs')
 
     def _write_cell_xfs(self):
@@ -514,10 +527,9 @@ class Styles(xmlwriter.XMLwriter):
 
         self._xml_end_tag('cellXfs')
 
-    def _write_style_xf(self):
+    def _write_style_xf(self, has_hyperlink=False, font_id=0):
         # Write the style <xf> element.
         num_fmt_id = 0
-        font_id = 0
         fill_id = 0
         border_id = 0
 
@@ -528,7 +540,20 @@ class Styles(xmlwriter.XMLwriter):
             ('borderId', border_id),
         ]
 
-        self._xml_empty_tag('xf', attributes)
+        if has_hyperlink:
+            attributes.append(('applyNumberFormat', 0))
+            attributes.append(('applyFill', 0))
+            attributes.append(('applyBorder', 0))
+            attributes.append(('applyAlignment', 0))
+            attributes.append(('applyProtection', 0))
+
+            self._xml_start_tag('xf', attributes)
+            self._xml_empty_tag('alignment', [('vertical', 'top')])
+            self._xml_empty_tag('protection', [('locked', 0)])
+            self._xml_end_tag('xf')
+
+        else:
+            self._xml_empty_tag('xf', attributes)
 
     def _write_xf(self, xf_format):
         # Write the <xf> element.
@@ -536,7 +561,7 @@ class Styles(xmlwriter.XMLwriter):
         font_id = xf_format.font_index
         fill_id = xf_format.fill_index
         border_id = xf_format.border_index
-        xf_id = 0
+        xf_id = xf_format.xf_id
         has_align = 0
         has_protect = 0
 
@@ -552,7 +577,7 @@ class Styles(xmlwriter.XMLwriter):
             attributes.append(('applyNumberFormat', 1))
 
         # Add applyFont attribute if XF format uses a font element.
-        if xf_format.font_index > 0:
+        if xf_format.font_index > 0 and not xf_format.hyperlink:
             attributes.append(('applyFont', 1))
 
         # Add applyFill attribute if XF format uses a fill element.
@@ -571,15 +596,17 @@ class Styles(xmlwriter.XMLwriter):
             has_align = 1
 
         # We can also have applyAlignment without a sub-element.
-        if apply_align:
+        if apply_align or xf_format.hyperlink:
             attributes.append(('applyAlignment', 1))
 
         # Check for cell protection properties.
         protection = xf_format._get_protection_properties()
 
-        if protection:
+        if protection or xf_format.hyperlink:
             attributes.append(('applyProtection', 1))
-            has_protect = 1
+
+            if not xf_format.hyperlink:
+                has_protect = 1
 
         # Write XF with sub-elements if required.
         if has_align or has_protect:
@@ -594,18 +621,24 @@ class Styles(xmlwriter.XMLwriter):
 
     def _write_cell_styles(self):
         # Write the <cellStyles> element.
-        attributes = [('count', 1)]
+        count = 1
+
+        if self.has_hyperlink:
+            count = 2
+
+        attributes = [('count', count)]
 
         self._xml_start_tag('cellStyles', attributes)
+
+        if self.has_hyperlink:
+            self._write_cell_style('Hyperlink', 1, 8)
+
         self._write_cell_style()
+
         self._xml_end_tag('cellStyles')
 
-    def _write_cell_style(self):
+    def _write_cell_style(self, name='Normal', xf_id=0, builtin_id=0):
         # Write the <cellStyle> element.
-        name = 'Normal'
-        xf_id = 0
-        builtin_id = 0
-
         attributes = [
             ('name', name),
             ('xfId', xf_id),

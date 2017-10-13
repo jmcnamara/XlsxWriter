@@ -59,7 +59,8 @@ class Format(xmlwriter.XMLwriter):
         self.font_condense = 0
         self.font_extend = 0
         self.theme = 0
-        self.hyperlink = 0
+        self.hyperlink = False
+        self.xf_id = 0
 
         self.hidden = 0
         self.locked = 1
@@ -711,12 +712,11 @@ class Format(xmlwriter.XMLwriter):
         self.theme = theme
 
     def set_hyperlink(self, hyperlink=True):
-        # Set the properties for the hyperlink style. This doesn't
-        # currently work. To be fixed when styles are supported.
-
+        # Set the properties for the hyperlink style. This isn't
+        # currently public. To be fixed when styles are supported.
+        self.xf_id = 1
         self.set_underline(1)
         self.set_theme(10)
-        self.set_align('top')
         self.hyperlink = hyperlink
 
     def set_color_indexed(self, color_index):
@@ -868,7 +868,8 @@ class Format(xmlwriter.XMLwriter):
             self.font_name,
             self.italic,
             self.font_size,
-            self.underline))
+            self.underline,
+            self.theme))
 
         return key
 
