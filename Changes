@@ -1,4 +1,13 @@
 
+Release 1.0.1 - October 14 2017
+-------------------------------
+
+* Changed default :func:`write_url` format to the Excel hyperlink style so that
+  it changes when the theme is changed and also so that it indicates that the
+  link has been clicked.
+  Feature request `#455 <https://github.com/jmcnamara/XlsxWriter/issues/455>`_.
+
+
 Release 1.0.0 - September 16 2017
 ---------------------------------
 
