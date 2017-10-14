@@ -479,7 +479,7 @@ worksheet.write_url()
    :param row:         The cell row (zero indexed).
    :param col:         The cell column (zero indexed).
    :param url:         Hyperlink url.
-   :param cell_format: Optional Format object. Defaults to blue underline.
+   :param cell_format: Optional Format object. Defaults to the Excel hyperlink style.
    :param string:      An optional display string for the hyperlink.
    :param tip:         An optional tooltip.
    :type  row:         int
@@ -499,17 +499,10 @@ for more details.
 
 The ``cell_format`` parameter is used to apply formatting to the cell. This
 parameter is optional. Since a hyperlink without a format doesn't look like a
-link the following default :ref:`Format <format>` is used::
+link the following default Excel hyperlink style is used. If required you can
+access this format as::
 
-    workbook.add_format({'color': 'blue', 'underline': 1})
-
-Therefore the following are equivalent::
-
-    link_format = workbook.add_format({'color': 'blue', 'underline': 1})
-    worksheet.write_url('A1', 'ftp://www.python.org/', link_format)
-
-    # Same as:
-    worksheet.write_url('A1', 'ftp://www.python.org/')  # Default format.
+    worksheet.default_url_format
 
 Four web style URI's are supported: ``http://``, ``https://``, ``ftp://`` and
 ``mailto:``::
@@ -527,17 +520,17 @@ following are equivalent::
 
 You can display an alternative string using the ``string`` parameter::
 
-    worksheet.write_url('A1', 'http://www.python.org', link_format, 'Python')
+    worksheet.write_url('A1', 'http://www.python.org', string='Python home')
 
 .. Note::
 
   If you wish to have some other cell data such as a number or a formula you
   can overwrite the cell using another call to ``write_*()``::
 
-    worksheet.write_url('A1', 'http://www.python.org/', link_format)
+    worksheet.write_url('A1', 'http://www.python.org/')
 
     # Overwrite the URL string with a formula. The cell is still a link.
-    worksheet.write_formula('A1', '=1+1', link_format)
+    worksheet.write_formula('A1', '=1+1', worksheet.default_url_format)
 
 There are two local URIs supported: ``internal:`` and ``external:``. These are
 used for hyperlinks to internal worksheet references or external workbook and
