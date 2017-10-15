@@ -39,6 +39,7 @@ class Styles(xmlwriter.XMLwriter):
         self.custom_colors = []
         self.dxf_formats = []
         self.has_hyperlink = False
+        self.hyperlink_font_id = 0
 
     ###########################################################################
     #
@@ -275,6 +276,8 @@ class Styles(xmlwriter.XMLwriter):
 
             if xf_format.hyperlink:
                 self.has_hyperlink = True
+                if self.hyperlink_font_id == 0:
+                    self.hyperlink_font_id = xf_format.font_index
 
         self._xml_end_tag('font')
 
@@ -504,7 +507,7 @@ class Styles(xmlwriter.XMLwriter):
         self._write_style_xf()
 
         if self.has_hyperlink:
-            self._write_style_xf(True, 1)
+            self._write_style_xf(True, self.hyperlink_font_id)
 
         self._xml_end_tag('cellStyleXfs')
 
