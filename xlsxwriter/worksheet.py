@@ -2752,26 +2752,26 @@ class Worksheet(xmlwriter.XMLwriter):
 
         self.selections = [[pane, active_cell, sqref]]
 
-    def outline_settings(self, outline_on=1, outline_below=1, outline_right=1,
-                         outline_style=0):
+    def outline_settings(self, visible=1, symbols_below=1, symbols_right=1,
+                         auto_style=0):
         """
         Control outline settings.
 
         Args:
-            outline_on:    Outlines are visible. Optional, defaults to True.
-            outline_below: Show row outline symbols below the outline bar.
+            visible:       Outlines are visible. Optional, defaults to True.
+            symbols_below: Show row outline symbols below the outline bar.
                            Optional, defaults to True.
-            outline_right: Show column outline symbols to the right of the
+            symbols_right: Show column outline symbols to the right of the
                            outline bar. Optional, defaults to True.
-            outline_style: Use Automatic style. Optional, defaults to False.
+            auto_style:    Use Automatic style. Optional, defaults to False.
 
         Returns:
             0:  Nothing.
         """
-        self.outline_on = outline_on
-        self.outline_below = outline_below
-        self.outline_right = outline_right
-        self.outline_style = outline_style
+        self.outline_on = visible
+        self.outline_below = symbols_below
+        self.outline_right = symbols_right
+        self.outline_style = auto_style
 
         self.outline_changed = True
 
