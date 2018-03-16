@@ -84,6 +84,7 @@ The following list is taken from
 * ``_xlfn.CHISQ.INV.RT``
 * ``_xlfn.CHISQ.TEST``
 * ``_xlfn.COMBINA``
+* ``_xlfn.CONCAT``
 * ``_xlfn.CONFIDENCE.NORM``
 * ``_xlfn.CONFIDENCE.T``
 * ``_xlfn.COT``
@@ -119,6 +120,7 @@ The following list is taken from
 * ``_xlfn.GAUSS``
 * ``_xlfn.HYPGEOM.DIST``
 * ``_xlfn.IFNA``
+* ``_xlfn.IFS``
 * ``_xlfn.IMCOSH``
 * ``_xlfn.IMCOT``
 * ``_xlfn.IMCSC``
@@ -132,6 +134,8 @@ The following list is taken from
 * ``_xlfn.ISOWEEKNUM``
 * ``_xlfn.LOGNORM.DIST``
 * ``_xlfn.LOGNORM.INV``
+* ``_xlfn.MAXIFS``
+* ``_xlfn.MINIFS``
 * ``_xlfn.MODE.MULT``
 * ``_xlfn.MODE.SNGL``
 * ``_xlfn.MUNIT``
@@ -163,12 +167,14 @@ The following list is taken from
 * ``_xlfn.SKEW.P``
 * ``_xlfn.STDEV.P``
 * ``_xlfn.STDEV.S``
+* ``_xlfn.SWITCH``
 * ``_xlfn.T.DIST``
 * ``_xlfn.T.DIST.2T``
 * ``_xlfn.T.DIST.RT``
 * ``_xlfn.T.INV``
 * ``_xlfn.T.INV.2T``
 * ``_xlfn.T.TEST``
+* ``_xlfn.TEXTJOIN``
 * ``_xlfn.UNICHAR``
 * ``_xlfn.UNICODE``
 * ``_xlfn.VAR.P``
