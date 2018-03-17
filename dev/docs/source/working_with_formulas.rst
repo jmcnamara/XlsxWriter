@@ -8,7 +8,7 @@ In general a formula in Excel can be used directly in the
 
     worksheet.write_formula('A1', '=10*B1 + C1')
 
-.. image:: _images/working_with_formulas2.png
+.. image:: _images/working_with_formulas1.png
 
 However, there are a few potential issues and differences that the user should
 be aware of. These are explained in the following sections.
