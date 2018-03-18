@@ -71,18 +71,6 @@ applications, will only display the 0 results.
 See :ref:`formula_result` for more details and a workaround.
 
 
-Strings aren't displayed in Apple Numbers in 'constant_memory' mode
--------------------------------------------------------------------
-
-In :func:`Workbook` ``'constant_memory'`` mode XlsxWriter uses an optimization
-where cell strings aren't stored in an Excel structure call "shared strings"
-and instead are written "in-line".
-
-This is a documented Excel feature that is supported by most spreadsheet
-applications. One known exception is Apple Numbers for Mac where the string
-data isn't displayed.
-
-
 Images not displayed correctly in Excel 2001 for Mac and non-Excel applications
 -------------------------------------------------------------------------------
 
