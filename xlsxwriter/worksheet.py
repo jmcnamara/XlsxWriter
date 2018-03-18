@@ -1022,14 +1022,23 @@ class Worksheet(xmlwriter.XMLwriter):
     def insert_image(self, row, col, filename, options=None):
         """
         Insert an image with its top-left corner in a worksheet cell.
+
         Args:
             row:      The cell row (zero indexed).
             col:      The cell column (zero indexed).
             filename: Path and filename for image in PNG, JPG or BMP format.
             options:  Position, scale, url and data stream of the image.
+
         Returns:
             0:  Success.
+            -1: Row or column is out of worksheet bounds.
+
         """
+        # Check insert (row, col) without storing.
+        if self._check_dimensions(row, col, True, True):
+            warn('Cannot insert image at (%d, %d).' % (row, col))
+            return -1
+
         if options is None:
             options = {}
 
@@ -1053,14 +1062,23 @@ class Worksheet(xmlwriter.XMLwriter):
     def insert_textbox(self, row, col, text, options=None):
         """
         Insert an textbox with its top-left corner in a worksheet cell.
+
         Args:
             row:      The cell row (zero indexed).
             col:      The cell column (zero indexed).
             text:     The text for the textbox.
             options:  Textbox options.
+
         Returns:
             0:  Success.
+            -1: Row or column is out of worksheet bounds.
+
         """
+        # Check insert (row, col) without storing.
+        if self._check_dimensions(row, col, True, True):
+            warn('Cannot insert textbox at (%d, %d).' % (row, col))
+            return -1
+
         if options is None:
             options = {}
 
@@ -1076,6 +1094,7 @@ class Worksheet(xmlwriter.XMLwriter):
     def insert_chart(self, row, col, chart, options=None):
         """
         Insert an chart with its top-left corner in a worksheet cell.
+
         Args:
             row:     The cell row (zero indexed).
             col:     The cell column (zero indexed).
@@ -1084,7 +1103,14 @@ class Worksheet(xmlwriter.XMLwriter):
 
         Returns:
             0:  Success.
+            -1: Row or column is out of worksheet bounds.
+
         """
+        # Check insert (row, col) without storing.
+        if self._check_dimensions(row, col, True, True):
+            warn('Cannot insert chart at (%d, %d).' % (row, col))
+            return -1
+
         if options is None:
             options = {}
 
@@ -2939,6 +2965,11 @@ class Worksheet(xmlwriter.XMLwriter):
             -1: Row or column is out of worksheet bounds.
 
         """
+        # Check insert (row, col) without storing.
+        if self._check_dimensions(row, col, True, True):
+            warn('Cannot insert button at (%d, %d).' % (row, col))
+            return -1
+
         if options is None:
             options = {}
 
