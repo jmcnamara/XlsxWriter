@@ -222,3 +222,18 @@ def _compare_xlsx_files(got_file, exp_file, ignore_files, ignore_elements):
 
     # If we got here the files are the same.
     return 'Ok', 'Ok'
+
+
+# External wrapper function to allow simplified equality testing of two Excel
+# files. Note, this function doesn't test equivalence, only equality.
+def compare_xlsx_files(file1, file2, ignore_files=None, ignore_elements=None):
+
+    if ignore_elements is None:
+        ignore_elements = []
+
+    if ignore_elements is None:
+        ignore_elements = []
+
+    got, exp = _compare_xlsx_files(file1, file2, ignore_files, ignore_elements)
+
+    return got == exp
