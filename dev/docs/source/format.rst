@@ -558,6 +558,8 @@ cell. The following are the available horizontal alignments:
 +----------------------+
 | Horizontal alignment |
 +======================+
+| left                 |
++----------------------+
 | center               |
 +----------------------+
 | right                |
@@ -567,6 +569,8 @@ cell. The following are the available horizontal alignments:
 | justify              |
 +----------------------+
 | center_across        |
++----------------------+
+| distributed          |
 +----------------------+
 
 The following are the available vertical alignments:
@@ -581,6 +585,8 @@ The following are the available vertical alignments:
 | bottom             |
 +--------------------+
 | vjustify           |
++--------------------+
+| vdistributed       |
 +--------------------+
 
 
