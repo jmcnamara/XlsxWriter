@@ -134,6 +134,8 @@ properties that can be applied and the equivalent object method:
 +------------+------------------+----------------------+------------------------------+
 |            | Text wrap        | ``'text_wrap'``      | :func:`set_text_wrap()`      |
 +------------+------------------+----------------------+------------------------------+
+|            | Reading order    | ``'reading_order'``  | :func:`set_reading_order()`  |
++------------+------------------+----------------------+------------------------------+
 |            | Justify last     | ``'text_justlast'``  | :func:`set_text_justlast()`  |
 +------------+------------------+----------------------+------------------------------+
 |            | Center across    | ``'center_across'``  | :func:`set_center_across()`  |
@@ -676,6 +678,35 @@ range -90 to 90 degrees::
 
 The angle 270 is also supported. This indicates text where the letters run from
 top to bottom.
+
+
+format.set_reading_order()
+--------------------------
+
+.. py:function:: set_reading_order(direction)
+
+   Set the reading order for the text in a cell.
+
+   :param int direction: Reading order direction.
+
+Set the text reading direction. This is useful when creating Arabic, Hebrew or
+other near or far eastern worksheets. It can be used in conjunction with the
+Worksheet :func:`right_to_left` method to also change the direction of the
+worksheet::
+
+    format_left_to_right = workbook.add_format()
+    format_left_to_right.set_reading_order(1)
+
+    format_right_to_left = workbook.add_format()
+    format_right_to_left.set_reading_order(2)
+
+    worksheet.right_to_left()
+
+    worksheet.write('A1', u'نص عربي / English text')  # Default direction.
+    worksheet.write('A2', u'نص عربي / English text', format_left_to_right)
+    worksheet.write('A3', u'نص عربي / English text', format_right_to_left)
+
+.. image:: _images/right_to_left.png
 
 
 format.set_indent()

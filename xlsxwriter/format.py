@@ -677,9 +677,9 @@ class Format(xmlwriter.XMLwriter):
         # Set the text_v_align property.
         self.text_v_align = text_v_align
 
-    def set_reading_order(self, reading_order=True):
+    def set_reading_order(self, direction=0):
         # Set the reading_order property.
-        self.reading_order = reading_order
+        self.reading_order = direction
 
     def set_valign(self, align):
         # Set vertical cell alignment. This is required by the constructor

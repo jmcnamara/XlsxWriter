@@ -358,7 +358,7 @@ class TestWriteXf(unittest.TestCase):
         """Test the _write_xf() method. Alignment = reading order"""
 
         xf_format = Format()
-        xf_format.set_reading_order()
+        xf_format.set_reading_order(1)
 
         self.styles._write_xf(xf_format)
 
