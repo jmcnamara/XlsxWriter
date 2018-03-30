@@ -624,17 +624,11 @@ class Workbook(xmlwriter.XMLwriter):
         xlsx_file = ZipFile(self.filename, "w", compression=ZIP_DEFLATED,
                             allowZip64=self.allow_zip64)
 
-        timestamp_for_tempfiles = self.doc_properties.get('created', None)
-
         # Add XML sub-files to the Zip file with their Excel filename.
         for os_filename, xml_filename, is_binary in xml_files:
             if self.in_memory:
 
-                if timestamp_for_tempfiles:
-                    zipinfo = ZipInfo(xml_filename, timestamp_for_tempfiles.timetuple())
-                else:
-                    zipinfo = ZipInfo(xml_filename)
-
+                zipinfo = ZipInfo(xml_filename, (1980, 1, 1, 0, 0, 0))
                 if is_binary:
                     xlsx_file.writestr(zipinfo, os_filename.getvalue())
                 else:
@@ -643,9 +637,8 @@ class Workbook(xmlwriter.XMLwriter):
             else:
                 # The files are tempfiles.
 
-                if timestamp_for_tempfiles:
-                    timestamp = time.mktime(timestamp_for_tempfiles.timetuple())
-                    os.utime(os_filename, (timestamp, timestamp))
+                timestamp = time.mktime((1980, 1, 1, 0, 0, 0, 0, 0, 0))
+                os.utime(os_filename, (timestamp, timestamp))
 
                 xlsx_file.write(os_filename, xml_filename)
                 os.remove(os_filename)
