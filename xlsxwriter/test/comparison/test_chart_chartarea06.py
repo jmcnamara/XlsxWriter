@@ -18,7 +18,7 @@ class TestCompareXLSXFiles(ExcelComparisonTest):
     def setUp(self):
         self.maxDiff = None
 
-        filename = 'chart_chartarea05.xlsx'
+        filename = 'chart_chartarea06.xlsx'
 
         test_dir = 'xlsxwriter/test/comparison/'
         self.got_filename = test_dir + '_test_' + filename
@@ -33,7 +33,7 @@ class TestCompareXLSXFiles(ExcelComparisonTest):
         workbook = Workbook(self.got_filename)
 
         worksheet = workbook.add_worksheet()
-        chart = workbook.add_chart({'type': 'pie'})
+        chart = workbook.add_chart({'type': 'doughnut'})
 
         data = [
             [2, 4, 6],

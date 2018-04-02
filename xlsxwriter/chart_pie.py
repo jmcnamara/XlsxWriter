@@ -113,6 +113,9 @@ class ChartPie(chart.Chart):
         # Write the subclass chart type element.
         self._write_chart_type(None)
 
+        # Write the c:spPr element for the plotarea formatting.
+        self._write_sp_pr(self.plotarea)
+
         self._xml_end_tag('c:plotArea')
 
     def _write_legend(self):
