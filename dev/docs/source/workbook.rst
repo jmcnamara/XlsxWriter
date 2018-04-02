@@ -566,6 +566,22 @@ object with the the given ``name`` or ``None`` if it isn't found::
     worksheet = workbook.get_worksheet_by_name('Sheet1')
 
 
+workbook.get_default_url_format()
+---------------------------------
+
+.. function:: get_details_url_format()
+
+   Return a format object.
+
+   :rtype: A :ref:`format <Format>` object.
+
+The ``get_default_url_format()`` method gets a copy of the default url format
+used when a user defined format isn't specified with :func:`write_url`. The
+format is the hyperlink style defined by Excel for the default theme::
+
+    url_format = workbook.get_default_url_format()
+
+
 workbook.set_calc_mode()
 ------------------------
 

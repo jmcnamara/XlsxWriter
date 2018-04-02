@@ -498,11 +498,11 @@ Both row-column and A1 style notation are supported. See :ref:`cell_notation`
 for more details.
 
 The ``cell_format`` parameter is used to apply formatting to the cell. This
-parameter is optional. Since a hyperlink without a format doesn't look like a
-link the following default Excel hyperlink style is used. If required you can
-access this format as::
+parameter is optional and the default Excel hyperlink style will be used if it
+isn't specified. If required you can access the default url format using the
+Workbook :func:`get_default_url_format` method::
 
-    worksheet.default_url_format
+    url_format = workbook.get_default_url_format()
 
 Four web style URI's are supported: ``http://``, ``https://``, ``ftp://`` and
 ``mailto:``::
@@ -529,8 +529,10 @@ You can display an alternative string using the ``string`` parameter::
 
     worksheet.write_url('A1', 'http://www.python.org/')
 
-    # Overwrite the URL string with a formula. The cell is still a link.
-    worksheet.write_formula('A1', '=1+1', worksheet.default_url_format)
+    # Overwrite the URL string with a formula. The cell will still be a link.
+    # Note the use of the default url format for consistency with other links.
+    url_format = workbook.get_default_url_format()
+    worksheet.write_formula('A1', '=1+1', url_format)
 
 There are two local URIs supported: ``internal:`` and ``external:``. These are
 used for hyperlinks to internal worksheet references or external workbook and

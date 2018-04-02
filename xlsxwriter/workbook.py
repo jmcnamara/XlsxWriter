@@ -503,6 +503,21 @@ class Workbook(xmlwriter.XMLwriter):
         """
         return self.sheetnames.get(name)
 
+    def get_default_url_format(self):
+        """
+        Get the default url format used when a user defined format isn't
+        specified with write_url(). The format is the hyperlink style defined
+        by Excel for the default theme.
+
+        Args:
+            None.
+
+        Returns:
+            A format object.
+
+        """
+        return self.default_url_format
+
     def use_zip64(self):
         """
         Allow ZIP64 extensions when writing xlsx file zip container.
