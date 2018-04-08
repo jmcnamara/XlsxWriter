@@ -1925,6 +1925,7 @@ class Worksheet(xmlwriter.XMLwriter):
             'max_length': True,
             'multi_range': True,
             'bar_color': True,
+            'bar_only': True,
             'icon_style': True,
             'reverse_icons': True,
             'icons_only': True,
@@ -6224,11 +6225,16 @@ class Worksheet(xmlwriter.XMLwriter):
         # Write the <dataBar> element.
         attributes = []
 
-        if 'min_length' in param:
+        # Min and max bar lengths in in the spec but not supported directly by
+        # Excel.
+        if  param.get('min_length'):
             attributes.append(('minLength', param['min_length']))
 
-        if 'max_length' in param:
+        if  param.get('max_length'):
             attributes.append(('maxLength', param['max_length']))
+
+        if param.get('bar_only'):
+            attributes.append(('showValue', 0))
 
         self._xml_start_tag('dataBar', attributes)
 
