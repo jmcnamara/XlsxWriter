@@ -317,6 +317,7 @@ class Worksheet(xmlwriter.XMLwriter):
 
         self.validations = []
         self.cond_formats = {}
+        self.data_bars_2010 = []
         self.dxf_priority = 1
         self.is_chartsheet = 0
         self.page_view = 0
@@ -1925,7 +1926,18 @@ class Worksheet(xmlwriter.XMLwriter):
             'max_length': True,
             'multi_range': True,
             'bar_color': True,
+            'bar_negative_color': True,
+            'bar_negative_color_same': True,
+            'bar_solid': True,
+            'bar_border_color': True,
+            'bar_negative_border_color': True,
+            'bar_negative_border_color_same': True,
+            'bar_no_border': True,
+            'bar_direction': True,
+            'bar_axis_position': True,
+            'bar_axis_color': True,
             'bar_only': True,
+            'data_bar_2010': True,
             'icon_style': True,
             'reverse_icons': True,
             'icons_only': True,
@@ -2122,6 +2134,20 @@ class Worksheet(xmlwriter.XMLwriter):
         options['priority'] = self.dxf_priority
         self.dxf_priority += 1
 
+        # Check for 2010 style data_bar parameters.
+        if (options.get('data_bar_2010') or
+                options.get('bar_solid') or
+                options.get('bar_border_color') or
+                options.get('bar_negative_color') or
+                options.get('bar_negative_color_same') or
+                options.get('bar_negative_border_color') or
+                options.get('bar_negative_border_color_same') or
+                options.get('bar_no_border') or
+                options.get('bar_axis_position') or
+                options.get('bar_axis_color') or
+                options.get('bar_direction')):
+            options['is_data_bar_2010'] = True
+
         # Special handling of text criteria.
         if options['type'] == 'text':
 
@@ -2269,13 +2295,66 @@ class Worksheet(xmlwriter.XMLwriter):
             # Color scales don't use any additional formatting.
             options['format'] = None
 
-            options.setdefault('min_type', 'min')
-            options.setdefault('max_type', 'max')
+            if not options.get('min_type'):
+                options['min_type'] = 'min'
+                options['x14_min_type'] = 'autoMin'
+            else:
+                options['x14_min_type'] = options['min_type']
+
+            if not options.get('max_type'):
+                options['max_type'] = 'max'
+                options['x14_max_type'] = 'autoMax'
+            else:
+                options['x14_max_type'] = options['max_type']
+
             options.setdefault('min_value', 0)
             options.setdefault('max_value', 0)
             options.setdefault('bar_color', '#638EC6')
+            options.setdefault('bar_border_color', options['bar_color'])
+            options.setdefault('bar_only', False)
+            options.setdefault('bar_no_border', False)
+            options.setdefault('bar_solid', False)
+            options.setdefault('bar_direction', '')
+            options.setdefault('bar_negative_color', '#FF0000')
+            options.setdefault('bar_negative_border_color', '#FF0000')
+            options.setdefault('bar_negative_color_same', False)
+            options.setdefault('bar_negative_border_color_same', False)
+            options.setdefault('bar_axis_position', '')
+            options.setdefault('bar_axis_color', '#000000')
 
             options['bar_color'] = xl_color(options['bar_color'])
+            options['bar_border_color'] = xl_color(options['bar_border_color'])
+            options['bar_axis_color'] = xl_color(options['bar_axis_color'])
+            options['bar_negative_color'] = \
+                xl_color(options['bar_negative_color'])
+            options['bar_negative_border_color'] = \
+                xl_color(options['bar_negative_border_color'])
+
+        # Adjust for 2010 style data_bar parameters.
+        if options.get('is_data_bar_2010'):
+            self.excel_version = 2010
+
+            if options['min_type'] is 'min' and options['min_value'] == 0:
+                options['min_value'] = None
+
+            if options['max_type'] is 'max' and options['max_value'] == 0:
+                options['max_value'] = None
+
+            options['range'] = cell_range
+
+        # Strip the leading = from formulas.
+        try:
+            options['min_value'] = options['min_value'].lstrip('=')
+        except:
+            pass
+        try:
+            options['mid_value'] = options['mid_value'].lstrip('=')
+        except:
+            pass
+        try:
+            options['max_value'] = options['max_value'].lstrip('=')
+        except:
+            pass
 
         # Store the conditional format until we close the worksheet.
         if cell_range in self.cond_formats:
@@ -3590,8 +3669,8 @@ class Worksheet(xmlwriter.XMLwriter):
         # Write the tableParts element.
         self._write_table_parts()
 
-        # Write the extLst and sparklines.
-        self._write_ext_sparklines()
+        # Write the extLst elements.
+        self._write_ext_list()
 
         # Close the worksheet tag.
         self._xml_end_tag('worksheet')
@@ -6175,6 +6254,10 @@ class Worksheet(xmlwriter.XMLwriter):
         elif params['type'] == 'dataBar':
             self._xml_start_tag('cfRule', attributes)
             self._write_data_bar(params)
+
+            if params.get('is_data_bar_2010'):
+                self._write_data_bar_ext(params)
+
             self._xml_end_tag('cfRule')
 
         elif params['type'] == 'expression':
@@ -6227,10 +6310,10 @@ class Worksheet(xmlwriter.XMLwriter):
 
         # Min and max bar lengths in in the spec but not supported directly by
         # Excel.
-        if  param.get('min_length'):
+        if param.get('min_length'):
             attributes.append(('minLength', param['min_length']))
 
-        if  param.get('max_length'):
+        if param.get('max_length'):
             attributes.append(('maxLength', param['max_length']))
 
         if param.get('bar_only'):
@@ -6243,6 +6326,25 @@ class Worksheet(xmlwriter.XMLwriter):
         self._write_color('rgb', param['bar_color'])
 
         self._xml_end_tag('dataBar')
+
+    def _write_data_bar_ext(self, param):
+        # Write the <extLst> dataBar extension element.
+
+        # Create a pseudo GUID for each unique Excel 2010 data bar.
+        worksheet_count = self.index + 1
+        data_bar_count = len(self.data_bars_2010) + 1
+        guid = "{DA7ABA51-AAAA-BBBB-%04X-%012X}" % (worksheet_count,
+                                                    data_bar_count)
+
+        # Store the 2010 data bar parameters to write the extLst elements.
+        param['guid'] = guid
+        self.data_bars_2010.append(param)
+
+        self._xml_start_tag('extLst')
+        self._write_ext('{B025F937-C7B1-47D3-B67F-A62EFF666E3E}')
+        self._xml_data_element('x14:id', guid)
+        self._xml_end_tag('ext')
+        self._xml_end_tag('extLst')
 
     def _write_icon_set(self, param):
         # Write the <iconSet> element.
@@ -6271,7 +6373,10 @@ class Worksheet(xmlwriter.XMLwriter):
 
     def _write_cfvo(self, cf_type, val, criteria=None):
         # Write the <cfvo> element.
-        attributes = [('type', cf_type), ('val', val)]
+        attributes = [('type', cf_type)]
+
+        if val is not None:
+            attributes.append(('val', val))
 
         if criteria:
             attributes.append(('gte', 0))
@@ -6496,26 +6601,169 @@ class Worksheet(xmlwriter.XMLwriter):
 
         self._xml_empty_tag('tablePart', attributes)
 
-    def _write_ext_sparklines(self):
-        # Write the <extLst> element and sparkline sub-elements.
-        sparklines = self.sparklines
-        count = len(sparklines)
+    def _write_ext_list(self):
+        # Write the <extLst> element for data bars and sparklines.
+        has_data_bars = len(self.data_bars_2010)
+        has_sparklines = len(self.sparklines)
 
-        # Return if worksheet doesn't contain any sparklines.
-        if not count:
+        if not has_data_bars and not has_sparklines:
             return
 
         # Write the extLst element.
         self._xml_start_tag('extLst')
 
-        # Write the ext element.
-        self._write_ext()
+        if has_data_bars:
+            self._write_ext_list_data_bars()
+
+        if has_sparklines:
+            self._write_ext_list_sparklines()
+
+        self._xml_end_tag('extLst')
+
+    def _write_ext_list_data_bars(self):
+        # Write the Excel 2010 data_bar subelements.
+        self._write_ext('{78C0D931-6437-407d-A8EE-F0AAD7539E65}')
+
+        self._xml_start_tag('x14:conditionalFormattings')
+
+        # Write the Excel 2010 conditional formatting data bar elements.
+        for data_bar in self.data_bars_2010:
+            # Write the x14:conditionalFormatting element.
+            self._write_conditional_formatting_2010(data_bar)
+
+        self._xml_end_tag('x14:conditionalFormattings')
+        self._xml_end_tag('ext')
+
+    def _write_conditional_formatting_2010(self, data_bar):
+        # Write the <x14:conditionalFormatting> element.
+        xmlns_xm = 'http://schemas.microsoft.com/office/excel/2006/main'
+
+        attributes = [('xmlns:xm', xmlns_xm)]
+
+        self._xml_start_tag('x14:conditionalFormatting', attributes)
+
+        # Write the x14:cfRule element.
+        self._write_x14_cf_rule(data_bar)
+
+        # Write the x14:dataBar element.
+        self._write_x14_data_bar(data_bar)
+
+        # Write the x14 max and min data bars.
+        self._write_x14_cfvo(data_bar['x14_min_type'], data_bar['min_value'])
+        self._write_x14_cfvo(data_bar['x14_max_type'], data_bar['max_value'])
+
+        if not data_bar['bar_no_border']:
+            # Write the x14:borderColor element.
+            self._write_x14_border_color(data_bar['bar_border_color'])
+
+        # Write the x14:negativeFillColor element.
+        if not data_bar['bar_negative_color_same']:
+            self._write_x14_negative_fill_color(
+                data_bar['bar_negative_color'])
+
+        # Write the x14:negativeBorderColor element.
+        if (not data_bar['bar_no_border'] and
+                not data_bar['bar_negative_border_color_same']):
+            self._write_x14_negative_border_color(
+                data_bar['bar_negative_border_color'])
+
+        # Write the x14:axisColor element.
+        if data_bar['bar_axis_position'] is not 'none':
+            self._write_x14_axis_color(data_bar['bar_axis_color'])
+
+        self._xml_end_tag('x14:dataBar')
+        self._xml_end_tag('x14:cfRule')
+
+        # Write the xm:sqref element.
+        self._xml_data_element('xm:sqref', data_bar['range'])
+
+        self._xml_end_tag('x14:conditionalFormatting')
+
+    def _write_x14_cf_rule(self, data_bar):
+        # Write the <x14:cfRule> element.
+        rule_type = 'dataBar'
+        guid = data_bar['guid']
+        attributes = [('type', rule_type), ('id', guid)]
+
+        self._xml_start_tag('x14:cfRule', attributes)
+
+    def _write_x14_data_bar(self, data_bar):
+        # Write the <x14:dataBar> element.
+        min_length = 0
+        max_length = 100
+
+        attributes = [
+            ('minLength', min_length),
+            ('maxLength', max_length),
+        ]
+
+        if not data_bar['bar_no_border']:
+            attributes.append(('border', 1))
+
+        if data_bar['bar_solid']:
+            attributes.append(('gradient', 0))
+
+        if data_bar['bar_direction'] is 'left':
+            attributes.append(('direction', 'leftToRight'))
+
+        if data_bar['bar_direction'] is 'right':
+            attributes.append(('direction', 'rightToLeft'))
+
+        if data_bar['bar_negative_color_same']:
+            attributes.append(('negativeBarColorSameAsPositive', 1))
+
+        if (not data_bar['bar_no_border'] and
+                not data_bar['bar_negative_border_color_same']):
+            attributes.append(('negativeBarBorderColorSameAsPositive', 0))
+
+        if data_bar['bar_axis_position'] is 'middle':
+            attributes.append(('axisPosition', 'middle'))
+
+        if data_bar['bar_axis_position'] is 'none':
+            attributes.append(('axisPosition', 'none'))
+
+        self._xml_start_tag('x14:dataBar', attributes)
+
+    def _write_x14_cfvo(self, rule_type, value):
+        # Write the <x14:cfvo> element.
+        attributes = [('type', rule_type)]
+
+        if rule_type in ('min', 'max', 'autoMin', 'autoMax'):
+            self._xml_empty_tag('x14:cfvo', attributes)
+        else:
+            self._xml_start_tag('x14:cfvo', attributes)
+            self._xml_data_element('xm:f', value)
+            self._xml_end_tag('x14:cfvo')
+
+    def _write_x14_border_color(self, rgb):
+        # Write the <x14:borderColor> element.
+        attributes = [('rgb', rgb)]
+        self._xml_empty_tag('x14:borderColor', attributes)
+
+    def _write_x14_negative_fill_color(self, rgb):
+        # Write the <x14:negativeFillColor> element.
+        attributes = [('rgb', rgb)]
+        self._xml_empty_tag('x14:negativeFillColor', attributes)
+
+    def _write_x14_negative_border_color(self, rgb):
+        # Write the <x14:negativeBorderColor> element.
+        attributes = [('rgb', rgb)]
+        self._xml_empty_tag('x14:negativeBorderColor', attributes)
+
+    def _write_x14_axis_color(self, rgb):
+        # Write the <x14:axisColor> element.
+        attributes = [('rgb', rgb)]
+        self._xml_empty_tag('x14:axisColor', attributes)
+
+    def _write_ext_list_sparklines(self):
+        # Write the sparkline extension sub-elements.
+        self._write_ext('{05C60535-1F16-4fd2-B633-F4F36F0B64E0}')
 
         # Write the x14:sparklineGroups element.
         self._write_sparkline_groups()
 
         # Write the sparkline elements.
-        for sparkline in reversed(sparklines):
+        for sparkline in reversed(self.sparklines):
 
             # Write the x14:sparklineGroup element.
             self._write_sparkline_group(sparkline)
@@ -6553,7 +6801,6 @@ class Worksheet(xmlwriter.XMLwriter):
 
         self._xml_end_tag('x14:sparklineGroups')
         self._xml_end_tag('ext')
-        self._xml_end_tag('extLst')
 
     def _write_sparklines(self, sparkline):
         # Write the <x14:sparklines> element and <x14:sparkline> sub-elements.
@@ -6572,14 +6819,13 @@ class Worksheet(xmlwriter.XMLwriter):
 
         self._xml_end_tag('x14:sparklines')
 
-    def _write_ext(self):
+    def _write_ext(self, uri):
         # Write the <ext> element.
         schema = 'http://schemas.microsoft.com/office/'
-        xmlns_x_14 = schema + 'spreadsheetml/2009/9/main'
-        uri = '{05C60535-1F16-4fd2-B633-F4F36F0B64E0}'
+        xmlns_x14 = schema + 'spreadsheetml/2009/9/main'
 
         attributes = [
-            ('xmlns:x14', xmlns_x_14),
+            ('xmlns:x14', xmlns_x14),
             ('uri', uri),
         ]
 

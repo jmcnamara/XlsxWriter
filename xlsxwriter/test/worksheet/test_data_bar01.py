@@ -25,7 +25,9 @@ class TestAssembleWorksheet(unittest.TestCase):
         worksheet._set_filehandle(fh)
         worksheet.select()
 
-        worksheet.conditional_format('A1', {'type': 'data_bar'})
+        worksheet.conditional_format('A1',
+                                     {'type': 'data_bar',
+                                      })
 
         worksheet._assemble_xml_file()
 
