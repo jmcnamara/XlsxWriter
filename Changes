@@ -1,4 +1,19 @@
 
+Release 1.0.3 - April 10 2017
+-----------------------------
+
+* Added Excel 2010 data bar features such as solid fills and control over the
+  display of negative values. See :ref:`working_with_conditional_formats` and
+  :ref:`ex_cond_format`.
+  Feature request `#502 <https://github.com/jmcnamara/XlsxWriter/issues/502>`_.
+
+* Fixed :func:`set_column` parameter names to match docs and other methods.
+  Note, this is a backward incompatible change.
+  Issue `#504 <https://github.com/jmcnamara/XlsxWriter/issues/504>`_.
+
+* Fixed missing plotarea formatting in pie/doughnut charts.
+
+
 Release 1.0.2 - October 14 2017
 -------------------------------
 

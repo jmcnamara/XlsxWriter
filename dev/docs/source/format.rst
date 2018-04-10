@@ -698,19 +698,23 @@ format.set_reading_order()
 Set the text reading direction. This is useful when creating Arabic, Hebrew or
 other near or far eastern worksheets. It can be used in conjunction with the
 Worksheet :func:`right_to_left` method to also change the direction of the
-worksheet::
+worksheet.
 
-    format_left_to_right = workbook.add_format()
-    format_left_to_right.set_reading_order(1)
+.. only:: html
 
-    format_right_to_left = workbook.add_format()
-    format_right_to_left.set_reading_order(2)
+   ::
 
-    worksheet.right_to_left()
+       format_left_to_right = workbook.add_format()
+       format_left_to_right.set_reading_order(1)
 
-    worksheet.write('A1', u'نص عربي / English text')  # Default direction.
-    worksheet.write('A2', u'نص عربي / English text', format_left_to_right)
-    worksheet.write('A3', u'نص عربي / English text', format_right_to_left)
+       format_right_to_left = workbook.add_format()
+       format_right_to_left.set_reading_order(2)
+
+       worksheet.right_to_left()
+
+       worksheet.write('A1', u'نص عربي / English text')  # Default direction.
+       worksheet.write('A2', u'نص عربي / English text', format_left_to_right)
+       worksheet.write('A3', u'نص عربي / English text', format_right_to_left)
 
 .. image:: _images/right_to_left.png
 

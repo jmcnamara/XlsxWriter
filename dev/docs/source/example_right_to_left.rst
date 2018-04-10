@@ -12,5 +12,7 @@ with Python3. See also the :ref:`unicode_python3.py <ex_http_server3>`.
 
 .. image:: _images/right_to_left.png
 
-.. literalinclude:: ../../../examples/right_to_left.py
+.. only:: html
+
+   .. literalinclude:: ../../../examples/right_to_left.py
 
