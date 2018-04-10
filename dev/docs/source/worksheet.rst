@@ -842,7 +842,7 @@ worksheet.set_column()
    Set properties for one or more columns of cells.
 
    :param int first_col: First column (zero-indexed).
-   :param int last_col:  Last column (zero-indexed). Can be same as firstcol.
+   :param int last_col:  Last column (zero-indexed). Can be same as first_col.
    :param float width:   The width of the column(s).
    :param cell_format:   Optional Format object.
    :type  cell_format:   :ref:`Format <format>`

@@ -1298,15 +1298,15 @@ class Worksheet(xmlwriter.XMLwriter):
         self.worksheet_meta.firstsheet = self.index
 
     @convert_column_args
-    def set_column(self, firstcol, lastcol, width=None, cell_format=None,
+    def set_column(self, first_col, last_col, width=None, cell_format=None,
                    options=None):
         """
         Set the width, and other properties of a single column or a
         range of columns.
 
         Args:
-            firstcol:    First column (zero-indexed).
-            lastcol:     Last column (zero-indexed). Can be same as firstcol.
+            first_col:    First column (zero-indexed).
+            last_col:     Last column (zero-indexed). Can be same as first_col.
             width:       Column width. (optional).
             cell_format: Column cell_format. (optional).
             options:     Dict of options such as hidden and level.
@@ -1320,8 +1320,8 @@ class Worksheet(xmlwriter.XMLwriter):
             options = {}
 
         # Ensure 2nd col is larger than first.
-        if firstcol > lastcol:
-            (firstcol, lastcol) = (lastcol, firstcol)
+        if first_col > last_col:
+            (first_col, last_col) = (last_col, first_col)
 
         # Don't modify the row dimensions when checking the columns.
         ignore_row = True
@@ -1337,9 +1337,9 @@ class Worksheet(xmlwriter.XMLwriter):
             ignore_col = True
 
         # Check that each column is valid and store the max and min values.
-        if self._check_dimensions(0, lastcol, ignore_row, ignore_col):
+        if self._check_dimensions(0, last_col, ignore_row, ignore_col):
             return -1
-        if self._check_dimensions(0, firstcol, ignore_row, ignore_col):
+        if self._check_dimensions(0, first_col, ignore_row, ignore_col):
             return -1
 
         # Set the limits for the outline levels (0 <= x <= 7).
@@ -1352,9 +1352,9 @@ class Worksheet(xmlwriter.XMLwriter):
             self.outline_col_level = level
 
         # Store the column data. Padded for sorting.
-        self.colinfo["%05d" % firstcol] = [firstcol, lastcol, width,
-                                           cell_format, hidden, level,
-                                           collapsed]
+        self.colinfo["%05d" % first_col] = [first_col, last_col, width,
+                                            cell_format, hidden, level,
+                                            collapsed]
 
         # Store the column change to allow optimizations.
         self.col_size_changed = True
@@ -1366,7 +1366,7 @@ class Worksheet(xmlwriter.XMLwriter):
         if hidden:
             width = 0
 
-        for col in range(firstcol, lastcol + 1):
+        for col in range(first_col, last_col + 1):
             self.col_sizes[col] = width
             if cell_format:
                 self.col_formats[col] = cell_format
