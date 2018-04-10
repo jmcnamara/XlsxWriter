@@ -73,6 +73,18 @@ Other, less commonly used parameters are:
 * ``mid_color``
 * ``max_color``
 * ``bar_color``
+* ``bar_only``
+* ``bar_solid``
+* ``bar_negative_color``
+* ``bar_border_color``
+* ``bar_negative_border_color``
+* ``bar_negative_color_same``
+* ``bar_negative_border_color_same``
+* ``bar_no_border``
+* ``bar_direction``
+* ``bar_axis_position``
+* ``bar_axis_color``
+* ``data_bar_2010``
 * ``icon_style``
 * ``icons``
 * ``reverse_icons``
@@ -93,107 +105,149 @@ type
 The ``type`` option is a required parameter and it has no default value.
 Allowable ``type`` values and their associated parameters are:
 
-+---------------+---------------+
-| Type          | Parameters    |
-+===============+===============+
-| cell          | criteria      |
-+---------------+---------------+
-|               | value         |
-+---------------+---------------+
-|               | minimum       |
-+---------------+---------------+
-|               | maximum       |
-+---------------+---------------+
-| date          | criteria      |
-+---------------+---------------+
-|               | value         |
-+---------------+---------------+
-|               | minimum       |
-+---------------+---------------+
-|               | maximum       |
-+---------------+---------------+
-| time_period   | criteria      |
-+---------------+---------------+
-| text          | criteria      |
-+---------------+---------------+
-|               | value         |
-+---------------+---------------+
-| average       | criteria      |
-+---------------+---------------+
-| duplicate     | (none)        |
-+---------------+---------------+
-| unique        | (none)        |
-+---------------+---------------+
-| top           | criteria      |
-+---------------+---------------+
-|               | value         |
-+---------------+---------------+
-| bottom        | criteria      |
-+---------------+---------------+
-|               | value         |
-+---------------+---------------+
-| blanks        | (none)        |
-+---------------+---------------+
-| no_blanks     | (none)        |
-+---------------+---------------+
-| errors        | (none)        |
-+---------------+---------------+
-| no_errors     | (none)        |
-+---------------+---------------+
-| 2_color_scale | min_type      |
-+---------------+---------------+
-|               | max_type      |
-+---------------+---------------+
-|               | min_value     |
-+---------------+---------------+
-|               | max_value     |
-+---------------+---------------+
-|               | min_color     |
-+---------------+---------------+
-|               | max_color     |
-+---------------+---------------+
-| 3_color_scale | min_type      |
-+---------------+---------------+
-|               | mid_type      |
-+---------------+---------------+
-|               | max_type      |
-+---------------+---------------+
-|               | min_value     |
-+---------------+---------------+
-|               | mid_value     |
-+---------------+---------------+
-|               | max_value     |
-+---------------+---------------+
-|               | min_color     |
-+---------------+---------------+
-|               | mid_color     |
-+---------------+---------------+
-|               | max_color     |
-+---------------+---------------+
-| data_bar      | min_type      |
-+---------------+---------------+
-|               | max_type      |
-+---------------+---------------+
-|               | min_value     |
-+---------------+---------------+
-|               | max_value     |
-+---------------+---------------+
-|               | bar_color     |
-+---------------+---------------+
-| formula       | criteria      |
-+---------------+---------------+
-| icon_set      | icon_style    |
-+---------------+---------------+
-|               | reverse_icons |
-+---------------+---------------+
-|               | icons         |
-+---------------+---------------+
-|               | icons_only    |
-+---------------+---------------+
++---------------+---------------------------------+
+| Type          | Parameters                      |
++===============+=================================+
+| cell          | criteria                        |
++---------------+---------------------------------+
+|               | value                           |
++---------------+---------------------------------+
+|               | minimum                         |
++---------------+---------------------------------+
+|               | maximum                         |
++---------------+---------------------------------+
+|               | format                          |
++---------------+---------------------------------+
+| date          | criteria                        |
++---------------+---------------------------------+
+|               | value                           |
++---------------+---------------------------------+
+|               | minimum                         |
++---------------+---------------------------------+
+|               | maximum                         |
++---------------+---------------------------------+
+|               | format                          |
++---------------+---------------------------------+
+| time_period   | criteria                        |
++---------------+---------------------------------+
+|               | format                          |
++---------------+---------------------------------+
+| text          | criteria                        |
++---------------+---------------------------------+
+|               | value                           |
++---------------+---------------------------------+
+|               | format                          |
++---------------+---------------------------------+
+| average       | criteria                        |
++---------------+---------------------------------+
+|               | format                          |
++---------------+---------------------------------+
+| duplicate     | format                          |
++---------------+---------------------------------+
+| unique        | format                          |
++---------------+---------------------------------+
+| top           | criteria                        |
++---------------+---------------------------------+
+|               | value                           |
++---------------+---------------------------------+
+|               | format                          |
++---------------+---------------------------------+
+| bottom        | criteria                        |
++---------------+---------------------------------+
+|               | value                           |
++---------------+---------------------------------+
+|               | format                          |
++---------------+---------------------------------+
+| blanks        | format                          |
++---------------+---------------------------------+
+| no_blanks     | format                          |
++---------------+---------------------------------+
+| errors        | format                          |
++---------------+---------------------------------+
+| no_errors     | format                          |
++---------------+---------------------------------+
+| formula       | criteria                        |
++---------------+---------------------------------+
+|               | format                          |
++---------------+---------------------------------+
+| 2_color_scale | min_type                        |
++---------------+---------------------------------+
+|               | max_type                        |
++---------------+---------------------------------+
+|               | min_value                       |
++---------------+---------------------------------+
+|               | max_value                       |
++---------------+---------------------------------+
+|               | min_color                       |
++---------------+---------------------------------+
+|               | max_color                       |
++---------------+---------------------------------+
+| 3_color_scale | min_type                        |
++---------------+---------------------------------+
+|               | mid_type                        |
++---------------+---------------------------------+
+|               | max_type                        |
++---------------+---------------------------------+
+|               | min_value                       |
++---------------+---------------------------------+
+|               | mid_value                       |
++---------------+---------------------------------+
+|               | max_value                       |
++---------------+---------------------------------+
+|               | min_color                       |
++---------------+---------------------------------+
+|               | mid_color                       |
++---------------+---------------------------------+
+|               | max_color                       |
++---------------+---------------------------------+
+| data_bar      | min_type                        |
++---------------+---------------------------------+
+|               | max_type                        |
++---------------+---------------------------------+
+|               | min_value                       |
++---------------+---------------------------------+
+|               | max_value                       |
++---------------+---------------------------------+
+|               | bar_only                        |
++---------------+---------------------------------+
+|               | bar_color                       |
++---------------+---------------------------------+
+|               | bar_solid*                      |
++---------------+---------------------------------+
+|               | bar_negative_color*             |
++---------------+---------------------------------+
+|               | bar_border_color*               |
++---------------+---------------------------------+
+|               | bar_negative_border_color*      |
++---------------+---------------------------------+
+|               | bar_negative_color_same*        |
++---------------+---------------------------------+
+|               | bar_negative_border_color_same* |
++---------------+---------------------------------+
+|               | bar_no_border*                  |
++---------------+---------------------------------+
+|               | bar_direction*                  |
++---------------+---------------------------------+
+|               | bar_axis_position*              |
++---------------+---------------------------------+
+|               | bar_axis_color*                 |
++---------------+---------------------------------+
+|               | data_bar_2010*                  |
++---------------+---------------------------------+
+| icon_set      | icon_style                      |
++---------------+---------------------------------+
+|               | reverse_icons                   |
++---------------+---------------------------------+
+|               | icons                           |
++---------------+---------------------------------+
+|               | icons_only                      |
++---------------+---------------------------------+
 
+.. Note::
 
-All conditional formatting types, apart from ``icon_set``, have an associated
-:ref:`Format <format>` parameter, see below.
+   Data bar parameters marked with (*) are only available in Excel 2010 and
+   later. Files that use these properties can still be opened in Excel 2007
+   but the data bars will be displayed without them.
 
 
 type: cell
@@ -509,6 +563,26 @@ The ``no_errors`` type is used to highlight non error cells in a range::
                                            'format': format1})
 
 
+type: formula
+*************
+
+The ``formula`` type is used to specify a conditional format based on a user
+defined formula::
+
+
+    worksheet.conditional_format('A1:A4', {'type':     'formula',
+                                           'criteria': '=$A$1>5',
+                                           'format':   format1})
+
+The formula is specified in the ``criteria``.
+
+Formulas must be written with the US style separator/range operator which is a
+comma (not semi-colon) and should follow the same rules as
+:func:`write_formula`. Also any cell or range references in the formula should
+be :ref:`absolute references <abs_reference>` if they are applied to the full
+range of the conditional format. See the note in the ``value`` section above.
+
+
 type: 2_color_scale
 *******************
 
@@ -543,28 +617,37 @@ format::
 
     worksheet.conditional_format('A1:A12', {'type': 'data_bar'})
 
-This conditional type can be modified with ``min_type``, ``max_type``,
-``min_value``, ``max_value`` and ``bar_color``, see below.
+This conditional type can be modified with the following parameters, which are
+explained in the sections below. These properties were available in the
+original xlsx file specification used in Excel 2007::
 
+    min_type
+    max_type
+    min_value
+    max_value
+    bar_color
+    bar_only
 
-type: formula
-*************
+In Excel 2010 additional data bar properties were added such as solid
+(non-gradient) bars and control over how negative values are displayed. These
+properties can be set using the following parameters::
 
-The ``formula`` type is used to specify a conditional format based on a user
-defined formula::
+    bar_solid
+    bar_negative_color
+    bar_border_color
+    bar_negative_border_color
+    bar_negative_color_same
+    bar_negative_border_color_same
+    bar_no_border
+    bar_direction
+    bar_axis_position
+    bar_axis_color
+    data_bar_2010
 
+.. image:: _images/conditional_format6.png
 
-    worksheet.conditional_format('A1:A4', {'type':     'formula',
-                                           'criteria': '=$A$1>5',
-                                           'format':   format1})
-
-The formula is specified in the ``criteria``.
-
-Formulas must be written with the US style separator/range operator which is a
-comma (not semi-colon) and should follow the same rules as
-:func:`write_formula`. Also any cell or range references in the formula should
-be :ref:`absolute references <abs_reference>` if they are applied to the full
-range of the conditional format. See the note in the ``value`` section above.
+Files that use these Excel 2010 properties can still be opened in Excel 2007
+but the data bars will be displayed without them.
 
 
 type: icon_set
@@ -730,27 +813,202 @@ properties are used as follows::
 The color can be a Html style ``#RRGGBB`` string or a limited number named
 colors, see :ref:`colors`.
 
+
 mid_color:
 **********
 
 Used for ``3_color_scale``. Same as ``min_color``, see above.
+
 
 max_color:
 **********
 
 Same as ``min_color``, see above.
 
+
 bar_color:
 **********
 
-Used for ``data_bar``. Same as ``min_color``, see above.
+The ``bar_color`` parameter sets the fill color for data bars::
+
+    worksheet.conditional_format('F3:F14', {'type': 'data_bar',
+                                            'bar_color': '#63C384'})
+
+.. image:: _images/conditional_format7.png
+
+The color can be a Html style ``#RRGGBB`` string or a limited number named
+colors, see :ref:`colors`.
+
+
+bar_only:
+*********
+
+The ``bar_only`` property displays a bar data but not the data in the cells::
+
+    worksheet.conditional_format('D3:D14', {'type': 'data_bar',
+                                            'bar_only': True})
+
+See the image above.
+
+
+bar_solid:
+**********
+
+The ``bar_solid`` property turns on a solid (non-gradient) fill for data
+bars::
+
+    worksheet.conditional_format('H3:H14', {'type': 'data_bar',
+                                            'bar_solid': True})
+
+See the image above.
+
+Note, this property is only visible in Excel 2010 and later.
+
+
+bar_negative_color:
+*******************
+
+The ``bar_negative_color`` property sets the color fill for the negative
+portion of a data bar::
+
+    worksheet.conditional_format('F3:F14', {'type': 'data_bar',
+                                            'bar_negative_color': '#63C384'})
+
+The color can be a Html style ``#RRGGBB`` string or a limited number named
+colors, see :ref:`colors`.
+
+Note, this property is only visible in Excel 2010 and later.
+
+bar_border_color:
+*****************
+
+The ``bar_border_color`` property sets the color for the border line of a data
+bar::
+
+    worksheet.conditional_format('F3:F14', {'type': 'data_bar',
+                                            'bar_border_color': '#63C384'})
+
+The color can be a Html style ``#RRGGBB`` string or a limited number named
+colors, see :ref:`colors`.
+
+Note, this property is only visible in Excel 2010 and later.
+
+bar_negative_border_color:
+**************************
+
+The ``bar_negative_border_color`` property sets the color for the border of
+the negative portion of a data bar::
+
+    worksheet.conditional_format('F3:F14', {'type': 'data_bar',
+                                            'bar_negative_border_color': '#63C384'})
+
+The color can be a Html style ``#RRGGBB`` string or a limited number named
+colors, see :ref:`colors`.
+
+Note, this property is only visible in Excel 2010 and later.
+
+
+bar_negative_color_same:
+************************
+
+The ``bar_negative_color_same`` property sets the fill color for the negative
+portion of a data bar to be the same as the fill color for the positive
+portion of the data bar::
+
+    worksheet.conditional_format('F3:F14', {'type': 'data_bar',
+                                            'bar_negative_color_same': True})
+
+.. image:: _images/conditional_format6.png
+
+Note, this property is only visible in Excel 2010 and later.
+
+
+bar_negative_border_color_same:
+*******************************
+
+The ``bar_negative_border_color_same`` property sets the border color for the
+negative portion of a data bar to be the same as the border color for the
+positive portion of the data bar::
+
+    worksheet.conditional_format('F3:F14', {'type': 'data_bar',
+                                            'bar_negative_border_color_same': True})
+
+See the image above.
+
+Note, this property is only visible in Excel 2010 and later.
+
+bar_no_border:
+**************
+
+The ``bar_no_border`` property turns off the border for data bars::
+
+    worksheet.conditional_format('F3:F14', {'type': 'data_bar',
+                                            'bar_no_border': True})
+
+Note, this property is only visible in Excel 2010 and later, however the
+default in Excel 2007 is to not have a border.
+
+
+bar_direction:
+**************
+
+The ``bar_direction`` property sets the direction for data bars. This property
+can be either ``left`` for left-to-right or ``right`` for right-to-left. If
+the property isn't set then Excel will adjust the position automatically based
+on the context::
+
+    worksheet.conditional_format('J3:J14', {'type': 'data_bar',
+                                            'bar_direction': 'right'})
+
+.. image:: _images/conditional_format6.png
+
+Note, this property is only visible in Excel 2010 and later.
+
+
+bar_axis_position:
+******************
+
+The ``bar_axis_position`` property sets the position within the cells for the
+axis that is shown in data bars when there are negative values to display. The
+property can be either ``middle`` or ``none``. If the property isn't set then
+Excel will position the axis based on the range of positive and negative
+values::
+
+    worksheet.conditional_format('J3:J14', {'type': 'data_bar',
+                                            'bar_axis_position': 'middle'})
+
+Note, this property is only visible in Excel 2010 and later.
+
+
+bar_axis_color:
+***************
+
+The ``bar_axis_color`` property sets the color for the axis that is shown in
+data bars when there are negative values to display::
+
+    worksheet.conditional_format('J3:J14', {'type': 'data_bar',
+                                            'bar_axis_color': '#0070C0'})
+
+Note, this property is only visible in Excel 2010 and later.
+
+
+data_bar_2010:
+**************
+
+The ``data_bar_2010`` property sets Excel 2010 style data bars even when Excel
+2010 specific properties aren't used. This can be used for consistency across
+all the data bar formatting in a worksheet::
+
+    worksheet.conditional_format('L3:L14', {'type': 'data_bar',
+                                            'data_bar_2010': True})
+
 
 stop_if_true
 ************
 
 The ``stop_if_true`` parameter can be used to set the "stop if true" feature
 of a conditional formatting rule when more than one rule is applied to a cell
-or a range of cells. When this paramter is set then subsequent rules are not
+or a range of cells. When this parameter is set then subsequent rules are not
 evaluated if the current rule is true::
 
         worksheet.conditional_format('A1',

@@ -318,6 +318,7 @@ class Worksheet(xmlwriter.XMLwriter):
         self.validations = []
         self.cond_formats = {}
         self.data_bars_2010 = []
+        self.use_data_bars_2010 = False
         self.dxf_priority = 1
         self.is_chartsheet = 0
         self.page_view = 0
@@ -2135,7 +2136,8 @@ class Worksheet(xmlwriter.XMLwriter):
         self.dxf_priority += 1
 
         # Check for 2010 style data_bar parameters.
-        if (options.get('data_bar_2010') or
+        if (self.use_data_bars_2010 or
+                options.get('data_bar_2010') or
                 options.get('bar_solid') or
                 options.get('bar_border_color') or
                 options.get('bar_negative_color') or
