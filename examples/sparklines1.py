@@ -7,7 +7,7 @@
 #
 # See sparklines2.py for examples of more complex sparkline formatting.
 #
-# Copyright 2013-2017, John McNamara, jmcnamara@cpan.org
+# Copyright 2013-2018, John McNamara, jmcnamara@cpan.org
 #
 import xlsxwriter
 

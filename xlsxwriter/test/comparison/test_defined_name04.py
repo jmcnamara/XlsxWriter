@@ -3,7 +3,7 @@
 #
 # Tests for XlsxWriter.
 #
-# Copyright (c), 2013-2017, John McNamara, jmcnamara@cpan.org
+# Copyright (c), 2013-2018, John McNamara, jmcnamara@cpan.org
 #
 from __future__ import unicode_literals
 from ..excel_comparsion_test import ExcelComparisonTest

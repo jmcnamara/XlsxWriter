@@ -2,7 +2,7 @@
 #
 # Format - A class for writing the Excel XLSX Worksheet file.
 #
-# Copyright 2013-2017, John McNamara, jmcnamara@cpan.org
+# Copyright 2013-2018, John McNamara, jmcnamara@cpan.org
 #
 
 # Package imports.

@@ -2,7 +2,7 @@
 #
 # SharedStrings - A class for writing the Excel XLSX sharedStrings file.
 #
-# Copyright 2013-2017, John McNamara, jmcnamara@cpan.org
+# Copyright 2013-2018, John McNamara, jmcnamara@cpan.org
 #
 
 # Standard packages.

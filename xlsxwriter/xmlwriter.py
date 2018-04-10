@@ -4,7 +4,7 @@
 #
 # Used in conjunction with XlsxWriter.
 #
-# Copyright 2013-2017, John McNamara, jmcnamara@cpan.org
+# Copyright 2013-2018, John McNamara, jmcnamara@cpan.org
 #
 
 # Standard packages.

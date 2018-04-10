@@ -3,7 +3,7 @@
 # An example of creating Excel Column charts with data tables using
 # Python and XlsxWriter.
 #
-# Copyright 2013-2017, John McNamara, jmcnamara@cpan.org
+# Copyright 2013-2018, John McNamara, jmcnamara@cpan.org
 #
 import xlsxwriter
 
