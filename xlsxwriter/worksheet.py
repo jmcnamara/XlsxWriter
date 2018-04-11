@@ -5861,7 +5861,8 @@ class Worksheet(xmlwriter.XMLwriter):
 
     def _write_filters(self, filters):
         # Write the <filters> element.
-        non_blanks = [filter for filter in filters if filter != 'blanks']
+        non_blanks = [filter for filter in filters
+                      if str(filter).lower() != 'blanks']
         attributes = []
 
         if len(filters) != len(non_blanks):
@@ -5874,7 +5875,7 @@ class Worksheet(xmlwriter.XMLwriter):
             # General case.
             self._xml_start_tag('filters', attributes)
 
-            for autofilter in non_blanks:
+            for autofilter in sorted(non_blanks):
                 self._write_filter(autofilter)
 
             self._xml_end_tag('filters')
