@@ -5861,15 +5861,20 @@ class Worksheet(xmlwriter.XMLwriter):
 
     def _write_filters(self, filters):
         # Write the <filters> element.
+        non_blanks = [filter for filter in filters if filter != 'blanks']
+        attributes = []
 
-        if len(filters) == 1 and filters[0] == 'blanks':
+        if len(filters) != len(non_blanks):
+            attributes = [('blank', 1)]
+
+        if len(filters) == 1 and len(non_blanks) == 0:
             # Special case for blank cells only.
-            self._xml_empty_tag('filters', [('blank', 1)])
+            self._xml_empty_tag('filters', attributes)
         else:
             # General case.
-            self._xml_start_tag('filters')
+            self._xml_start_tag('filters', attributes)
 
-            for autofilter in filters:
+            for autofilter in non_blanks:
                 self._write_filter(autofilter)
 
             self._xml_end_tag('filters')
