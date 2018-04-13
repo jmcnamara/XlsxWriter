@@ -1239,19 +1239,22 @@ class Workbook(xmlwriter.XMLwriter):
         x_dpi = 96
         y_dpi = 96
 
-        # Search through the image data to read the height and width in the
-        # 0xFFC0/C2 element. Also read the DPI in the 0xFFE0 element.
+        # Search through the image data to read the JPEG markers.
         while not end_marker and offset < data_length:
 
             marker = (unpack('>H', data[offset + 0:offset + 2]))[0]
             length = (unpack('>H', data[offset + 2:offset + 4]))[0]
 
-            # Read the image dimensions.
-            if marker == 0xFFC0 or marker == 0xFFC2:
+            # Read the height and width in the 0xFFCn elements (except C4, C8 and
+            # CC which aren't SOF markers).
+            if ((marker & 0xFFF0) == 0xFFC0
+                    and marker != 0xFFC4
+                    and marker != 0xFFC8
+                    and marker != 0xFFCC):
                 height = (unpack('>H', data[offset + 5:offset + 7]))[0]
                 width = (unpack('>H', data[offset + 7:offset + 9]))[0]
 
-            # Read the image DPI.
+            # Read the DPI in the 0xFFE0 element.
             if marker == 0xFFE0:
                 units = (unpack('b', data[offset + 11:offset + 12]))[0]
                 x_density = (unpack('>H', data[offset + 12:offset + 14]))[0]
