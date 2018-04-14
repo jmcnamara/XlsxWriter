@@ -10,10 +10,11 @@ import sys
 import re
 import os
 import operator
+import time
 import warnings
 from warnings import warn
 from datetime import datetime
-from zipfile import ZipFile, ZIP_DEFLATED
+from zipfile import ZipFile, ZipInfo, ZIP_DEFLATED
 from struct import unpack
 
 from .compatibility import int_types, num_types, str_types, force_unicode
@@ -641,13 +642,19 @@ class Workbook(xmlwriter.XMLwriter):
         # Add XML sub-files to the Zip file with their Excel filename.
         for os_filename, xml_filename, is_binary in xml_files:
             if self.in_memory:
+
+                zipinfo = ZipInfo(xml_filename, (1980, 1, 1, 0, 0, 0))
                 if is_binary:
-                    xlsx_file.writestr(xml_filename, os_filename.getvalue())
+                    xlsx_file.writestr(zipinfo, os_filename.getvalue())
                 else:
-                    xlsx_file.writestr(xml_filename,
+                    xlsx_file.writestr(zipinfo,
                                        os_filename.getvalue().encode('utf-8'))
             else:
                 # The files are tempfiles.
+
+                timestamp = time.mktime((1980, 1, 1, 0, 0, 0, 0, 0, 0))
+                os.utime(os_filename, (timestamp, timestamp))
+
                 xlsx_file.write(os_filename, xml_filename)
                 os.remove(os_filename)
 
