@@ -1252,8 +1252,8 @@ class Workbook(xmlwriter.XMLwriter):
             marker = (unpack('>H', data[offset + 0:offset + 2]))[0]
             length = (unpack('>H', data[offset + 2:offset + 4]))[0]
 
-            # Read the height and width in the 0xFFCn elements (except C4, C8 and
-            # CC which aren't SOF markers).
+            # Read the height and width in the 0xFFCn elements (except C4, C8
+            # and CC which aren't SOF markers).
             if ((marker & 0xFFF0) == 0xFFC0
                     and marker != 0xFFC4
                     and marker != 0xFFC8
