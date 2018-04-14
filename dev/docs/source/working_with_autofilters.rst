@@ -158,6 +158,10 @@ One or more criteria can be selected::
     worksheet.filter_column_list('A', ['March'])
     worksheet.filter_column_list('B', [100, 110, 120, 130])
 
+To filter blanks as part of the list use `Blanks` as a list item::
+
+    worksheet.filter_column_list('A', ['March', 'April', 'May', 'Blanks'])
+
 As explained above, it isn't sufficient to just specify filters. You must also
 hide any rows that don't match the filter condition.
 
