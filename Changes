@@ -1,4 +1,19 @@
 
+Release 1.0.4 - April 14 2017
+-----------------------------
+
+* Set the xlsx internal file member datetimes to 1980-01-01 00:00:00 like
+  Excel so that apps can produce a consistent binary file once the workbook
+  :func:`set_properties` ``created`` date is set.  
+  Pull request `#495 <https://github.com/jmcnamara/XlsxWriter/issues/495>`_.
+
+* Fix for jpeg images that reported unknown height/width due to unusual SOF markers.
+  Issue `#506 <https://github.com/jmcnamara/XlsxWriter/issues/506>`_.
+
+* Added support for blanks in list autofilter.
+  Issue `#505 <https://github.com/jmcnamara/XlsxWriter/issues/505>`_.
+
+
 Release 1.0.3 - April 10 2017
 -----------------------------
 

@@ -376,6 +376,7 @@ The properties that can be set are:
 * ``comments``
 * ``status``
 * ``hyperlink_base``
+* ``create`` - the file creation date as a :class:`datetime.date` object.
 
 The properties are all optional and should be passed in dictionary format as
 follows::
@@ -388,6 +389,7 @@ follows::
         'company':  'of Wolves',
         'category': 'Example spreadsheets',
         'keywords': 'Sample, Example, Properties',
+        'created':  datetime.date(2018, 1, 1),
         'comments': 'Created with Python and XlsxWriter'})
 
 .. image:: _images/doc_properties.png
