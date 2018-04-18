@@ -1,5 +1,5 @@
 
-Release 1.0.4 - April 14 2017
+Release 1.0.4 - April 14 2018
 -----------------------------
 
 * Set the xlsx internal file member datetimes to 1980-01-01 00:00:00 like
@@ -14,7 +14,7 @@ Release 1.0.4 - April 14 2017
   Issue `#505 <https://github.com/jmcnamara/XlsxWriter/issues/505>`_.
 
 
-Release 1.0.3 - April 10 2017
+Release 1.0.3 - April 10 2018
 -----------------------------
 
 * Added Excel 2010 data bar features such as solid fills and control over the
