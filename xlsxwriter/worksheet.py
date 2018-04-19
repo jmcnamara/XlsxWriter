@@ -11,6 +11,9 @@ import os
 import re
 import sys
 import tempfile
+import PIL
+import math
+from io import BytesIO
 
 from warnings import warn
 
@@ -423,7 +426,24 @@ class Worksheet(xmlwriter.XMLwriter):
             else:
                 # We have a plain string.
                 return self.write_string(row, col, *args)
-
+        
+        # Add support for PIL Image Object.
+        if isinstance(token, PIL.Image.Image):
+            try:
+                filename = token.filename
+            except AttributeError:
+                filename = 'image.jpg'
+            output = BytesIO()
+            try:
+                token.save(output, format = "jpeg")
+            except OSError:
+                token.convert('RGB').save(output, format = "jpeg")
+            output.flush()
+            output.seek(0)
+            self.set_row(row, max(15, math.ceil(token.size[1] * 15 /20)))
+            self.set_column(row, max(8, math.ceil(token.size[0] / 7.5)))
+            return self.insert_image(row, col, filename, {'image_data': output})
+        
         # We haven't matched a supported type. Try float.
         try:
             f = float(token)
