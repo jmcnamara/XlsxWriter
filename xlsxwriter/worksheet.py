@@ -11,7 +11,10 @@ import os
 import re
 import sys
 import tempfile
-import PIL
+try:
+    import PIL
+except ImportError:
+    PIL = None
 import math
 from io import BytesIO
 
@@ -428,7 +431,7 @@ class Worksheet(xmlwriter.XMLwriter):
                 return self.write_string(row, col, *args)
         
         # Add support for PIL Image Object.
-        if isinstance(token, PIL.Image.Image):
+        if PIL and isinstance(token, PIL.Image.Image):
             try:
                 filename = token.filename
             except AttributeError:
