@@ -724,6 +724,7 @@ The following properties can be set for ``line`` formats in a chart::
     color
     width
     dash_type
+    transparency
 
 The ``none`` property is uses to turn the ``line`` off (it is always on by
 default except in Scatter charts). This is useful if you wish to plot a series
@@ -791,6 +792,14 @@ that they appear in the Excel dialog::
     long_dash_dot_dot
 
 The default line style is ``solid``.
+
+The ``transparency`` property sets the transparency of the line color in the
+integer range 1 - 100::
+
+    chart.add_series({
+        'values': '=Sheet1!$A$1:$A$6',
+        'line':   {'transparency': 50},
+    })
 
 More than one ``line`` property can be specified at a time::
 
