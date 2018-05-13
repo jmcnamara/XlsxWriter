@@ -29,17 +29,45 @@ formulas::
     worksheet.write('H2', '=H1+1')
 
 In general when using the XlsxWriter module you can use A1 notation anywhere
-you can use row-column notation.
+you can use row-column notation. This also applies to methods that take a
+range of cells::
+
+    worksheet.merge_range(2, 1, 3, 3, 'Merged Cells', merge_format)
+    worksheet.merge_range('B3:D4',    'Merged Cells', merge_format)
 
 XlsxWriter supports Excel's worksheet limits of 1,048,576 rows by 16,384
 columns.
 
 .. note::
-   Ranges in A1 notation must be in uppercase, like in Excel.
+   * Ranges in A1 notation must be in uppercase, like in Excel.
 
-.. note::
-   In Excel it is also possible to use R1C1 notation. This is not
-   supported by XlsxWriter.
+   * In Excel it is also possible to use R1C1 notation. This is not
+     supported by XlsxWriter.
+
+
+.. _full_row_col:
+
+Row and Column Ranges
+---------------------
+
+In Excel you can specify row or column ranges such as ``1:1`` for all of the
+first row or ``A:A`` for all of the first column. In XlsxWriter these can be
+set by specifying the full cell range for the row or column::
+
+    worksheet.print_area('A1:XFD1')      # Same as 1:1
+    worksheet.print_area('A1:A1048576')  # Same as A:A
+
+This is actually how Excel stores ranges such as ``1:1`` and ``A:A``
+internally.
+
+These ranges can also be specified using row-column notation, as explained
+above::
+
+    worksheet.print_area(0, 0,       0, 16383)  # Same as 1:1
+    worksheet.print_area(0, 0, 1048575,     0)  # Same as A:A
+
+To select the entire worksheet range you can specify
+``A1:XFD1048576``.
 
 
 .. _abs_reference:
@@ -54,16 +82,16 @@ relative and absolute cell references in Excel.
 references maintain fixed row and/or column references. In Excel absolute
 references are prefixed by the dollar symbol as shown below::
 
-    A1    # Column and row are relative.
-    $A1   # Column is absolute and row is relative.
-    A$1   # Column is relative and row is absolute.
-    $A$1  # Column and row are absolute.
+    'A1'    # Column and row are relative.
+    '$A1'   # Column is absolute and row is relative.
+    'A$1'   # Column is relative and row is absolute.
+    '$A$1'  # Column and row are absolute.
 
 See the Microsoft Office documentation for
 `more information on relative and absolute references <http://office.microsoft.com/en-001/excel-help/switch-between-relative-absolute-and-mixed-references-HP010342940.aspx>`_.
 
-Some functions such as :func:`conditional_format()` require absolute
-references.
+Some functions such as :func:`conditional_format()` may require absolute
+references, depending on the range being specified.
 
 
 Defined Names and Named Ranges
