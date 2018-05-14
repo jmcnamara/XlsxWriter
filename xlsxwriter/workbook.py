@@ -1202,8 +1202,8 @@ class Workbook(xmlwriter.XMLwriter):
 
         return image_type, width, height, image_name, x_dpi, y_dpi
 
-    def _process_wmf(self, s):
-
+    def _process_wmf(self, data):
+        # Extract width and height information from a WMF file.
         def short(c, o=0):
             v = word(c, o)
             if v >= 32768:
@@ -1221,13 +1221,13 @@ class Workbook(xmlwriter.XMLwriter):
 
         word = i16le
         # get units per inch
-        inch = i16le(s, 14)
+        inch = i16le(data, 14)
 
         # get bounding box
-        x0 = short(s, 6)
-        y0 = short(s, 8)
-        x1 = short(s, 10)
-        y1 = short(s, 12)
+        x0 = short(data, 6)
+        y0 = short(data, 8)
+        x1 = short(data, 10)
+        y1 = short(data, 12)
 
         x_dpi = 120
         y_dpi = 120
