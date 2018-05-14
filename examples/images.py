@@ -27,4 +27,8 @@ worksheet.insert_image('B12', 'python.png', {'x_offset': 15, 'y_offset': 10})
 worksheet.write('A23', 'Insert a scaled image:')
 worksheet.insert_image('B23', 'python.png', {'x_scale': 0.5, 'y_scale': 0.5})
 
+# Insert an wmf image with scaling.
+worksheet.write('A33', 'Insert a scaled wmf image:')
+worksheet.insert_image('B33', 'python.wmf', {'x_scale': 0.5, 'y_scale': 0.5})
+
 workbook.close()
