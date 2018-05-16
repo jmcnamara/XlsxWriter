@@ -16,9 +16,9 @@ do this.
 Using PIP
 *********
 
-The `pip <http://www.pip-installer.org/en/latest/index.html>`_  installer is
+The `pip <https://pip.pypa.io/en/latest/>`_  installer is
 the preferred method for installing Python modules from
-`PyPI <http://pypi.python.org/pypi>`_, the Python Package Index::
+`PyPI <https://pypi.org/>`_, the Python Package Index::
 
     $ sudo pip install XlsxWriter
 
@@ -58,7 +58,7 @@ Cloning from GitHub
 *******************
 
 The XlsxWriter source code and bug tracker is in the
-`XlsxWriter repository <http://github.com/jmcnamara/XlsxWriter>`_ on GitHub.
+`XlsxWriter repository <https://github.com/jmcnamara/XlsxWriter>`_ on GitHub.
 You can clone the repository and install from it as follows::
 
     $ git clone https://github.com/jmcnamara/XlsxWriter.git
@@ -106,7 +106,7 @@ Documentation
 The latest version of this document is hosted on
 `Read The Docs <https://xlsxwriter.readthedocs.io>`_. It is also
 available as a
-`PDF <https://github.com/jmcnamara/XlsxWriter/raw/master/docs/XlsxWriter.pdf>`_.
+`PDF <https://raw.githubusercontent.com/jmcnamara/XlsxWriter/master/docs/XlsxWriter.pdf>`_.
 
 Once you are happy that the module is installed and operational you can have a
 look at the rest of the XlsxWriter documentation. :ref:`tutorial1` is a good

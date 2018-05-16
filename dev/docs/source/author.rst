@@ -32,7 +32,7 @@ If you have questions about XlsxWriter here are some ways to deal with them:
 * **General Questions**:
 
   General questions about how to use the module should be asked on
-  `StackOverflow  <http://stackoverflow.com/search?tab=newest&q=xlsxwriter>`_.
+  `StackOverflow  <https://stackoverflow.com/search?tab=newest&q=xlsxwriter>`_.
   Add the ``xlsxwriter`` tag to the question.
 
   Questions on StackOverflow have the advantage of (usually) getting several

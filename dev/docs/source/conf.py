@@ -304,3 +304,5 @@ epub_copyright = u'2013-2018, John McNamara'
 # Allow duplicate toc entries.
 # epub_tocdup = True
 
+# Skip these domains in the linkcheck since they always end up as redirects.
+linkcheck_ignore = [r'.*microsoft.com.*', r'.*office.com.*', r'.*www.paypal.com.*']

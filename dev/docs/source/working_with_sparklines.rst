@@ -10,7 +10,7 @@ compact format.
 .. image:: _images/sparklines1.png
 
 Sparklines were invented by Edward Tufte:
-http://en.wikipedia.org/wiki/Sparklines
+https://en.wikipedia.org/wiki/Sparklines
 
 The add_sparkline() method
 --------------------------

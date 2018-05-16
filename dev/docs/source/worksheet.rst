@@ -500,8 +500,8 @@ The url is comprised of two elements: the displayed string and the
 non-displayed link. The displayed string is the same as the link unless an
 alternative string is specified.
 
-    worksheet.write_url(0, 0, 'http://www.python.org/')
-    worksheet.write_url('A2', 'http://www.python.org/')
+    worksheet.write_url(0, 0, 'https://www.python.org/')
+    worksheet.write_url('A2', 'https://www.python.org/')
 
 Both row-column and A1 style notation are supported, as shown above. See
 :ref:`cell_notation` for more details.
@@ -517,26 +517,25 @@ Four web style URI's are supported: ``http://``, ``https://``, ``ftp://`` and
 ``mailto:``::
 
     worksheet.write_url('A1', 'ftp://www.python.org/')
-    worksheet.write_url('A2', 'http://www.python.org/')
-    worksheet.write_url('A3', 'https://www.python.org/')
-    worksheet.write_url('A4', 'mailto:jmcnamara@cpan.org')
+    worksheet.write_url('A2', 'https://www.python.org/')
+    worksheet.write_url('A3', 'mailto:jmcnamara@cpan.org')
 
 All of the these URI types are recognized by the :func:`write()` method, so the
 following are equivalent::
 
-    worksheet.write_url('A2', 'http://www.python.org/')
-    worksheet.write    ('A2', 'http://www.python.org/')  # Same.
+    worksheet.write_url('A2', 'https://www.python.org/')
+    worksheet.write    ('A2', 'https://www.python.org/')  # Same.
 
 You can display an alternative string using the ``string`` parameter::
 
-    worksheet.write_url('A1', 'http://www.python.org', string='Python home')
+    worksheet.write_url('A1', 'https://www.python.org', string='Python home')
 
 .. Note::
 
   If you wish to have some other cell data such as a number or a formula you
   can overwrite the cell using another call to ``write_*()``::
 
-    worksheet.write_url('A1', 'http://www.python.org/')
+    worksheet.write_url('A1', 'https://www.python.org/')
 
     # Overwrite the URL string with a formula. The cell will still be a link.
     # Note the use of the default url format for consistency with other links.
@@ -1047,7 +1046,7 @@ horizontally and vertically::
 The ``url`` parameter can used to add a hyperlink/url to the image. The ``tip``
 parameter gives an option mouseover tooltip for images with hyperlinks::
 
-    worksheet.insert_image('B4', 'python.png', {'url': 'http://python.org'})
+    worksheet.insert_image('B4', 'python.png', {'url': 'https://python.org'})
 
 See also :func:`write_url` for details on supported URIs.
 
@@ -1058,7 +1057,7 @@ The ``image_data`` parameter is used to add an in-memory byte stream in
 
 This is generally used for inserting images from URLs::
 
-    url = 'http://python.org/logo.png'
+    url = 'https://python.org/logo.png'
     image_data = io.BytesIO(urllib2.urlopen(url).read())
 
     worksheet.insert_image('B5', url, {'image_data': image_data})

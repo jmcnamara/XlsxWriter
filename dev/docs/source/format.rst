@@ -395,8 +395,8 @@ The color format should have one of the following values::
 
     [Black] [Blue] [Cyan] [Green] [Magenta] [Red] [White] [Yellow]
 
-For more information refer to the
-`Microsoft documentation on cell formats <http://office.microsoft.com/en-gb/assistance/HP051995001033.aspx>`_.
+For more information refer to the `Microsoft documentation on cell formats
+<https://support.office.com/en-us/article/create-or-delete-a-custom-number-format-78f2a361-936b-4c03-8772-09fab54be7f4>`_.
 
 Excel's built-in formats are shown in the following table:
 

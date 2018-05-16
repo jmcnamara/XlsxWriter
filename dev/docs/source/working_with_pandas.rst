@@ -8,8 +8,8 @@ library. It can read, filter and re-arrange small and large data sets and
 output them in a range of formats including Excel.
 
 Pandas writes Excel files using the `Xlwt
-<https://pypi.python.org/pypi/xlwt>`_ module for xls files and the `Openpyxl
-<https://pypi.python.org/pypi/openpyxl>`_ or XlsxWriter modules for xlsx
+<https://pypi.org/project/xlwt/>`_ module for xls files and the `Openpyxl
+<https://pypi.org/project/openpyxl/>`_ or XlsxWriter modules for xlsx
 files.
 
 

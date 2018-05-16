@@ -9,7 +9,7 @@ The following are some Python alternatives to XlsxWriter.
 XLWT
 ----
 
-From the `xlwt <http://pypi.python.org/pypi/xlwt>`_ page on PyPI:
+From the `xlwt <https://pypi.org/project/xlwt>`_ page on PyPI:
 
    Library to create spreadsheet files compatible with MS Excel
    97/2000/XP/2003 XLS files, on any platform, with Python 2.3 to 2.7.
@@ -25,7 +25,7 @@ From the `xlwt <http://pypi.python.org/pypi/xlwt>`_ page on PyPI:
 XLRD
 ----
 
-From the `xlrd <http://pypi.python.org/pypi/xlrd>`_ page on PyPI:
+From the `xlrd <https://pypi.org/project/xlrd>`_ page on PyPI:
 
    Library for developers to extract data from Microsoft Excel (tm)
    spreadsheet files Extract data from Excel spreadsheets (.xls and .xlsx,
@@ -35,7 +35,7 @@ From the `xlrd <http://pypi.python.org/pypi/xlrd>`_ page on PyPI:
 
 OpenPyXL
 --------
-From the `openpyxl <http://pypi.python.org/pypi/openpyxl>`_ page on PyPI:
+From the `openpyxl <https://pypi.org/project/openpyxl>`_ page on PyPI:
 
    A Python library to read/write Excel 2007 xlsx/xlsm files. Openpyxl is a
    pure python reader and writer of Excel OpenXML files. It is ported from the
@@ -45,7 +45,7 @@ From the `openpyxl <http://pypi.python.org/pypi/openpyxl>`_ page on PyPI:
 Xlwings
 -------
 
-From the `xlwings <http://xlwings.org>`_ webpage:
+From the `xlwings <https://www.xlwings.org/>`_ webpage:
 
    Replace your VBA code with Python, a powerful yet easy-to-use programming
    language that is highly suited for numerical analysis. Supports Windows &

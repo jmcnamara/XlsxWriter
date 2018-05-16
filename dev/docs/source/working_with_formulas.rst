@@ -34,7 +34,7 @@ should be written as follows::
     worksheet.write_formula('A2', '=SUM(1; 2; 3)')   # Semi-colon. Error on load.
 
 If you have a non-English version of Excel you can use the following
-multi-lingual `formula translator <http://en.excel-translator.de/language/>`_
+multi-lingual `formula translator <https://en.excel-translator.de/language/>`_
 to help you convert the formula. It can also replace semi-colons with commas.
 
 

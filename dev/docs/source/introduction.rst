@@ -31,6 +31,6 @@ XlsxWriter has some advantages and disadvantages over the
 
 
 XlsxWriter is licensed under a BSD :ref:`License` and the source code is
-available on `GitHub <http://github.com/jmcnamara/XlsxWriter>`_.
+available on `GitHub <https://github.com/jmcnamara/XlsxWriter>`_.
 
 To try out the module see the next section on :ref:`getting_started`.
