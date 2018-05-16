@@ -6,6 +6,7 @@
 #
 
 # Standard packages.
+import io
 import sys
 import re
 import os
@@ -1147,6 +1148,9 @@ class Workbook(xmlwriter.XMLwriter):
         marker1 = (unpack('3s', data[1:4]))[0]
         marker2 = (unpack('>H', data[:2]))[0]
         marker3 = (unpack('2s', data[:2]))[0]
+        marker4 = (unpack('6s', data[:6]))[0]
+
+        wmf_marker = b"\xd7\xcd\xc6\x9a\x00\x00"
 
         if sys.version_info < (2, 6, 0):
             # Python 2.5/Jython.
@@ -1169,6 +1173,13 @@ class Workbook(xmlwriter.XMLwriter):
             self.image_types['bmp'] = 1
             (image_type, width, height) = self._process_bmp(data)
 
+        elif marker4 == wmf_marker:
+            # sanity check (standard metafile header)
+            if (unpack('4s', data[22:26]))[0] != b"\x01\x00\t\x00":
+                raise SyntaxError("Unsupported WMF file format")
+            self.image_types['wmf'] = 1
+            (image_type, width, height, x_dpi, y_dpi) = self._process_wmf(data)
+
         else:
             raise Exception("%s: Unknown or unsupported image file format."
                             % filename)
@@ -1190,6 +1201,42 @@ class Workbook(xmlwriter.XMLwriter):
             y_dpi = 96
 
         return image_type, width, height, image_name, x_dpi, y_dpi
+
+    def _process_wmf(self, data):
+        # Extract width and height information from a WMF file.
+        def short(c, o=0):
+            v = word(c, o)
+            if v >= 32768:
+                v -= 65536
+            return v
+
+        def i16le(c, o=0):
+            """
+            Converts a 2-bytes (16 bits) string to an integer.
+
+            c: string containing bytes to convert
+            o: offset of bytes to convert in string
+            """
+            return unpack("<H", c[o:o+2])[0]
+
+        word = i16le
+        # get units per inch
+        inch = i16le(data, 14)
+
+        # get bounding box
+        x0 = short(data, 6)
+        y0 = short(data, 8)
+        x1 = short(data, 10)
+        y1 = short(data, 12)
+
+        x_dpi = 96
+        y_dpi = 96
+
+        # normalize size to 96 dots per inch
+        width = (x1 - x0) * x_dpi // inch
+        height = (y1 - y0) * y_dpi // inch
+
+        return 'wmf', width, height, x_dpi, y_dpi
 
     def _process_png(self, data):
         # Extract width and height information from a PNG file.
