@@ -206,8 +206,8 @@ class MyClass:
         x1 = short(data, 10)
         y1 = short(data, 12)
 
-        x_dpi = 120
-        y_dpi = 120
+        x_dpi = 96
+        y_dpi = 96
 
         # normalize size to 72 dots per inch
         width = (x1 - x0) * x_dpi // inch

@@ -29,3 +29,4 @@ XlsxWriter.egg-info/
 
 *.wpu
 Новый проект #2.wpr
+.pytest_cache/
