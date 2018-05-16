@@ -1232,7 +1232,7 @@ class Workbook(xmlwriter.XMLwriter):
         x_dpi = 96
         y_dpi = 96
 
-        # normalize size to 72 dots per inch
+        # normalize size to 96 dots per inch
         width = (x1 - x0) * x_dpi // inch
         height = (y1 - y0) * y_dpi // inch
 
