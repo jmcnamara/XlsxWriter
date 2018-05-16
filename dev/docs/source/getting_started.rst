@@ -20,10 +20,10 @@ The `pip <https://pip.pypa.io/en/latest/>`_  installer is
 the preferred method for installing Python modules from
 `PyPI <https://pypi.org/>`_, the Python Package Index::
 
-    $ sudo pip install XlsxWriter
+    $ pip install XlsxWriter
 
-.. Note::
-   Windows users can omit ``sudo`` at the start of the command.
+    # Or to a non system dir:
+    $ pip install --user XlsxWriter
 
 
 Using Easy_Install
@@ -32,7 +32,7 @@ Using Easy_Install
 If ``pip`` doesn't work you can try
 `easy_install <http://peak.telecommunity.com/DevCenter/EasyInstall>`_::
 
-    $ sudo easy_install XlsxWriter
+    $ easy_install XlsxWriter
 
 Installing from a tarball
 *************************
@@ -43,7 +43,7 @@ it as follows (change the version number to suit)::
     $ tar -zxvf XlsxWriter-1.2.3.tar.gz
 
     $ cd XlsxWriter-1.2.3
-    $ sudo python setup.py install
+    $ python setup.py install
 
 A tarball of the latest code can be downloaded from GitHub as follows::
 
@@ -51,7 +51,7 @@ A tarball of the latest code can be downloaded from GitHub as follows::
 
     $ tar zxvf master.tar.gz
     $ cd XlsxWriter-master/
-    $ sudo python setup.py install
+    $ python setup.py install
 
 
 Cloning from GitHub
@@ -64,7 +64,7 @@ You can clone the repository and install from it as follows::
     $ git clone https://github.com/jmcnamara/XlsxWriter.git
 
     $ cd XlsxWriter
-    $ sudo python setup.py install
+    $ python setup.py install
 
 
 Running a sample program
@@ -111,12 +111,3 @@ available as a
 Once you are happy that the module is installed and operational you can have a
 look at the rest of the XlsxWriter documentation. :ref:`tutorial1` is a good
 place to start.
-
-
-
-
-
-
-
-
-
