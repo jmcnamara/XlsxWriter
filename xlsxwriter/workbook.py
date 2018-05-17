@@ -1147,6 +1147,7 @@ class Workbook(xmlwriter.XMLwriter):
         marker1 = (unpack('3s', data[1:4]))[0]
         marker2 = (unpack('>H', data[:2]))[0]
         marker3 = (unpack('2s', data[:2]))[0]
+        marker4 = (unpack('<L', data[:4]))[0]
 
         if sys.version_info < (2, 6, 0):
             # Python 2.5/Jython.
@@ -1168,6 +1169,10 @@ class Workbook(xmlwriter.XMLwriter):
         elif marker3 == bmp_marker:
             self.image_types['bmp'] = 1
             (image_type, width, height) = self._process_bmp(data)
+
+        elif marker4 == 0x9AC6CDD7:
+            self.image_types['wmf'] = 1
+            (image_type, width, height, x_dpi, y_dpi) = self._process_wmf(data)
 
         else:
             raise Exception("%s: Unknown or unsupported image file format."
@@ -1294,6 +1299,26 @@ class Workbook(xmlwriter.XMLwriter):
         width = (unpack('<L', data[18:22]))[0]
         height = (unpack('<L', data[22:26]))[0]
         return 'bmp', width, height
+
+    def _process_wmf(self, data):
+        # Extract width and height information from a WMF file.
+        x_dpi = 96
+        y_dpi = 96
+
+        # Read the bounding box, measured in logical units.
+        x1 = unpack("<h", data[6:8])[0]
+        y1 = unpack("<h", data[8:10])[0]
+        x2 = unpack("<h", data[10:12])[0]
+        y2 = unpack("<h", data[12:14])[0]
+
+        # Read the number of logical units per inch. Used to scale the image.
+        inch = unpack("<H", data[14:16])[0]
+
+        # Convert to rendered height and width.
+        width = float((x2 - x1) * x_dpi) / inch
+        height = float((y2 - y1) * y_dpi) / inch
+
+        return 'wmf', width, height, x_dpi, y_dpi
 
     def _extract_named_ranges(self, defined_names):
         # Extract the named ranges from the sorted list of defined names.
