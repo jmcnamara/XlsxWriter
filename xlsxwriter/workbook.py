@@ -1144,10 +1144,10 @@ class Workbook(xmlwriter.XMLwriter):
         image_name = os.path.basename(filename)
 
         # Look for some common image file markers.
-        marker1 = (unpack('3s', data[1:4]))[0]
-        marker2 = (unpack('>H', data[:2]))[0]
-        marker3 = (unpack('2s', data[:2]))[0]
-        marker4 = (unpack('<L', data[:4]))[0]
+        marker1 = unpack('3s', data[1:4])[0]
+        marker2 = unpack('>H', data[:2])[0]
+        marker3 = unpack('2s', data[:2])[0]
+        marker4 = unpack('<L', data[:4])[0]
 
         if sys.version_info < (2, 6, 0):
             # Python 2.5/Jython.
@@ -1159,19 +1159,19 @@ class Workbook(xmlwriter.XMLwriter):
             bmp_marker = eval("b'BM'")
 
         if marker1 == png_marker:
-            self.image_types['png'] = 1
+            self.image_types['png'] = True
             (image_type, width, height, x_dpi, y_dpi) = self._process_png(data)
 
         elif marker2 == 0xFFD8:
-            self.image_types['jpeg'] = 1
+            self.image_types['jpeg'] = True
             (image_type, width, height, x_dpi, y_dpi) = self._process_jpg(data)
 
         elif marker3 == bmp_marker:
-            self.image_types['bmp'] = 1
+            self.image_types['bmp'] = True
             (image_type, width, height) = self._process_bmp(data)
 
         elif marker4 == 0x9AC6CDD7:
-            self.image_types['wmf'] = 1
+            self.image_types['wmf'] = True
             (image_type, width, height, x_dpi, y_dpi) = self._process_wmf(data)
 
         else:
@@ -1215,19 +1215,19 @@ class Workbook(xmlwriter.XMLwriter):
         # IHDR element. Also read the DPI in the pHYs element.
         while not end_marker and offset < data_length:
 
-            length = (unpack('>I', data[offset + 0:offset + 4]))[0]
-            marker = (unpack('>I', data[offset + 4:offset + 8]))[0]
+            length = unpack('>I', data[offset + 0:offset + 4])[0]
+            marker = unpack('>I', data[offset + 4:offset + 8])[0]
 
             # Read the image dimensions.
             if marker == marker_ihdr:
-                width = (unpack('>I', data[offset + 8:offset + 12]))[0]
-                height = (unpack('>I', data[offset + 12:offset + 16]))[0]
+                width = unpack('>I', data[offset + 8:offset + 12])[0]
+                height = unpack('>I', data[offset + 12:offset + 16])[0]
 
             # Read the image DPI.
             if marker == marker_phys:
-                x_density = (unpack('>I', data[offset + 8:offset + 12]))[0]
-                y_density = (unpack('>I', data[offset + 12:offset + 16]))[0]
-                units = (unpack('b', data[offset + 16:offset + 17]))[0]
+                x_density = unpack('>I', data[offset + 8:offset + 12])[0]
+                y_density = unpack('>I', data[offset + 12:offset + 16])[0]
+                units = unpack('b', data[offset + 16:offset + 17])[0]
 
                 if units == 1:
                     x_dpi = x_density * 0.0254
@@ -1254,8 +1254,8 @@ class Workbook(xmlwriter.XMLwriter):
         # Search through the image data to read the JPEG markers.
         while not end_marker and offset < data_length:
 
-            marker = (unpack('>H', data[offset + 0:offset + 2]))[0]
-            length = (unpack('>H', data[offset + 2:offset + 4]))[0]
+            marker = unpack('>H', data[offset + 0:offset + 2])[0]
+            length = unpack('>H', data[offset + 2:offset + 4])[0]
 
             # Read the height and width in the 0xFFCn elements (except C4, C8
             # and CC which aren't SOF markers).
@@ -1263,14 +1263,14 @@ class Workbook(xmlwriter.XMLwriter):
                     and marker != 0xFFC4
                     and marker != 0xFFC8
                     and marker != 0xFFCC):
-                height = (unpack('>H', data[offset + 5:offset + 7]))[0]
-                width = (unpack('>H', data[offset + 7:offset + 9]))[0]
+                height = unpack('>H', data[offset + 5:offset + 7])[0]
+                width = unpack('>H', data[offset + 7:offset + 9])[0]
 
             # Read the DPI in the 0xFFE0 element.
             if marker == 0xFFE0:
-                units = (unpack('b', data[offset + 11:offset + 12]))[0]
-                x_density = (unpack('>H', data[offset + 12:offset + 14]))[0]
-                y_density = (unpack('>H', data[offset + 14:offset + 16]))[0]
+                units = unpack('b', data[offset + 11:offset + 12])[0]
+                x_density = unpack('>H', data[offset + 12:offset + 14])[0]
+                y_density = unpack('>H', data[offset + 14:offset + 16])[0]
 
                 if units == 1:
                     x_dpi = x_density
@@ -1296,8 +1296,8 @@ class Workbook(xmlwriter.XMLwriter):
 
     def _process_bmp(self, data):
         # Extract width and height information from a BMP file.
-        width = (unpack('<L', data[18:22]))[0]
-        height = (unpack('<L', data[22:26]))[0]
+        width = unpack('<L', data[18:22])[0]
+        height = unpack('<L', data[22:26])[0]
         return 'bmp', width, height
 
     def _process_wmf(self, data):
