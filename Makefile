@@ -10,6 +10,9 @@ docs doc:
 pdf:
 	@make -C dev/docs latexpdf
 
+linkcheck:
+	@make -C dev/docs linkcheck
+
 clean:
 	@make -C dev/docs clean
 

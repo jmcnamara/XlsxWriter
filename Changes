@@ -5,7 +5,7 @@ Release 1.0.4 - April 14 2018
 * Set the xlsx internal file member datetimes to 1980-01-01 00:00:00 like
   Excel so that apps can produce a consistent binary file once the workbook
   :func:`set_properties` ``created`` date is set.  
-  Pull request `#495 <https://github.com/jmcnamara/XlsxWriter/issues/495>`_.
+  Pull request `#495 <https://github.com/jmcnamara/XlsxWriter/pull/495>`_.
 
 * Fix for jpeg images that reported unknown height/width due to unusual SOF markers.
   Issue `#506 <https://github.com/jmcnamara/XlsxWriter/issues/506>`_.
@@ -90,7 +90,7 @@ Release 0.9.5 - Dec 24 2016
 
 * Fix for missing `remove_timezone` option in Chart class.
   PR from Thomas Arnhold
-  `#404 <https://github.com/jmcnamara/XlsxWriter/issues/404>`_.
+  `#404 <https://github.com/jmcnamara/XlsxWriter/pull/404>`_.
 
 
 Release 0.9.4 - Dec 2 2016
@@ -498,7 +498,7 @@ Release 0.5.4 - May 4 2014
   Issue `#115 <https://github.com/jmcnamara/XlsxWriter/issues/115>`_.
 
 * Added clearer reporting of nested exceptions in ``write()`` methods.
-  Issue `#108 <https://github.com/jmcnamara/XlsxWriter/issues/108>`_.
+  Issue `#108 <https://github.com/jmcnamara/XlsxWriter/pull/108>`_.
 
 * Added support for ``inside_base`` data label position in charts.
 
@@ -739,11 +739,11 @@ Release 0.3.3 - June 10 2013
 
 * Fixed explicit UTF-8 file encoding for Python 3.
   PR from Alexandr Shadchin,
-  `#15 <https://github.com/jmcnamara/XlsxWriter/issues/15>`_.
+  `#15 <https://github.com/jmcnamara/XlsxWriter/pull/15>`_.
 
 * Fixed invalid string formatting resulted in misleading stack trace.
   PR from Andrei Korostelev,
-  `#21 <https://github.com/jmcnamara/XlsxWriter/issues/21>`_.
+  `#21 <https://github.com/jmcnamara/XlsxWriter/pull/21>`_.
 
 
 Release 0.3.2 - May 1 2013
