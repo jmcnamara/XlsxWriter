@@ -47,4 +47,6 @@ directory of the XlsxWriter distribution.
    example_protection.rst
    example_hide_sheet.rst
    example_hide_row_col.rst
+   example_inheritance1.rst
+   example_inheritance2.rst
    example_macros.rst
