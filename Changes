@@ -1,10 +1,20 @@
 
+Release 1.0.5 - May 19 2018
+---------------------------
+
+* Added example of how to subclass the Workbook and Worksheet objects. See
+  :ref:`ex_inheritance1` and :ref:`ex_inheritance2`.
+
+* Added support for WMF and EMF image formats to the Worksheet
+  :func:`add_image` method.
+
+
 Release 1.0.4 - April 14 2018
 -----------------------------
 
 * Set the xlsx internal file member datetimes to 1980-01-01 00:00:00 like
   Excel so that apps can produce a consistent binary file once the workbook
-  :func:`set_properties` ``created`` date is set.  
+  :func:`set_properties` ``created`` date is set.
   Pull request `#495 <https://github.com/jmcnamara/XlsxWriter/pull/495>`_.
 
 * Fix for jpeg images that reported unknown height/width due to unusual SOF markers.
