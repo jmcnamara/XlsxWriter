@@ -132,8 +132,8 @@ class ContentTypes(xmlwriter.XMLwriter):
         for image_type in image_types:
             extension = image_type
 
-            if image_type is 'wmf':
-                image_type = 'x-wmf'
+            if image_type in ('wmf', 'emf'):
+                image_type = 'x-' + image_type
 
             self._add_default((extension, 'image/' + image_type))
 
