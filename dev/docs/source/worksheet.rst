@@ -995,7 +995,7 @@ worksheet.insert_image()
    :type  options:     dict
 
 This method can be used to insert a image into a worksheet. The image can be in
-PNG, JPEG or BMP format::
+PNG, JPEG, BMP, WMF or EMF format (see the notes about BMP and EMF below)::
 
     worksheet.insert_image('B2', 'python.png')
 
@@ -1086,9 +1086,17 @@ Where ``positioning`` has the following allowable values:
   explicitly set the height of the row using ``set_row()`` if it crosses an
   inserted image.
 
-BMP images are only supported for backward compatibility. In general it is best
-to avoid BMP images since they aren't compressed. If used, BMP images must be
-24 bit, true color, bitmaps.
+.. Note::
+   BMP images are only supported for backward compatibility. In general it is
+   best to avoid BMP images since they aren't compressed. If used, BMP images
+   must be 24 bit, true color, bitmaps.
+
+.. Note::
+   EMF images can have very small differences in width and height when
+   compared to Excel files. Despite a lot of effort and testing it wasn't
+   possible to match exactly Excel's calculations for handling the dimensions
+   of EMF files. However, the differences are are small (< 1%) and in general
+   aren't visible.
 
 See also :ref:`ex_insert_image`.
 
