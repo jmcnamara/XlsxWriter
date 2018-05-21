@@ -122,8 +122,9 @@ encountering is already explained.
 Look at the example programs
 ----------------------------
 
-There are many :ref:`examples` in the distribution. Try to identify an example
-program that corresponds to your query and adapt it to use as a bug report.
+There are many :ref:`main_examples` in the distribution. Try to identify an
+example program that corresponds to your query and adapt it to use as a bug
+report.
 
 Use the official XlsxWriter Issue tracker on GitHub
 ---------------------------------------------------

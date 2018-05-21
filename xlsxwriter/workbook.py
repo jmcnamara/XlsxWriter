@@ -1148,15 +1148,18 @@ class Workbook(xmlwriter.XMLwriter):
         marker2 = unpack('>H', data[:2])[0]
         marker3 = unpack('2s', data[:2])[0]
         marker4 = unpack('<L', data[:4])[0]
+        marker5 = (unpack('4s', data[40:44]))[0]
 
         if sys.version_info < (2, 6, 0):
             # Python 2.5/Jython.
             png_marker = 'PNG'
             bmp_marker = 'BM'
+            emf_marker = ' EMF'
         else:
             # Eval the binary literals for Python 2.5/Jython compatibility.
             png_marker = eval("b'PNG'")
             bmp_marker = eval("b'BM'")
+            emf_marker = eval("b' EMF'")
 
         if marker1 == png_marker:
             self.image_types['png'] = True
@@ -1173,6 +1176,10 @@ class Workbook(xmlwriter.XMLwriter):
         elif marker4 == 0x9AC6CDD7:
             self.image_types['wmf'] = True
             (image_type, width, height, x_dpi, y_dpi) = self._process_wmf(data)
+
+        elif marker4 == 1 and marker5 == emf_marker:
+            self.image_types['emf'] = True
+            (image_type, width, height, x_dpi, y_dpi) = self._process_emf(data)
 
         else:
             raise Exception("%s: Unknown or unsupported image file format."
@@ -1319,6 +1326,40 @@ class Workbook(xmlwriter.XMLwriter):
         height = float((y2 - y1) * y_dpi) / inch
 
         return 'wmf', width, height, x_dpi, y_dpi
+
+    def _process_emf(self, data):
+        # Extract width and height information from a EMF file.
+
+        # Read the bounding box, measured in logical units.
+        bound_x1 = unpack("<l", data[8:12])[0]
+        bound_y1 = unpack("<l", data[12:16])[0]
+        bound_x2 = unpack("<l", data[16:20])[0]
+        bound_y2 = unpack("<l", data[20:24])[0]
+
+        # Convert the bounds to width and height.
+        width = bound_x2 - bound_x1
+        height = bound_y2 - bound_y1
+
+        # Read the rectangular frame in units of 0.01mm.
+        frame_x1 = unpack("<l", data[24:28])[0]
+        frame_y1 = unpack("<l", data[28:32])[0]
+        frame_x2 = unpack("<l", data[32:36])[0]
+        frame_y2 = unpack("<l", data[36:40])[0]
+
+        # Convert the frame bounds to mm width and height.
+        width_mm = 0.01 * (frame_x2 - frame_x1)
+        height_mm = 0.01 * (frame_y2 - frame_y1)
+
+        # Get the dpi based on the logical size.
+        x_dpi = width * 25.4 / width_mm
+        y_dpi = height * 25.4 / height_mm
+
+        # This is to match Excel's calculation. It is probably to account for
+        # the fact that the bounding box is inclusive-inclusive. Or a bug.
+        width += 1
+        height += 1
+
+        return 'emf', width, height, x_dpi, y_dpi
 
     def _extract_named_ranges(self, defined_names):
         # Extract the named ranges from the sorted list of defined names.
