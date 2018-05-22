@@ -1640,7 +1640,7 @@ class Worksheet(xmlwriter.XMLwriter):
 
     @convert_range_args
     def data_validation(self, first_row, first_col, last_row, last_col,
-                        options):
+                        options=None):
         """
         Add a data validation to a worksheet.
 
@@ -1661,6 +1661,12 @@ class Worksheet(xmlwriter.XMLwriter):
             return -1
         if self._check_dimensions(last_row, last_col, True, True):
             return -1
+
+        if options is None:
+            options = {}
+        else:
+            # Copy the user defined options so they aren't modified.
+            options = options.copy()
 
         # Valid input parameters.
         valid_parameters = {
@@ -1901,9 +1907,9 @@ class Worksheet(xmlwriter.XMLwriter):
 
         if options is None:
             options = {}
-
-        # Copy the user defined options so they aren't modified.
-        options = options.copy()
+        else:
+            # Copy the user defined options so they aren't modified.
+            options = options.copy()
 
         # Valid input parameters.
         valid_parameter = {
@@ -2388,6 +2394,9 @@ class Worksheet(xmlwriter.XMLwriter):
 
         if options is None:
             options = {}
+        else:
+            # Copy the user defined options so they aren't modified.
+            options = options.copy()
 
         if self.constant_memory:
             warn("add_table() isn't supported in 'constant_memory' mode")
@@ -2638,7 +2647,7 @@ class Worksheet(xmlwriter.XMLwriter):
         return table
 
     @convert_cell_args
-    def add_sparkline(self, row, col, options):
+    def add_sparkline(self, row, col, options=None):
         """
         Add sparklines to the worksheet.
 
@@ -2659,6 +2668,9 @@ class Worksheet(xmlwriter.XMLwriter):
             return -1
 
         sparkline = {'locations': [xl_rowcol_to_cell(row, col)]}
+
+        if options is None:
+            options = {}
 
         # Valid input parameters.
         valid_parameters = {
@@ -3196,6 +3208,9 @@ class Worksheet(xmlwriter.XMLwriter):
         else:
             options = {}
 
+        # Copy the user defined options so they aren't modified.
+        options = options.copy()
+
         # For backward compatibility.
         if margin is not None:
             options['margin'] = margin
@@ -3267,6 +3282,9 @@ class Worksheet(xmlwriter.XMLwriter):
                 options = {'margin': options}
         else:
             options = {}
+
+        # Copy the user defined options so they aren't modified.
+        options = options.copy()
 
         # For backward compatibility.
         if margin is not None:
@@ -3970,7 +3988,6 @@ class Worksheet(xmlwriter.XMLwriter):
 
         dimensions = self._position_object_emus(col, row, x_offset, y_offset,
                                                 width, height)
-
         # Convert from pixels to emus.
         width = int(0.5 + (width * 9525))
         height = int(0.5 + (height * 9525))
