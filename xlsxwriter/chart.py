@@ -107,7 +107,7 @@ class Chart(xmlwriter.XMLwriter):
         self.warn_sheetname = True
         self._set_default_properties()
 
-    def add_series(self, options):
+    def add_series(self, options=None):
         """
         Add a data series to a chart.
 
@@ -119,6 +119,8 @@ class Chart(xmlwriter.XMLwriter):
 
         """
         # Add a series and it's properties to a chart.
+        if options is None:
+            options = {}
 
         # Check that the required input has been specified.
         if 'values' not in options:
@@ -306,7 +308,7 @@ class Chart(xmlwriter.XMLwriter):
 
         self.y2_axis = axis
 
-    def set_title(self, options):
+    def set_title(self, options=None):
         """
         Set the chart title options.
 
@@ -317,6 +319,9 @@ class Chart(xmlwriter.XMLwriter):
             Nothing.
 
         """
+        if options is None:
+            options = {}
+
         name, name_formula = self._process_names(options.get('name'),
                                                  options.get('name_formula'))
 
@@ -338,7 +343,7 @@ class Chart(xmlwriter.XMLwriter):
         # Set the automatic title option.
         self.title_none = options.get('none')
 
-    def set_legend(self, options):
+    def set_legend(self, options=None):
         """
         Set the chart legend options.
 
@@ -348,6 +353,9 @@ class Chart(xmlwriter.XMLwriter):
         Returns:
             Nothing.
         """
+        if options is None:
+            options = {}
+
         self.legend_position = options.get('position', 'right')
         self.legend_delete_series = options.get('delete_series')
         self.legend_font = self._convert_font_args(options.get('font'))
@@ -439,7 +447,7 @@ class Chart(xmlwriter.XMLwriter):
         """
         self.show_hidden = 1
 
-    def set_size(self, options):
+    def set_size(self, options=None):
         """
         Set size or scale of the chart.
 
@@ -449,6 +457,8 @@ class Chart(xmlwriter.XMLwriter):
         Returns:
             Nothing.
         """
+        if options is None:
+            options = {}
 
         # Set dimensions or scale for the chart.
         self.width = options.get('width', self.width)
