@@ -121,9 +121,9 @@ It is always required and it has no default value. Allowable values are::
 * **list**: restricts the cell to a set of user specified values. These can
   be passed in a Python list or as an Excel cell range.
 * **date**: restricts the cell to date values specified as a datetime object
-  as shown in :ref:`working_with_dates_and_time`.
+  as shown in :ref:`working_with_dates_and_time` or a date formula.
 * **time**: restricts the cell to time values specified as a datetime object
-  as shown in :ref:`working_with_dates_and_time`.
+  as shown in :ref:`working_with_dates_and_time` or a time formula.
 * **length**: restricts the cell data based on an integer string length.
   Excel refers to this as 'Text length'.
 * **custom**: restricts the cell based on an external Excel formula that

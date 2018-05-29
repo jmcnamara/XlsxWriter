@@ -1808,21 +1808,13 @@ class Worksheet(xmlwriter.XMLwriter):
         if options['validate'] == 'date' or options['validate'] == 'time':
 
             if options['value']:
-                if not supported_datetime(options['value']):
-                    warn("Data validation 'value/minimum' must be a "
-                         "datetime object.")
-                    return -2
-                else:
+                if supported_datetime(options['value']):
                     date_time = self._convert_date_time(options['value'])
                     # Format date number to the same precision as Excel.
                     options['value'] = "%.16g" % date_time
 
             if options['maximum']:
-                if not supported_datetime(options['maximum']):
-                    warn("Conditional format 'maximum' must be a "
-                         "datetime object.")
-                    return -2
-                else:
+                if supported_datetime(options['maximum']):
                     date_time = self._convert_date_time(options['maximum'])
                     options['maximum'] = "%.16g" % date_time
 
