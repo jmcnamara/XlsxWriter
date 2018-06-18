@@ -7,6 +7,10 @@
 
 import unittest
 from ...workbook import Workbook
+from ...exceptions import (
+    DuplicateWorksheetName,
+    InvalidWorksheetName,
+)
 
 
 class TestCheckSheetname(unittest.TestCase):
@@ -37,13 +41,13 @@ class TestCheckSheetname(unittest.TestCase):
         """Test the _check_sheetname() method with exception"""
 
         name = 'name_that_is_longer_than_thirty_one_characters'
-        self.assertRaises(Exception, self.workbook._check_sheetname, name)
+        self.assertRaises(InvalidWorksheetName, self.workbook._check_sheetname, name)
 
     def test_check_sheetname_with_exception2(self):
         """Test the _check_sheetname() method with exception"""
 
         name = 'name_with_special_character_?'
-        self.assertRaises(Exception, self.workbook._check_sheetname, name)
+        self.assertRaises(InvalidWorksheetName, self.workbook._check_sheetname, name)
 
     def test_check_sheetname_with_exception3(self):
         """Test the _check_sheetname() method with exception"""
@@ -52,13 +56,13 @@ class TestCheckSheetname(unittest.TestCase):
         name2 = name1.lower()
 
         self.workbook.add_worksheet(name1)
-        self.assertRaises(Exception, self.workbook.add_worksheet, name2)
+        self.assertRaises(DuplicateWorksheetName, self.workbook.add_worksheet, name2)
 
     def test_check_sheetname_empty_exception(self):
         """Test the _check_sheetname() method with empty name"""
 
         name = ''
-        self.assertRaises(Exception, self.workbook._check_sheetname, name)
+        self.assertRaises(InvalidWorksheetName, self.workbook._check_sheetname, name)
 
     def tearDown(self):
         self.workbook.fileclosed = 1
