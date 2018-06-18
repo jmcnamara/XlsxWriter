@@ -7,6 +7,7 @@
 
 # Package imports.
 from . import xmlwriter
+from .exceptions import XlsxFormatError
 
 
 class Format(xmlwriter.XMLwriter):
@@ -378,7 +379,7 @@ class Format(xmlwriter.XMLwriter):
             if rotation < 0:
                 rotation = -rotation + 90
         else:
-            raise Exception(
+            raise XlsxFormatError(
                 "Rotation rotation outside range: -90 <= angle <= 90")
 
         self.rotation = rotation

@@ -37,6 +37,7 @@ from .utility import get_sparkline_style
 from .utility import supported_datetime
 from .utility import datetime_to_excel_datetime
 from .utility import quote_sheetname
+from .exceptions import DuplicateTableName
 
 
 ###############################################################################
@@ -4572,8 +4573,10 @@ class Worksheet(xmlwriter.XMLwriter):
             name = table['name'].lower()
 
             if name in seen:
-                raise Exception("invalid duplicate table name '%s' found." %
-                                table['name'])
+                raise DuplicateTableName(
+                    "invalid duplicate table name '%s' found." %
+                    table['name']
+                )
             else:
                 seen[name] = True
 
