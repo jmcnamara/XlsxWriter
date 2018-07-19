@@ -30,8 +30,7 @@ features such as formatting and many more, including:
 * Integration with Pandas.
 * Memory optimization mode for writing large files.
 
-It supports Python 2.5, 2.6, 2.7, 3.1, 3.2, 3.3, 3.4, 3.5, 3.6, Jython and
-PyPy and uses standard libraries only.
+It supports Python 2.7, 3.4+, Jython and PyPy and uses standard libraries only.
 
 .. only:: html
 

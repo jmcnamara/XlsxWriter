@@ -39,18 +39,8 @@ testpythons:
 
 # Test with all stable Python 2/3 releases.
 testpythonsall:
-	@echo "Testing with Python 2.5.6:"
-	@~/.pythonbrew/pythons/Python-2.5.6/bin/py.test -q
-	@echo "Testing with Python 2.6.8:"
-	@~/.pythonbrew/pythons/Python-2.6.8/bin/py.test -q
 	@echo "Testing with Python 2.7.4:"
 	@~/.pythonbrew/pythons/Python-2.7.4/bin/py.test -q
-	@echo "Testing with Python 3.1.5:"
-	@~/.pythonbrew/pythons/Python-3.1.5/bin/py.test -q
-	@echo "Testing with Python 3.2.5:"
-	@~/.pythonbrew/pythons/Python-3.2.5/bin/py.test -q
-	@echo "Testing with Python 3.3.2:"
-	@~/.pythonbrew/pythons/Python-3.3.2/bin/py.test -q
 	@echo "Testing with Python 3.4.1:"
 	@~/.pythonbrew/pythons/Python-3.4.1/bin/py.test -q
 	@echo "Testing with Python 3.5.0:"

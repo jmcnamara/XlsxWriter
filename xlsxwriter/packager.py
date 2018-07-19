@@ -9,10 +9,10 @@
 import os
 import stat
 import tempfile
+from io import BytesIO as BytesIO
 from shutil import copy
 
 from .compatibility import StringIO
-from .compatibility import BytesIO
 
 # Package imports.
 from .app import App
