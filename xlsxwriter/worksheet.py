@@ -5443,9 +5443,6 @@ class Worksheet(xmlwriter.XMLwriter):
         # Write the <cell> element.
         # Note. This is the innermost loop so efficiency is important.
 
-        error_codes = ['#DIV/0!', '#N/A', '#NAME?', '#NULL!',
-                       '#NUM!', '#REF!', '#VALUE!']
-
         cell_range = xl_rowcol_to_cell_fast(row, col)
 
         attributes = [('r', cell_range)]
@@ -5517,6 +5514,8 @@ class Worksheet(xmlwriter.XMLwriter):
                     value = 0
 
             elif isinstance(cell.value, str_types):
+                error_codes = ('#DIV/0!', '#N/A', '#NAME?', '#NULL!',
+                               '#NUM!', '#REF!', '#VALUE!')
                 if cell.value in error_codes:
                     attributes.append(('t', 'e'))
                 else:
