@@ -854,7 +854,6 @@ class Format(xmlwriter.XMLwriter):
                 self.num_format,
                 self.locked,
                 self.hidden))
-
         return self._format_key
 
     def _get_font_key(self):
