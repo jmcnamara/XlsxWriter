@@ -410,7 +410,6 @@ class Worksheet(xmlwriter.XMLwriter):
         if token is None:
             return self.write_blank(row, col, *args)
 
-
         # avoid isinstance as much as possible (because it's slow)
         token_type = type(token)
         if token_type is bool:
@@ -3722,17 +3721,20 @@ class Worksheet(xmlwriter.XMLwriter):
                 return -2
 
         if not ignore_row:
-            if self.dim_rowmin is None or row < self.dim_rowmin:
+            dim_rowmin = self.dim_rowmin
+            dim_rowmax = self.dim_rowmax
+            if dim_rowmin is None or row < dim_rowmin:
                 self.dim_rowmin = row
-            if self.dim_rowmax is None or row > self.dim_rowmax:
+            if dim_rowmax is None or row > dim_rowmax:
                 self.dim_rowmax = row
 
         if not ignore_col:
-            if self.dim_colmin is None or col < self.dim_colmin:
+            dim_colmin = self.dim_colmin
+            dim_colmax = self.dim_colmax
+            if dim_colmin is None or col < dim_colmin:
                 self.dim_colmin = col
-            if self.dim_colmax is None or col > self.dim_colmax:
+            if dim_colmax is None or col > dim_colmax:
                 self.dim_colmax = col
-
         return 0
 
     def _convert_date_time(self, dt_obj):

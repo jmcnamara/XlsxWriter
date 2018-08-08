@@ -104,9 +104,12 @@ def xl_cell_to_rowcol(cell_str):
     if not cell_str:
         return 0, 0
 
-    match = range_parts.match(cell_str)
-    col_str = match.group(2)
-    row_str = match.group(4)
+    for i,c in enumerate(cell_str):
+        if c.isdigit():
+            break
+
+    col_str = cell_str[:i].strip('$')
+    row_str = cell_str[i:]
 
     # Convert base26 column string to number.
     expn = 0
