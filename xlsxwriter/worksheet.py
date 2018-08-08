@@ -7,6 +7,7 @@
 
 # Standard packages.
 import codecs
+import datetime
 import os
 import re
 import sys
@@ -418,6 +419,11 @@ class Worksheet(xmlwriter.XMLwriter):
             return self.write_number(row, col, *args)
         if token_type is str:
             return self.write_token_as_string(token, row, col, *args)
+        if token_type in (datetime.datetime,
+                          datetime.date,
+                          datetime.time,
+                          datetime.timedelta):
+            return self.write_datetime(row, col, *args)
         if token_type is unicode:
             try:
                 return self.write_token_as_string(str(token), row, col, *args)
