@@ -61,7 +61,7 @@ def convert_cell_args(method):
         except ValueError:
             # First arg isn't an int, convert to A1 notation.
             new_args = xl_cell_to_rowcol(first_arg)
-            args = new_args + tuple(args[1:])
+            args = new_args + args[1:]
 
         return method(self, *args, **kwargs)
 
@@ -428,15 +428,15 @@ class Worksheet(xmlwriter.XMLwriter):
             return self.write_datetime(row, col, *args)
 
         # resort to isinstance for developers who have subclassed a primitive
+        # Write number types.
+        if isinstance(token, num_types):
+            return self.write_number(row, col, *args)
         # Write boolean types.
         if isinstance(token, bool):
             return self.write_boolean(row, col, *args)
         # Write datetime objects.
         if supported_datetime(token):
             return self.write_datetime(row, col, *args)
-        # Write number types.
-        if isinstance(token, num_types):
-            return self.write_number(row, col, *args)
         # Write string types.
         if isinstance(token, str_types):
             return self.write_token_as_string(token, row, col, *args)
