@@ -786,7 +786,7 @@ class Worksheet(xmlwriter.XMLwriter):
         link_type = 1
 
         # Remove the URI scheme from internal links.
-        if re.match("internal:", url):
+        if url.startswith('internal:'):
             url = url.replace('internal:', '')
             string = string.replace('internal:', '')
             link_type = 2
@@ -794,7 +794,7 @@ class Worksheet(xmlwriter.XMLwriter):
         # Remove the URI scheme from external links and change the directory
         # separator from Unix to Dos.
         external = False
-        if re.match("external:", url):
+        if url.startswith('external:'):
             url = url.replace('external:', '')
             url = url.replace('/', '\\')
             string = string.replace('external:', '')
@@ -803,10 +803,6 @@ class Worksheet(xmlwriter.XMLwriter):
 
         # Strip the mailto header.
         string = string.replace('mailto:', '')
-
-        # Check that row and col are valid and store max and min values
-        if self._check_dimensions(row, col):
-            return -1
 
         # Check that the string is < 32767 chars
         str_error = 0
