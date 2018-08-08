@@ -108,6 +108,8 @@ class Format(xmlwriter.XMLwriter):
         for key, value in properties.items():
             getattr(self, 'set_' + key)(value)
 
+        self._format_key = None
+
     ###########################################################################
     #
     # Format properties.
@@ -843,16 +845,17 @@ class Format(xmlwriter.XMLwriter):
 
     def _get_format_key(self):
         # Returns a unique hash key for a font. Used by Workbook.
-        key = ':'.join(self._to_string(x) for x in (
-            self._get_font_key(),
-            self._get_border_key(),
-            self._get_fill_key(),
-            self._get_alignment_key(),
-            self.num_format,
-            self.locked,
-            self.hidden))
+        if self._format_key is None:
+            self._format_key = ':'.join(self._to_string(x) for x in (
+                self._get_font_key(),
+                self._get_border_key(),
+                self._get_fill_key(),
+                self._get_alignment_key(),
+                self.num_format,
+                self.locked,
+                self.hidden))
 
-        return key
+        return self._format_key
 
     def _get_font_key(self):
         # Returns a unique hash key for a font. Used by Workbook.
