@@ -350,6 +350,38 @@ class Worksheet(xmlwriter.XMLwriter):
         self.vertical_dpi = 0
         self.horizontal_dpi = 0
 
+    def write_token_as_string(self, token, row, col, *args):
+        # Map the data to the appropriate write_*() method.
+        if not token:
+            return self.write_blank(row, col, *args)
+
+        if self.strings_to_formulas and token.startswith('='):
+            return self.write_formula(row, col, *args)
+
+        if ':' in token:
+            if self.strings_to_urls and re.match('(ftp|http)s?://', token):
+                return self.write_url(row, col, *args)
+            elif self.strings_to_urls and re.match('mailto:', token):
+                return self.write_url(row, col, *args)
+            elif self.strings_to_urls and re.match('(in|ex)ternal:', token):
+                return self.write_url(row, col, *args)
+
+        if self.strings_to_numbers:
+            try:
+                f = float(token)
+                if (self.nan_inf_to_errors or
+                        (not self._isnan(f) and not self._isinf(f))):
+                    return self.write_number(row, col, f, *args[1:])
+            except ValueError:
+                # Not a number, write as a string.
+                pass
+
+            return self.write_string(row, col, *args)
+
+        else:
+            # We have a plain string.
+            return self.write_string(row, col, *args)
+
     @convert_cell_args
     def write(self, row, col, *args):
         """
@@ -378,51 +410,35 @@ class Worksheet(xmlwriter.XMLwriter):
         if token is None:
             return self.write_blank(row, col, *args)
 
+        # Avoid isinstance as much as possible.
+        token_type = type(token)
+        if token_type is bool:
+            return self.write_boolean(row, col, *args)
+        if token_type in num_types:
+            return self.write_number(row, col, *args)
+        if token_type is str:
+            return self.write_token_as_string(token, row, col, *args)
+        if token_type is unicode:
+            try:
+                return self.write_token_as_string(str(token), row, col, *args)
+            except (UnicodeEncodeError, NameError):
+                # Punt if encountering Python3 or if string is not easily
+                # encoded.
+                pass
+
+        # Resort to isinstance for developers who have subclassed a primitive.
         # Write boolean types.
         if isinstance(token, bool):
             return self.write_boolean(row, col, *args)
-
         # Write datetime objects.
         if supported_datetime(token):
             return self.write_datetime(row, col, *args)
-
         # Write number types.
         if isinstance(token, num_types):
             return self.write_number(row, col, *args)
-
         # Write string types.
         if isinstance(token, str_types):
-            # Map the data to the appropriate write_*() method.
-            if token == '':
-                return self.write_blank(row, col, *args)
-
-            elif self.strings_to_formulas and token.startswith('='):
-                return self.write_formula(row, col, *args)
-
-            elif self.strings_to_urls and re.match('(ftp|http)s?://', token):
-                return self.write_url(row, col, *args)
-
-            elif self.strings_to_urls and re.match('mailto:', token):
-                return self.write_url(row, col, *args)
-
-            elif self.strings_to_urls and re.match('(in|ex)ternal:', token):
-                return self.write_url(row, col, *args)
-
-            elif self.strings_to_numbers:
-                try:
-                    f = float(token)
-                    if (self.nan_inf_to_errors or
-                            (not self._isnan(f) and not self._isinf(f))):
-                        return self.write_number(row, col, f, *args[1:])
-                except ValueError:
-                    # Not a number, write as a string.
-                    pass
-
-                return self.write_string(row, col, *args)
-
-            else:
-                # We have a plain string.
-                return self.write_string(row, col, *args)
+            return self.write_token_as_string(token, row, col, *args)
 
         # We haven't matched a supported type. Try float.
         try:
