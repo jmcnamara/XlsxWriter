@@ -56,12 +56,12 @@ def convert_cell_args(method):
         try:
             # First arg is an int, default to row/col notation.
             if len(args):
-                int(args[0])
+                first_arg = args[0]
+                int(first_arg)
         except ValueError:
             # First arg isn't an int, convert to A1 notation.
-            new_args = list(xl_cell_to_rowcol(args[0]))
-            new_args.extend(args[1:])
-            args = new_args
+            new_args = xl_cell_to_rowcol(first_arg)
+            args = new_args + tuple(args[1:])
 
         return method(self, *args, **kwargs)
 
