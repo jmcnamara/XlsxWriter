@@ -424,7 +424,10 @@ class Worksheet(xmlwriter.XMLwriter):
         if token_type is str:
             return self._write_token_as_string(token, row, col, *args)
         if token_type is unicode:
-            return self._write_token_as_string(str(token), row, col, *args)
+            try:
+                return self._write_token_as_string(str(token), row, col, *args)
+            except UnicodeEncodeError:
+                pass
         if token_type in (datetime.datetime,
                           datetime.date,
                           datetime.time,
