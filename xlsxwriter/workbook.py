@@ -150,7 +150,7 @@ class Workbook(xmlwriter.XMLwriter):
         try:
             if not self.fileclosed:
                 self.close()
-        except:
+        except Exception:
             raise Exception("Exception caught in workbook destructor. "
                             "Explicit close() may be required for workbook.")
 
@@ -1576,7 +1576,7 @@ class Workbook(xmlwriter.XMLwriter):
             # try block for ranges that can't be parsed such as defined names.
             (row_start, col_start) = xl_cell_to_rowcol(cell_1)
             (row_end, col_end) = xl_cell_to_rowcol(cell_2)
-        except:
+        except Exception:
             return None, None
 
         # We only handle 1D ranges.

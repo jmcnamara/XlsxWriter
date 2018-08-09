@@ -104,7 +104,7 @@ def xl_cell_to_rowcol(cell_str):
     if not cell_str:
         return 0, 0
 
-    for i,c in enumerate(cell_str):
+    for i, c in enumerate(cell_str):
         if c.isdigit():
             break
 

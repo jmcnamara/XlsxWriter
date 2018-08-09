@@ -532,10 +532,10 @@ class Worksheet(xmlwriter.XMLwriter):
             if self.nan_inf_to_errors:
                 if self._isnan(number):
                     return self._write_formula(row, col, '#NUM!', cell_format,
-                                              '#NUM!')
+                                               '#NUM!')
                 elif self._isinf(number):
                     return self._write_formula(row, col, '1/0', cell_format,
-                                              '#DIV/0!')
+                                               '#DIV/0!')
             else:
                 raise TypeError(
                     "NAN/INF not supported in write_number() "
@@ -618,7 +618,7 @@ class Worksheet(xmlwriter.XMLwriter):
         # Hand off array formulas.
         if formula.startswith('{') and formula.endswith('}'):
             return self._write_array_formula(row, col, row, col, formula,
-                                            cell_format, value)
+                                             cell_format, value)
 
         # Remove the formula '=' sign if it exists.
         if formula.startswith('='):
@@ -657,7 +657,7 @@ class Worksheet(xmlwriter.XMLwriter):
                                          last_col, formula, cell_format, value)
 
     def _write_array_formula(self, first_row, first_col, last_row, last_col,
-                                formula, cell_format=None, value=0):
+                             formula, cell_format=None, value=0):
 
         # Swap last row/col with first row/col as necessary.
         if first_row > last_row:
@@ -761,7 +761,6 @@ class Worksheet(xmlwriter.XMLwriter):
         """
         return self._write_boolean(row, col, boolean, cell_format)
 
-
     def _write_boolean(self, row, col, boolean, cell_format=None):
 
         # Check that row and col are valid and store max and min values.
@@ -813,7 +812,7 @@ class Worksheet(xmlwriter.XMLwriter):
         return self._write_url(row, col, url, cell_format, string, tip)
 
     def _write_url(self, row, col, url, cell_format=None,
-                      string=None, tip=None):
+                   string=None, tip=None):
 
         # Set the displayed string to the URL unless defined by the user.
         if string is None:
@@ -930,7 +929,6 @@ class Worksheet(xmlwriter.XMLwriter):
         """
 
         return self._write_rich_string(row, col, *args)
-
 
     def _write_rich_string(self, row, col, *args):
 
@@ -2401,15 +2399,15 @@ class Worksheet(xmlwriter.XMLwriter):
         # Strip the leading = from formulas.
         try:
             options['min_value'] = options['min_value'].lstrip('=')
-        except:
+        except Exception:
             pass
         try:
             options['mid_value'] = options['mid_value'].lstrip('=')
-        except:
+        except Exception:
             pass
         try:
             options['max_value'] = options['max_value'].lstrip('=')
-        except:
+        except Exception:
             pass
 
         # Store the conditional format until we close the worksheet.
@@ -2643,8 +2641,8 @@ class Worksheet(xmlwriter.XMLwriter):
 
                         value = user_data.get('total_value', 0)
 
-                        self._write_formula(last_row, col_num, formula, xformat,
-                                           value)
+                        self._write_formula(last_row, col_num, formula,
+                                            xformat, value)
 
                     elif user_data.get('total_string'):
                         # Total label only (not a function).
@@ -2652,7 +2650,7 @@ class Worksheet(xmlwriter.XMLwriter):
                         col_data['total_string'] = total_string
 
                         self._write_string(last_row, col_num, total_string,
-                                          user_data.get('format'))
+                                           user_data.get('format'))
 
                     # Get the dxf format index.
                     if xformat is not None:
@@ -2668,7 +2666,7 @@ class Worksheet(xmlwriter.XMLwriter):
             # Write the column headers to the worksheet.
             if options['header_row']:
                 self._write_string(first_row, col_num, col_data['name'],
-                                  col_data['name_format'])
+                                   col_data['name_format'])
 
             col_id += 1
 
