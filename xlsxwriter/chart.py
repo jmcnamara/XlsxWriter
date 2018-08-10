@@ -2677,7 +2677,7 @@ class Chart(xmlwriter.XMLwriter):
     def _write_page_margins(self):
         # Write the <c:pageMargins> element.
         b = 0.75
-        l = 0.7
+        el = 0.7
         r = 0.7
         t = 0.75
         header = 0.3
@@ -2685,7 +2685,7 @@ class Chart(xmlwriter.XMLwriter):
 
         attributes = [
             ('b', b),
-            ('l', l),
+            ('l', el),
             ('r', r),
             ('t', t),
             ('header', header),

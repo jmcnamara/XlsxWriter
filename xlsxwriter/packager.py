@@ -612,7 +612,7 @@ class Packager(object):
                     try:
                         os.chmod(os_filename,
                                  os.stat(os_filename).st_mode | stat.S_IWRITE)
-                    except:
+                    except Exception:
                         pass
             else:
                 # For in-memory mode we read the image into a stream.

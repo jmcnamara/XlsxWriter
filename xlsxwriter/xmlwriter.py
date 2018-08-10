@@ -52,10 +52,8 @@ class XMLwriter(object):
 
     def _xml_start_tag(self, tag, attributes=[]):
         # Write an XML start tag with optional attributes.
-        for key, value in attributes:
-            value = self._escape_attributes(value)
-            tag += ' %s="%s"' % (key, value)
 
+        tag += self._build_escaped_attribute_list(attributes)
         self.fh.write("<%s>" % tag)
 
     def _xml_start_tag_unencoded(self, tag, attributes=[]):
@@ -71,12 +69,17 @@ class XMLwriter(object):
         # Write an XML end tag.
         self.fh.write("</%s>" % tag)
 
-    def _xml_empty_tag(self, tag, attributes=[]):
-        # Write an empty XML tag with optional attributes.
+    def _build_escaped_attribute_list(self, attributes):
+        attr = ''
+
         for key, value in attributes:
             value = self._escape_attributes(value)
-            tag += ' %s="%s"' % (key, value)
+            attr += ' %s="%s"' % (key, value)
+        return attr
 
+    def _xml_empty_tag(self, tag, attributes=[]):
+        # Write an empty XML tag with optional attributes.
+        tag += self._build_escaped_attribute_list(attributes)
         self.fh.write("<%s/>" % tag)
 
     def _xml_empty_tag_unencoded(self, tag, attributes=[]):
@@ -92,31 +95,18 @@ class XMLwriter(object):
         # Write an XML element containing data with optional attributes.
         end_tag = tag
 
-        for key, value in attributes:
-            value = self._escape_attributes(value)
-            tag += ' %s="%s"' % (key, value)
-
+        tag += self._build_escaped_attribute_list(attributes)
         data = self._escape_data(data)
         self.fh.write("<%s>%s</%s>" % (tag, data, end_tag))
 
     def _xml_string_element(self, index, attributes=[]):
         # Optimized tag writer for <c> cell string elements in the inner loop.
-        attr = ''
-
-        for key, value in attributes:
-            value = self._escape_attributes(value)
-            attr += ' %s="%s"' % (key, value)
-
+        attr = self._build_escaped_attribute_list(attributes)
         self.fh.write("""<c%s t="s"><v>%d</v></c>""" % (attr, index))
 
     def _xml_si_element(self, string, attributes=[]):
         # Optimized tag writer for shared strings <si> elements.
-        attr = ''
-
-        for key, value in attributes:
-            value = self._escape_attributes(value)
-            attr += ' %s="%s"' % (key, value)
-
+        attr = self._build_escaped_attribute_list(attributes)
         string = self._escape_data(string)
 
         self.fh.write("""<si><t%s>%s</t></si>""" % (attr, string))
@@ -128,39 +118,26 @@ class XMLwriter(object):
 
     def _xml_number_element(self, number, attributes=[]):
         # Optimized tag writer for <c> cell number elements in the inner loop.
-        attr = ''
-
-        for key, value in attributes:
-            value = self._escape_attributes(value)
-            attr += ' %s="%s"' % (key, value)
+        attr = self._build_escaped_attribute_list(attributes)
 
         self.fh.write("""<c%s><v>%.16g</v></c>""" % (attr, number))
 
     def _xml_formula_element(self, formula, result, attributes=[]):
         # Optimized tag writer for <c> cell formula elements in the inner loop.
-        attr = ''
-
-        for key, value in attributes:
-            value = self._escape_attributes(value)
-            attr += ' %s="%s"' % (key, value)
-
+        attr = self._build_escaped_attribute_list(attributes)
         self.fh.write("""<c%s><f>%s</f><v>%s</v></c>"""
                       % (attr, self._escape_data(formula),
                          self._escape_data(result)))
 
     def _xml_inline_string(self, string, preserve, attributes=[]):
         # Optimized tag writer for inlineStr cell elements in the inner loop.
-        attr = ''
         t_attr = ''
 
         # Set the <t> attribute to preserve whitespace.
         if preserve:
             t_attr = ' xml:space="preserve"'
 
-        for key, value in attributes:
-            value = self._escape_attributes(value)
-            attr += ' %s="%s"' % (key, value)
-
+        attr = self._build_escaped_attribute_list(attributes)
         string = self._escape_data(string)
 
         self.fh.write("""<c%s t="inlineStr"><is><t%s>%s</t></is></c>""" %
@@ -168,12 +145,7 @@ class XMLwriter(object):
 
     def _xml_rich_inline_string(self, string, attributes=[]):
         # Optimized tag writer for rich inlineStr in the inner loop.
-        attr = ''
-
-        for key, value in attributes:
-            value = self._escape_attributes(value)
-            attr += ' %s="%s"' % (key, value)
-
+        attr = self._build_escaped_attribute_list(attributes)
         self.fh.write("""<c%s t="inlineStr"><is>%s</is></c>""" %
                       (attr, string))
 
@@ -185,11 +157,11 @@ class XMLwriter(object):
         except TypeError:
             return attribute
 
-        attribute = attribute.replace('&', '&amp;')
-        attribute = attribute.replace('"', '&quot;')
-        attribute = attribute.replace('<', '&lt;')
-        attribute = attribute.replace('>', '&gt;')
-        attribute = attribute.replace('\n', '&#xA;')
+        attribute = re.sub('[&]', '&amp;', attribute)
+        attribute = re.sub('["]', '&quot;', attribute)
+        attribute = re.sub('[<]', '&lt;', attribute)
+        attribute = re.sub('[>]', '&gt;', attribute)
+        attribute = re.sub('[\n]', '&#xA;', attribute)
 
         return attribute
 
@@ -203,8 +175,8 @@ class XMLwriter(object):
         except TypeError:
             return data
 
-        data = data.replace('&', '&amp;')
-        data = data.replace('<', '&lt;')
-        data = data.replace('>', '&gt;')
+        data = re.sub('[&]', '&amp;', data)
+        data = re.sub('[<]', '&lt;', data)
+        data = re.sub('[>]', '&gt;', data)
 
         return data
