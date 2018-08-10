@@ -433,18 +433,18 @@ class Worksheet(xmlwriter.XMLwriter):
                 pass
 
         # Resort to isinstance for developers who have subclassed a primitive.
-        # Write boolean types.
-        if isinstance(token, bool):
-            return self.write_boolean(row, col, *args)
-        # Write datetime objects.
-        if supported_datetime(token):
-            return self.write_datetime(row, col, *args)
         # Write number types.
         if isinstance(token, num_types):
             return self.write_number(row, col, *args)
         # Write string types.
         if isinstance(token, str_types):
             return self.write_token_as_string(token, row, col, *args)
+        # Write boolean types.
+        if isinstance(token, bool):
+            return self.write_boolean(row, col, *args)
+        # Write datetime objects.
+        if supported_datetime(token):
+            return self.write_datetime(row, col, *args)
 
         # We haven't matched a supported type. Try float.
         try:
