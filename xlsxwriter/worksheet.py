@@ -4700,19 +4700,21 @@ class Worksheet(xmlwriter.XMLwriter):
                 if col_num in self.table[row_num]:
                     cell = self.table[row_num][col_num]
 
-                    if type(cell).__name__ == 'Number':
+                    type_cell_name = type(cell).__name__
+
+                    if type_cell_name == 'Number':
                         # Return a number with Excel's precision.
                         data.append("%.16g" % cell.number)
 
-                    elif type(cell).__name__ == 'String':
+                    elif type_cell_name == 'String':
                         # Return a string from it's shared string index.
                         index = cell.string
                         string = self.str_table._get_shared_string(index)
 
                         data.append(string)
 
-                    elif (type(cell).__name__ == 'Formula'
-                            or type(cell).__name__ == 'ArrayFormula'):
+                    elif (type_cell_name == 'Formula'
+                            or type_cell_name == 'ArrayFormula'):
                         # Return the formula value.
                         value = cell.value
 
@@ -4721,7 +4723,7 @@ class Worksheet(xmlwriter.XMLwriter):
 
                         data.append(value)
 
-                    elif type(cell).__name__ == 'Blank':
+                    elif type_cell_name == 'Blank':
                         # Return a empty cell.
                         data.append('')
                 else:
@@ -5523,12 +5525,14 @@ class Worksheet(xmlwriter.XMLwriter):
             col_xf = self.col_formats[col]
             attributes.append(('s', col_xf._get_xf_index()))
 
+        type_cell_name = type(cell).__name__
+
         # Write the various cell types.
-        if type(cell).__name__ == 'Number':
+        if type_cell_name == 'Number':
             # Write a number.
             self._xml_number_element(cell.number, attributes)
 
-        elif type(cell).__name__ == 'String':
+        elif type_cell_name == 'String':
             # Write a string.
             string = cell.string
 
@@ -5566,7 +5570,7 @@ class Worksheet(xmlwriter.XMLwriter):
 
                     self._xml_inline_string(string, preserve, attributes)
 
-        elif type(cell).__name__ == 'Formula':
+        elif type_cell_name == 'Formula':
             # Write a formula. First check the formula value type.
             value = cell.value
             if type(cell.value) == bool:
@@ -5586,7 +5590,7 @@ class Worksheet(xmlwriter.XMLwriter):
 
             self._xml_formula_element(cell.formula, value, attributes)
 
-        elif type(cell).__name__ == 'ArrayFormula':
+        elif type_cell_name == 'ArrayFormula':
             # Write a array formula.
 
             # First check if the formula value is a string.
@@ -5601,11 +5605,11 @@ class Worksheet(xmlwriter.XMLwriter):
             self._write_cell_value(cell.value)
             self._xml_end_tag('c')
 
-        elif type(cell).__name__ == 'Blank':
+        elif type_cell_name == 'Blank':
             # Write a empty cell.
             self._xml_empty_tag('c', attributes)
 
-        elif type(cell).__name__ == 'Boolean':
+        elif type_cell_name == 'Boolean':
             # Write a boolean cell.
             attributes.append(('t', 'b'))
             self._xml_start_tag('c', attributes)
