@@ -6,8 +6,8 @@
 #
 
 import unittest
+from collections import namedtuple
 from ...compatibility import StringIO
-from ...compat_collections import namedtuple
 from ...worksheet import Worksheet
 
 

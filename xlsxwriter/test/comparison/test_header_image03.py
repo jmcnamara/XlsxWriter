@@ -7,7 +7,7 @@
 
 from ..excel_comparsion_test import ExcelComparisonTest
 from ...workbook import Workbook
-from ...compatibility import BytesIO
+from io import BytesIO
 
 
 class TestCompareXLSXFiles(ExcelComparisonTest):
