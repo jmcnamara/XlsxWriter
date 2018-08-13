@@ -12,7 +12,7 @@ import tempfile
 from shutil import copy
 
 from .compatibility import StringIO
-from .compatibility import BytesIO
+from io import BytesIO
 
 # Package imports.
 from .app import App

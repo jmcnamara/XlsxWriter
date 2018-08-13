@@ -13,12 +13,12 @@ import re
 import sys
 import tempfile
 
+from collections import defaultdict
+from collections import namedtuple
 from warnings import warn
 
 # Standard packages in Python 2/3 compatibility mode.
 from .compatibility import StringIO
-from .compatibility import defaultdict
-from .compatibility import namedtuple
 from .compatibility import force_unicode
 from .compatibility import num_types, str_types
 
