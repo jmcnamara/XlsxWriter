@@ -2170,7 +2170,7 @@ dictionary in the ``options`` argument with any or all of the following keys::
 The default boolean values are shown above. Individual elements can be
 protected as follows::
 
-    worksheet.protect('abc123', { 'insert_rows': 1 })
+    worksheet.protect('abc123', {'insert_rows': True})
 
 See also the :func:`set_locked` and :func:`set_hidden` format methods and
 :ref:`ex_protection`.
