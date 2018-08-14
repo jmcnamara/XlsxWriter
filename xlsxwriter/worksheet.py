@@ -351,9 +351,10 @@ class Worksheet(xmlwriter.XMLwriter):
         self.vertical_dpi = 0
         self.horizontal_dpi = 0
 
+    # Utility function for writing different types of strings.
     def _write_token_as_string(self, token, row, col, *args):
         # Map the data to the appropriate write_*() method.
-        if not token:
+        if token is '':
             return self._write_blank(row, col, *args)
 
         if self.strings_to_formulas and token.startswith('='):
@@ -402,8 +403,8 @@ class Worksheet(xmlwriter.XMLwriter):
         """
         return self._write(row, col, *args)
 
+    # Undecorated version of write().
     def _write(self, row, col, *args):
-
         # Check the number of args passed.
         if not len(args):
             raise TypeError("write() takes at least 4 arguments (3 given)")
@@ -415,37 +416,45 @@ class Worksheet(xmlwriter.XMLwriter):
         if token is None:
             return self._write_blank(row, col, *args)
 
-        # Avoid isinstance as much as possible.
+        # Avoid isinstance() for better performance.
         token_type = type(token)
+
         if token_type is bool:
             return self._write_boolean(row, col, *args)
+
         if token_type in num_types:
             return self._write_number(row, col, *args)
+
         if token_type is str:
             return self._write_token_as_string(token, row, col, *args)
+
         if token_type in (datetime.datetime,
                           datetime.date,
                           datetime.time,
                           datetime.timedelta):
             return self._write_datetime(row, col, *args)
+
         if token_type is unicode:
             try:
                 return self._write_token_as_string(str(token), row, col, *args)
             except (UnicodeEncodeError, NameError):
-                # Punt if encountering Python3 or if string is not easily
-                # encoded.
+                # Punt for Python3 or if string is not easily encoded.
                 pass
 
-        # Resort to isinstance for developers who have subclassed a primitive.
+        # Resort to isinstance for subclassed primitives.
+
         # Write number types.
         if isinstance(token, num_types):
             return self._write_number(row, col, *args)
+
         # Write string types.
         if isinstance(token, str_types):
             return self._write_token_as_string(token, row, col, *args)
+
         # Write boolean types.
         if isinstance(token, bool):
             return self._write_boolean(row, col, *args)
+
         # Write datetime objects.
         if supported_datetime(token):
             return self._write_datetime(row, col, *args)
@@ -485,6 +494,7 @@ class Worksheet(xmlwriter.XMLwriter):
         """
         return self._write_string(row, col, string, cell_format)
 
+    # Undecorated version of write_string().
     def _write_string(self, row, col, string, cell_format=None):
 
         str_error = 0
@@ -531,6 +541,7 @@ class Worksheet(xmlwriter.XMLwriter):
         """
         return self._write_number(row, col, number, cell_format)
 
+    # Undecorated version of write_number().
     def _write_number(self, row, col, number, cell_format=None):
 
         if self._isnan(number) or self._isinf(number):
@@ -578,6 +589,7 @@ class Worksheet(xmlwriter.XMLwriter):
         """
         return self._write_blank(row, col, blank, cell_format)
 
+    # Undecorated version of write_blank().
     def _write_blank(self, row, col, blank, cell_format=None):
         # Don't write a blank cell unless it has a format.
         if cell_format is None:
@@ -616,6 +628,7 @@ class Worksheet(xmlwriter.XMLwriter):
         # Check that row and col are valid and store max and min values.
         return self._write_formula(row, col, formula, cell_format, value)
 
+    # Undecorated version of write_formula().
     def _write_formula(self, row, col, formula, cell_format=None, value=0):
         if self._check_dimensions(row, col):
             return -1
@@ -661,6 +674,7 @@ class Worksheet(xmlwriter.XMLwriter):
         return self._write_array_formula(first_row, first_col, last_row,
                                          last_col, formula, cell_format, value)
 
+    # Undecorated version of write_array_formula().
     def _write_array_formula(self, first_row, first_col, last_row, last_col,
                              formula, cell_format=None, value=0):
 
@@ -726,6 +740,7 @@ class Worksheet(xmlwriter.XMLwriter):
         """
         return self._write_datetime(row, col, date, cell_format)
 
+    # Undecorated version of write_datetime().
     def _write_datetime(self, row, col, date, cell_format=None):
 
         # Check that row and col are valid and store max and min values.
@@ -766,6 +781,7 @@ class Worksheet(xmlwriter.XMLwriter):
         """
         return self._write_boolean(row, col, boolean, cell_format)
 
+    # Undecorated version of write_boolean().
     def _write_boolean(self, row, col, boolean, cell_format=None):
 
         # Check that row and col are valid and store max and min values.
@@ -816,6 +832,7 @@ class Worksheet(xmlwriter.XMLwriter):
         """
         return self._write_url(row, col, url, cell_format, string, tip)
 
+    # Undecorated version of write_url().
     def _write_url(self, row, col, url, cell_format=None,
                    string=None, tip=None):
 
@@ -939,6 +956,7 @@ class Worksheet(xmlwriter.XMLwriter):
 
         return self._write_rich_string(row, col, *args)
 
+    # Undecorated version of write_rich_string().
     def _write_rich_string(self, row, col, *args):
 
         tokens = list(args)

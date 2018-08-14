@@ -45,17 +45,21 @@ def benchmark_xlsx(rows, cols, optimise, memory_check):
     # Set up testing data (do not benchmark).
     # todo: Cache for later use (better benchmark perf).
 
-    chars = string.ascii_uppercase + string.digits + ' ' + string.ascii_lowercase
+    chars = (string.ascii_uppercase + string.digits + ' '
+             + string.ascii_lowercase)
 
-    strs = [
-        ''.join(random.choice(chars)
-                for _ in range(STR_LEN))
-            for _ in range(rows * cols)
-        ]
-    ints = [bool(random.randint(-MAX_INT, MAX_INT)) for _ in xrange(rows*cols)
-        ]
-    floats = [random.randrange(-float(MAX_INT), float(MAX_INT)) for _ in xrange(rows*cols)]
-    bools = [bool(random.randint(-1, 1)) for x in xrange(rows*cols)]
+    strs = [''.join(random.choice(chars)
+                    for _ in range(STR_LEN))
+            for _ in range(rows * cols)]
+
+    ints = [bool(random.randint(-MAX_INT, MAX_INT))
+            for _ in xrange(rows*cols)]
+
+    floats = [random.randrange(-float(MAX_INT), float(MAX_INT))
+              for _ in xrange(rows*cols)]
+
+    bools = [bool(random.randint(-1, 1))
+             for x in xrange(rows*cols)]
 
     data_types = [strs, ints, floats, bools]
 
@@ -72,8 +76,6 @@ def benchmark_xlsx(rows, cols, optimise, memory_check):
                 locations[x].append(xl_rowcol_to_cell_fast(x, y_index))
 
     # todo: Test urls.
-
-    #print [l[0] for l in locations], [l[1] for l in locations]
 
     start_time = clock()
 
@@ -96,7 +98,9 @@ def benchmark_xlsx(rows, cols, optimise, memory_check):
             for col in range(cols):
                 y_index = col + len_data_types * i
                 # todo: Test comments.
-                worksheet.write(locations[x][y_index], data_type[row * cols + col], random.choice(formats))
+                worksheet.write(locations[x][y_index],
+                                data_type[row * cols + col],
+                                random.choice(formats))
 
     # Get total memory size for workbook object before closing it.
     if memory_check:
@@ -110,10 +114,10 @@ def benchmark_xlsx(rows, cols, optimise, memory_check):
     elapsed = clock() - start_time
 
     # Print a simple CSV output for reporting.
-
     print("%10s %10s %10s %10s" % (rows, cols, elapsed, total_size))
 
     return elapsed, total_size
+
 
 class fib:
     """
