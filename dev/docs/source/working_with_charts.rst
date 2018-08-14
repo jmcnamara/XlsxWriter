@@ -794,11 +794,12 @@ that they appear in the Excel dialog::
 The default line style is ``solid``.
 
 The ``transparency`` property sets the transparency of the line color in the
-integer range 1 - 100::
+integer range 1 - 100. The color must be set for transparency to work, it
+doesn't work with an automatic/default color::
 
     chart.add_series({
         'values': '=Sheet1!$A$1:$A$6',
-        'line':   {'transparency': 50},
+        'line':   {'color': 'yellow', 'transparency': 50},
     })
 
 More than one ``line`` property can be specified at a time::
@@ -874,7 +875,8 @@ or a limited number of named colors, see :ref:`colors`::
 
 
 The ``transparency`` property sets the transparency of the solid fill color in
-the integer range 1 - 100::
+the integer range 1 - 100. The color must be set for transparency to work, it
+doesn't work with an automatic/default color::
 
     chart.set_chartarea({'fill': {'color': 'yellow', 'transparency': 50}})
 
