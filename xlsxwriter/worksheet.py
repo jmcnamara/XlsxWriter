@@ -434,14 +434,15 @@ class Worksheet(xmlwriter.XMLwriter):
                           datetime.timedelta):
             return self._write_datetime(row, col, *args)
 
-        if token_type is unicode:
-            try:
-                return self._write_token_as_string(str(token), row, col, *args)
-            except (UnicodeEncodeError, NameError):
-                # Punt for Python3 or if string is not easily encoded.
-                pass
+        if sys.version_info < (3, 0, 0):
+            if token_type is unicode:
+                try:
+                    return self._write_token_as_string(str(token),
+                                                       row, col, *args)
+                except (UnicodeEncodeError, NameError):
+                    pass
 
-        # Resort to isinstance for subclassed primitives.
+        # Resort to isinstance() for subclassed primitives.
 
         # Write number types.
         if isinstance(token, num_types):
