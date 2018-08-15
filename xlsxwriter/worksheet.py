@@ -2108,8 +2108,10 @@ class Worksheet(xmlwriter.XMLwriter):
             options['criteria'] = criteria_type[options['criteria']]
 
         # Convert date/times value if required.
+        options['is_datetime'] = False
         if options['type'] == 'date' or options['type'] == 'time':
             options['type'] = 'cellIs'
+            options['is_datetime'] = True
 
             if 'value' in options:
                 if not supported_datetime(options['value']):
@@ -6289,7 +6291,16 @@ class Worksheet(xmlwriter.XMLwriter):
                 self._write_formula_element(params['minimum'])
                 self._write_formula_element(params['maximum'])
             else:
-                self._write_formula_element(params['value'])
+                value = params['value']
+                # String "Cell" values must be quoted, apart from ranges.
+                if (isinstance(value, str_types)
+                        and not params['is_datetime']
+                        and not re.match(r'\$?[A-Z]{1,3}\$?\d+', value)):
+
+                    if not value.startswith('"') and not value.endswith('"'):
+                        value = '"' + value + '"'
+
+                self._write_formula_element(value)
 
             self._xml_end_tag('cfRule')
 
