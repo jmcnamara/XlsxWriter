@@ -112,7 +112,7 @@ class SharedStrings(xmlwriter.XMLwriter):
         string = re.sub(non_char2, '_xFFFF_', string)
 
         # Add attribute to preserve leading or trailing whitespace.
-        if re.search('^\s', string) or re.search('\s$', string):
+        if re.search(r'^\s', string) or re.search(r'\s$', string):
             attributes.append(('xml:space', 'preserve'))
 
         # Write any rich strings without further tags.

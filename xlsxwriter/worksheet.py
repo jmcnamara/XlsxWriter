@@ -894,7 +894,7 @@ class Worksheet(xmlwriter.XMLwriter):
 
             # Add the file:/// URI to the url for Windows style "C:/" link and
             # Network shares.
-            if re.match('\w:', url) or re.match(r'\\', url):
+            if re.match(r'\w:', url) or re.match(r'\\', url):
                 url = 'file:///' + url
 
             # Convert a .\dir\file.xlsx link to dir\file.xlsx.
@@ -1028,7 +1028,7 @@ class Worksheet(xmlwriter.XMLwriter):
                 # Write the string fragment part, with whitespace handling.
                 attributes = []
 
-                if re.search('^\s', token) or re.search('\s$', token):
+                if re.search(r'^\s', token) or re.search(r'\s$', token):
                     attributes.append(('xml:space', 'preserve'))
 
                 self.rstring._xml_data_element('t', token, attributes)
@@ -3927,7 +3927,7 @@ class Worksheet(xmlwriter.XMLwriter):
 
             if re.match('(and|&&)', conditional):
                 conditional = 0
-            elif re.match('(or|\|\|)', conditional):
+            elif re.match(r'(or|\|\|)', conditional):
                 conditional = 1
             else:
                 warn("Token '%s' is not a valid conditional "
@@ -4156,7 +4156,7 @@ class Worksheet(xmlwriter.XMLwriter):
         # Set up an image without a drawing object for header/footer images.
 
         # Strip the extension from the filename.
-        name = re.sub('\..*$', '', name)
+        name = re.sub(r'\..*$', '', name)
 
         self.header_images_list.append([width, height, name, position,
                                         x_dpi, y_dpi])
@@ -5586,7 +5586,7 @@ class Worksheet(xmlwriter.XMLwriter):
                 else:
                     # Add attribute to preserve leading or trailing whitespace.
                     preserve = 0
-                    if re.search('^\s', string) or re.search('\s$', string):
+                    if re.search(r'^\s', string) or re.search(r'\s$', string):
                         preserve = 1
 
                     self._xml_inline_string(string, preserve, attributes)

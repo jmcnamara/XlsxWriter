@@ -62,6 +62,11 @@ testpep8:
 	@pep8 --ignore=E501 xlsxwriter/compat_collections.py
 	@find xlsxwriter/test -name \*.py | xargs pep8 --ignore=E501
 
+testwarnings:
+	@find . -name '*.py[co]' -exec rm -rf '{}' +
+	@PYTHONPATH=$PYTHONPATH:. ~/.pythonbrew/pythons/Python-3.7.0/bin/python -Walways examples/hello_world.py
+	@rm -f hello_world.xlsx
+
 spellcheck:
 	@for f in dev/docs/source/*.rst; do aspell --lang=en_US --check $$f; done
 	@for f in *.md;                  do aspell --lang=en_US --check $$f; done
