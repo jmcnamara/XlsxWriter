@@ -55,6 +55,10 @@ testpythonsall:
 	@~/.pythonbrew/pythons/Python-3.4.1/bin/py.test -q
 	@echo "Testing with Python 3.5.0:"
 	@~/.pythonbrew/pythons/Python-3.5.0/bin/py.test -q
+	@echo "Testing with Python 3.6.6:"
+	@~/.pythonbrew/pythons/Python-3.6.6/bin/py.test -q
+	@echo "Testing with Python 3.7.0:"
+	@~/.pythonbrew/pythons/Python-3.7.0/bin/py.test -q
 
 testpep8:
 	@ls -1 xlsxwriter/*.py | egrep -v "theme|compat|__init__" | xargs flake8
