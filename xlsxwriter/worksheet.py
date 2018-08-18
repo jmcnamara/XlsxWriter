@@ -4658,9 +4658,8 @@ class Worksheet(xmlwriter.XMLwriter):
 
             if name in seen:
                 raise DuplicateTableName(
-                    "invalid duplicate table name '%s' found." %
-                    table['name']
-                )
+                    "Duplicate name '%s' used in worksheet.add_table()." %
+                    table['name'])
             else:
                 seen[name] = True
 

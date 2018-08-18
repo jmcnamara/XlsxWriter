@@ -15,6 +15,7 @@ Contents
    format.rst
    chart.rst
    chartsheet.rst
+   exceptions.rst
    working_with_cell_notation.rst
    working_with_formulas.rst
    working_with_dates_and_time.rst

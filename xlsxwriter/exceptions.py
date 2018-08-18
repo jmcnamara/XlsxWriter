@@ -1,57 +1,40 @@
-# -*- coding: utf-8 -*-
-
-"""
-xlsxwriter.exceptions
-
-~~~~~~~~~~~~~~~~~~~~~
-
-
-This module contains the set of XlsxWriter's Exceptions
-"""
-
-
+###############################################################################
+#
+# Exceptions - A class for XlsxWriter exceptions.
+#
+# Copyright 2013-2018, John McNamara, jmcnamara@cpan.org
+#
 class XlsxWriterException(Exception):
-    """Base Exception for XlsxWriter"""
+    """Base exception for XlsxWriter."""
 
 
-class XlsxDataError(XlsxWriterException):
-    """Base Exception for all data related errors"""
-
-
-class XlsxFormatError(XlsxWriterException):
-    """Base Exception for all format errors"""
+class XlsxInputError(XlsxWriterException):
+    """Base exception for all input data related errors."""
 
 
 class XlsxFileError(XlsxWriterException):
-    """Base Exception for all file/image related errors"""
+    """Base exception for all file related errors."""
+
+
+class EmptyChartSeries(XlsxInputError):
+    """Chart must contain at least one data series."""
+
+
+class DuplicateTableName(XlsxInputError):
+    """Worksheet table name already exists."""
+
+
+class InvalidWorksheetName(XlsxInputError):
+    """Worksheet name is too long or contains restricted characters."""
+
+
+class DuplicateWorksheetName(XlsxInputError):
+    """Worksheet name already exists."""
 
 
 class UndefinedImageSize(XlsxFileError):
-    """No size data found in image file"""
+    """No size data found in image file."""
 
 
 class UnsupportedImageFormat(XlsxFileError):
-    """Unsupported image file format"""
-
-
-class WorkbookDestructorError(XlsxFileError):
-    """Unable to close workbook"""
-
-
-class EmptyChartSeries(XlsxDataError):
-    """Chart must contain atleast one data series"""
-
-
-class DuplicateTableName(XlsxDataError):
-    """Table with that name already exists"""
-
-
-class InvalidWorksheetName(XlsxDataError):
-    """
-    Worksheet name either is empty,
-    too long or contains restricted characters
-    """
-
-
-class DuplicateWorksheetName(InvalidWorksheetName):
-    """Worksheet with that name already exists"""
+    """Unsupported image file format."""

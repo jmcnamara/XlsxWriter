@@ -36,13 +36,10 @@ from .chart_pie import ChartPie
 from .chart_radar import ChartRadar
 from .chart_scatter import ChartScatter
 from .chart_stock import ChartStock
-from .exceptions import (
-    InvalidWorksheetName,
-    DuplicateWorksheetName,
-    UndefinedImageSize,
-    UnsupportedImageFormat,
-    WorkbookDestructorError,
-)
+from .exceptions import InvalidWorksheetName
+from .exceptions import DuplicateWorksheetName
+from .exceptions import UndefinedImageSize
+from .exceptions import UnsupportedImageFormat
 
 
 class Workbook(xmlwriter.XMLwriter):
@@ -151,16 +148,6 @@ class Workbook(xmlwriter.XMLwriter):
         if self.default_date_format is not None:
             self.default_date_format = \
                 self.add_format({'num_format': self.default_date_format})
-
-    def __del__(self):
-        """Close file in destructor if it hasn't been closed explicitly."""
-        try:
-            if not self.fileclosed:
-                self.close()
-        except:
-            raise WorkbookDestructorError(
-                "Exception caught in workbook destructor. "
-                "Explicit close() may be required for workbook.")
 
     def __enter__(self):
         """Return self object to use with "with" statement."""
@@ -731,15 +718,11 @@ class Workbook(xmlwriter.XMLwriter):
             self.sheetname_count += 1
 
         # Supply default Sheet/Chart sheetname if none has been defined.
-        if sheetname is None:
+        if sheetname is None or sheetname == '':
             if is_chartsheet:
                 sheetname = self.chart_name + str(self.chartname_count)
             else:
                 sheetname = self.sheet_name + str(self.sheetname_count)
-
-        # Check if sheetname is empty.
-        if sheetname == '':
-            raise InvalidWorksheetName("Excel worksheet name cannot be empty")
 
         # Check that sheet sheetname is <= 31. Excel limit.
         if len(sheetname) > 31:
@@ -750,7 +733,7 @@ class Workbook(xmlwriter.XMLwriter):
         # Check that sheetname doesn't contain any invalid characters
         if invalid_char.search(sheetname):
             raise InvalidWorksheetName(
-                "Invalid Excel character '[]:*?/\\' in sheetname '%s'" %
+                "Invalid Excel character '[]:*?/\\' in sheetname '%s'." %
                 sheetname)
 
         # Check that the worksheet name doesn't already exist since this is a

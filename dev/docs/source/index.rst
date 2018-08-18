@@ -65,6 +65,7 @@ PyPy and uses standard libraries only.
    format.rst
    chart.rst
    chartsheet.rst
+   exceptions.rst
 
 .. toctree::
    :maxdepth: 1
