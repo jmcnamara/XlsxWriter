@@ -160,11 +160,11 @@ The series options that can be set are:
   property is optional and the chart will just assume a sequential series from
   ``1..n``.
 
-* ``name``: Set the name for the series. The name is displayed in the chart
-  legend and in the formula bar. The name property is optional and if it isn't
-  supplied it will default to ``Series 1..n``. The name can also be a formula
-  such as ``=Sheet1!$A$1`` or a list with a sheetname, row and column such as
-  ``['Sheet1', 0, 0]``.
+* ``name``: Set the name for the series. The name is displayed in the formula
+  bar. For non-Pie/Doughnut charts it is also displayed in the legend. The
+  name property is optional and if it isn't supplied it will default to
+  ``Series 1..n``. The name can also be a formula such as ``=Sheet1!$A$1`` or
+  a list with a sheetname, row and column such as ``['Sheet1', 0, 0]``.
 
 * ``line``: Set the properties of the series line type such as color and
   width. See :ref:`chart_formatting_line`.
