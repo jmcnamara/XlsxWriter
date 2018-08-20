@@ -121,15 +121,15 @@ class ChartPie(chart.Chart):
     def _write_legend(self):
         # Over-ridden method to add <c:txPr> to legend.
         # Write the <c:legend> element.
-
-        position = self.legend_position
-        font = self.legend_font
+        legend = self.legend
+        position = legend.get('position', 'right')
+        font = legend.get('font')
         delete_series = []
         overlay = 0
 
-        if (self.legend_delete_series is not None
-                and type(self.legend_delete_series) is list):
-            delete_series = self.legend_delete_series
+        if (legend.get('delete_series')
+                and type(legend['delete_series']) is list):
+            delete_series = legend['delete_series']
 
         if position.startswith('overlay_'):
             position = position.replace('overlay_', '')
@@ -140,6 +140,7 @@ class ChartPie(chart.Chart):
             'left': 'l',
             'top': 't',
             'bottom': 'b',
+            'top_right': 'tr',
         }
 
         if position == 'none':
@@ -161,11 +162,14 @@ class ChartPie(chart.Chart):
             self._write_legend_entry(index)
 
         # Write the c:layout element.
-        self._write_layout(self.legend_layout, 'legend')
+        self._write_layout(legend.get('layout'), 'legend')
 
         # Write the c:overlay element.
         if overlay:
             self._write_overlay()
+
+        # Write the c:spPr element.
+        self._write_sp_pr(legend)
 
         # Write the c:txPr element. Over-ridden.
         self._write_tx_pr_legend(None, font)
