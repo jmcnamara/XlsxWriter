@@ -770,11 +770,13 @@ The options that can be set are::
   The default legend position is ``right``. The available positions are::
 
     top
+    top_right
     bottom
     left
     right
     overlay_left
     overlay_right
+    overlay_top_right
     none
 
 * ``layout``: Set the ``(x, y)`` position of the legend in chart relative

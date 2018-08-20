@@ -2582,6 +2582,7 @@ class Chart(xmlwriter.XMLwriter):
             'right': 'r',
             'left': 'l',
             'top': 't',
+            'top_right': 'tr',
             'bottom': 'b',
             'top_right': 'tr',
         }
