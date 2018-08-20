@@ -829,8 +829,8 @@ class Worksheet(xmlwriter.XMLwriter):
             0:  Success.
             -1: Row or column is out of worksheet bounds.
             -2: String longer than 32767 characters.
-            -3: URL longer than Excel limit of 255 characters
-            -4: Exceeds Excel limit of 65,530 urls per worksheet
+            -3: URL longer than Excel limit of 255 characters.
+            -4: Exceeds Excel limit of 65,530 urls per worksheet.
         """
         return self._write_url(row, col, url, cell_format, string, tip)
 
@@ -915,7 +915,7 @@ class Worksheet(xmlwriter.XMLwriter):
         if self.hlink_count > 65530:
             warn("Ignoring URL '%s' since it exceeds Excel's limit of "
                  "65,530 URLS per worksheet." % force_unicode(url))
-            return -5
+            return -4
 
         # Write previous row if in in-line string constant_memory mode.
         if self.constant_memory and row > self.previous_row:
