@@ -2583,6 +2583,7 @@ class Chart(xmlwriter.XMLwriter):
             'left': 'l',
             'top': 't',
             'bottom': 'b',
+            'top_right': 'tr',
         }
 
         if position == 'none':
