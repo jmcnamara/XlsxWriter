@@ -7,8 +7,13 @@
 Release 1.0.7 - August XX 2018
 ------------------------------
 
+* Added border, fill, pattern and gradient formatting options to
+  :func:`set_legend()`.
+  Issue `#545 <https://github.com/jmcnamara/XlsxWriter/issues/545>`_.
+
 * Added ``top_right`` position to :func:`set_legend()`.
   Issue `#537 <https://github.com/jmcnamara/XlsxWriter/issues/537>`_.
+
 
 Release 1.0.7 - August 16 2018
 ------------------------------
