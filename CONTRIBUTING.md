@@ -104,9 +104,9 @@ Follow the general style of the surrounding code and format it to the [PEP8](htt
 
 Tests should conform to `PEP8` but can ignore `E501` for long lines to allow the inclusion of Excel XML in tests.
 
-There is a make target that will verify the source and test files:
+There is a make target that will verify the source and test files using [pytestcodestyle](https://github.com/PyCQA/pycodestyle):
 
-    make testpep8
+    make test_codestyle
 
 
 ### Running tests

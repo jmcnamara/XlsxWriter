@@ -67,27 +67,27 @@ function check_spellcheck {
 
 #############################################################
 #
-# Run testpep8.
+# Run test_codestyle.
 #
-function check_testpep8 {
+function check_test_codestyle {
 
     echo
-    echo -n "Is the testpep8 ok?                  [y/N]: "
+    echo -n "Is the test_codestyle ok?                  [y/N]: "
     read RESPONSE
 
     if [ "$RESPONSE" != "y" ]; then
 
-        echo -n "    Run testpep8 now?                [y/N]: "
+        echo -n "    Run test_codestyle now?                [y/N]: "
         read RESPONSE
 
         if [ "$RESPONSE" != "y" ]; then
             echo
-            echo -e "Please run: make testpep8\n";
+            echo -e "Please run: make test_codestyle\n";
             exit 1
         else
-            echo "    Running testpep8...";
-            make testpep8
-            check_testpep8
+            echo "    Running test_codestyle...";
+            make test_codestyle
+            check_test_codestyle
          fi
     fi
 }
@@ -229,7 +229,7 @@ function check_git_status {
 
 check_test_status
 check_spellcheck
-check_testpep8
+check_test_codestyle
 check_testwarnings
 check_changefile
 check_versions

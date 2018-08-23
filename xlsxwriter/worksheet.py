@@ -2430,15 +2430,15 @@ class Worksheet(xmlwriter.XMLwriter):
         # Strip the leading = from formulas.
         try:
             options['min_value'] = options['min_value'].lstrip('=')
-        except:
+        except (KeyError, AttributeError) as e:
             pass
         try:
             options['mid_value'] = options['mid_value'].lstrip('=')
-        except:
+        except (KeyError, AttributeError) as e:
             pass
         try:
             options['max_value'] = options['max_value'].lstrip('=')
-        except:
+        except (KeyError, AttributeError) as e:
             pass
 
         # Store the conditional format until we close the worksheet.

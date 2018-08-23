@@ -1569,7 +1569,7 @@ class Workbook(xmlwriter.XMLwriter):
             # try block for ranges that can't be parsed such as defined names.
             (row_start, col_start) = xl_cell_to_rowcol(cell_1)
             (row_end, col_end) = xl_cell_to_rowcol(cell_2)
-        except:
+        except AttributeError:
             return None, None
 
         # We only handle 1D ranges.

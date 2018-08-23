@@ -37,7 +37,7 @@ class TestCompareXLSXFiles(ExcelComparisonTest):
 
         worksheet = workbook.add_worksheet()
 
-        worksheet.write_url('A1', 'external:C:\Temp\Test 1')
+        worksheet.write_url('A1', r'external:C:\Temp\Test 1')
 
         workbook.close()
 
