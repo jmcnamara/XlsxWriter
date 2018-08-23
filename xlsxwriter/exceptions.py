@@ -4,6 +4,8 @@
 #
 # Copyright 2013-2018, John McNamara, jmcnamara@cpan.org
 #
+
+
 class XlsxWriterException(Exception):
     """Base exception for XlsxWriter."""
 

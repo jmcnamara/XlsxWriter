@@ -52,7 +52,7 @@ class TestCompareXLSXFiles(ExcelComparisonTest):
         chart.add_series({'values': '=Sheet1!$B$1:$B$5'})
         chart.add_series({'values': '=Sheet1!$C$1:$C$5'})
 
-        chart.set_legend({'fill': { 'color': 'yellow' }})
+        chart.set_legend({'fill': {'color': 'yellow'}})
 
         worksheet.insert_chart('E9', chart)
 

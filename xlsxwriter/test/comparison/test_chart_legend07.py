@@ -36,7 +36,7 @@ class TestCompareXLSXFiles(ExcelComparisonTest):
         chart = workbook.add_chart({'type': 'pie'})
 
         data = [
-            [ 2, 4, 6],
+            [2, 4, 6],
             [60, 30, 10],
         ]
 
@@ -48,7 +48,7 @@ class TestCompareXLSXFiles(ExcelComparisonTest):
             'values': '=Sheet1!$B$1:$B$3',
         })
 
-        chart.set_legend({'fill': { 'color': 'yellow' }})
+        chart.set_legend({'fill': {'color': 'yellow'}})
 
         worksheet.insert_chart('E9', chart)
 
