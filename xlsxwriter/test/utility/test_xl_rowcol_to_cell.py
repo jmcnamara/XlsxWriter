@@ -6,6 +6,7 @@
 #
 
 import unittest
+import warnings
 from ...utility import xl_rowcol_to_cell
 from ...utility import xl_rowcol_to_cell_fast
 
@@ -36,34 +37,45 @@ class TestUtility(unittest.TestCase):
             (1, 256, 'IW2'),
             (0, 16383, 'XFD1'),
             (1048576, 16384, 'XFE1048577'),
+            (0, -1, None),
+            (-1, 0, None),
         ]
 
-        for row, col, string in tests:
-            exp = string
+        for row, col, range in tests:
+            exp = range
             got = xl_rowcol_to_cell(row, col)
+
+            # Ignore the warnings for negative values.
+            warnings.filterwarnings('ignore')
+
             self.assertEqual(got, exp)
 
     def test_xl_rowcol_to_cell_abs(self):
         """Test xl_rowcol_to_cell() with absolute references"""
 
         tests = [
-            # row, col, row_abs, col_abs, A1 string
-            (0, 0, 0, 0, 'A1'),
-            (0, 0, 1, 0, 'A$1'),
-            (0, 0, 0, 1, '$A1'),
-            (0, 0, 1, 1, '$A$1'),
+            # row, col, row_abs, col_abs, A1 range
+            (0, 0, True, False, 'A$1'),
+            (0, 0, False, True, '$A1'),
+            (0, 0, True, True, '$A$1'),
+            (-1, 0, 0, 0, None),
+            (0, -1, 0, 0, None),
         ]
 
-        for row, col, row_abs, col_abs, string in tests:
-            exp = string
+        for row, col, row_abs, col_abs, range in tests:
+            exp = range
             got = xl_rowcol_to_cell(row, col, row_abs, col_abs)
+
+            # Ignore the warnings for negative values.
+            warnings.filterwarnings('ignore')
+
             self.assertEqual(got, exp)
 
     def test_xl_rowcol_to_cell_fast(self):
         """Test xl_rowcol_to_cell_fast()"""
 
         tests = [
-            # row, col, A1 string
+            # row, col, A1 range
             (0, 0, 'A1'),
             (0, 1, 'B1'),
             (0, 2, 'C1'),
@@ -81,7 +93,7 @@ class TestUtility(unittest.TestCase):
             (1048576, 16384, 'XFE1048577'),
         ]
 
-        for row, col, string in tests:
-            exp = string
+        for row, col, range in tests:
+            exp = range
             got = xl_rowcol_to_cell_fast(row, col)
             self.assertEqual(got, exp)

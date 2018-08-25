@@ -6,6 +6,7 @@
 #
 
 import unittest
+import warnings
 from ...utility import xl_col_to_name
 
 
@@ -32,11 +33,16 @@ class TestUtility(unittest.TestCase):
             (256, 'IW'),
             (16383, 'XFD'),
             (16384, 'XFE'),
+            (-1, None),
         ]
 
         for col, string in tests:
             exp = string
             got = xl_col_to_name(col)
+
+            # Ignore the warnings for negative values.
+            warnings.filterwarnings('ignore')
+
             self.assertEqual(got, exp)
 
     def test_xl_col_to_name_abs(self):
@@ -44,10 +50,15 @@ class TestUtility(unittest.TestCase):
 
         tests = [
             # col, col_abs, col string
-            (0, 1, '$A'),
+            (0, True, '$A'),
+            (-1, True, None),
         ]
 
         for col, col_abs, string in tests:
             exp = string
             got = xl_col_to_name(col, col_abs)
+
+            # Ignore the warnings for negative values.
+            warnings.filterwarnings('ignore')
+
             self.assertEqual(got, exp)
