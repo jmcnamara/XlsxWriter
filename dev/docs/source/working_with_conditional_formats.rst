@@ -585,7 +585,24 @@ The formula is specified in the ``criteria``.
 
 Formulas must be written with the US style separator/range operator which is a
 comma (not semi-colon) and should follow the same rules as
-:func:`write_formula`. Also any cell or range references in the formula should
+:func:`write_formula`. See :ref:`formula_syntax` for a full explanation::
+
+    # This formula will cause an Excel error on load due to
+    # non-English language and use of semi-colons.
+    worksheet.conditional_format('A2:C9' ,
+        {'type':     'formula',
+         'criteria': '=ODER($B2<$C2;UND($B2="";$C2>HEUTE()))',
+         'format':   format1
+        })
+
+    # This is the correct syntax.
+    worksheet.conditional_format('A2:C9' ,
+        {'type':     'formula',
+         'criteria': '=OR($B2<$C2,AND($B2="",$C2>TODAY()))',
+         'format':   format1
+        })
+
+Also, any cell or range references in the formula should
 be :ref:`absolute references <abs_reference>` if they are applied to the full
 range of the conditional format. See the note in the ``value`` section above.
 
