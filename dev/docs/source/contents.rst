@@ -36,6 +36,7 @@ Contents
    chart_examples.rst
    pandas_examples.rst
    alternatives.rst
+   third_party.rst
    bugs.rst
    faq.rst
    changes.rst
