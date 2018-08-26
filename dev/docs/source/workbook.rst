@@ -318,22 +318,19 @@ it::
 
     workbook.close()
 
+This is a required method call to close and write the xlsxwriter file, unless
+you are using the ``with`` context manager, see below.
 
 The ``Workbook`` object also works using the ``with`` context manager. In
-which case it doesn't need an explicit `close()` statement::
+which case it doesn't need an explicit ``close()`` statement::
 
-    with xlsxwriter.Workbook('hello_world.xlsx') as workbook:
+    With xlsxwriter.Workbook('hello_world.xlsx') as workbook:
         worksheet = workbook.add_worksheet()
 
         worksheet.write('A1', 'Hello world')
 
 The workbook will close automatically when exiting the scope of the ``with``
 statement.
-
-.. Note::
-
-   Unless you are using the ``with`` context manager you should always use an
-   explicit ``close()`` in your XlsxWriter application.
 
 
 workbook.set_size()
