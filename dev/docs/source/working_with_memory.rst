@@ -21,12 +21,12 @@ amount of data required to hold a single row of data.
 Since each new row flushes the previous row, data must be written in sequential
 row order when ``'constant_memory'`` mode is on::
 
-    # With 'constant_memory' you must write data in row by column order.
+    # Ok. With 'constant_memory' you must write data in row by column order.
     for row in range(0, row_max):
         for col in range(0, col_max):
             worksheet.write(row, col, some_data)
 
-    # With 'constant_memory' this would only write the first column of data.
+    # Not ok. With 'constant_memory' this will only write the first column of data.
     for col in range(0, col_max):
         for row in range(0, row_max):
             worksheet.write(row, col, some_data)
@@ -34,17 +34,12 @@ row order when ``'constant_memory'`` mode is on::
 Another optimization that is used to reduce memory usage is that cell strings
 aren't stored in an Excel structure call "shared strings" and instead are
 written "in-line". This is a documented Excel feature that is supported by
-most spreadsheet applications. One known exception is Apple Numbers for Mac
-where the string data isn't displayed.
+most spreadsheet applications.
 
 The trade-off when using ``'constant_memory'`` mode is that you won't be able
 to take advantage of any new features that manipulate cell data after it is
 written. Currently the :func:`add_table()` method doesn't work in this mode
 and :func:`merge_range()` and :func:`set_row()` only work for the current row.
-
-
-For larger files ``'constant_memory'`` mode also gives an increase in execution
-speed, see below.
 
 
 Performance Figures
@@ -98,43 +93,8 @@ constant:
 | 12800 | 50      | 23.63    | 62208          |
 +-------+---------+----------+----------------+
 
-In the ``constant_memory`` mode the performance is also increased slightly.
+In ``constant_memory`` mode the performance should be approximately the same
+as normal mode.
 
 These figures were generated using programs in the ``dev/performance``
 directory of the XlsxWriter repo.
-
-
-Benchmark of Python Excel Writers
----------------------------------
-
-If you wish to compare the performance of different Python Excel writing
-modules there is a program called `bench_excel_writers.py
-<https://raw.githubusercontent.com/jmcnamara/XlsxWriter/master/dev/performance/bench_excel_writers.py>`_
-in the ``dev/performance`` directory of the XlsxWriter repo.
-
-And here is the output for 10,000 rows x 50 columns using the latest version
-of the modules at the time of writing::
-
-    Versions:
-        python      : 2.7.2
-        openpyxl    : 2.2.1
-        pyexcelerate: 0.6.6
-        xlsxwriter  : 0.7.2
-        xlwt        : 1.0.0
-
-    Dimensions:
-        Rows = 10000
-        Cols = 50
-
-    Times:
-        pyexcelerate          :  10.63
-        xlwt                  :  16.93
-        xlsxwriter (optimized):  20.37
-        xlsxwriter            :  24.24
-        openpyxl   (optimized):  26.63
-        openpyxl              :  35.75
-
-
-As with any benchmark the results will depend on Python/module versions, CPU,
-RAM and Disk I/O and on the benchmark itself. So make sure to verify these
-results for your own setup.
