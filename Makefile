@@ -86,7 +86,7 @@ release: releasecheck
 	@git push --tags
 	@python setup.py sdist bdist_wheel
 	@twine upload dist/*
-	@curl -X POST https://readthedocs.org/build/xlsxwriter/latest
+	@../build_readthedocs.sh
 	@rm -rf dist
 	@rm -rf build
 	@rm -rf XlsxWriter.egg-info/
