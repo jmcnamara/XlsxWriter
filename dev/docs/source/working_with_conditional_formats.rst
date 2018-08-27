@@ -314,22 +314,15 @@ The ``value`` is generally used along with the ``criteria`` parameter to set
 the rule by which the cell data will be evaluated::
 
     worksheet.conditional_format('A1', {'type':     'cell',
-                                        'criteria': 'equal to',
+                                        'criteria': 'greater than',
                                         'value':    5,
                                         'format':   red_format})
 
-If the ``type`` is ``cell`` and the ``value`` is a string then it should be
-double quoted, as required by Excel::
-
-    worksheet.conditional_format('A1', {'type':     'cell',
-                                        'criteria': 'equal to',
-                                        'value':    '"Failed"',
-                                        'format':   red_format})
 
 The ``value`` property can also be an cell reference::
 
     worksheet.conditional_format('A1', {'type':     'cell',
-                                        'criteria': 'equal to',
+                                        'criteria': 'greater than',
                                         'value':    '$C$1',
                                         'format':   red_format})
 
