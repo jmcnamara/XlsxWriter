@@ -20,7 +20,7 @@ Some notes on this:
 * The hard part is coming up with an accurate (or mainly accurate)
   ``excel_string_width()`` function. One possibility is to use the PIL
   `ImageFont()
-  <http://pillow.readthedocs.io/en/latest/reference/ImageFont.html>`_ method
+  <https://pillow.readthedocs.io/en/latest/reference/ImageFont.html>`_ method
   and convert the pixel width back to a character width.
 
 * A more rigorous approach would have to consider font sizes, bold, italic,

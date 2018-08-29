@@ -4,11 +4,47 @@
    in early 2019.
 
 
+
+Release 1.0.9 - August 27 2018
+------------------------------
+
+* Fix for issue with formulas quoted as strings in conditional formats,
+  introduced in version 1.0.7.
+  Issue `#564 <https://github.com/jmcnamara/XlsxWriter/issues/564>`_.
+
+
+Release 1.0.8 - August 27 2018
+------------------------------
+
+* Added named exceptions to XlsxWriter. See :ref:`exceptions`.
+
+* Removed the implicit :func:`close()` in the destructor since it wasn't
+  guaranteed to work correctly and raised a confusing exception when any other
+  exception was triggered. **Note that this is a backward incompatible
+  change.** The ``with`` context manager is a better way to close
+  automatically, see :func:`close()`.
+
+* Added border, fill, pattern and gradient formatting options to
+  :func:`set_legend()`.
+  Issue `#545 <https://github.com/jmcnamara/XlsxWriter/issues/545>`_.
+
+* Added ``top_right`` position to :func:`set_legend()`.
+  Issue `#537 <https://github.com/jmcnamara/XlsxWriter/issues/537>`_.
+
+
+Release 1.0.7 - August 16 2018
+------------------------------
+
+* Fix for unicode type error in Python 3.
+  Issue `#554 <https://github.com/jmcnamara/XlsxWriter/issues/554>`_.
+
+
 Release 1.0.6 - August 15 2018
 ------------------------------
 
 * Added some performance improvements.
-  PR `#551 <https://github.com/jmcnamara/XlsxWriter/issues/551>`_.
+  PR `#551 <https://github.com/jmcnamara/XlsxWriter/pull/551>`_.
+
 
 Release 1.0.5 - May 19 2018
 ---------------------------

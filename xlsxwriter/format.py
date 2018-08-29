@@ -7,6 +7,7 @@
 
 # Package imports.
 from . import xmlwriter
+from warnings import warn
 
 
 class Format(xmlwriter.XMLwriter):
@@ -397,8 +398,8 @@ class Format(xmlwriter.XMLwriter):
             if rotation < 0:
                 rotation = -rotation + 90
         else:
-            raise Exception(
-                "Rotation rotation outside range: -90 <= angle <= 90")
+            warn("Rotation rotation outside range: -90 <= angle <= 90")
+            return
 
         self.rotation = rotation
         self._format_key = None

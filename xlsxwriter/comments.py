@@ -157,7 +157,7 @@ class Comments(xmlwriter.XMLwriter):
         # Write the text <t> element.
         attributes = []
 
-        if re.search('^\s', text) or re.search('\s$', text):
+        if re.search(r'^\s', text) or re.search(r'\s$', text):
             attributes.append(('xml:space', 'preserve'))
 
         self._xml_data_element('t', text, attributes)

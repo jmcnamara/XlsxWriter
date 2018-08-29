@@ -51,10 +51,7 @@ class Chart(xmlwriter.XMLwriter):
         self.axis2_ids = []
         self.cat_has_num_fmt = 0
         self.requires_category = False
-        self.legend_position = 'right'
-        self.legend_delete_series = None
-        self.legend_font = None
-        self.legend_layout = None
+        self.legend = {}
         self.cat_axis_position = 'b'
         self.val_axis_position = 'l'
         self.formula_ids = {}
@@ -343,7 +340,7 @@ class Chart(xmlwriter.XMLwriter):
         # Set the automatic title option.
         self.title_none = options.get('none')
 
-    def set_legend(self, options=None):
+    def set_legend(self, options):
         """
         Set the chart legend options.
 
@@ -353,17 +350,8 @@ class Chart(xmlwriter.XMLwriter):
         Returns:
             Nothing.
         """
-        if options is None:
-            options = {}
-
-        self.legend_position = options.get('position', 'right')
-        self.legend_delete_series = options.get('delete_series')
-        self.legend_font = self._convert_font_args(options.get('font'))
-        self.legend_layout = self._get_layout_properties(options.get('layout'),
-                                                         False)
-        # Turn off the legend.
-        if options.get('none'):
-            self.legend_position = 'none'
+        # Convert the user defined properties to internal properties.
+        self.legend = self._get_legend_properties(options)
 
     def set_plotarea(self, options):
         """
@@ -1207,6 +1195,59 @@ class Chart(xmlwriter.XMLwriter):
         area['gradient'] = gradient
 
         return area
+
+    def _get_legend_properties(self, options=None):
+        # Convert user legend properties to the structure required internally.
+        legend = {}
+
+        if options is None:
+            options = {}
+
+        legend['position'] = options.get('position', 'right')
+        legend['delete_series'] = options.get('delete_series')
+        legend['font'] = self._convert_font_args(options.get('font'))
+        legend['layout'] = self._get_layout_properties(options.get('layout'),
+                                                       False)
+
+        # Turn off the legend.
+        if options.get('none'):
+            legend['position'] = 'none'
+
+        # Set the line properties for the legend.
+        line = Shape._get_line_properties(options.get('line'))
+
+        # Allow 'border' as a synonym for 'line'.
+        if options.get('border'):
+            line = Shape._get_line_properties(options['border'])
+
+        # Set the fill properties for the legend.
+        fill = Shape._get_fill_properties(options.get('fill'))
+
+        # Set the pattern fill properties for the series.
+        pattern = Shape._get_pattern_properties(options.get('pattern'))
+
+        # Set the gradient fill properties for the series.
+        gradient = Shape._get_gradient_properties(options.get('gradient'))
+
+        # Pattern fill overrides solid fill.
+        if pattern:
+            self.fill = None
+
+        # Gradient fill overrides the solid and pattern fill.
+        if gradient:
+            pattern = None
+            fill = None
+
+        # Set the legend layout.
+        layout = self._get_layout_properties(options.get('layout'), False)
+
+        legend['line'] = line
+        legend['fill'] = fill
+        legend['pattern'] = pattern
+        legend['layout'] = layout
+        legend['gradient'] = gradient
+
+        return legend
 
     def _get_layout_properties(self, args, is_text):
         # Convert user defined layout properties to format used internally.
@@ -2565,14 +2606,15 @@ class Chart(xmlwriter.XMLwriter):
 
     def _write_legend(self):
         # Write the <c:legend> element.
-        position = self.legend_position
-        font = self.legend_font
+        legend = self.legend
+        position = legend.get('position', 'right')
+        font = legend.get('font')
         delete_series = []
         overlay = 0
 
-        if (self.legend_delete_series is not None
-                and type(self.legend_delete_series) is list):
-            delete_series = self.legend_delete_series
+        if (legend.get('delete_series')
+                and type(legend['delete_series']) is list):
+            delete_series = legend['delete_series']
 
         if position.startswith('overlay_'):
             position = position.replace('overlay_', '')
@@ -2583,6 +2625,7 @@ class Chart(xmlwriter.XMLwriter):
             'left': 'l',
             'top': 't',
             'bottom': 'b',
+            'top_right': 'tr',
         }
 
         if position == 'none':
@@ -2604,14 +2647,17 @@ class Chart(xmlwriter.XMLwriter):
             self._write_legend_entry(index)
 
         # Write the c:layout element.
-        self._write_layout(self.legend_layout, 'legend')
-
-        if font:
-            self._write_tx_pr(None, font)
+        self._write_layout(legend.get('layout'), 'legend')
 
         # Write the c:overlay element.
         if overlay:
             self._write_overlay()
+
+        if font:
+            self._write_tx_pr(None, font)
+
+        # Write the c:spPr element.
+        self._write_sp_pr(legend)
 
         self._xml_end_tag('c:legend')
 
@@ -2676,18 +2722,18 @@ class Chart(xmlwriter.XMLwriter):
 
     def _write_page_margins(self):
         # Write the <c:pageMargins> element.
-        b = 0.75
-        l = 0.7
-        r = 0.7
-        t = 0.75
+        bottom = 0.75
+        left = 0.7
+        right = 0.7
+        top = 0.75
         header = 0.3
         footer = 0.3
 
         attributes = [
-            ('b', b),
-            ('l', l),
-            ('r', r),
-            ('t', t),
+            ('b', bottom),
+            ('l', left),
+            ('r', right),
+            ('t', top),
             ('header', header),
             ('footer', footer),
         ]

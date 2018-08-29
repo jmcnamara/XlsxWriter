@@ -36,6 +36,10 @@ from .chart_pie import ChartPie
 from .chart_radar import ChartRadar
 from .chart_scatter import ChartScatter
 from .chart_stock import ChartStock
+from .exceptions import InvalidWorksheetName
+from .exceptions import DuplicateWorksheetName
+from .exceptions import UndefinedImageSize
+from .exceptions import UnsupportedImageFormat
 
 
 class Workbook(xmlwriter.XMLwriter):
@@ -144,15 +148,6 @@ class Workbook(xmlwriter.XMLwriter):
         if self.default_date_format is not None:
             self.default_date_format = \
                 self.add_format({'num_format': self.default_date_format})
-
-    def __del__(self):
-        """Close file in destructor if it hasn't been closed explicitly."""
-        try:
-            if not self.fileclosed:
-                self.close()
-        except:
-            raise Exception("Exception caught in workbook destructor. "
-                            "Explicit close() may be required for workbook.")
 
     def __enter__(self):
         """Return self object to use with "with" statement."""
@@ -723,32 +718,29 @@ class Workbook(xmlwriter.XMLwriter):
             self.sheetname_count += 1
 
         # Supply default Sheet/Chart sheetname if none has been defined.
-        if sheetname is None:
+        if sheetname is None or sheetname == '':
             if is_chartsheet:
                 sheetname = self.chart_name + str(self.chartname_count)
             else:
                 sheetname = self.sheet_name + str(self.sheetname_count)
 
-        # Check if sheetname is empty.
-        if sheetname == '':
-            raise Exception("Excel worksheet name cannot be empty")
-
         # Check that sheet sheetname is <= 31. Excel limit.
         if len(sheetname) > 31:
-            raise Exception("Excel worksheet name '%s' must be <= 31 chars." %
-                            sheetname)
+            raise InvalidWorksheetName(
+                "Excel worksheet name '%s' must be <= 31 chars." %
+                sheetname)
 
         # Check that sheetname doesn't contain any invalid characters
         if invalid_char.search(sheetname):
-            raise Exception(
-                "Invalid Excel character '[]:*?/\\' in sheetname '%s'" %
+            raise InvalidWorksheetName(
+                "Invalid Excel character '[]:*?/\\' in sheetname '%s'." %
                 sheetname)
 
         # Check that the worksheet name doesn't already exist since this is a
         # fatal Excel error. The check must be case insensitive like Excel.
         for worksheet in self.worksheets():
             if sheetname.lower() == worksheet.name.lower():
-                raise Exception(
+                raise DuplicateWorksheetName(
                     "Sheetname '%s', with case ignored, is already in use." %
                     sheetname)
 
@@ -1182,12 +1174,13 @@ class Workbook(xmlwriter.XMLwriter):
             (image_type, width, height, x_dpi, y_dpi) = self._process_emf(data)
 
         else:
-            raise Exception("%s: Unknown or unsupported image file format."
-                            % filename)
+            raise UnsupportedImageFormat(
+                "%s: Unknown or unsupported image file format." % filename)
 
         # Check that we found the required data.
         if not height or not width:
-            raise Exception("%s: no size data found in image file." % filename)
+            raise UndefinedImageSize(
+                "%s: no size data found in image file." % filename)
 
         # Store image data to copy it into file container.
         self.images.append([filename, image_type, image_data])
@@ -1576,7 +1569,7 @@ class Workbook(xmlwriter.XMLwriter):
             # try block for ranges that can't be parsed such as defined names.
             (row_start, col_start) = xl_cell_to_rowcol(cell_1)
             (row_end, col_end) = xl_cell_to_rowcol(cell_2)
-        except:
+        except AttributeError:
             return None, None
 
         # We only handle 1D ranges.

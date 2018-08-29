@@ -160,11 +160,11 @@ The series options that can be set are:
   property is optional and the chart will just assume a sequential series from
   ``1..n``.
 
-* ``name``: Set the name for the series. The name is displayed in the chart
-  legend and in the formula bar. The name property is optional and if it isn't
-  supplied it will default to ``Series 1..n``. The name can also be a formula
-  such as ``=Sheet1!$A$1`` or a list with a sheetname, row and column such as
-  ``['Sheet1', 0, 0]``.
+* ``name``: Set the name for the series. The name is displayed in the formula
+  bar. For non-Pie/Doughnut charts it is also displayed in the legend. The
+  name property is optional and if it isn't supplied it will default to
+  ``Series 1..n``. The name can also be a formula such as ``=Sheet1!$A$1`` or
+  a list with a sheetname, row and column such as ``['Sheet1', 0, 0]``.
 
 * ``line``: Set the properties of the series line type such as color and
   width. See :ref:`chart_formatting_line`.
@@ -746,9 +746,13 @@ The options that can be set are::
 
     none
     position
-    layout
     font
+    border
+    fill
+    pattern
+    gradient
     delete_series
+    layout
 
 * ``none``: In Excel chart legends are on by default. The ``none`` option
   turns off the chart legend::
@@ -777,6 +781,35 @@ The options that can be set are::
     overlay_right
     none
 
+
+* ``font``: Set the font properties of the chart legend::
+
+    chart.set_legend({'font': {'size': 9, 'bold': True}})
+
+  See the :ref:`chart_fonts` section for more details on font properties.
+
+* ``border``: Set the border properties of the legend such as color and
+  style. See :ref:`chart_formatting_border`.
+
+* ``fill``: Set the solid fill properties of the legend such as color. See
+  :ref:`chart_formatting_fill`.
+
+* ``pattern``: Set the pattern fill properties of the legend. See
+  :ref:`chart_formatting_pattern`.
+
+* ``gradient``: Set the gradient fill properties of the legend. See
+  :ref:`chart_formatting_gradient`.
+
+* ``delete_series``: This allows you to remove one or more series from the
+  legend (the series will still display on the chart). This property takes
+  a list as an argument and the series are zero indexed::
+
+    # Delete/hide series index 0 and 2 from the legend.
+    chart.set_legend({'delete_series': [0, 2]})
+
+  .. image:: _images/chart_legend_delete.png
+     :scale: 75 %
+
 * ``layout``: Set the ``(x, y)`` position of the legend in chart relative
   units::
 
@@ -790,22 +823,6 @@ The options that can be set are::
      })
 
   See the :ref:`chart_layout` section for more details.
-
-* ``font``: Set the font properties of the chart legend::
-
-    chart.set_legend({'font': {'size': 9, 'bold': 1}})
-
-  See the :ref:`chart_fonts` section for more details on font properties.
-
-* ``delete_series``: This allows you to remove one or more series from the
-  legend (the series will still display on the chart). This property takes
-  a list as an argument and the series are zero indexed::
-
-    # Delete/hide series index 0 and 2 from the legend.
-    chart.set_legend({'delete_series': [0, 2]})
-
-  .. image:: _images/chart_legend_delete.png
-     :scale: 75 %
 
 
 chart.set_chartarea()

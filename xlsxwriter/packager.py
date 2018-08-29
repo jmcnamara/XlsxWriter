@@ -26,6 +26,7 @@ from .theme import Theme
 from .vml import Vml
 from .table import Table
 from .comments import Comments
+from .exceptions import EmptyChartSeries
 
 
 class Packager(object):
@@ -210,9 +211,9 @@ class Packager(object):
         for chart in self.workbook.charts:
             # Check that the chart has at least one data series.
             if not chart.series:
-                raise Exception("Chart%d must contain at least one "
-                                "data series. See chart.add_series()."
-                                % index)
+                raise EmptyChartSeries("Chart%d must contain at least one "
+                                       "data series. See chart.add_series()."
+                                       % index)
 
             chart._set_xml_writer(self._filename('xl/charts/chart'
                                                  + str(index) + '.xml'))
@@ -612,7 +613,7 @@ class Packager(object):
                     try:
                         os.chmod(os_filename,
                                  os.stat(os_filename).st_mode | stat.S_IWRITE)
-                    except:
+                    except OSError:
                         pass
             else:
                 # For in-memory mode we read the image into a stream.

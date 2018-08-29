@@ -49,7 +49,7 @@ copyright = u'2013-2018, John McNamara'
 # built documents.
 #
 # The short X.Y version.
-version = '1.0.6'
+version = '1.0.9'
 # The full version, including alpha/beta/rc tags.
 release = version
 
@@ -307,4 +307,7 @@ epub_copyright = u'2013-2018, John McNamara'
 # epub_tocdup = True
 
 # Skip these domains in the linkcheck since they always end up as redirects.
-linkcheck_ignore = [r'.*microsoft.com.*', r'.*office.com.*', r'.*www.paypal.com.*']
+linkcheck_ignore = [r'.*microsoft.com.*', 
+                    r'.*office.com.*', 
+                    r'.*www.paypal.com.*',
+                    r'https://twitter.com/jmcnamara13']

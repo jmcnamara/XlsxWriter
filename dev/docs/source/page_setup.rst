@@ -556,6 +556,9 @@ worksheet.print_area()
    :type  last_row:    integer
    :type  last_col:    integer
 
+   :returns:  0: Success.
+   :returns: -1: Row or column is out of worksheet bounds.
+
 This method is used to specify the area of the worksheet that will be printed.
 
 All four parameters must be specified. You can also use A1 notation, see

@@ -34,8 +34,8 @@ class TestCompareXLSXFiles(ExcelComparisonTest):
 
         worksheet = workbook.add_worksheet()
         format1 = workbook.add_format({'num_format': '0.00;[Red]0.00', 'dxf_index': 2})
-        format2 = workbook.add_format({'num_format': '0.00_ ;\-0.00\ ', 'dxf_index': 1})
-        format3 = workbook.add_format({'num_format': '0.00_ ;[Red]\-0.00\ ', 'dxf_index': 0})
+        format2 = workbook.add_format({'num_format': r'0.00_ ;\-0.00\ ', 'dxf_index': 1})
+        format3 = workbook.add_format({'num_format': r'0.00_ ;[Red]\-0.00\ ', 'dxf_index': 0})
 
         data = [
             ['Foo', 1234, 2000, 4321],

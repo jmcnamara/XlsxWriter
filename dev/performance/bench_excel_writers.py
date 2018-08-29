@@ -155,7 +155,7 @@ def time_xlwt():
 
 print("")
 print("Versions:")
-print("    %-12s: %s" % ('python', sys.version[:5]))
+print("    %-12s: %s" % ('python', str(sys.version).split()[0]))
 print("    %-12s: %s" % ('openpyxl', openpyxl.__version__))
 print("    %-12s: %s" % ('pyexcelerate', pyexcelerate.__version__))
 print("    %-12s: %s" % ('xlsxwriter', xlsxwriter.__version__))

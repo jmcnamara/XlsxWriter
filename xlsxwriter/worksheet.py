@@ -38,6 +38,7 @@ from .utility import get_sparkline_style
 from .utility import supported_datetime
 from .utility import datetime_to_excel_datetime
 from .utility import quote_sheetname
+from .exceptions import DuplicateTableName
 
 
 ###############################################################################
@@ -434,14 +435,15 @@ class Worksheet(xmlwriter.XMLwriter):
                           datetime.timedelta):
             return self._write_datetime(row, col, *args)
 
-        if token_type is unicode:
-            try:
-                return self._write_token_as_string(str(token), row, col, *args)
-            except (UnicodeEncodeError, NameError):
-                # Punt for Python3 or if string is not easily encoded.
-                pass
+        if sys.version_info < (3, 0, 0):
+            if token_type is unicode:
+                try:
+                    return self._write_token_as_string(str(token),
+                                                       row, col, *args)
+                except (UnicodeEncodeError, NameError):
+                    pass
 
-        # Resort to isinstance for subclassed primitives.
+        # Resort to isinstance() for subclassed primitives.
 
         # Write number types.
         if isinstance(token, num_types):
@@ -827,8 +829,8 @@ class Worksheet(xmlwriter.XMLwriter):
             0:  Success.
             -1: Row or column is out of worksheet bounds.
             -2: String longer than 32767 characters.
-            -3: URL longer than Excel limit of 255 characters
-            -4: Exceeds Excel limit of 65,530 urls per worksheet
+            -3: URL longer than Excel limit of 255 characters.
+            -4: Exceeds Excel limit of 65,530 urls per worksheet.
         """
         return self._write_url(row, col, url, cell_format, string, tip)
 
@@ -893,7 +895,7 @@ class Worksheet(xmlwriter.XMLwriter):
 
             # Add the file:/// URI to the url for Windows style "C:/" link and
             # Network shares.
-            if re.match('\w:', url) or re.match(r'\\', url):
+            if re.match(r'\w:', url) or re.match(r'\\', url):
                 url = 'file:///' + url
 
             # Convert a .\dir\file.xlsx link to dir\file.xlsx.
@@ -913,7 +915,7 @@ class Worksheet(xmlwriter.XMLwriter):
         if self.hlink_count > 65530:
             warn("Ignoring URL '%s' since it exceeds Excel's limit of "
                  "65,530 URLS per worksheet." % force_unicode(url))
-            return -5
+            return -4
 
         # Write previous row if in in-line string constant_memory mode.
         if self.constant_memory and row > self.previous_row:
@@ -1027,7 +1029,7 @@ class Worksheet(xmlwriter.XMLwriter):
                 # Write the string fragment part, with whitespace handling.
                 attributes = []
 
-                if re.search('^\s', token) or re.search('\s$', token):
+                if re.search(r'^\s', token) or re.search(r'\s$', token):
                     attributes.append(('xml:space', 'preserve'))
 
                 self.rstring._xml_data_element('t', token, attributes)
@@ -2426,15 +2428,15 @@ class Worksheet(xmlwriter.XMLwriter):
         # Strip the leading = from formulas.
         try:
             options['min_value'] = options['min_value'].lstrip('=')
-        except:
+        except (KeyError, AttributeError):
             pass
         try:
             options['mid_value'] = options['mid_value'].lstrip('=')
-        except:
+        except (KeyError, AttributeError):
             pass
         try:
             options['max_value'] = options['max_value'].lstrip('=')
-        except:
+        except (KeyError, AttributeError):
             pass
 
         # Store the conditional format until we close the worksheet.
@@ -3924,7 +3926,7 @@ class Worksheet(xmlwriter.XMLwriter):
 
             if re.match('(and|&&)', conditional):
                 conditional = 0
-            elif re.match('(or|\|\|)', conditional):
+            elif re.match(r'(or|\|\|)', conditional):
                 conditional = 1
             else:
                 warn("Token '%s' is not a valid conditional "
@@ -4153,7 +4155,7 @@ class Worksheet(xmlwriter.XMLwriter):
         # Set up an image without a drawing object for header/footer images.
 
         # Strip the extension from the filename.
-        name = re.sub('\..*$', '', name)
+        name = re.sub(r'\..*$', '', name)
 
         self.header_images_list.append([width, height, name, position,
                                         x_dpi, y_dpi])
@@ -4653,8 +4655,9 @@ class Worksheet(xmlwriter.XMLwriter):
             name = table['name'].lower()
 
             if name in seen:
-                raise Exception("invalid duplicate table name '%s' found." %
-                                table['name'])
+                raise DuplicateTableName(
+                    "Duplicate name '%s' used in worksheet.add_table()." %
+                    table['name'])
             else:
                 seen[name] = True
 
@@ -5583,7 +5586,7 @@ class Worksheet(xmlwriter.XMLwriter):
                 else:
                     # Add attribute to preserve leading or trailing whitespace.
                     preserve = 0
-                    if re.search('^\s', string) or re.search('\s$', string):
+                    if re.search(r'^\s', string) or re.search(r'\s$', string):
                         preserve = 1
 
                     self._xml_inline_string(string, preserve, attributes)
