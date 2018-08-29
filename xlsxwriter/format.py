@@ -130,7 +130,6 @@ class Format(xmlwriter.XMLwriter):
 
         """
         self.font_name = font_name
-        self._format_key = None
 
     def set_font_size(self, font_size=11):
         """
@@ -144,7 +143,6 @@ class Format(xmlwriter.XMLwriter):
 
         """
         self.font_size = font_size
-        self._format_key = None
 
     def set_font_color(self, font_color):
         """
@@ -158,7 +156,6 @@ class Format(xmlwriter.XMLwriter):
 
         """
         self.font_color = self._get_color(font_color)
-        self._format_key = None
 
     def set_bold(self, bold=True):
         """
@@ -172,7 +169,6 @@ class Format(xmlwriter.XMLwriter):
 
         """
         self.bold = bold
-        self._format_key = None
 
     def set_italic(self, italic=True):
         """
@@ -186,7 +182,6 @@ class Format(xmlwriter.XMLwriter):
 
         """
         self.italic = italic
-        self._format_key = None
 
     def set_underline(self, underline=1):
         """
@@ -200,7 +195,6 @@ class Format(xmlwriter.XMLwriter):
 
         """
         self.underline = underline
-        self._format_key = None
 
     def set_font_strikeout(self, font_strikeout=True):
         """
@@ -214,7 +208,6 @@ class Format(xmlwriter.XMLwriter):
 
         """
         self.font_strikeout = font_strikeout
-        self._format_key = None
 
     def set_font_script(self, font_script=1):
         """
@@ -228,7 +221,6 @@ class Format(xmlwriter.XMLwriter):
 
         """
         self.font_script = font_script
-        self._format_key = None
 
     def set_font_outline(self, font_outline=True):
         """
@@ -242,7 +234,6 @@ class Format(xmlwriter.XMLwriter):
 
         """
         self.font_outline = font_outline
-        self._format_key = None
 
     def set_font_shadow(self, font_shadow=True):
         """
@@ -256,7 +247,6 @@ class Format(xmlwriter.XMLwriter):
 
         """
         self.font_shadow = font_shadow
-        self._format_key = None
 
     def set_num_format(self, num_format):
         """
@@ -270,7 +260,6 @@ class Format(xmlwriter.XMLwriter):
 
         """
         self.num_format = num_format
-        self._format_key = None
 
     def set_locked(self, locked=True):
         """
@@ -284,7 +273,6 @@ class Format(xmlwriter.XMLwriter):
 
         """
         self.locked = locked
-        self._format_key = None
 
     def set_hidden(self, hidden=True):
         """
@@ -298,7 +286,6 @@ class Format(xmlwriter.XMLwriter):
 
         """
         self.hidden = hidden
-        self._format_key = None
 
     def set_align(self, alignment):
         """
@@ -350,8 +337,6 @@ class Format(xmlwriter.XMLwriter):
             self.set_text_v_align(4)
         if alignment == 'vdistributed':
             self.set_text_v_align(5)
-        
-        self._format_key = None
 
     def set_center_across(self, align_type=None):
         """
@@ -362,7 +347,6 @@ class Format(xmlwriter.XMLwriter):
 
         """
         self.set_text_h_align(6)
-        self._format_key = None
 
     def set_text_wrap(self, text_wrap=True):
         """
@@ -376,7 +360,6 @@ class Format(xmlwriter.XMLwriter):
 
         """
         self.text_wrap = text_wrap
-        self._format_key = None
 
     def set_rotation(self, rotation):
         """
@@ -402,7 +385,6 @@ class Format(xmlwriter.XMLwriter):
             return
 
         self.rotation = rotation
-        self._format_key = None
 
     def set_indent(self, indent=1):
         """
@@ -416,7 +398,6 @@ class Format(xmlwriter.XMLwriter):
 
         """
         self.indent = indent
-        self._format_key = None
 
     def set_shrink(self, shrink=True):
         """
@@ -430,7 +411,6 @@ class Format(xmlwriter.XMLwriter):
 
         """
         self.shrink = shrink
-        self._format_key = None
 
     def set_text_justlast(self, text_justlast=True):
         """
@@ -444,7 +424,6 @@ class Format(xmlwriter.XMLwriter):
 
         """
         self.text_justlast = text_justlast
-        self._format_key = None
 
     def set_pattern(self, pattern=1):
         """
@@ -458,7 +437,6 @@ class Format(xmlwriter.XMLwriter):
 
         """
         self.pattern = pattern
-        self._format_key = None
 
     def set_bg_color(self, bg_color):
         """
@@ -472,7 +450,6 @@ class Format(xmlwriter.XMLwriter):
 
         """
         self.bg_color = self._get_color(bg_color)
-        self._format_key = None
 
     def set_fg_color(self, fg_color):
         """
@@ -486,7 +463,6 @@ class Format(xmlwriter.XMLwriter):
 
         """
         self.fg_color = self._get_color(fg_color)
-        self._format_key = None
 
     # set_border(style) Set cells borders to the same style
     def set_border(self, style=1):
@@ -504,8 +480,6 @@ class Format(xmlwriter.XMLwriter):
         self.set_top(style)
         self.set_left(style)
         self.set_right(style)
-        
-        self._format_key = None
 
     # set_border_color(color) Set cells border to the same color
     def set_border_color(self, color):
@@ -523,8 +497,6 @@ class Format(xmlwriter.XMLwriter):
         self.set_top_color(color)
         self.set_left_color(color)
         self.set_right_color(color)
-        
-        self._format_key = None
 
     def set_bottom(self, bottom=1):
         """
@@ -538,7 +510,6 @@ class Format(xmlwriter.XMLwriter):
 
         """
         self.bottom = bottom
-        self._format_key = None
 
     def set_bottom_color(self, bottom_color):
         """
@@ -552,7 +523,6 @@ class Format(xmlwriter.XMLwriter):
 
         """
         self.bottom_color = self._get_color(bottom_color)
-        self._format_key = None
 
     def set_diag_type(self, diag_type=1):
         """
@@ -566,7 +536,6 @@ class Format(xmlwriter.XMLwriter):
 
         """
         self.diag_type = diag_type
-        self._format_key = None
 
     def set_left(self, left=1):
         """
@@ -580,7 +549,6 @@ class Format(xmlwriter.XMLwriter):
 
         """
         self.left = left
-        self._format_key = None
 
     def set_left_color(self, left_color):
         """
@@ -594,7 +562,6 @@ class Format(xmlwriter.XMLwriter):
 
         """
         self.left_color = self._get_color(left_color)
-        self._format_key = None
 
     def set_right(self, right=1):
         """
@@ -608,7 +575,6 @@ class Format(xmlwriter.XMLwriter):
 
         """
         self.right = right
-        self._format_key = None
 
     def set_right_color(self, right_color):
         """
@@ -622,7 +588,6 @@ class Format(xmlwriter.XMLwriter):
 
         """
         self.right_color = self._get_color(right_color)
-        self._format_key = None
 
     def set_top(self, top=1):
         """
@@ -636,7 +601,6 @@ class Format(xmlwriter.XMLwriter):
 
         """
         self.top = top
-        self._format_key = None
 
     def set_top_color(self, top_color):
         """
@@ -650,7 +614,6 @@ class Format(xmlwriter.XMLwriter):
 
         """
         self.top_color = self._get_color(top_color)
-        self._format_key = None
 
     def set_diag_color(self, diag_color):
         """
@@ -664,7 +627,6 @@ class Format(xmlwriter.XMLwriter):
 
         """
         self.diag_color = self._get_color(diag_color)
-        self._format_key = None
 
     def set_diag_border(self, diag_border=1):
         """
@@ -678,7 +640,6 @@ class Format(xmlwriter.XMLwriter):
 
         """
         self.diag_border = diag_border
-        self._format_key = None
 
     ###########################################################################
     #
