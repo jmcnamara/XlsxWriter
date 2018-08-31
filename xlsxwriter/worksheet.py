@@ -4933,7 +4933,7 @@ class Worksheet(xmlwriter.XMLwriter):
             for i in range(max_data):
 
                 # Set the user defined 'value' property.
-                if user_props[i].get('value'):
+                if user_props[i].get('value') is not None:
                     props[i]['value'] = user_props[i]['value']
 
                     # Remove the formula '=' sign if it exists.
