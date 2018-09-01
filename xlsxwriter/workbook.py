@@ -116,7 +116,7 @@ class Workbook(xmlwriter.XMLwriter):
         self.y_window = 15
         self.window_width = 16095
         self.window_height = 9660
-        self.tab_ratio = 500
+        self.tab_ratio = 600
         self.str_table = SharedStringTable()
         self.vba_project = None
         self.vba_is_stream = False
@@ -327,6 +327,26 @@ class Workbook(xmlwriter.XMLwriter):
             self.window_height = int(height * 1440 / 96)
         else:
             self.window_height = 9660
+
+    def set_tab_ratio(self, tab_ratio=None):
+        """
+        Set the ratio between worksheet tabs and the horizontal slider.
+
+        Args:
+            tab_ratio: The tab ratio, 0 <= tab_ratio <= 100
+
+        Returns:
+            Nothing.
+
+        """
+        if tab_ratio is None:
+            return
+
+        if tab_ratio < 0 or tab_ratio > 100:
+            warn("Tab ratio '%d' outside: 0 <= tab_ratio <= 100" % tab_ratio)
+            tab_ratio = 100
+        else:
+            self.tab_ratio = int(tab_ratio * 10)
 
     def set_properties(self, properties):
         """
@@ -1653,7 +1673,7 @@ class Workbook(xmlwriter.XMLwriter):
         ]
 
         # Store the tabRatio attribute when it isn't the default.
-        if self.tab_ratio != 500:
+        if self.tab_ratio != 600:
             attributes.append(('tabRatio', self.tab_ratio))
 
         # Store the firstSheet attribute when it isn't the default.

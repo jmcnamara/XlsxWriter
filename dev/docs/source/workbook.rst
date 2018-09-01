@@ -345,7 +345,7 @@ workbook.set_size()
 
 The ``set_size()`` method can be used to set the size of a workbook window::
 
-    workbook,set_size(1200, 800)
+    workbook.set_size(1200, 800)
 
 The Excel window size was used in Excel 2007 to define the width and height of
 a workbook window within the Multiple Document Interface (MDI). In later
@@ -356,6 +356,27 @@ units are pixels and the default size is 1073 x 644.
 Note, this doesn't equate exactly to the Excel for Mac pixel size since it is
 based on the original Excel 2007 for Windows sizing. Some trial and error may
 be required to get an exact size.
+
+
+workbook.tab_ratio()
+--------------------
+
+.. py:function:: set_tab_ratio(tab_ratio)
+
+   Set the ratio between the worksheet tabs and the horizontal slider.
+
+   :param float tab_ratio:  The tab ratio between 0 and 100.
+
+The ``set_tab_ratio()`` method can be used to set the ratio between worksheet
+tabs and the horizontal slider at the bottom of a workbook. This can be
+increased to give more room to the tabs or reduced to increase the size of the
+horizontal slider:
+
+.. image:: _images/tab_ratio.png
+
+The default value in Excel is 60. It can be changed as follows::
+
+    workbook.set_tab_ratio(75)
 
 
 workbook.set_properties()
@@ -579,7 +600,7 @@ object with the the given ``name`` or ``None`` if it isn't found::
 workbook.get_default_url_format()
 ---------------------------------
 
-.. function:: get_details_url_format()
+.. function:: get_default_url_format()
 
    Return a format object.
 
