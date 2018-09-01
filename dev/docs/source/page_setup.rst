@@ -3,9 +3,9 @@
 The Worksheet Class (Page Setup)
 ================================
 
-Page set-up methods affect the way that a worksheet looks when it is printed.
-They control features such as paper size, orientation, page headers and
-margins.
+Page set-up methods affect the way that a worksheet looks to the user or when
+it is printed. They control features such as paper size, orientation, page
+headers and margins and gridlines.
 
 These methods are really just standard :ref:`worksheet <worksheet>` methods.
 They are documented separately for the sake of clarity.
@@ -539,6 +539,22 @@ The ``print_row_col_headers()`` method sets the printer option to print these
 headers::
 
     worksheet.print_row_col_headers()
+
+
+worksheet.hide_row_col_headers()
+--------------------------------
+
+.. py:function:: hide_row_col_headers()
+
+   Set the option to hide the row and column headers in a worksheet.
+
+This method is similar to the ``print_row_col_headers()`` except that it hides
+the row and column headers on the worksheet::
+
+    worksheet.hide_row_col_headers()
+
+.. image:: _images/hide_row_col_headers.png
+
 
 worksheet.print_area()
 ----------------------

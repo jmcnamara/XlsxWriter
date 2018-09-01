@@ -201,11 +201,12 @@ class Worksheet(xmlwriter.XMLwriter):
         self.orientation = 1
 
         self.print_options_changed = False
-        self.hcenter = 0
-        self.vcenter = 0
-        self.print_gridlines = 0
-        self.screen_gridlines = 1
-        self.print_headers = 0
+        self.hcenter = False
+        self.vcenter = False
+        self.print_gridlines = False
+        self.screen_gridlines = True
+        self.print_headers = False
+        self.row_col_headers = False
 
         self.header_footer_changed = False
         self.header = ''
@@ -3494,8 +3495,21 @@ class Worksheet(xmlwriter.XMLwriter):
             Nothing.
 
         """
-        self.print_headers = 1
+        self.print_headers = True
         self.print_options_changed = True
+
+    def hide_row_col_headers(self):
+        """
+        Set the option to hide the row and column headers on the worksheet.
+
+        Args:
+            None.
+
+        Returns:
+            Nothing.
+
+        """
+        self.row_col_headers = True
 
     @convert_range_args
     def print_area(self, first_row, first_col, last_row, last_col):
@@ -5042,9 +5056,13 @@ class Worksheet(xmlwriter.XMLwriter):
         # Write the <sheetViews> element.
         attributes = []
 
-        # Hide screen gridlines if required
+        # Hide screen gridlines if required.
         if not self.screen_gridlines:
             attributes.append(('showGridLines', 0))
+
+        # Hide screen row/column headers.
+        if self.row_col_headers:
+            attributes.append(('showRowColHeaders', 0))
 
         # Hide zeroes in cells.
         if not self.show_zeros:
