@@ -284,6 +284,7 @@ The options that can be set are::
     reverse
     log_base
     label_position
+    label_align
     major_gridlines
     minor_gridlines
     visible
@@ -444,6 +445,19 @@ the axis types.
 
     chart.set_x_axis({'label_position': 'high'})
     chart.set_y_axis({'label_position': 'low'})
+
+* ``label_align``: Align the "Axis labels" the axis. (Applicable to category
+  axes only.)
+
+  The following Excel alignments are available::
+
+    center (the default)
+    right
+    left
+
+  For example::
+
+    chart.set_x_axis({'label_align': 'left'})
 
 * ``major_gridlines``: Configure the major gridlines for the axis. The
   available properties are::

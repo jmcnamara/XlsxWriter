@@ -5,6 +5,23 @@
 
 
 
+Release 1.1.0 - September 2 2018
+--------------------------------
+
+* Added functionality to align chart category axis labels. See the
+  ``label_align`` property of the :func:`set_x_axis()` method.
+
+* Added worksheet :func:`hide_row_col_headers()` method to turn off worksheet
+  row and column headings.
+  Issue `#480 <https://github.com/jmcnamara/XlsxWriter/issues/480>`_.
+
+* Added the :func:`set_tab_ratio()` method to set the ratio between the
+  worksheet tabs and the horizontal slider.
+  Issue `#481 <https://github.com/jmcnamara/XlsxWriter/issues/481>`_.
+
+* Fixed issue with icon conditional formats when the values were zero.
+  Issue `#565 <https://github.com/jmcnamara/XlsxWriter/issues/565>`_.
+
 Release 1.0.9 - August 27 2018
 ------------------------------
 
