@@ -675,27 +675,17 @@ class Workbook(xmlwriter.XMLwriter):
 
         xlsx_file.close()
 
-    def _add_sheet(self, name, is_chartsheet=None, worksheet_class=None):
+    def _add_sheet(self, name, worksheet_class=None):
         # Utility for shared code in add_worksheet() and add_chartsheet().
 
-        if is_chartsheet is not None:
-            warnings.warn(
-                "'is_chartsheet' has been deprecated and "
-                "may be removed in a future version. Use 'worksheet_class' "
-                "to get the same result",
-                PendingDeprecationWarning)
-
-        if is_chartsheet is None and worksheet_class is None:
+        if worksheet_class is None:
             raise ValueError(
-                "You must provide 'is_chartsheet' or 'worksheet_class'")
+                "_add_sheet() must define 'worksheet_class'")
 
         if worksheet_class:
             worksheet = worksheet_class()
         else:
-            if is_chartsheet:
-                worksheet = self.chartsheet_class()
-            else:
-                worksheet = self.worksheet_class()
+            worksheet = self.worksheet_class()
 
         sheet_index = len(self.worksheets_objs)
         name = self._check_sheetname(name, isinstance(worksheet, Chartsheet))
