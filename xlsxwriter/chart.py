@@ -690,6 +690,7 @@ class Chart(xmlwriter.XMLwriter):
             'position_axis': options.get('position_axis'),
             'position': options.get('position'),
             'label_position': options.get('label_position'),
+            'label_align': options.get('label_align'),
             'num_format': options.get('num_format'),
             'num_format_linked': options.get('num_format_linked'),
             'interval_unit': options.get('interval_unit'),
@@ -1974,7 +1975,7 @@ class Chart(xmlwriter.XMLwriter):
             self._write_auto(1)
 
         # Write the c:labelAlign element.
-        self._write_label_align('ctr')
+        self._write_label_align(x_axis.get('label_align'))
 
         # Write the c:labelOffset element.
         self._write_label_offset(100)
@@ -2487,8 +2488,17 @@ class Chart(xmlwriter.XMLwriter):
 
         self._xml_empty_tag('c:auto', attributes)
 
-    def _write_label_align(self, val):
+    def _write_label_align(self, val=None):
         # Write the <c:labelAlign> element.
+
+        if val is None:
+            val = 'ctr'
+
+        if val is 'right':
+            val = 'r'
+
+        if val is 'left':
+            val = 'l'
 
         attributes = [('val', val)]
 
