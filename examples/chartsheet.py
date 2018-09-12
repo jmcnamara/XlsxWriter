@@ -60,4 +60,7 @@ chart1.set_style(11)
 # Add the chart to the chartsheet.
 chartsheet.set_chart(chart1)
 
+# Display the chartsheet as the active sheet when the workbook is opened.
+chartsheet.activate();
+
 workbook.close()
