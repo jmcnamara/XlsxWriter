@@ -64,23 +64,40 @@ class Chartsheet(worksheet.Worksheet):
             Nothing.
 
         """
-        # Overridden from parent worksheet class.
+        # This method is overridden from parent worksheet class.
+
+        # Chartsheets only allow a reduced set of protect options.
+        copy = {}
+
+        if not options:
+            options = {}
+
+        if options.get('objects') is None:
+            copy['objects'] = False
+        else:
+            # Objects are default on for chartsheets, so reverse state.
+            copy['objects'] = not options['objects']
+
+        if options.get('content') is None:
+            copy['content'] = True
+        else:
+            copy['content'] = options['content']
+
+        copy['sheet'] = False
+        copy['scenarios'] = True
+
+        # If objects and content are both off then the chartsheet isn't
+        # protected, unless it has a password.
+        if password == '' and copy['objects'] and not copy['content']:
+            return
+
         if self.chart:
             self.chart.protection = True
         else:
             self.protection = True
 
-        if not options:
-            options = {}
-
-        options = options.copy()
-
-        options['sheet'] = False
-        options['content'] = True
-        options['scenarios'] = True
-
         # Call the parent method.
-        super(Chartsheet, self).protect(password, options)
+        super(Chartsheet, self).protect(password, copy)
 
     ###########################################################################
     #

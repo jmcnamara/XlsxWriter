@@ -2251,6 +2251,16 @@ protected as follows::
 
     worksheet.protect('abc123', {'insert_rows': True})
 
+The default boolean values are shown above. Individual elements can be
+protected as follows::
+
+For chartsheets the allowable options and default values are::
+
+    options = {
+        'objects':               True,
+        'content':               True,
+    }
+
 See also the :func:`set_locked` and :func:`set_hidden` format methods and
 :ref:`ex_protection`.
 
