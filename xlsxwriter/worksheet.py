@@ -4438,6 +4438,9 @@ class Worksheet(xmlwriter.XMLwriter):
             'x_scale': 1,
             'y_offset': None,
             'y_scale': 1,
+            'font_name': 'Tahoma',
+            'font_size': 8,
+            'font_family': 2,
         }
 
         # Overwrite the defaults with any user supplied values. Incorrect or
@@ -4534,7 +4537,9 @@ class Worksheet(xmlwriter.XMLwriter):
         vertices.append(params['height'])
 
         return ([row, col, string, params['author'],
-                 params['visible'], params['color']] + [vertices])
+                 params['visible'], params['color'],
+                 params['font_name'], params['font_size'],
+                 params['font_family']] + [vertices])
 
     def _button_params(self, row, col, options):
         # This method handles the parameters passed to insert_button() as well
