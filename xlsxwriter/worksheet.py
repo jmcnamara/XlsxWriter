@@ -5300,11 +5300,18 @@ class Worksheet(xmlwriter.XMLwriter):
             attributes.append(('useFirstPageNumber', '1'))
 
         # Set the DPI. Mainly only for testing.
-        if self.vertical_dpi:
-            attributes.append(('verticalDpi', self.vertical_dpi))
+        if self.orientation:
+            if self.horizontal_dpi:
+                attributes.append(('horizontalDpi', self.horizontal_dpi))
 
-        if self.horizontal_dpi:
-            attributes.append(('horizontalDpi', self.horizontal_dpi))
+            if self.vertical_dpi:
+                attributes.append(('verticalDpi', self.vertical_dpi))
+        else:
+            if self.vertical_dpi:
+                attributes.append(('verticalDpi', self.vertical_dpi))
+
+            if self.horizontal_dpi:
+                attributes.append(('horizontalDpi', self.horizontal_dpi))
 
         self._xml_empty_tag('pageSetup', attributes)
 

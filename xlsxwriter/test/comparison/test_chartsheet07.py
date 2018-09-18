@@ -28,6 +28,8 @@ class TestCompareXLSXFiles(ExcelComparisonTest):
                              'xl/chartsheets/_rels/sheet1.xml.rels']
         self.ignore_elements = {'[Content_Types].xml': ['<Default Extension="bin"'],
                                 'xl/chartsheets/sheet1.xml': ['<pageSetup', '<drawing']}
+        self.ignore_files = []
+        self.ignore_elements = {}
 
     def test_create_file(self):
         """Test the worksheet properties of an XlsxWriter chartsheet file."""
@@ -39,7 +41,7 @@ class TestCompareXLSXFiles(ExcelComparisonTest):
 
         chart = workbook.add_chart({'type': 'bar'})
 
-        chart.axis_ids = [43911040, 46363392]
+        chart.axis_ids = [61296640, 61298176]
 
         data = [
             [1, 2, 3, 4, 5],
@@ -59,6 +61,9 @@ class TestCompareXLSXFiles(ExcelComparisonTest):
         chartsheet.set_paper(9)
         chartsheet.set_portrait()
         chartsheet.set_chart(chart)
+
+        chartsheet.horizontal_dpi = 200
+        chartsheet.vertical_dpi = 200
 
         workbook.close()
 
