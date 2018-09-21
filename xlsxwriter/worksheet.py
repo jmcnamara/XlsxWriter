@@ -323,7 +323,6 @@ class Worksheet(xmlwriter.XMLwriter):
         self.data_bars_2010 = []
         self.use_data_bars_2010 = False
         self.dxf_priority = 1
-        self.is_chartsheet = 0
         self.page_view = 0
 
         self.vba_codename = None
@@ -5305,7 +5304,7 @@ class Worksheet(xmlwriter.XMLwriter):
             attributes.append(('useFirstPageNumber', '1'))
 
         # Set the DPI. Mainly only for testing.
-        if self.orientation:
+        if self.is_chartsheet:
             if self.horizontal_dpi:
                 attributes.append(('horizontalDpi', self.horizontal_dpi))
 
