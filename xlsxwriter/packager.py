@@ -554,9 +554,11 @@ class Packager(object):
         # Write the drawing .rels files for worksheets with charts or drawings.
         index = 0
         for worksheet in self.workbook.worksheets():
+            if worksheet.drawing:
+                index += 1
+
             if not worksheet.drawing_links:
                 continue
-            index += 1
 
             # Create the drawing .rels xlsx_dir.
             rels = Relationships()
