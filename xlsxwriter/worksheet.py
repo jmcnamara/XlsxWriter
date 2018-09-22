@@ -361,6 +361,9 @@ class Worksheet(xmlwriter.XMLwriter):
         if self.strings_to_formulas and token.startswith('='):
             return self._write_formula(row, col, *args)
 
+        if token.startswith('{=') and token.endswith('}'):
+            return self._write_formula(row, col, *args)
+
         if ':' in token:
             if self.strings_to_urls and re.match('(ftp|http)s?://', token):
                 return self._write_url(row, col, *args)

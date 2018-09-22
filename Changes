@@ -4,6 +4,12 @@
    in early 2019.
 
 
+Release 1.1.2 - September xx 2018
+---------------------------------
+
+* Fix 'write()' so that it handles array formulas as documented.
+  Issue `#418 <https://github.com/jmcnamara/XlsxWriter/issues/418>`_.
+
 
 Release 1.1.1 - September 22 2018
 ---------------------------------
