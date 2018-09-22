@@ -2660,6 +2660,11 @@ class Worksheet(xmlwriter.XMLwriter):
                         function = function.replace('_', '')
                         function = function.replace(' ', '')
 
+                        # escape metacharacters that break formulas
+                        col_name_clean = self._table_colname_formula_escaper(
+                            col_data['name']
+                        )
+
                         if function == 'countnums':
                             function = 'countNums'
                         if function == 'stddev':
@@ -2669,7 +2674,7 @@ class Worksheet(xmlwriter.XMLwriter):
 
                         formula = \
                             self._table_function_to_formula(function,
-                                                            col_data['name'])
+                                                            col_name_clean)
 
                         value = user_data.get('total_value', 0)
 
@@ -4688,6 +4693,16 @@ class Worksheet(xmlwriter.XMLwriter):
                                               + str(table_id)
                                               + '.xml'])
             table_id += 1
+
+    def _table_colname_formula_escaper(self, colname):
+        # Some characters are not legal within a formula
+        # these must be prefixed with a '
+
+        special_chars = ['#']
+        for c in special_chars:
+            colname = colname.replace(c, "'" + c)
+
+        return colname
 
     def _table_function_to_formula(self, function, col_name):
         # Convert a table total function to a worksheet formula.
