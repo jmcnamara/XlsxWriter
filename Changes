@@ -5,6 +5,16 @@
 
 
 
+Release 1.1.1 - September 22 2018
+---------------------------------
+
+* Added comment font name and size options.
+  Issue `#201 <https://github.com/jmcnamara/XlsxWriter/issues/201>`_.
+
+* Fix for issue when using text boxes in the same workbook as a chartsheet.
+  Issue `#420 <https://github.com/jmcnamara/XlsxWriter/issues/420>`_.
+
+
 Release 1.1.0 - September 2 2018
 --------------------------------
 
