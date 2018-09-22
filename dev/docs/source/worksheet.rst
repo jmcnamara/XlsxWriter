@@ -1639,6 +1639,8 @@ over the format of the cell comment the following options are available::
     y_scale
     height
     color
+    font_name
+    font_size
     start_cell
     start_row
     start_col
@@ -2250,9 +2252,6 @@ The default boolean values are shown above. Individual elements can be
 protected as follows::
 
     worksheet.protect('abc123', {'insert_rows': True})
-
-The default boolean values are shown above. Individual elements can be
-protected as follows::
 
 For chartsheets the allowable options and default values are::
 

@@ -29,6 +29,8 @@ The following options are available::
     y_scale
     height
     color
+    font_name
+    font_size
     start_cell
     start_row
     start_col
@@ -93,6 +95,18 @@ The options are explained in detail below:
     worksheet.write_comment('C3', 'Hello', {'color': 'green'  })
     worksheet.write_comment('C4', 'Hello', {'color': '#CCFFCC'})
 
+* ``font_name``: This option is used to set the font for the comment::
+
+    worksheet.write_comment('C3', 'Hello', {'font_name': 'Courier'})
+
+  The default font is 'Tahoma'.
+
+* ``font_size``: This option is used to set the font size for the comment::
+
+    worksheet.write_comment('C3', 'Hello', {'font_size': 10})
+
+  The  default font size is 8.
+
 * ``start_cell``: This option is used to set the cell in which the comment
   will appear. By default Excel displays comments one cell to the right and
   one cell above the cell to which the comment relates. However, you can
@@ -143,4 +157,3 @@ these options in use see :ref:`ex_comments2`.
    the comment box is stretched with the row. Use the ``set_row()`` method
    to specify the row height explicitly and avoid this problem. See example 8
    of :ref:`ex_comments2`.
-
