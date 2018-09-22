@@ -16,15 +16,9 @@ class TestCompareXLSXFiles(ExcelComparisonTest):
     """
 
     def setUp(self):
-        self.maxDiff = None
 
-        filename = 'set_start_page01.xlsx'
+        self.set_filename('set_start_page01.xlsx')
 
-        test_dir = 'xlsxwriter/test/comparison/'
-        self.got_filename = test_dir + '_test_' + filename
-        self.exp_filename = test_dir + 'xlsx_files/' + filename
-
-        self.ignore_files = []
         self.ignore_elements = {'xl/worksheets/sheet1.xml': ['<pageMargins']}
 
     def test_create_file(self):

@@ -16,17 +16,8 @@ class TestCompareXLSXFiles(ExcelComparisonTest):
     """
 
     def setUp(self):
-        self.maxDiff = None
 
-        filename = 'image22.xlsx'
-
-        test_dir = 'xlsxwriter/test/comparison/'
-        self.image_dir = test_dir + 'images/'
-        self.got_filename = test_dir + '_test_' + filename
-        self.exp_filename = test_dir + 'xlsx_files/' + filename
-
-        self.ignore_files = []
-        self.ignore_elements = {}
+        self.set_filename('image22.xlsx')
 
     def test_create_file(self):
         """Test the creation of a simple XlsxWriter file with image(s)."""

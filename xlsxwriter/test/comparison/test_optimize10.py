@@ -17,17 +17,9 @@ class TestCompareXLSXFiles(ExcelComparisonTest):
     """
 
     def setUp(self):
-        self.maxDiff = None
 
-        filename = 'optimize10.xlsx'
-
-        test_dir = 'xlsxwriter/test/comparison/'
-        self.got_filename = test_dir + '_test_' + filename
-        self.exp_filename = test_dir + 'xlsx_files/' + filename
-        self.txt_filename = test_dir + 'xlsx_files/' + 'unicode_polish_utf8.txt'
-
-        self.ignore_files = []
-        self.ignore_elements = {}
+        self.set_filename('optimize10.xlsx')
+        self.set_text_file('unicode_polish_utf8.txt')
 
     def test_create_file(self):
         """Test example file converting Unicode text."""

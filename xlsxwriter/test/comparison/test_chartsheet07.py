@@ -16,20 +16,13 @@ class TestCompareXLSXFiles(ExcelComparisonTest):
     """
 
     def setUp(self):
-        self.maxDiff = None
 
-        filename = 'chartsheet07.xlsx'
-
-        test_dir = 'xlsxwriter/test/comparison/'
-        self.got_filename = test_dir + '_test_' + filename
-        self.exp_filename = test_dir + 'xlsx_files/' + filename
+        self.set_filename('chartsheet07.xlsx')
 
         self.ignore_files = ['xl/printerSettings/printerSettings1.bin',
                              'xl/chartsheets/_rels/sheet1.xml.rels']
         self.ignore_elements = {'[Content_Types].xml': ['<Default Extension="bin"'],
                                 'xl/chartsheets/sheet1.xml': ['<pageSetup', '<drawing']}
-        self.ignore_files = []
-        self.ignore_elements = {}
 
     def test_create_file(self):
         """Test the worksheet properties of an XlsxWriter chartsheet file."""

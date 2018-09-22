@@ -16,16 +16,9 @@ class TestCompareXLSXFiles(ExcelComparisonTest):
     """
 
     def setUp(self):
-        self.maxDiff = None
 
-        filename = 'excel2003_style07.xlsx'
+        self.set_filename('excel2003_style07.xlsx')
 
-        test_dir = 'xlsxwriter/test/comparison/'
-        self.image_dir = test_dir + 'images/'
-        self.got_filename = test_dir + '_test_' + filename
-        self.exp_filename = test_dir + 'xlsx_files/' + filename
-
-        self.ignore_files = []
         self.ignore_elements = {'xl/drawings/drawing1.xml':
                                 ['<xdr:cNvPr', '<a:picLocks',
                                  '<a:srcRect/>', '<xdr:spPr',

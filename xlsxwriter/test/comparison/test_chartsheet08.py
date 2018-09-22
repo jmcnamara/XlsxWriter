@@ -16,16 +16,10 @@ class TestCompareXLSXFiles(ExcelComparisonTest):
     """
 
     def setUp(self):
-        self.maxDiff = None
 
-        filename = 'chartsheet08.xlsx'
-
-        test_dir = 'xlsxwriter/test/comparison/'
-        self.got_filename = test_dir + '_test_' + filename
-        self.exp_filename = test_dir + 'xlsx_files/' + filename
+        self.set_filename('chartsheet08.xlsx')
 
         self.ignore_files = ['xl/drawings/drawing1.xml']
-        self.ignore_elements = {}
 
     def test_create_file(self):
         """Test the worksheet properties of an XlsxWriter chartsheet file."""

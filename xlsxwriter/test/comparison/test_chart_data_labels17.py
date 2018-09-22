@@ -16,15 +16,9 @@ class TestCompareXLSXFiles(ExcelComparisonTest):
     """
 
     def setUp(self):
-        self.maxDiff = None
 
-        filename = 'chart_data_labels17.xlsx'
+        self.set_filename('chart_data_labels17.xlsx')
 
-        test_dir = 'xlsxwriter/test/comparison/'
-        self.got_filename = test_dir + '_test_' + filename
-        self.exp_filename = test_dir + 'xlsx_files/' + filename
-
-        self.ignore_files = []
         self.ignore_elements = {'xl/charts/chart1.xml': ['<c:formatCode']}
 
     def test_create_file(self):

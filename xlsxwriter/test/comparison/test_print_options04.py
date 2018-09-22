@@ -16,13 +16,8 @@ class TestCompareXLSXFiles(ExcelComparisonTest):
     """
 
     def setUp(self):
-        self.maxDiff = None
 
-        filename = 'print_options04.xlsx'
-
-        test_dir = 'xlsxwriter/test/comparison/'
-        self.got_filename = test_dir + '_test_' + filename
-        self.exp_filename = test_dir + 'xlsx_files/' + filename
+        self.set_filename('print_options04.xlsx')
 
         self.ignore_files = ['xl/printerSettings/printerSettings1.bin',
                              'xl/worksheets/_rels/sheet1.xml.rels']

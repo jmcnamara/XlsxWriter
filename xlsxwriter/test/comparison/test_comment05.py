@@ -16,18 +16,12 @@ class TestCompareXLSXFiles(ExcelComparisonTest):
     """
 
     def setUp(self):
-        self.maxDiff = None
 
-        filename = 'comment05.xlsx'
-
-        test_dir = 'xlsxwriter/test/comparison/'
-        self.got_filename = test_dir + '_test_' + filename
-        self.exp_filename = test_dir + 'xlsx_files/' + filename
+        self.set_filename('comment05.xlsx')
 
         # It takes about 50 times longer to run this test with this file
         # included. Only turn it on for pre-release testing.
         self.ignore_files = ['xl/drawings/vmlDrawing1.vml']
-        self.ignore_elements = {}
 
     def test_create_file(self):
         """

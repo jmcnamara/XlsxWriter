@@ -16,16 +16,10 @@ class TestCompareXLSXFiles(ExcelComparisonTest):
     """
 
     def setUp(self):
-        self.maxDiff = None
 
-        filename = 'comment13.xlsx'
-
-        test_dir = 'xlsxwriter/test/comparison/'
-        self.got_filename = test_dir + '_test_' + filename
-        self.exp_filename = test_dir + 'xlsx_files/' + filename
+        self.set_filename('comment13.xlsx')
 
         self.ignore_files = ['xl/styles.xml']
-        self.ignore_elements = {}
 
     def test_create_file(self):
         """Test the creation of a simple XlsxWriter file with comments."""
