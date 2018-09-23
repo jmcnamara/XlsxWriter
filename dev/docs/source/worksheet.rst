@@ -657,6 +657,8 @@ worksheet.write_rich_string()
    :returns: -1: Row or column is out of worksheet bounds.
    :returns: -2: String longer than 32k characters.
    :returns: -3: 2 consecutive formats used.
+   :returns: -4: Empty string used.
+   :returns: -5: Insufficient parameters.
 
 The ``write_rich_string()`` method is used to write strings with multiple
 formats. For example to write the string "This is **bold** and this is
@@ -736,6 +738,11 @@ centers a rich string in the cell::
                                 ' centered',
                                 center)
 
+.. note::
+
+   Excel doesn't allow the use of two consecutive formats in a rich string or
+   an empty string fragment. For either of these conditions a warning is
+   raised and the input to ``write_rich_string()`` is ignored.
 
 See also :ref:`ex_rich_strings` and :ref:`ex_merge_rich`.
 

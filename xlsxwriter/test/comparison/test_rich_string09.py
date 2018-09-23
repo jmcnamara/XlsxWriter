@@ -33,7 +33,25 @@ class TestCompareXLSXFiles(ExcelComparisonTest):
         worksheet.write('A2', 'Bar', italic)
         worksheet.write_rich_string('A3', 'a', bold, 'bc', 'defg')
 
+        # Ignore warnings for the following cases.
+        import warnings
+        warnings.filterwarnings('ignore')
+
+        # The following has 2 consectutive formats so it should be ignored
+        # with a warning.
         worksheet.write_rich_string('A3', 'a', bold, bold, 'bc', 'defg')
+
+        # The following have empty strings and should be ignored with a
+        # warning.
+        worksheet.write_rich_string('A3', '', bold, 'bc', 'defg')
+        worksheet.write_rich_string('A3', 'a', bold, '', 'defg')
+        worksheet.write_rich_string('A3', 'a', bold, 'bc', '')
+
+        # The following doesn't have enough framents/formats and should be
+        # ignored with a warning.
+        worksheet.write_rich_string('A3', 'a')
+        worksheet.write_rich_string('A3', 'a', bold)
+        worksheet.write_rich_string('A3', 'a', bold, italic)
 
         workbook.close()
 

@@ -13,6 +13,10 @@ Release 1.1.2 - September xx 2018
 * Fix for issue with special characters in worksheet table functions.
   Issue `#442 <https://github.com/jmcnamara/XlsxWriter/issues/442>`_.
 
+* Added warnings for input issues in :func:`write_rich_string()` such as blank
+  strings, double formats or insufficient parameters.
+  Issue `#425 <https://github.com/jmcnamara/XlsxWriter/issues/425>`_.
+
 
 Release 1.1.1 - September 22 2018
 ---------------------------------

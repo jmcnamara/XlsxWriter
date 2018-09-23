@@ -956,6 +956,8 @@ class Worksheet(xmlwriter.XMLwriter):
             -1: Row or column is out of worksheet bounds.
             -2: String truncated to 32k characters.
             -3: 2 consecutive formats used.
+            -4: Empty string used.
+            -5: Insufficient parameters.
 
         """
 
@@ -993,6 +995,11 @@ class Worksheet(xmlwriter.XMLwriter):
         previous = 'format'
         pos = 0
 
+        if len(tokens) <= 2:
+            warn("You must specify more then 2 format/fragments for rich "
+                 "strings. Ignoring input in write_rich_string().")
+            return -5
+
         for token in tokens:
             if not isinstance(token, Format):
                 # Token is a string.
@@ -1004,12 +1011,19 @@ class Worksheet(xmlwriter.XMLwriter):
                     # If previous token was a format just add the string.
                     fragments.append(token)
 
+                if token == '':
+                    warn("Excel doesn't allow empty strings in rich strings. "
+                         "Ignoring input in write_rich_string().")
+                    return -4
+
                 # Keep track of actual string str_length.
                 str_length += len(token)
                 previous = 'string'
             else:
                 # Can't allow 2 formats in a row.
                 if previous == 'format' and pos > 0:
+                    warn("Excel doesn't allow 2 consecutive formats in rich "
+                         "strings. Ignoring input in write_rich_string().")
                     return -3
 
                 # Token is a format object. Add it to the fragment list.
@@ -4693,7 +4707,7 @@ class Worksheet(xmlwriter.XMLwriter):
         # Convert a table total function to a worksheet formula.
         formula = ''
 
-        # Escape special characters, as required by Exccel.
+        # Escape special characters, as required by Excel.
         col_name = re.sub(r"'", "''", col_name)
         col_name = re.sub(r"#", "'#", col_name)
         col_name = re.sub(r"]", "']", col_name)
