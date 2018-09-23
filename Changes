@@ -7,8 +7,11 @@
 Release 1.1.2 - September xx 2018
 ---------------------------------
 
-* Fix 'write()' so that it handles array formulas as documented.
+* Fix ``write()`` so that it handles array formulas as documented.
   Issue `#418 <https://github.com/jmcnamara/XlsxWriter/issues/418>`_.
+
+* Fix for issue with special characters in worksheet table functions.
+  Issue `#442 <https://github.com/jmcnamara/XlsxWriter/issues/442>`_.
 
 
 Release 1.1.1 - September 22 2018

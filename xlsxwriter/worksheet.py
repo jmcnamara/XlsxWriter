@@ -4693,6 +4693,12 @@ class Worksheet(xmlwriter.XMLwriter):
         # Convert a table total function to a worksheet formula.
         formula = ''
 
+        # Escape special characters, as required by Exccel.
+        col_name = re.sub(r"'", "''", col_name)
+        col_name = re.sub(r"#", "'#", col_name)
+        col_name = re.sub(r"]", "']", col_name)
+        col_name = re.sub(r"\[", "'[", col_name)
+
         subtotals = {
             'average': 101,
             'countNums': 102,
