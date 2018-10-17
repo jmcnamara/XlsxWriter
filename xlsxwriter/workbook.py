@@ -659,6 +659,10 @@ class Workbook(xmlwriter.XMLwriter):
             if self.in_memory:
 
                 zipinfo = ZipInfo(xml_filename, (1980, 1, 1, 0, 0, 0))
+                # Copy compression type from ZipFile because ZipInfo defaults
+                # to ZIP_STORED
+                zipinfo.compress_type = xlsx_file.compression
+
                 if is_binary:
                     xlsx_file.writestr(zipinfo, os_filename.getvalue())
                 else:
