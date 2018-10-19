@@ -92,3 +92,27 @@ class TestWriteSheetViews(unittest.TestCase):
         got = self.fh.getvalue()
 
         self.assertEqual(got, exp)
+
+    def test_write_sheet_views_page_view_page_layout(self):
+        """Test the _write_sheet_views() method"""
+
+        self.worksheet.select()
+        self.worksheet.set_page_view("pageLayout")
+        self.worksheet._write_sheet_views()
+
+        exp = """<sheetViews><sheetView tabSelected="1" view="pageLayout" workbookViewId="0"/></sheetViews>"""
+        got = self.fh.getvalue()
+
+        self.assertEqual(got, exp)
+
+    def test_write_sheet_views_page_view_page_break_preview(self):
+        """Test the _write_sheet_views() method"""
+
+        self.worksheet.select()
+        self.worksheet.set_page_view("pageBreakPreview")
+        self.worksheet._write_sheet_views()
+
+        exp = """<sheetViews><sheetView tabSelected="1" view="pageBreakPreview" workbookViewId="0"/></sheetViews>"""
+        got = self.fh.getvalue()
+
+        self.assertEqual(got, exp)

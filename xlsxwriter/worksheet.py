@@ -352,7 +352,7 @@ class Worksheet(xmlwriter.XMLwriter):
         self.data_bars_2010 = []
         self.use_data_bars_2010 = False
         self.dxf_priority = 1
-        self.page_view = 0
+        self.page_view = None
 
         self.vba_codename = None
 
@@ -3620,18 +3620,18 @@ class Worksheet(xmlwriter.XMLwriter):
         self.orientation = 1
         self.page_setup_changed = True
 
-    def set_page_view(self):
+    def set_page_view(self, view="pageLayout"):
         """
         Set the page view mode.
 
         Args:
-            None.
+            view: to be used as attribute for the 'sheetView' xml tag
 
         Returns:
             Nothing.
 
         """
-        self.page_view = 1
+        self.page_view = view
 
     def set_paper(self, paper_size):
         """
@@ -5733,7 +5733,7 @@ class Worksheet(xmlwriter.XMLwriter):
 
         # Set the page view/layout mode if required.
         if self.page_view:
-            attributes.append(('view', 'pageLayout'))
+            attributes.append(('view', self.page_view))
 
         # Set the first visible cell.
         if self.top_left_cell != '':
