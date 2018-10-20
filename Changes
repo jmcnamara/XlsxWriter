@@ -4,8 +4,11 @@
    in early 2019.
 
 
-Release 1.1.2 - September xx 2018
----------------------------------
+Release 1.1.2 - October 20 2018
+-------------------------------
+
+* Fix for issue where ``in_memory`` files weren't compressed.
+  Issue `#573 <https://github.com/jmcnamara/XlsxWriter/issues/573>`_.
 
 * Fix ``write()`` so that it handles array formulas as documented.
   Issue `#418 <https://github.com/jmcnamara/XlsxWriter/issues/418>`_.
