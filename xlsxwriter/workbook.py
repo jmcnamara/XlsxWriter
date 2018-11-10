@@ -682,10 +682,6 @@ class Workbook(xmlwriter.XMLwriter):
     def _add_sheet(self, name, worksheet_class=None):
         # Utility for shared code in add_worksheet() and add_chartsheet().
 
-        if worksheet_class is None:
-            raise ValueError(
-                "_add_sheet() must define 'worksheet_class'")
-
         if worksheet_class:
             worksheet = worksheet_class()
         else:
