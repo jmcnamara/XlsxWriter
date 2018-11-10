@@ -54,7 +54,7 @@ The constructor options are:
   to assembling the final XLSX file. The temporary files are created in the
   system's temp directory. If the default temporary directory isn't accessible
   to your application, or doesn't contain enough space, you can specify an
-  alternative location using the ``tempdir`` option::
+  alternative location using the ``tmpdir`` option::
 
        workbook = xlsxwriter.Workbook(filename, {'tmpdir': '/home/user/tmp'})
 
