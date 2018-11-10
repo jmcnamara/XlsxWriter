@@ -108,7 +108,7 @@ The constructor options are:
   there isn't any fail-safe way that XlsxWriter can map a Python timezone aware
   datetime into an Excel datetime in functions such as
   :func:`write_datetime`. As such the user should convert and remove the
-  timezones in some way that make sense according to their
+  timezones in some way that makes sense according to their
   requirements. Alternatively the ``remove_timezone`` option can be used to
   strip the timezone from datetime values. The default is ``False``. To enable
   this option use::

@@ -391,8 +391,8 @@ worksheet.write_blank()
 
 Write a blank cell specified by ``row`` and ``column``::
 
-    worksheet.write_blank(0, 0, None, format)
-    worksheet.write_blank('A2', None, format)
+    worksheet.write_blank(0, 0, None, cell_format)
+    worksheet.write_blank('A2', None, cell_format)
 
 Both row-column and A1 style notation are supported, as shown above. See
 :ref:`cell_notation` for more details.
@@ -407,8 +407,8 @@ but ignores "Empty" cells.
 
 As such, if you write an empty cell without formatting it is ignored::
 
-    worksheet.write('A1', None, format)  # write_blank()
-    worksheet.write('A2', None)          # Ignored
+    worksheet.write('A1', None, cell_format)  # write_blank()
+    worksheet.write('A2', None)               # Ignored
 
 This seemingly uninteresting fact means that you can write arrays of data
 without special treatment for ``None`` or empty string values.
