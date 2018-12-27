@@ -16,15 +16,9 @@ class TestCompareXLSXFiles(ExcelComparisonTest):
     """
 
     def setUp(self):
-        self.maxDiff = None
 
-        filename = 'chart_blank05.xlsx'
+        self.set_filename('chart_blank05.xlsx')
 
-        test_dir = 'xlsxwriter/test/comparison/'
-        self.got_filename = test_dir + '_test_' + filename
-        self.exp_filename = test_dir + 'xlsx_files/' + filename
-
-        self.ignore_files = []
         self.ignore_elements = {'xl/drawings/drawing1.xml': ['<xdr:ext']}
 
     def test_create_file(self):

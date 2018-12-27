@@ -16,15 +16,9 @@ class TestCompareXLSXFiles(ExcelComparisonTest):
     """
 
     def setUp(self):
-        self.maxDiff = None
 
-        filename = 'chart_combined08.xlsx'
+        self.set_filename('chart_combined08.xlsx')
 
-        test_dir = 'xlsxwriter/test/comparison/'
-        self.got_filename = test_dir + '_test_' + filename
-        self.exp_filename = test_dir + 'xlsx_files/' + filename
-
-        self.ignore_files = []
         # TODO. There are too many ignored elements here. Remove when the axis
         # writing is fixed for secondary scatter charts.
         self.ignore_elements = {'xl/charts/chart1.xml': ['<c:dispBlanksAs',

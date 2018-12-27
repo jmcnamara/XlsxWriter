@@ -600,7 +600,7 @@ As in Excel, vertical and horizontal alignments can be combined::
     worksheet.set_row(0, 70)
     worksheet.set_column('A:A', 30)
 
-    worksheet.write(0, 0, 'Some Text', format)
+    worksheet.write(0, 0, 'Some Text', cell_format)
 
 .. image:: _images/format_font_align.png
 

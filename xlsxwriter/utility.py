@@ -26,6 +26,14 @@ def xl_rowcol_to_cell(row, col, row_abs=False, col_abs=False):
         A1 style string.
 
     """
+    if row < 0:
+        warn("Row number %d must be >= 0" % row)
+        return None
+
+    if col < 0:
+        warn("Col number %d must be >= 0" % col)
+        return None
+
     row += 1  # Change to 1-index.
     row_abs = '$' if row_abs else ''
 
@@ -55,7 +63,7 @@ def xl_rowcol_to_cell_fast(row, col):
     return col_str + str(row + 1)
 
 
-def xl_col_to_name(col_num, col_abs=False):
+def xl_col_to_name(col, col_abs=False):
     """
     Convert a zero indexed column cell reference to a string.
 
@@ -67,6 +75,11 @@ def xl_col_to_name(col_num, col_abs=False):
         Column style string.
 
     """
+    col_num = col
+    if col_num < 0:
+        warn("Col number %d must be >= 0" % col_num)
+        return None
+
     col_num += 1  # Change to 1-index.
     col_str = ''
     col_abs = '$' if col_abs else ''
@@ -185,6 +198,10 @@ def xl_range(first_row, first_col, last_row, last_col):
     range1 = xl_rowcol_to_cell(first_row, first_col)
     range2 = xl_rowcol_to_cell(last_row, last_col)
 
+    if range1 is None or range2 is None:
+        warn("Row and column numbers must be >= 0")
+        return None
+
     return range1 + ':' + range2
 
 
@@ -205,6 +222,10 @@ def xl_range_abs(first_row, first_col, last_row, last_col):
     """
     range1 = xl_rowcol_to_cell(first_row, first_col, True, True)
     range2 = xl_rowcol_to_cell(last_row, last_col, True, True)
+
+    if range1 is None or range2 is None:
+        warn("Row and column numbers must be >= 0")
+        return None
 
     return range1 + ':' + range2
 

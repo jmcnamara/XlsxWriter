@@ -16,16 +16,8 @@ class TestCompareXLSXFiles(ExcelComparisonTest):
     """
 
     def setUp(self):
-        self.maxDiff = None
 
-        filename = 'table14.xlsx'
-
-        test_dir = 'xlsxwriter/test/comparison/'
-        self.got_filename = test_dir + '_test_' + filename
-        self.exp_filename = test_dir + 'xlsx_files/' + filename
-
-        self.ignore_files = []
-        self.ignore_elements = {}
+        self.set_filename('table14.xlsx')
 
     def test_create_file(self):
         """Test the creation of a simple XlsxWriter file with tables."""
@@ -34,8 +26,8 @@ class TestCompareXLSXFiles(ExcelComparisonTest):
 
         worksheet = workbook.add_worksheet()
         format1 = workbook.add_format({'num_format': '0.00;[Red]0.00', 'dxf_index': 2})
-        format2 = workbook.add_format({'num_format': '0.00_ ;\-0.00\ ', 'dxf_index': 1})
-        format3 = workbook.add_format({'num_format': '0.00_ ;[Red]\-0.00\ ', 'dxf_index': 0})
+        format2 = workbook.add_format({'num_format': r'0.00_ ;\-0.00\ ', 'dxf_index': 1})
+        format3 = workbook.add_format({'num_format': r'0.00_ ;[Red]\-0.00\ ', 'dxf_index': 0})
 
         data = [
             ['Foo', 1234, 2000, 4321],

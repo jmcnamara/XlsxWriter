@@ -16,15 +16,8 @@ class TestCompareXLSXFiles(ExcelComparisonTest):
     """
 
     def setUp(self):
-        self.maxDiff = None
 
-        filename = 'chart_errorbars10.xlsx'
-
-        test_dir = 'xlsxwriter/test/comparison/'
-        self.got_filename = test_dir + '_test_chart_errorbars11.xlsx'
-        self.exp_filename = test_dir + 'xlsx_files/' + filename
-
-        self.ignore_files = []
+        self.set_filename('chart_errorbars10.xlsx')
 
         # Test for issue #115. We don't add plus_data and minus_data, like in
         # test_chart_errorbars10.py, as would be done from user API. Instead

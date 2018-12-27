@@ -38,6 +38,10 @@ worksheet.write()
    :param \*args:      The additional args that are passed to the sub methods
                        such as number, string and cell_format.
 
+   :returns:  0: Success.
+   :returns: -1: Row or column is out of worksheet bounds.
+   :returns:  Other values from the called write methods.
+
 Excel makes a distinction between data types such as strings, numbers, blanks,
 formulas and hyperlinks. To simplify the process of writing data to an
 XlsxWriter file the ``write()`` method acts as a general alias for several
@@ -145,6 +149,10 @@ worksheet.write_string()
    :type  string:      string
    :type  cell_format: :ref:`Format <format>`
 
+   :returns:  0: Success.
+   :returns: -1: Row or column is out of worksheet bounds.
+   :returns: -2: String truncated to 32k characters.
+
 The ``write_string()`` method writes a string to the cell specified by ``row``
 and ``column``::
 
@@ -197,6 +205,9 @@ worksheet.write_number()
    :type  number:      int or float
    :type  cell_format: :ref:`Format <format>`
 
+   :returns:  0: Success.
+   :returns: -1: Row or column is out of worksheet bounds.
+
 The ``write_number()`` method writes numeric types to the cell specified by
 ``row`` and ``column``::
 
@@ -238,6 +249,9 @@ worksheet.write_formula()
    :type  col:         int
    :type  formula:     string
    :type  cell_format: :ref:`Format <format>`
+
+   :returns:  0: Success.
+   :returns: -1: Row or column is out of worksheet bounds.
 
 The ``write_formula()`` method writes a formula or function to the cell
 specified by ``row`` and ``column``::
@@ -313,6 +327,9 @@ worksheet.write_array_formula()
    :type  formula:     string
    :type  cell_format: :ref:`Format <format>`
 
+   :returns:  0: Success.
+   :returns: -1: Row or column is out of worksheet bounds.
+
 The ``write_array_formula()`` method writes an array formula to a cell range. In
 Excel an array formula is a formula that performs a calculation on a set of
 values. It can return a single value or a range of values.
@@ -369,10 +386,13 @@ worksheet.write_blank()
    :type  col:         int
    :type  cell_format: :ref:`Format <format>`
 
+   :returns:  0: Success.
+   :returns: -1: Row or column is out of worksheet bounds.
+
 Write a blank cell specified by ``row`` and ``column``::
 
-    worksheet.write_blank(0, 0, None, format)
-    worksheet.write_blank('A2', None, format)
+    worksheet.write_blank(0, 0, None, cell_format)
+    worksheet.write_blank('A2', None, cell_format)
 
 Both row-column and A1 style notation are supported, as shown above. See
 :ref:`cell_notation` for more details.
@@ -387,8 +407,8 @@ but ignores "Empty" cells.
 
 As such, if you write an empty cell without formatting it is ignored::
 
-    worksheet.write('A1', None, format)  # write_blank()
-    worksheet.write('A2', None)          # Ignored
+    worksheet.write('A1', None, cell_format)  # write_blank()
+    worksheet.write('A2', None)               # Ignored
 
 This seemingly uninteresting fact means that you can write arrays of data
 without special treatment for ``None`` or empty string values.
@@ -409,6 +429,9 @@ worksheet.write_boolean()
    :type  col:         int
    :type  boolean:     bool
    :type  cell_format: :ref:`Format <format>`
+
+   :returns:  0: Success.
+   :returns: -1: Row or column is out of worksheet bounds.
 
 The ``write_boolean()`` method writes a boolean value to the cell specified by
 ``row`` and ``column``::
@@ -440,6 +463,9 @@ worksheet.write_datetime()
    :type  formula:     string
    :type  datetime:    :mod:`datetime`
    :type  cell_format: :ref:`Format <format>`
+
+   :returns:  0: Success.
+   :returns: -1: Row or column is out of worksheet bounds.
 
 The ``write_datetime()`` method can be used to write a date or time to the cell
 specified by ``row`` and ``column``::
@@ -494,6 +520,12 @@ worksheet.write_url()
    :type  string:      string
    :type  tip:         string
    :type  cell_format: :ref:`Format <format>`
+
+   :returns:  0: Success.
+   :returns: -1: Row or column is out of worksheet bounds.
+   :returns: -2: String longer than 32k characters.
+   :returns: -3: Url longer than Excel limit of 255 characters.
+   :returns: -4: Exceeds Excel limit of 65,530 urls per worksheet.
 
 The ``write_url()`` method is used to write a hyperlink in a worksheet cell.
 The url is comprised of two elements: the displayed string and the
@@ -621,6 +653,12 @@ worksheet.write_rich_string()
    :type  string_parts: list
    :type  cell_format:  :ref:`Format <format>`
 
+   :returns:  0: Success.
+   :returns: -1: Row or column is out of worksheet bounds.
+   :returns: -2: String longer than 32k characters.
+   :returns: -3: 2 consecutive formats used.
+   :returns: -4: Empty string used.
+   :returns: -5: Insufficient parameters.
 
 The ``write_rich_string()`` method is used to write strings with multiple
 formats. For example to write the string "This is **bold** and this is
@@ -700,6 +738,11 @@ centers a rich string in the cell::
                                 ' centered',
                                 center)
 
+.. note::
+
+   Excel doesn't allow the use of two consecutive formats in a rich string or
+   an empty string fragment. For either of these conditions a warning is
+   raised and the input to ``write_rich_string()`` is ignored.
 
 See also :ref:`ex_rich_strings` and :ref:`ex_merge_rich`.
 
@@ -718,6 +761,9 @@ worksheet.write_row()
    :type  row:         int
    :type  col:         int
    :type  cell_format: :ref:`Format <format>`
+
+   :returns:  0: Success.
+   :returns: Other: Error return value of the ``write()`` method.
 
 The ``write_row()`` method can be used to write a list of data in one go. This
 is useful for converting the results of a database query into an Excel
@@ -759,6 +805,9 @@ worksheet.write_column()
    :type  col:         int
    :type  cell_format: :ref:`Format <format>`
 
+   :returns:  0: Success.
+   :returns: Other: Error return value of the ``write()`` method.
+
 The ``write_column()`` method can be used to write a list of data in one go.
 This is useful for converting the results of a database query into an Excel
 worksheet. The :func:`write()` method is  called for each element of the data.
@@ -796,6 +845,9 @@ worksheet.set_row()
    :param cell_format:  Optional Format object.
    :type  cell_format:  :ref:`Format <format>`
    :param dict options: Optional row parameters: hidden, level, collapsed.
+
+   :returns:  0: Success.
+   :returns: -1: Row is out of worksheet bounds.
 
 The ``set_row()`` method is used to change the default properties of a row. The
 most common use for this method is to change the height of a row::
@@ -880,6 +932,9 @@ worksheet.set_column()
    :param cell_format:   Optional Format object.
    :type  cell_format:   :ref:`Format <format>`
    :param dict options:  Optional parameters: hidden, level, collapsed.
+
+   :returns:  0: Success.
+   :returns: -1: Column is out of worksheet bounds.
 
 The ``set_column()``  method can be used to change the default properties of a
 single column or a range of columns::
@@ -993,6 +1048,9 @@ worksheet.insert_image()
    :type  col:         int
    :type  image:       string
    :type  options:     dict
+
+   :returns:  0: Success.
+   :returns: -1: Row or column is out of worksheet bounds.
 
 This method can be used to insert a image into a worksheet. The image can be in
 PNG, JPEG, BMP, WMF or EMF format (see the notes about BMP and EMF below)::
@@ -1116,6 +1174,9 @@ worksheet.insert_chart()
    :type  col:         int
    :type  options:     dict
 
+   :returns:  0: Success.
+   :returns: -1: Row or column is out of worksheet bounds.
+
 This method can be used to insert a chart into a worksheet. A chart object is
 created via the Workbook :func:`add_chart()` method where the chart type is
 specified::
@@ -1192,6 +1253,9 @@ worksheet.insert_textbox()
    :type  text:        string
    :type  options:     dict
 
+   :returns:  0: Success.
+   :returns: -1: Row or column is out of worksheet bounds.
+
 This method can be used to insert a textbox into a worksheet::
 
     worksheet.insert_textbox('B2', 'A simple textbox with some text')
@@ -1250,6 +1314,9 @@ worksheet.insert_button()
    :type  row:         int
    :type  col:         int
    :type  options:     dict
+
+   :returns:  0: Success.
+   :returns: -1: Row or column is out of worksheet bounds.
 
 The ``insert_button(``) method can be used to insert an Excel form button into a worksheet.
 
@@ -1327,6 +1394,9 @@ worksheet.data_validation()
    :type  last_col:    int
    :type  options:     dict
 
+   :returns:  0: Success.
+   :returns: -1: Row or column is out of worksheet bounds.
+   :returns: -2: Incorrect parameter or option.
 
 The ``data_validation()`` method is used to construct an Excel data validation
 or to limit the user input to a dropdown list of values::
@@ -1384,6 +1454,10 @@ worksheet.conditional_format()
    :type  last_row:    int
    :type  last_col:    int
    :type  options:     dict
+
+   :returns:  0: Success.
+   :returns: -1: Row or column is out of worksheet bounds.
+   :returns: -2: Incorrect parameter or option.
 
 The ``conditional_format()`` method is used to add formatting to a cell or
 range of cells based on user defined criteria::
@@ -1444,7 +1518,9 @@ worksheet.add_table()
    :type  last_col:    int
    :type  options:     dict
 
-
+   :returns:  0: Success.
+   :returns: -1: Row or column is out of worksheet bounds.
+   :returns: -2: Incorrect parameter or option.
 
 The ``add_table()`` method is used to group a range of cells into an Excel
 Table::
@@ -1480,6 +1556,9 @@ worksheet.add_sparkline()
    :param int col:      The cell column (zero indexed).
    :param dict options: Sparkline formatting options.
 
+   :returns:  0: Success.
+   :returns: -1: Row or column is out of worksheet bounds.
+   :returns: -2: Incorrect parameter or option.
 
 Sparklines are small charts that fit in a single cell and are used to show
 trends in data.
@@ -1527,6 +1606,10 @@ worksheet.write_comment()
    :type  comment:     string
    :type  options:     dict
 
+   :returns:  0: Success.
+   :returns: -1: Row or column is out of worksheet bounds.
+   :returns: -2: String longer than 32k characters.
+
 The ``write_comment()`` method is used to add a comment to a cell. A comment is
 indicated in Excel by a small red triangle in the upper right-hand corner of
 the cell. Moving the cursor over the red triangle will reveal the comment.
@@ -1563,6 +1646,8 @@ over the format of the cell comment the following options are available::
     y_scale
     height
     color
+    font_name
+    font_size
     start_cell
     start_row
     start_col
@@ -1749,6 +1834,9 @@ worksheet.merge_range()
    :type  last_col:    int
    :type  cell_format: :ref:`Format <format>`
 
+   :returns:  0: Success.
+   :returns: -1: Row or column is out of worksheet bounds.
+   :returns: Other: Error return value of the called ``write()`` method.
 
 The ``merge_range()`` method allows cells to be merged together so that they
 act as a single area.
@@ -2170,7 +2258,14 @@ dictionary in the ``options`` argument with any or all of the following keys::
 The default boolean values are shown above. Individual elements can be
 protected as follows::
 
-    worksheet.protect('abc123', { 'insert_rows': 1 })
+    worksheet.protect('abc123', {'insert_rows': True})
+
+For chartsheets the allowable options and default values are::
+
+    options = {
+        'objects':               True,
+        'content':               True,
+    }
 
 See also the :func:`set_locked` and :func:`set_hidden` format methods and
 :ref:`ex_protection`.

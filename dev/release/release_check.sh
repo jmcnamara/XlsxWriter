@@ -67,27 +67,56 @@ function check_spellcheck {
 
 #############################################################
 #
-# Run testpep8.
+# Run test_codestyle.
 #
-function check_testpep8 {
+function check_test_codestyle {
 
     echo
-    echo -n "Is the testpep8 ok?                  [y/N]: "
+    echo -n "Is the test_codestyle ok?                  [y/N]: "
     read RESPONSE
 
     if [ "$RESPONSE" != "y" ]; then
 
-        echo -n "    Run testpep8 now?                [y/N]: "
+        echo -n "    Run test_codestyle now?                [y/N]: "
         read RESPONSE
 
         if [ "$RESPONSE" != "y" ]; then
             echo
-            echo -e "Please run: make testpep8\n";
+            echo -e "Please run: make test_codestyle\n";
             exit 1
         else
-            echo "    Running testpep8...";
-            make testpep8
-            check_testpep8
+            echo "    Running test_codestyle...";
+            make test_codestyle
+            check_test_codestyle
+         fi
+    fi
+}
+
+
+#############################################################
+#
+# Run testwarnings.
+#
+function check_testwarnings {
+    clear
+
+    echo
+    echo -n "Is the testwarnings ok?              [y/N]: "
+    read RESPONSE
+
+    if [ "$RESPONSE" != "y" ]; then
+
+        echo -n "    Run testwarnings now?            [y/N]: "
+        read RESPONSE
+
+        if [ "$RESPONSE" != "y" ]; then
+            echo
+            echo -e "Please run: make testwarnings\n";
+            exit 1
+        else
+            echo "    Running testwarnings...";
+            make testwarnings
+            check_testwarnings
          fi
     fi
 }
@@ -193,14 +222,15 @@ function check_git_status {
         echo
         echo -e "Please fix git status.\n";
 
-        git tag -l -n1 | tail -1 | perl -lane 'printf "git commit -m \"Prep for release %s\"\ngit tag \"%s\"\n\n", $F[4], $F[0]' | perl dev/release/update_revison.pl
+        git tag -l -n1 | tail -1 | perl -lane 'printf "git add -u\ngit commit -m \"Prep for release %s\"\ngit tag \"%s\"\n\n", $F[4], $F[0]' | perl dev/release/update_revison.pl
         exit 1
     fi
 }
 
 check_test_status
 check_spellcheck
-check_testpep8
+check_test_codestyle
+check_testwarnings
 check_changefile
 check_versions
 check_pdf_doc

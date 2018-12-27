@@ -25,6 +25,7 @@ directory of the XlsxWriter distribution.
    example_images.rst
    example_images_bytesio.rst
    example_right_to_left.rst
+   example_django_simple.rst
    example_http_server.rst
    example_http_server3.rst
    example_headers_footers.rst

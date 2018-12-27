@@ -54,7 +54,7 @@ The constructor options are:
   to assembling the final XLSX file. The temporary files are created in the
   system's temp directory. If the default temporary directory isn't accessible
   to your application, or doesn't contain enough space, you can specify an
-  alternative location using the ``tempdir`` option::
+  alternative location using the ``tmpdir`` option::
 
        workbook = xlsxwriter.Workbook(filename, {'tmpdir': '/home/user/tmp'})
 
@@ -108,7 +108,7 @@ The constructor options are:
   there isn't any fail-safe way that XlsxWriter can map a Python timezone aware
   datetime into an Excel datetime in functions such as
   :func:`write_datetime`. As such the user should convert and remove the
-  timezones in some way that make sense according to their
+  timezones in some way that makes sense according to their
   requirements. Alternatively the ``remove_timezone`` option can be used to
   strip the timezone from datetime values. The default is ``False``. To enable
   this option use::
@@ -166,14 +166,17 @@ workbook.add_worksheet()
    :param string name: Optional worksheet name, defaults to Sheet1, etc.
    :rtype: A :ref:`worksheet <Worksheet>` object.
 
+   :raises DuplicateWorksheetName: if a duplicate worksheet name is used.
+   :raises InvalidWorksheetName: if an invalid worksheet names is used.
+
 The ``add_worksheet()`` method adds a new worksheet to a workbook.
 
 At least one worksheet should be added to a new workbook. The
 :ref:`Worksheet <worksheet>` object is used to write data and configure a
 worksheet in the workbook.
 
-The ``name`` parameter is optional. If it is not specified the default
-Excel convention will be followed, i.e. Sheet1, Sheet2, etc.::
+The ``name`` parameter is optional. If it is not specified, or blank, the
+default Excel convention will be followed, i.e. Sheet1, Sheet2, etc.::
 
     worksheet1 = workbook.add_worksheet()           # Sheet1
     worksheet2 = workbook.add_worksheet('Foglio2')  # Foglio2
@@ -182,12 +185,14 @@ Excel convention will be followed, i.e. Sheet1, Sheet2, etc.::
 
 .. image:: _images/workbook02.png
 
-The worksheet name must be a valid Excel worksheet name, i.e. it cannot contain
-any of the characters ``' [ ] : * ? / \
-'`` and it must be less than 32 characters.
+The worksheet name must be a valid Excel worksheet name, i.e. it cannot
+contain any of the characters ``' [ ] : * ? / \'`` and it must be less than 32
+characters. These errors will raise a :exc:`InvalidWorksheetName` exception.
 
-In addition, you cannot use the same, case insensitive, ``name`` for more
-than one worksheet.
+In addition, you cannot use the same, case insensitive, ``name`` for more than
+one worksheet. This error will raise a :exc:`DuplicateWorksheetName`
+exception.
+
 
 workbook.add_format()
 ---------------------
@@ -302,27 +307,30 @@ workbook.close()
 
    Close the Workbook object and write the XLSX file.
 
+   :raises DuplicateTableName: if a duplicate worksheet table name was added.
+   :raises EmptyChartSeries: if a chart is added without a data series.
+   :raises UndefinedImageSize: if an image doesn't contain height/width data.
+   :raises UnsupportedImageFormat: if an image type isn't supported.
+   :raises IOError: if there is a file or permissions error during writing.
+
 The workbook ``close()`` method writes all data to the xlsx file and closes
 it::
 
     workbook.close()
 
+This is a required method call to close and write the xlsxwriter file, unless
+you are using the ``with`` context manager, see below.
 
 The ``Workbook`` object also works using the ``with`` context manager. In
-which case it doesn't need an explicit `close()` statement::
+which case it doesn't need an explicit ``close()`` statement::
 
-    with xlsxwriter.Workbook('hello_world.xlsx') as workbook:
+    With xlsxwriter.Workbook('hello_world.xlsx') as workbook:
         worksheet = workbook.add_worksheet()
 
         worksheet.write('A1', 'Hello world')
 
 The workbook will close automatically when exiting the scope of the ``with``
 statement.
-
-.. Note::
-
-   Unless you are using the ``with`` context manager you should always use an
-   explicit ``close()`` in your XlsxWriter application.
 
 
 workbook.set_size()
@@ -337,7 +345,7 @@ workbook.set_size()
 
 The ``set_size()`` method can be used to set the size of a workbook window::
 
-    workbook,set_size(1200, 800)
+    workbook.set_size(1200, 800)
 
 The Excel window size was used in Excel 2007 to define the width and height of
 a workbook window within the Multiple Document Interface (MDI). In later
@@ -348,6 +356,27 @@ units are pixels and the default size is 1073 x 644.
 Note, this doesn't equate exactly to the Excel for Mac pixel size since it is
 based on the original Excel 2007 for Windows sizing. Some trial and error may
 be required to get an exact size.
+
+
+workbook.tab_ratio()
+--------------------
+
+.. py:function:: set_tab_ratio(tab_ratio)
+
+   Set the ratio between the worksheet tabs and the horizontal slider.
+
+   :param float tab_ratio:  The tab ratio between 0 and 100.
+
+The ``set_tab_ratio()`` method can be used to set the ratio between worksheet
+tabs and the horizontal slider at the bottom of a workbook. This can be
+increased to give more room to the tabs or reduced to increase the size of the
+horizontal slider:
+
+.. image:: _images/tab_ratio.png
+
+The default value in Excel is 60. It can be changed as follows::
+
+    workbook.set_tab_ratio(75)
 
 
 workbook.set_properties()
@@ -571,7 +600,7 @@ object with the the given ``name`` or ``None`` if it isn't found::
 workbook.get_default_url_format()
 ---------------------------------
 
-.. function:: get_details_url_format()
+.. function:: get_default_url_format()
 
    Return a format object.
 

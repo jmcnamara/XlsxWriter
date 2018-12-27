@@ -22,6 +22,7 @@ build/
 .buildinfo
 objects.inv
 __pycache__
+.pytest_cache/
 .tox/
 .idea
 .cache/

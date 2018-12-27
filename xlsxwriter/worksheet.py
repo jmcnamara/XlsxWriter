@@ -7,6 +7,7 @@
 
 # Standard packages.
 import codecs
+import datetime
 import os
 import re
 import sys
@@ -37,6 +38,7 @@ from .utility import get_sparkline_style
 from .utility import supported_datetime
 from .utility import datetime_to_excel_datetime
 from .utility import quote_sheetname
+from .exceptions import DuplicateTableName
 
 
 ###############################################################################
@@ -55,12 +57,12 @@ def convert_cell_args(method):
         try:
             # First arg is an int, default to row/col notation.
             if len(args):
-                int(args[0])
+                first_arg = args[0]
+                int(first_arg)
         except ValueError:
             # First arg isn't an int, convert to A1 notation.
-            new_args = list(xl_cell_to_rowcol(args[0]))
-            new_args.extend(args[1:])
-            args = new_args
+            new_args = xl_cell_to_rowcol(first_arg)
+            args = new_args + args[1:]
 
         return method(self, *args, **kwargs)
 
@@ -199,11 +201,12 @@ class Worksheet(xmlwriter.XMLwriter):
         self.orientation = 1
 
         self.print_options_changed = False
-        self.hcenter = 0
-        self.vcenter = 0
-        self.print_gridlines = 0
-        self.screen_gridlines = 1
-        self.print_headers = 0
+        self.hcenter = False
+        self.vcenter = False
+        self.print_gridlines = False
+        self.screen_gridlines = True
+        self.print_headers = False
+        self.row_col_headers = False
 
         self.header_footer_changed = False
         self.header = ''
@@ -320,7 +323,6 @@ class Worksheet(xmlwriter.XMLwriter):
         self.data_bars_2010 = []
         self.use_data_bars_2010 = False
         self.dxf_priority = 1
-        self.is_chartsheet = 0
         self.page_view = 0
 
         self.vba_codename = None
@@ -350,6 +352,42 @@ class Worksheet(xmlwriter.XMLwriter):
         self.vertical_dpi = 0
         self.horizontal_dpi = 0
 
+    # Utility function for writing different types of strings.
+    def _write_token_as_string(self, token, row, col, *args):
+        # Map the data to the appropriate write_*() method.
+        if token is '':
+            return self._write_blank(row, col, *args)
+
+        if self.strings_to_formulas and token.startswith('='):
+            return self._write_formula(row, col, *args)
+
+        if token.startswith('{=') and token.endswith('}'):
+            return self._write_formula(row, col, *args)
+
+        if ':' in token:
+            if self.strings_to_urls and re.match('(ftp|http)s?://', token):
+                return self._write_url(row, col, *args)
+            elif self.strings_to_urls and re.match('mailto:', token):
+                return self._write_url(row, col, *args)
+            elif self.strings_to_urls and re.match('(in|ex)ternal:', token):
+                return self._write_url(row, col, *args)
+
+        if self.strings_to_numbers:
+            try:
+                f = float(token)
+                if (self.nan_inf_to_errors or
+                        (not self._isnan(f) and not self._isinf(f))):
+                    return self._write_number(row, col, f, *args[1:])
+            except ValueError:
+                # Not a number, write as a string.
+                pass
+
+            return self._write_string(row, col, *args)
+
+        else:
+            # We have a plain string.
+            return self._write_string(row, col, *args)
+
     @convert_cell_args
     def write(self, row, col, *args):
         """
@@ -367,6 +405,10 @@ class Worksheet(xmlwriter.XMLwriter):
             other: Return value of called method.
 
         """
+        return self._write(row, col, *args)
+
+    # Undecorated version of write().
+    def _write(self, row, col, *args):
         # Check the number of args passed.
         if not len(args):
             raise TypeError("write() takes at least 4 arguments (3 given)")
@@ -376,58 +418,56 @@ class Worksheet(xmlwriter.XMLwriter):
 
         # Write None as a blank cell.
         if token is None:
-            return self.write_blank(row, col, *args)
+            return self._write_blank(row, col, *args)
 
-        # Write boolean types.
-        if isinstance(token, bool):
-            return self.write_boolean(row, col, *args)
+        # Avoid isinstance() for better performance.
+        token_type = type(token)
 
-        # Write datetime objects.
-        if supported_datetime(token):
-            return self.write_datetime(row, col, *args)
+        if token_type is bool:
+            return self._write_boolean(row, col, *args)
+
+        if token_type in num_types:
+            return self._write_number(row, col, *args)
+
+        if token_type is str:
+            return self._write_token_as_string(token, row, col, *args)
+
+        if token_type in (datetime.datetime,
+                          datetime.date,
+                          datetime.time,
+                          datetime.timedelta):
+            return self._write_datetime(row, col, *args)
+
+        if sys.version_info < (3, 0, 0):
+            if token_type is unicode:
+                try:
+                    return self._write_token_as_string(str(token),
+                                                       row, col, *args)
+                except (UnicodeEncodeError, NameError):
+                    pass
+
+        # Resort to isinstance() for subclassed primitives.
 
         # Write number types.
         if isinstance(token, num_types):
-            return self.write_number(row, col, *args)
+            return self._write_number(row, col, *args)
 
         # Write string types.
         if isinstance(token, str_types):
-            # Map the data to the appropriate write_*() method.
-            if token == '':
-                return self.write_blank(row, col, *args)
+            return self._write_token_as_string(token, row, col, *args)
 
-            elif self.strings_to_formulas and token.startswith('='):
-                return self.write_formula(row, col, *args)
+        # Write boolean types.
+        if isinstance(token, bool):
+            return self._write_boolean(row, col, *args)
 
-            elif self.strings_to_urls and re.match('(ftp|http)s?://', token):
-                return self.write_url(row, col, *args)
-
-            elif self.strings_to_urls and re.match('mailto:', token):
-                return self.write_url(row, col, *args)
-
-            elif self.strings_to_urls and re.match('(in|ex)ternal:', token):
-                return self.write_url(row, col, *args)
-
-            elif self.strings_to_numbers:
-                try:
-                    f = float(token)
-                    if (self.nan_inf_to_errors or
-                            (not self._isnan(f) and not self._isinf(f))):
-                        return self.write_number(row, col, f, *args[1:])
-                except ValueError:
-                    # Not a number, write as a string.
-                    pass
-
-                return self.write_string(row, col, *args)
-
-            else:
-                # We have a plain string.
-                return self.write_string(row, col, *args)
+        # Write datetime objects.
+        if supported_datetime(token):
+            return self._write_datetime(row, col, *args)
 
         # We haven't matched a supported type. Try float.
         try:
             f = float(token)
-            return self.write_number(row, col, f, *args[1:])
+            return self._write_number(row, col, f, *args[1:])
         except ValueError:
             pass
         except TypeError:
@@ -436,7 +476,7 @@ class Worksheet(xmlwriter.XMLwriter):
         # Finally try string.
         try:
             str(token)
-            return self.write_string(row, col, *args)
+            return self._write_string(row, col, *args)
         except ValueError:
             raise TypeError("Unsupported type %s in write()" % type(token))
 
@@ -457,6 +497,11 @@ class Worksheet(xmlwriter.XMLwriter):
             -2: String truncated to 32k characters.
 
         """
+        return self._write_string(row, col, string, cell_format)
+
+    # Undecorated version of write_string().
+    def _write_string(self, row, col, string, cell_format=None):
+
         str_error = 0
 
         # Check that row and col are valid and store max and min values.
@@ -499,14 +544,19 @@ class Worksheet(xmlwriter.XMLwriter):
             -1: Row or column is out of worksheet bounds.
 
         """
+        return self._write_number(row, col, number, cell_format)
+
+    # Undecorated version of write_number().
+    def _write_number(self, row, col, number, cell_format=None):
+
         if self._isnan(number) or self._isinf(number):
             if self.nan_inf_to_errors:
                 if self._isnan(number):
-                    return self.write_formula(row, col, '#NUM!', cell_format,
-                                              '#NUM!')
+                    return self._write_formula(row, col, '#NUM!', cell_format,
+                                               '#NUM!')
                 elif self._isinf(number):
-                    return self.write_formula(row, col, '1/0', cell_format,
-                                              '#DIV/0!')
+                    return self._write_formula(row, col, '1/0', cell_format,
+                                               '#DIV/0!')
             else:
                 raise TypeError(
                     "NAN/INF not supported in write_number() "
@@ -542,6 +592,10 @@ class Worksheet(xmlwriter.XMLwriter):
             -1: Row or column is out of worksheet bounds.
 
         """
+        return self._write_blank(row, col, blank, cell_format)
+
+    # Undecorated version of write_blank().
+    def _write_blank(self, row, col, blank, cell_format=None):
         # Don't write a blank cell unless it has a format.
         if cell_format is None:
             return 0
@@ -577,13 +631,17 @@ class Worksheet(xmlwriter.XMLwriter):
 
         """
         # Check that row and col are valid and store max and min values.
+        return self._write_formula(row, col, formula, cell_format, value)
+
+    # Undecorated version of write_formula().
+    def _write_formula(self, row, col, formula, cell_format=None, value=0):
         if self._check_dimensions(row, col):
             return -1
 
         # Hand off array formulas.
         if formula.startswith('{') and formula.endswith('}'):
-            return self.write_array_formula(row, col, row, col, formula,
-                                            cell_format, value)
+            return self._write_array_formula(row, col, row, col, formula,
+                                             cell_format, value)
 
         # Remove the formula '=' sign if it exists.
         if formula.startswith('='):
@@ -618,6 +676,12 @@ class Worksheet(xmlwriter.XMLwriter):
             -1: Row or column is out of worksheet bounds.
 
         """
+        return self._write_array_formula(first_row, first_col, last_row,
+                                         last_col, formula, cell_format, value)
+
+    # Undecorated version of write_array_formula().
+    def _write_array_formula(self, first_row, first_col, last_row, last_col,
+                             formula, cell_format=None, value=0):
 
         # Swap last row/col with first row/col as necessary.
         if first_row > last_row:
@@ -659,7 +723,7 @@ class Worksheet(xmlwriter.XMLwriter):
             for row in range(first_row, last_row + 1):
                 for col in range(first_col, last_col + 1):
                     if row != first_row or col != first_col:
-                        self.write_number(row, col, 0, cell_format)
+                        self._write_number(row, col, 0, cell_format)
 
         return 0
 
@@ -679,6 +743,11 @@ class Worksheet(xmlwriter.XMLwriter):
             -1: Row or column is out of worksheet bounds.
 
         """
+        return self._write_datetime(row, col, date, cell_format)
+
+    # Undecorated version of write_datetime().
+    def _write_datetime(self, row, col, date, cell_format=None):
+
         # Check that row and col are valid and store max and min values.
         if self._check_dimensions(row, col):
             return -1
@@ -715,6 +784,11 @@ class Worksheet(xmlwriter.XMLwriter):
             -1: Row or column is out of worksheet bounds.
 
         """
+        return self._write_boolean(row, col, boolean, cell_format)
+
+    # Undecorated version of write_boolean().
+    def _write_boolean(self, row, col, boolean, cell_format=None):
+
         # Check that row and col are valid and store max and min values.
         if self._check_dimensions(row, col):
             return -1
@@ -758,9 +832,19 @@ class Worksheet(xmlwriter.XMLwriter):
             0:  Success.
             -1: Row or column is out of worksheet bounds.
             -2: String longer than 32767 characters.
-            -3: URL longer than Excel limit of 255 characters
-            -4: Exceeds Excel limit of 65,530 urls per worksheet
+            -3: URL longer than Excel limit of 255 characters.
+            -4: Exceeds Excel limit of 65,530 urls per worksheet.
         """
+        return self._write_url(row, col, url, cell_format, string, tip)
+
+    # Undecorated version of write_url().
+    def _write_url(self, row, col, url, cell_format=None,
+                   string=None, tip=None):
+
+        # Check that row and col are valid and store max and min values
+        if self._check_dimensions(row, col):
+            return -1
+
         # Set the displayed string to the URL unless defined by the user.
         if string is None:
             string = url
@@ -769,7 +853,7 @@ class Worksheet(xmlwriter.XMLwriter):
         link_type = 1
 
         # Remove the URI scheme from internal links.
-        if re.match("internal:", url):
+        if url.startswith('internal:'):
             url = url.replace('internal:', '')
             string = string.replace('internal:', '')
             link_type = 2
@@ -777,7 +861,7 @@ class Worksheet(xmlwriter.XMLwriter):
         # Remove the URI scheme from external links and change the directory
         # separator from Unix to Dos.
         external = False
-        if re.match("external:", url):
+        if url.startswith('external:'):
             url = url.replace('external:', '')
             url = url.replace('/', '\\')
             string = string.replace('external:', '')
@@ -786,10 +870,6 @@ class Worksheet(xmlwriter.XMLwriter):
 
         # Strip the mailto header.
         string = string.replace('mailto:', '')
-
-        # Check that row and col are valid and store max and min values
-        if self._check_dimensions(row, col):
-            return -1
 
         # Check that the string is < 32767 chars
         str_error = 0
@@ -818,7 +898,7 @@ class Worksheet(xmlwriter.XMLwriter):
 
             # Add the file:/// URI to the url for Windows style "C:/" link and
             # Network shares.
-            if re.match('\w:', url) or re.match(r'\\', url):
+            if re.match(r'\w:', url) or re.match(r'\\', url):
                 url = 'file:///' + url
 
             # Convert a .\dir\file.xlsx link to dir\file.xlsx.
@@ -838,7 +918,7 @@ class Worksheet(xmlwriter.XMLwriter):
         if self.hlink_count > 65530:
             warn("Ignoring URL '%s' since it exceeds Excel's limit of "
                  "65,530 URLS per worksheet." % force_unicode(url))
-            return -5
+            return -4
 
         # Write previous row if in in-line string constant_memory mode.
         if self.constant_memory and row > self.previous_row:
@@ -849,7 +929,7 @@ class Worksheet(xmlwriter.XMLwriter):
             cell_format = self.default_url_format
 
         # Write the hyperlink string.
-        self.write_string(row, col, string, cell_format)
+        self._write_string(row, col, string, cell_format)
 
         # Store the hyperlink data in a separate structure.
         self.hyperlinks[row][col] = {
@@ -876,8 +956,16 @@ class Worksheet(xmlwriter.XMLwriter):
             -1: Row or column is out of worksheet bounds.
             -2: String truncated to 32k characters.
             -3: 2 consecutive formats used.
+            -4: Empty string used.
+            -5: Insufficient parameters.
 
         """
+
+        return self._write_rich_string(row, col, *args)
+
+    # Undecorated version of write_rich_string().
+    def _write_rich_string(self, row, col, *args):
+
         tokens = list(args)
         cell_format = None
         str_length = 0
@@ -907,6 +995,11 @@ class Worksheet(xmlwriter.XMLwriter):
         previous = 'format'
         pos = 0
 
+        if len(tokens) <= 2:
+            warn("You must specify more then 2 format/fragments for rich "
+                 "strings. Ignoring input in write_rich_string().")
+            return -5
+
         for token in tokens:
             if not isinstance(token, Format):
                 # Token is a string.
@@ -918,12 +1011,19 @@ class Worksheet(xmlwriter.XMLwriter):
                     # If previous token was a format just add the string.
                     fragments.append(token)
 
+                if token == '':
+                    warn("Excel doesn't allow empty strings in rich strings. "
+                         "Ignoring input in write_rich_string().")
+                    return -4
+
                 # Keep track of actual string str_length.
                 str_length += len(token)
                 previous = 'string'
             else:
                 # Can't allow 2 formats in a row.
                 if previous == 'format' and pos > 0:
+                    warn("Excel doesn't allow 2 consecutive formats in rich "
+                         "strings. Ignoring input in write_rich_string().")
                     return -3
 
                 # Token is a format object. Add it to the fragment list.
@@ -946,7 +1046,7 @@ class Worksheet(xmlwriter.XMLwriter):
                 # Write the string fragment part, with whitespace handling.
                 attributes = []
 
-                if re.search('^\s', token) or re.search('\s$', token):
+                if re.search(r'^\s', token) or re.search(r'\s$', token):
                     attributes.append(('xml:space', 'preserve'))
 
                 self.rstring._xml_data_element('t', token, attributes)
@@ -990,7 +1090,7 @@ class Worksheet(xmlwriter.XMLwriter):
 
         """
         for token in data:
-            error = self.write(row, col, token, cell_format)
+            error = self._write(row, col, token, cell_format)
             if error:
                 return error
             col += 1
@@ -1013,7 +1113,7 @@ class Worksheet(xmlwriter.XMLwriter):
 
         """
         for token in data:
-            error = self.write(row, col, token, cell_format)
+            error = self._write(row, col, token, cell_format)
             if error:
                 return error
             row += 1
@@ -1500,14 +1600,14 @@ class Worksheet(xmlwriter.XMLwriter):
         self.merge.append([first_row, first_col, last_row, last_col])
 
         # Write the first cell
-        self.write(first_row, first_col, data, cell_format)
+        self._write(first_row, first_col, data, cell_format)
 
         # Pad out the rest of the area with formatted blank cells.
         for row in range(first_row, last_row + 1):
             for col in range(first_col, last_col + 1):
                 if row == first_row and col == first_col:
                     continue
-                self.write_blank(row, col, '', cell_format)
+                self._write_blank(row, col, '', cell_format)
 
     @convert_range_args
     def autofilter(self, first_row, first_col, last_row, last_col):
@@ -2345,15 +2445,15 @@ class Worksheet(xmlwriter.XMLwriter):
         # Strip the leading = from formulas.
         try:
             options['min_value'] = options['min_value'].lstrip('=')
-        except:
+        except (KeyError, AttributeError):
             pass
         try:
             options['mid_value'] = options['mid_value'].lstrip('=')
-        except:
+        except (KeyError, AttributeError):
             pass
         try:
             options['max_value'] = options['max_value'].lstrip('=')
-        except:
+        except (KeyError, AttributeError):
             pass
 
         # Store the conditional format until we close the worksheet.
@@ -2563,7 +2663,7 @@ class Worksheet(xmlwriter.XMLwriter):
                         col_data['formula'] = formula
 
                         for row in range(first_data_row, last_data_row + 1):
-                            self.write_formula(row, col_num, formula, xformat)
+                            self._write_formula(row, col_num, formula, xformat)
 
                     # Handle the function for the total row.
                     if user_data.get('total_function'):
@@ -2587,16 +2687,16 @@ class Worksheet(xmlwriter.XMLwriter):
 
                         value = user_data.get('total_value', 0)
 
-                        self.write_formula(last_row, col_num, formula, xformat,
-                                           value)
+                        self._write_formula(last_row, col_num, formula,
+                                            xformat, value)
 
                     elif user_data.get('total_string'):
                         # Total label only (not a function).
                         total_string = user_data['total_string']
                         col_data['total_string'] = total_string
 
-                        self.write_string(last_row, col_num, total_string,
-                                          user_data.get('format'))
+                        self._write_string(last_row, col_num, total_string,
+                                           user_data.get('format'))
 
                     # Get the dxf format index.
                     if xformat is not None:
@@ -2611,8 +2711,8 @@ class Worksheet(xmlwriter.XMLwriter):
 
             # Write the column headers to the worksheet.
             if options['header_row']:
-                self.write_string(first_row, col_num, col_data['name'],
-                                  col_data['name_format'])
+                self._write_string(first_row, col_num, col_data['name'],
+                                   col_data['name_format'])
 
             col_id += 1
 
@@ -2627,9 +2727,9 @@ class Worksheet(xmlwriter.XMLwriter):
                     if i < len(data) and j < len(data[i]):
                         token = data[i][j]
                         if j in col_formats:
-                            self.write(row, col, token, col_formats[j])
+                            self._write(row, col, token, col_formats[j])
                         else:
-                            self.write(row, col, token, None)
+                            self._write(row, col, token, None)
                     j += 1
                 i += 1
 
@@ -3411,8 +3511,21 @@ class Worksheet(xmlwriter.XMLwriter):
             Nothing.
 
         """
-        self.print_headers = 1
+        self.print_headers = True
         self.print_options_changed = True
+
+    def hide_row_col_headers(self):
+        """
+        Set the option to hide the row and column headers on the worksheet.
+
+        Args:
+            None.
+
+        Returns:
+            Nothing.
+
+        """
+        self.row_col_headers = True
 
     @convert_range_args
     def print_area(self, first_row, first_col, last_row, last_col):
@@ -3843,7 +3956,7 @@ class Worksheet(xmlwriter.XMLwriter):
 
             if re.match('(and|&&)', conditional):
                 conditional = 0
-            elif re.match('(or|\|\|)', conditional):
+            elif re.match(r'(or|\|\|)', conditional):
                 conditional = 1
             else:
                 warn("Token '%s' is not a valid conditional "
@@ -4072,7 +4185,7 @@ class Worksheet(xmlwriter.XMLwriter):
         # Set up an image without a drawing object for header/footer images.
 
         # Strip the extension from the filename.
-        name = re.sub('\..*$', '', name)
+        name = re.sub(r'\..*$', '', name)
 
         self.header_images_list.append([width, height, name, position,
                                         x_dpi, y_dpi])
@@ -4341,6 +4454,9 @@ class Worksheet(xmlwriter.XMLwriter):
             'x_scale': 1,
             'y_offset': None,
             'y_scale': 1,
+            'font_name': 'Tahoma',
+            'font_size': 8,
+            'font_family': 2,
         }
 
         # Overwrite the defaults with any user supplied values. Incorrect or
@@ -4437,7 +4553,9 @@ class Worksheet(xmlwriter.XMLwriter):
         vertices.append(params['height'])
 
         return ([row, col, string, params['author'],
-                 params['visible'], params['color']] + [vertices])
+                 params['visible'], params['color'],
+                 params['font_name'], params['font_size'],
+                 params['font_family']] + [vertices])
 
     def _button_params(self, row, col, options):
         # This method handles the parameters passed to insert_button() as well
@@ -4572,8 +4690,9 @@ class Worksheet(xmlwriter.XMLwriter):
             name = table['name'].lower()
 
             if name in seen:
-                raise Exception("invalid duplicate table name '%s' found." %
-                                table['name'])
+                raise DuplicateTableName(
+                    "Duplicate name '%s' used in worksheet.add_table()." %
+                    table['name'])
             else:
                 seen[name] = True
 
@@ -4587,6 +4706,12 @@ class Worksheet(xmlwriter.XMLwriter):
     def _table_function_to_formula(self, function, col_name):
         # Convert a table total function to a worksheet formula.
         formula = ''
+
+        # Escape special characters, as required by Excel.
+        col_name = re.sub(r"'", "''", col_name)
+        col_name = re.sub(r"#", "'#", col_name)
+        col_name = re.sub(r"]", "']", col_name)
+        col_name = re.sub(r"\[", "'[", col_name)
 
         subtotals = {
             'average': 101,
@@ -4637,19 +4762,21 @@ class Worksheet(xmlwriter.XMLwriter):
                 if col_num in self.table[row_num]:
                     cell = self.table[row_num][col_num]
 
-                    if type(cell).__name__ == 'Number':
+                    type_cell_name = type(cell).__name__
+
+                    if type_cell_name == 'Number':
                         # Return a number with Excel's precision.
                         data.append("%.16g" % cell.number)
 
-                    elif type(cell).__name__ == 'String':
+                    elif type_cell_name == 'String':
                         # Return a string from it's shared string index.
                         index = cell.string
                         string = self.str_table._get_shared_string(index)
 
                         data.append(string)
 
-                    elif (type(cell).__name__ == 'Formula'
-                            or type(cell).__name__ == 'ArrayFormula'):
+                    elif (type_cell_name == 'Formula'
+                            or type_cell_name == 'ArrayFormula'):
                         # Return the formula value.
                         value = cell.value
 
@@ -4658,7 +4785,7 @@ class Worksheet(xmlwriter.XMLwriter):
 
                         data.append(value)
 
-                    elif type(cell).__name__ == 'Blank':
+                    elif type_cell_name == 'Blank':
                         # Return a empty cell.
                         data.append('')
                 else:
@@ -4847,7 +4974,7 @@ class Worksheet(xmlwriter.XMLwriter):
             for i in range(max_data):
 
                 # Set the user defined 'value' property.
-                if user_props[i].get('value'):
+                if user_props[i].get('value') is not None:
                     props[i]['value'] = user_props[i]['value']
 
                     # Remove the formula '=' sign if it exists.
@@ -4956,9 +5083,13 @@ class Worksheet(xmlwriter.XMLwriter):
         # Write the <sheetViews> element.
         attributes = []
 
-        # Hide screen gridlines if required
+        # Hide screen gridlines if required.
         if not self.screen_gridlines:
             attributes.append(('showGridLines', 0))
+
+        # Hide screen row/column headers.
+        if self.row_col_headers:
+            attributes.append(('showRowColHeaders', 0))
 
         # Hide zeroes in cells.
         if not self.show_zeros:
@@ -5196,11 +5327,18 @@ class Worksheet(xmlwriter.XMLwriter):
             attributes.append(('useFirstPageNumber', '1'))
 
         # Set the DPI. Mainly only for testing.
-        if self.vertical_dpi:
-            attributes.append(('verticalDpi', self.vertical_dpi))
+        if self.is_chartsheet:
+            if self.horizontal_dpi:
+                attributes.append(('horizontalDpi', self.horizontal_dpi))
 
-        if self.horizontal_dpi:
-            attributes.append(('horizontalDpi', self.horizontal_dpi))
+            if self.vertical_dpi:
+                attributes.append(('verticalDpi', self.vertical_dpi))
+        else:
+            if self.vertical_dpi:
+                attributes.append(('verticalDpi', self.vertical_dpi))
+
+            if self.horizontal_dpi:
+                attributes.append(('horizontalDpi', self.horizontal_dpi))
 
         self._xml_empty_tag('pageSetup', attributes)
 
@@ -5443,9 +5581,6 @@ class Worksheet(xmlwriter.XMLwriter):
         # Write the <cell> element.
         # Note. This is the innermost loop so efficiency is important.
 
-        error_codes = ['#DIV/0!', '#N/A', '#NAME?', '#NULL!',
-                       '#NUM!', '#REF!', '#VALUE!']
-
         cell_range = xl_rowcol_to_cell_fast(row, col)
 
         attributes = [('r', cell_range)]
@@ -5463,12 +5598,14 @@ class Worksheet(xmlwriter.XMLwriter):
             col_xf = self.col_formats[col]
             attributes.append(('s', col_xf._get_xf_index()))
 
+        type_cell_name = type(cell).__name__
+
         # Write the various cell types.
-        if type(cell).__name__ == 'Number':
+        if type_cell_name == 'Number':
             # Write a number.
             self._xml_number_element(cell.number, attributes)
 
-        elif type(cell).__name__ == 'String':
+        elif type_cell_name == 'String':
             # Write a string.
             string = cell.string
 
@@ -5501,12 +5638,12 @@ class Worksheet(xmlwriter.XMLwriter):
                 else:
                     # Add attribute to preserve leading or trailing whitespace.
                     preserve = 0
-                    if re.search('^\s', string) or re.search('\s$', string):
+                    if re.search(r'^\s', string) or re.search(r'\s$', string):
                         preserve = 1
 
                     self._xml_inline_string(string, preserve, attributes)
 
-        elif type(cell).__name__ == 'Formula':
+        elif type_cell_name == 'Formula':
             # Write a formula. First check the formula value type.
             value = cell.value
             if type(cell.value) == bool:
@@ -5517,6 +5654,8 @@ class Worksheet(xmlwriter.XMLwriter):
                     value = 0
 
             elif isinstance(cell.value, str_types):
+                error_codes = ('#DIV/0!', '#N/A', '#NAME?', '#NULL!',
+                               '#NUM!', '#REF!', '#VALUE!')
                 if cell.value in error_codes:
                     attributes.append(('t', 'e'))
                 else:
@@ -5524,7 +5663,7 @@ class Worksheet(xmlwriter.XMLwriter):
 
             self._xml_formula_element(cell.formula, value, attributes)
 
-        elif type(cell).__name__ == 'ArrayFormula':
+        elif type_cell_name == 'ArrayFormula':
             # Write a array formula.
 
             # First check if the formula value is a string.
@@ -5539,11 +5678,11 @@ class Worksheet(xmlwriter.XMLwriter):
             self._write_cell_value(cell.value)
             self._xml_end_tag('c')
 
-        elif type(cell).__name__ == 'Blank':
+        elif type_cell_name == 'Blank':
             # Write a empty cell.
             self._xml_empty_tag('c', attributes)
 
-        elif type(cell).__name__ == 'Boolean':
+        elif type_cell_name == 'Boolean':
             # Write a boolean cell.
             attributes.append(('t', 'b'))
             self._xml_start_tag('c', attributes)
@@ -6201,10 +6340,10 @@ class Worksheet(xmlwriter.XMLwriter):
             self._xml_start_tag('cfRule', attributes)
 
             if 'minimum' in params and 'maximum' in params:
-                self._write_formula(params['minimum'])
-                self._write_formula(params['maximum'])
+                self._write_formula_element(params['minimum'])
+                self._write_formula_element(params['maximum'])
             else:
-                self._write_formula(params['value'])
+                self._write_formula_element(params['value'])
 
             self._xml_end_tag('cfRule')
 
@@ -6246,13 +6385,13 @@ class Worksheet(xmlwriter.XMLwriter):
             attributes.append(('operator', params['criteria']))
             attributes.append(('text', params['value']))
             self._xml_start_tag('cfRule', attributes)
-            self._write_formula(params['formula'])
+            self._write_formula_element(params['formula'])
             self._xml_end_tag('cfRule')
 
         elif params['type'] == 'timePeriod':
             attributes.append(('timePeriod', params['criteria']))
             self._xml_start_tag('cfRule', attributes)
-            self._write_formula(params['formula'])
+            self._write_formula_element(params['formula'])
             self._xml_end_tag('cfRule')
 
         elif (params['type'] == 'containsBlanks'
@@ -6260,7 +6399,7 @@ class Worksheet(xmlwriter.XMLwriter):
               or params['type'] == 'containsErrors'
               or params['type'] == 'notContainsErrors'):
             self._xml_start_tag('cfRule', attributes)
-            self._write_formula(params['formula'])
+            self._write_formula_element(params['formula'])
             self._xml_end_tag('cfRule')
 
         elif params['type'] == 'colorScale':
@@ -6279,7 +6418,7 @@ class Worksheet(xmlwriter.XMLwriter):
 
         elif params['type'] == 'expression':
             self._xml_start_tag('cfRule', attributes)
-            self._write_formula(params['criteria'])
+            self._write_formula_element(params['criteria'])
             self._xml_end_tag('cfRule')
 
         elif params['type'] == 'iconSet':
@@ -6287,7 +6426,7 @@ class Worksheet(xmlwriter.XMLwriter):
             self._write_icon_set(params)
             self._xml_end_tag('cfRule')
 
-    def _write_formula(self, formula):
+    def _write_formula_element(self, formula):
         # Write the <formula> element.
 
         # Check if the formula is a number.

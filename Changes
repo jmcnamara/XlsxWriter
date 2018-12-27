@@ -1,3 +1,93 @@
+.. Note::
+
+   Support for end of life Pythons 2.5, 2.6, 3.1, 3.2 and 3.3 will be dropped
+   in early 2019.
+
+
+Release 1.1.2 - October 20 2018
+-------------------------------
+
+* Fix for issue where ``in_memory`` files weren't compressed.
+  Issue `#573 <https://github.com/jmcnamara/XlsxWriter/issues/573>`_.
+
+* Fix ``write()`` so that it handles array formulas as documented.
+  Issue `#418 <https://github.com/jmcnamara/XlsxWriter/issues/418>`_.
+
+* Fix for issue with special characters in worksheet table functions.
+  Issue `#442 <https://github.com/jmcnamara/XlsxWriter/issues/442>`_.
+
+* Added warnings for input issues in :func:`write_rich_string()` such as blank
+  strings, double formats or insufficient parameters.
+  Issue `#425 <https://github.com/jmcnamara/XlsxWriter/issues/425>`_.
+
+
+Release 1.1.1 - September 22 2018
+---------------------------------
+
+* Added comment font name and size options.
+  Issue `#201 <https://github.com/jmcnamara/XlsxWriter/issues/201>`_.
+
+* Fix for issue when using text boxes in the same workbook as a chartsheet.
+  Issue `#420 <https://github.com/jmcnamara/XlsxWriter/issues/420>`_.
+
+
+Release 1.1.0 - September 2 2018
+--------------------------------
+
+* Added functionality to align chart category axis labels. See the
+  ``label_align`` property of the :func:`set_x_axis()` method.
+
+* Added worksheet :func:`hide_row_col_headers()` method to turn off worksheet
+  row and column headings.
+  Issue `#480 <https://github.com/jmcnamara/XlsxWriter/issues/480>`_.
+
+* Added the :func:`set_tab_ratio()` method to set the ratio between the
+  worksheet tabs and the horizontal slider.
+  Issue `#481 <https://github.com/jmcnamara/XlsxWriter/issues/481>`_.
+
+* Fixed issue with icon conditional formats when the values were zero.
+  Issue `#565 <https://github.com/jmcnamara/XlsxWriter/issues/565>`_.
+
+Release 1.0.9 - August 27 2018
+------------------------------
+
+* Fix for issue with formulas quoted as strings in conditional formats,
+  introduced in version 1.0.7.
+  Issue `#564 <https://github.com/jmcnamara/XlsxWriter/issues/564>`_.
+
+
+Release 1.0.8 - August 27 2018
+------------------------------
+
+* Added named exceptions to XlsxWriter. See :ref:`exceptions`.
+
+* Removed the implicit :func:`close()` in the destructor since it wasn't
+  guaranteed to work correctly and raised a confusing exception when any other
+  exception was triggered. **Note that this is a backward incompatible
+  change.** The ``with`` context manager is a better way to close
+  automatically, see :func:`close()`.
+
+* Added border, fill, pattern and gradient formatting options to
+  :func:`set_legend()`.
+  Issue `#545 <https://github.com/jmcnamara/XlsxWriter/issues/545>`_.
+
+* Added ``top_right`` position to :func:`set_legend()`.
+  Issue `#537 <https://github.com/jmcnamara/XlsxWriter/issues/537>`_.
+
+
+Release 1.0.7 - August 16 2018
+------------------------------
+
+* Fix for unicode type error in Python 3.
+  Issue `#554 <https://github.com/jmcnamara/XlsxWriter/issues/554>`_.
+
+
+Release 1.0.6 - August 15 2018
+------------------------------
+
+* Added some performance improvements.
+  PR `#551 <https://github.com/jmcnamara/XlsxWriter/pull/551>`_.
+
 
 Release 1.0.5 - May 19 2018
 ---------------------------

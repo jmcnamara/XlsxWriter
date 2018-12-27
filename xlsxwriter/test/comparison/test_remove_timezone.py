@@ -34,16 +34,8 @@ class TestCompareXLSXFiles(ExcelComparisonTest):
     """
 
     def setUp(self):
-        self.maxDiff = None
 
-        filename = 'remove_timezone01.xlsx'
-
-        test_dir = 'xlsxwriter/test/comparison/'
-        self.got_filename = test_dir + '_test_' + filename
-        self.exp_filename = test_dir + 'xlsx_files/' + filename
-
-        self.ignore_files = []
-        self.ignore_elements = {}
+        self.set_filename('remove_timezone01.xlsx')
 
     def test_remove_timezone_none(self):
         """Test write_datetime without timezones."""

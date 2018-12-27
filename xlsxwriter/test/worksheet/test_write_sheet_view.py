@@ -89,3 +89,15 @@ class TestWriteSheetView(unittest.TestCase):
         got = self.fh.getvalue()
 
         self.assertEqual(got, exp)
+
+    def test_write_sheet_view_hide_row_col_headers(self):
+        """Test the _write_sheet_views() method"""
+
+        self.worksheet.select()
+        self.worksheet.hide_row_col_headers()
+        self.worksheet._write_sheet_view()
+
+        exp = """<sheetView showRowColHeaders="0" tabSelected="1" workbookViewId="0"/>"""
+        got = self.fh.getvalue()
+
+        self.assertEqual(got, exp)

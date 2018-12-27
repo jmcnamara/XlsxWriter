@@ -16,13 +16,8 @@ class TestCompareXLSXFiles(ExcelComparisonTest):
     """
 
     def setUp(self):
-        self.maxDiff = None
 
-        filename = 'chartsheet07.xlsx'
-
-        test_dir = 'xlsxwriter/test/comparison/'
-        self.got_filename = test_dir + '_test_' + filename
-        self.exp_filename = test_dir + 'xlsx_files/' + filename
+        self.set_filename('chartsheet07.xlsx')
 
         self.ignore_files = ['xl/printerSettings/printerSettings1.bin',
                              'xl/chartsheets/_rels/sheet1.xml.rels']
@@ -39,7 +34,7 @@ class TestCompareXLSXFiles(ExcelComparisonTest):
 
         chart = workbook.add_chart({'type': 'bar'})
 
-        chart.axis_ids = [43911040, 46363392]
+        chart.axis_ids = [61296640, 61298176]
 
         data = [
             [1, 2, 3, 4, 5],
@@ -59,6 +54,9 @@ class TestCompareXLSXFiles(ExcelComparisonTest):
         chartsheet.set_paper(9)
         chartsheet.set_portrait()
         chartsheet.set_chart(chart)
+
+        chartsheet.horizontal_dpi = 200
+        chartsheet.vertical_dpi = 200
 
         workbook.close()
 

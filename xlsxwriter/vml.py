@@ -323,7 +323,7 @@ class Vml(xmlwriter.XMLwriter):
         col = comment[1]
         visible = comment[4]
         fillcolor = comment[5]
-        vertices = comment[6]
+        vertices = comment[9]
 
         (left, top, width, height) = self._pixels_to_points(vertices)
 

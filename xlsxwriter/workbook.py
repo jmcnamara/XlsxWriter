@@ -36,6 +36,10 @@ from .chart_pie import ChartPie
 from .chart_radar import ChartRadar
 from .chart_scatter import ChartScatter
 from .chart_stock import ChartStock
+from .exceptions import InvalidWorksheetName
+from .exceptions import DuplicateWorksheetName
+from .exceptions import UndefinedImageSize
+from .exceptions import UnsupportedImageFormat
 
 
 class Workbook(xmlwriter.XMLwriter):
@@ -112,7 +116,7 @@ class Workbook(xmlwriter.XMLwriter):
         self.y_window = 15
         self.window_width = 16095
         self.window_height = 9660
-        self.tab_ratio = 500
+        self.tab_ratio = 600
         self.str_table = SharedStringTable()
         self.vba_project = None
         self.vba_is_stream = False
@@ -144,15 +148,6 @@ class Workbook(xmlwriter.XMLwriter):
         if self.default_date_format is not None:
             self.default_date_format = \
                 self.add_format({'num_format': self.default_date_format})
-
-    def __del__(self):
-        """Close file in destructor if it hasn't been closed explicitly."""
-        try:
-            if not self.fileclosed:
-                self.close()
-        except:
-            raise Exception("Exception caught in workbook destructor. "
-                            "Explicit close() may be required for workbook.")
 
     def __enter__(self):
         """Return self object to use with "with" statement."""
@@ -332,6 +327,26 @@ class Workbook(xmlwriter.XMLwriter):
             self.window_height = int(height * 1440 / 96)
         else:
             self.window_height = 9660
+
+    def set_tab_ratio(self, tab_ratio=None):
+        """
+        Set the ratio between worksheet tabs and the horizontal slider.
+
+        Args:
+            tab_ratio: The tab ratio, 0 <= tab_ratio <= 100
+
+        Returns:
+            Nothing.
+
+        """
+        if tab_ratio is None:
+            return
+
+        if tab_ratio < 0 or tab_ratio > 100:
+            warn("Tab ratio '%d' outside: 0 <= tab_ratio <= 100" % tab_ratio)
+            tab_ratio = 100
+        else:
+            self.tab_ratio = int(tab_ratio * 10)
 
     def set_properties(self, properties):
         """
@@ -644,6 +659,10 @@ class Workbook(xmlwriter.XMLwriter):
             if self.in_memory:
 
                 zipinfo = ZipInfo(xml_filename, (1980, 1, 1, 0, 0, 0))
+
+                # Copy compression type from parent ZipFile.
+                zipinfo.compress_type = xlsx_file.compression
+
                 if is_binary:
                     xlsx_file.writestr(zipinfo, os_filename.getvalue())
                 else:
@@ -660,27 +679,13 @@ class Workbook(xmlwriter.XMLwriter):
 
         xlsx_file.close()
 
-    def _add_sheet(self, name, is_chartsheet=None, worksheet_class=None):
+    def _add_sheet(self, name, worksheet_class=None):
         # Utility for shared code in add_worksheet() and add_chartsheet().
-
-        if is_chartsheet is not None:
-            warnings.warn(
-                "'is_chartsheet' has been deprecated and "
-                "may be removed in a future version. Use 'worksheet_class' "
-                "to get the same result",
-                PendingDeprecationWarning)
-
-        if is_chartsheet is None and worksheet_class is None:
-            raise ValueError(
-                "You must provide 'is_chartsheet' or 'worksheet_class'")
 
         if worksheet_class:
             worksheet = worksheet_class()
         else:
-            if is_chartsheet:
-                worksheet = self.chartsheet_class()
-            else:
-                worksheet = self.worksheet_class()
+            worksheet = self.worksheet_class()
 
         sheet_index = len(self.worksheets_objs)
         name = self._check_sheetname(name, isinstance(worksheet, Chartsheet))
@@ -723,32 +728,29 @@ class Workbook(xmlwriter.XMLwriter):
             self.sheetname_count += 1
 
         # Supply default Sheet/Chart sheetname if none has been defined.
-        if sheetname is None:
+        if sheetname is None or sheetname == '':
             if is_chartsheet:
                 sheetname = self.chart_name + str(self.chartname_count)
             else:
                 sheetname = self.sheet_name + str(self.sheetname_count)
 
-        # Check if sheetname is empty.
-        if sheetname == '':
-            raise Exception("Excel worksheet name cannot be empty")
-
         # Check that sheet sheetname is <= 31. Excel limit.
         if len(sheetname) > 31:
-            raise Exception("Excel worksheet name '%s' must be <= 31 chars." %
-                            sheetname)
+            raise InvalidWorksheetName(
+                "Excel worksheet name '%s' must be <= 31 chars." %
+                sheetname)
 
         # Check that sheetname doesn't contain any invalid characters
         if invalid_char.search(sheetname):
-            raise Exception(
-                "Invalid Excel character '[]:*?/\\' in sheetname '%s'" %
+            raise InvalidWorksheetName(
+                "Invalid Excel character '[]:*?/\\' in sheetname '%s'." %
                 sheetname)
 
         # Check that the worksheet name doesn't already exist since this is a
         # fatal Excel error. The check must be case insensitive like Excel.
         for worksheet in self.worksheets():
             if sheetname.lower() == worksheet.name.lower():
-                raise Exception(
+                raise DuplicateWorksheetName(
                     "Sheetname '%s', with case ignored, is already in use." %
                     sheetname)
 
@@ -1182,12 +1184,13 @@ class Workbook(xmlwriter.XMLwriter):
             (image_type, width, height, x_dpi, y_dpi) = self._process_emf(data)
 
         else:
-            raise Exception("%s: Unknown or unsupported image file format."
-                            % filename)
+            raise UnsupportedImageFormat(
+                "%s: Unknown or unsupported image file format." % filename)
 
         # Check that we found the required data.
         if not height or not width:
-            raise Exception("%s: no size data found in image file." % filename)
+            raise UndefinedImageSize(
+                "%s: no size data found in image file." % filename)
 
         # Store image data to copy it into file container.
         self.images.append([filename, image_type, image_data])
@@ -1576,7 +1579,7 @@ class Workbook(xmlwriter.XMLwriter):
             # try block for ranges that can't be parsed such as defined names.
             (row_start, col_start) = xl_cell_to_rowcol(cell_1)
             (row_end, col_end) = xl_cell_to_rowcol(cell_2)
-        except:
+        except AttributeError:
             return None, None
 
         # We only handle 1D ranges.
@@ -1660,7 +1663,7 @@ class Workbook(xmlwriter.XMLwriter):
         ]
 
         # Store the tabRatio attribute when it isn't the default.
-        if self.tab_ratio != 500:
+        if self.tab_ratio != 600:
             attributes.append(('tabRatio', self.tab_ratio))
 
         # Store the firstSheet attribute when it isn't the default.

@@ -37,8 +37,8 @@ Outlines and Grouping in XlsxWriter
 Grouping in ``XlsxWriter`` is achieved by setting the outline level via the
 :func:`set_row()` and :func:`set_column()` worksheet methods::
 
-    worksheet.set_row(row, height, format, options)
-    worksheet.set_column(first_col, last_col, width, format, options)
+    worksheet.set_row(row, height, cell_format, options)
+    worksheet.set_column(first_col, last_col, width, cell_format, options)
 
 Adjacent row or columns with the same outline level are grouped together into a
 single outline.

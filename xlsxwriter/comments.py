@@ -105,6 +105,9 @@ class Comments(xmlwriter.XMLwriter):
             col = comment[1]
             text = comment[2]
             author = comment[3]
+            font_name = comment[6]
+            font_size = comment[7]
+            font_family = comment[8]
 
             # Look up the author id.
             author_id = None
@@ -112,11 +115,12 @@ class Comments(xmlwriter.XMLwriter):
                 author_id = self.author_ids[author]
 
             # Write the comment element.
-            self._write_comment(row, col, text, author_id)
+            font = (font_name, font_size, font_family)
+            self._write_comment(row, col, text, author_id, font)
 
         self._xml_end_tag('commentList')
 
-    def _write_comment(self, row, col, text, author_id):
+    def _write_comment(self, row, col, text, author_id, font):
         # Write the <comment> element.
         ref = xl_rowcol_to_cell(row, col)
 
@@ -128,25 +132,25 @@ class Comments(xmlwriter.XMLwriter):
         self._xml_start_tag('comment', attributes)
 
         # Write the text element.
-        self._write_text(text)
+        self._write_text(text, font)
 
         self._xml_end_tag('comment')
 
-    def _write_text(self, text):
+    def _write_text(self, text, font):
         # Write the <text> element.
         self._xml_start_tag('text')
 
         # Write the text r element.
-        self._write_text_r(text)
+        self._write_text_r(text, font)
 
         self._xml_end_tag('text')
 
-    def _write_text_r(self, text):
+    def _write_text_r(self, text, font):
         # Write the <r> element.
         self._xml_start_tag('r')
 
         # Write the rPr element.
-        self._write_r_pr()
+        self._write_r_pr(font)
 
         # Write the text r element.
         self._write_text_t(text)
@@ -157,32 +161,32 @@ class Comments(xmlwriter.XMLwriter):
         # Write the text <t> element.
         attributes = []
 
-        if re.search('^\s', text) or re.search('\s$', text):
+        if re.search(r'^\s', text) or re.search(r'\s$', text):
             attributes.append(('xml:space', 'preserve'))
 
         self._xml_data_element('t', text, attributes)
 
-    def _write_r_pr(self):
+    def _write_r_pr(self, font):
         # Write the <rPr> element.
         self._xml_start_tag('rPr')
 
         # Write the sz element.
-        self._write_sz()
+        self._write_sz(font[1])
 
         # Write the color element.
         self._write_color()
 
         # Write the rFont element.
-        self._write_r_font()
+        self._write_r_font(font[0])
 
         # Write the family element.
-        self._write_family()
+        self._write_family(font[2])
 
         self._xml_end_tag('rPr')
 
-    def _write_sz(self):
+    def _write_sz(self, font_size):
         # Write the <sz> element.
-        attributes = [('val', 8)]
+        attributes = [('val', font_size)]
 
         self._xml_empty_tag('sz', attributes)
 
@@ -192,14 +196,14 @@ class Comments(xmlwriter.XMLwriter):
 
         self._xml_empty_tag('color', attributes)
 
-    def _write_r_font(self):
+    def _write_r_font(self, font_name):
         # Write the <rFont> element.
-        attributes = [('val', 'Tahoma')]
+        attributes = [('val', font_name)]
 
         self._xml_empty_tag('rFont', attributes)
 
-    def _write_family(self):
+    def _write_family(self, font_family):
         # Write the <family> element.
-        attributes = [('val', 2)]
+        attributes = [('val', font_family)]
 
         self._xml_empty_tag('family', attributes)
