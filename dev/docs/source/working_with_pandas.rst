@@ -126,7 +126,7 @@ Formatting of the Dataframe output
 
 XlsxWriter and Pandas provide very little support for formatting the output
 data from a dataframe apart from default formatting such as the header and
-index cells and any cells that contain dates of datetimes. In addition it
+index cells and any cells that contain dates or datetimes. In addition it
 isn't possible to format any cells that already have a default format applied.
 
 If you require very controlled formatting of the dataframe output then you
