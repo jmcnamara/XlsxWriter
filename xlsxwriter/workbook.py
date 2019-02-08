@@ -658,6 +658,7 @@ class Workbook(xmlwriter.XMLwriter):
         for os_filename, xml_filename, is_binary in xml_files:
             if self.in_memory:
 
+                # Set sub-file timestamp to Excel's timestamp of 1/1/1980.
                 zipinfo = ZipInfo(xml_filename, (1980, 1, 1, 0, 0, 0))
 
                 # Copy compression type from parent ZipFile.
@@ -671,7 +672,8 @@ class Workbook(xmlwriter.XMLwriter):
             else:
                 # The files are tempfiles.
 
-                timestamp = time.mktime((1980, 1, 1, 0, 0, 0, 0, 0, 0))
+                # Set sub-file timestamp to Excel's timestamp of 1/1/1980.
+                timestamp = 315532800.0
                 os.utime(os_filename, (timestamp, timestamp))
 
                 xlsx_file.write(os_filename, xml_filename)
