@@ -3,7 +3,7 @@
 # An example of writing multiple dataframes to worksheets using Pandas and
 # XlsxWriter.
 #
-# Copyright 2013-2018, John McNamara, jmcnamara@cpan.org
+# Copyright 2013-2019, John McNamara, jmcnamara@cpan.org
 #
 
 import pandas as pd

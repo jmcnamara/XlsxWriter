@@ -2,7 +2,7 @@
 #
 # Chart - A class for writing the Excel XLSX Worksheet file.
 #
-# Copyright 2013-2018, John McNamara, jmcnamara@cpan.org
+# Copyright 2013-2019, John McNamara, jmcnamara@cpan.org
 #
 import re
 import copy

@@ -2,7 +2,7 @@
 #
 # Exceptions - A class for XlsxWriter exceptions.
 #
-# Copyright 2013-2018, John McNamara, jmcnamara@cpan.org
+# Copyright 2013-2019, John McNamara, jmcnamara@cpan.org
 #
 
 

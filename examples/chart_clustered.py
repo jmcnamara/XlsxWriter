@@ -2,7 +2,7 @@
 #
 # A demo of a clustered category chart in XlsxWriter.
 #
-# Copyright 2013-2018, John McNamara, jmcnamara@cpan.org
+# Copyright 2013-2019, John McNamara, jmcnamara@cpan.org
 #
 from xlsxwriter.workbook import Workbook
 
