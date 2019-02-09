@@ -860,7 +860,21 @@ class Workbook(xmlwriter.XMLwriter):
 
             # Check if num_format is an index to a built-in number format.
             if not isinstance(num_format, str_types):
-                xf_format.num_format_index = int(num_format)
+                num_format = int(num_format)
+
+                # Number format '0' is indexed as 1 in Excel.
+                if num_format == 0:
+                    num_format = 1
+
+                xf_format.num_format_index = num_format
+                continue
+            elif num_format == '0':
+                # Number format '0' is indexed as 1 in Excel.
+                xf_format.num_format_index = 1
+                continue
+            elif num_format == 'General':
+                # The 'General' format has an number format index of 0.
+                xf_format.num_format_index = 0
                 continue
 
             if num_format in num_formats:

@@ -38,7 +38,7 @@ class Format(xmlwriter.XMLwriter):
         self.xf_index = None
         self.dxf_index = None
 
-        self.num_format = 0
+        self.num_format = 'General'
         self.num_format_index = 0
         self.font_index = 0
         self.has_font = 0
