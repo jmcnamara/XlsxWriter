@@ -1,8 +1,16 @@
 .. Note::
 
-   This version, 1.1.3, is the last version to support end of life Pythons
+   This version, 1.1.4, is the last version to support end of life Pythons
    2.5, 2.6, 3.1, 3.2 and 3.3. Support for these older Python versions will be
    dropped in the next release.
+
+
+Release 1.1.4 - February 10 2019
+--------------------------------
+
+* Fix for issues where zipfile.py raises "ZIP does not support timestamps
+  before 1980" exception.
+  Issue `#535 <https://github.com/jmcnamara/XlsxWriter/issues/535>`_.
 
 
 Release 1.1.3 - February 9 2019
@@ -10,11 +18,6 @@ Release 1.1.3 - February 9 2019
 
 * Fix handling of ``'num_format': '0'`` in duplicate formats.
   Issue `#584 <https://github.com/jmcnamara/XlsxWriter/issues/584>`_.
-
-* Fix for issue where zipfile.py raises "ZIP does not support timestamps
-  before 1980" exception. This can occur due to issues with DST not being
-  defined on the host system.
-  Issue `#535 <https://github.com/jmcnamara/XlsxWriter/issues/535>`_.
 
 
 Release 1.1.2 - October 20 2018
