@@ -2,7 +2,7 @@
 #
 # Python 2/3 compatibility functions for XlsxWriter.
 #
-# Copyright (c), 2013-2018, John McNamara, jmcnamara@cpan.org
+# Copyright (c), 2013-2019, John McNamara, jmcnamara@cpan.org
 #
 
 import sys

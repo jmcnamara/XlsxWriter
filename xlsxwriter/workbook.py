@@ -2,7 +2,7 @@
 #
 # Workbook - A class for writing the Excel XLSX Workbook file.
 #
-# Copyright 2013-2018, John McNamara, jmcnamara@cpan.org
+# Copyright 2013-2019, John McNamara, jmcnamara@cpan.org
 #
 
 # Standard packages.
@@ -658,6 +658,7 @@ class Workbook(xmlwriter.XMLwriter):
         for os_filename, xml_filename, is_binary in xml_files:
             if self.in_memory:
 
+                # Set sub-file timestamp to Excel's timestamp of 1/1/1980.
                 zipinfo = ZipInfo(xml_filename, (1980, 1, 1, 0, 0, 0))
 
                 # Copy compression type from parent ZipFile.
@@ -671,7 +672,8 @@ class Workbook(xmlwriter.XMLwriter):
             else:
                 # The files are tempfiles.
 
-                timestamp = time.mktime((1980, 1, 1, 0, 0, 0, 0, 0, 0))
+                # Set sub-file timestamp to Excel's timestamp of 1/1/1980.
+                timestamp = time.mktime((1980, 1, 1, 0, 0, 0, 0, 0, -1))
                 os.utime(os_filename, (timestamp, timestamp))
 
                 xlsx_file.write(os_filename, xml_filename)
@@ -858,7 +860,21 @@ class Workbook(xmlwriter.XMLwriter):
 
             # Check if num_format is an index to a built-in number format.
             if not isinstance(num_format, str_types):
-                xf_format.num_format_index = int(num_format)
+                num_format = int(num_format)
+
+                # Number format '0' is indexed as 1 in Excel.
+                if num_format == 0:
+                    num_format = 1
+
+                xf_format.num_format_index = num_format
+                continue
+            elif num_format == '0':
+                # Number format '0' is indexed as 1 in Excel.
+                xf_format.num_format_index = 1
+                continue
+            elif num_format == 'General':
+                # The 'General' format has an number format index of 0.
+                xf_format.num_format_index = 0
                 continue
 
             if num_format in num_formats:

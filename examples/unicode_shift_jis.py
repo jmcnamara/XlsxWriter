@@ -6,7 +6,7 @@
 # This example generates a spreadsheet with some Japanese text from a file
 # with Shift-JIS encoded text.
 #
-# Copyright 2013-2018, John McNamara, jmcnamara@cpan.org
+# Copyright 2013-2019, John McNamara, jmcnamara@cpan.org
 #
 import codecs
 import xlsxwriter

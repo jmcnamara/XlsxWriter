@@ -2,7 +2,7 @@
 #
 # Chart - A class for writing the Excel XLSX Worksheet file.
 #
-# Copyright 2013-2018, John McNamara, jmcnamara@cpan.org
+# Copyright 2013-2019, John McNamara, jmcnamara@cpan.org
 #
 import re
 import copy
@@ -3465,15 +3465,15 @@ class Chart(xmlwriter.XMLwriter):
     def _write_d_pt_point(self, index, point):
         # Write an individual <c:dPt> element.
 
-            self._xml_start_tag('c:dPt')
+        self._xml_start_tag('c:dPt')
 
-            # Write the c:idx element.
-            self._write_idx(index)
+        # Write the c:idx element.
+        self._write_idx(index)
 
-            # Write the c:spPr element.
-            self._write_sp_pr(point)
+        # Write the c:spPr element.
+        self._write_sp_pr(point)
 
-            self._xml_end_tag('c:dPt')
+        self._xml_end_tag('c:dPt')
 
     def _write_d_lbls(self, labels):
         # Write the <c:dLbls> element.

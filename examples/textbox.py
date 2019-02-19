@@ -3,7 +3,7 @@
 # An example of inserting textboxes into an Excel worksheet using
 # Python and XlsxWriter.
 #
-# Copyright 2013-2018, John McNamara, jmcnamara@cpan.org
+# Copyright 2013-2019, John McNamara, jmcnamara@cpan.org
 #
 import xlsxwriter
 
