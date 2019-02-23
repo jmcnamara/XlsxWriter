@@ -1,8 +1,10 @@
-.. Note::
 
-   This version, 1.1.4, is the last version to support end of life Pythons
-   2.5, 2.6, 3.1, 3.2 and 3.3. Support for these older Python versions will be
-   dropped in the next release.
+Release 1.1.5 - February 22 2019
+--------------------------------
+
+* This version removes support for end of life Pythons 2.5, 2.6, 3.1, 3.2 and
+  3.3. For older, unsupported versions of Python use version 1.1.4 of
+  XlsxWriter.
 
 
 Release 1.1.4 - February 10 2019
