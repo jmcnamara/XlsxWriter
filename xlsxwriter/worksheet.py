@@ -2633,6 +2633,10 @@ class Worksheet(xmlwriter.XMLwriter):
                     # Get the column format.
                     xformat = user_data.get('format', None)
 
+                    # Set column width
+                    if user_data.get('width'):
+                        self.set_column(col_id - 1, col_id - 1, width=user_data['width'])
+                    
                     # Map user defined values to internal values.
                     if user_data.get('header'):
                         col_data['name'] = user_data['header']
