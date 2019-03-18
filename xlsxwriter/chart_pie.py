@@ -29,9 +29,6 @@ class ChartPie(chart.Chart):
         """
         super(ChartPie, self).__init__()
 
-        if options is None:
-            options = {}
-
         self.vary_data_color = 1
         self.rotation = 0
 

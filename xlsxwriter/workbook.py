@@ -11,7 +11,6 @@ import re
 import os
 import operator
 import time
-import warnings
 from warnings import warn
 from datetime import datetime
 from zipfile import ZipFile, ZipInfo, ZIP_DEFLATED
@@ -344,7 +343,6 @@ class Workbook(xmlwriter.XMLwriter):
 
         if tab_ratio < 0 or tab_ratio > 100:
             warn("Tab ratio '%d' outside: 0 <= tab_ratio <= 100" % tab_ratio)
-            tab_ratio = 100
         else:
             self.tab_ratio = int(tab_ratio * 10)
 
@@ -1055,8 +1053,6 @@ class Workbook(xmlwriter.XMLwriter):
         chart_ref_id = 0
         image_ref_id = 0
         drawing_id = 0
-        x_dpi = 96
-        y_dpi = 96
 
         for sheet in self.worksheets():
             chart_count = len(sheet.charts)

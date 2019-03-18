@@ -8,7 +8,6 @@
 # Copyright 2013-2019, John McNamara, jmcnamara@cpan.org
 #
 import sys
-import shutil
 from zipfile import ZipFile
 from zipfile import BadZipfile
 

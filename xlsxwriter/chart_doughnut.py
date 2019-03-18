@@ -29,9 +29,6 @@ class ChartDoughnut(chart_pie.ChartPie):
         """
         super(ChartDoughnut, self).__init__()
 
-        if options is None:
-            options = {}
-
         self.vary_data_color = 1
         self.rotation = 0
         self.hole_size = 50

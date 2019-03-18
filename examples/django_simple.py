@@ -6,7 +6,7 @@
 # Copyright 2013-2019, John McNamara, jmcnamara@cpan.org
 #
 import io
-from django.http import StreamingHttpResponse
+from django.http import HttpResponse
 from django.views.generic import View
 import xlsxwriter
 

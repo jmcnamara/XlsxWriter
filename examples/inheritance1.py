@@ -5,8 +5,6 @@
 #
 # Copyright 2013-2019, John McNamara, jmcnamara@cpan.org
 #
-import xlsxwriter
-
 from xlsxwriter.workbook import Workbook
 from xlsxwriter.worksheet import Worksheet
 from xlsxwriter.worksheet import convert_cell_args

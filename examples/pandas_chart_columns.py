@@ -7,7 +7,6 @@
 #
 
 import pandas as pd
-from vincent.colors import brews
 
 # Some sample data to plot.
 farm_1 = {'Apples': 10, 'Berries': 32, 'Squash': 21, 'Melons': 13, 'Corn': 18}
