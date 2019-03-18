@@ -530,7 +530,7 @@ worksheet.write_url()
 The ``write_url()`` method is used to write a hyperlink in a worksheet cell.
 The url is comprised of two elements: the displayed string and the
 non-displayed link. The displayed string is the same as the link unless an
-alternative string is specified.
+alternative string is specified::
 
     worksheet.write_url(0, 0, 'https://www.python.org/')
     worksheet.write_url('A2', 'https://www.python.org/')
