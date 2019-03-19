@@ -1164,16 +1164,9 @@ class Workbook(xmlwriter.XMLwriter):
         marker4 = unpack('<L', data[:4])[0]
         marker5 = (unpack('4s', data[40:44]))[0]
 
-        if sys.version_info < (2, 6, 0):
-            # Python 2.5/Jython.
-            png_marker = 'PNG'
-            bmp_marker = 'BM'
-            emf_marker = ' EMF'
-        else:
-            # Eval the binary literals for Python 2.5/Jython compatibility.
-            png_marker = eval("b'PNG'")
-            bmp_marker = eval("b'BM'")
-            emf_marker = eval("b' EMF'")
+        png_marker = b'PNG'
+        bmp_marker = b'BM'
+        emf_marker = b' EMF'
 
         if marker1 == png_marker:
             self.image_types['png'] = True
