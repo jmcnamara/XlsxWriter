@@ -15,6 +15,8 @@ import tempfile
 
 from collections import defaultdict
 from collections import namedtuple
+from math import isnan
+from math import isinf
 from warnings import warn
 
 # Standard packages in Python 2/3 compatibility mode.
@@ -376,7 +378,7 @@ class Worksheet(xmlwriter.XMLwriter):
             try:
                 f = float(token)
                 if (self.nan_inf_to_errors or
-                        (not self._isnan(f) and not self._isinf(f))):
+                        (not isnan(f) and not isinf(f))):
                     return self._write_number(row, col, f, *args[1:])
             except ValueError:
                 # Not a number, write as a string.
@@ -549,12 +551,12 @@ class Worksheet(xmlwriter.XMLwriter):
     # Undecorated version of write_number().
     def _write_number(self, row, col, number, cell_format=None):
 
-        if self._isnan(number) or self._isinf(number):
+        if isnan(number) or isinf(number):
             if self.nan_inf_to_errors:
-                if self._isnan(number):
+                if isnan(number):
                     return self._write_formula(row, col, '#NUM!', cell_format,
                                                '#NUM!')
-                elif self._isinf(number):
+                elif isinf(number):
                     return self._write_formula(row, col, '1/0', cell_format,
                                                '#DIV/0!')
             else:
@@ -4914,14 +4916,6 @@ class Worksheet(xmlwriter.XMLwriter):
             color = color[1:]
 
         return "FF" + color.upper()
-
-    def _isnan(self, x):
-        # Workaround for lack of math.isnan in Python 2.5/Jython.
-        return x != x
-
-    def _isinf(self, x):
-        # Workaround for lack of math.isinf in Python 2.5/Jython.
-        return (x - x) != 0
 
     def _opt_close(self):
         # Close the row data filehandle in constant_memory mode.
