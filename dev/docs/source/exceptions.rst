@@ -129,7 +129,7 @@ Raises::
         must be <= 31 chars.
 
 Or for a worksheet name containing one of the Excel restricted characters,
-i.e. ``' [ ] : * ? / \'``::
+i.e. ``[ ] : * ? / \``::
 
     import xlsxwriter
 

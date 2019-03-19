@@ -186,7 +186,7 @@ default Excel convention will be followed, i.e. Sheet1, Sheet2, etc.::
 .. image:: _images/workbook02.png
 
 The worksheet name must be a valid Excel worksheet name, i.e. it cannot
-contain any of the characters ``' [ ] : * ? / \'`` and it must be less than 32
+contain any of the characters ``[ ] : * ? / \`` and it must be less than 32
 characters. These errors will raise a :exc:`InvalidWorksheetName` exception.
 
 In addition, you cannot use the same, case insensitive, ``name`` for more than
@@ -293,8 +293,8 @@ The ``sheetname`` parameter is optional. If it is not specified the default
 Excel convention will be followed, i.e. Chart1, Chart2, etc.
 
 The chartsheet name must be a valid Excel worksheet name, i.e. it cannot
-contain any of the characters ``' [ ] : * ? / \
-'`` and it must be less than 32 characters.
+contain any of the characters ``[ ] : * ? / \`` and it must be less than 32
+characters.
 
 In addition, you cannot use the same, case insensitive, ``sheetname`` for more
 than one chartsheet.
