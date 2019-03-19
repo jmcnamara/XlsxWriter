@@ -38,29 +38,24 @@ try:
     vba_file.write(vba_data)
     vba_file.close()
 
-except IOError:
-    # Use exc_info() for Python 2.5+ compatibility.
-    e = sys.exc_info()[1]
+except IOError as e:
     print("File error: %s" % str(e))
     exit()
 
-except KeyError:
+except KeyError as e:
     # Usually when there isn't a xl/vbaProject.bin member in the file.
-    e = sys.exc_info()[1]
     print("File error: %s" % str(e))
     print("File may not be an Excel xlsm macro file: '%s'" % xlsm_file)
     exit()
 
-except BadZipfile:
+except BadZipfile as e:
     # Usually if the file is an xls file and not an xlsm file.
-    e = sys.exc_info()[1]
     print("File error: %s: '%s'" % (str(e), xlsm_file))
     print("File may not be an Excel xlsm macro file.")
     exit()
 
-except:
+except Exception as e:
     # Catch any other exceptions.
-    e = sys.exc_info()[1]
     print("File error: %s" % str(e))
     exit()
 
