@@ -112,14 +112,6 @@ text = 'Alignment: top - center'
 options = {
     'align': {'horizontal': 'center'},
 }
-worksheet.insert_textbox(row, col, text)
-row += 10
-
-# Example
-text = 'Alignment: top - center'
-options = {
-    'align': {'horizontal': 'center'},
-}
 worksheet.insert_textbox(row, col, text, options)
 row += 10
 

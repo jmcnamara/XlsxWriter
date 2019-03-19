@@ -28,9 +28,6 @@ class ChartLine(chart.Chart):
         """
         super(ChartLine, self).__init__()
 
-        if options is None:
-            options = {}
-
         self.default_marker = {'type': 'none'}
         self.smooth_allowed = True
 
