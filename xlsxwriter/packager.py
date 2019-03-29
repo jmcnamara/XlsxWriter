@@ -130,6 +130,8 @@ class Packager(object):
     def _create_package(self):
         # Write the xml files that make up the XLSX OPC package.
         self._write_content_types_file()
+        self._write_root_rels_file()
+        self._write_workbook_rels_file()
         self._write_worksheet_files()
         self._write_chartsheet_files()
         self._write_workbook_file()
@@ -139,18 +141,16 @@ class Packager(object):
         self._write_comment_files()
         self._write_table_files()
         self._write_shared_strings_file()
-        self._write_app_file()
-        self._write_core_file()
-        self._write_custom_file()
         self._write_styles_file()
+        self._write_custom_file()
         self._write_theme_file()
-        self._write_root_rels_file()
-        self._write_workbook_rels_file()
         self._write_worksheet_rels_files()
         self._write_chartsheet_rels_files()
         self._write_drawing_rels_files()
         self._add_image_files()
         self._add_vba_project()
+        self._write_core_file()
+        self._write_app_file()
 
         return self.filenames
 
