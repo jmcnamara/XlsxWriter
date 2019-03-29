@@ -129,6 +129,7 @@ class Packager(object):
 
     def _create_package(self):
         # Write the xml files that make up the XLSX OPC package.
+        self._write_content_types_file()
         self._write_worksheet_files()
         self._write_chartsheet_files()
         self._write_workbook_file()
@@ -141,7 +142,6 @@ class Packager(object):
         self._write_app_file()
         self._write_core_file()
         self._write_custom_file()
-        self._write_content_types_file()
         self._write_styles_file()
         self._write_theme_file()
         self._write_root_rels_file()
@@ -348,6 +348,8 @@ class Packager(object):
         content = ContentTypes()
         content._add_image_types(self.workbook.image_types)
 
+        self._get_table_count()
+
         worksheet_index = 1
         chartsheet_index = 1
         for worksheet in self.workbook.worksheets():
@@ -435,8 +437,13 @@ class Packager(object):
                                                      + str(index) + '.xml'))
                 table._set_properties(table_props)
                 table._assemble_xml_file()
-                self.table_count += 1
                 index += 1
+
+    def _get_table_count(self):
+        # Count the table files. Required for the [Content_Types] file.
+        for worksheet in self.workbook.worksheets():
+            for table_props in worksheet.tables:
+                self.table_count += 1
 
     def _write_root_rels_file(self):
         # Write the _rels/.rels xml file.
