@@ -55,6 +55,9 @@ test_codestyle testpep8:
 	@pycodestyle --ignore=E501 xlsxwriter/theme.py
 	@find xlsxwriter/test -name \*.py | xargs pycodestyle --ignore=E501
 
+tags:
+	$(Q)rm -f TAGS
+	$(Q)etags xlsxwriter/*.py
 
 testwarnings:
 	@find . -name '*.py[co]' -exec rm -rf '{}' +
