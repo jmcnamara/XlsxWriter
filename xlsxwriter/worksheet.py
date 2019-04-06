@@ -4358,21 +4358,26 @@ class Worksheet(xmlwriter.XMLwriter):
         y_abs += y1
 
         # Adjust start column for offsets that are greater than the col width.
-        while x1 >= self._size_col(col_start):
-            x1 -= self._size_col(col_start)
-            col_start += 1
+        if self._size_col(col_start) > 0:
+            while x1 >= self._size_col(col_start):
+                x1 -= self._size_col(col_start)
+                col_start += 1
 
         # Adjust start row for offsets that are greater than the row height.
-        while y1 >= self._size_row(row_start):
-            y1 -= self._size_row(row_start)
-            row_start += 1
+        if self._size_row(row_start) > 0:
+            while y1 >= self._size_row(row_start):
+                y1 -= self._size_row(row_start)
+                row_start += 1
 
         # Initialize end cell to the same as the start cell.
         col_end = col_start
         row_end = row_start
 
-        width = width + x1
-        height = height + y1
+        # Don't offset the image in the cell if the row/col is hidden.
+        if self._size_col(col_start) > 0:
+            width = width + x1
+        if self._size_row(row_start) > 0:
+            height = height + y1
 
         # Subtract the underlying cell widths to find end cell of the object.
         while width >= self._size_col(col_end):
