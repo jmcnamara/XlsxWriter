@@ -1,3 +1,3 @@
-__version__ = '1.1.5'
+__version__ = '1.1.6'
 __VERSION__ = __version__
 from .workbook import Workbook

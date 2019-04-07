@@ -1,4 +1,17 @@
 
+Release 1.1.6 - April 7 2019
+----------------------------
+
+* Fixed issue where images that started in hidden rows/columns weren't placed
+  correctly in the worksheet.
+  Issue `#613 <https://github.com/jmcnamara/XlsxWriter/issues/613>`_.
+
+* Fixed the mime-type reported by system ``file(1)``. The mime-type reported
+  by "file --mime-type"/magic was incorrect for XlsxWriter files since it
+  expected the ``[Content_types]`` to be the first file in the zip container.
+  Issue `#614 <https://github.com/jmcnamara/XlsxWriter/issues/614>`_.
+
+
 Release 1.1.5 - February 22 2019
 --------------------------------
 
