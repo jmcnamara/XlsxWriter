@@ -1078,14 +1078,14 @@ position and scale the image. The available parameters with their default
 values are::
 
     {
-        'x_offset':    0,
-        'y_offset':    0,
-        'x_scale':     1,
-        'y_scale':     1,
-        'url':         None,
-        'tip':         None,
-        'image_data':  None,
-        'positioning': None,
+        'x_offset':        0,
+        'y_offset':        0,
+        'x_scale':         1,
+        'y_scale':         1,
+        'object_position': 2,
+        'image_data':      None,
+        'url':             None,
+        'tip':             None,
     }
 
 The offset values are in pixels::
@@ -1125,17 +1125,16 @@ When using the ``image_data`` parameter a filename must still be passed to
 the filename is extracted from the URL string. See also
 :ref:`ex_images_bytesio`.
 
-The ``positioning`` parameter can be used to control the object positioning
-of the image::
+The ``object_position`` parameter can be used to control the object
+positioning of the image::
 
-    worksheet.insert_image('B3', 'python.png', {'positioning': 1})
+    worksheet.insert_image('B3', 'python.png', {'object_position': 1})
 
-Where ``positioning`` has the following allowable values:
+Where ``object_position`` has the following allowable values:
 
 1. Move and size with cells.
 2. Move but don't size with cells (the default).
 3. Don't move or size with cells.
-
 
 .. Note::
   The scaling of a image may be affected if is crosses a row that has its
@@ -1212,10 +1211,11 @@ position and scale the chart. The available parameters with their default
 values are::
 
     {
-        'x_offset': 0,
-        'y_offset': 0,
-        'x_scale':  1,
-        'y_scale':  1,
+        'x_offset':        0,
+        'y_offset':        0,
+        'x_scale':         1,
+        'y_scale':         1,
+        'object_position': 1,
     }
 
 The offset values are in pixels::
@@ -1228,6 +1228,17 @@ horizontally and vertically::
     worksheet.insert_chart('B5', chart, {'x_scale': 0.5, 'y_scale': 0.5})
 
 These properties can also be set via the Chart :func:`set_size` method.
+
+The ``object_position`` parameter can be used to control the object
+positioning of the image::
+
+    worksheet.insert_chart('B5', chart, {'object_position': 2})
+
+Where ``object_position`` has the following allowable values:
+
+1. Move and size with cells (the default).
+2. Move but don't size with cells.
+3. Don't move or size with cells.
 
 .. Note::
   The scaling of a chart may be affected if is crosses a row that has its
@@ -1279,6 +1290,7 @@ The size and formatting of the textbox can be controlled via the ``options`` dic
     y_scale
     x_offset
     y_offset
+    object_position
 
     # Formatting
     line

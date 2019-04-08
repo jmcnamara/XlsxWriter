@@ -131,14 +131,11 @@ class Drawing(xmlwriter.XMLwriter):
 
         attributes = []
 
-        # Add attribute for images.
-        if drawing['anchor_type'] == 2:
-            if drawing['anchor'] == 3:
-                attributes.append(('editAs', 'absolute'))
-            elif drawing['anchor'] == 1:
-                pass
-            else:
-                attributes.append(('editAs', 'oneCell'))
+        # Add attribute for positioning.
+        if drawing['anchor'] == 2:
+            attributes.append(('editAs', 'oneCell'))
+        elif drawing['anchor'] == 3:
+            attributes.append(('editAs', 'absolute'))
 
         # Add editAs attribute for shapes.
         if shape and shape.edit_as:

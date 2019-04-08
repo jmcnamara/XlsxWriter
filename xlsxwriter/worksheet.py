@@ -1152,8 +1152,11 @@ class Worksheet(xmlwriter.XMLwriter):
         y_scale = options.get('y_scale', 1)
         url = options.get('url', None)
         tip = options.get('tip', None)
-        anchor = options.get('positioning', None)
+        anchor = options.get('object_position', 2)
         image_data = options.get('image_data', None)
+
+        # For backward compatibility with older parameter name.
+        anchor = options.get('positioning', anchor)
 
         if not image_data and not os.path.exists(filename):
             warn("Image file '%s' not found." % force_unicode(filename))
@@ -1190,9 +1193,10 @@ class Worksheet(xmlwriter.XMLwriter):
         y_offset = options.get('y_offset', 0)
         x_scale = options.get('x_scale', 1)
         y_scale = options.get('y_scale', 1)
+        anchor = options.get('object_position', 1)
 
         self.shapes.append([row, col, x_offset, y_offset,
-                            x_scale, y_scale, text, options])
+                            x_scale, y_scale, text, anchor, options])
 
     @convert_cell_args
     def insert_chart(self, row, col, chart, options=None):
@@ -1234,6 +1238,7 @@ class Worksheet(xmlwriter.XMLwriter):
         y_offset = options.get('y_offset', 0)
         x_scale = options.get('x_scale', 1)
         y_scale = options.get('y_scale', 1)
+        anchor = options.get('object_position', 1)
 
         # Allow Chart to override the scale and offset.
         if chart.x_scale != 1:
@@ -1250,7 +1255,8 @@ class Worksheet(xmlwriter.XMLwriter):
 
         self.charts.append([row, col, chart,
                             x_offset, y_offset,
-                            x_scale, y_scale])
+                            x_scale, y_scale,
+                            anchor])
 
     @convert_cell_args
     def write_comment(self, row, col, comment, options=None):
@@ -4144,7 +4150,7 @@ class Worksheet(xmlwriter.XMLwriter):
         drawing_type = 3
 
         (row, col, x_offset, y_offset,
-            x_scale, y_scale, text, options) = self.shapes[index]
+            x_scale, y_scale, text, anchor, options) = self.shapes[index]
 
         width = options.get('width', self.default_col_pixels * 3)
         height = options.get('height', self.default_row_pixels * 6)
@@ -4178,7 +4184,7 @@ class Worksheet(xmlwriter.XMLwriter):
         drawing_object = [drawing_type]
         drawing_object.extend(dimensions)
         drawing_object.extend([width, height, None, shape, None,
-                               None, None])
+                               None, anchor])
 
         drawing._add_drawing_object(drawing_object)
 
@@ -4201,7 +4207,7 @@ class Worksheet(xmlwriter.XMLwriter):
         # Set up chart/drawings.
         drawing_type = 1
 
-        (row, col, chart, x_offset, y_offset, x_scale, y_scale) = \
+        (row, col, chart, x_offset, y_offset, x_scale, y_scale, anchor) = \
             self.charts[index]
 
         chart.id = chart_id - 1
@@ -4231,7 +4237,7 @@ class Worksheet(xmlwriter.XMLwriter):
 
         drawing_object = [drawing_type]
         drawing_object.extend(dimensions)
-        drawing_object.extend([width, height, name, None])
+        drawing_object.extend([width, height, name, None, None, None, anchor])
 
         drawing._add_drawing_object(drawing_object)
 

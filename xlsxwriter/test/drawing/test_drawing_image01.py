@@ -24,7 +24,7 @@ class TestAssembleDrawing(unittest.TestCase):
         drawing = Drawing()
         drawing._set_filehandle(fh)
 
-        drawing._add_drawing_object([2, 2, 1, 0, 0, 3, 6, 533257, 190357, 1219200, 190500, 1142857, 1142857, 'republic.png', None])
+        drawing._add_drawing_object([2, 2, 1, 0, 0, 3, 6, 533257, 190357, 1219200, 190500, 1142857, 1142857, 'republic.png', None, None, None, 2])
         drawing.embedded = 1
 
         drawing._assemble_xml_file()
@@ -90,7 +90,7 @@ class TestAssembleDrawing(unittest.TestCase):
 
         tip = 'this is a tooltip'
         url = 'https://www.github.com'
-        drawing._add_drawing_object([2, 2, 1, 0, 0, 3, 6, 533257, 190357, 1219200, 190500, 1142857, 1142857, 'republic.png', None, url, tip, None])
+        drawing._add_drawing_object([2, 2, 1, 0, 0, 3, 6, 533257, 190357, 1219200, 190500, 1142857, 1142857, 'republic.png', None, url, tip, 2])
         drawing.embedded = 1
 
         drawing._assemble_xml_file()

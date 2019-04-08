@@ -68,6 +68,7 @@ The available options are::
     y_scale
     x_offset
     y_offset
+    object_position
 
     # Formatting
     line
@@ -93,6 +94,7 @@ textbox are::
     y_scale
     x_offset
     y_offset
+    object_position
 
 The ``width`` and ``height`` are in pixels. The default textbox size is 192 x
 120 pixels (or equivalent to 3 default columns x 6 default rows).
@@ -115,6 +117,18 @@ The ``x_offset`` and ``y_offset`` position the top left corner of the textbox in
 the cell that it is inserted into.
 
 .. image:: _images/textbox34.png
+
+The ``object_position`` parameter can be used to control the object
+positioning of the image::
+
+    worksheet.insert_textbox('B2', "Don't move or size with cells",
+                             {'object_position': 3})
+
+Where ``object_position`` has the following allowable values:
+
+1. Move and size with cells (the default).
+2. Move but don't size with cells.
+3. Don't move or size with cells.
 
 
 Textbox Formatting
