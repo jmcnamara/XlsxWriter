@@ -265,6 +265,7 @@ class Worksheet(xmlwriter.XMLwriter):
         self.original_row_height = 15
         self.default_row_height = 15
         self.default_row_pixels = 20
+        self.default_col_width = 8.43
         self.default_col_pixels = 64
         self.default_row_zeroed = 0
 
@@ -1413,8 +1414,8 @@ class Worksheet(xmlwriter.XMLwriter):
         range of columns.
 
         Args:
-            first_col:    First column (zero-indexed).
-            last_col:     Last column (zero-indexed). Can be same as first_col.
+            first_col:   First column (zero-indexed).
+            last_col:    Last column (zero-indexed). Can be same as first_col.
             width:       Column width. (optional).
             cell_format: Column cell_format. (optional).
             options:     Dict of options such as hidden and level.
@@ -1438,6 +1439,7 @@ class Worksheet(xmlwriter.XMLwriter):
         hidden = options.get('hidden', False)
         collapsed = options.get('collapsed', False)
         level = options.get('level', 0)
+
         # Store the column dimension only in some conditions.
         if cell_format or (width and hidden):
             ignore_col = False
@@ -1467,15 +1469,13 @@ class Worksheet(xmlwriter.XMLwriter):
         # Store the column change to allow optimizations.
         self.col_size_changed = True
 
+        if width is None:
+            width = self.default_col_width
+
         # Store the col sizes for use when calculating image vertices taking
         # hidden columns into account. Also store the column formats.
-
-        # Set width to zero if col is hidden
-        if hidden:
-            width = 0
-
         for col in range(first_col, last_col + 1):
-            self.col_sizes[col] = width
+            self.col_sizes[col] = [width, hidden]
             if cell_format:
                 self.col_formats[col] = cell_format
 
@@ -1537,11 +1537,8 @@ class Worksheet(xmlwriter.XMLwriter):
         # Store the row change to allow optimizations.
         self.row_size_changed = True
 
-        if hidden:
-            height = 0
-
         # Store the row sizes for use when calculating image vertices.
-        self.row_sizes[row] = height
+        self.row_sizes[row] = [height, hidden]
 
     def set_default_row(self, height=None, hide_unused_rows=False):
         """
@@ -4100,7 +4097,7 @@ class Worksheet(xmlwriter.XMLwriter):
         height *= 96.0 / y_dpi
 
         dimensions = self._position_object_emus(col, row, x_offset, y_offset,
-                                                width, height)
+                                                width, height, anchor)
         # Convert from pixels to emus.
         width = int(0.5 + (width * 9525))
         height = int(0.5 + (height * 9525))
@@ -4159,7 +4156,7 @@ class Worksheet(xmlwriter.XMLwriter):
         height *= y_scale
 
         dimensions = self._position_object_emus(col, row, x_offset, y_offset,
-                                                width, height)
+                                                width, height, anchor)
 
         # Convert from pixels to emus.
         width = int(0.5 + (width * 9525))
@@ -4217,7 +4214,7 @@ class Worksheet(xmlwriter.XMLwriter):
         height = int(0.5 + (chart.height * y_scale))
 
         dimensions = self._position_object_emus(col, row, x_offset, y_offset,
-                                                width, height)
+                                                width, height, anchor)
 
         # Set the chart name for the embedded object if it has been specified.
         name = chart.chart_name
@@ -4247,7 +4244,7 @@ class Worksheet(xmlwriter.XMLwriter):
                                    + '.xml'])
 
     def _position_object_emus(self, col_start, row_start, x1, y1,
-                              width, height):
+                              width, height, anchor):
         # Calculate the vertices that define the position of a graphical
         # object within the worksheet in EMUs.
         #
@@ -4257,7 +4254,7 @@ class Worksheet(xmlwriter.XMLwriter):
         (col_start, row_start, x1, y1,
          col_end, row_end, x2, y2, x_abs, y_abs) = \
             self._position_object_pixels(col_start, row_start, x1, y1,
-                                         width, height)
+                                         width, height, anchor)
 
         # Convert the pixel values to EMUs. See above.
         x1 = int(0.5 + 9525 * x1)
@@ -4305,7 +4302,7 @@ class Worksheet(xmlwriter.XMLwriter):
     # height of the underlying cells.
     #
     def _position_object_pixels(self, col_start, row_start, x1, y1,
-                                width, height):
+                                width, height, anchor):
         # col_start       # Col containing upper left corner of object.
         # x1              # Distance to left side of object.
         #
@@ -4386,14 +4383,13 @@ class Worksheet(xmlwriter.XMLwriter):
             height = height + y1
 
         # Subtract the underlying cell widths to find end cell of the object.
-        while width >= self._size_col(col_end):
-            width -= self._size_col(col_end)
+        while width >= self._size_col(col_end, anchor):
+            width -= self._size_col(col_end, anchor)
             col_end += 1
 
         # Subtract the underlying cell heights to find end cell of the object.
-
-        while height >= self._size_row(row_end):
-            height -= self._size_row(row_end)
+        while height >= self._size_row(row_end, anchor):
+            height -= self._size_row(row_end, anchor)
             row_end += 1
 
         # The end vertices are whatever is left from the width and height.
@@ -4403,21 +4399,23 @@ class Worksheet(xmlwriter.XMLwriter):
         return ([col_start, row_start, x1, y1, col_end, row_end, x2, y2,
                 x_abs, y_abs])
 
-    def _size_col(self, col):
-        # Convert the width of a cell from user's units to pixels. Excel rounds
-        # the column width to the nearest pixel. If the width hasn't been set
-        # by the user we use the default value. If the column is hidden it
-        # has a value of zero.
+    def _size_col(self, col, anchor=0):
+        # Convert the width of a cell from user's units to pixels. Excel
+        # rounds the column width to the nearest pixel. If the width hasn't
+        # been set by the user we use the default value. A hidden column is
+        # treated as having a width of zero unless it has the special
+        # "object_position" of 4 (size with cells).
         max_digit_width = 7  # For Calabri 11.
         padding = 5
         pixels = 0
 
         # Look up the cell value to see if it has been changed.
-        if col in self.col_sizes and self.col_sizes[col] is not None:
-            width = self.col_sizes[col]
+        if col in self.col_sizes:
+            width = self.col_sizes[col][0]
+            hidden = self.col_sizes[col][1]
 
             # Convert to pixels.
-            if width == 0:
+            if hidden is True and anchor != 4:
                 pixels = 0
             elif width < 1:
                 pixels = int(width * (max_digit_width + padding) + 0.5)
@@ -4428,17 +4426,19 @@ class Worksheet(xmlwriter.XMLwriter):
 
         return pixels
 
-    def _size_row(self, row):
+    def _size_row(self, row, anchor=0):
         # Convert the height of a cell from user's units to pixels. If the
-        # height hasn't been set by the user we use the default value. If
-        #  the row is hidden it has a value of zero.
+        # height hasn't been set by the user we use the default value. A
+        # hidden row is treated as having a height of zero unless it has the
+        # special "object_position" of 4 (size with cells).
         pixels = 0
 
         # Look up the cell value to see if it has been changed
         if row in self.row_sizes:
-            height = self.row_sizes[row]
+            height = self.row_sizes[row][0]
+            hidden = self.row_sizes[row][1]
 
-            if height == 0:
+            if hidden is True and anchor != 4:
                 pixels = 0
             else:
                 pixels = int(4.0 / 3.0 * height)
@@ -4453,6 +4453,7 @@ class Worksheet(xmlwriter.XMLwriter):
         # position and vertices.
         default_width = 128
         default_height = 74
+        anchor = 0
 
         params = {
             'author': None,
@@ -4559,7 +4560,7 @@ class Worksheet(xmlwriter.XMLwriter):
         # Calculate the positions of the comment object.
         vertices = self._position_object_pixels(
             params['start_col'], params['start_row'], params['x_offset'],
-            params['y_offset'], params['width'], params['height'])
+            params['y_offset'], params['width'], params['height'], anchor)
 
         # Add the width and height for VML.
         vertices.append(params['width'])
@@ -4576,6 +4577,7 @@ class Worksheet(xmlwriter.XMLwriter):
 
         default_height = self.default_row_pixels
         default_width = self.default_col_pixels
+        anchor = 0
 
         button_number = 1 + len(self.buttons_list)
         button = {'row': row, 'col': col, 'font': {}}
@@ -4623,7 +4625,7 @@ class Worksheet(xmlwriter.XMLwriter):
         # Calculate the positions of the button object.
         vertices = self._position_object_pixels(
             params['start_col'], params['start_row'], params['x_offset'],
-            params['y_offset'], params['width'], params['height'])
+            params['y_offset'], params['width'], params['height'], anchor)
 
         # Add the width and height for VML.
         vertices.append(params['width'])
