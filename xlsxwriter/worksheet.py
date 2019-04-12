@@ -510,8 +510,7 @@ class Worksheet(xmlwriter.XMLwriter):
         # Check that row and col are valid and store max and min values.
         if self._check_dimensions(row, col):
             warn('Cannot write string at (%d, %d): \
-                  invalid dimensions (out of range).' 
-                  % (row, col))
+                  invalid dimensions (out of range).' % (row, col))
             return -1
 
         # Check that the string is < 32767 chars.
@@ -571,8 +570,7 @@ class Worksheet(xmlwriter.XMLwriter):
         # Check that row and col are valid and store max and min values.
         if self._check_dimensions(row, col):
             warn('Cannot write number at (%d, %d): \
-                  invalid dimensions (out of range).' \
-                  % (row, col))
+                  invalid dimensions (out of range).' % (row, col))
             return -1
 
         # Write previous row if in in-line string constant_memory mode.
@@ -612,8 +610,7 @@ class Worksheet(xmlwriter.XMLwriter):
         # Check that row and col are valid and store max and min values.
         if self._check_dimensions(row, col):
             warn('Cannot write blank cell at (%d, %d): \
-                  invalid dimensions (out of range).' \
-                  % (row, col))
+                  invalid dimensions (out of range).' % (row, col))
             return -1
 
         # Write previous row if in in-line string constant_memory mode.
@@ -649,8 +646,7 @@ class Worksheet(xmlwriter.XMLwriter):
     def _write_formula(self, row, col, formula, cell_format=None, value=0):
         if self._check_dimensions(row, col):
             warn('Cannot write formula at (%d, %d): \
-                  invalid dimensions (out of range).' \
-                  % (row, col))
+                  invalid dimensions (out of range).' % (row, col))
             return -1
 
         # Hand off array formulas.
@@ -707,7 +703,7 @@ class Worksheet(xmlwriter.XMLwriter):
         # Check that row and col are valid and store max and min values
         if self._check_dimensions(last_row, last_col):
             warn('Cannot write array formula at (%d, %d): \
-                  invalid dimensions (out of range).' \
+                  invalid dimensions (out of range).'
                   % (last_row, last_col))
             return -1
 
@@ -769,8 +765,7 @@ class Worksheet(xmlwriter.XMLwriter):
         # Check that row and col are valid and store max and min values.
         if self._check_dimensions(row, col):
             warn('Cannot write date/time at (%d, %d): \
-                  invalid dimensions (out of range).' \
-                  % (row, col))
+                  invalid dimensions (out of range).' % (row, col))
             return -1
 
         # Write previous row if in in-line string constant_memory mode.
@@ -813,8 +808,7 @@ class Worksheet(xmlwriter.XMLwriter):
         # Check that row and col are valid and store max and min values.
         if self._check_dimensions(row, col):
             warn('Cannot write boolean value at (%d, %d): \
-                  invalid dimensions (out of range).' \
-                  % (row, col))
+                  invalid dimensions (out of range).' % (row, col))
             return -1
 
         # Write previous row if in in-line string constant_memory mode.
@@ -868,8 +862,7 @@ class Worksheet(xmlwriter.XMLwriter):
         # Check that row and col are valid and store max and min values
         if self._check_dimensions(row, col):
             warn('Cannot write url at (%d, %d): \
-                  invalid dimensions (out of range).' \
-                % (row, col))
+                  invalid dimensions (out of range).' % (row, col))
             return -1
 
         # Set the displayed string to the URL unless defined by the user.
@@ -1001,8 +994,7 @@ class Worksheet(xmlwriter.XMLwriter):
         # Check that row and col are valid and store max and min values
         if self._check_dimensions(row, col):
             warn('Cannot write rich string at (%d, %d): \
-                  invalid dimensions (out of range).' \
-                  % (row, col))
+                  invalid dimensions (out of range).' % (row, col))
             return -1
 
         # If the last arg is a format we use it as the cell format.
@@ -1309,8 +1301,7 @@ class Worksheet(xmlwriter.XMLwriter):
         # Check that row and col are valid and store max and min values
         if self._check_dimensions(row, col):
             warn('Cannot write comment at (%d, %d): \
-                  invalid dimensions (out of range).' \
-                  % (row, col))
+                  invalid dimensions (out of range).' % (row, col))
             return -1
 
         # Check that the comment string is < 32767 chars.
@@ -1481,8 +1472,7 @@ class Worksheet(xmlwriter.XMLwriter):
             return -1
         if self._check_dimensions(0, first_col, ignore_row, ignore_col):
             warn('Cannot set column at %d: \
-                  invalid dimensions (out of range).' \
-                  % first_col)
+                  invalid dimensions (out of range).' % first_col)
             return -1
 
         # Set the limits for the outline levels (0 <= x <= 7).
@@ -1541,8 +1531,7 @@ class Worksheet(xmlwriter.XMLwriter):
         # Check that row is valid.
         if self._check_dimensions(row, min_col):
             warn('Cannot set row at %d: \
-                  invalid dimensions (out of range).' \
-                  % row)
+                  invalid dimensions (out of range).' % row)
             return -1
 
         if height is None:
@@ -1636,7 +1625,7 @@ class Worksheet(xmlwriter.XMLwriter):
         # Check that column number is valid and store the max value
         if self._check_dimensions(last_row, last_col) == -1:
             warn('Cannot merge cell at (%d, %d): \
-                  invalid dimensions (out of range).' \
+                  invalid dimensions (out of range).'
                   % (last_row, last_col))
             return
 
@@ -1805,7 +1794,7 @@ class Worksheet(xmlwriter.XMLwriter):
             return -1
         if self._check_dimensions(last_row, last_col, True, True):
             warn('Cannot add data validation at (%d, %d): \
-                  invalid dimensions (out of range).' \
+                  invalid dimensions (out of range).'
                   % (last_row, last_col))
             return -1
 
@@ -2043,7 +2032,7 @@ class Worksheet(xmlwriter.XMLwriter):
             return -1
         if self._check_dimensions(last_row, last_col, True, True):
             warn('Cannot add conditional format at (%d, %d): \
-                  invalid dimensions (out of range).' \
+                  invalid dimensions (out of range).'
                   % (last_row, last_col))
             return -1
 
@@ -2549,7 +2538,7 @@ class Worksheet(xmlwriter.XMLwriter):
             return -2 
         if self._check_dimensions(last_row, last_col, True, True):
             warn('Cannot add table at (%d, %d): \
-                  invalid dimensions (out of range).' \
+                  invalid dimensions (out of range).'
                   % (last_row, last_col))
             return -2
 
@@ -2811,8 +2800,7 @@ class Worksheet(xmlwriter.XMLwriter):
         # Check that row and col are valid without storing the values.
         if self._check_dimensions(row, col, True, True):
             warn('Cannot add sparkline at (%d, %d): \
-                  invalid dimensions (out of range).' \
-                  % (row, col))
+                  invalid dimensions (out of range).' % (row, col))
             return -1
 
         sparkline = {'locations': [xl_rowcol_to_cell(row, col)]}
