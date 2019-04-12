@@ -704,7 +704,7 @@ class Worksheet(xmlwriter.XMLwriter):
         if self._check_dimensions(last_row, last_col):
             warn('Cannot write array formula at (%d, %d): \
                   invalid dimensions (out of range).'
-                  % (last_row, last_col))
+                % (last_row, last_col))
             return -1
 
         # Define array range
@@ -1626,7 +1626,7 @@ class Worksheet(xmlwriter.XMLwriter):
         if self._check_dimensions(last_row, last_col) == -1:
             warn('Cannot merge cell at (%d, %d): \
                   invalid dimensions (out of range).'
-                  % (last_row, last_col))
+                % (last_row, last_col))
             return
 
         # Store the merge range.
@@ -1795,7 +1795,7 @@ class Worksheet(xmlwriter.XMLwriter):
         if self._check_dimensions(last_row, last_col, True, True):
             warn('Cannot add data validation at (%d, %d): \
                   invalid dimensions (out of range).'
-                  % (last_row, last_col))
+                % (last_row, last_col))
             return -1
 
         if options is None:
@@ -2033,7 +2033,7 @@ class Worksheet(xmlwriter.XMLwriter):
         if self._check_dimensions(last_row, last_col, True, True):
             warn('Cannot add conditional format at (%d, %d): \
                   invalid dimensions (out of range).'
-                  % (last_row, last_col))
+                % (last_row, last_col))
             return -1
 
         if options is None:
@@ -2535,11 +2535,11 @@ class Worksheet(xmlwriter.XMLwriter):
 
         # Check that row and col are valid without storing the values.
         if self._check_dimensions(first_row, first_col, True, True):
-            return -2 
+            return -2
         if self._check_dimensions(last_row, last_col, True, True):
             warn('Cannot add table at (%d, %d): \
                   invalid dimensions (out of range).'
-                  % (last_row, last_col))
+                % (last_row, last_col))
             return -2
 
         # Valid input parameters.
