@@ -1290,9 +1290,8 @@ class Worksheet(xmlwriter.XMLwriter):
         self.has_vml = 1
         self.has_comments = 1
 
-        # Process the properties of the cell comment.
-        self.comments[row][col] = \
-            self._comment_params(row, col, comment, options)
+        # Store the options of the cell comment, to process on file close.
+        self.comments[row][col] = [row, col, comment, options]
 
     def show_comments(self):
         """
@@ -4646,6 +4645,10 @@ class Worksheet(xmlwriter.XMLwriter):
             col_nums = sorted(self.comments[row].keys())
 
             for col in col_nums:
+                user_options = self.comments[row][col]
+                params = self._comment_params(*user_options)
+                self.comments[row][col] = params
+
                 # Set comment visibility if required and not user defined.
                 if self.comments_visible:
                     if self.comments[row][col][4] is None:
