@@ -286,4 +286,4 @@ Here are some additional resources in relation to Pandas, Excel and XlsxWriter.
   <https://pandas-xlsxwriter-charts.readthedocs.io/>`_.
 
 * The series of articles on the "Practical Business Python" website about
-  `Using Pandas and Excel <http://pbpython.com/tag/excel.html>`_.
+  `Using Pandas and Excel <https://pbpython.com/tag/excel.html>`_.
