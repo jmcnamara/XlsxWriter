@@ -130,11 +130,12 @@ Where ``object_position`` has the following allowable values:
 2. Move but don't size with cells.
 3. Don't move or size with cells.
 
+See :ref:`object_position` for more detailed information about the positioning
+and scaling of images within a worksheet.
+
 
 Textbox Formatting
 ------------------
-
-
 
 The following formatting properties can be set for textbox objects::
 
@@ -454,15 +455,3 @@ The default textbox alignment is::
     worksheet.insert_textbox('B2', 'Default alignment')
 
 .. image:: _images/textbox42.png
-
-
-Other Textbox Features
-----------------------
-
-Excel textboxes have a large range of possible options. Where possible, these
-will be added, if a feature request is opened on `GitHub
-<https://github.com/jmcnamara/XlsxWriter>`_, and there is interest from more
-than one person.
-
-Inline text formatting like :func:`write_rich_string()` will probably be added
-in an upcoming release.

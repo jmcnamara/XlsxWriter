@@ -21,6 +21,7 @@ Contents
    working_with_dates_and_time.rst
    working_with_colors.rst
    working_with_charts.rst
+   working_with_object_positioning.rst
    working_with_autofilters.rst
    working_with_data_validation.rst
    working_with_conditional_formats.rst

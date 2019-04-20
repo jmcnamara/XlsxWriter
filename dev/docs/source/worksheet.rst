@@ -1135,25 +1135,22 @@ Where ``object_position`` has the following allowable values:
 1. Move and size with cells.
 2. Move but don't size with cells (the default).
 3. Don't move or size with cells.
+4. Same as Option 1 to "move and size with cells" except XlsxWriter applies
+   hidden cells after the image is inserted.
+
+See :ref:`object_position` for more detailed information about the positioning
+and scaling of images within a worksheet.
 
 .. Note::
-  The scaling of a image may be affected if is crosses a row that has its
-  default height changed due to a font that is larger than the default font
-  size or that has text wrapping turned on. To avoid this you should
-  explicitly set the height of the row using ``set_row()`` if it crosses an
-  inserted image.
+   * BMP images are only supported for backward compatibility. In general it
+     is best to avoid BMP images since they aren't compressed. If used, BMP
+     images must be 24 bit, true color, bitmaps.
 
-.. Note::
-   BMP images are only supported for backward compatibility. In general it is
-   best to avoid BMP images since they aren't compressed. If used, BMP images
-   must be 24 bit, true color, bitmaps.
-
-.. Note::
-   EMF images can have very small differences in width and height when
-   compared to Excel files. Despite a lot of effort and testing it wasn't
-   possible to match exactly Excel's calculations for handling the dimensions
-   of EMF files. However, the differences are are small (< 1%) and in general
-   aren't visible.
+   * EMF images can have very small differences in width and height when
+     compared to Excel files. Despite a lot of effort and testing it wasn't
+     possible to match exactly Excel's calculations for handling the
+     dimensions of EMF files. However, the differences are small (< 1%) and in
+     general aren't visible.
 
 See also :ref:`ex_insert_image`.
 
@@ -1240,12 +1237,8 @@ Where ``object_position`` has the following allowable values:
 2. Move but don't size with cells.
 3. Don't move or size with cells.
 
-.. Note::
-  The scaling of a chart may be affected if is crosses a row that has its
-  default height changed due to a font that is larger than the default font
-  size or that has text wrapping turned on. To avoid this you should
-  explicitly set the height of the row using ``set_row()`` if it crosses an
-  inserted chart.
+See :ref:`object_position` for more detailed information about the positioning
+and scaling of images within a worksheet.
 
 
 worksheet.insert_textbox()
@@ -1305,12 +1298,8 @@ These options are explained in more detail in the
 
 See also :ref:`ex_textbox`.
 
-.. Note::
-  The scaling of a textbox may be affected if is crosses a row that has its
-  default height changed due to a font that is larger than the default font
-  size or that has text wrapping turned on. To avoid this you should
-  explicitly set the height of the row using ``set_row()`` if it crosses an
-  inserted chart.
+See :ref:`object_position` for more detailed information about the positioning
+and scaling of images within a worksheet.
 
 
 worksheet.insert_button()
