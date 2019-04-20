@@ -1,4 +1,28 @@
 
+
+Release 1.1.7 - April 20 2019
+-----------------------------
+
+* Added docs on :ref:`object_position`.
+
+* Added fix for sizing of cell comment boxes when they cross columns/rows that
+  have size changes that occur after the comment is written.
+  Issue `#403 <https://github.com/jmcnamara/XlsxWriter/issues/403>`_ and
+  issue `#312 <https://github.com/jmcnamara/XlsxWriter/issues/312>`_.
+
+* Added fix for the sizing of worksheet objects (images, charts, textboxes)
+  when the underlying cell sizes have changed and the "object_position"
+  parameter has been set to 1 "Move and size with cells". An additional mode 4
+  has been added to simulate inserting the object in hidden rows.
+  Issue `#618 <https://github.com/jmcnamara/XlsxWriter/issues/618>`_.
+
+* Added object positioning for charts and textboxes, it was already supported
+  for images. Note, the parameter is now called ``object_position``. The
+  previous parameter name ``positioning`` is deprecated but still supported
+  for images.
+  Issue `#568 <https://github.com/jmcnamara/XlsxWriter/issues/568>`_.
+
+
 Release 1.1.6 - April 7 2019
 ----------------------------
 
