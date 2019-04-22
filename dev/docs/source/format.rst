@@ -508,7 +508,7 @@ it only has an effect if the worksheet has been protected using the worksheet
     locked.set_locked(True)
 
     unlocked = workbook.add_format()
-    locked.set_locked(False)
+    unlocked.set_locked(False)
 
     # Enable worksheet protection
     worksheet.protect()
