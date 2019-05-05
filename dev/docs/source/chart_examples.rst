@@ -26,6 +26,7 @@ directory of the XlsxWriter distribution.
    example_chart_secondary_axis.rst
    example_chart_combined.rst
    example_chart_pareto.rst
+   example_chart_gauge.rst
    example_chart_clustered.rst
    example_chart_date_axis.rst
    example_chart_data_table.rst
