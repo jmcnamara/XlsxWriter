@@ -1,4 +1,12 @@
 
+Release 1.1.8 - May 5 2019
+--------------------------
+
+* Added ability to combine Doughnut and Pie charts.
+
+* Added gauge chart example which is a combination of a Doughnut and a Pie
+  chart. See :ref:`ex_chart_gauge`.
+
 
 Release 1.1.7 - April 20 2019
 -----------------------------
