@@ -109,6 +109,24 @@ class ChartPie(chart.Chart):
 
         # Write the subclass chart type element.
         self._write_chart_type(None)
+        # Configure a combined chart if present.
+        second_chart = self.combined
+
+        if second_chart:
+            # Secondary axis has unique id otherwise use same as primary.
+            if second_chart.is_secondary:
+                second_chart.id = 1000 + self.id
+            else:
+                second_chart.id = self.id
+
+            # Share the same filehandle for writing.
+            second_chart.fh = self.fh
+
+            # Share series index with primary chart.
+            second_chart.series_index = self.series_index
+
+            # Write the subclass chart type elements for combined chart.
+            second_chart._write_chart_type(None)
 
         # Write the c:spPr element for the plotarea formatting.
         self._write_sp_pr(self.plotarea)
