@@ -295,6 +295,7 @@ class Worksheet(xmlwriter.XMLwriter):
 
         self.col_sizes = {}
         self.row_sizes = {}
+        self.col_autofit = {}
         self.col_formats = {}
         self.col_size_changed = False
         self.row_size_changed = False
@@ -408,6 +409,17 @@ class Worksheet(xmlwriter.XMLwriter):
             other: Return value of called method.
 
         """
+
+        """get the cell with the largest size for column"""
+        len_convert = {}
+        len_convert[col] = args[0]
+        for x in len_convert:
+            if x in self.col_autofit:
+                if int(self.col_autofit[x]) < len(str(len_convert[x])):
+                    self.col_autofit[x] = len(str(len_convert[x]))
+            else:
+                self.col_autofit[x] = len(str(len_convert[x]))
+
         return self._write(row, col, *args)
 
     # Undecorated version of write().
@@ -1479,6 +1491,15 @@ class Worksheet(xmlwriter.XMLwriter):
                 self.col_formats[col] = cell_format
 
         return 0
+
+    """
+    *apply autofit on all columns with data
+    *accepts the same parameters of the function set_column, except the columns
+    """
+    def autosize(self,format=None,options=None):
+        for x in self.col_autofit:
+            self.set_column(x, x,(self.col_autofit[x]+2),format,options)
+
 
     def set_row(self, row, height=None, cell_format=None, options=None):
         """
