@@ -1496,7 +1496,7 @@ class Worksheet(xmlwriter.XMLwriter):
     *apply autofit on all columns with data
     *accept to format it for columns
     """
-    def autosize(self,format=None,options=None):
+    def autosize(self,format=None):
         for x in self.col_autofit:
             self.set_column(x, x,(self.col_autofit[x]+2),format)
 
