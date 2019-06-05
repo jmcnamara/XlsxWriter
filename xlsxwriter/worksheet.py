@@ -1494,11 +1494,11 @@ class Worksheet(xmlwriter.XMLwriter):
 
     """
     *apply autofit on all columns with data
-    *accepts the same parameters of the function set_column, except the columns
+    *accept to format it for columns
     """
     def autosize(self,format=None,options=None):
         for x in self.col_autofit:
-            self.set_column(x, x,(self.col_autofit[x]+2),format,options)
+            self.set_column(x, x,(self.col_autofit[x]+2),format)
 
 
     def set_row(self, row, height=None, cell_format=None, options=None):
