@@ -167,7 +167,8 @@ workbook.add_worksheet()
    :rtype: A :ref:`worksheet <Worksheet>` object.
 
    :raises DuplicateWorksheetName: if a duplicate worksheet name is used.
-   :raises InvalidWorksheetName: if an invalid worksheet names is used.
+   :raises InvalidWorksheetName: if an invalid worksheet name is used.
+   :raises ReservedWorksheetName: if a reserved worksheet name is used.
 
 The ``add_worksheet()`` method adds a new worksheet to a workbook.
 
@@ -185,13 +186,26 @@ default Excel convention will be followed, i.e. Sheet1, Sheet2, etc.::
 
 .. image:: _images/workbook02.png
 
-The worksheet name must be a valid Excel worksheet name, i.e. it cannot
-contain any of the characters ``[ ] : * ? / \`` and it must be less than 32
-characters. These errors will raise a :exc:`InvalidWorksheetName` exception.
+The worksheet name must be a valid Excel worksheet name:
 
-In addition, you cannot use the same, case insensitive, ``name`` for more than
-one worksheet. This error will raise a :exc:`DuplicateWorksheetName`
-exception.
+* It must be less than 32 characters. This error will raise a
+  :exc:`InvalidWorksheetName` exception.
+
+* It cannot contain any of the characters: ``[ ] : * ? / \``. This error will
+  raise a :exc:`InvalidWorksheetName` exception.
+
+* It cannot begin or end with an apostrophe. This error will raise a
+  :exc:`InvalidWorksheetName` exception.
+
+* You cannot use the same, case insensitive, ``name`` for more than one
+  worksheet. This error will raise a :exc:`DuplicateWorksheetName` exception.
+
+* You cannot use the Excel reserved name "History", or case insensitive
+  variants. This error will raise a :exc:`ReservedWorksheetName` exception.
+
+The rules for worksheet names in Excel are explained in the Microsoft Office
+documentation on how to `Rename a worksheet
+<https://support.office.com/en-ie/article/rename-a-worksheet-3f1f7148-ee83-404d-8ef0-9ff99fbad1f9>`_.
 
 
 workbook.add_format()
@@ -292,12 +306,8 @@ See :ref:`chartsheet` for details.
 The ``sheetname`` parameter is optional. If it is not specified the default
 Excel convention will be followed, i.e. Chart1, Chart2, etc.
 
-The chartsheet name must be a valid Excel worksheet name, i.e. it cannot
-contain any of the characters ``[ ] : * ? / \`` and it must be less than 32
-characters.
-
-In addition, you cannot use the same, case insensitive, ``sheetname`` for more
-than one chartsheet.
+The chartsheet name must be a valid Excel worksheet name. See
+:func:`add_worksheet()` for the limitation on Excel worksheet names.
 
 
 workbook.close()
@@ -515,8 +525,8 @@ Excel convention and enclose it in single quotes::
 
     workbook.define_name("'New Data'!Sales", '=Sheet2!$G$1:$G$10')
 
-The rules for names in Excel are explained in the `Microsoft Office
-documentation
+The rules for names in Excel are explained in the Microsoft Office
+documentation on how to `Define and use names in formulas
 <http://office.microsoft.com/en-001/excel-help/define-and-use-names-in-formulas-HA010147120.aspx>`_.
 
 See also :ref:`ex_defined_name`.

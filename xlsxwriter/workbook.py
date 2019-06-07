@@ -36,6 +36,7 @@ from .chart_scatter import ChartScatter
 from .chart_stock import ChartStock
 from .exceptions import InvalidWorksheetName
 from .exceptions import DuplicateWorksheetName
+from .exceptions import ReservedWorksheetName
 from .exceptions import UndefinedImageSize
 from .exceptions import UnsupportedImageFormat
 
@@ -739,11 +740,22 @@ class Workbook(xmlwriter.XMLwriter):
                 "Excel worksheet name '%s' must be <= 31 chars." %
                 sheetname)
 
-        # Check that sheetname doesn't contain any invalid characters
+        # Check that sheetname doesn't contain any invalid characters.
         if invalid_char.search(sheetname):
             raise InvalidWorksheetName(
                 "Invalid Excel character '[]:*?/\\' in sheetname '%s'." %
                 sheetname)
+
+        # Check that sheetname doesn't start or end with an apostrophe.
+        if sheetname.startswith("'") or sheetname.endswith("'"):
+            raise InvalidWorksheetName(
+                "Sheet name cannot start or end with an apostrophe \"%s\"." %
+                sheetname)
+
+        # Check that sheetname isn't the reserved work "History".
+        if sheetname.lower() == 'history':
+            raise ReservedWorksheetName(
+                "Worksheet name 'History' is reserved by Excel")
 
         # Check that the worksheet name doesn't already exist since this is a
         # fatal Excel error. The check must be case insensitive like Excel.

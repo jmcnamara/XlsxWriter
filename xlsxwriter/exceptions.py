@@ -34,6 +34,10 @@ class DuplicateWorksheetName(XlsxInputError):
     """Worksheet name already exists."""
 
 
+class ReservedWorksheetName(XlsxInputError):
+    """Worksheet name 'History' is reserved by Excel."""
+
+
 class UndefinedImageSize(XlsxFileError):
     """No size data found in image file."""
 

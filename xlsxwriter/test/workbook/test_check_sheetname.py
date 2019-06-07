@@ -9,6 +9,7 @@ import unittest
 from ...workbook import Workbook
 from ...exceptions import DuplicateWorksheetName
 from ...exceptions import InvalidWorksheetName
+from ...exceptions import ReservedWorksheetName
 
 
 class TestCheckSheetname(unittest.TestCase):
@@ -39,19 +40,40 @@ class TestCheckSheetname(unittest.TestCase):
         exp = 'Sheet4'
         self.assertEqual(got, exp)
 
-    def test_check_sheetname_with_exception1(self):
+    def test_check_sheetname_with_long_name(self):
         """Test the _check_sheetname() method with exception"""
 
         name = 'name_that_is_longer_than_thirty_one_characters'
         self.assertRaises(InvalidWorksheetName, self.workbook._check_sheetname, name)
 
-    def test_check_sheetname_with_exception2(self):
+    def test_check_sheetname_with_invalid_name(self):
         """Test the _check_sheetname() method with exception"""
 
         name = 'name_with_special_character_?'
         self.assertRaises(InvalidWorksheetName, self.workbook._check_sheetname, name)
 
-    def test_check_sheetname_with_exception3(self):
+        name = "'start with apostrophe"
+        self.assertRaises(InvalidWorksheetName, self.workbook._check_sheetname, name)
+
+        name = "end with apostrophe'"
+        self.assertRaises(InvalidWorksheetName, self.workbook._check_sheetname, name)
+
+        name = "'start and end with apostrophe'"
+        self.assertRaises(InvalidWorksheetName, self.workbook._check_sheetname, name)
+
+    def test_check_sheetname_with_reserved_name(self):
+        """Test the _check_sheetname() method with exception"""
+
+        name = 'History'
+        self.assertRaises(ReservedWorksheetName, self.workbook._check_sheetname, name)
+
+        name = 'history'
+        self.assertRaises(ReservedWorksheetName, self.workbook._check_sheetname, name)
+
+        name = 'HiStOrY'
+        self.assertRaises(ReservedWorksheetName, self.workbook._check_sheetname, name)
+
+    def test_check_sheetname_with_duplicate_name(self):
         """Test the _check_sheetname() method with exception"""
 
         name1 = 'Duplicate_name'
