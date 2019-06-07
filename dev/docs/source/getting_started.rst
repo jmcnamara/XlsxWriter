@@ -26,14 +26,6 @@ the preferred method for installing Python modules from
     $ pip install --user XlsxWriter
 
 
-Using Easy_Install
-******************
-
-If ``pip`` doesn't work you can try
-`easy_install <http://peak.telecommunity.com/DevCenter/EasyInstall>`_::
-
-    $ easy_install XlsxWriter
-
 Installing from a tarball
 *************************
 
