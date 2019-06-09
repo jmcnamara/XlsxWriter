@@ -355,6 +355,8 @@ class Worksheet(xmlwriter.XMLwriter):
         self.vertical_dpi = 0
         self.horizontal_dpi = 0
 
+        self.write_handlers = {}
+
     # Utility function for writing different types of strings.
     def _write_token_as_string(self, token, row, col, *args):
         # Map the data to the appropriate write_*() method.
@@ -426,6 +428,20 @@ class Worksheet(xmlwriter.XMLwriter):
         # Avoid isinstance() for better performance.
         token_type = type(token)
 
+        # Check for any user defined type handlers with callback functions.
+        if token_type in self.write_handlers:
+            write_handler = self.write_handlers[token_type]
+            function_return = write_handler(self, row, col, *args)
+
+            # If the return value is None then the callback has returned
+            # control to this function and we should continue as
+            # normal. Otherwise we return the value to the caller and exit.
+            if function_return is None:
+                pass
+            else:
+                return function_return
+
+        # Check for standard Python types.
         if token_type is bool:
             return self._write_boolean(row, col, *args)
 
@@ -1076,6 +1092,21 @@ class Worksheet(xmlwriter.XMLwriter):
         self.table[row][col] = cell_string_tuple(string_index, cell_format)
 
         return 0
+
+    def add_write_handler(self, user_type, user_function):
+        """
+        Add a callback function to the write() method to handle user defined
+        types.
+
+        Args:
+            user_type:      The user type() to match on.
+            user_function:  The user defined function to write the type data..
+        Returns:
+            Nothing.
+
+        """
+
+        self.write_handlers[user_type] = user_function
 
     @convert_cell_args
     def write_row(self, row, col, data, cell_format=None):
