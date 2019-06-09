@@ -653,7 +653,7 @@ workbook.use_zip64()
 
 .. py:function:: use_zip64()
 
-   Allow ZIP64 extensions when writing xlsx file zip container.
+   Allow ZIP64 extensions when writing the xlsx file zip container.
 
 Use ZIP64 extensions when writing the xlsx file zip container to allow files
 greater than 4 GB.
