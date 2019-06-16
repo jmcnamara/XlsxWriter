@@ -286,6 +286,9 @@ class Workbook(xmlwriter.XMLwriter):
                  % force_unicode(vba_project))
             return -1
 
+        if self.vba_codename is None:
+            self.vba_codename = 'ThisWorkbook'
+
         self.vba_project = vba_project
         self.vba_is_stream = is_stream
 
@@ -621,6 +624,12 @@ class Workbook(xmlwriter.XMLwriter):
         for sheet in self.worksheets():
             if sheet.index == self.worksheet_meta.activesheet:
                 sheet.active = 1
+
+        # Set the sheet vba_codename the workbook has a vbaProject binary.
+        if self.vba_project:
+            for sheet in self.worksheets():
+                if sheet.vba_codename is None:
+                    sheet.set_vba_name()
 
         # Convert the SST strings data structure.
         self._prepare_sst_string_data()
@@ -1428,7 +1437,6 @@ class Workbook(xmlwriter.XMLwriter):
         vml_shape_id = 1024
         vml_files = 0
         comment_files = 0
-        has_button = False
 
         for sheet in self.worksheets():
             if not sheet.has_vml and not sheet.has_header_vml:
@@ -1461,24 +1469,11 @@ class Workbook(xmlwriter.XMLwriter):
             self.num_vml_files = vml_files
             self.num_comment_files = comment_files
 
-            if len(sheet.buttons_list):
-                has_button = True
-
-                # Set the sheet vba_codename if it has a button and the
-                # workbook has a vbaProject binary.
-                if self.vba_project and sheet.vba_codename is None:
-                    sheet.set_vba_name()
-
         # Add a font format for cell comments.
         if comment_files > 0:
             xf = self.add_format({'font_name': 'Tahoma', 'font_size': 8,
                                   'color_indexed': 81, 'font_only': True})
             xf._get_xf_index()
-
-        # Set the workbook vba_codename if one of the sheets has a button and
-        # the workbook has a vbaProject binary.
-        if has_button and self.vba_project and self.vba_codename is None:
-            self.set_vba_name()
 
     def _prepare_tables(self):
         # Set the table ids for the worksheet tables.
