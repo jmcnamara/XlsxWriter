@@ -4414,7 +4414,7 @@ class Worksheet(xmlwriter.XMLwriter):
             hidden = self.col_sizes[col][1]
 
             # Convert to pixels.
-            if hidden is True and anchor != 4:
+            if hidden and anchor != 4:
                 pixels = 0
             elif width < 1:
                 pixels = int(width * (max_digit_width + padding) + 0.5)
@@ -4437,7 +4437,7 @@ class Worksheet(xmlwriter.XMLwriter):
             height = self.row_sizes[row][0]
             hidden = self.row_sizes[row][1]
 
-            if hidden is True and anchor != 4:
+            if hidden and anchor != 4:
                 pixels = 0
             else:
                 pixels = int(4.0 / 3.0 * height)

@@ -28,7 +28,7 @@ class TestCompareXLSXFiles(ExcelComparisonTest):
 
         worksheet.insert_image('E9', self.image_dir + 'red.png')
 
-        worksheet.set_row(9, None, None, {'hidden': True})
+        worksheet.set_row(9, None, None, {'hidden': 1})
 
         workbook.close()
 
