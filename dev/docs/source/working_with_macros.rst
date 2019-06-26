@@ -7,13 +7,11 @@ This section explains how to add a VBA file containing functions or macros to an
 
 .. image:: _images/macros.png
 
-**Note: This feature should be considered as experimental.**
-
 
 The Excel XLSM file format
 --------------------------
 
-An Excel ``xlsm`` file is exactly the same as a ``xlsx`` file except that is
+An Excel ``xlsm`` file is exactly the same as an ``xlsx`` file except that is
 contains an additional ``vbaProject.bin`` file which contains functions and/or
 macros. Excel uses a different extension to differentiate between the two file
 formats since files containing macros are usually subject to additional
@@ -26,7 +24,7 @@ How VBA macros are included in XlsxWriter
 The ``vbaProject.bin`` file is a binary OLE COM container. This was the format
 used in older ``xls`` versions of Excel prior to Excel 2007. Unlike all of the
 other components of an xlsx/xlsm file the data isn't stored in XML
-format. Instead the functions and macros as stored as pre-parsed binary
+format. Instead the functions and macros as stored as a pre-parsed binary
 format. As such it wouldn't be feasible to define macros and create a
 ``vbaProject.bin`` file from scratch (at least not in the remaining lifespan
 and interest levels of the author).
@@ -35,10 +33,10 @@ Instead a workaround is used to extract ``vbaProject.bin`` files from existing
 xlsm files and then add these to XlsxWriter files.
 
 
-The vba_extract utility
------------------------
+The vba_extract.py utility
+--------------------------
 
-The ``vba_extract`` utility is used to extract the ``vbaProject.bin`` binary
+The ``vba_extract.py`` utility is used to extract the ``vbaProject.bin`` binary
 from an Excel 2007+ xlsm file. The utility is included in the XlsxWriter
 examples directory and is also installed as a standalone executable file::
 
@@ -140,24 +138,20 @@ clarity::
 What to do if it doesn't work
 -----------------------------
 
-As stated at the start of this section this feature is experimental. The
-Xlsxwriter test suite contains several tests and there is a working example as
-shown above. However, there is no guarantee that it will work in all
-cases. Some effort may be required and some knowledge of VBA will certainly
-help. If things don't work out here are some things to try:
+The XlsxWriter test suite contains several tests to ensure that this feature
+works and there is a working example as shown above. However, there is no
+guarantee that it will work in all cases. Some effort may be required and some
+knowledge of VBA will certainly help. If things don't work out here are some
+things to try:
 
 #. Start with a simple macro file, ensure that it works and then add complexity.
-
-#. Try to extract the macros from an Excel 2007 file. The method should work
-   with macros from later versions (it was also tested with Excel 2010
-   macros). However there may be features in the macro files of more recent
-   version of Excel that aren't backward compatible.
 
 #. Check the code names that macros use to refer to the workbook and
    worksheets (see the previous section above). In general VBA uses a code
    name of ``ThisWorkbook`` to refer to the current workbook and the sheet
    name (such as ``Sheet1``) to refer to the worksheets. These are the
-   defaults used by XlsxWriter. If the macro uses other names then you can
+   defaults used by XlsxWriter. If the macro uses other names, or the macro
+   was extracted from an non-English language version of Excel, then you can
    specify these using the workbook and worksheet :func:`set_vba_name`
    methods::
 
@@ -165,3 +159,8 @@ help. If things don't work out here are some things to try:
       workbook.set_vba_name('MyWorkbook')
       worksheet1.set_vba_name('MySheet1')
       worksheet2.set_vba_name('MySheet2')
+
+#. Try to extract the macros from an Excel 2007 file. The method should work
+   with macros from later versions (it was also tested with Excel 2010
+   macros). However there may be features in the macro files of more recent
+   version of Excel that aren't backward compatible.

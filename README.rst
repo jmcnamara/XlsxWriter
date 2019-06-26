@@ -21,6 +21,7 @@ including:
 * Cell comments.
 * Integration with Pandas.
 * Textboxes.
+* Support for adding Macros.
 * Memory optimization mode for writing large files.
 
 It supports Python 2.7, 3.4+, Jython and PyPy and uses standard libraries only.
