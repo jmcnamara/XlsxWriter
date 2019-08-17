@@ -4880,7 +4880,10 @@ class Worksheet(xmlwriter.XMLwriter):
         xml_writer._xml_empty_tag('sz', [('val', xf_format.font_size)])
 
         # Handle colors.
-        if xf_format.theme:
+        if xf_format.theme == -1:
+            # Ignore for excel2003_style.
+            pass
+        elif xf_format.theme:
             self._write_color('theme', xf_format.theme)
         elif xf_format.color_indexed:
             self._write_color('indexed', xf_format.color_indexed)
