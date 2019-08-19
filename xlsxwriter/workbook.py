@@ -680,7 +680,7 @@ class Workbook(xmlwriter.XMLwriter):
                 # The files are tempfiles.
 
                 # Set sub-file timestamp to Excel's timestamp of 1/1/1980.
-                timestamp = time.mktime((1980, 1, 1, 0, 0, 0, 0, 0, -1))
+                timestamp = time.mktime((1980, 1, 31, 0, 0, 0, 0, 0, -1))
                 os.utime(os_filename, (timestamp, timestamp))
 
                 xlsx_file.write(os_filename, xml_filename)
