@@ -1,4 +1,12 @@
 
+Release 1.1.9 - August 19 2019
+------------------------------
+
+* Another fix for issues where zipfile.py raises "ZIP does not support
+  timestamps before 1980" exception.
+  Issue `#651 <https://github.com/jmcnamara/XlsxWriter/issues/651>`_.
+
+
 Release 1.1.8 - May 5 2019
 --------------------------
 
