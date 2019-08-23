@@ -17,9 +17,7 @@ class TestCompareXLSXFiles(ExcelComparisonTest):
 
     def setUp(self):
 
-        self.set_filename('chart_axis29.xlsx')
-
-        self.ignore_elements = {'xl/charts/chart1.xml': ['<a:defRPr']}
+        self.set_filename('chart_axis44.xlsx')
 
     def test_create_file(self):
         """Test the creation of a simple XlsxWriter file."""
@@ -27,9 +25,9 @@ class TestCompareXLSXFiles(ExcelComparisonTest):
         workbook = Workbook(self.got_filename)
 
         worksheet = workbook.add_worksheet()
-        chart = workbook.add_chart({'type': 'line'})
+        chart = workbook.add_chart({'type': 'bar'})
 
-        chart.axis_ids = [145169024, 145176448]
+        chart.axis_ids = [108176896, 108178816]
 
         data = [
             [1, 2, 3, 4, 5],
@@ -38,10 +36,6 @@ class TestCompareXLSXFiles(ExcelComparisonTest):
 
         ]
 
-        chart.set_x_axis({
-            'num_font': {'rotation': -90}
-        })
-
         worksheet.write_column('A1', data[0])
         worksheet.write_column('B1', data[1])
         worksheet.write_column('C1', data[2])
@@ -49,6 +43,18 @@ class TestCompareXLSXFiles(ExcelComparisonTest):
         chart.add_series({'values': '=Sheet1!$A$1:$A$5'})
         chart.add_series({'values': '=Sheet1!$B$1:$B$5'})
         chart.add_series({'values': '=Sheet1!$C$1:$C$5'})
+
+        chart.set_x_axis({
+            'name': 'XXX',
+            'name_font': {'rotation': -45, 'baseline': -1},
+            'num_font': {'rotation': -45, 'baseline': -1}
+        })
+
+        chart.set_y_axis({
+            'name': 'YYY',
+            'name_font': {'rotation': -45, 'baseline': -1},
+            'num_font': {'rotation': -45, 'baseline': -1}
+        })
 
         worksheet.insert_chart('E9', chart)
 

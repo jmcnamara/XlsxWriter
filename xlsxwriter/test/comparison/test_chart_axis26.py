@@ -29,7 +29,7 @@ class TestCompareXLSXFiles(ExcelComparisonTest):
         worksheet = workbook.add_worksheet()
         chart = workbook.add_chart({'type': 'line'})
 
-        chart.axis_ids = [73048448, 73049984]
+        chart.axis_ids = [108315392, 108329216]
 
         data = [
             [1, 2, 3, 4, 5],

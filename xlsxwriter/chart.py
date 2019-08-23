@@ -1895,7 +1895,7 @@ class Chart(xmlwriter.XMLwriter):
             return
 
         position = self.cat_axis_position
-        horiz = self.horiz_cat_axis
+        is_y_axis = self.horiz_cat_axis
 
         # Overwrite the default axis position with a user supplied value.
         if x_axis.get('position'):
@@ -1927,12 +1927,12 @@ class Chart(xmlwriter.XMLwriter):
         if x_axis['formula'] is not None:
             self._write_title_formula(x_axis['formula'],
                                       x_axis['data_id'],
-                                      horiz,
+                                      is_y_axis,
                                       x_axis['name_font'],
                                       x_axis['name_layout'])
         elif x_axis['name'] is not None:
             self._write_title_rich(x_axis['name'],
-                                   horiz,
+                                   is_y_axis,
                                    x_axis['name_font'],
                                    x_axis['name_layout'])
 
@@ -1994,7 +1994,7 @@ class Chart(xmlwriter.XMLwriter):
         y_axis = args['y_axis']
         axis_ids = args['axis_ids']
         position = args.get('position', self.val_axis_position)
-        horiz = self.horiz_val_axis
+        is_y_axis = self.horiz_val_axis
 
         # If there are no axis_ids then we don't need to write this element.
         if axis_ids is None or not len(axis_ids):
@@ -2029,12 +2029,12 @@ class Chart(xmlwriter.XMLwriter):
         if y_axis['formula'] is not None:
             self._write_title_formula(y_axis['formula'],
                                       y_axis['data_id'],
-                                      horiz,
+                                      is_y_axis,
                                       y_axis['name_font'],
                                       y_axis['name_layout'])
         elif y_axis['name'] is not None:
             self._write_title_rich(y_axis['name'],
-                                   horiz,
+                                   is_y_axis,
                                    y_axis.get('name_font'),
                                    y_axis.get('name_layout'))
 
@@ -2091,7 +2091,7 @@ class Chart(xmlwriter.XMLwriter):
         y_axis = args['y_axis']
         axis_ids = args['axis_ids']
         position = args['position'] or self.val_axis_position
-        horiz = self.horiz_val_axis
+        is_y_axis = self.horiz_val_axis
 
         # If there are no axis_ids then we don't need to write this element.
         if axis_ids is None or not len(axis_ids):
@@ -2126,12 +2126,12 @@ class Chart(xmlwriter.XMLwriter):
         if x_axis['formula'] is not None:
             self._write_title_formula(x_axis['formula'],
                                       x_axis['data_id'],
-                                      horiz,
+                                      is_y_axis,
                                       x_axis['name_font'],
                                       x_axis['name_layout'])
         elif x_axis['name'] is not None:
             self._write_title_rich(x_axis['name'],
-                                   horiz,
+                                   is_y_axis,
                                    x_axis['name_font'],
                                    x_axis['name_layout'])
 
@@ -2758,13 +2758,13 @@ class Chart(xmlwriter.XMLwriter):
         # Write the <c:autoTitleDeleted> element.
         self._xml_empty_tag('c:autoTitleDeleted', [('val', 1)])
 
-    def _write_title_rich(self, title, horiz, font, layout, overlay=False):
+    def _write_title_rich(self, title, is_y_axis, font, layout, overlay=False):
         # Write the <c:title> element for a rich string.
 
         self._xml_start_tag('c:title')
 
         # Write the c:tx element.
-        self._write_tx_rich(title, horiz, font)
+        self._write_tx_rich(title, is_y_axis, font)
 
         # Write the c:layout element.
         self._write_layout(layout, 'text')
@@ -2775,7 +2775,7 @@ class Chart(xmlwriter.XMLwriter):
 
         self._xml_end_tag('c:title')
 
-    def _write_title_formula(self, title, data_id, horiz, font, layout,
+    def _write_title_formula(self, title, data_id, is_y_axis, font, layout,
                              overlay=False):
         # Write the <c:title> element for a rich string.
 
@@ -2792,17 +2792,17 @@ class Chart(xmlwriter.XMLwriter):
             self._write_overlay()
 
         # Write the c:txPr element.
-        self._write_tx_pr(horiz, font)
+        self._write_tx_pr(is_y_axis, font)
 
         self._xml_end_tag('c:title')
 
-    def _write_tx_rich(self, title, horiz, font):
+    def _write_tx_rich(self, title, is_y_axis, font):
         # Write the <c:tx> element.
 
         self._xml_start_tag('c:tx')
 
         # Write the c:rich element.
-        self._write_rich(title, horiz, font)
+        self._write_rich(title, is_y_axis, font)
 
         self._xml_end_tag('c:tx')
 
@@ -2830,7 +2830,7 @@ class Chart(xmlwriter.XMLwriter):
 
         self._xml_end_tag('c:tx')
 
-    def _write_rich(self, title, horiz, font):
+    def _write_rich(self, title, is_y_axis, font):
         # Write the <c:rich> element.
 
         if font and font.get('rotation'):
@@ -2841,7 +2841,7 @@ class Chart(xmlwriter.XMLwriter):
         self._xml_start_tag('c:rich')
 
         # Write the a:bodyPr element.
-        self._write_a_body_pr(rotation, horiz)
+        self._write_a_body_pr(rotation, is_y_axis)
 
         # Write the a:lstStyle element.
         self._write_a_lst_style()
@@ -2851,18 +2851,21 @@ class Chart(xmlwriter.XMLwriter):
 
         self._xml_end_tag('c:rich')
 
-    def _write_a_body_pr(self, rotation, horiz):
+    def _write_a_body_pr(self, rotation, is_y_axis):
         # Write the <a:bodyPr> element.
         attributes = []
 
-        if rotation is None and horiz:
+        if rotation is None and is_y_axis:
             rotation = -5400000
 
         if rotation is not None:
-            attributes.append(('rot', rotation))
-
-        if horiz:
-            attributes.append(('vert', 'horz'))
+            if rotation == 16200000:
+                # 270 deg/stacked angle.
+                attributes.append(('rot', 0))
+                attributes.append(('vert', 'wordArtVert'))
+            else:
+                attributes.append(('rot', rotation))
+                attributes.append(('vert', 'horz'))
 
         self._xml_empty_tag('a:bodyPr', attributes)
 
@@ -2992,7 +2995,7 @@ class Chart(xmlwriter.XMLwriter):
 
         self._xml_data_element('a:t', title)
 
-    def _write_tx_pr(self, horiz, font):
+    def _write_tx_pr(self, is_y_axis, font):
         # Write the <c:txPr> element.
 
         if font and font.get('rotation'):
@@ -3003,7 +3006,7 @@ class Chart(xmlwriter.XMLwriter):
         self._xml_start_tag('c:txPr')
 
         # Write the a:bodyPr element.
-        self._write_a_body_pr(rotation, horiz)
+        self._write_a_body_pr(rotation, is_y_axis)
 
         # Write the a:lstStyle element.
         self._write_a_lst_style()
