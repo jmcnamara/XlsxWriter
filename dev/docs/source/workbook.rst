@@ -317,11 +317,12 @@ workbook.close()
 
    Close the Workbook object and write the XLSX file.
 
+   :raises FileCreateError: if there is a file or permissions error during writing.
    :raises DuplicateTableName: if a duplicate worksheet table name was added.
    :raises EmptyChartSeries: if a chart is added without a data series.
    :raises UndefinedImageSize: if an image doesn't contain height/width data.
    :raises UnsupportedImageFormat: if an image type isn't supported.
-   :raises IOError: if there is a file or permissions error during writing.
+   :raises FileSizeError: if the filesize would require ZIP64 extensions.
 
 The workbook ``close()`` method writes all data to the xlsx file and closes
 it::
@@ -341,6 +342,27 @@ which case it doesn't need an explicit ``close()`` statement::
 
 The workbook will close automatically when exiting the scope of the ``with``
 statement.
+
+The most common exception during ``close()`` is ``FileCreateError`` which is
+generally caused by a write permission error.  On Windows this usually occurs
+if the file being created is already open in Excel. This exception can be
+caught in a ``try`` block where you can instruct the user to close the open
+file before overwriting it::
+
+    while True:
+        try:
+            workbook.close()
+        except xlsxwriter.exceptions.FileCreateError as e:
+            # For Python 3 use input() instead of raw_input().
+            decision = raw_input("Exception caught in workbook.close(): %s\n"
+                                 "Please close the file if it is open in Excel.\n"
+                                 "Try to write file again? [Y/n]: " % e)
+            if decision != 'n':
+                continue
+
+        break
+
+See also :ref:`ex_check_close`.
 
 
 workbook.set_size()

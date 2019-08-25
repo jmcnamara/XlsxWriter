@@ -12,6 +12,16 @@ The hierarchy of exceptions in XlsxWriter is:
 
 * ``XlsxWriterException(Exception)``
 
+  * ``XlsxFileError(XlsxWriterException)``
+
+    * ``FileCreateError(XlsxFileError)``
+
+    * ``UndefinedImageSize(XlsxFileError)``
+
+    * ``UndefinedImageSize(XlsxFileError)``
+
+    * ``FileSizeError(XlsxFileError)``
+
   * ``XlsxInputError(XlsxWriterException)``
 
     * ``DuplicateTableName(XlsxInputError)``
@@ -21,12 +31,6 @@ The hierarchy of exceptions in XlsxWriter is:
     * ``DuplicateWorksheetName(XlsxInputError)``
 
     * ``ReservedWorksheetName(XlsxInputError)``
-
-  * ``XlsxFileError(XlsxWriterException)``
-
-    * ``UndefinedImageSize(XlsxFileError)``
-
-    * ``UnsupportedImageFormat(XlsxFileError)``
 
 
 Exception: XlsxWriterException
@@ -38,6 +42,15 @@ Exception: XlsxWriterException
 Base exception for XlsxWriter.
 
 
+Exception: XlsxFileError
+------------------------
+
+.. py:exception:: XlsxFileError
+
+
+Base exception for all file related errors.
+
+
 Exception: XlsxInputError
 -------------------------
 
@@ -47,13 +60,137 @@ Exception: XlsxInputError
 Base exception for all input data related errors.
 
 
-Exception: XlsxFileError
+Exception: FileCreateError
+--------------------------
+
+.. py:exception:: FileCreateError
+
+This exception is raised if there is a file permission, or IO error, when
+writing the xlsx file to disk. This can be caused by an non-existent directory
+or (in Windows) if the file is already open in Excel::
+
+    import xlsxwriter
+
+    workbook = xlsxwriter.Workbook('exception.xlsx')
+
+    worksheet = workbook.add_worksheet()
+
+    # The file exception.xlsx is already open in Excel.
+    workbook.close()
+
+Raises::
+
+    xlsxwriter.exceptions.FileCreateError:
+        [Errno 13] Permission denied: 'exception.xlsx'
+
+This exception can be caught in a ``try`` block where you can instruct the
+user to close the open file before overwriting it::
+
+    while True:
+        try:
+            workbook.close()
+        except xlsxwriter.exceptions.FileCreateError as e:
+            # For Python 3 use input() instead of raw_input().
+            decision = raw_input("Exception caught in workbook.close(): %s\n"
+                                 "Please close the file if it is open in Excel.\n"
+                                 "Try to write file again? [Y/n]: " % e)
+            if decision != 'n':
+                continue
+
+        break
+
+See also :ref:`ex_check_close`.
+
+
+Exception: UndefinedImageSize
+-----------------------------
+
+.. py:exception:: UndefinedImageSize
+
+This exception is raised if an image added via :func:`insert_image()` doesn't
+contain height or width information. The exception is raised during Workbook
+:func:`close()`::
+
+    import xlsxwriter
+
+    workbook = xlsxwriter.Workbook('exception.xlsx')
+
+    worksheet = workbook.add_worksheet()
+
+    worksheet.insert_image('A1', 'logo.png')
+
+    workbook.close()
+
+Raises::
+
+    xlsxwriter.exceptions.UndefinedImageSize:
+         logo.png: no size data found in image file.
+
+.. note::
+
+   This is a relatively rare error that is most commonly caused by XlsxWriter
+   failing to parse the dimensions of the image rather than the image not
+   containing the information. In these cases you should raise a GitHub issue
+   with the image attached, or provided via a link.
+
+
+Exception: UnsupportedImageFormat
+---------------------------------
+
+.. py:exception:: UnsupportedImageFormat
+
+This exception is raised if if an image added via :func:`insert_image()` isn't
+one of the supported file formats: PNG, JPEG, BMP, WMF or EMF. The exception
+is raised during Workbook :func:`close()`::
+
+    import xlsxwriter
+
+    workbook = xlsxwriter.Workbook('exception.xlsx')
+
+    worksheet = workbook.add_worksheet()
+
+    worksheet.insert_image('A1', 'logo.xyz')
+
+    workbook.close()
+
+Raises::
+
+    xlsxwriter.exceptions.UnsupportedImageFormat:
+        logo.xyz: Unknown or unsupported image file format.
+
+.. note::
+
+   If the image type is one of the supported types, and you are sure that the
+   file format is correct, then the exception may be caused by XlsxWriter
+   failing to parse the type of the image correctly. In these cases you should
+   raise a GitHub issue with the image attached, or provided via a link.
+
+
+Exception: FileSizeError
 ------------------------
 
-.. py:exception:: XlsxFileError
+.. py:exception:: FileSizeError
 
+This exception is raised if one of the XML files that is part of the xlsx file, or the xlsx file itself, exceeds 4GB in size::
 
-Base exception for all file related errors.
+    import xlsxwriter
+
+    workbook = xlsxwriter.Workbook('exception.xlsx')
+
+    worksheet = workbook.add_worksheet()
+
+    # Write lots of data to create a very big file.
+
+    workbook.close()
+
+Raises::
+
+    xlsxwriter.exceptions.FileSizeError:
+        Filesize would require ZIP64 extensions. Use workbook.use_zip64().
+
+As noted in the exception message, files larger than 4GB can be created by
+turning on the zipfile.py ZIP64 extensions using the :func:`use_zip64` method.
+
 
 
 Exception: EmptyChartSeries
@@ -186,7 +323,6 @@ Raises::
         Sheetname 'sheet1', with case ignored, is already in use.
 
 
-
 Exception: ReservedWorksheetName
 --------------------------------
 
@@ -208,67 +344,3 @@ Raises::
 
     xlsxwriter.exceptions.ReservedWorksheetName:
          Worksheet name 'History' is reserved by Excel
-
-
-Exception: UndefinedImageSize
------------------------------
-
-.. py:exception:: UndefinedImageSize
-
-This exception is raised if an image added via :func:`insert_image()` doesn't
-contain height or width information. The exception is raised during Workbook
-:func:`close()`::
-
-    import xlsxwriter
-
-    workbook = xlsxwriter.Workbook('exception.xlsx')
-
-    worksheet = workbook.add_worksheet()
-
-    worksheet.insert_image('A1', 'logo.png')
-
-    workbook.close()
-
-Raises::
-
-    xlsxwriter.exceptions.UndefinedImageSize:
-         logo.png: no size data found in image file.
-
-.. note::
-
-   This is a relatively rare error that is most commonly caused by XlsxWriter
-   failing to parse the dimensions of the image rather than the image not
-   containing the information. In these cases you should raise a GitHub issue
-   with the image attached, or provided via a link.
-
-
-Exception: UnsupportedImageFormat
----------------------------------
-
-.. py:exception:: UnsupportedImageFormat
-
-This exception is raised if if an image added via :func:`insert_image()` isn't
-one of the supported file formats: PNG, JPEG, BMP, WMF or EMF. The exception
-is raised during Workbook :func:`close()`::
-
-    import xlsxwriter
-
-    workbook = xlsxwriter.Workbook('exception.xlsx')
-
-    worksheet = workbook.add_worksheet()
-
-    worksheet.insert_image('A1', 'logo.xyz')
-
-    workbook.close()
-
-Raises::
-
-    xlsxwriter.exceptions.UnsupportedImageFormat:
-        logo.xyz: Unknown or unsupported image file format.
-
-.. note::
-
-   If the image type is one of the supported types, and you are sure that the
-   file format is correct, then the exception may be caused by XlsxWriter
-   failing to parse the type of the image correctly. In these cases you should
-   raise a GitHub issue with the image attached, or provided via a link.

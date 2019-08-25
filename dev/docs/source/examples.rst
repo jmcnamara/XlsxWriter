@@ -12,6 +12,7 @@ directory of the XlsxWriter distribution.
 
    example_hello_world.rst
    example_demo.rst
+   example_check_close.rst
    example_datetimes.rst
    example_hyperlink.rst
    example_array_formula.rst
