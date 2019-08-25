@@ -44,3 +44,11 @@ class UndefinedImageSize(XlsxFileError):
 
 class UnsupportedImageFormat(XlsxFileError):
     """Unsupported image file format."""
+
+
+class FileCreateError(XlsxFileError):
+    """IO error when creating xlsx file."""
+
+
+class FileSizeError(XlsxFileError):
+    """Filesize would require ZIP64 extensions. Use workbook.use_zip64()."""

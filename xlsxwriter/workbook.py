@@ -12,7 +12,7 @@ import operator
 import time
 from warnings import warn
 from datetime import datetime
-from zipfile import ZipFile, ZipInfo, ZIP_DEFLATED
+from zipfile import ZipFile, ZipInfo, ZIP_DEFLATED, LargeZipFile
 from struct import unpack
 
 from .compatibility import int_types, num_types, str_types, force_unicode
@@ -39,6 +39,8 @@ from .exceptions import DuplicateWorksheetName
 from .exceptions import ReservedWorksheetName
 from .exceptions import UndefinedImageSize
 from .exceptions import UnsupportedImageFormat
+from .exceptions import FileCreateError
+from .exceptions import FileSizeError
 
 
 class Workbook(xmlwriter.XMLwriter):
@@ -304,8 +306,16 @@ class Workbook(xmlwriter.XMLwriter):
 
         """
         if not self.fileclosed:
-            self.fileclosed = 1
-            self._store_workbook()
+
+            try:
+                self._store_workbook()
+            except IOError as e:
+                raise FileCreateError(e)
+            except LargeZipFile as e:
+                raise FileSizeError("Filesize would require ZIP64 extensions. "
+                                    "Use workbook.use_zip64().")
+
+            self.fileclosed = True
 
     def set_size(self, width, height):
         """
@@ -608,6 +618,14 @@ class Workbook(xmlwriter.XMLwriter):
         self._xml_close()
 
     def _store_workbook(self):
+
+        # Create the xlsx/zip file.
+        try:
+            xlsx_file = ZipFile(self.filename, "w", compression=ZIP_DEFLATED,
+                                allowZip64=self.allow_zip64)
+        except IOError as e:
+            raise e
+
         # Assemble worksheets into a workbook.
         packager = Packager()
 
@@ -658,11 +676,10 @@ class Workbook(xmlwriter.XMLwriter):
         # Free up the Packager object.
         packager = None
 
-        xlsx_file = ZipFile(self.filename, "w", compression=ZIP_DEFLATED,
-                            allowZip64=self.allow_zip64)
-
         # Add XML sub-files to the Zip file with their Excel filename.
-        for os_filename, xml_filename, is_binary in xml_files:
+        for file_id, file_data in enumerate(xml_files):
+            os_filename, xml_filename, is_binary = file_data
+
             if self.in_memory:
 
                 # Set sub-file timestamp to Excel's timestamp of 1/1/1980.
@@ -677,14 +694,21 @@ class Workbook(xmlwriter.XMLwriter):
                     xlsx_file.writestr(zipinfo,
                                        os_filename.getvalue().encode('utf-8'))
             else:
-                # The files are tempfiles.
+                # The sub-files are tempfiles on disk, i.e, not in memory.
 
-                # Set sub-file timestamp to Excel's timestamp of 1/1/1980.
+                # Set sub-file timestamp to 31/1/1980 due to portability
+                # issues setting it to Excel's timestamp of 1/1/1980.
                 timestamp = time.mktime((1980, 1, 31, 0, 0, 0, 0, 0, -1))
                 os.utime(os_filename, (timestamp, timestamp))
 
-                xlsx_file.write(os_filename, xml_filename)
-                os.remove(os_filename)
+                try:
+                    xlsx_file.write(os_filename, xml_filename)
+                    os.remove(os_filename)
+                except LargeZipFile as e:
+                    # Close open temp files on zipfile.LargeZipFile exception.
+                    for i in range(file_id, len(xml_files)-1):
+                        os.remove(xml_files[i][0])
+                    raise e
 
         xlsx_file.close()
 
