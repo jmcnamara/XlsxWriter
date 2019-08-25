@@ -1,4 +1,19 @@
 
+Release 1.2.0 - August 26 2019
+------------------------------
+
+* Refactored exception handling around the workbook file :func:`close()`
+  method to allow exceptions to be caught and handled. See
+  :ref:`ex_check_close`. Also refactored the code to clean up temp files in
+  the event of an exception.
+  Issues `#471 <https://github.com/jmcnamara/XlsxWriter/issues/471>`_
+  and `#647 <https://github.com/jmcnamara/XlsxWriter/issues/647>`_.
+
+* Added the option to allow chart fonts to be rotated to 270 degrees
+  to give a stacked orientation. See :ref:`chart_fonts`.
+  Issue `#648 <https://github.com/jmcnamara/XlsxWriter/issues/648>`_.
+
+
 Release 1.1.9 - August 19 2019
 ------------------------------
 
