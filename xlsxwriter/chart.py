@@ -2863,6 +2863,10 @@ class Chart(xmlwriter.XMLwriter):
                 # 270 deg/stacked angle.
                 attributes.append(('rot', 0))
                 attributes.append(('vert', 'wordArtVert'))
+            elif rotation == 16260000:
+                # 271 deg/East Asian vertical.
+                attributes.append(('rot', 0))
+                attributes.append(('vert', 'eaVert'))
             else:
                 attributes.append(('rot', rotation))
                 attributes.append(('vert', 'horz'))
