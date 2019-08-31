@@ -1115,13 +1115,18 @@ The following explains the available font properties:
     chart.set_x_axis({'num_font':  {'underline': True}})
 
 * ``rotation``: Set the font rotation, angle, property in the integer
-  range -90 to 90 deg, or 270 deg::
+  range -90 to 90 deg, and 270-271 deg::
 
     chart.set_x_axis({'num_font':  {'rotation': 45}})
 
   The font rotation angle is useful for displaying axis data such as dates in
-  a more compact format. The angle 270 is also supported. This indicates text
-  where the letters run from top to bottom (stacked).
+  a more compact format.
+
+  There are 2 special case angles outside the range -90 to 90:
+
+  * 270: Stacked text, where the text runs from top to bottom.
+
+  * 271: A special variant of stacked text for East Asian fonts.
 
 * ``color``: Set the font color property. Can be a color index, a color name
   or HTML style RGB color::
