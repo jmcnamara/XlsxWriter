@@ -1100,7 +1100,7 @@ class Worksheet(xmlwriter.XMLwriter):
 
         Args:
             user_type:      The user type() to match on.
-            user_function:  The user defined function to write the type data..
+            user_function:  The user defined function to write the type data.
         Returns:
             Nothing.
 

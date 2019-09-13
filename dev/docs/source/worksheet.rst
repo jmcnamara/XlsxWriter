@@ -89,7 +89,9 @@ to see if it corresponds to a user defined float type. If it does then it is
 written using :func:`write_number()`.
 
 Finally, if none of these rules are matched then a ``TypeError`` exception is
-raised.
+raised. However, it is also possible to handle additional, user defined, data
+types using the :func:`add_write_handler` method explained below and in
+:ref:`writing_user_types`.
 
 Here are some examples::
 
@@ -133,6 +135,66 @@ be a valid :ref:`Format <format>` object::
     worksheet.write(0, 0, 'Hello', cell_format)  # Cell is bold and italic.
 
 
+
+worksheet.add_write_handler()
+-----------------------------
+
+.. py:function:: add_write_handler(user_type, user_function)
+
+   Add a callback function to the ``write()`` method to handle user define
+   types.
+
+   :param user_type:     The user ``type()`` to match on.
+   :param user_function: The user defined function to write the type data.
+
+   :type user_type:     type
+   :type user_function: types.FunctionType
+
+
+As explained above, the :func:`write` method maps basic Python types to
+corresponding Excel types. If you want to write an unsupported type then you
+can either avoid ``write()`` and map the user type in your code to one of the
+more specific write methods or you can extend it using the
+``add_write_handler()`` method.
+
+For example, say you wanted to automatically write :mod:`uuid` values as
+strings using ``write()`` you would start by creating a function that take the
+uuid, converts it to a string and then writes it using :func:`write_string`::
+
+    def write_uuid(worksheet, row, col, uuid, format=None):
+        string_uuid = str(uuid)
+        return worksheet.write_string(row, col, string_uuid, format)
+
+You could then add a handler that matches the ``uuid`` type and calls your
+user defined function::
+
+    #                           match,     action()
+    worksheet.add_write_handler(uuid.UUID, write_uuid)
+
+Then you can use ``write()`` without further modification::
+
+    my_uuid = uuid.uuid3(uuid.NAMESPACE_DNS, 'python.org')
+
+    # Write the UUID. This would raise a TypeError without the handler.
+    worksheet.write('A1', my_uuid)
+
+.. image:: _images/user_types4.png
+
+Multiple callback functions can be added using ``add_write_handler()`` but
+only one callback action is allowed per type. However, it is valid to use the
+same callback function for different types::
+
+    worksheet.add_write_handler(int,   test_number_range)
+    worksheet.add_write_handler(float, test_number_range)
+
+See :ref:`writing_user_types` for more details on how this feature works and
+how to write callback functions, and also the following examples:
+
+* :ref:`ex_user_type1`
+* :ref:`ex_user_type2`
+* :ref:`ex_user_type3`
+
+
 worksheet.write_string()
 ------------------------
 
@@ -170,14 +232,18 @@ Unicode strings are supported in UTF-8 encoding. This generally requires that
 your source file in also UTF-8 encoded::
 
     # _*_ coding: utf-8
+    # Python 2 example.
 
     worksheet.write('A1', u'Some UTF-8 text')
 
 .. image:: _images/worksheet02.png
 
+See :ref:`ex_unicode_python2` and :ref:`ex_unicode_python3` for more complete
+examples.
+
 Alternatively, you can read data from an encoded file, convert it to UTF-8
-during reading and then write the data to an Excel file. There are several
-sample``unicode_\*.py`` programs like this in the ``examples`` directory of the XlsxWriter source tree.
+during reading and then write the data to an Excel file. See
+:ref:`ex_unicode_polish_utf8` and :ref:`ex_unicode_shift_jis`.
 
 The maximum string size supported by Excel is 32,767 characters. Strings longer
 than this will be truncated by ``write_string()``.

@@ -70,6 +70,7 @@ It supports Python 2.7, 3.4+, Jython and PyPy and uses standard libraries only.
    :maxdepth: 1
 
    working_with_cell_notation.rst
+   working_with_data.rst
    working_with_formulas.rst
    working_with_dates_and_time.rst
    working_with_colors.rst

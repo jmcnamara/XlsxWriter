@@ -19,7 +19,7 @@ def write_uuid(worksheet, row, col, token, format=None):
     return worksheet.write_string(row, col, str(token), format)
 
 # Set up the workbook as usual.
-workbook = xlsxwriter.Workbook('user_type1.xlsx')
+workbook = xlsxwriter.Workbook('user_types1.xlsx')
 worksheet = workbook.add_worksheet()
 
 # Make the first column wider for clarity.

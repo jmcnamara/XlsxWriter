@@ -14,4 +14,3 @@ To write Unicode text in UTF-8 to a xlsxwriter file in Python 2:
 .. only:: html
 
    .. literalinclude:: ../../../examples/unicode_python2.py
-
