@@ -11,8 +11,8 @@ workbook = xlsxwriter.Workbook('protection.xlsx')
 worksheet = workbook.add_worksheet()
 
 # Create some cell formats with protection properties.
-unlocked = workbook.add_format({'locked': 0})
-hidden = workbook.add_format({'hidden': 1})
+unlocked = workbook.add_format({'locked': False})
+hidden = workbook.add_format({'hidden': True})
 
 # Format the columns to make the text more visible.
 worksheet.set_column('A:A', 40)

@@ -15,7 +15,7 @@ Creating and using a Format object
 ----------------------------------
 
 Cell formatting is defined through a Format object. Format objects are created
-by calling the workbook ``add_format()`` method as follows::
+by calling the workbook :func:`add_format` method as follows::
 
     cell_format1 = workbook.add_format()       # Set properties later.
     cell_format2 = workbook.add_format(props)  # Set properties at creation.
@@ -30,7 +30,7 @@ follows::
     cell_format.set_font_color('red')
 
 By comparison the properties can be set by passing a dictionary of properties
-to the `add_format()` constructor::
+to the :func:`add_format` constructor::
 
     cell_format = workbook.add_format({'bold': True, 'font_color': 'red'})
 
@@ -39,15 +39,17 @@ object method and is the recommended method for setting format
 properties. However, both methods produce the same result.
 
 Once a Format object has been constructed and its properties have been set it
-can be passed as an argument to the worksheet ``write`` methods as follows::
+can be passed as an argument to the worksheet :func:`write` methods as
+follows::
 
     worksheet.write       (0, 0, 'Foo', cell_format)
     worksheet.write_string(1, 0, 'Bar', cell_format)
     worksheet.write_number(2, 0, 3,     cell_format)
     worksheet.write_blank (3, 0, '',    cell_format)
 
-Formats can also be passed to the worksheet ``set_row()`` and ``set_column()``
-methods to define the default formatting properties for a row or column::
+Formats can also be passed to the worksheet :func:`set_row` and
+:func:`set_column` methods to define the default formatting properties for a
+row or column::
 
     worksheet.set_row(0, 18, cell_format)
     worksheet.set_column('A:D', 20, cell_format)
@@ -76,10 +78,10 @@ Modifying Formats
 -----------------
 
 Each unique cell format in an XlsxWriter spreadsheet must have a corresponding
-Format object. It isn't possible to use a Format with a ``write()`` method and
-then redefine it for use at a later stage. This is because a Format is applied
-to a cell not in its current state but in its final state. Consider the
-following example::
+Format object. It isn't possible to use a Format with a :func:`write` method
+and then redefine it for use at a later stage. This is because a Format is
+applied to a cell not in its current state but in its final state. Consider
+the following example::
 
     cell_format = workbook.add_format({'bold': True, 'font_color': 'red'})
     worksheet.write('A1', 'Cell A1', cell_format)
@@ -93,6 +95,64 @@ red. However, the color is subsequently set to green. When Excel displays
 Cell A1 it will display the final state of the Format which in this case will
 be the color green.
 
+.. _num_format_categories:
+
+Number Format Categories
+------------------------
+
+The :func:`set_num_format`, shown below, is used to set the number format for numbers::
+
+    import xlsxwriter
+
+    workbook = xlsxwriter.Workbook('currency_format.xlsx')
+    worksheet = workbook.add_worksheet()
+
+    currency_format = workbook.add_format({'num_format': '$#,##0.00'})
+
+    worksheet.write('A1', 1234.56, currency_format)
+
+    workbook.close()
+
+If the number format you use is the same as one of Excel's built in number
+format then it will have a number category such as General, Number, Currency,
+Accounting, Date, Time, Percentage, Fraction, Scientific, Text, Special or
+Custom. In the case of the example above the formatted output shows up as a
+Number category:
+
+.. image:: _images/currency_format1.png
+
+If we wanted it to have a different category, such as Currency, then
+we would have to match the number format string with the number format used by
+Excel. The easiest way to do this is to open the Number Formatting dialog in
+Excel and set the format that you want:
+
+.. image:: _images/currency_format2.png
+
+Then, while still in the dialog, change to Custom. The format displayed is the
+format used by Excel.
+
+.. image:: _images/currency_format3.png
+
+If we put the format that we found (``'[$$-409]#,##0.00'``) into our previous
+example and rerun it we will get a number format in the Currency category::
+
+    import xlsxwriter
+
+    workbook = xlsxwriter.Workbook('currency_format.xlsx')
+    worksheet = workbook.add_worksheet()
+
+    currency_format = workbook.add_format({'num_format': '[$$-409]#,##0.00'})
+
+    worksheet.write('A1', 1234.56, currency_format)
+
+    workbook.close()
+
+Here is the output:
+
+.. image:: _images/currency_format4.png
+
+The same process can be used to find format strings for Date or Accountancy
+formats.
 
 
 Format methods and Format properties
@@ -171,7 +231,6 @@ properties that can be applied and the equivalent object method:
 |            | Right color      | ``'right_color'``    | :func:`set_right_color()`    |
 +------------+------------------+----------------------+------------------------------+
 
-
 The format properties and methods are explained in the following sections.
 
 
@@ -215,7 +274,7 @@ Set the font size of the cell format::
 
 Excel adjusts the height of a row to accommodate the largest font size in the
 row. You can also explicitly specify the height of a row using the
-:func:`set_row()` worksheet method.
+:func:`set_row` worksheet method.
 
 
 format.set_font_color()
@@ -234,16 +293,16 @@ Set the font color::
 
     cell_format.set_font_color('red')
 
-    worksheet.write(0, 0, 'wheelbarrow', cell_format)
+    worksheet.write(0, 0, 'Wheelbarrow', cell_format)
 
 .. image:: _images/format_font_color.png
 
 The color can be a Html style ``#RRGGBB`` string or a limited number of named
 colors, see :ref:`colors`.
 
-Note: The ``set_font_color()`` method is used to set the color of the font in
-a cell. To set the color of a cell use the :func:`set_bg_color()` and
-:func:`set_pattern()` methods.
+Note: The :func:`set_font_color` method is used to set the color of the font
+in a cell. To set the color of a cell use the :func:`set_bg_color` and
+:func:`set_pattern` methods.
 
 
 format.set_bold()
@@ -322,7 +381,8 @@ The available options are:
 .. image:: _images/format_font_script.png
 
 
-This property is generally only useful when used in conjunction with :func:`write_rich_string()`.
+This property is generally only useful when used in conjunction with
+:func:`write_rich_string`.
 
 
 format.set_num_format()
@@ -398,96 +458,104 @@ The color format should have one of the following values::
 For more information refer to the `Microsoft documentation on cell formats
 <https://support.office.com/en-us/article/create-or-delete-a-custom-number-format-78f2a361-936b-4c03-8772-09fab54be7f4>`_.
 
-Excel's built-in formats are shown in the following table:
+For information on how to get a number format to show up as one of the number
+format categories such as Currency, Accounting, Date, Time, Percentage,
+Fraction, Scientific or Text, see :ref:`num_format_categories`, above.
 
-+-------+-------+--------------------------------------------------------+
-| Index | Index | Format String                                          |
-+=======+=======+========================================================+
-| 0     | 0x00  | ``General``                                            |
-+-------+-------+--------------------------------------------------------+
-| 1     | 0x01  | ``0``                                                  |
-+-------+-------+--------------------------------------------------------+
-| 2     | 0x02  | ``0.00``                                               |
-+-------+-------+--------------------------------------------------------+
-| 3     | 0x03  | ``#,##0``                                              |
-+-------+-------+--------------------------------------------------------+
-| 4     | 0x04  | ``#,##0.00``                                           |
-+-------+-------+--------------------------------------------------------+
-| 5     | 0x05  | ``($#,##0_);($#,##0)``                                 |
-+-------+-------+--------------------------------------------------------+
-| 6     | 0x06  | ``($#,##0_);[Red]($#,##0)``                            |
-+-------+-------+--------------------------------------------------------+
-| 7     | 0x07  | ``($#,##0.00_);($#,##0.00)``                           |
-+-------+-------+--------------------------------------------------------+
-| 8     | 0x08  | ``($#,##0.00_);[Red]($#,##0.00)``                      |
-+-------+-------+--------------------------------------------------------+
-| 9     | 0x09  | ``0%``                                                 |
-+-------+-------+--------------------------------------------------------+
-| 10    | 0x0a  | ``0.00%``                                              |
-+-------+-------+--------------------------------------------------------+
-| 11    | 0x0b  | ``0.00E+00``                                           |
-+-------+-------+--------------------------------------------------------+
-| 12    | 0x0c  | ``# ?/?``                                              |
-+-------+-------+--------------------------------------------------------+
-| 13    | 0x0d  | ``# ??/??``                                            |
-+-------+-------+--------------------------------------------------------+
-| 14    | 0x0e  | ``m/d/yy``                                             |
-+-------+-------+--------------------------------------------------------+
-| 15    | 0x0f  | ``d-mmm-yy``                                           |
-+-------+-------+--------------------------------------------------------+
-| 16    | 0x10  | ``d-mmm``                                              |
-+-------+-------+--------------------------------------------------------+
-| 17    | 0x11  | ``mmm-yy``                                             |
-+-------+-------+--------------------------------------------------------+
-| 18    | 0x12  | ``h:mm AM/PM``                                         |
-+-------+-------+--------------------------------------------------------+
-| 19    | 0x13  | ``h:mm:ss AM/PM``                                      |
-+-------+-------+--------------------------------------------------------+
-| 20    | 0x14  | ``h:mm``                                               |
-+-------+-------+--------------------------------------------------------+
-| 21    | 0x15  | ``h:mm:ss``                                            |
-+-------+-------+--------------------------------------------------------+
-| 22    | 0x16  | ``m/d/yy h:mm``                                        |
-+-------+-------+--------------------------------------------------------+
-| ...   | ...   | ...                                                    |
-+-------+-------+--------------------------------------------------------+
-| 37    | 0x25  | ``(#,##0_);(#,##0)``                                   |
-+-------+-------+--------------------------------------------------------+
-| 38    | 0x26  | ``(#,##0_);[Red](#,##0)``                              |
-+-------+-------+--------------------------------------------------------+
-| 39    | 0x27  | ``(#,##0.00_);(#,##0.00)``                             |
-+-------+-------+--------------------------------------------------------+
-| 40    | 0x28  | ``(#,##0.00_);[Red](#,##0.00)``                        |
-+-------+-------+--------------------------------------------------------+
-| 41    | 0x29  | ``_(* #,##0_);_(* (#,##0);_(* "-"_);_(@_)``            |
-+-------+-------+--------------------------------------------------------+
-| 42    | 0x2a  | ``_($* #,##0_);_($* (#,##0);_($* "-"_);_(@_)``         |
-+-------+-------+--------------------------------------------------------+
-| 43    | 0x2b  | ``_(* #,##0.00_);_(* (#,##0.00);_(* "-"??_);_(@_)``    |
-+-------+-------+--------------------------------------------------------+
-| 44    | 0x2c  | ``_($* #,##0.00_);_($* (#,##0.00);_($* "-"??_);_(@_)`` |
-+-------+-------+--------------------------------------------------------+
-| 45    | 0x2d  | ``mm:ss``                                              |
-+-------+-------+--------------------------------------------------------+
-| 46    | 0x2e  | ``[h]:mm:ss``                                          |
-+-------+-------+--------------------------------------------------------+
-| 47    | 0x2f  | ``mm:ss.0``                                            |
-+-------+-------+--------------------------------------------------------+
-| 48    | 0x30  | ``##0.0E+0``                                           |
-+-------+-------+--------------------------------------------------------+
-| 49    | 0x31  | ``@``                                                  |
-+-------+-------+--------------------------------------------------------+
+For backwards compatibility XlsxWriter also supports Excel's built-in formats
+which are set via an index number, rather than a string::
 
-.. note::
+    cell_format.set_num_format(3)  # Same as #,##0
 
-   Numeric formats 23 to 36 are not documented by Microsoft and may differ
-   in international versions. The listed date and currency formats may also
-   vary depending on system settings.
+The format indexes and the equivalent strings are shown in the following
+table:
 
-.. note::
++-------+--------------------------------------------------------+
+| Index | Format String                                          |
++=======+========================================================+
+| 0     | ``General``                                            |
++-------+--------------------------------------------------------+
+| 1     | ``0``                                                  |
++-------+--------------------------------------------------------+
+| 2     | ``0.00``                                               |
++-------+--------------------------------------------------------+
+| 3     | ``#,##0``                                              |
++-------+--------------------------------------------------------+
+| 4     | ``#,##0.00``                                           |
++-------+--------------------------------------------------------+
+| 5     | ``($#,##0_);($#,##0)``                                 |
++-------+--------------------------------------------------------+
+| 6     | ``($#,##0_);[Red]($#,##0)``                            |
++-------+--------------------------------------------------------+
+| 7     | ``($#,##0.00_);($#,##0.00)``                           |
++-------+--------------------------------------------------------+
+| 8     | ``($#,##0.00_);[Red]($#,##0.00)``                      |
++-------+--------------------------------------------------------+
+| 9     | ``0%``                                                 |
++-------+--------------------------------------------------------+
+| 10    | ``0.00%``                                              |
++-------+--------------------------------------------------------+
+| 11    | ``0.00E+00``                                           |
++-------+--------------------------------------------------------+
+| 12    | ``# ?/?``                                              |
++-------+--------------------------------------------------------+
+| 13    | ``# ??/??``                                            |
++-------+--------------------------------------------------------+
+| 14    | ``m/d/yy``                                             |
++-------+--------------------------------------------------------+
+| 15    | ``d-mmm-yy``                                           |
++-------+--------------------------------------------------------+
+| 16    | ``d-mmm``                                              |
++-------+--------------------------------------------------------+
+| 17    | ``mmm-yy``                                             |
++-------+--------------------------------------------------------+
+| 18    | ``h:mm AM/PM``                                         |
++-------+--------------------------------------------------------+
+| 19    | ``h:mm:ss AM/PM``                                      |
++-------+--------------------------------------------------------+
+| 20    | ``h:mm``                                               |
++-------+--------------------------------------------------------+
+| 21    | ``h:mm:ss``                                            |
++-------+--------------------------------------------------------+
+| 22    | ``m/d/yy h:mm``                                        |
++-------+--------------------------------------------------------+
+| ...   | ...                                                    |
++-------+--------------------------------------------------------+
+| 37    | ``(#,##0_);(#,##0)``                                   |
++-------+--------------------------------------------------------+
+| 38    | ``(#,##0_);[Red](#,##0)``                              |
++-------+--------------------------------------------------------+
+| 39    | ``(#,##0.00_);(#,##0.00)``                             |
++-------+--------------------------------------------------------+
+| 40    | ``(#,##0.00_);[Red](#,##0.00)``                        |
++-------+--------------------------------------------------------+
+| 41    | ``_(* #,##0_);_(* (#,##0);_(* "-"_);_(@_)``            |
++-------+--------------------------------------------------------+
+| 42    | ``_($* #,##0_);_($* (#,##0);_($* "-"_);_(@_)``         |
++-------+--------------------------------------------------------+
+| 43    | ``_(* #,##0.00_);_(* (#,##0.00);_(* "-"??_);_(@_)``    |
++-------+--------------------------------------------------------+
+| 44    | ``_($* #,##0.00_);_($* (#,##0.00);_($* "-"??_);_(@_)`` |
++-------+--------------------------------------------------------+
+| 45    | ``mm:ss``                                              |
++-------+--------------------------------------------------------+
+| 46    | ``[h]:mm:ss``                                          |
++-------+--------------------------------------------------------+
+| 47    | ``mm:ss.0``                                            |
++-------+--------------------------------------------------------+
+| 48    | ``##0.0E+0``                                           |
++-------+--------------------------------------------------------+
+| 49    | ``@``                                                  |
++-------+--------------------------------------------------------+
 
-   The dollar sign in the above format appears as the defined local currency
-   symbol.
+
+Numeric formats 23 to 36 are not documented by Microsoft and may differ in
+international versions. The listed date and currency formats may also vary
+depending on system settings.
+
+The dollar sign in the above format usually appears as the defined local
+currency symbol. To get more locale specific formatting see see
+:ref:`num_format_categories`, above.
 
 
 format.set_locked()
@@ -499,10 +567,10 @@ format.set_locked()
 
    :param bool state: Turn cell locking on or off. Defaults to True.
 
-This property can be used to prevent modification of a cells contents.
+This property can be used to prevent modification of a cell's contents.
 Following Excel's convention, cell locking is turned on by default. However,
 it only has an effect if the worksheet has been protected using the worksheet
-:func:`protect()` method::
+:func:`protect` method::
 
     locked = workbook.add_format()
     locked.set_locked(True)
@@ -527,11 +595,10 @@ format.set_hidden()
 
    Hide formulas in a cell.
 
-
-This property is used to hide a formula while still displaying its result. This
-is generally used to hide complex calculations from end users who are only
-interested in the result. It only has an effect if the worksheet has been
-protected using the worksheet :func:`protect()` method::
+This property is used to hide a formula while still displaying its
+result. This is generally used to hide complex calculations from end users who
+are only interested in the result. It only has an effect if the worksheet has
+been protected using the worksheet :func:`protect` method::
 
     hidden = workbook.add_format()
     hidden.set_hidden()
@@ -606,12 +673,12 @@ As in Excel, vertical and horizontal alignments can be combined::
 
 Text can be aligned across two or more adjacent cells using the
 ``'center_across'`` property. However, for genuine merged cells it is better
-to use the ``merge_range()`` worksheet method.
+to use the :func:`merge_range` worksheet method.
 
 The ``'vjustify'`` (vertical justify) option can be used to provide automatic
 text wrapping in a cell. The height of the cell will be adjusted to
 accommodate the wrapped text. To specify where the text wraps use the
-``set_text_wrap()`` method.
+:func:`set_text_wrap` method.
 
 
 format.set_center_across()
@@ -622,7 +689,7 @@ format.set_center_across()
    Center text across adjacent cells.
 
 Text can be aligned across two or more adjacent cells using the
-``set_center_across()`` method. This is an alias for the
+:func:`set_center_across` method. This is an alias for the
 ``set_align('center_across')`` method call.
 
 Only one cell should contain the text, the other cells should be blank::
@@ -633,7 +700,7 @@ Only one cell should contain the text, the other cells should be blank::
     worksheet.write(1, 1, 'Center across selection', cell_format)
     worksheet.write_blank(1, 2, '', cell_format)
 
-For actual merged cells it is better to use the ``merge_range()`` worksheet
+For actual merged cells it is better to use the :func:`merge_range` worksheet
 method.
 
 
@@ -793,8 +860,8 @@ format.set_bg_color()
 
    :param string color: The cell font color.
 
-The ``set_bg_color()`` method can be used to set the background color of a
-pattern. Patterns are defined via the ``set_pattern()`` method. If a pattern
+The :func:`set_bg_color` method can be used to set the background color of a
+pattern. Patterns are defined via the :func:`set_pattern` method. If a pattern
 hasn't been defined then a solid fill pattern is used as the default.
 
 Here is an example of how to set up a solid fill in a cell::
@@ -822,7 +889,7 @@ format.set_fg_color()
 
    :param string color: The cell font color.
 
-The ``set_fg_color()`` method can be used to set the foreground color of a
+The :func:`set_fg_color` method can be used to set the foreground color of a
 pattern.
 
 The color can be a Html style ``#RRGGBB`` string or a limited number of named
@@ -842,13 +909,13 @@ format.set_border()
 Individual border elements can be configured using the following methods with
 the same parameters:
 
-* :func:`set_bottom()`
-* :func:`set_top()`
-* :func:`set_left()`
-* :func:`set_right()`
+* :func:`set_bottom`
+* :func:`set_top`
+* :func:`set_left`
+* :func:`set_right`
 
 A cell border is comprised of a border on the bottom, top, left and right.
-These can be set to the same value using ``set_border()`` or individually
+These can be set to the same value using :func:`set_border` or individually
 using the relevant method calls shown above.
 
 The following shows the border styles sorted by XlsxWriter index number:
@@ -928,8 +995,8 @@ format.set_top()
 
    :param int style: Border style index. Default is 1.
 
-Set the cell top border style. See :func:`set_border` for details on the border
-styles.
+Set the cell top border style. See :func:`set_border` for details on the
+border styles.
 
 
 format.set_left()
@@ -970,14 +1037,14 @@ format.set_border_color()
 Individual border elements can be configured using the following methods with
 the same parameters:
 
-* :func:`set_bottom_color()`
-* :func:`set_top_color()`
-* :func:`set_left_color()`
-* :func:`set_right_color()`
+* :func:`set_bottom_color`
+* :func:`set_top_color`
+* :func:`set_left_color`
+* :func:`set_right_color`
 
 Set the color of the cell borders. A cell border is comprised of a border on
 the bottom, top, left and right. These can be set to the same color using
-``set_border_color()`` or individually using the relevant method calls shown
+:func:`set_border_color` or individually using the relevant method calls shown
 above.
 
 The color can be a Html style ``#RRGGBB`` string or a limited number of named
