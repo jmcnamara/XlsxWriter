@@ -7,7 +7,7 @@ The following are some of the examples included in the
 `examples <https://github.com/jmcnamara/XlsxWriter/tree/master/examples>`_
 directory of the XlsxWriter distribution.
 
-They show how to use XlsxWriter with `Pandas <http://pandas.pydata.org/>`_.
+They show how to use XlsxWriter with `Pandas <https://pandas.pydata.org/>`_.
 
 .. toctree::
    :maxdepth: 1

@@ -3,7 +3,7 @@
 Working with Python Pandas and XlsxWriter
 =========================================
 
-Python `Pandas <http://pandas.pydata.org/>`_ is a Python data analysis
+Python `Pandas <https://pandas.pydata.org/>`_ is a Python data analysis
 library. It can read, filter and re-arrange small and large data sets and
 output them in a range of formats including Excel.
 
@@ -279,7 +279,7 @@ Here are some additional resources in relation to Pandas, Excel and XlsxWriter.
 * The XlsxWriter Pandas examples later in the document: :ref:`pandas_examples`.
 
 * The Pandas documentation on the `pandas.DataFrame.to_excel() method
-  <http://pandas.pydata.org/pandas-docs/stable/generated/pandas.DataFrame.to_excel.html>`_.
+  <https://pandas.pydata.org/pandas-docs/stable/generated/pandas.DataFrame.to_excel.html>`_.
 
 * A more detailed tutorial on `Using Pandas and XlsxWriter to create Excel
   charts

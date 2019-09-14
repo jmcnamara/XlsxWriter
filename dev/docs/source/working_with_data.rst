@@ -208,7 +208,7 @@ Writing dataframes
 ------------------
 
 The best way to deal with dataframes or complex data structure is to use
-Python `Pandas <http://pandas.pydata.org/>`_. Pandas is a Python data analysis
+Python `Pandas <https://pandas.pydata.org/>`_. Pandas is a Python data analysis
 library. It can read, filter and re-arrange small and large data sets and
 output them in a range of formats including Excel.
 
