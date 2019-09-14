@@ -1,3 +1,14 @@
+Release 1.2.1 - September 14 2019
+---------------------------------
+
+* Added the :func:`add_write_handler` method to allow user defined types to be
+  handled by the :func:`write` method. See :ref:`writing_user_types` for more
+  information.
+  Feature request `#631 <https://github.com/jmcnamara/XlsxWriter/issues/631>`_.
+
+* Add support for East Asian vertical fonts in charts.
+  Feature request `#648 <https://github.com/jmcnamara/XlsxWriter/issues/648>`_.
+
 
 Release 1.2.0 - August 26 2019
 ------------------------------
