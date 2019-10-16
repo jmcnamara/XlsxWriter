@@ -6868,7 +6868,7 @@ class Worksheet(xmlwriter.XMLwriter):
                 data_bar['bar_negative_border_color'])
 
         # Write the x14:axisColor element.
-        if data_bar['bar_axis_position'] is not 'none':
+        if data_bar['bar_axis_position'] != 'none':
             self._write_x14_axis_color(data_bar['bar_axis_color'])
 
         self._xml_end_tag('x14:dataBar')
