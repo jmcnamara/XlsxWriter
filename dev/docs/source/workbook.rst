@@ -679,3 +679,11 @@ workbook.use_zip64()
 
 Use ZIP64 extensions when writing the xlsx file zip container to allow files
 greater than 4 GB.
+
+.. Note::
+
+   When using the ``use_zip64()`` option the zip file created by the Python
+   standard library ``zipfile.py`` may cause Excel to issue a warning about
+   repairing the file. This warning is annoying but harmless. The "repaired"
+   file will contain all of the data written by XlsxWriter, only the zip
+   container will be changed.
