@@ -2494,10 +2494,10 @@ class Chart(xmlwriter.XMLwriter):
         if val is None:
             val = 'ctr'
 
-        if val is 'right':
+        if val == 'right':
             val = 'r'
 
-        if val is 'left':
+        if val == 'left':
             val = 'l'
 
         attributes = [('val', val)]

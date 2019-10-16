@@ -360,7 +360,7 @@ class Worksheet(xmlwriter.XMLwriter):
     # Utility function for writing different types of strings.
     def _write_token_as_string(self, token, row, col, *args):
         # Map the data to the appropriate write_*() method.
-        if token is '':
+        if token == '':
             return self._write_blank(row, col, *args)
 
         if self.strings_to_formulas and token.startswith('='):
@@ -2469,10 +2469,10 @@ class Worksheet(xmlwriter.XMLwriter):
         if options.get('is_data_bar_2010'):
             self.excel_version = 2010
 
-            if options['min_type'] is 'min' and options['min_value'] == 0:
+            if options['min_type'] == 'min' and options['min_value'] == 0:
                 options['min_value'] = None
 
-            if options['max_type'] is 'max' and options['max_value'] == 0:
+            if options['max_type'] == 'max' and options['max_value'] == 0:
                 options['max_value'] = None
 
             options['range'] = cell_range
@@ -5040,7 +5040,7 @@ class Worksheet(xmlwriter.XMLwriter):
                     else:
                         props[i]['type'] = user_props[i]['type']
 
-                        if props[i]['type'] is 'number':
+                        if props[i]['type'] == 'number':
                             props[i]['type'] = 'num'
 
                 # Set the user defined 'criteria' property.
@@ -6903,10 +6903,10 @@ class Worksheet(xmlwriter.XMLwriter):
         if data_bar['bar_solid']:
             attributes.append(('gradient', 0))
 
-        if data_bar['bar_direction'] is 'left':
+        if data_bar['bar_direction'] == 'left':
             attributes.append(('direction', 'leftToRight'))
 
-        if data_bar['bar_direction'] is 'right':
+        if data_bar['bar_direction'] == 'right':
             attributes.append(('direction', 'rightToLeft'))
 
         if data_bar['bar_negative_color_same']:
@@ -6916,10 +6916,10 @@ class Worksheet(xmlwriter.XMLwriter):
                 not data_bar['bar_negative_border_color_same']):
             attributes.append(('negativeBarBorderColorSameAsPositive', 0))
 
-        if data_bar['bar_axis_position'] is 'middle':
+        if data_bar['bar_axis_position'] == 'middle':
             attributes.append(('axisPosition', 'middle'))
 
-        if data_bar['bar_axis_position'] is 'none':
+        if data_bar['bar_axis_position'] == 'none':
             attributes.append(('axisPosition', 'none'))
 
         self._xml_start_tag('x14:dataBar', attributes)
