@@ -49,6 +49,8 @@ testpythonsall:
 	@~/.pythonbrew/pythons/Python-3.6.6/bin/py.test -q
 	@echo "Testing with Python 3.7.0:"
 	@~/.pythonbrew/pythons/Python-3.7.0/bin/py.test -q
+	@echo "Testing with Python 3.8.0:"
+	@~/.pythonbrew/pythons/Python-3.8.0/bin/py.test -q
 
 test_codestyle testpep8:
 	@ls -1 xlsxwriter/*.py | egrep -v "theme|compat|__init__" | xargs pycodestyle
@@ -61,8 +63,7 @@ tags:
 
 testwarnings:
 	@find . -name '*.py[co]' -exec rm -rf '{}' +
-	@PYTHONPATH=$PYTHONPATH:. ~/.pythonbrew/pythons/Python-3.7.0/bin/python -Walways examples/hello_world.py
-	@rm -f hello_world.xlsx
+	@PYTHONPATH=$PYTHONPATH:. ~/.pythonbrew/pythons/Python-3.8.0/bin/python -Walways -c 'from xlsxwriter import Workbook'
 
 spellcheck:
 	@for f in dev/docs/source/*.rst; do aspell --lang=en_US --check $$f; done
