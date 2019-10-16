@@ -1,3 +1,11 @@
+Release 1.2.2 - October 16 2019
+---------------------------------
+
+* Fixed Python 3.8.0 warnings.
+  Issue `#660 <https://github.com/jmcnamara/XlsxWriter/issues/660>`_.
+
+
+
 Release 1.2.1 - September 14 2019
 ---------------------------------
 
