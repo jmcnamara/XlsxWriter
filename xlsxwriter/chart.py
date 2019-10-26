@@ -16,7 +16,7 @@ from .utility import xl_range_formula
 from .utility import supported_datetime
 from .utility import datetime_to_excel_datetime
 from .utility import quote_sheetname
-
+from .exceptions import XlsxInputError
 
 class Chart(xmlwriter.XMLwriter):
     """
@@ -3530,6 +3530,9 @@ class Chart(xmlwriter.XMLwriter):
         if labels.get('leader_lines'):
             self._write_show_leader_lines()
 
+        if labels.get('shape'):
+            self._write_d_lbl_shape(labels['shape'])
+
         self._xml_end_tag('c:dLbls')
 
     def _write_show_legend_key(self):
@@ -3583,6 +3586,41 @@ class Chart(xmlwriter.XMLwriter):
         attributes = [('val', val)]
 
         self._xml_empty_tag('c:showLeaderLines', attributes)
+
+    def _write_d_lbl_shape(self, val):
+        # Apply selected shape to data labels.
+        # Should work at least since Excel 2013.
+        supported_values = {'wedgeRectCallout',
+                            'wedgeRoundRectCallout',
+                            'wedgeEllipseCallout'}
+
+        if val not in supported_values:
+            raise XlsxInputError("Invalid shape name '%s' for data labels" %
+                                 val)
+
+        shape_string = """
+        <a:prstGeom prst="%s">
+            <a:avLst/>
+        </a:prstGeom>
+        <a:noFill/>
+        <a:ln>
+            <a:noFill/>
+        </a:ln>
+        """ % val
+
+        schema = 'http://schemas.microsoft.com/office/'
+        xmlns_c15 = schema + 'drawing/2012/chart'
+        uri = '{CE6537A1-D6FC-4f65-9D91-7224C49458BB}'
+
+        self._xml_start_tag('c:extLst')
+        self._xml_start_tag('c:ext', [('uri', uri), ('xmlns:c15', xmlns_c15)])
+        self._xml_start_tag('c15:spPr', [('xmlns:c15', xmlns_c15)])
+
+        self.fh.write(shape_string)
+
+        self._xml_end_tag('c15:spPr')
+        self._xml_end_tag('c:ext')
+        self._xml_end_tag('c:extLst')
 
     def _write_d_lbl_pos(self, val):
         # Write the <c:dLblPos> element.
