@@ -3589,24 +3589,31 @@ class Chart(xmlwriter.XMLwriter):
 
     def _write_d_lbl_shape(self, val):
         # Apply selected shape to data labels.
-        # Should work at least since Excel 2013.
-        supported_values = {'wedgeRectCallout',
-                            'wedgeRoundRectCallout',
-                            'wedgeEllipseCallout'}
+        # Supported since Excel 2013.
 
-        if val not in supported_values:
-            raise XlsxInputError("Invalid shape name '%s' for data labels" %
+        # Tooltips as shown by Excel and their corresponding XML values.
+        mapping_shape = {'rectangle': 'rect',
+                         'rounded_rectangle': 'roundRect',
+                         'oval': 'ellipse',
+                         'right_arrow_callout': 'rightArrowCallout',
+                         'down_arrow_callout': 'downArrowCallout',
+                         'left_arrow_callout': 'leftArrowCallout',
+                         'up_arrow_callout': 'upArrowCallout',
+                         'rectangular_callout': 'wedgeRectCallout',
+                         'rounded_rectangular_callout': 'wedgeRoundRectCallout',
+                         'oval_callout': 'wedgeEllipseCallout',
+                         'line_callout1': 'borderCallout1',
+                         'line_callout2': 'borderCallout2',
+                         'line_callout1_accent_bar': 'accentCallout1',
+                         'line_callout2_accent_bar': 'accentCallout2'
+                         }
+
+        if val not in mapping_shape:
+            raise XlsxInputError("Unsupported shape name '%s' for data labels." %
                                  val)
 
-        shape_string = """
-        <a:prstGeom prst="%s">
-            <a:avLst/>
-        </a:prstGeom>
-        <a:noFill/>
-        <a:ln>
-            <a:noFill/>
-        </a:ln>
-        """ % val
+        shape_string = """<a:prstGeom prst="%s"><a:avLst/></a:prstGeom>""" % mapping_shape[val]
+        shape_default_format_string = "<a:noFill/><a:ln><a:noFill/></a:ln>"
 
         schema = 'http://schemas.microsoft.com/office/'
         xmlns_c15 = schema + 'drawing/2012/chart'
@@ -3617,6 +3624,7 @@ class Chart(xmlwriter.XMLwriter):
         self._xml_start_tag('c15:spPr', [('xmlns:c15', xmlns_c15)])
 
         self.fh.write(shape_string)
+        self.fh.write(shape_default_format_string)
 
         self._xml_end_tag('c15:spPr')
         self._xml_end_tag('c:ext')

@@ -22,7 +22,7 @@ worksheet.write_column('B2', data[1])
 #
 chart = workbook.add_chart({'type': 'pie'})
 
-# Configure the series. Note the use of the list syntax to define ranges:
+# Configure the series.
 chart.add_series({
     'name': 'Food',
     'categories': ['Sheet1', 1, 0, 3, 0],
@@ -30,7 +30,7 @@ chart.add_series({
     # Format label options.
     'data_labels': {'category': True, 'percentage': True,
                     'separator': '\n', 'position': 'outside_end',
-                    'shape': 'wedgeRectCallout'}
+                    'shape': 'rectangular_callout'}
 })
 
 chart.set_legend({'none': True})
