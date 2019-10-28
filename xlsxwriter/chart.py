@@ -3589,7 +3589,7 @@ class Chart(xmlwriter.XMLwriter):
 
     def _write_d_lbl_shape(self, val):
         # Apply selected shape to data labels.
-        # Supported since Excel 2013.
+        # Fully supported since Excel 2013.
 
         # Tooltips as shown by Excel and their corresponding XML values.
         mapping_shape = {'rectangle': 'rect',
@@ -3609,11 +3609,10 @@ class Chart(xmlwriter.XMLwriter):
                          }
 
         if val not in mapping_shape:
-            raise XlsxInputError("Unsupported shape name '%s' for data labels." %
-                                 val)
+            raise XlsxInputError('Unsupported shape name "%s" for data labels.' % val)
 
-        shape_string = """<a:prstGeom prst="%s"><a:avLst/></a:prstGeom>""" % mapping_shape[val]
-        shape_default_format_string = "<a:noFill/><a:ln><a:noFill/></a:ln>"
+        shape_string = '<a:prstGeom prst="%s"><a:avLst/></a:prstGeom>' % mapping_shape[val]
+        shape_default_format_string = '<a:noFill/><a:ln><a:noFill/></a:ln>'
 
         schema = 'http://schemas.microsoft.com/office/'
         xmlns_c15 = schema + 'drawing/2012/chart'
