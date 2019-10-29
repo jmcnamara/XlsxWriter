@@ -3499,10 +3499,14 @@ class Chart(xmlwriter.XMLwriter):
         indexes = labels.get('delete')
         if indexes:
             allowed_indexes = set(range(count))
-            lbl_template = '<c:dLbl><c:idx val="{}"/><c:delete val="1"/></c:dLbl>'
+            # lbl_template = '<c:dLbl><c:idx val="{}"/><c:delete val="1"/></c:dLbl>'
             for index in indexes:
                 if index in allowed_indexes:
-                    self.fh.write(lbl_template.format(index))
+                    self._xml_start_tag('c:dLbl')
+                    self._write_idx(index)
+                    self._write_delete(1)
+                    self._xml_end_tag('c:dLbl')
+                    # self.fh.write(lbl_template.format(index))
 
         # Write the c:numFmt element.
         if labels.get('num_format'):
@@ -3511,6 +3515,9 @@ class Chart(xmlwriter.XMLwriter):
         # Write the data label font elements.
         if labels.get('font'):
             self._write_axis_font(labels['font'])
+
+        # White the data label shape properties.
+        self._write_d_lbl_sp_pr(labels)
 
         # Write the c:dLblPos element.
         if labels.get('position'):
@@ -3544,6 +3551,7 @@ class Chart(xmlwriter.XMLwriter):
         if labels.get('leader_lines'):
             self._write_show_leader_lines()
 
+        # Write the data label shape element.
         if labels.get('shape'):
             self._write_d_lbl_shape(labels['shape'])
 
@@ -3601,7 +3609,7 @@ class Chart(xmlwriter.XMLwriter):
 
         self._xml_empty_tag('c:showLeaderLines', attributes)
 
-    def _write_d_lbl_shape(self, val):
+    def _write_d_lbl_shape(self, shape):
         # Apply selected shape to data labels.
         # Fully supported since Excel 2013.
 
@@ -3622,11 +3630,14 @@ class Chart(xmlwriter.XMLwriter):
                        'line_callout2_accent_bar': 'accentCallout2'
                        }
 
-        if val not in shape_types:
-            raise XlsxInputError('Unsupported shape name "%s" for data labels.' % val)
+        # The shape can be a dictionary or a string.
+        try:
+            type_ = shape.get('type')
+        except AttributeError:
+            type_ = shape
 
-        shape_string = '<a:prstGeom prst="%s"><a:avLst/></a:prstGeom>' % shape_types[val]
-        shape_default_format_string = '<a:noFill/><a:ln><a:noFill/></a:ln>'
+        if type_ not in shape_types:
+            raise XlsxInputError('Unsupported shape type "%s" for data labels.' % type_)
 
         schema = 'http://schemas.microsoft.com/office/'
         xmlns_c15 = schema + 'drawing/2012/chart'
@@ -3636,12 +3647,35 @@ class Chart(xmlwriter.XMLwriter):
         self._xml_start_tag('c:ext', [('uri', uri), ('xmlns:c15', xmlns_c15)])
         self._xml_start_tag('c15:spPr', [('xmlns:c15', xmlns_c15)])
 
-        self.fh.write(shape_string)
-        self.fh.write(shape_default_format_string)
+        self._xml_start_tag('a:prstGeom', [('prst', shape_types[type_])])
+        self._xml_empty_tag('a:avLst')
+        self._xml_end_tag('a:prstGeom')
 
         self._xml_end_tag('c15:spPr')
         self._xml_end_tag('c:ext')
         self._xml_end_tag('c:extLst')
+
+    def _write_d_lbl_sp_pr(self, options):
+        # Prepare properties for data labels.
+        line = Shape._get_line_properties(options.get('line',
+                                                      options.get('border')))
+        fill = Shape._get_fill_properties(options.get('fill'))
+        pattern = Shape._get_pattern_properties(options.get('pattern'))
+        gradient = Shape._get_gradient_properties(options.get('gradient'))
+        # Pattern fill overrides solid fill.
+        if pattern:
+            fill = None
+        # Gradient fill overrides the solid and pattern fill.
+        if gradient:
+            pattern = None
+            fill = None
+
+        new_options = {'line': line,
+                       'fill': fill,
+                       'pattern': pattern,
+                       'gradient': gradient}
+
+        self._write_sp_pr(new_options)
 
     def _write_d_lbl_pos(self, val):
         # Write the <c:dLblPos> element.
