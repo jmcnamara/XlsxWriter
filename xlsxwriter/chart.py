@@ -1692,8 +1692,12 @@ class Chart(xmlwriter.XMLwriter):
         # Write the c:dPt element.
         self._write_d_pt(series['points'])
 
+        # Set the count of points.
+        data_id = series['val_data_id']
+        count = len(self.formula_data[data_id])
+
         # Write the c:dLbls element.
-        self._write_d_lbls(series['labels'])
+        self._write_d_lbls(series['labels'], count)
 
         # Write the c:trendline element.
         self._write_trendline(series['trendline'])
@@ -3482,13 +3486,23 @@ class Chart(xmlwriter.XMLwriter):
 
         self._xml_end_tag('c:dPt')
 
-    def _write_d_lbls(self, labels):
+    def _write_d_lbls(self, labels, count):
         # Write the <c:dLbls> element.
 
         if not labels:
             return
 
         self._xml_start_tag('c:dLbls')
+
+        # Write the c:dLbl elemets to delete the corresponding data labels
+        # from the chart.
+        indexes = labels.get('delete')
+        if indexes:
+            allowed_indexes = set(range(count))
+            lbl_template = '<c:dLbl><c:idx val="{}"/><c:delete val="1"/></c:dLbl>'
+            for index in indexes:
+                if index in allowed_indexes:
+                    self.fh.write(lbl_template.format(index))
 
         # Write the c:numFmt element.
         if labels.get('num_format'):
@@ -3592,26 +3606,26 @@ class Chart(xmlwriter.XMLwriter):
         # Fully supported since Excel 2013.
 
         # Tooltips as shown by Excel and their corresponding XML values.
-        mapping_shape = {'rectangle': 'rect',
-                         'rounded_rectangle': 'roundRect',
-                         'oval': 'ellipse',
-                         'right_arrow_callout': 'rightArrowCallout',
-                         'down_arrow_callout': 'downArrowCallout',
-                         'left_arrow_callout': 'leftArrowCallout',
-                         'up_arrow_callout': 'upArrowCallout',
-                         'rectangular_callout': 'wedgeRectCallout',
-                         'rounded_rectangular_callout': 'wedgeRoundRectCallout',
-                         'oval_callout': 'wedgeEllipseCallout',
-                         'line_callout1': 'borderCallout1',
-                         'line_callout2': 'borderCallout2',
-                         'line_callout1_accent_bar': 'accentCallout1',
-                         'line_callout2_accent_bar': 'accentCallout2'
-                         }
+        shape_types = {'rectangle': 'rect',
+                       'rounded_rectangle': 'roundRect',
+                       'oval': 'ellipse',
+                       'right_arrow_callout': 'rightArrowCallout',
+                       'down_arrow_callout': 'downArrowCallout',
+                       'left_arrow_callout': 'leftArrowCallout',
+                       'up_arrow_callout': 'upArrowCallout',
+                       'rectangular_callout': 'wedgeRectCallout',
+                       'rounded_rectangular_callout': 'wedgeRoundRectCallout',
+                       'oval_callout': 'wedgeEllipseCallout',
+                       'line_callout1': 'borderCallout1',
+                       'line_callout2': 'borderCallout2',
+                       'line_callout1_accent_bar': 'accentCallout1',
+                       'line_callout2_accent_bar': 'accentCallout2'
+                       }
 
-        if val not in mapping_shape:
+        if val not in shape_types:
             raise XlsxInputError('Unsupported shape name "%s" for data labels.' % val)
 
-        shape_string = '<a:prstGeom prst="%s"><a:avLst/></a:prstGeom>' % mapping_shape[val]
+        shape_string = '<a:prstGeom prst="%s"><a:avLst/></a:prstGeom>' % shape_types[val]
         shape_default_format_string = '<a:noFill/><a:ln><a:noFill/></a:ln>'
 
         schema = 'http://schemas.microsoft.com/office/'

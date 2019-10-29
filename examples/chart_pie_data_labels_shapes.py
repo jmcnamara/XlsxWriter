@@ -22,6 +22,8 @@ worksheet.write_column('B2', data[1])
 #
 chart = workbook.add_chart({'type': 'pie'})
 
+colors = ['#3CB44B', '#FFE119', '#F032E6']
+
 # Configure the series.
 chart.add_series({
     'name': 'Food',
@@ -30,7 +32,12 @@ chart.add_series({
     # Format label options.
     'data_labels': {'category': True, 'percentage': True,
                     'separator': '\n', 'position': 'outside_end',
-                    'shape': 'rectangular_callout'}
+                    'font': {'color': '#AA6E28'},
+                    'shape': 'rectangular_callout',
+                    # Delete data labels from the chart given their indexes.
+                    'delete': [0, 1]
+                    },
+    'points': [{'fill': {'color': color}} for color in colors],
 })
 
 chart.set_legend({'none': True})
