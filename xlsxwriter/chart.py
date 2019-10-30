@@ -1155,6 +1155,25 @@ class Chart(xmlwriter.XMLwriter):
         # Set the font properties if present.
         labels['font'] = self._convert_font_args(labels.get('font'))
 
+        # Set the shape properties.
+        line = Shape._get_line_properties(labels.get('line',
+                                                     labels.get('border')))
+        fill = Shape._get_fill_properties(labels.get('fill'))
+        pattern = Shape._get_pattern_properties(labels.get('pattern'))
+        gradient = Shape._get_gradient_properties(labels.get('gradient'))
+        # Pattern fill overrides solid fill.
+        if pattern:
+            fill = None
+        # Gradient fill overrides the solid and pattern fill.
+        if gradient:
+            pattern = None
+            fill = None
+
+        labels.update({'line': line,
+                       'fill': fill,
+                       'pattern': pattern,
+                       'gradient': gradient})
+
         return labels
 
     def _get_area_properties(self, options):
@@ -3517,7 +3536,7 @@ class Chart(xmlwriter.XMLwriter):
             self._write_axis_font(labels['font'])
 
         # White the data label shape properties.
-        self._write_d_lbl_sp_pr(labels)
+        self._write_sp_pr(labels)
 
         # Write the c:dLblPos element.
         if labels.get('position'):
@@ -3551,7 +3570,7 @@ class Chart(xmlwriter.XMLwriter):
         if labels.get('leader_lines'):
             self._write_show_leader_lines()
 
-        # Write the data label shape element.
+        # Write the a:prstGeom data label shape.
         if labels.get('shape'):
             self._write_d_lbl_shape(labels['shape'])
 
@@ -3654,28 +3673,6 @@ class Chart(xmlwriter.XMLwriter):
         self._xml_end_tag('c15:spPr')
         self._xml_end_tag('c:ext')
         self._xml_end_tag('c:extLst')
-
-    def _write_d_lbl_sp_pr(self, options):
-        # Prepare properties for data labels.
-        line = Shape._get_line_properties(options.get('line',
-                                                      options.get('border')))
-        fill = Shape._get_fill_properties(options.get('fill'))
-        pattern = Shape._get_pattern_properties(options.get('pattern'))
-        gradient = Shape._get_gradient_properties(options.get('gradient'))
-        # Pattern fill overrides solid fill.
-        if pattern:
-            fill = None
-        # Gradient fill overrides the solid and pattern fill.
-        if gradient:
-            pattern = None
-            fill = None
-
-        new_options = {'line': line,
-                       'fill': fill,
-                       'pattern': pattern,
-                       'gradient': gradient}
-
-        self._write_sp_pr(new_options)
 
     def _write_d_lbl_pos(self, val):
         # Write the <c:dLblPos> element.
