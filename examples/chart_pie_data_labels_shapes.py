@@ -32,10 +32,15 @@ chart.add_series({
     # Format label options.
     'data_labels': {'category': True, 'percentage': True,
                     'separator': '\n', 'position': 'outside_end',
-                    'font': {'color': 'yellow'},
+                    'font': {'color': 'green'},
 
                     'fill': {'color': 'black'},
                     'border': {'color': 'orange'},
+                    'pattern': {
+                        'pattern': 'dashed_vertical',
+                        'fg_color': 'gray',
+                        'bg_color': 'white',
+                    },
 
                     'shape': {'type': 'rectangular_callout'},
 

@@ -165,7 +165,7 @@ class Chart(xmlwriter.XMLwriter):
 
         # Pattern fill overrides solid fill.
         if pattern:
-            self.fill = None
+            fill = None
 
         # Gradient fill overrides the solid and pattern fill.
         if gradient:
@@ -558,7 +558,7 @@ class Chart(xmlwriter.XMLwriter):
 
         # Pattern fill overrides solid fill.
         if pattern:
-            self.fill = None
+            fill = None
 
         # Gradient fill overrides the solid and pattern fill.
         if gradient:
@@ -595,7 +595,7 @@ class Chart(xmlwriter.XMLwriter):
 
         # Pattern fill overrides solid fill.
         if pattern:
-            self.fill = None
+            fill = None
 
         # Gradient fill overrides the solid and pattern fill.
         if gradient:
@@ -969,7 +969,7 @@ class Chart(xmlwriter.XMLwriter):
 
         # Pattern fill overrides solid fill.
         if pattern:
-            self.fill = None
+            fill = None
 
         # Gradient fill overrides the solid and pattern fill.
         if gradient:
@@ -1028,7 +1028,7 @@ class Chart(xmlwriter.XMLwriter):
 
         # Pattern fill overrides solid fill.
         if pattern:
-            self.fill = None
+            fill = None
 
         # Gradient fill overrides the solid and pattern fill.
         if gradient:
@@ -1198,7 +1198,7 @@ class Chart(xmlwriter.XMLwriter):
 
         # Pattern fill overrides solid fill.
         if pattern:
-            self.fill = None
+            fill = None
 
         # Gradient fill overrides the solid and pattern fill.
         if gradient:
@@ -1251,7 +1251,7 @@ class Chart(xmlwriter.XMLwriter):
 
         # Pattern fill overrides solid fill.
         if pattern:
-            self.fill = None
+            fill = None
 
         # Gradient fill overrides the solid and pattern fill.
         if gradient:
@@ -1345,7 +1345,7 @@ class Chart(xmlwriter.XMLwriter):
 
                 # Pattern fill overrides solid fill.
                 if pattern:
-                    self.fill = None
+                    fill = None
 
                 # Gradient fill overrides the solid and pattern fill.
                 if gradient:
