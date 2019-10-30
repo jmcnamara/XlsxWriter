@@ -3513,19 +3513,23 @@ class Chart(xmlwriter.XMLwriter):
 
         self._xml_start_tag('c:dLbls')
 
-        # Write the c:dLbl elemets to delete the corresponding data labels
+        # Write the individual <c:dLbl> elements.
+        if labels.get('labels'):
+            self._write_d_lbl(labels)
+
+        # Write the c:dLbl elements to delete the corresponding data labels
         # from the chart.
-        indexes = labels.get('delete')
-        if indexes:
-            allowed_indexes = set(range(count))
-            # lbl_template = '<c:dLbl><c:idx val="{}"/><c:delete val="1"/></c:dLbl>'
-            for index in indexes:
-                if index in allowed_indexes:
-                    self._xml_start_tag('c:dLbl')
-                    self._write_idx(index)
-                    self._write_delete(1)
-                    self._xml_end_tag('c:dLbl')
-                    # self.fh.write(lbl_template.format(index))
+        # indexes = labels.get('delete')
+        # if indexes:
+        #     allowed_indexes = set(range(count))
+        #     # lbl_template = '<c:dLbl><c:idx val="{}"/><c:delete val="1"/></c:dLbl>'
+        #     for index in indexes:
+        #         if index in allowed_indexes:
+        #             self._xml_start_tag('c:dLbl')
+        #             self._write_idx(index)
+        #             self._write_delete(1)
+        #             self._xml_end_tag('c:dLbl')
+        #             # self.fh.write(lbl_template.format(index))
 
         # Write the c:numFmt element.
         if labels.get('num_format'):
@@ -3575,6 +3579,30 @@ class Chart(xmlwriter.XMLwriter):
             self._write_d_lbl_shape(labels['shape'])
 
         self._xml_end_tag('c:dLbls')
+
+    def _write_d_lbl(self, labels):
+        # Write the <c:dLbl> elements.
+        labels_list = labels['labels']
+        for index, label in enumerate(labels_list):
+            if not label:
+                continue
+            self._write_d_lbl_label(index, label, labels)
+
+    def _write_d_lbl_label(self, index, label, labels):
+        self._xml_start_tag('c:dLbl')
+        self._write_idx(index)
+        if label.get('delete'):
+            self._write_delete(1)
+        elif label.get('font'):
+            # TODO: keep the font size unchanged.
+            font = Shape._get_font_properties(label['font'])
+            self._write_axis_font(font)
+            # Duplicate shape properties and shape in every single label,
+            # otherwise the parameters will be removed.
+            self._write_sp_pr(labels)
+            if labels.get('shape'):
+                self._write_d_lbl_shape(labels['shape'])
+        self._xml_end_tag('c:dLbl')
 
     def _write_show_legend_key(self):
         # Write the <c:showLegendKey> element.

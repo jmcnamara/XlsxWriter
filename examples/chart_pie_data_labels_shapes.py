@@ -36,16 +36,15 @@ chart.add_series({
 
                     'fill': {'color': 'black'},
                     'border': {'color': 'orange'},
-                    'pattern': {
-                        'pattern': 'dashed_vertical',
-                        'fg_color': 'gray',
-                        'bg_color': 'white',
-                    },
 
                     'shape': {'type': 'rectangular_callout'},
 
-                    # Delete data labels from the chart given their indexes.
-                    'delete': [2]
+                    'labels': [None,
+                               {'font': {'color': 'orange'}},
+                               {'delete': True}],
+
+                    # # Delete data labels from the chart given their indexes.
+                    # 'delete': [2]
                     },
     'points': [{'fill': {'color': color}} for color in colors],
 })
