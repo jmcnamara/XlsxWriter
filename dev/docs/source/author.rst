@@ -43,12 +43,20 @@ If you have questions about XlsxWriter here are some ways to deal with them:
   If none of the above apply you can contact me at jmcnamara@cpan.org.
 
 
-If you found XlsxWriter useful
-------------------------------
+Sponsorship and Donations
+-------------------------
 
-If you have found XlsxWriter useful, then
-`donations <https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=RRZCPSL65X858>`_
-are always welcome.
+I write and maintain a series of open source libraries for creating Excel
+files. The most commonly used are XlsxWriter in Python, Libxlsxwriter in C and
+Excel::Writer::XLSX and Spreadsheet::WriteExcel in Perl.
+
+My aim is to write well documented and well tested code that does what the
+user needs and doesn't get in their way.  You can help make this continue, or
+show your appreciation for work to date, by becoming a
+`GitHub Sponsor <https://github.com/sponsors/jmcnamara>`_.
+
+Or make a one-off donation via
+`PayPal <https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=RRZCPSL65X858>`_.
 
 .. raw:: html
 
