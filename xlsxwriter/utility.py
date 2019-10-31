@@ -7,9 +7,24 @@
 import re
 import datetime
 from warnings import warn
+import copy
+import collections as _collections
 
 COL_NAMES = {}
 range_parts = re.compile(r'(\$?)([A-Z]{1,3})(\$?)(\d+)')
+
+# Python 3.8+ compatibility.
+try:
+    _collectionsAbc = _collections.abc
+except AttributeError:
+    _collectionsAbc = _collections
+
+# Python 2.7 compatibility.
+try:
+    dict().iteritems
+    _iteritems = 'iteritems'
+except AttributeError:
+    _iteritems = 'items'
 
 
 def xl_rowcol_to_cell(row, col, row_abs=False, col_abs=False):
@@ -694,3 +709,26 @@ def datetime_to_excel_datetime(dt_obj, date_1904, remove_timezone):
         excel_time += 1
 
     return excel_time
+
+
+def override_dict(d, u):
+    """
+    Update nested dictionary with another dictionary.
+
+    Args:
+        d: A dictionary to be updated.
+        u: A dictionary to update, its items overide the dicitonary `d`.
+
+    Returns:
+        Overridden dictionary.
+    """
+    d = copy.deepcopy(d)
+    for k, v in getattr(u, _iteritems)():
+        dv = d.get(k, {})
+        if not isinstance(dv, _collectionsAbc.Mapping):
+            d[k] = v
+        elif isinstance(v, _collectionsAbc.Mapping):
+            d[k] = override_dict(dv, v)
+        else:
+            d[k] = v
+    return d

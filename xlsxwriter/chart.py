@@ -16,7 +16,9 @@ from .utility import xl_range_formula
 from .utility import supported_datetime
 from .utility import datetime_to_excel_datetime
 from .utility import quote_sheetname
+from .utility import override_dict
 from .exceptions import XlsxInputError
+
 
 class Chart(xmlwriter.XMLwriter):
     """
@@ -192,7 +194,11 @@ class Chart(xmlwriter.XMLwriter):
         points = self._get_points_properties(options.get('points'))
 
         # Set the labels properties for the series.
-        labels = self._get_labels_properties(options.get('data_labels'))
+        data_labels = options.get('data_labels')
+        labels = self._get_labels_properties(data_labels)
+        # Add data_labels as is to use them for individual data labels.
+        if labels is not None and labels.get('individual_labels'):
+            labels['_data_labels_raw'] = copy.deepcopy(data_labels)
 
         # Set the "invert if negative" fill property.
         invert_if_neg = options.get('invert_if_negative', False)
@@ -1156,8 +1162,8 @@ class Chart(xmlwriter.XMLwriter):
         labels['font'] = self._convert_font_args(labels.get('font'))
 
         # Set the shape properties.
-        line = Shape._get_line_properties(labels.get('line',
-                                                     labels.get('border')))
+        line = Shape._get_line_properties(labels.get('border',
+                                                     labels.get('line')))
         fill = Shape._get_fill_properties(labels.get('fill'))
         pattern = Shape._get_pattern_properties(labels.get('pattern'))
         gradient = Shape._get_gradient_properties(labels.get('gradient'))
@@ -1711,12 +1717,8 @@ class Chart(xmlwriter.XMLwriter):
         # Write the c:dPt element.
         self._write_d_pt(series['points'])
 
-        # Set the count of points.
-        data_id = series['val_data_id']
-        count = len(self.formula_data[data_id])
-
         # Write the c:dLbls element.
-        self._write_d_lbls(series['labels'], count)
+        self._write_d_lbls(series['labels'])
 
         # Write the c:trendline element.
         self._write_trendline(series['trendline'])
@@ -3505,7 +3507,7 @@ class Chart(xmlwriter.XMLwriter):
 
         self._xml_end_tag('c:dPt')
 
-    def _write_d_lbls(self, labels, count):
+    def _write_d_lbls(self, labels):
         # Write the <c:dLbls> element.
 
         if not labels:
@@ -3513,23 +3515,23 @@ class Chart(xmlwriter.XMLwriter):
 
         self._xml_start_tag('c:dLbls')
 
+        # TODO: Resize shape to fit text.
+
         # Write the individual <c:dLbl> elements.
-        if labels.get('labels'):
+        if labels.get('individual_labels'):
             self._write_d_lbl(labels)
 
-        # Write the c:dLbl elements to delete the corresponding data labels
-        # from the chart.
-        # indexes = labels.get('delete')
-        # if indexes:
-        #     allowed_indexes = set(range(count))
-        #     # lbl_template = '<c:dLbl><c:idx val="{}"/><c:delete val="1"/></c:dLbl>'
-        #     for index in indexes:
-        #         if index in allowed_indexes:
-        #             self._xml_start_tag('c:dLbl')
-        #             self._write_idx(index)
-        #             self._write_delete(1)
-        #             self._xml_end_tag('c:dLbl')
-        #             # self.fh.write(lbl_template.format(index))
+        # Write the common data label properties, which take effect
+        # when the individual <c:dLbl> elements are not written
+        # and the <c:delete> tag is not activated.
+        self._write_d_lbl_internally(labels)
+
+        self._xml_end_tag('c:dLbls')
+
+    def _write_d_lbl_internally(self, labels):
+        # Write the <c:dLbls> or <c:dLbl> element.
+        if not labels:
+            return
 
         # Write the c:numFmt element.
         if labels.get('num_format'):
@@ -3578,30 +3580,26 @@ class Chart(xmlwriter.XMLwriter):
         if labels.get('shape'):
             self._write_d_lbl_shape(labels['shape'])
 
-        self._xml_end_tag('c:dLbls')
-
     def _write_d_lbl(self, labels):
         # Write the <c:dLbl> elements.
-        labels_list = labels['labels']
+        labels_list = labels['individual_labels']
         for index, label in enumerate(labels_list):
             if not label:
                 continue
             self._write_d_lbl_label(index, label, labels)
 
     def _write_d_lbl_label(self, index, label, labels):
+        # Write an individual <c:dLbl> element.
         self._xml_start_tag('c:dLbl')
         self._write_idx(index)
         if label.get('delete'):
             self._write_delete(1)
-        elif label.get('font'):
-            # TODO: keep the font size unchanged.
-            font = Shape._get_font_properties(label['font'])
-            self._write_axis_font(font)
-            # Duplicate shape properties and shape in every single label,
-            # otherwise the parameters will be removed.
-            self._write_sp_pr(labels)
-            if labels.get('shape'):
-                self._write_d_lbl_shape(labels['shape'])
+        else:
+            # Duplicate labels properties in the label,
+            # otherwise some parameters might be lost.
+            label = override_dict(labels.get('_data_labels_raw', {}), label)
+            label = self._get_labels_properties(label)
+            self._write_d_lbl_internally(label)
         self._xml_end_tag('c:dLbl')
 
     def _write_show_legend_key(self):

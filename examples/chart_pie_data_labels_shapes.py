@@ -32,19 +32,18 @@ chart.add_series({
     # Format label options.
     'data_labels': {'category': True, 'percentage': True,
                     'separator': '\n', 'position': 'outside_end',
-                    'font': {'color': 'green'},
+                    'font': {'color': 'green', 'bold': True},
 
                     'fill': {'color': 'black'},
                     'border': {'color': 'orange'},
 
                     'shape': {'type': 'rectangular_callout'},
 
-                    'labels': [None,
-                               {'font': {'color': 'orange'}},
-                               {'delete': True}],
-
-                    # # Delete data labels from the chart given their indexes.
-                    # 'delete': [2]
+                    'individual_labels': [None,
+                                          {'font': {'color': 'orange'}},
+                                          {'shape': 'oval_callout'}
+                                          # {'delete': True},
+                                          ],
                     },
     'points': [{'fill': {'color': color}} for color in colors],
 })
