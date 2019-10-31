@@ -32,7 +32,7 @@ chart.add_series({
     # Format label options.
     'data_labels': {'category': True, 'percentage': True,
                     'separator': '\n', 'position': 'outside_end',
-                    'font': {'color': 'green', 'bold': True},
+                    'font': {'color': 'green', 'bold': True, 'resize_shape': True},
 
                     'fill': {'color': 'black'},
                     'border': {'color': 'orange'},

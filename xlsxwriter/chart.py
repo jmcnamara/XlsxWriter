@@ -818,6 +818,7 @@ class Chart(xmlwriter.XMLwriter):
             'charset': options.get('charset'),
             'baseline': options.get('baseline', 0),
             'rotation': options.get('rotation'),
+            'resize_shape': options.get('resize_shape', False),
         }
 
         # Convert font size units.
@@ -2876,7 +2877,7 @@ class Chart(xmlwriter.XMLwriter):
 
         self._xml_end_tag('c:rich')
 
-    def _write_a_body_pr(self, rotation, is_y_axis):
+    def _write_a_body_pr(self, rotation, is_y_axis, resize_shape=False):
         # Write the <a:bodyPr> element.
         attributes = []
 
@@ -2895,8 +2896,13 @@ class Chart(xmlwriter.XMLwriter):
             else:
                 attributes.append(('rot', rotation))
                 attributes.append(('vert', 'horz'))
-
-        self._xml_empty_tag('a:bodyPr', attributes)
+        if resize_shape:
+            # Resize shape to fit text.
+            self._xml_start_tag('a:bodyPr', attributes)
+            self._xml_empty_tag('a:spAutoFit')
+            self._xml_end_tag('a:bodyPr')
+        else:
+            self._xml_empty_tag('a:bodyPr', attributes)
 
     def _write_a_lst_style(self):
         # Write the <a:lstStyle> element.
@@ -3032,10 +3038,16 @@ class Chart(xmlwriter.XMLwriter):
         else:
             rotation = None
 
+        # Resize shape to fit text.
+        if font:
+            resize_shape = font.get('resize_shape')
+        else:
+            resize_shape = False
+
         self._xml_start_tag('c:txPr')
 
         # Write the a:bodyPr element.
-        self._write_a_body_pr(rotation, is_y_axis)
+        self._write_a_body_pr(rotation, is_y_axis, resize_shape)
 
         # Write the a:lstStyle element.
         self._write_a_lst_style()
@@ -3509,13 +3521,10 @@ class Chart(xmlwriter.XMLwriter):
 
     def _write_d_lbls(self, labels):
         # Write the <c:dLbls> element.
-
         if not labels:
             return
 
         self._xml_start_tag('c:dLbls')
-
-        # TODO: Resize shape to fit text.
 
         # Write the individual <c:dLbl> elements.
         if labels.get('individual_labels'):
@@ -3735,7 +3744,7 @@ class Chart(xmlwriter.XMLwriter):
             return
 
         self._xml_start_tag('c:txPr')
-        self._write_a_body_pr(font.get('rotation'), None)
+        self._write_a_body_pr(font.get('rotation'), None, font.get('resize_shape'))
         self._write_a_lst_style()
         self._xml_start_tag('a:p')
 
