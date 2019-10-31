@@ -40,7 +40,9 @@ chart.add_series({
                     'shape': {'type': 'rectangular_callout'},
 
                     'individual_labels': [None,
-                                          {'font': {'color': 'orange'}},
+                                          {'font': {'color': 'orange'},
+                                           'shape': None, 'fill': None, 'border': None,
+                                           },
                                           {'shape': 'oval_callout'}
                                           # {'delete': True},
                                           ],

@@ -3658,6 +3658,9 @@ class Chart(xmlwriter.XMLwriter):
         # Apply selected shape to data labels.
         # Fully supported since Excel 2013.
 
+        if not shape:
+            return
+
         # Tooltips as shown by Excel and their corresponding XML values.
         shape_types = {'rectangle': 'rect',
                        'rounded_rectangle': 'roundRect',
