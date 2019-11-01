@@ -6,10 +6,11 @@ python:
   - "3.5"
   - "3.6"
   - "3.7"
-  - "3.7-dev"
+  - "3.8"
   - "3.8-dev"
   - "nightly"
   - "pypy"
+  - "pypy3"
 
 install:
 - pip install pytest
@@ -18,5 +19,6 @@ install:
 script:
 - py.test
 - make test_codestyle
+- make testwarnings
 
 sudo: false

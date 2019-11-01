@@ -62,8 +62,7 @@ tags:
 	$(Q)etags xlsxwriter/*.py
 
 testwarnings:
-	@find . -name '*.py[co]' -exec rm -rf '{}' +
-	@PYTHONPATH=$PYTHONPATH:. ~/.pythonbrew/pythons/Python-3.8.0/bin/python -Walways -c 'from xlsxwriter import Workbook'
+	@python -Werror -c 'from xlsxwriter import Workbook'
 
 spellcheck:
 	@for f in dev/docs/source/*.rst; do aspell --lang=en_US --check $$f; done
