@@ -69,36 +69,24 @@ class Drawing(xmlwriter.XMLwriter):
         # Close the file.
         self._xml_close()
 
-    def _add_drawing_object(self, drawing_object):
+    def _add_drawing_object(self):
         # Add a chart, image or shape sub object to the drawing.
 
-        obj = {
-            'anchor_type': drawing_object[0],
-            'col_from': drawing_object[1],
-            'row_from': drawing_object[2],
-            'col_from_offset': drawing_object[3],
-            'row_from_offset': drawing_object[4],
-            'col_to': drawing_object[5],
-            'row_to': drawing_object[6],
-            'col_to_offset': drawing_object[7],
-            'row_to_offset': drawing_object[8],
-            'col_absolute': drawing_object[9],
-            'row_absolute': drawing_object[10],
-            'width': drawing_object[11],
-            'height': drawing_object[12],
-            'description': drawing_object[13],
-            'shape': drawing_object[14],
+        drawing_object = {
+            'anchor_type': None,
+            'dimensions': [],
+            'width': 0,
+            'height': 0,
+            'description': None,
+            'shape': None,
+            'anchor': None,
             'url': None,
-            'tip': None,
-            'anchor': None
+            'tip': None
         }
 
-        if len(drawing_object) > 15:
-            obj['url'] = drawing_object[15]
-            obj['tip'] = drawing_object[16]
-            obj['anchor'] = drawing_object[17]
+        self.drawings.append(drawing_object)
 
-        self.drawings.append(obj)
+        return drawing_object
 
     ###########################################################################
     #
@@ -119,22 +107,40 @@ class Drawing(xmlwriter.XMLwriter):
 
         self._xml_start_tag('xdr:wsDr', attributes)
 
-    def _write_two_cell_anchor(self, index, drawing):
+    def _write_two_cell_anchor(self, index, drawing_properties):
         # Write the <xdr:twoCellAnchor> element.
-        shape = drawing['shape']
+        anchor_type = drawing_properties['type']
+        dimensions = drawing_properties['dimensions']
+        col_from = dimensions[0]
+        row_from = dimensions[1]
+        col_from_offset = dimensions[2]
+        row_from_offset = dimensions[3]
+        col_to = dimensions[4]
+        row_to = dimensions[5]
+        col_to_offset = dimensions[6]
+        row_to_offset = dimensions[7]
+        col_absolute = dimensions[8]
+        row_absolute = dimensions[9]
+        width = drawing_properties['width']
+        height = drawing_properties['height']
+        description = drawing_properties['description']
+        shape = drawing_properties['shape']
+        anchor = drawing_properties['anchor']
+        url = drawing_properties['url']
+        tip = drawing_properties['tip']
 
         options = {
-            'description': drawing['description'],
-            'url': drawing['url'],
-            'tip': drawing['tip']
+            'description': description,
+            'url': url,
+            'tip': tip
         }
 
         attributes = []
 
         # Add attribute for positioning.
-        if drawing['anchor'] == 2:
+        if anchor == 2:
             attributes.append(('editAs', 'oneCell'))
-        elif drawing['anchor'] == 3:
+        elif anchor == 3:
             attributes.append(('editAs', 'absolute'))
 
         # Add editAs attribute for shapes.
@@ -145,38 +151,38 @@ class Drawing(xmlwriter.XMLwriter):
 
         # Write the xdr:from element.
         self._write_from(
-            drawing['col_from'],
-            drawing['row_from'],
-            drawing['col_from_offset'],
-            drawing['row_from_offset'])
+            col_from,
+            row_from,
+            col_from_offset,
+            row_from_offset)
 
         # Write the xdr:from element.
         self._write_to(
-            drawing['col_to'],
-            drawing['row_to'],
-            drawing['col_to_offset'],
-            drawing['row_to_offset'])
+            col_to,
+            row_to,
+            col_to_offset,
+            row_to_offset)
 
-        if drawing['anchor_type'] == 1:
+        if anchor_type == 1:
             # Graphic frame.
             # Write the xdr:graphicFrame element for charts.
-            self._write_graphic_frame(index, drawing['description'])
-        elif drawing['anchor_type'] == 2:
+            self._write_graphic_frame(index, description)
+        elif anchor_type == 2:
             # Write the xdr:pic element.
             self._write_pic(index,
-                            drawing['col_absolute'],
-                            drawing['row_absolute'],
-                            drawing['width'],
-                            drawing['height'],
+                            col_absolute,
+                            row_absolute,
+                            width,
+                            height,
                             shape,
                             options)
         else:
             # Write the xdr:sp element for shapes.
             self._write_sp(index,
-                           drawing['col_absolute'],
-                           drawing['row_absolute'],
-                           drawing['width'],
-                           drawing['height'],
+                           col_absolute,
+                           row_absolute,
+                           width,
+                           height,
                            shape)
 
         # Write the xdr:clientData element.

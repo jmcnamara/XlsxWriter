@@ -4145,11 +4145,16 @@ class Worksheet(xmlwriter.XMLwriter):
         else:
             drawing = self.drawing
 
-        drawing_object = [drawing_type]
-        drawing_object.extend(dimensions)
-        drawing_object.extend([width, height, name, None, url, tip, anchor])
-
-        drawing._add_drawing_object(drawing_object)
+        drawing_object = drawing._add_drawing_object()
+        drawing_object['type'] = drawing_type
+        drawing_object['dimensions'] = dimensions
+        drawing_object['width'] = width
+        drawing_object['height'] = height
+        drawing_object['description'] = name
+        drawing_object['shape'] = None
+        drawing_object['anchor'] = anchor
+        drawing_object['url'] = url
+        drawing_object['tip'] = tip
 
         if url:
             rel_type = "/hyperlink"
@@ -4208,12 +4213,16 @@ class Worksheet(xmlwriter.XMLwriter):
         shape = Shape('rect', 'TextBox', options)
         shape.text = text
 
-        drawing_object = [drawing_type]
-        drawing_object.extend(dimensions)
-        drawing_object.extend([width, height, None, shape, None,
-                               None, anchor])
-
-        drawing._add_drawing_object(drawing_object)
+        drawing_object = drawing._add_drawing_object()
+        drawing_object['type'] = drawing_type
+        drawing_object['dimensions'] = dimensions
+        drawing_object['width'] = width
+        drawing_object['height'] = height
+        drawing_object['description'] = None
+        drawing_object['shape'] = shape
+        drawing_object['anchor'] = anchor
+        drawing_object['url'] = None
+        drawing_object['tip'] = None
 
     def _prepare_header_image(self, image_id, width, height, name, image_type,
                               position, x_dpi, y_dpi):
@@ -4262,11 +4271,16 @@ class Worksheet(xmlwriter.XMLwriter):
         else:
             drawing = self.drawing
 
-        drawing_object = [drawing_type]
-        drawing_object.extend(dimensions)
-        drawing_object.extend([width, height, name, None, None, None, anchor])
-
-        drawing._add_drawing_object(drawing_object)
+        drawing_object = drawing._add_drawing_object()
+        drawing_object['type'] = drawing_type
+        drawing_object['dimensions'] = dimensions
+        drawing_object['width'] = width
+        drawing_object['height'] = height
+        drawing_object['description'] = name
+        drawing_object['shape'] = None
+        drawing_object['anchor'] = anchor
+        drawing_object['url'] = None
+        drawing_object['tip'] = None
 
         self.drawing_links.append(['/chart',
                                    '../charts/chart'

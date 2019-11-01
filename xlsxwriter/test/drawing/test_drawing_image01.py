@@ -24,7 +24,18 @@ class TestAssembleDrawing(unittest.TestCase):
         drawing = Drawing()
         drawing._set_filehandle(fh)
 
-        drawing._add_drawing_object([2, 2, 1, 0, 0, 3, 6, 533257, 190357, 1219200, 190500, 1142857, 1142857, 'republic.png', None, None, None, 2])
+        dimensions = [2, 1, 0, 0, 3, 6, 533257, 190357, 1219200, 190500, 0, 0]
+        drawing_object = drawing._add_drawing_object()
+        drawing_object['type'] = 2
+        drawing_object['dimensions'] = dimensions
+        drawing_object['width'] = 1142857
+        drawing_object['height'] = 1142857
+        drawing_object['description'] = 'republic.png'
+        drawing_object['shape'] = None
+        drawing_object['anchor'] = 2
+        drawing_object['url'] = None
+        drawing_object['tip'] = None
+
         drawing.embedded = 1
 
         drawing._assemble_xml_file()
@@ -88,9 +99,18 @@ class TestAssembleDrawing(unittest.TestCase):
         drawing = Drawing()
         drawing._set_filehandle(fh)
 
-        tip = 'this is a tooltip'
-        url = 'https://www.github.com'
-        drawing._add_drawing_object([2, 2, 1, 0, 0, 3, 6, 533257, 190357, 1219200, 190500, 1142857, 1142857, 'republic.png', None, url, tip, 2])
+        dimensions = [2, 1, 0, 0, 3, 6, 533257, 190357, 1219200, 190500, 0, 0]
+        drawing_object = drawing._add_drawing_object()
+        drawing_object['type'] = 2
+        drawing_object['dimensions'] = dimensions
+        drawing_object['width'] = 1142857
+        drawing_object['height'] = 1142857
+        drawing_object['description'] = 'republic.png'
+        drawing_object['shape'] = None
+        drawing_object['anchor'] = 2
+        drawing_object['url'] = 'https://www.github.com'
+        drawing_object['tip'] = 'this is a tooltip'
+
         drawing.embedded = 1
 
         drawing._assemble_xml_file()

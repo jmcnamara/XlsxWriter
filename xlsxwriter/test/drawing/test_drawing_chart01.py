@@ -24,7 +24,18 @@ class TestAssembleDrawing(unittest.TestCase):
         drawing = Drawing()
         drawing._set_filehandle(fh)
 
-        drawing._add_drawing_object([1, 4, 8, 457200, 104775, 12, 22, 152400, 180975, None, None, None, None, None, None])
+        dimensions = [4, 8, 457200, 104775, 12, 22, 152400, 180975, 0, 0]
+        drawing_object = drawing._add_drawing_object()
+        drawing_object['type'] = 1
+        drawing_object['dimensions'] = dimensions
+        drawing_object['width'] = 0
+        drawing_object['height'] = 0
+        drawing_object['description'] = None
+        drawing_object['shape'] = None
+        drawing_object['anchor'] = 1
+        drawing_object['url'] = None
+        drawing_object['tip'] = None
+
         drawing.embedded = 1
 
         drawing._assemble_xml_file()
