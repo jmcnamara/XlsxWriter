@@ -17,7 +17,7 @@ class TestCompareXLSXFiles(ExcelComparisonTest):
 
     def setUp(self):
 
-        self.set_filename('textbox05.xlsx')
+        self.set_filename('textbox28.xlsx')
 
     def test_create_file(self):
         """Test the creation of a simple XlsxWriter file with textbox(s)."""
@@ -44,7 +44,9 @@ class TestCompareXLSXFiles(ExcelComparisonTest):
 
         worksheet.insert_chart('E9', chart)
 
-        worksheet.insert_image('E25', self.image_dir + 'red.png')
+        worksheet.insert_image('E25',
+                               self.image_dir + 'red.png',
+                               {'url': 'https://github.com/jmcnamara'})
 
         worksheet.insert_textbox('G25', 'This is some text')
 

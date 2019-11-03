@@ -51,14 +51,18 @@ class Drawing(xmlwriter.XMLwriter):
         self._write_drawing_workspace()
 
         if self.embedded:
-            index = 1
+            index = 0
+            rel_index = 0
             for drawing in self.drawings:
                 # Write the xdr:twoCellAnchor element.
-                self._write_two_cell_anchor(index, drawing)
                 index += 1
 
                 if drawing['url']:
-                    index += 1
+                    rel_index += 1
+
+                self._write_two_cell_anchor(index, rel_index, drawing)
+
+                rel_index += 1
 
         else:
             # Write the xdr:absoluteAnchor element.
@@ -107,7 +111,7 @@ class Drawing(xmlwriter.XMLwriter):
 
         self._xml_start_tag('xdr:wsDr', attributes)
 
-    def _write_two_cell_anchor(self, index, drawing_properties):
+    def _write_two_cell_anchor(self, index, rel_index, drawing_properties):
         # Write the <xdr:twoCellAnchor> element.
         anchor_type = drawing_properties['type']
         dimensions = drawing_properties['dimensions']
@@ -166,10 +170,11 @@ class Drawing(xmlwriter.XMLwriter):
         if anchor_type == 1:
             # Graphic frame.
             # Write the xdr:graphicFrame element for charts.
-            self._write_graphic_frame(index, description)
+            self._write_graphic_frame(index, rel_index, description)
         elif anchor_type == 2:
             # Write the xdr:pic element.
             self._write_pic(index,
+                            rel_index,
                             col_absolute,
                             row_absolute,
                             width,
@@ -210,7 +215,7 @@ class Drawing(xmlwriter.XMLwriter):
             self._write_ext(6162675, 6124575)
 
         # Write the xdr:graphicFrame element.
-        self._write_graphic_frame(frame_index)
+        self._write_graphic_frame(frame_index, frame_index - 1)
 
         # Write the xdr:clientData element.
         self._write_client_data()
@@ -283,7 +288,7 @@ class Drawing(xmlwriter.XMLwriter):
 
         self._xml_empty_tag('xdr:ext', attributes)
 
-    def _write_graphic_frame(self, index, name=None):
+    def _write_graphic_frame(self, index, rel_index, name=None):
         # Write the <xdr:graphicFrame> element.
         attributes = [('macro', '')]
 
@@ -296,7 +301,7 @@ class Drawing(xmlwriter.XMLwriter):
         self._write_xfrm()
 
         # Write the a:graphic element.
-        self._write_atag_graphic(index)
+        self._write_atag_graphic(rel_index + 1)
 
         self._xml_end_tag('xdr:graphicFrame')
 
@@ -316,36 +321,45 @@ class Drawing(xmlwriter.XMLwriter):
 
         self._xml_end_tag('xdr:nvGraphicFramePr')
 
-    def _write_c_nv_pr(self, index, name, options=None):
+    def _write_c_nv_pr(self, index, name, options=None, rel_index=0):
         # Write the <xdr:cNvPr> element.
         if options is None:
             options = {}
 
-        descr = options.get('description', None)
+        description = options.get('description', None)
         url = options.get('url', None)
         tip = options.get('tip', None)
 
         attributes = [('id', index), ('name', name)]
 
         # Add description attribute for images.
-        if descr is not None:
-            attributes.append(('descr', descr))
+        if description is not None:
+            attributes.append(('descr', description))
 
         if url:
             self._xml_start_tag('xdr:cNvPr', attributes)
-            schema = "http://schemas.openxmlformats.org"
-            att = [
-                ('xmlns:r', schema + "/officeDocument/2006/relationships"),
-                ('r:id', "rId" + str(index - 1))
-            ]
 
-            if tip:
-                att.append(('tooltip', tip))
+            # Write the a:hlinkClick element.
+            self._write_a_hlink_click(rel_index, tip)
 
-            self._xml_empty_tag('a:hlinkClick', att)
             self._xml_end_tag('xdr:cNvPr')
         else:
             self._xml_empty_tag('xdr:cNvPr', attributes)
+
+    def _write_a_hlink_click(self, rel_index, tip):
+        # Write the <a:hlinkClick> element.
+        schema = 'http://schemas.openxmlformats.org/officeDocument/'
+        xmlns_r = schema + '2006/relationships'
+
+        attributes = [
+            ('xmlns:r', xmlns_r),
+            ('r:id', 'rId' + str(rel_index)),
+        ]
+
+        if tip:
+            attributes.append(('tooltip', tip))
+
+        self._xml_empty_tag('a:hlinkClick', attributes)
 
     def _write_c_nv_graphic_frame_pr(self):
         # Write the <xdr:cNvGraphicFramePr> element.
@@ -517,25 +531,18 @@ class Drawing(xmlwriter.XMLwriter):
 
         self._xml_empty_tag('xdr:cNvSpPr', attributes)
 
-        # attributes = [('noChangeArrowheads', '1')]
-        # self._xml_empty_tag('a:spLocks', attributes)
-        # self._xml_end_tag('xdr:cNvSpPr')
-
         self._xml_end_tag('xdr:nvSpPr')
 
-    def _write_pic(self, index, col_absolute, row_absolute,
+    def _write_pic(self, index, rel_index, col_absolute, row_absolute,
                    width, height, shape, options):
         # Write the <xdr:pic> element.
         self._xml_start_tag('xdr:pic')
 
         # Write the xdr:nvPicPr element.
-        self._write_nv_pic_pr(index, options)
+        self._write_nv_pic_pr(index, rel_index, options)
 
         # Write the xdr:blipFill element.
-        if options.get('url', None):
-            index = index + 1
-
-        self._write_blip_fill(index)
+        self._write_blip_fill(rel_index + 1)
 
         # Write the xdr:spPr element.
         self._write_sp_pr(col_absolute, row_absolute, width, height,
@@ -543,12 +550,14 @@ class Drawing(xmlwriter.XMLwriter):
 
         self._xml_end_tag('xdr:pic')
 
-    def _write_nv_pic_pr(self, index, options):
+    def _write_nv_pic_pr(self, index, rel_index, options):
         # Write the <xdr:nvPicPr> element.
         self._xml_start_tag('xdr:nvPicPr')
 
         # Write the xdr:cNvPr element.
-        self._write_c_nv_pr(index + 1, 'Picture ' + str(index), options)
+        self._write_c_nv_pr(index + 1,
+                            'Picture ' + str(index), options,
+                            rel_index)
 
         # Write the xdr:cNvPicPr element.
         self._write_c_nv_pic_pr()

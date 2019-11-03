@@ -4157,8 +4157,8 @@ class Worksheet(xmlwriter.XMLwriter):
         drawing_object['tip'] = tip
 
         if url:
-            rel_type = "/hyperlink"
-            target_mode = "External"
+            rel_type = '/hyperlink'
+            target_mode = 'External'
 
             if re.match('(ftp|http)s?://', url):
                 target = url
@@ -4166,7 +4166,7 @@ class Worksheet(xmlwriter.XMLwriter):
             if re.match('external:', url):
                 target = url.replace('external:', '')
 
-            if re.match("internal:", url):
+            if re.match('internal:', url):
                 target = url.replace('internal:', '#')
                 target_mode = None
 
@@ -5934,7 +5934,7 @@ class Worksheet(xmlwriter.XMLwriter):
             for col_num in col_nums:
                 # Get the link data for this cell.
                 link = self.hyperlinks[row_num][col_num]
-                link_type = link["link_type"]
+                link_type = link['link_type']
 
                 # If the cell isn't a string then we have to add the url as
                 # the string to display.
@@ -5943,7 +5943,7 @@ class Worksheet(xmlwriter.XMLwriter):
                         and self.table[row_num][col_num]):
                     cell = self.table[row_num][col_num]
                     if type(cell).__name__ != 'String':
-                        display = link["url"]
+                        display = link['url']
 
                 if link_type == 1:
                     # External link with rel file relationship.
@@ -5953,21 +5953,21 @@ class Worksheet(xmlwriter.XMLwriter):
                                        row_num,
                                        col_num,
                                        self.rel_count,
-                                       link["str"],
+                                       link['str'],
                                        display,
-                                       link["tip"]])
+                                       link['tip']])
 
                     # Links for use by the packager.
                     self.external_hyper_links.append(['/hyperlink',
-                                                      link["url"], 'External'])
+                                                      link['url'], 'External'])
                 else:
                     # Internal link with rel file relationship.
                     hlink_refs.append([link_type,
                                        row_num,
                                        col_num,
-                                       link["url"],
-                                       link["str"],
-                                       link["tip"]])
+                                       link['url'],
+                                       link['str'],
+                                       link['tip']])
 
         # Write the hyperlink elements.
         self._xml_start_tag('hyperlinks')

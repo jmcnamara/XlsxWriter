@@ -1116,11 +1116,6 @@ class Workbook(xmlwriter.XMLwriter):
                 drawing_id += 1
                 has_drawing = True
 
-            # Prepare the worksheet charts.
-            for index in range(chart_count):
-                chart_ref_id += 1
-                sheet._prepare_chart(index, chart_ref_id, drawing_id)
-
             # Prepare the worksheet images.
             for index in range(image_count):
                 filename = sheet.images[index][2]
@@ -1131,6 +1126,11 @@ class Workbook(xmlwriter.XMLwriter):
 
                 sheet._prepare_image(index, image_ref_id, drawing_id, width,
                                      height, name, image_type, x_dpi, y_dpi)
+
+            # Prepare the worksheet charts.
+            for index in range(chart_count):
+                chart_ref_id += 1
+                sheet._prepare_chart(index, chart_ref_id, drawing_id)
 
             # Prepare the worksheet shapes.
             for index in range(shape_count):
