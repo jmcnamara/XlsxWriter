@@ -4157,20 +4157,33 @@ class Worksheet(xmlwriter.XMLwriter):
         drawing_object['tip'] = tip
 
         if url:
+            target = None
             rel_type = '/hyperlink'
             target_mode = 'External'
 
             if re.match('(ftp|http)s?://', url):
-                target = url
+                target = self._escape_url(url)
+
+            if re.match('^mailto:', url):
+                target = self._escape_url(url)
 
             if re.match('external:', url):
-                target = url.replace('external:', '')
+                target = url.replace('external:', 'file:///')
+                target = self._escape_url(target)
+                # Additional escape not required in worksheet hyperlinks.
+                target = target.replace('#', '%23')
 
             if re.match('internal:', url):
                 target = url.replace('internal:', '#')
                 target_mode = None
 
-            self.drawing_links.append([rel_type, target, target_mode])
+            if target:
+                if len(target) > 255:
+                    warn("Ignoring URL '%s' with link and/or anchor > 255 "
+                         "characters since it exceeds Excel's limit for URLS" %
+                         force_unicode(url))
+                else:
+                    self.drawing_links.append([rel_type, target, target_mode])
 
         self.drawing_links.append(['/image',
                                    '../media/image'
