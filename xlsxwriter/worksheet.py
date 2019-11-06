@@ -317,6 +317,8 @@ class Worksheet(xmlwriter.XMLwriter):
         self.shapes = []
         self.shape_hash = {}
         self.drawing = 0
+        self.drawing_rels = {}
+        self.drawing_rels_id = 0
 
         self.rstring = ''
         self.previous_row = 0
@@ -4153,7 +4155,8 @@ class Worksheet(xmlwriter.XMLwriter):
         drawing_object['description'] = name
         drawing_object['shape'] = None
         drawing_object['anchor'] = anchor
-        drawing_object['url'] = url
+        drawing_object['rel_index'] = 0
+        drawing_object['url_rel_index'] = 0
         drawing_object['tip'] = tip
 
         if url:
@@ -4177,13 +4180,17 @@ class Worksheet(xmlwriter.XMLwriter):
                 target = url.replace('internal:', '#')
                 target_mode = None
 
-            if target:
+            if target is not None:
                 if len(target) > 255:
                     warn("Ignoring URL '%s' with link and/or anchor > 255 "
                          "characters since it exceeds Excel's limit for URLS" %
                          force_unicode(url))
                 else:
                     self.drawing_links.append([rel_type, target, target_mode])
+                    drawing_object['url_rel_index'] = \
+                        self._get_drawing_rel_index()
+
+        drawing_object['rel_index'] = self._get_drawing_rel_index()
 
         self.drawing_links.append(['/image',
                                    '../media/image'
@@ -4234,7 +4241,8 @@ class Worksheet(xmlwriter.XMLwriter):
         drawing_object['description'] = None
         drawing_object['shape'] = shape
         drawing_object['anchor'] = anchor
-        drawing_object['url'] = None
+        drawing_object['rel_index'] = self._get_drawing_rel_index()
+        drawing_object['url_rel_index'] = 0
         drawing_object['tip'] = None
 
     def _prepare_header_image(self, image_id, width, height, name, image_type,
@@ -4292,7 +4300,8 @@ class Worksheet(xmlwriter.XMLwriter):
         drawing_object['description'] = name
         drawing_object['shape'] = None
         drawing_object['anchor'] = anchor
-        drawing_object['url'] = None
+        drawing_object['rel_index'] = self._get_drawing_rel_index()
+        drawing_object['url_rel_index'] = 0
         drawing_object['tip'] = None
 
         self.drawing_links.append(['/chart',
@@ -4899,6 +4908,18 @@ class Worksheet(xmlwriter.XMLwriter):
         url = url.replace('}', '%7d')
 
         return url
+
+    def _get_drawing_rel_index(self, target=None):
+        # Get the index used to address a drawing rel link.
+        if target is None:
+            self.drawing_rels_id += 1
+            return self.drawing_rels_id
+        elif self.drawing_rels.get(target):
+            return self.drawing_rels[target]
+        else:
+            self.drawing_rels_id += 1
+            self.drawing_rels[target] = self.drawing_rels_id
+            return self.drawing_rels_id
 
     ###########################################################################
     #

@@ -24,15 +24,14 @@ class TestWriteXdrcNvPr(unittest.TestCase):
     def test_write_c_nv_pr(self):
         """Test the _write_c_nv_pr() method"""
 
-        self.drawing._write_c_nv_pr(2, 'Chart 1')
+        self.drawing._write_c_nv_pr(2, 'Chart 1', None, None, None)
 
         exp = """<xdr:cNvPr id="2" name="Chart 1"/>"""
         got = self.fh.getvalue()
 
         self.assertEqual(got, exp)
 
-        options = {'url': 'https://www.github.com', 'tip': 'tip'}
-        self.drawing._write_c_nv_pr(2, 'Chart 1', options, 1)
+        self.drawing._write_c_nv_pr(2, 'Chart 1', None, 1, 'tip')
 
         exp = """<xdr:cNvPr id="2" name="Chart 1"/><xdr:cNvPr id="2" name="Chart 1"><a:hlinkClick xmlns:r="http://schemas.openxmlformats.org/officeDocument/2006/relationships" r:id="rId1" tooltip="tip"/></xdr:cNvPr>"""
         got = self.fh.getvalue()

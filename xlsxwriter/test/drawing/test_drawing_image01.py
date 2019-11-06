@@ -33,7 +33,8 @@ class TestAssembleDrawing(unittest.TestCase):
         drawing_object['description'] = 'republic.png'
         drawing_object['shape'] = None
         drawing_object['anchor'] = 2
-        drawing_object['url'] = None
+        drawing_object['rel_index'] = 1
+        drawing_object['url_rel_index'] = 0
         drawing_object['tip'] = None
 
         drawing.embedded = 1
@@ -108,7 +109,8 @@ class TestAssembleDrawing(unittest.TestCase):
         drawing_object['description'] = 'republic.png'
         drawing_object['shape'] = None
         drawing_object['anchor'] = 2
-        drawing_object['url'] = 'https://www.github.com'
+        drawing_object['rel_index'] = 2
+        drawing_object['url_rel_index'] = 1
         drawing_object['tip'] = 'this is a tooltip'
 
         drawing.embedded = 1
