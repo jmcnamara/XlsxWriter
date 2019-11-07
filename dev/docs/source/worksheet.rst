@@ -786,6 +786,12 @@ example below but it would be equivalent to the second::
                                  bold,    'bold',
                                  default, ' text')
 
+If you have formats and segments in a list you can add them like this, using
+the standard Python list unpacking syntax::
+
+    segments = ['This is ', bold, 'bold', ' and this is ', blue, 'blue']
+    worksheet.write_rich_string('A9', *segments)
+
 In Excel only the font properties of the format such as font name, style, size,
 underline, color and effects are applied to the string fragments in a rich
 string. Other features such as border, background, text wrap and alignment

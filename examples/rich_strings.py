@@ -45,4 +45,8 @@ worksheet.write_rich_string('A7',
                             superscript, '(n-1)',
                             center)
 
+# If you have formats and segments in a list you can add them like this:
+segments = ['This is ', bold, 'bold', ' and this is ', blue, 'blue']
+worksheet.write_rich_string('A9', *segments)
+
 workbook.close()
