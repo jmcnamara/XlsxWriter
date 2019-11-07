@@ -81,11 +81,20 @@ The constructor options are:
 
       workbook = xlsxwriter.Workbook(filename, {'strings_to_formulas': False})
 
-* **strings_to_urls**: Enable the
-  :ref:`worksheet. <Worksheet>`:func:`write()` method to convert strings to
-  urls. The default is ``True``. To disable this option use::
+* **strings_to_urls**: Enable the :ref:`worksheet. <Worksheet>`:func:`write()`
+  method to convert strings to urls. The default is ``True``. To disable this
+  option use::
 
       workbook = xlsxwriter.Workbook(filename, {'strings_to_urls': False})
+
+* **max_url_length**: Set the maximum length for hyperlinks in worksheets. The
+  default is 2079 and the minimum is 255. Versions of Excel prior to Excel
+  2015 limited hyperlink links and anchor/locations to 255 characters
+  each. Versions after that support urls up to 2079 characters. XlsxWriter
+  versions >= 1.2.3 support the new longer limit by default. However, a lower
+  or user defined limit can be set via the ``max_url_length`` option::
+
+      workbook = xlsxwriter.Workbook(filename, {'max_url_length': 255})
 
 * **nan_inf_to_errors**: Enable the
   :ref:`worksheet. <Worksheet>`:func:`write()` and :func:`write_number()`

@@ -84,6 +84,10 @@ class Workbook(xmlwriter.XMLwriter):
         self.default_format_properties = \
             options.get('default_format_properties', {})
 
+        self.max_url_length = options.get('max_url_length', 2079)
+        if self.max_url_length < 255:
+            self.max_url_length = 2079
+
         self.worksheet_meta = WorksheetMeta()
         self.selected = 0
         self.fileclosed = 0
@@ -740,6 +744,7 @@ class Workbook(xmlwriter.XMLwriter):
             'default_url_format': self.default_url_format,
             'excel2003_style': self.excel2003_style,
             'remove_timezone': self.remove_timezone,
+            'max_url_length': self.max_url_length,
         }
 
         worksheet._initialize(init_data)

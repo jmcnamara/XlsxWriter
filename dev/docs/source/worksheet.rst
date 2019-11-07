@@ -590,7 +590,7 @@ worksheet.write_url()
    :returns:  0: Success.
    :returns: -1: Row or column is out of worksheet bounds.
    :returns: -2: String longer than 32k characters.
-   :returns: -3: Url longer than Excel limit of 255 characters.
+   :returns: -3: Url longer than Excel limit of 2079 characters.
    :returns: -4: Exceeds Excel limit of 65,530 urls per worksheet.
 
 The ``write_url()`` method is used to write a hyperlink in a worksheet cell.
@@ -700,7 +700,11 @@ See also :ref:`ex_hyperlink`.
    correctly by the user and will by passed directly to Excel.
 
 .. note::
-   Excel limits hyperlink links and anchor/locations to 255 characters each.
+   Versions of Excel prior to Excel 2015 limited hyperlink links and
+   anchor/locations to 255 characters each. Versions after that support urls
+   up to 2079 characters. XlsxWriter versions >= 1.2.3 support this longer
+   limit by default. However, a lower or user defined limit can be set via
+   the ``max_url_length`` property in the :func:`Workbook` constructor.
 
 
 worksheet.write_rich_string()

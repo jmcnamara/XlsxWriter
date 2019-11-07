@@ -343,6 +343,7 @@ class Worksheet(xmlwriter.XMLwriter):
         self.default_date_format = None
         self.default_url_format = None
         self.remove_timezone = False
+        self.max_url_length = 2079
 
         self.row_data_filename = None
         self.row_data_fh = None
@@ -927,10 +928,11 @@ class Worksheet(xmlwriter.XMLwriter):
 
         # Excel limits the escaped URL and location/anchor to 255 characters.
         tmp_url_str = url_str or ''
-        if len(url) > 255 or len(tmp_url_str) > 255:
-            warn("Ignoring URL '%s' with link or location/anchor > 255 "
+        max_url = self.max_url_length
+        if len(url) > max_url or len(tmp_url_str) > max_url:
+            warn("Ignoring URL '%s' with link or location/anchor > %d "
                  "characters since it exceeds Excel's limit for URLS" %
-                 force_unicode(url))
+                 (force_unicode(url), max_url))
             return -3
 
         # Check the limit of URLS per worksheet.
@@ -3724,6 +3726,7 @@ class Worksheet(xmlwriter.XMLwriter):
         self.default_url_format = init_data['default_url_format']
         self.excel2003_style = init_data['excel2003_style']
         self.remove_timezone = init_data['remove_timezone']
+        self.max_url_length = init_data['max_url_length']
 
         if self.excel2003_style:
             self.original_row_height = 12.75
@@ -4181,10 +4184,10 @@ class Worksheet(xmlwriter.XMLwriter):
                 target_mode = None
 
             if target is not None:
-                if len(target) > 255:
-                    warn("Ignoring URL '%s' with link and/or anchor > 255 "
+                if len(target) > self.max_url_length:
+                    warn("Ignoring URL '%s' with link and/or anchor > %d "
                          "characters since it exceeds Excel's limit for URLS" %
-                         force_unicode(url))
+                         (force_unicode(url), self.max_url_length))
                 else:
                     self.drawing_links.append([rel_type, target, target_mode])
                     drawing_object['url_rel_index'] = \
