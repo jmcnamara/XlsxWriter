@@ -1,3 +1,15 @@
+
+Release 1.2.3 - November 7 2019
+---------------------------------
+
+* Increased allowable worksheet url length from 255 to 2079 characters, as
+  supported in more recent versions of Excel. A lower or user defined limit
+  can be set via the ``max_url_length`` property in the :func:`Workbook`
+  constructor.
+
+* Fixed several issues with hyperlinks in worksheet images.
+
+
 Release 1.2.2 - October 16 2019
 ---------------------------------
 
