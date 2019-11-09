@@ -1222,6 +1222,9 @@ class Worksheet(xmlwriter.XMLwriter):
             warn('Cannot insert textbox at (%d, %d).' % (row, col))
             return -1
 
+        if text is None:
+            text = ''
+
         if options is None:
             options = {}
 

@@ -1369,6 +1369,9 @@ The size and formatting of the textbox can be controlled via the ``options`` dic
     font
     align
 
+    # Links
+    textlink
+
 These options are explained in more detail in the
 :ref:`working_with_textboxes` section.
 

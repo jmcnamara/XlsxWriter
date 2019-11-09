@@ -165,5 +165,13 @@ options = {
 worksheet.insert_textbox(row, col, text, options)
 row += 10
 
+# Example
+text = ''
+options = {
+    'textlink': '=$F$185',
+}
+worksheet.write('F185', 'Text in a cell')
+worksheet.insert_textbox(row, col, text, options)
+row += 10
 
 workbook.close()

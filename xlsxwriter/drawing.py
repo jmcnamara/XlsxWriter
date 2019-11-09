@@ -455,7 +455,7 @@ class Drawing(xmlwriter.XMLwriter):
         else:
             # Add attribute for shapes.
             attributes = [('macro', ''),
-                          ('textlink', '')]
+                          ('textlink', shape.textlink)]
 
             self._xml_start_tag('xdr:sp', attributes)
 
@@ -840,23 +840,41 @@ class Drawing(xmlwriter.XMLwriter):
         latin_attrs = Shape._get_font_latin_attributes(font)
         style_attrs.insert(0, ('lang', font['lang']))
 
-        for line in lines:
+        if shape.textlink != '':
+            attributes = [
+                ('id', '{B8ADDEFE-BF52-4FD4-8C5D-6B85EF6FF707}'),
+                ('type', 'TxLink')]
+
             self._xml_start_tag('a:p')
-
-            if line == '':
-                self._write_font_run(font, style_attrs, latin_attrs,
-                                     'a:endParaRPr')
-                self._xml_end_tag('a:p')
-                continue
-
-            self._xml_start_tag('a:r')
+            self._xml_start_tag('a:fld', attributes)
 
             self._write_font_run(font, style_attrs, latin_attrs, 'a:rPr')
 
-            self._xml_data_element('a:t', line)
+            self._xml_data_element('a:t', shape.text)
+            self._xml_end_tag('a:fld')
 
-            self._xml_end_tag('a:r')
+            self._write_font_run(font, style_attrs, latin_attrs,
+                                 'a:endParaRPr')
+
             self._xml_end_tag('a:p')
+        else:
+            for line in lines:
+                self._xml_start_tag('a:p')
+
+                if line == '':
+                    self._write_font_run(font, style_attrs, latin_attrs,
+                                         'a:endParaRPr')
+                    self._xml_end_tag('a:p')
+                    continue
+
+                self._xml_start_tag('a:r')
+
+                self._write_font_run(font, style_attrs, latin_attrs, 'a:rPr')
+
+                self._xml_data_element('a:t', line)
+
+                self._xml_end_tag('a:r')
+                self._xml_end_tag('a:p')
 
         self._xml_end_tag('xdr:txBody')
 

@@ -78,6 +78,9 @@ The available options are::
     font
     align
 
+    # Links
+    textlink
+
 These options are explained in the sections below. They are similar or
 identical to position and formatting parameters used in charts.
 
@@ -455,3 +458,19 @@ The default textbox alignment is::
     worksheet.insert_textbox('B2', 'Default alignment')
 
 .. image:: _images/textbox42.png
+
+
+Textbox Textlink
+----------------
+
+The ``textlink`` property is used to link/get the text for a textbox from a
+cell in the worksheet. When you use this option the actual text in the textbox
+can be left blank or set to ``None``::
+
+    worksheet.insert_textbox('A1', '', {'textlink': '=$A$1'})
+
+The reference can also be to a cell in another worksheet::
+
+    worksheet.insert_textbox('A2', None, {'textlink': '=Sheet2!A1'})
+
+.. image:: _images/textbox43.png

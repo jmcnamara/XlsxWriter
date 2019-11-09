@@ -34,6 +34,7 @@ class Shape(object):
         self.edit_as = ''
         self.id = 0
         self.text = ''
+        self.textlink = ''
         self.stencil = 1
         self.element = -1
         self.start = None
@@ -69,6 +70,10 @@ class Shape(object):
         self.font = self._get_font_properties(options.get('font'))
         self.gradient = self._get_gradient_properties(options.get('gradient'))
         self.line = self._get_line_properties(options.get('line'))
+
+        self.textlink = options.get('textlink', '')
+        if self.textlink.startswith('='):
+            self.textlink = self.textlink.lstrip('=')
 
         if options.get('border'):
             self.line = self._get_line_properties(options['border'])
