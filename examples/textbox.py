@@ -174,4 +174,28 @@ worksheet.write('F185', 'Text in a cell')
 worksheet.insert_textbox(row, col, text, options)
 row += 10
 
+# Example
+text = 'Text rotated up'
+options = {
+    'text_rotation': 90
+}
+worksheet.insert_textbox(row, col, text, options)
+row += 10
+
+# Example
+text = 'Text rotated down'
+options = {
+    'text_rotation': -90
+}
+worksheet.insert_textbox(row, col, text, options)
+row += 10
+
+# Example
+text = 'Text rotated vertically'
+options = {
+    'text_rotation': 270
+}
+worksheet.insert_textbox(row, col, text, options)
+row += 10
+
 workbook.close()

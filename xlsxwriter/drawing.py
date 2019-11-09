@@ -801,10 +801,20 @@ class Drawing(xmlwriter.XMLwriter):
 
     def _write_tx_body(self, col_absolute, row_absolute, width, height, shape):
         # Write the <xdr:txBody> element.
-        attributes = [
-            ('wrap', "square"),
-            ('rtlCol', "0"),
-        ]
+        attributes = []
+
+        if shape.text_rotation != 0:
+            if shape.text_rotation == 90:
+                attributes.append(('vert', 'vert270'))
+            if shape.text_rotation == -90:
+                attributes.append(('vert', 'vert'))
+            if shape.text_rotation == 270:
+                attributes.append(('vert', 'wordArtVert'))
+            if shape.text_rotation == 271:
+                attributes.append(('vert', 'eaVert'))
+
+        attributes.append(('wrap', 'square'))
+        attributes.append(('rtlCol', "0"))
 
         if not shape.align['defined']:
             attributes.append(('anchor', 't'))

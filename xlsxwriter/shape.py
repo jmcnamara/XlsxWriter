@@ -47,6 +47,7 @@ class Shape(object):
         self.flip_h = 0
         self.flip_v = 0
         self.rotation = 0
+        self.text_rotation = 0
         self.textbox = False
 
         self.align = None
@@ -70,6 +71,8 @@ class Shape(object):
         self.font = self._get_font_properties(options.get('font'))
         self.gradient = self._get_gradient_properties(options.get('gradient'))
         self.line = self._get_line_properties(options.get('line'))
+
+        self.text_rotation = options.get('text_rotation', 0)
 
         self.textlink = options.get('textlink', '')
         if self.textlink.startswith('='):
@@ -316,17 +319,12 @@ class Shape(object):
             'pitch_family': options.get('pitch_family'),
             'charset': options.get('charset'),
             'baseline': options.get('baseline', -1),
-            'rotation': options.get('rotation'),
             'lang': options.get('lang', 'en-US'),
         }
 
         # Convert font size units.
         if font['size']:
             font['size'] = int(font['size'] * 100)
-
-        # Convert rotation into 60,000ths of a degree.
-        if font['rotation']:
-            font['rotation'] = 60000 * int(font['rotation'])
 
         return font
 

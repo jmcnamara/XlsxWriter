@@ -1368,6 +1368,7 @@ The size and formatting of the textbox can be controlled via the ``options`` dic
     gradient
     font
     align
+    text_rotation
 
     # Links
     textlink

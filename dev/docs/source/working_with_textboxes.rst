@@ -77,6 +77,7 @@ The available options are::
     gradient
     font
     align
+    text_rotation
 
     # Links
     textlink
@@ -148,6 +149,7 @@ The following formatting properties can be set for textbox objects::
     gradient
     font
     align
+    text_rotation
 
 Textbox formatting properties are set using the options dict::
 
@@ -363,8 +365,8 @@ default angle is 90 degrees)::
 
 .. _textbox_fonts:
 
-Textbox Fonts
--------------
+Textbox formatting: Fonts
+-------------------------
 
 The following font properties can be set for the entire textbox::
 
@@ -386,21 +388,31 @@ The font properties are:
 
     {'font':  {'name': 'Arial'}}
 
+  .. image:: _images/textbox46.png
+
 * ``size``: Set the font size::
 
-    {'font':  {'name': 'Arial', 'size': 9}}
+    {'font':  {'name': 'Arial', 'size': 7}}
+
+  .. image:: _images/textbox47.png
 
 * ``bold``: Set the font bold property::
 
     {'font':  {'bold': True}}
 
+  .. image:: _images/textbox45.png
+
 * ``italic``: Set the font italic property::
 
     {'font':  {'italic': True}}
 
+  .. image:: _images/textbox48.png
+
 * ``underline``: Set the font underline property::
 
     {'font':  {'underline': True}}
+
+  .. image:: _images/textbox49.png
 
 * ``color``: Set the font color property. Can be a color index, a color name
   or HTML style RGB color::
@@ -424,8 +436,8 @@ Here is an example of Font formatting in a textbox::
 
 .. _textbox_align:
 
-Textbox Align
--------------
+Textbox formatting: Align
+-------------------------
 
 The ``align`` property is used to set the text alignment for the entire textbox::
 
@@ -458,6 +470,26 @@ The default textbox alignment is::
     worksheet.insert_textbox('B2', 'Default alignment')
 
 .. image:: _images/textbox42.png
+
+
+Textbox formatting: Text Rotation
+---------------------------------
+
+The ``text_rotation`` option can be used to set the text rotation for the
+entire textbox::
+
+    worksheet.insert_textbox('B2', 'Text rotated up',
+                             {'text_rotation': 90})
+
+.. image:: _images/textbox44.png
+
+Textboxes in Excel only support a limited number of rotation options. These
+are::
+
+      90:     Rotate text up
+     -90:     Rotate text down
+     270:     Vertical text (stacked)
+     271:     Vertical text (stacked) - for East Asian fonts
 
 
 Textbox Textlink
