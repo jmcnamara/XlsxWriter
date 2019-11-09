@@ -1,6 +1,17 @@
 
+Release 1.2.4 - November 9 2019
+-------------------------------
+
+* Added option to link textbox text from a cell. See :ref:`textbox_textlink`.
+  Feature request `#516 <https://github.com/jmcnamara/XlsxWriter/issues/516>`_.
+
+* Added option to rotate text in a textbox. See
+  :ref:`textbox_formatting_rotation`.
+  Feature request `#638 <https://github.com/jmcnamara/XlsxWriter/issues/638>`_.
+
+
 Release 1.2.3 - November 7 2019
----------------------------------
+-------------------------------
 
 * Increased allowable worksheet url length from 255 to 2079 characters, as
   supported in more recent versions of Excel. A lower or user defined limit
@@ -11,7 +22,7 @@ Release 1.2.3 - November 7 2019
 
 
 Release 1.2.2 - October 16 2019
----------------------------------
+-------------------------------
 
 * Fixed Python 3.8.0 warnings.
   Issue `#660 <https://github.com/jmcnamara/XlsxWriter/issues/660>`_.

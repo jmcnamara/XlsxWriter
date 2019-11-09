@@ -471,6 +471,7 @@ The default textbox alignment is::
 
 .. image:: _images/textbox42.png
 
+.. _textbox_formatting_rotation:
 
 Textbox formatting: Text Rotation
 ---------------------------------
@@ -491,6 +492,7 @@ are::
      270:     Vertical text (stacked)
      271:     Vertical text (stacked) - for East Asian fonts
 
+.. _textbox_textlink:
 
 Textbox Textlink
 ----------------
