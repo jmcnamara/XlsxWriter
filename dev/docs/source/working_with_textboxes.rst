@@ -511,6 +511,8 @@ The reference can also be to a cell in another worksheet::
 
 .. image:: _images/textbox43.png
 
+.. _textbox_hyperlink:
+
 Textbox Hyperlink
 -----------------
 
