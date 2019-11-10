@@ -4247,9 +4247,41 @@ class Worksheet(xmlwriter.XMLwriter):
         drawing_object['description'] = None
         drawing_object['shape'] = shape
         drawing_object['anchor'] = anchor
-        drawing_object['rel_index'] = self._get_drawing_rel_index()
+        drawing_object['rel_index'] = 0
         drawing_object['url_rel_index'] = 0
-        drawing_object['tip'] = None
+        drawing_object['tip'] = options.get('tip')
+
+        url = options.get('url', None)
+        if url:
+            target = None
+            rel_type = '/hyperlink'
+            target_mode = 'External'
+
+            if re.match('(ftp|http)s?://', url):
+                target = self._escape_url(url)
+
+            if re.match('^mailto:', url):
+                target = self._escape_url(url)
+
+            if re.match('external:', url):
+                target = url.replace('external:', 'file:///')
+                target = self._escape_url(target)
+                # Additional escape not required in worksheet hyperlinks.
+                target = target.replace('#', '%23')
+
+            if re.match('internal:', url):
+                target = url.replace('internal:', '#')
+                target_mode = None
+
+            if target is not None:
+                if len(target) > self.max_url_length:
+                    warn("Ignoring URL '%s' with link and/or anchor > %d "
+                         "characters since it exceeds Excel's limit for URLS" %
+                         (force_unicode(url), self.max_url_length))
+                else:
+                    self.drawing_links.append([rel_type, target, target_mode])
+                    drawing_object['url_rel_index'] = \
+                        self._get_drawing_rel_index()
 
     def _prepare_header_image(self, image_id, width, height, name, image_type,
                               position, x_dpi, y_dpi):

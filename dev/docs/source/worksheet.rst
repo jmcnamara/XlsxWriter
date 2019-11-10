@@ -1178,7 +1178,7 @@ horizontally and vertically::
     worksheet.insert_image('B3', 'python.png', {'x_scale': 0.5, 'y_scale': 0.5})
 
 The ``url`` parameter can used to add a hyperlink/url to the image. The ``tip``
-parameter gives an option mouseover tooltip for images with hyperlinks::
+parameter gives an optional mouseover tooltip for images with hyperlinks::
 
     worksheet.insert_image('B4', 'python.png', {'url': 'https://python.org'})
 
@@ -1372,6 +1372,8 @@ The size and formatting of the textbox can be controlled via the ``options`` dic
 
     # Links
     textlink
+    url
+    tip
 
 These options are explained in more detail in the
 :ref:`working_with_textboxes` section.

@@ -198,4 +198,13 @@ options = {
 worksheet.insert_textbox(row, col, text, options)
 row += 10
 
+# Example
+text = 'Textbox with hyperlink'
+options = {
+    'url': 'https://github.com/jmcnamara',
+    'tip': 'GitHub'
+}
+worksheet.insert_textbox(row, col, text, options)
+row += 10
+
 workbook.close()

@@ -81,6 +81,8 @@ The available options are::
 
     # Links
     textlink
+    url
+    tip
 
 These options are explained in the sections below. They are similar or
 identical to position and formatting parameters used in charts.
@@ -508,3 +510,19 @@ The reference can also be to a cell in another worksheet::
     worksheet.insert_textbox('A2', None, {'textlink': '=Sheet2!A1'})
 
 .. image:: _images/textbox43.png
+
+Textbox Hyperlink
+-----------------
+
+The ``url`` parameter can used to add a hyperlink/url to a textbox::
+
+    worksheet.insert_textbox('A1', 'This is some text',
+                             {'url': 'https://github.com/jmcnamara'})
+
+The ``tip`` parameter adds an optional mouseover tooltip::
+
+    worksheet.insert_textbox('A1', 'This is some text',
+                             {'url': 'https://github.com/jmcnamara',
+                              'tip': 'GitHub'})
+
+See also :func:`write_url` for details on supported URIs.

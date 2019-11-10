@@ -179,7 +179,9 @@ class Drawing(xmlwriter.XMLwriter):
                            row_absolute,
                            width,
                            height,
-                           shape)
+                           shape,
+                           url_rel_index,
+                           tip)
 
         # Write the xdr:clientData element.
         self._write_client_data()
@@ -437,7 +439,7 @@ class Drawing(xmlwriter.XMLwriter):
         self._xml_empty_tag('xdr:clientData')
 
     def _write_sp(self, index, col_absolute, row_absolute,
-                  width, height, shape):
+                  width, height, shape, url_rel_index, tip):
         # Write the <xdr:sp> element.
 
         if shape and shape.connect:
@@ -460,7 +462,7 @@ class Drawing(xmlwriter.XMLwriter):
             self._xml_start_tag('xdr:sp', attributes)
 
             # Write the xdr:nvSpPr element.
-            self._write_nv_sp_pr(index, shape)
+            self._write_nv_sp_pr(index, shape, url_rel_index, tip)
 
             # Write the xdr:spPr element.
             self._write_xdr_sp_pr(index, col_absolute, row_absolute, width,
@@ -500,7 +502,7 @@ class Drawing(xmlwriter.XMLwriter):
         self._xml_end_tag('xdr:cNvCxnSpPr')
         self._xml_end_tag('xdr:nvCxnSpPr')
 
-    def _write_nv_sp_pr(self, index, shape):
+    def _write_nv_sp_pr(self, index, shape, url_rel_index, tip):
         # Write the <xdr:NvSpPr> element.
         attributes = []
 
@@ -508,7 +510,7 @@ class Drawing(xmlwriter.XMLwriter):
 
         name = shape.name + ' ' + str(index)
 
-        self._write_c_nv_pr(index + 1, name, None, None, None)
+        self._write_c_nv_pr(index + 1, name, None, url_rel_index, tip)
 
         if shape.name == 'TextBox':
             attributes = [('txBox', 1)]
