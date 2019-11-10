@@ -24,8 +24,16 @@ class Handler(http.server.SimpleHTTPRequestHandler):
 
         # Even though the final file will be in memory the module uses temp
         # files during assembly for efficiency. To avoid this on servers that
-        # don't allow temp files, for example the Google APP Engine, set the
-        # 'in_memory' constructor option to True:
+        # don't allow temp files set the 'in_memory' constructor option to True.
+        #
+        # The Python 3 Runtime Environment in Google App Engine now supports a
+        # filesystem with read/write access to /tmp which means that the
+        # 'in_memory' option isn't required. The /tmp dir isn't supported in
+        # the Python 2 Runtime Environment so that option is still required
+        # there. See:
+        #
+        # https://cloud.google.com/appengine/docs/standard/python3/runtime#filesystem
+        #
         workbook = xlsxwriter.Workbook(output, {'in_memory': True})
         worksheet = workbook.add_worksheet()
 

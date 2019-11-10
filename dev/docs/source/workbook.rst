@@ -61,12 +61,23 @@ The constructor options are:
   The temporary directory must exist and will not be created.
 
 * **in_memory**: To avoid the use of temporary files in the assembly of the
-  final XLSX file, for example on servers that don't allow temp files such as
-  the Google APP Engine, set the ``in_memory`` constructor option to ``True``::
+  final XLSX file, for example on servers that don't allow temp files, set the
+  ``in_memory`` constructor option to ``True``::
 
        workbook = xlsxwriter.Workbook(filename, {'in_memory': True})
 
   This option overrides the ``constant_memory`` option.
+
+  .. Note::
+     This option used to be the recommended way of deploying XlsxWriter on
+     Google APP Engine since it didn't support a ``/tmp`` directory. However,
+     the Python 3 Runtime Environment in Google App Engine now supports a
+     `filesystem with read/write access to /tmp <https://cloud.google.com/appengine/docs/standard/python3/runtime#filesystem>`_
+     which means this option isn't required. The ``/tmp`` dir isn't supported
+     in the Python 2 Runtime Environment so this option is still required
+     there.
+
+
 * **strings_to_numbers**: Enable the
   :ref:`worksheet. <Worksheet>`:func:`write()` method to convert strings to
   numbers, where possible, using :func:`float()` in order to avoid an Excel
