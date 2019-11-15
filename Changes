@@ -1,4 +1,11 @@
 
+Release 1.2.6 - November 15 2019
+--------------------------------
+
+* Added option to remove style from worksheet tables.
+  Feature request `#670 <https://github.com/jmcnamara/XlsxWriter/issues/670>`_.
+
+
 Release 1.2.5 - November 10 2019
 --------------------------------
 
