@@ -22,6 +22,7 @@ worksheet9 = workbook.add_worksheet()
 worksheet10 = workbook.add_worksheet()
 worksheet11 = workbook.add_worksheet()
 worksheet12 = workbook.add_worksheet()
+worksheet13 = workbook.add_worksheet()
 
 currency_format = workbook.add_format({'num_format': '$#,##0'})
 
@@ -299,13 +300,45 @@ worksheet11.add_table('B3:G8', options)
 #
 # Example 12.
 #
-caption = 'Table with column formats.'
+caption = 'Table with Excel style removed.'
 
 # Set the columns widths.
 worksheet12.set_column('B:G', 12)
 
 # Write the caption.
 worksheet12.write('B1', caption)
+
+# Options to use in the table.
+options = {'data': data,
+           'style': None,
+           'total_row': 1,
+           'columns': [{'header': 'Product', 'total_string': 'Totals'},
+                       {'header': 'Quarter 1', 'total_function': 'sum'},
+                       {'header': 'Quarter 2', 'total_function': 'sum'},
+                       {'header': 'Quarter 3', 'total_function': 'sum'},
+                       {'header': 'Quarter 4', 'total_function': 'sum'},
+                       {'header': 'Year',
+                        'formula': '=SUM(Table12[@[Quarter 1]:[Quarter 4]])',
+                        'total_function': 'sum'
+                        },
+                       ]}
+
+
+# Add a table to the worksheet.
+worksheet12.add_table('B3:G8', options)
+
+
+###############################################################################
+#
+# Example 13.
+#
+caption = 'Table with column formats.'
+
+# Set the columns widths.
+worksheet13.set_column('B:G', 12)
+
+# Write the caption.
+worksheet13.write('B1', caption)
 
 # Options to use in the table.
 options = {'data': data,
@@ -328,13 +361,13 @@ options = {'data': data,
                         'format': currency_format,
                         },
                        {'header': 'Year',
-                        'formula': '=SUM(Table12[@[Quarter 1]:[Quarter 4]])',
+                        'formula': '=SUM(Table13[@[Quarter 1]:[Quarter 4]])',
                         'total_function': 'sum',
                         'format': currency_format,
                         },
                        ]}
 
 # Add a table to the worksheet.
-worksheet12.add_table('B3:G8', options)
+worksheet13.add_table('B3:G8', options)
 
 workbook.close()

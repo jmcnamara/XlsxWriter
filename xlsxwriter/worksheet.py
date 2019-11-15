@@ -2609,6 +2609,10 @@ class Worksheet(xmlwriter.XMLwriter):
         # Set the table style.
         if 'style' in options:
             table['style'] = options['style']
+
+            if table['style'] is None:
+                table['style'] = ''
+
             # Remove whitespace from style name.
             table['style'] = table['style'].replace(' ', '')
         else:

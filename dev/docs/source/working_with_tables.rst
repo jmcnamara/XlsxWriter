@@ -195,6 +195,12 @@ Excel table format names should be used (with matching capitalization)::
 
 The default table style is 'Table Style Medium 9'.
 
+You can also turn the table style off by setting it to None::
+
+    worksheet.add_table('B3:F7', {'data': data, 'style': None})
+
+.. image:: _images/tables13.png
+
 
 name
 ----

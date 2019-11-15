@@ -156,6 +156,7 @@ class Table(xmlwriter.XMLwriter):
     def _write_table_style_info(self):
         # Write the <tableStyleInfo> element.
         props = self.properties
+        attributes = []
 
         name = props['style']
         show_first_column = 0 + props['show_first_col']
@@ -163,13 +164,13 @@ class Table(xmlwriter.XMLwriter):
         show_row_stripes = 0 + props['show_row_stripes']
         show_column_stripes = 0 + props['show_col_stripes']
 
-        attributes = [
-            ('name', name),
-            ('showFirstColumn', show_first_column),
-            ('showLastColumn', show_last_column),
-            ('showRowStripes', show_row_stripes),
-            ('showColumnStripes', show_column_stripes),
-        ]
+        if name is not None and name != '' and name != 'None':
+            attributes.append(('name', name))
+
+        attributes.append(('showFirstColumn', show_first_column))
+        attributes.append(('showLastColumn', show_last_column))
+        attributes.append(('showRowStripes', show_row_stripes))
+        attributes.append(('showColumnStripes', show_column_stripes))
 
         self._xml_empty_tag('tableStyleInfo', attributes)
 
