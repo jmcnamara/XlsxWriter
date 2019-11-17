@@ -114,7 +114,7 @@ The :func:`set_num_format`, shown below, is used to set the number format for nu
     workbook.close()
 
 If the number format you use is the same as one of Excel's built in number
-format then it will have a number category such as General, Number, Currency,
+formats then it will have a number category such as General, Number, Currency,
 Accounting, Date, Time, Percentage, Fraction, Scientific, Text, Special or
 Custom. In the case of the example above the formatted output shows up as a
 Number category:
