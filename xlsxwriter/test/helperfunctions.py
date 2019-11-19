@@ -223,8 +223,8 @@ def _compare_xlsx_files(got_file, exp_file, ignore_files, ignore_elements):
 # files. Note, this function doesn't test equivalence, only equality.
 def compare_xlsx_files(file1, file2, ignore_files=None, ignore_elements=None):
 
-    if ignore_elements is None:
-        ignore_elements = []
+    if ignore_files is None:
+        ignore_files = []
 
     if ignore_elements is None:
         ignore_elements = []
