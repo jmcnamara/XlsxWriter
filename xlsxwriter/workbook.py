@@ -631,7 +631,7 @@ class Workbook(xmlwriter.XMLwriter):
             raise e
 
         # Assemble worksheets into a workbook.
-        packager = Packager()
+        packager = self._get_packager()
 
         # Add a default worksheet if non have been added.
         if not self.worksheets():
@@ -1631,6 +1631,11 @@ class Workbook(xmlwriter.XMLwriter):
     def _prepare_sst_string_data(self):
         # Convert the SST string data from a dict to a list.
         self.str_table._sort_string_data()
+
+    def _get_packager(self):
+        # Get and instance of the Packager class to create the xlsx package.
+        # This allows the default packager to be over-ridden.
+        return Packager()
 
     ###########################################################################
     #
