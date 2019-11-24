@@ -95,12 +95,14 @@ red. However, the color is subsequently set to green. When Excel displays
 Cell A1 it will display the final state of the Format which in this case will
 be the color green.
 
+
 .. _num_format_categories:
 
 Number Format Categories
 ------------------------
 
-The :func:`set_num_format`, shown below, is used to set the number format for numbers::
+The :func:`set_num_format` method, shown below, is used to set the number
+format for numbers::
 
     import xlsxwriter
 
@@ -108,7 +110,6 @@ The :func:`set_num_format`, shown below, is used to set the number format for nu
     worksheet = workbook.add_worksheet()
 
     currency_format = workbook.add_format({'num_format': '$#,##0.00'})
-
     worksheet.write('A1', 1234.56, currency_format)
 
     workbook.close()
@@ -142,7 +143,6 @@ example and rerun it we will get a number format in the Currency category::
     worksheet = workbook.add_worksheet()
 
     currency_format = workbook.add_format({'num_format': '[$$-409]#,##0.00'})
-
     worksheet.write('A1', 1234.56, currency_format)
 
     workbook.close()
@@ -152,7 +152,52 @@ Here is the output:
 .. image:: _images/currency_format4.png
 
 The same process can be used to find format strings for Date or Accountancy
-formats.
+formats. However, you also need to be aware of the OS settings Excel uses for
+number separators such as the "grouping/thousands" separator and the "decimal"
+point. See the next section for details.
+
+
+.. _num_format_locale:
+
+Number Formats in different locales
+-----------------------------------
+
+As shown in the previous section the :func:`set_num_format` method is used to
+set the number format for Xlsxwriter formats. A common use case is to set a
+number format with a "grouping/thousands" separator and a "decimal" point::
+
+    import xlsxwriter
+
+    workbook = xlsxwriter.Workbook('number_format.xlsx')
+    worksheet = workbook.add_worksheet()
+
+    number_format = workbook.add_format({'num_format': '#,##0.00'})
+    worksheet.write('A1', 1234.56, number_format)
+
+    workbook.close()
+
+In the US locale (and some others) where the number "grouping/thousands"
+separator is "," and the "decimal" point is "." this would be shown in Excel
+as:
+
+.. image:: _images/currency_format5.png
+
+In other locales these values may be reversed or different. They are generally
+set in the "Region" settings of Windows or Mac OS.  Excel handles this by
+storing the number format in the file format in the US locale, in this case
+``#,##0.00``, but renders it according to the regional settings of the host
+OS. For example, here is the same, unmodified, output file shown above in a
+German locale:
+
+.. image:: _images/currency_format6.png
+
+And here is the same file in a Russian locale. Note the use of a space as the
+"grouping/thousands" separator:
+
+.. image:: _images/currency_format7.png
+
+In order to replicate Excel's behavior all XlsxWriter programs should use US
+locale formatting which will then be rendered in the settings of your host OS.
 
 
 Format methods and Format properties
