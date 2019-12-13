@@ -48,7 +48,8 @@ to be written separately.
 Q. Is feature X supported or will it be supported?
 --------------------------------------------------
 
-All supported features are documented.
+All supported features are documented. Future features are on the `Roadmap
+<https://github.com/jmcnamara/XlsxWriter/issues/653>`_.
 
 
 Q. Is there an "AutoFit" option for columns?
@@ -60,6 +61,22 @@ is possible to simulate "AutoFit" in your application by tracking the maximum
 width of the data in the column as your write it and then adjusting the column
 width at the end.
 
+Q. Can I password protect an XlsxWriter xlsx file
+-------------------------------------------------
+
+Although it is possible to password protect a worksheet using the Worksheet
+:func:`protect` method it isn't possible to password protect the entire
+workbook/file using XlsxWriter.
+
+The reason for this is that a protected/encrypted xlsx file is in a different
+format from an ordinary xlsx file. This would require a lot of additional work,
+and testing, and isn't something that is on the XlsxWriter roadmap.
+
+However, it is possible to password protect an XlsxWriter generated file using
+a third party open source tool called `msoffice-crypt
+<https://github.com/herumi/msoffice>`_. This works for macOS, Linux and Windows::
+
+    msoffice-crypt.exe -e -p password clear.xlsx encrypted.xlsx
 
 Q. Do people actually ask these questions frequently, or at all?
 ----------------------------------------------------------------
