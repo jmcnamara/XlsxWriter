@@ -430,6 +430,7 @@ class Vml(xmlwriter.XMLwriter):
         position = image_data[3]
         x_dpi = image_data[4]
         y_dpi = image_data[5]
+        ref_id = image_data[6]
 
         # Scale the height/width by the resolution, relative to 72dpi.
         width = width * 72.0 / x_dpi
@@ -457,7 +458,7 @@ class Vml(xmlwriter.XMLwriter):
         self._xml_start_tag('v:shape', attributes)
 
         # Write the v:imagedata element.
-        self._write_imagedata(z_index, name)
+        self._write_imagedata(ref_id, name)
 
         # Write the o:lock element.
         self._write_rotation_lock()
@@ -670,10 +671,10 @@ class Vml(xmlwriter.XMLwriter):
         # Write the <x:FmlaMacro> element.
         self._xml_data_element('x:FmlaMacro', data)
 
-    def _write_imagedata(self, image_index, o_title):
+    def _write_imagedata(self, ref_id, o_title):
         # Write the <v:imagedata> element.
         attributes = [
-            ('o:relid', 'rId' + str(image_index)),
+            ('o:relid', 'rId' + str(ref_id)),
             ('o:title', o_title),
         ]
 

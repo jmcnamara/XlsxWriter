@@ -319,6 +319,8 @@ class Worksheet(xmlwriter.XMLwriter):
         self.drawing = 0
         self.drawing_rels = {}
         self.drawing_rels_id = 0
+        self.vml_drawing_rels = {}
+        self.vml_drawing_rels_id = 0
 
         self.rstring = ''
         self.previous_row = 0
@@ -4125,7 +4127,8 @@ class Worksheet(xmlwriter.XMLwriter):
         return "%X" % password_hash
 
     def _prepare_image(self, index, image_id, drawing_id, width, height,
-                       name, image_type, x_dpi, y_dpi):
+                       name, image_type, x_dpi, y_dpi, md5):
+
         # Set up images/drawings.
         drawing_type = 2
         (row, col, _, x_offset, y_offset,
@@ -4196,16 +4199,20 @@ class Worksheet(xmlwriter.XMLwriter):
                          "characters since it exceeds Excel's limit for URLS" %
                          (force_unicode(url), self.max_url_length))
                 else:
-                    self.drawing_links.append([rel_type, target, target_mode])
+                    if not self.drawing_rels.get(md5):
+                        self.drawing_links.append([rel_type, target,
+                                                   target_mode])
+
                     drawing_object['url_rel_index'] = \
-                        self._get_drawing_rel_index()
+                        self._get_drawing_rel_index(url)
 
-        drawing_object['rel_index'] = self._get_drawing_rel_index()
+        if not self.drawing_rels.get(md5):
+            self.drawing_links.append(['/image',
+                                       '../media/image'
+                                       + str(image_id) + '.'
+                                       + image_type])
 
-        self.drawing_links.append(['/image',
-                                   '../media/image'
-                                   + str(image_id) + '.'
-                                   + image_type])
+        drawing_object['rel_index'] = self._get_drawing_rel_index(md5)
 
     def _prepare_shape(self, index, drawing_id):
         # Set up shapes/drawings.
@@ -4283,24 +4290,31 @@ class Worksheet(xmlwriter.XMLwriter):
                          "characters since it exceeds Excel's limit for URLS" %
                          (force_unicode(url), self.max_url_length))
                 else:
-                    self.drawing_links.append([rel_type, target, target_mode])
+                    if not self.drawing_rels.get(url):
+                        self.drawing_links.append([rel_type, target,
+                                                   target_mode])
+
                     drawing_object['url_rel_index'] = \
-                        self._get_drawing_rel_index()
+                        self._get_drawing_rel_index(url)
 
     def _prepare_header_image(self, image_id, width, height, name, image_type,
-                              position, x_dpi, y_dpi):
+                              position, x_dpi, y_dpi, md5):
+
         # Set up an image without a drawing object for header/footer images.
 
         # Strip the extension from the filename.
         name = re.sub(r'\..*$', '', name)
 
-        self.header_images_list.append([width, height, name, position,
-                                        x_dpi, y_dpi])
+        if not self.vml_drawing_rels.get(md5):
+            self.vml_drawing_links.append(['/image',
+                                           '../media/image'
+                                           + str(image_id) + '.'
+                                           + image_type])
 
-        self.vml_drawing_links.append(['/image',
-                                       '../media/image'
-                                       + str(image_id) + '.'
-                                       + image_type])
+        ref_id = self._get_vml_drawing_rel_index(md5)
+
+        self.header_images_list.append([width, height, name, position,
+                                        x_dpi, y_dpi, ref_id])
 
     def _prepare_chart(self, index, chart_id, drawing_id):
         # Set up chart/drawings.
@@ -4962,6 +4976,15 @@ class Worksheet(xmlwriter.XMLwriter):
             self.drawing_rels_id += 1
             self.drawing_rels[target] = self.drawing_rels_id
             return self.drawing_rels_id
+
+    def _get_vml_drawing_rel_index(self, target=None):
+        # Get the index used to address a vml drawing rel link.
+        if self.vml_drawing_rels.get(target):
+            return self.vml_drawing_rels[target]
+        else:
+            self.vml_drawing_rels_id += 1
+            self.vml_drawing_rels[target] = self.vml_drawing_rels_id
+            return self.vml_drawing_rels_id
 
     ###########################################################################
     #

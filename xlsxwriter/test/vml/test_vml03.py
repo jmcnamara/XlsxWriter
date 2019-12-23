@@ -29,7 +29,7 @@ class TestAssembleVml(unittest.TestCase):
             1024,
             None,
             None,
-            [[32, 32, 'red', 'CH', 96, 96]])
+            [[32, 32, 'red', 'CH', 96, 96, 1]])
 
         exp = _vml_to_list("""
                 <xml xmlns:v="urn:schemas-microsoft-com:vml" xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:x="urn:schemas-microsoft-com:office:excel">
