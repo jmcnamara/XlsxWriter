@@ -1,4 +1,22 @@
 
+Release 1.2.7 - December 23 2019
+--------------------------------
+
+* Fix for duplicate images being copied to an XlsxWriter file. Excel uses an
+  optimization where it only stores one copy of a repeated/duplicate image in
+  a workbook. XlsxWriter didn't do this which meant that the file size would
+  increase when then was a large number of repeated images. This release fixes
+  that issue and replicates Excel's behavior.
+  Issue `#615 <https://github.com/jmcnamara/XlsxWriter/issues/615>`_.
+
+* Added documentation on :ref:`num_format_categories` and
+  :ref:`num_format_locale`.
+
+* Added note to :func:`protect()` about how it is possible to encrypt an
+  XlsxWriter file using a third party, cross platform, open source tool called
+  `msoffice-crypt <https://github.com/herumi/msoffice>`_.
+
+
 Release 1.2.6 - November 15 2019
 --------------------------------
 
