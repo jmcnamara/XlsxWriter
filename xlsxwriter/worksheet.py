@@ -426,10 +426,6 @@ class Worksheet(xmlwriter.XMLwriter):
         # The first arg should be the token for all write calls.
         token = args[0]
 
-        # Write None as a blank cell.
-        if token is None:
-            return self._write_blank(row, col, *args)
-
         # Avoid isinstance() for better performance.
         token_type = type(token)
 
@@ -445,6 +441,10 @@ class Worksheet(xmlwriter.XMLwriter):
                 pass
             else:
                 return function_return
+
+        # Write None as a blank cell.
+        if token is None:
+            return self._write_blank(row, col, *args)
 
         # Check for standard Python types.
         if token_type is bool:
