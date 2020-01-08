@@ -40,6 +40,7 @@ class Styles(xmlwriter.XMLwriter):
         self.dxf_formats = []
         self.has_hyperlink = False
         self.hyperlink_font_id = 0
+        self.has_comments = False
 
     ###########################################################################
     #
@@ -103,6 +104,7 @@ class Styles(xmlwriter.XMLwriter):
         self.fill_count = properties[5]
         self.custom_colors = properties[6]
         self.dxf_formats = properties[7]
+        self.has_comments = properties[8]
 
     def _get_palette_color(self, color):
         # Convert the RGB color.
@@ -197,13 +199,21 @@ class Styles(xmlwriter.XMLwriter):
 
     def _write_fonts(self):
         # Write the <fonts> element.
-        attributes = [('count', self.font_count)]
+        if self.has_comments:
+            # Add extra font for comments.
+            attributes = [('count', self.font_count + 1)]
+        else:
+            attributes = [('count', self.font_count)]
+
         self._xml_start_tag('fonts', attributes)
 
         # Write the font elements for xf_format objects that have them.
         for xf_format in self.xf_formats:
             if xf_format.has_font:
                 self._write_font(xf_format)
+
+        if self.has_comments:
+            self._write_comment_font()
 
         self._xml_end_tag('fonts')
 
@@ -278,6 +288,17 @@ class Styles(xmlwriter.XMLwriter):
                 self.has_hyperlink = True
                 if self.hyperlink_font_id == 0:
                     self.hyperlink_font_id = xf_format.font_index
+
+        self._xml_end_tag('font')
+
+    def _write_comment_font(self):
+        # Write the <font> element for comments.
+        self._xml_start_tag('font')
+
+        self._xml_empty_tag('sz', [('val', 8)])
+        self._write_color('indexed', 81)
+        self._xml_empty_tag('name', [('val', 'Tahoma')])
+        self._xml_empty_tag('family', [('val', 2)])
 
         self._xml_end_tag('font')
 

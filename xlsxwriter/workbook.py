@@ -136,6 +136,7 @@ class Workbook(xmlwriter.XMLwriter):
         self.calc_on_load = True
         self.allow_zip64 = False
         self.calc_id = 124519
+        self.has_comments = False
 
         # We can't do 'constant_memory' mode while doing 'in_memory' mode.
         if self.in_memory:
@@ -1499,6 +1500,7 @@ class Workbook(xmlwriter.XMLwriter):
                 if sheet.has_comments:
                     comment_files += 1
                     comment_id += 1
+                    self.has_comments = True
 
                 vml_drawing_id += 1
 
@@ -1519,12 +1521,6 @@ class Workbook(xmlwriter.XMLwriter):
 
             self.num_vml_files = vml_files
             self.num_comment_files = comment_files
-
-        # Add a font format for cell comments.
-        if comment_files > 0:
-            xf = self.add_format({'font_name': 'Tahoma', 'font_size': 8,
-                                  'color_indexed': 81, 'font_only': True})
-            xf._get_xf_index()
 
     def _prepare_tables(self):
         # Set the table ids for the worksheet tables.

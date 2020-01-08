@@ -28,7 +28,7 @@ class TestWriteBorders(unittest.TestCase):
         xf_format = Format()
         xf_format.has_border = 1
 
-        self.styles._set_style_properties([[xf_format], None, 0, 0, 1, 0, [], []])
+        self.styles._set_style_properties([[xf_format], None, 0, 0, 1, 0, [], [], 0])
 
         self.styles._write_borders()
 

@@ -400,6 +400,7 @@ class Packager(object):
         fill_count = self.workbook.fill_count
         custom_colors = self.workbook.custom_colors
         dxf_formats = self.workbook.dxf_formats
+        has_comments = self.workbook.has_comments
 
         styles = Styles()
         styles._set_style_properties([
@@ -410,7 +411,8 @@ class Packager(object):
             border_count,
             fill_count,
             custom_colors,
-            dxf_formats])
+            dxf_formats,
+            has_comments])
 
         styles._set_xml_writer(self._filename('xl/styles.xml'))
         styles._assemble_xml_file()

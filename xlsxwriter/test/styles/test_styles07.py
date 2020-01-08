@@ -44,6 +44,7 @@ class TestAssembleStyles(unittest.TestCase):
             workbook.fill_count,
             workbook.custom_colors,
             workbook.dxf_formats,
+            workbook.has_comments,
         ])
 
         style._assemble_xml_file()
