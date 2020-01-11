@@ -3712,7 +3712,7 @@ class Worksheet(xmlwriter.XMLwriter):
         if name is not None:
             self.vba_codename = name
         else:
-            self.vba_codename = self.name
+            self.vba_codename = 'Sheet' + str(self.index + 1)
 
     ###########################################################################
     #
