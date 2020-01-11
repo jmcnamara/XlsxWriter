@@ -9,7 +9,7 @@
 #
 import xlsxwriter
 
-workbook = xlsxwriter.Workbook('comments2.xlsx')
+workbook = xlsxwriter.Workbook('comments.xlsx')
 
 worksheet1 = workbook.add_worksheet()
 worksheet2 = workbook.add_worksheet()
@@ -26,13 +26,11 @@ text_wrap = workbook.add_format({'text_wrap': 1, 'valign': 'top'})
 ###############################################################################
 #
 # Example 1. Demonstrates a simple cell comments without formatting.
-#            comments.
 #
 
 # Set up some formatting.
 worksheet1.set_column('C:C', 25)
 worksheet1.set_row(2, 50)
-worksheet1.set_row(5, 50)
 
 # Simple ASCII string.
 cell_text = 'Hold the mouse over this cell to see the comment.'
@@ -84,7 +82,7 @@ cell_text = 'This cell comment is visible, explicitly.'
 comment = 'Hello.'
 
 worksheet3.write('C3', cell_text, text_wrap)
-worksheet3.write_comment('C3', comment, {'visible': 1})
+worksheet3.write_comment('C3', comment, {'visible': True})
 
 cell_text = 'This cell comment is also visible because of show_comments().'
 
@@ -108,6 +106,7 @@ worksheet4.set_row(2, 50)
 worksheet4.set_row(5, 50)
 worksheet4.set_row(8, 50)
 worksheet4.set_row(15, 50)
+worksheet4.set_row(18, 50)
 
 worksheet4.show_comments()
 
@@ -130,12 +129,12 @@ worksheet4.write_comment('C9', comment, {'y_scale': 2})
 cell_text = 'This cell comment is scaled in both directions.'
 
 worksheet4.write('C16', cell_text, text_wrap)
-worksheet4.write_comment('C16', comment, {'x_scale': 1.2, 'y_scale': 0.8})
+worksheet4.write_comment('C16', comment, {'x_scale': 1.2, 'y_scale': 0.5})
 
 cell_text = 'This cell comment has width and height specified in pixels.'
 
 worksheet4.write('C19', cell_text, text_wrap)
-worksheet4.write_comment('C19', comment, {'width': 200, 'height': 20})
+worksheet4.write_comment('C19', comment, {'width': 200, 'height': 50})
 
 
 ###############################################################################
@@ -207,7 +206,6 @@ worksheet6.write_comment('C9', comment, {'color': '#CCFFCC'})
 worksheet7.set_column('C:C', 30)
 worksheet7.set_row(2, 50)
 worksheet7.set_row(5, 50)
-worksheet7.set_row(8, 50)
 
 author = ''
 cell = 'C3'
@@ -233,6 +231,7 @@ worksheet7.write_comment(cell, comment, {'author': author})
 #
 # Example 8. Demonstrates the need to explicitly set the row height.
 #
+
 # Set up some formatting.
 worksheet8.set_column('C:C', 25)
 worksheet8.set_row(2, 80)
