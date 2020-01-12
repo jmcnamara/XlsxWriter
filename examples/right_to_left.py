@@ -8,7 +8,7 @@
 # Note, this a Python2 unicode version. Remove the u'' to make this work with
 # Python3. See also the unicode_python3.py example.
 #
-# Copyright 2013-2019, John McNamara, jmcnamara@cpan.org
+# Copyright 2013-2020, John McNamara, jmcnamara@cpan.org
 #
 import xlsxwriter
 

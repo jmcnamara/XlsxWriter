@@ -8,7 +8,7 @@
 # warning messages. It also allows you to restrict input to values in
 # a drop down list.
 #
-# Copyright 2013-2019, John McNamara, jmcnamara@cpan.org
+# Copyright 2013-2020, John McNamara, jmcnamara@cpan.org
 #
 from datetime import date, time
 import xlsxwriter

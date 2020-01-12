@@ -4,7 +4,7 @@
 #
 # This program demonstrates the indentation cell format.
 #
-# Copyright 2013-2019, John McNamara, jmcnamara@cpan.org
+# Copyright 2013-2020, John McNamara, jmcnamara@cpan.org
 #
 import xlsxwriter
 

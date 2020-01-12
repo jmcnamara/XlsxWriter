@@ -2,7 +2,7 @@
 #
 # An example of an Excel chart with patterns using Python and XlsxWriter.
 #
-# Copyright 2013-2019, John McNamara, jmcnamara@cpan.org
+# Copyright 2013-2020, John McNamara, jmcnamara@cpan.org
 #
 import xlsxwriter
 

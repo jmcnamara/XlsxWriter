@@ -5,7 +5,7 @@
 #
 # Each of the worksheets demonstrates different features of cell comments.
 #
-# Copyright 2013-2019, John McNamara, jmcnamara@cpan.org
+# Copyright 2013-2020, John McNamara, jmcnamara@cpan.org
 #
 import xlsxwriter
 

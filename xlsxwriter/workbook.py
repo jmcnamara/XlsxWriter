@@ -2,7 +2,7 @@
 #
 # Workbook - A class for writing the Excel XLSX Workbook file.
 #
-# Copyright 2013-2019, John McNamara, jmcnamara@cpan.org
+# Copyright 2013-2020, John McNamara, jmcnamara@cpan.org
 #
 
 # Standard packages.

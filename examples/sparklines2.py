@@ -6,7 +6,7 @@
 # used to show trends in data. This example shows the majority of
 # options that can be applied to sparklines.
 #
-# Copyright 2013-2019, John McNamara, jmcnamara@cpan.org
+# Copyright 2013-2020, John McNamara, jmcnamara@cpan.org
 #
 import xlsxwriter
 

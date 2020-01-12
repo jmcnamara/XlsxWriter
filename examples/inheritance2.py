@@ -11,7 +11,7 @@
 # Note: THIS ISN'T A FULLY FUNCTIONAL AUTOFIT EXAMPLE. It is only a proof or
 # concept or a framework to try out solutions.
 #
-# Copyright 2013-2019, John McNamara, jmcnamara@cpan.org
+# Copyright 2013-2020, John McNamara, jmcnamara@cpan.org
 #
 from xlsxwriter.workbook import Workbook
 from xlsxwriter.worksheet import Worksheet

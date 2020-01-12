@@ -2,7 +2,7 @@
 #
 # Example of how to use the XlsxWriter module to write hyperlinks
 #
-# Copyright 2013-2019, John McNamara, jmcnamara@cpan.org
+# Copyright 2013-2020, John McNamara, jmcnamara@cpan.org
 #
 import xlsxwriter
 

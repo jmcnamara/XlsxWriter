@@ -2,7 +2,7 @@
 #
 # Tests for XlsxWriter.
 #
-# Copyright (c), 2013-2019, John McNamara, jmcnamara@cpan.org
+# Copyright (c), 2013-2020, John McNamara, jmcnamara@cpan.org
 #
 
 from __future__ import with_statement

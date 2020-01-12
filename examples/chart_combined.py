@@ -2,7 +2,7 @@
 #
 # An example of a Combined chart in XlsxWriter.
 #
-# Copyright 2013, John McNamara, jmcnamara@cpan.org
+# Copyright 2013-2020, John McNamara, jmcnamara@cpan.org
 #
 from xlsxwriter.workbook import Workbook
 

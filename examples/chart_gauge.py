@@ -7,7 +7,7 @@
 # elements. This example follows the following online example of how to create
 # a Gauge Chart in Excel: https://www.excel-easy.com/examples/gauge-chart.html
 #
-# Copyright 2013-2019, John McNamara, jmcnamara@cpan.org
+# Copyright 2013-2020, John McNamara, jmcnamara@cpan.org
 #
 import xlsxwriter
 

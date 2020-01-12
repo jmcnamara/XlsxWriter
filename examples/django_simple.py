@@ -3,7 +3,7 @@
 # A simple Django view class to write an Excel file using the XlsxWriter
 # module.
 #
-# Copyright 2013-2019, John McNamara, jmcnamara@cpan.org
+# Copyright 2013-2020, John McNamara, jmcnamara@cpan.org
 #
 import io
 from django.http import HttpResponse
