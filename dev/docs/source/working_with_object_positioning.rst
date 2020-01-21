@@ -77,7 +77,7 @@ Excel supports three options for "Object Positioning" within a worksheet:
 .. image:: _images/object_position3.png
 
 
-Image, chart and textbox objects in XlsxWriter emulate these option using an
+Image, chart and textbox objects in XlsxWriter emulate these options using the
 ``object_position`` parameter::
 
     worksheet.insert_image('B3', 'python.png', {'object_position': 1})
