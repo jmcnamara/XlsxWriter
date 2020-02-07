@@ -4199,7 +4199,7 @@ class Worksheet(xmlwriter.XMLwriter):
                          "characters since it exceeds Excel's limit for URLS" %
                          (force_unicode(url), self.max_url_length))
                 else:
-                    if not self.drawing_rels.get(md5):
+                    if not self.drawing_rels.get(url):
                         self.drawing_links.append([rel_type, target,
                                                    target_mode])
 
