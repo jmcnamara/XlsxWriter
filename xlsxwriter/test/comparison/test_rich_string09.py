@@ -37,7 +37,7 @@ class TestCompareXLSXFiles(ExcelComparisonTest):
         import warnings
         warnings.filterwarnings('ignore')
 
-        # The following has 2 consectutive formats so it should be ignored
+        # The following has 2 consecutive formats so it should be ignored
         # with a warning.
         worksheet.write_rich_string('A3', 'a', bold, bold, 'bc', 'defg')
 
