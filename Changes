@@ -1,3 +1,21 @@
+Release 1.2.8 - February 22 2020
+--------------------------------
+
+* Fix for issue where duplicate images with hyperlinks weren't handled
+  correctly.
+  Issue `#686 <https://github.com/jmcnamara/XlsxWriter/issues/686>`_.
+
+* Removed ``ReservedWorksheetName`` exception which was used with the reserved
+  worksheet name "History" since this name is allowed in some Excel variants.
+  Issue `#688 <https://github.com/jmcnamara/XlsxWriter/issues/688>`_.
+
+* Fix for worksheet objects (charts, images and textboxes) that are inserted
+  with an offset that starts in a hidden cell.
+  Issue `#676 <https://github.com/jmcnamara/XlsxWriter/issues/676>`_.
+
+* Fix to allow handling of NoneType in :func:`add_write_handler`.
+  Issue `#677 <https://github.com/jmcnamara/XlsxWriter/issues/677>`_.
+
 
 Release 1.2.7 - December 23 2019
 --------------------------------
