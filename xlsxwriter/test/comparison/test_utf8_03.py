@@ -6,7 +6,7 @@
 # Copyright (c), 2013-2020, John McNamara, jmcnamara@cpan.org
 #
 from __future__ import unicode_literals
-from ..excel_comparsion_test import ExcelComparisonTest
+from ..excel_comparison_test import ExcelComparisonTest
 from ...workbook import Workbook
 
 

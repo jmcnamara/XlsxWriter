@@ -6,7 +6,7 @@
 #
 
 from datetime import date
-from ..excel_comparsion_test import ExcelComparisonTest
+from ..excel_comparison_test import ExcelComparisonTest
 from ...workbook import Workbook
 
 

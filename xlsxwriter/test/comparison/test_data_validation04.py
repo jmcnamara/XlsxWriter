@@ -5,7 +5,7 @@
 # Copyright (c), 2013-2020, John McNamara, jmcnamara@cpan.org
 #
 
-from ..excel_comparsion_test import ExcelComparisonTest
+from ..excel_comparison_test import ExcelComparisonTest
 from ...workbook import Workbook
 
 
@@ -34,7 +34,7 @@ class TestCompareXLSXFiles(ExcelComparisonTest):
                    }
         )
 
-        # The following should be rejected becuase the input title is too long.
+        # The following should be rejected because the input title is too long.
         input_title = 'This is the longest input title12'
         input_message = 'This is the longest input message ' + ('a' * 221)
         values = [

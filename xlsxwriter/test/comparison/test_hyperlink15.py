@@ -5,7 +5,7 @@
 # Copyright (c), 2013-2020, John McNamara, jmcnamara@cpan.org
 #
 
-from ..excel_comparsion_test import ExcelComparisonTest
+from ..excel_comparison_test import ExcelComparisonTest
 from ...workbook import Workbook
 
 
@@ -20,7 +20,7 @@ class TestCompareXLSXFiles(ExcelComparisonTest):
         self.set_filename('hyperlink15.xlsx')
 
     def test_create_file(self):
-        """Test the creation of a simple XlsxWriter file with hyperlinks.This example doesn't have any link formatting and tests the relationshiplinkage code."""
+        """Test the creation of a simple XlsxWriter file with hyperlinks.This example doesn't have any link formatting and tests the relationship linkage code."""
 
         workbook = Workbook(self.got_filename)
 

@@ -5,7 +5,7 @@
 # Copyright (c), 2013-2020, John McNamara, jmcnamara@cpan.org
 #
 
-from ..excel_comparsion_test import ExcelComparisonTest
+from ..excel_comparison_test import ExcelComparisonTest
 from ...workbook import Workbook
 
 
@@ -19,12 +19,12 @@ class TestCompareXLSXFiles(ExcelComparisonTest):
 
         self.set_filename('hyperlink20.xlsx')
 
-    def test_hyperlink_formating_explicit(self):
+    def test_hyperlink_formatting_explicit(self):
         """Test the creation of a simple XlsxWriter file with hyperlinks. This example has link formatting."""
 
         workbook = Workbook(self.got_filename)
 
-        # Simulate custom colour for testing.
+        # Simulate custom color for testing.
         workbook.custom_colors = ['FF0000FF']
 
         worksheet = workbook.add_worksheet()

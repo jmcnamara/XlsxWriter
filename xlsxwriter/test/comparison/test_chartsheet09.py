@@ -5,7 +5,7 @@
 # Copyright (c), 2013-2020, John McNamara, jmcnamara@cpan.org
 #
 
-from ..excel_comparsion_test import ExcelComparisonTest
+from ..excel_comparison_test import ExcelComparisonTest
 from ...workbook import Workbook
 
 
@@ -20,7 +20,7 @@ class TestCompareXLSXFiles(ExcelComparisonTest):
         self.set_filename('chartsheet09.xlsx')
 
     def test_create_file(self):
-        """Test the worksheet properties of an XlsxWriter chartsheet filewith series format properties."""
+        """Test the worksheet properties of an XlsxWriter chartsheet file with series format properties."""
 
         workbook = Workbook(self.got_filename)
 

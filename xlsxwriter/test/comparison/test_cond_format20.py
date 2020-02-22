@@ -5,7 +5,7 @@
 # Copyright (c), 2013-2020, John McNamara, jmcnamara@cpan.org
 #
 
-from ..excel_comparsion_test import ExcelComparisonTest
+from ..excel_comparison_test import ExcelComparisonTest
 from ...workbook import Workbook
 
 
@@ -20,7 +20,7 @@ class TestCompareXLSXFiles(ExcelComparisonTest):
         self.set_filename('cond_format20.xlsx')
 
     def test_create_file(self):
-        """Test the creation of a simple XlsxWriter file with conditionalformatting."""
+        """Test the creation of a simple XlsxWriter file with conditionalFormatting."""
 
         workbook = Workbook(self.got_filename)
 

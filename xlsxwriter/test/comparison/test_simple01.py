@@ -6,7 +6,7 @@
 #
 
 from __future__ import with_statement
-from ..excel_comparsion_test import ExcelComparisonTest
+from ..excel_comparison_test import ExcelComparisonTest
 from datetime import date
 from ...workbook import Workbook
 

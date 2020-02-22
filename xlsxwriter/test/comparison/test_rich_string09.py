@@ -5,7 +5,7 @@
 # Copyright (c), 2013-2020, John McNamara, jmcnamara@cpan.org
 #
 
-from ..excel_comparsion_test import ExcelComparisonTest
+from ..excel_comparison_test import ExcelComparisonTest
 from ...workbook import Workbook
 
 
@@ -37,7 +37,7 @@ class TestCompareXLSXFiles(ExcelComparisonTest):
         import warnings
         warnings.filterwarnings('ignore')
 
-        # The following has 2 consectutive formats so it should be ignored
+        # The following has 2 consecutive formats so it should be ignored
         # with a warning.
         worksheet.write_rich_string('A3', 'a', bold, bold, 'bc', 'defg')
 
@@ -47,7 +47,7 @@ class TestCompareXLSXFiles(ExcelComparisonTest):
         worksheet.write_rich_string('A3', 'a', bold, '', 'defg')
         worksheet.write_rich_string('A3', 'a', bold, 'bc', '')
 
-        # The following doesn't have enough framents/formats and should be
+        # The following doesn't have enough fragments/formats and should be
         # ignored with a warning.
         worksheet.write_rich_string('A3', 'a')
         worksheet.write_rich_string('A3', 'a', bold)
