@@ -1033,6 +1033,18 @@ Examples::
     worksheet.set_column('E:E', 20)  # Column  E   width set to 20.
     worksheet.set_column('F:H', 30)  # Columns F-H width set to 30.
 
+Ranges cannot overlap. Each unique contiguous range should be specified
+separately:
+
+    # This won't work.
+    worksheet.set_column('A:D', 50)
+    worksheet.set_column('C:C', 10)
+
+    # It needs to be split into non-overlapping regions.
+    worksheet.set_column('A:B', 50)
+    worksheet.set_column('C:C', 10)
+    worksheet.set_column('D:E', 50)
+
 The ``width`` parameter sets the column width in the same units used by Excel
 which is: the number of characters in the default font. The default width is
 8.43 in the default font of Calibri 11. The actual relationship between a
