@@ -37,7 +37,6 @@ from .chart_scatter import ChartScatter
 from .chart_stock import ChartStock
 from .exceptions import InvalidWorksheetName
 from .exceptions import DuplicateWorksheetName
-from .exceptions import ReservedWorksheetName
 from .exceptions import UndefinedImageSize
 from .exceptions import UnsupportedImageFormat
 from .exceptions import FileCreateError
@@ -791,11 +790,6 @@ class Workbook(xmlwriter.XMLwriter):
             raise InvalidWorksheetName(
                 "Sheet name cannot start or end with an apostrophe \"%s\"." %
                 sheetname)
-
-        # Check that sheetname isn't the reserved work "History".
-        if sheetname.lower() == 'history':
-            raise ReservedWorksheetName(
-                "Worksheet name 'History' is reserved by Excel")
 
         # Check that the worksheet name doesn't already exist since this is a
         # fatal Excel error. The check must be case insensitive like Excel.

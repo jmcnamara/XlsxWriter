@@ -9,7 +9,6 @@ import unittest
 from ...workbook import Workbook
 from ...exceptions import DuplicateWorksheetName
 from ...exceptions import InvalidWorksheetName
-from ...exceptions import ReservedWorksheetName
 
 
 class TestCheckSheetname(unittest.TestCase):
@@ -60,18 +59,6 @@ class TestCheckSheetname(unittest.TestCase):
 
         name = "'start and end with apostrophe'"
         self.assertRaises(InvalidWorksheetName, self.workbook._check_sheetname, name)
-
-    def test_check_sheetname_with_reserved_name(self):
-        """Test the _check_sheetname() method with exception"""
-
-        name = 'History'
-        self.assertRaises(ReservedWorksheetName, self.workbook._check_sheetname, name)
-
-        name = 'history'
-        self.assertRaises(ReservedWorksheetName, self.workbook._check_sheetname, name)
-
-        name = 'HiStOrY'
-        self.assertRaises(ReservedWorksheetName, self.workbook._check_sheetname, name)
 
     def test_check_sheetname_with_duplicate_name(self):
         """Test the _check_sheetname() method with exception"""

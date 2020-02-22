@@ -220,8 +220,8 @@ The worksheet name must be a valid Excel worksheet name:
 * You cannot use the same, case insensitive, ``name`` for more than one
   worksheet. This error will raise a :exc:`DuplicateWorksheetName` exception.
 
-* You cannot use the Excel reserved name "History", or case insensitive
-  variants. This error will raise a :exc:`ReservedWorksheetName` exception.
+* You should not use the Excel reserved name "History", or case insensitive
+  variants as this is restricted in English, and other, versions of Excel.
 
 The rules for worksheet names in Excel are explained in the Microsoft Office
 documentation on how to `Rename a worksheet

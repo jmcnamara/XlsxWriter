@@ -30,8 +30,6 @@ The hierarchy of exceptions in XlsxWriter is:
 
     * ``DuplicateWorksheetName(XlsxInputError)``
 
-    * ``ReservedWorksheetName(XlsxInputError)``
-
 
 Exception: XlsxWriterException
 ------------------------------
@@ -321,26 +319,3 @@ Raises::
 
     xlsxwriter.exceptions.DuplicateWorksheetName:
         Sheetname 'sheet1', with case ignored, is already in use.
-
-
-Exception: ReservedWorksheetName
---------------------------------
-
-.. py:exception:: ReservedWorksheetName
-
-This exception is raised during Workbook :func:`add_worksheet()` if the
-reserved worksheet name "History" is used. As with Excel the check is case
-insensitive::
-
-    import xlsxwriter
-
-    workbook = xlsxwriter.Workbook('exception.xlsx')
-
-    worksheet = workbook.add_worksheet('History')
-
-    workbook.close()
-
-Raises::
-
-    xlsxwriter.exceptions.ReservedWorksheetName:
-         Worksheet name 'History' is reserved by Excel
