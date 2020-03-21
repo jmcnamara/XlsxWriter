@@ -1020,7 +1020,7 @@ class Worksheet(xmlwriter.XMLwriter):
         previous = 'format'
         pos = 0
 
-        if len(tokens) <= 2:
+        if len(tokens) <= 1:
             warn("You must specify more then 2 format/fragments for rich "
                  "strings. Ignoring input in write_rich_string().")
             return -5
