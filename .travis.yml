@@ -2,23 +2,20 @@ language: python
 
 python:
   - "2.7"
-  - "3.4"
   - "3.5"
   - "3.6"
   - "3.7"
   - "3.8"
-  - "3.8-dev"
+  - "3.9-dev"
   - "nightly"
   - "pypy"
   - "pypy3"
 
 install:
-- pip install pytest
-- pip install pycodestyle
+  - pip install flake8 pytest
 
 script:
-- py.test
-- make test_codestyle
-- make testwarnings
-
-sudo: false
+  - py.test
+  - make test_codestyle
+  - flake8 . --count --select=E9,F63,F7,F82 --show-source --statistics
+  - make testwarnings
