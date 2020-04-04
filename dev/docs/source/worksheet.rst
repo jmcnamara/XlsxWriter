@@ -158,7 +158,7 @@ more specific write methods or you can extend it using the
 ``add_write_handler()`` method.
 
 For example, say you wanted to automatically write :mod:`uuid` values as
-strings using ``write()`` you would start by creating a function that take the
+strings using ``write()`` you would start by creating a function that takes the
 uuid, converts it to a string and then writes it using :func:`write_string`::
 
     def write_uuid(worksheet, row, col, uuid, format=None):
