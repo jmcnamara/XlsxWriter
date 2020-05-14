@@ -299,44 +299,30 @@ class Format(xmlwriter.XMLwriter):
         """
         alignment = alignment.lower()
 
-        # Set horizontal alignment properties.
-        if alignment == 'left':
-            self.set_text_h_align(1)
-        if alignment == 'centre':
-            self.set_text_h_align(2)
-        if alignment == 'center':
-            self.set_text_h_align(2)
-        if alignment == 'right':
-            self.set_text_h_align(3)
-        if alignment == 'fill':
-            self.set_text_h_align(4)
-        if alignment == 'justify':
-            self.set_text_h_align(5)
-        if alignment == 'center_across':
-            self.set_text_h_align(6)
-        if alignment == 'centre_across':
-            self.set_text_h_align(6)
-        if alignment == 'distributed':
+        def justify_distributed():
             self.set_text_h_align(7)
-        if alignment == 'justify_distributed':
-            self.set_text_h_align(7)
-
-        if alignment == 'justify_distributed':
             self.just_distrib = 1
 
-        # Set vertical alignment properties.
-        if alignment == 'top':
-            self.set_text_v_align(1)
-        if alignment == 'vcentre':
-            self.set_text_v_align(2)
-        if alignment == 'vcenter':
-            self.set_text_v_align(2)
-        if alignment == 'bottom':
-            self.set_text_v_align(3)
-        if alignment == 'vjustify':
-            self.set_text_v_align(4)
-        if alignment == 'vdistributed':
-            self.set_text_v_align(5)
+        map_alignment = {
+            "left": lambda: self.set_text_h_align(1),
+            "centre": lambda: self.set_text_h_align(2),
+            "center": lambda: self.set_text_h_align(2),
+            "right": lambda: self.set_text_h_align(3),
+            "fill": lambda: self.set_text_h_align(4),
+            "justify": lambda: self.set_text_h_align(5),
+            "center_across": lambda: self.set_text_h_align(6),
+            "distributed": lambda: self.set_text_h_align(7),
+            "justify_distributed": justify_distributed,
+            "top": lambda: self.set_text_v_align(1),
+            "vcentre": lambda: self.set_text_v_align(2),
+            "vcenter": lambda: self.set_text_v_align(2),
+            "bottom": lambda: self.set_text_v_align(3),
+            "vjustify": lambda: self.set_text_v_align(4),
+            "vdistributed": lambda: self.set_text_v_align(5),
+        }
+
+        if alignment in map_alignment:
+            map_alignment[alignment]()
 
     def set_center_across(self, align_type=None):
         """
