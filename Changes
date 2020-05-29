@@ -6,6 +6,13 @@ Python 2.7 will end after the first release in 2021 (probably in January
 after that date/release.
 
 
+
+Release 1.2.9 - May 29 2020
+---------------------------
+
+* Added support for ``stacked`` and ``percent_stacked`` Line charts.
+
+
 Release 1.2.8 - February 22 2020
 --------------------------------
 
