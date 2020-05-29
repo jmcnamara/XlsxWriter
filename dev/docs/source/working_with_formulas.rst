@@ -234,6 +234,10 @@ follows:
    listed above (:ref:`formula_future`). If it does then ensure that the
    correct prefix is used.
 
+#. If the function loads in Excel without calculating and appears with one or
+   more ``@`` symbols added then it is probably an array function and should
+   be written using :func:`write_array_formula`.
+
 Finally if you have completed all the previous steps and still get a
 ``#NAME?`` error you can examine a valid Excel file to see what the correct
 syntax should be. To do this you should create a valid formula in Excel and
@@ -243,7 +247,7 @@ The following shows how to do that using Linux ``unzip`` and `libxml's xmllint
 <http://xmlsoft.org/xmllint.html>`_ to format the XML for clarity::
 
     $ unzip myfile.xlsx -d myfile
-    $ xmllint --format myfile/xl/worksheets/sheet1.xml | grep '<f>'
+    $ xmllint --format myfile/xl/worksheets/sheet1.xml | grep '</f>'
 
             <f>SUM(1, 2, 3)</f>
 
