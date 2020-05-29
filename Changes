@@ -1,3 +1,11 @@
+
+**Deprecation Notice**: Python 2.7 reached the end of its life on January 1st,
+2020 and is no longer being supported in the community. XlsxWriter support for
+Python 2.7 will end after the first release in 2021 (probably in January
+2021). No new features or fixes for Python 2.7 will be added to XlsxWriter
+after that date/release.
+
+
 Release 1.2.8 - February 22 2020
 --------------------------------
 
