@@ -105,6 +105,10 @@ The available subtypes are::
         smooth_with_markers
         smooth
 
+    line
+        stacked
+        percent_stacked
+
     radar
         with_markers
         filled

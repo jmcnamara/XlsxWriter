@@ -28,8 +28,20 @@ class ChartLine(chart.Chart):
         """
         super(ChartLine, self).__init__()
 
+        if options is None:
+            options = {}
+
+        self.subtype = options.get('subtype')
+
+        if not self.subtype:
+            self.subtype = 'standard'
+
         self.default_marker = {'type': 'none'}
         self.smooth_allowed = True
+
+        # Override and reset the default axis values.
+        if self.subtype == 'percent_stacked':
+            self.y_axis['defaults']['num_format'] = '0%'
 
         # Set the available data label positions for this chart type.
         self.label_position_default = 'right'
@@ -42,6 +54,8 @@ class ChartLine(chart.Chart):
             # For backward compatibility.
             'top': 't',
             'bottom': 'b'}
+
+        self.set_y_axis({})
 
     ###########################################################################
     #
@@ -71,10 +85,15 @@ class ChartLine(chart.Chart):
         if not len(series):
             return
 
+        subtype = self.subtype
+
+        if subtype == 'percent_stacked':
+            subtype = 'percentStacked'
+
         self._xml_start_tag('c:lineChart')
 
         # Write the c:grouping element.
-        self._write_grouping('standard')
+        self._write_grouping(subtype)
 
         # Write the series elements.
         for data in series:
