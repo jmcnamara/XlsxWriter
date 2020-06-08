@@ -1,3 +1,16 @@
+.. image:: https://badge.fury.io/py/XlsxWriter.svg
+   :target: https://pypi.python.org/pypi/XlsxWriter/
+
+.. image:: https://img.shields.io/pypi/status/ansicolortags.svg
+   :target: https://pypi.python.org/pypi/ansicolortags/
+
+.. image:: https://img.shields.io/pypi/l/XlsxWriter.svg
+   :target: https://pypi.python.org/pypi/XlsxWriter/
+
+.. image:: https://travis-ci.org/jmcnamara/XlsxWriter.svg?branch=master
+   :target: https://travis-ci.org/jmcnamara/XlsxWriter
+
+
 XlsxWriter
 ==========
 
