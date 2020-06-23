@@ -188,6 +188,70 @@ class Drawing(xmlwriter.XMLwriter):
 
         self._xml_end_tag('xdr:twoCellAnchor')
 
+    def _write_one_cell_anchor(self, index, drawing_properties):
+        # Write the <xdr:oneCellAnchor> element.
+        anchor_type = drawing_properties['type']
+        dimensions = drawing_properties['dimensions']
+        col_from = dimensions[0]
+        row_from = dimensions[1]
+        col_from_offset = dimensions[2]
+        row_from_offset = dimensions[3]
+        col_absolute = dimensions[8]
+        row_absolute = dimensions[9]
+        width = drawing_properties['width']
+        height = drawing_properties['height']
+        description = drawing_properties['description']
+        shape = drawing_properties['shape']
+        rel_index = drawing_properties['rel_index']
+        url_rel_index = drawing_properties['url_rel_index']
+        tip = drawing_properties['tip']
+
+        attributes = []
+
+        self._xml_start_tag('xdr:oneCellAnchor', attributes)
+
+        # Write the xdr:from element.
+        self._write_from(
+            col_from,
+            row_from,
+            col_from_offset,
+            row_from_offset)
+
+        # Write the xdr:ext element.
+        self._write_ext(width, height)
+
+        if anchor_type == 1:
+            # Graphic frame.
+            # Write the xdr:graphicFrame element for charts.
+            self._write_graphic_frame(index, rel_index, description)
+        elif anchor_type == 2:
+            # Write the xdr:pic element.
+            self._write_pic(index,
+                            rel_index,
+                            col_absolute,
+                            row_absolute,
+                            width,
+                            height,
+                            shape,
+                            description,
+                            url_rel_index,
+                            tip)
+        else:
+            # Write the xdr:sp element for shapes.
+            self._write_sp(index,
+                           col_absolute,
+                           row_absolute,
+                           width,
+                           height,
+                           shape,
+                           url_rel_index,
+                           tip)
+
+        # Write the xdr:clientData element.
+        self._write_client_data()
+
+        self._xml_end_tag('xdr:oneCellAnchor')
+
     def _write_absolute_anchor(self, frame_index):
         self._xml_start_tag('xdr:absoluteAnchor')
         # Write the <xdr:absoluteAnchor> element.
