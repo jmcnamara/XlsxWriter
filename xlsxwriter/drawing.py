@@ -55,7 +55,8 @@ class Drawing(xmlwriter.XMLwriter):
             for drawing_properties in self.drawings:
                 # Write the xdr:twoCellAnchor element.
                 index += 1
-                self._write_two_cell_anchor(index, drawing_properties)
+                #self._write_two_cell_anchor(index, drawing_properties)
+                self._write_one_cell_anchor(index, drawing_properties)
 
         else:
             # Write the xdr:absoluteAnchor element.
