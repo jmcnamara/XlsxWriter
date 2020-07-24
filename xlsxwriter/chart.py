@@ -1155,6 +1155,24 @@ class Chart(xmlwriter.XMLwriter):
         # Set the font properties if present.
         labels['font'] = self._convert_font_args(labels.get('font'))
 
+        if labels.get('custom'):
+
+            for label in labels['custom']:
+                if label is None:
+                    continue
+
+                value = label.get('value')
+                if value and re.match(r'^=?[^!]+!\$?[A-Z]+\$?[0-9]+',
+                                      str(value)):
+                    label['formula'] = value
+
+                formula = label.get('formula')
+                if formula and formula.startswith('='):
+                    label['formula'] = formula.lstrip('=')
+
+                data_id = self._get_data_id(formula, label.get('data'))
+                label['data_id'] = data_id
+
         return labels
 
     def _get_area_properties(self, options):
@@ -2851,6 +2869,35 @@ class Chart(xmlwriter.XMLwriter):
 
         self._xml_end_tag('c:rich')
 
+    def _write_rich_label(self, title, font):
+        # Write the <c:rich> element for data labels.
+
+        if font and font.get('rotation'):
+            rotation = font['rotation']
+        else:
+            rotation = None
+
+        self._xml_start_tag('c:rich')
+
+        # Write the a:bodyPr element.
+        self._write_a_body_pr(rotation, None)
+
+        # Write the a:lstStyle element.
+        self._write_a_lst_style()
+
+        self._xml_start_tag('a:p')
+
+        # Write the a:pPr element.
+        if font:
+            self._write_a_p_pr_rich(font)
+
+        # Write the a:r element.
+        self._write_a_r(title, font)
+
+        self._xml_end_tag('a:p')
+
+        self._xml_end_tag('c:rich')
+
     def _write_a_body_pr(self, rotation, is_y_axis):
         # Write the <a:bodyPr> element.
         attributes = []
@@ -3490,6 +3537,10 @@ class Chart(xmlwriter.XMLwriter):
 
         self._xml_start_tag('c:dLbls')
 
+        # Write the custom c:dLbl elements.
+        if labels.get('custom'):
+            self._write_custom_labels(labels['custom'])
+
         # Write the c:numFmt element.
         if labels.get('num_format'):
             self._write_data_label_number_format(labels['num_format'])
@@ -3531,6 +3582,68 @@ class Chart(xmlwriter.XMLwriter):
             self._write_show_leader_lines()
 
         self._xml_end_tag('c:dLbls')
+
+    def _write_custom_labels(self, labels):
+        # Write the <c:showLegendKey> element.
+        index = 0
+
+        for label in labels:
+            index += 1
+
+            if label is None:
+                continue
+
+            self._xml_start_tag('c:dLbl')
+
+            # Write the c:idx element.
+            self._write_idx(index - 1)
+
+            delete_label = label.get('delete')
+
+            if delete_label:
+                self._write_delete(1)
+            elif label.get('formula'):
+                self._write_custom_label_formula(label)
+                self._write_show_val()
+            elif label.get('value'):
+                self._write_custom_label_str(label)
+                self._write_show_val()
+
+            self._xml_end_tag('c:dLbl')
+
+    def _write_custom_label_str(self, label):
+        # Write parts of the <c:dLbl> element for strings.
+        title = label.get('value')
+        font = label.get('font')
+
+        # Write the c:layout element.
+        self._write_layout(None, None)
+
+        self._xml_start_tag('c:tx')
+
+        # Write the c:rich element.
+        self._write_rich_label(title, font)
+
+        self._xml_end_tag('c:tx')
+
+    def _write_custom_label_formula(self, label):
+        # Write parts of the <c:dLbl> element for strings.
+        formula = label.get('formula')
+        data_id = label.get('data_id')
+        data = None
+
+        if data_id is not None:
+            data = self.formula_data[data_id]
+
+        # Write the c:layout element.
+        self._write_layout(None, None)
+
+        self._xml_start_tag('c:tx')
+
+        # Write the c:strRef element.
+        self._write_str_ref(formula, data, 'str')
+
+        self._xml_end_tag('c:tx')
 
     def _write_show_legend_key(self):
         # Write the <c:showLegendKey> element.
