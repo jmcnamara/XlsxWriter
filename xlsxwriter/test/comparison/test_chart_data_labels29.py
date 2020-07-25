@@ -41,7 +41,7 @@ class TestCompareXLSXFiles(ExcelComparisonTest):
 
         chart.add_series({
             'values': '=Sheet1!$A$1:$A$5',
-            'data_labels': {'value': 1, 'custom': [{'delete': 1}]}
+            'data_labels': {'value': True, 'custom': [{'delete': 1}]}
         })
 
         chart.add_series({'values': '=Sheet1!$B$1:$B$5'})

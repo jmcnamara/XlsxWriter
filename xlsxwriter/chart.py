@@ -1173,6 +1173,8 @@ class Chart(xmlwriter.XMLwriter):
                 data_id = self._get_data_id(formula, label.get('data'))
                 label['data_id'] = data_id
 
+                label['font'] = self._convert_font_args(label.get('font'))
+
         return labels
 
     def _get_area_properties(self, options):
@@ -2682,7 +2684,7 @@ class Chart(xmlwriter.XMLwriter):
             self._write_overlay()
 
         if font:
-            self._write_tx_pr(None, font)
+            self._write_tx_pr(font)
 
         # Write the c:spPr element.
         self._write_sp_pr(legend)
@@ -2810,7 +2812,7 @@ class Chart(xmlwriter.XMLwriter):
             self._write_overlay()
 
         # Write the c:txPr element.
-        self._write_tx_pr(is_y_axis, font)
+        self._write_tx_pr(font, is_y_axis)
 
         self._xml_end_tag('c:title')
 
@@ -2820,7 +2822,7 @@ class Chart(xmlwriter.XMLwriter):
         self._xml_start_tag('c:tx')
 
         # Write the c:rich element.
-        self._write_rich(title, is_y_axis, font)
+        self._write_rich(title, font, is_y_axis, is_data_label=False)
 
         self._xml_end_tag('c:tx')
 
@@ -2848,7 +2850,7 @@ class Chart(xmlwriter.XMLwriter):
 
         self._xml_end_tag('c:tx')
 
-    def _write_rich(self, title, is_y_axis, font):
+    def _write_rich(self, title, font, is_y_axis, is_data_label):
         # Write the <c:rich> element.
 
         if font and font.get('rotation'):
@@ -2865,36 +2867,7 @@ class Chart(xmlwriter.XMLwriter):
         self._write_a_lst_style()
 
         # Write the a:p element.
-        self._write_a_p_rich(title, font)
-
-        self._xml_end_tag('c:rich')
-
-    def _write_rich_label(self, title, font):
-        # Write the <c:rich> element for data labels.
-
-        if font and font.get('rotation'):
-            rotation = font['rotation']
-        else:
-            rotation = None
-
-        self._xml_start_tag('c:rich')
-
-        # Write the a:bodyPr element.
-        self._write_a_body_pr(rotation, None)
-
-        # Write the a:lstStyle element.
-        self._write_a_lst_style()
-
-        self._xml_start_tag('a:p')
-
-        # Write the a:pPr element.
-        if font:
-            self._write_a_p_pr_rich(font)
-
-        # Write the a:r element.
-        self._write_a_r(title, font)
-
-        self._xml_end_tag('a:p')
+        self._write_a_p_rich(title, font, is_data_label)
 
         self._xml_end_tag('c:rich')
 
@@ -2924,13 +2897,14 @@ class Chart(xmlwriter.XMLwriter):
         # Write the <a:lstStyle> element.
         self._xml_empty_tag('a:lstStyle')
 
-    def _write_a_p_rich(self, title, font):
+    def _write_a_p_rich(self, title, font, is_data_label):
         # Write the <a:p> element for rich string titles.
 
         self._xml_start_tag('a:p')
 
         # Write the a:pPr element.
-        self._write_a_p_pr_rich(font)
+        if not is_data_label:
+            self._write_a_p_pr_rich(font)
 
         # Write the a:r element.
         self._write_a_r(title, font)
@@ -3046,7 +3020,7 @@ class Chart(xmlwriter.XMLwriter):
 
         self._xml_data_element('a:t', title)
 
-    def _write_tx_pr(self, is_y_axis, font):
+    def _write_tx_pr(self, font, is_y_axis=False):
         # Write the <c:txPr> element.
 
         if font and font.get('rotation'):
@@ -3539,7 +3513,7 @@ class Chart(xmlwriter.XMLwriter):
 
         # Write the custom c:dLbl elements.
         if labels.get('custom'):
-            self._write_custom_labels(labels['custom'])
+            self._write_custom_labels(labels, labels['custom'])
 
         # Write the c:numFmt element.
         if labels.get('num_format'):
@@ -3583,7 +3557,7 @@ class Chart(xmlwriter.XMLwriter):
 
         self._xml_end_tag('c:dLbls')
 
-    def _write_custom_labels(self, labels):
+    def _write_custom_labels(self, parent, labels):
         # Write the <c:showLegendKey> element.
         index = 0
 
@@ -3602,12 +3576,30 @@ class Chart(xmlwriter.XMLwriter):
 
             if delete_label:
                 self._write_delete(1)
+
             elif label.get('formula'):
                 self._write_custom_label_formula(label)
-                self._write_show_val()
+
+                if parent.get('value'):
+                    self._write_show_val()
+                if parent.get('category'):
+                    self._write_show_cat_name()
+                if parent.get('series_name'):
+                    self._write_show_ser_name()
+
             elif label.get('value'):
                 self._write_custom_label_str(label)
-                self._write_show_val()
+
+                if parent.get('value'):
+                    self._write_show_val()
+                if parent.get('category'):
+                    self._write_show_cat_name()
+                if parent.get('series_name'):
+                    self._write_show_ser_name()
+            else:
+                if label['font']:
+                    self._xml_empty_tag('c:spPr')
+                    self._write_tx_pr(label['font'])
 
             self._xml_end_tag('c:dLbl')
 
@@ -3622,7 +3614,7 @@ class Chart(xmlwriter.XMLwriter):
         self._xml_start_tag('c:tx')
 
         # Write the c:rich element.
-        self._write_rich_label(title, font)
+        self._write_rich(title, font, is_y_axis=False, is_data_label=True)
 
         self._xml_end_tag('c:tx')
 
@@ -3644,6 +3636,10 @@ class Chart(xmlwriter.XMLwriter):
         self._write_str_ref(formula, data, 'str')
 
         self._xml_end_tag('c:tx')
+
+        if label['font']:
+            self._xml_empty_tag('c:spPr')
+            self._write_tx_pr(label['font'])
 
     def _write_show_legend_key(self):
         # Write the <c:showLegendKey> element.
@@ -3770,7 +3766,7 @@ class Chart(xmlwriter.XMLwriter):
 
         if table['font']:
             # Write the table font.
-            self._write_tx_pr(None, table['font'])
+            self._write_tx_pr(table['font'])
 
         self._xml_end_tag('c:dTable')
 

@@ -17,7 +17,7 @@ class TestCompareXLSXFiles(ExcelComparisonTest):
 
     def setUp(self):
 
-        self.set_filename('chart_data_labels27.xlsx')
+        self.set_filename('chart_data_labels31.xlsx')
 
     def test_create_file(self):
         """Test the creation of a simple XlsxWriter file."""
@@ -27,7 +27,7 @@ class TestCompareXLSXFiles(ExcelComparisonTest):
         worksheet = workbook.add_worksheet()
         chart = workbook.add_chart({'type': 'column'})
 
-        chart.axis_ids = [48514944, 48516480]
+        chart.axis_ids = [71248896, 71373568]
 
         data = [
             [1, 2, 3, 4, 5],
@@ -43,7 +43,7 @@ class TestCompareXLSXFiles(ExcelComparisonTest):
 
         chart.add_series({
             'values': '=Sheet1!$A$1:$A$5',
-            'data_labels': {'value': True, 'custom': [{'value': '=Sheet1!$D$1'}]}
+            'data_labels': {'value': True, 'category': True, 'series_name': True, 'custom': [{'value': 33}]}
         })
 
         chart.add_series({'values': '=Sheet1!$B$1:$B$5'})
