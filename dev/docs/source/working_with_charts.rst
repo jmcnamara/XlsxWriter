@@ -441,6 +441,7 @@ The following properties can be set for ``data_labels`` formats in a chart::
     legend_key
     num_format
     font
+    custom
 
 The ``value`` property turns on the *Value* data label for a series::
 
@@ -578,6 +579,7 @@ The ``font`` property is used to set the font of the data labels of a series::
 The ``font`` property is also used to rotate the data labels of a series::
 
      chart.add_series({
+
          'values': '=Sheet1!$A$1:$A$5',
          'data_labels': {
              'value': True,
@@ -586,6 +588,115 @@ The ``font`` property is also used to rotate the data labels of a series::
      })
 
 See :ref:`chart_fonts`.
+
+The ``custom`` property is used to set properties for individual data
+labels. This is explained in detail in the next section.
+
+.. _chart_series_option_custom_data_labels:
+
+Chart series option: Custom Data Labels
+---------------------------------------
+
+The ``custom`` data label property is used to set the properties of individual
+data labels in a series. The most common use for this is to set custom text or
+number labels::
+
+    custom_labels = [
+        {'value': 'Jan'},
+        {'value': 'Feb'},
+        {'value': 'Mar'},
+        {'value': 'Apr'},
+        {'value': 'May'},
+        {'value': 'Jun'},
+    ]
+
+    chart.add_series({
+        'values': '=Sheet1!$A$1:$A$6',
+        'data_labels': {'value': True, 'custom': custom_labels},
+    })
+
+.. image:: _images/chart_data_labels2.png
+   :scale: 75 %
+
+Any property dict that is set to ``None`` or not included in the list will be
+assigned the default data label value::
+
+    custom_labels = [
+        None,
+        {'value': 'Feb'},
+        {'value': 'Mar'},
+        {'value': 'Apr'},
+    ]
+
+    chart.add_series({
+        'values': '=Sheet1!$A$1:$A$6',
+        'data_labels': {'value': True, 'custom': custom_labels},
+    })
+
+.. image:: _images/chart_data_labels3.png
+   :scale: 75 %
+
+As shown in the previous examples the ``custom`` property should be a list of
+dicts. The dicts have the following allowable keys/sub-properties::
+
+    value
+    font
+    delete
+
+The ``value`` property should be a string, number or formula string that refers to
+a cell from which the value will be taken::
+
+    custom_labels = [
+        {'value': '=Sheet1!$C$2'},
+        {'value': '=Sheet1!$C$3'},
+        {'value': '=Sheet1!$C$4'},
+        {'value': '=Sheet1!$C$5'},
+        {'value': '=Sheet1!$C$6'},
+        {'value': '=Sheet1!$C$7'},
+    ]
+
+The ``font`` property is used to set the font of the custom data label of a series::
+
+    custom_labels = [
+        {'value': '=Sheet1!$C$1', 'font': {'color': 'red'}},
+        {'value': '=Sheet1!$C$2', 'font': {'color': 'red'}},
+        {'value': '=Sheet1!$C$3', 'font': {'color': 'red'}},
+        {'value': '=Sheet1!$C$4', 'font': {'color': 'red'}},
+        {'value': '=Sheet1!$C$5', 'font': {'color': 'red'}},
+        {'value': '=Sheet1!$C$6', 'font': {'color': 'red'}},
+    ]
+
+    chart.add_series({
+        'values': '=Sheet1!$A$1:$A$6',
+        'data_labels': {'value': True, 'custom': custom_labels},
+    })
+
+See :ref:`chart_fonts` for details on the available font properties.
+
+.. image:: _images/chart_data_labels4.png
+   :scale: 75 %
+
+The ``delete`` property can be used to delete labels in a series. This can be
+useful if you want to highlight one or more cells in the series, for example
+the maximum and the minimum::
+
+    custom_labels = [
+        None,
+        {'delete': True},
+        {'delete': True},
+        {'delete': True},
+        {'delete': True},
+        None,
+    ]
+
+    chart.add_series({
+        'values': '=Sheet1!$A$1:$A$6',
+        'data_labels': {'value': True, 'custom': custom_labels},
+    })
+
+.. image:: _images/chart_data_labels5.png
+   :scale: 75 %
+
 
 .. _chart_series_option_points:
 

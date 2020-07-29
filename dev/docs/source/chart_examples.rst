@@ -31,5 +31,6 @@ directory of the XlsxWriter distribution.
    example_chart_date_axis.rst
    example_chart_data_table.rst
    example_chart_data_tools.rst
+   example_chart_data_labels.rst
    example_chartsheet.rst
 

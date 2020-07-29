@@ -33,7 +33,7 @@ worksheet.write_column('C2', data[2])
 # Create a Column chart.
 chart1 = workbook.add_chart({'type': 'column'})
 
-# Configure the first series with a polynomial trendline.
+# Configure the data series and add the data labels.
 chart1.add_series({
     'categories': '=Sheet1!$A$2:$A$7',
     'values':     '=Sheet1!$B$2:$B$7',
@@ -57,7 +57,7 @@ worksheet.insert_chart('D2', chart1, {'x_offset': 25, 'y_offset': 10})
 # Create a Column chart.
 chart2 = workbook.add_chart({'type': 'column'})
 
-# Configure the first series with a polynomial trendline.
+# Configure the data series and add the data labels.
 chart2.add_series({
     'categories': '=Sheet1!$A$2:$A$7',
     'values':     '=Sheet1!$B$2:$B$7',
@@ -81,7 +81,7 @@ worksheet.insert_chart('D18', chart2, {'x_offset': 25, 'y_offset': 10})
 # Create a Column chart.
 chart3 = workbook.add_chart({'type': 'column'})
 
-# Configure the first series with a polynomial trendline.
+# Configure the data series and add the data labels.
 chart3.add_series({
     'categories': '=Sheet1!$A$2:$A$7',
     'values':     '=Sheet1!$B$2:$B$7',
@@ -118,7 +118,7 @@ custom_labels = [
     {'value': 'Una'},
 ]
 
-# Configure the first series with a polynomial trendline.
+# Configure the data series and add the data labels.
 chart4.add_series({
     'categories': '=Sheet1!$A$2:$A$7',
     'values':     '=Sheet1!$B$2:$B$7',
@@ -152,7 +152,7 @@ custom_labels = [
     {'value': '=Sheet1!$C$7'},
 ]
 
-# Configure the first series with a polynomial trendline.
+# Configure the data series and add the data labels.
 chart5.add_series({
     'categories': '=Sheet1!$A$2:$A$7',
     'values':     '=Sheet1!$B$2:$B$7',
@@ -176,8 +176,9 @@ worksheet.insert_chart('D66', chart5, {'x_offset': 25, 'y_offset': 10})
 # Create a Column chart.
 chart6 = workbook.add_chart({'type': 'column'})
 
-# Some custom labels. The None items will get the default value.
-# We also set a font for the custom items as an extra example.
+# The following is used to get a mix of default and custom labels. The 'None'
+# items will get the default value. We also set a font for the custom items
+# as an extra example.
 custom_labels = [
     {'value': '=Sheet1!$C$2', 'font': {'color': 'red'}},
     None,
@@ -185,7 +186,7 @@ custom_labels = [
     {'value': '=Sheet1!$C$5', 'font': {'color': 'red'}},
 ]
 
-# Configure the first series with a polynomial trendline.
+# Configure the data series and add the data labels.
 chart6.add_series({
     'categories': '=Sheet1!$A$2:$A$7',
     'values':     '=Sheet1!$B$2:$B$7',
@@ -210,8 +211,8 @@ worksheet.insert_chart('D82', chart6, {'x_offset': 25, 'y_offset': 10})
 # Create a Column chart.
 chart7 = workbook.add_chart({'type': 'column'})
 
-# Some deleted custom labels and defaults (None). This allows us to
-# highlight certain values such as the minimum and maximum.
+# Some deleted custom labels and defaults (set with None values). This allows
+# us to highlight certain values such as the minimum and maximum.
 custom_labels = [
     {'delete': True},
     None,
@@ -221,7 +222,7 @@ custom_labels = [
     {'delete': True},
 ]
 
-# Configure the first series with a polynomial trendline.
+# Configure the data series and add the data labels.
 chart7.add_series({
     'categories': '=Sheet1!$A$2:$A$7',
     'values':     '=Sheet1!$B$2:$B$7',
