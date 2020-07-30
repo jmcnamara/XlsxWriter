@@ -40,9 +40,9 @@ See also :ref:`formula_result`.
 Note: **LibreOffice** doesn't recalculate Excel formulas that reference other
 cells by default, in which case you will get the default XlsxWriter value
 of 0. You can work around this by setting the "LibreOffice Preferences ->
-LibreOffice Calc -> Formula -> Recalculation on File Load"" option to "Always
+LibreOffice Calc -> Formula -> Recalculation on File Load" option to "Always
 recalculate" (see the LibreOffice `documentation
-<https://help.libreoffice.org/6.4/en-US/text/scalc/01/06080000.html?DbPAR=CALC>`_). Or,
+<https://help.libreoffice.org/6.4/en-US/text/scalc/01/06080000.html>`_). Or,
 you can set a blank result in the formula, which will also force
 recalculation::
 
