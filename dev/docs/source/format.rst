@@ -737,7 +737,8 @@ Text can be aligned across two or more adjacent cells using the
 :func:`set_center_across` method. This is an alias for the
 ``set_align('center_across')`` method call.
 
-Only one cell should contain the text, the other cells should be blank::
+Only the leftmost cell should contain the text. The other cells in the range
+should be blank but should include the formatting::
 
     cell_format = workbook.add_format()
     cell_format.set_center_across()
