@@ -5811,7 +5811,11 @@ class Worksheet(xmlwriter.XMLwriter):
             elif isinstance(cell.value, str_types):
                 error_codes = ('#DIV/0!', '#N/A', '#NAME?', '#NULL!',
                                '#NUM!', '#REF!', '#VALUE!')
-                if cell.value in error_codes:
+
+                if cell.value == '':
+                    # Allow blank to force recalc in some third party apps.
+                    pass
+                elif cell.value in error_codes:
                     attributes.append(('t', 'e'))
                 else:
                     attributes.append(('t', 'str'))
