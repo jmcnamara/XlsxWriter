@@ -618,8 +618,9 @@ number labels::
 .. image:: _images/chart_data_labels2.png
    :scale: 75 %
 
-Any property dict that is set to ``None`` or not included in the list will be
-assigned the default data label value::
+As shown in the previous examples th ``custom`` property should be a list of
+dicts. Any property dict that is set to ``None`` or not included in the list
+will be assigned the default data label value::
 
     custom_labels = [
         None,
@@ -636,8 +637,8 @@ assigned the default data label value::
 .. image:: _images/chart_data_labels3.png
    :scale: 75 %
 
-As shown in the previous examples the ``custom`` property should be a list of
-dicts. The dicts have the following allowable keys/sub-properties::
+The property elements of the ``custom`` lists should be dicts with the
+following allowable keys/sub-properties::
 
     value
     font
