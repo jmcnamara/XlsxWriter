@@ -615,7 +615,7 @@ number labels::
         'data_labels': {'value': True, 'custom': custom_labels},
     })
 
-.. image:: _images/chart_data_labels2.png
+.. image:: _images/chart_data_labels18.png
    :scale: 75 %
 
 As shown in the previous examples th ``custom`` property should be a list of
@@ -634,7 +634,7 @@ will be assigned the default data label value::
         'data_labels': {'value': True, 'custom': custom_labels},
     })
 
-.. image:: _images/chart_data_labels3.png
+.. image:: _images/chart_data_labels19.png
    :scale: 75 %
 
 The property elements of the ``custom`` lists should be dicts with the
@@ -674,7 +674,7 @@ The ``font`` property is used to set the font of the custom data label of a seri
 
 See :ref:`chart_fonts` for details on the available font properties.
 
-.. image:: _images/chart_data_labels4.png
+.. image:: _images/chart_data_labels20.png
    :scale: 75 %
 
 The ``delete`` property can be used to delete labels in a series. This can be
@@ -695,7 +695,7 @@ the maximum and the minimum::
         'data_labels': {'value': True, 'custom': custom_labels},
     })
 
-.. image:: _images/chart_data_labels5.png
+.. image:: _images/chart_data_labels21.png
    :scale: 75 %
 
 
