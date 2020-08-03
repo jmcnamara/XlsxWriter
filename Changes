@@ -6,6 +6,13 @@ Python 2.7 will end after the first release in 2021 (probably in January
 after that date/release.
 
 
+Release 1.3.1 - August 3 2020
+-----------------------------
+
+* Fix for issue where array formulas weren't included in the output file for
+  certain ranges/conditions.
+  Issue `#735 <https://github.com/jmcnamara/XlsxWriter/issues/735>`_.
+
 
 Release 1.3.0 - July 30 2020
 ----------------------------
