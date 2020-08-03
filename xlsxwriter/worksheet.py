@@ -1638,9 +1638,11 @@ class Worksheet(xmlwriter.XMLwriter):
         if first_col > last_col:
             (first_col, last_col) = (last_col, first_col)
 
-        # Check that column number is valid and store the max value
-        if self._check_dimensions(last_row, last_col) == -1:
-            return
+        # Check that row and col are valid and store max and min values.
+        if self._check_dimensions(first_row, first_col):
+            return -1
+        if self._check_dimensions(last_row, last_col):
+            return -1
 
         # Store the merge range.
         self.merge.append([first_row, first_col, last_row, last_col])

@@ -83,6 +83,18 @@ class TestAssembleWorksheet(unittest.TestCase):
         got = worksheet.write_array_formula(max_row, max_col, max_row, max_col, '=A1')
         self.assertEqual(got, bound_error)
 
+        got = worksheet.merge_range(0, 0, 0, max_col, 'Foo')
+        self.assertEqual(got, bound_error)
+
+        got = worksheet.merge_range(0, 0, max_row, 0, 'Foo')
+        self.assertEqual(got, bound_error)
+
+        got = worksheet.merge_range(0, max_col, 0, 0, 'Foo')
+        self.assertEqual(got, bound_error)
+
+        got = worksheet.merge_range(max_row, 0, 0, 0, 'Foo')
+        self.assertEqual(got, bound_error)
+
         # Column out of bounds.
         got = worksheet.set_column(6, max_col, 17)
         self.assertEqual(got, bound_error)
