@@ -713,7 +713,9 @@ class Worksheet(xmlwriter.XMLwriter):
         if first_col > last_col:
             first_col, last_col = last_col, first_col
 
-        # Check that row and col are valid and store max and min values
+        # Check that row and col are valid and store max and min values.
+        if self._check_dimensions(first_row, first_col):
+            return -1
         if self._check_dimensions(last_row, last_col):
             return -1
 
