@@ -453,6 +453,13 @@ The ``value`` property turns on the *Value* data label for a series::
 .. image:: _images/chart_data_labels1.png
    :scale: 75 %
 
+
+By default data labels are displayed in Excel with only the values
+shown. However, it is possible to configure other display options, as shown
+below.
+
+.. image:: _images/chart_data_labels2.png
+
 The ``category`` property turns on the *Category Name* data label for a series::
 
     chart.add_series({
@@ -468,12 +475,22 @@ series::
         'data_labels': {'series_name': True},
     })
 
+
+Here is an example with all three data label types shown:
+
+.. image:: _images/chart_data_labels3.png
+   :scale: 75 %
+
+
 The ``position`` property is used to position the data label for a series::
 
     chart.add_series({
         'values':      '=Sheet1!$A$1:$A$6',
-        'data_labels': {'series_name': True, 'position': 'center'},
+        'data_labels': {'series_name': True, 'position': 'above'},
     })
+
+.. image:: _images/chart_data_labels5.png
+   :scale: 75 %
 
 In Excel the allowable data label positions vary for different chart types.
 The allowable positions are:
@@ -503,7 +520,7 @@ The allowable positions are:
 +-------------+----------+--------+----------+-------+
 
 Note: The * indicates the default position for each chart type in Excel, if
-a position isn't specified.
+a position isn't specified by the user.
 
 The ``percentage`` property is used to turn on the display of data labels as a
 *Percentage* for a series. In Excel the ``percentage`` data label option is
@@ -513,6 +530,9 @@ only available for Pie and Doughnut chart variants::
         'values':      '=Sheet1!$A$1:$A$6',
         'data_labels': {'percentage': True},
     })
+
+.. image:: _images/chart_data_labels7.png
+   :scale: 75 %
 
 The ``leader_lines`` property is used to turn on *Leader Lines* for the data
 label of a series. It is mainly used for pie charts::
@@ -533,8 +553,12 @@ data label items::
 
     chart.add_series({
         'values':      '=Sheet1!$A$1:$A$6',
-        'data_labels': {'value': True, 'category': True, 'separator': "\n"},
+        'data_labels': {'value': True, 'category': True, 
+                        'series_name': True, 'separator': "\n"},
     })
+
+.. image:: _images/chart_data_labels4.png
+   :scale: 75 %
 
 The separator value must be one of the following strings::
 
@@ -552,6 +576,8 @@ label of a series::
         'data_labels': {'value': True, 'legend_key': True},
     })
 
+.. image:: _images/chart_data_labels6.png
+   :scale: 75 %
 
 The ``num_format`` property is used to set the number format for the data
 labels of a series::
@@ -560,6 +586,9 @@ labels of a series::
          'values':      '=Sheet1!$A$1:$A$5',
          'data_labels': {'value': True, 'num_format': '#,##0.00'},
      })
+
+.. image:: _images/chart_data_labels8.png
+   :scale: 75 %
 
 The number format is similar to the Worksheet Cell Format ``num_format``
 apart from the fact that a format index cannot be used. An explicit format
@@ -572,9 +601,13 @@ The ``font`` property is used to set the font of the data labels of a series::
          'values': '=Sheet1!$A$1:$A$5',
          'data_labels': {
              'value': True,
-             'font': {'name': 'Consolas'}
+             'font': {'name': 'Consolas', 'color': 'red'}
          },
      })
+
+.. image:: _images/chart_data_labels9.png
+   :scale: 75 %
+
 
 The ``font`` property is also used to rotate the data labels of a series::
 
