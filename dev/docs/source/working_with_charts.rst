@@ -681,12 +681,12 @@ The ``value`` property should be a string, number or formula string that refers 
 a cell from which the value will be taken::
 
     custom_labels = [
+        {'value': '=Sheet1!$C$1'},
         {'value': '=Sheet1!$C$2'},
         {'value': '=Sheet1!$C$3'},
         {'value': '=Sheet1!$C$4'},
         {'value': '=Sheet1!$C$5'},
         {'value': '=Sheet1!$C$6'},
-        {'value': '=Sheet1!$C$7'},
     ]
 
 The ``font`` property is used to set the font of the custom data label of a series::
