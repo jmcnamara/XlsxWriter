@@ -1023,7 +1023,7 @@ class Worksheet(xmlwriter.XMLwriter):
         pos = 0
 
         if len(tokens) <= 2:
-            warn("You must specify more then 2 format/fragments for rich "
+            warn("You must specify more than 2 format/fragments for rich "
                  "strings. Ignoring input in write_rich_string().")
             return -5
 
