@@ -1205,6 +1205,37 @@ class Chart(xmlwriter.XMLwriter):
 
                 label['font'] = self._convert_font_args(label.get('font'))
 
+                # Set the line properties for the label.
+                line = Shape._get_line_properties(label.get('line'))
+
+                # Allow 'border' as a synonym for 'line'.
+                if 'border' in label:
+                    line = Shape._get_line_properties(label['border'])
+
+                # Set the fill properties for the label.
+                fill = Shape._get_fill_properties(label.get('fill'))
+
+                # Set the pattern fill properties for the label.
+                pattern = Shape._get_pattern_properties(label.get('pattern'))
+
+                # Set the gradient fill properties for the label.
+                gradient = Shape._get_gradient_properties(
+                    label.get('gradient'))
+
+                # Pattern fill overrides solid fill.
+                if pattern:
+                    self.fill = None
+
+                # Gradient fill overrides the solid and pattern fill.
+                if gradient:
+                    pattern = None
+                    fill = None
+
+                label['line'] = line
+                label['fill'] = fill
+                label['pattern'] = pattern
+                label['gradient'] = gradient
+
         return labels
 
     def _get_area_properties(self, options):
@@ -1391,6 +1422,25 @@ class Chart(xmlwriter.XMLwriter):
             points.append(point)
 
         return points
+
+    def _has_fill_formatting(self, element):
+        # Check if a chart element has line, fill or gradient formatting.
+        has_fill = False
+        has_line = False
+        has_pattern = element.get('pattern')
+        has_gradient = element.get('gradient')
+
+        if element.get('fill') and element['fill']['defined']:
+            has_fill = True
+
+        if element.get('line') and element['line']['defined']:
+            has_line = True
+
+        if (not has_fill and not has_line and not has_pattern
+                and not has_gradient):
+            return False
+        else:
+            return True
 
     def _get_display_units(self, display_units):
         # Convert user defined display units to internal units.
@@ -2852,7 +2902,7 @@ class Chart(xmlwriter.XMLwriter):
         self._xml_start_tag('c:tx')
 
         # Write the c:rich element.
-        self._write_rich(title, font, is_y_axis, is_data_label=False)
+        self._write_rich(title, font, is_y_axis, ignore_rich_pr=False)
 
         self._xml_end_tag('c:tx')
 
@@ -2880,7 +2930,7 @@ class Chart(xmlwriter.XMLwriter):
 
         self._xml_end_tag('c:tx')
 
-    def _write_rich(self, title, font, is_y_axis, is_data_label):
+    def _write_rich(self, title, font, is_y_axis, ignore_rich_pr):
         # Write the <c:rich> element.
 
         if font and font.get('rotation'):
@@ -2897,7 +2947,7 @@ class Chart(xmlwriter.XMLwriter):
         self._write_a_lst_style()
 
         # Write the a:p element.
-        self._write_a_p_rich(title, font, is_data_label)
+        self._write_a_p_rich(title, font, ignore_rich_pr)
 
         self._xml_end_tag('c:rich')
 
@@ -2927,13 +2977,13 @@ class Chart(xmlwriter.XMLwriter):
         # Write the <a:lstStyle> element.
         self._xml_empty_tag('a:lstStyle')
 
-    def _write_a_p_rich(self, title, font, is_data_label):
+    def _write_a_p_rich(self, title, font, ignore_rich_pr):
         # Write the <a:p> element for rich string titles.
 
         self._xml_start_tag('a:p')
 
         # Write the a:pPr element.
-        if not is_data_label:
+        if not ignore_rich_pr:
             self._write_a_p_pr_rich(font)
 
         # Write the a:r element.
@@ -3113,19 +3163,7 @@ class Chart(xmlwriter.XMLwriter):
     def _write_sp_pr(self, series):
         # Write the <c:spPr> element.
 
-        has_fill = False
-        has_line = False
-        has_pattern = series.get('pattern')
-        has_gradient = series.get('gradient')
-
-        if series.get('fill') and series['fill']['defined']:
-            has_fill = True
-
-        if series.get('line') and series['line']['defined']:
-            has_line = True
-
-        if (not has_fill and not has_line and not has_pattern
-                and not has_gradient):
+        if not self._has_fill_formatting(series):
             return
 
         self._xml_start_tag('c:spPr')
@@ -3630,9 +3668,7 @@ class Chart(xmlwriter.XMLwriter):
                 if parent.get('series_name'):
                     self._write_show_ser_name()
             else:
-                if label['font']:
-                    self._xml_empty_tag('c:spPr')
-                    self._write_tx_pr(label['font'])
+                self._write_custom_label_format_only(label)
 
             self._xml_end_tag('c:dLbl')
 
@@ -3640,6 +3676,7 @@ class Chart(xmlwriter.XMLwriter):
         # Write parts of the <c:dLbl> element for strings.
         title = label.get('value')
         font = label.get('font')
+        has_formatting = self._has_fill_formatting(label)
 
         # Write the c:layout element.
         self._write_layout(None, None)
@@ -3647,14 +3684,19 @@ class Chart(xmlwriter.XMLwriter):
         self._xml_start_tag('c:tx')
 
         # Write the c:rich element.
-        self._write_rich(title, font, is_y_axis=False, is_data_label=True)
+        self._write_rich(title, font, False, not has_formatting)
 
         self._xml_end_tag('c:tx')
 
+        # Write the c:spPr element.
+        self._write_sp_pr(label)
+
     def _write_custom_label_formula(self, label):
-        # Write parts of the <c:dLbl> element for strings.
+        # Write parts of the <c:dLbl> element for formulas.
+        font = label.get('font')
         formula = label.get('formula')
         data_id = label.get('data_id')
+        has_formatting = self._has_fill_formatting(label)
         data = None
 
         if data_id is not None:
@@ -3670,9 +3712,20 @@ class Chart(xmlwriter.XMLwriter):
 
         self._xml_end_tag('c:tx')
 
-        if label['font']:
+        # Write the data label formating, if any.
+        self._write_custom_label_format_only(label)
+
+    def _write_custom_label_format_only(self, label):
+        # Write parts of the <c:dLbl> labels with changed formatting.
+        font = label.get('font')
+        has_formatting = self._has_fill_formatting(label)
+
+        if has_formatting:
+            self._write_sp_pr(label)
+            self._write_tx_pr(font)
+        elif font:
             self._xml_empty_tag('c:spPr')
-            self._write_tx_pr(label['font'])
+            self._write_tx_pr(font)
 
     def _write_show_legend_key(self):
         # Write the <c:showLegendKey> element.
