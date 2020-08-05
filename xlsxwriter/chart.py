@@ -1155,6 +1155,36 @@ class Chart(xmlwriter.XMLwriter):
         # Set the font properties if present.
         labels['font'] = self._convert_font_args(labels.get('font'))
 
+        # Set the line properties for the labels.
+        line = Shape._get_line_properties(labels.get('line'))
+
+        # Allow 'border' as a synonym for 'line'.
+        if 'border' in labels:
+            line = Shape._get_line_properties(labels['border'])
+
+        # Set the fill properties for the labels.
+        fill = Shape._get_fill_properties(labels.get('fill'))
+
+        # Set the pattern fill properties for the labels.
+        pattern = Shape._get_pattern_properties(labels.get('pattern'))
+
+        # Set the gradient fill properties for the labels.
+        gradient = Shape._get_gradient_properties(labels.get('gradient'))
+
+        # Pattern fill overrides solid fill.
+        if pattern:
+            self.fill = None
+
+        # Gradient fill overrides the solid and pattern fill.
+        if gradient:
+            pattern = None
+            fill = None
+
+        labels['line'] = line
+        labels['fill'] = fill
+        labels['pattern'] = pattern
+        labels['gradient'] = gradient
+
         if labels.get('custom'):
 
             for label in labels['custom']:
@@ -3518,6 +3548,9 @@ class Chart(xmlwriter.XMLwriter):
         # Write the c:numFmt element.
         if labels.get('num_format'):
             self._write_data_label_number_format(labels['num_format'])
+
+        # Write the c:spPr element for the plotarea formatting.
+        self._write_sp_pr(labels)
 
         # Write the data label font elements.
         if labels.get('font'):
