@@ -1034,7 +1034,7 @@ Examples::
     worksheet.set_column('F:H', 30)  # Columns F-H width set to 30.
 
 Ranges cannot overlap. Each unique contiguous range should be specified
-separately:
+separately::
 
     # This won't work.
     worksheet.set_column('A:D', 50)
