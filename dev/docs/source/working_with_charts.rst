@@ -268,7 +268,7 @@ The ``intercept`` property sets the point where the trendline crosses the Y
 (value) axis::
 
     chart.add_series({
-        'values': '=Sheet1!$B$1:$B$5',
+        'values': '=Sheet1!$B$1:$B$6',
         'trendline': {'type': 'linear',
                       'intercept': 0.8,
         },
@@ -279,7 +279,7 @@ The ``display_equation`` property displays the trendline equation on the
 chart::
 
     chart.add_series({
-        'values': '=Sheet1!$B$1:$B$5',
+        'values': '=Sheet1!$B$1:$B$6',
         'trendline': {'type': 'linear',
                       'display_equation': True,
         },
@@ -289,7 +289,7 @@ The ``display_r_squared`` property displays the R squared value of the
 trendline on the chart::
 
     chart.add_series({
-        'values': '=Sheet1!$B$1:$B$5',
+        'values': '=Sheet1!$B$1:$B$6',
         'trendline': {'type': 'linear',
                       'display_r_squared': True,
         },
@@ -370,24 +370,24 @@ have a value associated with it for the error bounds::
     })
 
 The ``custom`` error bar type must specify ``plus_values`` and ``minus_values``
-which should either by a ``Sheet1!$A$1:$A$5`` type range formula or a list of
+which should either by a ``Sheet1!$A$1:$A$6`` type range formula or a list of
 values::
 
      chart.add_series({
-         'categories': '=Sheet1!$A$1:$A$5',
-         'values':     '=Sheet1!$B$1:$B$5',
+         'categories': '=Sheet1!$A$1:$A$6',
+         'values':     '=Sheet1!$B$1:$B$6',
          'y_error_bars': {
              'type':         'custom',
-             'plus_values':  '=Sheet1!$C$1:$C$5',
-             'minus_values': '=Sheet1!$D$1:$D$5',
+             'plus_values':  '=Sheet1!$C$1:$C$6',
+             'minus_values': '=Sheet1!$D$1:$D$6',
          },
      })
 
      # or
 
      chart.add_series({
-         'categories': '=Sheet1!$A$1:$A$5',
-         'values':     '=Sheet1!$B$1:$B$5',
+         'categories': '=Sheet1!$A$1:$A$6',
+         'values':     '=Sheet1!$B$1:$B$6',
          'y_error_bars': {
              'type':         'custom',
              'plus_values':  [1, 1, 1, 1, 1],
@@ -441,6 +441,10 @@ The following properties can be set for ``data_labels`` formats in a chart::
     legend_key
     num_format
     font
+    border
+    fill
+    pattern
+    gradient
     custom
 
 The ``value`` property turns on the *Value* data label for a series::
@@ -553,7 +557,7 @@ data label items::
 
     chart.add_series({
         'values':      '=Sheet1!$A$1:$A$6',
-        'data_labels': {'value': True, 'category': True, 
+        'data_labels': {'value': True, 'category': True,
                         'series_name': True, 'separator': "\n"},
     })
 
@@ -583,7 +587,7 @@ The ``num_format`` property is used to set the number format for the data
 labels of a series::
 
      chart.add_series({
-         'values':      '=Sheet1!$A$1:$A$5',
+         'values':      '=Sheet1!$A$1:$A$6',
          'data_labels': {'value': True, 'num_format': '#,##0.00'},
      })
 
@@ -598,7 +602,7 @@ information.
 The ``font`` property is used to set the font of the data labels of a series::
 
      chart.add_series({
-         'values': '=Sheet1!$A$1:$A$5',
+         'values': '=Sheet1!$A$1:$A$6',
          'data_labels': {
              'value': True,
              'font': {'name': 'Consolas', 'color': 'red'}
@@ -613,7 +617,7 @@ The ``font`` property is also used to rotate the data labels of a series::
 
      chart.add_series({
 
-         'values': '=Sheet1!$A$1:$A$5',
+         'values': '=Sheet1!$A$1:$A$6',
          'data_labels': {
              'value': True,
              'font': {'rotation': 45}
@@ -621,6 +625,19 @@ The ``font`` property is also used to rotate the data labels of a series::
      })
 
 See :ref:`chart_fonts`.
+
+Standard chart formatting such as ``border`` and ``fill`` can also be added to
+the data labels::
+
+    chart.add_series({
+        'values':     '=Sheet1!$A$1:$A$6',
+        'data_labels': {'value': True,
+                        'border': {'color': 'red'},
+                        'fill':   {'color': 'yellow'}},
+    })
+
+.. image:: _images/chart_data_labels24.png
+   :scale: 75 %
 
 The ``custom`` property is used to set properties for individual data
 labels. This is explained in detail in the next section.
@@ -731,6 +748,30 @@ the maximum and the minimum::
 .. image:: _images/chart_data_labels21.png
    :scale: 75 %
 
+Standard chart formatting such as ``border`` and ``fill`` can also be added to
+the custom data labels::
+
+    custom_labels = [
+        {'value': 'Jan', 'border': {'color': 'blue'}},
+        {'value': 'Feb'},
+        {'value': 'Mar'},
+        {'value': 'Apr'},
+        {'value': 'May'},
+        {'value': 'Jun', 'fill':   {'color': 'green'}},
+    ]
+
+    chart.add_series({
+        'values':     '=Sheet1!$A$1:$A$6',
+        'marker': {'type': 'circle'},
+        'data_labels': {'value': True,
+                        'custom': custom_labels,
+                        'border': {'color': 'red'},
+                        'fill':   {'color': 'yellow'}},
+    })
+
+.. image:: _images/chart_data_labels25.png
+   :scale: 75 %
+
 
 .. _chart_series_option_points:
 
@@ -806,8 +847,8 @@ The ``smooth`` option is used to set the smooth property of a line series. It
 is only applicable to the ``line`` and ``scatter`` chart types::
 
     chart.add_series({
-        'categories': '=Sheet1!$A$1:$A$5',
-        'values':     '=Sheet1!$B$1:$B$5',
+        'categories': '=Sheet1!$A$1:$A$6',
+        'values':     '=Sheet1!$B$1:$B$6',
         'smooth':     True,
     })
 
@@ -1174,7 +1215,7 @@ where the colors in the gradient are located. Default values are provided for
 ``colors`` lists of between 2 and 4 but they can be specified if required::
 
     chart.add_series({
-        'values': '=Sheet1!$A$1:$A$5',
+        'values': '=Sheet1!$A$1:$A$6',
         'gradient': {
             'colors':    ['#DDEBCF', '#156B13'],
             'positions': [10,        90],
@@ -1192,7 +1233,7 @@ The ``type`` property can have one of the following values::
 For example::
 
     chart.add_series({
-        'values': '=Sheet1!$A$1:$A$5',
+        'values': '=Sheet1!$A$1:$A$6',
         'gradient': {
             'colors': ['#DDEBCF', '#9CB86E', '#156B13'],
             'type': 'radial'
@@ -1204,7 +1245,7 @@ If ``type`` isn't specified it defaults to ``linear``.
 For a ``linear`` fill the angle of the gradient can also be specified::
 
     chart.add_series({
-        'values': '=Sheet1!$A$1:$A$5',
+        'values': '=Sheet1!$A$1:$A$6',
         'gradient': {'colors': ['#DDEBCF', '#9CB86E', '#156B13'],
                      'angle': 45}
     })

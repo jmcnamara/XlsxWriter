@@ -3712,7 +3712,7 @@ class Chart(xmlwriter.XMLwriter):
 
         self._xml_end_tag('c:tx')
 
-        # Write the data label formating, if any.
+        # Write the data label formatting, if any.
         self._write_custom_label_format_only(label)
 
     def _write_custom_label_format_only(self, label):
