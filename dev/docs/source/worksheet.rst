@@ -1,3 +1,4 @@
+
 .. _worksheet:
 
 The Worksheet Class
@@ -2468,3 +2469,76 @@ refers to the worksheet. The default Excel VBA name of ``Sheet1``, etc., is
 used if a user defined name isn't specified.
 
 See :ref:`macros` for more details.
+
+
+worksheet.ignore_errors()
+-------------------------
+
+.. py:function:: ignore_errors(options)
+
+   Ignore various Excel errors/warnings in a worksheet for user defined
+   ranges.
+
+   :returns:  0: Success.
+   :returns: -1: Incorrect parameter or option.
+
+The ``ignore_errors()`` method can be used to ignore various worksheet cell
+errors/warnings. For example the following code writes a string that looks
+like a number::
+
+    worksheet.write_string('D2', '123')
+
+This causes Excel to display a small green triangle in the top left hand
+corner of the cell to indicate an error/warning:
+
+.. image:: _images/ignore_errors1.png
+
+Sometimes these warnings are useful indicators that there is an issue in the
+spreadsheet but sometimes it is preferable to turn them off. Warnings can be
+turned off at the Excel level for all workbooks and worksheets by using the
+using "Excel options -> Formulas -> Error checking rules". Alternatively you
+can turn them off for individual cells in a worksheet, or ranges of cells,
+using the ``ignore_errors()`` method with a dict of options and ranges like
+this::
+
+    worksheet.ignore_errors({'number_stored_as_text': 'A1:H50'})
+
+    # Or for more than one option:
+    worksheet.ignore_errors({'number_stored_as_text': 'A1:H50', 
+                             'eval_error':            'A1:H50'})
+
+The range can be a single cell, a range of cells, or multiple cells and ranges
+separated by spaces::
+
+    # Single cell.
+    worksheet.ignore_errors({'eval_error': 'C6'})
+
+    # Or a single range:
+    worksheet.ignore_errors({'eval_error': 'C6:G8'})
+
+    # Or multiple cells and ranges:
+    worksheet.ignore_errors({'eval_error': 'C6 E6 G1:G20 J2:J6'})
+
+You can turn off warnings for an entire column by specifying the range from
+the first cell in the column to the last cell in the column::
+
+    worksheet.ignore_errors({'number_stored_as_text': 'A1:A1048576'})
+
+Or for the entire worksheet by specifying the range from the first cell in the
+worksheet to the last cell in the worksheet::
+
+    worksheet.ignore_errors({'number_stored_as_text': 'A1:XFD1048576'})
+
+The worksheet errors/warnings that can be ignored are:
+
+* ``number_stored_as_text``: Turn off errors/warnings for numbers stores as text.
+* ``eval_error``: Turn off errors/warnings for formula errors (such as divide by zero).
+* ``formula_differs``: Turn off errors/warnings for formulas that differ from surrounding formulas.
+* ``formula_range``: Turn off errors/warnings for formulas that omit cells in a range.
+* ``formula_unlocked``: Turn off errors/warnings for unlocked cells that contain formulas.
+* ``empty_cell_reference``: Turn off errors/warnings for formulas that refer to empty cells.
+* ``list_data_validation``: Turn off errors/warnings for cells in a table that do not comply with applicable data validation rules.
+* ``calculated_column``: Turn off errors/warnings for cell formulas that differ from the column formula.
+* ``two_digit_text_year``: Turn off errors/warnings for formulas that contain a two digit text representation of a year.
+
+See also :ref:`ex_ignore_errors`.

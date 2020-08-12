@@ -362,6 +362,8 @@ class Worksheet(xmlwriter.XMLwriter):
 
         self.write_handlers = {}
 
+        self.ignored_errors = None
+
     # Utility function for writing different types of strings.
     def _write_token_as_string(self, token, row, col, *args):
         # Map the data to the appropriate write_*() method.
@@ -3718,6 +3720,48 @@ class Worksheet(xmlwriter.XMLwriter):
         else:
             self.vba_codename = 'Sheet' + str(self.index + 1)
 
+    def ignore_errors(self, options=None):
+        """
+        Ignore various Excel errors/warnings in a worksheet for user defined
+        ranges.
+
+        Args:
+            options: A dict of ignore errors keys with cell range values.
+
+        Returns:
+            0: Success.
+           -1: Incorrect parameter or option.
+
+        """
+        if options is None:
+            return -1
+        else:
+            # Copy the user defined options so they aren't modified.
+            options = options.copy()
+
+        # Valid input parameters.
+        valid_parameters = {
+            'number_stored_as_text': True,
+            'eval_error': True,
+            'formula_differs': True,
+            'formula_range': True,
+            'formula_unlocked': True,
+            'empty_cell_reference': True,
+            'list_data_validation': True,
+            'calculated_column': True,
+            'two_digit_text_year': True,
+        }
+
+        # Check for valid input parameters.
+        for param_key in options.keys():
+            if param_key not in valid_parameters:
+                warn("Unknown parameter '%s' in ignore_errors()" % param_key)
+                return -1
+
+        self.ignored_errors = options
+
+        return 0
+
     ###########################################################################
     #
     # Private API.
@@ -3834,6 +3878,9 @@ class Worksheet(xmlwriter.XMLwriter):
 
         # Write the colBreaks element.
         self._write_col_breaks()
+
+        # Write the ignoredErrors element.
+        self._write_ignored_errors()
 
         # Write the drawing element.
         self._write_drawings()
@@ -7303,3 +7350,57 @@ class Worksheet(xmlwriter.XMLwriter):
         ]
 
         self._xml_empty_tag('phoneticPr', attributes)
+
+    def _write_ignored_errors(self):
+        # Write the <ignoredErrors> element.
+        if not self.ignored_errors:
+            return
+
+        self._xml_start_tag('ignoredErrors')
+
+        if self.ignored_errors.get('number_stored_as_text'):
+            range = self.ignored_errors['number_stored_as_text']
+            self._write_ignored_error('numberStoredAsText', range)
+
+        if self.ignored_errors.get('eval_error'):
+            range = self.ignored_errors['eval_error']
+            self._write_ignored_error('evalError', range)
+
+        if self.ignored_errors.get('formula_differs'):
+            range = self.ignored_errors['formula_differs']
+            self._write_ignored_error('formula', range)
+
+        if self.ignored_errors.get('formula_range'):
+            range = self.ignored_errors['formula_range']
+            self._write_ignored_error('formulaRange', range)
+
+        if self.ignored_errors.get('formula_unlocked'):
+            range = self.ignored_errors['formula_unlocked']
+            self._write_ignored_error('unlockedFormula', range)
+
+        if self.ignored_errors.get('empty_cell_reference'):
+            range = self.ignored_errors['empty_cell_reference']
+            self._write_ignored_error('emptyCellReference', range)
+
+        if self.ignored_errors.get('list_data_validation'):
+            range = self.ignored_errors['list_data_validation']
+            self._write_ignored_error('listDataValidation', range)
+
+        if self.ignored_errors.get('calculated_column'):
+            range = self.ignored_errors['calculated_column']
+            self._write_ignored_error('calculatedColumn', range)
+
+        if self.ignored_errors.get('two_digit_text_year'):
+            range = self.ignored_errors['two_digit_text_year']
+            self._write_ignored_error('twoDigitTextYear', range)
+
+        self._xml_end_tag('ignoredErrors')
+
+    def _write_ignored_error(self, type, range):
+        # Write the <ignoredError> element.
+        attributes = [
+            ('sqref', range),
+            (type, 1),
+        ]
+
+        self._xml_empty_tag('ignoredError', attributes)

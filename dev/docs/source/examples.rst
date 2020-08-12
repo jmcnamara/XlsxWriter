@@ -35,6 +35,7 @@ directory of the XlsxWriter distribution.
    example_user_types1.rst
    example_user_types2.rst
    example_user_types3.rst
+   example_ignore_errors.rst
    example_sparklines1.rst
    example_sparklines2.rst
    example_comments1.rst

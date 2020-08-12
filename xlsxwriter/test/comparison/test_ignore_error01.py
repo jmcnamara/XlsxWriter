@@ -1,0 +1,33 @@
+###############################################################################
+#
+# Tests for XlsxWriter.
+#
+# Copyright (c), 2013-2019, John McNamara, jmcnamara@cpan.org
+#
+
+from ..excel_comparison_test import ExcelComparisonTest
+from ...workbook import Workbook
+
+
+class TestCompareXLSXFiles(ExcelComparisonTest):
+    """
+    Test file created by XlsxWriter against a file created by Excel.
+
+    """
+
+    def setUp(self):
+
+        self.set_filename('ignore_error01.xlsx')
+
+    def test_create_file(self):
+        """Test the creation of a simple XlsxWriter file."""
+
+        workbook = Workbook(self.got_filename)
+
+        worksheet = workbook.add_worksheet()
+
+        worksheet.write_string('A1', '123')
+
+        workbook.close()
+
+        self.assertExcelEqual()
