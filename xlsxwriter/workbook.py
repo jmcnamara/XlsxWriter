@@ -321,6 +321,8 @@ class Workbook(xmlwriter.XMLwriter):
                                     "Use workbook.use_zip64().")
 
             self.fileclosed = True
+        else:
+            warn("Calling close() on already closed file.")
 
     def set_size(self, width, height):
         """
