@@ -382,6 +382,12 @@ file before overwriting it::
 
         break
 
+The ``close()`` method can only write a file once. It doesn't behave like a
+save method and it cannot be called multiple times to write a file at
+different stages. If it is called more than once it will raise a
+``UserWarning`` in order to help avoid issues where a file is closed within a
+loop or at the wrong scope level.
+
 See also :ref:`ex_check_close`.
 
 
