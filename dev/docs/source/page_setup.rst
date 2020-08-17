@@ -259,6 +259,8 @@ The available control character are:
 +---------------+---------------+-----------------------+
 | &G            |               | Same as &[Picture]    |
 +---------------+---------------+-----------------------+
+| &&            | Misc.         | Literal ampersand "&" |
++---------------+---------------+-----------------------+
 
 
 Text in headers and footers can be justified (aligned) to the left, center and
@@ -371,17 +373,11 @@ that using `libxml's xmllint <http://xmlsoft.org/xmllint.html>`_ to format the
 XML for clarity::
 
     $ unzip myfile.xlsm -d myfile
-    $ xmllint --format `find myfile -name "*.xml" | xargs` | egrep "Header|Footer"
+    $ xmllint --format `find myfile -name "*.xml" | xargs` | egrep "Header|Footer" | sed 's/&amp;/\&/g'
 
       <headerFooter scaleWithDoc="0">
-        <oddHeader>&amp;L&amp;P</oddHeader>
+        <oddHeader>&L&P</oddHeader>
       </headerFooter>
-
-Note that in this case you need to unescape the Html. In the above example the
-header string would be::
-
-      '&L&P'
-
 
 To include a single literal ampersand ``&`` in a header or footer you should
 use a double ampersand ``&&``::
