@@ -265,7 +265,7 @@ worksheet8.conditional_format('J3:J14', {'type': 'data_bar',
 worksheet8.conditional_format('L3:L14', {'type': 'data_bar',
                                          'data_bar_2010': True})
 
-worksheet8.conditional_format('M3:N14', {'type': 'data_bar',
+worksheet8.conditional_format('N3:N14', {'type': 'data_bar',
                                          'bar_negative_color_same': True,
                                          'bar_negative_border_color_same': True})
 
