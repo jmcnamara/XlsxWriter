@@ -305,7 +305,7 @@ worksheet9.conditional_format('B5:D5', {'type': 'icon_set',
 worksheet9.conditional_format('B6:D6', {'type': 'icon_set',
                                         'icon_style': '3_arrows'})
 
-worksheet9.conditional_format('B7:E8', {'type': 'icon_set',
+worksheet9.conditional_format('B7:E7', {'type': 'icon_set',
                                         'icon_style': '4_arrows'})
 
 worksheet9.conditional_format('B8:F8', {'type': 'icon_set',
