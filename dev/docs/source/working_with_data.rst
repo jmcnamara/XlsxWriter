@@ -370,9 +370,9 @@ the following values:
   method to continue as normal. This is used if your handler function logic
   decides that you don't need to handle the matched token.
 * The return value of the called ``write_xxx()`` function. This is generally 0
-  for no error and a negative number errors. This causes an immediate return
-  from the calling ``write()`` method with the return value that was passed
-  back.
+  for no error and a negative number for errors. This causes an immediate
+  return from the calling ``write()`` method with the return value that was
+  passed back.
 
 For example, say you wanted to ignore ``NaN`` values in your data since Excel
 doesn't support them. You could create a handler function like the following

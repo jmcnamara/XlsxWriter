@@ -339,7 +339,7 @@ The ``value`` property can also be an cell reference::
    use an :ref:`absolute reference <abs_reference>`, especially if the
    conditional formatting is applied to a range of values. Without an absolute
    cell reference the conditional format will not be applied correctly by
-   Excel from the first cell in the formatted range.
+   Excel, apart from the first cell in the formatted range.
 
 
 format:
