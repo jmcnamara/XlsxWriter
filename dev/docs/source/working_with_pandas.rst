@@ -199,6 +199,34 @@ automatic header from Pandas and write your own. For example::
 
 See the full example at :ref:`ex_pandas_header_format`.
 
+Adding a Dataframe to a Worksheet Table
+---------------------------------------
+
+As explained in :ref:`tables`, tables in Excel are a way of grouping a range
+of cells into a single entity, like this:
+
+.. image:: _images/pandas_table.png
+
+The way to do this with a Pandas dataframe is to first write the data without
+the index or header, and by starting 1 row forward to allow space for the
+table header::
+
+    df.to_excel(writer, sheet_name='Sheet1',
+                startrow=1, header=False, index=False)
+
+We then create a list of headers to use in ``add_table()``::
+
+    column_settings = [{'header': column} for column in df.columns]
+
+Finally we add the Excel table structure, based on the dataframe `shape` and
+with the column headers we generated from the dataframe columns::
+
+    (max_row, max_col) = df.shape
+
+    worksheet.add_table(0, 0, max_row, max_col - 1, {'columns': column_settings})
+
+See the full example at :ref:`ex_pandas_table`.
+
 
 Handling multiple Pandas Dataframes
 -----------------------------------

@@ -429,7 +429,7 @@ to the equivalent ``image_`` parameter since it is required by Excel. See also
 
 Note, Excel does not allow header or footer strings longer than 255 characters,
 including control characters. Strings longer than this will not be written
-and an exception will be thrown.
+and a warning will be issued.
 
 See also :ref:`ex_headers_footers`.
 
