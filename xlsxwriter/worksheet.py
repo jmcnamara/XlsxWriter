@@ -3343,8 +3343,9 @@ class Worksheet(xmlwriter.XMLwriter):
         header_orig = header
         header = header.replace('&[Picture]', '&G')
 
-        if len(header) >= 255:
-            warn('Header string must be less than 255 characters')
+        if len(header) > 255:
+            warn("Header string cannot be longer than Excel's "
+                 "limit of 255 characters")
             return
 
         if options is not None:
@@ -3418,8 +3419,9 @@ class Worksheet(xmlwriter.XMLwriter):
         footer_orig = footer
         footer = footer.replace('&[Picture]', '&G')
 
-        if len(footer) >= 255:
-            warn('Footer string must be less than 255 characters')
+        if len(footer) > 255:
+            warn("Footer string cannot be longer than Excel's "
+                 "limit of 255 characters")
             return
 
         if options is not None:
