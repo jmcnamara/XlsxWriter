@@ -1126,19 +1126,19 @@ class Workbook(xmlwriter.XMLwriter):
             for index in range(image_count):
                 filename = sheet.images[index][2]
                 image_data = sheet.images[index][10]
-                (image_type, width, height, name, x_dpi, y_dpi, md5) = \
+                (image_type, width, height, name, x_dpi, y_dpi, digest) = \
                     self._get_image_properties(filename, image_data)
 
-                if md5 in image_ids:
-                    ref_id = image_ids[md5]
+                if digest in image_ids:
+                    ref_id = image_ids[digest]
                 else:
                     image_ref_id += 1
                     ref_id = image_ref_id
-                    image_ids[md5] = image_ref_id
+                    image_ids[digest] = image_ref_id
                     self.images.append([filename, image_type, image_data])
 
                 sheet._prepare_image(index, ref_id, drawing_id, width, height,
-                                     name, image_type, x_dpi, y_dpi, md5)
+                                     name, image_type, x_dpi, y_dpi, digest)
 
             # Prepare the worksheet charts.
             for index in range(chart_count):
@@ -1156,20 +1156,20 @@ class Workbook(xmlwriter.XMLwriter):
                 image_data = sheet.header_images[index][1]
                 position = sheet.header_images[index][2]
 
-                (image_type, width, height, name, x_dpi, y_dpi, md5) = \
+                (image_type, width, height, name, x_dpi, y_dpi, digest) = \
                     self._get_image_properties(filename, image_data)
 
-                if md5 in header_image_ids:
-                    ref_id = header_image_ids[md5]
+                if digest in header_image_ids:
+                    ref_id = header_image_ids[digest]
                 else:
                     image_ref_id += 1
                     ref_id = image_ref_id
-                    header_image_ids[md5] = image_ref_id
+                    header_image_ids[digest] = image_ref_id
                     self.images.append([filename, image_type, image_data])
 
                 sheet._prepare_header_image(ref_id, width, height,
                                             name, image_type, position,
-                                            x_dpi, y_dpi, md5)
+                                            x_dpi, y_dpi, digest)
 
             # Prepare the footer images.
             for index in range(footer_image_count):
@@ -1178,20 +1178,20 @@ class Workbook(xmlwriter.XMLwriter):
                 image_data = sheet.footer_images[index][1]
                 position = sheet.footer_images[index][2]
 
-                (image_type, width, height, name, x_dpi, y_dpi, md5) = \
+                (image_type, width, height, name, x_dpi, y_dpi, digest) = \
                     self._get_image_properties(filename, image_data)
 
-                if md5 in header_image_ids:
-                    ref_id = header_image_ids[md5]
+                if digest in header_image_ids:
+                    ref_id = header_image_ids[digest]
                 else:
                     image_ref_id += 1
                     ref_id = image_ref_id
-                    header_image_ids[md5] = image_ref_id
+                    header_image_ids[digest] = image_ref_id
                     self.images.append([filename, image_type, image_data])
 
                 sheet._prepare_header_image(image_ref_id, width, height,
                                             name, image_type, position,
-                                            x_dpi, y_dpi, md5)
+                                            x_dpi, y_dpi, digest)
 
             if has_drawing:
                 drawing = sheet.drawing
@@ -1223,7 +1223,7 @@ class Workbook(xmlwriter.XMLwriter):
             # Read the image data from the user supplied byte stream.
             data = image_data.getvalue()
 
-        md5 = hashlib.md5(data).hexdigest()
+        digest = hashlib.md5(data).hexdigest()
 
         # Get the image filename without the path.
         image_name = os.path.basename(filename)
@@ -1277,7 +1277,7 @@ class Workbook(xmlwriter.XMLwriter):
         if y_dpi == 0:
             y_dpi = 96
 
-        return image_type, width, height, image_name, x_dpi, y_dpi, md5
+        return image_type, width, height, image_name, x_dpi, y_dpi, digest
 
     def _process_png(self, data):
         # Extract width and height information from a PNG file.

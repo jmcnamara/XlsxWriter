@@ -4180,7 +4180,7 @@ class Worksheet(xmlwriter.XMLwriter):
         return "%X" % password_hash
 
     def _prepare_image(self, index, image_id, drawing_id, width, height,
-                       name, image_type, x_dpi, y_dpi, md5):
+                       name, image_type, x_dpi, y_dpi, digest):
 
         # Set up images/drawings.
         drawing_type = 2
@@ -4259,13 +4259,13 @@ class Worksheet(xmlwriter.XMLwriter):
                     drawing_object['url_rel_index'] = \
                         self._get_drawing_rel_index(url)
 
-        if not self.drawing_rels.get(md5):
+        if not self.drawing_rels.get(digest):
             self.drawing_links.append(['/image',
                                        '../media/image'
                                        + str(image_id) + '.'
                                        + image_type])
 
-        drawing_object['rel_index'] = self._get_drawing_rel_index(md5)
+        drawing_object['rel_index'] = self._get_drawing_rel_index(digest)
 
     def _prepare_shape(self, index, drawing_id):
         # Set up shapes/drawings.
@@ -4351,20 +4351,20 @@ class Worksheet(xmlwriter.XMLwriter):
                         self._get_drawing_rel_index(url)
 
     def _prepare_header_image(self, image_id, width, height, name, image_type,
-                              position, x_dpi, y_dpi, md5):
+                              position, x_dpi, y_dpi, digest):
 
         # Set up an image without a drawing object for header/footer images.
 
         # Strip the extension from the filename.
         name = re.sub(r'\..*$', '', name)
 
-        if not self.vml_drawing_rels.get(md5):
+        if not self.vml_drawing_rels.get(digest):
             self.vml_drawing_links.append(['/image',
                                            '../media/image'
                                            + str(image_id) + '.'
                                            + image_type])
 
-        ref_id = self._get_vml_drawing_rel_index(md5)
+        ref_id = self._get_vml_drawing_rel_index(digest)
 
         self.header_images_list.append([width, height, name, position,
                                         x_dpi, y_dpi, ref_id])
