@@ -1223,7 +1223,7 @@ class Workbook(xmlwriter.XMLwriter):
             # Read the image data from the user supplied byte stream.
             data = image_data.getvalue()
 
-        digest = hashlib.md5(data).hexdigest()
+        digest = hashlib.sha256(data).hexdigest()
 
         # Get the image filename without the path.
         image_name = os.path.basename(filename)
