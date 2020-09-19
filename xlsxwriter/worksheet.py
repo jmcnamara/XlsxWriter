@@ -2550,6 +2550,12 @@ class Worksheet(xmlwriter.XMLwriter):
         if self._check_dimensions(last_row, last_col, True, True):
             return -2
 
+        # Swap last row/col for first row/col as necessary.
+        if first_row > last_row:
+            (first_row, last_row) = (last_row, first_row)
+        if first_col > last_col:
+            (first_col, last_col) = (last_col, first_col)
+
         # Valid input parameters.
         valid_parameter = {
             'autofilter': True,
@@ -2575,6 +2581,15 @@ class Worksheet(xmlwriter.XMLwriter):
         options['banded_rows'] = options.get('banded_rows', True)
         options['header_row'] = options.get('header_row', True)
         options['autofilter'] = options.get('autofilter', True)
+
+        # Check that there are enough rows.
+        num_rows = last_row - first_row
+        if options['header_row']:
+            num_rows -= 1
+
+        if num_rows < 0:
+            warn("Must have at least one data row in in add_table()")
+            return -3
 
         # Set the table options.
         table['show_first_col'] = options.get('first_column', False)
@@ -2625,12 +2640,6 @@ class Worksheet(xmlwriter.XMLwriter):
             table['style'] = table['style'].replace(' ', '')
         else:
             table['style'] = "TableStyleMedium9"
-
-        # Swap last row/col for first row/col as necessary.
-        if first_row > last_row:
-            (first_row, last_row) = (last_row, first_row)
-        if first_col > last_col:
-            (first_col, last_col) = (last_col, first_col)
 
         # Set the data range rows (without the header and footer).
         first_data_row = first_row
