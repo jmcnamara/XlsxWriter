@@ -1086,6 +1086,8 @@ class Worksheet(xmlwriter.XMLwriter):
 
         # Check that the string is < 32767 chars.
         if str_length > self.xls_strmax:
+            warn("String length must be less than or equal to Excel's limit "
+                 "of 32,767 characters in write_rich_string().")
             return -2
 
         # Write a shared string or an in-line string in constant_memory mode.

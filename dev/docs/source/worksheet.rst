@@ -821,6 +821,10 @@ centers a rich string in the cell::
    an empty string fragment. For either of these conditions a warning is
    raised and the input to ``write_rich_string()`` is ignored.
 
+   Also, the maximum string size supported by Excel is 32,767 characters. If
+   the rich string exceeds this limit a warning is raised and the input to
+   ``write_rich_string()`` is ignored.
+
 See also :ref:`ex_rich_strings` and :ref:`ex_merge_rich`.
 
 
