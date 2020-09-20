@@ -657,6 +657,7 @@ def datetime_to_excel_datetime(dt_obj, date_1904, remove_timezone):
     # part of the number stores the number of days since the epoch and the
     # fractional part stores the percentage of the day.
     date_type = dt_obj
+    is_timedelta = False
 
     if date_1904:
         # Excel for Mac date epoch.
@@ -678,6 +679,7 @@ def datetime_to_excel_datetime(dt_obj, date_1904, remove_timezone):
         dt_obj = remove_datetime_timezone(dt_obj, remove_timezone)
         delta = dt_obj - epoch
     elif isinstance(dt_obj, datetime.timedelta):
+        is_timedelta = True
         delta = dt_obj
     else:
         raise TypeError("Unknown or unsupported datetime type")
@@ -696,7 +698,7 @@ def datetime_to_excel_datetime(dt_obj, date_1904, remove_timezone):
         excel_time -= 1
 
     # Account for Excel erroneously treating 1900 as a leap year.
-    if not date_1904 and excel_time > 59:
+    if not date_1904 and not is_timedelta and excel_time > 59:
         excel_time += 1
 
     return excel_time
