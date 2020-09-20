@@ -137,6 +137,23 @@ The constructor options are:
 
   See also :ref:`Timezone Handling in XlsxWriter <timezone_handling>`.
 
+
+* **use_zip64**: Use ZIP64 extensions when writing the xlsx file zip container
+  to allow files greater than 4 GB. This is the same as calling
+  :func:`use_zip64` after creating the Workbook object. This constructor
+  option is just syntactic sugar to make the use of the option more
+  explicit. The following are equivalent::
+
+      workbook = xlsxwriter.Workbook(filename, {'use_zip64': True})
+
+      # Same as:
+      workbook = xlsxwriter.Workbook(filename)
+      workbook.use_zip64()
+
+  See the note about the Excel warning caused by using this option in
+  :func:`use_zip64`.
+
+
 * **date_1904**: Excel for Windows uses a default epoch of 1900 and Excel for
   Mac uses an epoch of 1904. However, Excel on either platform will convert
   automatically between one system and the other. XlsxWriter stores dates in

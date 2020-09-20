@@ -88,6 +88,11 @@ class Workbook(xmlwriter.XMLwriter):
         if self.max_url_length < 255:
             self.max_url_length = 2079
 
+        if options.get('use_zip64'):
+            self.allow_zip64 = True
+        else:
+            self.allow_zip64 = False
+
         self.worksheet_meta = WorksheetMeta()
         self.selected = 0
         self.fileclosed = 0
@@ -133,7 +138,6 @@ class Workbook(xmlwriter.XMLwriter):
         self.drawing_count = 0
         self.calc_mode = "auto"
         self.calc_on_load = True
-        self.allow_zip64 = False
         self.calc_id = 124519
         self.has_comments = False
 
