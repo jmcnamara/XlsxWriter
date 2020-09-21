@@ -5,6 +5,26 @@ Python 2.7 will end after the first release in 2021 (probably in January
 2021). No new features or fixes for Python 2.7 will be added to XlsxWriter
 after that date/release.
 
+Release 1.3.5 - September 21 2020
+---------------------------------
+
+* Fixed issue where relative url links in images didn't work.
+  Issue `#751 <https://github.com/jmcnamara/XlsxWriter/issues/751>`_.
+
+* Added ``use_zip64`` as a constructor option.
+  Issue `#745 <https://github.com/jmcnamara/XlsxWriter/issues/745>`_.
+
+
+* Added check, and warning, for worksheet tables with no data row.
+  Either with or without a header row.
+  Issue `#715 <https://github.com/jmcnamara/XlsxWriter/issues/715>`_ and
+  Issue `#679 <https://github.com/jmcnamara/XlsxWriter/issues/679>`_.
+
+* Add a warning when the string length in :func:`write_rich_string()` exceeds
+  Excel's limit.
+  Issue `#372 <https://github.com/jmcnamara/XlsxWriter/issues/372>`_.
+
+
 Release 1.3.4 - September 16 2020
 ---------------------------------
 
