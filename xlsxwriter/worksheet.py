@@ -4248,10 +4248,15 @@ class Worksheet(xmlwriter.XMLwriter):
                 target = self._escape_url(url)
 
             if re.match('external:', url):
-                target = url.replace('external:', 'file:///')
+                target = url.replace('external:', '')
                 target = self._escape_url(target)
                 # Additional escape not required in worksheet hyperlinks.
                 target = target.replace('#', '%23')
+
+                if re.match(r'\w:', target) or re.match(r'\\', target):
+                    target = 'file:///' + target
+                else:
+                    target = re.sub(r'\\', '/', target)
 
             if re.match('internal:', url):
                 target = url.replace('internal:', '#')
