@@ -2264,13 +2264,8 @@ class Worksheet(xmlwriter.XMLwriter):
             first_col, last_col = last_col, first_col
 
         # Set the formatting range.
-        # If the first and last cell are the same write a single cell.
-        if first_row == last_row and first_col == last_col:
-            cell_range = xl_rowcol_to_cell(first_row, first_col)
-            start_cell = cell_range
-        else:
-            cell_range = xl_range(first_row, first_col, last_row, last_col)
-            start_cell = xl_rowcol_to_cell(first_row, first_col)
+        cell_range = xl_range(first_row, first_col, last_row, last_col)
+        start_cell = xl_rowcol_to_cell(first_row, first_col)
 
         # Override with user defined multiple range if provided.
         if 'multi_range' in options:
@@ -3017,11 +3012,7 @@ class Worksheet(xmlwriter.XMLwriter):
         if first_col > last_col:
             (first_col, last_col) = (last_col, first_col)
 
-        # If the first and last cell are the same write a single cell.
-        if (first_row == last_row) and (first_col == last_col):
-            sqref = active_cell
-        else:
-            sqref = xl_range(first_row, first_col, last_row, last_col)
+        sqref = xl_range(first_row, first_col, last_row, last_col)
 
         # Selection isn't set for cell A1.
         if sqref == 'A1':
@@ -6442,11 +6433,7 @@ class Worksheet(xmlwriter.XMLwriter):
             if col_first > col_last:
                 (col_first, col_last) = (col_last, col_first)
 
-            # If the first and last cell are the same write a single cell.
-            if (row_first == row_last) and (col_first == col_last):
-                sqref += xl_rowcol_to_cell(row_first, col_first)
-            else:
-                sqref += xl_range(row_first, col_first, row_last, col_last)
+            sqref += xl_range(row_first, col_first, row_last, col_last)
 
         if options['validate'] != 'none':
             attributes.append(('type', options['validate']))

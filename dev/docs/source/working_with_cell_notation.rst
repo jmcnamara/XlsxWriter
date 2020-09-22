@@ -219,6 +219,7 @@ to an ``A1:B1`` style range string::
     cell_range = xl_range(0, 0, 9, 0)  # A1:A10
     cell_range = xl_range(1, 2, 8, 2)  # C2:C9
     cell_range = xl_range(0, 0, 3, 4)  # A1:E4
+    cell_range = xl_range(0, 0, 0, 0)  # A1
 
 
 xl_range_abs()
@@ -242,3 +243,4 @@ references to an absolute ``$A$1:$B$1`` style range string::
     cell_range = xl_range_abs(0, 0, 9, 0)  # $A$1:$A$10
     cell_range = xl_range_abs(1, 2, 8, 2)  # $C$2:$C$9
     cell_range = xl_range_abs(0, 0, 3, 4)  # $A$1:$E$4
+    cell_range = xl_range_abs(0, 0, 0, 0)  # $A$1
