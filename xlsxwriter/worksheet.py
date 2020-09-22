@@ -244,6 +244,8 @@ class Worksheet(xmlwriter.XMLwriter):
         self.vbreaks = []
 
         self.protect_options = {}
+        self.protected_ranges = []
+        self.num_protected_ranges = 0
         self.set_cols = {}
         self.set_rows = defaultdict(dict)
 
@@ -3192,6 +3194,36 @@ class Worksheet(xmlwriter.XMLwriter):
 
         self.protect_options = defaults
 
+    def unprotect_range(self, cell_range, range_name=None, password=None):
+        """
+        Unprotect ranges within a protected worksheet.
+
+        Args:
+            cell_range: The cell or cell range to unprotect.
+            range_name: An name for the range.
+            password:   An optional password string.
+
+        Returns:
+            Nothing.
+
+        """
+        if cell_range is None:
+            warn('Cell range must be specified in unprotect_range()')
+            return -1
+
+        cell_range = cell_range.lstrip('=')
+        cell_range = cell_range.replace('$', '')
+
+        self.num_protected_ranges += 1
+
+        if range_name is None:
+            range_name = 'Range' + str(self.num_protected_ranges)
+
+        if password:
+            password = self._encode_password(password)
+
+        self.protected_ranges.append((cell_range, range_name, password))
+
     @convert_cell_args
     def insert_button(self, row, col, options=None):
         """
@@ -3845,6 +3877,9 @@ class Worksheet(xmlwriter.XMLwriter):
 
         # Write the sheetProtection element.
         self._write_sheet_protection()
+
+        # Write the protectedRanges element.
+        self._write_protected_ranges()
 
         # Write the phoneticPr element.
         if self.excel2003_style:
@@ -6350,6 +6385,30 @@ class Worksheet(xmlwriter.XMLwriter):
             attributes.append(('selectUnlockedCells', 1))
 
         self._xml_empty_tag('sheetProtection', attributes)
+
+    def _write_protected_ranges(self):
+        # Write the <protectedRanges> element.
+        if self.num_protected_ranges == 0:
+            return
+
+        self._xml_start_tag('protectedRanges')
+
+        for (cell_range, range_name, password) in self.protected_ranges:
+            self._write_protected_range(cell_range, range_name, password)
+
+        self._xml_end_tag('protectedRanges')
+
+    def _write_protected_range(self, cell_range, range_name, password):
+        # Write the <protectedRange> element.
+        attributes = []
+
+        if password:
+            attributes.append(('password', password))
+
+        attributes.append(('sqref', cell_range))
+        attributes.append(('name', range_name))
+
+        self._xml_empty_tag('protectedRange', attributes)
 
     def _write_drawings(self):
         # Write the <drawing> elements.
