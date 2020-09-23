@@ -5,12 +5,26 @@ Python 2.7 will end after the first release in 2021 (probably in January
 2021). No new features or fixes for Python 2.7 will be added to XlsxWriter
 after that date/release.
 
+
+Release 1.3.6 - September 23 2020
+---------------------------------
+
+* Added the worksheet :func:`unprotect_range()` method to allow ranges within
+  a protected worksheet to be unprotected.
+  Feature request `#507 <https://github.com/jmcnamara/XlsxWriter/issues/507>`_.
+
+* There are now over 1500 test cases in the test suite, including 900 tests
+  that compare the output from XlsxWriter, byte for byte, against test files
+  created in Excel. This is to ensure the maximum possible compatibility with
+  Excel.
+
+
 Release 1.3.5 - September 21 2020
 ---------------------------------
 
 * Fixed issue where relative url links in images didn't work.
-  Issue `#751 <https://github.com/jmcnamara/XlsxWriter/issues/751>`_.
 
+  Issue `#751 <https://github.com/jmcnamara/XlsxWriter/issues/751>`_.
 * Added ``use_zip64`` as a constructor option.
   Issue `#745 <https://github.com/jmcnamara/XlsxWriter/issues/745>`_.
 
