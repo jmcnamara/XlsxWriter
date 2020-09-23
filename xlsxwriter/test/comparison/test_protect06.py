@@ -44,7 +44,7 @@ class TestCompareXLSXFiles(ExcelComparisonTest):
 
         self.assertExcelEqual()
 
-    def test_create_file_positional(self):
+    def test_create_file_keyword(self):
         """Test the a simple XlsxWriter file with worksheet protection."""
 
         workbook = Workbook(self.got_filename)

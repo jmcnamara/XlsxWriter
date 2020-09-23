@@ -3200,8 +3200,8 @@ class Worksheet(xmlwriter.XMLwriter):
 
         Args:
             cell_range: The cell or cell range to unprotect.
-            range_name: An name for the range.
-            password:   An optional password string.
+            range_name: An optional name for the range.
+            password:   An optional password string. (undocumented)
 
         Returns:
             Nothing.
@@ -3211,6 +3211,7 @@ class Worksheet(xmlwriter.XMLwriter):
             warn('Cell range must be specified in unprotect_range()')
             return -1
 
+        # Sanitize the cell range.
         cell_range = cell_range.lstrip('=')
         cell_range = cell_range.replace('$', '')
 

@@ -2382,6 +2382,30 @@ See also the :func:`set_locked` and :func:`set_hidden` format methods and
        msoffice-crypt.exe -e -p password clear.xlsx encrypted.xlsx
 
 
+worksheet.unprotect_range()
+---------------------------
+
+.. py:function:: unprotect_range(cell_range, range_name)
+
+   Unprotect ranges within a protected worksheet.
+
+   :param string cell_range: The cell or cell range to unprotect.
+   :param string range_name: An name for the range.
+
+The ``unprotect_range()`` method is used to unprotect ranges in a protected
+worksheet. It can be used to set a single range or multiple ranges::
+
+    worksheet.unprotect_range('A1');
+    worksheet.unprotect_range('C1');
+    worksheet.unprotect_range('E1:E3');
+    worksheet.unprotect_range('G1:K100');
+
+As in Excel the ranges are given sequential names like ``Range1`` and
+``Range1`` but a user defined name can also be specified::
+
+    worksheet.unprotect_range('G4:I6', 'MyRange')
+
+
 worksheet.set_default_row()
 ---------------------------
 
