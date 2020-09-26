@@ -458,15 +458,28 @@ The alignment properties that can be set in Excel for a textbox are::
     {'align': {'horizontal': 'left'}}   # Default
     {'align': {'horizontal': 'center'}}
 
-Note, Excel doesn't support right text alignment for the entire textbox. It
-does support it for text within the textbox but that currently isn't supported
-by XlsxWriter, see the next section.
+    {'align': {'text': 'left'}}         # Default
+    {'align': {'text': 'center'}}
+    {'align': {'text': 'right'}}
+
+The ``vertical`` and ``horizontal`` alignments set the layout for the text
+area within the textbox. The ``text`` alignment sets the layout for the text
+within that text area::
+
+    worksheet.insert_textbox('H2',
+                             'Long text line that wraps and is centered',
+                             {'align': {'vertical': 'middle',
+                                        'horizontal': 'center',
+                                        'text': 'center'}})
+
+.. image:: _images/textbox50.png
 
 The default textbox alignment is::
 
     worksheet.insert_textbox('B2', 'Default alignment',
                              {'align': {'vertical': 'top',
-                                        'horizontal': 'left'}})
+                                        'horizontal': 'left',
+                                        'text': 'left'}})
 
     # Same as this:
     worksheet.insert_textbox('B2', 'Default alignment')

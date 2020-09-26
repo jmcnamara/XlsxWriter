@@ -878,6 +878,13 @@ class Drawing(xmlwriter.XMLwriter):
                                          'a:endParaRPr')
                     self._xml_end_tag('a:p')
                     continue
+                elif 'text' in shape.align:
+                    if shape.align['text'] == 'left':
+                        self._xml_empty_tag('a:pPr', [('algn', 'l')])
+                    if shape.align['text'] == 'center':
+                        self._xml_empty_tag('a:pPr', [('algn', 'ctr')])
+                    if shape.align['text'] == 'right':
+                        self._xml_empty_tag('a:pPr', [('algn', 'r')])
 
                 self._xml_start_tag('a:r')
 

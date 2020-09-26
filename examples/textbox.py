@@ -125,6 +125,16 @@ worksheet.insert_textbox(row, col, text, options)
 row += 10
 
 # Example
+text = 'Alignment: long text line that wraps and is centered'
+options = {
+    'align': {'vertical': 'middle',
+               'horizontal': 'center',
+               'text': 'center'},
+}
+worksheet.insert_textbox(row, col, text, options)
+row += 10
+
+# Example
 text = 'Font properties: bold'
 options = {
     'font': {'bold': True},
