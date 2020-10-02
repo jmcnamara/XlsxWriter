@@ -2395,13 +2395,13 @@ worksheet.unprotect_range()
 The ``unprotect_range()`` method is used to unprotect ranges in a protected
 worksheet. It can be used to set a single range or multiple ranges::
 
-    worksheet.unprotect_range('A1');
-    worksheet.unprotect_range('C1');
-    worksheet.unprotect_range('E1:E3');
-    worksheet.unprotect_range('G1:K100');
+    worksheet.unprotect_range('A1')
+    worksheet.unprotect_range('C1')
+    worksheet.unprotect_range('E1:E3')
+    worksheet.unprotect_range('G1:K100')
 
 As in Excel the ranges are given sequential names like ``Range1`` and
-``Range1`` but a user defined name can also be specified::
+``Range2`` but a user defined name can also be specified::
 
     worksheet.unprotect_range('G4:I6', 'MyRange')
 
