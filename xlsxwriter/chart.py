@@ -3651,6 +3651,9 @@ class Chart(xmlwriter.XMLwriter):
             elif label.get('formula'):
                 self._write_custom_label_formula(label)
 
+                if parent.get('position'):
+                    self._write_d_lbl_pos(parent['position'])
+
                 if parent.get('value'):
                     self._write_show_val()
                 if parent.get('category'):
@@ -3660,6 +3663,9 @@ class Chart(xmlwriter.XMLwriter):
 
             elif label.get('value'):
                 self._write_custom_label_str(label)
+
+                if parent.get('position'):
+                    self._write_d_lbl_pos(parent['position'])
 
                 if parent.get('value'):
                     self._write_show_val()
