@@ -34,8 +34,8 @@ test:
 testpythons:
 	@echo "Testing with Python 2.7.4:"
 	@~/.pythonbrew/pythons/Python-2.7.4/bin/python -m unittest discover
-	@echo "Testing with Python 3.4.1:"
-	@~/.pythonbrew/pythons/Python-3.4.1/bin/python -m unittest discover
+	@echo "Testing with Python 3.9.0:"
+	@~/.pythonbrew/pythons/Python-3.9.0/bin/python -m unittest discover
 
 # Test with all stable Python 2/3 releases.
 testpythonsall:
@@ -51,6 +51,8 @@ testpythonsall:
 	@~/.pythonbrew/pythons/Python-3.7.0/bin/py.test -q
 	@echo "Testing with Python 3.8.0:"
 	@~/.pythonbrew/pythons/Python-3.8.0/bin/py.test -q
+	@echo "Testing with Python 3.9.0:"
+	@~/.pythonbrew/pythons/Python-3.9.0/bin/py.test -q
 
 test_codestyle testpep8:
 	@ls -1 xlsxwriter/*.py | egrep -v "theme|compat|__init__" | xargs pycodestyle
