@@ -6,6 +6,20 @@ Python 2.7 will end after the first release in 2021 (probably in January
 after that date/release.
 
 
+Release 1.3.7 - October 13 2020
+-------------------------------
+
+* Fixed issue where custom chart data labels didn't inherit the position of
+  the data labels in the series.
+
+  Issue `#754 <https://github.com/jmcnamara/XlsxWriter/issues/754>`_.
+
+* Added text alignment for textboxes. The existing options allowed the text
+  area to be aligned but didn't offer control over the text within that area.
+
+* Added Python 3.9 to the test matrix.
+
+
 Release 1.3.6 - September 23 2020
 ---------------------------------
 
