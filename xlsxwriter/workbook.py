@@ -325,6 +325,12 @@ class Workbook(xmlwriter.XMLwriter):
                                     "Use workbook.use_zip64().")
 
             self.fileclosed = True
+
+            # Storing may cause constant_memory Worksheet to re-open files
+            # Ensure all file handles are closed out
+            if self.constant_memory:
+                for worksheet in self.worksheets():
+                    worksheet._opt_close()
         else:
             warn("Calling close() on already closed file.")
 
