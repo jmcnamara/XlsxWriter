@@ -325,6 +325,12 @@ class Workbook(xmlwriter.XMLwriter):
                                     "Use workbook.use_zip64().")
 
             self.fileclosed = True
+
+            # Ensure all constant_memory temp files are closed.
+            if self.constant_memory:
+                for worksheet in self.worksheets():
+                    worksheet._opt_close()
+
         else:
             warn("Calling close() on already closed file.")
 
