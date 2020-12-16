@@ -19,8 +19,8 @@ existing Excel file.
 Q. Why do my formulas show a zero result in some, non-Excel applications?
 -------------------------------------------------------------------------
 
-Due to wide range of possible formulas and interdependencies between them
-XlsxWriter doesn't, and realistically cannot, calculate the result of a
+Due to a wide range of possible formulas and the interdependencies between
+them XlsxWriter doesn't, and realistically cannot, calculate the result of a
 formula when it is written to an XLSX file. Instead, it stores the value 0 as
 the formula result. It then sets a global flag in the XLSX file to say that
 all formulas and functions should be recalculated when the file is opened.
