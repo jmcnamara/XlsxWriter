@@ -3,7 +3,7 @@
 # Example of how to use Python and the XlsxWriter module to write
 # simple array formulas.
 #
-# Copyright 2013-2020, John McNamara, jmcnamara@cpan.org
+# Copyright 2013-2021, John McNamara, jmcnamara@cpan.org
 #
 import xlsxwriter
 

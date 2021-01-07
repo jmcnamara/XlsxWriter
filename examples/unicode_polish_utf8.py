@@ -6,7 +6,7 @@
 # This example generates a spreadsheet with some Polish text from a file
 # with UTF8 encoded text.
 #
-# Copyright 2013-2020, John McNamara, jmcnamara@cpan.org
+# Copyright 2013-2021, John McNamara, jmcnamara@cpan.org
 #
 import codecs
 import xlsxwriter

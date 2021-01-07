@@ -2,7 +2,7 @@
 #
 # Worksheet - A class for writing Excel Worksheets.
 #
-# Copyright 2013-2020, John McNamara, jmcnamara@cpan.org
+# Copyright 2013-2021, John McNamara, jmcnamara@cpan.org
 #
 import re
 import datetime

@@ -2,7 +2,7 @@
 #
 # Tests for XlsxWriter.
 #
-# Copyright (c), 2013-2020, John McNamara, jmcnamara@cpan.org
+# Copyright (c), 2013-2021, John McNamara, jmcnamara@cpan.org
 #
 
 import unittest

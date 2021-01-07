@@ -2,7 +2,7 @@
 #
 # ChartArea - A class for writing the Excel XLSX Area charts.
 #
-# Copyright 2013-2020, John McNamara, jmcnamara@cpan.org
+# Copyright 2013-2021, John McNamara, jmcnamara@cpan.org
 #
 
 from . import chart

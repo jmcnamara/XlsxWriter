@@ -2,7 +2,7 @@
 #
 # Packager - A class for writing the Excel XLSX Worksheet file.
 #
-# Copyright 2013-2020, John McNamara, jmcnamara@cpan.org
+# Copyright 2013-2021, John McNamara, jmcnamara@cpan.org
 #
 
 # Standard packages.

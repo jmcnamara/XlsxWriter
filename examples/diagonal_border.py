@@ -3,7 +3,7 @@
 # A simple formatting example that demonstrates how to add diagonal cell
 # borders with XlsxWriter.
 #
-# Copyright 2013-2020, John McNamara, jmcnamara@cpan.org
+# Copyright 2013-2021, John McNamara, jmcnamara@cpan.org
 #
 import xlsxwriter
 

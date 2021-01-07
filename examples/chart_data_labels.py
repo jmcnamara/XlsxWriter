@@ -3,7 +3,7 @@
 # A demo of an various Excel chart data label features that are available
 # via an XlsxWriter chart.
 #
-# Copyright 2013-2020, John McNamara, jmcnamara@cpan.org
+# Copyright 2013-2021, John McNamara, jmcnamara@cpan.org
 #
 import xlsxwriter
 

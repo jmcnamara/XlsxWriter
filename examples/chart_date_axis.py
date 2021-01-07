@@ -3,7 +3,7 @@
 # An example of creating an Excel charts with a date axis using
 # Python and XlsxWriter.
 #
-# Copyright 2013-2020, John McNamara, jmcnamara@cpan.org
+# Copyright 2013-2021, John McNamara, jmcnamara@cpan.org
 #
 
 from datetime import date

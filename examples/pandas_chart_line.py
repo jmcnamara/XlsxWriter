@@ -3,7 +3,7 @@
 # An example of converting a Pandas dataframe to an xlsx file with a line
 # chart using Pandas and XlsxWriter.
 #
-# Copyright 2013-2020, John McNamara, jmcnamara@cpan.org
+# Copyright 2013-2021, John McNamara, jmcnamara@cpan.org
 #
 
 import pandas as pd

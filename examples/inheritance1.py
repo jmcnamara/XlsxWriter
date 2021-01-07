@@ -3,7 +3,7 @@
 # Example of how to subclass the Workbook and Worksheet objects. We also
 # override the default worksheet.write() method to show how that is done.
 #
-# Copyright 2013-2020, John McNamara, jmcnamara@cpan.org
+# Copyright 2013-2021, John McNamara, jmcnamara@cpan.org
 #
 from xlsxwriter.workbook import Workbook
 from xlsxwriter.worksheet import Worksheet

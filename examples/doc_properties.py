@@ -2,7 +2,7 @@
 #
 # An example of adding document properties to a XlsxWriter file.
 #
-# Copyright 2013-2020, John McNamara, jmcnamara@cpan.org
+# Copyright 2013-2021, John McNamara, jmcnamara@cpan.org
 #
 import xlsxwriter
 
