@@ -228,6 +228,42 @@ with the column headers we generated from the dataframe columns::
 See the full example at :ref:`ex_pandas_table`.
 
 
+Adding an autofilter to a Dataframe output
+------------------------------------------
+
+As explained in :ref:`working_with_autofilters`, autofilters in Excel are a
+way of filtering a 2d range of data to only display rows that match a user
+defined criteria.
+
+The way to do this with a Pandas dataframe is to first write the data without
+the index (unless you want to include it in the filtered data)::
+
+    df.to_excel(writer, sheet_name='Sheet1', index=False)
+
+We then get the dataframe `shape` and add the autofilter::
+
+    worksheet.autofilter(0, 0, max_row, max_col - 1)
+
+.. image:: _images/autofilter1.png
+
+We can also add an optional filter criteria. The placeholder "Region" in the
+filter is ignored and can be any string that adds clarity to the expression::
+
+    worksheet.filter_column(0, 'Region == East')
+
+However, it isn't enough to just apply the criteria. The rows that don't match
+must also be hidden. We use Pandas to figure our which rows to hide::
+
+    for row_num in (df.index[(df['Region'] != 'East')].tolist()):
+        worksheet.set_row(row_num + 1, options={'hidden': True})
+
+This gives us a filtered worksheet like this:
+
+.. image:: _images/pandas_autofilter.png
+
+See the full example at :ref:`ex_pandas_autofilter`.
+
+
 Handling multiple Pandas Dataframes
 -----------------------------------
 

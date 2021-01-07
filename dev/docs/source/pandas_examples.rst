@@ -17,6 +17,7 @@ They show how to use XlsxWriter with `Pandas <https://pandas.pydata.org/>`_.
    example_pandas_positioning.rst
    example_pandas_chart.rst
    example_pandas_conditional.rst
+   example_pandas_autofilter.rst
    example_pandas_table.rst
    example_pandas_datetime.rst
    example_pandas_column_formats.rst
