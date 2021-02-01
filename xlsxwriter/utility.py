@@ -663,7 +663,7 @@ def datetime_to_excel_datetime(dt_obj, date_1904, remove_timezone):
         epoch = datetime.datetime(1904, 1, 1)
     else:
         # Default Excel epoch.
-        epoch = datetime.datetime(1899, 12, 31)
+        epoch = datetime.datetime(1899, 12, 30)
 
     # We handle datetime .datetime, .date and .time objects but convert
     # them to datetime.datetime objects and process them in the same way.
@@ -689,7 +689,7 @@ def datetime_to_excel_datetime(dt_obj, date_1904, remove_timezone):
                   / (60 * 60 * 24))
 
     # Account for Excel erroneously treating 1900 as a leap year.
-    if isinstance(date_type, datetime.date) and not date_1904 and excel_time >= 60:
-        excel_time += 1
+    if isinstance(date_type, datetime.date) and not date_1904 and excel_time < 61:
+        excel_time -= 1
 
     return excel_time
