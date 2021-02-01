@@ -22,9 +22,7 @@ class TestConvertDateTime(unittest.TestCase):
         # Dates and corresponding numbers from an Excel file.
         self.excel_dates = [
             ('1899-12-31T', 0),
-            # 1900-1-1 fails for datetime.datetime due to a difference in the
-            # way it handles time only values and the way Excel does.
-            # ('1900-01-01T', 1),
+            ('1900-01-01T', 1),
             ('1900-02-27T', 58),
             ('1900-02-28T', 59),
             ('1900-03-01T', 61),
