@@ -688,13 +688,6 @@ def datetime_to_excel_datetime(dt_obj, date_1904, remove_timezone):
                      + float(delta.microseconds) / 1E6)
                   / (60 * 60 * 24))
 
-    # The following is a workaround for the fact that in Excel a time only
-    # value is represented as 1899-12-31+time whereas in datetime.datetime()
-    # it is 1900-1-1+time so we need to subtract the 1 day difference.
-    if (isinstance(date_type, datetime.datetime)
-            and dt_obj.isocalendar() == (1900, 1, 1)):
-        excel_time -= 1
-
     # Account for Excel erroneously treating 1900 as a leap year.
     if not date_1904 and excel_time > 59:
         excel_time += 1
