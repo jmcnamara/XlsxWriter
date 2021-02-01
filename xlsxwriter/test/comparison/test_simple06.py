@@ -32,7 +32,7 @@ class TestCompareXLSXFiles(ExcelComparisonTest):
         format1 = workbook.add_format({'num_format': 20})
         format2 = workbook.add_format({'num_format': 14})
 
-        date1 = datetime.strptime('12:00', "%H:%M")
+        date1 = datetime.strptime('12:00', "%H:%M").time()
         date2 = datetime.strptime('2013-01-27', "%Y-%m-%d")
 
         worksheet.write_datetime(0, 0, date1, format1)
@@ -54,7 +54,7 @@ class TestCompareXLSXFiles(ExcelComparisonTest):
         format1 = workbook.add_format({'num_format': 20})
         format2 = workbook.add_format({'num_format': 14})
 
-        date1 = datetime.strptime('12:00', "%H:%M")
+        date1 = datetime.strptime('12:00', "%H:%M").time()
         date2 = datetime.strptime('2013-01-27', "%Y-%m-%d")
 
         worksheet.write(0, 0, date1, format1)
@@ -76,7 +76,7 @@ class TestCompareXLSXFiles(ExcelComparisonTest):
         format1 = workbook.add_format({'num_format': 20})
         format2 = workbook.add_format({'num_format': 14})
 
-        date1 = datetime.strptime('12:00', "%H:%M")
+        date1 = datetime.strptime('12:00', "%H:%M").time()
         date2 = datetime.strptime('2013-01-27', "%Y-%m-%d")
 
         worksheet.write_datetime('A1', date1, format1)
@@ -142,7 +142,7 @@ class TestCompareXLSXFiles(ExcelComparisonTest):
         format1 = workbook.add_format({'num_format': 20})
         format2 = workbook.add_format({'num_format': 14})
 
-        date1 = datetime.strptime('12:00', "%H:%M")
+        date1 = datetime.strptime('12:00', "%H:%M").time()
         date2 = datetime.strptime('2013-01-27', "%Y-%m-%d")
 
         worksheet.write_datetime(0, 0, date1, format1)

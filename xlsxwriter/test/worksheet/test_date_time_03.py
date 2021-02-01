@@ -238,7 +238,7 @@ class TestConvertDateTime(unittest.TestCase):
         """Test the _convert_date_time() method for datetime seconds."""
 
         for excel_date in self.excel_seconds:
-            date = datetime.datetime.strptime(excel_date[0], "%H:%M:%S.%f")
+            date = datetime.datetime.strptime(excel_date[0], "%H:%M:%S.%f").time()
 
             got = self.worksheet._convert_date_time(date)
             exp = excel_date[1]
