@@ -6,7 +6,7 @@
 #
 
 import unittest
-from datetime import datetime
+from datetime import (datetime, timedelta)
 from ...worksheet import Worksheet
 
 
@@ -126,7 +126,7 @@ class TestConvertDateTime(unittest.TestCase):
             ('9999-12-31T23:59:59.000', 2958465.999988426),
         ]
 
-        epoch = datetime(1899, 12, 31)
+        epoch = datetime(1899, 12, 30)
 
         for excel_date in excel_dates:
             date = datetime.strptime(excel_date[0], "%Y-%m-%dT%H:%M:%S.%f")
@@ -137,6 +137,10 @@ class TestConvertDateTime(unittest.TestCase):
 
             # Also test time deltas.
             delta = date - epoch
+            # since we construct the time delta from date subtraction,
+            # we need to account for the leap year bug
+            if delta.days < 61:
+                delta -= timedelta(days=1)
             got = self.worksheet._convert_date_time(delta)
             exp = excel_date[1]
             self.assertEqual(got, exp)
