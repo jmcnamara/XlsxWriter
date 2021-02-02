@@ -689,7 +689,11 @@ def datetime_to_excel_datetime(dt_obj, date_1904, remove_timezone):
                   / (60 * 60 * 24))
 
     # Account for Excel erroneously treating 1900 as a leap year.
-    if isinstance(date_type, datetime.date) and not date_1904 and excel_time < 61:
+    if (
+        isinstance(date_type, datetime.date)
+        and not date_1904
+        and excel_time < 61
+    ):
         excel_time -= 1
 
     return excel_time
