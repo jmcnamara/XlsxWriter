@@ -26,6 +26,17 @@ including:
 
 It supports Python 2.7, 3.4+ and PyPy and uses standard libraries only.
 
+Installation
+------------
+
+.. code-block::
+
+   pip install XlsxWriter
+..
+
+Usage
+-----
+
 Here is a simple example:
 
 .. code-block:: python
@@ -60,7 +71,9 @@ Here is a simple example:
 
 .. image:: https://raw.github.com/jmcnamara/XlsxWriter/master/dev/docs/source/_images/demo.png
 
+Documentation
+-------------
+
 See the full documentation at: https://xlsxwriter.readthedocs.io
 
 Release notes: https://xlsxwriter.readthedocs.io/changes.html
-
