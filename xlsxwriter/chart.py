@@ -2061,7 +2061,8 @@ class Chart(xmlwriter.XMLwriter):
 
             # Note, the category crossing comes from the value axis.
             if (y_axis.get('crossing') is None
-                    or y_axis.get('crossing') == 'max'):
+                    or y_axis.get('crossing') == 'max'
+                    or y_axis['crossing'] == 'min'):
 
                 # Write the c:crosses element.
                 self._write_crosses(y_axis.get('crossing'))
@@ -2160,7 +2161,9 @@ class Chart(xmlwriter.XMLwriter):
         self._write_cross_axis(axis_ids[0])
 
         # Note, the category crossing comes from the value axis.
-        if x_axis.get('crossing') is None or x_axis['crossing'] == 'max':
+        if (x_axis.get('crossing') is None
+                or x_axis['crossing'] == 'max'
+                or x_axis['crossing'] == 'min'):
 
             # Write the c:crosses element.
             self._write_crosses(x_axis.get('crossing'))
@@ -2257,7 +2260,9 @@ class Chart(xmlwriter.XMLwriter):
         self._write_cross_axis(axis_ids[1])
 
         # Note, the category crossing comes from the value axis.
-        if y_axis.get('crossing') is None or y_axis['crossing'] == 'max':
+        if (y_axis.get('crossing') is None
+                or y_axis['crossing'] == 'max'
+                or y_axis['crossing'] == 'min'):
 
             # Write the c:crosses element.
             self._write_crosses(y_axis.get('crossing'))
@@ -2356,7 +2361,8 @@ class Chart(xmlwriter.XMLwriter):
 
             # Note, the category crossing comes from the value axis.
             if (y_axis.get('crossing') is None
-                    or y_axis.get('crossing') == 'max'):
+                    or y_axis.get('crossing') == 'max'
+                    or y_axis['crossing'] == 'min'):
 
                 # Write the c:crosses element.
                 self._write_crosses(y_axis.get('crossing'))

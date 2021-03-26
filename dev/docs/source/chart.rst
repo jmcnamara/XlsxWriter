@@ -403,8 +403,8 @@ the axis types.
 * ``crossing``: Set the position where the y axis will cross the x axis.
   (Applicable to all axes.)
 
-  The ``crossing`` value can either be the string ``'max'`` to set the
-  crossing at the maximum axis value or a numeric value::
+  The ``crossing`` value can be a numeric value or the strings ``'max'`` or
+  ``'min'`` to set the crossing at the maximum/minimum axis::
 
     chart.set_x_axis({'crossing': 3})
     chart.set_y_axis({'crossing': 'max'})
