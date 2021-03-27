@@ -387,6 +387,11 @@ class Styles(xmlwriter.XMLwriter):
             'gray0625',
         )
 
+        # Special handling for pattern only case.
+        if not fg_color and not bg_color and patterns[pattern]:
+            self._write_default_fill(patterns[pattern])
+            return
+
         self._xml_start_tag('fill')
 
         # The "none" pattern is handled differently for dxf formats.
@@ -405,7 +410,7 @@ class Styles(xmlwriter.XMLwriter):
             bg_color = self._get_palette_color(bg_color)
             self._xml_empty_tag('bgColor', [('rgb', bg_color)])
         else:
-            if not is_dxf_format:
+            if not is_dxf_format and pattern <= 1:
                 self._xml_empty_tag('bgColor', [('indexed', 64)])
 
         self._xml_end_tag('patternFill')
