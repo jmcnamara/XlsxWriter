@@ -1319,7 +1319,7 @@ class Workbook(xmlwriter.XMLwriter):
         # Look for numbers rather than strings for Python 2.6/3 compatibility.
         marker_ihdr = 0x49484452  # IHDR
         marker_phys = 0x70485973  # pHYs
-        marker_iend = 0X49454E44  # IEND
+        marker_iend = 0x49454E44  # IEND
 
         # Search through the image data to read the height and width in the
         # IHDR element. Also read the DPI in the pHYs element.
