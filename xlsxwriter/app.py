@@ -33,6 +33,7 @@ class App(xmlwriter.XMLwriter):
         self.part_names = []
         self.heading_pairs = []
         self.properties = {}
+        self.doc_security = 0
 
     def _add_part_name(self, part_name):
         # Add the name of a workbook Part such as 'Sheet1' or 'Print_Titles'.
@@ -109,7 +110,7 @@ class App(xmlwriter.XMLwriter):
 
     def _write_doc_security(self):
         # Write the <DocSecurity> element.
-        self._xml_data_element('DocSecurity', '0')
+        self._xml_data_element('DocSecurity', self.doc_security)
 
     def _write_scale_crop(self):
         # Write the <ScaleCrop> element.

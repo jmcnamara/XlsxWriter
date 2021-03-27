@@ -318,6 +318,7 @@ class Packager(object):
             app._add_part_name(named_range)
 
         app._set_properties(properties)
+        app.doc_security = self.workbook.read_only
 
         app._set_xml_writer(self._filename('docProps/app.xml'))
         app._assemble_xml_file()

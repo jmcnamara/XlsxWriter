@@ -140,6 +140,7 @@ class Workbook(xmlwriter.XMLwriter):
         self.calc_on_load = True
         self.calc_id = 124519
         self.has_comments = False
+        self.read_only = 0
 
         # We can't do 'constant_memory' mode while doing 'in_memory' mode.
         if self.in_memory:
@@ -592,6 +593,19 @@ class Workbook(xmlwriter.XMLwriter):
         else:
             self.vba_codename = 'ThisWorkbook'
 
+    def read_only_recommended(self):
+        """
+        Set the Excel "Read-only recommended" option when saving a file.
+
+        Args:
+            None.
+
+        Returns:
+            Nothing.
+
+        """
+        self.read_only = 2
+
     ###########################################################################
     #
     # Private API.
@@ -612,6 +626,9 @@ class Workbook(xmlwriter.XMLwriter):
 
         # Write the fileVersion element.
         self._write_file_version()
+
+        # Write the fileSharing element.
+        self._write_file_sharing()
 
         # Write the workbookPr element.
         self._write_workbook_pr()
@@ -1701,6 +1718,15 @@ class Workbook(xmlwriter.XMLwriter):
                 ('codeName', '{37E998C4-C9E5-D4B9-71C8-EB1FF731991C}'))
 
         self._xml_empty_tag('fileVersion', attributes)
+
+    def _write_file_sharing(self):
+        # Write the <fileSharing> element.
+        if self.read_only == 0:
+            return
+
+        attributes = [('readOnlyRecommended', 1)]
+
+        self._xml_empty_tag('fileSharing', attributes)
 
     def _write_workbook_pr(self):
         # Write <workbookPr> element.

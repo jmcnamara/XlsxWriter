@@ -730,3 +730,30 @@ greater than 4 GB.
    repairing the file. This warning is annoying but harmless. The "repaired"
    file will contain all of the data written by XlsxWriter, only the zip
    container will be changed.
+
+
+workbook.read_only_recommended()
+--------------------------------
+
+.. py:function:: read_only_recommended()
+
+   Add a recommendation to open the file in "read-only" mode.
+
+This method can be used to set the Excel "Read-only Recommended" option that
+is available when saving a file. This presents the user of the file with an
+option to open it in "read-only" mode. This means that any changes to the file
+can't be saved back to the same file and must be saved to a new file.  It can
+be set as follows::
+
+    import xlsxwriter
+
+    workbook = xlsxwriter.Workbook('file.xlsx')
+    worksheet = workbook.add_worksheet()
+
+    workbook.read_only_recommended()
+
+    workbook.close()
+
+Which will raise a dialog like the following when opening the file:
+
+.. image:: _images/read_only.png
