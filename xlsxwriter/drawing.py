@@ -79,7 +79,8 @@ class Drawing(xmlwriter.XMLwriter):
             'anchor': None,
             'rel_index': 0,
             'url_rel_index': 0,
-            'tip': None
+            'tip': None,
+            'decorative': False
         }
 
         self.drawings.append(drawing_object)
@@ -127,6 +128,7 @@ class Drawing(xmlwriter.XMLwriter):
         rel_index = drawing_properties['rel_index']
         url_rel_index = drawing_properties['url_rel_index']
         tip = drawing_properties['tip']
+        decorative = drawing_properties['decorative']
 
         attributes = []
 
@@ -171,7 +173,8 @@ class Drawing(xmlwriter.XMLwriter):
                             shape,
                             description,
                             url_rel_index,
-                            tip)
+                            tip,
+                            decorative)
         else:
             # Write the xdr:sp element for shapes.
             self._write_sp(index,
@@ -198,14 +201,14 @@ class Drawing(xmlwriter.XMLwriter):
             self._write_pos(0, 0)
 
             # Write the xdr:ext element.
-            self._write_ext(9308969, 6078325)
+            self._write_xdr_ext(9308969, 6078325)
 
         else:
             # Write the xdr:pos element.
             self._write_pos(0, -47625)
 
             # Write the xdr:ext element.
-            self._write_ext(6162675, 6124575)
+            self._write_xdr_ext(6162675, 6124575)
 
         # Write the xdr:graphicFrame element.
         self._write_graphic_frame(frame_index, frame_index)
@@ -274,7 +277,7 @@ class Drawing(xmlwriter.XMLwriter):
 
         self._xml_empty_tag('xdr:pos', attributes)
 
-    def _write_ext(self, cx, cy):
+    def _write_xdr_ext(self, cx, cy):
         # Write the <xdr:ext> element.
 
         attributes = [('cx', cx), ('cy', cy)]
@@ -307,30 +310,79 @@ class Drawing(xmlwriter.XMLwriter):
         self._xml_start_tag('xdr:nvGraphicFramePr')
 
         # Write the xdr:cNvPr element.
-        self._write_c_nv_pr(index + 1, name, None, None, None)
+        self._write_c_nv_pr(index + 1, name, None, None, None, None)
 
         # Write the xdr:cNvGraphicFramePr element.
         self._write_c_nv_graphic_frame_pr()
 
         self._xml_end_tag('xdr:nvGraphicFramePr')
 
-    def _write_c_nv_pr(self, index, name, description, url_rel_index, tip):
+    def _write_c_nv_pr(self, index, name, description, url_rel_index,
+                       tip, decorative):
         # Write the <xdr:cNvPr> element.
         attributes = [('id', index), ('name', name)]
 
         # Add description attribute for images.
-        if description:
+        if description and not decorative:
             attributes.append(('descr', description))
 
-        if url_rel_index:
+        if url_rel_index or decorative:
             self._xml_start_tag('xdr:cNvPr', attributes)
 
-            # Write the a:hlinkClick element.
-            self._write_a_hlink_click(url_rel_index, tip)
+            if url_rel_index:
+                self._write_a_hlink_click(url_rel_index, tip)
+
+            if decorative:
+                self._write_decorative()
 
             self._xml_end_tag('xdr:cNvPr')
         else:
             self._xml_empty_tag('xdr:cNvPr', attributes)
+
+    def _write_decorative(self):
+
+        self._xml_start_tag('a:extLst')
+
+        self._write_uri_ext('{FF2B5EF4-FFF2-40B4-BE49-F238E27FC236}')
+        self._write_a16_creation_id()
+        self._xml_end_tag('a:ext')
+
+        self._write_uri_ext('{C183D7F6-B498-43B3-948B-1728B52AA6E4}')
+        self._write_adec_decorative()
+        self._xml_end_tag('a:ext')
+
+        self._xml_end_tag('a:extLst')
+
+    def _write_uri_ext(self, uri):
+        # Write the <a:ext> element.
+        attributes = [('uri', uri)]
+
+        self._xml_start_tag('a:ext', attributes)
+
+    def _write_adec_decorative(self):
+        # Write the <adec:decorative> element.
+        xmlns = 'http://schemas.microsoft.com/office/drawing/2017/decorative'
+        val = '1'
+
+        attributes = [
+            ('xmlns:adec', xmlns),
+            ('val', val),
+        ]
+
+        self._xml_empty_tag('adec:decorative', attributes)
+
+    def _write_a16_creation_id(self):
+        # Write the <a16:creationId> element.
+
+        xmlns_a_16 = 'http://schemas.microsoft.com/office/drawing/2014/main'
+        id = '{00000000-0008-0000-0000-000002000000}'
+
+        attributes = [
+            ('xmlns:a16', xmlns_a_16),
+            ('id', id),
+        ]
+
+        self._xml_empty_tag('a16:creationId', attributes)
 
     def _write_a_hlink_click(self, rel_index, tip):
         # Write the <a:hlinkClick> element.
@@ -484,7 +536,7 @@ class Drawing(xmlwriter.XMLwriter):
 
         name = shape.name + ' ' + str(index)
         if name is not None:
-            self._write_c_nv_pr(index, name, None, None, None)
+            self._write_c_nv_pr(index, name, None, None, None, None)
 
         self._xml_start_tag('xdr:cNvCxnSpPr')
 
@@ -510,7 +562,7 @@ class Drawing(xmlwriter.XMLwriter):
 
         name = shape.name + ' ' + str(index)
 
-        self._write_c_nv_pr(index + 1, name, None, url_rel_index, tip)
+        self._write_c_nv_pr(index + 1, name, None, url_rel_index, tip, None)
 
         if shape.name == 'TextBox':
             attributes = [('txBox', 1)]
@@ -520,13 +572,14 @@ class Drawing(xmlwriter.XMLwriter):
         self._xml_end_tag('xdr:nvSpPr')
 
     def _write_pic(self, index, rel_index, col_absolute, row_absolute,
-                   width, height, shape, description, url_rel_index, tip):
+                   width, height, shape, description, url_rel_index,
+                   tip, decorative):
         # Write the <xdr:pic> element.
         self._xml_start_tag('xdr:pic')
 
         # Write the xdr:nvPicPr element.
         self._write_nv_pic_pr(index, rel_index, description,
-                              url_rel_index, tip)
+                              url_rel_index, tip, decorative)
         # Write the xdr:blipFill element.
         self._write_blip_fill(rel_index)
 
@@ -537,13 +590,13 @@ class Drawing(xmlwriter.XMLwriter):
         self._xml_end_tag('xdr:pic')
 
     def _write_nv_pic_pr(self, index, rel_index, description,
-                         url_rel_index, tip):
+                         url_rel_index, tip, decorative):
         # Write the <xdr:nvPicPr> element.
         self._xml_start_tag('xdr:nvPicPr')
 
         # Write the xdr:cNvPr element.
         self._write_c_nv_pr(index + 1, 'Picture ' + str(index), description,
-                            url_rel_index, tip)
+                            url_rel_index, tip, decorative)
 
         # Write the xdr:cNvPicPr element.
         self._write_c_nv_pic_pr()

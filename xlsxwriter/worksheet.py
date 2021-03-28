@@ -1201,6 +1201,7 @@ class Worksheet(xmlwriter.XMLwriter):
         anchor = options.get('object_position', 2)
         image_data = options.get('image_data', None)
         description = options.get('description', None)
+        decorative = options.get('decorative', False)
 
         # For backward compatibility with older parameter name.
         anchor = options.get('positioning', anchor)
@@ -1211,7 +1212,7 @@ class Worksheet(xmlwriter.XMLwriter):
 
         self.images.append([row, col, filename, x_offset, y_offset,
                             x_scale, y_scale, url, tip, anchor, image_data,
-                            description])
+                            description, decorative])
 
     @convert_cell_args
     def insert_textbox(self, row, col, text, options=None):
@@ -4226,7 +4227,7 @@ class Worksheet(xmlwriter.XMLwriter):
         drawing_type = 2
         (row, col, _, x_offset, y_offset,
             x_scale, y_scale, url, tip, anchor, _,
-            description) = self.images[index]
+            description, decorative) = self.images[index]
 
         width *= x_scale
         height *= y_scale
@@ -4265,6 +4266,7 @@ class Worksheet(xmlwriter.XMLwriter):
         drawing_object['rel_index'] = 0
         drawing_object['url_rel_index'] = 0
         drawing_object['tip'] = tip
+        drawing_object['decorative'] = decorative
 
         if description is not None:
             drawing_object['description'] = description
@@ -4363,6 +4365,7 @@ class Worksheet(xmlwriter.XMLwriter):
         drawing_object['rel_index'] = 0
         drawing_object['url_rel_index'] = 0
         drawing_object['tip'] = options.get('tip')
+        drawing_object['decorative'] = 0
 
         url = options.get('url', None)
         if url:
@@ -4461,6 +4464,7 @@ class Worksheet(xmlwriter.XMLwriter):
         drawing_object['rel_index'] = self._get_drawing_rel_index()
         drawing_object['url_rel_index'] = 0
         drawing_object['tip'] = None
+        drawing_object['decorative'] = 0
 
         self.drawing_links.append(['/chart',
                                    '../charts/chart'

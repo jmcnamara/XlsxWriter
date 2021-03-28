@@ -21,10 +21,10 @@ class TestWriteXdrext(unittest.TestCase):
         self.drawing = Drawing()
         self.drawing._set_filehandle(self.fh)
 
-    def test_write_ext(self):
+    def test_write_xdr_ext(self):
         """Test the _write_ext() method"""
 
-        self.drawing._write_ext(9308969, 6078325)
+        self.drawing._write_xdr_ext(9308969, 6078325)
 
         exp = """<xdr:ext cx="9308969" cy="6078325"/>"""
         got = self.fh.getvalue()
