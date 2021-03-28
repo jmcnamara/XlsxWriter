@@ -1178,7 +1178,8 @@ values are::
         'object_position': 2,
         'image_data':      None,
         'url':             None,
-        'tip':             None,
+        'description':     None,
+        'decorative':      False,
     }
 
 The offset values are in pixels::
@@ -1214,9 +1215,27 @@ This is generally used for inserting images from URLs::
     worksheet.insert_image('B5', url, {'image_data': image_data})
 
 When using the ``image_data`` parameter a filename must still be passed to
-``insert_image()`` since it is required by Excel. In the previous example
-the filename is extracted from the URL string. See also
-:ref:`ex_images_bytesio`.
+``insert_image()`` since it is used by Excel as a default description field
+(see below). However, it can be a blank string if the description isn't
+required. In the previous example the filename/description is extracted from
+the URL string. See also :ref:`ex_images_bytesio`.
+
+The ``description`` field can be used to specify a description or "alt text"
+string for the image. In general this would be used to provide a text
+description of the image to help accessibility. It is an optional parameter
+and defaults to the filename of the image. It can be used as follows::
+
+    worksheet.insert_image('B3', 'python.png',
+                           {'description': 'The logo of the Python programming language.'})
+
+.. image:: _images/alt_text.png
+
+The optional ``decorative`` parameter is also used to help accessibility. It
+is used to mark the image as decorative, and thus uninformative, for automated
+screen readers. As in Excel, if this parameter is in use the ``description``
+field isn't written. It is used as follows::
+
+    worksheet.insert_image('B3', 'python.png', {'decorative': True})
 
 The ``object_position`` parameter can be used to control the object
 positioning of the image::
@@ -1241,7 +1260,7 @@ and scaling of images within a worksheet.
 
    * EMF images can have very small differences in width and height when
      compared to Excel files. Despite a lot of effort and testing it wasn't
-     possible to match exactly Excel's calculations for handling the
+     possible to exactly match Excel's calculations for handling the
      dimensions of EMF files. However, the differences are small (< 1%) and in
      general aren't visible.
 
