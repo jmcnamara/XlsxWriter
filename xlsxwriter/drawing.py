@@ -319,7 +319,7 @@ class Drawing(xmlwriter.XMLwriter):
         attributes = [('id', index), ('name', name)]
 
         # Add description attribute for images.
-        if description is not None:
+        if description:
             attributes.append(('descr', description))
 
         if url_rel_index:

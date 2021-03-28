@@ -1200,6 +1200,7 @@ class Worksheet(xmlwriter.XMLwriter):
         tip = options.get('tip', None)
         anchor = options.get('object_position', 2)
         image_data = options.get('image_data', None)
+        description = options.get('description', None)
 
         # For backward compatibility with older parameter name.
         anchor = options.get('positioning', anchor)
@@ -1209,7 +1210,8 @@ class Worksheet(xmlwriter.XMLwriter):
             return -1
 
         self.images.append([row, col, filename, x_offset, y_offset,
-                            x_scale, y_scale, url, tip, anchor, image_data])
+                            x_scale, y_scale, url, tip, anchor, image_data,
+                            description])
 
     @convert_cell_args
     def insert_textbox(self, row, col, text, options=None):
@@ -4223,7 +4225,8 @@ class Worksheet(xmlwriter.XMLwriter):
         # Set up images/drawings.
         drawing_type = 2
         (row, col, _, x_offset, y_offset,
-            x_scale, y_scale, url, tip, anchor, _) = self.images[index]
+            x_scale, y_scale, url, tip, anchor, _,
+            description) = self.images[index]
 
         width *= x_scale
         height *= y_scale
@@ -4262,6 +4265,9 @@ class Worksheet(xmlwriter.XMLwriter):
         drawing_object['rel_index'] = 0
         drawing_object['url_rel_index'] = 0
         drawing_object['tip'] = tip
+
+        if description is not None:
+            drawing_object['description'] = description
 
         if url:
             target = None
