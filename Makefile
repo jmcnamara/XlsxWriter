@@ -80,9 +80,10 @@ releasecheck:
 release: releasecheck
 	@git push origin master
 	@git push --tags
+
+	@rm -rf dist build XlsxWriter.egg-info/
 	@python setup.py sdist bdist_wheel
 	@twine upload dist/*
+	@rm -rf dist build XlsxWriter.egg-info/
+
 	@../build_readthedocs.sh
-	@rm -rf dist
-	@rm -rf build
-	@rm -rf XlsxWriter.egg-info/
