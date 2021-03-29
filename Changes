@@ -1,9 +1,44 @@
 
 **Deprecation Notice**: Python 2.7 reached the end of its life on January 1st,
 2020 and is no longer being supported in the community. XlsxWriter support for
-Python 2.7 will end after the first release in 2021 (probably in January
-2021). No new features or fixes for Python 2.7 will be added to XlsxWriter
-after that date/release.
+Python 2.7 will end by mid-year 2021 (probably in July 2021). No new features
+or fixes for Python 2.7 will be added to XlsxWriter after that date/release.
+
+
+Release 1.3.8 - March 29 2021
+-----------------------------
+
+* Added accessibility options "description" and "decorative" to
+  :func:`insert_image`.
+
+  Feature request `#768 <https://github.com/jmcnamara/XlsxWriter/issues/768>`_.
+
+* Added fix for datetime.timedelta values that exceed the Excel 1900 leap day
+  (timedeltas greater than 59 days, in hours). This is a backward incompatible
+  change.
+
+  Issue `#731 <https://github.com/jmcnamara/XlsxWriter/issues/731>`_.
+
+* Added the worksheet :func:`read_only_recommended` method to set the Excel
+  "Read-only Recommended" option that is available when saving a file.
+
+  Feature request `#784 <https://github.com/jmcnamara/XlsxWriter/issues/784>`_.
+
+* Fixed issue where temp files used in `constant_memory` mode weren't
+  closed/deleted if the workbook object was garbage collected.
+
+  Issue `#764 <https://github.com/jmcnamara/XlsxWriter/issues/764>`_.
+
+* Fixed issue where pattern formats without colors where given a default black
+  fill color.
+
+  Issue `#790 <https://github.com/jmcnamara/XlsxWriter/issues/790>`_.
+
+* Added option to set a chart crossing to 'min' as well as the existing 'max'
+  option. The 'min' option isn't available in the Excel interface but can be
+  enabled via VBA.
+
+  Feature request `#773 <https://github.com/jmcnamara/XlsxWriter/issues/773>`_.
 
 
 Release 1.3.7 - October 13 2020
