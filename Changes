@@ -8,8 +8,8 @@ or fixes for Python 2.7 will be added to XlsxWriter after that date/release.
 Release 1.3.8 - March 29 2021
 -----------------------------
 
-* Added accessibility options "description" and "decorative" to
-  :func:`insert_image`.
+* Added ability to add accessibility options "description" and "decorative" to
+  images via :func:`insert_image`.
 
   Feature request `#768 <https://github.com/jmcnamara/XlsxWriter/issues/768>`_.
 
@@ -29,7 +29,7 @@ Release 1.3.8 - March 29 2021
 
   Issue `#764 <https://github.com/jmcnamara/XlsxWriter/issues/764>`_.
 
-* Fixed issue where pattern formats without colors where given a default black
+* Fixed issue where pattern formats without colors were given a default black
   fill color.
 
   Issue `#790 <https://github.com/jmcnamara/XlsxWriter/issues/790>`_.
