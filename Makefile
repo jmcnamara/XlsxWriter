@@ -46,6 +46,7 @@ testpythonsall:
 	@echo "Testing with Python 3.5.0:"
 	@~/.pythonbrew/pythons/Python-3.5.0/bin/py.test -q
 	@echo "Testing with Python 3.6.6:"
+
 	@~/.pythonbrew/pythons/Python-3.6.6/bin/py.test -q
 	@echo "Testing with Python 3.7.0:"
 	@~/.pythonbrew/pythons/Python-3.7.0/bin/py.test -q
@@ -81,9 +82,9 @@ release: releasecheck
 	@git push origin master
 	@git push --tags
 
-	@rm -rf dist build XlsxWriter.egg-info/
+	@rm -rf dist/ build/ XlsxWriter.egg-info/
 	@python setup.py sdist bdist_wheel
 	@twine upload dist/*
-	@rm -rf dist build XlsxWriter.egg-info/
+	@rm -rf dist/ build/ XlsxWriter.egg-info/
 
 	@../build_readthedocs.sh
