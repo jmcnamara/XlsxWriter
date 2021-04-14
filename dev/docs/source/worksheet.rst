@@ -922,7 +922,7 @@ worksheet.set_row()
    Set properties for a row of cells.
 
    :param int row:      The worksheet row (zero indexed).
-   :param float height: The row height.
+   :param float height: The row height, in character units.
    :param cell_format:  Optional Format object.
    :type  cell_format:  :ref:`Format <format>`
    :param dict options: Optional row parameters: hidden, level, collapsed.
@@ -934,6 +934,9 @@ The ``set_row()`` method is used to change the default properties of a row. The
 most common use for this method is to change the height of a row::
 
     worksheet.set_row(0, 20)  # Set the height of Row 1 to 20.
+
+The height is specified in character units. To specify the height in pixels
+use the :func:`set_row_pixels` method.
 
 The other common use for ``set_row()`` is to set the :ref:`Format <format>` for
 all cells in the row::
@@ -1000,6 +1003,31 @@ row has the collapsed ``'+'`` symbol::
     worksheet.set_row(3, None, None, {'collapsed': 1})
 
 
+worksheet.set_row_pixels()
+--------------------------
+
+.. py:function:: set_row_pixels(row, height, cell_format, options)
+
+   Set properties for a row of cells, with the row height in pixels.
+
+   :param int row:      The worksheet row (zero indexed).
+   :param float height: The row height, in pixels.
+   :param cell_format:  Optional Format object.
+   :type  cell_format:  :ref:`Format <format>`
+   :param dict options: Optional row parameters: hidden, level, collapsed.
+
+   :returns:  0: Success.
+   :returns: -1: Row is out of worksheet bounds.
+
+The ``set_row_pixels()`` method is identical to :func:`set_row` except that
+the height can be set in pixels instead of Excel character units::
+
+    worksheet.set_row_pixels(0, 18)  # Same as 24 in character units.
+
+All other parameters and options are the same as ``set_row()``. See the
+documentation on :func:`set_row` for more details.
+
+
 worksheet.set_column()
 ----------------------
 
@@ -1009,7 +1037,7 @@ worksheet.set_column()
 
    :param int first_col: First column (zero-indexed).
    :param int last_col:  Last column (zero-indexed). Can be same as first_col.
-   :param float width:   The width of the column(s).
+   :param float width:   The width of the column(s), in character units.
    :param cell_format:   Optional Format object.
    :type  cell_format:   :ref:`Format <format>`
    :param dict options:  Optional parameters: hidden, level, collapsed.
@@ -1055,7 +1083,8 @@ which is: the number of characters in the default font. The default width is
 8.43 in the default font of Calibri 11. The actual relationship between a
 string width and a column width in Excel is complex. See the `following
 explanation of column widths <https://support.microsoft.com/en-us/kb/214123>`_
-from the Microsoft support documentation for more details.
+from the Microsoft support documentation for more details. To set the width in
+pixels use the :func:`set_column_pixels` method.
 
 There is no way to specify "AutoFit" for a column in the Excel file
 format. This feature is only available at runtime from within Excel. It is
@@ -1125,6 +1154,35 @@ The ``'collapsed'`` parameter is used in collapsed outlines to indicate which
 column has the collapsed ``'+'`` symbol::
 
     worksheet.set_column('H:H', None, None, {'collapsed': 1})
+
+
+worksheet.set_column_pixels()
+-----------------------------
+
+.. py:function:: set_column_pixels(first_col, last_col, width, cell_format, options)
+
+   Set properties for one or more columns of cells, with the width in pixels.
+
+   :param int first_col: First column (zero-indexed).
+   :param int last_col:  Last column (zero-indexed). Can be same as first_col.
+   :param float width:   The width of the column(s), in pixels.
+   :param cell_format:   Optional Format object.
+   :type  cell_format:   :ref:`Format <format>`
+   :param dict options:  Optional parameters: hidden, level, collapsed.
+
+   :returns:  0: Success.
+   :returns: -1: Column is out of worksheet bounds.
+
+The ``set_column_pixels()`` method is identical to :func:`set_column` except
+that the width can be set in pixels instead of Excel character units::
+
+    worksheet.set_column_pixels(5, 5, 75)  # Same as 10 character units.
+
+.. image:: _images/set_column_pixels.png
+
+All other parameters and options are the same as ``set_column()``. See the
+documentation on :func:`set_column` for more details.
+
 
 worksheet.insert_image()
 ------------------------
