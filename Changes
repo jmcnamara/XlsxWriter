@@ -5,6 +5,13 @@ Python 2.7 will end by mid-year 2021 (probably in July 2021). No new features
 or fixes for Python 2.7 will be added to XlsxWriter after that date/release.
 
 
+Release 1.3.9 - April 15 2021
+-----------------------------
+
+* Added option to set row heights and column widths in pixels via the
+  :func:`set_row_pixels` and :func:`set_column_pixels` methods.
+
+
 Release 1.3.8 - March 29 2021
 -----------------------------
 
