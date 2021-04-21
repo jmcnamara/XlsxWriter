@@ -7,6 +7,9 @@
 docs doc:
 	@make -C dev/docs html
 
+docs_external:
+	@../build_readthedocs.sh
+
 pdf:
 	@make -C dev/docs latexpdf
 
