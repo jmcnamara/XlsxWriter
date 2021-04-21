@@ -1631,6 +1631,7 @@ examples.
 
 There are some limitations on combined charts:
 
+* Only two charts can be combined.
 * Pie charts cannot currently be combined.
 * Scatter charts cannot currently be used as a primary chart but they can be
   used as a secondary chart.
