@@ -19,6 +19,7 @@ from .app import App
 from .contenttypes import ContentTypes
 from .core import Core
 from .custom import Custom
+from .metadata import Metadata
 from .relationships import Relationships
 from .sharedstrings import SharedStrings
 from .styles import Styles
@@ -151,6 +152,7 @@ class Packager(object):
         self._add_vba_project()
         self._write_core_file()
         self._write_app_file()
+        self._write_metadata_file()
 
         return self.filenames
 
@@ -332,6 +334,15 @@ class Packager(object):
         core._set_xml_writer(self._filename('docProps/core.xml'))
         core._assemble_xml_file()
 
+    def _write_metadata_file(self):
+        # Write the metadata.xml file.
+        if not self.workbook.has_metadata:
+            return
+
+        metadata = Metadata()
+        metadata._set_xml_writer(self._filename('xl/metadata.xml'))
+        metadata._assemble_xml_file()
+
     def _write_custom_file(self):
         # Write the custom.xml file.
         properties = self.workbook.custom_properties
@@ -387,6 +398,10 @@ class Packager(object):
         # Add the custom properties if present.
         if self.workbook.custom_properties:
             content._add_custom_properties()
+
+        # Add the metadata file if present.
+        if self.workbook.has_metadata:
+            content._add_metadata()
 
         content._set_xml_writer(self._filename('[Content_Types].xml'))
         content._assemble_xml_file()
@@ -500,6 +515,10 @@ class Packager(object):
         # Add vbaProject if present.
         if self.workbook.vba_project:
             rels._add_ms_package_relationship('/vbaProject', 'vbaProject.bin')
+
+        # Add the metadata file if required.
+        if self.workbook.has_metadata:
+            rels._add_document_relationship('/sheetMetadata', 'metadata.xml')
 
         rels._set_xml_writer(self._filename('xl/_rels/workbook.xml.rels'))
         rels._assemble_xml_file()

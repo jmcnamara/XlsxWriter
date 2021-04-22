@@ -139,7 +139,7 @@ cell_blank_tuple = namedtuple('Blank', 'format')
 cell_boolean_tuple = namedtuple('Boolean', 'boolean, format')
 cell_formula_tuple = namedtuple('Formula', 'formula, format, value')
 cell_arformula_tuple = namedtuple('ArrayFormula',
-                                  'formula, format, value, range')
+                                  'formula, format, value, range, atype')
 
 
 ###############################################################################
@@ -365,6 +365,8 @@ class Worksheet(xmlwriter.XMLwriter):
         self.write_handlers = {}
 
         self.ignored_errors = None
+
+        self.has_dynamic_arrays = False
 
     # Utility function for writing different types of strings.
     def _write_token_as_string(self, token, row, col, *args):
@@ -688,7 +690,7 @@ class Worksheet(xmlwriter.XMLwriter):
     def write_array_formula(self, first_row, first_col, last_row, last_col,
                             formula, cell_format=None, value=0):
         """
-        Write a formula to a worksheet cell.
+        Write a formula to a worksheet cell/range.
 
         Args:
             first_row:    The first row of the cell range. (zero indexed).
@@ -705,11 +707,44 @@ class Worksheet(xmlwriter.XMLwriter):
 
         """
         return self._write_array_formula(first_row, first_col, last_row,
-                                         last_col, formula, cell_format, value)
+                                         last_col, formula, cell_format,
+                                         value, 'static')
 
-    # Undecorated version of write_array_formula().
+    @convert_range_args
+    def write_dynamic_array_formula(self, first_row, first_col,
+                                    last_row, last_col,
+                                    formula, cell_format=None, value=0):
+        """
+        Write a dynamic formula to a worksheet cell/range.
+
+        Args:
+            first_row:    The first row of the cell range. (zero indexed).
+            first_col:    The first column of the cell range.
+            last_row:     The last row of the cell range. (zero indexed).
+            last_col:     The last column of the cell range.
+            formula:      Cell formula.
+            cell_format:  An optional cell Format object.
+            value:        An optional value for the formula. Default is 0.
+
+        Returns:
+            0:  Success.
+            -1: Row or column is out of worksheet bounds.
+
+        """
+        error = self._write_array_formula(first_row, first_col, last_row,
+                                          last_col, formula, cell_format,
+                                          value, 'dynamic')
+
+        if error == 0:
+            self.has_dynamic_arrays = True
+
+        return error
+
+    # Undecorated version of write_array_formula() and
+    # write_dynamic_array_formula().
     def _write_array_formula(self, first_row, first_col, last_row, last_col,
-                             formula, cell_format=None, value=0):
+                             formula, cell_format=None, value=0,
+                             atype='static'):
 
         # Swap last row/col with first row/col as necessary.
         if first_row > last_row:
@@ -746,7 +781,8 @@ class Worksheet(xmlwriter.XMLwriter):
         self.table[first_row][first_col] = cell_arformula_tuple(formula,
                                                                 cell_format,
                                                                 value,
-                                                                cell_range)
+                                                                cell_range,
+                                                                atype)
 
         # Pad out the rest of the area with formatted zeroes.
         if not self.constant_memory:
@@ -5992,6 +6028,9 @@ class Worksheet(xmlwriter.XMLwriter):
         elif type_cell_name == 'ArrayFormula':
             # Write a array formula.
 
+            if cell.atype == 'dynamic':
+                attributes.append(('cm', 1))
+
             # First check if the formula value is a string.
             try:
                 float(cell.value)
@@ -6000,6 +6039,7 @@ class Worksheet(xmlwriter.XMLwriter):
 
             # Write an array formula.
             self._xml_start_tag('c', attributes)
+
             self._write_cell_array_formula(cell.formula, cell.range)
             self._write_cell_value(cell.value)
             self._xml_end_tag('c')

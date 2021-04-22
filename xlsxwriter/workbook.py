@@ -141,6 +141,7 @@ class Workbook(xmlwriter.XMLwriter):
         self.calc_id = 124519
         self.has_comments = False
         self.read_only = 0
+        self.has_metadata = False
 
         # We can't do 'constant_memory' mode while doing 'in_memory' mode.
         if self.in_memory:
@@ -700,6 +701,9 @@ class Workbook(xmlwriter.XMLwriter):
 
         # Prepare the worksheet tables.
         self._prepare_tables()
+
+        # Prepare the metadata file links.
+        self._prepare_metadata()
 
         # Package the workbook.
         packager._add_workbook(self)
@@ -1558,6 +1562,12 @@ class Workbook(xmlwriter.XMLwriter):
 
             sheet._prepare_tables(table_id + 1, seen)
             table_id += table_count
+
+    def _prepare_metadata(self):
+        # Set the metadata rel link.
+        for sheet in self.worksheets():
+            if sheet.has_dynamic_arrays:
+                self.has_metadata = True
 
     def _add_chart_data(self):
         # Add "cached" data to charts to provide the numCache and strCache

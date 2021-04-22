@@ -160,6 +160,11 @@ class ContentTypes(xmlwriter.XMLwriter):
         self._add_override(('/docProps/custom.xml',
                            app_document + 'custom-properties+xml'))
 
+    def _add_metadata(self):
+        # Add the metadata file to the ContentTypes overrides.
+        self._add_override(('/xl/metadata.xml',
+                           app_document + 'spreadsheetml.sheetMetadata+xml'))
+
     ###########################################################################
     #
     # XML methods.
