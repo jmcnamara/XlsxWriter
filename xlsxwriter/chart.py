@@ -2939,7 +2939,7 @@ class Chart(xmlwriter.XMLwriter):
     def _write_rich(self, title, font, is_y_axis, ignore_rich_pr):
         # Write the <c:rich> element.
 
-        if font and font.get('rotation'):
+        if font and font.get('rotation') is not None:
             rotation = font['rotation']
         else:
             rotation = None
