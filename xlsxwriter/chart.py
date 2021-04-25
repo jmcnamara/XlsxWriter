@@ -3109,7 +3109,7 @@ class Chart(xmlwriter.XMLwriter):
     def _write_tx_pr(self, font, is_y_axis=False):
         # Write the <c:txPr> element.
 
-        if font and font.get('rotation'):
+        if font and font.get('rotation') is not None:
             rotation = font['rotation']
         else:
             rotation = None
