@@ -1249,6 +1249,7 @@ class Worksheet(xmlwriter.XMLwriter):
         self.images.append([row, col, filename, x_offset, y_offset,
                             x_scale, y_scale, url, tip, anchor, image_data,
                             description, decorative])
+        return 0
 
     @convert_cell_args
     def insert_textbox(self, row, col, text, options=None):
@@ -1285,6 +1286,7 @@ class Worksheet(xmlwriter.XMLwriter):
 
         self.shapes.append([row, col, x_offset, y_offset,
                             x_scale, y_scale, text, anchor, options])
+        return 0
 
     @convert_cell_args
     def insert_chart(self, row, col, chart, options=None):
@@ -1345,6 +1347,7 @@ class Worksheet(xmlwriter.XMLwriter):
                             x_offset, y_offset,
                             x_scale, y_scale,
                             anchor])
+        return 0
 
     @convert_cell_args
     def write_comment(self, row, col, comment, options=None):
@@ -1379,6 +1382,8 @@ class Worksheet(xmlwriter.XMLwriter):
 
         # Store the options of the cell comment, to process on file close.
         self.comments[row][col] = [row, col, comment, options]
+
+        return 0
 
     def show_comments(self):
         """
@@ -1651,6 +1656,8 @@ class Worksheet(xmlwriter.XMLwriter):
         # Store the row sizes for use when calculating image vertices.
         self.row_sizes[row] = [height, hidden]
 
+        return 0
+
     def set_row_pixels(self, row, height=None, cell_format=None, options=None):
         """
         Set the width (in pixels), and other properties of a row.
@@ -1746,6 +1753,8 @@ class Worksheet(xmlwriter.XMLwriter):
                 if row == first_row and col == first_col:
                     continue
                 self._write_blank(row, col, '', cell_format)
+
+        return 0
 
     @convert_range_args
     def autofilter(self, first_row, first_col, last_row, last_col):
@@ -2110,6 +2119,8 @@ class Worksheet(xmlwriter.XMLwriter):
 
         # Store the validation information until we close the worksheet.
         self.validations.append(options)
+
+        return 0
 
     @convert_range_args
     def conditional_format(self, first_row, first_col, last_row, last_col,
@@ -2595,6 +2606,8 @@ class Worksheet(xmlwriter.XMLwriter):
         else:
             self.cond_formats[cell_range] = [options]
 
+        return 0
+
     @convert_range_args
     def add_table(self, first_row, first_col, last_row, last_col,
                   options=None):
@@ -2882,7 +2895,7 @@ class Worksheet(xmlwriter.XMLwriter):
         # Store the table data.
         self.tables.append(table)
 
-        return table
+        return 0
 
     @convert_cell_args
     def add_sparkline(self, row, col, options=None):
@@ -3070,6 +3083,8 @@ class Worksheet(xmlwriter.XMLwriter):
         self._set_spark_color(sparkline, options, 'low_color')
 
         self.sparklines.append(sparkline)
+
+        return 0
 
     @convert_range_args
     def set_selection(self, first_row, first_col, last_row, last_col):
@@ -3337,6 +3352,8 @@ class Worksheet(xmlwriter.XMLwriter):
         self.buttons_list.append(button)
 
         self.has_vml = 1
+
+        return 0
 
     ###########################################################################
     #
@@ -3730,6 +3747,8 @@ class Worksheet(xmlwriter.XMLwriter):
         area = self._convert_name_area(first_row, first_col,
                                        last_row, last_col)
         self.print_area_range = area
+
+        return 0
 
     def print_across(self):
         """
