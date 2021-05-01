@@ -710,12 +710,37 @@ class Worksheet(xmlwriter.XMLwriter):
                                          last_col, formula, cell_format,
                                          value, 'static')
 
+    @convert_cell_args
+    def write_da_formula(self, row, col, formula, cell_format=None, value=0):
+        """
+        Write a dynamic array formula to a worksheet cell.
+
+        Args:
+            row:         The cell row (zero indexed).
+            col:         The cell column (zero indexed).
+            formula:     Cell formula.
+            cell_format: An optional cell Format object.
+            value:       An optional value for the formula. Default is 0.
+
+        Returns:
+            0:  Success.
+            -1: Row or column is out of worksheet bounds.
+
+        """
+        error = self._write_array_formula(row, col, row, col, formula,
+                                          cell_format, value, 'dynamic')
+
+        if error == 0:
+            self.has_dynamic_arrays = True
+
+        return error
+
     @convert_range_args
     def write_dynamic_array_formula(self, first_row, first_col,
                                     last_row, last_col,
                                     formula, cell_format=None, value=0):
         """
-        Write a dynamic formula to a worksheet cell/range.
+        Write a dynamic array formula to a worksheet cell/range.
 
         Args:
             first_row:    The first row of the cell range. (zero indexed).
@@ -739,6 +764,36 @@ class Worksheet(xmlwriter.XMLwriter):
             self.has_dynamic_arrays = True
 
         return error
+
+    # Utility method to strip equal sign and array braces from a formula and
+    # also expand out future and dynamic array formulas.
+    def _prepare_formula(self, formula):
+
+        # Remove array formula braces and the leading =.
+        if formula.startswith('{'):
+            formula = formula[1:]
+        if formula.startswith('='):
+            formula = formula[1:]
+        if formula.endswith('}'):
+            formula = formula[:-1]
+
+        # Check if formula is already expanded by the user.
+        if '_xlfn.' in formula:
+            return formula
+
+        # Expand dynamic formulas.
+        formula = re.sub(r'\bFILTER\(', '_xlfn._xlws.FILTER(', formula)
+        formula = re.sub(r'\bSORT\(', '_xlfn._xlws.SORT(', formula)
+        formula = re.sub(r'\bUNIQUE\(', '_xlfn.UNIQUE(', formula)
+        formula = re.sub(r'\bSORTBY\(', '_xlfn.SORTBY(', formula)
+        formula = re.sub(r'\bXLOOKUP\(', '_xlfn.XLOOKUP(', formula)
+        formula = re.sub(r'\bXMATCH\(', '_xlfn.XMATCH(', formula)
+        formula = re.sub(r'\bRANDARRAY\(', '_xlfn.RANDARRAY(', formula)
+        formula = re.sub(r'\bSEQUENCE\(', '_xlfn.SEQUENCE(', formula)
+        formula = re.sub(r'\bANCHORARRAY\(', '_xlfn.ANCHORARRAY(', formula)
+        formula = re.sub(r'\bLAMBDA\(', '_xlfn.LAMBDA(', formula)
+
+        return formula
 
     # Undecorated version of write_array_formula() and
     # write_dynamic_array_formula().
@@ -765,13 +820,8 @@ class Worksheet(xmlwriter.XMLwriter):
             cell_range = (xl_rowcol_to_cell(first_row, first_col) + ':'
                           + xl_rowcol_to_cell(last_row, last_col))
 
-        # Remove array formula braces and the leading =.
-        if formula[0] == '{':
-            formula = formula[1:]
-        if formula[0] == '=':
-            formula = formula[1:]
-        if formula[-1] == '}':
-            formula = formula[:-1]
+        # Modify the formula string, as needed.
+        formula = self._prepare_formula(formula)
 
         # Write previous row if in in-line string constant_memory mode.
         if self.constant_memory and first_row > self.previous_row:
