@@ -74,3 +74,17 @@ class TestCompareXLSXFiles(ExcelComparisonTest):
         workbook.close()
 
         self.assertExcelEqual()
+
+    def test_dynamic_array02_5(self):
+        """Test the creation of a simple XlsxWriter file."""
+
+        workbook = Workbook(self.got_filename)
+
+        worksheet = workbook.add_worksheet()
+
+        worksheet.write_formula('B1', '=UNIQUE(A1)', None, 0)
+        worksheet.write('A1', 0)
+
+        workbook.close()
+
+        self.assertExcelEqual()

@@ -367,6 +367,7 @@ class Worksheet(xmlwriter.XMLwriter):
         self.ignored_errors = None
 
         self.has_dynamic_arrays = False
+        self.use_future_functions = False
 
     # Utility function for writing different types of strings.
     def _write_token_as_string(self, token, row, col, *args):
@@ -658,6 +659,7 @@ class Worksheet(xmlwriter.XMLwriter):
         Returns:
             0:  Success.
             -1: Row or column is out of worksheet bounds.
+            -2: Formula can't be None or empty.
 
         """
         # Check that row and col are valid and store max and min values.
@@ -668,14 +670,31 @@ class Worksheet(xmlwriter.XMLwriter):
         if self._check_dimensions(row, col):
             return -1
 
+        if formula is None or formula == '':
+            warn("Formula can't be None or empty")
+            return -1
+
+        # Check for dynamic array functions.
+        if (re.search(r'\bSORT\(', formula) or
+                re.search(r'\bLAMBDA\(', formula) or
+                re.search(r'\bSORTBY\(', formula) or
+                re.search(r'\bUNIQUE\(', formula) or
+                re.search(r'\bXMATCH\(', formula) or
+                re.search(r'\bFILTER\(', formula) or
+                re.search(r'\bXLOOKUP\(', formula) or
+                re.search(r'\bSEQUENCE\(', formula) or
+                re.search(r'\bRANDARRAY\(', formula) or
+                re.search(r'\bANCHORARRAY\(', formula)):
+            return self.write_da_formula(row, col, formula,
+                                         cell_format, value)
+
         # Hand off array formulas.
         if formula.startswith('{') and formula.endswith('}'):
             return self._write_array_formula(row, col, row, col, formula,
                                              cell_format, value)
 
-        # Remove the formula '=' sign if it exists.
-        if formula.startswith('='):
-            formula = formula.lstrip('=')
+        # Modify the formula string, as needed.
+        formula = self._prepare_formula(formula)
 
         # Write previous row if in in-line string constant_memory mode.
         if self.constant_memory and row > self.previous_row:
@@ -782,16 +801,152 @@ class Worksheet(xmlwriter.XMLwriter):
             return formula
 
         # Expand dynamic formulas.
-        formula = re.sub(r'\bFILTER\(', '_xlfn._xlws.FILTER(', formula)
-        formula = re.sub(r'\bSORT\(', '_xlfn._xlws.SORT(', formula)
-        formula = re.sub(r'\bUNIQUE\(', '_xlfn.UNIQUE(', formula)
-        formula = re.sub(r'\bSORTBY\(', '_xlfn.SORTBY(', formula)
-        formula = re.sub(r'\bXLOOKUP\(', '_xlfn.XLOOKUP(', formula)
-        formula = re.sub(r'\bXMATCH\(', '_xlfn.XMATCH(', formula)
-        formula = re.sub(r'\bRANDARRAY\(', '_xlfn.RANDARRAY(', formula)
-        formula = re.sub(r'\bSEQUENCE\(', '_xlfn.SEQUENCE(', formula)
-        formula = re.sub(r'\bANCHORARRAY\(', '_xlfn.ANCHORARRAY(', formula)
         formula = re.sub(r'\bLAMBDA\(', '_xlfn.LAMBDA(', formula)
+        formula = re.sub(r'\bSORTBY\(', '_xlfn.SORTBY(', formula)
+        formula = re.sub(r'\bUNIQUE\(', '_xlfn.UNIQUE(', formula)
+        formula = re.sub(r'\bXMATCH\(', '_xlfn.XMATCH(', formula)
+        formula = re.sub(r'\bSORT\(', '_xlfn._xlws.SORT(', formula)
+        formula = re.sub(r'\bXLOOKUP\(', '_xlfn.XLOOKUP(', formula)
+        formula = re.sub(r'\bSEQUENCE\(', '_xlfn.SEQUENCE(', formula)
+        formula = re.sub(r'\bFILTER\(', '_xlfn._xlws.FILTER(', formula)
+        formula = re.sub(r'\bRANDARRAY\(', '_xlfn.RANDARRAY(', formula)
+        formula = re.sub(r'\bANCHORARRAY\(', '_xlfn.ANCHORARRAY(', formula)
+
+        if not self.use_future_functions:
+            return formula
+
+        formula = re.sub(r'\bCOT\(', '_xlfn.COT(', formula)
+        formula = re.sub(r'\bCSC\(', '_xlfn.CSC(', formula)
+        formula = re.sub(r'\bIFS\(', '_xlfn.IFS(', formula)
+        formula = re.sub(r'\bPHI\(', '_xlfn.PHI(', formula)
+        formula = re.sub(r'\bRRI\(', '_xlfn.RRI(', formula)
+        formula = re.sub(r'\bSEC\(', '_xlfn.SEC(', formula)
+        formula = re.sub(r'\bXOR\(', '_xlfn.XOR(', formula)
+        formula = re.sub(r'\bACOT\(', '_xlfn.ACOT(', formula)
+        formula = re.sub(r'\bBASE\(', '_xlfn.BASE(', formula)
+        formula = re.sub(r'\bCOTH\(', '_xlfn.COTH(', formula)
+        formula = re.sub(r'\bCSCH\(', '_xlfn.CSCH(', formula)
+        formula = re.sub(r'\bDAYS\(', '_xlfn.DAYS(', formula)
+        formula = re.sub(r'\bIFNA\(', '_xlfn.IFNA(', formula)
+        formula = re.sub(r'\bSECH\(', '_xlfn.SECH(', formula)
+        formula = re.sub(r'\bACOTH\(', '_xlfn.ACOTH(', formula)
+        formula = re.sub(r'\bBITOR\(', '_xlfn.BITOR(', formula)
+        formula = re.sub(r'\bF.INV\(', '_xlfn.F.INV(', formula)
+        formula = re.sub(r'\bGAMMA\(', '_xlfn.GAMMA(', formula)
+        formula = re.sub(r'\bGAUSS\(', '_xlfn.GAUSS(', formula)
+        formula = re.sub(r'\bIMCOT\(', '_xlfn.IMCOT(', formula)
+        formula = re.sub(r'\bIMCSC\(', '_xlfn.IMCSC(', formula)
+        formula = re.sub(r'\bIMSEC\(', '_xlfn.IMSEC(', formula)
+        formula = re.sub(r'\bIMTAN\(', '_xlfn.IMTAN(', formula)
+        formula = re.sub(r'\bMUNIT\(', '_xlfn.MUNIT(', formula)
+        formula = re.sub(r'\bSHEET\(', '_xlfn.SHEET(', formula)
+        formula = re.sub(r'\bT.INV\(', '_xlfn.T.INV(', formula)
+        formula = re.sub(r'\bVAR.P\(', '_xlfn.VAR.P(', formula)
+        formula = re.sub(r'\bVAR.S\(', '_xlfn.VAR.S(', formula)
+        formula = re.sub(r'\bARABIC\(', '_xlfn.ARABIC(', formula)
+        formula = re.sub(r'\bBITAND\(', '_xlfn.BITAND(', formula)
+        formula = re.sub(r'\bBITXOR\(', '_xlfn.BITXOR(', formula)
+        formula = re.sub(r'\bCONCAT\(', '_xlfn.CONCAT(', formula)
+        formula = re.sub(r'\bF.DIST\(', '_xlfn.F.DIST(', formula)
+        formula = re.sub(r'\bF.TEST\(', '_xlfn.F.TEST(', formula)
+        formula = re.sub(r'\bIMCOSH\(', '_xlfn.IMCOSH(', formula)
+        formula = re.sub(r'\bIMCSCH\(', '_xlfn.IMCSCH(', formula)
+        formula = re.sub(r'\bIMSECH\(', '_xlfn.IMSECH(', formula)
+        formula = re.sub(r'\bIMSINH\(', '_xlfn.IMSINH(', formula)
+        formula = re.sub(r'\bMAXIFS\(', '_xlfn.MAXIFS(', formula)
+        formula = re.sub(r'\bMINIFS\(', '_xlfn.MINIFS(', formula)
+        formula = re.sub(r'\bSHEETS\(', '_xlfn.SHEETS(', formula)
+        formula = re.sub(r'\bSKEW.P\(', '_xlfn.SKEW.P(', formula)
+        formula = re.sub(r'\bSWITCH\(', '_xlfn.SWITCH(', formula)
+        formula = re.sub(r'\bT.DIST\(', '_xlfn.T.DIST(', formula)
+        formula = re.sub(r'\bT.TEST\(', '_xlfn.T.TEST(', formula)
+        formula = re.sub(r'\bZ.TEST\(', '_xlfn.Z.TEST(', formula)
+        formula = re.sub(r'\bCOMBINA\(', '_xlfn.COMBINA(', formula)
+        formula = re.sub(r'\bDECIMAL\(', '_xlfn.DECIMAL(', formula)
+        formula = re.sub(r'\bRANK.EQ\(', '_xlfn.RANK.EQ(', formula)
+        formula = re.sub(r'\bSTDEV.P\(', '_xlfn.STDEV.P(', formula)
+        formula = re.sub(r'\bSTDEV.S\(', '_xlfn.STDEV.S(', formula)
+        formula = re.sub(r'\bUNICHAR\(', '_xlfn.UNICHAR(', formula)
+        formula = re.sub(r'\bUNICODE\(', '_xlfn.UNICODE(', formula)
+        formula = re.sub(r'\bBETA.INV\(', '_xlfn.BETA.INV(', formula)
+        formula = re.sub(r'\bF.INV.RT\(', '_xlfn.F.INV.RT(', formula)
+        formula = re.sub(r'\bNORM.INV\(', '_xlfn.NORM.INV(', formula)
+        formula = re.sub(r'\bRANK.AVG\(', '_xlfn.RANK.AVG(', formula)
+        formula = re.sub(r'\bT.INV.2T\(', '_xlfn.T.INV.2T(', formula)
+        formula = re.sub(r'\bTEXTJOIN\(', '_xlfn.TEXTJOIN(', formula)
+        formula = re.sub(r'\bAGGREGATE\(', '_xlfn.AGGREGATE(', formula)
+        formula = re.sub(r'\bBETA.DIST\(', '_xlfn.BETA.DIST(', formula)
+        formula = re.sub(r'\bBINOM.INV\(', '_xlfn.BINOM.INV(', formula)
+        formula = re.sub(r'\bBITLSHIFT\(', '_xlfn.BITLSHIFT(', formula)
+        formula = re.sub(r'\bBITRSHIFT\(', '_xlfn.BITRSHIFT(', formula)
+        formula = re.sub(r'\bCHISQ.INV\(', '_xlfn.CHISQ.INV(', formula)
+        formula = re.sub(r'\bF.DIST.RT\(', '_xlfn.F.DIST.RT(', formula)
+        formula = re.sub(r'\bFILTERXML\(', '_xlfn.FILTERXML(', formula)
+        formula = re.sub(r'\bGAMMA.INV\(', '_xlfn.GAMMA.INV(', formula)
+        formula = re.sub(r'\bISFORMULA\(', '_xlfn.ISFORMULA(', formula)
+        formula = re.sub(r'\bMODE.MULT\(', '_xlfn.MODE.MULT(', formula)
+        formula = re.sub(r'\bMODE.SNGL\(', '_xlfn.MODE.SNGL(', formula)
+        formula = re.sub(r'\bNORM.DIST\(', '_xlfn.NORM.DIST(', formula)
+        formula = re.sub(r'\bPDURATION\(', '_xlfn.PDURATION(', formula)
+        formula = re.sub(r'\bT.DIST.2T\(', '_xlfn.T.DIST.2T(', formula)
+        formula = re.sub(r'\bT.DIST.RT\(', '_xlfn.T.DIST.RT(', formula)
+        formula = re.sub(r'\bBINOM.DIST\(', '_xlfn.BINOM.DIST(', formula)
+        formula = re.sub(r'\bCHISQ.DIST\(', '_xlfn.CHISQ.DIST(', formula)
+        formula = re.sub(r'\bCHISQ.TEST\(', '_xlfn.CHISQ.TEST(', formula)
+        formula = re.sub(r'\bEXPON.DIST\(', '_xlfn.EXPON.DIST(', formula)
+        formula = re.sub(r'\bFLOOR.MATH\(', '_xlfn.FLOOR.MATH(', formula)
+        formula = re.sub(r'\bGAMMA.DIST\(', '_xlfn.GAMMA.DIST(', formula)
+        formula = re.sub(r'\bISOWEEKNUM\(', '_xlfn.ISOWEEKNUM(', formula)
+        formula = re.sub(r'\bNORM.S.INV\(', '_xlfn.NORM.S.INV(', formula)
+        formula = re.sub(r'\bWEBSERVICE\(', '_xlfn.WEBSERVICE(', formula)
+        formula = re.sub(r'\bERF.PRECISE\(', '_xlfn.ERF.PRECISE(', formula)
+        formula = re.sub(r'\bFORMULATEXT\(', '_xlfn.FORMULATEXT(', formula)
+        formula = re.sub(r'\bLOGNORM.INV\(', '_xlfn.LOGNORM.INV(', formula)
+        formula = re.sub(r'\bNORM.S.DIST\(', '_xlfn.NORM.S.DIST(', formula)
+        formula = re.sub(r'\bNUMBERVALUE\(', '_xlfn.NUMBERVALUE(', formula)
+        formula = re.sub(r'\bQUERYSTRING\(', '_xlfn.QUERYSTRING(', formula)
+        formula = re.sub(r'\bCEILING.MATH\(', '_xlfn.CEILING.MATH(', formula)
+        formula = re.sub(r'\bCHISQ.INV.RT\(', '_xlfn.CHISQ.INV.RT(', formula)
+        formula = re.sub(r'\bCONFIDENCE.T\(', '_xlfn.CONFIDENCE.T(', formula)
+        formula = re.sub(r'\bCOVARIANCE.P\(', '_xlfn.COVARIANCE.P(', formula)
+        formula = re.sub(r'\bCOVARIANCE.S\(', '_xlfn.COVARIANCE.S(', formula)
+        formula = re.sub(r'\bERFC.PRECISE\(', '_xlfn.ERFC.PRECISE(', formula)
+        formula = re.sub(r'\bFORECAST.ETS\(', '_xlfn.FORECAST.ETS(', formula)
+        formula = re.sub(r'\bHYPGEOM.DIST\(', '_xlfn.HYPGEOM.DIST(', formula)
+        formula = re.sub(r'\bLOGNORM.DIST\(', '_xlfn.LOGNORM.DIST(', formula)
+        formula = re.sub(r'\bPERMUTATIONA\(', '_xlfn.PERMUTATIONA(', formula)
+        formula = re.sub(r'\bPOISSON.DIST\(', '_xlfn.POISSON.DIST(', formula)
+        formula = re.sub(r'\bQUARTILE.EXC\(', '_xlfn.QUARTILE.EXC(', formula)
+        formula = re.sub(r'\bQUARTILE.INC\(', '_xlfn.QUARTILE.INC(', formula)
+        formula = re.sub(r'\bWEIBULL.DIST\(', '_xlfn.WEIBULL.DIST(', formula)
+        formula = re.sub(r'\bCHISQ.DIST.RT\(', '_xlfn.CHISQ.DIST.RT(', formula)
+        formula = re.sub(r'\bFLOOR.PRECISE\(', '_xlfn.FLOOR.PRECISE(', formula)
+        formula = re.sub(r'\bNEGBINOM.DIST\(', '_xlfn.NEGBINOM.DIST(', formula)
+
+        formula = re.sub(r'\bPERCENTILE.EXC\(',
+                         '_xlfn.PERCENTILE.EXC(', formula)
+        formula = re.sub(r'\bPERCENTILE.INC\(',
+                         '_xlfn.PERCENTILE.INC(', formula)
+        formula = re.sub(r'\bCEILING.PRECISE\(',
+                         '_xlfn.CEILING.PRECISE(', formula)
+        formula = re.sub(r'\bCONFIDENCE.NORM\(',
+                         '_xlfn.CONFIDENCE.NORM(', formula)
+        formula = re.sub(r'\bFORECAST.LINEAR\(',
+                         '_xlfn.FORECAST.LINEAR(', formula)
+        formula = re.sub(r'\bGAMMALN.PRECISE\(',
+                         '_xlfn.GAMMALN.PRECISE(', formula)
+        formula = re.sub(r'\bPERCENTRANK.EXC\(',
+                         '_xlfn.PERCENTRANK.EXC(', formula)
+        formula = re.sub(r'\bPERCENTRANK.INC\(',
+                         '_xlfn.PERCENTRANK.INC(', formula)
+        formula = re.sub(r'\bBINOM.DIST.RANGE\(',
+                         '_xlfn.BINOM.DIST.RANGE(', formula)
+        formula = re.sub(r'\bFORECAST.ETS.STAT\(',
+                         '_xlfn.FORECAST.ETS.STAT(', formula)
+        formula = re.sub(r'\bFORECAST.ETS.CONFINT\(',
+                         '_xlfn.FORECAST.ETS.CONFINT(', formula)
+        formula = re.sub(r'\bFORECAST.ETS.SEASONALITY\(',
+                         '_xlfn.FORECAST.ETS.SEASONALITY(', formula)
 
         return formula
 
@@ -3974,6 +4129,7 @@ class Worksheet(xmlwriter.XMLwriter):
         self.excel2003_style = init_data['excel2003_style']
         self.remove_timezone = init_data['remove_timezone']
         self.max_url_length = init_data['max_url_length']
+        self.use_future_functions = init_data['use_future_functions']
 
         if self.excel2003_style:
             self.original_row_height = 12.75
