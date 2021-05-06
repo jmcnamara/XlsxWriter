@@ -1267,10 +1267,12 @@ class Workbook(xmlwriter.XMLwriter):
         marker3 = unpack('2s', data[:2])[0]
         marker4 = unpack('<L', data[:4])[0]
         marker5 = (unpack('4s', data[40:44]))[0]
+        marker6 = unpack('4s', data[:4])[0]
 
         png_marker = b'PNG'
         bmp_marker = b'BM'
         emf_marker = b' EMF'
+        gif_marker = b'GIF8'
 
         if marker1 == png_marker:
             self.image_types['png'] = True
@@ -1291,6 +1293,10 @@ class Workbook(xmlwriter.XMLwriter):
         elif marker4 == 1 and marker5 == emf_marker:
             self.image_types['emf'] = True
             (image_type, width, height, x_dpi, y_dpi) = self._process_emf(data)
+
+        elif marker6 == gif_marker:
+            self.image_types['gif'] = True
+            (image_type, width, height, x_dpi, y_dpi) = self._process_gif(data)
 
         else:
             raise UnsupportedImageFormat(
@@ -1409,6 +1415,16 @@ class Workbook(xmlwriter.XMLwriter):
             offset = offset + length + 2
 
         return 'jpeg', width, height, x_dpi, y_dpi
+
+    def _process_gif(self, data):
+        # Extract width and height information from a GIF file.
+        x_dpi = 96
+        y_dpi = 96
+
+        width = unpack('<h', data[6:8])[0]
+        height = unpack('<h', data[8:10])[0]
+
+        return 'gif', width, height, x_dpi, y_dpi
 
     def _process_bmp(self, data):
         # Extract width and height information from a BMP file.

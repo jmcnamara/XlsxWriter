@@ -138,7 +138,7 @@ Exception: UnsupportedImageFormat
 .. py:exception:: UnsupportedImageFormat
 
 This exception is raised if if an image added via :func:`insert_image()` isn't
-one of the supported file formats: PNG, JPEG, BMP, WMF or EMF. The exception
+one of the supported file formats: PNG, JPEG, GIF, BMP, WMF or EMF. The exception
 is raised during Workbook :func:`close()`::
 
     import xlsxwriter

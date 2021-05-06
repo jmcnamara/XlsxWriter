@@ -145,7 +145,7 @@ def _compare_xlsx_files(got_file, exp_file, ignore_files, ignore_elements):
 
         # Compare binary files with string comparison based on extension.
         extension = os.path.splitext(filename)[1]
-        if extension in ('.png', '.jpeg', '.bmp', '.wmf', '.emf', '.bin'):
+        if extension in ('.png', '.jpeg', '.gif', '.bmp', '.wmf', '.emf', '.bin'):
             if got_xml_str != exp_xml_str:
                 return 'got: %s' % filename, 'exp: %s' % filename
             continue

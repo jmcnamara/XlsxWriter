@@ -1250,7 +1250,7 @@ worksheet.insert_image()
    :returns: -1: Row or column is out of worksheet bounds.
 
 This method can be used to insert a image into a worksheet. The image can be in
-PNG, JPEG, BMP, WMF or EMF format (see the notes about BMP and EMF below)::
+PNG, JPEG, GIF, BMP, WMF or EMF format (see the notes about BMP and EMF below)::
 
     worksheet.insert_image('B2', 'python.png')
 

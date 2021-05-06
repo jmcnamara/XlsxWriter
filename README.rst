@@ -16,7 +16,7 @@ including:
 * Autofilters.
 * Data validation and drop down lists.
 * Conditional formatting.
-* Worksheet PNG/JPEG/BMP/WMF/EMF images.
+* Worksheet PNG/JPEG/GIF/BMP/WMF/EMF images.
 * Rich multi-format strings.
 * Cell comments.
 * Integration with Pandas.
