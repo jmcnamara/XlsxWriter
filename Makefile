@@ -82,7 +82,7 @@ releasecheck:
 	@dev/release/release_check.sh
 
 release: releasecheck
-	@git push origin master
+	@git push origin main
 	@git push --tags
 
 	@rm -rf dist/ build/ XlsxWriter.egg-info/
