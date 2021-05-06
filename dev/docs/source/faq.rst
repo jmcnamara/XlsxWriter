@@ -1,11 +1,11 @@
-:tocdepth: 1
-
 .. _faq:
 
 Frequently Asked Questions
 ==========================
 
 The section outlines some answers to frequently asked questions.
+
+.. _faq_rewrite:
 
 Q. Can XlsxWriter use an existing Excel file as a template?
 -----------------------------------------------------------
@@ -15,6 +15,7 @@ No.
 XlsxWriter is designed only as a file *writer*. It cannot read or modify an
 existing Excel file.
 
+.. _faq_zero_result:
 
 Q. Why do my formulas show a zero result in some, non-Excel applications?
 -------------------------------------------------------------------------
@@ -48,6 +49,24 @@ recalculation::
 
     worksheet.write_formula('A1', '=Sheet1!$A$1', None, '')
 
+.. _faq_ampersand:
+
+Q. Why do my formulas have a @ in them?
+---------------------------------------
+
+Microsoft refers to the ``@`` in formulas as the `Implicit Intersection
+Operator
+<https://support.microsoft.com/en-us/office/implicit-intersection-operator-ce3be07b-0101-4450-a24e-c1c999be2b34?ui=en-us&rs=en-us&ad=us>`_.
+It indicates that an input range is being reduced from multiple values to a
+single value. In some cases it is just a warning indicator and doesn't affect
+the calculation or result. However, in practical terms it generally means that
+your formula should be written as an array formula using either
+:func:`write_array_formula` or :func:`write_dynamic_array_formula`.
+
+For more details see the :ref:`formula_dynamic_arrays` and
+:ref:`formula_intersection_operator` sections of the XlsxWriter documentation.
+
+.. _faq_format_range:
 
 Q. Can I apply a format to a range of cells in one go?
 ------------------------------------------------------
@@ -55,6 +74,7 @@ Q. Can I apply a format to a range of cells in one go?
 Currently no. However, it is a planned features to allow cell formats and data
 to be written separately.
 
+.. _faq_future:
 
 Q. Is feature X supported or will it be supported?
 --------------------------------------------------
@@ -62,6 +82,7 @@ Q. Is feature X supported or will it be supported?
 All supported features are documented. Future features are on the `Roadmap
 <https://github.com/jmcnamara/XlsxWriter/issues/653>`_.
 
+.. _faq_autofit:
 
 Q. Is there an "AutoFit" option for columns?
 --------------------------------------------
@@ -71,6 +92,8 @@ file format. This feature is only available at runtime from within Excel. It
 is possible to simulate "AutoFit" in your application by tracking the maximum
 width of the data in the column as your write it and then adjusting the column
 width at the end.
+
+.. _faq_protect_workbook:
 
 Q. Can I password protect an XlsxWriter xlsx file
 -------------------------------------------------
@@ -88,6 +111,8 @@ a third party open source tool called `msoffice-crypt
 <https://github.com/herumi/msoffice>`_. This works for macOS, Linux and Windows::
 
     msoffice-crypt.exe -e -p password clear.xlsx encrypted.xlsx
+
+.. _faq_faq:
 
 Q. Do people actually ask these questions frequently, or at all?
 ----------------------------------------------------------------
