@@ -434,8 +434,54 @@ formula (see discussion of formulas and the ``value`` parameter for the
 ``write_formula()`` method above). However, using this parameter only writes a
 single value to the upper left cell in the result array. See
 :ref:`formula_result` for more details.
+ 
+ See also :ref:`ex_array_formula`.
 
-See also :ref:`ex_array_formula`.
+
+worksheet.write_dynamic_array_formula()
+---------------------------------------
+
+.. py:function:: write_dynamic_array_formula(first_row, first_col, last_row, \
+                                             last_col, formula[, cell_format[, value]])
+
+   Write an array formula to a worksheet cell.
+
+   :param first_row:   The first row of the range. (All zero indexed.)
+   :param first_col:   The first column of the range.
+   :param last_row:    The last row of the range.
+   :param last_col:    The last col of the range.
+   :param formula:     Array formula to write to cell.
+   :param cell_format: Optional Format object.
+   :param value:       Optional result. The value if the formula was calculated.
+   :type  first_row:   int
+   :type  first_col:   int
+   :type  last_row:    int
+   :type  last_col:    int
+   :type  formula:     string
+   :type  cell_format: :ref:`Format <format>`
+
+   :returns:  0: Success.
+   :returns: -1: Row or column is out of worksheet bounds.
+
+The ``write_dynamic_array_formula()`` method writes an dynamic array formula to a cell
+range. Dynamic array formulas are explained in detail in :ref:`formula_dynamic_arrays`.
+
+The syntax of ``write_dynamic_array_formula()`` is the same as
+:func:`write_array_formula`, shown above, except that you don't need to add
+``{}`` braces::
+
+    worksheet.write_dynamic_array_formula('B1:B3', '=LEN(A1:A3)')
+
+Which gives the following result:
+
+.. image:: _images/intersection03.png
+
+It is also possible to specify the first cell of the range to get the same
+results::
+
+    worksheet.write_dynamic_array_formula('B1:B1', '=LEN(A1:A3)')
+
+See also :ref:`ex_dynamic_arrays`.
 
 
 worksheet.write_blank()

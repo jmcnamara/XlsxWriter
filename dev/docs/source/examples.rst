@@ -16,6 +16,7 @@ directory of the XlsxWriter distribution.
    example_datetimes.rst
    example_hyperlink.rst
    example_array_formula.rst
+   example_dynamic_arrays.rst
    example_autofilter.rst
    example_data_validate.rst
    example_conditional_format.rst
@@ -56,3 +57,4 @@ directory of the XlsxWriter distribution.
    example_inheritance1.rst
    example_inheritance2.rst
    example_macros.rst
+   example_lambda.rst

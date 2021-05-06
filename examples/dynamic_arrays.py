@@ -1,18 +1,17 @@
 #######################################################################
 #
-# An example of how to use the XlsxWriter module to write functions that
-# create dynamic arrays. These functions are new to Excel 365. The examples
-# mirror the examples in the Excel documentation on the functions.
+# An example of how to use the XlsxWriter module to write formulas and
+# functions that create dynamic arrays. These functions are new to Excel
+# 365. The examples mirror the examples in the Excel documentation on these
+# functions.
 #
 # Copyright 2013-2021, John McNamara, jmcnamara@cpan.org
 #
 import xlsxwriter
 
 
-# def write_worksheet_data;
-
 def main():
-    # Create a new workbook called simple.xls and add a worksheet
+    # Create a new workbook called simple.xls and add some worksheets.
     workbook = xlsxwriter.Workbook('dynamic_arrays.xlsx')
 
     worksheet1 = workbook.add_worksheet('Filter')
@@ -24,6 +23,7 @@ def main():
     worksheet7 = workbook.add_worksheet('Randarray')
     worksheet8 = workbook.add_worksheet('Sequence')
     worksheet9 = workbook.add_worksheet('Spill ranges')
+    worksheet10 = workbook.add_worksheet('Older functions')
 
     header1 = workbook.add_format({'fg_color': '#74AC4C', 'color': '#FFFFFF'})
     header2 = workbook.add_format({'fg_color': '#528FD3', 'color': '#FFFFFF'})
@@ -31,7 +31,7 @@ def main():
     #
     # Example of using the FILTER() function.
     #
-    worksheet1.write_da_formula('F2', '=FILTER(A1:D17,C1:C17=K2)')
+    worksheet1.write('F2', '=FILTER(A1:D17,C1:C17=K2)')
 
     # Write the data the function will work on.
     worksheet1.write('K1', 'Product', header2)
@@ -48,10 +48,10 @@ def main():
     #
     # Example of using the UNIQUE() function.
     #
-    worksheet2.write_da_formula('F2', '=UNIQUE(B2:B17)')
+    worksheet2.write('F2', '=UNIQUE(B2:B17)')
 
     # A more complex example combining SORT and UNIQUE.
-    worksheet2.write_da_formula('H2', '=SORT(UNIQUE(B2:B17))')
+    worksheet2.write('H2', '=SORT(UNIQUE(B2:B17))')
 
     # Write the data the function will work on.
     worksheet2.write('F1', 'Sales Rep', header2)
@@ -64,10 +64,10 @@ def main():
     #
     # Example of using the SORT() function.
     #
-    worksheet3.write_da_formula('F2', '=SORT(B2:B17)')
+    worksheet3.write('F2', '=SORT(B2:B17)')
 
     # A more complex example combining SORT and FILTER.
-    worksheet3.write_da_formula('H2', '=SORT(FILTER(C2:D17,D2:D17>5000,""),2,1)')
+    worksheet3.write('H2', '=SORT(FILTER(C2:D17,D2:D17>5000,""),2,1)')
 
     # Write the data the function will work on.
     worksheet3.write('F1', 'Sales Rep', header2)
@@ -81,7 +81,7 @@ def main():
     #
     # Example of using the SORTBY() function.
     #
-    worksheet4.write_da_formula('D2', '=SORTBY(A2:B9,B2:B9)')
+    worksheet4.write('D2', '=SORTBY(A2:B9,B2:B9)')
 
     # Write the data the function will work on.
     worksheet4.write('A1', 'Name', header1)
@@ -113,7 +113,7 @@ def main():
     #
     # Example of using the XLOOKUP() function.
     #
-    worksheet5.write_da_formula('F1', '=XLOOKUP(E1,A2:A9,C2:C9)')
+    worksheet5.write('F1', '=XLOOKUP(E1,A2:A9,C2:C9)')
 
     # Write the data the function will work on.
     worksheet5.write('A1', 'Country', header1)
@@ -155,7 +155,7 @@ def main():
     #
     # Example of using the XMATCH() function.
     #
-    worksheet6.write_da_formula('D2', '=XMATCH(C2,A2:A6)')
+    worksheet6.write('D2', '=XMATCH(C2,A2:A6)')
 
     # Write the data the function will work on.
     worksheet6.write('A1', 'Product', header1)
@@ -175,22 +175,22 @@ def main():
     #
     # Example of using the RANDARRAY() function.
     #
-    worksheet7.write_da_formula('A1', '=RANDARRAY(5,3,1,100, TRUE)')
+    worksheet7.write('A1', '=RANDARRAY(5,3,1,100, TRUE)')
 
     #
     # Example of using the SEQUENCE() function.
     #
-    worksheet8.write_da_formula('A1', '=SEQUENCE(4,5)')
+    worksheet8.write('A1', '=SEQUENCE(4,5)')
 
     #
     # Example of using the Spill range operator.
     #
-    worksheet9.write_da_formula('H2', '=ANCHORARRAY(F2)')
+    worksheet9.write('H2', '=ANCHORARRAY(F2)')
 
-    worksheet9.write_da_formula('J2', '=COUNTA(ANCHORARRAY(F2))')
+    worksheet9.write('J2', '=COUNTA(ANCHORARRAY(F2))')
 
     # Write the data the to work on.
-    worksheet9.write_da_formula('F2', '=UNIQUE(B2:B17)')
+    worksheet9.write('F2', '=UNIQUE(B2:B17)')
     worksheet9.write('F1', 'Unique', header2)
     worksheet9.write('H1', 'Spill', header2)
     worksheet9.write('J1', 'Spill', header2)
@@ -199,6 +199,16 @@ def main():
     worksheet9.set_column_pixels('E:E', 20)
     worksheet9.set_column_pixels('G:G', 20)
     worksheet9.set_column_pixels('I:I', 20)
+
+    #
+    # Example of using dynamic ranges with older Excel functions.
+    #
+    worksheet10.write_dynamic_array_formula('B1:B3', '=LEN(A1:A3)')
+
+    # Write the data the to work on.
+    worksheet10.write('A1', 'Foo')
+    worksheet10.write('A2', 'Food')
+    worksheet10.write('A3', 'Frood')
 
     # Close the workbook.
     workbook.close()
@@ -213,27 +223,27 @@ def write_worksheet_data(worksheet, header):
     worksheet.write('D1', 'Units', header)
 
     data = (
-        ['East', 'Tom', 'Apple', 6380],
-        ['West', 'Fred', 'Grape', 5619],
-        ['North', 'Amy', 'Pear', 4565],
-        ['South', 'Sal', 'Banana', 5323],
-        ['East', 'Fritz', 'Apple', 4394],
-        ['West', 'Sravan', 'Grape', 7195],
-        ['North', 'Xi', 'Pear', 5231],
+        ['East',  'Tom',    'Apple',  6380],
+        ['West',  'Fred',   'Grape',  5619],
+        ['North', 'Amy',    'Pear',   4565],
+        ['South', 'Sal',    'Banana', 5323],
+        ['East',  'Fritz',  'Apple',  4394],
+        ['West',  'Sravan', 'Grape',  7195],
+        ['North', 'Xi',     'Pear',   5231],
         ['South', 'Hector', 'Banana', 2427],
-        ['East', 'Tom', 'Banana', 4213],
-        ['West', 'Fred', 'Pear', 3239],
-        ['North', 'Amy', 'Grape', 6520],
-        ['South', 'Sal', 'Apple', 1310],
-        ['East', 'Fritz', 'Banana', 6274],
-        ['West', 'Sravan', 'Pear', 4894],
-        ['North', 'Xi', 'Grape', 7580],
-        ['South', 'Hector', 'Apple', 9814])
+        ['East',  'Tom',    'Banana', 4213],
+        ['West',  'Fred',   'Pear',   3239],
+        ['North', 'Amy',    'Grape',  6520],
+        ['South', 'Sal',    'Apple',  1310],
+        ['East',  'Fritz',  'Banana', 6274],
+        ['West',  'Sravan', 'Pear',   4894],
+        ['North', 'Xi',     'Grape',  7580],
+        ['South', 'Hector', 'Apple',  9814])
 
     row_num = 1
     for row_data in data:
         worksheet.write_row(row_num, 0, row_data)
         row_num += 1
 
-if __name__=="__main__":
-   main()
+if __name__ == "__main__":
+    main()

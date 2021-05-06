@@ -38,6 +38,197 @@ multi-lingual `formula translator <https://en.excel-translator.de/language/>`_
 to help you convert the formula. It can also replace semi-colons with commas.
 
 
+.. _formula_dynamic_arrays:
+
+Dynamic Array support
+---------------------
+
+Excel introduced the concept of "Dynamic Arrays" and new functions that use
+them in Office 365. The new functions are:
+
+- ``FILTER()``
+- ``UNIQUE()``
+- ``SORT()``
+- ``SORTBY()``
+- ``XLOOKUP()``
+- ``XMATCH()``
+- ``RANDARRAY()``
+- ``SEQUENCE()``
+
+The following special case functions were also added with Dynamic Arrays:
+
+- ``SINGLE()`` - Explained below in :ref:`formula_intersection_operator`.
+- ``ANCHORARRAY()`` - Explained below in :ref:`formula_spill_operator`.
+- ``LAMBDA()`` and ``LET()`` - Explained below in :ref:`formula_lambda`.
+
+Dynamic arrays are ranges of return values that can change in size based on
+the results. For example, a function such as ``FILTER()`` returns an array of
+values that can vary in size depending on the the filter results. This is
+shown in the snippet below from :ref:`ex_dynamic_arrays`::
+
+    worksheet1.write('F2', '=FILTER(A1:D17,C1:C17=K2)')
+
+Which gives the results shown in the image below. The dynamic range here is
+"F2:I5" but it could be different based on the filter criteria.
+
+.. image:: _images/dynamic_arrays02.png
+
+
+It is also possible to get dynamic array behavior with older Excel
+functions. For example, the Excel function ``=LEN(A1)`` applies to a single
+cell and returns a single value but it is also possible to apply it to a range
+of cells and return a range of values using an array formula like
+``{=LEN(A1:A3)}``. This type of "static" array behavior is called a CSE
+(Ctrl+Shift+Enter) formula. With the introduction of dynamic arrays in Excel
+365 you can now write this function as ``=LEN(A1:A3)`` and get a dynamic range
+of return values. In XlsxWriter you can use the :func:`write_array_formula`
+worksheet method to get a static/CSE range and
+:func:`write_dynamic_array_formula` to get a dynamic range. For example::
+
+    worksheet.write_dynamic_array_formula('B1:B3', '=LEN(A1:A3)')
+
+Which gives the following result:
+
+.. image:: _images/intersection03.png
+
+The difference between the two types of array functions is explained in the
+Microsoft documentation on `Dynamic array formulas vs. legacy CSE array
+formulas
+<https://support.microsoft.com/en-us/office/dynamic-array-formulas-vs-legacy-cse-array-formulas-ca421f1b-fbb2-4c99-9924-df571bd4f1b4>`_. Note
+the use of the word "legacy" here. This, and the documentation itself, is a
+clear indication of the future importance of dynamic arrays in Excel.
+
+For a wider and more general introduction to dynamic arrays see the following:
+`Dynamic array formulas in Excel
+<https://exceljet.net/dynamic-array-formulas-in-excel>`_.
+
+.. _formula_intersection_operator:
+
+Dynamic Arrays - The Implicit Intersection Operator "@"
+-------------------------------------------------------
+
+The Implicit Intersection Operator, "@", is used by Excel 365 to indicate a
+position in a formula that is implicitly returning a single value when a range
+or an array could be returned.
+
+We can see how this operator works in practice by considering the formula we
+used in the last section: ``=LEN(A1:A3)``. In Excel versions without support
+for dynamic arrays, i.e. prior to Excel 365, this formula would operate on a
+single value from the input range and return a single value, like this:
+
+.. image:: _images/intersection01.png
+
+There is an implicit conversion here of the range of input values, "A1:A3", to
+a single value "A1". Since this was the default behavior of older versions of
+Excel this conversion isn't highlighted in any way. But if you open the same
+file in Excel 365 it will appear as follows:
+
+.. image:: _images/intersection02.png
+
+The result of the formula is the same (this is important to note) and it still
+operates on, and returns, a single value. However the formula now contains a
+"@" operator to show that it is implicitly using a single value from the given
+range.
+
+Finally, if you entered this formula in Excel 365, or with
+:func:`write_dynamic_array_formula` in XlsxWriter, it would operate on the
+entire range and return an array of values:
+
+.. image:: _images/intersection03.png
+
+If you are encountering the Implicit Intersection Operator "@" for the first
+time then it is probably from a point of view of "why is Excel/XlsxWriter
+putting @s in my formulas". In practical terms if you encounter this operator,
+and you don't intend it to be there, then you should probably write the
+formula as a CSE or dynamic array function using :func:`write_array_formula`
+or :func:`write_dynamic_array_formula` (see the previous section on
+:ref:`formula_dynamic_arrays`).
+
+A full explanation of this operator is shown in the Microsoft documentation on
+the `Implicit intersection operator: @
+<https://support.microsoft.com/en-us/office/implicit-intersection-operator-ce3be07b-0101-4450-a24e-c1c999be2b34?ui=en-us&rs=en-us&ad=us>`_.
+
+One important thing to note is that the "@" operator isn't stored with the
+formula. It is just displayed by Excel 365 when reading "legacy"
+formulas. However, it is possible to write it to a formula, if necessary,
+using ``SINGLE()`` or ``_xlfn.SINGLE()``. The unusual cases where this may be
+necessary are shown in the linked document in the previous paragraph.
+
+.. _formula_spill_operator:
+
+Dynamic Arrays - The Spilled Range Operator "#"
+-----------------------------------------------
+
+In the section above on :ref:`formula_dynamic_arrays` we saw that dynamic
+array formulas can return variable sized ranges of results. The Excel
+documentation refers to this as a "Spilled" range/array from the idea that the
+results spill into the required number of cells. This is explained in the
+Microsoft documentation on `Dynamic array formulas and spilled array behavior
+<https://support.microsoft.com/en-us/office/dynamic-array-formulas-and-spilled-array-behavior-205c6b06-03ba-4151-89a1-87a7eb36e531>`_.
+
+Since a spilled range is variable in size a new operator is required to refer
+to the range. This operator is the `Spilled range operator
+<https://support.microsoft.com/en-us/office/spilled-range-operator-3dd5899f-bca2-4b9d-a172-3eae9ac22efd>`_
+and it is represented by "#". For example, the range ``F2#`` in the image
+below is used to refer to a dynamic array returned by ``UNIQUE()`` in the cell
+``F2``. This example is taken from the XlsxWriter program :ref:`ex_dynamic_arrays`.
+
+.. image:: _images/spill01.png
+
+Unfortunately, Excel doesn't store the formula like this and in XlsxWriter you
+need to use the explicit function ``ANCHORARRAY()`` to refer to a spilled
+range. The example in the image above was generated using the following::
+
+    worksheet9.write('J2', '=COUNTA(ANCHORARRAY(F2))')  # Same as '=COUNTA(F2#)' in Excel.
+
+
+.. _formula_lambda:
+
+The Excel 365 LAMBDA() function
+-------------------------------
+
+**Note: at the time of writing the LAMBDA() function in Excel is only
+available to Excel 365 users subscribed to the Beta Channel updates.**
+
+Beta Channel versions of Excel 365 have introduced a powerful new
+function/feature called ``LAMBDA()``. This is similar to the `lambda
+<https://docs.python.org/3/howto/functional.html#small-functions-and-the-lambda-expression>`_
+function in Python (and other languages).
+
+Consider the following Excel example which converts the variable ``temp`` from Fahrenheit to Celsius::
+
+    LAMBDA(temp, (5/9) * (temp-32))
+
+This could be called in Excel with an argument::
+
+    =LAMBDA(temp, (5/9) * (temp-32))(212)
+
+Or assigned to a defined name and called as a user defined function::
+
+    =ToCelsius(212)
+
+This is similar to this example in Python::
+
+    >>> to_celsius = lambda temp: (5.0/9.0) * (temp-32)
+    >>> to_celsius(212)
+    100.0
+
+A XlsxWriter program that replicates the Excel is shown in :ref:`ex_lambda`.
+
+The formula is written as follows::
+
+    worksheet.write('A2', '=LAMBDA(_xlpm.temp, (5/9) * (_xlpm.temp-32))(32)')
+
+Note, that the parameters in the ``LAMBDA()`` function must have a "_xlpm."
+prefix for compatibility with how the formulas are stored in Excel. These
+prefixes won't show up in the formula, as shown in the image.
+
+.. image:: _images/lambda01.png
+
+The ``LET()`` function is often used in conjunction with ``LAMBDA()`` to assign
+names to calculation results.
+
+
 .. _formula_future:
 
 Formulas added in Excel 2010 and later
@@ -54,9 +245,29 @@ below. For example::
 
     worksheet.write_formula('A1', '=_xlfn.STDEV.S(B1:B10)')
 
-They will appear without the prefix in Excel:
+These functions will appear without the prefix in Excel:
 
 .. image:: _images/working_with_formulas2.png
+
+Alternatively, you can enable the ``use_future_functions`` option in the
+:func:`Workbook` constructor, which will add the prefix as required::
+
+    workbook = Workbook('write_formula.xlsx', {'use_future_functions': True})
+
+    # ...
+
+    worksheet.write_formula('A1', '=STDEV.S(B1:B10)')
+
+If the formula already contains a ``_xlfn.`` prefix, on any function, then the
+formula will be ignored and won't be expanded any further.
+
+.. Note::
+
+   Enabling the `use_future_functions` option adds an overhead to all formula
+   processing in XlsxWriter. If your application has a lot of formulas or is
+   performance sensitive then it is best to use the explicit ``_xlfn.`` prefix
+   instead.
+
 
 The following list is taken from
 `MS XLSX extensions documentation on future functions <http://msdn.microsoft.com/en-us/library/dd907480%28v=office.12%29.aspx>`_.
@@ -185,6 +396,28 @@ The following list is taken from
 * ``_xlfn.XOR``
 * ``_xlfn.Z.TEST``
 
+The dynamic array functions shown in the :ref:`formula_dynamic_arrays` section
+above are also future functions:
+
+* ``_xlfn.UNIQUE``
+* ``_xlfn.XMATCH``
+* ``_xlfn.XLOOKUP``
+* ``_xlfn.SORTBY``
+* ``_xlfn._xlws.SORT``
+* ``_xlfn._xlws.FILTER``
+* ``_xlfn.RANDARRAY``
+* ``_xlfn.SEQUENCE``
+* ``_xlfn.ANCHORARRAY``
+* ``_xlfn.SINGLE``
+* ``_xlfn.LAMBDA``
+
+However, since these functions are part of a powerful new feature in Excel,
+and likely to be very important to end users, they are converted automatically
+from their shorter version to the explicit future function version by
+XlsxWriter, even without the ``use_future_function`` option. If you need to
+override the automatic conversion you can use the explicit versions with the
+prefixes shown above.
+
 .. _formula_tables:
 
 Using Tables in Formulas
@@ -234,9 +467,11 @@ follows:
    listed above (:ref:`formula_future`). If it does then ensure that the
    correct prefix is used.
 
-#. If the function loads in Excel without calculating and appears with one or
-   more ``@`` symbols added then it is probably an array function and should
-   be written using :func:`write_array_formula`.
+#. If the function loads in Excel but appears with one or more ``@`` symbols
+   added then it is probably an array function and should be written using
+   :func:`write_array_formula` or :func:`write_dynamic_array_formula` (see the
+   sections above on :ref:`formula_dynamic_arrays` and
+   :ref:`formula_intersection_operator`).
 
 Finally if you have completed all the previous steps and still get a
 ``#NAME?`` error you can examine a valid Excel file to see what the correct

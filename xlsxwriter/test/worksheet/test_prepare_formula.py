@@ -29,9 +29,11 @@ class TestCalculateSpans(unittest.TestCase):
             ['{=foo()}', 'foo()'],
 
             # Dynamic functions.
+            ['LET()', '_xlfn.LET()'],
             ['SEQUENCE(10)', '_xlfn.SEQUENCE(10)'],
             ['UNIQUES(A1:A10)', 'UNIQUES(A1:A10)'],
             ['UUNIQUE(A1:A10)', 'UUNIQUE(A1:A10)'],
+            ['SINGLE(A1:A3)', '_xlfn.SINGLE(A1:A3)'],
             ['UNIQUE(A1:A10)', '_xlfn.UNIQUE(A1:A10)'],
             ['_xlfn.SEQUENCE(10)', '_xlfn.SEQUENCE(10)'],
             ['SORT(A1:A10)', '_xlfn._xlws.SORT(A1:A10)'],

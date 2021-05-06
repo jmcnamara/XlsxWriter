@@ -98,6 +98,14 @@ The constructor options are:
 
       workbook = xlsxwriter.Workbook(filename, {'strings_to_urls': False})
 
+* **use_future_functions**: Enable the use of newer Excel "future" functions
+  without having to prefix them with with ``_xlfn.``. The default is
+  ``False``. To enable this option use::
+
+      workbook = xlsxwriter.Workbook(filename, {'use_future_functions': True})
+
+  See also :ref:`formula_future`.
+
 * **max_url_length**: Set the maximum length for hyperlinks in worksheets. The
   default is 2079 and the minimum is 255. Versions of Excel prior to Excel
   2015 limited hyperlink links and anchor/locations to 255 characters

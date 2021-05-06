@@ -54,7 +54,7 @@ class TestCompareXLSXFiles(ExcelComparisonTest):
 
         worksheet = workbook.add_worksheet()
 
-        worksheet.write_da_formula('B1', '=_xlfn.UNIQUE(A1)', None, 0)
+        worksheet.write('B1', '=_xlfn.UNIQUE(A1)', None, 0)
         worksheet.write('A1', 0)
 
         workbook.close()
@@ -83,6 +83,34 @@ class TestCompareXLSXFiles(ExcelComparisonTest):
         worksheet = workbook.add_worksheet()
 
         worksheet.write_formula('B1', '=UNIQUE(A1)', None, 0)
+        worksheet.write('A1', 0)
+
+        workbook.close()
+
+        self.assertExcelEqual()
+
+    def test_dynamic_array02_6(self):
+        """Test the creation of a simple XlsxWriter file."""
+
+        workbook = Workbook(self.got_filename)
+
+        worksheet = workbook.add_worksheet()
+
+        worksheet.write('B1', '=UNIQUE(A1)', None, 0)
+        worksheet.write('A1', 0)
+
+        workbook.close()
+
+        self.assertExcelEqual()
+
+    def test_dynamic_array02_7(self):
+        """Test the creation of a simple XlsxWriter file."""
+
+        workbook = Workbook(self.got_filename)
+
+        worksheet = workbook.add_worksheet()
+
+        worksheet.write_array_formula('B1', '=UNIQUE(A1)', None, 0)
         worksheet.write('A1', 0)
 
         workbook.close()
