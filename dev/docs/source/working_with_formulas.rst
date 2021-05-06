@@ -37,6 +37,54 @@ If you have a non-English version of Excel you can use the following
 multi-lingual `formula translator <https://en.excel-translator.de/language/>`_
 to help you convert the formula. It can also replace semi-colons with commas.
 
+.. _formula_result:
+
+Formula Results
+---------------
+
+XlsxWriter doesn't calculate the result of a formula and instead stores the
+value 0 as the formula result. It then sets a global flag in the XLSX file to
+say that all formulas and functions should be recalculated when the file is
+opened.
+
+This is the method recommended in the Excel documentation and in general it
+works fine with spreadsheet applications. However, applications that don't
+have a facility to calculate formulas will only display the 0
+results. Examples of such applications are Excel Viewer, PDF Converters, and
+some mobile device applications.
+
+If required, it is also possible to specify the calculated result of the
+formula using the optional ``value`` parameter for :func:`write_formula`::
+
+    worksheet.write_formula('A1', '=2+2', num_format, 4)
+
+The ``value`` parameter can be a number, a string, a bool or one of the
+following Excel error codes::
+
+    #DIV/0!
+    #N/A
+    #NAME?
+    #NULL!
+    #NUM!
+    #REF!
+    #VALUE!
+
+It is also possible to specify the calculated result of an array formula
+created with :func:`write_array_formula`::
+
+    # Specify the result for a single cell range.
+    worksheet.write_array_formula('A1:A1', '{=SUM(B1:C1*B2:C2)}', cell_format, 2005)
+
+However, using this parameter only writes a single value to the upper left
+cell in the result array. For a multi-cell array formula where the results are
+required, the other result values can be specified by using ``write_number()``
+to write to the appropriate cell::
+
+    # Specify the results for a multi cell range.
+    worksheet.write_array_formula('A1:A3', '{=TREND(C1:C3,B1:B3)}', cell_format, 15)
+    worksheet.write_number('A2', 12, cell_format)
+    worksheet.write_number('A3', 14, cell_format)
+
 
 .. _formula_dynamic_arrays:
 
@@ -487,50 +535,3 @@ The following shows how to do that using Linux ``unzip`` and `libxml's xmllint
             <f>SUM(1, 2, 3)</f>
 
 
-.. _formula_result:
-
-Formula Results
----------------
-
-XlsxWriter doesn't calculate the result of a formula and instead stores the
-value 0 as the formula result. It then sets a global flag in the XLSX file to
-say that all formulas and functions should be recalculated when the file is
-opened.
-
-This is the method recommended in the Excel documentation and in general it
-works fine with spreadsheet applications. However, applications that don't
-have a facility to calculate formulas will only display the 0
-results. Examples of such applications are Excel Viewer, PDF Converters, and
-some mobile device applications.
-
-If required, it is also possible to specify the calculated result of the
-formula using the optional ``value`` parameter for :func:`write_formula`::
-
-    worksheet.write_formula('A1', '=2+2', num_format, 4)
-
-The ``value`` parameter can be a number, a string, a bool or one of the
-following Excel error codes::
-
-    #DIV/0!
-    #N/A
-    #NAME?
-    #NULL!
-    #NUM!
-    #REF!
-    #VALUE!
-
-It is also possible to specify the calculated result of an array formula
-created with :func:`write_array_formula`::
-
-    # Specify the result for a single cell range.
-    worksheet.write_array_formula('A1:A1', '{=SUM(B1:C1*B2:C2)}', cell_format, 2005)
-
-However, using this parameter only writes a single value to the upper left
-cell in the result array. For a multi-cell array formula where the results are
-required, the other result values can be specified by using ``write_number()``
-to write to the appropriate cell::
-
-    # Specify the results for a multi cell range.
-    worksheet.write_array_formula('A1:A3', '{=TREND(C1:C3,B1:B3)}', cell_format, 15)
-    worksheet.write_number('A2', 12, cell_format)
-    worksheet.write_number('A3', 14, cell_format)
