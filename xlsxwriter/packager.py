@@ -535,6 +535,7 @@ class Packager(object):
 
             external_links = (worksheet.external_hyper_links +
                               worksheet.external_drawing_links +
+                              worksheet.external_background_picture_links +
                               worksheet.external_vml_links +
                               worksheet.external_table_links +
                               worksheet.external_comment_links)

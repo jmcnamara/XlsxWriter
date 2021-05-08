@@ -307,6 +307,7 @@ class Worksheet(xmlwriter.XMLwriter):
         self.hlink_refs = []
         self.external_hyper_links = []
         self.external_drawing_links = []
+        self.external_background_picture_links = []
         self.external_comment_links = []
         self.external_vml_links = []
         self.external_table_links = []
@@ -318,6 +319,7 @@ class Worksheet(xmlwriter.XMLwriter):
         self.sparklines = []
         self.shapes = []
         self.shape_hash = {}
+        self.background_picture = 0
         self.drawing = 0
         self.drawing_rels = {}
         self.drawing_rels_id = 0
@@ -1441,6 +1443,9 @@ class Worksheet(xmlwriter.XMLwriter):
         image_data = options.get('image_data', None)
         description = options.get('description', None)
         decorative = options.get('decorative', False)
+        set_background_picture = options.get('set_background_picture', False)
+        if set_background_picture:
+            self.background_picture += 1
 
         # For backward compatibility with older parameter name.
         anchor = options.get('positioning', anchor)
@@ -1451,7 +1456,7 @@ class Worksheet(xmlwriter.XMLwriter):
 
         self.images.append([row, col, filename, x_offset, y_offset,
                             x_scale, y_scale, url, tip, anchor, image_data,
-                            description, decorative])
+                            description, decorative, set_background_picture])
         return 0
 
     @convert_cell_args
@@ -4232,6 +4237,9 @@ class Worksheet(xmlwriter.XMLwriter):
         # Write the drawing element.
         self._write_drawings()
 
+        # Write the background picture element.
+        self._write_background_picture()
+
         # Write the legacyDrawing element.
         self._write_legacy_drawing()
 
@@ -4531,7 +4539,7 @@ class Worksheet(xmlwriter.XMLwriter):
         drawing_type = 2
         (row, col, _, x_offset, y_offset,
             x_scale, y_scale, url, tip, anchor, _,
-            description, decorative) = self.images[index]
+            description, decorative, set_background_picture) = self.images[index]
 
         width *= x_scale
         height *= y_scale
@@ -4545,6 +4553,12 @@ class Worksheet(xmlwriter.XMLwriter):
         # Convert from pixels to emus.
         width = int(0.5 + (width * 9525))
         height = int(0.5 + (height * 9525))
+        if set_background_picture:
+            self.external_background_picture_links.append([
+                '/image',
+                '../media/image' + str(image_id) + '.' + image_type
+            ])
+            return
 
         # Create a Drawing obj to use with worksheet unless one already exists.
         if not self.drawing:
@@ -6760,6 +6774,21 @@ class Worksheet(xmlwriter.XMLwriter):
         attributes = [('r:id', r_id)]
 
         self._xml_empty_tag('drawing', attributes)
+
+    def _write_background_picture(self):
+        # Write the <picture> element.
+
+        # TODO: 缺少判空退出的条件
+        if not self.background_picture:
+            return
+
+        self.rel_count += 1
+
+        r_id = 'rId' + str(self.rel_count)
+
+        attributes = [('r:id', r_id)]
+
+        self._xml_empty_tag('picture', attributes)
 
     def _write_legacy_drawing(self):
         # Write the <legacyDrawing> element.
