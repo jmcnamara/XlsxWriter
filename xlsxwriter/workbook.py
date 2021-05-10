@@ -1155,6 +1155,7 @@ class Workbook(xmlwriter.XMLwriter):
                 drawing_id += 1
                 has_drawing = True
 
+            set_background_picture = False
             # Prepare the worksheet images.
             for index in range(image_count):
                 filename = sheet.images[index][2]
@@ -1162,7 +1163,9 @@ class Workbook(xmlwriter.XMLwriter):
                 set_background_picture = sheet.images[index][13]
                 if set_background_picture:
                     has_drawing = False
-                    drawing_id -= 1
+                else:
+                    has_drawing = True
+
                 (image_type, width, height, name, x_dpi, y_dpi, digest) = \
                     self._get_image_properties(filename, image_data)
 
@@ -1176,6 +1179,9 @@ class Workbook(xmlwriter.XMLwriter):
 
                 sheet._prepare_image(index, ref_id, drawing_id, width, height,
                                      name, image_type, x_dpi, y_dpi, digest)
+
+            if set_background_picture and not has_drawing:
+                drawing_id -= 1
 
             # Prepare the worksheet charts.
             for index in range(chart_count):
