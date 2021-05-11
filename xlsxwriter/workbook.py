@@ -1160,8 +1160,13 @@ class Workbook(xmlwriter.XMLwriter):
 
             # Prepare the background images.
             if sheet.background_image:
-                filename = sheet.background_image
-                image_data = None
+                if sheet.background_bytes:
+                    filename = ''
+                    image_data = sheet.background_image
+                else:
+                    filename = sheet.background_image
+                    image_data = None
+
                 (image_type, width, height, name, x_dpi, y_dpi, digest) = \
                     self._get_image_properties(filename, image_data)
 

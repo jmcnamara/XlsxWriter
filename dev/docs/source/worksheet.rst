@@ -434,7 +434,7 @@ formula (see discussion of formulas and the ``value`` parameter for the
 ``write_formula()`` method above). However, using this parameter only writes a
 single value to the upper left cell in the result array. See
 :ref:`formula_result` for more details.
- 
+
  See also :ref:`ex_array_formula`.
 
 
@@ -2405,6 +2405,34 @@ The ``hide_zero()`` method is used to hide any zero values that appear in
 cells::
 
     worksheet.hide_zero()
+
+
+worksheet.set_background()
+--------------------------
+
+.. py:function:: set_background(filename [, is_byte_stream])
+
+   Set the background image for a worksheet.
+
+   :param str filename:        The image file (or byte stream).
+   :param bool is_byte_stream: The file is a stream of bytes.
+
+The ``set_background()`` method can be used to set the background image for the
+worksheet::
+
+    worksheet.set_background('logo.png')
+
+.. image:: _images/background01.png
+
+The ``set_background()`` method supports all the image formats supported by
+:func:`insert_image`.
+
+It is also possible to pass an in-memory byte stream in :class:`io.BytesIO`
+format if the ``is_byte_stream`` parameter is set to True::
+
+    worksheet.set_background(io_bytes, is_byte_stream=True)
+
+See :ref:`ex_background` for more details.
 
 
 worksheet.set_tab_color()

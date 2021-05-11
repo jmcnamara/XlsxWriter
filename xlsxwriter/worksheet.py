@@ -325,6 +325,7 @@ class Worksheet(xmlwriter.XMLwriter):
         self.vml_drawing_rels = {}
         self.vml_drawing_rels_id = 0
         self.background_image = None
+        self.background_bytes = False
 
         self.rstring = ''
         self.previous_row = 0
@@ -1603,22 +1604,23 @@ class Worksheet(xmlwriter.XMLwriter):
         """
         self.comments_visible = 1
 
-    def set_background(self, filename):
+    def set_background(self, filename, is_byte_stream=False):
         """
         Set a background image for a worksheet.
 
         Args:
-            filename: Path and filename for in supported formats.
-
+            filename:       Path and filename for in supported formats.
+            is_byte_stream: File is a stream of bytes.
         Returns:
             Nothing.
 
         """
 
-        if not os.path.exists(filename):
+        if not is_byte_stream and not os.path.exists(filename):
             warn("Image file '%s' not found." % force_unicode(filename))
             return -1
 
+        self.background_bytes = is_byte_stream
         self.background_image = filename
 
     def set_comments_author(self, author):
