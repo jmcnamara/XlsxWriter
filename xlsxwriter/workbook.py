@@ -1136,6 +1136,7 @@ class Workbook(xmlwriter.XMLwriter):
         drawing_id = 0
         image_ids = {}
         header_image_ids = {}
+        background_ids = {}
 
         for sheet in self.worksheets():
             chart_count = len(sheet.charts)
@@ -1144,16 +1145,35 @@ class Workbook(xmlwriter.XMLwriter):
 
             header_image_count = len(sheet.header_images)
             footer_image_count = len(sheet.footer_images)
+            has_background = sheet.background_image
             has_drawing = False
 
             if not (chart_count or image_count or shape_count
-                    or header_image_count or footer_image_count):
+                    or header_image_count or footer_image_count
+                    or has_background):
                 continue
 
             # Don't increase the drawing_id header/footer images.
             if chart_count or image_count or shape_count:
                 drawing_id += 1
                 has_drawing = True
+
+            # Prepare the background images.
+            if sheet.background_image:
+                filename = sheet.background_image
+                image_data = None
+                (image_type, width, height, name, x_dpi, y_dpi, digest) = \
+                    self._get_image_properties(filename, image_data)
+
+                if digest in background_ids:
+                    ref_id = background_ids[digest]
+                else:
+                    image_ref_id += 1
+                    ref_id = image_ref_id
+                    background_ids[digest] = image_ref_id
+                    self.images.append([filename, image_type, image_data])
+
+                sheet._prepare_background(ref_id, image_type)
 
             # Prepare the worksheet images.
             for index in range(image_count):

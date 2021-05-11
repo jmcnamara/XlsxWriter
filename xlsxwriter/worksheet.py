@@ -310,6 +310,7 @@ class Worksheet(xmlwriter.XMLwriter):
         self.external_comment_links = []
         self.external_vml_links = []
         self.external_table_links = []
+        self.external_background_links = []
         self.drawing_links = []
         self.vml_drawing_links = []
         self.charts = []
@@ -323,6 +324,7 @@ class Worksheet(xmlwriter.XMLwriter):
         self.drawing_rels_id = 0
         self.vml_drawing_rels = {}
         self.vml_drawing_rels_id = 0
+        self.background_image = None
 
         self.rstring = ''
         self.previous_row = 0
@@ -1415,7 +1417,7 @@ class Worksheet(xmlwriter.XMLwriter):
         Args:
             row:      The cell row (zero indexed).
             col:      The cell column (zero indexed).
-            filename: Path and filename for image in PNG, JPG or BMP format.
+            filename: Path and filename for in supported formats.
             options:  Position, scale, url and data stream of the image.
 
         Returns:
@@ -1600,6 +1602,24 @@ class Worksheet(xmlwriter.XMLwriter):
 
         """
         self.comments_visible = 1
+
+    def set_background(self, filename):
+        """
+        Set a background image for a worksheet.
+
+        Args:
+            filename: Path and filename for in supported formats.
+
+        Returns:
+            Nothing.
+
+        """
+
+        if not os.path.exists(filename):
+            warn("Image file '%s' not found." % force_unicode(filename))
+            return -1
+
+        self.background_image = filename
 
     def set_comments_author(self, author):
         """
@@ -4238,6 +4258,9 @@ class Worksheet(xmlwriter.XMLwriter):
         # Write the legacyDrawingHF element.
         self._write_legacy_drawing_hf()
 
+        # Write the picture element, for the background.
+        self._write_picture()
+
         # Write the tableParts element.
         self._write_table_parts()
 
@@ -4724,6 +4747,13 @@ class Worksheet(xmlwriter.XMLwriter):
 
         self.header_images_list.append([width, height, name, position,
                                         x_dpi, y_dpi, ref_id])
+
+    def _prepare_background(self, image_id, image_type):
+        # Set up an image without a drawing object for backgrounds.
+        self.external_background_links.append(['/image',
+                                               '../media/image'
+                                               + str(image_id) + '.'
+                                               + image_type])
 
     def _prepare_chart(self, index, chart_id, drawing_id):
         # Set up chart/drawings.
@@ -6786,6 +6816,19 @@ class Worksheet(xmlwriter.XMLwriter):
         attributes = [('r:id', r_id)]
 
         self._xml_empty_tag('legacyDrawingHF', attributes)
+
+    def _write_picture(self):
+        # Write the <picture> element.
+        if not self.background_image:
+            return
+
+        # Increment the relationship id.
+        self.rel_count += 1
+        r_id = 'rId' + str(self.rel_count)
+
+        attributes = [('r:id', r_id)]
+
+        self._xml_empty_tag('picture', attributes)
 
     def _write_data_validations(self):
         # Write the <dataValidations> element.
