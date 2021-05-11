@@ -244,7 +244,7 @@ As shown in the the first section above, the worksheet :func:`write` method
 maps the main Python data types to Excel's data types. If you want to write an
 unsupported type then you can either avoid ``write()`` and map the user type
 in your code to one of the more specific write methods or you can extend it
-using the :func:`add_write_handler` method. This can occasionally be more
+using the :func:`add_write_handler` method. This can be, occasionally, more
 convenient then adding a lot of if/else logic to your code.
 
 As an example, say you wanted to modify ``write()`` to automatically write
@@ -284,7 +284,7 @@ How the write handler feature works
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 The :func:`write` method is mainly a large ``if()`` statement that checks the
-``type()`` of the input value and call the appropriate worksheet method to
+``type()`` of the input value and calls the appropriate worksheet method to
 write the data. The :func:`add_write_handler` method works by injecting
 additional type checks and associated actions into this ``if()`` statement.
 
