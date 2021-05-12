@@ -2427,12 +2427,23 @@ worksheet::
 The ``set_background()`` method supports all the image formats supported by
 :func:`insert_image`.
 
-It is also possible to pass an in-memory byte stream in :class:`io.BytesIO`
-format if the ``is_byte_stream`` parameter is set to True::
+Some people use this method to add a watermark background to their
+document. However, Microsoft recommends using a header image `to set a
+watermark
+<https://support.microsoft.com/en-us/office/add-a-watermark-in-excel-a372182a-d733-484e-825c-18ddf3edf009>`_.
+The choice of method depends on whether you want the watermark to be visible
+in normal viewing mode or just when the file is printed. In XlsxWriter you can
+get the header watermark effect using :func:`set_header`::
+
+    worksheet.set_header('&C&G', {'image_center': 'watermark.png'})
+
+It is also possible to pass an in-memory byte stream to ``set_background()``
+if the ``is_byte_stream`` parameter is set to True. The stream should be
+:class:`io.BytesIO`::
 
     worksheet.set_background(io_bytes, is_byte_stream=True)
 
-See :ref:`ex_background` for more details.
+See :ref:`ex_background` for an example.
 
 
 worksheet.set_tab_color()
