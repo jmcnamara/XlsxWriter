@@ -1,8 +1,13 @@
 
-**Deprecation Notice**: Python 2.7 reached the end of its life on January 1st,
-2020 and is no longer being supported in the community. XlsxWriter support for
-Python 2.7 will end by mid-year 2021 (probably in July 2021). No new features
-or fixes for Python 2.7 will be added to XlsxWriter after that date/release.
+**Deprecation Notice**: XlsxWriter support for Python 2.7 will be dropped
+after July 2021.
+
+
+Release 1.4.3 - May 12 2021
+---------------------------
+
+* Added support for background images in worksheets. See
+  :func:`set_background` and :ref:`ex_background`.
 
 
 Release 1.4.2 - May 7 2021
