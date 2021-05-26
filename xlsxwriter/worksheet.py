@@ -39,8 +39,36 @@ from .utility import xl_color
 from .utility import get_sparkline_style
 from .utility import supported_datetime
 from .utility import datetime_to_excel_datetime
+from .utility import preserve_whitespace
 from .utility import quote_sheetname
 from .exceptions import DuplicateTableName
+
+# Compile performance critical regular expressions.
+if sys.version_info[0] == 2:
+    non_char1 = unichr(0xFFFE)
+    non_char2 = unichr(0xFFFF)
+else:
+    non_char1 = "\uFFFE"
+    non_char2 = "\uFFFF"
+
+re_FFFE = re.compile(non_char1)
+re_FFFF = re.compile(non_char2)
+re_control_chars_1 = re.compile('(_x[0-9a-fA-F]{4}_)')
+re_control_chars_2 = re.compile(r'([\x00-\x08\x0b-\x1f])')
+
+re_dynamic_function = re.compile(r"""
+    \bSORT\(       |
+    \bLET\(        |
+    \bLAMBDA\(     |
+    \bSINGLE\(     |
+    \bSORTBY\(     |
+    \bUNIQUE\(     |
+    \bXMATCH\(     |
+    \bFILTER\(     |
+    \bXLOOKUP\(    |
+    \bSEQUENCE\(   |
+    \bRANDARRAY\(  |
+    \bANCHORARRAY\(""", re.VERBOSE)
 
 
 ###############################################################################
@@ -678,18 +706,7 @@ class Worksheet(xmlwriter.XMLwriter):
             return -1
 
         # Check for dynamic array functions.
-        if (re.search(r'\bSORT\(', formula) or
-                re.search(r'\bLET\(', formula) or
-                re.search(r'\bLAMBDA\(', formula) or
-                re.search(r'\bSINGLE\(', formula) or
-                re.search(r'\bSORTBY\(', formula) or
-                re.search(r'\bUNIQUE\(', formula) or
-                re.search(r'\bXMATCH\(', formula) or
-                re.search(r'\bFILTER\(', formula) or
-                re.search(r'\bXLOOKUP\(', formula) or
-                re.search(r'\bSEQUENCE\(', formula) or
-                re.search(r'\bRANDARRAY\(', formula) or
-                re.search(r'\bANCHORARRAY\(', formula)):
+        if (re.search(re_dynamic_function, formula)):
             return self.write_dynamic_array_formula(row, col, row, col,
                                                     formula, cell_format,
                                                     value)
@@ -732,18 +749,7 @@ class Worksheet(xmlwriter.XMLwriter):
 
         """
         # Check for dynamic array functions.
-        if (re.search(r'\bSORT\(', formula) or
-                re.search(r'\bLET\(', formula) or
-                re.search(r'\bLAMBDA\(', formula) or
-                re.search(r'\bSINGLE\(', formula) or
-                re.search(r'\bSORTBY\(', formula) or
-                re.search(r'\bUNIQUE\(', formula) or
-                re.search(r'\bXMATCH\(', formula) or
-                re.search(r'\bFILTER\(', formula) or
-                re.search(r'\bXLOOKUP\(', formula) or
-                re.search(r'\bSEQUENCE\(', formula) or
-                re.search(r'\bRANDARRAY\(', formula) or
-                re.search(r'\bANCHORARRAY\(', formula)):
+        if (re.search(re_dynamic_function, formula)):
             return self.write_dynamic_array_formula(first_row, first_col,
                                                     last_row, last_col,
                                                     formula, cell_format,
@@ -1319,7 +1325,7 @@ class Worksheet(xmlwriter.XMLwriter):
                 # Write the string fragment part, with whitespace handling.
                 attributes = []
 
-                if re.search(r'^\s', token) or re.search(r'\s$', token):
+                if preserve_whitespace(token):
                     attributes.append(('xml:space', 'preserve'))
 
                 self.rstring._xml_data_element('t', token, attributes)
@@ -6229,31 +6235,20 @@ class Worksheet(xmlwriter.XMLwriter):
                 # Write an optimized in-line string.
 
                 # Escape control characters. See SharedString.pm for details.
-                string = re.sub('(_x[0-9a-fA-F]{4}_)', r'_x005F\1', string)
-                string = re.sub(r'([\x00-\x08\x0B-\x1F])',
-                                lambda match: "_x%04X_" %
-                                ord(match.group(1)), string)
+                string = re_control_chars_1.sub(r'_x005F\1', string)
+                string = re_control_chars_2.sub(lambda match: "_x%04X_" %
+                                                ord(match.group(1)), string)
 
-                # Escape non characters.
-                if sys.version_info[0] == 2:
-                    non_char1 = unichr(0xFFFE)
-                    non_char2 = unichr(0xFFFF)
-                else:
-                    non_char1 = "\uFFFE"
-                    non_char2 = "\uFFFF"
-
-                string = re.sub(non_char1, '_xFFFE_', string)
-                string = re.sub(non_char2, '_xFFFF_', string)
+                # Escapes non characters in strings.
+                string = re_FFFE.sub('_xFFFE_', string)
+                string = re_FFFF.sub('_xFFFF_', string)
 
                 # Write any rich strings without further tags.
-                if re.search('^<r>', string) and re.search('</r>$', string):
+                if string.startswith('<r>') and string.endswith('</r>'):
                     self._xml_rich_inline_string(string, attributes)
                 else:
                     # Add attribute to preserve leading or trailing whitespace.
-                    preserve = 0
-                    if re.search(r'^\s', string) or re.search(r'\s$', string):
-                        preserve = 1
-
+                    preserve = preserve_whitespace(string)
                     self._xml_inline_string(string, preserve, attributes)
 
         elif type_cell_name == 'Formula':

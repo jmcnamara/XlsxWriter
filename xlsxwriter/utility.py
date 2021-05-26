@@ -9,7 +9,11 @@ import datetime
 from warnings import warn
 
 COL_NAMES = {}
-range_parts = re.compile(r'(\$?)([A-Z]{1,3})(\$?)(\d+)')
+
+# Compile performance critical regular expressions.
+re_leading = re.compile(r'^\s')
+re_trailing = re.compile(r'\s$')
+re_range_parts = re.compile(r'(\$?)([A-Z]{1,3})(\$?)(\d+)')
 
 
 def xl_rowcol_to_cell(row, col, row_abs=False, col_abs=False):
@@ -117,7 +121,7 @@ def xl_cell_to_rowcol(cell_str):
     if not cell_str:
         return 0, 0
 
-    match = range_parts.match(cell_str)
+    match = re_range_parts.match(cell_str)
     col_str = match.group(2)
     row_str = match.group(4)
 
@@ -150,7 +154,7 @@ def xl_cell_to_rowcol_abs(cell_str):
     if not cell_str:
         return 0, 0, False, False
 
-    match = range_parts.match(cell_str)
+    match = re_range_parts.match(cell_str)
 
     col_abs = match.group(1)
     col_str = match.group(2)
@@ -702,3 +706,12 @@ def datetime_to_excel_datetime(dt_obj, date_1904, remove_timezone):
         excel_time += 1
 
     return excel_time
+
+
+def preserve_whitespace(string):
+    # Check if a string has leading or trailing whitespace that requires a
+    # "preserve" attribute.
+    if (re_leading.search(string) or re_trailing.search(string)):
+        return True
+    else:
+        return False

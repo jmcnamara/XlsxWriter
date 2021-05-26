@@ -11,6 +11,20 @@ import sys
 
 # Package imports.
 from . import xmlwriter
+from .utility import preserve_whitespace
+
+# Compile performance critical regular expressions.
+if sys.version_info[0] == 2:
+    non_char1 = unichr(0xFFFE)
+    non_char2 = unichr(0xFFFF)
+else:
+    non_char1 = "\uFFFE"
+    non_char2 = "\uFFFF"
+
+re_FFFE = re.compile(non_char1)
+re_FFFF = re.compile(non_char2)
+re_control_chars_1 = re.compile('(_x[0-9a-fA-F]{4}_)')
+re_control_chars_2 = re.compile(r'([\x00-\x08\x0b-\x1f])')
 
 
 class SharedStrings(xmlwriter.XMLwriter):
@@ -93,30 +107,22 @@ class SharedStrings(xmlwriter.XMLwriter):
         # The following substitutions deal with those cases.
 
         # Escape the escape.
-        string = re.sub('(_x[0-9a-fA-F]{4}_)', r'_x005F\1', string)
+        string = re_control_chars_1.sub(r'_x005F\1', string)
 
         # Convert control character to the _xHHHH_ escape.
-        string = re.sub(r'([\x00-\x08\x0B-\x1F])',
-                        lambda match: "_x%04X_" %
-                        ord(match.group(1)), string)
+        string = re_control_chars_2.sub(lambda match: "_x%04X_" %
+                                        ord(match.group(1)), string)
 
-        # Escape Unicode non-characters FFFE and FFFF.
-        if sys.version_info[0] == 2:
-            non_char1 = unichr(0xFFFE)
-            non_char2 = unichr(0xFFFF)
-        else:
-            non_char1 = "\uFFFE"
-            non_char2 = "\uFFFF"
-
-        string = re.sub(non_char1, '_xFFFE_', string)
-        string = re.sub(non_char2, '_xFFFF_', string)
+        # Escapes non characters in strings.
+        string = re_FFFE.sub('_xFFFE_', string)
+        string = re_FFFF.sub('_xFFFF_', string)
 
         # Add attribute to preserve leading or trailing whitespace.
-        if re.search(r'^\s', string) or re.search(r'\s$', string):
+        if preserve_whitespace(string):
             attributes.append(('xml:space', 'preserve'))
 
         # Write any rich strings without further tags.
-        if re.search('^<r>', string) and re.search('</r>$', string):
+        if string.startswith('<r>') and string.endswith('</r>'):
             self._xml_rich_si_element(string)
         else:
             self._xml_si_element(string, attributes)

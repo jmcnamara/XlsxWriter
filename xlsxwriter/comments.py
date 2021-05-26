@@ -8,6 +8,7 @@
 import re
 
 from . import xmlwriter
+from .utility import preserve_whitespace
 from .utility import xl_rowcol_to_cell
 
 
@@ -161,7 +162,7 @@ class Comments(xmlwriter.XMLwriter):
         # Write the text <t> element.
         attributes = []
 
-        if re.search(r'^\s', text) or re.search(r'\s$', text):
+        if preserve_whitespace(text):
             attributes.append(('xml:space', 'preserve'))
 
         self._xml_data_element('t', text, attributes)
