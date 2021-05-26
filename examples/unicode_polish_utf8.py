@@ -8,11 +8,10 @@
 #
 # Copyright 2013-2021, John McNamara, jmcnamara@cpan.org
 #
-import codecs
 import xlsxwriter
 
 # Open the input file with the correct encoding.
-textfile = codecs.open('unicode_polish_utf8.txt', 'r', 'utf-8')
+textfile = open('unicode_polish_utf8.txt', mode='r', encoding='utf-8')
 
 # Create an new Excel file and convert the text data.
 workbook = xlsxwriter.Workbook('unicode_polish_utf8.xlsx')

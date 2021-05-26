@@ -6,7 +6,6 @@
 #
 
 # Standard packages.
-import codecs
 import sys
 
 # Standard packages in Python 2/3 compatibility mode.
@@ -54,7 +53,7 @@ class Theme(object):
             self.fh = filename
         else:
             self.internal_fh = True
-            self.fh = codecs.open(filename, 'w', 'utf-8')
+            self.fh = open(filename, mode='w', encoding='utf-8')
 
     ###########################################################################
     #

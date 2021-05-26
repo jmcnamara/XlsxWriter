@@ -8,11 +8,10 @@
 #
 # Copyright 2013-2021, John McNamara, jmcnamara@cpan.org
 #
-import codecs
 import xlsxwriter
 
 # Open the input file with the correct encoding.
-textfile = codecs.open('unicode_shift_jis.txt', 'r', 'shift_jis')
+textfile = open('unicode_shift_jis.txt', mode='r', encoding='shift_jis')
 
 # Create an new Excel file and convert the text data.
 workbook = xlsxwriter.Workbook('unicode_shift_jis.xlsx')
