@@ -6,7 +6,6 @@
 #
 
 # Standard packages.
-import codecs
 import datetime
 import os
 import re
@@ -4173,7 +4172,7 @@ class Worksheet(xmlwriter.XMLwriter):
             (fd, filename) = tempfile.mkstemp(dir=self.tmpdir)
             os.close(fd)
             self.row_data_filename = filename
-            self.row_data_fh = codecs.open(filename, 'w+', 'utf-8')
+            self.row_data_fh = open(filename, mode='w+', encoding='utf-8')
 
             # Set as the worksheet filehandle until the file is assembled.
             self.fh = self.row_data_fh
@@ -5553,7 +5552,7 @@ class Worksheet(xmlwriter.XMLwriter):
         # Reopen the row data filehandle in constant_memory mode.
         if self.row_data_fh_closed:
             filename = self.row_data_filename
-            self.row_data_fh = codecs.open(filename, 'a+', 'utf-8')
+            self.row_data_fh = open(filename, mode='a+', encoding='utf-8')
             self.row_data_fh_closed = False
             self.fh = self.row_data_fh
 

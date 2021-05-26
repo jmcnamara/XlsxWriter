@@ -6,7 +6,6 @@
 #
 
 from ..excel_comparison_test import ExcelComparisonTest
-import codecs
 from ...workbook import Workbook
 
 
@@ -25,7 +24,7 @@ class TestCompareXLSXFiles(ExcelComparisonTest):
         """Test example file converting Unicode text."""
 
         # Open the input file with the correct encoding.
-        textfile = codecs.open(self.txt_filename, 'r', 'shift_jis')
+        textfile = open(self.txt_filename, mode='r', encoding='shift_jis')
 
         # Create an new Excel file and convert the text data.
         workbook = Workbook(self.got_filename)

@@ -9,7 +9,6 @@
 
 # Standard packages.
 import re
-import codecs
 
 # Standard packages in Python 2/3 compatibility mode.
 from .compatibility import StringIO
@@ -38,7 +37,7 @@ class XMLwriter(object):
             self.fh = filename
         else:
             self.internal_fh = True
-            self.fh = codecs.open(filename, 'w', 'utf-8')
+            self.fh = open(filename, 'w', encoding='utf-8')
 
     def _xml_close(self):
         # Close the XML filehandle if we created it.
