@@ -706,7 +706,7 @@ class Worksheet(xmlwriter.XMLwriter):
             return -1
 
         # Check for dynamic array functions.
-        if (re.search(re_dynamic_function, formula)):
+        if (re_dynamic_function.search(formula)):
             return self.write_dynamic_array_formula(row, col, row, col,
                                                     formula, cell_format,
                                                     value)
@@ -749,7 +749,7 @@ class Worksheet(xmlwriter.XMLwriter):
 
         """
         # Check for dynamic array functions.
-        if (re.search(re_dynamic_function, formula)):
+        if (re_dynamic_function.search(formula)):
             return self.write_dynamic_array_formula(first_row, first_col,
                                                     last_row, last_col,
                                                     formula, cell_format,
