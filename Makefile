@@ -31,25 +31,15 @@ install:
 	@rm -rf build
 
 test:
-	@python -m unittest discover
+	@~/.pythonbrew/pythons/Python-3.9.0/bin/python -m unittest discover
 
 # Test with stable Python 2/3 releases.
 testpythons:
-	@echo "Testing with Python 2.7.4:"
-	@~/.pythonbrew/pythons/Python-2.7.4/bin/python -m unittest discover
-	@echo "Testing with Python 3.9.0:"
-	@~/.pythonbrew/pythons/Python-3.9.0/bin/python -m unittest discover
-
-# Test with all stable Python 2/3 releases.
-testpythonsall:
-	@echo "Testing with Python 2.7.4:"
-	@~/.pythonbrew/pythons/Python-2.7.4/bin/py.test -q
 	@echo "Testing with Python 3.4.1:"
 	@~/.pythonbrew/pythons/Python-3.4.1/bin/py.test -q
 	@echo "Testing with Python 3.5.0:"
 	@~/.pythonbrew/pythons/Python-3.5.0/bin/py.test -q
 	@echo "Testing with Python 3.6.6:"
-
 	@~/.pythonbrew/pythons/Python-3.6.6/bin/py.test -q
 	@echo "Testing with Python 3.7.0:"
 	@~/.pythonbrew/pythons/Python-3.7.0/bin/py.test -q
