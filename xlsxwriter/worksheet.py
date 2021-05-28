@@ -44,15 +44,6 @@ from .utility import quote_sheetname
 from .exceptions import DuplicateTableName
 
 # Compile performance critical regular expressions.
-if sys.version_info[0] == 2:
-    non_char1 = unichr(0xFFFE)
-    non_char2 = unichr(0xFFFF)
-else:
-    non_char1 = "\uFFFE"
-    non_char2 = "\uFFFF"
-
-re_FFFE = re.compile(non_char1)
-re_FFFF = re.compile(non_char2)
 re_control_chars_1 = re.compile('(_x[0-9a-fA-F]{4}_)')
 re_control_chars_2 = re.compile(r'([\x00-\x08\x0b-\x1f])')
 
@@ -4626,7 +4617,7 @@ class Worksheet(xmlwriter.XMLwriter):
                 if re.match(r'\w:', target) or re.match(r'\\', target):
                     target = 'file:///' + target
                 else:
-                    target = re.sub(r'\\', '/', target)
+                    target = target.replace('\\', '/')
 
             if re.match('internal:', url):
                 target = url.replace('internal:', '#')
@@ -5311,10 +5302,10 @@ class Worksheet(xmlwriter.XMLwriter):
         formula = ''
 
         # Escape special characters, as required by Excel.
-        col_name = re.sub(r"'", "''", col_name)
-        col_name = re.sub(r"#", "'#", col_name)
-        col_name = re.sub(r"]", "']", col_name)
-        col_name = re.sub(r"\[", "'[", col_name)
+        col_name = col_name.replace("'", "''")
+        col_name = col_name.replace("#", "'#")
+        col_name = col_name.replace("]", "']")
+        col_name = col_name.replace("[", "'[")
 
         subtotals = {
             'average': 101,
@@ -6240,8 +6231,12 @@ class Worksheet(xmlwriter.XMLwriter):
                                                 ord(match.group(1)), string)
 
                 # Escapes non characters in strings.
-                string = re_FFFE.sub('_xFFFE_', string)
-                string = re_FFFF.sub('_xFFFF_', string)
+                if sys.version_info[0] == 2:
+                    string = string.replace(unichr(0xFFFE), '_xFFFE_')
+                    string = string.replace(unichr(0xFFFF), '_xFFFF_')
+                else:
+                    string = string.replace('\uFFFE', '_xFFFE_')
+                    string = string.replace('\uFFFF', '_xFFFF_')
 
                 # Write any rich strings without further tags.
                 if string.startswith('<r>') and string.endswith('</r>'):

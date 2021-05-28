@@ -185,11 +185,11 @@ class XMLwriter(object):
         except TypeError:
             return attribute
 
-        attribute = re.sub('[&]', '&amp;', attribute)
-        attribute = re.sub('["]', '&quot;', attribute)
-        attribute = re.sub('[<]', '&lt;', attribute)
-        attribute = re.sub('[>]', '&gt;', attribute)
-        attribute = re.sub('[\n]', '&#xA;', attribute)
+        attribute = attribute.replace('&', '&amp;')
+        attribute = attribute.replace('"', '&quot;')
+        attribute = attribute.replace('<', '&lt;')
+        attribute = attribute.replace('>', '&gt;')
+        attribute = attribute.replace('\n', '&#xA;')
 
         return attribute
 
@@ -203,8 +203,8 @@ class XMLwriter(object):
         except TypeError:
             return data
 
-        data = re.sub('[&]', '&amp;', data)
-        data = re.sub('[<]', '&lt;', data)
-        data = re.sub('[>]', '&gt;', data)
+        data = data.replace('&', '&amp;')
+        data = data.replace('<', '&lt;')
+        data = data.replace('>', '&gt;')
 
         return data

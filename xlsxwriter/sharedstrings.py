@@ -14,15 +14,6 @@ from . import xmlwriter
 from .utility import preserve_whitespace
 
 # Compile performance critical regular expressions.
-if sys.version_info[0] == 2:
-    non_char1 = unichr(0xFFFE)
-    non_char2 = unichr(0xFFFF)
-else:
-    non_char1 = "\uFFFE"
-    non_char2 = "\uFFFF"
-
-re_FFFE = re.compile(non_char1)
-re_FFFF = re.compile(non_char2)
 re_control_chars_1 = re.compile('(_x[0-9a-fA-F]{4}_)')
 re_control_chars_2 = re.compile(r'([\x00-\x08\x0b-\x1f])')
 
@@ -114,8 +105,12 @@ class SharedStrings(xmlwriter.XMLwriter):
                                         ord(match.group(1)), string)
 
         # Escapes non characters in strings.
-        string = re_FFFE.sub('_xFFFE_', string)
-        string = re_FFFF.sub('_xFFFF_', string)
+        if sys.version_info[0] == 2:
+            string = string.replace(unichr(0xFFFE), '_xFFFE_')
+            string = string.replace(unichr(0xFFFF), '_xFFFF_')
+        else:
+            string = string.replace('\uFFFE', '_xFFFE_')
+            string = string.replace('\uFFFF', '_xFFFF_')
 
         # Add attribute to preserve leading or trailing whitespace.
         if preserve_whitespace(string):
