@@ -18,10 +18,9 @@ while True:
     try:
         workbook.close()
     except xlsxwriter.exceptions.FileCreateError as e:
-        # For Python 3 use input() instead of raw_input().
-        decision = raw_input("Exception caught in workbook.close(): %s\n"
-                             "Please close the file if it is open in Excel.\n"
-                             "Try to write file again? [Y/n]: " % e)
+        decision = input("Exception caught in workbook.close(): %s\n"
+                         "Please close the file if it is open in Excel.\n"
+                         "Try to write file again? [Y/n]: " % e)
         if decision != 'n':
             continue
 

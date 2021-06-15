@@ -1,12 +1,8 @@
 #######################################################################
-# _*_ coding: utf-8
 #
 # Example of how to use Python and the XlsxWriter module to change the default
 # worksheet and cell text direction from left-to-right to right-to-left as
 # required by some middle eastern versions of Excel.
-#
-# Note, this a Python2 unicode version. Remove the u'' to make this work with
-# Python3. See also the unicode_python3.py example.
 #
 # Copyright 2013-2021, John McNamara, jmcnamara@cpan.org
 #
@@ -32,13 +28,13 @@ worksheet2.right_to_left()
 # Write some data to show the difference.
 
 # Standard direction:         | A1 | B1 | C1 | ...
-worksheet1.write('A1', u'نص عربي / English text')  # Default direction.
-worksheet1.write('A2', u'نص عربي / English text', format_left_to_right)
-worksheet1.write('A3', u'نص عربي / English text', format_right_to_left)
+worksheet1.write('A1', 'نص عربي / English text')  # Default direction.
+worksheet1.write('A2', 'نص عربي / English text', format_left_to_right)
+worksheet1.write('A3', 'نص عربي / English text', format_right_to_left)
 
 # Right to left direction:    ... | C1 | B1 | A1 |
-worksheet2.write('A1', u'نص عربي / English text')  # Default direction.
-worksheet2.write('A2', u'نص عربي / English text', format_left_to_right)
-worksheet2.write('A3', u'نص عربي / English text', format_right_to_left)
+worksheet2.write('A1', 'نص عربي / English text')  # Default direction.
+worksheet2.write('A2', 'نص عربي / English text', format_left_to_right)
+worksheet2.write('A3', 'نص عربي / English text', format_right_to_left)
 
 workbook.close()

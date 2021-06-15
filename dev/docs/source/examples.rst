@@ -29,7 +29,6 @@ directory of the XlsxWriter distribution.
    example_right_to_left.rst
    example_django_simple.rst
    example_http_server.rst
-   example_http_server3.rst
    example_headers_footers.rst
    example_panes.rst
    example_tables.rst
@@ -45,8 +44,7 @@ directory of the XlsxWriter distribution.
    example_outline1.rst
    example_outline2.rst
    example_doc_properties.rst
-   example_unicode_python2.rst
-   example_unicode_python3.rst
+   example_unicode.rst
    example_unicode_polish_utf8.rst
    example_unicode_shift_jis.rst
    example_background.rst

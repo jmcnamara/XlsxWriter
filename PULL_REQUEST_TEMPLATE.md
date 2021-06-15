@@ -16,7 +16,7 @@ All patches and pull requests are welcome but must start with an issue tracker.
 
 ### Enabling Travis CI via your GitHub account
 
-Travis CI is a free Continuous Integration service that will test any code you push to GitHub with various versions of Python 2 and 3, and PyPy.
+Travis CI is a free Continuous Integration service that will test any code you push to GitHub with various versions of Python and PyPy.
 
 See the [Travis CI Getting Started](http://about.travis-ci.org/docs/user/getting-started/) instructions.
 
@@ -31,7 +31,7 @@ Use the existing tests in `XlsxWriter/xlsxwriter/test/` as examples.
 
 Ideally, new features should be accompanied by tests that compare XlsxWriter output against actual Excel 2007 files. See the `XlsxWriter/xlsxwriter/test/comparison` test files for examples. If you don't have access to Excel 2007 I can help you create input files for test cases.
 
-Tests should use the standard [unittest](http://docs.python.org/2/library/unittest.html) Python module.
+Tests should use the standard [unittest](http://docs.python.org/library/unittest.html) Python module.
 
 
 ### Code Style
@@ -47,7 +47,7 @@ There is a make target that will verify the source and test files using [pytestc
 
 ### Running tests
 
-As a minimum, tests should be run using Python 2.7 and Python 3.5.
+As a minimum, tests should be run using Python 3.5+.
 
 
     make test

@@ -230,17 +230,13 @@ parameter is optional but when present is should be a valid
 :ref:`Format <format>` object.
 
 Unicode strings are supported in UTF-8 encoding. This generally requires that
-your source file in also UTF-8 encoded::
+your source file is UTF-8 encoded::
 
-    # _*_ coding: utf-8
-    # Python 2 example.
-
-    worksheet.write('A1', u'Some UTF-8 text')
+  worksheet.write('A1', u'Some UTF-8 text')
 
 .. image:: _images/worksheet02.png
 
-See :ref:`ex_unicode_python2` and :ref:`ex_unicode_python3` for more complete
-examples.
+See :ref:`ex_unicode` for a more complete example.
 
 Alternatively, you can read data from an encoded file, convert it to UTF-8
 during reading and then write the data to an Excel file. See

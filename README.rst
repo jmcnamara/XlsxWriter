@@ -24,7 +24,7 @@ including:
 * Support for adding Macros.
 * Memory optimization mode for writing large files.
 
-It supports Python 2.7, 3.4+ and PyPy and uses standard libraries only.
+It supports Python 3.4+ and PyPy3 and uses standard libraries only.
 
 Here is a simple example:
 

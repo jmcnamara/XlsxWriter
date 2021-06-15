@@ -26,9 +26,7 @@ worksheet = workbook.add_worksheet()
 bold = workbook.add_format({'bold': True})
 worksheet.set_row(0, None, bold)
 
-# Add the write() handler/callback to the worksheet. In Python 2 the type
-# would be better as 'basestring' if we also wanted to match the 'unicode'
-# type.
+# Add the write() handler/callback to the worksheet.
 worksheet.add_write_handler(str, hide_password)
 
 # Create some data to write.
