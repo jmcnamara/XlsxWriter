@@ -1,11 +1,9 @@
 ###############################################################################
-# _*_ coding: utf-8
 #
 # Tests for XlsxWriter.
 #
 # Copyright (c), 2013-2021, John McNamara, jmcnamara@cpan.org
 #
-from __future__ import unicode_literals
 from ..excel_comparison_test import ExcelComparisonTest
 from ...workbook import Workbook
 
