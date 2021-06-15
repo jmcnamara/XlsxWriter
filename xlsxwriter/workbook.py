@@ -1348,25 +1348,20 @@ class Workbook(xmlwriter.XMLwriter):
         x_dpi = 96
         y_dpi = 96
 
-        # Look for numbers rather than strings for Python 2.6/3 compatibility.
-        marker_ihdr = 0x49484452  # IHDR
-        marker_phys = 0x70485973  # pHYs
-        marker_iend = 0x49454E44  # IEND
-
         # Search through the image data to read the height and width in the
         # IHDR element. Also read the DPI in the pHYs element.
         while not end_marker and offset < data_length:
 
             length = unpack('>I', data[offset + 0:offset + 4])[0]
-            marker = unpack('>I', data[offset + 4:offset + 8])[0]
+            marker = unpack('4s', data[offset + 4:offset + 8])[0]
 
             # Read the image dimensions.
-            if marker == marker_ihdr:
+            if marker == b'IHDR':
                 width = unpack('>I', data[offset + 8:offset + 12])[0]
                 height = unpack('>I', data[offset + 12:offset + 16])[0]
 
             # Read the image DPI.
-            if marker == marker_phys:
+            if marker == b'pHYs':
                 x_density = unpack('>I', data[offset + 8:offset + 12])[0]
                 y_density = unpack('>I', data[offset + 12:offset + 16])[0]
                 units = unpack('b', data[offset + 16:offset + 17])[0]
@@ -1375,7 +1370,7 @@ class Workbook(xmlwriter.XMLwriter):
                     x_dpi = x_density * 0.0254
                     y_dpi = y_density * 0.0254
 
-            if marker == marker_iend:
+            if marker == b'IEND':
                 end_marker = True
                 continue
 

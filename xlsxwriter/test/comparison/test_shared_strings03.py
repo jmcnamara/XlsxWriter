@@ -6,7 +6,6 @@
 #
 
 from ..excel_comparison_test import ExcelComparisonTest
-import sys
 from ...workbook import Workbook
 
 
@@ -27,12 +26,8 @@ class TestCompareXLSXFiles(ExcelComparisonTest):
 
         worksheet = workbook.add_worksheet()
 
-        if sys.version_info[0] == 2:
-            non_char1 = unichr(0xFFFE)
-            non_char2 = unichr(0xFFFF)
-        else:
-            non_char1 = "\uFFFE"
-            non_char2 = "\uFFFF"
+        non_char1 = "\uFFFE"
+        non_char2 = "\uFFFF"
 
         worksheet.write(0, 0, non_char1)
         worksheet.write(1, 0, non_char2)

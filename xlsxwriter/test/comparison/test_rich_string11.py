@@ -6,7 +6,6 @@
 #
 
 from ..excel_comparison_test import ExcelComparisonTest
-import sys
 from ...workbook import Workbook
 
 
@@ -31,9 +30,6 @@ class TestCompareXLSXFiles(ExcelComparisonTest):
         italic = workbook.add_format({'italic': 1})
 
         smiley = "\u263a"
-
-        if sys.version_info[0] == 2:
-            smiley = unichr(9786)
 
         worksheet.write('A1', 'Foo', bold)
         worksheet.write('A2', 'Bar', italic)

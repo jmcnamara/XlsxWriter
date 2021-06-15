@@ -6,7 +6,6 @@
 #
 
 import re
-import sys
 import os.path
 from zipfile import ZipFile
 from zipfile import BadZipfile
@@ -150,9 +149,8 @@ def _compare_xlsx_files(got_file, exp_file, ignore_files, ignore_elements):
                 return 'got: %s' % filename, 'exp: %s' % filename
             continue
 
-        if sys.version_info >= (3, 0, 0):
-            got_xml_str = got_xml_str.decode('utf-8')
-            exp_xml_str = exp_xml_str.decode('utf-8')
+        got_xml_str = got_xml_str.decode('utf-8')
+        exp_xml_str = exp_xml_str.decode('utf-8')
 
         # Remove dates and user specific data from the core.xml data.
         if filename == 'docProps/core.xml':

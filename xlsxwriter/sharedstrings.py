@@ -7,7 +7,6 @@
 
 # Standard packages.
 import re
-import sys
 
 # Package imports.
 from . import xmlwriter
@@ -105,12 +104,8 @@ class SharedStrings(xmlwriter.XMLwriter):
                                         ord(match.group(1)), string)
 
         # Escapes non characters in strings.
-        if sys.version_info[0] == 2:
-            string = string.replace(unichr(0xFFFE), '_xFFFE_')
-            string = string.replace(unichr(0xFFFF), '_xFFFF_')
-        else:
-            string = string.replace('\uFFFE', '_xFFFE_')
-            string = string.replace('\uFFFF', '_xFFFF_')
+        string = string.replace('\uFFFE', '_xFFFE_')
+        string = string.replace('\uFFFF', '_xFFFF_')
 
         # Add attribute to preserve leading or trailing whitespace.
         if preserve_whitespace(string):

@@ -9,7 +9,6 @@
 import datetime
 import os
 import re
-import sys
 import tempfile
 
 from collections import defaultdict
@@ -487,14 +486,6 @@ class Worksheet(xmlwriter.XMLwriter):
                           datetime.time,
                           datetime.timedelta):
             return self._write_datetime(row, col, *args)
-
-        if sys.version_info < (3, 0, 0):
-            if token_type is unicode:
-                try:
-                    return self._write_token_as_string(str(token),
-                                                       row, col, *args)
-                except (UnicodeEncodeError, NameError):
-                    pass
 
         # Resort to isinstance() for subclassed primitives.
 
@@ -6224,12 +6215,8 @@ class Worksheet(xmlwriter.XMLwriter):
                                                 ord(match.group(1)), string)
 
                 # Escapes non characters in strings.
-                if sys.version_info[0] == 2:
-                    string = string.replace(unichr(0xFFFE), '_xFFFE_')
-                    string = string.replace(unichr(0xFFFF), '_xFFFF_')
-                else:
-                    string = string.replace('\uFFFE', '_xFFFE_')
-                    string = string.replace('\uFFFF', '_xFFFF_')
+                string = string.replace('\uFFFE', '_xFFFE_')
+                string = string.replace('\uFFFF', '_xFFFF_')
 
                 # Write any rich strings without further tags.
                 if string.startswith('<r>') and string.endswith('</r>'):
