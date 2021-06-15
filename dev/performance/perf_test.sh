@@ -30,7 +30,7 @@ sleep 1; python perf_pyx.py 6400  0 1
 sleep 1; python perf_pyx.py 12800 0 1
 
 echo ""
-echo "Python and XlsxWriter in optimisation mode. Speed only."
+echo "Python and XlsxWriter in constant_memory mode. Speed only."
 echo "Rows, Columns, Time, Memory"
 sleep 1; python perf_pyx.py 200   1 0
 sleep 1; python perf_pyx.py 400   1 0
@@ -41,7 +41,7 @@ sleep 1; python perf_pyx.py 6400  1 0
 sleep 1; python perf_pyx.py 12800 1 0
 
 echo ""
-echo "Python and XlsxWriter in optimisation mode. Memory only."
+echo "Python and XlsxWriter in constant_memory mode. Memory only."
 echo "Rows, Columns, Time, Memory"
 sleep 1; python perf_pyx.py 200   1 1
 sleep 1; python perf_pyx.py 400   1 1
@@ -63,7 +63,7 @@ sleep 1; perl perf_ewx.pl 6400
 sleep 1; perl perf_ewx.pl 12800
 
 echo ""
-echo "Perl Excel::Writer::XLSX in optimisation mode"
+echo "Perl Excel::Writer::XLSX in constant_memory mode"
 echo "Rows, Columns, Time, Memory"
 sleep 1; perl perf_ewx.pl 200   1
 sleep 1; perl perf_ewx.pl 400   1
