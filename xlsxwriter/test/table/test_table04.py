@@ -6,7 +6,7 @@
 #
 
 import unittest
-from ...compatibility import StringIO
+from io import StringIO
 from ..helperfunctions import _xml_to_list
 from ...table import Table
 from ...worksheet import Worksheet

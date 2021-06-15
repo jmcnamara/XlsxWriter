@@ -14,14 +14,12 @@ import tempfile
 
 from collections import defaultdict
 from collections import namedtuple
-from math import isnan
+from decimal import Decimal
+from fractions import Fraction
+from io import StringIO
 from math import isinf
+from math import isnan
 from warnings import warn
-
-# Standard packages in Python 2/3 compatibility mode.
-from .compatibility import StringIO
-from .compatibility import force_unicode
-from .compatibility import num_types, str_types
 
 # Package imports.
 from . import xmlwriter
@@ -478,7 +476,7 @@ class Worksheet(xmlwriter.XMLwriter):
         if token_type is bool:
             return self._write_boolean(row, col, *args)
 
-        if token_type in num_types:
+        if token_type in (float, int, Decimal, Fraction):
             return self._write_number(row, col, *args)
 
         if token_type is str:
@@ -501,11 +499,11 @@ class Worksheet(xmlwriter.XMLwriter):
         # Resort to isinstance() for subclassed primitives.
 
         # Write number types.
-        if isinstance(token, num_types):
+        if isinstance(token, (float, int, Decimal, Fraction)):
             return self._write_number(row, col, *args)
 
         # Write string types.
-        if isinstance(token, str_types):
+        if isinstance(token, str):
             return self._write_token_as_string(token, row, col, *args)
 
         # Write boolean types.
@@ -1178,7 +1176,7 @@ class Worksheet(xmlwriter.XMLwriter):
         if len(url) > max_url or len(tmp_url_str) > max_url:
             warn("Ignoring URL '%s' with link or location/anchor > %d "
                  "characters since it exceeds Excel's limit for URLS" %
-                 (force_unicode(url), max_url))
+                 (url, max_url))
             return -3
 
         # Check the limit of URLS per worksheet.
@@ -1186,7 +1184,7 @@ class Worksheet(xmlwriter.XMLwriter):
 
         if self.hlink_count > 65530:
             warn("Ignoring URL '%s' since it exceeds Excel's limit of "
-                 "65,530 URLS per worksheet." % force_unicode(url))
+                 "65,530 URLS per worksheet." % url)
             return -4
 
         # Write previous row if in in-line string constant_memory mode.
@@ -1445,7 +1443,7 @@ class Worksheet(xmlwriter.XMLwriter):
         anchor = options.get('positioning', anchor)
 
         if not image_data and not os.path.exists(filename):
-            warn("Image file '%s' not found." % force_unicode(filename))
+            warn("Image file '%s' not found." % filename)
             return -1
 
         self.images.append([row, col, filename, x_offset, y_offset,
@@ -1613,7 +1611,7 @@ class Worksheet(xmlwriter.XMLwriter):
         """
 
         if not is_byte_stream and not os.path.exists(filename):
-            warn("Image file '%s' not found." % force_unicode(filename))
+            warn("Image file '%s' not found." % filename)
             return -1
 
         self.background_bytes = is_byte_stream
@@ -2289,27 +2287,27 @@ class Worksheet(xmlwriter.XMLwriter):
         # Check that the input title doesn't exceed the maximum length.
         if options.get('input_title') and len(options['input_title']) > 32:
             warn("Length of input title '%s' exceeds Excel's limit of 32"
-                 % force_unicode(options['input_title']))
+                 % options['input_title'])
             return -2
 
         # Check that the error title doesn't exceed the maximum length.
         if options.get('error_title') and len(options['error_title']) > 32:
             warn("Length of error title '%s' exceeds Excel's limit of 32"
-                 % force_unicode(options['error_title']))
+                 % options['error_title'])
             return -2
 
         # Check that the input message doesn't exceed the maximum length.
         if (options.get('input_message')
                 and len(options['input_message']) > 255):
             warn("Length of input message '%s' exceeds Excel's limit of 255"
-                 % force_unicode(options['input_message']))
+                 % options['input_message'])
             return -2
 
         # Check that the error message doesn't exceed the maximum length.
         if (options.get('error_message')
                 and len(options['error_message']) > 255):
             warn("Length of error message '%s' exceeds Excel's limit of 255"
-                 % force_unicode(options['error_message']))
+                 % options['error_message'])
             return -2
 
         # Check that the input list doesn't exceed the maximum length.
@@ -2317,8 +2315,7 @@ class Worksheet(xmlwriter.XMLwriter):
             formula = self._csv_join(*options['value'])
             if len(formula) > 255:
                 warn("Length of list items '%s' exceeds Excel's limit of "
-                     "255, use a formula range instead"
-                     % force_unicode(formula))
+                     "255, use a formula range instead" % formula)
                 return -2
 
         # Set some defaults if they haven't been defined by the user.
@@ -2922,28 +2919,25 @@ class Worksheet(xmlwriter.XMLwriter):
             table['name'] = name
 
             if ' ' in name:
-                warn("Name '%s' in add_table() cannot contain spaces"
-                     % force_unicode(name))
+                warn("Name '%s' in add_table() cannot contain spaces" % name)
                 return -3
 
             # Warn if the name contains invalid chars as defined by Excel.
             if (not re.match(r'^[\w\\][\w\\.]*$', name, re.UNICODE)
                     or re.match(r'^\d', name)):
-                warn("Invalid Excel characters in add_table(): '%s'"
-                     % force_unicode(name))
+                warn("Invalid Excel characters in add_table(): '%s'" % name)
                 return -1
 
             # Warn if the name looks like a cell name.
             if re.match(r'^[a-zA-Z][a-zA-Z]?[a-dA-D]?[0-9]+$', name):
-                warn("Name looks like a cell name in add_table(): '%s'"
-                     % force_unicode(name))
+                warn("Name looks like a cell name in add_table(): '%s'" % name)
                 return -1
 
             # Warn if the name looks like a R1C1 cell reference.
             if (re.match(r'^[rcRC]$', name)
                     or re.match(r'^[rcRC]\d+[rcRC]\d+$', name)):
                 warn("Invalid name '%s' like a RC cell ref in add_table()"
-                     % force_unicode(name))
+                     % name)
                 return -1
 
         # Set the table style.
@@ -3022,7 +3016,7 @@ class Worksheet(xmlwriter.XMLwriter):
                     name = header_name.lower()
                     if name in seen_names:
                         warn("Duplicate header name in add_table(): '%s'"
-                             % force_unicode(name))
+                             % name)
                         return -1
                     else:
                         seen_names[name] = True
@@ -4626,7 +4620,7 @@ class Worksheet(xmlwriter.XMLwriter):
                 if len(target) > self.max_url_length:
                     warn("Ignoring URL '%s' with link and/or anchor > %d "
                          "characters since it exceeds Excel's limit for URLS" %
-                         (force_unicode(url), self.max_url_length))
+                         (url, self.max_url_length))
                 else:
                     if not self.drawing_rels.get(url):
                         self.drawing_links.append([rel_type, target,
@@ -4718,7 +4712,7 @@ class Worksheet(xmlwriter.XMLwriter):
                 if len(target) > self.max_url_length:
                     warn("Ignoring URL '%s' with link and/or anchor > %d "
                          "characters since it exceeds Excel's limit for URLS" %
-                         (force_unicode(url), self.max_url_length))
+                         (url, self.max_url_length))
                 else:
                     if not self.drawing_rels.get(url):
                         self.drawing_links.append([rel_type, target,
@@ -5392,7 +5386,7 @@ class Worksheet(xmlwriter.XMLwriter):
         # Create a csv string for use with data validation formulas and lists.
 
         # Convert non string types to string.
-        items = [str(item) if not isinstance(item, str_types) else item
+        items = [str(item) if not isinstance(item, str) else item
                  for item in items]
 
         return ','.join(items)
@@ -5588,7 +5582,7 @@ class Worksheet(xmlwriter.XMLwriter):
 
                     # Remove the formula '=' sign if it exists.
                     tmp = props[i]['value']
-                    if isinstance(tmp, str_types) and tmp.startswith('='):
+                    if isinstance(tmp, str) and tmp.startswith('='):
                         props[i]['value'] = tmp.lstrip('=')
 
                 # Set the user defined 'type' property.
@@ -6255,7 +6249,7 @@ class Worksheet(xmlwriter.XMLwriter):
                 else:
                     value = 0
 
-            elif isinstance(cell.value, str_types):
+            elif isinstance(cell.value, str):
                 error_codes = ('#DIV/0!', '#N/A', '#NAME?', '#NULL!',
                                '#NUM!', '#REF!', '#VALUE!')
 

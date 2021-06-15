@@ -6,7 +6,7 @@
 #
 
 import unittest
-from ...compatibility import StringIO
+from io import StringIO
 from ...xmlwriter import XMLwriter
 
 

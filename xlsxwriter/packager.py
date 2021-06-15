@@ -11,7 +11,7 @@ import stat
 import tempfile
 from shutil import copy
 
-from .compatibility import StringIO
+from io import StringIO
 from io import BytesIO
 
 # Package imports.

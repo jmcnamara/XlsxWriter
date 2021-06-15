@@ -9,9 +9,7 @@
 
 # Standard packages.
 import re
-
-# Standard packages in Python 2/3 compatibility mode.
-from .compatibility import StringIO
+from io import StringIO
 
 
 class XMLwriter(object):
