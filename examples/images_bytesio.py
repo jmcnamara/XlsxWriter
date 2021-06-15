@@ -6,14 +6,8 @@
 # Copyright 2013-2021, John McNamara, jmcnamara@cpan.org
 #
 
-# Import the byte stream handler.
 from io import BytesIO
-
-# Import urlopen() for either Python 2 or 3.
-try:
-    from urllib.request import urlopen
-except ImportError:
-    from urllib2 import urlopen
+from urllib.request import urlopen
 
 
 import xlsxwriter

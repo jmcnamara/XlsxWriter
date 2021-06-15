@@ -71,11 +71,9 @@ The constructor options are:
   .. Note::
      This option used to be the recommended way of deploying XlsxWriter on
      Google APP Engine since it didn't support a ``/tmp`` directory. However,
-     the Python 3 Runtime Environment in Google App Engine now supports a
+     the Python 3 Runtime Environment in Google App Engine supports a
      `filesystem with read/write access to /tmp <https://cloud.google.com/appengine/docs/standard/python3/runtime#filesystem>`_
-     which means this option isn't required. The ``/tmp`` dir isn't supported
-     in the Python 2 Runtime Environment so this option is still required
-     there.
+     which means this option isn't required.
 
 
 * **strings_to_numbers**: Enable the
@@ -198,7 +196,7 @@ It is possible to write files to in-memory strings using BytesIO as follows::
 To avoid the use of any temporary files and keep the entire file in-memory use
 the ``in_memory`` constructor option shown above.
 
-See also :ref:`ex_http_server` and :ref:`ex_http_server3`.
+See also :ref:`ex_http_server`.
 
 
 workbook.add_worksheet()
@@ -398,10 +396,9 @@ file before overwriting it::
         try:
             workbook.close()
         except xlsxwriter.exceptions.FileCreateError as e:
-            # For Python 3 use input() instead of raw_input().
-            decision = raw_input("Exception caught in workbook.close(): %s\n"
-                                 "Please close the file if it is open in Excel.\n"
-                                 "Try to write file again? [Y/n]: " % e)
+            decision = input("Exception caught in workbook.close(): %s\n"
+                             "Please close the file if it is open in Excel.\n"
+                             "Try to write file again? [Y/n]: " % e)
             if decision != 'n':
                 continue
 

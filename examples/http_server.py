@@ -7,8 +7,6 @@
 # Copyright 2013-2021, John McNamara, jmcnamara@cpan.org
 #
 
-# Note: This is a Python 3 example. For Python 2 see http_server_py2.py.
-
 import http.server
 import socketserver
 import io
@@ -26,11 +24,9 @@ class Handler(http.server.SimpleHTTPRequestHandler):
         # files during assembly for efficiency. To avoid this on servers that
         # don't allow temp files set the 'in_memory' constructor option to True.
         #
-        # The Python 3 Runtime Environment in Google App Engine now supports a
-        # filesystem with read/write access to /tmp which means that the
-        # 'in_memory' option isn't required. The /tmp dir isn't supported in
-        # the Python 2 Runtime Environment so that option is still required
-        # there. See:
+        # Note: The Python 3 Runtime Environment in Google App Engine supports
+        # a filesystem with read/write access to /tmp which means that the
+        # 'in_memory' option isn't required there and can be omitted. See:
         #
         # https://cloud.google.com/appengine/docs/standard/python3/runtime#filesystem
         #
