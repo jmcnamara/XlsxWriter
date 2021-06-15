@@ -9,7 +9,7 @@
 
 import sys
 import xlsxwriter
-from time import clock
+from time import perf_counter
 from pympler.asizeof import asizeof
 
 # Default to 1000 rows and non-optimised.
@@ -32,7 +32,7 @@ else:
 col_max = 50
 
 # Start timing after everything is loaded.
-start_time = clock()
+start_time = perf_counter()
 
 # Start of program being tested.
 workbook = xlsxwriter.Workbook('py_ewx.xlsx',
@@ -56,7 +56,7 @@ else:
 workbook.close()
 
 # Get the elapsed time.
-elapsed = clock() - start_time
+elapsed = perf_counter() - start_time
 
 # Print a simple CSV output for reporting.
 
