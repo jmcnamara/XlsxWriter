@@ -8,7 +8,6 @@
 from xlsxwriter.workbook import Workbook
 from xlsxwriter.worksheet import Worksheet
 from xlsxwriter.worksheet import convert_cell_args
-from xlsxwriter.compatibility import str_types
 
 
 class MyWorksheet(Worksheet):
@@ -24,7 +23,7 @@ class MyWorksheet(Worksheet):
         data = args[0]
 
         # Reverse strings to demonstrate the overridden method.
-        if isinstance(data, str_types):
+        if isinstance(data, str):
             data = data[::-1]
             return self.write_string(row, col, data)
         else:

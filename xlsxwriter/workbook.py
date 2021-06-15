@@ -7,16 +7,17 @@
 
 # Standard packages.
 import hashlib
-import re
-import os
 import operator
+import os
+import re
 import time
-from warnings import warn
 from datetime import datetime
-from zipfile import ZipFile, ZipInfo, ZIP_DEFLATED, LargeZipFile
+from decimal import Decimal
+from fractions import Fraction
 from struct import unpack
+from warnings import warn
+from zipfile import ZipFile, ZipInfo, ZIP_DEFLATED, LargeZipFile
 
-from .compatibility import int_types, num_types, str_types, force_unicode
 
 # Package imports.
 from . import xmlwriter
@@ -296,8 +297,7 @@ class Workbook(xmlwriter.XMLwriter):
 
         """
         if not is_stream and not os.path.exists(vba_project):
-            warn("VBA project binary file '%s' not found."
-                 % force_unicode(vba_project))
+            warn("VBA project binary file '%s' not found." % vba_project)
             return -1
 
         if self.vba_codename is None:
@@ -416,9 +416,9 @@ class Workbook(xmlwriter.XMLwriter):
                 property_type = 'bool'
             elif isinstance(value, datetime):
                 property_type = 'date'
-            elif isinstance(value, int_types):
+            elif isinstance(value, int):
                 property_type = 'number_int'
-            elif isinstance(value, num_types):
+            elif isinstance(value, (float, int, Decimal, Fraction)):
                 property_type = 'number'
             else:
                 property_type = 'text'
@@ -428,13 +428,11 @@ class Workbook(xmlwriter.XMLwriter):
 
         if property_type == 'text' and len(value) > 255:
             warn("Length of 'value' parameter exceeds Excel's limit of 255 "
-                 "characters in set_custom_property(): '%s'" %
-                 force_unicode(value))
+                 "characters in set_custom_property(): '%s'" % value)
 
         if len(name) > 255:
             warn("Length of 'name' parameter exceeds Excel's limit of 255 "
-                 "characters in set_custom_property(): '%s'" %
-                 force_unicode(name))
+                 "characters in set_custom_property(): '%s'" % name)
 
         self.custom_properties.append((name, value, property_type))
 
@@ -495,8 +493,7 @@ class Workbook(xmlwriter.XMLwriter):
 
             # Warn if the sheet index wasn't found.
             if sheet_index is None:
-                warn("Unknown sheet name '%s' in defined_name()"
-                     % force_unicode(sheetname))
+                warn("Unknown sheet name '%s' in defined_name()" % sheetname)
                 return -1
         else:
             # Use -1 to indicate global names.
@@ -505,21 +502,19 @@ class Workbook(xmlwriter.XMLwriter):
         # Warn if the defined name contains invalid chars as defined by Excel.
         if (not re.match(r'^[\w\\][\w\\.]*$', name, re.UNICODE)
                 or re.match(r'^\d', name)):
-            warn("Invalid Excel characters in defined_name(): '%s'"
-                 % force_unicode(name))
+            warn("Invalid Excel characters in defined_name(): '%s'" % name)
             return -1
 
         # Warn if the defined name looks like a cell name.
         if re.match(r'^[a-zA-Z][a-zA-Z]?[a-dA-D]?[0-9]+$', name):
-            warn("Name looks like a cell name in defined_name(): '%s'"
-                 % force_unicode(name))
+            warn("Name looks like a cell name in defined_name(): '%s'" % name)
             return -1
 
         # Warn if the name looks like a R1C1 cell reference.
         if (re.match(r'^[rcRC]$', name)
                 or re.match(r'^[rcRC]\d+[rcRC]\d+$', name)):
             warn("Invalid name '%s' like a RC cell ref in defined_name()"
-                 % force_unicode(name))
+                 % name)
             return -1
 
         self.defined_names.append([name, sheet_index, formula, False])
@@ -937,7 +932,7 @@ class Workbook(xmlwriter.XMLwriter):
             num_format = xf_format.num_format
 
             # Check if num_format is an index to a built-in number format.
-            if not isinstance(num_format, str_types):
+            if not isinstance(num_format, str):
                 num_format = int(num_format)
 
                 # Number format '0' is indexed as 1 in Excel.
@@ -1666,8 +1661,7 @@ class Workbook(xmlwriter.XMLwriter):
                 # in a chart series formula.
                 if sheetname not in worksheets:
                     warn("Unknown worksheet reference '%s' in range "
-                         "'%s' passed to add_series()"
-                         % (force_unicode(sheetname), force_unicode(c_range)))
+                         "'%s' passed to add_series()" % (sheetname, c_range))
                     chart.formula_data[r_id] = []
                     seen_ranges[c_range] = []
                     continue
