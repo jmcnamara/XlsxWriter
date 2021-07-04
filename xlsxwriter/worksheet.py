@@ -603,6 +603,9 @@ class Worksheet(xmlwriter.XMLwriter):
                     "NAN/INF not supported in write_number() "
                     "without 'nan_inf_to_errors' Workbook() option")
 
+        if isinstance(number, Fraction):
+            number = float(number)
+
         # Check that row and col are valid and store max and min values.
         if self._check_dimensions(row, col):
             return -1
