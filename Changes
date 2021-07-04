@@ -3,6 +3,14 @@
 after July 2021.
 
 
+
+Release 1.4.4 - July 4 2021
+---------------------------
+
+* Added some performance improvements. Performance for larger files should be
+  5-10% better.
+
+
 Release 1.4.3 - May 12 2021
 ---------------------------
 
