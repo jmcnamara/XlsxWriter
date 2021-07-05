@@ -217,8 +217,8 @@ def main():
 # Utility function to write the data some of the functions work on.
 def write_worksheet_data(worksheet, header):
 
-    worksheet.write('B1', 'Sales Rep', header)
     worksheet.write('A1', 'Region', header)
+    worksheet.write('B1', 'Sales Rep', header)
     worksheet.write('C1', 'Product', header)
     worksheet.write('D1', 'Units', header)
 
