@@ -991,8 +991,9 @@ all cells in the row::
 
     worksheet.set_row(0, 20, cell_format)
 
-If you wish to set the format of a row without changing the height you can pass
-``None`` as the height parameter or use the default row height of 15::
+If you wish to set the format of a row without changing the default row height
+you can pass ``None`` as the height parameter or use the default row height of
+15::
 
     worksheet.set_row(1, None, cell_format)
     worksheet.set_row(1, 15,   cell_format)  # Same as above.
@@ -1138,9 +1139,9 @@ possible to simulate "AutoFit" in your application by tracking the maximum
 width of the data in the column as your write it and then adjusting the column
 width at the end.
 
-As usual the ``cell_format`` :ref:`Format <format>`  parameter is optional. If
-you wish to set the format without changing the width you can pass ``None`` as
-the width parameter::
+As usual the ``cell_format`` :ref:`Format <format>` parameter is optional. If
+you wish to set the format without changing the default column width you can
+pass ``None`` as the width parameter::
 
     cell_format = workbook.add_format({'bold': True})
 

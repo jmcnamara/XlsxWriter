@@ -533,5 +533,3 @@ The following shows how to do that using Linux ``unzip`` and `libxml's xmllint
     $ xmllint --format myfile/xl/worksheets/sheet1.xml | grep '</f>'
 
             <f>SUM(1, 2, 3)</f>
-
-

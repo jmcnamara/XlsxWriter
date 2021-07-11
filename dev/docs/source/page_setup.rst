@@ -659,12 +659,13 @@ worksheet.set_start_page()
 
 .. py:function:: set_start_page()
 
-   Set the start page number when printing.
+   Set the start/first page number when printing.
 
    :param int start_page:  Starting page number.
 
-The ``set_start_page()`` method is used to set the number of the starting page
-when the worksheet is printed out::
+The ``set_start_page()`` method is used to set the page number of the starting
+page when the worksheet is printed out. It is the same as the "First Page
+Number" option in Excel::
 
     # Start print from page 2.
     worksheet.set_start_page(2)
