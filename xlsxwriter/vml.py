@@ -393,12 +393,16 @@ class Vml(xmlwriter.XMLwriter):
         attributes = [
             ('id', shape_id),
             ('type', shape_type),
-            ('style', style),
-            ('o:button', 't'),
-            ('fillcolor', 'buttonFace [67]'),
-            ('strokecolor', 'windowText [64]'),
-            ('o:insetmode', 'auto'),
         ]
+
+        if button.get('description'):
+            attributes.append(('alt', button['description']))
+
+        attributes.append(('style', style))
+        attributes.append(('o:button', 't'))
+        attributes.append(('fillcolor', 'buttonFace [67]'))
+        attributes.append(('strokecolor', 'windowText [64]'))
+        attributes.append(('o:insetmode', 'auto'))
 
         self._xml_start_tag('v:shape', attributes)
 

@@ -84,6 +84,11 @@ The available options are::
     url
     tip
 
+    # Accessibility
+    description
+    decorative
+
+
 These options are explained in the sections below. They are similar or
 identical to position and formatting parameters used in charts.
 
@@ -541,3 +546,33 @@ The ``tip`` parameter adds an optional mouseover tooltip::
                               'tip': 'GitHub'})
 
 See also :func:`write_url` for details on supported URIs.
+
+
+
+.. _textbox_description:
+
+Textbox Description
+-------------------
+
+The ``description`` property can be used to specify a description or "alt
+text" string for the textbox. In general this would be used to provide a text
+description of the textbox to help accessibility. It is an optional parameter
+and has no default. It can be used as follows::
+
+ worksheet.insert_textbox('A1', 'This is some text',
+                          {'description': 'Textbox showing data input instructions'})
+
+.. image:: _images/alt_text3.png
+
+
+.. _textbox_decorative:
+
+Textbox Decorative
+------------------
+
+The optional ``decorative`` property is also used to help accessibility. It is
+used to mark the object as decorative, and thus uninformative, for automated
+screen readers. As in Excel, if this parameter is in use the ``description``
+field isn't written. It is used as follows::
+
+ worksheet.insert_textbox('A1', 'This is some text', {'decorative': True})

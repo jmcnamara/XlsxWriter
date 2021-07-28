@@ -74,12 +74,13 @@ class Drawing(xmlwriter.XMLwriter):
             'dimensions': [],
             'width': 0,
             'height': 0,
-            'description': None,
             'shape': None,
             'anchor': None,
             'rel_index': 0,
             'url_rel_index': 0,
             'tip': None,
+            'name': None,
+            'description': None,
             'decorative': False
         }
 
@@ -122,12 +123,13 @@ class Drawing(xmlwriter.XMLwriter):
         row_absolute = dimensions[9]
         width = drawing_properties['width']
         height = drawing_properties['height']
-        description = drawing_properties['description']
         shape = drawing_properties['shape']
         anchor = drawing_properties['anchor']
         rel_index = drawing_properties['rel_index']
         url_rel_index = drawing_properties['url_rel_index']
         tip = drawing_properties['tip']
+        name = drawing_properties['name']
+        description = drawing_properties['description']
         decorative = drawing_properties['decorative']
 
         attributes = []
@@ -161,7 +163,8 @@ class Drawing(xmlwriter.XMLwriter):
         if anchor_type == 1:
             # Graphic frame.
             # Write the xdr:graphicFrame element for charts.
-            self._write_graphic_frame(index, rel_index, description)
+            self._write_graphic_frame(index, rel_index, name,
+                                      description, decorative)
         elif anchor_type == 2:
             # Write the xdr:pic element.
             self._write_pic(index,
@@ -183,8 +186,10 @@ class Drawing(xmlwriter.XMLwriter):
                            width,
                            height,
                            shape,
+                           description,
                            url_rel_index,
-                           tip)
+                           tip,
+                           decorative)
 
         # Write the xdr:clientData element.
         self._write_client_data()
@@ -284,14 +289,15 @@ class Drawing(xmlwriter.XMLwriter):
 
         self._xml_empty_tag('xdr:ext', attributes)
 
-    def _write_graphic_frame(self, index, rel_index, name=None):
+    def _write_graphic_frame(self, index, rel_index, name=None,
+                             description=None, decorative=None):
         # Write the <xdr:graphicFrame> element.
         attributes = [('macro', '')]
 
         self._xml_start_tag('xdr:graphicFrame', attributes)
 
         # Write the xdr:nvGraphicFramePr element.
-        self._write_nv_graphic_frame_pr(index, name)
+        self._write_nv_graphic_frame_pr(index, name, description, decorative)
 
         # Write the xdr:xfrm element.
         self._write_xfrm()
@@ -301,7 +307,7 @@ class Drawing(xmlwriter.XMLwriter):
 
         self._xml_end_tag('xdr:graphicFrame')
 
-    def _write_nv_graphic_frame_pr(self, index, name):
+    def _write_nv_graphic_frame_pr(self, index, name, description, decorative):
         # Write the <xdr:nvGraphicFramePr> element.
 
         if not name:
@@ -310,7 +316,8 @@ class Drawing(xmlwriter.XMLwriter):
         self._xml_start_tag('xdr:nvGraphicFramePr')
 
         # Write the xdr:cNvPr element.
-        self._write_c_nv_pr(index + 1, name, None, None, None, None)
+        self._write_c_nv_pr(index + 1, name, description,
+                            None, None, decorative)
 
         # Write the xdr:cNvGraphicFramePr element.
         self._write_c_nv_graphic_frame_pr()
@@ -491,7 +498,8 @@ class Drawing(xmlwriter.XMLwriter):
         self._xml_empty_tag('xdr:clientData')
 
     def _write_sp(self, index, col_absolute, row_absolute,
-                  width, height, shape, url_rel_index, tip):
+                  width, height, shape, description,
+                  url_rel_index, tip, decorative):
         # Write the <xdr:sp> element.
 
         if shape and shape.connect:
@@ -514,7 +522,8 @@ class Drawing(xmlwriter.XMLwriter):
             self._xml_start_tag('xdr:sp', attributes)
 
             # Write the xdr:nvSpPr element.
-            self._write_nv_sp_pr(index, shape, url_rel_index, tip)
+            self._write_nv_sp_pr(index, shape, url_rel_index, tip,
+                                 description, decorative)
 
             # Write the xdr:spPr element.
             self._write_xdr_sp_pr(index, col_absolute, row_absolute, width,
@@ -554,7 +563,8 @@ class Drawing(xmlwriter.XMLwriter):
         self._xml_end_tag('xdr:cNvCxnSpPr')
         self._xml_end_tag('xdr:nvCxnSpPr')
 
-    def _write_nv_sp_pr(self, index, shape, url_rel_index, tip):
+    def _write_nv_sp_pr(self, index, shape, url_rel_index, tip,
+                        description, decorative):
         # Write the <xdr:NvSpPr> element.
         attributes = []
 
@@ -562,7 +572,8 @@ class Drawing(xmlwriter.XMLwriter):
 
         name = shape.name + ' ' + str(index)
 
-        self._write_c_nv_pr(index + 1, name, None, url_rel_index, tip, None)
+        self._write_c_nv_pr(index + 1, name, description,
+                            url_rel_index, tip, decorative)
 
         if shape.name == 'TextBox':
             attributes = [('txBox', 1)]

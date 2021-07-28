@@ -1333,7 +1333,7 @@ and defaults to the filename of the image. It can be used as follows::
     worksheet.insert_image('B3', 'python.png',
                            {'description': 'The logo of the Python programming language.'})
 
-.. image:: _images/alt_text.png
+.. image:: _images/alt_text1.png
 
 The optional ``decorative`` parameter is also used to help accessibility. It
 is used to mark the image as decorative, and thus uninformative, for automated
@@ -1430,6 +1430,8 @@ values are::
         'x_scale':         1,
         'y_scale':         1,
         'object_position': 1,
+        'description':     None,
+        'decorative':      False,
     }
 
 The offset values are in pixels::
@@ -1442,6 +1444,23 @@ horizontally and vertically::
     worksheet.insert_chart('B5', chart, {'x_scale': 0.5, 'y_scale': 0.5})
 
 These properties can also be set via the Chart :func:`set_size` method.
+
+The ``description`` field can be used to specify a description or "alt text"
+string for the chart. In general this would be used to provide a text
+description of the image to help accessibility. It is an optional parameter
+and has no default. It can be used as follows::
+
+    worksheet.insert_chart('B5', chart,
+                           {'description': 'Chart showing sales for the current year'})
+
+.. image:: _images/alt_text2.png
+
+The optional ``decorative`` parameter is also used to help accessibility. It
+is used to mark the chart as decorative, and thus uninformative, for automated
+screen readers. As in Excel, if this parameter is in use the ``description``
+field isn't written. It is used as follows::
+
+    worksheet.insert_chart('B5', chart, {'decorative': True})
 
 The ``object_position`` parameter can be used to control the object
 positioning of the image::
@@ -1516,6 +1535,10 @@ The size and formatting of the textbox can be controlled via the ``options`` dic
     url
     tip
 
+    # Accessibility
+    description
+    decorative
+
 These options are explained in more detail in the
 :ref:`working_with_textboxes` section.
 
@@ -1575,14 +1598,15 @@ position and scale the chart. The available parameters with their default
 values are::
 
     {
-        'macro':    None,
-        'caption':  'Button 1',
-        'width':    64,
-        'height':   20.
-        'x_offset': 0,
-        'y_offset': 0,
-        'x_scale':  1,
-        'y_scale':  1,
+        'macro':       None,
+        'caption':     'Button 1',
+        'width':       64,
+        'height':      20.
+        'x_offset':    0,
+        'y_offset':    0,
+        'x_scale':     1,
+        'y_scale':     1,
+        'description': None,
     }
 
 The ``macro`` option is used to set the macro that the button will invoke when
@@ -1596,7 +1620,8 @@ The default button ``width`` is 64 pixels which is the width of a default cell
 and the default button ``height`` is 20 pixels which is the height of a
 default cell.
 
-The offset and scale options are the same as for ``insert_chart()``, see above.
+The offset, scale and description options are the same as for
+``insert_chart()``, see above.
 
 
 worksheet.data_validation()

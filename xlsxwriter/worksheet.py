@@ -1486,9 +1486,12 @@ class Worksheet(xmlwriter.XMLwriter):
         x_scale = options.get('x_scale', 1)
         y_scale = options.get('y_scale', 1)
         anchor = options.get('object_position', 1)
+        description = options.get('description', None)
+        decorative = options.get('decorative', False)
 
         self.shapes.append([row, col, x_offset, y_offset,
-                            x_scale, y_scale, text, anchor, options])
+                            x_scale, y_scale, text, anchor, options,
+                            description, decorative])
         return 0
 
     @convert_cell_args
@@ -1532,6 +1535,8 @@ class Worksheet(xmlwriter.XMLwriter):
         x_scale = options.get('x_scale', 1)
         y_scale = options.get('y_scale', 1)
         anchor = options.get('object_position', 1)
+        description = options.get('description', None)
+        decorative = options.get('decorative', False)
 
         # Allow Chart to override the scale and offset.
         if chart.x_scale != 1:
@@ -1549,7 +1554,8 @@ class Worksheet(xmlwriter.XMLwriter):
         self.charts.append([row, col, chart,
                             x_offset, y_offset,
                             x_scale, y_scale,
-                            anchor])
+                            anchor,
+                            description, decorative])
         return 0
 
     @convert_cell_args
@@ -4648,8 +4654,8 @@ class Worksheet(xmlwriter.XMLwriter):
         # Set up shapes/drawings.
         drawing_type = 3
 
-        (row, col, x_offset, y_offset,
-            x_scale, y_scale, text, anchor, options) = self.shapes[index]
+        (row, col, x_offset, y_offset, x_scale, y_scale, text, anchor, options,
+         description, decorative) = self.shapes[index]
 
         width = options.get('width', self.default_col_pixels * 3)
         height = options.get('height', self.default_row_pixels * 6)
@@ -4685,13 +4691,13 @@ class Worksheet(xmlwriter.XMLwriter):
         drawing_object['dimensions'] = dimensions
         drawing_object['width'] = width
         drawing_object['height'] = height
-        drawing_object['description'] = None
+        drawing_object['description'] = description
         drawing_object['shape'] = shape
         drawing_object['anchor'] = anchor
         drawing_object['rel_index'] = 0
         drawing_object['url_rel_index'] = 0
         drawing_object['tip'] = options.get('tip')
-        drawing_object['decorative'] = 0
+        drawing_object['decorative'] = decorative
 
         url = options.get('url', None)
         if url:
@@ -4758,8 +4764,8 @@ class Worksheet(xmlwriter.XMLwriter):
         # Set up chart/drawings.
         drawing_type = 1
 
-        (row, col, chart, x_offset, y_offset, x_scale, y_scale, anchor) = \
-            self.charts[index]
+        (row, col, chart, x_offset, y_offset, x_scale, y_scale, anchor,
+         description, decorative) = self.charts[index]
 
         chart.id = chart_id - 1
 
@@ -4791,13 +4797,14 @@ class Worksheet(xmlwriter.XMLwriter):
         drawing_object['dimensions'] = dimensions
         drawing_object['width'] = width
         drawing_object['height'] = height
-        drawing_object['description'] = name
+        drawing_object['name'] = name
         drawing_object['shape'] = None
         drawing_object['anchor'] = anchor
         drawing_object['rel_index'] = self._get_drawing_rel_index()
         drawing_object['url_rel_index'] = 0
         drawing_object['tip'] = None
-        drawing_object['decorative'] = 0
+        drawing_object['description'] = description
+        drawing_object['decorative'] = decorative
 
         self.drawing_links.append(['/chart',
                                    '../charts/chart'
@@ -5177,6 +5184,9 @@ class Worksheet(xmlwriter.XMLwriter):
             button['macro'] = '[0]!' + params['macro']
         else:
             button['macro'] = '[0]!Button%d_Click' % button_number
+
+        # Set the alt text for the button.
+        button['description'] = params.get('description')
 
         # Ensure that a width and height have been set.
         params['width'] = params.get('width', default_width)
