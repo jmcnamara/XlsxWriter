@@ -39,6 +39,8 @@ image crosses changed rows and columns.
 However, there are two cases where the image scale may change with row or
 columns changes. These are explained in the next two sections.
 
+.. _object_position_auto_row_height:
+
 Object scaling due to automatic row height adjustment
 -----------------------------------------------------
 

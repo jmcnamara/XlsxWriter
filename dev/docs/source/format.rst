@@ -771,9 +771,15 @@ to the string::
 
 .. image:: _images/format_font_text_wrap.png
 
-Excel will adjust the height of the row to accommodate the wrapped text. A
-similar effect can be obtained without newlines using the
-``set_align('vjustify')`` method.
+Excel will adjust the height of the row to accommodate the wrapped text, as
+shown in the image above. This can be useful but it can also have unwanted
+side-effects:
+
+* Objects such as images or charts that cross the automatically adjusted cells
+  will not be scaled correctly. See :ref:`object_position_auto_row_height`.
+
+* You may not want the row height to change. In that case you should set the
+  row height to a non-default value such as 15.001.
 
 
 format.set_rotation()
