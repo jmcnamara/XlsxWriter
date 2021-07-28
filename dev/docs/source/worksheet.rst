@@ -1447,7 +1447,7 @@ These properties can also be set via the Chart :func:`set_size` method.
 
 The ``description`` field can be used to specify a description or "alt text"
 string for the chart. In general this would be used to provide a text
-description of the image to help accessibility. It is an optional parameter
+description of the chart to help accessibility. It is an optional parameter
 and has no default. It can be used as follows::
 
     worksheet.insert_chart('B5', chart,
@@ -1463,7 +1463,7 @@ field isn't written. It is used as follows::
     worksheet.insert_chart('B5', chart, {'decorative': True})
 
 The ``object_position`` parameter can be used to control the object
-positioning of the image::
+positioning of the chart::
 
     worksheet.insert_chart('B5', chart, {'object_position': 2})
 
@@ -1474,7 +1474,7 @@ Where ``object_position`` has the following allowable values:
 3. Don't move or size with cells.
 
 See :ref:`object_position` for more detailed information about the positioning
-and scaling of images within a worksheet.
+and scaling of charts within a worksheet.
 
 
 worksheet.insert_textbox()
