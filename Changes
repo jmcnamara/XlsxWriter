@@ -3,6 +3,12 @@
 after July 2021.
 
 
+Release 1.4.5 - July 29 2021
+----------------------------
+
+ * Added Description/Alt Text and Decorative accessibility options for charts,
+   textboxes and buttons. These options were already available for images.
+
 
 Release 1.4.4 - July 4 2021
 ---------------------------
