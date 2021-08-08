@@ -19,6 +19,7 @@ worksheet3 = workbook.add_worksheet()
 worksheet4 = workbook.add_worksheet()
 worksheet5 = workbook.add_worksheet()
 worksheet6 = workbook.add_worksheet()
+worksheet7 = workbook.add_worksheet()
 
 # Add a bold format for the headers.
 bold = workbook.add_format({'bold': 1})
@@ -171,18 +172,14 @@ for row_data in (data):
 ###############################################################################
 #
 #
-# Example 5. Autofilter with filter for blanks.
+# Example 5. Autofilter with a filter list condition in one of the columns.
 #
-# Create a blank cell in our test data.
 
 # Set the autofilter.
 worksheet5.autofilter('A1:D51')
 
 # Add filter criteria.
-worksheet5.filter_column('A', 'x == Blanks')
-
-# Simulate a blank cell in the data.
-data[5][0] = ''
+worksheet5.filter_column_list('A', ['East', 'North', 'South'])
 
 # Hide the rows that don't match the filter criteria.
 row = 1
@@ -190,7 +187,7 @@ for row_data in (data):
     region = row_data[0]
 
     # Check for rows that match the filter.
-    if region == '':
+    if region == 'East' or region == 'North' or region == 'South':
         # Row matches the filter, no further action required.
         pass
     else:
@@ -206,14 +203,49 @@ for row_data in (data):
 ###############################################################################
 #
 #
-# Example 6. Autofilter with filter for non-blanks.
+# Example 6. Autofilter with filter for blanks.
 #
+# Create a blank cell in our test data.
 
 # Set the autofilter.
 worksheet6.autofilter('A1:D51')
 
 # Add filter criteria.
-worksheet6.filter_column('A', 'x == NonBlanks')
+worksheet6.filter_column('A', 'x == Blanks')
+
+# Simulate a blank cell in the data.
+data[5][0] = ''
+
+# Hide the rows that don't match the filter criteria.
+row = 1
+for row_data in (data):
+    region = row_data[0]
+
+    # Check for rows that match the filter.
+    if region == '':
+        # Row matches the filter, no further action required.
+        pass
+    else:
+        # We need to hide rows that don't match the filter.
+        worksheet6.set_row(row, options={'hidden': True})
+
+    worksheet6.write_row(row, 0, row_data)
+
+    # Move on to the next worksheet row.
+    row += 1
+
+
+###############################################################################
+#
+#
+# Example 7. Autofilter with filter for non-blanks.
+#
+
+# Set the autofilter.
+worksheet7.autofilter('A1:D51')
+
+# Add filter criteria.
+worksheet7.filter_column('A', 'x == NonBlanks')
 
 # Hide the rows that don't match the filter criteria.
 row = 1
@@ -226,9 +258,9 @@ for row_data in (data):
         pass
     else:
         # We need to hide rows that don't match the filter.
-        worksheet6.set_row(row, options={'hidden': True})
+        worksheet7.set_row(row, options={'hidden': True})
 
-    worksheet6.write_row(row, 0, row_data)
+    worksheet7.write_row(row, 0, row_data)
 
     # Move on to the next worksheet row.
     row += 1
