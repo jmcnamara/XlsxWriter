@@ -1230,13 +1230,13 @@ documentation on :func:`set_column` for more details.
 worksheet.insert_image()
 ------------------------
 
-.. py:function:: insert_image(row, col, image[, options])
+.. py:function:: insert_image(row, col, filename[, options])
 
    Insert an image in a worksheet cell.
 
    :param row:         The cell row (zero indexed).
    :param col:         The cell column (zero indexed).
-   :param image:       Image filename (with path if required).
+   :param filename:    Image filename (with path if required).
    :param options:     Optional parameters for image position, scale and url.
    :type  row:         int
    :type  col:         int
