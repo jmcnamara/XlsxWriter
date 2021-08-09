@@ -300,11 +300,18 @@ Passing XlsxWriter constructor options to Pandas
 
 XlsxWriter supports several :func:`Workbook` constructor options such as
 ``strings_to_urls()``. These can also be applied to the ``Workbook`` object
-created by Pandas as follows::
+created by Pandas using the ``engine_kwargs`` keyword::
 
     writer = pd.ExcelWriter('pandas_example.xlsx',
                             engine='xlsxwriter',
-                            options={'strings_to_urls': False})
+                            engine_kwargs={'options': {'strings_to_numbers': True}})
+
+Note, versions of Pandas prior to 1.3.0 used this syntax::
+
+    writer = pd.ExcelWriter('pandas_example.xlsx',
+                            engine='xlsxwriter',
+                            options={'strings_to_numbers': True})
+
 
 
 Saving the Dataframe output to a string
