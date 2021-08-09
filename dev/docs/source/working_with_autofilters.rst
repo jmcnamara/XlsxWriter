@@ -116,7 +116,7 @@ Excel also allows some simple string matching operations::
     'x == *b'      # ends with b
     'x != *b'      # doesn't end with b
     'x == *b*'     # contains b
-    'x != *b*'     # doesn't contains b
+    'x != *b*'     # doesn't contain b
 
 You can also use ``'*'`` to match any character or number and ``'?'`` to match
 any single character or number. No other regular expression quantifier is
