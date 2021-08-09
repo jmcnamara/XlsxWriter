@@ -1,6 +1,19 @@
 
-**Deprecation Notice**: XlsxWriter support for Python 2.7 will be dropped
-after July 2021.
+
+Release 2.0.0 - August 9 2021
+-----------------------------
+
+* This is the last XlsxWriter release to support Python 2. From now bug fixes
+  and new features will only be available for Python 3. The deprecation notice
+  for Python 2 support in XlsxWriter has been in place since May 2020 and the
+  Python community support for Python 2 ended in January 2020. Downloads of
+  XlsxWriter for Python 2 is currently less than 6% of all downloads of the
+  library, and decreasing month by month.
+
+  Python 2 users should still be able to install versions of XlsxWriter up to
+  this release but not any releases afterwards.
+
+  :feature:`720`.
 
 
 Release 1.4.5 - July 29 2021
