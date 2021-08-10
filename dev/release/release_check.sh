@@ -24,11 +24,11 @@ function check_test_status {
 
         if [ "$RESPONSE" != "y" ]; then
             echo
-            echo -e "Please run: make testpythonsall\n";
+            echo -e "Please run: make testpythons\n";
             exit 1
         else
             echo "    Running tests...";
-            make testpythonsall
+            make testpythons
             check_test_status
          fi
     fi

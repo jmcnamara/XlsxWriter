@@ -1,5 +1,13 @@
 
 
+Release 3.0.0 - August 10 2021
+------------------------------
+
+* This is the first Python 3 only version of XlsxWriter. It is approximately
+  10-15% faster than the Python2/3 version.
+
+  Python 2 users should use XlsxWriter version 2.0.0, see below.
+
 Release 2.0.0 - August 9 2021
 -----------------------------
 
