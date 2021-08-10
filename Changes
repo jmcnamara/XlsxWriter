@@ -1,4 +1,10 @@
 
+Release 3.0.1 - August 10 2021
+------------------------------
+
+* Add python_requires version to setup.py to help pip find the correct
+  matching version for Python 2 and 3.
+
 
 Release 3.0.0 - August 10 2021
 ------------------------------
