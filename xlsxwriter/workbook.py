@@ -323,7 +323,7 @@ class Workbook(xmlwriter.XMLwriter):
                 self._store_workbook()
             except IOError as e:
                 raise FileCreateError(e)
-            except LargeZipFile as e:
+            except LargeZipFile:
                 raise FileSizeError("Filesize would require ZIP64 extensions. "
                                     "Use workbook.use_zip64().")
 

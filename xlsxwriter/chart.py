@@ -3705,10 +3705,8 @@ class Chart(xmlwriter.XMLwriter):
 
     def _write_custom_label_formula(self, label):
         # Write parts of the <c:dLbl> element for formulas.
-        font = label.get('font')
         formula = label.get('formula')
         data_id = label.get('data_id')
-        has_formatting = self._has_fill_formatting(label)
         data = None
 
         if data_id is not None:

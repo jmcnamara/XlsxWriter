@@ -5,8 +5,6 @@
 # Copyright 2013-2021, John McNamara, jmcnamara@cpan.org
 #
 
-import re
-
 from . import xmlwriter
 from .utility import preserve_whitespace
 from .utility import xl_rowcol_to_cell

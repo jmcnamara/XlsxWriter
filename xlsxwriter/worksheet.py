@@ -4464,7 +4464,7 @@ class Worksheet(xmlwriter.XMLwriter):
 
             if token != 'items' and token != '%':
                 warn("The type '%s' in expression '%s' "
-                     "must be either 'items' or '%'" % (token, expression))
+                     "must be either 'items' or '%%'" % (token, expression))
 
             if tokens[0].lower() == 'top':
                 operator = 30
