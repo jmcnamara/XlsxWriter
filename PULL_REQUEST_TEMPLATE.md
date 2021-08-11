@@ -11,16 +11,6 @@ All patches and pull requests are welcome but must start with an issue tracker.
 3. Fork the repository.
 4. Run all the tests to make sure the current code work on your system using `make test`.
 5. Create a feature branch for your new feature.
-6. Enable Travis CI on your fork, see below.
-
-
-### Enabling Travis CI via your GitHub account
-
-Travis CI is a free Continuous Integration service that will test any code you push to GitHub with various versions of Python and PyPy.
-
-See the [Travis CI Getting Started](http://about.travis-ci.org/docs/user/getting-started/) instructions.
-
-Note there is already a `.travis.yml` file in the XlsxWriter repo so that doesn't need to be created.
 
 
 ### Writing Tests
@@ -52,11 +42,11 @@ As a minimum, tests should be run using Python 3.5+.
 
     make test
     # or
-    py.test
+    pytest
 
 I use [pythonbrew](https://github.com/utahta/pythonbrew) and [Tox](https://tox.readthedocs.io/en/latest/) to test with a variety of Python versions. See the Makefile for example test targets. A `tox.ini` file is already configured.
 
-When you push your changes they will also be tested using [Travis CI](https://travis-ci.org/jmcnamara/XlsxWriter/) as explained above.
+When you push your changes they will also be tested using GitHub actions.
 
 
 ### Documentation
