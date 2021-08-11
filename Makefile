@@ -48,10 +48,11 @@ testpythons:
 	@echo "Testing with Python 3.9.0:"
 	@~/.pythonbrew/pythons/Python-3.9.0/bin/py.test -q
 
-test_codestyle testpep8:
-	@ls -1 xlsxwriter/*.py | egrep -v "theme|compat|__init__" | xargs pycodestyle
-	@pycodestyle --ignore=E501 xlsxwriter/theme.py
-	@find xlsxwriter/test -name \*.py | xargs pycodestyle --ignore=E501
+test_flake8:
+	@ls -1 xlsxwriter/*.py | egrep -v "theme|__init__" | xargs flake8 --show-source
+	@ls -1 xlsxwriter/*.py | egrep -v "theme|__init__" | xargs pycodestyle
+	@flake8 --ignore=E501 xlsxwriter/theme.py
+	@find xlsxwriter/test -name \*.py | xargs flake8 --ignore=E501,F841
 
 tags:
 	$(Q)rm -f TAGS
