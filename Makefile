@@ -50,7 +50,6 @@ testpythons:
 
 test_flake8:
 	@ls -1 xlsxwriter/*.py | egrep -v "theme|__init__" | xargs flake8 --show-source
-	@ls -1 xlsxwriter/*.py | egrep -v "theme|__init__" | xargs pycodestyle
 	@flake8 --ignore=E501 xlsxwriter/theme.py
 	@find xlsxwriter/test -name \*.py | xargs flake8 --ignore=E501,F841
 
