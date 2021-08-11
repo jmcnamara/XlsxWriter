@@ -6,7 +6,6 @@
 #
 import warnings
 from ..excel_comparison_test import ExcelComparisonTest
-from datetime import date
 from ...workbook import Workbook
 
 

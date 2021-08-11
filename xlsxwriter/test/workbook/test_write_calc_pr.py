@@ -61,7 +61,7 @@ class TestWriteCalcPr(unittest.TestCase):
 
         self.assertEqual(got, exp)
 
-    def test_write_calc_pr(self):
+    def test_write_calc_pr2(self):
         """Test the _write_calc_pr() method with non-default calc id."""
 
         self.workbook.set_calc_mode("auto", 12345)

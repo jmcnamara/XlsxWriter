@@ -6,10 +6,7 @@
 #
 
 import unittest
-from io import StringIO
-from ..helperfunctions import _xml_to_list
 from ...worksheet import Worksheet
-from ...sharedstrings import SharedStringTable
 
 
 class TestRangeReturnValues(unittest.TestCase):
