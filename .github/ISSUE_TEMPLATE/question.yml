@@ -1,0 +1,26 @@
+name: ❓ Question
+
+description: Ask a question about XlsxWriter
+
+title: "question: <add a description here>"
+
+labels: [question]
+
+assignees:
+  - jmcnamara
+
+body:
+
+- type: markdown
+  attributes:
+    value: |
+      General questions on how to do something with the XlsxWriter module should be asked on [StackOverflow](http://stackoverflow.com/questions/tagged/xlsxwriter) with a tag of "xlsxwriter". This has a better chance of getting several answers and also helps others who might have similar questions in the future.
+
+      Other questions can be asked below.
+
+- type: textarea
+  attributes:
+    label: Question
+    description: Ask a question that doesn't belong on StackOverflow
+  validations:
+    required: true
