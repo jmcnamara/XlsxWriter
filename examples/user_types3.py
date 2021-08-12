@@ -6,7 +6,6 @@
 # Copyright 2013-2021, John McNamara, jmcnamara@cpan.org
 #
 import xlsxwriter
-import math
 
 # Create a function that changes the worksheet write() method so that it
 # hides/replaces user passwords when writing string data. The password data,
