@@ -160,7 +160,7 @@ worksheet6.write_row('B7', data[3])
 #
 # Example 7.
 #
-caption = 'Table with user defined column headers'
+caption = 'Table with user defined column headers.'
 
 # Set the columns widths.
 worksheet7.set_column('B:G', 12)
@@ -182,7 +182,7 @@ worksheet7.add_table('B3:F7', {'data': data,
 #
 # Example 8.
 #
-caption = 'Table with user defined column headers'
+caption = 'Table with user defined column headers.'
 
 # Set the columns widths.
 worksheet8.set_column('B:G', 12)
