@@ -5139,7 +5139,7 @@ class Worksheet(xmlwriter.XMLwriter):
 
     def _button_params(self, row, col, options):
         # This method handles the parameters passed to insert_button() as well
-        # as calculating the comment object position and vertices.
+        # as calculating the button object position and vertices.
 
         default_height = self.default_row_pixels
         default_width = self.default_col_pixels
