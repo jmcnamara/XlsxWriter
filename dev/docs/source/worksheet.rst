@@ -1561,7 +1561,7 @@ worksheet.insert_button()
    :returns:  0: Success.
    :returns: -1: Row or column is out of worksheet bounds.
 
-The ``insert_button(``) method can be used to insert an Excel form button into a worksheet.
+The ``insert_button()`` method can be used to insert an Excel form button into a worksheet.
 
 This method is generally only useful when used in conjunction with the
 Workbook :func:`add_vba_project` method to tie the button to a macro from an
