@@ -4,7 +4,7 @@ Examples
 ========
 
 The following are some of the examples included in the
-`examples <https://github.com/jmcnamara/XlsxWriter/tree/master/examples>`_
+`examples <https://github.com/jmcnamara/XlsxWriter/tree/main/examples>`_
 directory of the XlsxWriter distribution.
 
 .. toctree::

@@ -23,7 +23,7 @@ the data as shown below.
 
 The minus sign changes to a plus sign to indicate that the data in the outline
 is hidden. This shows the usefulness of outlines: with 2 mouse clicks we have
-reduced the amount of visual data down to 2 sub-totals and a master total.
+reduced the amount of visual data down to 2 sub-totals and the overall total.
 
 Finally, clicking on the minus sign on the level 1 outline will collapse the
 remaining rows as follows:

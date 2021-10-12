@@ -26,7 +26,7 @@ If you have questions about XlsxWriter here are some ways to deal with them:
 * **Pull Requests**:
 
   See the `Contributing Guide
-  <https://github.com/jmcnamara/XlsxWriter/blob/master/CONTRIBUTING.md>`_.
+  <https://github.com/jmcnamara/XlsxWriter/blob/main/CONTRIBUTING.md>`_.
   Note, all Pull Requests must start with an Issue Tracker.
 
 * **General Questions**:

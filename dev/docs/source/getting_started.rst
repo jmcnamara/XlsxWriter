@@ -39,10 +39,10 @@ it as follows (change the version number to suit)::
 
 A tarball of the latest code can be downloaded from GitHub as follows::
 
-    $ curl -O -L http://github.com/jmcnamara/XlsxWriter/archive/master.tar.gz
+    $ curl -O -L http://github.com/jmcnamara/XlsxWriter/archive/main.tar.gz
 
-    $ tar zxvf master.tar.gz
-    $ cd XlsxWriter-master/
+    $ tar zxvf main.tar.gz
+    $ cd XlsxWriter-main/
     $ python setup.py install
 
 
@@ -87,7 +87,7 @@ the following:
 
 If you downloaded a tarball or cloned the repo, as shown above, you should also
 have a directory called
-`examples <https://github.com/jmcnamara/XlsxWriter/tree/master/examples>`_
+`examples <https://github.com/jmcnamara/XlsxWriter/tree/main/examples>`_
 with some sample applications that demonstrate different features of
 XlsxWriter.
 
@@ -98,7 +98,7 @@ Documentation
 The latest version of this document is hosted on
 `Read The Docs <https://xlsxwriter.readthedocs.io>`_. It is also
 available as a
-`PDF <https://raw.githubusercontent.com/jmcnamara/XlsxWriter/master/docs/XlsxWriter.pdf>`_.
+`PDF <https://raw.githubusercontent.com/jmcnamara/XlsxWriter/main/docs/XlsxWriter.pdf>`_.
 
 Once you are happy that the module is installed and operational you can have a
 look at the rest of the XlsxWriter documentation. :ref:`tutorial1` is a good
