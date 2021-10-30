@@ -208,6 +208,7 @@ class Worksheet(xmlwriter.XMLwriter):
         self.hidden = 0
         self.active = 0
         self.tab_color = 0
+        self.top_left_cell = ''
 
         self.panes = []
         self.active_pane = 3
@@ -3333,6 +3334,24 @@ class Worksheet(xmlwriter.XMLwriter):
 
         self.selections = [[pane, active_cell, sqref]]
 
+    @convert_cell_args
+    def set_top_left_cell(self, row=0, col=0):
+        """
+        Set the first visible cell at the top left of a worksheet.
+
+        Args:
+            row: The cell row (zero indexed).
+            col: The cell column (zero indexed).
+
+        Returns:
+            0:  Nothing.
+        """
+
+        if row == 0 and col == 0:
+            return
+
+        self.top_left_cell = xl_rowcol_to_cell(row, col)
+
     def outline_settings(self, visible=1, symbols_below=1, symbols_right=1,
                          auto_style=0):
         """
@@ -5714,6 +5733,10 @@ class Worksheet(xmlwriter.XMLwriter):
         # Set the page view/layout mode if required.
         if self.page_view:
             attributes.append(('view', 'pageLayout'))
+
+        # Set the first visible cell.
+        if self.top_left_cell != '':
+            attributes.append(('topLeftCell', self.top_left_cell))
 
         # Set the zoom level.
         if self.zoom != 100:

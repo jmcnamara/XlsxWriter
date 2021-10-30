@@ -2281,6 +2281,32 @@ As shown above, both row-column and A1 style notation are supported. See
 ``(0, 0)``, ``'A1'``.
 
 
+worksheet.set_top_left_cell()
+-----------------------------
+
+.. py:function:: set_top_left_cell(row, col)
+
+   Set the first visible cell at the top left of a worksheet.
+
+   :param int row:      The cell row (zero indexed).
+   :param int col:      The cell column (zero indexed).
+
+
+This ``set_top_left_cell`` method can be used to set the top leftmost visible
+cell in the worksheet::
+
+    worksheet.set_top_left_cell(31, 26)
+
+    # Same as:
+    worksheet.set_top_left_cell('AA32')
+
+
+.. image:: _images/top_left_cell.png
+
+As shown above, both row-column and A1 style notation are supported. See
+:ref:`cell_notation` for more details.
+
+
 worksheet.freeze_panes()
 ------------------------
 
