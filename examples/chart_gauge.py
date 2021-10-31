@@ -7,6 +7,7 @@
 # elements. This example follows the following online example of how to create
 # a Gauge Chart in Excel: https://www.excel-easy.com/examples/gauge-chart.html
 #
+# SPDX-License-Identifier: BSD-2-Clause
 # Copyright 2013-2021, John McNamara, jmcnamara@cpan.org
 #
 import xlsxwriter

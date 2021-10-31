@@ -4,6 +4,7 @@
 # worksheet and cell text direction from left-to-right to right-to-left as
 # required by some middle eastern versions of Excel.
 #
+# SPDX-License-Identifier: BSD-2-Clause
 # Copyright 2013-2021, John McNamara, jmcnamara@cpan.org
 #
 import xlsxwriter

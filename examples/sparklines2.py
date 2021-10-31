@@ -6,6 +6,7 @@
 # used to show trends in data. This example shows the majority of
 # options that can be applied to sparklines.
 #
+# SPDX-License-Identifier: BSD-2-Clause
 # Copyright 2013-2021, John McNamara, jmcnamara@cpan.org
 #
 import xlsxwriter

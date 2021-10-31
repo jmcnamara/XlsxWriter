@@ -5,6 +5,7 @@
 # Conditional formatting allows you to apply a format to a cell or a
 # range of cells based on certain criteria.
 #
+# SPDX-License-Identifier: BSD-2-Clause
 # Copyright 2013-2021, John McNamara, jmcnamara@cpan.org
 #
 import xlsxwriter

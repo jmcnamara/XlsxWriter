@@ -2,6 +2,7 @@
 #
 # A simple program demonstrating a check for exceptions when closing the file.
 #
+# SPDX-License-Identifier: BSD-2-Clause
 # Copyright 2013-2021, John McNamara, jmcnamara@cpan.org
 #
 import xlsxwriter

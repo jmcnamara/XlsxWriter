@@ -3,6 +3,7 @@
 # Example of cell locking and formula hiding in an Excel worksheet
 # using Python and the XlsxWriter module.
 #
+# SPDX-License-Identifier: BSD-2-Clause
 # Copyright 2013-2021, John McNamara, jmcnamara@cpan.org
 #
 import xlsxwriter

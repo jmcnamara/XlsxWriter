@@ -2,6 +2,7 @@
 #
 # An example of creating of a Pareto chart with Python and XlsxWriter.
 #
+# SPDX-License-Identifier: BSD-2-Clause
 # Copyright 2013-2021, John McNamara, jmcnamara@cpan.org
 #
 import xlsxwriter

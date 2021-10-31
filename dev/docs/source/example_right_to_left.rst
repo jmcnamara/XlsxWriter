@@ -1,3 +1,6 @@
+.. SPDX-License-Identifier: BSD-2-Clause
+   Copyright 2013-2021, John McNamara, jmcnamara@cpan.org
+
 .. _ex_right_to_left:
 
 Example: Left to Right worksheets and text

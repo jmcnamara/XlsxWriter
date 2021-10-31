@@ -6,6 +6,7 @@
 # These examples focus mainly on collapsed outlines. See also the
 # outlines.py example program for more general examples.
 #
+# SPDX-License-Identifier: BSD-2-Clause
 # Copyright 2013-2021, John McNamara, jmcnamara@cpan.org
 #
 import xlsxwriter

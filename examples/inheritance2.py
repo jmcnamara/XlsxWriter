@@ -11,6 +11,7 @@
 # Note: THIS ISN'T A FULLY FUNCTIONAL AUTOFIT EXAMPLE. It is only a proof or
 # concept or a framework to try out solutions.
 #
+# SPDX-License-Identifier: BSD-2-Clause
 # Copyright 2013-2021, John McNamara, jmcnamara@cpan.org
 #
 from xlsxwriter.workbook import Workbook

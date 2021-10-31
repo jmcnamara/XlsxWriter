@@ -2,6 +2,7 @@
 #
 # SharedStrings - A class for writing the Excel XLSX sharedStrings file.
 #
+# SPDX-License-Identifier: BSD-2-Clause
 # Copyright 2013-2021, John McNamara, jmcnamara@cpan.org
 #
 

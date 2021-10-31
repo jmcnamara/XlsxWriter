@@ -3,6 +3,7 @@
 # An example of adding support for user defined types to the XlsxWriter write()
 # method.
 #
+# SPDX-License-Identifier: BSD-2-Clause
 # Copyright 2013-2021, John McNamara, jmcnamara@cpan.org
 #
 import xlsxwriter

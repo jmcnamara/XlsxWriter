@@ -4,6 +4,7 @@
 # hide rows without setting each one, (of approximately 1 million rows),
 # Excel uses an optimizations to hide all rows that don't have data.
 #
+# SPDX-License-Identifier: BSD-2-Clause
 # Copyright 2013-2021, John McNamara, jmcnamara@cpan.org
 #
 import xlsxwriter

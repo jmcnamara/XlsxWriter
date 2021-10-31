@@ -3,6 +3,7 @@
 # Example of how to use Python and the XlsxWriter module to write
 # simple array formulas.
 #
+# SPDX-License-Identifier: BSD-2-Clause
 # Copyright 2013-2021, John McNamara, jmcnamara@cpan.org
 #
 import xlsxwriter

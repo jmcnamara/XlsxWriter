@@ -8,6 +8,7 @@
 # warning messages. It also allows you to restrict input to values in
 # a drop down list.
 #
+# SPDX-License-Identifier: BSD-2-Clause
 # Copyright 2013-2021, John McNamara, jmcnamara@cpan.org
 #
 from datetime import date, time

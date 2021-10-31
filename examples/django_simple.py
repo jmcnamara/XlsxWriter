@@ -3,6 +3,7 @@
 # A simple Django view class to write an Excel file using the XlsxWriter
 # module.
 #
+# SPDX-License-Identifier: BSD-2-Clause
 # Copyright 2013-2021, John McNamara, jmcnamara@cpan.org
 #
 import io

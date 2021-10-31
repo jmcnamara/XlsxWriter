@@ -2,6 +2,7 @@
 #
 # A demo of a clustered category chart in XlsxWriter.
 #
+# SPDX-License-Identifier: BSD-2-Clause
 # Copyright 2013-2021, John McNamara, jmcnamara@cpan.org
 #
 from xlsxwriter.workbook import Workbook

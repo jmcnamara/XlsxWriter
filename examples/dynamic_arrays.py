@@ -5,6 +5,7 @@
 # 365. The examples mirror the examples in the Excel documentation on these
 # functions.
 #
+# SPDX-License-Identifier: BSD-2-Clause
 # Copyright 2013-2021, John McNamara, jmcnamara@cpan.org
 #
 import xlsxwriter

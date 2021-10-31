@@ -2,6 +2,7 @@
 #
 # Helper functions for testing XlsxWriter.
 #
+# SPDX-License-Identifier: BSD-2-Clause
 # Copyright (c), 2013-2021, John McNamara, jmcnamara@cpan.org
 #
 

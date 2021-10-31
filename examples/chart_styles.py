@@ -4,6 +4,7 @@
 # using Python and XlsxWriter. Note, these styles are not the same as
 # the styles available in Excel 2013.
 #
+# SPDX-License-Identifier: BSD-2-Clause
 # Copyright 2013-2021, John McNamara, jmcnamara@cpan.org
 #
 import xlsxwriter

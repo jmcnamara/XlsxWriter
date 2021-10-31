@@ -3,6 +3,7 @@
 # A simple example using the XlsxWriter Python module and the "with" context
 # manager. This doesn't require an explicit close().
 #
+# SPDX-License-Identifier: BSD-2-Clause
 # Copyright 2013-2021, John McNamara, jmcnamara@cpan.org
 #
 import xlsxwriter

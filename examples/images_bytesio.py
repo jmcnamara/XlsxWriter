@@ -3,6 +3,7 @@
 # An example of inserting images from a Python BytesIO byte stream into a
 # worksheet using the XlsxWriter module.
 #
+# SPDX-License-Identifier: BSD-2-Clause
 # Copyright 2013-2021, John McNamara, jmcnamara@cpan.org
 #
 

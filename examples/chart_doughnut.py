@@ -8,6 +8,7 @@
 # case since each segment is represented as a point so it is necessary to
 # assign formatting to each point in the series.
 #
+# SPDX-License-Identifier: BSD-2-Clause
 # Copyright 2013-2021, John McNamara, jmcnamara@cpan.org
 #
 import xlsxwriter

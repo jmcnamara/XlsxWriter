@@ -3,6 +3,7 @@
 # A simple example of converting a Pandas dataframe to an xlsx file using
 # Pandas and XlsxWriter.
 #
+# SPDX-License-Identifier: BSD-2-Clause
 # Copyright 2013-2021, John McNamara, jmcnamara@cpan.org
 #
 

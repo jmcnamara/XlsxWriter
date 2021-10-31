@@ -3,6 +3,7 @@
 # An example of inserting textboxes into an Excel worksheet using
 # Python and XlsxWriter.
 #
+# SPDX-License-Identifier: BSD-2-Clause
 # Copyright 2013-2021, John McNamara, jmcnamara@cpan.org
 #
 import xlsxwriter

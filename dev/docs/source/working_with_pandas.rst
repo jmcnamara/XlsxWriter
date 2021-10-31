@@ -1,3 +1,6 @@
+.. SPDX-License-Identifier: BSD-2-Clause
+   Copyright 2013-2021, John McNamara, jmcnamara@cpan.org
+
 .. _ewx_pandas:
 
 Working with Python Pandas and XlsxWriter

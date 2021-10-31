@@ -7,6 +7,7 @@
 #
 # See sparklines2.py for examples of more complex sparkline formatting.
 #
+# SPDX-License-Identifier: BSD-2-Clause
 # Copyright 2013-2021, John McNamara, jmcnamara@cpan.org
 #
 import xlsxwriter

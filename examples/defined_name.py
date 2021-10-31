@@ -5,6 +5,7 @@
 # This method is used to define a user friendly name to represent a value,
 # a single cell or a range of cells in a workbook.
 #
+# SPDX-License-Identifier: BSD-2-Clause
 # Copyright 2013-2021, John McNamara, jmcnamara@cpan.org
 #
 import xlsxwriter

@@ -1,3 +1,6 @@
+.. SPDX-License-Identifier: BSD-2-Clause
+   Copyright 2013-2021, John McNamara, jmcnamara@cpan.org
+
 .. _ex_unicode_polish_utf8:
 
 Example: Unicode - Polish in UTF-8

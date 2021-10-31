@@ -3,6 +3,7 @@
 # An example of writing multiple dataframes to worksheets using Pandas and
 # XlsxWriter.
 #
+# SPDX-License-Identifier: BSD-2-Clause
 # Copyright 2013-2021, John McNamara, jmcnamara@cpan.org
 #
 

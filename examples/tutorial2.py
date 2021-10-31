@@ -6,6 +6,7 @@
 # This program is shown, with explanations, in Tutorial 2 of the XlsxWriter
 # documentation.
 #
+# SPDX-License-Identifier: BSD-2-Clause
 # Copyright 2013-2021, John McNamara, jmcnamara@cpan.org
 #
 import xlsxwriter

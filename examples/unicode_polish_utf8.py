@@ -6,6 +6,7 @@
 # This example generates a spreadsheet with some Polish text from a file
 # with UTF8 encoded text.
 #
+# SPDX-License-Identifier: BSD-2-Clause
 # Copyright 2013-2021, John McNamara, jmcnamara@cpan.org
 #
 import xlsxwriter

@@ -6,6 +6,7 @@
 # Tables in Excel are used to group rows and columns of data into a single
 # structure that can be referenced in a formula or formatted collectively.
 #
+# SPDX-License-Identifier: BSD-2-Clause
 # Copyright 2013-2021, John McNamara, jmcnamara@cpan.org
 #
 

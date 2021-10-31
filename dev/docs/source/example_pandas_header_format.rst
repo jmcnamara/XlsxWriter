@@ -1,3 +1,6 @@
+.. SPDX-License-Identifier: BSD-2-Clause
+   Copyright 2013-2021, John McNamara, jmcnamara@cpan.org
+
 .. _ex_pandas_header_format:
 
 Example: Pandas Excel output with user defined header format

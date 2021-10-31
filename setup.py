@@ -35,7 +35,7 @@ setup(
     packages=['xlsxwriter'],
     scripts=['examples/vba_extract.py'],
     cmdclass={'test': PyTest},
-    license='BSD',
+    license='BSD-2-Clause',
     description='A Python module for creating Excel XLSX files.',
     long_description=open('README.rst').read(),
     classifiers=[

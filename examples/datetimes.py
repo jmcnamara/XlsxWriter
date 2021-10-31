@@ -3,6 +3,7 @@
 # A simple program to write some dates and times to an Excel file
 # using the XlsxWriter Python module.
 #
+# SPDX-License-Identifier: BSD-2-Clause
 # Copyright 2013-2021, John McNamara, jmcnamara@cpan.org
 #
 from datetime import datetime

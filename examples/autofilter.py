@@ -6,6 +6,7 @@
 # range of worksheet data. This allows users to filter the data based on
 # simple criteria so that some data is shown and some is hidden.
 #
+# SPDX-License-Identifier: BSD-2-Clause
 # Copyright 2013-2021, John McNamara, jmcnamara@cpan.org
 #
 import xlsxwriter

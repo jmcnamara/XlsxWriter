@@ -4,6 +4,7 @@
 # module. Note, this function is only currently available if you are
 # subscribed to the Microsoft Office Beta Channel program.
 #
+# SPDX-License-Identifier: BSD-2-Clause
 # Copyright 2013-2021, John McNamara, jmcnamara@cpan.org
 #
 from xlsxwriter.workbook import Workbook

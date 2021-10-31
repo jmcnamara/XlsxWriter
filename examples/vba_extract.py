@@ -5,6 +5,7 @@
 # vba_extract - A simple utility to extract a vbaProject.bin binary from an
 # Excel 2007+ xlsm file for insertion into an XlsxWriter file.
 #
+# SPDX-License-Identifier: BSD-2-Clause
 # Copyright 2013-2021, John McNamara, jmcnamara@cpan.org
 #
 import sys
