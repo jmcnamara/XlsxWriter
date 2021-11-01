@@ -1,4 +1,12 @@
 
+Release 3.0.2 - October 31 2021
+-------------------------------
+
+* Added :func:`set_top_left_cell` worksheet method to position the first
+  visible cell in a worksheet.
+
+  :feature:`837`.
+
 Release 3.0.1 - August 10 2021
 ------------------------------
 
