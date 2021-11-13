@@ -50,6 +50,8 @@ testpythons:
 	@~/.pythonbrew/pythons/Python-3.8.0/bin/py.test -q
 	@echo "Testing with Python 3.9.0:"
 	@~/.pythonbrew/pythons/Python-3.9.0/bin/py.test -q
+	@echo "Testing with Python 3.10.0:"
+	@~/.pythonbrew/pythons/Python-3.10.0/bin/py.test -q
 
 test_flake8:
 	@ls -1 xlsxwriter/*.py | egrep -v "theme|__init__" | xargs flake8 --show-source
@@ -79,7 +81,7 @@ release: releasecheck
 	@git push --tags
 
 	@rm -rf dist/ build/ XlsxWriter.egg-info/
-	@python setup.py sdist bdist_wheel
+	@python3 setup.py sdist bdist_wheel
 	@twine upload dist/*
 	@rm -rf dist/ build/ XlsxWriter.egg-info/
 
