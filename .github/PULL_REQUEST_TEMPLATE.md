@@ -46,7 +46,7 @@ As a minimum, tests should be run using Python 3.5+.
 
 I use [pythonbrew](https://github.com/utahta/pythonbrew) and [Tox](https://tox.readthedocs.io/en/latest/) to test with a variety of Python versions. See the Makefile for example test targets. A `tox.ini` file is already configured.
 
-When you push your changes they will also be tested using GitHub actions.
+When you push your changes they will also be tested using GitHub Actions.
 
 
 ### Documentation
