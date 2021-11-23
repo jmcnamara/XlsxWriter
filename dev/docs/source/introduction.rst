@@ -33,7 +33,7 @@ XlsxWriter has some advantages and disadvantages over the
    * It cannot read or modify existing Excel XLSX files.
 
 
-XlsxWriter is licensed under a BSD :ref:`License` and the source code is
+XlsxWriter is licensed under a BSD 2-Clause :ref:`License` and the source code is
 available on `GitHub <https://github.com/jmcnamara/XlsxWriter>`_.
 
 To try out the module see the next section on :ref:`getting_started`.
