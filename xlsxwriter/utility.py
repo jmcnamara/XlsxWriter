@@ -281,7 +281,7 @@ def quote_sheetname(sheetname):
         # Double quote any single quotes.
         sheetname = sheetname.replace("'", "''")
 
-        # Singe quote the sheet name.
+        # Single quote the sheet name.
         sheetname = "'%s'" % sheetname
 
     return sheetname

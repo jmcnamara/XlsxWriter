@@ -3030,7 +3030,7 @@ class Worksheet(xmlwriter.XMLwriter):
                         if formula.startswith('='):
                             formula = formula.lstrip('=')
 
-                        # Covert Excel 2010 "@" ref to 2007 "#This Row".
+                        # Convert Excel 2010 "@" ref to 2007 "#This Row".
                         formula = formula.replace('@', '[#This Row],')
 
                         col_data['formula'] = formula
