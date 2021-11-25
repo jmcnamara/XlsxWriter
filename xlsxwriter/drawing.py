@@ -201,7 +201,7 @@ class Drawing(xmlwriter.XMLwriter):
         self._xml_start_tag('xdr:absoluteAnchor')
         # Write the <xdr:absoluteAnchor> element.
 
-        # Different co-ordinates for horizontal (= 0) and vertical (= 1).
+        # Different coordinates for horizontal (= 0) and vertical (= 1).
         if self.orientation == 0:
             # Write the xdr:pos element.
             self._write_pos(0, 0)

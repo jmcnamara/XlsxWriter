@@ -2441,7 +2441,7 @@ worksheets that use right-to-left as the default direction.
 .. image:: _images/right_to_left.png
 
 See also the Format :func:`set_reading_order` property to set the direction of the
-text withing cells and the :ref:`ex_right_to_left` example program.
+text within cells and the :ref:`ex_right_to_left` example program.
 
 
 worksheet.hide_zero()

@@ -8,6 +8,6 @@ perf_pyx.py: The initial performance and memory test for XlsxWriter. This is
              no longer valid for OpenPyXL.
 
 perf2.py: A newer benchmark that take formats and some other features into
-          accout.
+          account.
 
 perf3.py: A better performance comparison between XlsxWriter and OpenPyXL.
