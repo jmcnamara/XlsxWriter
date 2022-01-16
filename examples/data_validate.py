@@ -9,7 +9,7 @@
 # a drop down list.
 #
 # SPDX-License-Identifier: BSD-2-Clause
-# Copyright 2013-2021, John McNamara, jmcnamara@cpan.org
+# Copyright 2013-2022, John McNamara, jmcnamara@cpan.org
 #
 from datetime import date, time
 import xlsxwriter
