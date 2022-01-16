@@ -89,11 +89,14 @@ section, we we can use them to apply other features such as adding a chart::
     # Create a chart object.
     chart = workbook.add_chart({'type': 'column'})
 
+    # Get the dimensions of the dataframe.
+    (max_row, max_col) = df.shape
+
     # Configure the series of the chart from the dataframe data.
-    chart.add_series({'values': '=Sheet1!$B$2:$B$8'})
+    chart.add_series({'values': ['Sheet1', 1, 1, max_row, 1]})
 
     # Insert the chart into the worksheet.
-    worksheet.insert_chart('D2', chart)
+    worksheet.insert_chart(1, 3, chart)
 
 The output would look like this:
 
@@ -101,27 +104,22 @@ The output would look like this:
 
 See the full example at :ref:`ex_pandas_chart`.
 
-.. Note::
-
-   The above example uses a fixed string ``=Sheet1!$B$2:$B$8`` for the data
-   range. It is also possible to use a ``(row, col)`` range which can be
-   varied based on the length of the dataframe. See for example
-   :ref:`ex_pandas_chart_line` and :ref:`cell_notation`.
-
 
 Adding Conditional Formatting to Dataframe output
 -------------------------------------------------
 
 Another option is to apply a conditional format like this::
 
-    # Apply a conditional format to the cell range.
-    worksheet.conditional_format('B2:B8', {'type': '3_color_scale'})
+    # Apply a conditional format to the required cell range.
+    worksheet.conditional_format(1, max_col, max_row, max_col,
+                                 {'type': '3_color_scale'})
 
 Which would give:
 
 .. image:: _images/pandas_conditional.png
 
-See the full example at :ref:`ex_pandas_conditional`.
+See the full example at :ref:`ex_pandas_conditional` and the section of the
+docs on :ref:`working_with_conditional_formats`.
 
 
 Formatting of the Dataframe output
@@ -158,14 +156,12 @@ It is possible to format any other, non date/datetime column data using
     format2 = workbook.add_format({'num_format': '0%'})
 
     # Set the column width and format.
-    worksheet.set_column('B:B', 18, format1)
+    worksheet.set_column(1, 1, 18, format1)
 
     # Set the format but not the column width.
-    worksheet.set_column('C:C', None, format2)
+    worksheet.set_column(2, 2, None, format2)
 
 .. image:: _images/pandas_column_formats.png
-
-Note: This feature requires Pandas >= 0.16.
 
 See the full example at :ref:`ex_pandas_column_formats`.
 

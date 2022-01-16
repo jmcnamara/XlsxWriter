@@ -32,10 +32,10 @@ format2 = workbook.add_format({'num_format': '0%'})
 # as the index or headers or any cells that contain dates or datetimes.
 
 # Set the column width and format.
-worksheet.set_column('B:B', 18, format1)
+worksheet.set_column(1, 1, 18, format1)
 
 # Set the format but not the column width.
-worksheet.set_column('C:C', None, format2)
+worksheet.set_column(2, 2, None, format2)
 
 # Close the Pandas Excel writer and output the Excel file.
 writer.save()
