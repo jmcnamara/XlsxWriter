@@ -50,6 +50,7 @@ directory of the XlsxWriter distribution.
    example_unicode.rst
    example_unicode_polish_utf8.rst
    example_unicode_shift_jis.rst
+   example_watermark.rst
    example_background.rst
    example_tab_colors.rst
    example_diagonal_border.rst
