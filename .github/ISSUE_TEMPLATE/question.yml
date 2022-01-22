@@ -6,9 +6,6 @@ title: "question: <add a description here>"
 
 labels: [question]
 
-assignees:
-  - jmcnamara
-
 body:
 
 - type: markdown
