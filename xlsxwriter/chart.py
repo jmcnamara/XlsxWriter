@@ -872,6 +872,11 @@ class Chart(xmlwriter.XMLwriter):
             if token is None:
                 continue
 
+            # Check for strings like '1.1_1' which would evaluate to float.
+            if type(token) == str and '_' in token:
+                # Assume entire data series is string data.
+                return 'str'
+
             try:
                 float(token)
             except ValueError:
