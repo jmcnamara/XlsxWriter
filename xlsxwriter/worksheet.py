@@ -6162,7 +6162,8 @@ class Worksheet(xmlwriter.XMLwriter):
         if height is None:
             height = self.default_row_height
 
-        attributes = [('r', row + 1)]
+        # Set initial empty attributes without r attr, to reduce file size
+        attributes = []
 
         # Get the cell_format index.
         if cell_format:
@@ -6211,7 +6212,8 @@ class Worksheet(xmlwriter.XMLwriter):
 
         cell_range = xl_rowcol_to_cell_fast(row, col)
 
-        attributes = [('r', cell_range)]
+        # Set initial empty attributes without r attr, to reduce file size
+        attributes = []
 
         if cell.format:
             # Add the cell format index.
