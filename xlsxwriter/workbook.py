@@ -84,6 +84,8 @@ class Workbook(xmlwriter.XMLwriter):
         self.excel2003_style = options.get('excel2003_style', False)
         self.remove_timezone = options.get('remove_timezone', False)
         self.use_future_functions = options.get('use_future_functions', False)
+        self.omit_row_r_attribute = options.get('omit_row_r_attribute', False)
+        self.omit_cell_r_attribute = options.get('omit_cell_r_attribute', False)
         self.default_format_properties = \
             options.get('default_format_properties', {})
 
@@ -777,6 +779,8 @@ class Workbook(xmlwriter.XMLwriter):
             'remove_timezone': self.remove_timezone,
             'max_url_length': self.max_url_length,
             'use_future_functions': self.use_future_functions,
+            'omit_row_r_attribute': self.omit_row_r_attribute,
+            'omit_cell_r_attribute': self.omit_cell_r_attribute,
         }
 
         worksheet._initialize(init_data)

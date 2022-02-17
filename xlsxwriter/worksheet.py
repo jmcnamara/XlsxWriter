@@ -4157,6 +4157,8 @@ class Worksheet(xmlwriter.XMLwriter):
         self.remove_timezone = init_data['remove_timezone']
         self.max_url_length = init_data['max_url_length']
         self.use_future_functions = init_data['use_future_functions']
+        self.omit_row_r_attribute = init_data['omit_row_r_attribute']
+        self.omit_cell_r_attribute = init_data['omit_cell_r_attribute']
 
         if self.excel2003_style:
             self.original_row_height = 12.75
@@ -6162,8 +6164,10 @@ class Worksheet(xmlwriter.XMLwriter):
         if height is None:
             height = self.default_row_height
 
-        # Set initial empty attributes without r attr, to reduce file size
-        attributes = []
+        if self.omit_row_r_attribute:
+            attributes = []
+        else:
+            attributes = [('r', row + 1)]
 
         # Get the cell_format index.
         if cell_format:
@@ -6212,8 +6216,10 @@ class Worksheet(xmlwriter.XMLwriter):
 
         cell_range = xl_rowcol_to_cell_fast(row, col)
 
-        # Set initial empty attributes without r attr, to reduce file size
-        attributes = []
+        if self.omit_cell_r_attribute:
+            attributes = []
+        else:
+            attributes = [('r', cell_range)]
 
         if cell.format:
             # Add the cell format index.
