@@ -4049,6 +4049,20 @@ class Worksheet(xmlwriter.XMLwriter):
         self.print_scale = int(scale)
         self.page_setup_changed = True
 
+    def print_black_and_white(self):
+        """
+        Set the option to print the worksheet in black and white.
+
+        Args:
+            None.
+
+        Returns:
+            Nothing.
+
+        """
+        self.black_white = True
+        self.page_setup_changed = True
+
     def set_h_pagebreaks(self, breaks):
         """
         Set the horizontal page breaks on a worksheet.
@@ -5949,6 +5963,10 @@ class Worksheet(xmlwriter.XMLwriter):
             attributes.append(('orientation', 'portrait'))
         else:
             attributes.append(('orientation', 'landscape'))
+
+        # Set the print in black and white option.
+        if self.black_white:
+            attributes.append(('blackAndWhite', '1'))
 
         # Set start page for printing.
         if self.page_start != 0:
