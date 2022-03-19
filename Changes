@@ -1,6 +1,6 @@
 
-Release 3.0.3 - March 27 2022
------------------------------
+Release 3.0.3 - February 27 2022
+--------------------------------
 
 * Added :func:`print_black_and_white` worksheet method to set "Black and
   White" print options.
