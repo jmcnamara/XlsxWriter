@@ -484,12 +484,6 @@ they are added. However it can also be set by the user using the ``name`` parame
 
     worksheet.add_table('B3:F7', {'name': 'SalesData'})
 
-If you need to know the name of the table, for example to use it in a formula,
-you can get it as follows::
-
-    table = worksheet.add_table('B3:F7')
-    table_name = table.name
-
 When used in a formula a table name such as ``TableX`` should be referred to
 as ``TableX[]`` (like a Python list)::
 
