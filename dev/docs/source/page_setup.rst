@@ -1,5 +1,5 @@
 .. SPDX-License-Identifier: BSD-2-Clause
-   Copyright 2013-2021, John McNamara, jmcnamara@cpan.org
+   Copyright 2013-2022, John McNamara, jmcnamara@cpan.org
 
 .. _page_setup:
 
@@ -673,6 +673,7 @@ Number" option in Excel::
     # Start print from page 2.
     worksheet.set_start_page(2)
 
+
 worksheet.set_print_scale()
 ---------------------------
 
@@ -698,6 +699,19 @@ Note also that although it is valid to use both ``fit_to_pages()`` and
 ``set_print_scale()`` on the same worksheet Excel only allows one of these
 options to be active at a time. The last method call made will set the active
 option.
+
+
+worksheet.print_black_and_white()
+---------------------------------
+
+.. py:function:: print_black_and_white()
+
+   Set the worksheet to print in black and white.
+
+Set the option to print the worksheet in black and white::
+
+    worksheet.print_black_and_white()
+
 
 
 worksheet.set_h_pagebreaks()

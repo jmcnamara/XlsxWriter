@@ -42,7 +42,7 @@ while (<>) {
         print "\\end{quote}\n";
     }
 
-    # Modifiy the pre-amble. We could do this in the Sphinx conf.py
+    # Modify the pre-amble. We could do this in the Sphinx conf.py
     # but ReadTheDocs doesn't support the fonts.
     if ( /^\\usepackage{sphinx}/ ) {
         print "\\usepackage{upquote}\n";

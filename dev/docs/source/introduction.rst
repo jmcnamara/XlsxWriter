@@ -1,5 +1,5 @@
 .. SPDX-License-Identifier: BSD-2-Clause
-   Copyright 2013-2021, John McNamara, jmcnamara@cpan.org
+   Copyright 2013-2022, John McNamara, jmcnamara@cpan.org
 
 .. _intro:
 
@@ -33,7 +33,7 @@ XlsxWriter has some advantages and disadvantages over the
    * It cannot read or modify existing Excel XLSX files.
 
 
-XlsxWriter is licensed under a BSD :ref:`License` and the source code is
+XlsxWriter is licensed under a BSD 2-Clause :ref:`License` and the source code is
 available on `GitHub <https://github.com/jmcnamara/XlsxWriter>`_.
 
 To try out the module see the next section on :ref:`getting_started`.

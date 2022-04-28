@@ -4,7 +4,7 @@
 # using Pandas and XlsxWriter.
 #
 # SPDX-License-Identifier: BSD-2-Clause
-# Copyright 2013-2021, John McNamara, jmcnamara@cpan.org
+# Copyright 2013-2022, John McNamara, jmcnamara@cpan.org
 #
 
 import pandas as pd
@@ -26,11 +26,14 @@ worksheet = writer.sheets['Sheet1']
 # Create a chart object.
 chart = workbook.add_chart({'type': 'column'})
 
+# Get the dimensions of the dataframe.
+(max_row, max_col) = df.shape
+
 # Configure the series of the chart from the dataframe data.
-chart.add_series({'values': '=Sheet1!$B$2:$B$8'})
+chart.add_series({'values': ['Sheet1', 1, 1, max_row, 1]})
 
 # Insert the chart into the worksheet.
-worksheet.insert_chart('D2', chart)
+worksheet.insert_chart(1, 3, chart)
 
 # Close the Pandas Excel writer and output the Excel file.
 writer.save()

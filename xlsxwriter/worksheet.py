@@ -3,7 +3,7 @@
 # Worksheet - A class for writing the Excel XLSX Worksheet file.
 #
 # SPDX-License-Identifier: BSD-2-Clause
-# Copyright 2013-2021, John McNamara, jmcnamara@cpan.org
+# Copyright 2013-2022, John McNamara, jmcnamara@cpan.org
 #
 
 # Standard packages.
@@ -3030,7 +3030,7 @@ class Worksheet(xmlwriter.XMLwriter):
                         if formula.startswith('='):
                             formula = formula.lstrip('=')
 
-                        # Covert Excel 2010 "@" ref to 2007 "#This Row".
+                        # Convert Excel 2010 "@" ref to 2007 "#This Row".
                         formula = formula.replace('@', '[#This Row],')
 
                         col_data['formula'] = formula
@@ -4047,6 +4047,20 @@ class Worksheet(xmlwriter.XMLwriter):
         self.fit_page = 0
 
         self.print_scale = int(scale)
+        self.page_setup_changed = True
+
+    def print_black_and_white(self):
+        """
+        Set the option to print the worksheet in black and white.
+
+        Args:
+            None.
+
+        Returns:
+            Nothing.
+
+        """
+        self.black_white = True
         self.page_setup_changed = True
 
     def set_h_pagebreaks(self, breaks):
@@ -5949,6 +5963,10 @@ class Worksheet(xmlwriter.XMLwriter):
             attributes.append(('orientation', 'portrait'))
         else:
             attributes.append(('orientation', 'landscape'))
+
+        # Set the print in black and white option.
+        if self.black_white:
+            attributes.append(('blackAndWhite', '1'))
 
         # Set start page for printing.
         if self.page_start != 0:

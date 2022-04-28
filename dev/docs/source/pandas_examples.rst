@@ -1,5 +1,5 @@
 .. SPDX-License-Identifier: BSD-2-Clause
-   Copyright 2013-2021, John McNamara, jmcnamara@cpan.org
+   Copyright 2013-2022, John McNamara, jmcnamara@cpan.org
 
 .. _pandas_examples:
 
@@ -25,6 +25,7 @@ They show how to use XlsxWriter with `Pandas <https://pandas.pydata.org/>`_.
    example_pandas_datetime.rst
    example_pandas_column_formats.rst
    example_pandas_header_format.rst
+   example_pandas_percentage.rst
    example_pandas_chart_line.rst
    example_pandas_chart_columns.rst
 

@@ -1,5 +1,5 @@
 .. SPDX-License-Identifier: BSD-2-Clause
-   Copyright 2013-2021, John McNamara, jmcnamara@cpan.org
+   Copyright 2013-2022, John McNamara, jmcnamara@cpan.org
 
 .. _workbook:
 
@@ -488,7 +488,7 @@ The properties that can be set are:
 * ``comments``
 * ``status``
 * ``hyperlink_base``
-* ``create`` - the file creation date as a :class:`datetime.date` object.
+* ``created`` - the file creation date as a :class:`datetime.date` object.
 
 The properties are all optional and should be passed in dictionary format as
 follows::

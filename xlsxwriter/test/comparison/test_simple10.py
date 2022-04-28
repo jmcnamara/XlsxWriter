@@ -3,7 +3,7 @@
 # Tests for XlsxWriter.
 #
 # SPDX-License-Identifier: BSD-2-Clause
-# Copyright (c), 2013-2021, John McNamara, jmcnamara@cpan.org
+# Copyright (c), 2013-2022, John McNamara, jmcnamara@cpan.org
 #
 import warnings
 from ..excel_comparison_test import ExcelComparisonTest

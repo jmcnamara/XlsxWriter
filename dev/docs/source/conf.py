@@ -6,9 +6,9 @@ source_suffix = '.rst'
 master_doc = 'index'
 
 project = u'XlsxWriter'
-copyright = u'2013-2021, John McNamara'
+copyright = u'2013-2022, John McNamara'
 
-version = '3.0.2'
+version = '3.0.3'
 release = version
 
 exclude_patterns = []
@@ -56,7 +56,7 @@ texinfo_documents = [
 epub_title = 'XlsxWriter'
 epub_author = 'John McNamara'
 epub_publisher = 'John McNamara'
-epub_copyright = '2013-2021, John McNamara'
+epub_copyright = '2013-2022, John McNamara'
 
 linkcheck_ignore = [r'.*microsoft.com.*',
                     r'.*office.com.*',

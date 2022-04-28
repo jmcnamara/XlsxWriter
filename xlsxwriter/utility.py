@@ -3,7 +3,7 @@
 # Worksheet - A class for writing Excel Worksheets.
 #
 # SPDX-License-Identifier: BSD-2-Clause
-# Copyright 2013-2021, John McNamara, jmcnamara@cpan.org
+# Copyright 2013-2022, John McNamara, jmcnamara@cpan.org
 #
 import re
 import datetime
@@ -281,7 +281,7 @@ def quote_sheetname(sheetname):
         # Double quote any single quotes.
         sheetname = sheetname.replace("'", "''")
 
-        # Singe quote the sheet name.
+        # Single quote the sheet name.
         sheetname = "'%s'" % sheetname
 
     return sheetname

@@ -4,7 +4,7 @@
 # with a default datetime and date format using Pandas and XlsxWriter.
 #
 # SPDX-License-Identifier: BSD-2-Clause
-# Copyright 2013-2021, John McNamara, jmcnamara@cpan.org
+# Copyright 2013-2022, John McNamara, jmcnamara@cpan.org
 #
 
 import pandas as pd
@@ -33,12 +33,16 @@ writer = pd.ExcelWriter("pandas_datetime.xlsx",
 # Convert the dataframe to an XlsxWriter Excel object.
 df.to_excel(writer, sheet_name='Sheet1')
 
-# Get the xlsxwriter workbook and worksheet objects in order to set the column
+# Get the xlsxwriter workbook and worksheet objects. in order to set the column
 # widths, to make the dates clearer.
 workbook  = writer.book
 worksheet = writer.sheets['Sheet1']
 
-worksheet.set_column('B:C', 20)
+# Get the dimensions of the dataframe.
+(max_row, max_col) = df.shape
+
+# Set the column widths, to make the dates clearer.
+worksheet.set_column(1, max_col, 20)
 
 # Close the Pandas Excel writer and output the Excel file.
 writer.save()

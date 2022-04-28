@@ -181,7 +181,7 @@ table.field-list {
 .bs-sidenav ul{
   list-style-type: none;
   padding-left: 25px;
-  margin-left: 0;  /* bootstrap 2 compatability. */
+  margin-left: 0;  /* bootstrap 2 compatibility. */
 }
 
 @media (min-width: 1200px) {

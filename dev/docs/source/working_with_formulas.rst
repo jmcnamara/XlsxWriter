@@ -1,5 +1,5 @@
 .. SPDX-License-Identifier: BSD-2-Clause
-   Copyright 2013-2021, John McNamara, jmcnamara@cpan.org
+   Copyright 2013-2022, John McNamara, jmcnamara@cpan.org
 
 .. _working_with_formulas:
 
@@ -483,12 +483,6 @@ By default tables are named ``Table1``, ``Table2``, etc., in the order that
 they are added. However it can also be set by the user using the ``name`` parameter::
 
     worksheet.add_table('B3:F7', {'name': 'SalesData'})
-
-If you need to know the name of the table, for example to use it in a formula,
-you can get it as follows::
-
-    table = worksheet.add_table('B3:F7')
-    table_name = table.name
 
 When used in a formula a table name such as ``TableX`` should be referred to
 as ``TableX[]`` (like a Python list)::

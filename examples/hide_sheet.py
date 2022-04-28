@@ -3,7 +3,7 @@
 # Example of how to hide a worksheet with XlsxWriter.
 #
 # SPDX-License-Identifier: BSD-2-Clause
-# Copyright 2013-2021, John McNamara, jmcnamara@cpan.org
+# Copyright 2013-2022, John McNamara, jmcnamara@cpan.org
 #
 import xlsxwriter
 

@@ -4,16 +4,15 @@
 # chart using Pandas and XlsxWriter.
 #
 # SPDX-License-Identifier: BSD-2-Clause
-# Copyright 2013-2021, John McNamara, jmcnamara@cpan.org
+# Copyright 2013-2022, John McNamara, jmcnamara@cpan.org
 #
 
 import pandas as pd
 import random
 
 # Create some sample data to plot.
-max_row     = 21
 categories  = ['Node 1', 'Node 2', 'Node 3', 'Node 4']
-index_1     = range(0, max_row, 1)
+index_1     = range(0, 21, 1)
 multi_iter1 = {'index': index_1}
 
 for category in categories:
@@ -33,6 +32,9 @@ df.to_excel(writer, sheet_name=sheet_name)
 workbook  = writer.book
 worksheet = writer.sheets[sheet_name]
 
+# Get the dimensions of the dataframe.
+(max_row, max_col) = df.shape
+
 # Create a chart object.
 chart = workbook.add_chart({'type': 'line'})
 
@@ -50,7 +52,7 @@ chart.set_x_axis({'name': 'Index'})
 chart.set_y_axis({'name': 'Value', 'major_gridlines': {'visible': False}})
 
 # Insert the chart into the worksheet.
-worksheet.insert_chart('G2', chart)
+worksheet.insert_chart(1, 6, chart)
 
 # Close the Pandas Excel writer and output the Excel file.
 writer.save()

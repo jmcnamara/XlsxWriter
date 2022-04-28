@@ -1,5 +1,5 @@
 .. SPDX-License-Identifier: BSD-2-Clause
-   Copyright 2013-2021, John McNamara, jmcnamara@cpan.org
+   Copyright 2013-2022, John McNamara, jmcnamara@cpan.org
 
 .. _object_position:
 
@@ -7,7 +7,7 @@ Working with Object Positioning
 ===============================
 
 XlsxWriter positions worksheet objects such as images, charts and textboxes in
-worksheets by calculating precise co-ordinates based on the object size, it's
+worksheets by calculating precise coordinates based on the object size, it's
 DPI (for images) and any scaling that the user specifies. It also takes into
 account the heights and widths of the rows and columns that the object
 crosses. In this way objects maintain their original sizes even if the rows or

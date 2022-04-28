@@ -3,7 +3,7 @@
 # Chart - A class for writing the Excel XLSX Worksheet file.
 #
 # SPDX-License-Identifier: BSD-2-Clause
-# Copyright 2013-2021, John McNamara, jmcnamara@cpan.org
+# Copyright 2013-2022, John McNamara, jmcnamara@cpan.org
 #
 import re
 import copy
@@ -871,6 +871,11 @@ class Chart(xmlwriter.XMLwriter):
         for token in data:
             if token is None:
                 continue
+
+            # Check for strings like '1.1_1' which would evaluate to float.
+            if type(token) == str and '_' in token:
+                # Assume entire data series is string data.
+                return 'str'
 
             try:
                 float(token)

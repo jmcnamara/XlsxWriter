@@ -6,9 +6,6 @@ title: "Bug: <add a description here>"
 
 labels: [bug]
 
-assignees:
-  - jmcnamara
-
 body:
 
 - type: markdown
