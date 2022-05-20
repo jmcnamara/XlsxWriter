@@ -295,6 +295,7 @@ The properties that can be set are::
 
     type    (required)
     subtype (optional)
+    name    (optional)
 
 * ``type``
 
@@ -321,8 +322,16 @@ The properties that can be set are::
 
     workbook.add_chart({'type': 'bar', 'subtype': 'stacked'})
 
-See the :ref:`chart_class` for a list of available chart subtypes.
+  See the :ref:`chart_class` for a list of available chart subtypes.
 
+* ``name``
+
+  Set the name for the chart sheet::
+
+    chart = workbook.add_chart({'type': 'column', 'name': 'MyChart'})
+
+  The name property is optional and if it isn't supplied it will default to
+  ``Chart1``, ``Chart2``, etc. The name must be a valid Excel chart name.
 
 .. Note::
 
