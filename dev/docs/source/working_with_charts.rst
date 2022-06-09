@@ -915,7 +915,7 @@ The following properties can be set for ``line`` formats in a chart::
     dash_type
     transparency
 
-The ``none`` property is uses to turn the ``line`` off (it is always on by
+The ``none`` property is used to turn the ``line`` off (it is always on by
 default except in Scatter charts). This is useful if you wish to plot a series
 with markers but without a line::
 
