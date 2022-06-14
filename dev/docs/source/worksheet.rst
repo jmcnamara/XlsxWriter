@@ -2586,7 +2586,7 @@ See also the :func:`set_locked` and :func:`set_hidden` format methods and
 
    Worksheet level passwords in Excel offer very weak protection. They do not
    encrypt your data and are very easy to deactivate. Full workbook encryption
-   is not supported by ``XlsxWriter``. However, it is possible to encrypt an
+   is not supported by XlsxWriter. However, it is possible to encrypt an
    XlsxWriter file using a third party open source tool called `msoffice-crypt
    <https://github.com/herumi/msoffice>`_. This works for macOS, Linux and
    Windows::
