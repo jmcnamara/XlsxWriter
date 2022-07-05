@@ -571,8 +571,8 @@ worksheet.print_area()
    :type  last_row:    integer
    :type  last_col:    integer
 
-   :returns:  0: Success.
-   :returns: -1: Row or column is out of worksheet bounds.
+   :returns: ReturnCode.XW_NO_ERROR: Success.
+   :returns: None : Max print area selected
 
 This method is used to specify the area of the worksheet that will be printed.
 

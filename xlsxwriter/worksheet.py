@@ -39,6 +39,7 @@ from .utility import datetime_to_excel_datetime
 from .utility import preserve_whitespace
 from .utility import quote_sheetname
 from .exceptions import DuplicateTableName
+from .returncodes import ReturnCode
 
 # Compile performance critical regular expressions.
 re_control_chars_1 = re.compile('(_x[0-9a-fA-F]{4}_)')
@@ -437,9 +438,21 @@ class Worksheet(xmlwriter.XMLwriter):
             *args: Args to pass to sub functions.
 
         Returns:
-             0:    Success.
-            -1:    Row or column is out of worksheet bounds.
-            other: Return value of called method.
+            XW_NO_ERROR: Success.
+            XW_ERROR_WORKSHEET_INDEX_OUT_OF_RANGE: Row or column is out of
+                                                   worksheet bounds.
+            XW_ERROR_MAX_STRING_LENGTH_EXCEEDED: String longer than 32767
+                                                 characters.
+            XW_ERROR_FORMULA_CANT_BE_NONE_OR_EMPTY: Formula can't be None or
+                                                    empty.
+            XW_ERROR_WORKSHEET_MAX_URL_LENGTH_EXCEEDED: URL longer than Excel
+                                                        limit of characters.
+            XW_ERROR_WORKSHEET_MAX_NUMBER_URLS_EXCEEDED: Exceeds Excel limit of
+                                                         65,530 urls per
+                                                         worksheet.
+            XW_ERROR_2_CONSECUTIVE_FORMATS: 2 consecutive formats used.
+            XW_ERROR_EMPTY_STRING_USED: Empty string used.
+            XW_ERROR_INSUFFICIENT_PARAMETERS: Insufficient parameters.
 
         """
         return self._write(row, col, *args)
@@ -535,9 +548,11 @@ class Worksheet(xmlwriter.XMLwriter):
             format: An optional cell Format object.
 
         Returns:
-            0:  Success.
-            -1: Row or column is out of worksheet bounds.
-            -2: String truncated to 32k characters.
+            XW_NO_ERROR: Success.
+            XW_ERROR_WORKSHEET_INDEX_OUT_OF_RANGE: Row or column is out of
+                                                   worksheet bounds.
+            XW_ERROR_MAX_STRING_LENGTH_EXCEEDED: String truncated to 32k
+                                                 characters.
 
         """
         return self._write_string(row, col, string, cell_format)
@@ -545,16 +560,16 @@ class Worksheet(xmlwriter.XMLwriter):
     # Undecorated version of write_string().
     def _write_string(self, row, col, string, cell_format=None):
 
-        str_error = 0
+        str_error = ReturnCode.XW_NO_ERROR
 
         # Check that row and col are valid and store max and min values.
         if self._check_dimensions(row, col):
-            return -1
+            return ReturnCode.XW_ERROR_WORKSHEET_INDEX_OUT_OF_RANGE
 
         # Check that the string is < 32767 chars.
         if len(string) > self.xls_strmax:
             string = string[:self.xls_strmax]
-            str_error = -2
+            str_error = ReturnCode.XW_ERROR_MAX_STRING_LENGTH_EXCEEDED
 
         # Write a shared string or an in-line string in constant_memory mode.
         if not self.constant_memory:
@@ -583,8 +598,9 @@ class Worksheet(xmlwriter.XMLwriter):
             cell_format: An optional cell Format object.
 
         Returns:
-            0:  Success.
-            -1: Row or column is out of worksheet bounds.
+            XW_NO_ERROR: Success.
+            XW_ERROR_WORKSHEET_INDEX_OUT_OF_RANGE: Row or column is out of
+                                                   worksheet bounds.
 
         """
         return self._write_number(row, col, number, cell_format)
@@ -607,7 +623,7 @@ class Worksheet(xmlwriter.XMLwriter):
 
         # Check that row and col are valid and store max and min values.
         if self._check_dimensions(row, col):
-            return -1
+            return ReturnCode.XW_ERROR_WORKSHEET_INDEX_OUT_OF_RANGE
 
         # Write previous row if in in-line string constant_memory mode.
         if self.constant_memory and row > self.previous_row:
@@ -616,7 +632,7 @@ class Worksheet(xmlwriter.XMLwriter):
         # Store the cell data in the worksheet data table.
         self.table[row][col] = cell_number_tuple(number, cell_format)
 
-        return 0
+        return ReturnCode.XW_NO_ERROR
 
     @convert_cell_args
     def write_blank(self, row, col, blank, cell_format=None):
@@ -631,8 +647,9 @@ class Worksheet(xmlwriter.XMLwriter):
             cell_format: An optional cell Format object.
 
         Returns:
-            0:  Success.
-            -1: Row or column is out of worksheet bounds.
+            XW_NO_ERROR: Success.
+            XW_ERROR_WORKSHEET_INDEX_OUT_OF_RANGE: Row or column is out of
+                                                   worksheet bounds.
 
         """
         return self._write_blank(row, col, blank, cell_format)
@@ -641,11 +658,11 @@ class Worksheet(xmlwriter.XMLwriter):
     def _write_blank(self, row, col, blank, cell_format=None):
         # Don't write a blank cell unless it has a format.
         if cell_format is None:
-            return 0
+            return ReturnCode.XW_NO_ERROR
 
         # Check that row and col are valid and store max and min values.
         if self._check_dimensions(row, col):
-            return -1
+            return ReturnCode.XW_ERROR_WORKSHEET_INDEX_OUT_OF_RANGE
 
         # Write previous row if in in-line string constant_memory mode.
         if self.constant_memory and row > self.previous_row:
@@ -654,7 +671,7 @@ class Worksheet(xmlwriter.XMLwriter):
         # Store the cell data in the worksheet data table.
         self.table[row][col] = cell_blank_tuple(cell_format)
 
-        return 0
+        return ReturnCode.XW_NO_ERROR
 
     @convert_cell_args
     def write_formula(self, row, col, formula, cell_format=None, value=0):
@@ -669,9 +686,11 @@ class Worksheet(xmlwriter.XMLwriter):
             value:       An optional value for the formula. Default is 0.
 
         Returns:
-            0:  Success.
-            -1: Row or column is out of worksheet bounds.
-            -2: Formula can't be None or empty.
+            XW_NO_ERROR: Success.
+            XW_ERROR_WORKSHEET_INDEX_OUT_OF_RANGE: Row or column is out of
+                                                   worksheet bounds.
+            XW_ERROR_FORMULA_CANT_BE_NONE_OR_EMPTY: Formula can't be None or
+                                                    empty.
 
         """
         # Check that row and col are valid and store max and min values.
@@ -680,11 +699,11 @@ class Worksheet(xmlwriter.XMLwriter):
     # Undecorated version of write_formula().
     def _write_formula(self, row, col, formula, cell_format=None, value=0):
         if self._check_dimensions(row, col):
-            return -1
+            return ReturnCode.XW_ERROR_WORKSHEET_INDEX_OUT_OF_RANGE
 
         if formula is None or formula == '':
             warn("Formula can't be None or empty")
-            return -1
+            return ReturnCode.XW_ERROR_FORMULA_CANT_BE_NONE_OR_EMPTY
 
         # Check for dynamic array functions.
         if (re_dynamic_function.search(formula)):
@@ -707,7 +726,7 @@ class Worksheet(xmlwriter.XMLwriter):
         # Store the cell data in the worksheet data table.
         self.table[row][col] = cell_formula_tuple(formula, cell_format, value)
 
-        return 0
+        return ReturnCode.XW_NO_ERROR
 
     @convert_range_args
     def write_array_formula(self, first_row, first_col, last_row, last_col,
@@ -725,8 +744,9 @@ class Worksheet(xmlwriter.XMLwriter):
             value:        An optional value for the formula. Default is 0.
 
         Returns:
-            0:  Success.
-            -1: Row or column is out of worksheet bounds.
+            XW_NO_ERROR: Success.
+            XW_ERROR_WORKSHEET_INDEX_OUT_OF_RANGE: Row or column is out of
+                                                   worksheet bounds.
 
         """
         # Check for dynamic array functions.
@@ -757,15 +777,16 @@ class Worksheet(xmlwriter.XMLwriter):
             value:        An optional value for the formula. Default is 0.
 
         Returns:
-            0:  Success.
-            -1: Row or column is out of worksheet bounds.
+            XW_NO_ERROR: Success.
+            XW_ERROR_WORKSHEET_INDEX_OUT_OF_RANGE: Row or column is out of
+                                                   worksheet bounds.
 
         """
         error = self._write_array_formula(first_row, first_col, last_row,
                                           last_col, formula, cell_format,
                                           value, 'dynamic')
 
-        if error == 0:
+        if error == ReturnCode.XW_NO_ERROR:
             self.has_dynamic_arrays = True
 
         return error
@@ -952,9 +973,10 @@ class Worksheet(xmlwriter.XMLwriter):
 
         # Check that row and col are valid and store max and min values.
         if self._check_dimensions(first_row, first_col):
-            return -1
+            return ReturnCode.XW_ERROR_WORKSHEET_INDEX_OUT_OF_RANGE
+
         if self._check_dimensions(last_row, last_col):
-            return -1
+            return ReturnCode.XW_ERROR_WORKSHEET_INDEX_OUT_OF_RANGE
 
         # Define array range
         if first_row == last_row and first_col == last_col:
@@ -984,7 +1006,7 @@ class Worksheet(xmlwriter.XMLwriter):
                     if row != first_row or col != first_col:
                         self._write_number(row, col, 0, cell_format)
 
-        return 0
+        return ReturnCode.XW_NO_ERROR
 
     @convert_cell_args
     def write_datetime(self, row, col, date, cell_format=None):
@@ -998,8 +1020,9 @@ class Worksheet(xmlwriter.XMLwriter):
             cell_format: A cell Format object.
 
         Returns:
-            0:  Success.
-            -1: Row or column is out of worksheet bounds.
+            XW_NO_ERROR: Success.
+            XW_ERROR_WORKSHEET_INDEX_OUT_OF_RANGE: Row or column is out of
+                                                   worksheet bounds.
 
         """
         return self._write_datetime(row, col, date, cell_format)
@@ -1009,7 +1032,7 @@ class Worksheet(xmlwriter.XMLwriter):
 
         # Check that row and col are valid and store max and min values.
         if self._check_dimensions(row, col):
-            return -1
+            return ReturnCode.XW_ERROR_WORKSHEET_INDEX_OUT_OF_RANGE
 
         # Write previous row if in in-line string constant_memory mode.
         if self.constant_memory and row > self.previous_row:
@@ -1025,7 +1048,7 @@ class Worksheet(xmlwriter.XMLwriter):
         # Store the cell data in the worksheet data table.
         self.table[row][col] = cell_number_tuple(number, cell_format)
 
-        return 0
+        return ReturnCode.XW_NO_ERROR
 
     @convert_cell_args
     def write_boolean(self, row, col, boolean, cell_format=None):
@@ -1039,8 +1062,9 @@ class Worksheet(xmlwriter.XMLwriter):
             cell_format: An optional cell Format object.
 
         Returns:
-            0:  Success.
-            -1: Row or column is out of worksheet bounds.
+            XW_NO_ERROR: Success.
+            XW_ERROR_WORKSHEET_INDEX_OUT_OF_RANGE: Row or column is out of
+                                                   worksheet bounds.
 
         """
         return self._write_boolean(row, col, boolean, cell_format)
@@ -1050,7 +1074,7 @@ class Worksheet(xmlwriter.XMLwriter):
 
         # Check that row and col are valid and store max and min values.
         if self._check_dimensions(row, col):
-            return -1
+            return ReturnCode.XW_ERROR_WORKSHEET_INDEX_OUT_OF_RANGE
 
         # Write previous row if in in-line string constant_memory mode.
         if self.constant_memory and row > self.previous_row:
@@ -1064,7 +1088,7 @@ class Worksheet(xmlwriter.XMLwriter):
         # Store the cell data in the worksheet data table.
         self.table[row][col] = cell_boolean_tuple(value, cell_format)
 
-        return 0
+        return ReturnCode.XW_NO_ERROR
 
     # Write a hyperlink. This is comprised of two elements: the displayed
     # string and the non-displayed link. The displayed string is the same as
@@ -1087,12 +1111,18 @@ class Worksheet(xmlwriter.XMLwriter):
             format: An optional cell Format object.
             string: An optional display string for the hyperlink.
             tip:    An optional tooltip.
+
         Returns:
-            0:  Success.
-            -1: Row or column is out of worksheet bounds.
-            -2: String longer than 32767 characters.
-            -3: URL longer than Excel limit of 255 characters.
-            -4: Exceeds Excel limit of 65,530 urls per worksheet.
+            XW_NO_ERROR: Success.
+            XW_ERROR_WORKSHEET_INDEX_OUT_OF_RANGE: Row or column is out of
+                                                   worksheet bounds.
+            XW_ERROR_MAX_STRING_LENGTH_EXCEEDED: String longer than 32767
+                                                 characters.
+            XW_ERROR_WORKSHEET_MAX_URL_LENGTH_EXCEEDED: URL longer than Excel
+                                                        limit of characters.
+            XW_ERROR_WORKSHEET_MAX_NUMBER_URLS_EXCEEDED: Exceeds Excel limit of
+                                                         65,530 urls per
+                                                         worksheet.
         """
         return self._write_url(row, col, url, cell_format, string, tip)
 
@@ -1102,7 +1132,7 @@ class Worksheet(xmlwriter.XMLwriter):
 
         # Check that row and col are valid and store max and min values
         if self._check_dimensions(row, col):
-            return -1
+            return ReturnCode.XW_ERROR_WORKSHEET_INDEX_OUT_OF_RANGE
 
         # Set the displayed string to the URL unless defined by the user.
         if string is None:
@@ -1131,11 +1161,10 @@ class Worksheet(xmlwriter.XMLwriter):
         string = string.replace('mailto:', '')
 
         # Check that the string is < 32767 chars
-        str_error = 0
         if len(string) > self.xls_strmax:
             warn("Ignoring URL since it exceeds Excel's string limit of "
                  "32767 characters")
-            return -2
+            return ReturnCode.XW_ERROR_MAX_STRING_LENGTH_EXCEEDED
 
         # Copy string for use in hyperlink elements.
         url_str = string
@@ -1170,7 +1199,7 @@ class Worksheet(xmlwriter.XMLwriter):
             warn("Ignoring URL '%s' with link or location/anchor > %d "
                  "characters since it exceeds Excel's limit for URLS" %
                  (url, max_url))
-            return -3
+            return ReturnCode.XW_ERROR_WORKSHEET_MAX_URL_LENGTH_EXCEEDED
 
         # Check the limit of URLS per worksheet.
         self.hlink_count += 1
@@ -1178,7 +1207,7 @@ class Worksheet(xmlwriter.XMLwriter):
         if self.hlink_count > 65530:
             warn("Ignoring URL '%s' since it exceeds Excel's limit of "
                  "65,530 URLS per worksheet." % url)
-            return -4
+            return ReturnCode.XW_ERROR_WORKSHEET_MAX_NUMBER_URLS_EXCEEDED
 
         # Write previous row if in in-line string constant_memory mode.
         if self.constant_memory and row > self.previous_row:
@@ -1189,7 +1218,7 @@ class Worksheet(xmlwriter.XMLwriter):
             cell_format = self.default_url_format
 
         # Write the hyperlink string.
-        self._write_string(row, col, string, cell_format)
+        str_error = self._write_string(row, col, string, cell_format)
 
         # Store the hyperlink data in a separate structure.
         self.hyperlinks[row][col] = {
@@ -1212,12 +1241,14 @@ class Worksheet(xmlwriter.XMLwriter):
             cell_format:  Optional Format object.
 
         Returns:
-            0:  Success.
-            -1: Row or column is out of worksheet bounds.
-            -2: String truncated to 32k characters.
-            -3: 2 consecutive formats used.
-            -4: Empty string used.
-            -5: Insufficient parameters.
+            XW_NO_ERROR: Success.
+            XW_ERROR_WORKSHEET_INDEX_OUT_OF_RANGE: Row or column is out of
+                                                   worksheet bounds.
+            XW_ERROR_MAX_STRING_LENGTH_EXCEEDED: String longer than 32767
+                                                 characters.
+            XW_ERROR_2_CONSECUTIVE_FORMATS: 2 consecutive formats used.
+            XW_ERROR_EMPTY_STRING_USED: Empty string used.
+            XW_ERROR_INSUFFICIENT_PARAMETERS: Insufficient parameters.
 
         """
 
@@ -1233,7 +1264,7 @@ class Worksheet(xmlwriter.XMLwriter):
 
         # Check that row and col are valid and store max and min values
         if self._check_dimensions(row, col):
-            return -1
+            return ReturnCode.XW_ERROR_WORKSHEET_INDEX_OUT_OF_RANGE
 
         # If the last arg is a format we use it as the cell format.
         if isinstance(tokens[-1], Format):
@@ -1258,7 +1289,7 @@ class Worksheet(xmlwriter.XMLwriter):
         if len(tokens) <= 2:
             warn("You must specify more than 2 format/fragments for rich "
                  "strings. Ignoring input in write_rich_string().")
-            return -5
+            return ReturnCode.XW_ERROR_INSUFFICIENT_PARAMETERS
 
         for token in tokens:
             if not isinstance(token, Format):
@@ -1274,7 +1305,7 @@ class Worksheet(xmlwriter.XMLwriter):
                 if token == '':
                     warn("Excel doesn't allow empty strings in rich strings. "
                          "Ignoring input in write_rich_string().")
-                    return -4
+                    return ReturnCode.XW_ERROR_EMPTY_STRING_USED
 
                 # Keep track of actual string str_length.
                 str_length += len(token)
@@ -1284,7 +1315,7 @@ class Worksheet(xmlwriter.XMLwriter):
                 if previous == 'format' and pos > 0:
                     warn("Excel doesn't allow 2 consecutive formats in rich "
                          "strings. Ignoring input in write_rich_string().")
-                    return -3
+                    return ReturnCode.XW_ERROR_2_CONSECUTIVE_FORMATS
 
                 # Token is a format object. Add it to the fragment list.
                 fragments.append(token)
@@ -1319,7 +1350,7 @@ class Worksheet(xmlwriter.XMLwriter):
         if str_length > self.xls_strmax:
             warn("String length must be less than or equal to Excel's limit "
                  "of 32,767 characters in write_rich_string().")
-            return -2
+            return ReturnCode.XW_ERROR_MAX_STRING_LENGTH_EXCEEDED
 
         # Write a shared string or an in-line string in constant_memory mode.
         if not self.constant_memory:
@@ -1334,7 +1365,7 @@ class Worksheet(xmlwriter.XMLwriter):
         # Store the cell data in the worksheet data table.
         self.table[row][col] = cell_string_tuple(string_index, cell_format)
 
-        return 0
+        return ReturnCode.XW_NO_ERROR
 
     def add_write_handler(self, user_type, user_function):
         """
@@ -1362,17 +1393,17 @@ class Worksheet(xmlwriter.XMLwriter):
             data:   A list of tokens to be written with write().
             format: An optional cell Format object.
         Returns:
-            0:  Success.
+            XW_NO_ERROR:  Success.
             other: Return value of write() method.
 
         """
         for token in data:
             error = self._write(row, col, token, cell_format)
-            if error:
+            if error != ReturnCode.XW_NO_ERROR:
                 return error
             col += 1
 
-        return 0
+        return ReturnCode.XW_NO_ERROR
 
     @convert_cell_args
     def write_column(self, row, col, data, cell_format=None):
@@ -1385,17 +1416,17 @@ class Worksheet(xmlwriter.XMLwriter):
             data:   A list of tokens to be written with write().
             format: An optional cell Format object.
         Returns:
-            0:  Success.
+            XW_NO_ERROR:  Success.
             other: Return value of write() method.
 
         """
         for token in data:
             error = self._write(row, col, token, cell_format)
-            if error:
+            if error != ReturnCode.XW_NO_ERROR:
                 return error
             row += 1
 
-        return 0
+        return ReturnCode.XW_NO_ERROR
 
     @convert_cell_args
     def insert_image(self, row, col, filename, options=None):
@@ -1409,14 +1440,16 @@ class Worksheet(xmlwriter.XMLwriter):
             options:  Position, scale, url and data stream of the image.
 
         Returns:
-            0:  Success.
-            -1: Row or column is out of worksheet bounds.
+            XW_NO_ERROR: Success.
+            XW_ERROR_WORKSHEET_INDEX_OUT_OF_RANGE: Row or column is out of
+                                                   worksheet bounds.
+            XW_ERROR_IMAGE_FILE_NOT_FOUND: Image file not found.
 
         """
         # Check insert (row, col) without storing.
         if self._check_dimensions(row, col, True, True):
             warn('Cannot insert image at (%d, %d).' % (row, col))
-            return -1
+            return ReturnCode.XW_ERROR_WORKSHEET_INDEX_OUT_OF_RANGE
 
         if options is None:
             options = {}
@@ -1437,12 +1470,12 @@ class Worksheet(xmlwriter.XMLwriter):
 
         if not image_data and not os.path.exists(filename):
             warn("Image file '%s' not found." % filename)
-            return -1
+            return ReturnCode.XW_ERROR_IMAGE_FILE_NOT_FOUND
 
         self.images.append([row, col, filename, x_offset, y_offset,
                             x_scale, y_scale, url, tip, anchor, image_data,
                             description, decorative])
-        return 0
+        return ReturnCode.XW_NO_ERROR
 
     @convert_cell_args
     def insert_textbox(self, row, col, text, options=None):
@@ -1456,14 +1489,15 @@ class Worksheet(xmlwriter.XMLwriter):
             options:  Textbox options.
 
         Returns:
-            0:  Success.
-            -1: Row or column is out of worksheet bounds.
+            XW_NO_ERROR: Success.
+            XW_ERROR_WORKSHEET_INDEX_OUT_OF_RANGE: Row or column is out of
+                                                   worksheet bounds.
 
         """
         # Check insert (row, col) without storing.
         if self._check_dimensions(row, col, True, True):
             warn('Cannot insert textbox at (%d, %d).' % (row, col))
-            return -1
+            return ReturnCode.XW_ERROR_WORKSHEET_INDEX_OUT_OF_RANGE
 
         if text is None:
             text = ''
@@ -1482,7 +1516,7 @@ class Worksheet(xmlwriter.XMLwriter):
         self.shapes.append([row, col, x_offset, y_offset,
                             x_scale, y_scale, text, anchor, options,
                             description, decorative])
-        return 0
+        return ReturnCode.XW_NO_ERROR
 
     @convert_cell_args
     def insert_chart(self, row, col, chart, options=None):
@@ -1496,14 +1530,16 @@ class Worksheet(xmlwriter.XMLwriter):
             options: Position and scale of the chart.
 
         Returns:
-            0:  Success.
-            -1: Row or column is out of worksheet bounds.
+            XW_NO_ERROR: Success.
+            XW_ERROR_WORKSHEET_INDEX_OUT_OF_RANGE: Row or column is out of
+                                                   worksheet bounds.
+            None: The chart (or the combined one) was already inserted.
 
         """
         # Check insert (row, col) without storing.
         if self._check_dimensions(row, col, True, True):
             warn('Cannot insert chart at (%d, %d).' % (row, col))
-            return -1
+            return ReturnCode.XW_ERROR_WORKSHEET_INDEX_OUT_OF_RANGE
 
         if options is None:
             options = {}
@@ -1546,7 +1582,7 @@ class Worksheet(xmlwriter.XMLwriter):
                             x_scale, y_scale,
                             anchor,
                             description, decorative])
-        return 0
+        return ReturnCode.XW_NO_ERROR
 
     @convert_cell_args
     def write_comment(self, row, col, comment, options=None):
@@ -1560,9 +1596,11 @@ class Worksheet(xmlwriter.XMLwriter):
             options: Comment formatting options.
 
         Returns:
-            0:  Success.
-            -1: Row or column is out of worksheet bounds.
-            -2: String longer than 32k characters.
+            XW_NO_ERROR: Success.
+            XW_ERROR_WORKSHEET_INDEX_OUT_OF_RANGE: Row or column is out of
+                                                   worksheet bounds.
+            XW_ERROR_MAX_STRING_LENGTH_EXCEEDED: String longer than 32767
+                                                 characters.
 
         """
         if options is None:
@@ -1570,11 +1608,11 @@ class Worksheet(xmlwriter.XMLwriter):
 
         # Check that row and col are valid and store max and min values
         if self._check_dimensions(row, col):
-            return -1
+            return ReturnCode.XW_ERROR_WORKSHEET_INDEX_OUT_OF_RANGE
 
         # Check that the comment string is < 32767 chars.
         if len(comment) > self.xls_strmax:
-            return -2
+            return ReturnCode.XW_ERROR_MAX_STRING_LENGTH_EXCEEDED
 
         self.has_vml = 1
         self.has_comments = 1
@@ -1582,7 +1620,7 @@ class Worksheet(xmlwriter.XMLwriter):
         # Store the options of the cell comment, to process on file close.
         self.comments[row][col] = [row, col, comment, options]
 
-        return 0
+        return ReturnCode.XW_NO_ERROR
 
     def show_comments(self):
         """
@@ -1605,16 +1643,19 @@ class Worksheet(xmlwriter.XMLwriter):
             filename:       Path and filename for in supported formats.
             is_byte_stream: File is a stream of bytes.
         Returns:
-            Nothing.
+            XW_NO_ERROR: Success.
+            XW_ERROR_IMAGE_FILE_NOT_FOUND: Image file not found
 
         """
 
         if not is_byte_stream and not os.path.exists(filename):
             warn("Image file '%s' not found." % filename)
-            return -1
+            return ReturnCode.XW_ERROR_IMAGE_FILE_NOT_FOUND
 
         self.background_bytes = is_byte_stream
         self.background_image = filename
+
+        return ReturnCode.XW_NO_ERROR
 
     def set_comments_author(self, author):
         """
@@ -1730,8 +1771,9 @@ class Worksheet(xmlwriter.XMLwriter):
             options:     Dict of options such as hidden and level.
 
         Returns:
-            0:  Success.
-            -1: Column number is out of worksheet bounds.
+            XW_NO_ERROR: Success.
+            XW_ERROR_WORKSHEET_INDEX_OUT_OF_RANGE: Row or column is out of
+                                                   worksheet bounds.
 
         """
         if options is None:
@@ -1757,9 +1799,9 @@ class Worksheet(xmlwriter.XMLwriter):
 
         # Check that each column is valid and store the max and min values.
         if self._check_dimensions(0, last_col, ignore_row, ignore_col):
-            return -1
+            return ReturnCode.XW_ERROR_WORKSHEET_INDEX_OUT_OF_RANGE
         if self._check_dimensions(0, first_col, ignore_row, ignore_col):
-            return -1
+            return ReturnCode.XW_ERROR_WORKSHEET_INDEX_OUT_OF_RANGE
 
         # Set the limits for the outline levels (0 <= x <= 7).
         if level < 0:
@@ -1788,7 +1830,7 @@ class Worksheet(xmlwriter.XMLwriter):
             if cell_format:
                 self.col_formats[col] = cell_format
 
-        return 0
+        return ReturnCode.XW_NO_ERROR
 
     @convert_column_args
     def set_column_pixels(self, first_col, last_col, width=None,
@@ -1805,8 +1847,9 @@ class Worksheet(xmlwriter.XMLwriter):
             options:     Dict of options such as hidden and level.
 
         Returns:
-            0:  Success.
-            -1: Column number is out of worksheet bounds.
+            XW_NO_ERROR: Success.
+            XW_ERROR_WORKSHEET_INDEX_OUT_OF_RANGE: Row or column is out of
+                                                   worksheet bounds.
 
         """
         if width is not None:
@@ -1826,8 +1869,9 @@ class Worksheet(xmlwriter.XMLwriter):
             options:     Dict of options such as hidden, level and collapsed.
 
         Returns:
-            0:  Success.
-            -1: Row number is out of worksheet bounds.
+            XW_NO_ERROR: Success.
+            XW_ERROR_WORKSHEET_INDEX_OUT_OF_RANGE: Row or column is out of
+                                                   worksheet bounds.
 
         """
         if options is None:
@@ -1841,7 +1885,7 @@ class Worksheet(xmlwriter.XMLwriter):
 
         # Check that row is valid.
         if self._check_dimensions(row, min_col):
-            return -1
+            return ReturnCode.XW_ERROR_WORKSHEET_INDEX_OUT_OF_RANGE
 
         if height is None:
             height = self.default_row_height
@@ -1874,7 +1918,7 @@ class Worksheet(xmlwriter.XMLwriter):
         # Store the row sizes for use when calculating image vertices.
         self.row_sizes[row] = [height, hidden]
 
-        return 0
+        return ReturnCode.XW_NO_ERROR
 
     def set_row_pixels(self, row, height=None, cell_format=None, options=None):
         """
@@ -1887,8 +1931,9 @@ class Worksheet(xmlwriter.XMLwriter):
             options:     Dict of options such as hidden, level and collapsed.
 
         Returns:
-            0:  Success.
-            -1: Row number is out of worksheet bounds.
+            XW_NO_ERROR: Success.
+            XW_ERROR_WORKSHEET_INDEX_OUT_OF_RANGE: Row or column is out of
+                                                   worksheet bounds.
 
         """
         if height is not None:
@@ -1934,16 +1979,18 @@ class Worksheet(xmlwriter.XMLwriter):
             cell_format:  Cell Format object.
 
         Returns:
-             0:    Success.
-            -1:    Row or column is out of worksheet bounds.
+            XW_NO_ERROR: Success.
+            XW_ERROR_WORKSHEET_INDEX_OUT_OF_RANGE: Row or column is out of
+                                                   worksheet bounds.
             other: Return value of write().
+            None: A single cell was (tried to be) merged
 
         """
         # Merge a range of cells. The first cell should contain the data and
         # the others should be blank. All cells should have the same format.
 
         # Excel doesn't allow a single cell to be merged
-        if first_row == last_row and first_col == last_col:
+        if (first_row, first_col) == (last_row, last_col):
             warn("Can't merge single cell")
             return
 
@@ -1955,24 +2002,25 @@ class Worksheet(xmlwriter.XMLwriter):
 
         # Check that row and col are valid and store max and min values.
         if self._check_dimensions(first_row, first_col):
-            return -1
+            return ReturnCode.XW_ERROR_WORKSHEET_INDEX_OUT_OF_RANGE
         if self._check_dimensions(last_row, last_col):
-            return -1
+            return ReturnCode.XW_ERROR_WORKSHEET_INDEX_OUT_OF_RANGE
 
         # Store the merge range.
         self.merge.append([first_row, first_col, last_row, last_col])
 
         # Write the first cell
-        self._write(first_row, first_col, data, cell_format)
+        error = self._write(first_row, first_col, data, cell_format)
 
         # Pad out the rest of the area with formatted blank cells.
         for row in range(first_row, last_row + 1):
             for col in range(first_col, last_col + 1):
                 if row == first_row and col == first_col:
                     continue
-                self._write_blank(row, col, '', cell_format)
+                error2 = self._write_blank(row, col, '', cell_format)
+                error = error if error != ReturnCode.XW_NO_ERROR else error2
 
-        return 0
+        return error
 
     @convert_range_args
     def autofilter(self, first_row, first_col, last_row, last_col):
@@ -2117,15 +2165,17 @@ class Worksheet(xmlwriter.XMLwriter):
             options:      Data validation options.
 
         Returns:
-            0:  Success.
-            -1: Row or column is out of worksheet bounds.
-            -2: Incorrect parameter or option.
+            XW_NO_ERROR: Success.
+            XW_ERROR_WORKSHEET_INDEX_OUT_OF_RANGE: Row or column is out of
+                                                   worksheet bounds.
+            XW_ERROR_INCORRECT_PARAMETER_OR_OPTION: Incorrect parameter or
+                                                    option.
         """
         # Check that row and col are valid without storing the values.
         if self._check_dimensions(first_row, first_col, True, True):
-            return -1
+            return ReturnCode.XW_ERROR_WORKSHEET_INDEX_OUT_OF_RANGE
         if self._check_dimensions(last_row, last_col, True, True):
-            return -1
+            return ReturnCode.XW_ERROR_WORKSHEET_INDEX_OUT_OF_RANGE
 
         if options is None:
             options = {}
@@ -2157,7 +2207,7 @@ class Worksheet(xmlwriter.XMLwriter):
         for param_key in options.keys():
             if param_key not in valid_parameters:
                 warn("Unknown parameter '%s' in data_validation()" % param_key)
-                return -2
+                return ReturnCode.XW_ERROR_INCORRECT_PARAMETER_OR_OPTION
 
         # Map alternative parameter names 'source' or 'minimum' to 'value'.
         if 'source' in options:
@@ -2168,7 +2218,7 @@ class Worksheet(xmlwriter.XMLwriter):
         # 'validate' is a required parameter.
         if 'validate' not in options:
             warn("Parameter 'validate' is required in data_validation()")
-            return -2
+            return ReturnCode.XW_ERROR_INCORRECT_PARAMETER_OR_OPTION
 
         # List of  valid validation types.
         valid_types = {
@@ -2190,7 +2240,7 @@ class Worksheet(xmlwriter.XMLwriter):
         if not options['validate'] in valid_types:
             warn("Unknown validation type '%s' for parameter "
                  "'validate' in data_validation()" % options['validate'])
-            return -2
+            return ReturnCode.XW_ERROR_INCORRECT_PARAMETER_OR_OPTION
         else:
             options['validate'] = valid_types[options['validate']]
 
@@ -2199,7 +2249,7 @@ class Worksheet(xmlwriter.XMLwriter):
         if (options['validate'] == 'none'
                 and options.get('input_title') is None
                 and options.get('input_message') is None):
-            return -2
+            return ReturnCode.XW_ERROR_INCORRECT_PARAMETER_OR_OPTION
 
         # The any, list and custom validations don't have a criteria so we use
         # a default of 'between'.
@@ -2212,7 +2262,7 @@ class Worksheet(xmlwriter.XMLwriter):
         # 'criteria' is a required parameter.
         if 'criteria' not in options:
             warn("Parameter 'criteria' is required in data_validation()")
-            return -2
+            return ReturnCode.XW_ERROR_INCORRECT_PARAMETER_OR_OPTION
 
         # Valid criteria types.
         criteria_types = {
@@ -2238,7 +2288,7 @@ class Worksheet(xmlwriter.XMLwriter):
         if not options['criteria'] in criteria_types:
             warn("Unknown criteria type '%s' for parameter "
                  "'criteria' in data_validation()" % options['criteria'])
-            return -2
+            return ReturnCode.XW_ERROR_INCORRECT_PARAMETER_OR_OPTION
         else:
             options['criteria'] = criteria_types[options['criteria']]
 
@@ -2248,7 +2298,7 @@ class Worksheet(xmlwriter.XMLwriter):
             if 'maximum' not in options:
                 warn("Parameter 'maximum' is required in data_validation() "
                      "when using 'between' or 'not between' criteria")
-                return -2
+                return ReturnCode.XW_ERROR_INCORRECT_PARAMETER_OR_OPTION
         else:
             options['maximum'] = None
 
@@ -2265,7 +2315,7 @@ class Worksheet(xmlwriter.XMLwriter):
         elif not options['error_type'] in error_types:
             warn("Unknown criteria type '%s' for parameter 'error_type' "
                  "in data_validation()" % options['error_type'])
-            return -2
+            return ReturnCode.XW_ERROR_INCORRECT_PARAMETER_OR_OPTION
         else:
             options['error_type'] = error_types[options['error_type']]
 
@@ -2287,27 +2337,27 @@ class Worksheet(xmlwriter.XMLwriter):
         if options.get('input_title') and len(options['input_title']) > 32:
             warn("Length of input title '%s' exceeds Excel's limit of 32"
                  % options['input_title'])
-            return -2
+            return ReturnCode.XW_ERROR_INCORRECT_PARAMETER_OR_OPTION
 
         # Check that the error title doesn't exceed the maximum length.
         if options.get('error_title') and len(options['error_title']) > 32:
             warn("Length of error title '%s' exceeds Excel's limit of 32"
                  % options['error_title'])
-            return -2
+            return ReturnCode.XW_ERROR_INCORRECT_PARAMETER_OR_OPTION
 
         # Check that the input message doesn't exceed the maximum length.
         if (options.get('input_message')
                 and len(options['input_message']) > 255):
             warn("Length of input message '%s' exceeds Excel's limit of 255"
                  % options['input_message'])
-            return -2
+            return ReturnCode.XW_ERROR_INCORRECT_PARAMETER_OR_OPTION
 
         # Check that the error message doesn't exceed the maximum length.
         if (options.get('error_message')
                 and len(options['error_message']) > 255):
             warn("Length of error message '%s' exceeds Excel's limit of 255"
                  % options['error_message'])
-            return -2
+            return ReturnCode.XW_ERROR_INCORRECT_PARAMETER_OR_OPTION
 
         # Check that the input list doesn't exceed the maximum length.
         if options['validate'] == 'list' and type(options['value']) is list:
@@ -2315,7 +2365,7 @@ class Worksheet(xmlwriter.XMLwriter):
             if len(formula) > 255:
                 warn("Length of list items '%s' exceeds Excel's limit of "
                      "255, use a formula range instead" % formula)
-                return -2
+                return ReturnCode.XW_ERROR_INCORRECT_PARAMETER_OR_OPTION
 
         # Set some defaults if they haven't been defined by the user.
         if 'ignore_blank' not in options:
@@ -2337,7 +2387,7 @@ class Worksheet(xmlwriter.XMLwriter):
         # Store the validation information until we close the worksheet.
         self.validations.append(options)
 
-        return 0
+        return ReturnCode.XW_NO_ERROR
 
     @convert_range_args
     def conditional_format(self, first_row, first_col, last_row, last_col,
@@ -2353,15 +2403,17 @@ class Worksheet(xmlwriter.XMLwriter):
             options:      Conditional format options.
 
         Returns:
-            0:  Success.
-            -1: Row or column is out of worksheet bounds.
-            -2: Incorrect parameter or option.
+            XW_NO_ERROR: Success.
+            XW_ERROR_WORKSHEET_INDEX_OUT_OF_RANGE: Row or column is out of
+                                                   worksheet bounds.
+            XW_ERROR_INCORRECT_PARAMETER_OR_OPTION: Incorrect parameter or
+                                                    option.
         """
         # Check that row and col are valid without storing the values.
         if self._check_dimensions(first_row, first_col, True, True):
-            return -1
+            return ReturnCode.XW_ERROR_WORKSHEET_INDEX_OUT_OF_RANGE
         if self._check_dimensions(last_row, last_col, True, True):
-            return -1
+            return ReturnCode.XW_ERROR_WORKSHEET_INDEX_OUT_OF_RANGE
 
         if options is None:
             options = {}
@@ -2413,12 +2465,12 @@ class Worksheet(xmlwriter.XMLwriter):
             if param_key not in valid_parameter:
                 warn("Unknown parameter '%s' in conditional_format()" %
                      param_key)
-                return -2
+                return ReturnCode.XW_ERROR_INCORRECT_PARAMETER_OR_OPTION
 
         # 'type' is a required parameter.
         if 'type' not in options:
             warn("Parameter 'type' is required in conditional_format()")
-            return -2
+            return ReturnCode.XW_ERROR_INCORRECT_PARAMETER_OR_OPTION
 
         # Valid types.
         valid_type = {
@@ -2446,7 +2498,7 @@ class Worksheet(xmlwriter.XMLwriter):
         if options['type'] not in valid_type:
             warn("Unknown value '%s' for parameter 'type' "
                  "in conditional_format()" % options['type'])
-            return -2
+            return ReturnCode.XW_ERROR_INCORRECT_PARAMETER_OR_OPTION
         else:
             if options['type'] == 'bottom':
                 options['direction'] = 'bottom'
@@ -2499,7 +2551,7 @@ class Worksheet(xmlwriter.XMLwriter):
                 if not supported_datetime(options['value']):
                     warn("Conditional format 'value' must be a "
                          "datetime object.")
-                    return -2
+                    return ReturnCode.XW_ERROR_INCORRECT_PARAMETER_OR_OPTION
                 else:
                     date_time = self._convert_date_time(options['value'])
                     # Format date number to the same precision as Excel.
@@ -2509,7 +2561,7 @@ class Worksheet(xmlwriter.XMLwriter):
                 if not supported_datetime(options['minimum']):
                     warn("Conditional format 'minimum' must be a "
                          "datetime object.")
-                    return -2
+                    return ReturnCode.XW_ERROR_INCORRECT_PARAMETER_OR_OPTION
                 else:
                     date_time = self._convert_date_time(options['minimum'])
                     options['minimum'] = "%.16g" % date_time
@@ -2518,7 +2570,7 @@ class Worksheet(xmlwriter.XMLwriter):
                 if not supported_datetime(options['maximum']):
                     warn("Conditional format 'maximum' must be a "
                          "datetime object.")
-                    return -2
+                    return ReturnCode.XW_ERROR_INCORRECT_PARAMETER_OR_OPTION
                 else:
                     date_time = self._convert_date_time(options['maximum'])
                     options['maximum'] = "%.16g" % date_time
@@ -2550,13 +2602,13 @@ class Worksheet(xmlwriter.XMLwriter):
             if not options.get('icon_style'):
                 warn("The 'icon_style' parameter must be specified when "
                      "'type' == 'icon_set' in conditional_format()")
-                return -3
+                return ReturnCode.XW_ERROR_INCORRECT_PARAMETER_OR_OPTION
 
             # Check for valid icon styles.
             if options['icon_style'] not in valid_icons:
                 warn("Unknown icon_style '%s' in conditional_format()" %
                      options['icon_style'])
-                return -2
+                return ReturnCode.XW_ERROR_INCORRECT_PARAMETER_OR_OPTION
             else:
                 options['icon_style'] = valid_icons[options['icon_style']]
 
@@ -2823,7 +2875,7 @@ class Worksheet(xmlwriter.XMLwriter):
         else:
             self.cond_formats[cell_range] = [options]
 
-        return 0
+        return ReturnCode.XW_NO_ERROR
 
     @convert_range_args
     def add_table(self, first_row, first_col, last_row, last_col,
@@ -2839,10 +2891,13 @@ class Worksheet(xmlwriter.XMLwriter):
             options:      Table format options. (Optional)
 
         Returns:
-            0:  Success.
-            -1: Not supported in constant_memory mode.
-            -2: Row or column is out of worksheet bounds.
-            -3: Incorrect parameter or option.
+            XW_NO_ERROR: Success.
+            XW_ERROR_NOT_SUPPORTED_COSTANT_MEMORY: Not supported in
+                                                   constant_memory mode.
+            XW_ERROR_WORKSHEET_INDEX_OUT_OF_RANGE: Row or column is out of
+                                                   worksheet bounds.
+            XW_ERROR_INCORRECT_PARAMETER_OR_OPTION: Incorrect parameter or
+                                                    option.
         """
         table = {}
         col_formats = {}
@@ -2855,13 +2910,13 @@ class Worksheet(xmlwriter.XMLwriter):
 
         if self.constant_memory:
             warn("add_table() isn't supported in 'constant_memory' mode")
-            return -1
+            return ReturnCode.XW_ERROR_NOT_SUPPORTED_COSTANT_MEMORY
 
         # Check that row and col are valid without storing the values.
         if self._check_dimensions(first_row, first_col, True, True):
-            return -2
+            return ReturnCode.XW_ERROR_WORKSHEET_INDEX_OUT_OF_RANGE
         if self._check_dimensions(last_row, last_col, True, True):
-            return -2
+            return ReturnCode.XW_ERROR_WORKSHEET_INDEX_OUT_OF_RANGE
 
         # Swap last row/col for first row/col as necessary.
         if first_row > last_row:
@@ -2888,7 +2943,7 @@ class Worksheet(xmlwriter.XMLwriter):
         for param_key in options.keys():
             if param_key not in valid_parameter:
                 warn("Unknown parameter '%s' in add_table()" % param_key)
-                return -3
+                return ReturnCode.XW_ERROR_INCORRECT_PARAMETER_OR_OPTION
 
         # Turn on Excel's defaults.
         options['banded_rows'] = options.get('banded_rows', True)
@@ -2902,7 +2957,7 @@ class Worksheet(xmlwriter.XMLwriter):
 
         if num_rows < 0:
             warn("Must have at least one data row in in add_table()")
-            return -3
+            return ReturnCode.XW_ERROR_INCORRECT_PARAMETER_OR_OPTION
 
         # Set the table options.
         table['show_first_col'] = options.get('first_column', False)
@@ -2919,25 +2974,25 @@ class Worksheet(xmlwriter.XMLwriter):
 
             if ' ' in name:
                 warn("Name '%s' in add_table() cannot contain spaces" % name)
-                return -3
+                return ReturnCode.XW_ERROR_INCORRECT_PARAMETER_OR_OPTION
 
             # Warn if the name contains invalid chars as defined by Excel.
             if (not re.match(r'^[\w\\][\w\\.]*$', name, re.UNICODE)
                     or re.match(r'^\d', name)):
                 warn("Invalid Excel characters in add_table(): '%s'" % name)
-                return -1
+                return ReturnCode.XW_ERROR_INCORRECT_PARAMETER_OR_OPTION
 
             # Warn if the name looks like a cell name.
             if re.match(r'^[a-zA-Z][a-zA-Z]?[a-dA-D]?[0-9]+$', name):
                 warn("Name looks like a cell name in add_table(): '%s'" % name)
-                return -1
+                return ReturnCode.XW_ERROR_INCORRECT_PARAMETER_OR_OPTION
 
             # Warn if the name looks like a R1C1 cell reference.
             if (re.match(r'^[rcRC]$', name)
                     or re.match(r'^[rcRC]\d+[rcRC]\d+$', name)):
                 warn("Invalid name '%s' like a RC cell ref in add_table()"
                      % name)
-                return -1
+                return ReturnCode.XW_ERROR_INCORRECT_PARAMETER_OR_OPTION
 
         # Set the table style.
         if 'style' in options:
@@ -3016,7 +3071,8 @@ class Worksheet(xmlwriter.XMLwriter):
                     if name in seen_names:
                         warn("Duplicate header name in add_table(): '%s'"
                              % name)
-                        return -1
+                        return \
+                            ReturnCode.XW_ERROR_INCORRECT_PARAMETER_OR_OPTION
                     else:
                         seen_names[name] = True
 
@@ -3109,7 +3165,7 @@ class Worksheet(xmlwriter.XMLwriter):
         # Store the table data.
         self.tables.append(table)
 
-        return 0
+        return ReturnCode.XW_NO_ERROR
 
     @convert_cell_args
     def add_sparkline(self, row, col, options=None):
@@ -3122,15 +3178,17 @@ class Worksheet(xmlwriter.XMLwriter):
             options: Sparkline formatting options.
 
         Returns:
-            0:  Success.
-            -1: Row or column is out of worksheet bounds.
-            -2: Incorrect parameter or option.
+            XW_NO_ERROR: Success.
+            XW_ERROR_WORKSHEET_INDEX_OUT_OF_RANGE: Row or column is out of
+                                                   worksheet bounds.
+            XW_ERROR_INCORRECT_PARAMETER_OR_OPTION: Incorrect parameter or
+                                                    option.
 
         """
 
         # Check that row and col are valid without storing the values.
         if self._check_dimensions(row, col, True, True):
-            return -1
+            return ReturnCode.XW_ERROR_WORKSHEET_INDEX_OUT_OF_RANGE
 
         sparkline = {'locations': [xl_rowcol_to_cell(row, col)]}
 
@@ -3171,12 +3229,12 @@ class Worksheet(xmlwriter.XMLwriter):
         for param_key in options.keys():
             if param_key not in valid_parameters:
                 warn("Unknown parameter '%s' in add_sparkline()" % param_key)
-                return -1
+                return ReturnCode.XW_ERROR_INCORRECT_PARAMETER_OR_OPTION
 
         # 'range' is a required parameter.
         if 'range' not in options:
             warn("Parameter 'range' is required in add_sparkline()")
-            return -2
+            return ReturnCode.XW_ERROR_INCORRECT_PARAMETER_OR_OPTION
 
         # Handle the sparkline type.
         spark_type = options.get('type', 'line')
@@ -3184,7 +3242,7 @@ class Worksheet(xmlwriter.XMLwriter):
         if spark_type not in ('line', 'column', 'win_loss'):
             warn("Parameter 'type' must be 'line', 'column' "
                  "or 'win_loss' in add_sparkline()")
-            return -2
+            return ReturnCode.XW_ERROR_INCORRECT_PARAMETER_OR_OPTION
 
         if spark_type == 'win_loss':
             spark_type = 'stacked'
@@ -3209,7 +3267,7 @@ class Worksheet(xmlwriter.XMLwriter):
         if range_count != location_count:
             warn("Must have the same number of location and range "
                  "parameters in add_sparkline()")
-            return -2
+            return ReturnCode.XW_ERROR_INCORRECT_PARAMETER_OR_OPTION
 
         # Store the count.
         sparkline['count'] = len(sparkline['locations'])
@@ -3298,7 +3356,7 @@ class Worksheet(xmlwriter.XMLwriter):
 
         self.sparklines.append(sparkline)
 
-        return 0
+        return ReturnCode.XW_NO_ERROR
 
     @convert_range_args
     def set_selection(self, first_row, first_col, last_row, last_col):
@@ -3535,12 +3593,14 @@ class Worksheet(xmlwriter.XMLwriter):
             password:   An optional password string. (undocumented)
 
         Returns:
-            Nothing.
+            XW_NO_ERROR: Success.
+            XW_ERROR_INCORRECT_PARAMETER_OR_OPTION: Incorrect parameter or
+                                                    option.
 
         """
         if cell_range is None:
             warn('Cell range must be specified in unprotect_range()')
-            return -1
+            return ReturnCode.XW_ERROR_INCORRECT_PARAMETER_OR_OPTION
 
         # Sanitize the cell range.
         cell_range = cell_range.lstrip('=')
@@ -3556,6 +3616,8 @@ class Worksheet(xmlwriter.XMLwriter):
 
         self.protected_ranges.append((cell_range, range_name, password))
 
+        return ReturnCode.XW_NO_ERROR
+
     @convert_cell_args
     def insert_button(self, row, col, options=None):
         """
@@ -3567,14 +3629,15 @@ class Worksheet(xmlwriter.XMLwriter):
             options: Button formatting options.
 
         Returns:
-            0:  Success.
-            -1: Row or column is out of worksheet bounds.
+            XW_NO_ERROR: Success.
+            XW_ERROR_WORKSHEET_INDEX_OUT_OF_RANGE: Row or column is out of
+                                                   worksheet bounds.
 
         """
         # Check insert (row, col) without storing.
         if self._check_dimensions(row, col, True, True):
             warn('Cannot insert button at (%d, %d).' % (row, col))
-            return -1
+            return ReturnCode.XW_ERROR_WORKSHEET_INDEX_OUT_OF_RANGE
 
         if options is None:
             options = {}
@@ -3585,7 +3648,7 @@ class Worksheet(xmlwriter.XMLwriter):
 
         self.has_vml = 1
 
-        return 0
+        return ReturnCode.XW_NO_ERROR
 
     ###########################################################################
     #
@@ -3963,13 +4026,13 @@ class Worksheet(xmlwriter.XMLwriter):
             last_col:     The last column of the cell range.
 
         Returns:
-            0:  Success.
-            -1: Row or column is out of worksheet bounds.
+            XW_NO_ERROR: Success.
+            None : Max print area selected
 
         """
         # Set the print area in the current worksheet.
 
-        # Ignore max print area since it is the same as no  area for Excel.
+        # Ignore max print area since it is the same as no area for Excel.
         if (first_row == 0 and first_col == 0
                 and last_row == self.xls_rowmax - 1
                 and last_col == self.xls_colmax - 1):
@@ -3980,7 +4043,7 @@ class Worksheet(xmlwriter.XMLwriter):
                                        last_row, last_col)
         self.print_area_range = area
 
-        return 0
+        return ReturnCode.XW_NO_ERROR
 
     def print_across(self):
         """
@@ -4115,12 +4178,13 @@ class Worksheet(xmlwriter.XMLwriter):
             options: A dict of ignore errors keys with cell range values.
 
         Returns:
-            0: Success.
-           -1: Incorrect parameter or option.
+            XW_NO_ERROR: Success.
+            XW_ERROR_INCORRECT_PARAMETER_OR_OPTION: Incorrect parameter or
+                                                    option.
 
         """
         if options is None:
-            return -1
+            return ReturnCode.XW_ERROR_INCORRECT_PARAMETER_OR_OPTION
         else:
             # Copy the user defined options so they aren't modified.
             options = options.copy()
@@ -4142,11 +4206,11 @@ class Worksheet(xmlwriter.XMLwriter):
         for param_key in options.keys():
             if param_key not in valid_parameters:
                 warn("Unknown parameter '%s' in ignore_errors()" % param_key)
-                return -1
+                return ReturnCode.XW_ERROR_INCORRECT_PARAMETER_OR_OPTION
 
         self.ignored_errors = options
 
-        return 0
+        return ReturnCode.XW_NO_ERROR
 
     ###########################################################################
     #

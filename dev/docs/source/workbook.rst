@@ -531,6 +531,10 @@ workbook.set_custom_property()
    :type name:           string
    :type property_type:  string
 
+   :returns: XW_NO_ERROR: Success.
+   :returns: XW_ERROR_INCORRECT_PARAMETER_OR_OPTION: Incorrect parameter or
+                                                     option.
+
 
 The ``set_custom_property()`` method can be used to set one or more custom
 document properties not covered by the standard properties in the
@@ -577,6 +581,10 @@ workbook.define_name()
 
    :param string name:    The defined name.
    :param string formula: The cell or range that the defined name refers to.
+
+   :returns: XW_NO_ERROR: Success.
+   :returns: XW_ERROR_INCORRECT_PARAMETER_OR_OPTION: Incorrect parameter or
+                                                     option.
 
 This method is used to defined a name that can be used to represent a value, a
 single cell or a range of cells in a workbook. These are sometimes referred to
