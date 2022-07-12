@@ -1768,6 +1768,7 @@ worksheet.add_table()
    :returns:  0: Success.
    :returns: -1: Row or column is out of worksheet bounds.
    :returns: -2: Incorrect parameter or option.
+   :returns: -3: Not supported in ``constant_memory`` mode.
 
 The ``add_table()`` method is used to group a range of cells into an Excel
 Table::
