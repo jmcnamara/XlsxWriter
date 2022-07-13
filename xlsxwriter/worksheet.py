@@ -16,6 +16,7 @@ from collections import defaultdict
 from collections import namedtuple
 from decimal import Decimal
 from fractions import Fraction
+from functools import wraps
 from io import StringIO
 from math import isinf
 from math import isnan
@@ -70,6 +71,7 @@ def convert_cell_args(method):
     to the default row/col notation.
 
     """
+    @wraps(method)
     def cell_wrapper(self, *args, **kwargs):
 
         try:
@@ -93,6 +95,7 @@ def convert_range_args(method):
     to the default row/col notation.
 
     """
+    @wraps(method)
     def cell_wrapper(self, *args, **kwargs):
 
         try:
@@ -124,6 +127,7 @@ def convert_column_args(method):
     to the default row/col notation.
 
     """
+    @wraps(method)
     def column_wrapper(self, *args, **kwargs):
 
         try:
