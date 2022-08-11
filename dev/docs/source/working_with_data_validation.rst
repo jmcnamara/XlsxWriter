@@ -221,7 +221,8 @@ Note, when using the ``list`` validation with a list of strings, like in the
 last example above, Excel stores the strings internally as a Comma Separated
 Variable string. The total length for this string, including commas, cannot
 exceed the Excel limit of 255 characters. For longer sets of data you should
-use a range reference like the prior example above.
+use a range reference like the prior example above. Also any double quotes in
+strings like ``'"Hello"'`` must be double quoted like this ``'""Hello""'``.
 
 
 maximum
