@@ -635,10 +635,10 @@ def get_sparkline_style(style_id):
 
 def supported_datetime(dt):
     # Determine is an argument is a supported datetime object.
-    return(isinstance(dt, (datetime.datetime,
+    return isinstance(dt, (datetime.datetime,
                            datetime.date,
                            datetime.time,
-                           datetime.timedelta)))
+                           datetime.timedelta))
 
 
 def remove_datetime_timezone(dt_obj, remove_timezone):
