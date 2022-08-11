@@ -363,7 +363,7 @@ non-contiguous ranges.
 
 It is possible to apply the data validation to different cell ranges in a
 worksheet using multiple calls to ``data_validation()``. However, as a
-minor optimization it is also possible in Excel to apply the same data 
+minor optimization it is also possible in Excel to apply the same data
 validation to different non-contiguous cell ranges.
 
 This is replicated in ``data_validation()`` using the ``multi_range``

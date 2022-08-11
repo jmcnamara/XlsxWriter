@@ -73,7 +73,7 @@ The rules for handling data in ``write()`` are as follows:
 
 Strings are then handled as follows:
 
-* Strings that start with ``"="`` are take to match a formula and are written
+* Strings that start with ``"="`` are assumed to match a formula and are written
   using :func:`write_formula()`. This can be overridden, see below.
 
 * Strings that match supported URL types are written using
