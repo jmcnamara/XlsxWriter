@@ -87,6 +87,8 @@ main parameters are:
 +-------------------+-------------+------------+
 | ``show_error``    |             |            |
 +-------------------+-------------+------------+
+| ``multi_range``   |             |            |
++-------------------+-------------+------------+
 
 These parameters are explained in the following sections. Most of the
 parameters are optional, however, you will generally require the three main
@@ -219,7 +221,8 @@ Note, when using the ``list`` validation with a list of strings, like in the
 last example above, Excel stores the strings internally as a Comma Separated
 Variable string. The total length for this string, including commas, cannot
 exceed the Excel limit of 255 characters. For longer sets of data you should
-use a range reference like the prior example above.
+use a range reference like the prior example above. Also any double quotes in
+strings like ``'"Hello"'`` must be double quoted like this ``'""Hello""'``.
 
 
 maximum
@@ -352,6 +355,30 @@ after invalid data is entered' option in the Excel data validation dialog.
 When the option is off an error message is not displayed even if it has been
 set using ``error_message``. It is on by default.
 
+
+multi_range
+***********
+
+The ``multi_range`` option is used to extend a data validation over
+non-contiguous ranges.
+
+It is possible to apply the data validation to different cell ranges in a
+worksheet using multiple calls to ``data_validation()``. However, as a
+minor optimization it is also possible in Excel to apply the same data
+validation to different non-contiguous cell ranges.
+
+This is replicated in ``data_validation()`` using the ``multi_range``
+option. The range must contain the primary range for the data validation
+and any others separated by spaces.
+
+For example to apply one data validation to two ranges, ``'B3:K6'`` and
+``'B9:K12'``::
+
+    worksheet.data_validation('B3:K6', {'validate': 'integer',
+                                        'criteria': 'between',
+                                        'minimum': 1,
+                                        'maximum': 100,
+                                        'multi_range': 'B3:K6 B9:K12'})
 
 
 Data Validation Examples

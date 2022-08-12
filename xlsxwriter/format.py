@@ -846,7 +846,7 @@ class Format(xmlwriter.XMLwriter):
         return attribs
 
     def _get_format_key(self):
-        # Returns a unique hash key for a font. Used by Workbook.
+        # Returns a unique hash key for a format. Used by Workbook.
         if self._format_key is None:
             self._format_key = ':'.join(self._to_string(x) for x in (
                 self._get_font_key(),

@@ -73,7 +73,7 @@ The rules for handling data in ``write()`` are as follows:
 
 Strings are then handled as follows:
 
-* Strings that start with ``"="`` are take to match a formula and are written
+* Strings that start with ``"="`` are assumed to match a formula and are written
   using :func:`write_formula()`. This can be overridden, see below.
 
 * Strings that match supported URL types are written using
@@ -1768,6 +1768,7 @@ worksheet.add_table()
    :returns:  0: Success.
    :returns: -1: Row or column is out of worksheet bounds.
    :returns: -2: Incorrect parameter or option.
+   :returns: -3: Not supported in ``constant_memory`` mode.
 
 The ``add_table()`` method is used to group a range of cells into an Excel
 Table::
@@ -2586,7 +2587,7 @@ See also the :func:`set_locked` and :func:`set_hidden` format methods and
 
    Worksheet level passwords in Excel offer very weak protection. They do not
    encrypt your data and are very easy to deactivate. Full workbook encryption
-   is not supported by ``XlsxWriter``. However, it is possible to encrypt an
+   is not supported by XlsxWriter. However, it is possible to encrypt an
    XlsxWriter file using a third party open source tool called `msoffice-crypt
    <https://github.com/herumi/msoffice>`_. This works for macOS, Linux and
    Windows::

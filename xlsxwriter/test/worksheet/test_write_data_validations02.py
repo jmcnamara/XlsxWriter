@@ -963,3 +963,46 @@ class TestWriteDataValidations(unittest.TestCase):
         got = _xml_to_list(got)
 
         self.assertEqual(got, exp)
+
+    def test_write_data_validations_47(self):
+        """
+        Test 47 Check multi range with A1 style cell ranges.
+        """
+        self.worksheet.data_validation(4, 1, 9, 1, {'validate': 'integer',
+                                                    'criteria': 'between',
+                                                    'minimum': 1,
+                                                    'maximum': 10,
+                                                    'multi_range': 'B5:B10 D5:D10',
+                                                    })
+
+        self.worksheet._write_data_validations()
+
+        exp = '<dataValidations count="1"><dataValidation type="whole" allowBlank="1" showInputMessage="1" showErrorMessage="1" sqref="B5:B10 D5:D10"><formula1>1</formula1><formula2>10</formula2></dataValidation></dataValidations>'
+        got = self.fh.getvalue()
+
+        exp = _xml_to_list(exp)
+        got = _xml_to_list(got)
+
+        self.assertEqual(got, exp)
+
+    def test_write_data_validations_48(self):
+        """
+        Test 48 Check multi range with A1 style cells.
+        """
+        self.worksheet.data_validation(4, 1, 4, 1, {'validate': 'integer',
+                                                    'criteria': 'between',
+                                                    'minimum': 1,
+                                                    'maximum': 10,
+                                                    'other_cells': [[4, 3, 4, 3]],
+                                                    'multi_range': 'B5 C5',
+                                                    })
+
+        self.worksheet._write_data_validations()
+
+        exp = '<dataValidations count="1"><dataValidation type="whole" allowBlank="1" showInputMessage="1" showErrorMessage="1" sqref="B5 C5"><formula1>1</formula1><formula2>10</formula2></dataValidation></dataValidations>'
+        got = self.fh.getvalue()
+
+        exp = _xml_to_list(exp)
+        got = _xml_to_list(got)
+
+        self.assertEqual(got, exp)

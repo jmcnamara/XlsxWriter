@@ -16,6 +16,7 @@ from collections import defaultdict
 from collections import namedtuple
 from decimal import Decimal
 from fractions import Fraction
+from functools import wraps
 from io import StringIO
 from math import isinf
 from math import isnan
@@ -70,6 +71,7 @@ def convert_cell_args(method):
     to the default row/col notation.
 
     """
+    @wraps(method)
     def cell_wrapper(self, *args, **kwargs):
 
         try:
@@ -93,6 +95,7 @@ def convert_range_args(method):
     to the default row/col notation.
 
     """
+    @wraps(method)
     def cell_wrapper(self, *args, **kwargs):
 
         try:
@@ -124,6 +127,7 @@ def convert_column_args(method):
     to the default row/col notation.
 
     """
+    @wraps(method)
     def column_wrapper(self, *args, **kwargs):
 
         try:
@@ -2151,6 +2155,7 @@ class Worksheet(xmlwriter.XMLwriter):
             'error_message': True,
             'error_type': True,
             'other_cells': True,
+            'multi_range': True,
         }
 
         # Check for valid input parameters.
@@ -2333,6 +2338,10 @@ class Worksheet(xmlwriter.XMLwriter):
         # A (for now) undocumented parameter to pass additional cell ranges.
         if 'other_cells' in options:
             options['cells'].extend(options['other_cells'])
+
+        # Override with user defined multiple range if provided.
+        if 'multi_range' in options:
+            options['multi_range'] = options['multi_range'].replace('$', '')
 
         # Store the validation information until we close the worksheet.
         self.validations.append(options)
@@ -2840,9 +2849,9 @@ class Worksheet(xmlwriter.XMLwriter):
 
         Returns:
             0:  Success.
-            -1: Not supported in constant_memory mode.
-            -2: Row or column is out of worksheet bounds.
-            -3: Incorrect parameter or option.
+            -1: Row or column is out of worksheet bounds.
+            -2: Incorrect parameter or option.
+            -3: Not supported in constant_memory mode.
         """
         table = {}
         col_formats = {}
@@ -2855,13 +2864,13 @@ class Worksheet(xmlwriter.XMLwriter):
 
         if self.constant_memory:
             warn("add_table() isn't supported in 'constant_memory' mode")
-            return -1
+            return -3
 
         # Check that row and col are valid without storing the values.
         if self._check_dimensions(first_row, first_col, True, True):
-            return -2
+            return -1
         if self._check_dimensions(last_row, last_col, True, True):
-            return -2
+            return -1
 
         # Swap last row/col for first row/col as necessary.
         if first_row > last_row:
@@ -2888,7 +2897,7 @@ class Worksheet(xmlwriter.XMLwriter):
         for param_key in options.keys():
             if param_key not in valid_parameter:
                 warn("Unknown parameter '%s' in add_table()" % param_key)
-                return -3
+                return -2
 
         # Turn on Excel's defaults.
         options['banded_rows'] = options.get('banded_rows', True)
@@ -2902,7 +2911,7 @@ class Worksheet(xmlwriter.XMLwriter):
 
         if num_rows < 0:
             warn("Must have at least one data row in in add_table()")
-            return -3
+            return -2
 
         # Set the table options.
         table['show_first_col'] = options.get('first_column', False)
@@ -2919,25 +2928,25 @@ class Worksheet(xmlwriter.XMLwriter):
 
             if ' ' in name:
                 warn("Name '%s' in add_table() cannot contain spaces" % name)
-                return -3
+                return -2
 
             # Warn if the name contains invalid chars as defined by Excel.
             if (not re.match(r'^[\w\\][\w\\.]*$', name, re.UNICODE)
                     or re.match(r'^\d', name)):
                 warn("Invalid Excel characters in add_table(): '%s'" % name)
-                return -1
+                return -2
 
             # Warn if the name looks like a cell name.
             if re.match(r'^[a-zA-Z][a-zA-Z]?[a-dA-D]?[0-9]+$', name):
                 warn("Name looks like a cell name in add_table(): '%s'" % name)
-                return -1
+                return -2
 
             # Warn if the name looks like a R1C1 cell reference.
             if (re.match(r'^[rcRC]$', name)
                     or re.match(r'^[rcRC]\d+[rcRC]\d+$', name)):
                 warn("Invalid name '%s' like a RC cell ref in add_table()"
                      % name)
-                return -1
+                return -2
 
         # Set the table style.
         if 'style' in options:
@@ -3016,7 +3025,7 @@ class Worksheet(xmlwriter.XMLwriter):
                     if name in seen_names:
                         warn("Duplicate header name in add_table(): '%s'"
                              % name)
-                        return -1
+                        return -2
                     else:
                         seen_names[name] = True
 
@@ -6895,6 +6904,9 @@ class Worksheet(xmlwriter.XMLwriter):
                 (col_first, col_last) = (col_last, col_first)
 
             sqref += xl_range(row_first, col_first, row_last, col_last)
+
+        if options.get('multi_range'):
+            sqref = options['multi_range']
 
         if options['validate'] != 'none':
             attributes.append(('type', options['validate']))

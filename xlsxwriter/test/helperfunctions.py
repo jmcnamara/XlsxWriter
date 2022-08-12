@@ -113,7 +113,7 @@ def _compare_xlsx_files(got_file, exp_file, ignore_files, ignore_elements):
         error = "XlsxWriter file error: " + str(e)
         return error, ''
     except (BadZipfile, LargeZipFile) as e:
-        error = "XlsxWriter zipfile error, '" + exp_file + "': " + str(e)
+        error = "XlsxWriter zipfile error, '" + got_file + "': " + str(e)
         return error, ''
 
     try:
