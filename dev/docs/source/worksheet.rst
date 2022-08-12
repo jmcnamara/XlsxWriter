@@ -291,7 +291,8 @@ double-precision floating point. This means that, in most cases, the maximum
 number of digits that can be stored in Excel without losing precision is 15.
 
 .. note::
-   NAN and INF are not supported and will raise a TypeError exception.
+   NAN and INF are not supported and will raise a TypeError exception unless
+   the ``nan_inf_to_errors`` Workbook() option is used.
 
 The ``cell_format`` parameter is used to apply formatting to the cell. This
 parameter is optional but when present is should be a valid

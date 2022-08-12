@@ -8,6 +8,7 @@
 
 # Standard packages.
 import datetime
+import math
 import os
 import re
 import tempfile
@@ -601,8 +602,11 @@ class Worksheet(xmlwriter.XMLwriter):
                 if isnan(number):
                     return self._write_formula(row, col, '#NUM!', cell_format,
                                                '#NUM!')
-                elif isinf(number):
+                elif number == math.inf:
                     return self._write_formula(row, col, '1/0', cell_format,
+                                               '#DIV/0!')
+                elif number == -math.inf:
+                    return self._write_formula(row, col, '-1/0', cell_format,
                                                '#DIV/0!')
             else:
                 raise TypeError(
