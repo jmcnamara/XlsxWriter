@@ -36,10 +36,8 @@ install:
 test:
 	@~/.pythonbrew/pythons/Python-3.9.0/bin/python -m unittest discover
 
-# Test with stable Python 2/3 releases.
+# Test with stable Python 3 releases.
 testpythons:
-	@echo "Testing with Python 3.5.0:"
-	@~/.pythonbrew/pythons/Python-3.5.0/bin/py.test -q
 	@echo "Testing with Python 3.6.6:"
 	@~/.pythonbrew/pythons/Python-3.6.6/bin/py.test -q
 	@echo "Testing with Python 3.7.0:"

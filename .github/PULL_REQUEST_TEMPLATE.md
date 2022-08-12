@@ -37,7 +37,7 @@ There is a make target that will verify the source and test files using [flake8]
 
 ### Running tests
 
-As a minimum, tests should be run using Python 3.5+.
+As a minimum, tests should be run using Python 3.6+.
 
 
     make test
