@@ -848,7 +848,7 @@ class Format(xmlwriter.XMLwriter):
     def _get_format_key(self):
         # Returns a unique hash key for a format. Used by Workbook.
         if self._format_key is None:
-            self._format_key = ':'.join(self._to_string(x) for x in (
+            self._format_key = ':'.join(str(x) for x in (
                 self._get_font_key(),
                 self._get_border_key(),
                 self._get_fill_key(),
@@ -861,7 +861,7 @@ class Format(xmlwriter.XMLwriter):
 
     def _get_font_key(self):
         # Returns a unique hash key for a font. Used by Workbook.
-        key = ':'.join(self._to_string(x) for x in (
+        key = ':'.join(str(x) for x in (
             self.bold,
             self.font_color,
             self.font_charset,
@@ -880,7 +880,7 @@ class Format(xmlwriter.XMLwriter):
 
     def _get_border_key(self):
         # Returns a unique hash key for a border style. Used by Workbook.
-        key = ':'.join(self._to_string(x) for x in (
+        key = ':'.join(str(x) for x in (
             self.bottom,
             self.bottom_color,
             self.diag_border,
@@ -897,7 +897,7 @@ class Format(xmlwriter.XMLwriter):
 
     def _get_fill_key(self):
         # Returns a unique hash key for a fill style. Used by Workbook.
-        key = ':'.join(self._to_string(x) for x in (
+        key = ':'.join(str(x) for x in (
             self.pattern,
             self.bg_color,
             self.fg_color))
@@ -907,7 +907,7 @@ class Format(xmlwriter.XMLwriter):
     def _get_alignment_key(self):
         # Returns a unique hash key for alignment formats.
 
-        key = ':'.join(self._to_string(x) for x in (
+        key = ':'.join(str(x) for x in (
             self.text_h_align,
             self.text_v_align,
             self.indent,
@@ -984,13 +984,6 @@ class Format(xmlwriter.XMLwriter):
             color = named_colors[color]
 
         return color
-
-    def _to_string(self, value):
-        # Convert number to a string but allow for utf-8 strings in Python 2.
-        try:
-            return str(value)
-        except UnicodeEncodeError:
-            return value.encode('utf-8')
 
     ###########################################################################
     #
