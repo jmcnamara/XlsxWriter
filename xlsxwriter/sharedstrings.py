@@ -85,7 +85,7 @@ class SharedStrings(xmlwriter.XMLwriter):
     def _write_sst_strings(self):
         # Write the sst string elements.
 
-        for string in (self.string_table._get_strings()):
+        for string in (self.string_table.string_array):
             self._write_si(string)
 
     def _write_si(self, string):
@@ -156,7 +156,3 @@ class SharedStringTable(object):
         self.string_array = sorted(self.string_table,
                                    key=self.string_table.__getitem__)
         self.string_table = {}
-
-    def _get_strings(self):
-        """" Return the sorted string list. """
-        return self.string_array
