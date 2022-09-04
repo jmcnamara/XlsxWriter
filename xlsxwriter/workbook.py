@@ -1030,15 +1030,14 @@ class Workbook(xmlwriter.XMLwriter):
                 xf_format.fg_color = xf_format.bg_color
                 xf_format.bg_color = tmp
 
-            if (xf_format.pattern <= 1 and xf_format.bg_color != 0
+            if (xf_format.pattern == 0 and xf_format.bg_color != 0
                     and xf_format.fg_color == 0):
                 xf_format.fg_color = xf_format.bg_color
                 xf_format.bg_color = 0
                 xf_format.pattern = 1
 
-            if (xf_format.pattern <= 1 and xf_format.bg_color == 0
+            if (xf_format.pattern == 0 and xf_format.bg_color == 0
                     and xf_format.fg_color != 0):
-                xf_format.bg_color = 0
                 xf_format.pattern = 1
 
             key = xf_format._get_fill_key()
