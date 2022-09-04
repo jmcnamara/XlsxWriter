@@ -17,7 +17,6 @@ option to ``True``.
 
 The Python 3 Runtime Environment in Google App Engine supports a
 `filesystem with read/write access to /tmp <https://cloud.google.com/appengine/docs/standard/python3/runtime#filesystem>`_
-which means that the ``in_memory`` option isn't required.
-required there.
+which means that the ``in_memory`` option isn't required there.
 
 .. literalinclude:: ../../../examples/http_server.py
