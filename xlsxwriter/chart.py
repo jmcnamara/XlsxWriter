@@ -872,8 +872,9 @@ class Chart(xmlwriter.XMLwriter):
             if token is None:
                 continue
 
-            # Check for strings like '1.1_1' which would evaluate to float.
-            if type(token) == str and '_' in token:
+            # Check for strings that would evaluate to float like
+            # '1.1_1' of ' 1'.
+            if type(token) == str and re.search('[_ ]', token):
                 # Assume entire data series is string data.
                 return 'str'
 
