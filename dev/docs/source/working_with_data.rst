@@ -238,7 +238,7 @@ For more information on using Pandas with XlsxWriter see :ref:`ewx_pandas`.
 Writing user defined types
 --------------------------
 
-As shown in the the first section above, the worksheet :func:`write` method
+As shown in the first section above, the worksheet :func:`write` method
 maps the main Python data types to Excel's data types. If you want to write an
 unsupported type then you can either avoid ``write()`` and map the user type
 in your code to one of the more specific write methods or you can extend it

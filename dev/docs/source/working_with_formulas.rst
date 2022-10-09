@@ -114,7 +114,7 @@ The following special case functions were also added with Dynamic Arrays:
 
 Dynamic arrays are ranges of return values that can change in size based on
 the results. For example, a function such as ``FILTER()`` returns an array of
-values that can vary in size depending on the the filter results. This is
+values that can vary in size depending on the filter results. This is
 shown in the snippet below from :ref:`ex_dynamic_arrays`::
 
     worksheet1.write('F2', '=FILTER(A1:D17,C1:C17=K2)')

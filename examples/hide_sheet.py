@@ -23,7 +23,7 @@ worksheet1.write('A1', 'Sheet2 is hidden')
 worksheet2.write('A1', "Now it's my turn to find you!")
 worksheet3.write('A1', 'Sheet2 is hidden')
 
-# Note, you can't hide the the "active" worksheet, which generally is the
+# Note, you can't hide the "active" worksheet, which generally is the
 # first worksheet, since this would cause an Excel error. So, in order to hide
 # the first sheet you will need to activate another worksheet:
 #

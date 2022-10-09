@@ -684,7 +684,7 @@ workbook.get_worksheet_by_name()
    :rtype: A :ref:`worksheet <Worksheet>` object.
 
 The ``get_worksheet_by_name()`` method returns the worksheet or chartsheet
-object with the the given ``name`` or ``None`` if it isn't found::
+object with the given ``name`` or ``None`` if it isn't found::
 
     worksheet = workbook.get_worksheet_by_name('Sheet1')
 
