@@ -23,7 +23,7 @@ class TestCompareXLSXFiles(ExcelComparisonTest):
         self.ignore_files = ['xl/printerSettings/printerSettings1.bin',
                              'xl/worksheets/_rels/sheet1.xml.rels']
         self.ignore_elements = {'[Content_Types].xml': ['<Default Extension="bin"'],
-                                'xl/worksheets/sheet1.xml': ['<pageMargins', '<pageSetup']}
+                                'xl/worksheets/sheet1.xml': ['<pageMargins']}
 
     def test_create_file(self):
         """Test the creation of a simple XlsxWriter file with fit across."""
@@ -33,6 +33,7 @@ class TestCompareXLSXFiles(ExcelComparisonTest):
         worksheet = workbook.add_worksheet()
 
         worksheet.print_across()
+        worksheet.set_paper(9)
 
         worksheet.write('A1', 'Foo')
 
