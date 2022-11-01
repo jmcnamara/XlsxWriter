@@ -2323,7 +2323,7 @@ worksheet.freeze_panes()
    :param int top_row:  Topmost visible row in scrolling region of pane.
    :param int left_col: Leftmost visible row in scrolling region of pane.
 
-This ``freeze_panes`` method can be used to divide a worksheet into horizontal
+The ``freeze_panes()`` method can be used to divide a worksheet into horizontal
 or vertical regions known as panes and to "freeze" these panes so that the
 splitter bars are not visible.
 
