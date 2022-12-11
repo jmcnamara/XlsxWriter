@@ -33,27 +33,27 @@ class TestAssembleWorksheet(unittest.TestCase):
 
         worksheet.conditional_format('A1:A4',
                                      {'type': 'top',
-                                      'value': 10,
+                                      'value': 15,
                                       'format': None,
                                       })
 
         worksheet.conditional_format('A1:A4',
                                      {'type': 'bottom',
-                                      'value': 10,
+                                      'value': 16,
                                       'format': None,
                                       })
 
         worksheet.conditional_format('A1:A4',
                                      {'type': 'top',
                                       'criteria': '%',
-                                      'value': 10,
+                                      'value': 17,
                                       'format': None,
                                       })
 
         worksheet.conditional_format('A1:A4',
                                      {'type': 'bottom',
                                       'criteria': '%',
-                                      'value': 10,
+                                      'value': 18,
                                       'format': None,
                                       })
 
@@ -90,10 +90,10 @@ class TestAssembleWorksheet(unittest.TestCase):
                     </row>
                   </sheetData>
                   <conditionalFormatting sqref="A1:A4">
-                    <cfRule type="top10" priority="1" rank="10"/>
-                    <cfRule type="top10" priority="2" bottom="1" rank="10"/>
-                    <cfRule type="top10" priority="3" percent="1" rank="10"/>
-                    <cfRule type="top10" priority="4" percent="1" bottom="1" rank="10"/>
+                    <cfRule type="top10" priority="1" rank="15"/>
+                    <cfRule type="top10" priority="2" bottom="1" rank="16"/>
+                    <cfRule type="top10" priority="3" percent="1" rank="17"/>
+                    <cfRule type="top10" priority="4" percent="1" bottom="1" rank="18"/>
                   </conditionalFormatting>
                   <pageMargins left="0.7" right="0.7" top="0.75" bottom="0.75" header="0.3" footer="0.3"/>
                 </worksheet>
