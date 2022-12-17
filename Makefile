@@ -48,6 +48,8 @@ testpythons:
 	@~/.pythonbrew/pythons/Python-3.9.0/bin/py.test -q
 	@echo "Testing with Python 3.10.0:"
 	@~/.pythonbrew/pythons/Python-3.10.0/bin/py.test -q
+	@echo "Testing with Python 3.11.1:"
+	@~/.pythonbrew/pythons/Python-3.11.1/bin/py.test -q
 
 test_flake8:
 	@ls -1 xlsxwriter/*.py | egrep -v "theme|__init__" | xargs flake8 --show-source
