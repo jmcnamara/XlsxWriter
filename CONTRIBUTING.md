@@ -11,7 +11,7 @@ Here are some tips on reporting bugs in XlsxWriter.
 The bug you are reporting may already be fixed in the latest version of the
 module. You can check which version of xlsxwriter that you are using as follows:
 
-    python -c 'import xlsxwriter; print(xlsxwriter.__version__)'
+    python -c "import xlsxwriter; print(xlsxwriter.__version__)"
 
 
 The [Changes](https://github.com/jmcnamara/XlsxWriter/blob/master/Changes) file lists what has changed in the latest versions.

@@ -111,7 +111,7 @@ The bug you are reporting may already be fixed in the latest version of the
 module. You can check which version of XlsxWriter that you are using as
 follows::
 
-    python -c 'import xlsxwriter; print(xlsxwriter.__version__)'
+    python -c "import xlsxwriter; print(xlsxwriter.__version__)"
 
 Check the :ref:`changes` section to see what has changed in the latest versions.
 

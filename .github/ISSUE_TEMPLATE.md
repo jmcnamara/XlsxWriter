@@ -51,7 +51,7 @@ Notes:
 5. You can get the required version numbers as follows:
 
         python --version
-        python -c 'import xlsxwriter; print(xlsxwriter.__version__)'
+        python -c "import xlsxwriter; print(xlsxwriter.__version__)"
 
 
 ## Feature requests
