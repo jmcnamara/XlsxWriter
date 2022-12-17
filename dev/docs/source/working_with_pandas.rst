@@ -33,7 +33,7 @@ To use XlsxWriter with Pandas you specify it as the Excel writer *engine*::
     df.to_excel(writer, sheet_name='Sheet1')
 
     # Close the Pandas Excel writer and output the Excel file.
-    writer.save()
+    writer.close()
 
 The output from this would look like the following:
 
@@ -333,7 +333,7 @@ byte array::
     # Write the data frame to the BytesIO object.
     df.to_excel(writer, sheet_name='Sheet1')
 
-    writer.save()
+    writer.close()
     xlsx_data = output.getvalue()
 
     # Do something with the data...

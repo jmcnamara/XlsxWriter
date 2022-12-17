@@ -36,4 +36,4 @@ percent_format = workbook.add_format({'num_format': '0%'})
 worksheet.set_column(2, 2, None, percent_format)
 
 # Close the Pandas Excel writer and output the Excel file.
-writer.save()
+writer.close()

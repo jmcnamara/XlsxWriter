@@ -20,4 +20,4 @@ writer = pd.ExcelWriter('pandas_simple.xlsx', engine='xlsxwriter')
 df.to_excel(writer, sheet_name='Sheet1')
 
 # Close the Pandas Excel writer and output the Excel file.
-writer.save()
+writer.close()

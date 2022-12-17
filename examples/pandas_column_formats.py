@@ -38,4 +38,4 @@ worksheet.set_column(1, 1, 18, format1)
 worksheet.set_column(2, 2, None, format2)
 
 # Close the Pandas Excel writer and output the Excel file.
-writer.save()
+writer.close()

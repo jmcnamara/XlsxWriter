@@ -24,4 +24,4 @@ df2.to_excel(writer, sheet_name='Sheet2')
 df3.to_excel(writer, sheet_name='Sheet3')
 
 # Close the Pandas Excel writer and output the Excel file.
-writer.save()
+writer.close()

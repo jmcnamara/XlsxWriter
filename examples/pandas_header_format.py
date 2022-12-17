@@ -39,4 +39,4 @@ for col_num, value in enumerate(df.columns.values):
     worksheet.write(0, col_num + 1, value, header_format)
 
 # Close the Pandas Excel writer and output the Excel file.
-writer.save()
+writer.close()

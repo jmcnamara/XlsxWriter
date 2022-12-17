@@ -42,4 +42,4 @@ for row_num in (df.index[(df['Region'] != 'East')].tolist()):
     worksheet.set_row(row_num + 1, options={'hidden': True})
 
 # Close the Pandas Excel writer and output the Excel file.
-writer.save()
+writer.close()

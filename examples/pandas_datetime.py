@@ -45,4 +45,4 @@ worksheet = writer.sheets['Sheet1']
 worksheet.set_column(1, max_col, 20)
 
 # Close the Pandas Excel writer and output the Excel file.
-writer.save()
+writer.close()

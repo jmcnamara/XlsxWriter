@@ -54,4 +54,4 @@ chart.set_y_axis({'name': 'Farms', 'major_gridlines': {'visible': False}})
 worksheet.insert_chart(1, 5, chart)
 
 # Close the Pandas Excel writer and output the Excel file.
-writer.save()
+writer.close()

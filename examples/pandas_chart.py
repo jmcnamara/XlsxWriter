@@ -36,4 +36,4 @@ chart.add_series({'values': ['Sheet1', 1, 1, max_row, 1]})
 worksheet.insert_chart(1, 3, chart)
 
 # Close the Pandas Excel writer and output the Excel file.
-writer.save()
+writer.close()

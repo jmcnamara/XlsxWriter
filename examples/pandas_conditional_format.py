@@ -31,4 +31,4 @@ worksheet.conditional_format(1, max_col, max_row, max_col,
                              {'type': '3_color_scale'})
 
 # Close the Pandas Excel writer and output the Excel file.
-writer.save()
+writer.close()
