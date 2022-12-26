@@ -370,10 +370,11 @@ the equivalent VBA code looks like this::
     .CenterHeader = "&""Times New Roman,Regular""Hello"
     .RightHeader = ""
 
-Alternatively you can inspect the header and footer strings in an Excel file
-by unzipping it and grepping the XML sub-files. The following shows how to do
-that using `libxml's xmllint <http://xmlsoft.org/xmllint.html>`_ to format the
-XML for clarity::
+Alternatively you can inspect the header and footer strings in an Excel file by
+unzipping it and grepping the XML sub-files. The following shows how to do that
+using `libxml's xmllint
+<https://gnome.pages.gitlab.gnome.org/libxml2/xmllint.html>`_ to format the XML
+for clarity::
 
     $ unzip myfile.xlsm -d myfile
     $ xmllint --format `find myfile -name "*.xml" | xargs` | egrep "Header|Footer" | sed 's/&amp;/\&/g'

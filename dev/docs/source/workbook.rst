@@ -609,7 +609,7 @@ Excel convention and enclose it in single quotes::
 
 The rules for names in Excel are explained in the Microsoft Office
 documentation on how to `Define and use names in formulas
-<http://office.microsoft.com/en-001/excel-help/define-and-use-names-in-formulas-HA010147120.aspx>`_.
+<https://support.microsoft.com/en-us/office/define-and-use-names-in-formulas-4d0f13ac-53b7-422e-afd2-abd7ff379c64>`_.
 
 See also :ref:`ex_defined_name`.
 

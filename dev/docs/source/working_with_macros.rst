@@ -120,8 +120,8 @@ worksheet ``set_vba_name()`` methods as follows::
 
 You can find the names that are used in the VBA editor or by unzipping the
 ``xlsm`` file and grepping the files. The following shows how to do that using
-`libxml's xmllint <http://xmlsoft.org/xmllint.html>`_ to format the XML for
-clarity::
+`libxml's xmllint <https://gnome.pages.gitlab.gnome.org/libxml2/xmllint.html>`_
+to format the XML for clarity::
 
 
     $ unzip myfile.xlsm -d myfile

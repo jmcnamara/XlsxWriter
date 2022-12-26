@@ -945,7 +945,7 @@ Release 0.5.4 - May 4 2014
   :issue:`115`.
 
 * Added clearer reporting of nested exceptions in ``write()`` methods.
-  :issue:`108`.
+  :pull:`108`.
 
 * Added support for ``inside_base`` data label position in charts.
 
