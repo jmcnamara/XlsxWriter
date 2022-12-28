@@ -238,10 +238,7 @@ range. The example in the image above was generated using the following::
 The Excel 365 LAMBDA() function
 -------------------------------
 
-**Note: at the time of writing the LAMBDA() function in Excel is only
-available to Excel 365 users subscribed to the Beta Channel updates.**
-
-Beta Channel versions of Excel 365 have introduced a powerful new
+Recent versions of Excel 365 have introduced a powerful new
 function/feature called ``LAMBDA()``. This is similar to the `lambda
 <https://docs.python.org/3/howto/functional.html#small-functions-and-the-lambda-expression>`_
 function in Python (and other languages).
