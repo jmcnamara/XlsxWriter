@@ -1,3 +1,10 @@
+Release 3.0.4 - December 28 2022
+--------------------------------
+
+* Roll up release of several minor fixes.
+
+* Drop support for EOL Python 3.4 and 3.5.
+
 
 Release 3.0.3 - February 27 2022
 --------------------------------
