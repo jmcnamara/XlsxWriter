@@ -43,6 +43,7 @@ from .exceptions import UndefinedImageSize
 from .exceptions import UnsupportedImageFormat
 from .exceptions import FileCreateError
 from .exceptions import FileSizeError
+from .returncodes import ReturnCode
 
 
 class Workbook(xmlwriter.XMLwriter):
@@ -294,18 +295,21 @@ class Workbook(xmlwriter.XMLwriter):
             is_stream:   vba_project is an in memory byte stream.
 
         Returns:
-            Nothing.
+            XW_NO_ERROR: Success.
+            XW_ERROR_VBA_FILE_NOT_FOUND: VBA project binary file not found
 
         """
         if not is_stream and not os.path.exists(vba_project):
             warn("VBA project binary file '%s' not found." % vba_project)
-            return -1
+            return ReturnCode.XW_ERROR_VBA_FILE_NOT_FOUND
 
         if self.vba_codename is None:
             self.vba_codename = 'ThisWorkbook'
 
         self.vba_project = vba_project
         self.vba_is_stream = is_stream
+
+        return ReturnCode.XW_NO_ERROR
 
     def close(self):
         """
@@ -403,13 +407,15 @@ class Workbook(xmlwriter.XMLwriter):
             property_type: The type of the custom property. Optional.
 
         Returns:
-            Nothing.
+            XW_NO_ERROR: Success.
+            XW_ERROR_INCORRECT_PARAMETER_OR_OPTION: Incorrect parameter or
+                                                    option.
 
         """
         if name is None or value is None:
             warn("The name and value parameters must be non-None in "
                  "set_custom_property()")
-            return -1
+            return ReturnCode.XW_ERROR_INCORRECT_PARAMETER_OR_OPTION
 
         if property_type is None:
             # Determine the property type from the Python type.
@@ -436,6 +442,8 @@ class Workbook(xmlwriter.XMLwriter):
                  "characters in set_custom_property(): '%s'" % name)
 
         self.custom_properties.append((name, value, property_type))
+
+        return ReturnCode.XW_NO_ERROR
 
     def set_calc_mode(self, mode, calc_id=None):
         """
@@ -473,7 +481,9 @@ class Workbook(xmlwriter.XMLwriter):
             formula: The cell or range that the defined name refers to.
 
         Returns:
-            Nothing.
+            XW_NO_ERROR: Success.
+            XW_ERROR_INCORRECT_PARAMETER_OR_OPTION: Incorrect parameter or
+                                                    option.
 
         """
         sheet_index = None
@@ -495,7 +505,7 @@ class Workbook(xmlwriter.XMLwriter):
             # Warn if the sheet index wasn't found.
             if sheet_index is None:
                 warn("Unknown sheet name '%s' in defined_name()" % sheetname)
-                return -1
+                return ReturnCode.XW_ERROR_INCORRECT_PARAMETER_OR_OPTION
         else:
             # Use -1 to indicate global names.
             sheet_index = -1
@@ -504,21 +514,23 @@ class Workbook(xmlwriter.XMLwriter):
         if (not re.match(r'^[\w\\][\w\\.]*$', name, re.UNICODE)
                 or re.match(r'^\d', name)):
             warn("Invalid Excel characters in defined_name(): '%s'" % name)
-            return -1
+            return ReturnCode.XW_ERROR_INCORRECT_PARAMETER_OR_OPTION
 
         # Warn if the defined name looks like a cell name.
         if re.match(r'^[a-zA-Z][a-zA-Z]?[a-dA-D]?[0-9]+$', name):
             warn("Name looks like a cell name in defined_name(): '%s'" % name)
-            return -1
+            return ReturnCode.XW_ERROR_INCORRECT_PARAMETER_OR_OPTION
 
         # Warn if the name looks like a R1C1 cell reference.
         if (re.match(r'^[rcRC]$', name)
                 or re.match(r'^[rcRC]\d+[rcRC]\d+$', name)):
             warn("Invalid name '%s' like a RC cell ref in defined_name()"
                  % name)
-            return -1
+            return ReturnCode.XW_ERROR_INCORRECT_PARAMETER_OR_OPTION
 
         self.defined_names.append([name, sheet_index, formula, False])
+
+        return ReturnCode.XW_NO_ERROR
 
     def worksheets(self):
         """

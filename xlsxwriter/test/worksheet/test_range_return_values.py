@@ -8,6 +8,7 @@
 
 import unittest
 from ...worksheet import Worksheet
+from ...returncodes import ReturnCode
 
 
 class TestRangeReturnValues(unittest.TestCase):
@@ -21,7 +22,7 @@ class TestRangeReturnValues(unittest.TestCase):
 
         max_row = 1048576
         max_col = 16384
-        bound_error = -1
+        bound_error = ReturnCode.XW_ERROR_WORKSHEET_INDEX_OUT_OF_RANGE
 
         # Test some out of bound values.
         got = worksheet.write_string(max_row, 0, 'Foo')

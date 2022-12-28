@@ -17,6 +17,7 @@
 from xlsxwriter.workbook import Workbook
 from xlsxwriter.worksheet import Worksheet
 from xlsxwriter.worksheet import convert_cell_args
+from xlsxwriter.returncodes import ReturnCode
 
 
 def excel_string_width(str):
@@ -48,7 +49,7 @@ class MyWorksheet(Worksheet):
 
         # Check that row and col are valid and store max and min values.
         if self._check_dimensions(row, col):
-            return -1
+            return ReturnCode.XW_ERROR_WORKSHEET_INDEX_OUT_OF_RANGE
 
         # Set the min width for the cell. In some cases this might be the
         # default width of 8.43. In this case we use 0 and adjust for all
