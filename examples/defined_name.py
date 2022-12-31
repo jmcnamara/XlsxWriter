@@ -6,7 +6,7 @@
 # a single cell or a range of cells in a workbook.
 #
 # SPDX-License-Identifier: BSD-2-Clause
-# Copyright 2013-2022, John McNamara, jmcnamara@cpan.org
+# Copyright 2013-2023, John McNamara, jmcnamara@cpan.org
 #
 import xlsxwriter
 

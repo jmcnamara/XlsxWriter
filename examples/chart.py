@@ -3,7 +3,7 @@
 # An example of a simple Excel chart with Python and XlsxWriter.
 #
 # SPDX-License-Identifier: BSD-2-Clause
-# Copyright 2013-2022, John McNamara, jmcnamara@cpan.org
+# Copyright 2013-2023, John McNamara, jmcnamara@cpan.org
 #
 import xlsxwriter
 

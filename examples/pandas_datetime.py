@@ -4,7 +4,7 @@
 # with a default datetime and date format using Pandas and XlsxWriter.
 #
 # SPDX-License-Identifier: BSD-2-Clause
-# Copyright 2013-2022, John McNamara, jmcnamara@cpan.org
+# Copyright 2013-2023, John McNamara, jmcnamara@cpan.org
 #
 
 import pandas as pd

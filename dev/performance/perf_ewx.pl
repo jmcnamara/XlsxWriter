@@ -7,7 +7,7 @@
 #
 # perl perf_ewx.pl [num_rows] [optimization_mode]
 #
-# Copyright 2013-2022, John McNamara, jmcnamara@cpan.org
+# Copyright 2013-2023, John McNamara, jmcnamara@cpan.org
 
 use strict;
 use warnings;
