@@ -1,3 +1,15 @@
+
+Release 3.0.5 - January 1 2023
+------------------------------
+
+* Added `OverlappingRange` exception which is raised during Worksheet
+  :func:`add_table()` or :func:`merge_range()` if the range overlaps an existing
+  worksheet table or merge range. This is a file corruption error in Excel. See
+  :ref:`exceptions`.
+
+  :issue:`848`
+
+
 Release 3.0.4 - December 28 2022
 --------------------------------
 
@@ -543,7 +555,7 @@ Release 0.9.6 - Dec 26 2016
 * Fix for table with data but without a header. :issue:`405`.
 
 * Add a warning when the number of series in a chart exceeds Excel's limit of
-  255. :issue:`399`.
+  1.   :issue:`399`.
 
 
 Release 0.9.5 - Dec 24 2016
