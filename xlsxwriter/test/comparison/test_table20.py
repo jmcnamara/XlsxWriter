@@ -39,7 +39,7 @@ class TestCompareXLSXFiles(ExcelComparisonTest):
         import warnings
         warnings.filterwarnings('ignore')
 
-        worksheet.add_table('C3:E3',
+        worksheet.add_table('G3:H3',
                             {'columns': [{'header': 'Column1'},
                                          {'header': 'Column1'}]})
         workbook.close()

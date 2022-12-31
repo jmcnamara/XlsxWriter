@@ -33,6 +33,8 @@ The hierarchy of exceptions in XlsxWriter is:
 
     * ``DuplicateWorksheetName(XlsxInputError)``
 
+    * ``OverlappingRange(XlsxInputError)``
+
 
 Exception: XlsxWriterException
 ------------------------------
@@ -321,3 +323,29 @@ Raises::
 
     xlsxwriter.exceptions.DuplicateWorksheetName:
         Sheetname 'sheet1', with case ignored, is already in use.
+
+
+Exception: OverlappingRange
+---------------------------------
+
+.. py:exception:: OverlappingRange
+
+This exception is raised during Worksheet :func:`add_table()` or
+:func:`merge_range()` if the range overlaps an existing worksheet table or merge
+range. This is a file corruption error in Excel::
+
+    import xlsxwriter
+
+    workbook = xlsxwriter.Workbook('exception.xlsx')
+
+    worksheet = workbook.add_worksheet()
+
+    worksheet.merge_range('A1:G10', 'Range 1')
+    worksheet.merge_range('G10:K20', 'Range 2')
+
+    workbook.close()
+
+Raises::
+
+    xlsxwriter.exceptions.OverlappingRange:
+        Merge range 'G10:K20' overlaps previous merge range 'A1:G10'.

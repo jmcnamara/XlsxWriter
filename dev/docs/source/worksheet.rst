@@ -1766,6 +1766,8 @@ worksheet.add_table()
    :type  last_col:    int
    :type  options:     dict
 
+   :raises OverlappingRange: if the range overlaps a previous merge or table range.
+
    :returns:  0: Success.
    :returns: -1: Row or column is out of worksheet bounds.
    :returns: -2: Incorrect parameter or option.
@@ -2082,6 +2084,8 @@ worksheet.merge_range()
    :type  last_row:    int
    :type  last_col:    int
    :type  cell_format: :ref:`Format <format>`
+
+   :raises OverlappingRange: if the range overlaps a previous merge or table range.
 
    :returns:  0: Success.
    :returns: -1: Row or column is out of worksheet bounds.

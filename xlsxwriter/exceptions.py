@@ -35,6 +35,10 @@ class DuplicateWorksheetName(XlsxInputError):
     """Worksheet name already exists."""
 
 
+class OverlappingRange(XlsxInputError):
+    """Worksheet merge range or table overlaps previous range."""
+
+
 class UndefinedImageSize(XlsxFileError):
     """No size data found in image file."""
 

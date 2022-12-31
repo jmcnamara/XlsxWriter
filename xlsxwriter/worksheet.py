@@ -41,6 +41,7 @@ from .utility import datetime_to_excel_datetime
 from .utility import preserve_whitespace
 from .utility import quote_sheetname
 from .exceptions import DuplicateTableName
+from .exceptions import OverlappingRange
 
 # Compile performance critical regular expressions.
 re_control_chars_1 = re.compile('(_x[0-9a-fA-F]{4}_)')
@@ -297,6 +298,8 @@ class Worksheet(xmlwriter.XMLwriter):
         self.write_match = []
         self.table = defaultdict(dict)
         self.merge = []
+        self.merged_cells = {}
+        self.table_cells = {}
         self.row_spans = {}
 
         self.has_vml = False
@@ -1967,6 +1970,24 @@ class Worksheet(xmlwriter.XMLwriter):
         if self._check_dimensions(last_row, last_col):
             return -1
 
+        # Check if the merge range overlaps a previous merged or table range.
+        # This is a critical file corruption error in Excel.
+        cell_range = xl_range(first_row, first_col, last_row, last_col)
+        for row in range(first_row, last_row + 1):
+            for col in range(first_col, last_col + 1):
+                if self.merged_cells.get((row, col)):
+                    previous_range = self.merged_cells.get((row, col))
+                    raise OverlappingRange(
+                        "Merge range '%s' overlaps previous merge range '%s'."
+                        % (cell_range, previous_range))
+                elif self.table_cells.get((row, col)):
+                    previous_range = self.table_cells.get((row, col))
+                    raise OverlappingRange(
+                        "Merge range '%s' overlaps previous table range '%s'."
+                        % (cell_range, previous_range))
+                else:
+                    self.merged_cells[(row, col)] = cell_range
+
         # Store the merge range.
         self.merge.append([first_row, first_col, last_row, last_col])
 
@@ -2881,6 +2902,24 @@ class Worksheet(xmlwriter.XMLwriter):
             (first_row, last_row) = (last_row, first_row)
         if first_col > last_col:
             (first_col, last_col) = (last_col, first_col)
+
+        # Check if the table range overlaps a previous merged or table range.
+        # This is a critical file corruption error in Excel.
+        cell_range = xl_range(first_row, first_col, last_row, last_col)
+        for row in range(first_row, last_row + 1):
+            for col in range(first_col, last_col + 1):
+                if self.table_cells.get((row, col)):
+                    previous_range = self.table_cells.get((row, col))
+                    raise OverlappingRange(
+                        "Table range '%s' overlaps previous table range '%s'."
+                        % (cell_range, previous_range))
+                elif self.merged_cells.get((row, col)):
+                    previous_range = self.merged_cells.get((row, col))
+                    raise OverlappingRange(
+                        "Table range '%s' overlaps previous merge range '%s'."
+                        % (cell_range, previous_range))
+                else:
+                    self.table_cells[(row, col)] = cell_range
 
         # Valid input parameters.
         valid_parameter = {

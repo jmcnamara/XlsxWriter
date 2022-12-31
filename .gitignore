@@ -27,4 +27,4 @@ __pycache__
 .idea
 .cache/
 XlsxWriter.egg-info/
-
+.vscode/
