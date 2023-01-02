@@ -210,7 +210,7 @@ class Worksheet(xmlwriter.XMLwriter):
         self.dim_colmin = None
         self.dim_colmax = None
 
-        self.colinfo = {}
+        self.col_info = {}
         self.selections = []
         self.hidden = 0
         self.active = 0
@@ -320,9 +320,7 @@ class Worksheet(xmlwriter.XMLwriter):
         self.filter_cols = {}
         self.filter_type = {}
 
-        self.col_sizes = {}
         self.row_sizes = {}
-        self.col_formats = {}
         self.col_size_changed = False
         self.row_size_changed = False
 
@@ -1781,23 +1779,12 @@ class Worksheet(xmlwriter.XMLwriter):
         if level > self.outline_col_level:
             self.outline_col_level = level
 
-        # Store the column data. Padded for sorting.
-        self.colinfo["%05d" % first_col] = [first_col, last_col, width,
-                                            cell_format, hidden, level,
-                                            collapsed]
+        # Store the column data.
+        for col in range(first_col, last_col + 1):
+            self.col_info[col] = [width, cell_format, hidden, level, collapsed]
 
         # Store the column change to allow optimizations.
         self.col_size_changed = True
-
-        if width is None:
-            width = self.default_col_width
-
-        # Store the col sizes for use when calculating image vertices taking
-        # hidden columns into account. Also store the column formats.
-        for col in range(first_col, last_col + 1):
-            self.col_sizes[col] = [width, hidden]
-            if cell_format:
-                self.col_formats[col] = cell_format
 
         return 0
 
@@ -5041,14 +5028,17 @@ class Worksheet(xmlwriter.XMLwriter):
         # been set by the user we use the default value. A hidden column is
         # treated as having a width of zero unless it has the special
         # "object_position" of 4 (size with cells).
-        max_digit_width = 7  # For Calabri 11.
+        max_digit_width = 7  # For Calibri 11.
         padding = 5
         pixels = 0
 
         # Look up the cell value to see if it has been changed.
-        if col in self.col_sizes:
-            width = self.col_sizes[col][0]
-            hidden = self.col_sizes[col][1]
+        if col in self.col_info:
+            width = self.col_info[col][0]
+            hidden = self.col_info[col][2]
+
+            if width is None:
+                width = self.default_col_width
 
             # Convert to pixels.
             if hidden and anchor != 4:
@@ -5850,21 +5840,45 @@ class Worksheet(xmlwriter.XMLwriter):
         # Write the <cols> element and <col> sub elements.
 
         # Exit unless some column have been formatted.
-        if not self.colinfo:
+        if not self.col_info:
             return
 
         self._xml_start_tag('cols')
 
-        for col in sorted(self.colinfo.keys()):
-            self._write_col_info(self.colinfo[col])
+        # Use the first element of the column information structures to set
+        # the initial/previous properties.
+        first_col = (sorted(self.col_info.keys()))[0]
+        last_col = first_col
+        prev_col_options = self.col_info[first_col]
+        del self.col_info[first_col]
+        deleted_col = first_col
+        deleted_col_options = prev_col_options
+
+        for col in sorted(self.col_info.keys()):
+            col_options = self.col_info[col]
+            # Check if the column number is contiguous with the previous
+            # column and if the properties are the same.
+            if col == last_col + 1 and col_options == prev_col_options:
+                last_col = col
+            else:
+                # If not contiguous/equal then we write out the current range
+                # of columns and start again.
+                self._write_col_info(first_col, last_col, prev_col_options)
+                first_col = col
+                last_col = first_col
+                prev_col_options = col_options
+
+        # We will exit the previous loop with one unhandled column range.
+        self._write_col_info(first_col, last_col, prev_col_options)
+
+        # Put back the deleted first column information structure.
+        self.col_info[deleted_col] = deleted_col_options
 
         self._xml_end_tag('cols')
 
-    def _write_col_info(self, col_info):
+    def _write_col_info(self, col_min, col_max, col_info):
         # Write the <col> element.
-
-        (col_min, col_max, width, cell_format,
-         hidden, level, collapsed) = col_info
+        (width, cell_format, hidden, level, collapsed) = col_info
 
         custom_width = 1
         xf_index = 0
@@ -6280,7 +6294,6 @@ class Worksheet(xmlwriter.XMLwriter):
         # Note. This is the innermost loop so efficiency is important.
 
         cell_range = xl_rowcol_to_cell_fast(row, col)
-
         attributes = [('r', cell_range)]
 
         if cell.format:
@@ -6291,10 +6304,11 @@ class Worksheet(xmlwriter.XMLwriter):
             # Add the row format.
             row_xf = self.set_rows[row][1]
             attributes.append(('s', row_xf._get_xf_index()))
-        elif col in self.col_formats:
+        elif col in self.col_info:
             # Add the column format.
-            col_xf = self.col_formats[col]
-            attributes.append(('s', col_xf._get_xf_index()))
+            col_xf = self.col_info[col][1]
+            if col_xf is not None:
+                attributes.append(('s', col_xf._get_xf_index()))
 
         type_cell_name = type(cell).__name__
 

@@ -27,7 +27,7 @@ class TestCompareXLSXFiles(ExcelComparisonTest):
 
         worksheet = workbook.add_worksheet()
 
-        worksheet.set_column("A:A", 0.08)
+        worksheet.set_column("A:Z", 0.08)  # Test that the cols are overridden.
         worksheet.set_column("B:B", 0.17)
         worksheet.set_column("C:C", 0.25)
         worksheet.set_column("D:D", 0.33)
