@@ -35,6 +35,7 @@ from .utility import xl_cell_to_rowcol
 from .utility import xl_col_to_name
 from .utility import xl_range
 from .utility import xl_color
+from .utility import xl_pixel_width
 from .utility import get_sparkline_style
 from .utility import supported_datetime
 from .utility import datetime_to_excel_datetime
@@ -160,8 +161,10 @@ cell_number_tuple = namedtuple('Number', 'number, format')
 cell_blank_tuple = namedtuple('Blank', 'format')
 cell_boolean_tuple = namedtuple('Boolean', 'boolean, format')
 cell_formula_tuple = namedtuple('Formula', 'formula, format, value')
+cell_datetime_tuple = namedtuple('Datetime', 'number, format')
 cell_arformula_tuple = namedtuple('ArrayFormula',
                                   'formula, format, value, range, atype')
+cell_rich_string_tuple = namedtuple('RichString', 'string, format, raw_string')
 
 
 ###############################################################################
@@ -292,6 +295,7 @@ class Worksheet(xmlwriter.XMLwriter):
         self.default_row_pixels = 20
         self.default_col_width = 8.43
         self.default_col_pixels = 64
+        self.default_date_pixels = 68
         self.default_row_zeroed = 0
 
         self.names = {}
@@ -1032,7 +1036,7 @@ class Worksheet(xmlwriter.XMLwriter):
             cell_format = self.default_date_format
 
         # Store the cell data in the worksheet data table.
-        self.table[row][col] = cell_number_tuple(number, cell_format)
+        self.table[row][col] = cell_datetime_tuple(number, cell_format)
 
         return 0
 
@@ -1234,11 +1238,10 @@ class Worksheet(xmlwriter.XMLwriter):
 
     # Undecorated version of write_rich_string().
     def _write_rich_string(self, row, col, *args):
-
         tokens = list(args)
         cell_format = None
-        str_length = 0
         string_index = 0
+        raw_string = ''
 
         # Check that row and col are valid and store max and min values
         if self._check_dimensions(row, col):
@@ -1285,8 +1288,8 @@ class Worksheet(xmlwriter.XMLwriter):
                          "Ignoring input in write_rich_string().")
                     return -4
 
-                # Keep track of actual string str_length.
-                str_length += len(token)
+                # Keep track of unformatted string.
+                raw_string += token
                 previous = 'string'
             else:
                 # Can't allow 2 formats in a row.
@@ -1325,7 +1328,7 @@ class Worksheet(xmlwriter.XMLwriter):
         string = self.rstring.fh.getvalue()
 
         # Check that the string is < 32767 chars.
-        if str_length > self.xls_strmax:
+        if len(raw_string) > self.xls_strmax:
             warn("String length must be less than or equal to Excel's limit "
                  "of 32,767 characters in write_rich_string().")
             return -2
@@ -1341,7 +1344,9 @@ class Worksheet(xmlwriter.XMLwriter):
             self._write_single_row(row)
 
         # Store the cell data in the worksheet data table.
-        self.table[row][col] = cell_string_tuple(string_index, cell_format)
+        self.table[row][col] = cell_rich_string_tuple(string_index,
+                                                      cell_format,
+                                                      raw_string)
 
         return 0
 
@@ -1781,7 +1786,8 @@ class Worksheet(xmlwriter.XMLwriter):
 
         # Store the column data.
         for col in range(first_col, last_col + 1):
-            self.col_info[col] = [width, cell_format, hidden, level, collapsed]
+            self.col_info[col] = [width, cell_format, hidden,
+                                  level, collapsed, False]
 
         # Store the column change to allow optimizations.
         self.col_size_changed = True
@@ -1812,6 +1818,131 @@ class Worksheet(xmlwriter.XMLwriter):
 
         return self.set_column(first_col, last_col, width,
                                cell_format, options)
+
+    def autofit(self):
+        """
+        Simulate autofit based on the data, and datatypes in each column.
+
+        Args:
+            None.
+
+        Returns:
+            Nothing.
+
+        """
+        if self.constant_memory:
+            warn("Autofit is not supported in constant_memory mode.")
+            return
+
+        # Store the max pixel width for each column.
+        col_width_max = {}
+
+        # Create a reverse lookup for the share strings table so we can convert
+        # the string id back to the original string.
+        strings = sorted(self.str_table.string_table,
+                         key=self.str_table.string_table.__getitem__)
+
+        for row_num in range(self.dim_rowmin, self.dim_rowmax + 1):
+            if not self.table.get(row_num):
+                continue
+
+            for col_num in range(self.dim_colmin, self.dim_colmax + 1):
+                if col_num in self.table[row_num]:
+                    cell = self.table[row_num][col_num]
+                    cell_type = type(cell).__name__
+                    length = 0
+
+                    if cell_type == 'String' or cell_type == 'RichString':
+                        # Handle strings and rich strings.
+                        #
+                        # For standard shared strings we do a reverse lookup
+                        # from the shared string id to the actual string. For
+                        # rich strings we use the unformatted string. We also
+                        # split multi-line strings and handle each part
+                        # separately.
+                        if cell_type == 'String':
+                            string_id = cell.string
+                            string = strings[string_id]
+                        else:
+                            string = cell.raw_string
+
+                        if "\n" not in string:
+                            # Single line string.
+                            length = xl_pixel_width(string)
+                        else:
+                            # Handle multi-line strings.
+                            for string in (string.split("\n")):
+                                seg_length = xl_pixel_width(string)
+                                if seg_length > length:
+                                    length = seg_length
+
+                    elif cell_type == 'Number':
+                        # Handle numbers.
+                        #
+                        # We use a workaround/optimization for numbers since
+                        # digits all have a pixel width of 7. This gives a
+                        # slightly greater width for the decimal place and
+                        # minus sign but only by a few pixels and
+                        # over-estimation is okay.
+                        length = 7 * len(str(cell.number))
+
+                    elif cell_type == 'Datetime':
+                        # Handle dates.
+                        #
+                        # The following uses the default width for mm/dd/yyyy
+                        # dates. It isn't feasible to parse the number format
+                        # to get the actual string width for all format types.
+                        length = self.default_date_pixels
+
+                    elif cell_type == 'Boolean':
+                        # Handle boolean values.
+                        #
+                        # Use the Excel standard widths for TRUE and FALSE.
+                        if cell.boolean:
+                            length = 31
+                        else:
+                            length = 36
+
+                    elif (cell_type == 'Formula'
+                            or cell_type == 'ArrayFormula'):
+                        # Handle formulas.
+                        #
+                        # We only try to autofit a formula if it has a
+                        # non-zero value.
+                        if isinstance(cell.value, (float, int)):
+                            if cell.value > 0:
+                                length = 7 * len(str(cell.value))
+
+                        elif isinstance(cell.value, str):
+                            length = xl_pixel_width(cell.value)
+
+                        elif type(cell.value) == bool:
+                            if cell.value:
+                                length = 31
+                            else:
+                                length = 36
+
+                    # Add the string length to the lookup table.
+                    max = col_width_max.get(col_num, 0)
+                    if length > max:
+                        col_width_max[col_num] = length
+
+        # Apply the width to the column.
+        for (col_num, pixel_width) in col_width_max.items():
+            # Convert the string pixel width to a character width using an
+            # additional padding of 7 pixels, like Excel.
+            width = self._pixels_to_width(pixel_width + 7)
+
+            # The max column character width in Excel is 255.
+            if width > 255.0:
+                width = 255.0
+
+            # Add the width to an existing col info structure or add a new one.
+            if self.col_info.get(col_num):
+                self.col_info[col_num][0] = width
+                self.col_info[col_num][5] = True
+            else:
+                self.col_info[col_num] = [width, None, False, 0, False, True]
 
     def set_row(self, row, height=None, cell_format=None, options=None):
         """
@@ -5426,21 +5557,21 @@ class Worksheet(xmlwriter.XMLwriter):
                 if col_num in self.table[row_num]:
                     cell = self.table[row_num][col_num]
 
-                    type_cell_name = type(cell).__name__
+                    cell_type = type(cell).__name__
 
-                    if type_cell_name == 'Number':
+                    if cell_type == 'Number' or cell_type == 'Datetime':
                         # Return a number with Excel's precision.
                         data.append("%.16g" % cell.number)
 
-                    elif type_cell_name == 'String':
+                    elif cell_type == 'String':
                         # Return a string from it's shared string index.
                         index = cell.string
                         string = self.str_table._get_shared_string(index)
 
                         data.append(string)
 
-                    elif (type_cell_name == 'Formula'
-                            or type_cell_name == 'ArrayFormula'):
+                    elif (cell_type == 'Formula'
+                            or cell_type == 'ArrayFormula'):
                         # Return the formula value.
                         value = cell.value
 
@@ -5449,7 +5580,7 @@ class Worksheet(xmlwriter.XMLwriter):
 
                         data.append(value)
 
-                    elif type_cell_name == 'Blank':
+                    elif cell_type == 'Blank':
                         # Return a empty cell.
                         data.append('')
                 else:
@@ -5878,7 +6009,7 @@ class Worksheet(xmlwriter.XMLwriter):
 
     def _write_col_info(self, col_min, col_max, col_info):
         # Write the <col> element.
-        (width, cell_format, hidden, level, collapsed) = col_info
+        (width, cell_format, hidden, level, collapsed, autofit) = col_info
 
         custom_width = 1
         xf_index = 0
@@ -5920,6 +6051,8 @@ class Worksheet(xmlwriter.XMLwriter):
             attributes.append(('style', xf_index))
         if hidden:
             attributes.append(('hidden', '1'))
+        if autofit:
+            attributes.append(('bestFit', '1'))
         if custom_width:
             attributes.append(('customWidth', '1'))
         if level:
@@ -6313,11 +6446,11 @@ class Worksheet(xmlwriter.XMLwriter):
         type_cell_name = type(cell).__name__
 
         # Write the various cell types.
-        if type_cell_name == 'Number':
+        if type_cell_name == 'Number' or type_cell_name == 'Datetime':
             # Write a number.
             self._xml_number_element(cell.number, attributes)
 
-        elif type_cell_name == 'String':
+        elif type_cell_name == 'String' or type_cell_name == 'RichString':
             # Write a string.
             string = cell.string
 
