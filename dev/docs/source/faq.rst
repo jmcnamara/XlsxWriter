@@ -85,17 +85,6 @@ Q. Is feature X supported or will it be supported?
 All supported features are documented. Future features are on the `Roadmap
 <https://github.com/jmcnamara/XlsxWriter/issues/653>`_.
 
-.. _faq_autofit:
-
-Q. Is there an "AutoFit" option for columns?
---------------------------------------------
-
-Unfortunately, there is no way to specify "AutoFit" for a column in the Excel
-file format. This feature is only available at runtime from within Excel. It
-is possible to simulate "AutoFit" in your application by tracking the maximum
-width of the data in the column as your write it and then adjusting the column
-width at the end.
-
 .. _faq_protect_workbook:
 
 Q. Can I password protect an XlsxWriter xlsx file
