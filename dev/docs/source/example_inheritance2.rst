@@ -18,7 +18,7 @@ Some notes on this:
 
 * **This isn't a fully functional autofit example** (as shown by the longer
   strings in the screen shot). It is only a proof or concept or a framework to
-  try out solutions.
+  try out solutions. See the the worksheet :func:`autofit` method instead.
 
 * The hard part is coming up with an accurate (or mainly accurate)
   ``excel_string_width()`` function. One possibility is to use the PIL

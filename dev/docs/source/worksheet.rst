@@ -1112,18 +1112,6 @@ Examples::
     worksheet.set_column('E:E', 20)  # Column  E   width set to 20.
     worksheet.set_column('F:H', 30)  # Columns F-H width set to 30.
 
-Ranges cannot overlap. Each unique contiguous range should be specified
-separately::
-
-    # This won't work.
-    worksheet.set_column('A:D', 50)
-    worksheet.set_column('C:C', 10)
-
-    # It needs to be split into non-overlapping regions.
-    worksheet.set_column('A:B', 50)
-    worksheet.set_column('C:C', 10)
-    worksheet.set_column('D:E', 50)
-
 The ``width`` parameter sets the column width in the same units used by Excel
 which is: the number of characters in the default font. The default width is
 8.43 in the default font of Calibri 11. The actual relationship between a
@@ -1132,11 +1120,7 @@ explanation of column widths <https://support.microsoft.com/en-us/kb/214123>`_
 from the Microsoft support documentation for more details. To set the width in
 pixels use the :func:`set_column_pixels` method.
 
-There is no way to specify "AutoFit" for a column in the Excel file
-format. This feature is only available at runtime from within Excel. It is
-possible to simulate "AutoFit" in your application by tracking the maximum
-width of the data in the column as your write it and then adjusting the column
-width at the end.
+See also the  :func:`autofit` method for simulated autofitting of column widths.
 
 As usual the ``cell_format`` :ref:`Format <format>` parameter is optional. If
 you wish to set the format without changing the default column width you can
@@ -1228,6 +1212,31 @@ that the width can be set in pixels instead of Excel character units::
 
 All other parameters and options are the same as ``set_column()``. See the
 documentation on :func:`set_column` for more details.
+
+
+worksheet.autofit()
+-------------------
+
+.. py:function:: autofit()
+
+   Simulates autofit for column widths.
+
+   :returns:  Nothing.
+
+The ``autofit()`` method can be used to simulate autofitting column widths based
+on the largest string/number in the column::
+
+    worksheet.autofit()
+
+.. image:: _images/autofit_win.png
+
+See :ref:`ex_autofit`
+
+There are some limitations to be aware of when using this method:
+
+- It is simulated based on string pixel width calculations since autofit isn't
+  part of the file format.
+- It is based on the default font and font size.
 
 
 worksheet.insert_image()
