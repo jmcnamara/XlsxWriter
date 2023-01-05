@@ -28,7 +28,7 @@ class PyTest(Command):
 
 setup(
     name='XlsxWriter',
-    version='3.0.5',
+    version='3.0.6',
     author='John McNamara',
     author_email='jmcnamara@cpan.org',
     url='https://github.com/jmcnamara/XlsxWriter',
