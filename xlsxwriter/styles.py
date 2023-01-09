@@ -603,6 +603,9 @@ class Styles(xmlwriter.XMLwriter):
             ('xfId', xf_id),
         ]
 
+        if xf_format.quote_prefix:
+            attributes.append(('quotePrefix', 1))
+
         if xf_format.num_format_index > 0:
             attributes.append(('applyNumberFormat', 1))
 

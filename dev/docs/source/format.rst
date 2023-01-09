@@ -1198,3 +1198,16 @@ format.set_diag_color()
    :param string color: The cell border color.
 
 See :func:`set_border_color` for details on the border colors.
+
+
+format.set_quote_prefix()
+-------------------------
+
+.. py:function:: set_quote_prefix()
+
+   Turn on quote prefix for the format.
+
+Set the quote prefix property of a format to ensure a string is treated as a
+string after editing. This is the same as prefixing the string with a single
+quote in Excel. You don't need to add the quote to the string but you do need
+to add the format.

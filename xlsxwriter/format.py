@@ -106,6 +106,8 @@ class Format(xmlwriter.XMLwriter):
         self.color_indexed = 0
         self.font_only = 0
 
+        self.quote_prefix = False
+
         # Convert properties in the constructor to method calls.
         for key, value in properties.items():
             getattr(self, 'set_' + key)(value)
@@ -642,6 +644,19 @@ class Format(xmlwriter.XMLwriter):
         """
         self.diag_border = diag_border
 
+    def set_quote_prefix(self, quote_prefix=True):
+        """
+        Set the Format quote prefix property.
+
+        Args:
+            quote_prefix: Default is True, turns property on.
+
+        Returns:
+            Nothing.
+
+        """
+        self.quote_prefix = quote_prefix
+
     ###########################################################################
     #
     # Internal Format properties. These aren't documented since they are
@@ -855,6 +870,7 @@ class Format(xmlwriter.XMLwriter):
                 self._get_alignment_key(),
                 self.num_format,
                 self.locked,
+                self.quote_prefix,
                 self.hidden))
 
         return self._format_key
