@@ -1232,6 +1232,13 @@ on the largest string/number in the column::
 
 See :ref:`ex_autofit`
 
+The ``autofit()`` method won't override a user defined column width set with
+``set_column()`` or ``set_column_pixels()`` if it is greater than the autofit
+value. This allows the user to set a minimum width value for a column.
+
+You can also  call ``set_column()`` and  ``set_column_pixels()`` after
+``autofit()`` to override any of the calculated values.
+
 There are some limitations to be aware of when using this method:
 
 - It is simulated based on string pixel width calculations since autofit isn't

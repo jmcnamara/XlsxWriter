@@ -29,7 +29,10 @@ class TestCompareXLSXFiles(ExcelComparisonTest):
 
         worksheet.write_string(0, 0, "A")
 
-        worksheet.set_column("A:A", 1.57)
+        worksheet.set_column("A:A", 1.57143)
+
+        # Autofit shouldn't override the user value here.
+        worksheet.autofit()
 
         workbook.close()
 

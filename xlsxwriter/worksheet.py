@@ -1946,8 +1946,19 @@ class Worksheet(xmlwriter.XMLwriter):
 
             # Add the width to an existing col info structure or add a new one.
             if self.col_info.get(col_num):
-                self.col_info[col_num][0] = width
-                self.col_info[col_num][5] = True
+                # We only update the width for an existing column if it is
+                # greater than the user defined value. This allows the user
+                # to pre-load a minimum col width.
+                col_info = self.col_info.get(col_num)
+                if not col_info[5]:
+                    # Col info is user defined.
+                    user_width = col_info[0]
+                    if width > user_width:
+                        self.col_info[col_num][0] = width
+                        self.col_info[col_num][5] = True
+                else:
+                    self.col_info[col_num][0] = width
+                    self.col_info[col_num][5] = True
             else:
                 self.col_info[col_num] = [width, None, False, 0, False, True]
 
