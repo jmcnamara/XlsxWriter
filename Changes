@@ -1,3 +1,18 @@
+Release 3.0.7 - January 14 2023
+-------------------------------
+
+* Improved :func:`autofit` algorithm to account for the additional width of
+  autofilter and table dropdowns.
+
+* Improved :func:`autofit` take user defined column widths into account.
+
+  Autofit will now only update the width for an existing column if it is greater
+  than the user defined value. This allows the user to pre-load a minimum column
+  width.
+
+  :feature:`936`.
+
+
 Release 3.0.6 - January 5 2023
 ------------------------------
 
