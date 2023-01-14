@@ -4741,31 +4741,22 @@ class Worksheet(xmlwriter.XMLwriter):
 
         return [operator, token]
 
-    def _encode_password(self, plaintext):
-        # Encode the worksheet protection "password" as a simple hash.
-        # Based on the algorithm by Daniel Rentz of OpenOffice.
-        i = 0
-        count = len(plaintext)
-        digits = []
+    def _encode_password(self, password):
+        # Hash a worksheet password. Based on the algorithm in
+        # ECMA-376-4:2016, Office Open XML File Formats — Transitional
+        # Migration Features, Additional attributes for workbookProtection
+        # element (Part 1, §18.2.29).
+        hash = 0x0000
 
-        for char in plaintext:
-            i += 1
-            char = ord(char) << i
-            low_15 = char & 0x7fff
-            high_15 = char & 0x7fff << 15
-            high_15 >>= 15
-            char = low_15 | high_15
-            digits.append(char)
+        for char in password[::-1]:
+            hash = ((hash >> 14) & 0x01) | ((hash << 1) & 0x7fff)
+            hash ^= ord(char)
 
-        password_hash = 0x0000
+        hash = ((hash >> 14) & 0x01) | ((hash << 1) & 0x7fff)
+        hash ^= len(password)
+        hash ^= 0xCE4B
 
-        for digit in digits:
-            password_hash ^= digit
-
-        password_hash ^= count
-        password_hash ^= 0xCE4B
-
-        return "%X" % password_hash
+        return "%X" % hash
 
     def _prepare_image(self, index, image_id, drawing_id, width, height,
                        name, image_type, x_dpi, y_dpi, digest):

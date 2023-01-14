@@ -2564,8 +2564,9 @@ You can optionally add a password to the worksheet protection::
 
     worksheet.protect('abc123')
 
-Passing the empty string ``''`` is the same as turning on protection without a
-password.
+The password should be an ASCII string. Passing the empty string ``''`` is the
+same as turning on protection without a password. See the note below on the
+"password" strength.
 
 You can specify which worksheet elements you wish to protect by passing a
 dictionary in the ``options`` argument with any or all of the following keys::
