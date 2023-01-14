@@ -323,6 +323,7 @@ class Worksheet(xmlwriter.XMLwriter):
         self.filter_on = 0
         self.filter_cols = {}
         self.filter_type = {}
+        self.filter_cells = {}
 
         self.row_sizes = {}
         self.col_size_changed = False
@@ -1922,6 +1923,12 @@ class Worksheet(xmlwriter.XMLwriter):
                             else:
                                 length = 36
 
+                    # If the cell is in an autofilter header we add an
+                    # additional 16 pixels for the dropdown arrow.
+                    if self.filter_cells.get((row_num, col_num)):
+                        if length > 0:
+                            length += 16
+
                     # Add the string length to the lookup table.
                     max = col_width_max.get(col_num, 0)
                     if length > max:
@@ -2150,6 +2157,10 @@ class Worksheet(xmlwriter.XMLwriter):
         self.autofilter_area = area
         self.autofilter_ref = ref
         self.filter_range = [first_col, last_col]
+
+        # Store the filter cell positions for use in the autofit calculation.
+        for col in range(first_col, last_col + 1):
+            self.filter_cells[(first_row, col)] = True
 
     def filter_column(self, col, criteria):
         """
@@ -3278,6 +3289,11 @@ class Worksheet(xmlwriter.XMLwriter):
 
         # Store the table data.
         self.tables.append(table)
+
+        # Store the filter cell positions for use in the autofit calculation.
+        if options['autofilter']:
+            for col in range(first_col, last_col + 1):
+                self.filter_cells[(first_row, col)] = True
 
         return 0
 
