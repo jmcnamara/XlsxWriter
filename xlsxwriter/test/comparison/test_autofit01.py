@@ -29,9 +29,16 @@ class TestCompareXLSXFiles(ExcelComparisonTest):
 
         worksheet.write_string(0, 0, "A")
 
-        worksheet.set_column("A:A", 1.57143)
+        # Check for handling default/None width.
+        worksheet.set_column("A:A", None)
+        worksheet.autofit()
 
-        # Autofit shouldn't override the user value here.
+        # Check for handling 0 width.
+        worksheet.set_column("A:A", 0)
+        worksheet.autofit()
+
+        # Check for handling user defined width. Autofit shouldn't override.
+        worksheet.set_column("A:A", 1.57143)
         worksheet.autofit()
 
         workbook.close()

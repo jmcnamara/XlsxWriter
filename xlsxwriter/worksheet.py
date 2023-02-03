@@ -1950,9 +1950,10 @@ class Worksheet(xmlwriter.XMLwriter):
                 # greater than the user defined value. This allows the user
                 # to pre-load a minimum col width.
                 col_info = self.col_info.get(col_num)
-                if not col_info[5]:
+                user_width = col_info[0]
+                hidden = col_info[5]
+                if user_width is not None and not hidden:
                     # Col info is user defined.
-                    user_width = col_info[0]
                     if width > user_width:
                         self.col_info[col_num][0] = width
                         self.col_info[col_num][5] = True
