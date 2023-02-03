@@ -1,3 +1,9 @@
+Release 3.0.8 - February 3 2023
+-------------------------------
+
+* Fix for ``autofit()`` exception when user defined column width was ``None``.
+
+
 Release 3.0.7 - January 14 2023
 -------------------------------
 
@@ -24,7 +30,7 @@ Release 3.0.6 - January 5 2023
 Release 3.0.5 - January 1 2023
 ------------------------------
 
-* Added `OverlappingRange` exception which is raised during Worksheet
+* Added ``OverlappingRange`` exception which is raised during Worksheet
   :func:`add_table()` or :func:`merge_range()` if the range overlaps an existing
   worksheet table or merge range. This is a file corruption error in Excel. See
   :ref:`exceptions`.
