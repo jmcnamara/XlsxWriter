@@ -1232,6 +1232,22 @@ on the largest string/number in the column::
 
 See :ref:`ex_autofit`
 
+There is no option in the xlsx file format that can be used to say "autofit
+columns on loading". Auto-fitting of columns is something that Excel does at
+runtime when it has access to all of the worksheet information as well as the
+Windows functions for calculating display areas based on fonts and formatting.
+
+The ``worksheet.autofit()`` method simulates this behavior by calculating string
+widths using metrics taken from Excel. As such there are some limitations to be
+aware of when using this method:
+
+- It is a simulated method and may not be accurate in all cases.
+- It is based on the default font and font size of Calibri 11. It will not give
+  accurate results for other fonts or font sizes.
+
+This isn't perfect but for most cases it should be sufficient and if not you can
+set your own widths, see below.
+
 The ``autofit()`` method won't override a user defined column width set with
 ``set_column()`` or ``set_column_pixels()`` if it is greater than the autofit
 value. This allows the user to set a minimum width value for a column.
@@ -1239,11 +1255,7 @@ value. This allows the user to set a minimum width value for a column.
 You can also  call ``set_column()`` and  ``set_column_pixels()`` after
 ``autofit()`` to override any of the calculated values.
 
-There are some limitations to be aware of when using this method:
 
-- It is simulated based on string pixel width calculations since autofit isn't
-  part of the file format.
-- It is based on the default font and font size.
 
 
 worksheet.insert_image()
