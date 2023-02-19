@@ -44,10 +44,8 @@ chart1.add_series({
     'values':     ['Sheet1', 1, 2, 6, 2],
 })
 
-# Add a chart title and some axis labels.
+# Add a chart title.
 chart1.set_title ({'name': 'Results of sample analysis'})
-chart1.set_x_axis({'name': 'Test number'})
-chart1.set_y_axis({'name': 'Sample length (mm)'})
 
 # Set an Excel chart style.
 chart1.set_style(11)
@@ -75,10 +73,8 @@ chart2.add_series({
     'values':     '=Sheet1!$C$2:$C$7',
 })
 
-# Add a chart title and some axis labels.
+# Add a chart title.
 chart2.set_title ({'name': 'Radar Chart With Markers'})
-chart2.set_x_axis({'name': 'Test number'})
-chart2.set_y_axis({'name': 'Sample length (mm)'})
 
 # Set an Excel chart style.
 chart2.set_style(12)
@@ -106,10 +102,8 @@ chart3.add_series({
     'values':     '=Sheet1!$C$2:$C$7',
 })
 
-# Add a chart title and some axis labels.
+# Add a chart title.
 chart3.set_title ({'name': 'Filled Radar Chart'})
-chart3.set_x_axis({'name': 'Test number'})
-chart3.set_y_axis({'name': 'Sample length (mm)'})
 
 # Set an Excel chart style.
 chart3.set_style(13)
