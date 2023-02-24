@@ -24,9 +24,12 @@ class TestCompareXLSXFiles(ExcelComparisonTest):
         """Test the creation of a simple XlsxWriter file."""
 
         workbook = Workbook(self.got_filename)
-
         worksheet = workbook.add_worksheet()
 
+        # Before writing data, nothing to autofit (should not raise)
+        worksheet.autofit()
+
+        # Write something that can be autofit
         worksheet.write_string(0, 0, "A")
 
         # Check for handling default/None width.

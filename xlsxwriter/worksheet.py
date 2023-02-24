@@ -1835,6 +1835,10 @@ class Worksheet(xmlwriter.XMLwriter):
             warn("Autofit is not supported in constant_memory mode.")
             return
 
+        # No data written to the target sheet; nothing to autofit
+        if self.dim_rowmax is None:
+            return
+
         # Store the max pixel width for each column.
         col_width_max = {}
 
