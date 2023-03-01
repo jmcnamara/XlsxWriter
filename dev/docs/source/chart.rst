@@ -1092,11 +1092,11 @@ chart.show_blanks_as()
 
 .. py:function:: show_blanks_as(option)
 
-   Set the option for displaying blank data in a chart.
+   Set the option for displaying blank/empty data cells in a chart.
 
    :param string option: A string representing the display option.
 
-The ``show_blanks_as()`` method controls how blank data is displayed in a
+The ``show_blanks_as()`` method controls how blank/empty data is displayed in a
 chart::
 
     chart.show_blanks_as('span')

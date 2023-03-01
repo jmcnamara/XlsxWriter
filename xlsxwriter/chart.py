@@ -846,7 +846,7 @@ class Chart(xmlwriter.XMLwriter):
 
         if name is not None:
             if isinstance(name, list):
-                # Convert an list of values into a name formula.
+                # Convert a list of values into a name formula.
                 cell = xl_rowcol_to_cell(name[1], name[2], True, True)
                 name_formula = quote_sheetname(name[0]) + '!' + cell
                 name = ''
