@@ -33,7 +33,7 @@ class TestAssembleStyles(unittest.TestCase):
             workbook.xf_formats,
             workbook.palette,
             workbook.font_count,
-            workbook.num_format_count,
+            workbook.num_formats,
             workbook.border_count,
             workbook.fill_count,
             workbook.custom_colors,

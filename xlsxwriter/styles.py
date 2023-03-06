@@ -34,7 +34,7 @@ class Styles(xmlwriter.XMLwriter):
         self.xf_formats = []
         self.palette = []
         self.font_count = 0
-        self.num_format_count = 0
+        self.num_formats = []
         self.border_count = 0
         self.fill_count = 0
         self.custom_colors = []
@@ -100,7 +100,7 @@ class Styles(xmlwriter.XMLwriter):
         self.xf_formats = properties[0]
         self.palette = properties[1]
         self.font_count = properties[2]
-        self.num_format_count = properties[3]
+        self.num_formats = properties[3]
         self.border_count = properties[4]
         self.fill_count = properties[5]
         self.custom_colors = properties[6]
@@ -129,18 +129,15 @@ class Styles(xmlwriter.XMLwriter):
 
     def _write_num_fmts(self):
         # Write the <numFmts> element.
-        if not self.num_format_count:
+        if not self.num_formats:
             return
 
-        attributes = [('count', self.num_format_count)]
+        attributes = [('count', len(self.num_formats))]
         self._xml_start_tag('numFmts', attributes)
 
         # Write the numFmts elements.
-        for xf_format in self.xf_formats:
-            # Ignore built-in number formats, i.e., < 164.
-            if xf_format.num_format_index >= 164:
-                self._write_num_fmt(xf_format.num_format_index,
-                                    xf_format.num_format)
+        for index, num_format in enumerate(self.num_formats, 164):
+            self._write_num_fmt(index, num_format)
 
         self._xml_end_tag('numFmts')
 

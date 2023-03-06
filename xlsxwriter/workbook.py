@@ -116,7 +116,7 @@ class Workbook(xmlwriter.XMLwriter):
         self.dxf_format_indices = {}
         self.palette = []
         self.font_count = 0
-        self.num_format_count = 0
+        self.num_formats = []
         self.defined_names = []
         self.named_ranges = []
         self.custom_colors = []
@@ -925,7 +925,8 @@ class Workbook(xmlwriter.XMLwriter):
 
     def _prepare_num_formats(self):
         # User defined records in Excel start from index 0xA4.
-        num_formats = {}
+        unique_num_formats = {}
+        num_formats = []
         index = 164
         num_format_count = 0
 
@@ -951,20 +952,21 @@ class Workbook(xmlwriter.XMLwriter):
                 xf_format.num_format_index = 0
                 continue
 
-            if num_format in num_formats:
+            if num_format in unique_num_formats:
                 # Number xf_format has already been used.
-                xf_format.num_format_index = num_formats[num_format]
+                xf_format.num_format_index = unique_num_formats[num_format]
             else:
                 # Add a new number xf_format.
-                num_formats[num_format] = index
+                unique_num_formats[num_format] = index
                 xf_format.num_format_index = index
                 index += 1
 
                 # Only increase font count for XF formats (not DXF formats).
                 if xf_format.xf_index:
+                    num_formats.append(num_format)
                     num_format_count += 1
 
-        self.num_format_count = num_format_count
+        self.num_formats = num_formats
 
     def _prepare_borders(self):
         # Iterate through the XF Format objects and give them an index to

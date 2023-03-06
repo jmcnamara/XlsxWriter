@@ -412,7 +412,7 @@ class Packager(object):
         xf_formats = self.workbook.xf_formats
         palette = self.workbook.palette
         font_count = self.workbook.font_count
-        num_format_count = self.workbook.num_format_count
+        num_formats = self.workbook.num_formats
         border_count = self.workbook.border_count
         fill_count = self.workbook.fill_count
         custom_colors = self.workbook.custom_colors
@@ -424,7 +424,7 @@ class Packager(object):
             xf_formats,
             palette,
             font_count,
-            num_format_count,
+            num_formats,
             border_count,
             fill_count,
             custom_colors,
