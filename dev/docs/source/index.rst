@@ -30,7 +30,7 @@ features such as formatting and many more, including:
 * Rich multi-format strings.
 * Cell comments.
 * Textboxes.
-* Integration with Pandas.
+* Integration with Pandas and Polars.
 * Memory optimization mode for writing large files.
 
 It supports Python 3.4+ and PyPy3 and uses standard libraries only.
@@ -90,6 +90,7 @@ It supports Python 3.4+ and PyPy3 and uses standard libraries only.
    working_with_memory.rst
    working_with_macros.rst
    working_with_pandas.rst
+   working_with_polars.rst
 
 .. toctree::
    :maxdepth: 1
@@ -105,6 +106,7 @@ It supports Python 3.4+ and PyPy3 and uses standard libraries only.
    :maxdepth: 1
 
    pandas_examples.rst
+   polars_examples.rst
 
 .. toctree::
    :maxdepth: 1

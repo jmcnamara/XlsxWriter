@@ -19,7 +19,7 @@ including:
 * Worksheet PNG/JPEG/GIF/BMP/WMF/EMF images.
 * Rich multi-format strings.
 * Cell comments.
-* Integration with Pandas.
+* Integration with Pandas and Polars.
 * Textboxes.
 * Support for adding Macros.
 * Memory optimization mode for writing large files.

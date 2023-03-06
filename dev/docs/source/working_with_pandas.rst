@@ -3,17 +3,15 @@
 
 .. _ewx_pandas:
 
-Working with Python Pandas and XlsxWriter
-=========================================
+Working with Pandas and XlsxWriter
+==================================
 
 Python `Pandas <https://pandas.pydata.org/>`_ is a Python data analysis
 library. It can read, filter and re-arrange small and large data sets and
 output them in a range of formats including Excel.
 
-Pandas writes Excel files using the `Xlwt
-<https://pypi.org/project/xlwt/>`_ module for xls files and the `Openpyxl
-<https://pypi.org/project/openpyxl/>`_ or XlsxWriter modules for xlsx
-files.
+Pandas writes Excel xlsx files using either `openpyxl
+<https://pypi.org/project/openpyxl/>`_ or XlsxWriter.
 
 
 Using XlsxWriter with Pandas

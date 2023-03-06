@@ -37,9 +37,11 @@ Contents
    working_with_memory.rst
    working_with_macros.rst
    working_with_pandas.rst
+   working_with_polars.rst
    examples.rst
    chart_examples.rst
    pandas_examples.rst
+   polars_examples.rst
    alternatives.rst
    third_party.rst
    bugs.rst

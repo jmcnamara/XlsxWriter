@@ -185,6 +185,9 @@ may be bold text or a different color. It is off by default::
 
 See the above image.
 
+
+.. _tables_style:
+
 style
 -----
 
