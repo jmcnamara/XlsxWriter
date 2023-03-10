@@ -1,3 +1,15 @@
+
+Release 3.0.9 - March 10 2023
+-----------------------------
+
+* Add documentation and examples on :ref:`ewx_polars` to demonstrate new `Polars
+  <https://www.pola.rs>`_ integration of XlsxWriter in `write_excel()`_.
+
+.. _write_excel(): https://pola-rs.github.io/polars/py-polars/html/reference/api/polars.DataFrame.write_excel.html#polars.DataFrame.write_excel
+
+* Add fix for rare issue with duplicate number formats.
+
+
 Release 3.0.8 - February 3 2023
 -------------------------------
 
