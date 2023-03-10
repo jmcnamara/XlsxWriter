@@ -79,7 +79,7 @@ def convert_cell_args(method):
 
         try:
             # First arg is an int, default to row/col notation.
-            if len(args):
+            if args:
                 first_arg = args[0]
                 int(first_arg)
         except ValueError:
@@ -103,7 +103,7 @@ def convert_range_args(method):
 
         try:
             # First arg is an int, default to row/col notation.
-            if len(args):
+            if args:
                 int(args[0])
         except ValueError:
             # First arg isn't an int, convert to A1 notation.
@@ -135,7 +135,7 @@ def convert_column_args(method):
 
         try:
             # First arg is an int, default to row/col notation.
-            if len(args):
+            if args:
                 int(args[0])
         except ValueError:
             # First arg isn't an int, convert to A1 notation.
@@ -458,14 +458,14 @@ class Worksheet(xmlwriter.XMLwriter):
     # Undecorated version of write().
     def _write(self, row, col, *args):
         # Check the number of args passed.
-        if not len(args):
+        if not args:
             raise TypeError("write() takes at least 4 arguments (3 given)")
 
         # The first arg should be the token for all write calls.
         token = args[0]
 
         # Avoid isinstance() for better performance.
-        token_type = type(token)
+        token_type = token.__class__
 
         # Check for any user defined type handlers with callback functions.
         if token_type in self.write_handlers:
@@ -1854,10 +1854,10 @@ class Worksheet(xmlwriter.XMLwriter):
             for col_num in range(self.dim_colmin, self.dim_colmax + 1):
                 if col_num in self.table[row_num]:
                     cell = self.table[row_num][col_num]
-                    cell_type = type(cell).__name__
+                    cell_type = cell.__class__.__name__
                     length = 0
 
-                    if cell_type == 'String' or cell_type == 'RichString':
+                    if cell_type in ('String', 'RichString'):
                         # Handle strings and rich strings.
                         #
                         # For standard shared strings we do a reverse lookup
@@ -2216,7 +2216,7 @@ class Worksheet(xmlwriter.XMLwriter):
 
         tokens = self._extract_filter_tokens(criteria)
 
-        if not (len(tokens) == 3 or len(tokens) == 7):
+        if len(tokens) not in (3, 7):
             warn("Incorrect number of tokens in criteria '%s'" % criteria)
 
         tokens = self._parse_filter_expression(criteria, tokens)
@@ -2309,23 +2309,23 @@ class Worksheet(xmlwriter.XMLwriter):
 
         # Valid input parameters.
         valid_parameters = {
-            'validate': True,
-            'criteria': True,
-            'value': True,
-            'source': True,
-            'minimum': True,
-            'maximum': True,
-            'ignore_blank': True,
-            'dropdown': True,
-            'show_input': True,
-            'input_title': True,
-            'input_message': True,
-            'show_error': True,
-            'error_title': True,
-            'error_message': True,
-            'error_type': True,
-            'other_cells': True,
-            'multi_range': True,
+            'validate',
+            'criteria',
+            'value',
+            'source',
+            'minimum',
+            'maximum',
+            'ignore_blank',
+            'dropdown',
+            'show_input',
+            'input_title',
+            'input_message',
+            'show_error',
+            'error_title',
+            'error_message',
+            'error_type',
+            'other_cells',
+            'multi_range',
         }
 
         # Check for valid input parameters.
@@ -2445,7 +2445,7 @@ class Worksheet(xmlwriter.XMLwriter):
             options['error_type'] = error_types[options['error_type']]
 
         # Convert date/times value if required.
-        if options['validate'] == 'date' or options['validate'] == 'time':
+        if options['validate'] in ('date', 'time'):
 
             if options['value']:
                 if supported_datetime(options['value']):
@@ -2550,42 +2550,42 @@ class Worksheet(xmlwriter.XMLwriter):
 
         # Valid input parameters.
         valid_parameter = {
-            'type': True,
-            'format': True,
-            'criteria': True,
-            'value': True,
-            'minimum': True,
-            'maximum': True,
-            'stop_if_true': True,
-            'min_type': True,
-            'mid_type': True,
-            'max_type': True,
-            'min_value': True,
-            'mid_value': True,
-            'max_value': True,
-            'min_color': True,
-            'mid_color': True,
-            'max_color': True,
-            'min_length': True,
-            'max_length': True,
-            'multi_range': True,
-            'bar_color': True,
-            'bar_negative_color': True,
-            'bar_negative_color_same': True,
-            'bar_solid': True,
-            'bar_border_color': True,
-            'bar_negative_border_color': True,
-            'bar_negative_border_color_same': True,
-            'bar_no_border': True,
-            'bar_direction': True,
-            'bar_axis_position': True,
-            'bar_axis_color': True,
-            'bar_only': True,
-            'data_bar_2010': True,
-            'icon_style': True,
-            'reverse_icons': True,
-            'icons_only': True,
-            'icons': True}
+            'type',
+            'format',
+            'criteria',
+            'value',
+            'minimum',
+            'maximum',
+            'stop_if_true',
+            'min_type',
+            'mid_type',
+            'max_type',
+            'min_value',
+            'mid_value',
+            'max_value',
+            'min_color',
+            'mid_color',
+            'max_color',
+            'min_length',
+            'max_length',
+            'multi_range',
+            'bar_color',
+            'bar_negative_color',
+            'bar_negative_color_same',
+            'bar_solid',
+            'bar_border_color',
+            'bar_negative_border_color',
+            'bar_negative_border_color_same',
+            'bar_no_border',
+            'bar_direction',
+            'bar_axis_position',
+            'bar_axis_color',
+            'bar_only',
+            'data_bar_2010',
+            'icon_style',
+            'reverse_icons',
+            'icons_only',
+            'icons'}
 
         # Check for valid input parameters.
         for param_key in options.keys():
@@ -2671,7 +2671,7 @@ class Worksheet(xmlwriter.XMLwriter):
             options['criteria'] = criteria_type[options['criteria']]
 
         # Convert date/times value if required.
-        if options['type'] == 'date' or options['type'] == 'time':
+        if options['type'] in ('date', 'time'):
             options['type'] = 'cellIs'
 
             if 'value' in options:
@@ -3068,17 +3068,17 @@ class Worksheet(xmlwriter.XMLwriter):
 
         # Valid input parameters.
         valid_parameter = {
-            'autofilter': True,
-            'banded_columns': True,
-            'banded_rows': True,
-            'columns': True,
-            'data': True,
-            'first_column': True,
-            'header_row': True,
-            'last_column': True,
-            'name': True,
-            'style': True,
-            'total_row': True,
+            'autofilter',
+            'banded_columns',
+            'banded_rows',
+            'columns',
+            'data',
+            'first_column',
+            'header_row',
+            'last_column',
+            'name',
+            'style',
+            'total_row',
         }
 
         # Check for valid input parameters.
@@ -3341,32 +3341,32 @@ class Worksheet(xmlwriter.XMLwriter):
 
         # Valid input parameters.
         valid_parameters = {
-            'location': True,
-            'range': True,
-            'type': True,
-            'high_point': True,
-            'low_point': True,
-            'negative_points': True,
-            'first_point': True,
-            'last_point': True,
-            'markers': True,
-            'style': True,
-            'series_color': True,
-            'negative_color': True,
-            'markers_color': True,
-            'first_color': True,
-            'last_color': True,
-            'high_color': True,
-            'low_color': True,
-            'max': True,
-            'min': True,
-            'axis': True,
-            'reverse': True,
-            'empty_cells': True,
-            'show_hidden': True,
-            'plot_hidden': True,
-            'date_axis': True,
-            'weight': True,
+            'location',
+            'range',
+            'type',
+            'high_point',
+            'low_point',
+            'negative_points',
+            'first_point',
+            'last_point',
+            'markers',
+            'style',
+            'series_color',
+            'negative_color',
+            'markers_color',
+            'first_color',
+            'last_color',
+            'high_color',
+            'low_color',
+            'max',
+            'min',
+            'axis',
+            'reverse',
+            'empty_cells',
+            'show_hidden',
+            'plot_hidden',
+            'date_axis',
+            'weight',
         }
 
         # Check for valid input parameters.
@@ -4329,15 +4329,15 @@ class Worksheet(xmlwriter.XMLwriter):
 
         # Valid input parameters.
         valid_parameters = {
-            'number_stored_as_text': True,
-            'eval_error': True,
-            'formula_differs': True,
-            'formula_range': True,
-            'formula_unlocked': True,
-            'empty_cell_reference': True,
-            'list_data_validation': True,
-            'calculated_column': True,
-            'two_digit_text_year': True,
+            'number_stored_as_text',
+            'eval_error',
+            'formula_differs',
+            'formula_range',
+            'formula_unlocked',
+            'empty_cell_reference',
+            'list_data_validation',
+            'calculated_column',
+            'two_digit_text_year',
         }
 
         # Check for valid input parameters.
@@ -5580,9 +5580,9 @@ class Worksheet(xmlwriter.XMLwriter):
                 if col_num in self.table[row_num]:
                     cell = self.table[row_num][col_num]
 
-                    cell_type = type(cell).__name__
+                    cell_type = cell.__class__.__name__
 
-                    if cell_type == 'Number' or cell_type == 'Datetime':
+                    if cell_type in ('Number', 'Datetime'):
                         # Return a number with Excel's precision.
                         data.append("%.16g" % cell.number)
 
@@ -5593,8 +5593,7 @@ class Worksheet(xmlwriter.XMLwriter):
 
                         data.append(string)
 
-                    elif (cell_type == 'Formula'
-                            or cell_type == 'ArrayFormula'):
+                    elif cell_type in ('Formula', 'ArrayFormula'):
                         # Return the formula value.
                         value = cell.value
 
@@ -6466,14 +6465,14 @@ class Worksheet(xmlwriter.XMLwriter):
             if col_xf is not None:
                 attributes.append(('s', col_xf._get_xf_index()))
 
-        type_cell_name = type(cell).__name__
+        type_cell_name = cell.__class__.__name__
 
         # Write the various cell types.
-        if type_cell_name == 'Number' or type_cell_name == 'Datetime':
+        if type_cell_name in ('Number', 'Datetime'):
             # Write a number.
             self._xml_number_element(cell.number, attributes)
 
-        elif type_cell_name == 'String' or type_cell_name == 'RichString':
+        elif type_cell_name in ('String', 'RichString'):
             # Write a string.
             string = cell.string
 
@@ -6749,7 +6748,7 @@ class Worksheet(xmlwriter.XMLwriter):
                         and self.table[row_num]
                         and self.table[row_num][col_num]):
                     cell = self.table[row_num][col_num]
-                    if type(cell).__name__ != 'String':
+                    if cell.__class__.__name__ != 'String':
                         display = link['url']
 
                 if link_type == 1:

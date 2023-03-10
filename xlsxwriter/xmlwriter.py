@@ -183,12 +183,14 @@ class XMLwriter(object):
         except TypeError:
             return attribute
 
-        attribute = attribute.replace('&', '&amp;')
-        attribute = attribute.replace('"', '&quot;')
-        attribute = attribute.replace('<', '&lt;')
-        attribute = attribute.replace('>', '&gt;')
-        attribute = attribute.replace('\n', '&#xA;')
-
+        attribute = (
+            attribute
+            .replace('&', '&amp;')
+            .replace('"', '&quot;')
+            .replace('<', '&lt;')
+            .replace('>', '&gt;')
+            .replace('\n', '&#xA;')
+        )
         return attribute
 
     def _escape_data(self, data):
@@ -201,8 +203,10 @@ class XMLwriter(object):
         except TypeError:
             return data
 
-        data = data.replace('&', '&amp;')
-        data = data.replace('<', '&lt;')
-        data = data.replace('>', '&gt;')
-
+        data = (
+            data
+            .replace('&', '&amp;')
+            .replace('<', '&lt;')
+            .replace('>', '&gt;')
+        )
         return data
