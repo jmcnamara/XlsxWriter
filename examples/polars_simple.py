@@ -10,7 +10,7 @@
 import polars as pl
 
 # Create a Pandas dataframe from some data.
-df = pl.DataFrame({'Data': [10, 20, 30, 20, 15, 30, 45]})
+df = pl.DataFrame({"Data": [10, 20, 30, 20, 15, 30, 45]})
 
 # Write the dataframe to a new Excel file.
-df.write_excel(workbook='polars_simple.xlsx')
+df.write_excel(workbook="polars_simple.xlsx")

@@ -9,9 +9,9 @@
 
 import polars as pl
 
-df = pl.DataFrame({'Data': [10, 20, 30, 20, 15, 30, 45]})
+df = pl.DataFrame({"Data": [10, 20, 30, 20, 15, 30, 45]})
 
 df.write_excel(
-    workbook='pandas_conditional.xlsx',
-    conditional_formats={'Data': {'type': '3_color_scale'}},
+    workbook="pandas_conditional.xlsx",
+    conditional_formats={"Data": {"type": "3_color_scale"}},
 )

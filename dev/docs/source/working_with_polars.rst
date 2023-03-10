@@ -20,157 +20,29 @@ use the ``write_excel()`` method with a Polars dataframe::
 
     import polars as pl
 
-    df = pl.DataFrame({'Data': [10, 20, 30, 20, 15, 30, 45]})
+    df = pl.DataFrame({"Data": [10, 20, 30, 20, 15, 30, 45]})
 
-    df.write_excel(workbook='polars_simple.xlsx')
+    df.write_excel(workbook="polars_simple.xlsx")
 
 This is a complete example and the output from this would look like the
 following:
 
 .. image:: _images/polars_simple.png
 
+The `write_excel()`_ API is explained in detail in the Polars documentation.
+
+.. _write_excel(): https://pola-rs.github.io/polars/py-polars/html/reference/api/polars.DataFrame.write_excel.html#polars.DataFrame.write_excel
+
 One interesting aspect of the Polars output is that it writes the dataframe as
 an :ref:`Excel Data Table <tables>`. We will discuss this and other XlsxWriter
 features that are available from ``write_excel()`` in the sections below.
-
-
-The Polars ``write_excel()`` API
---------------------------------
-
-The following are the parameters supported by the ``write_excel()`` API to
-control the output and formatting of the Excel file:
-
-- ``workbook``:
-
-  The `workbook` parameter can be a string representation of a filename (like in
-  the example above), a :class:`Path <pathlib.Path>` object, a :class:`BytesIO
-  <io.BytesIO>` object to write the file to memory, or a :ref:`Workbook
-  <Workbook>` object created by XlsxWriter. If a ``workbook`` parameter isn't
-  specified it will default to the filename ``"dataframe.xlsx"``.
-
-- ``worksheet``:
-
-  Name of the target worksheet. If ``None`` it will create and write to
-  ``"Sheet1"`` (or ``"Sheet2"``. ``"Sheet3"`` in subsequent writes). Writing to
-  an existing worksheet requires a valid name.
-
-- ``position``:
-
-  The position of the dataframe table in Excel cell notation such as ``"A1"`` or
-  a ``(row, col)`` integer tuple. See :ref:`cell_notation` for more details.
-
-- ``table_style``:
-
-  A named Excel table style, such as "Table Style Medium 4", or a dictionary of
-  ``{"option": bool,}`` values containing one or more of the following keys
-  that are used with :ref:`worksheet.add_table() <tables>`:
-
-  - ``style``
-  - ``first_column``
-  - ``last_column``
-  - ``banded_columns``
-  - ``banded_rows``
-
-- ``table_name``:
-
-  The name of the output dataframe :ref:`table <tables>` object in the
-  worksheet. This name can be referred to in formulas or charts, or by
-  subsequent xlsxwriter operations. It defaults to a name like
-  ``PolarsFrameTable0``.
-
-- ``column_widths``:
-
-  A ``{"col": width,}`` dictionary that sets (or overrides if autofitting)
-  column widths in integer pixel units.
-
-- ``column_totals``:
-
-  Option to add a total row to the dataframe table. If ``True``, all numeric
-  columns will have an associated total using table ``sum`` function. If given a
-  list of column names, those listed will have a sum total. For more control it
-  is possible to pass a ``{"col": "fn",}`` dict where ``"fn"`` is a valid table
-  function such as ``average``, ``count_nums``, ``count``, ``max``, ``min``,
-  ``std_dev``, ``sum`` and ``var``, see :ref:`tables`.
-
-- ``column_formats``:
-
-  A ``{"col": "fmt",}`` dictionary matching specific columns to a particular
-  Excel format string, such as ``"dd/mm/yyyy;@"``, ``"0.00%"``,
-  ``"($#,##0_);[Red]($#,##0)"``, etc. (Formats defined here will override those
-  defined in ``dtype_formats``), see below.
-
-- ``conditional_formats``:
-
-  This option is a  ``{"col": str,}`` or ``{"col": options,}`` dictionary that
-  defines conditional formatting for the specified columns. If supplying a
-  string typename, it should be one of the recognized xlsxwriter types such as
-  ``"3_color_scale"``, ``"data_bar"``, see
-  :ref:`working_with_conditional_formats`. If supplying the full definition
-  dictionary you have complete flexibility to apply any supported conditional
-  format, including icon sets, formulas, etc.
-
-- ``dtype_formats``:
-
-  This option is a ``{dtype: "fmt",}`` dictionary that sets the default Excel
-  number format for the given dtype. (This is overridden on a per-column basis
-  by ``column_formats``.) It is also valid to use dtype groups such as
-  ``polars.datatypes.FLOAT_DTYPES`` as the dtype/format key, to simplify setting
-  uniform int/float formats.
-
-- ``sparklines``:
-
-  This option is a ``{"col": colnames,}``or ``{"col": params,}`` dictionary that
-  defines one or more sparklines to be written into a new column in the table.
-  If passing a list of colnames (used as the source of the sparkline data) the
-  default sparkline settings are used (a line with no markers). For more control
-  an XlsxWriter compliant parameter dictionary can be supplied (see
-  :ref:`sparklines`).
-
-  In this case three additional polars-specific keys are available: "columns",
-  "insert_before", and "insert_after". These allow you to define the source
-  columns and position the sparkline(s) with respect to other table columns. If
-  no position directive is given, sparklines are added to the right side of the
-  table in the order in which they are defined.
-
-- ``float_precision``:
-
-  This sets the default number of decimals displayed for floating point columns.
-  Note that this is purely a formatting directive, the actual values are not
-  rounded.
-
-- ``has_header``:
-
-  The option controls if the dataframe table should be created with a header
-  row. This is on by default.
-
-
-- ``autofilter``:
-
-  The option controls if the dataframe table will have an autofilter in the
-  header row. This is on by default.
-
-- ``autofit``:
-
-  Set the option to autofit the individual column widths in the output data.
-  This uses the worksheet :func:`autofit` method and is subject to its
-  limitations.
-
-- ``hidden_columns``:
-
-  This option can be used to set a list of table columns to hide in the
-  worksheet.
-
-- ``hide_gridlines``:
-
-  This option is used to control the display of gridlines on the output
-  worksheet.
 
 
 Sharing XlsxWriter workbooks with Polars
 ----------------------------------------
 
 In a majority of use cases you will be able to control the output workbook and
-worksheets via the ``write_excel()`` APIs but there may be some situations you
+worksheets via the `write_excel()`_ APIs but there may be some situations you
 may wish to start a normal XlsxWriter workbook and then add Polars data to it.
 
 To do this you can create a :ref:`workbook <Workbook>` object and pass it to the
@@ -179,9 +51,9 @@ To do this you can create a :ref:`workbook <Workbook>` object and pass it to the
     import xlsxwriter
     import polars as pl
 
-    df = pl.DataFrame({'Data': [10, 20, 30, 20, 15]})
+    df = pl.DataFrame({"Data": [10, 20, 30, 20, 15]})
 
-    with xlsxwriter.Workbook('polars_xlsxwriter.xlsx') as workbook:
+    with xlsxwriter.Workbook("polars_xlsxwriter.xlsx") as workbook:
         df.write_excel(workbook=workbook)
 
 Output:
@@ -195,18 +67,18 @@ XlsxWriter::
     import xlsxwriter
     import polars as pl
 
-    df = pl.DataFrame({'Data': [10, 20, 30, 20, 15, 30, 45]})
+    df = pl.DataFrame({"Data": [10, 20, 30, 20, 15, 30, 45]})
 
-    with xlsxwriter.Workbook('polars_xlsxwriter.xlsx') as workbook:
+    with xlsxwriter.Workbook("polars_xlsxwriter.xlsx") as workbook:
         # Create a new worksheet.
         worksheet = workbook.add_worksheet()
 
         # Do something with the worksheet.
-        worksheet.write('A1', 'The data below is added by Polars')
+        worksheet.write("A1", "The data below is added by Polars")
 
         # Write the Polars data to the worksheet created above, at an offset to
         # avoid overwriting the previous text.
-        df.write_excel(workbook=workbook, worksheet="Sheet1", position='A2')
+        df.write_excel(workbook=workbook, worksheet="Sheet1", position="A2")
 
 Output:
 
@@ -224,9 +96,9 @@ objects and then use them to apply other features such as adding a chart::
     import xlsxwriter
     import polars as pl
 
-    df = pl.DataFrame({'Data': [10, 20, 30, 20, 15, 30, 45]})
+    df = pl.DataFrame({"Data": [10, 20, 30, 20, 15, 30, 45]})
 
-    with xlsxwriter.Workbook('polars_chart.xlsx') as workbook:
+    with xlsxwriter.Workbook("polars_chart.xlsx") as workbook:
         # Create the worksheet so we can reuse it later.
         worksheet = workbook.add_worksheet()
 
@@ -234,13 +106,13 @@ objects and then use them to apply other features such as adding a chart::
         df.write_excel(workbook=workbook, worksheet="Sheet1")
 
         # Create a chart object.
-        chart = workbook.add_chart({'type': 'column'})
+        chart = workbook.add_chart({"type": "column"})
 
         # Get the dimensions of the dataframe.
         (max_row, max_col) = df.shape
 
         # Configure the series of the chart from the dataframe data.
-        chart.add_series({'values': ['Sheet1', 1, max_col - 1, max_row, max_col - 1]})
+        chart.add_series({"values": ["Sheet1", 1, max_col - 1, max_row, max_col - 1]})
 
         # Insert the chart into the worksheet.
         worksheet.insert_chart(1, 3, chart)
@@ -261,8 +133,8 @@ a conditional format to the dataframe data like this::
     import xlsxwriter
     import polars as pl
 
-    with xlsxwriter.Workbook('polars_conditional.xlsx') as workbook:
-        df = pl.DataFrame({'Data': [10, 20, 30, 20, 15, 30, 45]})
+    with xlsxwriter.Workbook("polars_conditional.xlsx") as workbook:
+        df = pl.DataFrame({"Data": [10, 20, 30, 20, 15, 30, 45]})
 
         worksheet = workbook.add_worksheet()
 
@@ -274,18 +146,18 @@ a conditional format to the dataframe data like this::
 
         # Apply a conditional format to the required cell range.
         worksheet.conditional_format(1, max_col - 1, max_row, max_col - 1,
-                                    {'type': '3_color_scale'})
+                                    {"type": "3_color_scale"})
 
 However, this can also be done directly and more succinctly using the Polars
 ``write_excel()`` APIs::
 
     import polars as pl
 
-    df = pl.DataFrame({'Data': [10, 20, 30, 20, 15, 30, 45]})
+    df = pl.DataFrame({"Data": [10, 20, 30, 20, 15, 30, 45]})
 
     df.write_excel(
-        workbook='pandas_conditional.xlsx',
-        conditional_formats={"Data": {'type': '3_color_scale'}},
+        workbook="pandas_conditional.xlsx",
+        conditional_formats={"Data": {"type": "3_color_scale"}},
     )
 
 Which would give:
@@ -302,31 +174,31 @@ Handling multiple Polars Dataframes
 It is possible to write more than one dataframe to a worksheet or to several
 worksheets. For example to write multiple dataframes to multiple worksheets::
 
-    with xlsxwriter.Workbook('polars_multiple.xlsx') as workbook:
-        df1.write_excel(workbook=workbook, table_name="Table1")
-        df2.write_excel(workbook=workbook, table_name="Table2")
-        df3.write_excel(workbook=workbook, table_name="Table3")
+    with xlsxwriter.Workbook("polars_multiple.xlsx") as workbook:
+        df1.write_excel(workbook=workbook)
+        df2.write_excel(workbook=workbook)
+        df3.write_excel(workbook=workbook)
 
 (See the full example at :ref:`ex_polars_multiple`.)
 
 It is also possible to position multiple dataframes within the same
 worksheet::
 
-    with xlsxwriter.Workbook('polars_positioning.xlsx') as workbook:
+    with xlsxwriter.Workbook("polars_positioning.xlsx") as workbook:
         # Write the dataframe to the default worksheet and position: Sheet1!A1.
         df1.write_excel(workbook=workbook)
 
         # Write the dataframe using a cell string position.
-        df2.write_excel(workbook=workbook, worksheet='Sheet1', position='C1')
+        df2.write_excel(workbook=workbook, worksheet="Sheet1", position="C1")
 
         # Write the dataframe using a (row, col) tuple position.
-        df3.write_excel(workbook=workbook, worksheet='Sheet1', position=(6, 0))
+        df3.write_excel(workbook=workbook, worksheet="Sheet1", position=(6, 0))
 
         # Write the dataframe without the header.
         df4.write_excel(
             workbook=workbook,
-            worksheet='Sheet1',
-            position='C8',
+            worksheet="Sheet1",
+            position="C8",
             has_header=False)
 
 Output:
@@ -354,7 +226,7 @@ negative numbers::
         }
     )
 
-    df.write_excel(workbook='polars_format_default.xlsx', autofit=True)
+    df.write_excel(workbook="polars_format_default.xlsx", autofit=True)
 
 
 .. image:: _images/polars_format_default.png
@@ -383,18 +255,18 @@ dataframe. We can also use the table properties as well as some of the Polars
     # Create a Pandas dataframe with some sample data.
     df = pl.DataFrame(
         {
-            'Dates': [date(2023, 1, 1), date(2023, 1, 2), date(2023, 1, 3)],
-            'Strings': ['Alice', 'Bob', 'Carol'],
-            'Numbers': [0.12345, 100, -99.523],
+            "Dates": [date(2023, 1, 1), date(2023, 1, 2), date(2023, 1, 3)],
+            "Strings": ["Alice", "Bob", "Carol"],
+            "Numbers": [0.12345, 100, -99.523],
         }
     )
 
     # Write the dataframe to a new Excel file with formatting options.
     df.write_excel(
-        workbook='polars_format_custom.xlsx',
+        workbook="polars_format_custom.xlsx",
 
         # Set an alternative table style.
-        table_style='Table Style Medium 4',
+        table_style="Table Style Medium 4",
 
         # See the floating point precision for reals.
         float_precision=6,
