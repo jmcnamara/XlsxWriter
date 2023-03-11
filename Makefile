@@ -56,6 +56,11 @@ test_flake8:
 	@flake8 --ignore=E501 xlsxwriter/theme.py
 	@find xlsxwriter/test -name \*.py | xargs flake8 --ignore=E501,F841
 
+lint:
+	@ruff xlsxwriter/*.py
+	@ruff xlsxwriter/test --ignore=E501,F841
+	@ruff examples
+
 tags:
 	$(Q)rm -f TAGS
 	$(Q)etags xlsxwriter/*.py

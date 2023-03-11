@@ -2362,7 +2362,7 @@ class Worksheet(xmlwriter.XMLwriter):
         }
 
         # Check for valid validation types.
-        if not options['validate'] in valid_types:
+        if options['validate'] not in valid_types:
             warn("Unknown validation type '%s' for parameter "
                  "'validate' in data_validation()" % options['validate'])
             return -2
@@ -2410,7 +2410,7 @@ class Worksheet(xmlwriter.XMLwriter):
         }
 
         # Check for valid criteria types.
-        if not options['criteria'] in criteria_types:
+        if options['criteria'] not in criteria_types:
             warn("Unknown criteria type '%s' for parameter "
                  "'criteria' in data_validation()" % options['criteria'])
             return -2
@@ -2437,7 +2437,7 @@ class Worksheet(xmlwriter.XMLwriter):
         # Check for valid error dialog types.
         if 'error_type' not in options:
             options['error_type'] = 0
-        elif not options['error_type'] in error_types:
+        elif options['error_type'] not in error_types:
             warn("Unknown criteria type '%s' for parameter 'error_type' "
                  "in data_validation()" % options['error_type'])
             return -2

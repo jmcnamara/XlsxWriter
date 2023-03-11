@@ -216,7 +216,7 @@ class Shape(object):
         }
 
         # Check for valid types.
-        if not pattern['pattern'] in types:
+        if pattern['pattern'] not in types:
             warn("unknown pattern type '%s'" % pattern['pattern'])
             return
         else:
