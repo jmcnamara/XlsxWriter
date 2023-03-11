@@ -23,14 +23,18 @@ df = pl.DataFrame(
 # Write the dataframe with sparklines and some additional formatting.
 df.write_excel(
     workbook="polars_sparklines.xlsx",
+
     # Set an alternative table style.
     table_style="Table Style Light 2",
+
     # Specify an Excel number format for integer types.
     dtype_formats={INTEGER_DTYPES: "#,##0_);(#,##0)"},
+
     # Configure sparklines to the dataframe.
     sparklines={
         # We use the default options with just  the source columns.
         "Trend": ["Q1", "Q2", "Q3", "Q4"],
+
         # We also add a customized sparkline type, with a positioning directive.
         "Change": {
             "columns": ["Q1", "Q2", "Q3", "Q4"],
@@ -39,6 +43,7 @@ df.write_excel(
         },
     },
     column_totals=["Q1", "Q2", "Q3", "Q4"],
+
     # Hide the default gridlines on the worksheet.
     hide_gridlines=True,
 )
