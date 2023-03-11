@@ -26,7 +26,7 @@ class TestWriteCell(unittest.TestCase):
     def test_write_cell_number(self):
         """Test the _write_cell() method for numbers."""
 
-        cell_tuple = namedtuple('Number', 'number, format')
+        cell_tuple = namedtuple("Number", "number, format")
         cell = cell_tuple(1, None)
 
         self.worksheet._write_cell(0, 0, cell)
@@ -39,7 +39,7 @@ class TestWriteCell(unittest.TestCase):
     def test_write_cell_string(self):
         """Test the _write_cell() method for strings."""
 
-        cell_tuple = namedtuple('String', 'string, format')
+        cell_tuple = namedtuple("String", "string, format")
         cell = cell_tuple(0, None)
 
         self.worksheet._write_cell(3, 1, cell)
@@ -52,8 +52,8 @@ class TestWriteCell(unittest.TestCase):
     def test_write_cell_formula01(self):
         """Test the _write_cell() method for formulas."""
 
-        cell_tuple = namedtuple('Formula', 'formula, format, value')
-        cell = cell_tuple('A3+A5', None, 0)
+        cell_tuple = namedtuple("Formula", "formula, format, value")
+        cell = cell_tuple("A3+A5", None, 0)
 
         self.worksheet._write_cell(1, 2, cell)
 
@@ -65,8 +65,8 @@ class TestWriteCell(unittest.TestCase):
     def test_write_cell_formula02(self):
         """Test the _write_cell() method for formulas."""
 
-        cell_tuple = namedtuple('Formula', 'formula, format, value')
-        cell = cell_tuple('A3+A5', None, 7)
+        cell_tuple = namedtuple("Formula", "formula, format, value")
+        cell = cell_tuple("A3+A5", None, 7)
 
         self.worksheet._write_cell(1, 2, cell)
 

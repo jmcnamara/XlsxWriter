@@ -18,12 +18,13 @@ class TestCompareXLSXFiles(ExcelComparisonTest):
     """
 
     def setUp(self):
+        self.set_filename("tutorial03.xlsx")
 
-        self.set_filename('tutorial03.xlsx')
-
-        self.ignore_files = ['xl/calcChain.xml',
-                             '[Content_Types].xml',
-                             'xl/_rels/workbook.xml.rels']
+        self.ignore_files = [
+            "xl/calcChain.xml",
+            "[Content_Types].xml",
+            "xl/_rels/workbook.xml.rels",
+        ]
 
     def test_create_file(self):
         """Example spreadsheet used in the tutorial."""
@@ -32,36 +33,35 @@ class TestCompareXLSXFiles(ExcelComparisonTest):
         worksheet = workbook.add_worksheet()
 
         # Add a bold format to use to highlight cells.
-        bold = workbook.add_format({'bold': 1})
+        bold = workbook.add_format({"bold": 1})
 
         # Add a number format for cells with money.
-        money_format = workbook.add_format({'num_format': '\\$#,##0'})
+        money_format = workbook.add_format({"num_format": "\\$#,##0"})
 
         # Add an Excel date format.
-        date_format = workbook.add_format({'num_format': 'mmmm\\ d\\ yyyy'})
+        date_format = workbook.add_format({"num_format": "mmmm\\ d\\ yyyy"})
 
         # Adjust the column width.
-        worksheet.set_column('B:B', 15)
+        worksheet.set_column("B:B", 15)
 
         # Write some data headers.
-        worksheet.write('A1', 'Item', bold)
-        worksheet.write('B1', 'Date', bold)
-        worksheet.write('C1', 'Cost', bold)
+        worksheet.write("A1", "Item", bold)
+        worksheet.write("B1", "Date", bold)
+        worksheet.write("C1", "Cost", bold)
 
         # Some data we want to write to the worksheet.
         expenses = (
-            ['Rent', '2013-01-13', 1000],
-            ['Gas', '2013-01-14', 100],
-            ['Food', '2013-01-16', 300],
-            ['Gym', '2013-01-20', 50],
+            ["Rent", "2013-01-13", 1000],
+            ["Gas", "2013-01-14", 100],
+            ["Food", "2013-01-16", 300],
+            ["Gym", "2013-01-20", 50],
         )
 
         # Start from the first cell below the headers.
         row = 1
         col = 0
 
-        for item, date_str, cost in (expenses):
-
+        for item, date_str, cost in expenses:
             # Convert the date string into a datetime object.
             date = datetime.strptime(date_str, "%Y-%m-%d")
 
@@ -71,8 +71,8 @@ class TestCompareXLSXFiles(ExcelComparisonTest):
             row += 1
 
         # Write a total using a formula.
-        worksheet.write(row, 0, 'Total', bold)
-        worksheet.write(row, 2, '=SUM(C2:C5)', money_format, 1450)
+        worksheet.write(row, 0, "Total", bold)
+        worksheet.write(row, 2, "=SUM(C2:C5)", money_format, 1450)
 
         workbook.close()
 
@@ -89,32 +89,31 @@ class TestCompareXLSXFiles(ExcelComparisonTest):
         worksheet = workbook.add_worksheet()
 
         # Same as above but re-ordered.
-        date_format = workbook.add_format({'num_format': 'mmmm\\ d\\ yyyy'})
-        money_format = workbook.add_format({'num_format': '\\$#,##0'})
-        bold = workbook.add_format({'bold': 1})
+        date_format = workbook.add_format({"num_format": "mmmm\\ d\\ yyyy"})
+        money_format = workbook.add_format({"num_format": "\\$#,##0"})
+        bold = workbook.add_format({"bold": 1})
 
         # Adjust the column width.
         worksheet.set_column(1, 1, 15)
 
         # Write some data headers.
-        worksheet.write('A1', 'Item', bold)
-        worksheet.write('B1', 'Date', bold)
-        worksheet.write('C1', 'Cost', bold)
+        worksheet.write("A1", "Item", bold)
+        worksheet.write("B1", "Date", bold)
+        worksheet.write("C1", "Cost", bold)
 
         # Some data we want to write to the worksheet.
         expenses = (
-            ['Rent', '2013-01-13', 1000],
-            ['Gas', '2013-01-14', 100],
-            ['Food', '2013-01-16', 300],
-            ['Gym', '2013-01-20', 50],
+            ["Rent", "2013-01-13", 1000],
+            ["Gas", "2013-01-14", 100],
+            ["Food", "2013-01-16", 300],
+            ["Gym", "2013-01-20", 50],
         )
 
         # Start from the first cell below the headers.
         row = 1
         col = 0
 
-        for item, date_str, cost in (expenses):
-
+        for item, date_str, cost in expenses:
             # Convert the date string into a datetime object.
             date = datetime.strptime(date_str, "%Y-%m-%d")
 
@@ -124,8 +123,8 @@ class TestCompareXLSXFiles(ExcelComparisonTest):
             row += 1
 
         # Write a total using a formula.
-        worksheet.write(row, 0, 'Total', bold)
-        worksheet.write(row, 2, '=SUM(C2:C5)', money_format, 1450)
+        worksheet.write(row, 0, "Total", bold)
+        worksheet.write(row, 2, "=SUM(C2:C5)", money_format, 1450)
 
         workbook.close()
 

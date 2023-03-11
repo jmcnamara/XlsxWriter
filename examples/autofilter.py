@@ -11,7 +11,7 @@
 #
 import xlsxwriter
 
-workbook = xlsxwriter.Workbook('autofilter.xlsx')
+workbook = xlsxwriter.Workbook("autofilter.xlsx")
 
 # Add a worksheet for each autofilter example.
 worksheet1 = workbook.add_worksheet()
@@ -23,10 +23,10 @@ worksheet6 = workbook.add_worksheet()
 worksheet7 = workbook.add_worksheet()
 
 # Add a bold format for the headers.
-bold = workbook.add_format({'bold': 1})
+bold = workbook.add_format({"bold": 1})
 
 # Open a text file with autofilter example data.
-textfile = open('autofilter_data.txt')
+textfile = open("autofilter_data.txt")
 
 # Read the headers from the first line of the input file.
 headers = textfile.readline().strip("\n").split()
@@ -49,13 +49,13 @@ for line in textfile:
 
 
 # Set up several sheets with the same data.
-for worksheet in (workbook.worksheets()):
+for worksheet in workbook.worksheets():
     # Make the columns wider.
-    worksheet.set_column('A:D', 12)
+    worksheet.set_column("A:D", 12)
     # Make the header row larger.
     worksheet.set_row(0, 20, bold)
     # Make the headers bold.
-    worksheet.write_row('A1', headers)
+    worksheet.write_row("A1", headers)
 
 
 ###############################################################################
@@ -64,10 +64,10 @@ for worksheet in (workbook.worksheets()):
 #
 
 # Set the autofilter.
-worksheet1.autofilter('A1:D51')
+worksheet1.autofilter("A1:D51")
 
 row = 1
-for row_data in (data):
+for row_data in data:
     worksheet1.write_row(row, 0, row_data)
 
     # Move on to the next worksheet row.
@@ -85,20 +85,20 @@ worksheet2.autofilter(0, 0, 50, 3)
 
 # Add filter criteria. The placeholder "Region" in the filter is
 # ignored and can be any string that adds clarity to the expression.
-worksheet2.filter_column(0, 'Region == East')
+worksheet2.filter_column(0, "Region == East")
 
 # Hide the rows that don't match the filter criteria.
 row = 1
-for row_data in (data):
+for row_data in data:
     region = row_data[0]
 
     # Check for rows that match the filter.
-    if region == 'East':
+    if region == "East":
         # Row matches the filter, no further action required.
         pass
     else:
         # We need to hide rows that don't match the filter.
-        worksheet2.set_row(row, options={'hidden': True})
+        worksheet2.set_row(row, options={"hidden": True})
 
     worksheet2.write_row(row, 0, row_data)
 
@@ -113,23 +113,23 @@ for row_data in (data):
 #
 
 # Set the autofilter.
-worksheet3.autofilter('A1:D51')
+worksheet3.autofilter("A1:D51")
 
 # Add filter criteria.
-worksheet3.filter_column('A', 'x == East or x == South')
+worksheet3.filter_column("A", "x == East or x == South")
 
 # Hide the rows that don't match the filter criteria.
 row = 1
-for row_data in (data):
+for row_data in data:
     region = row_data[0]
 
     # Check for rows that match the filter.
-    if region == 'East' or region == 'South':
+    if region == "East" or region == "South":
         # Row matches the filter, no further action required.
         pass
     else:
         # We need to hide rows that don't match the filter.
-        worksheet3.set_row(row, options={'hidden': True})
+        worksheet3.set_row(row, options={"hidden": True})
 
     worksheet3.write_row(row, 0, row_data)
 
@@ -144,25 +144,25 @@ for row_data in (data):
 #
 
 # Set the autofilter.
-worksheet4.autofilter('A1:D51')
+worksheet4.autofilter("A1:D51")
 
 # Add filter criteria.
-worksheet4.filter_column('A', 'x == East')
-worksheet4.filter_column('C', 'x > 3000 and x < 8000')
+worksheet4.filter_column("A", "x == East")
+worksheet4.filter_column("C", "x > 3000 and x < 8000")
 
 # Hide the rows that don't match the filter criteria.
 row = 1
-for row_data in (data):
+for row_data in data:
     region = row_data[0]
     volume = int(row_data[2])
 
     # Check for rows that match the filter.
-    if region == 'East' and volume > 3000 and volume < 8000:
+    if region == "East" and volume > 3000 and volume < 8000:
         # Row matches the filter, no further action required.
         pass
     else:
         # We need to hide rows that don't match the filter.
-        worksheet4.set_row(row, options={'hidden': True})
+        worksheet4.set_row(row, options={"hidden": True})
 
     worksheet4.write_row(row, 0, row_data)
 
@@ -177,23 +177,23 @@ for row_data in (data):
 #
 
 # Set the autofilter.
-worksheet5.autofilter('A1:D51')
+worksheet5.autofilter("A1:D51")
 
 # Add filter criteria.
-worksheet5.filter_column_list('A', ['East', 'North', 'South'])
+worksheet5.filter_column_list("A", ["East", "North", "South"])
 
 # Hide the rows that don't match the filter criteria.
 row = 1
-for row_data in (data):
+for row_data in data:
     region = row_data[0]
 
     # Check for rows that match the filter.
-    if region == 'East' or region == 'North' or region == 'South':
+    if region == "East" or region == "North" or region == "South":
         # Row matches the filter, no further action required.
         pass
     else:
         # We need to hide rows that don't match the filter.
-        worksheet5.set_row(row, options={'hidden': True})
+        worksheet5.set_row(row, options={"hidden": True})
 
     worksheet5.write_row(row, 0, row_data)
 
@@ -209,26 +209,26 @@ for row_data in (data):
 # Create a blank cell in our test data.
 
 # Set the autofilter.
-worksheet6.autofilter('A1:D51')
+worksheet6.autofilter("A1:D51")
 
 # Add filter criteria.
-worksheet6.filter_column('A', 'x == Blanks')
+worksheet6.filter_column("A", "x == Blanks")
 
 # Simulate a blank cell in the data.
-data[5][0] = ''
+data[5][0] = ""
 
 # Hide the rows that don't match the filter criteria.
 row = 1
-for row_data in (data):
+for row_data in data:
     region = row_data[0]
 
     # Check for rows that match the filter.
-    if region == '':
+    if region == "":
         # Row matches the filter, no further action required.
         pass
     else:
         # We need to hide rows that don't match the filter.
-        worksheet6.set_row(row, options={'hidden': True})
+        worksheet6.set_row(row, options={"hidden": True})
 
     worksheet6.write_row(row, 0, row_data)
 
@@ -243,23 +243,23 @@ for row_data in (data):
 #
 
 # Set the autofilter.
-worksheet7.autofilter('A1:D51')
+worksheet7.autofilter("A1:D51")
 
 # Add filter criteria.
-worksheet7.filter_column('A', 'x == NonBlanks')
+worksheet7.filter_column("A", "x == NonBlanks")
 
 # Hide the rows that don't match the filter criteria.
 row = 1
-for row_data in (data):
+for row_data in data:
     region = row_data[0]
 
     # Check for rows that match the filter.
-    if region != '':
+    if region != "":
         # Row matches the filter, no further action required.
         pass
     else:
         # We need to hide rows that don't match the filter.
-        worksheet7.set_row(row, options={'hidden': True})
+        worksheet7.set_row(row, options={"hidden": True})
 
     worksheet7.write_row(row, 0, row_data)
 

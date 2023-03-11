@@ -17,10 +17,11 @@ class TestCompareXLSXFiles(ExcelComparisonTest):
     """
 
     def setUp(self):
+        self.set_filename("header_image05.xlsx")
 
-        self.set_filename('header_image05.xlsx')
-
-        self.ignore_elements = {'xl/worksheets/sheet1.xml': ['<pageMargins', '<pageSetup']}
+        self.ignore_elements = {
+            "xl/worksheets/sheet1.xml": ["<pageMargins", "<pageSetup"]
+        }
 
     def test_create_file(self):
         """Test the creation of a simple XlsxWriter file with image(s)."""
@@ -29,11 +30,9 @@ class TestCompareXLSXFiles(ExcelComparisonTest):
 
         worksheet = workbook.add_worksheet()
 
-        worksheet.set_header('&L&G',
-                             {'image_left': self.image_dir + 'red.jpg'})
+        worksheet.set_header("&L&G", {"image_left": self.image_dir + "red.jpg"})
 
-        worksheet.set_footer('&L&G',
-                             {'image_left': self.image_dir + 'blue.jpg'})
+        worksheet.set_footer("&L&G", {"image_left": self.image_dir + "blue.jpg"})
 
         workbook.close()
 

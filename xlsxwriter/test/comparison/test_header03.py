@@ -17,10 +17,11 @@ class TestCompareXLSXFiles(ExcelComparisonTest):
     """
 
     def setUp(self):
+        self.set_filename("header03.xlsx")
 
-        self.set_filename('header03.xlsx')
-
-        self.ignore_elements = {'xl/worksheets/sheet1.xml': ['<pageMargins', '<pageSetup']}
+        self.ignore_elements = {
+            "xl/worksheets/sheet1.xml": ["<pageMargins", "<pageSetup"]
+        }
 
     def test_create_file(self):
         """Test the creation of a simple XlsxWriter file."""
@@ -29,8 +30,9 @@ class TestCompareXLSXFiles(ExcelComparisonTest):
 
         worksheet = workbook.add_worksheet()
 
-        worksheet.set_footer('&L&P', {'scale_with_doc': False,
-                                      'align_with_margins': False})
+        worksheet.set_footer(
+            "&L&P", {"scale_with_doc": False, "align_with_margins": False}
+        )
 
         workbook.close()
 

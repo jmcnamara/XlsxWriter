@@ -18,6 +18,7 @@ class TestAssembleStyles(unittest.TestCase):
     Test assembling a complete Styles file.
 
     """
+
     def test_assemble_xml_file(self):
         """Test for border styles."""
         self.maxDiff = None
@@ -29,38 +30,41 @@ class TestAssembleStyles(unittest.TestCase):
         workbook = Workbook()
         workbook.fileclosed = 1
 
-        workbook.add_format({'top': 7})
-        workbook.add_format({'top': 4})
-        workbook.add_format({'top': 11})
-        workbook.add_format({'top': 9})
-        workbook.add_format({'top': 3})
-        workbook.add_format({'top': 1})
-        workbook.add_format({'top': 12})
-        workbook.add_format({'top': 13})
-        workbook.add_format({'top': 10})
-        workbook.add_format({'top': 8})
-        workbook.add_format({'top': 2})
-        workbook.add_format({'top': 5})
-        workbook.add_format({'top': 6})
+        workbook.add_format({"top": 7})
+        workbook.add_format({"top": 4})
+        workbook.add_format({"top": 11})
+        workbook.add_format({"top": 9})
+        workbook.add_format({"top": 3})
+        workbook.add_format({"top": 1})
+        workbook.add_format({"top": 12})
+        workbook.add_format({"top": 13})
+        workbook.add_format({"top": 10})
+        workbook.add_format({"top": 8})
+        workbook.add_format({"top": 2})
+        workbook.add_format({"top": 5})
+        workbook.add_format({"top": 6})
 
         workbook._set_default_xf_indices()
         workbook._prepare_format_properties()
 
-        style._set_style_properties([
-            workbook.xf_formats,
-            workbook.palette,
-            workbook.font_count,
-            workbook.num_formats,
-            workbook.border_count,
-            workbook.fill_count,
-            workbook.custom_colors,
-            workbook.dxf_formats,
-            workbook.has_comments,
-        ])
+        style._set_style_properties(
+            [
+                workbook.xf_formats,
+                workbook.palette,
+                workbook.font_count,
+                workbook.num_formats,
+                workbook.border_count,
+                workbook.fill_count,
+                workbook.custom_colors,
+                workbook.dxf_formats,
+                workbook.has_comments,
+            ]
+        )
 
         style._assemble_xml_file()
 
-        exp = _xml_to_list("""
+        exp = _xml_to_list(
+            """
                 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
                 <styleSheet xmlns="http://schemas.openxmlformats.org/spreadsheetml/2006/main">
                   <fonts count="1">
@@ -231,7 +235,8 @@ class TestAssembleStyles(unittest.TestCase):
                   <dxfs count="0"/>
                   <tableStyles count="0" defaultTableStyle="TableStyleMedium9" defaultPivotStyle="PivotStyleLight16"/>
                 </styleSheet>
-                """)
+                """
+        )
 
         got = _xml_to_list(fh.getvalue())
 

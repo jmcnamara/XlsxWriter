@@ -17,22 +17,25 @@ class TestCompareXLSXFiles(ExcelComparisonTest):
     """
 
     def setUp(self):
-
-        self.set_filename('chart_combined08.xlsx')
+        self.set_filename("chart_combined08.xlsx")
 
         # TODO. There are too many ignored elements here. Remove when the axis
         # writing is fixed for secondary scatter charts.
-        self.ignore_elements = {'xl/charts/chart1.xml': ['<c:dispBlanksAs',
-                                                         '<c:crossBetween',
-                                                         '<c:tickLblPos',
-                                                         '<c:auto',
-                                                         '<c:valAx>',
-                                                         '<c:catAx>',
-                                                         '</c:valAx>',
-                                                         '</c:catAx>',
-                                                         '<c:crosses',
-                                                         '<c:lblOffset',
-                                                         '<c:lblAlgn']}
+        self.ignore_elements = {
+            "xl/charts/chart1.xml": [
+                "<c:dispBlanksAs",
+                "<c:crossBetween",
+                "<c:tickLblPos",
+                "<c:auto",
+                "<c:valAx>",
+                "<c:catAx>",
+                "</c:valAx>",
+                "</c:catAx>",
+                "<c:crosses",
+                "<c:lblOffset",
+                "<c:lblAlgn",
+            ]
+        }
 
     def test_create_file(self):
         """Test the creation of a simple XlsxWriter file."""
@@ -40,8 +43,8 @@ class TestCompareXLSXFiles(ExcelComparisonTest):
         workbook = Workbook(self.got_filename)
 
         worksheet = workbook.add_worksheet()
-        chart1 = workbook.add_chart({'type': 'column'})
-        chart2 = workbook.add_chart({'type': 'scatter'})
+        chart1 = workbook.add_chart({"type": "column"})
+        chart2 = workbook.add_chart({"type": "scatter"})
 
         chart1.axis_ids = [81267328, 81297792]
         chart2.axis_ids = [81267328, 81297792]
@@ -53,24 +56,25 @@ class TestCompareXLSXFiles(ExcelComparisonTest):
             [5, 10, 15, 10, 5],
         ]
 
-        worksheet.write_column('A1', data[0])
-        worksheet.write_column('B1', data[1])
-        worksheet.write_column('C1', data[2])
+        worksheet.write_column("A1", data[0])
+        worksheet.write_column("B1", data[1])
+        worksheet.write_column("C1", data[2])
 
-        chart1.add_series({
-            'categories': '=Sheet1!$A$1:$A$5',
-            'values': '=Sheet1!$B$1:$B$5'
-        })
+        chart1.add_series(
+            {"categories": "=Sheet1!$A$1:$A$5", "values": "=Sheet1!$B$1:$B$5"}
+        )
 
-        chart2.add_series({
-            'categories': '=Sheet1!$A$1:$A$5',
-            'values': '=Sheet1!$C$1:$C$5',
-            'y2_axis': 1,
-        })
+        chart2.add_series(
+            {
+                "categories": "=Sheet1!$A$1:$A$5",
+                "values": "=Sheet1!$C$1:$C$5",
+                "y2_axis": 1,
+            }
+        )
 
         chart1.combine(chart2)
 
-        worksheet.insert_chart('E9', chart1)
+        worksheet.insert_chart("E9", chart1)
 
         workbook.close()
 

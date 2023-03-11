@@ -17,8 +17,7 @@ class TestCompareXLSXFiles(ExcelComparisonTest):
     """
 
     def setUp(self):
-
-        self.set_filename('data_validation02.xlsx')
+        self.set_filename("data_validation02.xlsx")
 
     def test_create_file(self):
         """Test the creation of a XlsxWriter file with data validation."""
@@ -28,11 +27,13 @@ class TestCompareXLSXFiles(ExcelComparisonTest):
         worksheet = workbook.add_worksheet()
 
         worksheet.data_validation(
-            'C2', {'validate': 'list',
-                   'value': ['Foo', 'Bar', 'Baz'],
-                   'input_title': 'This is the input title',
-                   'input_message': 'This is the input message',
-                   }
+            "C2",
+            {
+                "validate": "list",
+                "value": ["Foo", "Bar", "Baz"],
+                "input_title": "This is the input title",
+                "input_message": "This is the input message",
+            },
         )
 
         workbook.close()

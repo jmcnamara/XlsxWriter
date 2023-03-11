@@ -34,12 +34,13 @@ class ChartPie(chart.Chart):
         self.rotation = 0
 
         # Set the available data label positions for this chart type.
-        self.label_position_default = 'best_fit'
+        self.label_position_default = "best_fit"
         self.label_positions = {
-            'center': 'ctr',
-            'inside_end': 'inEnd',
-            'outside_end': 'outEnd',
-            'best_fit': 'bestFit'}
+            "center": "ctr",
+            "inside_end": "inEnd",
+            "outside_end": "outEnd",
+            "best_fit": "bestFit",
+        }
 
     def set_rotation(self, rotation):
         """
@@ -57,8 +58,9 @@ class ChartPie(chart.Chart):
 
         # Ensure the rotation is in Excel's range.
         if rotation < 0 or rotation > 360:
-            warn("Chart rotation %d outside Excel range: 0 <= rotation <= 360"
-                 % rotation)
+            warn(
+                "Chart rotation %d outside Excel range: 0 <= rotation <= 360" % rotation
+            )
             return
 
         self.rotation = int(rotation)
@@ -83,7 +85,7 @@ class ChartPie(chart.Chart):
     def _write_pie_chart(self, args):
         # Write the <c:pieChart> element.  Over-ridden method to remove
         # axis_id code since Pie charts don't require val and cat axes.
-        self._xml_start_tag('c:pieChart')
+        self._xml_start_tag("c:pieChart")
 
         # Write the c:varyColors element.
         self._write_vary_colors()
@@ -95,7 +97,7 @@ class ChartPie(chart.Chart):
         # Write the c:firstSliceAng element.
         self._write_first_slice_ang()
 
-        self._xml_end_tag('c:pieChart')
+        self._xml_end_tag("c:pieChart")
 
     def _write_plot_area(self):
         # Over-ridden method to remove the cat_axis() and val_axis() code
@@ -103,10 +105,10 @@ class ChartPie(chart.Chart):
         #
         # Write the <c:plotArea> element.
 
-        self._xml_start_tag('c:plotArea')
+        self._xml_start_tag("c:plotArea")
 
         # Write the c:layout element.
-        self._write_layout(self.plotarea.get('layout'), 'plot')
+        self._write_layout(self.plotarea.get("layout"), "plot")
 
         # Write the subclass chart type element.
         self._write_chart_type(None)
@@ -132,34 +134,33 @@ class ChartPie(chart.Chart):
         # Write the c:spPr element for the plotarea formatting.
         self._write_sp_pr(self.plotarea)
 
-        self._xml_end_tag('c:plotArea')
+        self._xml_end_tag("c:plotArea")
 
     def _write_legend(self):
         # Over-ridden method to add <c:txPr> to legend.
         # Write the <c:legend> element.
         legend = self.legend
-        position = legend.get('position', 'right')
-        font = legend.get('font')
+        position = legend.get("position", "right")
+        font = legend.get("font")
         delete_series = []
         overlay = 0
 
-        if (legend.get('delete_series')
-                and type(legend['delete_series']) is list):
-            delete_series = legend['delete_series']
+        if legend.get("delete_series") and type(legend["delete_series"]) is list:
+            delete_series = legend["delete_series"]
 
-        if position.startswith('overlay_'):
-            position = position.replace('overlay_', '')
+        if position.startswith("overlay_"):
+            position = position.replace("overlay_", "")
             overlay = 1
 
         allowed = {
-            'right': 'r',
-            'left': 'l',
-            'top': 't',
-            'bottom': 'b',
-            'top_right': 'tr',
+            "right": "r",
+            "left": "l",
+            "top": "t",
+            "bottom": "b",
+            "top_right": "tr",
         }
 
-        if position == 'none':
+        if position == "none":
             return
 
         if position not in allowed:
@@ -167,7 +168,7 @@ class ChartPie(chart.Chart):
 
         position = allowed[position]
 
-        self._xml_start_tag('c:legend')
+        self._xml_start_tag("c:legend")
 
         # Write the c:legendPos element.
         self._write_legend_pos(position)
@@ -178,7 +179,7 @@ class ChartPie(chart.Chart):
             self._write_legend_entry(index)
 
         # Write the c:layout element.
-        self._write_layout(legend.get('layout'), 'legend')
+        self._write_layout(legend.get("layout"), "legend")
 
         # Write the c:overlay element.
         if overlay:
@@ -190,17 +191,17 @@ class ChartPie(chart.Chart):
         # Write the c:txPr element. Over-ridden.
         self._write_tx_pr_legend(None, font)
 
-        self._xml_end_tag('c:legend')
+        self._xml_end_tag("c:legend")
 
     def _write_tx_pr_legend(self, horiz, font):
         # Write the <c:txPr> element for legends.
 
-        if font and font.get('rotation'):
-            rotation = font['rotation']
+        if font and font.get("rotation"):
+            rotation = font["rotation"]
         else:
             rotation = None
 
-        self._xml_start_tag('c:txPr')
+        self._xml_start_tag("c:txPr")
 
         # Write the a:bodyPr element.
         self._write_a_body_pr(rotation, horiz)
@@ -211,12 +212,12 @@ class ChartPie(chart.Chart):
         # Write the a:p element.
         self._write_a_p_legend(font)
 
-        self._xml_end_tag('c:txPr')
+        self._xml_end_tag("c:txPr")
 
     def _write_a_p_legend(self, font):
         # Write the <a:p> element for legends.
 
-        self._xml_start_tag('a:p')
+        self._xml_start_tag("a:p")
 
         # Write the a:pPr element.
         self._write_a_p_pr_legend(font)
@@ -224,27 +225,27 @@ class ChartPie(chart.Chart):
         # Write the a:endParaRPr element.
         self._write_a_end_para_rpr()
 
-        self._xml_end_tag('a:p')
+        self._xml_end_tag("a:p")
 
     def _write_a_p_pr_legend(self, font):
         # Write the <a:pPr> element for legends.
-        attributes = [('rtl', 0)]
+        attributes = [("rtl", 0)]
 
-        self._xml_start_tag('a:pPr', attributes)
+        self._xml_start_tag("a:pPr", attributes)
 
         # Write the a:defRPr element.
         self._write_a_def_rpr(font)
 
-        self._xml_end_tag('a:pPr')
+        self._xml_end_tag("a:pPr")
 
     def _write_vary_colors(self):
         # Write the <c:varyColors> element.
-        attributes = [('val', 1)]
+        attributes = [("val", 1)]
 
-        self._xml_empty_tag('c:varyColors', attributes)
+        self._xml_empty_tag("c:varyColors", attributes)
 
     def _write_first_slice_ang(self):
         # Write the <c:firstSliceAng> element.
-        attributes = [('val', self.rotation)]
+        attributes = [("val", self.rotation)]
 
-        self._xml_empty_tag('c:firstSliceAng', attributes)
+        self._xml_empty_tag("c:firstSliceAng", attributes)

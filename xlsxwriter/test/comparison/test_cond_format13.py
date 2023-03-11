@@ -17,8 +17,7 @@ class TestCompareXLSXFiles(ExcelComparisonTest):
     """
 
     def setUp(self):
-
-        self.set_filename('cond_format04.xlsx')
+        self.set_filename("cond_format04.xlsx")
 
     def test_create_file(self):
         """Test the creation of an XlsxWriter file with conditional formatting."""
@@ -27,28 +26,28 @@ class TestCompareXLSXFiles(ExcelComparisonTest):
 
         worksheet = workbook.add_worksheet()
 
-        format1 = workbook.add_format({'num_format': 2, 'dxf_index': 1})
-        format2 = workbook.add_format({'num_format': '0.000', 'dxf_index': 0})
+        format1 = workbook.add_format({"num_format": 2, "dxf_index": 1})
+        format2 = workbook.add_format({"num_format": "0.000", "dxf_index": 0})
 
-        worksheet.write('A1', 10)
-        worksheet.write('A2', 20)
-        worksheet.write('A3', 30)
-        worksheet.write('A4', 40)
+        worksheet.write("A1", 10)
+        worksheet.write("A2", 20)
+        worksheet.write("A3", 30)
+        worksheet.write("A4", 40)
 
         options = {
-            'type': 'cell',
-            'format': format1,
-            'criteria': '>',
-            'value': 2,
+            "type": "cell",
+            "format": format1,
+            "criteria": ">",
+            "value": 2,
         }
 
-        worksheet.conditional_format('A1', options)
+        worksheet.conditional_format("A1", options)
 
-        options['criteria'] = '<'
-        options['value'] = 8
-        options['format'] = format2
+        options["criteria"] = "<"
+        options["value"] = 8
+        options["format"] = format2
 
-        worksheet.conditional_format('A2', options)
+        worksheet.conditional_format("A2", options)
 
         workbook.close()
 

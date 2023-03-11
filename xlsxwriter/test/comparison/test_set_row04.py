@@ -17,8 +17,7 @@ class TestCompareXLSXFiles(ExcelComparisonTest):
     """
 
     def setUp(self):
-
-        self.set_filename('set_row03.xlsx')
+        self.set_filename("set_row03.xlsx")
 
     def test_create_file(self):
         """Test the creation of a simple XlsxWriter file."""
@@ -38,7 +37,7 @@ class TestCompareXLSXFiles(ExcelComparisonTest):
         worksheet.set_row_pixels(14, 15)
 
         worksheet.set_row_pixels(18, 19)
-        worksheet.set_row_pixels(20, 21, None, {'hidden': True})
+        worksheet.set_row_pixels(20, 21, None, {"hidden": True})
         worksheet.set_row_pixels(21, 22)
 
         workbook.close()

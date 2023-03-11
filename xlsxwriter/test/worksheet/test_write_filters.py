@@ -25,7 +25,7 @@ class TestWriteFilters(unittest.TestCase):
     def test_write_filters_1(self):
         """Test the _write_filters() method"""
 
-        self.worksheet._write_filters(['East'])
+        self.worksheet._write_filters(["East"])
 
         exp = """<filters><filter val="East"/></filters>"""
         got = self.fh.getvalue()
@@ -35,7 +35,7 @@ class TestWriteFilters(unittest.TestCase):
     def test_write_filters_2(self):
         """Test the _write_filters() method"""
 
-        self.worksheet._write_filters(['East', 'South'])
+        self.worksheet._write_filters(["East", "South"])
 
         exp = """<filters><filter val="East"/><filter val="South"/></filters>"""
         got = self.fh.getvalue()
@@ -45,7 +45,7 @@ class TestWriteFilters(unittest.TestCase):
     def test_write_filters_3(self):
         """Test the _write_filters() method"""
 
-        self.worksheet._write_filters(['blanks'])
+        self.worksheet._write_filters(["blanks"])
 
         exp = """<filters blank="1"/>"""
         got = self.fh.getvalue()

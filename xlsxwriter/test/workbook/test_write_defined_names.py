@@ -25,7 +25,7 @@ class TestWriteDefinedNames(unittest.TestCase):
     def test_write_defined_names_1(self):
         """Test the _write_defined_names() method"""
 
-        self.workbook.defined_names = [['_xlnm.Print_Titles', 0, 'Sheet1!$1:$1', 0]]
+        self.workbook.defined_names = [["_xlnm.Print_Titles", 0, "Sheet1!$1:$1", 0]]
 
         self.workbook._write_defined_names()
 
@@ -39,7 +39,7 @@ class TestWriteDefinedNames(unittest.TestCase):
 
         self.workbook.add_worksheet()
         self.workbook.add_worksheet()
-        self.workbook.add_worksheet('Sheet 3')
+        self.workbook.add_worksheet("Sheet 3")
 
         self.workbook.define_name("""'Sheet 3'!Bar""", """='Sheet 3'!$A$1""")
         self.workbook.define_name("""Abc""", """=Sheet1!$A$1""")

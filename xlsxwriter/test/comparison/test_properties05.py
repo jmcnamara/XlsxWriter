@@ -16,8 +16,7 @@ class TestCompareXLSXFiles(ExcelComparisonTest):
     """
 
     def setUp(self):
-
-        self.set_filename('properties05.xlsx')
+        self.set_filename("properties05.xlsx")
 
     def test_create_file(self):
         """Test the creation of a simple XlsxWriter file."""
@@ -26,10 +25,13 @@ class TestCompareXLSXFiles(ExcelComparisonTest):
 
         worksheet = workbook.add_worksheet()
 
-        workbook.set_custom_property('Location', 'Café')
+        workbook.set_custom_property("Location", "Café")
 
-        worksheet.set_column('A:A', 70)
-        worksheet.write('A1', "Select 'Office Button -> Prepare -> Properties' to see the file properties.")
+        worksheet.set_column("A:A", 70)
+        worksheet.write(
+            "A1",
+            "Select 'Office Button -> Prepare -> Properties' to see the file properties.",
+        )
 
         workbook.close()
 

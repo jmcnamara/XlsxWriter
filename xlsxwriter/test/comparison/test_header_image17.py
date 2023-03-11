@@ -17,9 +17,10 @@ class TestCompareXLSXFiles(ExcelComparisonTest):
     """
 
     def setUp(self):
-
-        self.set_filename('header_image17.xlsx')
-        self.ignore_elements = {'xl/worksheets/sheet1.xml': ['<pageMargins', '<pageSetup']}
+        self.set_filename("header_image17.xlsx")
+        self.ignore_elements = {
+            "xl/worksheets/sheet1.xml": ["<pageMargins", "<pageSetup"]
+        }
 
     def test_create_file(self):
         """Test the creation of a simple XlsxWriter file with image(s)."""
@@ -28,15 +29,23 @@ class TestCompareXLSXFiles(ExcelComparisonTest):
 
         worksheet = workbook.add_worksheet()
 
-        worksheet.set_header('&L&G&C&G&R&G',
-                             {'image_left': self.image_dir + 'red.jpg',
-                              'image_center': self.image_dir + 'blue.jpg',
-                              'image_right': self.image_dir + 'red.jpg'})
+        worksheet.set_header(
+            "&L&G&C&G&R&G",
+            {
+                "image_left": self.image_dir + "red.jpg",
+                "image_center": self.image_dir + "blue.jpg",
+                "image_right": self.image_dir + "red.jpg",
+            },
+        )
 
-        worksheet.set_footer('&L&G&C&G&R&G',
-                             {'image_left': self.image_dir + 'blue.jpg',
-                              'image_center': self.image_dir + 'red.jpg',
-                              'image_right': self.image_dir + 'blue.jpg'})
+        worksheet.set_footer(
+            "&L&G&C&G&R&G",
+            {
+                "image_left": self.image_dir + "blue.jpg",
+                "image_center": self.image_dir + "red.jpg",
+                "image_right": self.image_dir + "blue.jpg",
+            },
+        )
 
         workbook.close()
 

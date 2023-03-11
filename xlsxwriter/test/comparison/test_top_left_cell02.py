@@ -17,8 +17,7 @@ class TestCompareXLSXFiles(ExcelComparisonTest):
     """
 
     def setUp(self):
-
-        self.set_filename('top_left_cell02.xlsx')
+        self.set_filename("top_left_cell02.xlsx")
 
     def test_create_file(self):
         """Test the creation of a simple XlsxWriter file."""

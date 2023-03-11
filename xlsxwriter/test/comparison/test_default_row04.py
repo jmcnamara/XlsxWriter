@@ -17,8 +17,7 @@ class TestCompareXLSXFiles(ExcelComparisonTest):
     """
 
     def setUp(self):
-
-        self.set_filename('default_row04.xlsx')
+        self.set_filename("default_row04.xlsx")
 
     def test_create_file(self):
         """Test the creation of a simple XlsxWriter file."""
@@ -29,12 +28,12 @@ class TestCompareXLSXFiles(ExcelComparisonTest):
 
         worksheet.set_default_row(24)
 
-        worksheet.write('A1', 'Foo')
-        worksheet.write('A10', 'Bar')
+        worksheet.write("A1", "Foo")
+        worksheet.write("A10", "Bar")
 
-        worksheet.write_comment('C4', 'Hello', {'y_offset': 22})
+        worksheet.write_comment("C4", "Hello", {"y_offset": 22})
 
-        worksheet.set_comments_author('John')
+        worksheet.set_comments_author("John")
 
         workbook.close()
 

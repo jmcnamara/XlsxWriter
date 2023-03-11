@@ -14,8 +14,8 @@ from . import xmlwriter
 from .utility import preserve_whitespace
 
 # Compile performance critical regular expressions.
-re_control_chars_1 = re.compile('(_x[0-9a-fA-F]{4}_)')
-re_control_chars_2 = re.compile(r'([\x00-\x08\x0b-\x1f])')
+re_control_chars_1 = re.compile("(_x[0-9a-fA-F]{4}_)")
+re_control_chars_2 = re.compile(r"([\x00-\x08\x0b-\x1f])")
 
 
 class SharedStrings(xmlwriter.XMLwriter):
@@ -59,7 +59,7 @@ class SharedStrings(xmlwriter.XMLwriter):
         self._write_sst_strings()
 
         # Close the sst tag.
-        self._xml_end_tag('sst')
+        self._xml_end_tag("sst")
 
         # Close the file.
         self._xml_close()
@@ -72,20 +72,20 @@ class SharedStrings(xmlwriter.XMLwriter):
 
     def _write_sst(self):
         # Write the <sst> element.
-        xmlns = 'http://schemas.openxmlformats.org/spreadsheetml/2006/main'
+        xmlns = "http://schemas.openxmlformats.org/spreadsheetml/2006/main"
 
         attributes = [
-            ('xmlns', xmlns),
-            ('count', self.string_table.count),
-            ('uniqueCount', self.string_table.unique_count),
+            ("xmlns", xmlns),
+            ("count", self.string_table.count),
+            ("uniqueCount", self.string_table.unique_count),
         ]
 
-        self._xml_start_tag('sst', attributes)
+        self._xml_start_tag("sst", attributes)
 
     def _write_sst_strings(self):
         # Write the sst string elements.
 
-        for string in (self.string_table.string_array):
+        for string in self.string_table.string_array:
             self._write_si(string)
 
     def _write_si(self, string):
@@ -98,22 +98,23 @@ class SharedStrings(xmlwriter.XMLwriter):
         # The following substitutions deal with those cases.
 
         # Escape the escape.
-        string = re_control_chars_1.sub(r'_x005F\1', string)
+        string = re_control_chars_1.sub(r"_x005F\1", string)
 
         # Convert control character to the _xHHHH_ escape.
-        string = re_control_chars_2.sub(lambda match: "_x%04X_" %
-                                        ord(match.group(1)), string)
+        string = re_control_chars_2.sub(
+            lambda match: "_x%04X_" % ord(match.group(1)), string
+        )
 
         # Escapes non characters in strings.
-        string = string.replace('\uFFFE', '_xFFFE_')
-        string = string.replace('\uFFFF', '_xFFFF_')
+        string = string.replace("\uFFFE", "_xFFFE_")
+        string = string.replace("\uFFFF", "_xFFFF_")
 
         # Add attribute to preserve leading or trailing whitespace.
         if preserve_whitespace(string):
-            attributes.append(('xml:space', 'preserve'))
+            attributes.append(("xml:space", "preserve"))
 
         # Write any rich strings without further tags.
-        if string.startswith('<r>') and string.endswith('</r>'):
+        if string.startswith("<r>") and string.endswith("</r>"):
             self._xml_rich_si_element(string)
         else:
             self._xml_si_element(string, attributes)
@@ -133,7 +134,7 @@ class SharedStringTable(object):
         self.string_array = []
 
     def _get_shared_string_index(self, string):
-        """" Get the index of the string in the Shared String table. """
+        """ " Get the index of the string in the Shared String table."""
         if string not in self.string_table:
             # String isn't already stored in the table so add it.
             index = self.unique_count
@@ -148,11 +149,10 @@ class SharedStringTable(object):
             return index
 
     def _get_shared_string(self, index):
-        """" Get a shared string from the index. """
+        """ " Get a shared string from the index."""
         return self.string_array[index]
 
     def _sort_string_data(self):
-        """" Sort the shared string data and convert from dict to list. """
-        self.string_array = sorted(self.string_table,
-                                   key=self.string_table.__getitem__)
+        """ " Sort the shared string data and convert from dict to list."""
+        self.string_array = sorted(self.string_table, key=self.string_table.__getitem__)
         self.string_table = {}

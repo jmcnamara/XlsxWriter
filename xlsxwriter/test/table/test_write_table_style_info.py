@@ -26,11 +26,11 @@ class TestWriteTableStyleInfo(unittest.TestCase):
         """Test the _write_table_style_info() method"""
 
         self.table.properties = {
-            'style': 'TableStyleMedium9',
-            'show_first_col': 0,
-            'show_last_col': 0,
-            'show_row_stripes': 1,
-            'show_col_stripes': 0,
+            "style": "TableStyleMedium9",
+            "show_first_col": 0,
+            "show_last_col": 0,
+            "show_row_stripes": 1,
+            "show_col_stripes": 0,
         }
 
         self.table._write_table_style_info()

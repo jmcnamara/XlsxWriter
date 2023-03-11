@@ -29,11 +29,15 @@ class TestWriteDataValidations(unittest.TestCase):
         """
         Test 1 Integer between 1 and 10.
         """
-        self.worksheet.data_validation('B5', {'validate': 'integer',
-                                              'criteria': 'between',
-                                              'minimum': 1,
-                                              'maximum': 10,
-                                              })
+        self.worksheet.data_validation(
+            "B5",
+            {
+                "validate": "integer",
+                "criteria": "between",
+                "minimum": 1,
+                "maximum": 10,
+            },
+        )
 
         self.worksheet._write_data_validations()
 
@@ -49,11 +53,15 @@ class TestWriteDataValidations(unittest.TestCase):
         """
         Test 2 Integer not between 1 and 10.
         """
-        self.worksheet.data_validation('B5', {'validate': 'integer',
-                                              'criteria': 'not between',
-                                              'minimum': 1,
-                                              'maximum': 10,
-                                              })
+        self.worksheet.data_validation(
+            "B5",
+            {
+                "validate": "integer",
+                "criteria": "not between",
+                "minimum": 1,
+                "maximum": 10,
+            },
+        )
 
         self.worksheet._write_data_validations()
 
@@ -69,10 +77,14 @@ class TestWriteDataValidations(unittest.TestCase):
         """
         Test 3,4,5 Integer == 1.
         """
-        self.worksheet.data_validation('B5', {'validate': 'integer',
-                                              'criteria': 'equal to',
-                                              'value': 1,
-                                              })
+        self.worksheet.data_validation(
+            "B5",
+            {
+                "validate": "integer",
+                "criteria": "equal to",
+                "value": 1,
+            },
+        )
 
         self.worksheet._write_data_validations()
 
@@ -88,10 +100,14 @@ class TestWriteDataValidations(unittest.TestCase):
         """
         Test 3,4,5 Integer == 1.
         """
-        self.worksheet.data_validation('B5', {'validate': 'integer',
-                                              'criteria': '=',
-                                              'value': 1,
-                                              })
+        self.worksheet.data_validation(
+            "B5",
+            {
+                "validate": "integer",
+                "criteria": "=",
+                "value": 1,
+            },
+        )
 
         self.worksheet._write_data_validations()
 
@@ -107,10 +123,14 @@ class TestWriteDataValidations(unittest.TestCase):
         """
         Test 3,4,5 Integer == 1.
         """
-        self.worksheet.data_validation('B5', {'validate': 'integer',
-                                              'criteria': '==',
-                                              'value': 1,
-                                              })
+        self.worksheet.data_validation(
+            "B5",
+            {
+                "validate": "integer",
+                "criteria": "==",
+                "value": 1,
+            },
+        )
 
         self.worksheet._write_data_validations()
 
@@ -126,10 +146,14 @@ class TestWriteDataValidations(unittest.TestCase):
         """
         Test 6,7,8 Integer != 1.
         """
-        self.worksheet.data_validation('B5', {'validate': 'integer',
-                                              'criteria': 'not equal to',
-                                              'value': 1,
-                                              })
+        self.worksheet.data_validation(
+            "B5",
+            {
+                "validate": "integer",
+                "criteria": "not equal to",
+                "value": 1,
+            },
+        )
 
         self.worksheet._write_data_validations()
 
@@ -145,10 +169,14 @@ class TestWriteDataValidations(unittest.TestCase):
         """
         Test 6,7,8 Integer != 1.
         """
-        self.worksheet.data_validation('B5', {'validate': 'integer',
-                                              'criteria': '<>',
-                                              'value': 1,
-                                              })
+        self.worksheet.data_validation(
+            "B5",
+            {
+                "validate": "integer",
+                "criteria": "<>",
+                "value": 1,
+            },
+        )
 
         self.worksheet._write_data_validations()
 
@@ -164,10 +192,14 @@ class TestWriteDataValidations(unittest.TestCase):
         """
         Test 6,7,8 Integer != 1.
         """
-        self.worksheet.data_validation('B5', {'validate': 'integer',
-                                              'criteria': '!=',
-                                              'value': 1,
-                                              })
+        self.worksheet.data_validation(
+            "B5",
+            {
+                "validate": "integer",
+                "criteria": "!=",
+                "value": 1,
+            },
+        )
 
         self.worksheet._write_data_validations()
 
@@ -183,10 +215,14 @@ class TestWriteDataValidations(unittest.TestCase):
         """
         Test 9,10 Integer > 1.
         """
-        self.worksheet.data_validation('B5', {'validate': 'integer',
-                                              'criteria': 'greater than',
-                                              'value': 1,
-                                              })
+        self.worksheet.data_validation(
+            "B5",
+            {
+                "validate": "integer",
+                "criteria": "greater than",
+                "value": 1,
+            },
+        )
 
         self.worksheet._write_data_validations()
 
@@ -202,10 +238,14 @@ class TestWriteDataValidations(unittest.TestCase):
         """
         Test 9,10 Integer > 1.
         """
-        self.worksheet.data_validation('B5', {'validate': 'integer',
-                                              'criteria': '>',
-                                              'value': 1,
-                                              })
+        self.worksheet.data_validation(
+            "B5",
+            {
+                "validate": "integer",
+                "criteria": ">",
+                "value": 1,
+            },
+        )
 
         self.worksheet._write_data_validations()
 
@@ -221,10 +261,14 @@ class TestWriteDataValidations(unittest.TestCase):
         """
         Test 11,12 Integer < 1.
         """
-        self.worksheet.data_validation('B5', {'validate': 'integer',
-                                              'criteria': 'less than',
-                                              'value': 1,
-                                              })
+        self.worksheet.data_validation(
+            "B5",
+            {
+                "validate": "integer",
+                "criteria": "less than",
+                "value": 1,
+            },
+        )
 
         self.worksheet._write_data_validations()
 
@@ -240,10 +284,14 @@ class TestWriteDataValidations(unittest.TestCase):
         """
         Test 11,12 Integer < 1.
         """
-        self.worksheet.data_validation('B5', {'validate': 'integer',
-                                              'criteria': '<',
-                                              'value': 1,
-                                              })
+        self.worksheet.data_validation(
+            "B5",
+            {
+                "validate": "integer",
+                "criteria": "<",
+                "value": 1,
+            },
+        )
 
         self.worksheet._write_data_validations()
 
@@ -259,10 +307,14 @@ class TestWriteDataValidations(unittest.TestCase):
         """
         Test 13,14 Integer >= 1.
         """
-        self.worksheet.data_validation('B5', {'validate': 'integer',
-                                              'criteria': 'greater than or equal to',
-                                              'value': 1,
-                                              })
+        self.worksheet.data_validation(
+            "B5",
+            {
+                "validate": "integer",
+                "criteria": "greater than or equal to",
+                "value": 1,
+            },
+        )
 
         self.worksheet._write_data_validations()
 
@@ -278,10 +330,14 @@ class TestWriteDataValidations(unittest.TestCase):
         """
         Test 13,14 Integer >= 1.
         """
-        self.worksheet.data_validation('B5', {'validate': 'integer',
-                                              'criteria': '>=',
-                                              'value': 1,
-                                              })
+        self.worksheet.data_validation(
+            "B5",
+            {
+                "validate": "integer",
+                "criteria": ">=",
+                "value": 1,
+            },
+        )
 
         self.worksheet._write_data_validations()
 
@@ -297,10 +353,14 @@ class TestWriteDataValidations(unittest.TestCase):
         """
         Test 15,16 Integer <= 1.
         """
-        self.worksheet.data_validation('B5', {'validate': 'integer',
-                                              'criteria': 'less than or equal to',
-                                              'value': 1,
-                                              })
+        self.worksheet.data_validation(
+            "B5",
+            {
+                "validate": "integer",
+                "criteria": "less than or equal to",
+                "value": 1,
+            },
+        )
 
         self.worksheet._write_data_validations()
 
@@ -316,10 +376,14 @@ class TestWriteDataValidations(unittest.TestCase):
         """
         Test 15,16 Integer <= 1.
         """
-        self.worksheet.data_validation('B5', {'validate': 'integer',
-                                              'criteria': '<=',
-                                              'value': 1,
-                                              })
+        self.worksheet.data_validation(
+            "B5",
+            {
+                "validate": "integer",
+                "criteria": "<=",
+                "value": 1,
+            },
+        )
 
         self.worksheet._write_data_validations()
 
@@ -335,12 +399,16 @@ class TestWriteDataValidations(unittest.TestCase):
         """
         Test 17 Integer between 1 and 10 (same as test 1) + Ignore blank off.
         """
-        self.worksheet.data_validation('B5', {'validate': 'integer',
-                                              'criteria': 'between',
-                                              'minimum': 1,
-                                              'maximum': 10,
-                                              'ignore_blank': 0,
-                                              })
+        self.worksheet.data_validation(
+            "B5",
+            {
+                "validate": "integer",
+                "criteria": "between",
+                "minimum": 1,
+                "maximum": 10,
+                "ignore_blank": 0,
+            },
+        )
 
         self.worksheet._write_data_validations()
 
@@ -356,12 +424,16 @@ class TestWriteDataValidations(unittest.TestCase):
         """
         Test 18 Integer between 1 and 10 (same as test 1) + Error style == warning.
         """
-        self.worksheet.data_validation('B5', {'validate': 'integer',
-                                              'criteria': 'between',
-                                              'minimum': 1,
-                                              'maximum': 10,
-                                              'error_type': 'warning',
-                                              })
+        self.worksheet.data_validation(
+            "B5",
+            {
+                "validate": "integer",
+                "criteria": "between",
+                "minimum": 1,
+                "maximum": 10,
+                "error_type": "warning",
+            },
+        )
 
         self.worksheet._write_data_validations()
 
@@ -377,12 +449,16 @@ class TestWriteDataValidations(unittest.TestCase):
         """
         Test 19 Integer between 1 and 10 (same as test 1) + Error style == info.
         """
-        self.worksheet.data_validation('B5', {'validate': 'integer',
-                                              'criteria': 'between',
-                                              'minimum': 1,
-                                              'maximum': 10,
-                                              'error_type': 'information',
-                                              })
+        self.worksheet.data_validation(
+            "B5",
+            {
+                "validate": "integer",
+                "criteria": "between",
+                "minimum": 1,
+                "maximum": 10,
+                "error_type": "information",
+            },
+        )
 
         self.worksheet._write_data_validations()
 
@@ -399,12 +475,16 @@ class TestWriteDataValidations(unittest.TestCase):
         Test 20 Integer between 1 and 10 (same as test 1)
                 + input title.
         """
-        self.worksheet.data_validation('B5', {'validate': 'integer',
-                                              'criteria': 'between',
-                                              'minimum': 1,
-                                              'maximum': 10,
-                                              'input_title': 'Input title January',
-                                              })
+        self.worksheet.data_validation(
+            "B5",
+            {
+                "validate": "integer",
+                "criteria": "between",
+                "minimum": 1,
+                "maximum": 10,
+                "input_title": "Input title January",
+            },
+        )
 
         self.worksheet._write_data_validations()
 
@@ -422,13 +502,17 @@ class TestWriteDataValidations(unittest.TestCase):
                 + input title.
                 + input message.
         """
-        self.worksheet.data_validation('B5', {'validate': 'integer',
-                                              'criteria': 'between',
-                                              'minimum': 1,
-                                              'maximum': 10,
-                                              'input_title': 'Input title January',
-                                              'input_message': 'Input message February',
-                                              })
+        self.worksheet.data_validation(
+            "B5",
+            {
+                "validate": "integer",
+                "criteria": "between",
+                "minimum": 1,
+                "maximum": 10,
+                "input_title": "Input title January",
+                "input_message": "Input message February",
+            },
+        )
 
         self.worksheet._write_data_validations()
 
@@ -447,14 +531,18 @@ class TestWriteDataValidations(unittest.TestCase):
                 + input message.
                 + error title.
         """
-        self.worksheet.data_validation('B5', {'validate': 'integer',
-                                              'criteria': 'between',
-                                              'minimum': 1,
-                                              'maximum': 10,
-                                              'input_title': 'Input title January',
-                                              'input_message': 'Input message February',
-                                              'error_title': 'Error title March',
-                                              })
+        self.worksheet.data_validation(
+            "B5",
+            {
+                "validate": "integer",
+                "criteria": "between",
+                "minimum": 1,
+                "maximum": 10,
+                "input_title": "Input title January",
+                "input_message": "Input message February",
+                "error_title": "Error title March",
+            },
+        )
 
         self.worksheet._write_data_validations()
 
@@ -474,15 +562,19 @@ class TestWriteDataValidations(unittest.TestCase):
                 + error title.
                 + error message.
         """
-        self.worksheet.data_validation('B5', {'validate': 'integer',
-                                              'criteria': 'between',
-                                              'minimum': 1,
-                                              'maximum': 10,
-                                              'input_title': 'Input title January',
-                                              'input_message': 'Input message February',
-                                              'error_title': 'Error title March',
-                                              'error_message': 'Error message April',
-                                              })
+        self.worksheet.data_validation(
+            "B5",
+            {
+                "validate": "integer",
+                "criteria": "between",
+                "minimum": 1,
+                "maximum": 10,
+                "input_title": "Input title January",
+                "input_message": "Input message February",
+                "error_title": "Error title March",
+                "error_message": "Error message April",
+            },
+        )
 
         self.worksheet._write_data_validations()
 
@@ -503,16 +595,20 @@ class TestWriteDataValidations(unittest.TestCase):
                 + error message.
                 - input message box.
         """
-        self.worksheet.data_validation('B5', {'validate': 'integer',
-                                              'criteria': 'between',
-                                              'minimum': 1,
-                                              'maximum': 10,
-                                              'input_title': 'Input title January',
-                                              'input_message': 'Input message February',
-                                              'error_title': 'Error title March',
-                                              'error_message': 'Error message April',
-                                              'show_input': 0,
-                                              })
+        self.worksheet.data_validation(
+            "B5",
+            {
+                "validate": "integer",
+                "criteria": "between",
+                "minimum": 1,
+                "maximum": 10,
+                "input_title": "Input title January",
+                "input_message": "Input message February",
+                "error_title": "Error title March",
+                "error_message": "Error message April",
+                "show_input": 0,
+            },
+        )
 
         self.worksheet._write_data_validations()
 
@@ -534,17 +630,21 @@ class TestWriteDataValidations(unittest.TestCase):
                 - input message box.
                 - error message box.
         """
-        self.worksheet.data_validation('B5', {'validate': 'integer',
-                                              'criteria': 'between',
-                                              'minimum': 1,
-                                              'maximum': 10,
-                                              'input_title': 'Input title January',
-                                              'input_message': 'Input message February',
-                                              'error_title': 'Error title March',
-                                              'error_message': 'Error message April',
-                                              'show_input': 0,
-                                              'show_error': 0,
-                                              })
+        self.worksheet.data_validation(
+            "B5",
+            {
+                "validate": "integer",
+                "criteria": "between",
+                "minimum": 1,
+                "maximum": 10,
+                "input_title": "Input title January",
+                "input_message": "Input message February",
+                "error_title": "Error title March",
+                "error_message": "Error message April",
+                "show_input": 0,
+                "show_error": 0,
+            },
+        )
 
         self.worksheet._write_data_validations()
 
@@ -560,11 +660,11 @@ class TestWriteDataValidations(unittest.TestCase):
         """
         Test 26 'Any' shouldn't produce a DV record if there are no messages.
         """
-        self.worksheet.data_validation('B5', {'validate': 'any'})
+        self.worksheet.data_validation("B5", {"validate": "any"})
 
         self.worksheet._write_data_validations()
 
-        exp = ''
+        exp = ""
         got = self.fh.getvalue()
 
         self.assertEqual(got, exp)
@@ -573,10 +673,14 @@ class TestWriteDataValidations(unittest.TestCase):
         """
         Test 27 Decimal = 1.2345
         """
-        self.worksheet.data_validation('B5', {'validate': 'decimal',
-                                              'criteria': '==',
-                                              'value': 1.2345,
-                                              })
+        self.worksheet.data_validation(
+            "B5",
+            {
+                "validate": "decimal",
+                "criteria": "==",
+                "value": 1.2345,
+            },
+        )
 
         self.worksheet._write_data_validations()
 
@@ -592,9 +696,13 @@ class TestWriteDataValidations(unittest.TestCase):
         """
         Test 28 List = a,bb,ccc
         """
-        self.worksheet.data_validation('B5', {'validate': 'list',
-                                              'source': ['a', 'bb', 'ccc'],
-                                              })
+        self.worksheet.data_validation(
+            "B5",
+            {
+                "validate": "list",
+                "source": ["a", "bb", "ccc"],
+            },
+        )
 
         self.worksheet._write_data_validations()
 
@@ -610,10 +718,14 @@ class TestWriteDataValidations(unittest.TestCase):
         """
         Test 29 List = a,bb,ccc, No dropdown
         """
-        self.worksheet.data_validation('B5', {'validate': 'list',
-                                              'source': ['a', 'bb', 'ccc'],
-                                              'dropdown': 0,
-                                              })
+        self.worksheet.data_validation(
+            "B5",
+            {
+                "validate": "list",
+                "source": ["a", "bb", "ccc"],
+                "dropdown": 0,
+            },
+        )
 
         self.worksheet._write_data_validations()
 
@@ -629,9 +741,13 @@ class TestWriteDataValidations(unittest.TestCase):
         """
         Test 30 List = $D$1:$D$5
         """
-        self.worksheet.data_validation('A1:A1', {'validate': 'list',
-                                                 'source': '=$D$1:$D$5',
-                                                 })
+        self.worksheet.data_validation(
+            "A1:A1",
+            {
+                "validate": "list",
+                "source": "=$D$1:$D$5",
+            },
+        )
 
         self.worksheet._write_data_validations()
 
@@ -647,10 +763,14 @@ class TestWriteDataValidations(unittest.TestCase):
         """
         Test 31 Date = 39653 (2008-07-24)
         """
-        self.worksheet.data_validation('B5', {'validate': 'date',
-                                              'criteria': '==',
-                                              'value': date(2008, 7, 24),
-                                              })
+        self.worksheet.data_validation(
+            "B5",
+            {
+                "validate": "date",
+                "criteria": "==",
+                "value": date(2008, 7, 24),
+            },
+        )
 
         self.worksheet._write_data_validations()
 
@@ -666,10 +786,14 @@ class TestWriteDataValidations(unittest.TestCase):
         """
         Test 32 Date = 2008-07-25T
         """
-        self.worksheet.data_validation('B5', {'validate': 'date',
-                                              'criteria': '==',
-                                              'value': date(2008, 7, 25),
-                                              })
+        self.worksheet.data_validation(
+            "B5",
+            {
+                "validate": "date",
+                "criteria": "==",
+                "value": date(2008, 7, 25),
+            },
+        )
 
         self.worksheet._write_data_validations()
 
@@ -685,11 +809,15 @@ class TestWriteDataValidations(unittest.TestCase):
         """
         Test 33 Date between ranges.
         """
-        self.worksheet.data_validation('B5', {'validate': 'date',
-                                              'criteria': 'between',
-                                              'minimum': date(2008, 1, 1),
-                                              'maximum': date(2008, 12, 12),
-                                              })
+        self.worksheet.data_validation(
+            "B5",
+            {
+                "validate": "date",
+                "criteria": "between",
+                "minimum": date(2008, 1, 1),
+                "maximum": date(2008, 12, 12),
+            },
+        )
 
         self.worksheet._write_data_validations()
 
@@ -705,10 +833,14 @@ class TestWriteDataValidations(unittest.TestCase):
         """
         Test 34 Time = 0.5 (12:00:00)
         """
-        self.worksheet.data_validation('B5:B5', {'validate': 'time',
-                                                 'criteria': '==',
-                                                 'value': time(12),
-                                                 })
+        self.worksheet.data_validation(
+            "B5:B5",
+            {
+                "validate": "time",
+                "criteria": "==",
+                "value": time(12),
+            },
+        )
 
         self.worksheet._write_data_validations()
 
@@ -724,10 +856,14 @@ class TestWriteDataValidations(unittest.TestCase):
         """
         Test 35 Time = T12:00:00
         """
-        self.worksheet.data_validation('B5', {'validate': 'time',
-                                              'criteria': '==',
-                                              'value': time(12, 0, 0),
-                                              })
+        self.worksheet.data_validation(
+            "B5",
+            {
+                "validate": "time",
+                "criteria": "==",
+                "value": time(12, 0, 0),
+            },
+        )
 
         self.worksheet._write_data_validations()
 
@@ -743,10 +879,14 @@ class TestWriteDataValidations(unittest.TestCase):
         """
         Test 36 Custom == 10.
         """
-        self.worksheet.data_validation('B5', {'validate': 'custom',
-                                              'criteria': '==',
-                                              'value': 10,
-                                              })
+        self.worksheet.data_validation(
+            "B5",
+            {
+                "validate": "custom",
+                "criteria": "==",
+                "value": 10,
+            },
+        )
 
         self.worksheet._write_data_validations()
 
@@ -762,11 +902,15 @@ class TestWriteDataValidations(unittest.TestCase):
         """
         Test 37 Check the row/col processing: single A1 style cell.
         """
-        self.worksheet.data_validation('B5', {'validate': 'integer',
-                                              'criteria': 'between',
-                                              'minimum': 1,
-                                              'maximum': 10,
-                                              })
+        self.worksheet.data_validation(
+            "B5",
+            {
+                "validate": "integer",
+                "criteria": "between",
+                "minimum": 1,
+                "maximum": 10,
+            },
+        )
 
         self.worksheet._write_data_validations()
 
@@ -782,11 +926,15 @@ class TestWriteDataValidations(unittest.TestCase):
         """
         Test 38 Check the row/col processing: single A1 style range.
         """
-        self.worksheet.data_validation('B5:B10', {'validate': 'integer',
-                                                  'criteria': 'between',
-                                                  'minimum': 1,
-                                                  'maximum': 10,
-                                                  })
+        self.worksheet.data_validation(
+            "B5:B10",
+            {
+                "validate": "integer",
+                "criteria": "between",
+                "minimum": 1,
+                "maximum": 10,
+            },
+        )
 
         self.worksheet._write_data_validations()
 
@@ -802,11 +950,18 @@ class TestWriteDataValidations(unittest.TestCase):
         """
         Test 39 Check the row/col processing: single (row, col) style cell.
         """
-        self.worksheet.data_validation(4, 1, 4, 1, {'validate': 'integer',
-                                                    'criteria': 'between',
-                                                    'minimum': 1,
-                                                    'maximum': 10,
-                                                    })
+        self.worksheet.data_validation(
+            4,
+            1,
+            4,
+            1,
+            {
+                "validate": "integer",
+                "criteria": "between",
+                "minimum": 1,
+                "maximum": 10,
+            },
+        )
 
         self.worksheet._write_data_validations()
 
@@ -822,11 +977,18 @@ class TestWriteDataValidations(unittest.TestCase):
         """
         Test 40 Check the row/col processing: single (row, col) style range.
         """
-        self.worksheet.data_validation(4, 1, 9, 1, {'validate': 'integer',
-                                                    'criteria': 'between',
-                                                    'minimum': 1,
-                                                    'maximum': 10,
-                                                    })
+        self.worksheet.data_validation(
+            4,
+            1,
+            9,
+            1,
+            {
+                "validate": "integer",
+                "criteria": "between",
+                "minimum": 1,
+                "maximum": 10,
+            },
+        )
 
         self.worksheet._write_data_validations()
 
@@ -842,12 +1004,19 @@ class TestWriteDataValidations(unittest.TestCase):
         """
         Test 41 Check the row/col processing: multiple (row, col) style cells.
         """
-        self.worksheet.data_validation(4, 1, 4, 1, {'validate': 'integer',
-                                                    'criteria': 'between',
-                                                    'minimum': 1,
-                                                    'maximum': 10,
-                                                    'other_cells': [[4, 3, 4, 3]],
-                                                    })
+        self.worksheet.data_validation(
+            4,
+            1,
+            4,
+            1,
+            {
+                "validate": "integer",
+                "criteria": "between",
+                "minimum": 1,
+                "maximum": 10,
+                "other_cells": [[4, 3, 4, 3]],
+            },
+        )
 
         self.worksheet._write_data_validations()
 
@@ -863,12 +1032,19 @@ class TestWriteDataValidations(unittest.TestCase):
         """
         Test 42 Check the row/col processing: multiple (row, col) style cells.
         """
-        self.worksheet.data_validation(4, 1, 4, 1, {'validate': 'integer',
-                                                    'criteria': 'between',
-                                                    'minimum': 1,
-                                                    'maximum': 10,
-                                                    'other_cells': [[6, 1, 6, 1], [8, 1, 8, 1]],
-                                                    })
+        self.worksheet.data_validation(
+            4,
+            1,
+            4,
+            1,
+            {
+                "validate": "integer",
+                "criteria": "between",
+                "minimum": 1,
+                "maximum": 10,
+                "other_cells": [[6, 1, 6, 1], [8, 1, 8, 1]],
+            },
+        )
 
         self.worksheet._write_data_validations()
 
@@ -884,12 +1060,19 @@ class TestWriteDataValidations(unittest.TestCase):
         """
         Test 43 Check the row/col processing: multiple (row, col) style cells.
         """
-        self.worksheet.data_validation(4, 1, 8, 1, {'validate': 'integer',
-                                                    'criteria': 'between',
-                                                    'minimum': 1,
-                                                    'maximum': 10,
-                                                    'other_cells': [[3, 3, 3, 3]],
-                                                    })
+        self.worksheet.data_validation(
+            4,
+            1,
+            8,
+            1,
+            {
+                "validate": "integer",
+                "criteria": "between",
+                "minimum": 1,
+                "maximum": 10,
+                "other_cells": [[3, 3, 3, 3]],
+            },
+        )
 
         self.worksheet._write_data_validations()
 
@@ -905,15 +1088,23 @@ class TestWriteDataValidations(unittest.TestCase):
         """
         Test 44 Multiple validations.
         """
-        self.worksheet.data_validation('B5', {'validate': 'integer',
-                                              'criteria': '>',
-                                              'value': 10,
-                                              })
+        self.worksheet.data_validation(
+            "B5",
+            {
+                "validate": "integer",
+                "criteria": ">",
+                "value": 10,
+            },
+        )
 
-        self.worksheet.data_validation('C10', {'validate': 'integer',
-                                               'criteria': '<',
-                                               'value': 10,
-                                               })
+        self.worksheet.data_validation(
+            "C10",
+            {
+                "validate": "integer",
+                "criteria": "<",
+                "value": 10,
+            },
+        )
 
         self.worksheet._write_data_validations()
 
@@ -929,10 +1120,14 @@ class TestWriteDataValidations(unittest.TestCase):
         """
         Test 45 Test 'any' with input messages.
         """
-        self.worksheet.data_validation('B5', {'validate': 'any',
-                                              'input_title': 'Input title January',
-                                              'input_message': 'Input message February',
-                                              })
+        self.worksheet.data_validation(
+            "B5",
+            {
+                "validate": "any",
+                "input_title": "Input title January",
+                "input_message": "Input message February",
+            },
+        )
 
         self.worksheet._write_data_validations()
 
@@ -948,11 +1143,15 @@ class TestWriteDataValidations(unittest.TestCase):
         """
         Test 46 Date between ranges with formulas.
         """
-        self.worksheet.data_validation('B5', {'validate': 'date',
-                                              'criteria': 'between',
-                                              'minimum': date(2018, 1, 1),
-                                              'maximum': '=TODAY()',
-                                              })
+        self.worksheet.data_validation(
+            "B5",
+            {
+                "validate": "date",
+                "criteria": "between",
+                "minimum": date(2018, 1, 1),
+                "maximum": "=TODAY()",
+            },
+        )
 
         self.worksheet._write_data_validations()
 
@@ -968,12 +1167,19 @@ class TestWriteDataValidations(unittest.TestCase):
         """
         Test 47 Check multi range with A1 style cell ranges.
         """
-        self.worksheet.data_validation(4, 1, 9, 1, {'validate': 'integer',
-                                                    'criteria': 'between',
-                                                    'minimum': 1,
-                                                    'maximum': 10,
-                                                    'multi_range': 'B5:B10 D5:D10',
-                                                    })
+        self.worksheet.data_validation(
+            4,
+            1,
+            9,
+            1,
+            {
+                "validate": "integer",
+                "criteria": "between",
+                "minimum": 1,
+                "maximum": 10,
+                "multi_range": "B5:B10 D5:D10",
+            },
+        )
 
         self.worksheet._write_data_validations()
 
@@ -989,13 +1195,20 @@ class TestWriteDataValidations(unittest.TestCase):
         """
         Test 48 Check multi range with A1 style cells.
         """
-        self.worksheet.data_validation(4, 1, 4, 1, {'validate': 'integer',
-                                                    'criteria': 'between',
-                                                    'minimum': 1,
-                                                    'maximum': 10,
-                                                    'other_cells': [[4, 3, 4, 3]],
-                                                    'multi_range': 'B5 C5',
-                                                    })
+        self.worksheet.data_validation(
+            4,
+            1,
+            4,
+            1,
+            {
+                "validate": "integer",
+                "criteria": "between",
+                "minimum": 1,
+                "maximum": 10,
+                "other_cells": [[4, 3, 4, 3]],
+                "multi_range": "B5 C5",
+            },
+        )
 
         self.worksheet._write_data_validations()
 

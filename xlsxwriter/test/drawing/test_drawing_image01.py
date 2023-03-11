@@ -17,6 +17,7 @@ class TestAssembleDrawing(unittest.TestCase):
     Test assembling a complete Drawing file.
 
     """
+
     def test_assemble_xml_file(self):
         """Test writing a drawing with no cell data."""
         self.maxDiff = None
@@ -27,22 +28,23 @@ class TestAssembleDrawing(unittest.TestCase):
 
         dimensions = [2, 1, 0, 0, 3, 6, 533257, 190357, 1219200, 190500, 0, 0]
         drawing_object = drawing._add_drawing_object()
-        drawing_object['type'] = 2
-        drawing_object['dimensions'] = dimensions
-        drawing_object['width'] = 1142857
-        drawing_object['height'] = 1142857
-        drawing_object['description'] = 'republic.png'
-        drawing_object['shape'] = None
-        drawing_object['anchor'] = 2
-        drawing_object['rel_index'] = 1
-        drawing_object['url_rel_index'] = 0
-        drawing_object['tip'] = None
+        drawing_object["type"] = 2
+        drawing_object["dimensions"] = dimensions
+        drawing_object["width"] = 1142857
+        drawing_object["height"] = 1142857
+        drawing_object["description"] = "republic.png"
+        drawing_object["shape"] = None
+        drawing_object["anchor"] = 2
+        drawing_object["rel_index"] = 1
+        drawing_object["url_rel_index"] = 0
+        drawing_object["tip"] = None
 
         drawing.embedded = 1
 
         drawing._assemble_xml_file()
 
-        exp = _xml_to_list("""
+        exp = _xml_to_list(
+            """
                 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
                 <xdr:wsDr xmlns:xdr="http://schemas.openxmlformats.org/drawingml/2006/spreadsheetDrawing" xmlns:a="http://schemas.openxmlformats.org/drawingml/2006/main">
                   <xdr:twoCellAnchor editAs="oneCell">
@@ -84,7 +86,8 @@ class TestAssembleDrawing(unittest.TestCase):
                     <xdr:clientData/>
                   </xdr:twoCellAnchor>
                 </xdr:wsDr>
-                """)
+                """
+        )
 
         got = _xml_to_list(fh.getvalue())
 
@@ -103,22 +106,23 @@ class TestAssembleDrawing(unittest.TestCase):
 
         dimensions = [2, 1, 0, 0, 3, 6, 533257, 190357, 1219200, 190500, 0, 0]
         drawing_object = drawing._add_drawing_object()
-        drawing_object['type'] = 2
-        drawing_object['dimensions'] = dimensions
-        drawing_object['width'] = 1142857
-        drawing_object['height'] = 1142857
-        drawing_object['description'] = 'republic.png'
-        drawing_object['shape'] = None
-        drawing_object['anchor'] = 2
-        drawing_object['rel_index'] = 2
-        drawing_object['url_rel_index'] = 1
-        drawing_object['tip'] = 'this is a tooltip'
+        drawing_object["type"] = 2
+        drawing_object["dimensions"] = dimensions
+        drawing_object["width"] = 1142857
+        drawing_object["height"] = 1142857
+        drawing_object["description"] = "republic.png"
+        drawing_object["shape"] = None
+        drawing_object["anchor"] = 2
+        drawing_object["rel_index"] = 2
+        drawing_object["url_rel_index"] = 1
+        drawing_object["tip"] = "this is a tooltip"
 
         drawing.embedded = 1
 
         drawing._assemble_xml_file()
 
-        exp = _xml_to_list("""
+        exp = _xml_to_list(
+            """
                 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
                 <xdr:wsDr xmlns:xdr="http://schemas.openxmlformats.org/drawingml/2006/spreadsheetDrawing" xmlns:a="http://schemas.openxmlformats.org/drawingml/2006/main">
                   <xdr:twoCellAnchor editAs="oneCell">
@@ -162,7 +166,8 @@ class TestAssembleDrawing(unittest.TestCase):
                     <xdr:clientData/>
                   </xdr:twoCellAnchor>
                 </xdr:wsDr>
-                """)
+                """
+        )
 
         got = _xml_to_list(fh.getvalue())
 

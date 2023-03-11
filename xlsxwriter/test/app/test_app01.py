@@ -17,6 +17,7 @@ class TestAssembleApp(unittest.TestCase):
     Test assembling a complete App file.
 
     """
+
     def test_assemble_xml_file(self):
         """Test writing an App file."""
         self.maxDiff = None
@@ -25,12 +26,13 @@ class TestAssembleApp(unittest.TestCase):
         app = App()
         app._set_filehandle(fh)
 
-        app._add_part_name('Sheet1')
-        app._add_heading_pair(('Worksheets', 1))
+        app._add_part_name("Sheet1")
+        app._add_heading_pair(("Worksheets", 1))
 
         app._assemble_xml_file()
 
-        exp = _xml_to_list("""
+        exp = _xml_to_list(
+            """
                 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
                 <Properties xmlns="http://schemas.openxmlformats.org/officeDocument/2006/extended-properties" xmlns:vt="http://schemas.openxmlformats.org/officeDocument/2006/docPropsVTypes">
                   <Application>Microsoft Excel</Application>
@@ -58,7 +60,8 @@ class TestAssembleApp(unittest.TestCase):
                   <HyperlinksChanged>false</HyperlinksChanged>
                   <AppVersion>12.0000</AppVersion>
                 </Properties>
-                """)
+                """
+        )
 
         got = _xml_to_list(fh.getvalue())
 

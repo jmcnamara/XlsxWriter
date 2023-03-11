@@ -17,6 +17,7 @@ class TestAssembleVml(unittest.TestCase):
     Test assembling a complete Vml file.
 
     """
+
     def test_assemble_xml_file(self):
         """Test writing a vml with no cell data."""
         self.maxDiff = None
@@ -29,14 +30,20 @@ class TestAssembleVml(unittest.TestCase):
             1,
             1024,
             None,
-            [{'row': 1,
-              'col': 2,
-              'fillcolor': 'buttonFace [67]',
-              'vertices': [2, 1, 0, 0, 3, 2, 0, 0, 128, 20, 64, 20],
-              'font': {'caption': 'Button 1'},
-              'macro': '[0]!Button1_Click'}])
+            [
+                {
+                    "row": 1,
+                    "col": 2,
+                    "fillcolor": "buttonFace [67]",
+                    "vertices": [2, 1, 0, 0, 3, 2, 0, 0, 128, 20, 64, 20],
+                    "font": {"caption": "Button 1"},
+                    "macro": "[0]!Button1_Click",
+                }
+            ],
+        )
 
-        exp = _vml_to_list("""
+        exp = _vml_to_list(
+            """
                 <xml xmlns:v="urn:schemas-microsoft-com:vml" xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:x="urn:schemas-microsoft-com:office:excel">
                   <o:shapelayout v:ext="edit">
                     <o:idmap v:ext="edit" data="1"/>
@@ -64,7 +71,8 @@ class TestAssembleVml(unittest.TestCase):
                     </x:ClientData>
                   </v:shape>
                 </xml>
-                """)
+                """
+        )
 
         got = _xml_to_list(fh.getvalue())
 

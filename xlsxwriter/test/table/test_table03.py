@@ -20,6 +20,7 @@ class TestAssembleTable(unittest.TestCase):
     Test assembling a complete Table file.
 
     """
+
     def test_assemble_xml_file(self):
         """Test writing a table"""
         self.maxDiff = None
@@ -28,11 +29,15 @@ class TestAssembleTable(unittest.TestCase):
         worksheet.worksheet_meta = WorksheetMeta()
         worksheet.str_table = SharedStringTable()
 
-        worksheet.add_table('C5:D16', {'banded_rows': 0,
-                                       'first_column': 1,
-                                       'last_column': 1,
-                                       'banded_columns': 1
-                                       })
+        worksheet.add_table(
+            "C5:D16",
+            {
+                "banded_rows": 0,
+                "first_column": 1,
+                "last_column": 1,
+                "banded_columns": 1,
+            },
+        )
         worksheet._prepare_tables(1, {})
 
         fh = StringIO()
@@ -43,7 +48,8 @@ class TestAssembleTable(unittest.TestCase):
 
         table._assemble_xml_file()
 
-        exp = _xml_to_list("""
+        exp = _xml_to_list(
+            """
                 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
                 <table xmlns="http://schemas.openxmlformats.org/spreadsheetml/2006/main" id="1" name="Table1" displayName="Table1" ref="C5:D16" totalsRowShown="0">
                   <autoFilter ref="C5:D16"/>
@@ -53,7 +59,8 @@ class TestAssembleTable(unittest.TestCase):
                   </tableColumns>
                   <tableStyleInfo name="TableStyleMedium9" showFirstColumn="1" showLastColumn="1" showRowStripes="0" showColumnStripes="1"/>
                 </table>
-                """)
+                """
+        )
 
         got = _xml_to_list(fh.getvalue())
 

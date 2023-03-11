@@ -25,7 +25,7 @@ class TestWriteText(unittest.TestCase):
     def test_write_text_t_1(self):
         """Test the _write_text_t() method"""
 
-        self.comments._write_text_t('Some text')
+        self.comments._write_text_t("Some text")
 
         exp = """<t>Some text</t>"""
         got = self.fh.getvalue()
@@ -35,7 +35,7 @@ class TestWriteText(unittest.TestCase):
     def test_write_text_t_2(self):
         """Test the _write_text_t() method"""
 
-        self.comments._write_text_t(' Some text')
+        self.comments._write_text_t(" Some text")
 
         exp = """<t xml:space="preserve"> Some text</t>"""
         got = self.fh.getvalue()
@@ -45,7 +45,7 @@ class TestWriteText(unittest.TestCase):
     def test_write_text_t_3(self):
         """Test the _write_text_t() method"""
 
-        self.comments._write_text_t('Some text ')
+        self.comments._write_text_t("Some text ")
 
         exp = """<t xml:space="preserve">Some text </t>"""
         got = self.fh.getvalue()
@@ -55,7 +55,7 @@ class TestWriteText(unittest.TestCase):
     def test_write_text_t_4(self):
         """Test the _write_text_t() method"""
 
-        self.comments._write_text_t(' Some text ')
+        self.comments._write_text_t(" Some text ")
 
         exp = """<t xml:space="preserve"> Some text </t>"""
         got = self.fh.getvalue()

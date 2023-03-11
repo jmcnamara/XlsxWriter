@@ -17,6 +17,7 @@ class TestAssembleWorksheet(unittest.TestCase):
     Test assembling a complete Worksheet file.
 
     """
+
     def test_assemble_xml_file(self):
         """Test writing a worksheet with no cell data."""
         self.maxDiff = None
@@ -25,21 +26,26 @@ class TestAssembleWorksheet(unittest.TestCase):
         worksheet = Worksheet()
         worksheet._set_filehandle(fh)
         worksheet.select()
-        worksheet.name = 'Sheet1'
+        worksheet.name = "Sheet1"
         worksheet.excel_version = 2010
 
         data = [-2, 2, 3, -1, 0]
-        worksheet.write_row('A1', data)
-        worksheet.write_row('A2', data)
+        worksheet.write_row("A1", data)
+        worksheet.write_row("A2", data)
 
         # Set up sparklines.
-        worksheet.add_sparkline('A1', {'location': ['F1', 'F2'],
-                                       'range': ['A1:E1', 'A2:E2'],
-                                       })
+        worksheet.add_sparkline(
+            "A1",
+            {
+                "location": ["F1", "F2"],
+                "range": ["A1:E1", "A2:E2"],
+            },
+        )
 
         worksheet._assemble_xml_file()
 
-        exp = _xml_to_list("""
+        exp = _xml_to_list(
+            """
                 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
                 <worksheet xmlns="http://schemas.openxmlformats.org/spreadsheetml/2006/main" xmlns:r="http://schemas.openxmlformats.org/officeDocument/2006/relationships" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:x14ac="http://schemas.microsoft.com/office/spreadsheetml/2009/9/ac" mc:Ignorable="x14ac">
                   <dimension ref="A1:E2"/>
@@ -111,7 +117,8 @@ class TestAssembleWorksheet(unittest.TestCase):
                     </ext>
                   </extLst>
                 </worksheet>
-                """)
+                """
+        )
 
         got = _xml_to_list(fh.getvalue())
 

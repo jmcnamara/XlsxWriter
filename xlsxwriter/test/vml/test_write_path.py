@@ -25,7 +25,7 @@ class TestWriteVpath(unittest.TestCase):
     def test_write_comment_path_1(self):
         """Test the _write_comment_path() method"""
 
-        self.vml._write_comment_path('t', 'rect')
+        self.vml._write_comment_path("t", "rect")
 
         exp = """<v:path gradientshapeok="t" o:connecttype="rect"/>"""
         got = self.fh.getvalue()
@@ -35,7 +35,7 @@ class TestWriteVpath(unittest.TestCase):
     def test_write_comment_path_2(self):
         """Test the _write_comment_path() method"""
 
-        self.vml._write_comment_path(None, 'none')
+        self.vml._write_comment_path(None, "none")
 
         exp = """<v:path o:connecttype="none"/>"""
         got = self.fh.getvalue()

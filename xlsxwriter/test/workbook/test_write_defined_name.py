@@ -25,7 +25,7 @@ class TestWriteDefinedName(unittest.TestCase):
     def test_write_defined_name(self):
         """Test the _write_defined_name() method"""
 
-        self.workbook._write_defined_name(['_xlnm.Print_Titles', 0, 'Sheet1!$1:$1', 0])
+        self.workbook._write_defined_name(["_xlnm.Print_Titles", 0, "Sheet1!$1:$1", 0])
 
         exp = """<definedName name="_xlnm.Print_Titles" localSheetId="0">Sheet1!$1:$1</definedName>"""
         got = self.fh.getvalue()

@@ -16,12 +16,13 @@ class TestCompareXLSXFiles(ExcelComparisonTest):
     """
 
     def setUp(self):
+        self.set_filename("utf8_08.xlsx")
 
-        self.set_filename('utf8_08.xlsx')
-
-        self.ignore_files = ['xl/printerSettings/printerSettings1.bin',
-                             'xl/worksheets/_rels/sheet1.xml.rels']
-        self.ignore_elements = {'[Content_Types].xml': ['<Default Extension="bin"']}
+        self.ignore_files = [
+            "xl/printerSettings/printerSettings1.bin",
+            "xl/worksheets/_rels/sheet1.xml.rels",
+        ]
+        self.ignore_elements = {"[Content_Types].xml": ['<Default Extension="bin"']}
 
     def test_create_file(self):
         """Test the creation of an XlsxWriter file with utf-8 strings."""
@@ -30,10 +31,10 @@ class TestCompareXLSXFiles(ExcelComparisonTest):
 
         worksheet = workbook.add_worksheet()
 
-        worksheet.write('A1', 'Foo')
+        worksheet.write("A1", "Foo")
 
-        worksheet.set_header('&LCafé')
-        worksheet.set_footer('&Rclé')
+        worksheet.set_header("&LCafé")
+        worksheet.set_footer("&Rclé")
 
         worksheet.set_paper(9)
 

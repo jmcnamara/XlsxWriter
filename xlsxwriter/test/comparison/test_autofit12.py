@@ -17,12 +17,13 @@ class TestCompareXLSXFiles(ExcelComparisonTest):
     """
 
     def setUp(self):
+        self.set_filename("autofit12.xlsx")
 
-        self.set_filename('autofit12.xlsx')
-
-        self.ignore_files = ['xl/calcChain.xml',
-                             '[Content_Types].xml',
-                             'xl/_rels/workbook.xml.rels']
+        self.ignore_files = [
+            "xl/calcChain.xml",
+            "[Content_Types].xml",
+            "xl/_rels/workbook.xml.rels",
+        ]
 
     def test_create_file(self):
         """Test the creation of a simple XlsxWriter file."""
@@ -31,8 +32,7 @@ class TestCompareXLSXFiles(ExcelComparisonTest):
 
         worksheet = workbook.add_worksheet()
 
-        worksheet.write_array_formula(0, 0, 2, 0, '{=SUM(B1:C1*B2:C2)}',
-                                      None, 1000)
+        worksheet.write_array_formula(0, 0, 2, 0, "{=SUM(B1:C1*B2:C2)}", None, 1000)
 
         worksheet.write(0, 1, 20)
         worksheet.write(1, 1, 30)

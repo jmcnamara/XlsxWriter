@@ -17,10 +17,9 @@ class TestCompareXLSXFiles(ExcelComparisonTest):
     """
 
     def setUp(self):
+        self.set_filename("chart_axis03.xlsx")
 
-        self.set_filename('chart_axis03.xlsx')
-
-        self.ignore_elements = {'xl/charts/chart1.xml': ['<c:formatCode']}
+        self.ignore_elements = {"xl/charts/chart1.xml": ["<c:formatCode"]}
 
     def test_create_file(self):
         """Test the creation of a simple XlsxWriter file."""
@@ -28,8 +27,8 @@ class TestCompareXLSXFiles(ExcelComparisonTest):
         workbook = Workbook(self.got_filename)
 
         worksheet = workbook.add_worksheet()
-        chart = workbook.add_chart({'type': 'stock'})
-        date_format = workbook.add_format({'num_format': 14})
+        chart = workbook.add_chart({"type": "stock"})
+        date_format = workbook.add_format({"num_format": 14})
 
         chart.axis_ids = [65514112, 65556864]
 
@@ -46,28 +45,34 @@ class TestCompareXLSXFiles(ExcelComparisonTest):
             worksheet.write(row, 2, data[2][row])
             worksheet.write(row, 3, data[3][row])
 
-        worksheet.set_column('A:D', 11)
+        worksheet.set_column("A:D", 11)
 
-        chart.add_series({
-            'categories': '=Sheet1!$A$1:$A$5',
-            'values': '=Sheet1!$B$1:$B$5',
-        })
+        chart.add_series(
+            {
+                "categories": "=Sheet1!$A$1:$A$5",
+                "values": "=Sheet1!$B$1:$B$5",
+            }
+        )
 
-        chart.add_series({
-            'categories': '=Sheet1!$A$1:$A$5',
-            'values': '=Sheet1!$C$1:$C$5',
-        })
+        chart.add_series(
+            {
+                "categories": "=Sheet1!$A$1:$A$5",
+                "values": "=Sheet1!$C$1:$C$5",
+            }
+        )
 
-        chart.add_series({
-            'categories': '=Sheet1!$A$1:$A$5',
-            'values': '=Sheet1!$D$1:$D$5',
-        })
+        chart.add_series(
+            {
+                "categories": "=Sheet1!$A$1:$A$5",
+                "values": "=Sheet1!$D$1:$D$5",
+            }
+        )
 
-        chart.set_title({'name': 'Title'})
-        chart.set_x_axis({'name': 'XXX'})
-        chart.set_y_axis({'name': 'YYY'})
+        chart.set_title({"name": "Title"})
+        chart.set_x_axis({"name": "XXX"})
+        chart.set_y_axis({"name": "YYY"})
 
-        worksheet.insert_chart('E9', chart)
+        worksheet.insert_chart("E9", chart)
 
         workbook.close()
 

@@ -38,7 +38,7 @@ class TestWriteFont(unittest.TestCase):
 
     def test_write_font_2(self):
         """Test the _write_font() method. Bold."""
-        properties = {'bold': 1}
+        properties = {"bold": 1}
 
         xf_format = Format(properties)
 
@@ -51,7 +51,7 @@ class TestWriteFont(unittest.TestCase):
 
     def test_write_font_3(self):
         """Test the _write_font() method. Italic."""
-        properties = {'italic': 1}
+        properties = {"italic": 1}
 
         xf_format = Format(properties)
 
@@ -64,7 +64,7 @@ class TestWriteFont(unittest.TestCase):
 
     def test_write_font_4(self):
         """Test the _write_font() method. Underline."""
-        properties = {'underline': 1}
+        properties = {"underline": 1}
 
         xf_format = Format(properties)
 
@@ -77,7 +77,7 @@ class TestWriteFont(unittest.TestCase):
 
     def test_write_font_5(self):
         """Test the _write_font() method. Strikeout."""
-        properties = {'font_strikeout': 1}
+        properties = {"font_strikeout": 1}
 
         xf_format = Format(properties)
 
@@ -90,7 +90,7 @@ class TestWriteFont(unittest.TestCase):
 
     def test_write_font_6(self):
         """Test the _write_font() method. Superscript."""
-        properties = {'font_script': 1}
+        properties = {"font_script": 1}
 
         xf_format = Format(properties)
 
@@ -103,7 +103,7 @@ class TestWriteFont(unittest.TestCase):
 
     def test_write_font_7(self):
         """Test the _write_font() method. Subscript."""
-        properties = {'font_script': 2}
+        properties = {"font_script": 2}
 
         xf_format = Format(properties)
 
@@ -116,7 +116,7 @@ class TestWriteFont(unittest.TestCase):
 
     def test_write_font_8(self):
         """Test the _write_font() method. Font name."""
-        properties = {'font_name': 'Arial'}
+        properties = {"font_name": "Arial"}
 
         xf_format = Format(properties)
 
@@ -129,7 +129,7 @@ class TestWriteFont(unittest.TestCase):
 
     def test_write_font_9(self):
         """Test the _write_font() method. Font size."""
-        properties = {'size': 12}
+        properties = {"size": 12}
 
         xf_format = Format(properties)
 
@@ -142,7 +142,7 @@ class TestWriteFont(unittest.TestCase):
 
     def test_write_font_10(self):
         """Test the _write_font() method. Outline."""
-        properties = {'font_outline': 1}
+        properties = {"font_outline": 1}
 
         xf_format = Format(properties)
 
@@ -155,7 +155,7 @@ class TestWriteFont(unittest.TestCase):
 
     def test_write_font_11(self):
         """Test the _write_font() method. Shadow."""
-        properties = {'font_shadow': 1}
+        properties = {"font_shadow": 1}
 
         xf_format = Format(properties)
 
@@ -168,7 +168,7 @@ class TestWriteFont(unittest.TestCase):
 
     def test_write_font_12(self):
         """Test the _write_font() method. Colour = red."""
-        properties = {'color': '#FF0000'}
+        properties = {"color": "#FF0000"}
 
         xf_format = Format(properties)
 
@@ -182,15 +182,15 @@ class TestWriteFont(unittest.TestCase):
     def test_write_font_13(self):
         """Test the _write_font() method. All font attributes to check order."""
         properties = {
-            'bold': 1,
-            'color': '#FF0000',
-            'font_outline': 1,
-            'font_script': 1,
-            'font_shadow': 1,
-            'font_strikeout': 1,
-            'italic': 1,
-            'size': 12,
-            'underline': 1,
+            "bold": 1,
+            "color": "#FF0000",
+            "font_outline": 1,
+            "font_script": 1,
+            "font_shadow": 1,
+            "font_strikeout": 1,
+            "italic": 1,
+            "size": 12,
+            "underline": 1,
         }
 
         xf_format = Format(properties)
@@ -204,7 +204,7 @@ class TestWriteFont(unittest.TestCase):
 
     def test_write_font_14(self):
         """Test the _write_font() method. Double underline."""
-        properties = {'underline': 2}
+        properties = {"underline": 2}
 
         xf_format = Format(properties)
 
@@ -217,7 +217,7 @@ class TestWriteFont(unittest.TestCase):
 
     def test_write_font_15(self):
         """Test the _write_font() method. Double underline."""
-        properties = {'underline': 33}
+        properties = {"underline": 33}
 
         xf_format = Format(properties)
 
@@ -230,7 +230,7 @@ class TestWriteFont(unittest.TestCase):
 
     def test_write_font_16(self):
         """Test the _write_font() method. Double underline."""
-        properties = {'underline': 34}
+        properties = {"underline": 34}
 
         xf_format = Format(properties)
 
@@ -243,7 +243,7 @@ class TestWriteFont(unittest.TestCase):
 
     def test_write_font_17(self):
         """Test the _write_font() method. Hyperlink."""
-        properties = {'hyperlink': 1}
+        properties = {"hyperlink": 1}
 
         xf_format = Format(properties)
 

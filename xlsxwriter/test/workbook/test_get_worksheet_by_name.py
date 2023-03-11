@@ -16,6 +16,7 @@ class TestAssembleWorkbook(unittest.TestCase):
     Test assembling a complete Workbook file.
 
     """
+
     def test_get_worksheet_by_name01(self):
         """Test get_worksheet_by_name()"""
         fh = StringIO()
@@ -23,7 +24,7 @@ class TestAssembleWorkbook(unittest.TestCase):
         workbook._set_filehandle(fh)
 
         exp = workbook.add_worksheet()
-        got = workbook.get_worksheet_by_name('Sheet1')
+        got = workbook.get_worksheet_by_name("Sheet1")
         workbook.fileclosed = 1
 
         self.assertEqual(got, exp)
@@ -36,7 +37,7 @@ class TestAssembleWorkbook(unittest.TestCase):
 
         workbook.add_worksheet()
         exp = workbook.add_worksheet()
-        got = workbook.get_worksheet_by_name('Sheet2')
+        got = workbook.get_worksheet_by_name("Sheet2")
         workbook.fileclosed = 1
 
         self.assertEqual(got, exp)
@@ -47,8 +48,8 @@ class TestAssembleWorkbook(unittest.TestCase):
         workbook = Workbook()
         workbook._set_filehandle(fh)
 
-        exp = workbook.add_worksheet('Sheet 3')
-        got = workbook.get_worksheet_by_name('Sheet 3')
+        exp = workbook.add_worksheet("Sheet 3")
+        got = workbook.get_worksheet_by_name("Sheet 3")
         workbook.fileclosed = 1
 
         self.assertEqual(got, exp)

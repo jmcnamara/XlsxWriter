@@ -17,9 +17,8 @@ class TestCompareXLSXFiles(ExcelComparisonTest):
     """
 
     def setUp(self):
-
-        self.set_filename('autofilter00.xlsx')
-        self.set_text_file('autofilter_data.txt')
+        self.set_filename("autofilter00.xlsx")
+        self.set_text_file("autofilter_data.txt")
 
     def test_create_file(self):
         """

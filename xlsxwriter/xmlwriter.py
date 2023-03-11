@@ -36,7 +36,7 @@ class XMLwriter(object):
             self.fh = filename
         else:
             self.internal_fh = True
-            self.fh = open(filename, 'w', encoding='utf-8')
+            self.fh = open(filename, "w", encoding="utf-8")
 
     def _xml_close(self):
         # Close the XML filehandle if we created it.
@@ -45,8 +45,7 @@ class XMLwriter(object):
 
     def _xml_declaration(self):
         # Write the XML declaration.
-        self.fh.write(
-            """<?xml version="1.0" encoding="UTF-8" standalone="yes"?>\n""")
+        self.fh.write("""<?xml version="1.0" encoding="UTF-8" standalone="yes"?>\n""")
 
     def _xml_start_tag(self, tag, attributes=[]):
         # Write an XML start tag with optional attributes.
@@ -99,7 +98,7 @@ class XMLwriter(object):
 
     def _xml_string_element(self, index, attributes=[]):
         # Optimized tag writer for <c> cell string elements in the inner loop.
-        attr = ''
+        attr = ""
 
         for key, value in attributes:
             value = self._escape_attributes(value)
@@ -109,7 +108,7 @@ class XMLwriter(object):
 
     def _xml_si_element(self, string, attributes=[]):
         # Optimized tag writer for shared strings <si> elements.
-        attr = ''
+        attr = ""
 
         for key, value in attributes:
             value = self._escape_attributes(value)
@@ -126,7 +125,7 @@ class XMLwriter(object):
 
     def _xml_number_element(self, number, attributes=[]):
         # Optimized tag writer for <c> cell number elements in the inner loop.
-        attr = ''
+        attr = ""
 
         for key, value in attributes:
             value = self._escape_attributes(value)
@@ -136,20 +135,21 @@ class XMLwriter(object):
 
     def _xml_formula_element(self, formula, result, attributes=[]):
         # Optimized tag writer for <c> cell formula elements in the inner loop.
-        attr = ''
+        attr = ""
 
         for key, value in attributes:
             value = self._escape_attributes(value)
             attr += ' %s="%s"' % (key, value)
 
-        self.fh.write("""<c%s><f>%s</f><v>%s</v></c>"""
-                      % (attr, self._escape_data(formula),
-                         self._escape_data(result)))
+        self.fh.write(
+            """<c%s><f>%s</f><v>%s</v></c>"""
+            % (attr, self._escape_data(formula), self._escape_data(result))
+        )
 
     def _xml_inline_string(self, string, preserve, attributes=[]):
         # Optimized tag writer for inlineStr cell elements in the inner loop.
-        attr = ''
-        t_attr = ''
+        attr = ""
+        t_attr = ""
 
         # Set the <t> attribute to preserve whitespace.
         if preserve:
@@ -161,19 +161,19 @@ class XMLwriter(object):
 
         string = self._escape_data(string)
 
-        self.fh.write("""<c%s t="inlineStr"><is><t%s>%s</t></is></c>""" %
-                      (attr, t_attr, string))
+        self.fh.write(
+            """<c%s t="inlineStr"><is><t%s>%s</t></is></c>""" % (attr, t_attr, string)
+        )
 
     def _xml_rich_inline_string(self, string, attributes=[]):
         # Optimized tag writer for rich inlineStr in the inner loop.
-        attr = ''
+        attr = ""
 
         for key, value in attributes:
             value = self._escape_attributes(value)
             attr += ' %s="%s"' % (key, value)
 
-        self.fh.write("""<c%s t="inlineStr"><is>%s</is></c>""" %
-                      (attr, string))
+        self.fh.write("""<c%s t="inlineStr"><is>%s</is></c>""" % (attr, string))
 
     def _escape_attributes(self, attribute):
         # Escape XML characters in attributes.
@@ -184,12 +184,11 @@ class XMLwriter(object):
             return attribute
 
         attribute = (
-            attribute
-            .replace('&', '&amp;')
-            .replace('"', '&quot;')
-            .replace('<', '&lt;')
-            .replace('>', '&gt;')
-            .replace('\n', '&#xA;')
+            attribute.replace("&", "&amp;")
+            .replace('"', "&quot;")
+            .replace("<", "&lt;")
+            .replace(">", "&gt;")
+            .replace("\n", "&#xA;")
         )
         return attribute
 
@@ -203,10 +202,5 @@ class XMLwriter(object):
         except TypeError:
             return data
 
-        data = (
-            data
-            .replace('&', '&amp;')
-            .replace('<', '&lt;')
-            .replace('>', '&gt;')
-        )
+        data = data.replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;")
         return data

@@ -25,7 +25,7 @@ class TestWriteTableColumn(unittest.TestCase):
     def test_write_table_column(self):
         """Test the _write_table_column() method"""
 
-        self.table._write_table_column({'name': 'Column1', 'id': 1})
+        self.table._write_table_column({"name": "Column1", "id": 1})
 
         exp = """<tableColumn id="1" name="Column1"/>"""
         got = self.fh.getvalue()

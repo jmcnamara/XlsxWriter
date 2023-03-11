@@ -33,20 +33,21 @@ class ChartStock(chart.Chart):
         self.date_category = True
 
         # Override and reset the default axis values.
-        self.x_axis['defaults']['num_format'] = 'dd/mm/yyyy'
-        self.x2_axis['defaults']['num_format'] = 'dd/mm/yyyy'
+        self.x_axis["defaults"]["num_format"] = "dd/mm/yyyy"
+        self.x2_axis["defaults"]["num_format"] = "dd/mm/yyyy"
 
         # Set the available data label positions for this chart type.
-        self.label_position_default = 'right'
+        self.label_position_default = "right"
         self.label_positions = {
-            'center': 'ctr',
-            'right': 'r',
-            'left': 'l',
-            'above': 't',
-            'below': 'b',
+            "center": "ctr",
+            "right": "r",
+            "left": "l",
+            "above": "t",
+            "below": "b",
             # For backward compatibility.
-            'top': 't',
-            'bottom': 'b'}
+            "top": "t",
+            "bottom": "b",
+        }
 
         self.set_x_axis({})
         self.set_x2_axis({})
@@ -72,7 +73,7 @@ class ChartStock(chart.Chart):
         # Write the <c:stockChart> element.
         # Overridden to add hi_low_lines().
 
-        if args['primary_axes']:
+        if args["primary_axes"]:
             series = self._get_primary_axes_series()
         else:
             series = self._get_secondary_axes_series()
@@ -83,7 +84,7 @@ class ChartStock(chart.Chart):
         # Add default formatting to the series data.
         self._modify_series_formatting()
 
-        self._xml_start_tag('c:stockChart')
+        self._xml_start_tag("c:stockChart")
 
         # Write the series elements.
         for data in series:
@@ -93,7 +94,7 @@ class ChartStock(chart.Chart):
         self._write_drop_lines()
 
         # Write the c:hiLowLines element.
-        if args.get('primary_axes'):
+        if args.get("primary_axes"):
             self._write_hi_low_lines()
 
         # Write the c:upDownBars element.
@@ -102,7 +103,7 @@ class ChartStock(chart.Chart):
         # Write the c:axId elements
         self._write_axis_ids(args)
 
-        self._xml_end_tag('c:stockChart')
+        self._xml_end_tag("c:stockChart")
 
     def _modify_series_formatting(self):
         # Add default formatting to the series data.
@@ -111,15 +112,13 @@ class ChartStock(chart.Chart):
 
         for series in self.series:
             if index % 4 != 3:
-                if not series['line']['defined']:
-                    series['line'] = {'width': 2.25,
-                                      'none': 1,
-                                      'defined': 1}
+                if not series["line"]["defined"]:
+                    series["line"] = {"width": 2.25, "none": 1, "defined": 1}
 
-                if series['marker'] is None:
+                if series["marker"] is None:
                     if index % 4 == 2:
-                        series['marker'] = {'type': 'dot', 'size': 3}
+                        series["marker"] = {"type": "dot", "size": 3}
                     else:
-                        series['marker'] = {'type': 'none'}
+                        series["marker"] = {"type": "none"}
 
             index += 1

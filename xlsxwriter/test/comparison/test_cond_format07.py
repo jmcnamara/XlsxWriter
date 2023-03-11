@@ -17,8 +17,7 @@ class TestCompareXLSXFiles(ExcelComparisonTest):
     """
 
     def setUp(self):
-
-        self.set_filename('cond_format07.xlsx')
+        self.set_filename("cond_format07.xlsx")
 
     def test_create_file(self):
         """Test the creation of a simple XlsxWriter file with conditional formatting."""
@@ -27,8 +26,8 @@ class TestCompareXLSXFiles(ExcelComparisonTest):
 
         worksheet = workbook.add_worksheet()
 
-        format1 = workbook.add_format({'bg_color': '#FF0000', 'dxf_index': 1})
-        format2 = workbook.add_format({'bg_color': '#92D050', 'dxf_index': 0})
+        format1 = workbook.add_format({"bg_color": "#FF0000", "dxf_index": 1})
+        format2 = workbook.add_format({"bg_color": "#92D050", "dxf_index": 0})
 
         data = [
             [90, 80, 50, 10, 20, 90, 40, 90, 30, 40],
@@ -47,19 +46,25 @@ class TestCompareXLSXFiles(ExcelComparisonTest):
             worksheet.write_row(row, 0, row_data)
             row += 1
 
-        worksheet.conditional_format('A1:J10',
-                                     {'type': 'cell',
-                                      'format': format1,
-                                      'criteria': '>=',
-                                      'value': 50,
-                                      })
+        worksheet.conditional_format(
+            "A1:J10",
+            {
+                "type": "cell",
+                "format": format1,
+                "criteria": ">=",
+                "value": 50,
+            },
+        )
 
-        worksheet.conditional_format('A1:J10',
-                                     {'type': 'cell',
-                                      'format': format2,
-                                      'criteria': '<',
-                                      'value': 50,
-                                      })
+        worksheet.conditional_format(
+            "A1:J10",
+            {
+                "type": "cell",
+                "format": format2,
+                "criteria": "<",
+                "value": 50,
+            },
+        )
 
         workbook.close()
 

@@ -16,9 +16,10 @@ class TestCompareXLSXFiles(ExcelComparisonTest):
     """
 
     def setUp(self):
-
-        self.set_filename('print_options07.xlsx')
-        self.ignore_elements = {'xl/worksheets/sheet1.xml': ['<pageMargins', '<pageSetup']}
+        self.set_filename("print_options07.xlsx")
+        self.ignore_elements = {
+            "xl/worksheets/sheet1.xml": ["<pageMargins", "<pageSetup"]
+        }
 
     def test_create_file(self):
         """Test the creation of a simple XlsxWriter file with print options."""
@@ -27,7 +28,7 @@ class TestCompareXLSXFiles(ExcelComparisonTest):
 
         worksheet = workbook.add_worksheet()
 
-        worksheet.write(0, 0, 'Foo')
+        worksheet.write(0, 0, "Foo")
 
         worksheet.set_paper(9)
         worksheet.vertical_dpi = 200

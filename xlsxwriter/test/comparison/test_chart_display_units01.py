@@ -17,8 +17,7 @@ class TestCompareXLSXFiles(ExcelComparisonTest):
     """
 
     def setUp(self):
-
-        self.set_filename('chart_display_units01.xlsx')
+        self.set_filename("chart_display_units01.xlsx")
 
     def test_create_file(self):
         """Test the creation of a simple XlsxWriter file."""
@@ -26,7 +25,7 @@ class TestCompareXLSXFiles(ExcelComparisonTest):
         workbook = Workbook(self.got_filename)
 
         worksheet = workbook.add_worksheet()
-        chart = workbook.add_chart({'type': 'column'})
+        chart = workbook.add_chart({"type": "column"})
 
         chart.axis_ids = [69572096, 93549312]
 
@@ -36,9 +35,9 @@ class TestCompareXLSXFiles(ExcelComparisonTest):
 
         worksheet.write_column(0, 0, data[0])
 
-        chart.add_series({'values': '=Sheet1!$A$1:$A$5'})
+        chart.add_series({"values": "=Sheet1!$A$1:$A$5"})
 
-        worksheet.insert_chart('E9', chart)
+        worksheet.insert_chart("E9", chart)
 
         workbook.close()
 

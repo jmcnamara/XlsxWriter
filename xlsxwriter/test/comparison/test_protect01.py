@@ -17,8 +17,7 @@ class TestCompareXLSXFiles(ExcelComparisonTest):
     """
 
     def setUp(self):
-
-        self.set_filename('protect01.xlsx')
+        self.set_filename("protect01.xlsx")
 
     def test_create_file(self):
         """Test the a simple XlsxWriter file with worksheet protection."""
@@ -27,12 +26,12 @@ class TestCompareXLSXFiles(ExcelComparisonTest):
 
         worksheet = workbook.add_worksheet()
 
-        unlocked = workbook.add_format({'locked': 0, 'hidden': 0})
-        hidden = workbook.add_format({'locked': 0, 'hidden': 1})
+        unlocked = workbook.add_format({"locked": 0, "hidden": 0})
+        hidden = workbook.add_format({"locked": 0, "hidden": 1})
 
-        worksheet.write('A1', 1)
-        worksheet.write('A2', 2, unlocked)
-        worksheet.write('A3', 3, hidden)
+        worksheet.write("A1", 1)
+        worksheet.write("A2", 2, unlocked)
+        worksheet.write("A3", 3, hidden)
 
         workbook.close()
 

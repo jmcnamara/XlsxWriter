@@ -16,8 +16,7 @@ class TestCompareXLSXFiles(ExcelComparisonTest):
     """
 
     def setUp(self):
-
-        self.set_filename('utf8_01.xlsx')
+        self.set_filename("utf8_01.xlsx")
 
     def test_create_file(self):
         """Test the creation of an XlsxWriter file with utf-8 strings."""
@@ -26,7 +25,7 @@ class TestCompareXLSXFiles(ExcelComparisonTest):
 
         worksheet = workbook.add_worksheet()
 
-        worksheet.write('A1', 'Это фраза на русском!')
+        worksheet.write("A1", "Это фраза на русском!")
 
         workbook.close()
 

@@ -63,8 +63,7 @@ class MyWorksheet(Worksheet):
                 self.max_column_widths[col] = string_width
 
         # Now call the parent version of write_string() as usual.
-        return super(MyWorksheet, self).write_string(row, col, string,
-                                                     cell_format)
+        return super(MyWorksheet, self).write_string(row, col, string, cell_format)
 
 
 class MyWorkbook(Workbook):
@@ -95,25 +94,25 @@ class MyWorkbook(Workbook):
 
 
 # Create a new MyWorkbook object.
-workbook = MyWorkbook('inheritance2.xlsx')
+workbook = MyWorkbook("inheritance2.xlsx")
 
 # The code from now on will be the same as a normal "Workbook" program.
 worksheet = workbook.add_worksheet()
 
 # Write some data to test column fitting.
-worksheet.write('A1', 'F')
+worksheet.write("A1", "F")
 
-worksheet.write('B3', 'Foo')
+worksheet.write("B3", "Foo")
 
-worksheet.write('C1', 'F')
-worksheet.write('C2', 'Fo')
-worksheet.write('C3', 'Foo')
-worksheet.write('C4', 'Food')
+worksheet.write("C1", "F")
+worksheet.write("C2", "Fo")
+worksheet.write("C3", "Foo")
+worksheet.write("C4", "Food")
 
-worksheet.write('D1', 'This is a longer string')
+worksheet.write("D1", "This is a longer string")
 
 # Write a string in row-col notation.
-worksheet.write(0, 4, 'Hello World')
+worksheet.write(0, 4, "Hello World")
 
 # Write a number.
 worksheet.write(0, 5, 123456)

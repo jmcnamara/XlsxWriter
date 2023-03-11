@@ -9,12 +9,12 @@
 #
 import xlsxwriter
 
-workbook = xlsxwriter.Workbook('hide_row_col.xlsx')
+workbook = xlsxwriter.Workbook("hide_row_col.xlsx")
 worksheet = workbook.add_worksheet()
 
 # Write some data.
-worksheet.write('D1', 'Some hidden columns.')
-worksheet.write('A8', 'Some hidden rows.')
+worksheet.write("D1", "Some hidden columns.")
+worksheet.write("A8", "Some hidden rows.")
 
 # Hide all rows without data.
 worksheet.set_default_row(hide_unused_rows=True)
@@ -25,6 +25,6 @@ for row in range(1, 7):
     worksheet.set_row(row, 15)
 
 # Columns can be hidden explicitly. This doesn't increase the file size..
-worksheet.set_column('G:XFD', None, None, {'hidden': True})
+worksheet.set_column("G:XFD", None, None, {"hidden": True})
 
 workbook.close()

@@ -13,43 +13,45 @@
 #
 import xlsxwriter
 
-workbook = xlsxwriter.Workbook('chart_doughnut.xlsx')
+workbook = xlsxwriter.Workbook("chart_doughnut.xlsx")
 
 worksheet = workbook.add_worksheet()
-bold = workbook.add_format({'bold': 1})
+bold = workbook.add_format({"bold": 1})
 
 # Add the worksheet data that the charts will refer to.
-headings = ['Category', 'Values']
+headings = ["Category", "Values"]
 data = [
-    ['Glazed', 'Chocolate', 'Cream'],
+    ["Glazed", "Chocolate", "Cream"],
     [50, 35, 15],
 ]
 
-worksheet.write_row('A1', headings, bold)
-worksheet.write_column('A2', data[0])
-worksheet.write_column('B2', data[1])
+worksheet.write_row("A1", headings, bold)
+worksheet.write_column("A2", data[0])
+worksheet.write_column("B2", data[1])
 
 #######################################################################
 #
 # Create a new chart object.
 #
-chart1 = workbook.add_chart({'type': 'doughnut'})
+chart1 = workbook.add_chart({"type": "doughnut"})
 
 # Configure the series. Note the use of the list syntax to define ranges:
-chart1.add_series({
-    'name':       'Doughnut sales data',
-    'categories': ['Sheet1', 1, 0, 3, 0],
-    'values':     ['Sheet1', 1, 1, 3, 1],
-})
+chart1.add_series(
+    {
+        "name": "Doughnut sales data",
+        "categories": ["Sheet1", 1, 0, 3, 0],
+        "values": ["Sheet1", 1, 1, 3, 1],
+    }
+)
 
 # Add a title.
-chart1.set_title({'name': 'Popular Doughnut Types'})
+chart1.set_title({"name": "Popular Doughnut Types"})
 
 # Set an Excel chart style. Colors with white outline and shadow.
 chart1.set_style(10)
 
 # Insert the chart into the worksheet (with an offset).
-worksheet.insert_chart('C2', chart1, {'x_offset': 25, 'y_offset': 10})
+worksheet.insert_chart("C2", chart1, {"x_offset": 25, "y_offset": 10})
 
 #######################################################################
 #
@@ -57,25 +59,27 @@ worksheet.insert_chart('C2', chart1, {'x_offset': 25, 'y_offset': 10})
 #
 
 # Create an example Doughnut chart like above.
-chart2 = workbook.add_chart({'type': 'doughnut'})
+chart2 = workbook.add_chart({"type": "doughnut"})
 
 # Configure the series and add user defined segment colors.
-chart2.add_series({
-    'name': 'Doughnut sales data',
-    'categories': '=Sheet1!$A$2:$A$4',
-    'values':     '=Sheet1!$B$2:$B$4',
-    'points': [
-        {'fill': {'color': '#FA58D0'}},
-        {'fill': {'color': '#61210B'}},
-        {'fill': {'color': '#F5F6CE'}},
-    ],
-})
+chart2.add_series(
+    {
+        "name": "Doughnut sales data",
+        "categories": "=Sheet1!$A$2:$A$4",
+        "values": "=Sheet1!$B$2:$B$4",
+        "points": [
+            {"fill": {"color": "#FA58D0"}},
+            {"fill": {"color": "#61210B"}},
+            {"fill": {"color": "#F5F6CE"}},
+        ],
+    }
+)
 
 # Add a title.
-chart2.set_title({'name': 'Doughnut Chart with user defined colors'})
+chart2.set_title({"name": "Doughnut Chart with user defined colors"})
 
 # Insert the chart into the worksheet (with an offset).
-worksheet.insert_chart('C18', chart2, {'x_offset': 25, 'y_offset': 10})
+worksheet.insert_chart("C18", chart2, {"x_offset": 25, "y_offset": 10})
 
 #######################################################################
 #
@@ -83,23 +87,25 @@ worksheet.insert_chart('C18', chart2, {'x_offset': 25, 'y_offset': 10})
 #
 
 # Create an example Doughnut chart like above.
-chart3 = workbook.add_chart({'type': 'doughnut'})
+chart3 = workbook.add_chart({"type": "doughnut"})
 
 # Configure the series.
-chart3.add_series({
-    'name': 'Doughnut sales data',
-    'categories': '=Sheet1!$A$2:$A$4',
-    'values':     '=Sheet1!$B$2:$B$4',
-})
+chart3.add_series(
+    {
+        "name": "Doughnut sales data",
+        "categories": "=Sheet1!$A$2:$A$4",
+        "values": "=Sheet1!$B$2:$B$4",
+    }
+)
 
 # Add a title.
-chart3.set_title({'name': 'Doughnut Chart with segment rotation'})
+chart3.set_title({"name": "Doughnut Chart with segment rotation"})
 
 # Change the angle/rotation of the first segment.
 chart3.set_rotation(90)
 
 # Insert the chart into the worksheet (with an offset).
-worksheet.insert_chart('C34', chart3, {'x_offset': 25, 'y_offset': 10})
+worksheet.insert_chart("C34", chart3, {"x_offset": 25, "y_offset": 10})
 
 
 #######################################################################
@@ -108,25 +114,27 @@ worksheet.insert_chart('C34', chart3, {'x_offset': 25, 'y_offset': 10})
 #
 
 # Create an example Doughnut chart like above.
-chart4 = workbook.add_chart({'type': 'doughnut'})
+chart4 = workbook.add_chart({"type": "doughnut"})
 
 # Configure the series.
-chart4.add_series({
-    'name': 'Doughnut sales data',
-    'categories': '=Sheet1!$A$2:$A$4',
-    'values':     '=Sheet1!$B$2:$B$4',
-    'points': [
-        {'fill': {'color': '#FA58D0'}},
-        {'fill': {'color': '#61210B'}},
-        {'fill': {'color': '#F5F6CE'}},
-    ],
-})
+chart4.add_series(
+    {
+        "name": "Doughnut sales data",
+        "categories": "=Sheet1!$A$2:$A$4",
+        "values": "=Sheet1!$B$2:$B$4",
+        "points": [
+            {"fill": {"color": "#FA58D0"}},
+            {"fill": {"color": "#61210B"}},
+            {"fill": {"color": "#F5F6CE"}},
+        ],
+    }
+)
 
 # Set a 3D style.
 chart4.set_style(26)
 
 # Add a title.
-chart4.set_title({'name': 'Doughnut Chart with options applied'})
+chart4.set_title({"name": "Doughnut Chart with options applied"})
 
 # Change the angle/rotation of the first segment.
 chart4.set_rotation(28)
@@ -135,7 +143,7 @@ chart4.set_rotation(28)
 chart4.set_hole_size(33)
 
 # Insert the chart into the worksheet (with an offset).
-worksheet.insert_chart('C50', chart4, {'x_offset': 25, 'y_offset': 10})
+worksheet.insert_chart("C50", chart4, {"x_offset": 25, "y_offset": 10})
 
 
 workbook.close()

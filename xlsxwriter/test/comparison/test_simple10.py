@@ -17,8 +17,7 @@ class TestCompareXLSXFiles(ExcelComparisonTest):
     """
 
     def setUp(self):
-
-        self.set_filename('simple01.xlsx')
+        self.set_filename("simple01.xlsx")
 
     def test_close_file_twice(self):
         """Test warning when closing workbook more than once."""
@@ -26,7 +25,7 @@ class TestCompareXLSXFiles(ExcelComparisonTest):
         workbook = Workbook(self.got_filename)
         worksheet = workbook.add_worksheet()
 
-        worksheet.write_string(0, 0, 'Hello')
+        worksheet.write_string(0, 0, "Hello")
         worksheet.write_number(1, 0, 123)
 
         workbook.close()

@@ -17,13 +17,12 @@ class TestCompareXLSXFiles(ExcelComparisonTest):
     """
 
     def setUp(self):
-
-        self.set_filename('excel2003_style01.xlsx')
+        self.set_filename("excel2003_style01.xlsx")
 
     def test_create_file(self):
         """Test the creation of a simple XlsxWriter file."""
 
-        workbook = Workbook(self.got_filename, {'excel2003_style': True})
+        workbook = Workbook(self.got_filename, {"excel2003_style": True})
         workbook.add_worksheet()
 
         workbook.close()

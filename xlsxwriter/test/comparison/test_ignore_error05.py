@@ -17,10 +17,13 @@ class TestCompareXLSXFiles(ExcelComparisonTest):
     """
 
     def setUp(self):
+        self.set_filename("ignore_error05.xlsx")
 
-        self.set_filename('ignore_error05.xlsx')
-
-        self.ignore_files = ['xl/calcChain.xml', '[Content_Types].xml', 'xl/_rels/workbook.xml.rels']
+        self.ignore_files = [
+            "xl/calcChain.xml",
+            "[Content_Types].xml",
+            "xl/_rels/workbook.xml.rels",
+        ]
 
     def test_create_file(self):
         """Test the creation of a simple XlsxWriter file."""
@@ -29,10 +32,10 @@ class TestCompareXLSXFiles(ExcelComparisonTest):
 
         worksheet = workbook.add_worksheet()
 
-        worksheet.write_string('A1', '123')
-        worksheet.write_formula('A2', '=1/0', None, '#DIV/0!')
+        worksheet.write_string("A1", "123")
+        worksheet.write_formula("A2", "=1/0", None, "#DIV/0!")
 
-        worksheet.ignore_errors({'number_stored_as_text': 'A1', 'eval_error': 'A2'})
+        worksheet.ignore_errors({"number_stored_as_text": "A1", "eval_error": "A2"})
 
         workbook.close()
 

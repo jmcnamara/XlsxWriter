@@ -17,8 +17,7 @@ class TestCompareXLSXFiles(ExcelComparisonTest):
     """
 
     def setUp(self):
-
-        self.set_filename('textbox35.xlsx')
+        self.set_filename("textbox35.xlsx")
 
     def test_create_file(self):
         """Test the creation of a simple XlsxWriter file with textbox(s)."""
@@ -27,7 +26,7 @@ class TestCompareXLSXFiles(ExcelComparisonTest):
 
         worksheet = workbook.add_worksheet()
 
-        worksheet.insert_textbox('E9', 'This is some text', {'text_rotation': -90})
+        worksheet.insert_textbox("E9", "This is some text", {"text_rotation": -90})
 
         workbook.close()
 

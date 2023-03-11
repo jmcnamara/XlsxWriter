@@ -17,8 +17,7 @@ class TestCompareXLSXFiles(ExcelComparisonTest):
     """
 
     def setUp(self):
-
-        self.set_filename('hyperlink04.xlsx')
+        self.set_filename("hyperlink04.xlsx")
 
     def test_create_file(self):
         """Test the creation of a simple XlsxWriter file with hyperlinks."""
@@ -30,15 +29,17 @@ class TestCompareXLSXFiles(ExcelComparisonTest):
 
         worksheet1 = workbook.add_worksheet()
         worksheet2 = workbook.add_worksheet()
-        worksheet3 = workbook.add_worksheet('Data Sheet')
+        worksheet3 = workbook.add_worksheet("Data Sheet")
 
-        worksheet1.write_url('A1', "internal:Sheet2!A1")
-        worksheet1.write_url('A3', "internal:Sheet2!A1:A5")
-        worksheet1.write_url('A5', "internal:'Data Sheet'!D5", None, 'Some text')
-        worksheet1.write_url('E12', "internal:Sheet1!J1")
-        worksheet1.write_url('G17', "internal:Sheet2!A1", None, 'Some text')
-        worksheet1.write_url('A18', "internal:Sheet2!A1", None, None, 'Tool Tip 1')
-        worksheet1.write_url('A20', "internal:Sheet2!A1", None, 'More text', 'Tool Tip 2')
+        worksheet1.write_url("A1", "internal:Sheet2!A1")
+        worksheet1.write_url("A3", "internal:Sheet2!A1:A5")
+        worksheet1.write_url("A5", "internal:'Data Sheet'!D5", None, "Some text")
+        worksheet1.write_url("E12", "internal:Sheet1!J1")
+        worksheet1.write_url("G17", "internal:Sheet2!A1", None, "Some text")
+        worksheet1.write_url("A18", "internal:Sheet2!A1", None, None, "Tool Tip 1")
+        worksheet1.write_url(
+            "A20", "internal:Sheet2!A1", None, "More text", "Tool Tip 2"
+        )
 
         workbook.close()
 
@@ -54,15 +55,15 @@ class TestCompareXLSXFiles(ExcelComparisonTest):
 
         worksheet1 = workbook.add_worksheet()
         worksheet2 = workbook.add_worksheet()
-        worksheet3 = workbook.add_worksheet('Data Sheet')
+        worksheet3 = workbook.add_worksheet("Data Sheet")
 
-        worksheet1.write('A1', "internal:Sheet2!A1")
-        worksheet1.write('A3', "internal:Sheet2!A1:A5")
-        worksheet1.write('A5', "internal:'Data Sheet'!D5", None, 'Some text')
-        worksheet1.write('E12', "internal:Sheet1!J1")
-        worksheet1.write('G17', "internal:Sheet2!A1", None, 'Some text')
-        worksheet1.write('A18', "internal:Sheet2!A1", None, None, 'Tool Tip 1')
-        worksheet1.write('A20', "internal:Sheet2!A1", None, 'More text', 'Tool Tip 2')
+        worksheet1.write("A1", "internal:Sheet2!A1")
+        worksheet1.write("A3", "internal:Sheet2!A1:A5")
+        worksheet1.write("A5", "internal:'Data Sheet'!D5", None, "Some text")
+        worksheet1.write("E12", "internal:Sheet1!J1")
+        worksheet1.write("G17", "internal:Sheet2!A1", None, "Some text")
+        worksheet1.write("A18", "internal:Sheet2!A1", None, None, "Tool Tip 1")
+        worksheet1.write("A20", "internal:Sheet2!A1", None, "More text", "Tool Tip 2")
 
         workbook.close()
 

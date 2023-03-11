@@ -17,8 +17,7 @@ class TestCompareXLSXFiles(ExcelComparisonTest):
     """
 
     def setUp(self):
-
-        self.set_filename('format14.xlsx')
+        self.set_filename("format14.xlsx")
 
     def test_create_file(self):
         """Test the center across format."""
@@ -30,7 +29,7 @@ class TestCompareXLSXFiles(ExcelComparisonTest):
 
         center.set_center_across()
 
-        worksheet.write('A1', 'foo', center)
+        worksheet.write("A1", "foo", center)
 
         workbook.close()
 
@@ -44,7 +43,7 @@ class TestCompareXLSXFiles(ExcelComparisonTest):
         worksheet = workbook.add_worksheet()
         center = workbook.add_format({"center_across": True})
 
-        worksheet.write('A1', 'foo', center)
+        worksheet.write("A1", "foo", center)
 
         workbook.close()
 

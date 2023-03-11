@@ -17,22 +17,26 @@ class TestCompareXLSXFiles(ExcelComparisonTest):
     """
 
     def setUp(self):
+        self.set_filename("excel2003_style05.xlsx")
 
-        self.set_filename('excel2003_style05.xlsx')
-
-        self.ignore_elements = {'xl/drawings/drawing1.xml':
-                                ['<xdr:cNvPr', '<a:picLocks',
-                                 '<a:srcRect/>', '<xdr:spPr',
-                                 '<a:noFill/>']}
+        self.ignore_elements = {
+            "xl/drawings/drawing1.xml": [
+                "<xdr:cNvPr",
+                "<a:picLocks",
+                "<a:srcRect/>",
+                "<xdr:spPr",
+                "<a:noFill/>",
+            ]
+        }
 
     def test_create_file(self):
         """Test the creation of a simple XlsxWriter file."""
 
-        workbook = Workbook(self.got_filename, {'excel2003_style': True})
+        workbook = Workbook(self.got_filename, {"excel2003_style": True})
 
         worksheet = workbook.add_worksheet()
 
-        worksheet.insert_image('B3', self.image_dir + 'red.jpg')
+        worksheet.insert_image("B3", self.image_dir + "red.jpg")
 
         workbook.close()
 

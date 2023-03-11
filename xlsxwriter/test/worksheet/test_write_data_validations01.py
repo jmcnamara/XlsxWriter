@@ -27,10 +27,14 @@ class TestWriteDataValidations(unittest.TestCase):
     def test_write_data_validations_1(self):
         """Test the _write_data_validations() method. Data validation example 1 from docs"""
 
-        self.worksheet.data_validation('A1', {'validate': 'integer',
-                                              'criteria': '>',
-                                              'value': 0,
-                                              })
+        self.worksheet.data_validation(
+            "A1",
+            {
+                "validate": "integer",
+                "criteria": ">",
+                "value": 0,
+            },
+        )
 
         self.worksheet._write_data_validations()
 
@@ -45,13 +49,17 @@ class TestWriteDataValidations(unittest.TestCase):
     def test_write_data_validations_1b(self):
         """Test the _write_data_validations() method. Data validation example 1 from docs (with options turned off)"""
 
-        self.worksheet.data_validation('A1', {'validate': 'integer',
-                                              'criteria': '>',
-                                              'value': 0,
-                                              'ignore_blank': 0,
-                                              'show_input': 0,
-                                              'show_error': 0,
-                                              })
+        self.worksheet.data_validation(
+            "A1",
+            {
+                "validate": "integer",
+                "criteria": ">",
+                "value": 0,
+                "ignore_blank": 0,
+                "show_input": 0,
+                "show_error": 0,
+            },
+        )
 
         self.worksheet._write_data_validations()
 
@@ -66,10 +74,14 @@ class TestWriteDataValidations(unittest.TestCase):
     def test_write_data_validations_2(self):
         """Test the _write_data_validations() method. Data validation example 2 from docs"""
 
-        self.worksheet.data_validation('A2', {'validate': 'integer',
-                                              'criteria': '>',
-                                              'value': '=E3',
-                                              })
+        self.worksheet.data_validation(
+            "A2",
+            {
+                "validate": "integer",
+                "criteria": ">",
+                "value": "=E3",
+            },
+        )
 
         self.worksheet._write_data_validations()
 
@@ -84,11 +96,15 @@ class TestWriteDataValidations(unittest.TestCase):
     def test_write_data_validations_3(self):
         """Test the _write_data_validations() method. Data validation example 3 from docs"""
 
-        self.worksheet.data_validation('A3', {'validate': 'decimal',
-                                              'criteria': 'between',
-                                              'minimum': 0.1,
-                                              'maximum': 0.5,
-                                              })
+        self.worksheet.data_validation(
+            "A3",
+            {
+                "validate": "decimal",
+                "criteria": "between",
+                "minimum": 0.1,
+                "maximum": 0.5,
+            },
+        )
 
         self.worksheet._write_data_validations()
 
@@ -103,9 +119,13 @@ class TestWriteDataValidations(unittest.TestCase):
     def test_write_data_validations_4(self):
         """Test the _write_data_validations() method. Data validation example 4 from docs"""
 
-        self.worksheet.data_validation('A4', {'validate': 'list',
-                                              'source': ['open', 'high', 'close'],
-                                              })
+        self.worksheet.data_validation(
+            "A4",
+            {
+                "validate": "list",
+                "source": ["open", "high", "close"],
+            },
+        )
 
         self.worksheet._write_data_validations()
 
@@ -120,9 +140,13 @@ class TestWriteDataValidations(unittest.TestCase):
     def test_write_data_validations_5(self):
         """Test the _write_data_validations() method. Data validation example 5 from docs"""
 
-        self.worksheet.data_validation('A5', {'validate': 'list',
-                                              'source': '=$E$4:$G$4',
-                                              })
+        self.worksheet.data_validation(
+            "A5",
+            {
+                "validate": "list",
+                "source": "=$E$4:$G$4",
+            },
+        )
 
         self.worksheet._write_data_validations()
 
@@ -137,11 +161,15 @@ class TestWriteDataValidations(unittest.TestCase):
     def test_write_data_validations_6(self):
         """Test the _write_data_validations() method. Data validation example 6 from docs"""
 
-        self.worksheet.data_validation('A6', {'validate': 'date',
-                                              'criteria': 'between',
-                                              'minimum': date(2008, 1, 1),
-                                              'maximum': date(2008, 12, 12),
-                                              })
+        self.worksheet.data_validation(
+            "A6",
+            {
+                "validate": "date",
+                "criteria": "between",
+                "minimum": date(2008, 1, 1),
+                "maximum": date(2008, 12, 12),
+            },
+        )
 
         self.worksheet._write_data_validations()
 
@@ -156,13 +184,17 @@ class TestWriteDataValidations(unittest.TestCase):
     def test_write_data_validations_7(self):
         """Test the _write_data_validations() method. Data validation example 7 from docs"""
 
-        self.worksheet.data_validation('A7', {'validate': 'integer',
-                                              'criteria': 'between',
-                                              'minimum': 1,
-                                              'maximum': 100,
-                                              'input_title': 'Enter an integer:',
-                                              'input_message': 'between 1 and 100',
-                                              })
+        self.worksheet.data_validation(
+            "A7",
+            {
+                "validate": "integer",
+                "criteria": "between",
+                "minimum": 1,
+                "maximum": 100,
+                "input_title": "Enter an integer:",
+                "input_message": "between 1 and 100",
+            },
+        )
 
         self.worksheet._write_data_validations()
 

@@ -17,8 +17,7 @@ class TestCompareXLSXFiles(ExcelComparisonTest):
     """
 
     def setUp(self):
-
-        self.set_filename('autofit06.xlsx')
+        self.set_filename("autofit06.xlsx")
 
     def test_create_file(self):
         """Test the creation of a simple XlsxWriter file."""

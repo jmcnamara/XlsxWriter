@@ -17,8 +17,7 @@ class TestCompareXLSXFiles(ExcelComparisonTest):
     """
 
     def setUp(self):
-
-        self.set_filename('cond_format10.xlsx')
+        self.set_filename("cond_format10.xlsx")
 
     def test_create_file(self):
         """Test the creation of a simple XlsxWriter file with conditional formatting."""
@@ -27,21 +26,24 @@ class TestCompareXLSXFiles(ExcelComparisonTest):
 
         worksheet = workbook.add_worksheet()
 
-        format1 = workbook.add_format({'bold': 1, 'italic': 1})
+        format1 = workbook.add_format({"bold": 1, "italic": 1})
 
-        worksheet.write('A1', 'Hello', format1)
+        worksheet.write("A1", "Hello", format1)
 
-        worksheet.write('B3', 10)
-        worksheet.write('B4', 20)
-        worksheet.write('B5', 30)
-        worksheet.write('B6', 40)
+        worksheet.write("B3", 10)
+        worksheet.write("B4", 20)
+        worksheet.write("B5", 30)
+        worksheet.write("B6", 40)
 
-        worksheet.conditional_format('B3:B6',
-                                     {'type': 'cell',
-                                      'format': format1,
-                                      'criteria': 'greater than',
-                                      'value': 20
-                                      })
+        worksheet.conditional_format(
+            "B3:B6",
+            {
+                "type": "cell",
+                "format": format1,
+                "criteria": "greater than",
+                "value": 20,
+            },
+        )
 
         workbook.close()
 

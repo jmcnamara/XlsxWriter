@@ -17,8 +17,7 @@ class TestCompareXLSXFiles(ExcelComparisonTest):
     """
 
     def setUp(self):
-
-        self.set_filename('hyperlink49.xlsx')
+        self.set_filename("hyperlink49.xlsx")
 
     def test_create_file(self):
         """Test the creation of a simple XlsxWriter file with image(s)."""
@@ -27,11 +26,11 @@ class TestCompareXLSXFiles(ExcelComparisonTest):
 
         worksheet = workbook.add_worksheet()
 
-        worksheet.write_url('A1', 'https://github.com/jmcnamara')
+        worksheet.write_url("A1", "https://github.com/jmcnamara")
 
-        worksheet.insert_image('E9',
-                               self.image_dir + 'red.png',
-                               {'url': 'https://github.com/jmcnamara'})
+        worksheet.insert_image(
+            "E9", self.image_dir + "red.png", {"url": "https://github.com/jmcnamara"}
+        )
 
         workbook.close()
 

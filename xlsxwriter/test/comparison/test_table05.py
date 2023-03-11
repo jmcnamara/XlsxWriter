@@ -17,8 +17,7 @@ class TestCompareXLSXFiles(ExcelComparisonTest):
     """
 
     def setUp(self):
-
-        self.set_filename('table05.xlsx')
+        self.set_filename("table05.xlsx")
 
     def test_create_file(self):
         """Test the creation of a simple XlsxWriter file with tables."""
@@ -30,17 +29,17 @@ class TestCompareXLSXFiles(ExcelComparisonTest):
 
         worksheet = workbook.add_worksheet()
 
-        worksheet.set_column('C:F', 10.288)
+        worksheet.set_column("C:F", 10.288)
 
-        worksheet.add_table('C3:F13')
+        worksheet.add_table("C3:F13")
 
-        worksheet.write('A1', 'http://perl.com/')
+        worksheet.write("A1", "http://perl.com/")
 
-        worksheet.set_comments_author('John')
-        worksheet.write_comment('H1', 'Test1')
-        worksheet.write_comment('J1', 'Test2')
+        worksheet.set_comments_author("John")
+        worksheet.write_comment("H1", "Test1")
+        worksheet.write_comment("J1", "Test2")
 
-        worksheet.insert_image('A4', self.image_dir + 'blue.png')
+        worksheet.insert_image("A4", self.image_dir + "blue.png")
 
         workbook.close()
 

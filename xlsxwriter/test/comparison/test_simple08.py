@@ -17,8 +17,7 @@ class TestCompareXLSXFiles(ExcelComparisonTest):
     """
 
     def setUp(self):
-
-        self.set_filename('simple08.xlsx')
+        self.set_filename("simple08.xlsx")
 
     def test_create_file(self):
         """Test '0' number format. GH103."""
@@ -27,7 +26,7 @@ class TestCompareXLSXFiles(ExcelComparisonTest):
 
         worksheet = workbook.add_worksheet()
 
-        format1 = workbook.add_format({'num_format': 1})
+        format1 = workbook.add_format({"num_format": 1})
 
         worksheet.write(0, 0, 1.23, format1)
 

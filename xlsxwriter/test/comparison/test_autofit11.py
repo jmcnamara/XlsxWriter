@@ -17,12 +17,13 @@ class TestCompareXLSXFiles(ExcelComparisonTest):
     """
 
     def setUp(self):
+        self.set_filename("autofit11.xlsx")
 
-        self.set_filename('autofit11.xlsx')
-
-        self.ignore_files = ['xl/calcChain.xml',
-                             '[Content_Types].xml',
-                             'xl/_rels/workbook.xml.rels']
+        self.ignore_files = [
+            "xl/calcChain.xml",
+            "[Content_Types].xml",
+            "xl/_rels/workbook.xml.rels",
+        ]
 
     def test_create_file(self):
         """Test the creation of a simple XlsxWriter file."""

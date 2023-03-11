@@ -17,8 +17,7 @@ class TestCompareXLSXFiles(ExcelComparisonTest):
     """
 
     def setUp(self):
-
-        self.set_filename('types01.xlsx')
+        self.set_filename("types01.xlsx")
 
     def test_write_number_as_text(self):
         """Test writing numbers as text."""
@@ -26,8 +25,8 @@ class TestCompareXLSXFiles(ExcelComparisonTest):
         workbook = Workbook(self.got_filename)
         worksheet = workbook.add_worksheet()
 
-        worksheet.write_string(0, 0, 'Hello')
-        worksheet.write_string(1, 0, '123')
+        worksheet.write_string(0, 0, "Hello")
+        worksheet.write_string(1, 0, "123")
 
         workbook.close()
 
@@ -36,11 +35,11 @@ class TestCompareXLSXFiles(ExcelComparisonTest):
     def test_write_number_as_text_with_write(self):
         """Test writing numbers as text using write() without conversion."""
 
-        workbook = Workbook(self.got_filename, {'strings_to_numbers': False})
+        workbook = Workbook(self.got_filename, {"strings_to_numbers": False})
         worksheet = workbook.add_worksheet()
 
-        worksheet.write(0, 0, 'Hello')
-        worksheet.write(1, 0, '123')
+        worksheet.write(0, 0, "Hello")
+        worksheet.write(1, 0, "123")
 
         workbook.close()
 

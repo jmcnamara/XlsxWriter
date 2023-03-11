@@ -17,8 +17,7 @@ class TestCompareXLSXFiles(ExcelComparisonTest):
     """
 
     def setUp(self):
-
-        self.set_filename('table25.xlsx')
+        self.set_filename("table25.xlsx")
 
     def test_create_file_style_is_none(self):
         """Test the creation of a simple XlsxWriter file with tables."""
@@ -27,9 +26,9 @@ class TestCompareXLSXFiles(ExcelComparisonTest):
 
         worksheet = workbook.add_worksheet()
 
-        worksheet.set_column('C:F', 10.288)
+        worksheet.set_column("C:F", 10.288)
 
-        worksheet.add_table('C3:F13', {'style': None})
+        worksheet.add_table("C3:F13", {"style": None})
 
         workbook.close()
 
@@ -42,9 +41,9 @@ class TestCompareXLSXFiles(ExcelComparisonTest):
 
         worksheet = workbook.add_worksheet()
 
-        worksheet.set_column('C:F', 10.288)
+        worksheet.set_column("C:F", 10.288)
 
-        worksheet.add_table('C3:F13', {'style': ''})
+        worksheet.add_table("C3:F13", {"style": ""})
 
         workbook.close()
 
@@ -57,9 +56,9 @@ class TestCompareXLSXFiles(ExcelComparisonTest):
 
         worksheet = workbook.add_worksheet()
 
-        worksheet.set_column('C:F', 10.288)
+        worksheet.set_column("C:F", 10.288)
 
-        worksheet.add_table('C3:F13', {'style': 'None'})
+        worksheet.add_table("C3:F13", {"style": "None"})
 
         workbook.close()
 

@@ -18,6 +18,7 @@ class TestAssembleWorksheet(unittest.TestCase):
     Test assembling a complete Worksheet file.
 
     """
+
     def test_assemble_xml_file(self):
         """Test writing a worksheet with data out of bounds."""
         self.maxDiff = None
@@ -37,13 +38,14 @@ class TestAssembleWorksheet(unittest.TestCase):
         worksheet.set_column(0, 3, 17)
 
         # Write some valid strings.
-        worksheet.write_string(0, 0, 'Foo')
-        worksheet.write_string(2, 0, 'Bar')
-        worksheet.write_string(2, 3, 'Baz')
+        worksheet.write_string(0, 0, "Foo")
+        worksheet.write_string(2, 0, "Bar")
+        worksheet.write_string(2, 3, "Baz")
 
         worksheet._assemble_xml_file()
 
-        exp = _xml_to_list("""
+        exp = _xml_to_list(
+            """
                 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
                 <worksheet xmlns="http://schemas.openxmlformats.org/spreadsheetml/2006/main" xmlns:r="http://schemas.openxmlformats.org/officeDocument/2006/relationships">
                   <dimension ref="A1:D3"/>
@@ -71,7 +73,8 @@ class TestAssembleWorksheet(unittest.TestCase):
                   </sheetData>
                   <pageMargins left="0.7" right="0.7" top="0.75" bottom="0.75" header="0.3" footer="0.3"/>
                 </worksheet>
-                """)
+                """
+        )
 
         got = _xml_to_list(fh.getvalue())
 

@@ -18,8 +18,7 @@ class TestCompareXLSXFiles(ExcelComparisonTest):
     """
 
     def setUp(self):
-
-        self.set_filename('properties04.xlsx')
+        self.set_filename("properties04.xlsx")
 
     def test_create_file_explicit(self):
         """Test the creation of a simple XlsxWriter file."""
@@ -28,23 +27,26 @@ class TestCompareXLSXFiles(ExcelComparisonTest):
 
         worksheet = workbook.add_worksheet()
 
-        long_string = 'This is a long string. ' * 11
-        long_string += 'AA'
+        long_string = "This is a long string. " * 11
+        long_string += "AA"
 
-        date = datetime.strptime('2016-12-12 23:00:00', '%Y-%m-%d %H:%M:%S')
+        date = datetime.strptime("2016-12-12 23:00:00", "%Y-%m-%d %H:%M:%S")
 
         # This test uses explicit property types.
-        workbook.set_custom_property('Checked by', 'Adam', 'text')
-        workbook.set_custom_property('Date completed', date, 'date')
-        workbook.set_custom_property('Document number', 12345, 'number_int')
-        workbook.set_custom_property('Reference', 1.2345, 'number')
-        workbook.set_custom_property('Source', True, 'bool')
-        workbook.set_custom_property('Status', False, 'bool')
-        workbook.set_custom_property('Department', long_string, 'text')
-        workbook.set_custom_property('Group', 1.23456789012, 'number')
+        workbook.set_custom_property("Checked by", "Adam", "text")
+        workbook.set_custom_property("Date completed", date, "date")
+        workbook.set_custom_property("Document number", 12345, "number_int")
+        workbook.set_custom_property("Reference", 1.2345, "number")
+        workbook.set_custom_property("Source", True, "bool")
+        workbook.set_custom_property("Status", False, "bool")
+        workbook.set_custom_property("Department", long_string, "text")
+        workbook.set_custom_property("Group", 1.23456789012, "number")
 
-        worksheet.set_column('A:A', 70)
-        worksheet.write('A1', "Select 'Office Button -> Prepare -> Properties' to see the file properties.")
+        worksheet.set_column("A:A", 70)
+        worksheet.write(
+            "A1",
+            "Select 'Office Button -> Prepare -> Properties' to see the file properties.",
+        )
 
         workbook.close()
 
@@ -57,23 +59,26 @@ class TestCompareXLSXFiles(ExcelComparisonTest):
 
         worksheet = workbook.add_worksheet()
 
-        long_string = 'This is a long string. ' * 11
-        long_string += 'AA'
+        long_string = "This is a long string. " * 11
+        long_string += "AA"
 
-        date = datetime.strptime('2016-12-12 23:00:00', '%Y-%m-%d %H:%M:%S')
+        date = datetime.strptime("2016-12-12 23:00:00", "%Y-%m-%d %H:%M:%S")
 
         # This test uses implicit property types.
-        workbook.set_custom_property('Checked by', 'Adam')
-        workbook.set_custom_property('Date completed', date)
-        workbook.set_custom_property('Document number', 12345)
-        workbook.set_custom_property('Reference', 1.2345)
-        workbook.set_custom_property('Source', True)
-        workbook.set_custom_property('Status', False)
-        workbook.set_custom_property('Department', long_string)
-        workbook.set_custom_property('Group', 1.23456789012)
+        workbook.set_custom_property("Checked by", "Adam")
+        workbook.set_custom_property("Date completed", date)
+        workbook.set_custom_property("Document number", 12345)
+        workbook.set_custom_property("Reference", 1.2345)
+        workbook.set_custom_property("Source", True)
+        workbook.set_custom_property("Status", False)
+        workbook.set_custom_property("Department", long_string)
+        workbook.set_custom_property("Group", 1.23456789012)
 
-        worksheet.set_column('A:A', 70)
-        worksheet.write('A1', "Select 'Office Button -> Prepare -> Properties' to see the file properties.")
+        worksheet.set_column("A:A", 70)
+        worksheet.write(
+            "A1",
+            "Select 'Office Button -> Prepare -> Properties' to see the file properties.",
+        )
 
         workbook.close()
 

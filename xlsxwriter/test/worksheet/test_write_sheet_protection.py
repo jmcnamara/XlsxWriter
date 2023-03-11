@@ -25,7 +25,7 @@ class TestWriteSheetProtection(unittest.TestCase):
     def test_write_sheet_protection_1(self):
         """Test the _write_sheet_protection() method."""
 
-        password = ''
+        password = ""
         options = {}
 
         self.worksheet.protect(password, options)
@@ -39,13 +39,15 @@ class TestWriteSheetProtection(unittest.TestCase):
     def test_write_sheet_protection_2(self):
         """Test the _write_sheet_protection() method."""
 
-        password = 'password'
+        password = "password"
         options = {}
 
         self.worksheet.protect(password, options)
         self.worksheet._write_sheet_protection()
 
-        exp = """<sheetProtection password="83AF" sheet="1" objects="1" scenarios="1"/>"""
+        exp = (
+            """<sheetProtection password="83AF" sheet="1" objects="1" scenarios="1"/>"""
+        )
         got = self.fh.getvalue()
 
         self.assertEqual(got, exp)
@@ -53,8 +55,8 @@ class TestWriteSheetProtection(unittest.TestCase):
     def test_write_sheet_protection_3(self):
         """Test the _write_sheet_protection() method."""
 
-        password = ''
-        options = {'select_locked_cells': 0}
+        password = ""
+        options = {"select_locked_cells": 0}
 
         self.worksheet.protect(password, options)
         self.worksheet._write_sheet_protection()
@@ -67,13 +69,15 @@ class TestWriteSheetProtection(unittest.TestCase):
     def test_write_sheet_protection_4(self):
         """Test the _write_sheet_protection() method."""
 
-        password = ''
-        options = {'format_cells': 1}
+        password = ""
+        options = {"format_cells": 1}
 
         self.worksheet.protect(password, options)
         self.worksheet._write_sheet_protection()
 
-        exp = """<sheetProtection sheet="1" objects="1" scenarios="1" formatCells="0"/>"""
+        exp = (
+            """<sheetProtection sheet="1" objects="1" scenarios="1" formatCells="0"/>"""
+        )
         got = self.fh.getvalue()
 
         self.assertEqual(got, exp)
@@ -81,8 +85,8 @@ class TestWriteSheetProtection(unittest.TestCase):
     def test_write_sheet_protection_5(self):
         """Test the _write_sheet_protection() method."""
 
-        password = ''
-        options = {'format_columns': 1}
+        password = ""
+        options = {"format_columns": 1}
 
         self.worksheet.protect(password, options)
         self.worksheet._write_sheet_protection()
@@ -95,13 +99,15 @@ class TestWriteSheetProtection(unittest.TestCase):
     def test_write_sheet_protection_6(self):
         """Test the _write_sheet_protection() method."""
 
-        password = ''
-        options = {'format_rows': 1}
+        password = ""
+        options = {"format_rows": 1}
 
         self.worksheet.protect(password, options)
         self.worksheet._write_sheet_protection()
 
-        exp = """<sheetProtection sheet="1" objects="1" scenarios="1" formatRows="0"/>"""
+        exp = (
+            """<sheetProtection sheet="1" objects="1" scenarios="1" formatRows="0"/>"""
+        )
         got = self.fh.getvalue()
 
         self.assertEqual(got, exp)
@@ -109,8 +115,8 @@ class TestWriteSheetProtection(unittest.TestCase):
     def test_write_sheet_protection_7(self):
         """Test the _write_sheet_protection() method."""
 
-        password = ''
-        options = {'insert_columns': 1}
+        password = ""
+        options = {"insert_columns": 1}
 
         self.worksheet.protect(password, options)
         self.worksheet._write_sheet_protection()
@@ -123,13 +129,15 @@ class TestWriteSheetProtection(unittest.TestCase):
     def test_write_sheet_protection_8(self):
         """Test the _write_sheet_protection() method."""
 
-        password = ''
-        options = {'insert_rows': 1}
+        password = ""
+        options = {"insert_rows": 1}
 
         self.worksheet.protect(password, options)
         self.worksheet._write_sheet_protection()
 
-        exp = """<sheetProtection sheet="1" objects="1" scenarios="1" insertRows="0"/>"""
+        exp = (
+            """<sheetProtection sheet="1" objects="1" scenarios="1" insertRows="0"/>"""
+        )
         got = self.fh.getvalue()
 
         self.assertEqual(got, exp)
@@ -137,8 +145,8 @@ class TestWriteSheetProtection(unittest.TestCase):
     def test_write_sheet_protection_9(self):
         """Test the _write_sheet_protection() method."""
 
-        password = ''
-        options = {'insert_hyperlinks': 1}
+        password = ""
+        options = {"insert_hyperlinks": 1}
 
         self.worksheet.protect(password, options)
         self.worksheet._write_sheet_protection()
@@ -151,8 +159,8 @@ class TestWriteSheetProtection(unittest.TestCase):
     def test_write_sheet_protection_10(self):
         """Test the _write_sheet_protection() method."""
 
-        password = ''
-        options = {'delete_columns': 1}
+        password = ""
+        options = {"delete_columns": 1}
 
         self.worksheet.protect(password, options)
         self.worksheet._write_sheet_protection()
@@ -165,13 +173,15 @@ class TestWriteSheetProtection(unittest.TestCase):
     def test_write_sheet_protection_11(self):
         """Test the _write_sheet_protection() method."""
 
-        password = ''
-        options = {'delete_rows': 1}
+        password = ""
+        options = {"delete_rows": 1}
 
         self.worksheet.protect(password, options)
         self.worksheet._write_sheet_protection()
 
-        exp = """<sheetProtection sheet="1" objects="1" scenarios="1" deleteRows="0"/>"""
+        exp = (
+            """<sheetProtection sheet="1" objects="1" scenarios="1" deleteRows="0"/>"""
+        )
         got = self.fh.getvalue()
 
         self.assertEqual(got, exp)
@@ -179,8 +189,8 @@ class TestWriteSheetProtection(unittest.TestCase):
     def test_write_sheet_protection_12(self):
         """Test the _write_sheet_protection() method."""
 
-        password = ''
-        options = {'sort': 1}
+        password = ""
+        options = {"sort": 1}
 
         self.worksheet.protect(password, options)
         self.worksheet._write_sheet_protection()
@@ -193,13 +203,15 @@ class TestWriteSheetProtection(unittest.TestCase):
     def test_write_sheet_protection_13(self):
         """Test the _write_sheet_protection() method."""
 
-        password = ''
-        options = {'autofilter': 1}
+        password = ""
+        options = {"autofilter": 1}
 
         self.worksheet.protect(password, options)
         self.worksheet._write_sheet_protection()
 
-        exp = """<sheetProtection sheet="1" objects="1" scenarios="1" autoFilter="0"/>"""
+        exp = (
+            """<sheetProtection sheet="1" objects="1" scenarios="1" autoFilter="0"/>"""
+        )
         got = self.fh.getvalue()
 
         self.assertEqual(got, exp)
@@ -207,13 +219,15 @@ class TestWriteSheetProtection(unittest.TestCase):
     def test_write_sheet_protection_14(self):
         """Test the _write_sheet_protection() method."""
 
-        password = ''
-        options = {'pivot_tables': 1}
+        password = ""
+        options = {"pivot_tables": 1}
 
         self.worksheet.protect(password, options)
         self.worksheet._write_sheet_protection()
 
-        exp = """<sheetProtection sheet="1" objects="1" scenarios="1" pivotTables="0"/>"""
+        exp = (
+            """<sheetProtection sheet="1" objects="1" scenarios="1" pivotTables="0"/>"""
+        )
         got = self.fh.getvalue()
 
         self.assertEqual(got, exp)
@@ -221,8 +235,8 @@ class TestWriteSheetProtection(unittest.TestCase):
     def test_write_sheet_protection_15(self):
         """Test the _write_sheet_protection() method."""
 
-        password = ''
-        options = {'objects': 1}
+        password = ""
+        options = {"objects": 1}
 
         self.worksheet.protect(password, options)
         self.worksheet._write_sheet_protection()
@@ -235,8 +249,8 @@ class TestWriteSheetProtection(unittest.TestCase):
     def test_write_sheet_protection_16(self):
         """Test the _write_sheet_protection() method."""
 
-        password = ''
-        options = {'scenarios': 1}
+        password = ""
+        options = {"scenarios": 1}
 
         self.worksheet.protect(password, options)
         self.worksheet._write_sheet_protection()
@@ -249,8 +263,12 @@ class TestWriteSheetProtection(unittest.TestCase):
     def test_write_sheet_protection_17(self):
         """Test the _write_sheet_protection() method."""
 
-        password = ''
-        options = {'format_cells': 1, 'select_locked_cells': 0, 'select_unlocked_cells': 0}
+        password = ""
+        options = {
+            "format_cells": 1,
+            "select_locked_cells": 0,
+            "select_unlocked_cells": 0,
+        }
 
         self.worksheet.protect(password, options)
         self.worksheet._write_sheet_protection()
@@ -263,23 +281,23 @@ class TestWriteSheetProtection(unittest.TestCase):
     def test_write_sheet_protection_18(self):
         """Test the _write_sheet_protection() method."""
 
-        password = 'drowssap'
+        password = "drowssap"
         options = {
-            'objects': 1,
-            'scenarios': 1,
-            'format_cells': 1,
-            'format_columns': 1,
-            'format_rows': 1,
-            'insert_columns': 1,
-            'insert_rows': 1,
-            'insert_hyperlinks': 1,
-            'delete_columns': 1,
-            'delete_rows': 1,
-            'select_locked_cells': 0,
-            'sort': 1,
-            'autofilter': 1,
-            'pivot_tables': 1,
-            'select_unlocked_cells': 0,
+            "objects": 1,
+            "scenarios": 1,
+            "format_cells": 1,
+            "format_columns": 1,
+            "format_rows": 1,
+            "insert_columns": 1,
+            "insert_rows": 1,
+            "insert_hyperlinks": 1,
+            "delete_columns": 1,
+            "delete_rows": 1,
+            "select_locked_cells": 0,
+            "sort": 1,
+            "autofilter": 1,
+            "pivot_tables": 1,
+            "select_unlocked_cells": 0,
         }
 
         self.worksheet.protect(password, options)

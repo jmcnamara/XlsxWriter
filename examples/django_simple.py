@@ -14,15 +14,11 @@ import xlsxwriter
 
 def get_simple_table_data():
     # Simulate a more complex table read.
-    return [[1, 2, 3],
-            [4, 5, 6],
-            [7, 8, 9]]
+    return [[1, 2, 3], [4, 5, 6], [7, 8, 9]]
 
 
 class MyView(View):
-
     def get(self, request):
-
         # Create an in-memory output file for the new workbook.
         output = io.BytesIO()
 
@@ -48,11 +44,11 @@ class MyView(View):
         output.seek(0)
 
         # Set up the Http response.
-        filename = 'django_simple.xlsx'
+        filename = "django_simple.xlsx"
         response = HttpResponse(
             output,
-            content_type='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+            content_type="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
         )
-        response['Content-Disposition'] = 'attachment; filename=%s' % filename
+        response["Content-Disposition"] = "attachment; filename=%s" % filename
 
         return response

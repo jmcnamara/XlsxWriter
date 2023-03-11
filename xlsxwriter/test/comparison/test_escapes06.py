@@ -17,8 +17,7 @@ class TestCompareXLSXFiles(ExcelComparisonTest):
     """
 
     def setUp(self):
-
-        self.set_filename('escapes06.xlsx')
+        self.set_filename("escapes06.xlsx")
 
     def test_create_file(self):
         """Test the creation of a simple XlsxWriter file a num format that require XML escaping."""
@@ -26,11 +25,11 @@ class TestCompareXLSXFiles(ExcelComparisonTest):
         workbook = Workbook(self.got_filename)
 
         worksheet = workbook.add_worksheet()
-        num_format = workbook.add_format({'num_format': '[Red]0.0%\\ "a"'})
+        num_format = workbook.add_format({"num_format": '[Red]0.0%\\ "a"'})
 
-        worksheet.set_column('A:A', 14)
+        worksheet.set_column("A:A", 14)
 
-        worksheet.write('A1', 123, num_format)
+        worksheet.write("A1", 123, num_format)
 
         workbook.close()
 

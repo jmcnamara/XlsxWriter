@@ -18,6 +18,7 @@ class TestAssembleWorksheet(unittest.TestCase):
     Test assembling a complete Worksheet file.
 
     """
+
     def test_assemble_xml_file(self):
         """Test writing a worksheet with a blank cell."""
         self.maxDiff = None
@@ -25,7 +26,7 @@ class TestAssembleWorksheet(unittest.TestCase):
         fh = StringIO()
         worksheet = Worksheet()
         worksheet._set_filehandle(fh)
-        cell_format = Format({'xf_index': 1})
+        cell_format = Format({"xf_index": 1})
 
         # No format. Should be ignored.
         worksheet.write_blank(0, 0, None)
@@ -35,7 +36,8 @@ class TestAssembleWorksheet(unittest.TestCase):
         worksheet.select()
         worksheet._assemble_xml_file()
 
-        exp = _xml_to_list("""
+        exp = _xml_to_list(
+            """
                 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
                 <worksheet xmlns="http://schemas.openxmlformats.org/spreadsheetml/2006/main" xmlns:r="http://schemas.openxmlformats.org/officeDocument/2006/relationships">
                   <dimension ref="C2"/>
@@ -50,7 +52,8 @@ class TestAssembleWorksheet(unittest.TestCase):
                   </sheetData>
                   <pageMargins left="0.7" right="0.7" top="0.75" bottom="0.75" header="0.3" footer="0.3"/>
                 </worksheet>
-                """)
+                """
+        )
 
         got = _xml_to_list(fh.getvalue())
 
@@ -63,7 +66,7 @@ class TestAssembleWorksheet(unittest.TestCase):
         fh = StringIO()
         worksheet = Worksheet()
         worksheet._set_filehandle(fh)
-        cell_format = Format({'xf_index': 1})
+        cell_format = Format({"xf_index": 1})
 
         # No format. Should be ignored.
         worksheet.write(0, 0, None)
@@ -73,7 +76,8 @@ class TestAssembleWorksheet(unittest.TestCase):
         worksheet.select()
         worksheet._assemble_xml_file()
 
-        exp = _xml_to_list("""
+        exp = _xml_to_list(
+            """
                 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
                 <worksheet xmlns="http://schemas.openxmlformats.org/spreadsheetml/2006/main" xmlns:r="http://schemas.openxmlformats.org/officeDocument/2006/relationships">
                   <dimension ref="C2"/>
@@ -88,7 +92,8 @@ class TestAssembleWorksheet(unittest.TestCase):
                   </sheetData>
                   <pageMargins left="0.7" right="0.7" top="0.75" bottom="0.75" header="0.3" footer="0.3"/>
                 </worksheet>
-                """)
+                """
+        )
 
         got = _xml_to_list(fh.getvalue())
 
@@ -101,17 +106,18 @@ class TestAssembleWorksheet(unittest.TestCase):
         fh = StringIO()
         worksheet = Worksheet()
         worksheet._set_filehandle(fh)
-        cell_format = Format({'xf_index': 1})
+        cell_format = Format({"xf_index": 1})
 
         # No format. Should be ignored.
-        worksheet.write_blank('A1', None)
+        worksheet.write_blank("A1", None)
 
-        worksheet.write_blank('C2', None, cell_format)
+        worksheet.write_blank("C2", None, cell_format)
 
         worksheet.select()
         worksheet._assemble_xml_file()
 
-        exp = _xml_to_list("""
+        exp = _xml_to_list(
+            """
                 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
                 <worksheet xmlns="http://schemas.openxmlformats.org/spreadsheetml/2006/main" xmlns:r="http://schemas.openxmlformats.org/officeDocument/2006/relationships">
                   <dimension ref="C2"/>
@@ -126,7 +132,8 @@ class TestAssembleWorksheet(unittest.TestCase):
                   </sheetData>
                   <pageMargins left="0.7" right="0.7" top="0.75" bottom="0.75" header="0.3" footer="0.3"/>
                 </worksheet>
-                """)
+                """
+        )
 
         got = _xml_to_list(fh.getvalue())
 

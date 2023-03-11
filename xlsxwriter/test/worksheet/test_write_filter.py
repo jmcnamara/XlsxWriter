@@ -25,7 +25,7 @@ class TestWriteFilter(unittest.TestCase):
     def test_write_filter(self):
         """Test the _write_filter() method"""
 
-        self.worksheet._write_filter('East')
+        self.worksheet._write_filter("East")
 
         exp = """<filter val="East"/>"""
         got = self.fh.getvalue()

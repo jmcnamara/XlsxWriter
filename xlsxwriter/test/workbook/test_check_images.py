@@ -18,6 +18,7 @@ class TestInsertImage(unittest.TestCase):
     Test exceptions with insert_image().
 
     """
+
     def test_undefined_image_size(self):
         """Test adding an image with no height/width data."""
 
@@ -27,7 +28,7 @@ class TestInsertImage(unittest.TestCase):
 
         worksheet = workbook.add_worksheet()
 
-        worksheet.insert_image('B13', 'xlsxwriter/test/comparison/images/nosize.png')
+        worksheet.insert_image("B13", "xlsxwriter/test/comparison/images/nosize.png")
 
         self.assertRaises(UndefinedImageSize, workbook._prepare_drawings)
 
@@ -42,7 +43,9 @@ class TestInsertImage(unittest.TestCase):
 
         worksheet = workbook.add_worksheet()
 
-        worksheet.insert_image('B13', 'xlsxwriter/test/comparison/images/unsupported.txt')
+        worksheet.insert_image(
+            "B13", "xlsxwriter/test/comparison/images/unsupported.txt"
+        )
 
         self.assertRaises(UnsupportedImageFormat, workbook._prepare_drawings)
 

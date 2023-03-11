@@ -17,8 +17,7 @@ class TestCompareXLSXFiles(ExcelComparisonTest):
     """
 
     def setUp(self):
-
-        self.set_filename('button09.xlsx')
+        self.set_filename("button09.xlsx")
 
     def test_create_file(self):
         """Test the creation of a simple XlsxWriter file."""
@@ -28,11 +27,11 @@ class TestCompareXLSXFiles(ExcelComparisonTest):
         worksheet1 = workbook.add_worksheet()
         worksheet2 = workbook.add_worksheet()
 
-        worksheet1.write_comment('A1', 'Foo')
+        worksheet1.write_comment("A1", "Foo")
 
-        worksheet2.insert_button('C2', {})
+        worksheet2.insert_button("C2", {})
 
-        worksheet1.set_comments_author('John')
+        worksheet1.set_comments_author("John")
 
         workbook.close()
 

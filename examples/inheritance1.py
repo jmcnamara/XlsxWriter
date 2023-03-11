@@ -20,7 +20,6 @@ class MyWorksheet(Worksheet):
 
     @convert_cell_args
     def write(self, row, col, *args):
-
         data = args[0]
 
         # Reverse strings to demonstrate the overridden method.
@@ -47,15 +46,15 @@ class MyWorkbook(Workbook):
 
 
 # Create a new MyWorkbook object.
-workbook = MyWorkbook('inheritance1.xlsx')
+workbook = MyWorkbook("inheritance1.xlsx")
 
 # The code from now on will be the same as a normal "Workbook" program.
 worksheet = workbook.add_worksheet()
 
 # Write some data to test the subclassing.
-worksheet.write('A1', 'Hello')
-worksheet.write('A2', 'World')
-worksheet.write('A3', 123)
-worksheet.write('A4', 345)
+worksheet.write("A1", "Hello")
+worksheet.write("A2", "World")
+worksheet.write("A3", 123)
+worksheet.write("A4", 345)
 
 workbook.close()

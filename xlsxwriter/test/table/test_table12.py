@@ -21,6 +21,7 @@ class TestAssembleTable(unittest.TestCase):
     Test assembling a complete Table file.
 
     """
+
     def test_assemble_xml_file(self):
         """Test writing a table"""
         self.maxDiff = None
@@ -32,14 +33,22 @@ class TestAssembleTable(unittest.TestCase):
         dxf_format.dxf_index = 0
 
         # Set the table properties.
-        worksheet.add_table('C2:F14', {'total_row': 1,
-                                       'columns': [{'total_string': 'Total'},
-                                                   {},
-                                                   {},
-                                                   {'total_function': 'count',
-                                                    'format': dxf_format,
-                                                    'formula': '=SUM(Table1[@[Column1]:[Column3]])'},
-                                                   ]})
+        worksheet.add_table(
+            "C2:F14",
+            {
+                "total_row": 1,
+                "columns": [
+                    {"total_string": "Total"},
+                    {},
+                    {},
+                    {
+                        "total_function": "count",
+                        "format": dxf_format,
+                        "formula": "=SUM(Table1[@[Column1]:[Column3]])",
+                    },
+                ],
+            },
+        )
         worksheet._prepare_tables(1, {})
 
         fh = StringIO()
@@ -50,7 +59,8 @@ class TestAssembleTable(unittest.TestCase):
 
         table._assemble_xml_file()
 
-        exp = _xml_to_list("""
+        exp = _xml_to_list(
+            """
                 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
                 <table xmlns="http://schemas.openxmlformats.org/spreadsheetml/2006/main" id="1" name="Table1" displayName="Table1" ref="C2:F14" totalsRowCount="1">
                   <autoFilter ref="C2:F13"/>
@@ -64,7 +74,8 @@ class TestAssembleTable(unittest.TestCase):
                   </tableColumns>
                   <tableStyleInfo name="TableStyleMedium9" showFirstColumn="0" showLastColumn="0" showRowStripes="1" showColumnStripes="0"/>
                 </table>
-                """)
+                """
+        )
 
         got = _xml_to_list(fh.getvalue())
 

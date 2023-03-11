@@ -18,8 +18,7 @@ class TestCompareXLSXFiles(ExcelComparisonTest):
     """
 
     def setUp(self):
-
-        self.set_filename('macro01.xlsm')
+        self.set_filename("macro01.xlsm")
 
     def test_create_file(self):
         """Test the creation of a simple XlsxWriter file."""
@@ -28,9 +27,9 @@ class TestCompareXLSXFiles(ExcelComparisonTest):
 
         worksheet = workbook.add_worksheet()
 
-        workbook.add_vba_project(self.vba_dir + 'vbaProject01.bin')
+        workbook.add_vba_project(self.vba_dir + "vbaProject01.bin")
 
-        worksheet.write('A1', 123)
+        worksheet.write("A1", 123)
 
         workbook.close()
 
@@ -39,13 +38,13 @@ class TestCompareXLSXFiles(ExcelComparisonTest):
     def test_create_file_in_memory(self):
         """Test the creation of a simple XlsxWriter file."""
 
-        workbook = Workbook(self.got_filename, {'in_memory': True})
+        workbook = Workbook(self.got_filename, {"in_memory": True})
 
         worksheet = workbook.add_worksheet()
 
-        workbook.add_vba_project(self.vba_dir + 'vbaProject01.bin')
+        workbook.add_vba_project(self.vba_dir + "vbaProject01.bin")
 
-        worksheet.write('A1', 123)
+        worksheet.write("A1", 123)
 
         workbook.close()
 
@@ -58,13 +57,13 @@ class TestCompareXLSXFiles(ExcelComparisonTest):
 
         worksheet = workbook.add_worksheet()
 
-        vba_file = open(self.vba_dir + 'vbaProject01.bin', 'rb')
+        vba_file = open(self.vba_dir + "vbaProject01.bin", "rb")
         vba_data = BytesIO(vba_file.read())
         vba_file.close()
 
         workbook.add_vba_project(vba_data, True)
 
-        worksheet.write('A1', 123)
+        worksheet.write("A1", 123)
 
         workbook.close()
 
@@ -73,17 +72,17 @@ class TestCompareXLSXFiles(ExcelComparisonTest):
     def test_create_file_bytes_io_in_memory(self):
         """Test the creation of a simple XlsxWriter file."""
 
-        workbook = Workbook(self.got_filename, {'in_memory': True})
+        workbook = Workbook(self.got_filename, {"in_memory": True})
 
         worksheet = workbook.add_worksheet()
 
-        vba_file = open(self.vba_dir + 'vbaProject01.bin', 'rb')
+        vba_file = open(self.vba_dir + "vbaProject01.bin", "rb")
         vba_data = BytesIO(vba_file.read())
         vba_file.close()
 
         workbook.add_vba_project(vba_data, True)
 
-        worksheet.write('A1', 123)
+        worksheet.write("A1", 123)
 
         workbook.close()
 

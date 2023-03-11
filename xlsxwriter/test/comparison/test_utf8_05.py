@@ -16,10 +16,13 @@ class TestCompareXLSXFiles(ExcelComparisonTest):
     """
 
     def setUp(self):
+        self.set_filename("utf8_05.xlsx")
 
-        self.set_filename('utf8_05.xlsx')
-
-        self.ignore_files = ['xl/calcChain.xml', '[Content_Types].xml', 'xl/_rels/workbook.xml.rels']
+        self.ignore_files = [
+            "xl/calcChain.xml",
+            "[Content_Types].xml",
+            "xl/_rels/workbook.xml.rels",
+        ]
 
     def test_create_file(self):
         """Test the creation of an XlsxWriter file with utf-8 strings."""
@@ -28,7 +31,7 @@ class TestCompareXLSXFiles(ExcelComparisonTest):
 
         worksheet = workbook.add_worksheet()
 
-        worksheet.write_formula('A1', '="Café"', None, 'Café')
+        worksheet.write_formula("A1", '="Café"', None, "Café")
 
         workbook.close()
 

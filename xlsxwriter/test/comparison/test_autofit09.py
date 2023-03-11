@@ -17,8 +17,7 @@ class TestCompareXLSXFiles(ExcelComparisonTest):
     """
 
     def setUp(self):
-
-        self.set_filename('autofit09.xlsx')
+        self.set_filename("autofit09.xlsx")
 
     def test_create_file(self):
         """Test the creation of a simple XlsxWriter file."""
@@ -27,7 +26,7 @@ class TestCompareXLSXFiles(ExcelComparisonTest):
 
         worksheet = workbook.add_worksheet()
 
-        text_wrap = workbook.add_format({'text_wrap': True})
+        text_wrap = workbook.add_format({"text_wrap": True})
 
         worksheet.write_string(0, 0, "Hello\nFoo", text_wrap)
         worksheet.write_string(2, 2, "Foo\nBamboo\nBar", text_wrap)

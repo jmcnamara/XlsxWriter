@@ -19,8 +19,7 @@ class TestCompareXLSXFiles(ExcelComparisonTest):
     """
 
     def setUp(self):
-
-        self.set_filename('types03.xlsx')
+        self.set_filename("types03.xlsx")
 
     def test_write_number_float(self):
         """Test writing number types."""
@@ -28,8 +27,8 @@ class TestCompareXLSXFiles(ExcelComparisonTest):
         workbook = Workbook(self.got_filename)
         worksheet = workbook.add_worksheet()
 
-        worksheet.write('A1', 0.5)
-        worksheet.write_number('A2', 0.5)
+        worksheet.write("A1", 0.5)
+        worksheet.write_number("A2", 0.5)
 
         workbook.close()
 
@@ -41,8 +40,8 @@ class TestCompareXLSXFiles(ExcelComparisonTest):
         workbook = Workbook(self.got_filename)
         worksheet = workbook.add_worksheet()
 
-        worksheet.write('A1', Decimal('0.5'))
-        worksheet.write_number('A2', Decimal('0.5'))
+        worksheet.write("A1", Decimal("0.5"))
+        worksheet.write_number("A2", Decimal("0.5"))
 
         workbook.close()
 
@@ -54,8 +53,8 @@ class TestCompareXLSXFiles(ExcelComparisonTest):
         workbook = Workbook(self.got_filename)
         worksheet = workbook.add_worksheet()
 
-        worksheet.write('A1', Fraction(1, 2))
-        worksheet.write_number('A2', Fraction(2, 4))
+        worksheet.write("A1", Fraction(1, 2))
+        worksheet.write_number("A2", Fraction(2, 4))
 
         workbook.close()
 

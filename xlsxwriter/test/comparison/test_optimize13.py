@@ -17,19 +17,20 @@ class TestCompareXLSXFiles(ExcelComparisonTest):
     """
 
     def setUp(self):
-
-        self.set_filename('optimize13.xlsx')
+        self.set_filename("optimize13.xlsx")
 
     def test_create_file(self):
         """Test the creation of a simple XlsxWriter file with comments."""
 
-        workbook = Workbook(self.got_filename, {'constant_memory': True, 'in_memory': False})
+        workbook = Workbook(
+            self.got_filename, {"constant_memory": True, "in_memory": False}
+        )
 
         worksheet = workbook.add_worksheet()
-        worksheet.write('A1', 'Foo')
-        worksheet.write_comment('B2', 'Some text')
+        worksheet.write("A1", "Foo")
+        worksheet.write_comment("B2", "Some text")
 
-        worksheet.set_comments_author('John')
+        worksheet.set_comments_author("John")
 
         workbook.close()
 

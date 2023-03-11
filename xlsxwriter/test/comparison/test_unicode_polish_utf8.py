@@ -17,22 +17,21 @@ class TestCompareXLSXFiles(ExcelComparisonTest):
     """
 
     def setUp(self):
-
-        self.set_filename('unicode_polish_utf8.xlsx')
-        self.set_text_file('unicode_polish_utf8.txt')
+        self.set_filename("unicode_polish_utf8.xlsx")
+        self.set_text_file("unicode_polish_utf8.txt")
 
     def test_create_file(self):
         """Test example file converting Unicode text."""
 
         # Open the input file with the correct encoding.
-        textfile = open(self.txt_filename, mode='r', encoding='utf-8')
+        textfile = open(self.txt_filename, mode="r", encoding="utf-8")
 
         # Create an new Excel file and convert the text data.
         workbook = Workbook(self.got_filename)
         worksheet = workbook.add_worksheet()
 
         # Widen the first column to make the text clearer.
-        worksheet.set_column('A:A', 50)
+        worksheet.set_column("A:A", 50)
 
         # Start from the first cell.
         row = 0
@@ -41,7 +40,7 @@ class TestCompareXLSXFiles(ExcelComparisonTest):
         # Read the text file and write it to the worksheet.
         for line in textfile:
             # Ignore the comments in the sample file.
-            if line.startswith('#'):
+            if line.startswith("#"):
                 continue
 
             # Write any other lines to the worksheet.

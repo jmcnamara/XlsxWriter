@@ -8,7 +8,7 @@
 #
 import xlsxwriter
 
-workbook = xlsxwriter.Workbook('textbox.xlsx')
+workbook = xlsxwriter.Workbook("textbox.xlsx")
 worksheet = workbook.add_worksheet()
 row = 4
 col = 1
@@ -18,203 +18,187 @@ col = 1
 
 
 # Example
-text = 'A simple textbox with some text'
+text = "A simple textbox with some text"
 worksheet.insert_textbox(row, col, text)
 row += 10
 
 # Example
-text = 'A textbox with changed dimensions'
+text = "A textbox with changed dimensions"
 options = {
-    'width': 256,
-    'height': 100,
+    "width": 256,
+    "height": 100,
 }
 worksheet.insert_textbox(row, col, text, options)
 row += 10
 
 # Example
-text = 'A textbox with an offset in the cell'
+text = "A textbox with an offset in the cell"
 options = {
-    'x_offset': 10,
-    'y_offset': 10,
+    "x_offset": 10,
+    "y_offset": 10,
 }
 worksheet.insert_textbox(row, col, text, options)
 row += 10
 
 # Example
-text = 'A textbox with scaling'
+text = "A textbox with scaling"
 options = {
-    'x_scale': 1.5,
-    'y_scale': 0.8,
+    "x_scale": 1.5,
+    "y_scale": 0.8,
 }
 worksheet.insert_textbox(row, col, text, options)
 row += 10
 
 # Example
-text = 'A textbox with some long text that wraps around onto several lines'
+text = "A textbox with some long text that wraps around onto several lines"
 worksheet.insert_textbox(row, col, text)
 row += 10
 
 # Example
-text = 'A textbox\nwith some\nnewlines\n\nand paragraphs'
+text = "A textbox\nwith some\nnewlines\n\nand paragraphs"
 worksheet.insert_textbox(row, col, text)
 row += 10
 
 # Example
-text = 'A textbox with a solid fill background'
+text = "A textbox with a solid fill background"
 options = {
-    'fill': {'color': 'red'},
+    "fill": {"color": "red"},
 }
 worksheet.insert_textbox(row, col, text, options)
 row += 10
 
 # Example
-text = 'A textbox with a no fill background'
+text = "A textbox with a no fill background"
 options = {
-    'fill': {'none': True},
+    "fill": {"none": True},
 }
 worksheet.insert_textbox(row, col, text, options)
 row += 10
 
 # Example
-text = 'A textbox with a gradient fill background'
+text = "A textbox with a gradient fill background"
 options = {
-    'gradient': {'colors': ['#DDEBCF',
-                            '#9CB86E',
-                            '#156B13']},
+    "gradient": {"colors": ["#DDEBCF", "#9CB86E", "#156B13"]},
 }
 worksheet.insert_textbox(row, col, text, options)
 row += 10
 
 # Example
-text = 'A textbox with a user defined border line'
+text = "A textbox with a user defined border line"
 options = {
-    'border': {'color': 'red',
-               'width': 3,
-               'dash_type': 'round_dot'},
+    "border": {"color": "red", "width": 3, "dash_type": "round_dot"},
 }
 worksheet.insert_textbox(row, col, text, options)
 row += 10
 
 # Example
-text = 'A textbox with no border line'
+text = "A textbox with no border line"
 options = {
-    'border': {'none': True},
+    "border": {"none": True},
 }
 worksheet.insert_textbox(row, col, text, options)
 row += 10
 
 # Example
-text = 'Default alignment: top - left'
+text = "Default alignment: top - left"
 worksheet.insert_textbox(row, col, text)
 row += 10
 
 # Example
-text = 'Alignment: top - center'
+text = "Alignment: top - center"
 options = {
-    'align': {'horizontal': 'center'},
+    "align": {"horizontal": "center"},
 }
 worksheet.insert_textbox(row, col, text, options)
 row += 10
 
 # Example
-text = 'Alignment: middle - center'
+text = "Alignment: middle - center"
 options = {
-    'align': {'vertical': 'middle',
-               'horizontal': 'center'},
+    "align": {"vertical": "middle", "horizontal": "center"},
 }
 worksheet.insert_textbox(row, col, text, options)
 row += 10
 
 # Example
-text = 'Alignment: long text line that wraps and is centered'
+text = "Alignment: long text line that wraps and is centered"
 options = {
-    'align': {'vertical': 'middle',
-               'horizontal': 'center',
-               'text': 'center'},
+    "align": {"vertical": "middle", "horizontal": "center", "text": "center"},
 }
 worksheet.insert_textbox(row, col, text, options)
 row += 10
 
 # Example
-text = 'Font properties: bold'
+text = "Font properties: bold"
 options = {
-    'font': {'bold': True},
+    "font": {"bold": True},
 }
 worksheet.insert_textbox(row, col, text, options)
 row += 10
 
 # Example
-text = 'Font properties: various'
+text = "Font properties: various"
 options = {
-    'font': {'bold': True},
+    "font": {"bold": True},
 }
 worksheet.insert_textbox(row, col, text, options)
 row += 10
 
 # Example
-text = 'Font properties: various'
+text = "Font properties: various"
 options = {
-    'font': {'bold': True,
-             'italic': True,
-             'underline': True,
-             'name': 'Arial',
-             'color': 'red',
-             'size': 12}
+    "font": {
+        "bold": True,
+        "italic": True,
+        "underline": True,
+        "name": "Arial",
+        "color": "red",
+        "size": 12,
+    }
 }
 worksheet.insert_textbox(row, col, text, options)
 row += 10
 
 # Example
-text = 'Some text in a textbox with formatting'
+text = "Some text in a textbox with formatting"
 options = {
-    'font': {'color': 'white'},
-    'align': {'vertical': 'middle',
-              'horizontal': 'center'
-              },
-    'gradient': {'colors': ['red', 'blue']},
+    "font": {"color": "white"},
+    "align": {"vertical": "middle", "horizontal": "center"},
+    "gradient": {"colors": ["red", "blue"]},
 }
 worksheet.insert_textbox(row, col, text, options)
 row += 10
 
 # Example
-text = ''
+text = ""
 options = {
-    'textlink': '=$F$185',
+    "textlink": "=$F$185",
 }
-worksheet.write('F185', 'Text in a cell')
+worksheet.write("F185", "Text in a cell")
 worksheet.insert_textbox(row, col, text, options)
 row += 10
 
 # Example
-text = 'Text rotated up'
-options = {
-    'text_rotation': 90
-}
+text = "Text rotated up"
+options = {"text_rotation": 90}
 worksheet.insert_textbox(row, col, text, options)
 row += 10
 
 # Example
-text = 'Text rotated down'
-options = {
-    'text_rotation': -90
-}
+text = "Text rotated down"
+options = {"text_rotation": -90}
 worksheet.insert_textbox(row, col, text, options)
 row += 10
 
 # Example
-text = 'Text rotated vertically'
-options = {
-    'text_rotation': 270
-}
+text = "Text rotated vertically"
+options = {"text_rotation": 270}
 worksheet.insert_textbox(row, col, text, options)
 row += 10
 
 # Example
-text = 'Textbox with hyperlink'
-options = {
-    'url': 'https://github.com/jmcnamara',
-    'tip': 'GitHub'
-}
+text = "Textbox with hyperlink"
+options = {"url": "https://github.com/jmcnamara", "tip": "GitHub"}
 worksheet.insert_textbox(row, col, text, options)
 row += 10
 

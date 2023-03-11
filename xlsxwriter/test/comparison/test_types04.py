@@ -17,18 +17,17 @@ class TestCompareXLSXFiles(ExcelComparisonTest):
     """
 
     def setUp(self):
-
-        self.set_filename('types04.xlsx')
+        self.set_filename("types04.xlsx")
 
     def test_write_url_default(self):
         """Test writing hyperlinks with strings_to_urls on."""
 
         workbook = Workbook(self.got_filename)
         worksheet = workbook.add_worksheet()
-        red = workbook.add_format({'font_color': 'red'})
+        red = workbook.add_format({"font_color": "red"})
 
-        worksheet.write(0, 0, 'http://www.google.com/', red)
-        worksheet.write_string(1, 0, 'http://www.google.com/', red)
+        worksheet.write(0, 0, "http://www.google.com/", red)
+        worksheet.write_string(1, 0, "http://www.google.com/", red)
 
         workbook.close()
 
@@ -37,12 +36,12 @@ class TestCompareXLSXFiles(ExcelComparisonTest):
     def test_write_url_implicit(self):
         """Test writing hyperlinks with strings_to_urls on."""
 
-        workbook = Workbook(self.got_filename, {'strings_to_urls': True})
+        workbook = Workbook(self.got_filename, {"strings_to_urls": True})
         worksheet = workbook.add_worksheet()
-        red = workbook.add_format({'font_color': 'red'})
+        red = workbook.add_format({"font_color": "red"})
 
-        worksheet.write(0, 0, 'http://www.google.com/', red)
-        worksheet.write_string(1, 0, 'http://www.google.com/', red)
+        worksheet.write(0, 0, "http://www.google.com/", red)
+        worksheet.write_string(1, 0, "http://www.google.com/", red)
 
         workbook.close()
 
@@ -51,12 +50,12 @@ class TestCompareXLSXFiles(ExcelComparisonTest):
     def test_write_url_explicit(self):
         """Test writing hyperlinks with strings_to_urls off."""
 
-        workbook = Workbook(self.got_filename, {'strings_to_urls': False})
+        workbook = Workbook(self.got_filename, {"strings_to_urls": False})
         worksheet = workbook.add_worksheet()
-        red = workbook.add_format({'font_color': 'red'})
+        red = workbook.add_format({"font_color": "red"})
 
-        worksheet.write_url(0, 0, 'http://www.google.com/', red)
-        worksheet.write(1, 0, 'http://www.google.com/', red)
+        worksheet.write_url(0, 0, "http://www.google.com/", red)
+        worksheet.write(1, 0, "http://www.google.com/", red)
 
         workbook.close()
 

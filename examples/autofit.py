@@ -8,7 +8,7 @@
 #
 from xlsxwriter.workbook import Workbook
 
-workbook = Workbook('autofit.xlsx')
+workbook = Workbook("autofit.xlsx")
 worksheet = workbook.add_worksheet()
 
 # Write some worksheet data to demonstrate autofitting.

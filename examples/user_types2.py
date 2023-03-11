@@ -9,6 +9,7 @@
 import xlsxwriter
 import math
 
+
 # Create a function that will behave like a worksheet write() method.
 #
 # This function takes a float and if it is NaN then it writes a blank cell
@@ -22,8 +23,9 @@ def ignore_nan(worksheet, row, col, number, format=None):
         # Return control to the calling write() method for any other number.
         return None
 
+
 # Set up the workbook as usual.
-workbook = xlsxwriter.Workbook('user_types2.xlsx')
+workbook = xlsxwriter.Workbook("user_types2.xlsx")
 worksheet = workbook.add_worksheet()
 
 
@@ -31,10 +33,10 @@ worksheet = workbook.add_worksheet()
 worksheet.add_write_handler(float, ignore_nan)
 
 # Create some data to write.
-my_data = [1, 2, float('nan'), 4, 5]
+my_data = [1, 2, float("nan"), 4, 5]
 
 # Write the data. Note that write_row() calls write() so this will work as
 # expected. Writing NaN values would raise a TypeError without the handler.
-worksheet.write_row('A1', my_data)
+worksheet.write_row("A1", my_data)
 
 workbook.close()

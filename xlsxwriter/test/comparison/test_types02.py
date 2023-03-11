@@ -17,8 +17,7 @@ class TestCompareXLSXFiles(ExcelComparisonTest):
     """
 
     def setUp(self):
-
-        self.set_filename('types02.xlsx')
+        self.set_filename("types02.xlsx")
 
     def test_write_boolean(self):
         """Test writing boolean."""

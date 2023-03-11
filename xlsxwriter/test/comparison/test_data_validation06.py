@@ -17,8 +17,7 @@ class TestCompareXLSXFiles(ExcelComparisonTest):
     """
 
     def setUp(self):
-
-        self.set_filename('data_validation02.xlsx')
+        self.set_filename("data_validation02.xlsx")
 
     def test_create_file(self):
         """Test the creation of an  XlsxWriter file data validation."""
@@ -28,36 +27,71 @@ class TestCompareXLSXFiles(ExcelComparisonTest):
         worksheet = workbook.add_worksheet()
 
         worksheet.data_validation(
-            'C2', {'validate': 'list',
-                   'value': ['Foo', 'Bar', 'Baz'],
-                   'input_title': 'This is the input title',
-                   'input_message': 'This is the input message',
-                   }
+            "C2",
+            {
+                "validate": "list",
+                "value": ["Foo", "Bar", "Baz"],
+                "input_title": "This is the input title",
+                "input_message": "This is the input message",
+            },
         )
 
         # The following should be rejected because the list items are too long.
-        input_title = 'This is the longest input title1'
-        input_message = 'This is the longest input message ' + ('a' * 221)
+        input_title = "This is the longest input title1"
+        input_message = "This is the longest input message " + ("a" * 221)
         values = [
-            "Foobar", "Foobas", "Foobat", "Foobau", "Foobav", "Foobaw",
-            "Foobax", "Foobay", "Foobaz", "Foobba", "Foobbb", "Foobbc",
-            "Foobbd", "Foobbe", "Foobbf", "Foobbg", "Foobbh", "Foobbi",
-            "Foobbj", "Foobbk", "Foobbl", "Foobbm", "Foobbn", "Foobbo",
-            "Foobbp", "Foobbq", "Foobbr", "Foobbs", "Foobbt", "Foobbu",
-            "Foobbv", "Foobbw", "Foobbx", "Foobby", "Foobbz", "Foobca",
-            "End1"
+            "Foobar",
+            "Foobas",
+            "Foobat",
+            "Foobau",
+            "Foobav",
+            "Foobaw",
+            "Foobax",
+            "Foobay",
+            "Foobaz",
+            "Foobba",
+            "Foobbb",
+            "Foobbc",
+            "Foobbd",
+            "Foobbe",
+            "Foobbf",
+            "Foobbg",
+            "Foobbh",
+            "Foobbi",
+            "Foobbj",
+            "Foobbk",
+            "Foobbl",
+            "Foobbm",
+            "Foobbn",
+            "Foobbo",
+            "Foobbp",
+            "Foobbq",
+            "Foobbr",
+            "Foobbs",
+            "Foobbt",
+            "Foobbu",
+            "Foobbv",
+            "Foobbw",
+            "Foobbx",
+            "Foobby",
+            "Foobbz",
+            "Foobca",
+            "End1",
         ]
 
         # Ignore the warnings raised by data_validation().
         import warnings
-        warnings.filterwarnings('ignore')
+
+        warnings.filterwarnings("ignore")
 
         worksheet.data_validation(
-            'D6', {'validate': 'list',
-                   'value': values,
-                   'input_title': input_title,
-                   'input_message': input_message,
-                   }
+            "D6",
+            {
+                "validate": "list",
+                "value": values,
+                "input_title": input_title,
+                "input_message": input_message,
+            },
         )
 
         workbook.close()

@@ -69,7 +69,7 @@ class TestWriteSheetViews(unittest.TestCase):
 
         self.worksheet.select()
 
-        self.worksheet.freeze_panes('G4')
+        self.worksheet.freeze_panes("G4")
 
         self.worksheet._write_sheet_views()
 

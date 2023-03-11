@@ -25,7 +25,7 @@ class TestWriteMruColors(unittest.TestCase):
     def test_write_mru_colors(self):
         """Test the _write_mru_colors() method"""
 
-        self.styles._write_mru_colors(['FF26DA55', 'FF792DC8', 'FF646462'])
+        self.styles._write_mru_colors(["FF26DA55", "FF792DC8", "FF646462"])
 
         exp = """<mruColors><color rgb="FF646462"/><color rgb="FF792DC8"/><color rgb="FF26DA55"/></mruColors>"""
         got = self.fh.getvalue()

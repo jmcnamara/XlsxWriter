@@ -17,8 +17,7 @@ class TestCompareXLSXFiles(ExcelComparisonTest):
     """
 
     def setUp(self):
-
-        self.set_filename('table28.xlsx')
+        self.set_filename("table28.xlsx")
 
     def test_create_file(self):
         """Test the creation of a simple XlsxWriter file with tables."""
@@ -27,7 +26,7 @@ class TestCompareXLSXFiles(ExcelComparisonTest):
 
         worksheet = workbook.add_worksheet()
 
-        worksheet.add_table('C3:F13', {'autofilter': False})
+        worksheet.add_table("C3:F13", {"autofilter": False})
 
         worksheet.autofit()
 

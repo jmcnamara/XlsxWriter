@@ -17,8 +17,7 @@ class TestCompareXLSXFiles(ExcelComparisonTest):
     """
 
     def setUp(self):
-
-        self.set_filename('hyperlink07.xlsx')
+        self.set_filename("hyperlink07.xlsx")
 
     def test_create_file(self):
         """Test the creation of a simple XlsxWriter file with hyperlinks."""
@@ -30,8 +29,10 @@ class TestCompareXLSXFiles(ExcelComparisonTest):
 
         worksheet = workbook.add_worksheet()
 
-        worksheet.write_url('A1', r'external:\\VBOXSVR\share\foo.xlsx', None, r'J:\foo.xlsx')
-        worksheet.write_url('A3', r'external:foo.xlsx')
+        worksheet.write_url(
+            "A1", r"external:\\VBOXSVR\share\foo.xlsx", None, r"J:\foo.xlsx"
+        )
+        worksheet.write_url("A3", r"external:foo.xlsx")
 
         workbook.close()
 

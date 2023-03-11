@@ -25,7 +25,7 @@ class TestWriteColors(unittest.TestCase):
     def test_write_colors1(self):
         """Test the _write_colors() method"""
 
-        self.styles.custom_colors = ['FF26DA55']
+        self.styles.custom_colors = ["FF26DA55"]
         self.styles._write_colors()
 
         exp = """<colors><mruColors><color rgb="FF26DA55"/></mruColors></colors>"""
@@ -36,7 +36,7 @@ class TestWriteColors(unittest.TestCase):
     def test_write_colors2(self):
         """Test the _write_colors() method"""
 
-        self.styles.custom_colors = ['FF26DA55', 'FF792DC8', 'FF646462']
+        self.styles.custom_colors = ["FF26DA55", "FF792DC8", "FF646462"]
         self.styles._write_colors()
 
         exp = """<colors><mruColors><color rgb="FF646462"/><color rgb="FF792DC8"/><color rgb="FF26DA55"/></mruColors></colors>"""
@@ -47,10 +47,20 @@ class TestWriteColors(unittest.TestCase):
     def test_write_colors3(self):
         """Test the _write_colors() method"""
 
-        self.styles.custom_colors = ['FF792DC8', 'FF646462', 'FF5EA29C',
-                                     'FF583AC6', 'FFE31DAF', 'FFA1A759',
-                                     'FF600FF1', 'FF0CF49C', 'FFE3FA06',
-                                     'FF913AC6', 'FFB97847', 'FFD97827']
+        self.styles.custom_colors = [
+            "FF792DC8",
+            "FF646462",
+            "FF5EA29C",
+            "FF583AC6",
+            "FFE31DAF",
+            "FFA1A759",
+            "FF600FF1",
+            "FF0CF49C",
+            "FFE3FA06",
+            "FF913AC6",
+            "FFB97847",
+            "FFD97827",
+        ]
 
         self.styles._write_colors()
 

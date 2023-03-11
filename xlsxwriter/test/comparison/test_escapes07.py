@@ -17,8 +17,7 @@ class TestCompareXLSXFiles(ExcelComparisonTest):
     """
 
     def setUp(self):
-
-        self.set_filename('escapes07.xlsx')
+        self.set_filename("escapes07.xlsx")
 
     def test_create_file(self):
         """Test the creation of a simple XlsxWriter file.Check encoding of url strings."""
@@ -30,7 +29,10 @@ class TestCompareXLSXFiles(ExcelComparisonTest):
 
         worksheet = workbook.add_worksheet()
 
-        worksheet.write_url('A1', r"""http://example.com/!"$%&'( )*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\]^_`abcdefghijklmnopqrstuvwxyz{|}~""")
+        worksheet.write_url(
+            "A1",
+            r"""http://example.com/!"$%&'( )*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\]^_`abcdefghijklmnopqrstuvwxyz{|}~""",
+        )
 
         workbook.close()
 

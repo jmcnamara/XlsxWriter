@@ -17,14 +17,14 @@ class TestCompareXLSXFiles(ExcelComparisonTest):
     """
 
     def setUp(self):
-
-        self.set_filename('default_format01.xlsx')
+        self.set_filename("default_format01.xlsx")
 
     def test_create_file(self):
         """Test the creation of a simple XlsxWriter file."""
 
-        workbook = Workbook(self.got_filename,
-                            {'default_format_properties': {'font_size': 10}})
+        workbook = Workbook(
+            self.got_filename, {"default_format_properties": {"font_size": 10}}
+        )
 
         worksheet = workbook.add_worksheet()
 

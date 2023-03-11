@@ -17,22 +17,21 @@ class TestCompareXLSXFiles(ExcelComparisonTest):
     """
 
     def setUp(self):
-
-        self.set_filename('excel2003_style08.xlsx')
+        self.set_filename("excel2003_style08.xlsx")
 
     def test_create_file(self):
         """Test the creation of a simple XlsxWriter file."""
 
-        workbook = Workbook(self.got_filename, {'excel2003_style': True})
+        workbook = Workbook(self.got_filename, {"excel2003_style": True})
 
         worksheet = workbook.add_worksheet()
 
-        courier = workbook.add_format({'font_name': 'Courier',
-                                       'font_size': 8,
-                                       'font_family': 3})
+        courier = workbook.add_format(
+            {"font_name": "Courier", "font_size": 8, "font_family": 3}
+        )
 
-        worksheet.write('A1', 'Foo')
-        worksheet.write('A2', 'Bar', courier)
+        worksheet.write("A1", "Foo")
+        worksheet.write("A2", "Bar", courier)
 
         workbook.close()
 

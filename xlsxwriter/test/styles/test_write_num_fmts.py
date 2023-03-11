@@ -28,9 +28,11 @@ class TestWriteNumFmts(unittest.TestCase):
 
         xf_format = Format()
         xf_format.num_format_index = 164
-        xf_format.set_num_format('#,##0.0')
+        xf_format.set_num_format("#,##0.0")
 
-        self.styles._set_style_properties([[xf_format], None, 0, ["#,##0.0"], 0, 0, [], [], 0])
+        self.styles._set_style_properties(
+            [[xf_format], None, 0, ["#,##0.0"], 0, 0, [], [], 0]
+        )
 
         self.styles._write_num_fmts()
 

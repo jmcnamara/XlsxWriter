@@ -17,6 +17,7 @@ class TestAssembleContentTypes(unittest.TestCase):
     Test assembling a complete ContentTypes file.
 
     """
+
     def test_assemble_xml_file(self):
         """Test writing an ContentTypes file."""
         self.maxDiff = None
@@ -25,14 +26,15 @@ class TestAssembleContentTypes(unittest.TestCase):
         content = ContentTypes()
         content._set_filehandle(fh)
 
-        content._add_worksheet_name('sheet1')
-        content._add_default(('jpeg', 'image/jpeg'))
+        content._add_worksheet_name("sheet1")
+        content._add_default(("jpeg", "image/jpeg"))
         content._add_shared_strings()
         content._add_calc_chain()
 
         content._assemble_xml_file()
 
-        exp = _xml_to_list("""
+        exp = _xml_to_list(
+            """
                 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
                 <Types xmlns="http://schemas.openxmlformats.org/package/2006/content-types">
 
@@ -49,7 +51,8 @@ class TestAssembleContentTypes(unittest.TestCase):
                   <Override PartName="/xl/sharedStrings.xml" ContentType="application/vnd.openxmlformats-officedocument.spreadsheetml.sharedStrings+xml"/>
                   <Override PartName="/xl/calcChain.xml" ContentType="application/vnd.openxmlformats-officedocument.spreadsheetml.calcChain+xml"/>
                 </Types>
-                """)
+                """
+        )
 
         got = _xml_to_list(fh.getvalue())
 

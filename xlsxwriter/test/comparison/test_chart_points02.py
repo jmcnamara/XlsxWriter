@@ -17,8 +17,7 @@ class TestCompareXLSXFiles(ExcelComparisonTest):
     """
 
     def setUp(self):
-
-        self.set_filename('chart_points02.xlsx')
+        self.set_filename("chart_points02.xlsx")
 
     def test_create_file(self):
         """Test the creation of an XlsxWriter file with point formatting."""
@@ -26,21 +25,25 @@ class TestCompareXLSXFiles(ExcelComparisonTest):
         workbook = Workbook(self.got_filename)
 
         worksheet = workbook.add_worksheet()
-        chart = workbook.add_chart({'type': 'pie'})
+        chart = workbook.add_chart({"type": "pie"})
 
         data = [2, 5, 4, 1, 7, 4]
 
-        worksheet.write_column('A1', data)
+        worksheet.write_column("A1", data)
 
-        chart.add_series({
-            'values': '=Sheet1!$A$1:$A$6',
-            'points': [
-                None, {'border': {'color': 'red', 'dash_type': 'square_dot'}},
-                None, {'fill': {'color': 'yellow'}}
-            ],
-        })
+        chart.add_series(
+            {
+                "values": "=Sheet1!$A$1:$A$6",
+                "points": [
+                    None,
+                    {"border": {"color": "red", "dash_type": "square_dot"}},
+                    None,
+                    {"fill": {"color": "yellow"}},
+                ],
+            }
+        )
 
-        worksheet.insert_chart('E9', chart)
+        worksheet.insert_chart("E9", chart)
 
         workbook.close()
 

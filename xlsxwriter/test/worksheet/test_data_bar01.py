@@ -17,6 +17,7 @@ class TestAssembleWorksheet(unittest.TestCase):
     Test assembling a complete Worksheet file.
 
     """
+
     def test_assemble_xml_file(self):
         """Test writing a worksheet with conditional formatting."""
         self.maxDiff = None
@@ -26,13 +27,17 @@ class TestAssembleWorksheet(unittest.TestCase):
         worksheet._set_filehandle(fh)
         worksheet.select()
 
-        worksheet.conditional_format('A1',
-                                     {'type': 'data_bar',
-                                      })
+        worksheet.conditional_format(
+            "A1",
+            {
+                "type": "data_bar",
+            },
+        )
 
         worksheet._assemble_xml_file()
 
-        exp = _xml_to_list("""
+        exp = _xml_to_list(
+            """
                 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
                 <worksheet xmlns="http://schemas.openxmlformats.org/spreadsheetml/2006/main" xmlns:r="http://schemas.openxmlformats.org/officeDocument/2006/relationships">
                   <dimension ref="A1"/>
@@ -52,7 +57,8 @@ class TestAssembleWorksheet(unittest.TestCase):
                   </conditionalFormatting>
                   <pageMargins left="0.7" right="0.7" top="0.75" bottom="0.75" header="0.3" footer="0.3"/>
                 </worksheet>
-                """)
+                """
+        )
 
         got = _xml_to_list(fh.getvalue())
 

@@ -17,8 +17,7 @@ class TestCompareXLSXFiles(ExcelComparisonTest):
     """
 
     def setUp(self):
-
-        self.set_filename('image29.xlsx')
+        self.set_filename("image29.xlsx")
 
     def test_create_file(self):
         """Test the creation of a simple XlsxWriter file with image(s)."""
@@ -27,7 +26,9 @@ class TestCompareXLSXFiles(ExcelComparisonTest):
 
         worksheet = workbook.add_worksheet()
 
-        worksheet.insert_image(0, 10, self.image_dir + 'red_208.png', {'x_offset': -210, 'y_offset': 1})
+        worksheet.insert_image(
+            0, 10, self.image_dir + "red_208.png", {"x_offset": -210, "y_offset": 1}
+        )
 
         workbook.close()
 

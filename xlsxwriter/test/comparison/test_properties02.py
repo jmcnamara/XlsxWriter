@@ -17,8 +17,7 @@ class TestCompareXLSXFiles(ExcelComparisonTest):
     """
 
     def setUp(self):
-
-        self.set_filename('properties02.xlsx')
+        self.set_filename("properties02.xlsx")
 
     def test_create_file(self):
         """Test the creation of a simple XlsxWriter file."""
@@ -27,7 +26,7 @@ class TestCompareXLSXFiles(ExcelComparisonTest):
 
         worksheet = workbook.add_worksheet()
 
-        workbook.set_properties({'hyperlink_base': 'C:\\'})
+        workbook.set_properties({"hyperlink_base": "C:\\"})
 
         workbook.close()
 

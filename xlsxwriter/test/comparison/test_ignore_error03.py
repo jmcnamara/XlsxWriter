@@ -17,8 +17,7 @@ class TestCompareXLSXFiles(ExcelComparisonTest):
     """
 
     def setUp(self):
-
-        self.set_filename('ignore_error03.xlsx')
+        self.set_filename("ignore_error03.xlsx")
 
     def test_create_file(self):
         """Test the creation of a simple XlsxWriter file."""
@@ -28,9 +27,9 @@ class TestCompareXLSXFiles(ExcelComparisonTest):
         worksheet = workbook.add_worksheet()
 
         for row in range(0, 9 + 1):
-            worksheet.write_string(row, 0, '123')
+            worksheet.write_string(row, 0, "123")
 
-        worksheet.ignore_errors({'number_stored_as_text': 'A1:A10'})
+        worksheet.ignore_errors({"number_stored_as_text": "A1:A10"})
 
         workbook.close()
 

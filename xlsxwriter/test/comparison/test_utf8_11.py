@@ -16,17 +16,16 @@ class TestCompareXLSXFiles(ExcelComparisonTest):
     """
 
     def setUp(self):
-
-        self.set_filename('utf8_11.xlsx')
+        self.set_filename("utf8_11.xlsx")
 
     def test_create_file(self):
         """Test the creation of an XlsxWriter file with utf-8 strings."""
 
-        workbook = Workbook(self.got_filename, {'strings_to_urls': True})
+        workbook = Workbook(self.got_filename, {"strings_to_urls": True})
 
         worksheet = workbook.add_worksheet()
 
-        worksheet.write('A1', '１２３４５')
+        worksheet.write("A1", "１２３４５")
 
         workbook.close()
 

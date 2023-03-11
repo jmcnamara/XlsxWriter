@@ -53,7 +53,7 @@ class Chartsheet(worksheet.Worksheet):
         self.charts.append([0, 0, chart, 0, 0, 1, 1])
         return chart
 
-    def protect(self, password='', options=None):
+    def protect(self, password="", options=None):
         """
         Set the password and protection options of the worksheet.
 
@@ -73,23 +73,23 @@ class Chartsheet(worksheet.Worksheet):
         if not options:
             options = {}
 
-        if options.get('objects') is None:
-            copy['objects'] = False
+        if options.get("objects") is None:
+            copy["objects"] = False
         else:
             # Objects are default on for chartsheets, so reverse state.
-            copy['objects'] = not options['objects']
+            copy["objects"] = not options["objects"]
 
-        if options.get('content') is None:
-            copy['content'] = True
+        if options.get("content") is None:
+            copy["content"] = True
         else:
-            copy['content'] = options['content']
+            copy["content"] = options["content"]
 
-        copy['sheet'] = False
-        copy['scenarios'] = True
+        copy["sheet"] = False
+        copy["scenarios"] = True
 
         # If objects and content are both off then the chartsheet isn't
         # protected, unless it has a password.
-        if password == '' and copy['objects'] and not copy['content']:
+        if password == "" and copy["objects"] and not copy["content"]:
             return
 
         if self.chart:
@@ -139,7 +139,7 @@ class Chartsheet(worksheet.Worksheet):
         self._write_drawings()
 
         # Close the worksheet tag.
-        self._xml_end_tag('chartsheet')
+        self._xml_end_tag("chartsheet")
 
         # Close the file.
         self._xml_close()
@@ -152,15 +152,13 @@ class Chartsheet(worksheet.Worksheet):
         self.drawing = Drawing()
         self.drawing.orientation = self.orientation
 
-        self.external_drawing_links.append(['/drawing',
-                                            '../drawings/drawing'
-                                            + str(drawing_id)
-                                            + '.xml'])
+        self.external_drawing_links.append(
+            ["/drawing", "../drawings/drawing" + str(drawing_id) + ".xml"]
+        )
 
-        self.drawing_links.append(['/chart',
-                                   '../charts/chart'
-                                   + str(chart_id)
-                                   + '.xml'])
+        self.drawing_links.append(
+            ["/chart", "../charts/chart" + str(chart_id) + ".xml"]
+        )
 
     ###########################################################################
     #
@@ -171,27 +169,25 @@ class Chartsheet(worksheet.Worksheet):
     def _write_chartsheet(self):
         # Write the <worksheet> element. This is the root element.
 
-        schema = 'http://schemas.openxmlformats.org/'
-        xmlns = schema + 'spreadsheetml/2006/main'
-        xmlns_r = schema + 'officeDocument/2006/relationships'
+        schema = "http://schemas.openxmlformats.org/"
+        xmlns = schema + "spreadsheetml/2006/main"
+        xmlns_r = schema + "officeDocument/2006/relationships"
 
-        attributes = [
-            ('xmlns', xmlns),
-            ('xmlns:r', xmlns_r)]
+        attributes = [("xmlns", xmlns), ("xmlns:r", xmlns_r)]
 
-        self._xml_start_tag('chartsheet', attributes)
+        self._xml_start_tag("chartsheet", attributes)
 
     def _write_sheet_pr(self):
         # Write the <sheetPr> element for Sheet level properties.
         attributes = []
 
         if self.filter_on:
-            attributes.append(('filterMode', 1))
+            attributes.append(("filterMode", 1))
 
-        if (self.fit_page or self.tab_color):
-            self._xml_start_tag('sheetPr', attributes)
+        if self.fit_page or self.tab_color:
+            self._xml_start_tag("sheetPr", attributes)
             self._write_tab_color()
             self._write_page_set_up_pr()
-            self._xml_end_tag('sheetPr')
+            self._xml_end_tag("sheetPr")
         else:
-            self._xml_empty_tag('sheetPr', attributes)
+            self._xml_empty_tag("sheetPr", attributes)

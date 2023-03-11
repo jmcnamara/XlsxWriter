@@ -17,8 +17,7 @@ class TestCompareXLSXFiles(ExcelComparisonTest):
     """
 
     def setUp(self):
-
-        self.set_filename('default_row01.xlsx')
+        self.set_filename("default_row01.xlsx")
 
     def test_create_file(self):
         """Test the creation of a simple XlsxWriter file."""
@@ -29,8 +28,8 @@ class TestCompareXLSXFiles(ExcelComparisonTest):
 
         worksheet.set_default_row(24)
 
-        worksheet.write('A1', 'Foo')
-        worksheet.write('A10', 'Bar')
+        worksheet.write("A1", "Foo")
+        worksheet.write("A10", "Bar")
 
         workbook.close()
 

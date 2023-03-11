@@ -17,6 +17,7 @@ class TestAssembleVml(unittest.TestCase):
     Test assembling a complete Vml file.
 
     """
+
     def test_assemble_xml_file(self):
         """Test writing a vml with no cell data."""
         self.maxDiff = None
@@ -25,14 +26,10 @@ class TestAssembleVml(unittest.TestCase):
         vml = Vml()
         vml._set_filehandle(fh)
 
-        vml._assemble_xml_file(
-            1,
-            1024,
-            None,
-            None,
-            [[32, 32, 'red', 'CH', 96, 96, 1]])
+        vml._assemble_xml_file(1, 1024, None, None, [[32, 32, "red", "CH", 96, 96, 1]])
 
-        exp = _vml_to_list("""
+        exp = _vml_to_list(
+            """
                 <xml xmlns:v="urn:schemas-microsoft-com:vml" xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:x="urn:schemas-microsoft-com:office:excel">
                   <o:shapelayout v:ext="edit">
                     <o:idmap v:ext="edit" data="1"/>
@@ -61,7 +58,8 @@ class TestAssembleVml(unittest.TestCase):
                     <o:lock v:ext="edit" rotation="t"/>
                   </v:shape>
                 </xml>
-                """)
+                """
+        )
 
         got = _xml_to_list(fh.getvalue())
 

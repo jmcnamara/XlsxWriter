@@ -25,7 +25,7 @@ class TestWriteSheets(unittest.TestCase):
     def test_write_sheets(self):
         """Test the _write_sheets() method"""
 
-        self.workbook.add_worksheet('Sheet2')
+        self.workbook.add_worksheet("Sheet2")
         self.workbook._write_sheets()
 
         exp = """<sheets><sheet name="Sheet2" sheetId="1" r:id="rId1"/></sheets>"""

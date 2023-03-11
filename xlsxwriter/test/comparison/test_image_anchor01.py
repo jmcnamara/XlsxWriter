@@ -17,8 +17,7 @@ class TestCompareXLSXFiles(ExcelComparisonTest):
     """
 
     def setUp(self):
-
-        self.set_filename('image_anchor01.xlsx')
+        self.set_filename("image_anchor01.xlsx")
 
     def test_create_file(self):
         """Test the creation of a simple XlsxWriter file with image(s)."""
@@ -27,8 +26,7 @@ class TestCompareXLSXFiles(ExcelComparisonTest):
 
         worksheet = workbook.add_worksheet()
 
-        worksheet.insert_image(
-            'E9', self.image_dir + 'red.png', {'positioning': 3})
+        worksheet.insert_image("E9", self.image_dir + "red.png", {"positioning": 3})
 
         workbook.close()
 
@@ -37,12 +35,11 @@ class TestCompareXLSXFiles(ExcelComparisonTest):
     def test_create_file_in_memory(self):
         """Test the creation of a simple XlsxWriter file with image(s)."""
 
-        workbook = Workbook(self.got_filename, {'in_memory': True})
+        workbook = Workbook(self.got_filename, {"in_memory": True})
 
         worksheet = workbook.add_worksheet()
 
-        worksheet.insert_image(
-            'E9', self.image_dir + 'red.png', {'positioning': 3})
+        worksheet.insert_image("E9", self.image_dir + "red.png", {"positioning": 3})
 
         workbook.close()
 

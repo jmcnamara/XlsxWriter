@@ -36,7 +36,7 @@ class TestWriteSheetPr(unittest.TestCase):
     def test_write_sheet_pr_tab_color(self):
         """Test the _write_sheet_pr() method"""
 
-        self.worksheet.set_tab_color('red')
+        self.worksheet.set_tab_color("red")
         self.worksheet._write_sheet_pr()
 
         exp = """<sheetPr><tabColor rgb="FFFF0000"/></sheetPr>"""
@@ -47,7 +47,7 @@ class TestWriteSheetPr(unittest.TestCase):
     def test_write_sheet_pr_both(self):
         """Test the _write_sheet_pr() method"""
 
-        self.worksheet.set_tab_color('red')
+        self.worksheet.set_tab_color("red")
         self.worksheet.fit_to_pages(1, 1)
         self.worksheet._write_sheet_pr()
 

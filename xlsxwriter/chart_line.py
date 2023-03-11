@@ -32,29 +32,30 @@ class ChartLine(chart.Chart):
         if options is None:
             options = {}
 
-        self.subtype = options.get('subtype')
+        self.subtype = options.get("subtype")
 
         if not self.subtype:
-            self.subtype = 'standard'
+            self.subtype = "standard"
 
-        self.default_marker = {'type': 'none'}
+        self.default_marker = {"type": "none"}
         self.smooth_allowed = True
 
         # Override and reset the default axis values.
-        if self.subtype == 'percent_stacked':
-            self.y_axis['defaults']['num_format'] = '0%'
+        if self.subtype == "percent_stacked":
+            self.y_axis["defaults"]["num_format"] = "0%"
 
         # Set the available data label positions for this chart type.
-        self.label_position_default = 'right'
+        self.label_position_default = "right"
         self.label_positions = {
-            'center': 'ctr',
-            'right': 'r',
-            'left': 'l',
-            'above': 't',
-            'below': 'b',
+            "center": "ctr",
+            "right": "r",
+            "left": "l",
+            "above": "t",
+            "below": "b",
             # For backward compatibility.
-            'top': 't',
-            'bottom': 'b'}
+            "top": "t",
+            "bottom": "b",
+        }
 
         self.set_y_axis({})
 
@@ -78,7 +79,7 @@ class ChartLine(chart.Chart):
     def _write_line_chart(self, args):
         # Write the <c:lineChart> element.
 
-        if args['primary_axes']:
+        if args["primary_axes"]:
             series = self._get_primary_axes_series()
         else:
             series = self._get_secondary_axes_series()
@@ -88,10 +89,10 @@ class ChartLine(chart.Chart):
 
         subtype = self.subtype
 
-        if subtype == 'percent_stacked':
-            subtype = 'percentStacked'
+        if subtype == "percent_stacked":
+            subtype = "percentStacked"
 
-        self._xml_start_tag('c:lineChart')
+        self._xml_start_tag("c:lineChart")
 
         # Write the c:grouping element.
         self._write_grouping(subtype)
@@ -115,28 +116,28 @@ class ChartLine(chart.Chart):
         # Write the c:axId elements
         self._write_axis_ids(args)
 
-        self._xml_end_tag('c:lineChart')
+        self._xml_end_tag("c:lineChart")
 
     def _write_d_pt_point(self, index, point):
         # Write an individual <c:dPt> element. Override the parent method to
         # add markers.
 
-        self._xml_start_tag('c:dPt')
+        self._xml_start_tag("c:dPt")
 
         # Write the c:idx element.
         self._write_idx(index)
 
-        self._xml_start_tag('c:marker')
+        self._xml_start_tag("c:marker")
 
         # Write the c:spPr element.
         self._write_sp_pr(point)
 
-        self._xml_end_tag('c:marker')
+        self._xml_end_tag("c:marker")
 
-        self._xml_end_tag('c:dPt')
+        self._xml_end_tag("c:dPt")
 
     def _write_marker_value(self):
         # Write the <c:marker> element without a sub-element.
-        attributes = [('val', 1)]
+        attributes = [("val", 1)]
 
-        self._xml_empty_tag('c:marker', attributes)
+        self._xml_empty_tag("c:marker", attributes)

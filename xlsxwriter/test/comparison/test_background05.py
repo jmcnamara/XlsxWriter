@@ -17,8 +17,7 @@ class TestCompareXLSXFiles(ExcelComparisonTest):
     """
 
     def setUp(self):
-
-        self.set_filename('background05.xlsx')
+        self.set_filename("background05.xlsx")
 
     def test_create_file(self):
         """Test the creation of an XlsxWriter file with a background image."""
@@ -28,8 +27,8 @@ class TestCompareXLSXFiles(ExcelComparisonTest):
         worksheet1 = workbook.add_worksheet()
         worksheet2 = workbook.add_worksheet()
 
-        worksheet1.set_background(self.image_dir + 'logo.jpg')
-        worksheet2.set_background(self.image_dir + 'red.jpg')
+        worksheet1.set_background(self.image_dir + "logo.jpg")
+        worksheet2.set_background(self.image_dir + "red.jpg")
 
         workbook.close()
 

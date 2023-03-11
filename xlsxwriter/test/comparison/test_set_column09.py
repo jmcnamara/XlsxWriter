@@ -17,8 +17,7 @@ class TestCompareXLSXFiles(ExcelComparisonTest):
     """
 
     def setUp(self):
-
-        self.set_filename('set_column09.xlsx')
+        self.set_filename("set_column09.xlsx")
 
     def test_create_file(self):
         """Test the creation of a simple XlsxWriter file."""
@@ -27,12 +26,12 @@ class TestCompareXLSXFiles(ExcelComparisonTest):
 
         worksheet = workbook.add_worksheet()
 
-        worksheet.set_column('A:A', 100)
-        worksheet.set_column('F:H', 8)
-        worksheet.set_column('C:D', 12)
-        worksheet.set_column('A:A', 10)
-        worksheet.set_column('XFD:XFD', 5)
-        worksheet.set_column('ZZ:ZZ', 3)
+        worksheet.set_column("A:A", 100)
+        worksheet.set_column("F:H", 8)
+        worksheet.set_column("C:D", 12)
+        worksheet.set_column("A:A", 10)
+        worksheet.set_column("XFD:XFD", 5)
+        worksheet.set_column("ZZ:ZZ", 3)
 
         workbook.close()
 

@@ -17,13 +17,16 @@ class TestCompareXLSXFiles(ExcelComparisonTest):
     """
 
     def setUp(self):
+        self.set_filename("page_breaks06.xlsx")
 
-        self.set_filename('page_breaks06.xlsx')
-
-        self.ignore_files = ['xl/printerSettings/printerSettings1.bin',
-                             'xl/worksheets/_rels/sheet1.xml.rels']
-        self.ignore_elements = {'[Content_Types].xml': ['<Default Extension="bin"'],
-                                'xl/worksheets/sheet1.xml': ['<pageMargins', '<pageSetup']}
+        self.ignore_files = [
+            "xl/printerSettings/printerSettings1.bin",
+            "xl/worksheets/_rels/sheet1.xml.rels",
+        ]
+        self.ignore_elements = {
+            "[Content_Types].xml": ['<Default Extension="bin"'],
+            "xl/worksheets/sheet1.xml": ["<pageMargins", "<pageSetup"],
+        }
 
     def test_create_file(self):
         """Test the creation of a simple XlsxWriter file with page breaks."""
@@ -35,7 +38,7 @@ class TestCompareXLSXFiles(ExcelComparisonTest):
         worksheet.set_h_pagebreaks([1, 5, 13, 8, 8, 8])
         worksheet.set_v_pagebreaks([8, 3, 1, 0])
 
-        worksheet.write('A1', 'Foo')
+        worksheet.write("A1", "Foo")
 
         workbook.close()
 

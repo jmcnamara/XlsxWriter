@@ -17,8 +17,7 @@ class TestCompareXLSXFiles(ExcelComparisonTest):
     """
 
     def setUp(self):
-
-        self.set_filename('format16.xlsx')
+        self.set_filename("format16.xlsx")
 
     def test_create_file(self):
         """Test the creation of a simple XlsxWriter file with a pattern only."""
@@ -26,9 +25,9 @@ class TestCompareXLSXFiles(ExcelComparisonTest):
         workbook = Workbook(self.got_filename)
 
         worksheet = workbook.add_worksheet()
-        pattern = workbook.add_format({'pattern': 2})
+        pattern = workbook.add_format({"pattern": 2})
 
-        worksheet.write('A1', '', pattern)
+        worksheet.write("A1", "", pattern)
 
         workbook.close()
 

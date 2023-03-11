@@ -18,10 +18,13 @@ class TestCompareXLSXFiles(ExcelComparisonTest):
     """
 
     def setUp(self):
+        self.set_filename("hyperlink19.xlsx")
 
-        self.set_filename('hyperlink19.xlsx')
-
-        self.ignore_files = ['xl/calcChain.xml', '[Content_Types].xml', 'xl/_rels/workbook.xml.rels']
+        self.ignore_files = [
+            "xl/calcChain.xml",
+            "[Content_Types].xml",
+            "xl/_rels/workbook.xml.rels",
+        ]
 
     def test_create_file(self):
         """Test the creation of a simple XlsxWriter file with hyperlinks."""
@@ -30,10 +33,10 @@ class TestCompareXLSXFiles(ExcelComparisonTest):
 
         worksheet = workbook.add_worksheet()
 
-        worksheet.write_url('A1', 'http://www.perl.com/')
+        worksheet.write_url("A1", "http://www.perl.com/")
 
         # Maintain the link but overwrite string with a formula.
-        worksheet.write_formula('A1', '=1+1', None, 2)
+        worksheet.write_formula("A1", "=1+1", None, 2)
 
         # Reset the SST for testing.
         workbook.str_table = SharedStringTable()

@@ -16,7 +16,6 @@ import xlsxwriter
 
 
 class Handler(http.server.SimpleHTTPRequestHandler):
-
     def do_GET(self):
         # Create an in-memory output file for the new workbook.
         output = io.BytesIO()
@@ -31,11 +30,11 @@ class Handler(http.server.SimpleHTTPRequestHandler):
         #
         # https://cloud.google.com/appengine/docs/standard/python3/runtime#filesystem
         #
-        workbook = xlsxwriter.Workbook(output, {'in_memory': True})
+        workbook = xlsxwriter.Workbook(output, {"in_memory": True})
         worksheet = workbook.add_worksheet()
 
         # Write some test data.
-        worksheet.write(0, 0, 'Hello, world!')
+        worksheet.write(0, 0, "Hello, world!")
 
         # Close the workbook before streaming the data.
         workbook.close()
@@ -45,14 +44,16 @@ class Handler(http.server.SimpleHTTPRequestHandler):
 
         # Construct a server response.
         self.send_response(200)
-        self.send_header('Content-Disposition', 'attachment; filename=test.xlsx')
-        self.send_header('Content-type',
-                         'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
+        self.send_header("Content-Disposition", "attachment; filename=test.xlsx")
+        self.send_header(
+            "Content-type",
+            "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+        )
         self.end_headers()
         self.wfile.write(output.read())
         return
 
 
-print('Server listening on port 8000...')
-httpd = socketserver.TCPServer(('', 8000), Handler)
+print("Server listening on port 8000...")
+httpd = socketserver.TCPServer(("", 8000), Handler)
 httpd.serve_forever()

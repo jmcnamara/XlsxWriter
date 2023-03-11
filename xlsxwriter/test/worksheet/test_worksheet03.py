@@ -18,6 +18,7 @@ class TestAssembleWorksheet(unittest.TestCase):
     Test assembling a complete Worksheet file.
 
     """
+
     def test_assemble_xml_file(self):
         """Test writing a worksheet with column formatting set."""
         self.maxDiff = None
@@ -25,18 +26,19 @@ class TestAssembleWorksheet(unittest.TestCase):
         fh = StringIO()
         worksheet = Worksheet()
         worksheet._set_filehandle(fh)
-        cell_format = Format({'xf_index': 1})
+        cell_format = Format({"xf_index": 1})
 
         worksheet.set_column(1, 3, 5)
-        worksheet.set_column(5, 5, 8, None, {'hidden': True})
+        worksheet.set_column(5, 5, 8, None, {"hidden": True})
         worksheet.set_column(7, 7, None, cell_format)
         worksheet.set_column(9, 9, 2)
-        worksheet.set_column(11, 11, None, None, {'hidden': True})
+        worksheet.set_column(11, 11, None, None, {"hidden": True})
 
         worksheet.select()
         worksheet._assemble_xml_file()
 
-        exp = _xml_to_list("""
+        exp = _xml_to_list(
+            """
                 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
                 <worksheet xmlns="http://schemas.openxmlformats.org/spreadsheetml/2006/main" xmlns:r="http://schemas.openxmlformats.org/officeDocument/2006/relationships">
                   <dimension ref="F1:H1"/>
@@ -54,7 +56,8 @@ class TestAssembleWorksheet(unittest.TestCase):
                   <sheetData/>
                   <pageMargins left="0.7" right="0.7" top="0.75" bottom="0.75" header="0.3" footer="0.3"/>
                 </worksheet>
-                """)
+                """
+        )
 
         got = _xml_to_list(fh.getvalue())
 
@@ -70,18 +73,19 @@ class TestAssembleWorksheet(unittest.TestCase):
         fh = StringIO()
         worksheet = Worksheet()
         worksheet._set_filehandle(fh)
-        cell_format = Format({'xf_index': 1})
+        cell_format = Format({"xf_index": 1})
 
-        worksheet.set_column('B:D', 5)
-        worksheet.set_column('F:F', 8, None, {'hidden': True})
-        worksheet.set_column('H:H', None, cell_format)
-        worksheet.set_column('J:J', 2)
-        worksheet.set_column('L:L', None, None, {'hidden': True})
+        worksheet.set_column("B:D", 5)
+        worksheet.set_column("F:F", 8, None, {"hidden": True})
+        worksheet.set_column("H:H", None, cell_format)
+        worksheet.set_column("J:J", 2)
+        worksheet.set_column("L:L", None, None, {"hidden": True})
 
         worksheet.select()
         worksheet._assemble_xml_file()
 
-        exp = _xml_to_list("""
+        exp = _xml_to_list(
+            """
                 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
                 <worksheet xmlns="http://schemas.openxmlformats.org/spreadsheetml/2006/main" xmlns:r="http://schemas.openxmlformats.org/officeDocument/2006/relationships">
                   <dimension ref="F1:H1"/>
@@ -99,7 +103,8 @@ class TestAssembleWorksheet(unittest.TestCase):
                   <sheetData/>
                   <pageMargins left="0.7" right="0.7" top="0.75" bottom="0.75" header="0.3" footer="0.3"/>
                 </worksheet>
-                """)
+                """
+        )
 
         got = _xml_to_list(fh.getvalue())
 

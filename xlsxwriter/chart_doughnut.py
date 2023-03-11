@@ -50,8 +50,7 @@ class ChartDoughnut(chart_pie.ChartPie):
 
         # Ensure the size is in Excel's range.
         if size < 10 or size > 90:
-            warn("Chart hole size %d outside Excel range: 10 <= size <= 90"
-                 % size)
+            warn("Chart hole size %d outside Excel range: 10 <= size <= 90" % size)
             return
 
         self.hole_size = int(size)
@@ -76,7 +75,7 @@ class ChartDoughnut(chart_pie.ChartPie):
     def _write_doughnut_chart(self, args):
         # Write the <c:doughnutChart> element.  Over-ridden method to remove
         # axis_id code since Doughnut charts don't require val and cat axes.
-        self._xml_start_tag('c:doughnutChart')
+        self._xml_start_tag("c:doughnutChart")
 
         # Write the c:varyColors element.
         self._write_vary_colors()
@@ -91,10 +90,10 @@ class ChartDoughnut(chart_pie.ChartPie):
         # Write the c:holeSize element.
         self._write_c_hole_size()
 
-        self._xml_end_tag('c:doughnutChart')
+        self._xml_end_tag("c:doughnutChart")
 
     def _write_c_hole_size(self):
         # Write the <c:holeSize> element.
-        attributes = [('val', self.hole_size)]
+        attributes = [("val", self.hole_size)]
 
-        self._xml_empty_tag('c:holeSize', attributes)
+        self._xml_empty_tag("c:holeSize", attributes)

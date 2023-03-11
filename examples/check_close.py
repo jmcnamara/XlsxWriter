@@ -7,10 +7,10 @@
 #
 import xlsxwriter
 
-workbook = xlsxwriter.Workbook('check_close.xlsx')
+workbook = xlsxwriter.Workbook("check_close.xlsx")
 worksheet = workbook.add_worksheet()
 
-worksheet.write('A1', 'Hello world')
+worksheet.write("A1", "Hello world")
 
 # Try to close() the file in a loop so that if there is an exception, such as
 # if the file is open in Excel, we can ask the user to close the file, and
@@ -19,10 +19,12 @@ while True:
     try:
         workbook.close()
     except xlsxwriter.exceptions.FileCreateError as e:
-        decision = input("Exception caught in workbook.close(): %s\n"
-                         "Please close the file if it is open in Excel.\n"
-                         "Try to write file again? [Y/n]: " % e)
-        if decision != 'n':
+        decision = input(
+            "Exception caught in workbook.close(): %s\n"
+            "Please close the file if it is open in Excel.\n"
+            "Try to write file again? [Y/n]: " % e
+        )
+        if decision != "n":
             continue
 
     break

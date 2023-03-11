@@ -25,7 +25,7 @@ class TestWriteDefaultFill(unittest.TestCase):
     def test_write_default_fill(self):
         """Test the _write_default_fill() method"""
 
-        self.styles._write_default_fill('none')
+        self.styles._write_default_fill("none")
 
         exp = """<fill><patternFill patternType="none"/></fill>"""
         got = self.fh.getvalue()

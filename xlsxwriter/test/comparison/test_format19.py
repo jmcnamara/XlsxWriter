@@ -17,8 +17,7 @@ class TestCompareXLSXFiles(ExcelComparisonTest):
     """
 
     def setUp(self):
-
-        self.set_filename('format19.xlsx')
+        self.set_filename("format19.xlsx")
 
     def test_create_file(self):
         """Test the creation of a simple XlsxWriter file with unused formats."""
@@ -27,8 +26,8 @@ class TestCompareXLSXFiles(ExcelComparisonTest):
 
         worksheet = workbook.add_worksheet()
 
-        format1 = workbook.add_format({'num_format': 'hh:mm;@'})
-        format2 = workbook.add_format({'num_format': 'hh:mm;@', 'bg_color': 'yellow'})
+        format1 = workbook.add_format({"num_format": "hh:mm;@"})
+        format2 = workbook.add_format({"num_format": "hh:mm;@", "bg_color": "yellow"})
 
         worksheet.write(0, 0, 1, format1)
         worksheet.write(1, 0, 2, format2)

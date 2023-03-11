@@ -17,9 +17,8 @@ class TestCompareXLSXFiles(ExcelComparisonTest):
     """
 
     def setUp(self):
-
-        self.set_filename('autofilter01.xlsx')
-        self.set_text_file('autofilter_data.txt')
+        self.set_filename("autofilter01.xlsx")
+        self.set_text_file("autofilter_data.txt")
 
     def test_create_file(self):
         """
@@ -32,7 +31,7 @@ class TestCompareXLSXFiles(ExcelComparisonTest):
         worksheet = workbook.add_worksheet()
 
         # Set the autofilter.
-        worksheet.autofilter('A1:D51')
+        worksheet.autofilter("A1:D51")
 
         # Open a text file with autofilter example data.
         textfile = open(self.txt_filename)
@@ -42,7 +41,6 @@ class TestCompareXLSXFiles(ExcelComparisonTest):
 
         # Read the text file and write it to the worksheet.
         for line in textfile:
-
             # Split the input data based on whitespace.
             data = line.strip("\n").split()
 

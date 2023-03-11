@@ -23,21 +23,21 @@ class TestUtility(unittest.TestCase):
 
         tests = [
             # row, col, A1 string
-            (0, 0, 'A1'),
-            (0, 1, 'B1'),
-            (0, 2, 'C1'),
-            (0, 9, 'J1'),
-            (1, 0, 'A2'),
-            (2, 0, 'A3'),
-            (9, 0, 'A10'),
-            (1, 24, 'Y2'),
-            (7, 25, 'Z8'),
-            (9, 26, 'AA10'),
-            (1, 254, 'IU2'),
-            (1, 255, 'IV2'),
-            (1, 256, 'IW2'),
-            (0, 16383, 'XFD1'),
-            (1048576, 16384, 'XFE1048577'),
+            (0, 0, "A1"),
+            (0, 1, "B1"),
+            (0, 2, "C1"),
+            (0, 9, "J1"),
+            (1, 0, "A2"),
+            (2, 0, "A3"),
+            (9, 0, "A10"),
+            (1, 24, "Y2"),
+            (7, 25, "Z8"),
+            (9, 26, "AA10"),
+            (1, 254, "IU2"),
+            (1, 255, "IV2"),
+            (1, 256, "IW2"),
+            (0, 16383, "XFD1"),
+            (1048576, 16384, "XFE1048577"),
             (0, -1, None),
             (-1, 0, None),
         ]
@@ -47,7 +47,7 @@ class TestUtility(unittest.TestCase):
             got = xl_rowcol_to_cell(row, col)
 
             # Ignore the warnings for negative values.
-            warnings.filterwarnings('ignore')
+            warnings.filterwarnings("ignore")
 
             self.assertEqual(got, exp)
 
@@ -56,9 +56,9 @@ class TestUtility(unittest.TestCase):
 
         tests = [
             # row, col, row_abs, col_abs, A1 range
-            (0, 0, True, False, 'A$1'),
-            (0, 0, False, True, '$A1'),
-            (0, 0, True, True, '$A$1'),
+            (0, 0, True, False, "A$1"),
+            (0, 0, False, True, "$A1"),
+            (0, 0, True, True, "$A$1"),
             (-1, 0, 0, 0, None),
             (0, -1, 0, 0, None),
         ]
@@ -68,7 +68,7 @@ class TestUtility(unittest.TestCase):
             got = xl_rowcol_to_cell(row, col, row_abs, col_abs)
 
             # Ignore the warnings for negative values.
-            warnings.filterwarnings('ignore')
+            warnings.filterwarnings("ignore")
 
             self.assertEqual(got, exp)
 
@@ -77,21 +77,21 @@ class TestUtility(unittest.TestCase):
 
         tests = [
             # row, col, A1 range
-            (0, 0, 'A1'),
-            (0, 1, 'B1'),
-            (0, 2, 'C1'),
-            (0, 9, 'J1'),
-            (1, 0, 'A2'),
-            (2, 0, 'A3'),
-            (9, 0, 'A10'),
-            (1, 24, 'Y2'),
-            (7, 25, 'Z8'),
-            (9, 26, 'AA10'),
-            (1, 254, 'IU2'),
-            (1, 255, 'IV2'),
-            (1, 256, 'IW2'),
-            (0, 16383, 'XFD1'),
-            (1048576, 16384, 'XFE1048577'),
+            (0, 0, "A1"),
+            (0, 1, "B1"),
+            (0, 2, "C1"),
+            (0, 9, "J1"),
+            (1, 0, "A2"),
+            (2, 0, "A3"),
+            (9, 0, "A10"),
+            (1, 24, "Y2"),
+            (7, 25, "Z8"),
+            (9, 26, "AA10"),
+            (1, 254, "IU2"),
+            (1, 255, "IV2"),
+            (1, 256, "IW2"),
+            (0, 16383, "XFD1"),
+            (1048576, 16384, "XFE1048577"),
         ]
 
         for row, col, range in tests:

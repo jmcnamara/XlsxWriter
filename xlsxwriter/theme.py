@@ -50,7 +50,7 @@ class Theme(object):
             self.fh = filename
         else:
             self.internal_fh = True
-            self.fh = open(filename, mode='w', encoding='utf-8')
+            self.fh = open(filename, mode="w", encoding="utf-8")
 
     ###########################################################################
     #

@@ -17,8 +17,7 @@ class TestCompareXLSXFiles(ExcelComparisonTest):
     """
 
     def setUp(self):
-
-        self.set_filename('comment15.xlsx')
+        self.set_filename("comment15.xlsx")
 
     def test_create_file(self):
         """Test the creation of a simple XlsxWriter file with comments."""
@@ -26,12 +25,12 @@ class TestCompareXLSXFiles(ExcelComparisonTest):
         workbook = Workbook(self.got_filename)
 
         worksheet = workbook.add_worksheet()
-        format1 = workbook.add_format({'bold': 1})
+        format1 = workbook.add_format({"bold": 1})
 
-        worksheet.write('A1', 'Foo', format1)
-        worksheet.write_comment('B2', 'Some text')
+        worksheet.write("A1", "Foo", format1)
+        worksheet.write_comment("B2", "Some text")
 
-        worksheet.set_comments_author('John')
+        worksheet.set_comments_author("John")
 
         workbook.close()
 

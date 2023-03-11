@@ -17,13 +17,16 @@ class TestCompareXLSXFiles(ExcelComparisonTest):
     """
 
     def setUp(self):
+        self.set_filename("fit_to_pages02.xlsx")
 
-        self.set_filename('fit_to_pages02.xlsx')
-
-        self.ignore_files = ['xl/printerSettings/printerSettings1.bin',
-                             'xl/worksheets/_rels/sheet1.xml.rels']
-        self.ignore_elements = {'[Content_Types].xml': ['<Default Extension="bin"'],
-                                'xl/worksheets/sheet1.xml': ['<pageMargins', '<pageSetup']}
+        self.ignore_files = [
+            "xl/printerSettings/printerSettings1.bin",
+            "xl/worksheets/_rels/sheet1.xml.rels",
+        ]
+        self.ignore_elements = {
+            "[Content_Types].xml": ['<Default Extension="bin"'],
+            "xl/worksheets/sheet1.xml": ["<pageMargins", "<pageSetup"],
+        }
 
     def test_create_file(self):
         """Test the creation of a simple XlsxWriter file with fit to print."""
@@ -35,7 +38,7 @@ class TestCompareXLSXFiles(ExcelComparisonTest):
         worksheet.fit_to_pages(2, 1)
         worksheet.set_paper(9)
 
-        worksheet.write('A1', 'Foo')
+        worksheet.write("A1", "Foo")
 
         workbook.close()
 

@@ -39,7 +39,7 @@ class Format(xmlwriter.XMLwriter):
         self.xf_index = None
         self.dxf_index = None
 
-        self.num_format = 'General'
+        self.num_format = "General"
         self.num_format_index = 0
         self.font_index = 0
         self.has_font = 0
@@ -48,7 +48,7 @@ class Format(xmlwriter.XMLwriter):
         self.bold = 0
         self.underline = 0
         self.italic = 0
-        self.font_name = 'Calibri'
+        self.font_name = "Calibri"
         self.font_size = 11
         self.font_color = 0x0
         self.font_strikeout = 0
@@ -57,7 +57,7 @@ class Format(xmlwriter.XMLwriter):
         self.font_script = 0
         self.font_family = 2
         self.font_charset = 0
-        self.font_scheme = 'minor'
+        self.font_scheme = "minor"
         self.font_condense = 0
         self.font_extend = 0
         self.theme = 0
@@ -110,7 +110,7 @@ class Format(xmlwriter.XMLwriter):
 
         # Convert properties in the constructor to method calls.
         for key, value in properties.items():
-            getattr(self, 'set_' + key)(value)
+            getattr(self, "set_" + key)(value)
 
         self._format_key = None
 
@@ -303,42 +303,42 @@ class Format(xmlwriter.XMLwriter):
         alignment = alignment.lower()
 
         # Set horizontal alignment properties.
-        if alignment == 'left':
+        if alignment == "left":
             self.set_text_h_align(1)
-        if alignment == 'centre':
+        if alignment == "centre":
             self.set_text_h_align(2)
-        if alignment == 'center':
+        if alignment == "center":
             self.set_text_h_align(2)
-        if alignment == 'right':
+        if alignment == "right":
             self.set_text_h_align(3)
-        if alignment == 'fill':
+        if alignment == "fill":
             self.set_text_h_align(4)
-        if alignment == 'justify':
+        if alignment == "justify":
             self.set_text_h_align(5)
-        if alignment == 'center_across':
+        if alignment == "center_across":
             self.set_text_h_align(6)
-        if alignment == 'centre_across':
+        if alignment == "centre_across":
             self.set_text_h_align(6)
-        if alignment == 'distributed':
+        if alignment == "distributed":
             self.set_text_h_align(7)
-        if alignment == 'justify_distributed':
+        if alignment == "justify_distributed":
             self.set_text_h_align(7)
 
-        if alignment == 'justify_distributed':
+        if alignment == "justify_distributed":
             self.just_distrib = 1
 
         # Set vertical alignment properties.
-        if alignment == 'top':
+        if alignment == "top":
             self.set_text_v_align(1)
-        if alignment == 'vcentre':
+        if alignment == "vcentre":
             self.set_text_v_align(2)
-        if alignment == 'vcenter':
+        if alignment == "vcenter":
             self.set_text_v_align(2)
-        if alignment == 'bottom':
+        if alignment == "bottom":
             self.set_text_v_align(3)
-        if alignment == 'vjustify':
+        if alignment == "vjustify":
             self.set_text_v_align(4)
-        if alignment == 'vdistributed':
+        if alignment == "vdistributed":
             self.set_text_v_align(5)
 
     def set_center_across(self, align_type=None):
@@ -771,9 +771,15 @@ class Format(xmlwriter.XMLwriter):
         align = []
 
         # Check if any alignment options in the format have been changed.
-        if (self.text_h_align or self.text_v_align or self.indent
-                or self.rotation or self.text_wrap or self.shrink
-                or self.reading_order):
+        if (
+            self.text_h_align
+            or self.text_v_align
+            or self.indent
+            or self.rotation
+            or self.text_wrap
+            or self.shrink
+            or self.reading_order
+        ):
             changed = 1
         else:
             return changed, align
@@ -781,10 +787,12 @@ class Format(xmlwriter.XMLwriter):
         # Indent is only allowed for horizontal left, right and distributed.
         # If it is defined for any other alignment or no alignment has
         # been set then default to left alignment.
-        if (self.indent
-                and self.text_h_align != 1
-                and self.text_h_align != 3
-                and self.text_h_align != 7):
+        if (
+            self.indent
+            and self.text_h_align != 1
+            and self.text_h_align != 3
+            and self.text_h_align != 7
+        ):
             self.text_h_align = 1
 
         # Check for properties that are mutually exclusive.
@@ -801,51 +809,51 @@ class Format(xmlwriter.XMLwriter):
         if self.indent:
             self.just_distrib = 0
 
-        continuous = 'centerContinuous'
+        continuous = "centerContinuous"
 
         if self.text_h_align == 1:
-            align.append(('horizontal', 'left'))
+            align.append(("horizontal", "left"))
         if self.text_h_align == 2:
-            align.append(('horizontal', 'center'))
+            align.append(("horizontal", "center"))
         if self.text_h_align == 3:
-            align.append(('horizontal', 'right'))
+            align.append(("horizontal", "right"))
         if self.text_h_align == 4:
-            align.append(('horizontal', 'fill'))
+            align.append(("horizontal", "fill"))
         if self.text_h_align == 5:
-            align.append(('horizontal', 'justify'))
+            align.append(("horizontal", "justify"))
         if self.text_h_align == 6:
-            align.append(('horizontal', continuous))
+            align.append(("horizontal", continuous))
         if self.text_h_align == 7:
-            align.append(('horizontal', 'distributed'))
+            align.append(("horizontal", "distributed"))
 
         if self.just_distrib:
-            align.append(('justifyLastLine', 1))
+            align.append(("justifyLastLine", 1))
 
         # Property 'vertical' => 'bottom' is a default. It sets applyAlignment
         # without an alignment sub-element.
         if self.text_v_align == 1:
-            align.append(('vertical', 'top'))
+            align.append(("vertical", "top"))
         if self.text_v_align == 2:
-            align.append(('vertical', 'center'))
+            align.append(("vertical", "center"))
         if self.text_v_align == 4:
-            align.append(('vertical', 'justify'))
+            align.append(("vertical", "justify"))
         if self.text_v_align == 5:
-            align.append(('vertical', 'distributed'))
+            align.append(("vertical", "distributed"))
 
         if self.indent:
-            align.append(('indent', self.indent))
+            align.append(("indent", self.indent))
         if self.rotation:
-            align.append(('textRotation', self.rotation))
+            align.append(("textRotation", self.rotation))
 
         if self.text_wrap:
-            align.append(('wrapText', 1))
+            align.append(("wrapText", 1))
         if self.shrink:
-            align.append(('shrinkToFit', 1))
+            align.append(("shrinkToFit", 1))
 
         if self.reading_order == 1:
-            align.append(('readingOrder', 1))
+            align.append(("readingOrder", 1))
         if self.reading_order == 2:
-            align.append(('readingOrder', 2))
+            align.append(("readingOrder", 2))
 
         return changed, align
 
@@ -854,83 +862,96 @@ class Format(xmlwriter.XMLwriter):
         attribs = []
 
         if not self.locked:
-            attribs.append(('locked', 0))
+            attribs.append(("locked", 0))
         if self.hidden:
-            attribs.append(('hidden', 1))
+            attribs.append(("hidden", 1))
 
         return attribs
 
     def _get_format_key(self):
         # Returns a unique hash key for a format. Used by Workbook.
         if self._format_key is None:
-            self._format_key = ':'.join(str(x) for x in (
-                self._get_font_key(),
-                self._get_border_key(),
-                self._get_fill_key(),
-                self._get_alignment_key(),
-                self.num_format,
-                self.locked,
-                self.quote_prefix,
-                self.hidden))
+            self._format_key = ":".join(
+                str(x)
+                for x in (
+                    self._get_font_key(),
+                    self._get_border_key(),
+                    self._get_fill_key(),
+                    self._get_alignment_key(),
+                    self.num_format,
+                    self.locked,
+                    self.quote_prefix,
+                    self.hidden,
+                )
+            )
 
         return self._format_key
 
     def _get_font_key(self):
         # Returns a unique hash key for a font. Used by Workbook.
-        key = ':'.join(str(x) for x in (
-            self.bold,
-            self.font_color,
-            self.font_charset,
-            self.font_family,
-            self.font_outline,
-            self.font_script,
-            self.font_shadow,
-            self.font_strikeout,
-            self.font_name,
-            self.italic,
-            self.font_size,
-            self.underline,
-            self.theme))
+        key = ":".join(
+            str(x)
+            for x in (
+                self.bold,
+                self.font_color,
+                self.font_charset,
+                self.font_family,
+                self.font_outline,
+                self.font_script,
+                self.font_shadow,
+                self.font_strikeout,
+                self.font_name,
+                self.italic,
+                self.font_size,
+                self.underline,
+                self.theme,
+            )
+        )
 
         return key
 
     def _get_border_key(self):
         # Returns a unique hash key for a border style. Used by Workbook.
-        key = ':'.join(str(x) for x in (
-            self.bottom,
-            self.bottom_color,
-            self.diag_border,
-            self.diag_color,
-            self.diag_type,
-            self.left,
-            self.left_color,
-            self.right,
-            self.right_color,
-            self.top,
-            self.top_color))
+        key = ":".join(
+            str(x)
+            for x in (
+                self.bottom,
+                self.bottom_color,
+                self.diag_border,
+                self.diag_color,
+                self.diag_type,
+                self.left,
+                self.left_color,
+                self.right,
+                self.right_color,
+                self.top,
+                self.top_color,
+            )
+        )
 
         return key
 
     def _get_fill_key(self):
         # Returns a unique hash key for a fill style. Used by Workbook.
-        key = ':'.join(str(x) for x in (
-            self.pattern,
-            self.bg_color,
-            self.fg_color))
+        key = ":".join(str(x) for x in (self.pattern, self.bg_color, self.fg_color))
 
         return key
 
     def _get_alignment_key(self):
         # Returns a unique hash key for alignment formats.
 
-        key = ':'.join(str(x) for x in (
-            self.text_h_align,
-            self.text_v_align,
-            self.indent,
-            self.rotation,
-            self.text_wrap,
-            self.shrink,
-            self.reading_order))
+        key = ":".join(
+            str(x)
+            for x in (
+                self.text_h_align,
+                self.text_v_align,
+                self.indent,
+                self.rotation,
+                self.text_wrap,
+                self.shrink,
+                self.reading_order,
+            )
+        )
 
         return key
 
@@ -978,22 +999,22 @@ class Format(xmlwriter.XMLwriter):
         # color name into an RGB formatted string. These colors are for
         # backward compatibility with older versions of Excel.
         named_colors = {
-            'black': '#000000',
-            'blue': '#0000FF',
-            'brown': '#800000',
-            'cyan': '#00FFFF',
-            'gray': '#808080',
-            'green': '#008000',
-            'lime': '#00FF00',
-            'magenta': '#FF00FF',
-            'navy': '#000080',
-            'orange': '#FF6600',
-            'pink': '#FF00FF',
-            'purple': '#800080',
-            'red': '#FF0000',
-            'silver': '#C0C0C0',
-            'white': '#FFFFFF',
-            'yellow': '#FFFF00',
+            "black": "#000000",
+            "blue": "#0000FF",
+            "brown": "#800000",
+            "cyan": "#00FFFF",
+            "gray": "#808080",
+            "green": "#008000",
+            "lime": "#00FF00",
+            "magenta": "#FF00FF",
+            "navy": "#000080",
+            "orange": "#FF6600",
+            "pink": "#FF00FF",
+            "purple": "#800080",
+            "red": "#FF0000",
+            "silver": "#C0C0C0",
+            "white": "#FFFFFF",
+            "yellow": "#FFFF00",
         }
 
         if color in named_colors:

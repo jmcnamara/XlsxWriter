@@ -17,8 +17,7 @@ class TestCompareXLSXFiles(ExcelComparisonTest):
     """
 
     def setUp(self):
-
-        self.set_filename('hyperlink28.xlsx')
+        self.set_filename("hyperlink28.xlsx")
 
     def test_create_file(self):
         """Test the creation of a simple XlsxWriter file with hyperlinks."""
@@ -26,9 +25,9 @@ class TestCompareXLSXFiles(ExcelComparisonTest):
         workbook = Workbook(self.got_filename)
 
         worksheet = workbook.add_worksheet()
-        format = workbook.add_format({'hyperlink': True})
+        format = workbook.add_format({"hyperlink": True})
 
-        worksheet.write_url('A1', 'http://www.perl.org/', format)
+        worksheet.write_url("A1", "http://www.perl.org/", format)
 
         workbook.close()
 
@@ -42,7 +41,7 @@ class TestCompareXLSXFiles(ExcelComparisonTest):
         worksheet = workbook.add_worksheet()
         format = workbook.get_default_url_format()
 
-        worksheet.write_url('A1', 'http://www.perl.org/', format)
+        worksheet.write_url("A1", "http://www.perl.org/", format)
 
         workbook.close()
 
@@ -55,7 +54,7 @@ class TestCompareXLSXFiles(ExcelComparisonTest):
 
         worksheet = workbook.add_worksheet()
 
-        worksheet.write_url('A1', 'http://www.perl.org/')
+        worksheet.write_url("A1", "http://www.perl.org/")
 
         workbook.close()
 

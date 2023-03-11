@@ -52,7 +52,7 @@ class Custom(xmlwriter.XMLwriter):
 
         self._write_properties()
 
-        self._xml_end_tag('Properties')
+        self._xml_end_tag("Properties")
 
         # Close the file.
         self._xml_close()
@@ -65,16 +65,16 @@ class Custom(xmlwriter.XMLwriter):
 
     def _write_properties(self):
         # Write the <Properties> element.
-        schema = 'http://schemas.openxmlformats.org/officeDocument/2006/'
-        xmlns = schema + 'custom-properties'
-        xmlns_vt = schema + 'docPropsVTypes'
+        schema = "http://schemas.openxmlformats.org/officeDocument/2006/"
+        xmlns = schema + "custom-properties"
+        xmlns_vt = schema + "docPropsVTypes"
 
         attributes = [
-            ('xmlns', xmlns),
-            ('xmlns:vt', xmlns_vt),
+            ("xmlns", xmlns),
+            ("xmlns:vt", xmlns_vt),
         ]
 
-        self._xml_start_tag('Properties', attributes)
+        self._xml_start_tag("Properties", attributes)
 
         for custom_property in self.properties:
             # Write the property element.
@@ -83,59 +83,59 @@ class Custom(xmlwriter.XMLwriter):
     def _write_property(self, custom_property):
         # Write the <property> element.
 
-        fmtid = '{D5CDD505-2E9C-101B-9397-08002B2CF9AE}'
+        fmtid = "{D5CDD505-2E9C-101B-9397-08002B2CF9AE}"
 
         name, value, property_type = custom_property
         self.pid += 1
 
         attributes = [
-            ('fmtid', fmtid),
-            ('pid', self.pid),
-            ('name', name),
+            ("fmtid", fmtid),
+            ("pid", self.pid),
+            ("name", name),
         ]
 
-        self._xml_start_tag('property', attributes)
+        self._xml_start_tag("property", attributes)
 
-        if property_type == 'number_int':
+        if property_type == "number_int":
             # Write the vt:i4 element.
             self._write_vt_i4(value)
-        elif property_type == 'number':
+        elif property_type == "number":
             # Write the vt:r8 element.
             self._write_vt_r8(value)
-        elif property_type == 'date':
+        elif property_type == "date":
             # Write the vt:filetime element.
             self._write_vt_filetime(value)
-        elif property_type == 'bool':
+        elif property_type == "bool":
             # Write the vt:bool element.
             self._write_vt_bool(value)
         else:
             # Write the vt:lpwstr element.
             self._write_vt_lpwstr(value)
 
-        self._xml_end_tag('property')
+        self._xml_end_tag("property")
 
     def _write_vt_lpwstr(self, value):
         # Write the <vt:lpwstr> element.
-        self._xml_data_element('vt:lpwstr', value)
+        self._xml_data_element("vt:lpwstr", value)
 
     def _write_vt_filetime(self, value):
         # Write the <vt:filetime> element.
-        self._xml_data_element('vt:filetime', value)
+        self._xml_data_element("vt:filetime", value)
 
     def _write_vt_i4(self, value):
         # Write the <vt:i4> element.
-        self._xml_data_element('vt:i4', value)
+        self._xml_data_element("vt:i4", value)
 
     def _write_vt_r8(self, value):
         # Write the <vt:r8> element.
-        self._xml_data_element('vt:r8', value)
+        self._xml_data_element("vt:r8", value)
 
     def _write_vt_bool(self, value):
         # Write the <vt:bool> element.
 
         if value:
-            value = 'true'
+            value = "true"
         else:
-            value = 'false'
+            value = "false"
 
-        self._xml_data_element('vt:bool', value)
+        self._xml_data_element("vt:bool", value)

@@ -17,24 +17,27 @@ class TestCompareXLSXFiles(ExcelComparisonTest):
     """
 
     def setUp(self):
+        self.set_filename("repeat04.xlsx")
 
-        self.set_filename('repeat04.xlsx')
-
-        self.ignore_files = ['xl/printerSettings/printerSettings1.bin',
-                             'xl/worksheets/_rels/sheet1.xml.rels']
-        self.ignore_elements = {'[Content_Types].xml': ['<Default Extension="bin"'],
-                                'xl/worksheets/sheet1.xml': ['<pageMargins', '<pageSetup']}
+        self.ignore_files = [
+            "xl/printerSettings/printerSettings1.bin",
+            "xl/worksheets/_rels/sheet1.xml.rels",
+        ]
+        self.ignore_elements = {
+            "[Content_Types].xml": ['<Default Extension="bin"'],
+            "xl/worksheets/sheet1.xml": ["<pageMargins", "<pageSetup"],
+        }
 
     def test_create_file(self):
         """Test the creation of a simple XlsxWriter file with repeat rows when the sheet name contains a space."""
 
         workbook = Workbook(self.got_filename)
 
-        worksheet = workbook.add_worksheet('Sheet 1')
+        worksheet = workbook.add_worksheet("Sheet 1")
 
         worksheet.repeat_rows(0)
 
-        worksheet.write('A1', 'Foo')
+        worksheet.write("A1", "Foo")
 
         workbook.close()
 

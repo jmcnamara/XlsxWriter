@@ -17,16 +17,19 @@ class TestCompareXLSXFiles(ExcelComparisonTest):
     """
 
     def setUp(self):
+        self.set_filename("repeat05.xlsx")
 
-        self.set_filename('repeat05.xlsx')
-
-        self.ignore_files = ['xl/printerSettings/printerSettings1.bin',
-                             'xl/printerSettings/printerSettings2.bin',
-                             'xl/worksheets/_rels/sheet1.xml.rels',
-                             'xl/worksheets/_rels/sheet3.xml.rels']
-        self.ignore_elements = {'[Content_Types].xml': ['<Default Extension="bin"'],
-                                'xl/worksheets/sheet1.xml': ['<pageMargins', '<pageSetup'],
-                                'xl/worksheets/sheet3.xml': ['<pageMargins', '<pageSetup']}
+        self.ignore_files = [
+            "xl/printerSettings/printerSettings1.bin",
+            "xl/printerSettings/printerSettings2.bin",
+            "xl/worksheets/_rels/sheet1.xml.rels",
+            "xl/worksheets/_rels/sheet3.xml.rels",
+        ]
+        self.ignore_elements = {
+            "[Content_Types].xml": ['<Default Extension="bin"'],
+            "xl/worksheets/sheet1.xml": ["<pageMargins", "<pageSetup"],
+            "xl/worksheets/sheet3.xml": ["<pageMargins", "<pageSetup"],
+        }
 
     def test_create_file(self):
         """Test the creation of a simple XlsxWriter file with repeat rows and cols on more than one worksheet."""
@@ -39,9 +42,9 @@ class TestCompareXLSXFiles(ExcelComparisonTest):
 
         worksheet1.repeat_rows(0)
         worksheet3.repeat_rows(2, 3)
-        worksheet3.repeat_columns('B:F')
+        worksheet3.repeat_columns("B:F")
 
-        worksheet1.write('A1', 'Foo')
+        worksheet1.write("A1", "Foo")
 
         workbook.close()
 

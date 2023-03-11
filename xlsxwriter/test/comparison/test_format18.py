@@ -17,8 +17,7 @@ class TestCompareXLSXFiles(ExcelComparisonTest):
     """
 
     def setUp(self):
-
-        self.set_filename('format18.xlsx')
+        self.set_filename("format18.xlsx")
 
     def test_create_file(self):
         """Test the creation of a simple XlsxWriter file with a quote prefix."""
@@ -27,7 +26,7 @@ class TestCompareXLSXFiles(ExcelComparisonTest):
 
         worksheet = workbook.add_worksheet()
 
-        quote_prefix = workbook.add_format({'quote_prefix': True})
+        quote_prefix = workbook.add_format({"quote_prefix": True})
 
         worksheet.write_string(0, 0, "= Hello", quote_prefix)
 

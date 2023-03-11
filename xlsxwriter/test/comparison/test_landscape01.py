@@ -17,8 +17,7 @@ class TestCompareXLSXFiles(ExcelComparisonTest):
     """
 
     def setUp(self):
-
-        self.set_filename('landscape01.xlsx')
+        self.set_filename("landscape01.xlsx")
 
     def test_create_file(self):
         """Test the creation of a simple XlsxWriter file."""
@@ -27,7 +26,7 @@ class TestCompareXLSXFiles(ExcelComparisonTest):
 
         worksheet = workbook.add_worksheet()
 
-        worksheet.write(0, 0, 'Foo')
+        worksheet.write(0, 0, "Foo")
         worksheet.set_landscape()
         worksheet.set_paper(9)
 

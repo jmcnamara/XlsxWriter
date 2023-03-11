@@ -17,6 +17,7 @@ class TestAssembleChartsheet(unittest.TestCase):
     Test assembling a complete Chartsheet file.
 
     """
+
     def test_assemble_xml_file(self):
         """Test writing a chartsheet with no cell data."""
         self.maxDiff = None
@@ -29,7 +30,8 @@ class TestAssembleChartsheet(unittest.TestCase):
 
         chartsheet._assemble_xml_file()
 
-        exp = _xml_to_list("""
+        exp = _xml_to_list(
+            """
                 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
                 <chartsheet xmlns="http://schemas.openxmlformats.org/spreadsheetml/2006/main" xmlns:r="http://schemas.openxmlformats.org/officeDocument/2006/relationships">
                   <sheetPr/>
@@ -39,7 +41,8 @@ class TestAssembleChartsheet(unittest.TestCase):
                   <pageMargins left="0.7" right="0.7" top="0.75" bottom="0.75" header="0.3" footer="0.3"/>
                   <drawing r:id="rId1"/>
                 </chartsheet>
-                """)
+                """
+        )
 
         got = _xml_to_list(fh.getvalue())
 

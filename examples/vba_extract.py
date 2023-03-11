@@ -13,26 +13,28 @@ from zipfile import ZipFile
 from zipfile import BadZipfile
 
 # The VBA project file we want to extract.
-vba_filename = 'vbaProject.bin'
+vba_filename = "vbaProject.bin"
 
 # Get the xlsm file name from the commandline.
 if len(sys.argv) > 1:
     xlsm_file = sys.argv[1]
 else:
-    print("\nUtility to extract a vbaProject.bin binary from an Excel 2007+ "
-          "xlsm macro file for insertion into an XlsxWriter file."
-          "\n"
-          "See: https://xlsxwriter.readthedocs.io/working_with_macros.html\n"
-          "\n"
-          "Usage: vba_extract file.xlsm\n")
+    print(
+        "\nUtility to extract a vbaProject.bin binary from an Excel 2007+ "
+        "xlsm macro file for insertion into an XlsxWriter file."
+        "\n"
+        "See: https://xlsxwriter.readthedocs.io/working_with_macros.html\n"
+        "\n"
+        "Usage: vba_extract file.xlsm\n"
+    )
     exit()
 
 try:
     # Open the Excel xlsm file as a zip file.
-    xlsm_zip = ZipFile(xlsm_file, 'r')
+    xlsm_zip = ZipFile(xlsm_file, "r")
 
     # Read the xl/vbaProject.bin file.
-    vba_data = xlsm_zip.read('xl/' + vba_filename)
+    vba_data = xlsm_zip.read("xl/" + vba_filename)
 
     # Write the vba data to a local file.
     vba_file = open(vba_filename, "wb")

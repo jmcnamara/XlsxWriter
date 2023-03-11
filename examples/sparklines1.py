@@ -12,7 +12,7 @@
 #
 import xlsxwriter
 
-workbook = xlsxwriter.Workbook('sparklines1.xlsx')
+workbook = xlsxwriter.Workbook("sparklines1.xlsx")
 worksheet = workbook.add_worksheet()
 
 # Some sample data to plot.
@@ -24,25 +24,22 @@ data = [
 
 
 # Write the sample data to the worksheet.
-worksheet.write_row('A1', data[0])
-worksheet.write_row('A2', data[1])
-worksheet.write_row('A3', data[2])
+worksheet.write_row("A1", data[0])
+worksheet.write_row("A2", data[1])
+worksheet.write_row("A3", data[2])
 
 
 # Add a line sparkline (the default) with markers.
-worksheet.add_sparkline('F1', {'range': 'Sheet1!A1:E1',
-                               'markers': True})
+worksheet.add_sparkline("F1", {"range": "Sheet1!A1:E1", "markers": True})
 
 
 # Add a column sparkline with non-default style.
-worksheet.add_sparkline('F2', {'range': 'Sheet1!A2:E2',
-                               'type': 'column',
-                               'style': 12})
+worksheet.add_sparkline("F2", {"range": "Sheet1!A2:E2", "type": "column", "style": 12})
 
 
 # Add a win/loss sparkline with negative values highlighted.
-worksheet.add_sparkline('F3', {'range': 'Sheet1!A3:E3',
-                               'type': 'win_loss',
-                               'negative_points': True})
+worksheet.add_sparkline(
+    "F3", {"range": "Sheet1!A3:E3", "type": "win_loss", "negative_points": True}
+)
 
 workbook.close()

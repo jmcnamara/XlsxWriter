@@ -22,18 +22,18 @@ class TestUtility(unittest.TestCase):
 
         tests = [
             # col,  col string
-            (0, 'A'),
-            (1, 'B'),
-            (2, 'C'),
-            (9, 'J'),
-            (24, 'Y'),
-            (25, 'Z'),
-            (26, 'AA'),
-            (254, 'IU'),
-            (255, 'IV'),
-            (256, 'IW'),
-            (16383, 'XFD'),
-            (16384, 'XFE'),
+            (0, "A"),
+            (1, "B"),
+            (2, "C"),
+            (9, "J"),
+            (24, "Y"),
+            (25, "Z"),
+            (26, "AA"),
+            (254, "IU"),
+            (255, "IV"),
+            (256, "IW"),
+            (16383, "XFD"),
+            (16384, "XFE"),
             (-1, None),
         ]
 
@@ -42,7 +42,7 @@ class TestUtility(unittest.TestCase):
             got = xl_col_to_name(col)
 
             # Ignore the warnings for negative values.
-            warnings.filterwarnings('ignore')
+            warnings.filterwarnings("ignore")
 
             self.assertEqual(got, exp)
 
@@ -51,7 +51,7 @@ class TestUtility(unittest.TestCase):
 
         tests = [
             # col, col_abs, col string
-            (0, True, '$A'),
+            (0, True, "$A"),
             (-1, True, None),
         ]
 
@@ -60,6 +60,6 @@ class TestUtility(unittest.TestCase):
             got = xl_col_to_name(col, col_abs)
 
             # Ignore the warnings for negative values.
-            warnings.filterwarnings('ignore')
+            warnings.filterwarnings("ignore")
 
             self.assertEqual(got, exp)

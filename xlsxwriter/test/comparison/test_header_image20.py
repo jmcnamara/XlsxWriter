@@ -17,9 +17,8 @@ class TestCompareXLSXFiles(ExcelComparisonTest):
     """
 
     def setUp(self):
-
-        self.set_filename('header_image20.xlsx')
-        self.ignore_elements = {'xl/worksheets/sheet1.xml': ['<pageSetup']}
+        self.set_filename("header_image20.xlsx")
+        self.ignore_elements = {"xl/worksheets/sheet1.xml": ["<pageSetup"]}
 
     def test_create_file(self):
         """Test the creation of a simple XlsxWriter file with image(s)."""
@@ -28,8 +27,7 @@ class TestCompareXLSXFiles(ExcelComparisonTest):
 
         worksheet = workbook.add_worksheet()
 
-        worksheet.set_header('&C&G',
-                             {'image_center': self.image_dir + 'watermark.jpg'})
+        worksheet.set_header("&C&G", {"image_center": self.image_dir + "watermark.jpg"})
 
         workbook.close()
 

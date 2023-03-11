@@ -16,8 +16,7 @@ class TestCompareXLSXFiles(ExcelComparisonTest):
     """
 
     def setUp(self):
-
-        self.set_filename('utf8_06.xlsx')
+        self.set_filename("utf8_06.xlsx")
 
     def test_create_file(self):
         """Test the creation of an XlsxWriter file with utf-8 strings."""
@@ -26,12 +25,12 @@ class TestCompareXLSXFiles(ExcelComparisonTest):
 
         worksheet = workbook.add_worksheet()
 
-        bold = workbook.add_format({'bold': 1})
-        italic = workbook.add_format({'italic': 1})
+        bold = workbook.add_format({"bold": 1})
+        italic = workbook.add_format({"italic": 1})
 
-        worksheet.write('A1', 'Foo', bold)
-        worksheet.write('A2', 'Bar', italic)
-        worksheet.write_rich_string('A3', 'Caf', bold, 'é')
+        worksheet.write("A1", "Foo", bold)
+        worksheet.write("A2", "Bar", italic)
+        worksheet.write_rich_string("A3", "Caf", bold, "é")
 
         workbook.close()
 

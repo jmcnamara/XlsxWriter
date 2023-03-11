@@ -17,8 +17,7 @@ class TestCompareXLSXFiles(ExcelComparisonTest):
     """
 
     def setUp(self):
-
-        self.set_filename('protect07.xlsx')
+        self.set_filename("protect07.xlsx")
 
     def test_create_file(self):
         """Test the a simple XlsxWriter file with "read-only recommended"."""

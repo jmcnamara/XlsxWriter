@@ -21,30 +21,32 @@ class ExcelComparisonTest(unittest.TestCase):
     def set_filename(self, filename):
         # Set the filename and paths for the test xlsx files.
         self.maxDiff = None
-        self.got_filename = ''
-        self.exp_filename = ''
+        self.got_filename = ""
+        self.exp_filename = ""
         self.ignore_files = []
         self.ignore_elements = {}
-        self.test_dir = 'xlsxwriter/test/comparison/'
-        self.vba_dir = self.test_dir + 'xlsx_files/'
-        self.image_dir = self.test_dir + 'images/'
+        self.test_dir = "xlsxwriter/test/comparison/"
+        self.vba_dir = self.test_dir + "xlsx_files/"
+        self.image_dir = self.test_dir + "images/"
 
         # The reference Excel generated file.
-        self.exp_filename = self.test_dir + 'xlsx_files/' + filename
+        self.exp_filename = self.test_dir + "xlsx_files/" + filename
 
         # The generated XlsxWriter file.
-        self.got_filename = self.test_dir + '_test_' + filename
+        self.got_filename = self.test_dir + "_test_" + filename
 
     def set_text_file(self, filename):
         # Set the filename and path for text files used in tests.
-        self.txt_filename = self.test_dir + 'xlsx_files/' + filename
+        self.txt_filename = self.test_dir + "xlsx_files/" + filename
 
     def assertExcelEqual(self):
         # Compare the generate file and the reference Excel file.
-        got, exp = _compare_xlsx_files(self.got_filename,
-                                       self.exp_filename,
-                                       self.ignore_files,
-                                       self.ignore_elements)
+        got, exp = _compare_xlsx_files(
+            self.got_filename,
+            self.exp_filename,
+            self.ignore_files,
+            self.ignore_elements,
+        )
 
         self.assertEqual(exp, got)
 

@@ -32,22 +32,22 @@ class ChartRadar(chart.Chart):
         if options is None:
             options = {}
 
-        self.subtype = options.get('subtype')
+        self.subtype = options.get("subtype")
 
         if not self.subtype:
-            self.subtype = 'marker'
-            self.default_marker = {'type': 'none'}
+            self.subtype = "marker"
+            self.default_marker = {"type": "none"}
 
         # Override and reset the default axis values.
-        self.x_axis['defaults']['major_gridlines'] = {'visible': 1}
+        self.x_axis["defaults"]["major_gridlines"] = {"visible": 1}
         self.set_x_axis({})
 
         # Set the available data label positions for this chart type.
-        self.label_position_default = 'center'
-        self.label_positions = {'center': 'ctr'}
+        self.label_position_default = "center"
+        self.label_positions = {"center": "ctr"}
 
         # Hardcode major_tick_mark for now until there is an accessor.
-        self.y_axis['major_tick_mark'] = 'cross'
+        self.y_axis["major_tick_mark"] = "cross"
 
     ###########################################################################
     #
@@ -68,7 +68,7 @@ class ChartRadar(chart.Chart):
     def _write_radar_chart(self, args):
         # Write the <c:radarChart> element.
 
-        if args['primary_axes']:
+        if args["primary_axes"]:
             series = self._get_primary_axes_series()
         else:
             series = self._get_secondary_axes_series()
@@ -76,7 +76,7 @@ class ChartRadar(chart.Chart):
         if not len(series):
             return
 
-        self._xml_start_tag('c:radarChart')
+        self._xml_start_tag("c:radarChart")
 
         # Write the c:radarStyle element.
         self._write_radar_style()
@@ -88,15 +88,15 @@ class ChartRadar(chart.Chart):
         # Write the c:axId elements
         self._write_axis_ids(args)
 
-        self._xml_end_tag('c:radarChart')
+        self._xml_end_tag("c:radarChart")
 
     def _write_radar_style(self):
         # Write the <c:radarStyle> element.
-        val = 'marker'
+        val = "marker"
 
-        if self.subtype == 'filled':
-            val = 'filled'
+        if self.subtype == "filled":
+            val = "filled"
 
-        attributes = [('val', val)]
+        attributes = [("val", val)]
 
-        self._xml_empty_tag('c:radarStyle', attributes)
+        self._xml_empty_tag("c:radarStyle", attributes)

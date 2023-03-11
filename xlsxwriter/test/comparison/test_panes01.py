@@ -17,8 +17,7 @@ class TestCompareXLSXFiles(ExcelComparisonTest):
     """
 
     def setUp(self):
-
-        self.set_filename('panes01.xlsx')
+        self.set_filename("panes01.xlsx")
 
     def test_create_file(self):
         """Test an XlsxWriter file with panes.."""
@@ -39,26 +38,26 @@ class TestCompareXLSXFiles(ExcelComparisonTest):
         worksheet12 = workbook.add_worksheet()
         worksheet13 = workbook.add_worksheet()
 
-        worksheet01.write('A1', 'Foo')
-        worksheet02.write('A1', 'Foo')
-        worksheet03.write('A1', 'Foo')
-        worksheet04.write('A1', 'Foo')
-        worksheet05.write('A1', 'Foo')
-        worksheet06.write('A1', 'Foo')
-        worksheet07.write('A1', 'Foo')
-        worksheet08.write('A1', 'Foo')
-        worksheet09.write('A1', 'Foo')
-        worksheet10.write('A1', 'Foo')
-        worksheet11.write('A1', 'Foo')
-        worksheet12.write('A1', 'Foo')
-        worksheet13.write('A1', 'Foo')
+        worksheet01.write("A1", "Foo")
+        worksheet02.write("A1", "Foo")
+        worksheet03.write("A1", "Foo")
+        worksheet04.write("A1", "Foo")
+        worksheet05.write("A1", "Foo")
+        worksheet06.write("A1", "Foo")
+        worksheet07.write("A1", "Foo")
+        worksheet08.write("A1", "Foo")
+        worksheet09.write("A1", "Foo")
+        worksheet10.write("A1", "Foo")
+        worksheet11.write("A1", "Foo")
+        worksheet12.write("A1", "Foo")
+        worksheet13.write("A1", "Foo")
 
-        worksheet01.freeze_panes('A2')
-        worksheet02.freeze_panes('A3')
-        worksheet03.freeze_panes('B1')
-        worksheet04.freeze_panes('C1')
-        worksheet05.freeze_panes('B2')
-        worksheet06.freeze_panes('G4')
+        worksheet01.freeze_panes("A2")
+        worksheet02.freeze_panes("A3")
+        worksheet03.freeze_panes("B1")
+        worksheet04.freeze_panes("C1")
+        worksheet05.freeze_panes("B2")
+        worksheet06.freeze_panes("G4")
         worksheet07.freeze_panes(3, 6, 3, 6, 1)
         worksheet08.split_panes(15, 0)
         worksheet09.split_panes(30, 0)

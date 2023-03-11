@@ -18,31 +18,32 @@ class TestAssembleSharedStrings(unittest.TestCase):
     Test assembling a complete SharedStrings file.
 
     """
+
     def test_assemble_xml_file(self):
         """Test the _write_sheet_data() method"""
 
         string_table = SharedStringTable()
 
         # Add some strings and check the returned indices.
-        index = string_table._get_shared_string_index('neptune')
+        index = string_table._get_shared_string_index("neptune")
         self.assertEqual(index, 0)
 
-        index = string_table._get_shared_string_index('neptune')
+        index = string_table._get_shared_string_index("neptune")
         self.assertEqual(index, 0)
 
-        index = string_table._get_shared_string_index('neptune')
+        index = string_table._get_shared_string_index("neptune")
         self.assertEqual(index, 0)
 
-        index = string_table._get_shared_string_index('mars')
+        index = string_table._get_shared_string_index("mars")
         self.assertEqual(index, 1)
 
-        index = string_table._get_shared_string_index('venus')
+        index = string_table._get_shared_string_index("venus")
         self.assertEqual(index, 2)
 
-        index = string_table._get_shared_string_index('mars')
+        index = string_table._get_shared_string_index("mars")
         self.assertEqual(index, 1)
 
-        index = string_table._get_shared_string_index('venus')
+        index = string_table._get_shared_string_index("venus")
         self.assertEqual(index, 2)
 
         string_table._sort_string_data()
@@ -54,7 +55,8 @@ class TestAssembleSharedStrings(unittest.TestCase):
 
         sharedstrings._assemble_xml_file()
 
-        exp = _xml_to_list("""
+        exp = _xml_to_list(
+            """
                 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
                 <sst xmlns="http://schemas.openxmlformats.org/spreadsheetml/2006/main" count="7" uniqueCount="3">
                   <si>
@@ -67,7 +69,8 @@ class TestAssembleSharedStrings(unittest.TestCase):
                     <t>venus</t>
                   </si>
                 </sst>
-                """)
+                """
+        )
 
         got = _xml_to_list(fh.getvalue())
 

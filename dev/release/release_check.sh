@@ -67,6 +67,35 @@ function check_spellcheck {
 
 #############################################################
 #
+# Run lint.
+#
+function check_lint {
+
+    echo
+    echo -n "Is the lint ok?                         [y/N]: "
+    read RESPONSE
+
+    if [ "$RESPONSE" != "y" ]; then
+
+        echo -n "    Run make lint now?                  [y/N]: "
+        read RESPONSE
+
+        if [ "$RESPONSE" != "y" ]; then
+            echo
+            echo -e "Please run: make lint\n";
+            exit 1
+        else
+            echo "    Running make lint...";
+            make lint
+            check_lint
+         fi
+    fi
+}
+
+
+
+#############################################################
+#
 # Run test_flake8.
 #
 function check_test_flake8 {
@@ -229,6 +258,7 @@ function check_git_status {
 
 check_test_status
 check_spellcheck
+check_lint
 check_test_flake8
 check_testwarnings
 check_changefile

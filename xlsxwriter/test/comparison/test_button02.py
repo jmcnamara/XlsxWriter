@@ -17,8 +17,7 @@ class TestCompareXLSXFiles(ExcelComparisonTest):
     """
 
     def setUp(self):
-
-        self.set_filename('button02.xlsx')
+        self.set_filename("button02.xlsx")
 
     def test_create_file(self):
         """Test the creation of a simple XlsxWriter file."""
@@ -27,9 +26,9 @@ class TestCompareXLSXFiles(ExcelComparisonTest):
 
         worksheet = workbook.add_worksheet()
 
-        worksheet.insert_button('B4', {'x_offset': 4,
-                                       'y_offset': 3,
-                                       'caption': 'my text'})
+        worksheet.insert_button(
+            "B4", {"x_offset": 4, "y_offset": 3, "caption": "my text"}
+        )
 
         workbook.close()
 

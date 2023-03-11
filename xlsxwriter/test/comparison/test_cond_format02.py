@@ -17,8 +17,7 @@ class TestCompareXLSXFiles(ExcelComparisonTest):
     """
 
     def setUp(self):
-
-        self.set_filename('cond_format02.xlsx')
+        self.set_filename("cond_format02.xlsx")
 
     def test_create_file(self):
         """Test the creation of a simple XlsxWriter file with conditional formatting."""
@@ -29,17 +28,14 @@ class TestCompareXLSXFiles(ExcelComparisonTest):
 
         cell_format = None  # Test the null format.
 
-        worksheet.write('A1', 10)
-        worksheet.write('A2', 20)
-        worksheet.write('A3', 30)
-        worksheet.write('A4', 40)
+        worksheet.write("A1", 10)
+        worksheet.write("A2", 20)
+        worksheet.write("A3", 30)
+        worksheet.write("A4", 40)
 
-        worksheet.conditional_format('A1',
-                                     {'type': 'cell',
-                                      'format': cell_format,
-                                      'criteria': '<',
-                                      'value': 5
-                                      })
+        worksheet.conditional_format(
+            "A1", {"type": "cell", "format": cell_format, "criteria": "<", "value": 5}
+        )
 
         workbook.close()
 

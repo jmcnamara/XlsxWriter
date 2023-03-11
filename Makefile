@@ -52,14 +52,15 @@ testpythons:
 	@~/.pythonbrew/pythons/Python-3.11.1/bin/py.test -q
 
 test_flake8:
-	@ls -1 xlsxwriter/*.py | egrep -v "theme|__init__" | xargs flake8 --show-source
+	@ls -1 xlsxwriter/*.py | egrep -v "theme|__init__" | xargs flake8 --show-source --max-line-length=88 --ignore=E203,W503
 	@flake8 --ignore=E501 xlsxwriter/theme.py
-	@find xlsxwriter/test -name \*.py | xargs flake8 --ignore=E501,F841
+	@find xlsxwriter/test -name \*.py | xargs flake8 --ignore=E501,F841,W503
 
 lint:
 	@ruff xlsxwriter/*.py
 	@ruff xlsxwriter/test --ignore=E501,F841
 	@ruff examples
+	@black --check xlsxwriter/ examples/
 
 tags:
 	$(Q)rm -f TAGS

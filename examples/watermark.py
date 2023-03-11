@@ -10,11 +10,10 @@
 #
 import xlsxwriter
 
-workbook = xlsxwriter.Workbook('watermark.xlsx')
+workbook = xlsxwriter.Workbook("watermark.xlsx")
 worksheet = workbook.add_worksheet()
 
 # Set a worksheet header with the watermark image.
-worksheet.set_header('&C&[Picture]',
-                     {'image_center': 'watermark.png'})
+worksheet.set_header("&C&[Picture]", {"image_center": "watermark.png"})
 
 workbook.close()

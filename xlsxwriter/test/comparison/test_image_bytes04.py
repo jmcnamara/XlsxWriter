@@ -18,8 +18,7 @@ class TestCompareXLSXFiles(ExcelComparisonTest):
     """
 
     def setUp(self):
-
-        self.set_filename('image48.xlsx')
+        self.set_filename("image48.xlsx")
 
     def test_create_file(self):
         """Test the creation of a simple XlsxWriter file with image(s)."""
@@ -29,12 +28,12 @@ class TestCompareXLSXFiles(ExcelComparisonTest):
         worksheet1 = workbook.add_worksheet()
         worksheet2 = workbook.add_worksheet()
 
-        image_file = open(self.image_dir + 'red.png', 'rb')
+        image_file = open(self.image_dir + "red.png", "rb")
         image_data = BytesIO(image_file.read())
         image_file.close()
 
-        worksheet1.insert_image('E9', 'red.png', {'image_data': image_data})
-        worksheet2.insert_image('E9', 'red.png', {'image_data': image_data})
+        worksheet1.insert_image("E9", "red.png", {"image_data": image_data})
+        worksheet2.insert_image("E9", "red.png", {"image_data": image_data})
 
         workbook.close()
 
@@ -43,17 +42,17 @@ class TestCompareXLSXFiles(ExcelComparisonTest):
     def test_create_file_in_memory(self):
         """Test the creation of a simple XlsxWriter file with image(s)."""
 
-        workbook = Workbook(self.got_filename, {'in_memory': True})
+        workbook = Workbook(self.got_filename, {"in_memory": True})
 
         worksheet1 = workbook.add_worksheet()
         worksheet2 = workbook.add_worksheet()
 
-        image_file = open(self.image_dir + 'red.png', 'rb')
+        image_file = open(self.image_dir + "red.png", "rb")
         image_data = BytesIO(image_file.read())
         image_file.close()
 
-        worksheet1.insert_image('E9', 'red.png', {'image_data': image_data})
-        worksheet2.insert_image('E9', 'red.png', {'image_data': image_data})
+        worksheet1.insert_image("E9", "red.png", {"image_data": image_data})
+        worksheet2.insert_image("E9", "red.png", {"image_data": image_data})
 
         workbook.close()
 

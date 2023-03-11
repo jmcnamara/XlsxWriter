@@ -33,7 +33,7 @@ class TestCalculateSpans(unittest.TestCase):
 
         self.worksheet._calculate_spans()
 
-        exp = {0: '1:16', 1: '17:17'}
+        exp = {0: "1:16", 1: "17:17"}
         got = self.worksheet.row_spans
 
         self.assertEqual(got, exp)
@@ -50,7 +50,7 @@ class TestCalculateSpans(unittest.TestCase):
         self.worksheet._calculate_spans()
 
         got = self.worksheet.row_spans
-        exp = {0: '1:16', 1: '17:17'}
+        exp = {0: "1:16", 1: "17:17"}
 
         self.assertEqual(got, exp)
 
@@ -66,7 +66,7 @@ class TestCalculateSpans(unittest.TestCase):
         self.worksheet._calculate_spans()
 
         got = self.worksheet.row_spans
-        exp = {0: '1:15', 1: '16:17'}
+        exp = {0: "1:15", 1: "16:17"}
 
         self.assertEqual(got, exp)
 
@@ -82,7 +82,7 @@ class TestCalculateSpans(unittest.TestCase):
         self.worksheet._calculate_spans()
 
         got = self.worksheet.row_spans
-        exp = {0: '1:14', 1: '15:17'}
+        exp = {0: "1:14", 1: "15:17"}
 
         self.assertEqual(got, exp)
 
@@ -98,7 +98,7 @@ class TestCalculateSpans(unittest.TestCase):
         self.worksheet._calculate_spans()
 
         got = self.worksheet.row_spans
-        exp = {0: '1:13', 1: '14:17'}
+        exp = {0: "1:13", 1: "14:17"}
 
         self.assertEqual(got, exp)
 
@@ -114,7 +114,7 @@ class TestCalculateSpans(unittest.TestCase):
         self.worksheet._calculate_spans()
 
         got = self.worksheet.row_spans
-        exp = {0: '1:12', 1: '13:17'}
+        exp = {0: "1:12", 1: "13:17"}
 
         self.assertEqual(got, exp)
 
@@ -130,7 +130,7 @@ class TestCalculateSpans(unittest.TestCase):
         self.worksheet._calculate_spans()
 
         got = self.worksheet.row_spans
-        exp = {0: '1:11', 1: '12:17'}
+        exp = {0: "1:11", 1: "12:17"}
 
         self.assertEqual(got, exp)
 
@@ -146,7 +146,7 @@ class TestCalculateSpans(unittest.TestCase):
         self.worksheet._calculate_spans()
 
         got = self.worksheet.row_spans
-        exp = {0: '1:10', 1: '11:17'}
+        exp = {0: "1:10", 1: "11:17"}
 
         self.assertEqual(got, exp)
 
@@ -162,7 +162,7 @@ class TestCalculateSpans(unittest.TestCase):
         self.worksheet._calculate_spans()
 
         got = self.worksheet.row_spans
-        exp = {0: '1:9', 1: '10:17'}
+        exp = {0: "1:9", 1: "10:17"}
 
         self.assertEqual(got, exp)
 
@@ -178,7 +178,7 @@ class TestCalculateSpans(unittest.TestCase):
         self.worksheet._calculate_spans()
 
         got = self.worksheet.row_spans
-        exp = {0: '1:8', 1: '9:17'}
+        exp = {0: "1:8", 1: "9:17"}
 
         self.assertEqual(got, exp)
 
@@ -194,7 +194,7 @@ class TestCalculateSpans(unittest.TestCase):
         self.worksheet._calculate_spans()
 
         got = self.worksheet.row_spans
-        exp = {0: '1:7', 1: '8:17'}
+        exp = {0: "1:7", 1: "8:17"}
 
         self.assertEqual(got, exp)
 
@@ -210,7 +210,7 @@ class TestCalculateSpans(unittest.TestCase):
         self.worksheet._calculate_spans()
 
         got = self.worksheet.row_spans
-        exp = {0: '1:6', 1: '7:17'}
+        exp = {0: "1:6", 1: "7:17"}
 
         self.assertEqual(got, exp)
 
@@ -226,7 +226,7 @@ class TestCalculateSpans(unittest.TestCase):
         self.worksheet._calculate_spans()
 
         got = self.worksheet.row_spans
-        exp = {0: '1:5', 1: '6:17'}
+        exp = {0: "1:5", 1: "6:17"}
 
         self.assertEqual(got, exp)
 
@@ -242,7 +242,7 @@ class TestCalculateSpans(unittest.TestCase):
         self.worksheet._calculate_spans()
 
         got = self.worksheet.row_spans
-        exp = {0: '1:4', 1: '5:17'}
+        exp = {0: "1:4", 1: "5:17"}
 
         self.assertEqual(got, exp)
 
@@ -258,7 +258,7 @@ class TestCalculateSpans(unittest.TestCase):
         self.worksheet._calculate_spans()
 
         got = self.worksheet.row_spans
-        exp = {0: '1:3', 1: '4:17'}
+        exp = {0: "1:3", 1: "4:17"}
 
         self.assertEqual(got, exp)
 
@@ -274,7 +274,7 @@ class TestCalculateSpans(unittest.TestCase):
         self.worksheet._calculate_spans()
 
         got = self.worksheet.row_spans
-        exp = {0: '1:2', 1: '3:17'}
+        exp = {0: "1:2", 1: "3:17"}
 
         self.assertEqual(got, exp)
 
@@ -290,7 +290,7 @@ class TestCalculateSpans(unittest.TestCase):
         self.worksheet._calculate_spans()
 
         got = self.worksheet.row_spans
-        exp = {0: '1:1', 1: '2:17'}
+        exp = {0: "1:1", 1: "2:17"}
 
         self.assertEqual(got, exp)
 
@@ -306,7 +306,7 @@ class TestCalculateSpans(unittest.TestCase):
         self.worksheet._calculate_spans()
 
         got = self.worksheet.row_spans
-        exp = {1: '1:16', 2: '17:17'}
+        exp = {1: "1:16", 2: "17:17"}
 
         self.assertEqual(got, exp)
 
@@ -322,6 +322,6 @@ class TestCalculateSpans(unittest.TestCase):
         self.worksheet._calculate_spans()
 
         got = self.worksheet.row_spans
-        exp = {1: '2:17', 2: '18:18'}
+        exp = {1: "2:17", 2: "18:18"}
 
         self.assertEqual(got, exp)

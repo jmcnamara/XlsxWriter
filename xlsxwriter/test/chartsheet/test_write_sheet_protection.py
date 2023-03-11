@@ -25,7 +25,7 @@ class TestWriteSheetProtection(unittest.TestCase):
     def test_write_sheet_protection_1(self):
         """Test the _write_sheet_protection() method."""
 
-        password = ''
+        password = ""
         options = {}
 
         self.chartsheet.protect(password, options)
@@ -39,7 +39,7 @@ class TestWriteSheetProtection(unittest.TestCase):
     def test_write_sheet_protection_2(self):
         """Test the _write_sheet_protection() method."""
 
-        password = 'password'
+        password = "password"
         options = {}
 
         self.chartsheet.protect(password, options)
@@ -53,8 +53,8 @@ class TestWriteSheetProtection(unittest.TestCase):
     def test_write_sheet_protection_3(self):
         """Test the _write_sheet_protection() method."""
 
-        password = ''
-        options = {'objects': False}
+        password = ""
+        options = {"objects": False}
 
         self.chartsheet.protect(password, options)
         self.chartsheet._write_sheet_protection()
@@ -67,8 +67,8 @@ class TestWriteSheetProtection(unittest.TestCase):
     def test_write_sheet_protection_4(self):
         """Test the _write_sheet_protection() method."""
 
-        password = ''
-        options = {'content': False}
+        password = ""
+        options = {"content": False}
 
         self.chartsheet.protect(password, options)
         self.chartsheet._write_sheet_protection()
@@ -81,13 +81,13 @@ class TestWriteSheetProtection(unittest.TestCase):
     def test_write_sheet_protection_5(self):
         """Test the _write_sheet_protection() method."""
 
-        password = ''
-        options = {'content': False, 'objects': False}
+        password = ""
+        options = {"content": False, "objects": False}
 
         self.chartsheet.protect(password, options)
         self.chartsheet._write_sheet_protection()
 
-        exp = ''
+        exp = ""
         got = self.fh.getvalue()
 
         self.assertEqual(got, exp)
@@ -95,8 +95,8 @@ class TestWriteSheetProtection(unittest.TestCase):
     def test_write_sheet_protection_6(self):
         """Test the _write_sheet_protection() method."""
 
-        password = 'password'
-        options = {'content': False, 'objects': False}
+        password = "password"
+        options = {"content": False, "objects": False}
 
         self.chartsheet.protect(password, options)
         self.chartsheet._write_sheet_protection()
@@ -109,23 +109,23 @@ class TestWriteSheetProtection(unittest.TestCase):
     def test_write_sheet_protection_7(self):
         """Test the _write_sheet_protection() method."""
 
-        password = 'password'
+        password = "password"
         options = {
-            'objects': True,
-            'scenarios': True,
-            'format_cells': True,
-            'format_columns': True,
-            'format_rows': True,
-            'insert_columns': True,
-            'insert_rows': True,
-            'insert_hyperlinks': True,
-            'delete_columns': True,
-            'delete_rows': True,
-            'select_locked_cells': False,
-            'sort': True,
-            'autofilter': True,
-            'pivot_tables': True,
-            'select_unlocked_cells': False,
+            "objects": True,
+            "scenarios": True,
+            "format_cells": True,
+            "format_columns": True,
+            "format_rows": True,
+            "insert_columns": True,
+            "insert_rows": True,
+            "insert_hyperlinks": True,
+            "delete_columns": True,
+            "delete_rows": True,
+            "select_locked_cells": False,
+            "sort": True,
+            "autofilter": True,
+            "pivot_tables": True,
+            "select_unlocked_cells": False,
         }
 
         self.chartsheet.protect(password, options)

@@ -17,8 +17,7 @@ class TestCompareXLSXFiles(ExcelComparisonTest):
     """
 
     def setUp(self):
-
-        self.set_filename('chart_column06.xlsx')
+        self.set_filename("chart_column06.xlsx")
 
     def test_create_file(self):
         """Test the creation of a simple XlsxWriter file."""
@@ -27,7 +26,7 @@ class TestCompareXLSXFiles(ExcelComparisonTest):
 
         worksheet1 = workbook.add_worksheet()
         worksheet2 = workbook.add_worksheet()
-        chart = workbook.add_chart({'type': 'column'})
+        chart = workbook.add_chart({"type": "column"})
 
         chart.axis_ids = [47363584, 49673344]
 
@@ -35,18 +34,17 @@ class TestCompareXLSXFiles(ExcelComparisonTest):
             [1, 2, 3, 4, 5],
             [2, 4, 6, 8, 10],
             [3, 6, 9, 12, 15],
-
         ]
 
-        worksheet1.write_column('A1', data[0])
-        worksheet1.write_column('B1', data[1])
-        worksheet1.write_column('C1', data[2])
+        worksheet1.write_column("A1", data[0])
+        worksheet1.write_column("B1", data[1])
+        worksheet1.write_column("C1", data[2])
 
-        chart.add_series({'values': '=Sheet1!$A$1:$A$5'})
-        chart.add_series({'values': '=Sheet1!$B$1:$B$5'})
-        chart.add_series({'values': '=Sheet1!$C$1:$C$5'})
+        chart.add_series({"values": "=Sheet1!$A$1:$A$5"})
+        chart.add_series({"values": "=Sheet1!$B$1:$B$5"})
+        chart.add_series({"values": "=Sheet1!$C$1:$C$5"})
 
-        worksheet2.insert_chart('E9', chart)
+        worksheet2.insert_chart("E9", chart)
 
         workbook.close()
 

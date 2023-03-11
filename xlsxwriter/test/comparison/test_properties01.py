@@ -17,8 +17,7 @@ class TestCompareXLSXFiles(ExcelComparisonTest):
     """
 
     def setUp(self):
-
-        self.set_filename('properties01.xlsx')
+        self.set_filename("properties01.xlsx")
 
     def test_create_file(self):
         """Test the creation of a simple XlsxWriter file."""
@@ -27,19 +26,25 @@ class TestCompareXLSXFiles(ExcelComparisonTest):
 
         worksheet = workbook.add_worksheet()
 
-        workbook.set_properties({
-            'title': 'This is an example spreadsheet',
-            'subject': 'With document properties',
-            'author': 'Someone',
-            'manager': 'Dr. Heinz Doofenshmirtz',
-            'company': 'of Wolves',
-            'category': 'Example spreadsheets',
-            'keywords': 'Sample, Example, Properties',
-            'comments': 'Created with Perl and Excel::Writer::XLSX',
-            'status': 'Quo'})
+        workbook.set_properties(
+            {
+                "title": "This is an example spreadsheet",
+                "subject": "With document properties",
+                "author": "Someone",
+                "manager": "Dr. Heinz Doofenshmirtz",
+                "company": "of Wolves",
+                "category": "Example spreadsheets",
+                "keywords": "Sample, Example, Properties",
+                "comments": "Created with Perl and Excel::Writer::XLSX",
+                "status": "Quo",
+            }
+        )
 
-        worksheet.set_column('A:A', 70)
-        worksheet.write('A1', "Select 'Office Button -> Prepare -> Properties' to see the file properties.")
+        worksheet.set_column("A:A", 70)
+        worksheet.write(
+            "A1",
+            "Select 'Office Button -> Prepare -> Properties' to see the file properties.",
+        )
 
         workbook.close()
 

@@ -16,8 +16,7 @@ class TestCompareXLSXFiles(ExcelComparisonTest):
     """
 
     def setUp(self):
-
-        self.set_filename('utf8_10.xlsx')
+        self.set_filename("utf8_10.xlsx")
 
     def test_create_file(self):
         """Test the creation of an XlsxWriter file with utf-8 strings."""
@@ -25,7 +24,7 @@ class TestCompareXLSXFiles(ExcelComparisonTest):
         workbook = Workbook(self.got_filename)
 
         worksheet = workbook.add_worksheet()
-        chart = workbook.add_chart({'type': 'bar'})
+        chart = workbook.add_chart({"type": "bar"})
 
         chart.axis_ids = [86604416, 89227648]
 
@@ -35,19 +34,19 @@ class TestCompareXLSXFiles(ExcelComparisonTest):
             [3, 6, 9, 12, 15],
         ]
 
-        worksheet.write_column('A1', data[0])
-        worksheet.write_column('B1', data[1])
-        worksheet.write_column('C1', data[2])
+        worksheet.write_column("A1", data[0])
+        worksheet.write_column("B1", data[1])
+        worksheet.write_column("C1", data[2])
 
-        chart.add_series({'values': '=Sheet1!$A$1:$A$5'})
-        chart.add_series({'values': '=Sheet1!$B$1:$B$5'})
-        chart.add_series({'values': '=Sheet1!$C$1:$C$5'})
+        chart.add_series({"values": "=Sheet1!$A$1:$A$5"})
+        chart.add_series({"values": "=Sheet1!$B$1:$B$5"})
+        chart.add_series({"values": "=Sheet1!$C$1:$C$5"})
 
-        chart.set_x_axis({'name': 'café'})
-        chart.set_y_axis({'name': 'sauté'})
-        chart.set_title({'name': 'résumé'})
+        chart.set_x_axis({"name": "café"})
+        chart.set_y_axis({"name": "sauté"})
+        chart.set_title({"name": "résumé"})
 
-        worksheet.insert_chart('E9', chart)
+        worksheet.insert_chart("E9", chart)
 
         workbook.close()
 

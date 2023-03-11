@@ -17,6 +17,7 @@ class TestAssembleWorksheet(unittest.TestCase):
     Test assembling a complete Worksheet file.
 
     """
+
     def test_assemble_xml_file(self):
         """Test writing a worksheet with conditional formatting."""
         self.maxDiff = None
@@ -26,55 +27,56 @@ class TestAssembleWorksheet(unittest.TestCase):
         worksheet._set_filehandle(fh)
         worksheet.select()
 
-        worksheet.write('A1', 1)
-        worksheet.write('A2', 2)
-        worksheet.write('A3', 3)
-        worksheet.write('A4', 4)
-        worksheet.write('A5', 5)
-        worksheet.write('A6', 6)
-        worksheet.write('A7', 7)
-        worksheet.write('A8', 8)
-        worksheet.write('A9', 9)
+        worksheet.write("A1", 1)
+        worksheet.write("A2", 2)
+        worksheet.write("A3", 3)
+        worksheet.write("A4", 4)
+        worksheet.write("A5", 5)
+        worksheet.write("A6", 6)
+        worksheet.write("A7", 7)
+        worksheet.write("A8", 8)
+        worksheet.write("A9", 9)
 
-        worksheet.conditional_format('A1',
-                                     {'type': 'icon_set',
-                                      'icon_style': '3_arrows'})
+        worksheet.conditional_format(
+            "A1", {"type": "icon_set", "icon_style": "3_arrows"}
+        )
 
-        worksheet.conditional_format('A2',
-                                     {'type': 'icon_set',
-                                      'icon_style': '3_flags'})
+        worksheet.conditional_format(
+            "A2", {"type": "icon_set", "icon_style": "3_flags"}
+        )
 
-        worksheet.conditional_format('A3',
-                                     {'type': 'icon_set',
-                                      'icon_style': '3_traffic_lights_rimmed'})
+        worksheet.conditional_format(
+            "A3", {"type": "icon_set", "icon_style": "3_traffic_lights_rimmed"}
+        )
 
-        worksheet.conditional_format('A4',
-                                     {'type': 'icon_set',
-                                      'icon_style': '3_symbols_circled'})
+        worksheet.conditional_format(
+            "A4", {"type": "icon_set", "icon_style": "3_symbols_circled"}
+        )
 
-        worksheet.conditional_format('A5',
-                                     {'type': 'icon_set',
-                                      'icon_style': '4_arrows'})
+        worksheet.conditional_format(
+            "A5", {"type": "icon_set", "icon_style": "4_arrows"}
+        )
 
-        worksheet.conditional_format('A6',
-                                     {'type': 'icon_set',
-                                      'icon_style': '4_red_to_black'})
+        worksheet.conditional_format(
+            "A6", {"type": "icon_set", "icon_style": "4_red_to_black"}
+        )
 
-        worksheet.conditional_format('A7',
-                                     {'type': 'icon_set',
-                                      'icon_style': '4_traffic_lights'})
+        worksheet.conditional_format(
+            "A7", {"type": "icon_set", "icon_style": "4_traffic_lights"}
+        )
 
-        worksheet.conditional_format('A8',
-                                     {'type': 'icon_set',
-                                      'icon_style': '5_arrows_gray'})
+        worksheet.conditional_format(
+            "A8", {"type": "icon_set", "icon_style": "5_arrows_gray"}
+        )
 
-        worksheet.conditional_format('A9',
-                                     {'type': 'icon_set',
-                                      'icon_style': '5_quarters'})
+        worksheet.conditional_format(
+            "A9", {"type": "icon_set", "icon_style": "5_quarters"}
+        )
 
         worksheet._assemble_xml_file()
 
-        exp = _xml_to_list("""
+        exp = _xml_to_list(
+            """
                 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
                 <worksheet xmlns="http://schemas.openxmlformats.org/spreadsheetml/2006/main" xmlns:r="http://schemas.openxmlformats.org/officeDocument/2006/relationships">
                   <dimension ref="A1:A9"/>
@@ -219,7 +221,8 @@ class TestAssembleWorksheet(unittest.TestCase):
                   </conditionalFormatting>
                   <pageMargins left="0.7" right="0.7" top="0.75" bottom="0.75" header="0.3" footer="0.3"/>
                 </worksheet>
-                """)
+                """
+        )
 
         got = _xml_to_list(fh.getvalue())
 

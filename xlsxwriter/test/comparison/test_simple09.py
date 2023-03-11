@@ -17,8 +17,7 @@ class TestCompareXLSXFiles(ExcelComparisonTest):
     """
 
     def setUp(self):
-
-        self.set_filename('simple09.xlsx')
+        self.set_filename("simple09.xlsx")
 
     def test_create_file(self):
         """Test the creation of a simple XlsxWriter file."""
@@ -28,12 +27,12 @@ class TestCompareXLSXFiles(ExcelComparisonTest):
         worksheet = workbook.add_worksheet()
 
         # Test data out of range. These should be ignored.
-        worksheet.write('A0', 'foo')
-        worksheet.write(-1, -1, 'foo')
-        worksheet.write(0, -1, 'foo')
-        worksheet.write(-1, 0, 'foo')
-        worksheet.write(1048576, 0, 'foo')
-        worksheet.write(0, 16384, 'foo')
+        worksheet.write("A0", "foo")
+        worksheet.write(-1, -1, "foo")
+        worksheet.write(0, -1, "foo")
+        worksheet.write(-1, 0, "foo")
+        worksheet.write(1048576, 0, "foo")
+        worksheet.write(0, 16384, "foo")
 
         workbook.close()
 

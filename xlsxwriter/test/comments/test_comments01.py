@@ -17,6 +17,7 @@ class TestAssembleComments(unittest.TestCase):
     Test assembling a complete Comments file.
 
     """
+
     def test_assemble_xml_file(self):
         """Test writing a comments with no cell data."""
         self.maxDiff = None
@@ -25,9 +26,25 @@ class TestAssembleComments(unittest.TestCase):
         comments = Comments()
         comments._set_filehandle(fh)
 
-        comments._assemble_xml_file([[1, 1, 'Some text', 'John', None, 81, 'Tahoma', 8, 2, [2, 0, 4, 4, 143, 10, 128, 74]]])
+        comments._assemble_xml_file(
+            [
+                [
+                    1,
+                    1,
+                    "Some text",
+                    "John",
+                    None,
+                    81,
+                    "Tahoma",
+                    8,
+                    2,
+                    [2, 0, 4, 4, 143, 10, 128, 74],
+                ]
+            ]
+        )
 
-        exp = _xml_to_list("""
+        exp = _xml_to_list(
+            """
                 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
                 <comments xmlns="http://schemas.openxmlformats.org/spreadsheetml/2006/main">
                   <authors>
@@ -49,7 +66,8 @@ class TestAssembleComments(unittest.TestCase):
                     </comment>
                   </commentList>
                 </comments>
-                """)
+                """
+        )
 
         got = _xml_to_list(fh.getvalue())
 

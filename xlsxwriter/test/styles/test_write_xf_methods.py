@@ -95,7 +95,7 @@ class TestWriteXf(unittest.TestCase):
         """Test the _write_xf() method. Vertical alignment = top."""
 
         xf_format = Format()
-        xf_format.set_align('top')
+        xf_format.set_align("top")
 
         self.styles._write_xf(xf_format)
 
@@ -108,7 +108,7 @@ class TestWriteXf(unittest.TestCase):
         """Test the _write_xf() method. Vertical alignment = centre."""
 
         xf_format = Format()
-        xf_format.set_align('vcenter')
+        xf_format.set_align("vcenter")
 
         self.styles._write_xf(xf_format)
 
@@ -121,7 +121,7 @@ class TestWriteXf(unittest.TestCase):
         """Test the _write_xf() method. Vertical alignment = bottom."""
 
         xf_format = Format()
-        xf_format.set_align('bottom')
+        xf_format.set_align("bottom")
 
         self.styles._write_xf(xf_format)
 
@@ -134,7 +134,7 @@ class TestWriteXf(unittest.TestCase):
         """Test the _write_xf() method. Vertical alignment = justify."""
 
         xf_format = Format()
-        xf_format.set_align('vjustify')
+        xf_format.set_align("vjustify")
 
         self.styles._write_xf(xf_format)
 
@@ -147,7 +147,7 @@ class TestWriteXf(unittest.TestCase):
         """Test the _write_xf() method. Vertical alignment = distributed."""
 
         xf_format = Format()
-        xf_format.set_align('vdistributed')
+        xf_format.set_align("vdistributed")
 
         self.styles._write_xf(xf_format)
 
@@ -160,7 +160,7 @@ class TestWriteXf(unittest.TestCase):
         """Test the _write_xf() method. Horizontal alignment = left."""
 
         xf_format = Format()
-        xf_format.set_align('left')
+        xf_format.set_align("left")
 
         self.styles._write_xf(xf_format)
 
@@ -173,7 +173,7 @@ class TestWriteXf(unittest.TestCase):
         """Test the _write_xf() method. Horizontal alignment = center."""
 
         xf_format = Format()
-        xf_format.set_align('center')
+        xf_format.set_align("center")
 
         self.styles._write_xf(xf_format)
 
@@ -186,7 +186,7 @@ class TestWriteXf(unittest.TestCase):
         """Test the _write_xf() method. Horizontal alignment = right."""
 
         xf_format = Format()
-        xf_format.set_align('right')
+        xf_format.set_align("right")
 
         self.styles._write_xf(xf_format)
 
@@ -199,7 +199,7 @@ class TestWriteXf(unittest.TestCase):
         """Test the _write_xf() method. Horizontal alignment = left + indent."""
 
         xf_format = Format()
-        xf_format.set_align('left')
+        xf_format.set_align("left")
         xf_format.set_indent()
 
         self.styles._write_xf(xf_format)
@@ -213,7 +213,7 @@ class TestWriteXf(unittest.TestCase):
         """Test the _write_xf() method. Horizontal alignment = right + indent."""
 
         xf_format = Format()
-        xf_format.set_align('right')
+        xf_format.set_align("right")
         xf_format.set_indent()
 
         self.styles._write_xf(xf_format)
@@ -227,7 +227,7 @@ class TestWriteXf(unittest.TestCase):
         """Test the _write_xf() method. Horizontal alignment = fill."""
 
         xf_format = Format()
-        xf_format.set_align('fill')
+        xf_format.set_align("fill")
 
         self.styles._write_xf(xf_format)
 
@@ -240,7 +240,7 @@ class TestWriteXf(unittest.TestCase):
         """Test the _write_xf() method. Horizontal alignment = justify."""
 
         xf_format = Format()
-        xf_format.set_align('justify')
+        xf_format.set_align("justify")
 
         self.styles._write_xf(xf_format)
 
@@ -253,7 +253,7 @@ class TestWriteXf(unittest.TestCase):
         """Test the _write_xf() method. Horizontal alignment = center across."""
 
         xf_format = Format()
-        xf_format.set_align('center_across')
+        xf_format.set_align("center_across")
 
         self.styles._write_xf(xf_format)
 
@@ -266,7 +266,7 @@ class TestWriteXf(unittest.TestCase):
         """Test the _write_xf() method. Horizontal alignment = distributed."""
 
         xf_format = Format()
-        xf_format.set_align('distributed')
+        xf_format.set_align("distributed")
 
         self.styles._write_xf(xf_format)
 
@@ -279,7 +279,7 @@ class TestWriteXf(unittest.TestCase):
         """Test the _write_xf() method. Horizontal alignment = distributed + indent."""
 
         xf_format = Format()
-        xf_format.set_align('distributed')
+        xf_format.set_align("distributed")
         xf_format.set_indent()
 
         self.styles._write_xf(xf_format)
@@ -293,7 +293,7 @@ class TestWriteXf(unittest.TestCase):
         """Test the _write_xf() method. Horizontal alignment = justify distributed."""
 
         xf_format = Format()
-        xf_format.set_align('justify_distributed')
+        xf_format.set_align("justify_distributed")
 
         self.styles._write_xf(xf_format)
 
@@ -319,7 +319,7 @@ class TestWriteXf(unittest.TestCase):
         """Test the _write_xf() method. Horizontal alignment = distributed + indent."""
 
         xf_format = Format()
-        xf_format.set_align('justify_distributed')
+        xf_format.set_align("justify_distributed")
         xf_format.set_indent()
 
         self.styles._write_xf(xf_format)
@@ -490,7 +490,7 @@ class TestWriteXf(unittest.TestCase):
         """Test the _write_xf() method. With cell protection + align."""
 
         xf_format = Format()
-        xf_format.set_align('right')
+        xf_format.set_align("right")
         xf_format.set_locked(0)
         xf_format.set_hidden()
 

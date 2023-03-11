@@ -8,7 +8,7 @@
 #
 import xlsxwriter
 
-with xlsxwriter.Workbook('hello_world.xlsx') as workbook:
+with xlsxwriter.Workbook("hello_world.xlsx") as workbook:
     worksheet = workbook.add_worksheet()
 
-    worksheet.write('A1', 'Hello world')
+    worksheet.write("A1", "Hello world")

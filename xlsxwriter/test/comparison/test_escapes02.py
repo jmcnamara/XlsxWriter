@@ -17,8 +17,7 @@ class TestCompareXLSXFiles(ExcelComparisonTest):
     """
 
     def setUp(self):
-
-        self.set_filename('escapes02.xlsx')
+        self.set_filename("escapes02.xlsx")
 
     def test_create_file(self):
         """Test the creation of a simple XlsxWriter file with comments.Check encoding of comments."""
@@ -27,8 +26,8 @@ class TestCompareXLSXFiles(ExcelComparisonTest):
 
         worksheet = workbook.add_worksheet()
 
-        worksheet.write('A1', '"<>\'&')
-        worksheet.write_comment('B2', """<>&"'""")
+        worksheet.write("A1", "\"<>'&")
+        worksheet.write_comment("B2", """<>&"'""")
 
         worksheet.set_comments_author("""I am '"<>&""")
 

@@ -25,7 +25,7 @@ class TestWriteAutoFilter(unittest.TestCase):
     def test_write_auto_filter(self):
         """Test the _write_auto_filter() method"""
 
-        self.table.properties['autofilter'] = 'C3:F13'
+        self.table.properties["autofilter"] = "C3:F13"
 
         self.table._write_auto_filter()
 

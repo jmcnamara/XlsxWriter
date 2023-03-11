@@ -17,8 +17,7 @@ class TestCompareXLSXFiles(ExcelComparisonTest):
     """
 
     def setUp(self):
-
-        self.set_filename('chart_sparse01.xlsx')
+        self.set_filename("chart_sparse01.xlsx")
 
     def test_create_file(self):
         """Test the creation of a simple XlsxWriter file with series data missing."""
@@ -26,7 +25,7 @@ class TestCompareXLSXFiles(ExcelComparisonTest):
         workbook = Workbook(self.got_filename)
 
         worksheet = workbook.add_worksheet()
-        chart = workbook.add_chart({'type': 'bar'})
+        chart = workbook.add_chart({"type": "bar"})
 
         chart.axis_ids = [46202880, 46204416]
 
@@ -34,23 +33,26 @@ class TestCompareXLSXFiles(ExcelComparisonTest):
             [1, 2, 3, 4, 5],
             [2, None, 6, 8, 10],
             [3, 6, 9, 12, 15],
-
         ]
 
-        worksheet.write_column('A1', data[0])
-        worksheet.write_column('B1', data[1])
-        worksheet.write_column('C1', data[2])
+        worksheet.write_column("A1", data[0])
+        worksheet.write_column("B1", data[1])
+        worksheet.write_column("C1", data[2])
 
-        chart.add_series({
-            'categories': '=Sheet1!$A$1:$A$5',
-            'values': '=Sheet1!$B$1:$B$5',
-        })
+        chart.add_series(
+            {
+                "categories": "=Sheet1!$A$1:$A$5",
+                "values": "=Sheet1!$B$1:$B$5",
+            }
+        )
 
-        chart.add_series({
-            'categories': '=Sheet1!$A$1:$A$6',
-            'values': '=Sheet1!$C$1:$C$6',
-        })
-        worksheet.insert_chart('E9', chart)
+        chart.add_series(
+            {
+                "categories": "=Sheet1!$A$1:$A$6",
+                "values": "=Sheet1!$C$1:$C$6",
+            }
+        )
+        worksheet.insert_chart("E9", chart)
 
         workbook.close()
 

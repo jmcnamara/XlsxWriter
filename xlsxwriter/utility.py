@@ -12,24 +12,107 @@ from warnings import warn
 COL_NAMES = {}
 
 CHAR_WIDTHS = {
-    " ": 3,  "!": 5,  '"': 6, "#": 7, "$": 7,  "%": 11, "&": 10, "'": 3,
-    "(": 5,  ")": 5,  "*": 7, "+": 7, ",": 4,  "-": 5,  ".": 4,  "/": 6,
-    "0": 7,  "1": 7,  "2": 7, "3": 7, "4": 7,  "5": 7,  "6": 7,  "7": 7,
-    "8": 7,  "9": 7,  ":": 4, ";": 4, "<": 7,  "=": 7,  ">": 7,  "?": 7,
-    "@": 13, "A": 9,  "B": 8, "C": 8, "D": 9,  "E": 7,  "F": 7,  "G": 9,
-    "H": 9,  "I": 4,  "J": 5, "K": 8, "L": 6,  "M": 12, "N": 10, "O": 10,
-    "P": 8,  "Q": 10, "R": 8, "S": 7, "T": 7,  "U": 9,  "V": 9,  "W": 13,
-    "X": 8,  "Y": 7,  "Z": 7, "[": 5, "\\": 6, "]": 5,  "^": 7,  "_": 7,
-    "`": 4,  "a": 7,  "b": 8, "c": 6, "d": 8,  "e": 8,  "f": 5,  "g": 7,
-    "h": 8,  "i": 4,  "j": 4, "k": 7, "l": 4,  "m": 12, "n": 8,  "o": 8,
-    "p": 8,  "q": 8,  "r": 5, "s": 6, "t": 5,  "u": 8,  "v": 7,  "w": 11,
-    "x": 7,  "y": 7,  "z": 6, "{": 5, "|": 7,  "}": 5,  "~": 7,
+    " ": 3,
+    "!": 5,
+    '"': 6,
+    "#": 7,
+    "$": 7,
+    "%": 11,
+    "&": 10,
+    "'": 3,
+    "(": 5,
+    ")": 5,
+    "*": 7,
+    "+": 7,
+    ",": 4,
+    "-": 5,
+    ".": 4,
+    "/": 6,
+    "0": 7,
+    "1": 7,
+    "2": 7,
+    "3": 7,
+    "4": 7,
+    "5": 7,
+    "6": 7,
+    "7": 7,
+    "8": 7,
+    "9": 7,
+    ":": 4,
+    ";": 4,
+    "<": 7,
+    "=": 7,
+    ">": 7,
+    "?": 7,
+    "@": 13,
+    "A": 9,
+    "B": 8,
+    "C": 8,
+    "D": 9,
+    "E": 7,
+    "F": 7,
+    "G": 9,
+    "H": 9,
+    "I": 4,
+    "J": 5,
+    "K": 8,
+    "L": 6,
+    "M": 12,
+    "N": 10,
+    "O": 10,
+    "P": 8,
+    "Q": 10,
+    "R": 8,
+    "S": 7,
+    "T": 7,
+    "U": 9,
+    "V": 9,
+    "W": 13,
+    "X": 8,
+    "Y": 7,
+    "Z": 7,
+    "[": 5,
+    "\\": 6,
+    "]": 5,
+    "^": 7,
+    "_": 7,
+    "`": 4,
+    "a": 7,
+    "b": 8,
+    "c": 6,
+    "d": 8,
+    "e": 8,
+    "f": 5,
+    "g": 7,
+    "h": 8,
+    "i": 4,
+    "j": 4,
+    "k": 7,
+    "l": 4,
+    "m": 12,
+    "n": 8,
+    "o": 8,
+    "p": 8,
+    "q": 8,
+    "r": 5,
+    "s": 6,
+    "t": 5,
+    "u": 8,
+    "v": 7,
+    "w": 11,
+    "x": 7,
+    "y": 7,
+    "z": 6,
+    "{": 5,
+    "|": 7,
+    "}": 5,
+    "~": 7,
 }
 
 # Compile performance critical regular expressions.
-re_leading = re.compile(r'^\s')
-re_trailing = re.compile(r'\s$')
-re_range_parts = re.compile(r'(\$?)([A-Z]{1,3})(\$?)(\d+)')
+re_leading = re.compile(r"^\s")
+re_trailing = re.compile(r"\s$")
+re_range_parts = re.compile(r"(\$?)([A-Z]{1,3})(\$?)(\d+)")
 
 
 def xl_rowcol_to_cell(row, col, row_abs=False, col_abs=False):
@@ -55,7 +138,7 @@ def xl_rowcol_to_cell(row, col, row_abs=False, col_abs=False):
         return None
 
     row += 1  # Change to 1-index.
-    row_abs = '$' if row_abs else ''
+    row_abs = "$" if row_abs else ""
 
     col_str = xl_col_to_name(col, col_abs)
 
@@ -101,8 +184,8 @@ def xl_col_to_name(col, col_abs=False):
         return None
 
     col_num += 1  # Change to 1-index.
-    col_str = ''
-    col_abs = '$' if col_abs else ''
+    col_str = ""
+    col_abs = "$" if col_abs else ""
 
     while col_num:
         # Set remainder from 1 .. 26
@@ -112,7 +195,7 @@ def xl_col_to_name(col, col_abs=False):
             remainder = 26
 
         # Convert the remainder to a character.
-        col_letter = chr(ord('A') + remainder - 1)
+        col_letter = chr(ord("A") + remainder - 1)
 
         # Accumulate the column letters, right to left.
         col_str = col_letter + col_str
@@ -145,7 +228,7 @@ def xl_cell_to_rowcol(cell_str):
     expn = 0
     col = 0
     for char in reversed(col_str):
-        col += (ord(char) - ord('A') + 1) * (26 ** expn)
+        col += (ord(char) - ord("A") + 1) * (26**expn)
         expn += 1
 
     # Convert 1-index to zero-index
@@ -191,7 +274,7 @@ def xl_cell_to_rowcol_abs(cell_str):
     expn = 0
     col = 0
     for char in reversed(col_str):
-        col += (ord(char) - ord('A') + 1) * (26 ** expn)
+        col += (ord(char) - ord("A") + 1) * (26**expn)
         expn += 1
 
     # Convert 1-index to zero-index
@@ -225,7 +308,7 @@ def xl_range(first_row, first_col, last_row, last_col):
     if range1 == range2:
         return range1
     else:
-        return range1 + ':' + range2
+        return range1 + ":" + range2
 
 
 def xl_range_abs(first_row, first_col, last_row, last_col):
@@ -253,7 +336,7 @@ def xl_range_abs(first_row, first_col, last_row, last_col):
     if range1 == range2:
         return range1
     else:
-        return range1 + ':' + range2
+        return range1 + ":" + range2
 
 
 def xl_range_formula(sheetname, first_row, first_col, last_row, last_col):
@@ -275,7 +358,7 @@ def xl_range_formula(sheetname, first_row, first_col, last_row, last_col):
     cell_range = xl_range_abs(first_row, first_col, last_row, last_col)
     sheetname = quote_sheetname(sheetname)
 
-    return sheetname + '!' + cell_range
+    return sheetname + "!" + cell_range
 
 
 def quote_sheetname(sheetname):
@@ -328,32 +411,32 @@ def xl_color(color):
     # a color name into an RGB formatted string. These colors are for
     # backward compatibility with older versions of Excel.
     named_colors = {
-        'black': '#000000',
-        'blue': '#0000FF',
-        'brown': '#800000',
-        'cyan': '#00FFFF',
-        'gray': '#808080',
-        'green': '#008000',
-        'lime': '#00FF00',
-        'magenta': '#FF00FF',
-        'navy': '#000080',
-        'orange': '#FF6600',
-        'pink': '#FF00FF',
-        'purple': '#800080',
-        'red': '#FF0000',
-        'silver': '#C0C0C0',
-        'white': '#FFFFFF',
-        'yellow': '#FFFF00',
+        "black": "#000000",
+        "blue": "#0000FF",
+        "brown": "#800000",
+        "cyan": "#00FFFF",
+        "gray": "#808080",
+        "green": "#008000",
+        "lime": "#00FF00",
+        "magenta": "#FF00FF",
+        "navy": "#000080",
+        "orange": "#FF6600",
+        "pink": "#FF00FF",
+        "purple": "#800080",
+        "red": "#FF0000",
+        "silver": "#C0C0C0",
+        "white": "#FFFFFF",
+        "yellow": "#FFFF00",
     }
 
     if color in named_colors:
         color = named_colors[color]
 
-    if not re.match('#[0-9a-fA-F]{6}', color):
+    if not re.match("#[0-9a-fA-F]{6}", color):
         warn("Color '%s' isn't a valid Excel color" % color)
 
     # Convert the RGB color to the Excel ARGB format.
-    return "FF" + color.lstrip('#').upper()
+    return "FF" + color.lstrip("#").upper()
 
 
 def get_rgb_color(color):
@@ -361,309 +444,346 @@ def get_rgb_color(color):
     rgb_color = xl_color(color)
 
     # Remove leading FF from RGB color for charts.
-    rgb_color = re.sub(r'^FF', '', rgb_color)
+    rgb_color = re.sub(r"^FF", "", rgb_color)
 
     return rgb_color
 
 
 def get_sparkline_style(style_id):
     styles = [
-        {'series':   {'theme': "4", 'tint': "-0.499984740745262"},
-         'negative': {'theme': "5"},
-         'markers':  {'theme': "4", 'tint': "-0.499984740745262"},
-         'first':    {'theme': "4", 'tint': "0.39997558519241921"},
-         'last':     {'theme': "4", 'tint': "0.39997558519241921"},
-         'high':     {'theme': "4"},
-         'low':      {'theme': "4"},
-         },  # 0
-        {'series':   {'theme': "4", 'tint': "-0.499984740745262"},
-         'negative': {'theme': "5"},
-         'markers':  {'theme': "4", 'tint': "-0.499984740745262"},
-         'first':    {'theme': "4", 'tint': "0.39997558519241921"},
-         'last':     {'theme': "4", 'tint': "0.39997558519241921"},
-         'high':     {'theme': "4"},
-         'low':      {'theme': "4"},
-         },  # 1
-        {'series':   {'theme': "5", 'tint': "-0.499984740745262"},
-         'negative': {'theme': "6"},
-         'markers':  {'theme': "5", 'tint': "-0.499984740745262"},
-         'first':    {'theme': "5", 'tint': "0.39997558519241921"},
-         'last':     {'theme': "5", 'tint': "0.39997558519241921"},
-         'high':     {'theme': "5"},
-         'low':      {'theme': "5"},
-         },  # 2
-        {'series':   {'theme': "6", 'tint': "-0.499984740745262"},
-         'negative': {'theme': "7"},
-         'markers':  {'theme': "6", 'tint': "-0.499984740745262"},
-         'first':    {'theme': "6", 'tint': "0.39997558519241921"},
-         'last':     {'theme': "6", 'tint': "0.39997558519241921"},
-         'high':     {'theme': "6"},
-         'low':      {'theme': "6"},
-         },  # 3
-        {'series':   {'theme': "7", 'tint': "-0.499984740745262"},
-         'negative': {'theme': "8"},
-         'markers':  {'theme': "7", 'tint': "-0.499984740745262"},
-         'first':    {'theme': "7", 'tint': "0.39997558519241921"},
-         'last':     {'theme': "7", 'tint': "0.39997558519241921"},
-         'high':     {'theme': "7"},
-         'low':      {'theme': "7"},
-         },  # 4
-        {'series':   {'theme': "8", 'tint': "-0.499984740745262"},
-         'negative': {'theme': "9"},
-         'markers':  {'theme': "8", 'tint': "-0.499984740745262"},
-         'first':    {'theme': "8", 'tint': "0.39997558519241921"},
-         'last':     {'theme': "8", 'tint': "0.39997558519241921"},
-         'high':     {'theme': "8"},
-         'low':      {'theme': "8"},
-         },  # 5
-        {'series':   {'theme': "9", 'tint': "-0.499984740745262"},
-         'negative': {'theme': "4"},
-         'markers':  {'theme': "9", 'tint': "-0.499984740745262"},
-         'first':    {'theme': "9", 'tint': "0.39997558519241921"},
-         'last':     {'theme': "9", 'tint': "0.39997558519241921"},
-         'high':     {'theme': "9"},
-         'low':      {'theme': "9"},
-         },  # 6
-        {'series':   {'theme': "4", 'tint': "-0.249977111117893"},
-         'negative': {'theme': "5"},
-         'markers':  {'theme': "5", 'tint': "-0.249977111117893"},
-         'first':    {'theme': "5", 'tint': "-0.249977111117893"},
-         'last':     {'theme': "5", 'tint': "-0.249977111117893"},
-         'high':     {'theme': "5", 'tint': "-0.249977111117893"},
-         'low':      {'theme': "5", 'tint': "-0.249977111117893"},
-         },  # 7
-        {'series':   {'theme': "5", 'tint': "-0.249977111117893"},
-         'negative': {'theme': "6"},
-         'markers':  {'theme': "6", 'tint': "-0.249977111117893"},
-         'first':    {'theme': "6", 'tint': "-0.249977111117893"},
-         'last':     {'theme': "6", 'tint': "-0.249977111117893"},
-         'high':     {'theme': "6", 'tint': "-0.249977111117893"},
-         'low':      {'theme': "6", 'tint': "-0.249977111117893"},
-         },  # 8
-        {'series':   {'theme': "6", 'tint': "-0.249977111117893"},
-         'negative': {'theme': "7"},
-         'markers':  {'theme': "7", 'tint': "-0.249977111117893"},
-         'first':    {'theme': "7", 'tint': "-0.249977111117893"},
-         'last':     {'theme': "7", 'tint': "-0.249977111117893"},
-         'high':     {'theme': "7", 'tint': "-0.249977111117893"},
-         'low':      {'theme': "7", 'tint': "-0.249977111117893"},
-         },  # 9
-        {'series':   {'theme': "7", 'tint': "-0.249977111117893"},
-         'negative': {'theme': "8"},
-         'markers':  {'theme': "8", 'tint': "-0.249977111117893"},
-         'first':    {'theme': "8", 'tint': "-0.249977111117893"},
-         'last':     {'theme': "8", 'tint': "-0.249977111117893"},
-         'high':     {'theme': "8", 'tint': "-0.249977111117893"},
-         'low':      {'theme': "8", 'tint': "-0.249977111117893"},
-         },  # 10
-        {'series':   {'theme': "8", 'tint': "-0.249977111117893"},
-         'negative': {'theme': "9"},
-         'markers':  {'theme': "9", 'tint': "-0.249977111117893"},
-         'first':    {'theme': "9", 'tint': "-0.249977111117893"},
-         'last':     {'theme': "9", 'tint': "-0.249977111117893"},
-         'high':     {'theme': "9", 'tint': "-0.249977111117893"},
-         'low':      {'theme': "9", 'tint': "-0.249977111117893"},
-         },  # 11
-        {'series':   {'theme': "9", 'tint': "-0.249977111117893"},
-         'negative': {'theme': "4"},
-         'markers':  {'theme': "4", 'tint': "-0.249977111117893"},
-         'first':    {'theme': "4", 'tint': "-0.249977111117893"},
-         'last':     {'theme': "4", 'tint': "-0.249977111117893"},
-         'high':     {'theme': "4", 'tint': "-0.249977111117893"},
-         'low':      {'theme': "4", 'tint': "-0.249977111117893"},
-         },  # 12
-        {'series':   {'theme': "4"},
-         'negative': {'theme': "5"},
-         'markers':  {'theme': "4", 'tint': "-0.249977111117893"},
-         'first':    {'theme': "4", 'tint': "-0.249977111117893"},
-         'last':     {'theme': "4", 'tint': "-0.249977111117893"},
-         'high':     {'theme': "4", 'tint': "-0.249977111117893"},
-         'low':      {'theme': "4", 'tint': "-0.249977111117893"},
-         },  # 13
-        {'series':   {'theme': "5"},
-         'negative': {'theme': "6"},
-         'markers':  {'theme': "5", 'tint': "-0.249977111117893"},
-         'first':    {'theme': "5", 'tint': "-0.249977111117893"},
-         'last':     {'theme': "5", 'tint': "-0.249977111117893"},
-         'high':     {'theme': "5", 'tint': "-0.249977111117893"},
-         'low':      {'theme': "5", 'tint': "-0.249977111117893"},
-         },  # 14
-        {'series':   {'theme': "6"},
-         'negative': {'theme': "7"},
-         'markers':  {'theme': "6", 'tint': "-0.249977111117893"},
-         'first':    {'theme': "6", 'tint': "-0.249977111117893"},
-         'last':     {'theme': "6", 'tint': "-0.249977111117893"},
-         'high':     {'theme': "6", 'tint': "-0.249977111117893"},
-         'low':      {'theme': "6", 'tint': "-0.249977111117893"},
-         },  # 15
-        {'series':   {'theme': "7"},
-         'negative': {'theme': "8"},
-         'markers':  {'theme': "7", 'tint': "-0.249977111117893"},
-         'first':    {'theme': "7", 'tint': "-0.249977111117893"},
-         'last':     {'theme': "7", 'tint': "-0.249977111117893"},
-         'high':     {'theme': "7", 'tint': "-0.249977111117893"},
-         'low':      {'theme': "7", 'tint': "-0.249977111117893"},
-         },  # 16
-        {'series':   {'theme': "8"},
-         'negative': {'theme': "9"},
-         'markers':  {'theme': "8", 'tint': "-0.249977111117893"},
-         'first':    {'theme': "8", 'tint': "-0.249977111117893"},
-         'last':     {'theme': "8", 'tint': "-0.249977111117893"},
-         'high':     {'theme': "8", 'tint': "-0.249977111117893"},
-         'low':      {'theme': "8", 'tint': "-0.249977111117893"},
-         },  # 17
-        {'series':   {'theme': "9"},
-         'negative': {'theme': "4"},
-         'markers':  {'theme': "9", 'tint': "-0.249977111117893"},
-         'first':    {'theme': "9", 'tint': "-0.249977111117893"},
-         'last':     {'theme': "9", 'tint': "-0.249977111117893"},
-         'high':     {'theme': "9", 'tint': "-0.249977111117893"},
-         'low':      {'theme': "9", 'tint': "-0.249977111117893"},
-         },  # 18
-        {'series':   {'theme': "4", 'tint': "0.39997558519241921"},
-         'negative': {'theme': "0", 'tint': "-0.499984740745262"},
-         'markers':  {'theme': "4", 'tint': "0.79998168889431442"},
-         'first':    {'theme': "4", 'tint': "-0.249977111117893"},
-         'last':     {'theme': "4", 'tint': "-0.249977111117893"},
-         'high':     {'theme': "4", 'tint': "-0.499984740745262"},
-         'low':      {'theme': "4", 'tint': "-0.499984740745262"},
-         },  # 19
-        {'series':   {'theme': "5", 'tint': "0.39997558519241921"},
-         'negative': {'theme': "0", 'tint': "-0.499984740745262"},
-         'markers':  {'theme': "5", 'tint': "0.79998168889431442"},
-         'first':    {'theme': "5", 'tint': "-0.249977111117893"},
-         'last':     {'theme': "5", 'tint': "-0.249977111117893"},
-         'high':     {'theme': "5", 'tint': "-0.499984740745262"},
-         'low':      {'theme': "5", 'tint': "-0.499984740745262"},
-         },  # 20
-        {'series':   {'theme': "6", 'tint': "0.39997558519241921"},
-         'negative': {'theme': "0", 'tint': "-0.499984740745262"},
-         'markers':  {'theme': "6", 'tint': "0.79998168889431442"},
-         'first':    {'theme': "6", 'tint': "-0.249977111117893"},
-         'last':     {'theme': "6", 'tint': "-0.249977111117893"},
-         'high':     {'theme': "6", 'tint': "-0.499984740745262"},
-         'low':      {'theme': "6", 'tint': "-0.499984740745262"},
-         },  # 21
-        {'series':   {'theme': "7", 'tint': "0.39997558519241921"},
-         'negative': {'theme': "0", 'tint': "-0.499984740745262"},
-         'markers':  {'theme': "7", 'tint': "0.79998168889431442"},
-         'first':    {'theme': "7", 'tint': "-0.249977111117893"},
-         'last':     {'theme': "7", 'tint': "-0.249977111117893"},
-         'high':     {'theme': "7", 'tint': "-0.499984740745262"},
-         'low':      {'theme': "7", 'tint': "-0.499984740745262"},
-         },  # 22
-        {'series':   {'theme': "8", 'tint': "0.39997558519241921"},
-         'negative': {'theme': "0", 'tint': "-0.499984740745262"},
-         'markers':  {'theme': "8", 'tint': "0.79998168889431442"},
-         'first':    {'theme': "8", 'tint': "-0.249977111117893"},
-         'last':     {'theme': "8", 'tint': "-0.249977111117893"},
-         'high':     {'theme': "8", 'tint': "-0.499984740745262"},
-         'low':      {'theme': "8", 'tint': "-0.499984740745262"},
-         },  # 23
-        {'series':   {'theme': "9", 'tint': "0.39997558519241921"},
-         'negative': {'theme': "0", 'tint': "-0.499984740745262"},
-         'markers':  {'theme': "9", 'tint': "0.79998168889431442"},
-         'first':    {'theme': "9", 'tint': "-0.249977111117893"},
-         'last':     {'theme': "9", 'tint': "-0.249977111117893"},
-         'high':     {'theme': "9", 'tint': "-0.499984740745262"},
-         'low':      {'theme': "9", 'tint': "-0.499984740745262"},
-         },  # 24
-        {'series':   {'theme': "1", 'tint': "0.499984740745262"},
-         'negative': {'theme': "1", 'tint': "0.249977111117893"},
-         'markers':  {'theme': "1", 'tint': "0.249977111117893"},
-         'first':    {'theme': "1", 'tint': "0.249977111117893"},
-         'last':     {'theme': "1", 'tint': "0.249977111117893"},
-         'high':     {'theme': "1", 'tint': "0.249977111117893"},
-         'low':      {'theme': "1", 'tint': "0.249977111117893"},
-         },  # 25
-        {'series':   {'theme': "1", 'tint': "0.34998626667073579"},
-         'negative': {'theme': "0", 'tint': "-0.249977111117893"},
-         'markers':  {'theme': "0", 'tint': "-0.249977111117893"},
-         'first':    {'theme': "0", 'tint': "-0.249977111117893"},
-         'last':     {'theme': "0", 'tint': "-0.249977111117893"},
-         'high':     {'theme': "0", 'tint': "-0.249977111117893"},
-         'low':      {'theme': "0", 'tint': "-0.249977111117893"},
-         },  # 26
-        {'series':   {'rgb': "FF323232"},
-         'negative': {'rgb': "FFD00000"},
-         'markers':  {'rgb': "FFD00000"},
-         'first':    {'rgb': "FFD00000"},
-         'last':     {'rgb': "FFD00000"},
-         'high':     {'rgb': "FFD00000"},
-         'low':      {'rgb': "FFD00000"},
-         },  # 27
-        {'series':   {'rgb': "FF000000"},
-         'negative': {'rgb': "FF0070C0"},
-         'markers':  {'rgb': "FF0070C0"},
-         'first':    {'rgb': "FF0070C0"},
-         'last':     {'rgb': "FF0070C0"},
-         'high':     {'rgb': "FF0070C0"},
-         'low':      {'rgb': "FF0070C0"},
-         },  # 28
-        {'series':   {'rgb': "FF376092"},
-         'negative': {'rgb': "FFD00000"},
-         'markers':  {'rgb': "FFD00000"},
-         'first':    {'rgb': "FFD00000"},
-         'last':     {'rgb': "FFD00000"},
-         'high':     {'rgb': "FFD00000"},
-         'low':      {'rgb': "FFD00000"},
-         },  # 29
-        {'series':   {'rgb': "FF0070C0"},
-         'negative': {'rgb': "FF000000"},
-         'markers':  {'rgb': "FF000000"},
-         'first':    {'rgb': "FF000000"},
-         'last':     {'rgb': "FF000000"},
-         'high':     {'rgb': "FF000000"},
-         'low':      {'rgb': "FF000000"},
-         },  # 30
-        {'series':   {'rgb': "FF5F5F5F"},
-         'negative': {'rgb': "FFFFB620"},
-         'markers':  {'rgb': "FFD70077"},
-         'first':    {'rgb': "FF5687C2"},
-         'last':     {'rgb': "FF359CEB"},
-         'high':     {'rgb': "FF56BE79"},
-         'low':      {'rgb': "FFFF5055"},
-         },  # 31
-        {'series':   {'rgb': "FF5687C2"},
-         'negative': {'rgb': "FFFFB620"},
-         'markers':  {'rgb': "FFD70077"},
-         'first':    {'rgb': "FF777777"},
-         'last':     {'rgb': "FF359CEB"},
-         'high':     {'rgb': "FF56BE79"},
-         'low':      {'rgb': "FFFF5055"},
-         },  # 32
-        {'series':   {'rgb': "FFC6EFCE"},
-         'negative': {'rgb': "FFFFC7CE"},
-         'markers':  {'rgb': "FF8CADD6"},
-         'first':    {'rgb': "FFFFDC47"},
-         'last':     {'rgb': "FFFFEB9C"},
-         'high':     {'rgb': "FF60D276"},
-         'low':      {'rgb': "FFFF5367"},
-         },  # 33
-        {'series':   {'rgb': "FF00B050"},
-         'negative': {'rgb': "FFFF0000"},
-         'markers':  {'rgb': "FF0070C0"},
-         'first':    {'rgb': "FFFFC000"},
-         'last':     {'rgb': "FFFFC000"},
-         'high':     {'rgb': "FF00B050"},
-         'low':      {'rgb': "FFFF0000"},
-         },  # 34
-        {'series':   {'theme': "3"},
-         'negative': {'theme': "9"},
-         'markers':  {'theme': "8"},
-         'first':    {'theme': "4"},
-         'last':     {'theme': "5"},
-         'high':     {'theme': "6"},
-         'low':      {'theme': "7"},
-         },  # 35
-        {'series':   {'theme': "1"},
-         'negative': {'theme': "9"},
-         'markers':  {'theme': "8"},
-         'first':    {'theme': "4"},
-         'last':     {'theme': "5"},
-         'high':     {'theme': "6"},
-         'low':      {'theme': "7"},
-         },  # 36
+        {
+            "series": {"theme": "4", "tint": "-0.499984740745262"},
+            "negative": {"theme": "5"},
+            "markers": {"theme": "4", "tint": "-0.499984740745262"},
+            "first": {"theme": "4", "tint": "0.39997558519241921"},
+            "last": {"theme": "4", "tint": "0.39997558519241921"},
+            "high": {"theme": "4"},
+            "low": {"theme": "4"},
+        },  # 0
+        {
+            "series": {"theme": "4", "tint": "-0.499984740745262"},
+            "negative": {"theme": "5"},
+            "markers": {"theme": "4", "tint": "-0.499984740745262"},
+            "first": {"theme": "4", "tint": "0.39997558519241921"},
+            "last": {"theme": "4", "tint": "0.39997558519241921"},
+            "high": {"theme": "4"},
+            "low": {"theme": "4"},
+        },  # 1
+        {
+            "series": {"theme": "5", "tint": "-0.499984740745262"},
+            "negative": {"theme": "6"},
+            "markers": {"theme": "5", "tint": "-0.499984740745262"},
+            "first": {"theme": "5", "tint": "0.39997558519241921"},
+            "last": {"theme": "5", "tint": "0.39997558519241921"},
+            "high": {"theme": "5"},
+            "low": {"theme": "5"},
+        },  # 2
+        {
+            "series": {"theme": "6", "tint": "-0.499984740745262"},
+            "negative": {"theme": "7"},
+            "markers": {"theme": "6", "tint": "-0.499984740745262"},
+            "first": {"theme": "6", "tint": "0.39997558519241921"},
+            "last": {"theme": "6", "tint": "0.39997558519241921"},
+            "high": {"theme": "6"},
+            "low": {"theme": "6"},
+        },  # 3
+        {
+            "series": {"theme": "7", "tint": "-0.499984740745262"},
+            "negative": {"theme": "8"},
+            "markers": {"theme": "7", "tint": "-0.499984740745262"},
+            "first": {"theme": "7", "tint": "0.39997558519241921"},
+            "last": {"theme": "7", "tint": "0.39997558519241921"},
+            "high": {"theme": "7"},
+            "low": {"theme": "7"},
+        },  # 4
+        {
+            "series": {"theme": "8", "tint": "-0.499984740745262"},
+            "negative": {"theme": "9"},
+            "markers": {"theme": "8", "tint": "-0.499984740745262"},
+            "first": {"theme": "8", "tint": "0.39997558519241921"},
+            "last": {"theme": "8", "tint": "0.39997558519241921"},
+            "high": {"theme": "8"},
+            "low": {"theme": "8"},
+        },  # 5
+        {
+            "series": {"theme": "9", "tint": "-0.499984740745262"},
+            "negative": {"theme": "4"},
+            "markers": {"theme": "9", "tint": "-0.499984740745262"},
+            "first": {"theme": "9", "tint": "0.39997558519241921"},
+            "last": {"theme": "9", "tint": "0.39997558519241921"},
+            "high": {"theme": "9"},
+            "low": {"theme": "9"},
+        },  # 6
+        {
+            "series": {"theme": "4", "tint": "-0.249977111117893"},
+            "negative": {"theme": "5"},
+            "markers": {"theme": "5", "tint": "-0.249977111117893"},
+            "first": {"theme": "5", "tint": "-0.249977111117893"},
+            "last": {"theme": "5", "tint": "-0.249977111117893"},
+            "high": {"theme": "5", "tint": "-0.249977111117893"},
+            "low": {"theme": "5", "tint": "-0.249977111117893"},
+        },  # 7
+        {
+            "series": {"theme": "5", "tint": "-0.249977111117893"},
+            "negative": {"theme": "6"},
+            "markers": {"theme": "6", "tint": "-0.249977111117893"},
+            "first": {"theme": "6", "tint": "-0.249977111117893"},
+            "last": {"theme": "6", "tint": "-0.249977111117893"},
+            "high": {"theme": "6", "tint": "-0.249977111117893"},
+            "low": {"theme": "6", "tint": "-0.249977111117893"},
+        },  # 8
+        {
+            "series": {"theme": "6", "tint": "-0.249977111117893"},
+            "negative": {"theme": "7"},
+            "markers": {"theme": "7", "tint": "-0.249977111117893"},
+            "first": {"theme": "7", "tint": "-0.249977111117893"},
+            "last": {"theme": "7", "tint": "-0.249977111117893"},
+            "high": {"theme": "7", "tint": "-0.249977111117893"},
+            "low": {"theme": "7", "tint": "-0.249977111117893"},
+        },  # 9
+        {
+            "series": {"theme": "7", "tint": "-0.249977111117893"},
+            "negative": {"theme": "8"},
+            "markers": {"theme": "8", "tint": "-0.249977111117893"},
+            "first": {"theme": "8", "tint": "-0.249977111117893"},
+            "last": {"theme": "8", "tint": "-0.249977111117893"},
+            "high": {"theme": "8", "tint": "-0.249977111117893"},
+            "low": {"theme": "8", "tint": "-0.249977111117893"},
+        },  # 10
+        {
+            "series": {"theme": "8", "tint": "-0.249977111117893"},
+            "negative": {"theme": "9"},
+            "markers": {"theme": "9", "tint": "-0.249977111117893"},
+            "first": {"theme": "9", "tint": "-0.249977111117893"},
+            "last": {"theme": "9", "tint": "-0.249977111117893"},
+            "high": {"theme": "9", "tint": "-0.249977111117893"},
+            "low": {"theme": "9", "tint": "-0.249977111117893"},
+        },  # 11
+        {
+            "series": {"theme": "9", "tint": "-0.249977111117893"},
+            "negative": {"theme": "4"},
+            "markers": {"theme": "4", "tint": "-0.249977111117893"},
+            "first": {"theme": "4", "tint": "-0.249977111117893"},
+            "last": {"theme": "4", "tint": "-0.249977111117893"},
+            "high": {"theme": "4", "tint": "-0.249977111117893"},
+            "low": {"theme": "4", "tint": "-0.249977111117893"},
+        },  # 12
+        {
+            "series": {"theme": "4"},
+            "negative": {"theme": "5"},
+            "markers": {"theme": "4", "tint": "-0.249977111117893"},
+            "first": {"theme": "4", "tint": "-0.249977111117893"},
+            "last": {"theme": "4", "tint": "-0.249977111117893"},
+            "high": {"theme": "4", "tint": "-0.249977111117893"},
+            "low": {"theme": "4", "tint": "-0.249977111117893"},
+        },  # 13
+        {
+            "series": {"theme": "5"},
+            "negative": {"theme": "6"},
+            "markers": {"theme": "5", "tint": "-0.249977111117893"},
+            "first": {"theme": "5", "tint": "-0.249977111117893"},
+            "last": {"theme": "5", "tint": "-0.249977111117893"},
+            "high": {"theme": "5", "tint": "-0.249977111117893"},
+            "low": {"theme": "5", "tint": "-0.249977111117893"},
+        },  # 14
+        {
+            "series": {"theme": "6"},
+            "negative": {"theme": "7"},
+            "markers": {"theme": "6", "tint": "-0.249977111117893"},
+            "first": {"theme": "6", "tint": "-0.249977111117893"},
+            "last": {"theme": "6", "tint": "-0.249977111117893"},
+            "high": {"theme": "6", "tint": "-0.249977111117893"},
+            "low": {"theme": "6", "tint": "-0.249977111117893"},
+        },  # 15
+        {
+            "series": {"theme": "7"},
+            "negative": {"theme": "8"},
+            "markers": {"theme": "7", "tint": "-0.249977111117893"},
+            "first": {"theme": "7", "tint": "-0.249977111117893"},
+            "last": {"theme": "7", "tint": "-0.249977111117893"},
+            "high": {"theme": "7", "tint": "-0.249977111117893"},
+            "low": {"theme": "7", "tint": "-0.249977111117893"},
+        },  # 16
+        {
+            "series": {"theme": "8"},
+            "negative": {"theme": "9"},
+            "markers": {"theme": "8", "tint": "-0.249977111117893"},
+            "first": {"theme": "8", "tint": "-0.249977111117893"},
+            "last": {"theme": "8", "tint": "-0.249977111117893"},
+            "high": {"theme": "8", "tint": "-0.249977111117893"},
+            "low": {"theme": "8", "tint": "-0.249977111117893"},
+        },  # 17
+        {
+            "series": {"theme": "9"},
+            "negative": {"theme": "4"},
+            "markers": {"theme": "9", "tint": "-0.249977111117893"},
+            "first": {"theme": "9", "tint": "-0.249977111117893"},
+            "last": {"theme": "9", "tint": "-0.249977111117893"},
+            "high": {"theme": "9", "tint": "-0.249977111117893"},
+            "low": {"theme": "9", "tint": "-0.249977111117893"},
+        },  # 18
+        {
+            "series": {"theme": "4", "tint": "0.39997558519241921"},
+            "negative": {"theme": "0", "tint": "-0.499984740745262"},
+            "markers": {"theme": "4", "tint": "0.79998168889431442"},
+            "first": {"theme": "4", "tint": "-0.249977111117893"},
+            "last": {"theme": "4", "tint": "-0.249977111117893"},
+            "high": {"theme": "4", "tint": "-0.499984740745262"},
+            "low": {"theme": "4", "tint": "-0.499984740745262"},
+        },  # 19
+        {
+            "series": {"theme": "5", "tint": "0.39997558519241921"},
+            "negative": {"theme": "0", "tint": "-0.499984740745262"},
+            "markers": {"theme": "5", "tint": "0.79998168889431442"},
+            "first": {"theme": "5", "tint": "-0.249977111117893"},
+            "last": {"theme": "5", "tint": "-0.249977111117893"},
+            "high": {"theme": "5", "tint": "-0.499984740745262"},
+            "low": {"theme": "5", "tint": "-0.499984740745262"},
+        },  # 20
+        {
+            "series": {"theme": "6", "tint": "0.39997558519241921"},
+            "negative": {"theme": "0", "tint": "-0.499984740745262"},
+            "markers": {"theme": "6", "tint": "0.79998168889431442"},
+            "first": {"theme": "6", "tint": "-0.249977111117893"},
+            "last": {"theme": "6", "tint": "-0.249977111117893"},
+            "high": {"theme": "6", "tint": "-0.499984740745262"},
+            "low": {"theme": "6", "tint": "-0.499984740745262"},
+        },  # 21
+        {
+            "series": {"theme": "7", "tint": "0.39997558519241921"},
+            "negative": {"theme": "0", "tint": "-0.499984740745262"},
+            "markers": {"theme": "7", "tint": "0.79998168889431442"},
+            "first": {"theme": "7", "tint": "-0.249977111117893"},
+            "last": {"theme": "7", "tint": "-0.249977111117893"},
+            "high": {"theme": "7", "tint": "-0.499984740745262"},
+            "low": {"theme": "7", "tint": "-0.499984740745262"},
+        },  # 22
+        {
+            "series": {"theme": "8", "tint": "0.39997558519241921"},
+            "negative": {"theme": "0", "tint": "-0.499984740745262"},
+            "markers": {"theme": "8", "tint": "0.79998168889431442"},
+            "first": {"theme": "8", "tint": "-0.249977111117893"},
+            "last": {"theme": "8", "tint": "-0.249977111117893"},
+            "high": {"theme": "8", "tint": "-0.499984740745262"},
+            "low": {"theme": "8", "tint": "-0.499984740745262"},
+        },  # 23
+        {
+            "series": {"theme": "9", "tint": "0.39997558519241921"},
+            "negative": {"theme": "0", "tint": "-0.499984740745262"},
+            "markers": {"theme": "9", "tint": "0.79998168889431442"},
+            "first": {"theme": "9", "tint": "-0.249977111117893"},
+            "last": {"theme": "9", "tint": "-0.249977111117893"},
+            "high": {"theme": "9", "tint": "-0.499984740745262"},
+            "low": {"theme": "9", "tint": "-0.499984740745262"},
+        },  # 24
+        {
+            "series": {"theme": "1", "tint": "0.499984740745262"},
+            "negative": {"theme": "1", "tint": "0.249977111117893"},
+            "markers": {"theme": "1", "tint": "0.249977111117893"},
+            "first": {"theme": "1", "tint": "0.249977111117893"},
+            "last": {"theme": "1", "tint": "0.249977111117893"},
+            "high": {"theme": "1", "tint": "0.249977111117893"},
+            "low": {"theme": "1", "tint": "0.249977111117893"},
+        },  # 25
+        {
+            "series": {"theme": "1", "tint": "0.34998626667073579"},
+            "negative": {"theme": "0", "tint": "-0.249977111117893"},
+            "markers": {"theme": "0", "tint": "-0.249977111117893"},
+            "first": {"theme": "0", "tint": "-0.249977111117893"},
+            "last": {"theme": "0", "tint": "-0.249977111117893"},
+            "high": {"theme": "0", "tint": "-0.249977111117893"},
+            "low": {"theme": "0", "tint": "-0.249977111117893"},
+        },  # 26
+        {
+            "series": {"rgb": "FF323232"},
+            "negative": {"rgb": "FFD00000"},
+            "markers": {"rgb": "FFD00000"},
+            "first": {"rgb": "FFD00000"},
+            "last": {"rgb": "FFD00000"},
+            "high": {"rgb": "FFD00000"},
+            "low": {"rgb": "FFD00000"},
+        },  # 27
+        {
+            "series": {"rgb": "FF000000"},
+            "negative": {"rgb": "FF0070C0"},
+            "markers": {"rgb": "FF0070C0"},
+            "first": {"rgb": "FF0070C0"},
+            "last": {"rgb": "FF0070C0"},
+            "high": {"rgb": "FF0070C0"},
+            "low": {"rgb": "FF0070C0"},
+        },  # 28
+        {
+            "series": {"rgb": "FF376092"},
+            "negative": {"rgb": "FFD00000"},
+            "markers": {"rgb": "FFD00000"},
+            "first": {"rgb": "FFD00000"},
+            "last": {"rgb": "FFD00000"},
+            "high": {"rgb": "FFD00000"},
+            "low": {"rgb": "FFD00000"},
+        },  # 29
+        {
+            "series": {"rgb": "FF0070C0"},
+            "negative": {"rgb": "FF000000"},
+            "markers": {"rgb": "FF000000"},
+            "first": {"rgb": "FF000000"},
+            "last": {"rgb": "FF000000"},
+            "high": {"rgb": "FF000000"},
+            "low": {"rgb": "FF000000"},
+        },  # 30
+        {
+            "series": {"rgb": "FF5F5F5F"},
+            "negative": {"rgb": "FFFFB620"},
+            "markers": {"rgb": "FFD70077"},
+            "first": {"rgb": "FF5687C2"},
+            "last": {"rgb": "FF359CEB"},
+            "high": {"rgb": "FF56BE79"},
+            "low": {"rgb": "FFFF5055"},
+        },  # 31
+        {
+            "series": {"rgb": "FF5687C2"},
+            "negative": {"rgb": "FFFFB620"},
+            "markers": {"rgb": "FFD70077"},
+            "first": {"rgb": "FF777777"},
+            "last": {"rgb": "FF359CEB"},
+            "high": {"rgb": "FF56BE79"},
+            "low": {"rgb": "FFFF5055"},
+        },  # 32
+        {
+            "series": {"rgb": "FFC6EFCE"},
+            "negative": {"rgb": "FFFFC7CE"},
+            "markers": {"rgb": "FF8CADD6"},
+            "first": {"rgb": "FFFFDC47"},
+            "last": {"rgb": "FFFFEB9C"},
+            "high": {"rgb": "FF60D276"},
+            "low": {"rgb": "FFFF5367"},
+        },  # 33
+        {
+            "series": {"rgb": "FF00B050"},
+            "negative": {"rgb": "FFFF0000"},
+            "markers": {"rgb": "FF0070C0"},
+            "first": {"rgb": "FFFFC000"},
+            "last": {"rgb": "FFFFC000"},
+            "high": {"rgb": "FF00B050"},
+            "low": {"rgb": "FFFF0000"},
+        },  # 34
+        {
+            "series": {"theme": "3"},
+            "negative": {"theme": "9"},
+            "markers": {"theme": "8"},
+            "first": {"theme": "4"},
+            "last": {"theme": "5"},
+            "high": {"theme": "6"},
+            "low": {"theme": "7"},
+        },  # 35
+        {
+            "series": {"theme": "1"},
+            "negative": {"theme": "9"},
+            "markers": {"theme": "8"},
+            "first": {"theme": "4"},
+            "last": {"theme": "5"},
+            "high": {"theme": "6"},
+            "low": {"theme": "7"},
+        },  # 36
     ]
 
     return styles[style_id]
@@ -671,10 +791,9 @@ def get_sparkline_style(style_id):
 
 def supported_datetime(dt):
     # Determine is an argument is a supported datetime object.
-    return isinstance(dt, (datetime.datetime,
-                           datetime.date,
-                           datetime.time,
-                           datetime.timedelta))
+    return isinstance(
+        dt, (datetime.datetime, datetime.date, datetime.time, datetime.timedelta)
+    )
 
 
 def remove_datetime_timezone(dt_obj, remove_timezone):
@@ -688,7 +807,8 @@ def remove_datetime_timezone(dt_obj, remove_timezone):
             raise TypeError(
                 "Excel doesn't support timezones in datetimes. "
                 "Set the tzinfo in the datetime/time object to None or "
-                "use the 'remove_timezone' Workbook() option")
+                "use the 'remove_timezone' Workbook() option"
+            )
 
     return dt_obj
 
@@ -726,16 +846,18 @@ def datetime_to_excel_datetime(dt_obj, date_1904, remove_timezone):
         raise TypeError("Unknown or unsupported datetime type")
 
     # Convert a Python datetime.datetime value to an Excel date number.
-    excel_time = (delta.days
-                  + (float(delta.seconds)
-                     + float(delta.microseconds) / 1E6)
-                  / (60 * 60 * 24))
+    excel_time = delta.days + (
+        float(delta.seconds) + float(delta.microseconds) / 1e6
+    ) / (60 * 60 * 24)
 
     # The following is a workaround for the fact that in Excel a time only
     # value is represented as 1899-12-31+time whereas in datetime.datetime()
     # it is 1900-1-1+time so we need to subtract the 1 day difference.
-    if (isinstance(date_type, datetime.datetime)
-            and dt_obj.isocalendar() == (1900, 1, 1)):
+    if isinstance(date_type, datetime.datetime) and dt_obj.isocalendar() == (
+        1900,
+        1,
+        1,
+    ):
         excel_time -= 1
 
     # Account for Excel erroneously treating 1900 as a leap year.
@@ -748,7 +870,7 @@ def datetime_to_excel_datetime(dt_obj, date_1904, remove_timezone):
 def preserve_whitespace(string):
     # Check if a string has leading or trailing whitespace that requires a
     # "preserve" attribute.
-    if (re_leading.search(string) or re_trailing.search(string)):
+    if re_leading.search(string) or re_trailing.search(string):
         return True
     else:
         return False

@@ -18,8 +18,7 @@ class TestCompareXLSXFiles(ExcelComparisonTest):
     """
 
     def setUp(self):
-
-        self.set_filename('simple01.xlsx')
+        self.set_filename("simple01.xlsx")
 
     def test_create_file(self):
         """Test the creation of a simple workbook."""
@@ -27,7 +26,7 @@ class TestCompareXLSXFiles(ExcelComparisonTest):
         workbook = Workbook(self.got_filename)
         worksheet = workbook.add_worksheet()
 
-        worksheet.write_string(0, 0, 'Hello')
+        worksheet.write_string(0, 0, "Hello")
         worksheet.write_number(1, 0, 123)
 
         workbook.close()
@@ -40,8 +39,8 @@ class TestCompareXLSXFiles(ExcelComparisonTest):
         workbook = Workbook(self.got_filename)
         worksheet = workbook.add_worksheet()
 
-        worksheet.write_string('A1', 'Hello')
-        worksheet.write_number('A2', 123)
+        worksheet.write_string("A1", "Hello")
+        worksheet.write_number("A2", 123)
 
         workbook.close()
 
@@ -53,7 +52,7 @@ class TestCompareXLSXFiles(ExcelComparisonTest):
         workbook = Workbook(self.got_filename)
         worksheet = workbook.add_worksheet()
 
-        worksheet.write(0, 0, 'Hello')
+        worksheet.write(0, 0, "Hello")
         worksheet.write(1, 0, 123)
 
         workbook.close()
@@ -66,7 +65,7 @@ class TestCompareXLSXFiles(ExcelComparisonTest):
         with Workbook(self.got_filename) as workbook:
             worksheet = workbook.add_worksheet()
 
-            worksheet.write(0, 0, 'Hello')
+            worksheet.write(0, 0, "Hello")
             worksheet.write(1, 0, 123)
 
         self.assertExcelEqual()
@@ -77,8 +76,8 @@ class TestCompareXLSXFiles(ExcelComparisonTest):
         workbook = Workbook(self.got_filename)
         worksheet = workbook.add_worksheet()
 
-        worksheet.write('A1', 'Hello')
-        worksheet.write('A2', 123)
+        worksheet.write("A1", "Hello")
+        worksheet.write("A2", 123)
 
         workbook.close()
 
@@ -90,7 +89,7 @@ class TestCompareXLSXFiles(ExcelComparisonTest):
         workbook = Workbook(self.got_filename)
         worksheet = workbook.add_worksheet()
 
-        worksheet.write_string(row=0, col=0, string='Hello')
+        worksheet.write_string(row=0, col=0, string="Hello")
         worksheet.write_number(row=1, col=0, number=123)
 
         workbook.close()
@@ -103,8 +102,8 @@ class TestCompareXLSXFiles(ExcelComparisonTest):
         workbook = Workbook(self.got_filename)
         worksheet = workbook.add_worksheet()
 
-        worksheet.write('A1', 'Hello')
-        worksheet.write('A2', date(1900, 5, 2))
+        worksheet.write("A1", "Hello")
+        worksheet.write("A2", date(1900, 5, 2))
 
         workbook.close()
 
@@ -113,10 +112,10 @@ class TestCompareXLSXFiles(ExcelComparisonTest):
     def test_create_file_in_memory(self):
         """Test the creation of a simple workbook."""
 
-        workbook = Workbook(self.got_filename, {'in_memory': True})
+        workbook = Workbook(self.got_filename, {"in_memory": True})
         worksheet = workbook.add_worksheet()
 
-        worksheet.write_string(0, 0, 'Hello')
+        worksheet.write_string(0, 0, "Hello")
         worksheet.write_number(1, 0, 123)
 
         workbook.close()

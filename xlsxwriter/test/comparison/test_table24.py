@@ -17,8 +17,7 @@ class TestCompareXLSXFiles(ExcelComparisonTest):
     """
 
     def setUp(self):
-
-        self.set_filename('table24.xlsx')
+        self.set_filename("table24.xlsx")
 
     def test_create_file(self):
         """Test the creation of a simple XlsxWriter file with tables."""
@@ -27,9 +26,9 @@ class TestCompareXLSXFiles(ExcelComparisonTest):
 
         worksheet = workbook.add_worksheet()
 
-        worksheet.set_column('C:F', 10.288)
+        worksheet.set_column("C:F", 10.288)
 
-        worksheet.add_table('C3:F13', {'style': 'Table Style Medium 10'})
+        worksheet.add_table("C3:F13", {"style": "Table Style Medium 10"})
 
         workbook.close()
 

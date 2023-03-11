@@ -17,8 +17,7 @@ class TestCompareXLSXFiles(ExcelComparisonTest):
     """
 
     def setUp(self):
-
-        self.set_filename('image_anchor05.xlsx')
+        self.set_filename("image_anchor05.xlsx")
 
     def test_create_file(self):
         """Test the creation of a simple XlsxWriter file with image(s)."""
@@ -28,8 +27,10 @@ class TestCompareXLSXFiles(ExcelComparisonTest):
         worksheet = workbook.add_worksheet()
 
         worksheet.insert_image(
-            'D7', self.image_dir + 'yellow.png',
-            {'x_offset': 1, 'y_offset': 2, 'positioning': 2})
+            "D7",
+            self.image_dir + "yellow.png",
+            {"x_offset": 1, "y_offset": 2, "positioning": 2},
+        )
 
         workbook.close()
 

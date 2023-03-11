@@ -27,7 +27,7 @@ class TestWriteSheetViews(unittest.TestCase):
 
         self.worksheet.select()
 
-        self.worksheet.set_selection('A2')
+        self.worksheet.set_selection("A2")
         self.worksheet.split_panes(15, 0)
 
         self.worksheet._write_sheet_views()
@@ -42,7 +42,7 @@ class TestWriteSheetViews(unittest.TestCase):
 
         self.worksheet.select()
 
-        self.worksheet.set_selection('B1')
+        self.worksheet.set_selection("B1")
         self.worksheet.split_panes(0, 8.43)
 
         self.worksheet._write_sheet_views()
@@ -57,7 +57,7 @@ class TestWriteSheetViews(unittest.TestCase):
 
         self.worksheet.select()
 
-        self.worksheet.set_selection('G4')
+        self.worksheet.set_selection("G4")
         self.worksheet.split_panes(45, 54.14)
 
         self.worksheet._write_sheet_views()
@@ -72,7 +72,7 @@ class TestWriteSheetViews(unittest.TestCase):
 
         self.worksheet.select()
 
-        self.worksheet.set_selection('I5')
+        self.worksheet.set_selection("I5")
         self.worksheet.split_panes(45, 54.14)
 
         self.worksheet._write_sheet_views()

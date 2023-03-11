@@ -25,7 +25,7 @@ class TestWriteTabColor(unittest.TestCase):
     def test_write_tab_color(self):
         """Test the _write_tab_color() method"""
 
-        self.worksheet.set_tab_color('red')
+        self.worksheet.set_tab_color("red")
         self.worksheet._write_tab_color()
 
         exp = """<tabColor rgb="FFFF0000"/>"""

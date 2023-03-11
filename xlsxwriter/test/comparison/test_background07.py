@@ -17,9 +17,8 @@ class TestCompareXLSXFiles(ExcelComparisonTest):
     """
 
     def setUp(self):
-
-        self.set_filename('background07.xlsx')
-        self.ignore_elements = {'xl/worksheets/sheet1.xml': ['<pageSetup']}
+        self.set_filename("background07.xlsx")
+        self.ignore_elements = {"xl/worksheets/sheet1.xml": ["<pageSetup"]}
 
     def test_create_file(self):
         """Test the creation of an XlsxWriter file with a background image."""
@@ -28,16 +27,15 @@ class TestCompareXLSXFiles(ExcelComparisonTest):
 
         worksheet = workbook.add_worksheet()
 
-        worksheet.insert_image('E9', self.image_dir + 'logo.jpg')
-        worksheet.set_background(self.image_dir + 'logo.jpg')
+        worksheet.insert_image("E9", self.image_dir + "logo.jpg")
+        worksheet.set_background(self.image_dir + "logo.jpg")
 
-        worksheet.set_header('&C&G',
-                             {'image_center': self.image_dir + 'blue.jpg'})
+        worksheet.set_header("&C&G", {"image_center": self.image_dir + "blue.jpg"})
 
-        worksheet.write('A1', 'Foo')
-        worksheet.write_comment('B2', 'Some text')
+        worksheet.write("A1", "Foo")
+        worksheet.write_comment("B2", "Some text")
 
-        worksheet.set_comments_author('John')
+        worksheet.set_comments_author("John")
 
         workbook.close()
 

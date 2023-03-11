@@ -17,9 +17,8 @@ class TestCompareXLSXFiles(ExcelComparisonTest):
     """
 
     def setUp(self):
-
-        self.set_filename('autofilter07.xlsx')
-        self.set_text_file('autofilter_data.txt')
+        self.set_filename("autofilter07.xlsx")
+        self.set_text_file("autofilter_data.txt")
 
     def test_create_file(self):
         """
@@ -32,10 +31,10 @@ class TestCompareXLSXFiles(ExcelComparisonTest):
         worksheet = workbook.add_worksheet()
 
         # Set the autofilter.
-        worksheet.autofilter('D3:G53')
+        worksheet.autofilter("D3:G53")
 
         # Add filter criteria.
-        worksheet.filter_column('D', 'region == East')
+        worksheet.filter_column("D", "region == East")
 
         # Open a text file with autofilter example data.
         textfile = open(self.txt_filename)
@@ -44,14 +43,13 @@ class TestCompareXLSXFiles(ExcelComparisonTest):
         headers = textfile.readline().strip("\n").split()
 
         # Write out the headers.
-        worksheet.write_row('D3', headers)
+        worksheet.write_row("D3", headers)
 
         # Start writing data after the headers.
         row = 3
 
         # Read the rest of the text file and write it to the worksheet.
         for line in textfile:
-
             # Split the input data based on whitespace.
             data = line.strip("\n").split()
 
@@ -66,12 +64,12 @@ class TestCompareXLSXFiles(ExcelComparisonTest):
             region = data[0]
 
             # Check for rows that match the filter.
-            if region == 'East':
+            if region == "East":
                 # Row matches the filter, no further action required.
                 pass
             else:
                 # We need to hide rows that don't match the filter.
-                worksheet.set_row(row, options={'hidden': True})
+                worksheet.set_row(row, options={"hidden": True})
 
             # Write out the row data.
             worksheet.write_row(row, 3, data)

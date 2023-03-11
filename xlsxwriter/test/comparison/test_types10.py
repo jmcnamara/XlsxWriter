@@ -22,8 +22,7 @@ class TestCompareXLSXFiles(ExcelComparisonTest):
     """
 
     def setUp(self):
-
-        self.set_filename('types10.xlsx')
+        self.set_filename("types10.xlsx")
 
     def test_write_user_type(self):
         """Test writing numbers as text."""
@@ -32,9 +31,9 @@ class TestCompareXLSXFiles(ExcelComparisonTest):
         worksheet = workbook.add_worksheet()
 
         worksheet.add_write_handler(uuid.UUID, write_uuid)
-        my_uuid = uuid.uuid3(uuid.NAMESPACE_DNS, 'python.org')
+        my_uuid = uuid.uuid3(uuid.NAMESPACE_DNS, "python.org")
 
-        worksheet.write('A1', my_uuid)
+        worksheet.write("A1", my_uuid)
 
         workbook.close()
 

@@ -10,9 +10,9 @@
 # need to encode the file as UTF-8.
 import xlsxwriter
 
-workbook = xlsxwriter.Workbook('unicode_python3.xlsx')
+workbook = xlsxwriter.Workbook("unicode_python3.xlsx")
 worksheet = workbook.add_worksheet()
 
-worksheet.write('B3', 'Это фраза на русском!')
+worksheet.write("B3", "Это фраза на русском!")
 
 workbook.close()

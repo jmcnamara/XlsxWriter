@@ -17,8 +17,7 @@ class TestCompareXLSXFiles(ExcelComparisonTest):
     """
 
     def setUp(self):
-
-        self.set_filename('selection02.xlsx')
+        self.set_filename("selection02.xlsx")
 
     def test_create_file(self):
         """Test the creation of a simple XlsxWriter file."""
@@ -35,9 +34,9 @@ class TestCompareXLSXFiles(ExcelComparisonTest):
         worksheet1.set_selection(3, 2, 3, 2)
         worksheet2.set_selection(3, 2, 6, 6)
         worksheet3.set_selection(6, 6, 3, 2)
-        worksheet4.set_selection('C4')
-        worksheet5.set_selection('C4:G7')
-        worksheet6.set_selection('G7:C4')
+        worksheet4.set_selection("C4")
+        worksheet5.set_selection("C4:G7")
+        worksheet6.set_selection("G7:C4")
 
         workbook.close()
 

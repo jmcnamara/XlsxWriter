@@ -17,12 +17,11 @@ class TestCompareXLSXFiles(ExcelComparisonTest):
     """
 
     def setUp(self):
-
-        self.set_filename('comment05.xlsx')
+        self.set_filename("comment05.xlsx")
 
         # It takes about 50 times longer to run this test with this file
         # included. Only turn it on for pre-release testing.
-        self.ignore_files = ['xl/drawings/vmlDrawing1.vml']
+        self.ignore_files = ["xl/drawings/vmlDrawing1.vml"]
 
     def test_create_file(self):
         """
@@ -38,12 +37,12 @@ class TestCompareXLSXFiles(ExcelComparisonTest):
 
         for row in range(0, 127 + 1):
             for col in range(0, 15 + 1):
-                worksheet1.write_comment(row, col, 'Some text')
+                worksheet1.write_comment(row, col, "Some text")
 
-        worksheet3.write_comment('A1', 'More text')
+        worksheet3.write_comment("A1", "More text")
 
-        worksheet1.set_comments_author('John')
-        worksheet3.set_comments_author('John')
+        worksheet1.set_comments_author("John")
+        worksheet3.set_comments_author("John")
 
         workbook.close()
 

@@ -17,6 +17,7 @@ class TestAddTable(unittest.TestCase):
     Test exceptions with add_table().
 
     """
+
     def test_duplicate_table_name(self):
         """Test that adding 2 tables with the same name raises an exception."""
 
@@ -26,8 +27,8 @@ class TestAddTable(unittest.TestCase):
 
         worksheet = workbook.add_worksheet()
 
-        worksheet.add_table('B1:F3', {'name': 'SalesData'})
-        worksheet.add_table('B4:F7', {'name': 'SalesData'})
+        worksheet.add_table("B1:F3", {"name": "SalesData"})
+        worksheet.add_table("B4:F7", {"name": "SalesData"})
 
         self.assertRaises(DuplicateTableName, workbook._prepare_tables)
 

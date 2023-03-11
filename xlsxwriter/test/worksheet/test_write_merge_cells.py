@@ -30,7 +30,7 @@ class TestWriteMergeCells(unittest.TestCase):
 
         cell_format = Format()
 
-        self.worksheet.merge_range(2, 1, 2, 2, 'Foo', cell_format)
+        self.worksheet.merge_range(2, 1, 2, 2, "Foo", cell_format)
         self.worksheet._write_merge_cells()
 
         exp = """<mergeCells count="1"><mergeCell ref="B3:C3"/></mergeCells>"""
@@ -43,7 +43,7 @@ class TestWriteMergeCells(unittest.TestCase):
 
         cell_format = Format()
 
-        self.worksheet.merge_range('B3:C3', 'Foo', cell_format)
+        self.worksheet.merge_range("B3:C3", "Foo", cell_format)
         self.worksheet._write_merge_cells()
 
         exp = """<mergeCells count="1"><mergeCell ref="B3:C3"/></mergeCells>"""
@@ -56,8 +56,8 @@ class TestWriteMergeCells(unittest.TestCase):
 
         cell_format = Format()
 
-        self.worksheet.merge_range('B3:C3', 'Foo', cell_format)
-        self.worksheet.merge_range('A2:D2', 'Foo', cell_format)
+        self.worksheet.merge_range("B3:C3", "Foo", cell_format)
+        self.worksheet.merge_range("A2:D2", "Foo", cell_format)
         self.worksheet._write_merge_cells()
 
         exp = """<mergeCells count="2"><mergeCell ref="B3:C3"/><mergeCell ref="A2:D2"/></mergeCells>"""

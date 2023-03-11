@@ -17,8 +17,7 @@ class TestCompareXLSXFiles(ExcelComparisonTest):
     """
 
     def setUp(self):
-
-        self.set_filename('format13.xlsx')
+        self.set_filename("format13.xlsx")
 
     def test_create_file(self):
         """Test the creation of a simple XlsxWriter file."""
@@ -31,11 +30,11 @@ class TestCompareXLSXFiles(ExcelComparisonTest):
 
         font_format = workbook.add_format()
 
-        font_format.set_font('B Nazanin')
+        font_format.set_font("B Nazanin")
         font_format.set_font_family(0)
         font_format.set_font_charset(178)
 
-        worksheet.write('A1', 'Foo', font_format)
+        worksheet.write("A1", "Foo", font_format)
 
         workbook.close()
 

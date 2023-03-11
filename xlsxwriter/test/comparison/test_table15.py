@@ -17,8 +17,7 @@ class TestCompareXLSXFiles(ExcelComparisonTest):
     """
 
     def setUp(self):
-
-        self.set_filename('table15.xlsx')
+        self.set_filename("table15.xlsx")
 
     def test_create_file(self):
         """Test the creation of a simple XlsxWriter file with tables."""
@@ -28,15 +27,15 @@ class TestCompareXLSXFiles(ExcelComparisonTest):
         worksheet = workbook.add_worksheet()
 
         data = [
-            ['Foo', 1234, 2000, 4321],
-            ['Bar', 1256, 0, 4320],
-            ['Baz', 2234, 3000, 4332],
-            ['Bop', 1324, 1000, 4333],
+            ["Foo", 1234, 2000, 4321],
+            ["Bar", 1256, 0, 4320],
+            ["Baz", 2234, 3000, 4332],
+            ["Bop", 1324, 1000, 4333],
         ]
 
-        worksheet.set_column('C:F', 10.288)
+        worksheet.set_column("C:F", 10.288)
 
-        worksheet.add_table('C2:F6', {'data': data})
+        worksheet.add_table("C2:F6", {"data": data})
 
         workbook.close()
 

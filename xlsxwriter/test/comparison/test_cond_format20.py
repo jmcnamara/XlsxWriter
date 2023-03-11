@@ -17,8 +17,7 @@ class TestCompareXLSXFiles(ExcelComparisonTest):
     """
 
     def setUp(self):
-
-        self.set_filename('cond_format20.xlsx')
+        self.set_filename("cond_format20.xlsx")
 
     def test_create_file(self):
         """Test the creation of a simple XlsxWriter file with conditionalFormatting."""
@@ -27,17 +26,23 @@ class TestCompareXLSXFiles(ExcelComparisonTest):
 
         worksheet = workbook.add_worksheet()
 
-        worksheet.write('A1', 10)
-        worksheet.write('A2', 20)
-        worksheet.write('A3', 30)
-        worksheet.write('A4', 40)
+        worksheet.write("A1", 10)
+        worksheet.write("A2", 20)
+        worksheet.write("A3", 30)
+        worksheet.write("A4", 40)
 
-        worksheet.conditional_format('A1:A4',
-                                     {'type': 'icon_set',
-                                      'icon_style': '3_arrows',
-                                      'icons': [{'criteria': '>', 'type': 'percent', 'value': 0},
-                                                {'criteria': '<', 'type': 'percent', 'value': 0},
-                                                {'criteria': '>=', 'type': 'percent', 'value': 0}]})
+        worksheet.conditional_format(
+            "A1:A4",
+            {
+                "type": "icon_set",
+                "icon_style": "3_arrows",
+                "icons": [
+                    {"criteria": ">", "type": "percent", "value": 0},
+                    {"criteria": "<", "type": "percent", "value": 0},
+                    {"criteria": ">=", "type": "percent", "value": 0},
+                ],
+            },
+        )
 
         workbook.close()
 

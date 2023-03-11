@@ -27,7 +27,7 @@ class TestWritePageSetup(unittest.TestCase):
 
         self.worksheet._write_page_setup()
 
-        exp = ''
+        exp = ""
         got = self.fh.getvalue()
 
         self.assertEqual(got, exp)

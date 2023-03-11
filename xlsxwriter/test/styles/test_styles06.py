@@ -18,6 +18,7 @@ class TestAssembleStyles(unittest.TestCase):
     Test assembling a complete Styles file.
 
     """
+
     def test_assemble_xml_file(self):
         """Test for border colour styles."""
         self.maxDiff = None
@@ -28,38 +29,44 @@ class TestAssembleStyles(unittest.TestCase):
 
         workbook = Workbook()
 
-        workbook.add_format({
-            'left': 1,
-            'right': 1,
-            'top': 1,
-            'bottom': 1,
-            'diag_border': 1,
-            'diag_type': 3,
-            'left_color': 'red',
-            'right_color': 'red',
-            'top_color': 'red',
-            'bottom_color': 'red',
-            'diag_color': 'red'})
+        workbook.add_format(
+            {
+                "left": 1,
+                "right": 1,
+                "top": 1,
+                "bottom": 1,
+                "diag_border": 1,
+                "diag_type": 3,
+                "left_color": "red",
+                "right_color": "red",
+                "top_color": "red",
+                "bottom_color": "red",
+                "diag_color": "red",
+            }
+        )
 
         workbook._set_default_xf_indices()
         workbook._prepare_format_properties()
 
-        style._set_style_properties([
-            workbook.xf_formats,
-            workbook.palette,
-            workbook.font_count,
-            workbook.num_formats,
-            workbook.border_count,
-            workbook.fill_count,
-            workbook.custom_colors,
-            workbook.dxf_formats,
-            workbook.has_comments,
-        ])
+        style._set_style_properties(
+            [
+                workbook.xf_formats,
+                workbook.palette,
+                workbook.font_count,
+                workbook.num_formats,
+                workbook.border_count,
+                workbook.fill_count,
+                workbook.custom_colors,
+                workbook.dxf_formats,
+                workbook.has_comments,
+            ]
+        )
 
         style._assemble_xml_file()
         workbook.fileclosed = 1
 
-        exp = _xml_to_list("""
+        exp = _xml_to_list(
+            """
                 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
                 <styleSheet xmlns="http://schemas.openxmlformats.org/spreadsheetml/2006/main">
                   <fonts count="1">
@@ -118,7 +125,8 @@ class TestAssembleStyles(unittest.TestCase):
                   <dxfs count="0"/>
                   <tableStyles count="0" defaultTableStyle="TableStyleMedium9" defaultPivotStyle="PivotStyleLight16"/>
                 </styleSheet>
-                """)
+                """
+        )
 
         got = _xml_to_list(fh.getvalue())
 

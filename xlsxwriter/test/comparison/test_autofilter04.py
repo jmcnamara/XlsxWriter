@@ -17,9 +17,8 @@ class TestCompareXLSXFiles(ExcelComparisonTest):
     """
 
     def setUp(self):
-
-        self.set_filename('autofilter04.xlsx')
-        self.set_text_file('autofilter_data.txt')
+        self.set_filename("autofilter04.xlsx")
+        self.set_text_file("autofilter_data.txt")
 
     def test_create_file(self):
         """
@@ -32,11 +31,11 @@ class TestCompareXLSXFiles(ExcelComparisonTest):
         worksheet = workbook.add_worksheet()
 
         # Set the autofilter.
-        worksheet.autofilter('A1:D51')
+        worksheet.autofilter("A1:D51")
 
         # Add filter criteria.
-        worksheet.filter_column('A', 'x == East')
-        worksheet.filter_column('C', 'x > 3000 and x < 8000')
+        worksheet.filter_column("A", "x == East")
+        worksheet.filter_column("C", "x > 3000 and x < 8000")
 
         # Open a text file with autofilter example data.
         textfile = open(self.txt_filename)
@@ -45,14 +44,13 @@ class TestCompareXLSXFiles(ExcelComparisonTest):
         headers = textfile.readline().strip("\n").split()
 
         # Write out the headers.
-        worksheet.write_row('A1', headers)
+        worksheet.write_row("A1", headers)
 
         # Start writing data after the headers.
         row = 1
 
         # Read the rest of the text file and write it to the worksheet.
         for line in textfile:
-
             # Split the input data based on whitespace.
             data = line.strip("\n").split()
 
@@ -68,12 +66,12 @@ class TestCompareXLSXFiles(ExcelComparisonTest):
             volume = int(data[2])
 
             # Check for rows that match the filter.
-            if region == 'East' and volume > 3000 and volume < 8000:
+            if region == "East" and volume > 3000 and volume < 8000:
                 # Row matches the filter, no further action required.
                 pass
             else:
                 # We need to hide rows that don't match the filter.
-                worksheet.set_row(row, options={'hidden': True})
+                worksheet.set_row(row, options={"hidden": True})
 
             # Write out the row data.
             worksheet.write_row(row, 0, data)

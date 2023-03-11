@@ -25,7 +25,7 @@ class TestWriteSheet(unittest.TestCase):
     def test_write_sheet1(self):
         """Test the _write_sheet() method"""
 
-        self.workbook._write_sheet('Sheet1', 1, 0)
+        self.workbook._write_sheet("Sheet1", 1, 0)
 
         exp = """<sheet name="Sheet1" sheetId="1" r:id="rId1"/>"""
         got = self.fh.getvalue()
@@ -35,7 +35,7 @@ class TestWriteSheet(unittest.TestCase):
     def test_write_sheet2(self):
         """Test the _write_sheet() method"""
 
-        self.workbook._write_sheet('Sheet1', 1, 1)
+        self.workbook._write_sheet("Sheet1", 1, 1)
 
         exp = """<sheet name="Sheet1" sheetId="1" state="hidden" r:id="rId1"/>"""
         got = self.fh.getvalue()
@@ -45,7 +45,7 @@ class TestWriteSheet(unittest.TestCase):
     def test_write_sheet3(self):
         """Test the _write_sheet() method"""
 
-        self.workbook._write_sheet('Bits & Bobs', 1, 0)
+        self.workbook._write_sheet("Bits & Bobs", 1, 0)
 
         exp = """<sheet name="Bits &amp; Bobs" sheetId="1" r:id="rId1"/>"""
         got = self.fh.getvalue()

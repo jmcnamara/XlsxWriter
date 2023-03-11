@@ -25,7 +25,7 @@ class TestWriteSi(unittest.TestCase):
     def test_write_si(self):
         """Test the _write_si() method"""
 
-        self.sharedstrings._write_si('neptune')
+        self.sharedstrings._write_si("neptune")
 
         exp = """<si><t>neptune</t></si>"""
         got = self.fh.getvalue()

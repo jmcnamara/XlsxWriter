@@ -17,8 +17,7 @@ class TestCompareXLSXFiles(ExcelComparisonTest):
     """
 
     def setUp(self):
-
-        self.set_filename('hyperlink31.xlsx')
+        self.set_filename("hyperlink31.xlsx")
 
     def test_create_file(self):
         """Test the creation of a simple XlsxWriter file with hyperlinks."""
@@ -26,10 +25,10 @@ class TestCompareXLSXFiles(ExcelComparisonTest):
         workbook = Workbook(self.got_filename)
 
         worksheet = workbook.add_worksheet()
-        format1 = workbook.add_format({'bold': True})
+        format1 = workbook.add_format({"bold": True})
 
-        worksheet.write('A1', 'Test', format1)
-        worksheet.write('A3', 'http://www.python.org/')
+        worksheet.write("A1", "Test", format1)
+        worksheet.write("A3", "http://www.python.org/")
 
         workbook.close()
 

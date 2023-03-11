@@ -17,8 +17,7 @@ class TestCompareXLSXFiles(ExcelComparisonTest):
     """
 
     def setUp(self):
-
-        self.set_filename('set_column01.xlsx')
+        self.set_filename("set_column01.xlsx")
 
     def test_create_file(self):
         """Test the creation of a simple XlsxWriter file."""
