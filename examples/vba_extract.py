@@ -10,7 +10,7 @@
 #
 import sys
 from zipfile import ZipFile
-from zipfile import BadZipfile
+from zipfile import BadZipFile
 
 # The VBA project file we want to extract.
 vba_filename = "vbaProject.bin"
@@ -51,7 +51,7 @@ except KeyError as e:
     print("File may not be an Excel xlsm macro file: '%s'" % xlsm_file)
     exit()
 
-except BadZipfile as e:
+except BadZipFile as e:
     # Usually if the file is an xls file and not an xlsm file.
     print("File error: %s: '%s'" % (str(e), xlsm_file))
     print("File may not be an Excel xlsm macro file.")
