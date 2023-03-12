@@ -9,7 +9,7 @@
 import re
 import os.path
 from zipfile import ZipFile
-from zipfile import BadZipfile
+from zipfile import BadZipFile
 from zipfile import LargeZipFile
 
 
@@ -112,7 +112,7 @@ def _compare_xlsx_files(got_file, exp_file, ignore_files, ignore_elements):
     except IOError as e:
         error = "XlsxWriter file error: " + str(e)
         return error, ""
-    except (BadZipfile, LargeZipFile) as e:
+    except (BadZipFile, LargeZipFile) as e:
         error = "XlsxWriter zipfile error, '" + got_file + "': " + str(e)
         return error, ""
 
@@ -122,7 +122,7 @@ def _compare_xlsx_files(got_file, exp_file, ignore_files, ignore_elements):
     except IOError as e:
         error = "Excel file error: " + str(e)
         return error, ""
-    except (BadZipfile, LargeZipFile) as e:
+    except (BadZipFile, LargeZipFile) as e:
         error = "Excel zipfile error, '" + exp_file + "': " + str(e)
         return error, ""
 
