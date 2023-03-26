@@ -3217,7 +3217,7 @@ class Chart(xmlwriter.XMLwriter):
         # Add the line width as an attribute.
         width = line.get("width")
 
-        if width:
+        if width is not None:
             # Round width to nearest 0.25, like Excel.
             width = int((width + 0.125) * 4) / 4.0
 
@@ -3226,23 +3226,26 @@ class Chart(xmlwriter.XMLwriter):
 
             attributes = [("w", width)]
 
-        self._xml_start_tag("a:ln", attributes)
+        if line.get("none") or line.get("color") or line.get("dash_type"):
+            self._xml_start_tag("a:ln", attributes)
 
-        # Write the line fill.
-        if "none" in line:
-            # Write the a:noFill element.
-            self._write_a_no_fill()
-        elif "color" in line:
-            # Write the a:solidFill element.
-            self._write_a_solid_fill(line)
+            # Write the line fill.
+            if "none" in line:
+                # Write the a:noFill element.
+                self._write_a_no_fill()
+            elif "color" in line:
+                # Write the a:solidFill element.
+                self._write_a_solid_fill(line)
 
-        # Write the line/dash type.
-        line_type = line.get("dash_type")
-        if line_type:
-            # Write the a:prstDash element.
-            self._write_a_prst_dash(line_type)
+            # Write the line/dash type.
+            line_type = line.get("dash_type")
+            if line_type:
+                # Write the a:prstDash element.
+                self._write_a_prst_dash(line_type)
 
-        self._xml_end_tag("a:ln")
+            self._xml_end_tag("a:ln")
+        else:
+            self._xml_empty_tag("a:ln", attributes)
 
     def _write_a_no_fill(self):
         # Write the <a:noFill> element.
