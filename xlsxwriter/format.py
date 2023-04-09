@@ -1015,6 +1015,7 @@ class Format(xmlwriter.XMLwriter):
             "silver": "#C0C0C0",
             "white": "#FFFFFF",
             "yellow": "#FFFF00",
+            "automatic": "Automatic",
         }
 
         if color in named_colors:
