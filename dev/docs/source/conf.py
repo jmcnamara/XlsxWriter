@@ -8,7 +8,7 @@ master_doc = 'index'
 project = u'XlsxWriter'
 copyright = u'2013-2023, John McNamara'
 
-version = '3.0.9'
+version = '3.1.0'
 release = version
 
 exclude_patterns = []
