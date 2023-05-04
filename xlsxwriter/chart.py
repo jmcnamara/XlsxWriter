@@ -198,6 +198,7 @@ class Chart(xmlwriter.XMLwriter):
 
         # Set the "invert if negative" fill property.
         invert_if_neg = options.get("invert_if_negative", False)
+        inverted_color = options.get("invert_if_negative_color", False)
 
         # Set the secondary axis properties.
         x2_axis = options.get("x2_axis")
@@ -238,6 +239,7 @@ class Chart(xmlwriter.XMLwriter):
             "trendline": trendline,
             "labels": labels,
             "invert_if_neg": invert_if_neg,
+            "inverted_color": inverted_color,
             "x2_axis": x2_axis,
             "y2_axis": y2_axis,
             "points": points,
@@ -1817,7 +1819,36 @@ class Chart(xmlwriter.XMLwriter):
         if self.smooth_allowed:
             self._write_c_smooth(series["smooth"])
 
+        # Write the c:extLst element.
+        if series.get("inverted_color"):
+            self._write_c_ext_lst(series["inverted_color"])
+
         self._xml_end_tag("c:ser")
+
+    def _write_c_ext_lst(self, color):
+        # Write the <c:extLst> element for the inverted fill color.
+
+        uri = "{6F2FDCE9-48DA-4B69-8628-5D25D57E5C99}"
+        xmlns_c_14 = "http://schemas.microsoft.com/office/drawing/2007/8/2/chart"
+
+        attributes1 = [
+            ("uri", uri),
+            ("xmlns:c14", xmlns_c_14),
+        ]
+
+        attributes2 = [("xmlns:c14", xmlns_c_14)]
+
+        self._xml_start_tag("c:extLst")
+        self._xml_start_tag("c:ext", attributes1)
+        self._xml_start_tag("c14:invertSolidFillFmt")
+        self._xml_start_tag("c14:spPr", attributes2)
+
+        self._write_a_solid_fill({"color": color})
+
+        self._xml_end_tag("c14:spPr")
+        self._xml_end_tag("c14:invertSolidFillFmt")
+        self._xml_end_tag("c:ext")
+        self._xml_end_tag("c:extLst")
 
     def _write_idx(self, val):
         # Write the <c:idx> element.
