@@ -147,7 +147,7 @@ def _compare_xlsx_files(got_file, exp_file, ignore_files, ignore_elements):
         extension = os.path.splitext(filename)[1]
         if extension in (".png", ".jpeg", ".gif", ".bmp", ".wmf", ".emf", ".bin"):
             if got_xml_str != exp_xml_str:
-                return "got: %s" % filename, "exp: %s" % filename
+                return f"got: {filename}", f"exp: {filename}"
             continue
 
         got_xml_str = got_xml_str.decode("utf-8")

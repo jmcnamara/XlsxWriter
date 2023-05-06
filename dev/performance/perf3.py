@@ -96,9 +96,9 @@ def time_openpyxl(optimised=False):
 
 print("")
 print("Versions:")
-print("%s: %s" % ('python', str(sys.version).split()[0]))
-print("%s: %s" % ('openpyxl', openpyxl.__version__))
-print("%s: %s" % ('xlsxwriter', xlsxwriter.__version__))
+print(f"{'python'}: {str(sys.version).split()[0]}")
+print(f"{'openpyxl'}: {openpyxl.__version__}")
+print(f"{'xlsxwriter'}: {xlsxwriter.__version__}")
 print("")
 
 print("Dimensions:")

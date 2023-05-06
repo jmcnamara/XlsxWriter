@@ -102,7 +102,7 @@ class SharedStrings(xmlwriter.XMLwriter):
 
         # Convert control character to the _xHHHH_ escape.
         string = re_control_chars_2.sub(
-            lambda match: "_x%04X_" % ord(match.group(1)), string
+            lambda match: f"_x{ord(match.group(1)):04X}_", string
         )
 
         # Escapes non characters in strings.

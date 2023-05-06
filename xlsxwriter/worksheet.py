@@ -530,14 +530,14 @@ class Worksheet(xmlwriter.XMLwriter):
         except ValueError:
             pass
         except TypeError:
-            raise TypeError("Unsupported type %s in write()" % type(token))
+            raise TypeError(f"Unsupported type {type(token)} in write()")
 
         # Finally try string.
         try:
             str(token)
             return self._write_string(row, col, *args)
         except ValueError:
-            raise TypeError("Unsupported type %s in write()" % type(token))
+            raise TypeError(f"Unsupported type {type(token)} in write()")
 
     @convert_cell_args
     def write_string(self, row, col, string, cell_format=None):
@@ -1488,7 +1488,7 @@ class Worksheet(xmlwriter.XMLwriter):
         anchor = options.get("positioning", anchor)
 
         if not image_data and not os.path.exists(filename):
-            warn("Image file '%s' not found." % filename)
+            warn(f"Image file '{filename}' not found.")
             return -1
 
         self.images.append(
@@ -1695,7 +1695,7 @@ class Worksheet(xmlwriter.XMLwriter):
         """
 
         if not is_byte_stream and not os.path.exists(filename):
-            warn("Image file '%s' not found." % filename)
+            warn(f"Image file '{filename}' not found.")
             return -1
 
         self.background_bytes = is_byte_stream
@@ -2275,7 +2275,7 @@ class Worksheet(xmlwriter.XMLwriter):
             (_, col) = xl_cell_to_rowcol(col + "1")
 
             if col >= self.xls_colmax:
-                warn("Invalid column '%s'" % col_letter)
+                warn(f"Invalid column '{col_letter}'")
                 return
 
         (col_first, col_last) = self.filter_range
@@ -2291,7 +2291,7 @@ class Worksheet(xmlwriter.XMLwriter):
         tokens = self._extract_filter_tokens(criteria)
 
         if len(tokens) not in (3, 7):
-            warn("Incorrect number of tokens in criteria '%s'" % criteria)
+            warn(f"Incorrect number of tokens in criteria '{criteria}'")
 
         tokens = self._parse_filter_expression(criteria, tokens)
 
@@ -2335,7 +2335,7 @@ class Worksheet(xmlwriter.XMLwriter):
             (_, col) = xl_cell_to_rowcol(col + "1")
 
             if col >= self.xls_colmax:
-                warn("Invalid column '%s'" % col_letter)
+                warn(f"Invalid column '{col_letter}'")
                 return
 
         (col_first, col_last) = self.filter_range
@@ -2405,7 +2405,7 @@ class Worksheet(xmlwriter.XMLwriter):
         # Check for valid input parameters.
         for param_key in options.keys():
             if param_key not in valid_parameters:
-                warn("Unknown parameter '%s' in data_validation()" % param_key)
+                warn(f"Unknown parameter '{param_key}' in data_validation()")
                 return -2
 
         # Map alternative parameter names 'source' or 'minimum' to 'value'.
@@ -2535,12 +2535,12 @@ class Worksheet(xmlwriter.XMLwriter):
                 if supported_datetime(options["value"]):
                     date_time = self._convert_date_time(options["value"])
                     # Format date number to the same precision as Excel.
-                    options["value"] = "%.16g" % date_time
+                    options["value"] = f"{date_time:.16g}"
 
             if options["maximum"]:
                 if supported_datetime(options["maximum"]):
                     date_time = self._convert_date_time(options["maximum"])
-                    options["maximum"] = "%.16g" % date_time
+                    options["maximum"] = f"{date_time:.16g}"
 
         # Check that the input title doesn't exceed the maximum length.
         if options.get("input_title") and len(options["input_title"]) > 32:
@@ -2684,7 +2684,7 @@ class Worksheet(xmlwriter.XMLwriter):
         # Check for valid input parameters.
         for param_key in options.keys():
             if param_key not in valid_parameter:
-                warn("Unknown parameter '%s' in conditional_format()" % param_key)
+                warn(f"Unknown parameter '{param_key}' in conditional_format()")
                 return -2
 
         # 'type' is a required parameter.
@@ -2778,7 +2778,7 @@ class Worksheet(xmlwriter.XMLwriter):
                 else:
                     date_time = self._convert_date_time(options["value"])
                     # Format date number to the same precision as Excel.
-                    options["value"] = "%.16g" % date_time
+                    options["value"] = f"{date_time:.16g}"
 
             if "minimum" in options:
                 if not supported_datetime(options["minimum"]):
@@ -2786,7 +2786,7 @@ class Worksheet(xmlwriter.XMLwriter):
                     return -2
                 else:
                     date_time = self._convert_date_time(options["minimum"])
-                    options["minimum"] = "%.16g" % date_time
+                    options["minimum"] = f"{date_time:.16g}"
 
             if "maximum" in options:
                 if not supported_datetime(options["maximum"]):
@@ -2794,7 +2794,7 @@ class Worksheet(xmlwriter.XMLwriter):
                     return -2
                 else:
                     date_time = self._convert_date_time(options["maximum"])
-                    options["maximum"] = "%.16g" % date_time
+                    options["maximum"] = f"{date_time:.16g}"
 
         # Valid icon styles.
         valid_icons = {
@@ -2926,13 +2926,13 @@ class Worksheet(xmlwriter.XMLwriter):
         # Special handling of time time_period criteria.
         if options["type"] == "timePeriod":
             if options["criteria"] == "yesterday":
-                options["formula"] = "FLOOR(%s,1)=TODAY()-1" % start_cell
+                options["formula"] = f"FLOOR({start_cell},1)=TODAY()-1"
 
             elif options["criteria"] == "today":
-                options["formula"] = "FLOOR(%s,1)=TODAY()" % start_cell
+                options["formula"] = f"FLOOR({start_cell},1)=TODAY()"
 
             elif options["criteria"] == "tomorrow":
-                options["formula"] = "FLOOR(%s,1)=TODAY()+1" % start_cell
+                options["formula"] = f"FLOOR({start_cell},1)=TODAY()+1"
 
             elif options["criteria"] == "last7Days":
                 options[
@@ -2993,16 +2993,16 @@ class Worksheet(xmlwriter.XMLwriter):
 
         # Special handling of blanks/error types.
         if options["type"] == "containsBlanks":
-            options["formula"] = "LEN(TRIM(%s))=0" % start_cell
+            options["formula"] = f"LEN(TRIM({start_cell}))=0"
 
         if options["type"] == "notContainsBlanks":
-            options["formula"] = "LEN(TRIM(%s))>0" % start_cell
+            options["formula"] = f"LEN(TRIM({start_cell}))>0"
 
         if options["type"] == "containsErrors":
-            options["formula"] = "ISERROR(%s)" % start_cell
+            options["formula"] = f"ISERROR({start_cell})"
 
         if options["type"] == "notContainsErrors":
-            options["formula"] = "NOT(ISERROR(%s))" % start_cell
+            options["formula"] = f"NOT(ISERROR({start_cell}))"
 
         # Special handling for 2 color scale.
         if options["type"] == "2_color_scale":
@@ -3204,7 +3204,7 @@ class Worksheet(xmlwriter.XMLwriter):
         # Check for valid input parameters.
         for param_key in options.keys():
             if param_key not in valid_parameter:
-                warn("Unknown parameter '%s' in add_table()" % param_key)
+                warn(f"Unknown parameter '{param_key}' in add_table()")
                 return -2
 
         # Turn on Excel's defaults.
@@ -3235,24 +3235,24 @@ class Worksheet(xmlwriter.XMLwriter):
             table["name"] = name
 
             if " " in name:
-                warn("Name '%s' in add_table() cannot contain spaces" % name)
+                warn(f"Name '{name}' in add_table() cannot contain spaces")
                 return -2
 
             # Warn if the name contains invalid chars as defined by Excel.
             if not re.match(r"^[\w\\][\w\\.]*$", name, re.UNICODE) or re.match(
                 r"^\d", name
             ):
-                warn("Invalid Excel characters in add_table(): '%s'" % name)
+                warn(f"Invalid Excel characters in add_table(): '{name}'")
                 return -2
 
             # Warn if the name looks like a cell name.
             if re.match(r"^[a-zA-Z][a-zA-Z]?[a-dA-D]?[0-9]+$", name):
-                warn("Name looks like a cell name in add_table(): '%s'" % name)
+                warn(f"Name looks like a cell name in add_table(): '{name}'")
                 return -2
 
             # Warn if the name looks like a R1C1 cell reference.
             if re.match(r"^[rcRC]$", name) or re.match(r"^[rcRC]\d+[rcRC]\d+$", name):
-                warn("Invalid name '%s' like a RC cell ref in add_table()" % name)
+                warn(f"Invalid name '{name}' like a RC cell ref in add_table()")
                 return -2
 
         # Set the table style.
@@ -3328,7 +3328,7 @@ class Worksheet(xmlwriter.XMLwriter):
                     header_name = col_data["name"]
                     name = header_name.lower()
                     if name in seen_names:
-                        warn("Duplicate header name in add_table(): '%s'" % name)
+                        warn(f"Duplicate header name in add_table(): '{name}'")
                         return -2
                     else:
                         seen_names[name] = True
@@ -3489,7 +3489,7 @@ class Worksheet(xmlwriter.XMLwriter):
         # Check for valid input parameters.
         for param_key in options.keys():
             if param_key not in valid_parameters:
-                warn("Unknown parameter '%s' in add_sparkline()" % param_key)
+                warn(f"Unknown parameter '{param_key}' in add_sparkline()")
                 return -1
 
         # 'range' is a required parameter.
@@ -3841,7 +3841,7 @@ class Worksheet(xmlwriter.XMLwriter):
             if key in defaults:
                 defaults[key] = options[key]
             else:
-                warn("Unknown protection object: '%s'" % key)
+                warn(f"Unknown protection object: '{key}'")
 
         # Set the password after the user defined values.
         defaults["password"] = password
@@ -4472,7 +4472,7 @@ class Worksheet(xmlwriter.XMLwriter):
         # Check for valid input parameters.
         for param_key in options.keys():
             if param_key not in valid_parameters:
-                warn("Unknown parameter '%s' in ignore_errors()" % param_key)
+                warn(f"Unknown parameter '{param_key}' in ignore_errors()")
                 return -1
 
         self.ignored_errors = options
@@ -4896,7 +4896,7 @@ class Worksheet(xmlwriter.XMLwriter):
         hash ^= len(password)
         hash ^= 0xCE4B
 
-        return "%X" % hash
+        return f"{hash:X}"
 
     def _prepare_image(
         self,
@@ -5712,7 +5712,7 @@ class Worksheet(xmlwriter.XMLwriter):
 
             if name in seen:
                 raise DuplicateTableName(
-                    "Duplicate name '%s' used in worksheet.add_table()." % table["name"]
+                    f"Duplicate name '{table['name']}' used in worksheet.add_table()."
                 )
             else:
                 seen[name] = True
@@ -5746,9 +5746,9 @@ class Worksheet(xmlwriter.XMLwriter):
 
         if function in subtotals:
             func_num = subtotals[function]
-            formula = "SUBTOTAL(%s,[%s])" % (func_num, col_name)
+            formula = f"SUBTOTAL({func_num},[{col_name}])"
         else:
-            warn("Unsupported function '%s' in add_table()" % function)
+            warn(f"Unsupported function '{function}' in add_table()")
 
         return formula
 
@@ -5785,7 +5785,7 @@ class Worksheet(xmlwriter.XMLwriter):
 
                     if cell_type in ("Number", "Datetime"):
                         # Return a number with Excel's precision.
-                        data.append("%.16g" % cell.number)
+                        data.append(f"{cell.number:.16g}")
 
                     elif cell_type == "String":
                         # Return a string from it's shared string index.
@@ -6269,7 +6269,7 @@ class Worksheet(xmlwriter.XMLwriter):
         attributes = [
             ("min", col_min + 1),
             ("max", col_max + 1),
-            ("width", "%.16g" % width),
+            ("width", f"{width:.16g}"),
         ]
 
         if xf_index:
@@ -6585,7 +6585,7 @@ class Worksheet(xmlwriter.XMLwriter):
                 if span_min is not None:
                     span_min += 1
                     span_max += 1
-                    spans[span_index] = "%s:%s" % (span_min, span_max)
+                    spans[span_index] = f"{span_min}:{span_max}"
                     span_min = None
 
         self.row_spans = spans
@@ -6619,7 +6619,7 @@ class Worksheet(xmlwriter.XMLwriter):
             attributes.append(("customFormat", 1))
 
         if height != self.original_row_height:
-            attributes.append(("ht", "%g" % height))
+            attributes.append(("ht", f"{height:g}"))
 
         if hidden:
             attributes.append(("hidden", 1))
@@ -6686,7 +6686,7 @@ class Worksheet(xmlwriter.XMLwriter):
                 # Escape control characters. See SharedString.pm for details.
                 string = re_control_chars_1.sub(r"_x005F\1", string)
                 string = re_control_chars_2.sub(
-                    lambda match: "_x%04X_" % ord(match.group(1)), string
+                    lambda match: f"_x{ord(match.group(1)):04X}_", string
                 )
 
                 # Escapes non characters in strings.
@@ -7145,7 +7145,7 @@ class Worksheet(xmlwriter.XMLwriter):
         if operators[operator] is not None:
             operator = operators[operator]
         else:
-            warn("Unknown operator = %s" % operator)
+            warn(f"Unknown operator = {operator}")
 
         # The 'equal' operator is the default attribute and isn't stored.
         if not operator == "equal":
@@ -7381,7 +7381,7 @@ class Worksheet(xmlwriter.XMLwriter):
 
         if type(formula) is list:
             formula = self._csv_join(*formula)
-            formula = '"%s"' % formula
+            formula = f'"{formula}"'
         else:
             # Check if the formula is a number.
             try:
@@ -7797,10 +7797,10 @@ class Worksheet(xmlwriter.XMLwriter):
 
         # Format splits to the same precision as Excel.
         if x_split:
-            attributes.append(("xSplit", "%.16g" % x_split))
+            attributes.append(("xSplit", f"{x_split:.16g}"))
 
         if y_split:
-            attributes.append(("ySplit", "%.16g" % y_split))
+            attributes.append(("ySplit", f"{y_split:.16g}"))
 
         attributes.append(("topLeftCell", top_left_cell))
 
