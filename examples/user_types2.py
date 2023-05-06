@@ -6,8 +6,9 @@
 # SPDX-License-Identifier: BSD-2-Clause
 # Copyright 2013-2023, John McNamara, jmcnamara@cpan.org
 #
-import xlsxwriter
 import math
+
+import xlsxwriter
 
 
 # Create a function that will behave like a worksheet write() method.

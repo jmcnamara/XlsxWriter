@@ -7,8 +7,9 @@
 #
 
 from datetime import date
-from ..excel_comparison_test import ExcelComparisonTest
+
 from ...workbook import Workbook
+from ..excel_comparison_test import ExcelComparisonTest
 
 
 class TestCompareXLSXFiles(ExcelComparisonTest):

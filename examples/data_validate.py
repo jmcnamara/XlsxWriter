@@ -12,6 +12,7 @@
 # Copyright 2013-2023, John McNamara, jmcnamara@cpan.org
 #
 from datetime import date, time
+
 import xlsxwriter
 
 workbook = xlsxwriter.Workbook("data_validate.xlsx")

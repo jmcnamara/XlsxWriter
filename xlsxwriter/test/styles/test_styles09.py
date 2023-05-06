@@ -8,9 +8,10 @@
 
 import unittest
 from io import StringIO
-from ..helperfunctions import _xml_to_list
+
 from ...styles import Styles
 from ...workbook import Workbook
+from ..helperfunctions import _xml_to_list
 
 
 class TestAssembleStyles(unittest.TestCase):

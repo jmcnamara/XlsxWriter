@@ -8,8 +8,9 @@
 
 import unittest
 from io import StringIO
-from ...workbook import Workbook
+
 from ...exceptions import DuplicateTableName
+from ...workbook import Workbook
 
 
 class TestAddTable(unittest.TestCase):

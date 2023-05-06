@@ -9,8 +9,7 @@
 # Copyright 2013-2023, John McNamara, jmcnamara@cpan.org
 #
 import sys
-from zipfile import ZipFile
-from zipfile import BadZipFile
+from zipfile import BadZipFile, ZipFile
 
 # The VBA project file we want to extract.
 vba_filename = "vbaProject.bin"

@@ -6,8 +6,9 @@
 # Copyright (c), 2013-2023, John McNamara, jmcnamara@cpan.org
 #
 
-import unittest
 import datetime
+import unittest
+
 from ...worksheet import Worksheet
 
 

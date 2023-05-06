@@ -9,8 +9,9 @@
 import unittest
 from datetime import datetime
 from io import StringIO
-from ..helperfunctions import _xml_to_list
+
 from ...worksheet import Worksheet
+from ..helperfunctions import _xml_to_list
 
 
 class TestAssembleWorksheet(unittest.TestCase):

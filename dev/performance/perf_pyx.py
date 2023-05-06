@@ -8,9 +8,11 @@
 # Copyright 2013-2023, John McNamara, jmcnamara@cpan.org
 
 import sys
-import xlsxwriter
 from time import perf_counter
+
 from pympler.asizeof import asizeof
+
+import xlsxwriter
 
 # Default to 1000 rows and non-optimised.
 if len(sys.argv) > 1:

@@ -8,8 +8,8 @@
 
 import unittest
 import warnings
-from ...utility import xl_range
-from ...utility import xl_range_abs
+
+from ...utility import xl_range, xl_range_abs
 
 
 class TestUtility(unittest.TestCase):

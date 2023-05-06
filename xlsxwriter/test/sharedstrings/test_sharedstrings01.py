@@ -8,9 +8,9 @@
 
 import unittest
 from io import StringIO
+
+from ...sharedstrings import SharedStrings, SharedStringTable
 from ..helperfunctions import _xml_to_list
-from ...sharedstrings import SharedStringTable
-from ...sharedstrings import SharedStrings
 
 
 class TestAssembleSharedStrings(unittest.TestCase):

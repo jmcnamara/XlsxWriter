@@ -8,10 +8,11 @@
 
 import unittest
 from io import StringIO
-from ..helperfunctions import _xml_to_list
-from ...worksheet import Worksheet
+
 from ...format import Format
 from ...sharedstrings import SharedStringTable
+from ...worksheet import Worksheet
+from ..helperfunctions import _xml_to_list
 
 
 class TestAssembleWorksheet(unittest.TestCase):

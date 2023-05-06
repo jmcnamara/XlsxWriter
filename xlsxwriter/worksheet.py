@@ -12,37 +12,26 @@ import math
 import os
 import re
 import tempfile
-
-from collections import defaultdict
-from collections import namedtuple
+from collections import defaultdict, namedtuple
 from decimal import Decimal
 from fractions import Fraction
 from functools import wraps
 from io import StringIO
-from math import isinf
-from math import isnan
+from math import isinf, isnan
 from warnings import warn
 
 # Package imports.
 from . import xmlwriter
-from .format import Format
 from .drawing import Drawing
+from .exceptions import DuplicateTableName, OverlappingRange
+from .format import Format
 from .shape import Shape
+from .utility import (datetime_to_excel_datetime, get_sparkline_style,
+                      preserve_whitespace, quote_sheetname, supported_datetime,
+                      xl_cell_to_rowcol, xl_col_to_name, xl_color,
+                      xl_pixel_width, xl_range, xl_rowcol_to_cell,
+                      xl_rowcol_to_cell_fast)
 from .xmlwriter import XMLwriter
-from .utility import xl_rowcol_to_cell
-from .utility import xl_rowcol_to_cell_fast
-from .utility import xl_cell_to_rowcol
-from .utility import xl_col_to_name
-from .utility import xl_range
-from .utility import xl_color
-from .utility import xl_pixel_width
-from .utility import get_sparkline_style
-from .utility import supported_datetime
-from .utility import datetime_to_excel_datetime
-from .utility import preserve_whitespace
-from .utility import quote_sheetname
-from .exceptions import DuplicateTableName
-from .exceptions import OverlappingRange
 
 # Compile performance critical regular expressions.
 re_control_chars_1 = re.compile("(_x[0-9a-fA-F]{4}_)")

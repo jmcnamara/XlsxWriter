@@ -17,17 +17,10 @@ from decimal import Decimal
 from fractions import Fraction
 from struct import unpack
 from warnings import warn
-from zipfile import ZipFile, ZipInfo, ZIP_DEFLATED, LargeZipFile
-
+from zipfile import ZIP_DEFLATED, LargeZipFile, ZipFile, ZipInfo
 
 # Package imports.
 from . import xmlwriter
-from .worksheet import Worksheet
-from .chartsheet import Chartsheet
-from .sharedstrings import SharedStringTable
-from .format import Format
-from .packager import Packager
-from .utility import xl_cell_to_rowcol
 from .chart_area import ChartArea
 from .chart_bar import ChartBar
 from .chart_column import ChartColumn
@@ -37,12 +30,15 @@ from .chart_pie import ChartPie
 from .chart_radar import ChartRadar
 from .chart_scatter import ChartScatter
 from .chart_stock import ChartStock
-from .exceptions import InvalidWorksheetName
-from .exceptions import DuplicateWorksheetName
-from .exceptions import UndefinedImageSize
-from .exceptions import UnsupportedImageFormat
-from .exceptions import FileCreateError
-from .exceptions import FileSizeError
+from .chartsheet import Chartsheet
+from .exceptions import (DuplicateWorksheetName, FileCreateError,
+                         FileSizeError, InvalidWorksheetName,
+                         UndefinedImageSize, UnsupportedImageFormat)
+from .format import Format
+from .packager import Packager
+from .sharedstrings import SharedStringTable
+from .utility import xl_cell_to_rowcol
+from .worksheet import Worksheet
 
 
 class Workbook(xmlwriter.XMLwriter):

@@ -6,6 +6,7 @@
 # Copyright 2013-2023, John McNamara, jmcnamara@cpan.org
 #
 from datetime import datetime
+
 import xlsxwriter
 
 workbook = xlsxwriter.Workbook("chart_stock.xlsx")

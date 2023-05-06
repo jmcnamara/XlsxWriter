@@ -8,8 +8,9 @@
 
 import unittest
 from io import StringIO
-from ...styles import Styles
+
 from ...format import Format
+from ...styles import Styles
 
 
 class TestWriteBorder(unittest.TestCase):

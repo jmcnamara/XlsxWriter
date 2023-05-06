@@ -7,8 +7,10 @@
 # Copyright 2013-2023, John McNamara, jmcnamara@cpan.org
 #
 import io
+
 from django.http import HttpResponse
 from django.views.generic import View
+
 import xlsxwriter
 
 

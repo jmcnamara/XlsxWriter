@@ -8,8 +8,9 @@
 
 import unittest
 from io import StringIO
-from ...workbook import Workbook
+
 from ...exceptions import OverlappingRange
+from ...workbook import Workbook
 
 
 class TestOverlapRanges(unittest.TestCase):

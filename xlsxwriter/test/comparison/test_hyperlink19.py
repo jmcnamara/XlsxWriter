@@ -6,9 +6,9 @@
 # Copyright (c), 2013-2023, John McNamara, jmcnamara@cpan.org
 #
 
-from ..excel_comparison_test import ExcelComparisonTest
-from ...workbook import Workbook
 from ...sharedstrings import SharedStringTable
+from ...workbook import Workbook
+from ..excel_comparison_test import ExcelComparisonTest
 
 
 class TestCompareXLSXFiles(ExcelComparisonTest):

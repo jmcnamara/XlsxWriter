@@ -7,8 +7,9 @@
 # Copyright 2013-2023, John McNamara, jmcnamara@cpan.org
 #
 
-import xlsxwriter
 import polars as pl
+
+import xlsxwriter
 
 # Create some Polars dataframes from some data.
 df1 = pl.DataFrame({"Data": [11, 12, 13, 14]})

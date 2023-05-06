@@ -5,18 +5,15 @@
 # SPDX-License-Identifier: BSD-2-Clause
 # Copyright 2013-2023, John McNamara, jmcnamara@cpan.org
 #
-import re
 import copy
+import re
 from warnings import warn
 
-from .shape import Shape
 from . import xmlwriter
-from .utility import get_rgb_color
-from .utility import xl_rowcol_to_cell
-from .utility import xl_range_formula
-from .utility import supported_datetime
-from .utility import datetime_to_excel_datetime
-from .utility import quote_sheetname
+from .shape import Shape
+from .utility import (datetime_to_excel_datetime, get_rgb_color,
+                      quote_sheetname, supported_datetime, xl_range_formula,
+                      xl_rowcol_to_cell)
 
 
 class Chart(xmlwriter.XMLwriter):

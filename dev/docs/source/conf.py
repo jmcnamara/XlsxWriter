@@ -1,5 +1,5 @@
-import sys
 import os
+import sys
 
 extensions = ['sphinx.ext.intersphinx', 'sphinx.ext.extlinks']
 source_suffix = '.rst'

@@ -6,11 +6,9 @@
 # Copyright (c), 2013-2023, John McNamara, jmcnamara@cpan.org
 #
 
-import re
 import os.path
-from zipfile import ZipFile
-from zipfile import BadZipFile
-from zipfile import LargeZipFile
+import re
+from zipfile import BadZipFile, LargeZipFile, ZipFile
 
 
 def _xml_to_list(xml_str):

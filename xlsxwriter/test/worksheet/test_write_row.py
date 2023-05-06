@@ -8,8 +8,9 @@
 
 import unittest
 from io import StringIO
-from ...worksheet import Worksheet
+
 from ...format import Format
+from ...worksheet import Worksheet
 
 
 class TestWriteRow(unittest.TestCase):

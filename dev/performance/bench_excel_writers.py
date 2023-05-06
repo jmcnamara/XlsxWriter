@@ -12,9 +12,9 @@ from time import perf_counter
 
 import openpyxl
 import pyexcelerate
-import xlsxwriter
 import xlwt
 
+import xlsxwriter
 
 # Default to 1000 rows x 50 cols.
 if len(sys.argv) > 1:

@@ -6,9 +6,10 @@
 # Copyright 2013-2023, John McNamara, jmcnamara@cpan.org
 #
 
+from warnings import warn
+
 # Package imports.
 from . import xmlwriter
-from warnings import warn
 
 
 class Format(xmlwriter.XMLwriter):

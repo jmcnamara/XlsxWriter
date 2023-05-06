@@ -8,6 +8,7 @@
 
 import unittest
 from io import StringIO
+
 from ...chart import Chart
 
 

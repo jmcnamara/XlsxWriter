@@ -6,8 +6,9 @@
 # Copyright 2013-2023, John McNamara, jmcnamara@cpan.org
 #
 
-import xlsxwriter
 import polars as pl
+
+import xlsxwriter
 
 with xlsxwriter.Workbook("polars_xlsxwriter.xlsx") as workbook:
     # Create a new worksheet.

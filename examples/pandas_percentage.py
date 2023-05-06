@@ -9,7 +9,6 @@
 
 import pandas as pd
 
-
 # Create a Pandas dataframe from some data.
 df = pd.DataFrame({"Names": ["Anna", "Arek", "Arun"], "Grade": ["100%", "70%", "85%"]})
 

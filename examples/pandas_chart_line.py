@@ -7,8 +7,9 @@
 # Copyright 2013-2023, John McNamara, jmcnamara@cpan.org
 #
 
-import pandas as pd
 import random
+
+import pandas as pd
 
 # Create some sample data to plot.
 categories = ["Node 1", "Node 2", "Node 3", "Node 4"]

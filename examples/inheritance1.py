@@ -7,8 +7,7 @@
 # Copyright 2013-2023, John McNamara, jmcnamara@cpan.org
 #
 from xlsxwriter.workbook import Workbook
-from xlsxwriter.worksheet import Worksheet
-from xlsxwriter.worksheet import convert_cell_args
+from xlsxwriter.worksheet import Worksheet, convert_cell_args
 
 
 class MyWorksheet(Worksheet):

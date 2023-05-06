@@ -8,12 +8,14 @@
 #
 import os
 import sys
+
 try:
     from time import process_time
 except ImportError:
     from time import clock as process_time
 
 import openpyxl
+
 import xlsxwriter
 
 # Default to 1 sheet with 1000 rows x 50 cols

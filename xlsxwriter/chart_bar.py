@@ -6,8 +6,9 @@
 # Copyright 2013-2023, John McNamara, jmcnamara@cpan.org
 #
 
-from . import chart
 from warnings import warn
+
+from . import chart
 
 
 class ChartBar(chart.Chart):

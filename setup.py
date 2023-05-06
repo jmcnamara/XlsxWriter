@@ -1,11 +1,11 @@
-import sys
 import subprocess
+import sys
 from warnings import warn
 
 try:
-    from setuptools import setup, Command
+    from setuptools import Command, setup
 except ImportError:
-    from distutils.core import setup, Command
+    from distutils.core import Command, setup
 
 if sys.version_info < (3, 6):
     warn("The minimum Python version supported by XlsxWriter is 3.6")

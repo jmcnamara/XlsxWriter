@@ -5,8 +5,8 @@
 # Copyright (c), 2013-2021, John McNamara, jmcnamara@cpan.org
 #
 
-from ..excel_comparison_test import ExcelComparisonTest
 from ...workbook import Workbook
+from ..excel_comparison_test import ExcelComparisonTest
 
 
 class TestCompareXLSXFiles(ExcelComparisonTest):

@@ -7,8 +7,7 @@
 #
 
 from . import xmlwriter
-from .utility import preserve_whitespace
-from .utility import xl_rowcol_to_cell
+from .utility import preserve_whitespace, xl_rowcol_to_cell
 
 
 class Comments(xmlwriter.XMLwriter):

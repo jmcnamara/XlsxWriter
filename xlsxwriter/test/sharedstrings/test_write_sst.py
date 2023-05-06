@@ -8,8 +8,8 @@
 
 import unittest
 from io import StringIO
-from ...sharedstrings import SharedStringTable
-from ...sharedstrings import SharedStrings
+
+from ...sharedstrings import SharedStrings, SharedStringTable
 
 
 class TestWriteSst(unittest.TestCase):
