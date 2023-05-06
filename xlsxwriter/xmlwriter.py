@@ -13,7 +13,7 @@ import re
 from io import StringIO
 
 
-class XMLwriter(object):
+class XMLwriter():
     """
     Simple XML writer class.
 

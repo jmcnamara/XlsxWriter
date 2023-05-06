@@ -31,7 +31,7 @@ from .comments import Comments
 from .exceptions import EmptyChartSeries
 
 
-class Packager(object):
+class Packager():
     """
     A class for writing the Excel XLSX Packager file.
 
