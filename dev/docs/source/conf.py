@@ -5,8 +5,8 @@ extensions = ['sphinx.ext.intersphinx', 'sphinx.ext.extlinks']
 source_suffix = '.rst'
 master_doc = 'index'
 
-project = u'XlsxWriter'
-copyright = u'2013-2023, John McNamara'
+project = 'XlsxWriter'
+copyright = '2013-2023, John McNamara'
 
 version = '3.1.0'
 release = version

@@ -115,4 +115,3 @@ time_xlsxwriter(optimised=True)
 time_openpyxl()
 time_openpyxl(optimised=True)
 print("")
-
