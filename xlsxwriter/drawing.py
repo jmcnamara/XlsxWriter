@@ -981,10 +981,7 @@ class Drawing(xmlwriter.XMLwriter):
 
     def _write_font_run(self, font, style_attrs, latin_attrs, run_type):
         # Write a:rPr or a:endParaRPr.
-        if font.get("color") is not None:
-            has_color = True
-        else:
-            has_color = False
+        has_color = font.get("color") is not None
 
         if latin_attrs or has_color:
             self._xml_start_tag(run_type, style_attrs)

@@ -260,15 +260,9 @@ def xl_cell_to_rowcol_abs(cell_str):
     row_abs = match.group(3)
     row_str = match.group(4)
 
-    if col_abs:
-        col_abs = True
-    else:
-        col_abs = False
+    col_abs = bool(col_abs)
 
-    if row_abs:
-        row_abs = True
-    else:
-        row_abs = False
+    row_abs = bool(row_abs)
 
     # Convert base26 column string to number.
     expn = 0
@@ -870,7 +864,4 @@ def datetime_to_excel_datetime(dt_obj, date_1904, remove_timezone):
 def preserve_whitespace(string):
     # Check if a string has leading or trailing whitespace that requires a
     # "preserve" attribute.
-    if re_leading.search(string) or re_trailing.search(string):
-        return True
-    else:
-        return False
+    return bool(re_leading.search(string) or re_trailing.search(string))
