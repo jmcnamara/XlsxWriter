@@ -27,7 +27,7 @@ class ChartLine(chart.Chart):
         Constructor.
 
         """
-        super(ChartLine, self).__init__()
+        super().__init__()
 
         if options is None:
             options = {}

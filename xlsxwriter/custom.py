@@ -29,7 +29,7 @@ class Custom(xmlwriter.XMLwriter):
 
         """
 
-        super(Custom, self).__init__()
+        super().__init__()
 
         self.properties = []
         self.pid = 1

@@ -27,7 +27,7 @@ class ChartRadar(chart.Chart):
         Constructor.
 
         """
-        super(ChartRadar, self).__init__()
+        super().__init__()
 
         if options is None:
             options = {}

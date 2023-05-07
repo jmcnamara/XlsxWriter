@@ -64,7 +64,7 @@ class Workbook(xmlwriter.XMLwriter):
         if options is None:
             options = {}
 
-        super(Workbook, self).__init__()
+        super().__init__()
 
         self.filename = filename
 
@@ -1956,7 +1956,7 @@ class Workbook(xmlwriter.XMLwriter):
 
 
 # A metadata class to share data between worksheets.
-class WorksheetMeta(object):
+class WorksheetMeta():
     """
     A class to track worksheets data such as the active sheet and the
     first sheet.

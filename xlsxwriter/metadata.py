@@ -28,7 +28,7 @@ class Metadata(xmlwriter.XMLwriter):
 
         """
 
-        super(Metadata, self).__init__()
+        super().__init__()
 
     ###########################################################################
     #

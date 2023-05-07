@@ -183,7 +183,7 @@ class Worksheet(xmlwriter.XMLwriter):
 
         """
 
-        super(Worksheet, self).__init__()
+        super().__init__()
 
         self.name = None
         self.index = None

@@ -83,7 +83,7 @@ class Packager():
 
         """
 
-        super(Packager, self).__init__()
+        super().__init__()
 
         self.tmpdir = ""
         self.in_memory = False

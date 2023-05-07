@@ -29,7 +29,7 @@ class Comments(xmlwriter.XMLwriter):
 
         """
 
-        super(Comments, self).__init__()
+        super().__init__()
         self.author_ids = {}
 
     ###########################################################################

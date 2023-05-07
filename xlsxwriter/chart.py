@@ -35,7 +35,7 @@ class Chart(xmlwriter.XMLwriter):
 
         """
 
-        super(Chart, self).__init__()
+        super().__init__()
 
         self.subtype = None
         self.sheet_type = 0x0200

@@ -27,7 +27,7 @@ class ChartArea(chart.Chart):
         Constructor.
 
         """
-        super(ChartArea, self).__init__()
+        super().__init__()
 
         if options is None:
             options = {}

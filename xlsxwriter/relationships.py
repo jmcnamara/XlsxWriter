@@ -34,7 +34,7 @@ class Relationships(xmlwriter.XMLwriter):
 
         """
 
-        super(Relationships, self).__init__()
+        super().__init__()
 
         self.relationships = []
         self.id = 1

@@ -30,7 +30,7 @@ class Drawing(xmlwriter.XMLwriter):
 
         """
 
-        super(Drawing, self).__init__()
+        super().__init__()
 
         self.drawings = []
         self.embedded = 0

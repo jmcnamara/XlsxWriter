@@ -27,7 +27,7 @@ class ChartColumn(chart.Chart):
         Constructor.
 
         """
-        super(ChartColumn, self).__init__()
+        super().__init__()
 
         if options is None:
             options = {}

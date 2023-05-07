@@ -29,7 +29,7 @@ class ChartDoughnut(chart_pie.ChartPie):
         Constructor.
 
         """
-        super(ChartDoughnut, self).__init__()
+        super().__init__()
 
         self.vary_data_color = 1
         self.rotation = 0

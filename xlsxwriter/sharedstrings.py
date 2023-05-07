@@ -36,7 +36,7 @@ class SharedStrings(xmlwriter.XMLwriter):
 
         """
 
-        super(SharedStrings, self).__init__()
+        super().__init__()
 
         self.string_table = None
 

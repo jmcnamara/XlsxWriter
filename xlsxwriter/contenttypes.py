@@ -47,7 +47,7 @@ class ContentTypes(xmlwriter.XMLwriter):
 
         """
 
-        super(ContentTypes, self).__init__()
+        super().__init__()
 
         # Copy the defaults in case we need to change them.
         self.defaults = copy.deepcopy(defaults)

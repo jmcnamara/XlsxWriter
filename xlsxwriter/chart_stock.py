@@ -26,7 +26,7 @@ class ChartStock(chart.Chart):
         Constructor.
 
         """
-        super(ChartStock, self).__init__()
+        super().__init__()
 
         self.show_crosses = 0
         self.hi_low_lines = {}

@@ -29,7 +29,7 @@ class Styles(xmlwriter.XMLwriter):
 
         """
 
-        super(Styles, self).__init__()
+        super().__init__()
 
         self.xf_formats = []
         self.palette = []

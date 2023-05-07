@@ -29,7 +29,7 @@ class ChartBar(chart.Chart):
         Constructor.
 
         """
-        super(ChartBar, self).__init__()
+        super().__init__()
 
         if options is None:
             options = {}

@@ -27,7 +27,7 @@ class Theme():
         Constructor.
 
         """
-        super(Theme, self).__init__()
+        super().__init__()
         self.fh = None
         self.internal_fh = False
 

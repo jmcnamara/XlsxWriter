@@ -33,7 +33,7 @@ class Format(xmlwriter.XMLwriter):
         if properties is None:
             properties = {}
 
-        super(Format, self).__init__()
+        super().__init__()
 
         self.xf_format_indices = xf_indices
         self.dxf_format_indices = dxf_indices

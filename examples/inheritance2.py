@@ -62,7 +62,7 @@ class MyWorksheet(Worksheet):
                 self.max_column_widths[col] = string_width
 
         # Now call the parent version of write_string() as usual.
-        return super(MyWorksheet, self).write_string(row, col, string, cell_format)
+        return super().write_string(row, col, string, cell_format)
 
 
 class MyWorkbook(Workbook):
@@ -75,7 +75,7 @@ class MyWorkbook(Workbook):
     def add_worksheet(self, name=None):
         # Overwrite add_worksheet() to create a MyWorksheet object.
         # Also add an Worksheet attribute to store the column widths.
-        worksheet = super(MyWorkbook, self).add_worksheet(name, MyWorksheet)
+        worksheet = super().add_worksheet(name, MyWorksheet)
         worksheet.max_column_widths = {}
 
         return worksheet
@@ -89,7 +89,7 @@ class MyWorkbook(Workbook):
             for column, width in worksheet.max_column_widths.items():
                 worksheet.set_column(column, column, width)
 
-        return super(MyWorkbook, self).close()
+        return super().close()
 
 
 # Create a new MyWorkbook object.

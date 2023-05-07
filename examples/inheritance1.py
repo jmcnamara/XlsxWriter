@@ -27,7 +27,7 @@ class MyWorksheet(Worksheet):
             return self.write_string(row, col, data)
         else:
             # Call the parent version of write() as usual for other data.
-            return super(MyWorksheet, self).write(row, col, *args)
+            return super().write(row, col, *args)
 
 
 class MyWorkbook(Workbook):
@@ -39,7 +39,7 @@ class MyWorkbook(Workbook):
 
     def add_worksheet(self, name=None):
         # Overwrite add_worksheet() to create a MyWorksheet object.
-        worksheet = super(MyWorkbook, self).add_worksheet(name, MyWorksheet)
+        worksheet = super().add_worksheet(name, MyWorksheet)
 
         return worksheet
 

@@ -29,7 +29,7 @@ class ChartPie(chart.Chart):
         Constructor.
 
         """
-        super(ChartPie, self).__init__()
+        super().__init__()
 
         self.vary_data_color = 1
         self.rotation = 0

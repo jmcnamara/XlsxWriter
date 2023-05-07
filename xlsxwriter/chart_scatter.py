@@ -29,7 +29,7 @@ class ChartScatter(chart.Chart):
         Constructor.
 
         """
-        super(ChartScatter, self).__init__()
+        super().__init__()
 
         if options is None:
             options = {}

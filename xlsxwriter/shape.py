@@ -27,7 +27,7 @@ class Shape():
         Constructor.
 
         """
-        super(Shape, self).__init__()
+        super().__init__()
         self.name = name
         self.shape_type = shape_type
         self.connect = 0

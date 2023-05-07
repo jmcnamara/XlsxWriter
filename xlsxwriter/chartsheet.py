@@ -29,7 +29,7 @@ class Chartsheet(worksheet.Worksheet):
 
         """
 
-        super(Chartsheet, self).__init__()
+        super().__init__()
 
         self.is_chartsheet = True
         self.drawing = None
@@ -98,7 +98,7 @@ class Chartsheet(worksheet.Worksheet):
             self.protection = True
 
         # Call the parent method.
-        super(Chartsheet, self).protect(password, copy)
+        super().protect(password, copy)
 
     ###########################################################################
     #
