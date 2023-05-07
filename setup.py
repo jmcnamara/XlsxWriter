@@ -9,7 +9,7 @@ except ImportError:
 
 if sys.version_info < (3, 6):
     warn("The minimum Python version supported by XlsxWriter is 3.6")
-    exit()
+    sys.exit()
 
 
 class PyTest(Command):
