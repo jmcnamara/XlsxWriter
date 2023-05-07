@@ -1979,7 +1979,7 @@ class Chart(xmlwriter.XMLwriter):
 
             for i, point in enumerate(cat_data):
                 # Write the c:pt element.
-                self._write_pt(i, cat_data[i])
+                self._write_pt(i, point)
 
             self._xml_end_tag("c:lvl")
 
