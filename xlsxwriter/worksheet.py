@@ -1837,10 +1837,8 @@ class Worksheet(xmlwriter.XMLwriter):
             return -1
 
         # Set the limits for the outline levels (0 <= x <= 7).
-        if level < 0:
-            level = 0
-        if level > 7:
-            level = 7
+        level = max(level, 0)
+        level = min(level, 7)
 
         if level > self.outline_col_level:
             self.outline_col_level = level
@@ -2004,9 +2002,7 @@ class Worksheet(xmlwriter.XMLwriter):
             width = self._pixels_to_width(pixel_width + 7)
 
             # The max column character width in Excel is 255.
-            if width > 255.0:
-                width = 255.0
-
+            width = min(width, 255.0)
             # Add the width to an existing col info structure or add a new one.
             if self.col_info.get(col_num):
                 # We only update the width for an existing column if it is
@@ -2068,10 +2064,8 @@ class Worksheet(xmlwriter.XMLwriter):
             height = self.default_row_height
 
         # Set the limits for the outline levels (0 <= x <= 7).
-        if level < 0:
-            level = 0
-        if level > 7:
-            level = 7
+        level = max(level, 0)
+        level = min(level, 7)
 
         if level > self.outline_row_level:
             self.outline_row_level = level
@@ -5288,11 +5282,8 @@ class Worksheet(xmlwriter.XMLwriter):
             row_start -= 1
 
         # Ensure that the image isn't shifted off the page at top left.
-        if x1 < 0:
-            x1 = 0
-
-        if y1 < 0:
-            y1 = 0
+        x1 = max(x1, 0)
+        y1 = max(y1, 0)
 
         # Calculate the absolute x offset of the top-left vertex.
         if self.col_size_changed:

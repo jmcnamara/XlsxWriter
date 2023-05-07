@@ -3387,18 +3387,14 @@ class Chart(xmlwriter.XMLwriter):
 
     def _write_trendline_order(self, val):
         # Write the <c:order> element.
-        if val < 2:
-            val = 2
-
+        val = max(val, 2)
         attributes = [("val", val)]
 
         self._xml_empty_tag("c:order", attributes)
 
     def _write_period(self, val):
         # Write the <c:period> element.
-        if val < 2:
-            val = 2
-
+        val = max(val, 2)
         attributes = [("val", val)]
 
         self._xml_empty_tag("c:period", attributes)
