@@ -31,9 +31,14 @@ from .chart_radar import ChartRadar
 from .chart_scatter import ChartScatter
 from .chart_stock import ChartStock
 from .chartsheet import Chartsheet
-from .exceptions import (DuplicateWorksheetName, FileCreateError,
-                         FileSizeError, InvalidWorksheetName,
-                         UndefinedImageSize, UnsupportedImageFormat)
+from .exceptions import (
+    DuplicateWorksheetName,
+    FileCreateError,
+    FileSizeError,
+    InvalidWorksheetName,
+    UndefinedImageSize,
+    UnsupportedImageFormat,
+)
 from .format import Format
 from .packager import Packager
 from .sharedstrings import SharedStringTable
@@ -1956,7 +1961,7 @@ class Workbook(xmlwriter.XMLwriter):
 
 
 # A metadata class to share data between worksheets.
-class WorksheetMeta():
+class WorksheetMeta:
     """
     A class to track worksheets data such as the active sheet and the
     first sheet.

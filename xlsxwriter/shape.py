@@ -9,7 +9,7 @@ import copy
 from warnings import warn
 
 
-class Shape():
+class Shape:
     """
     A class for to represent Excel XLSX shape objects.
 

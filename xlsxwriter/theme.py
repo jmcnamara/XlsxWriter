@@ -9,7 +9,7 @@
 from io import StringIO
 
 
-class Theme():
+class Theme:
     """
     A class for writing the Excel XLSX Theme file.
 

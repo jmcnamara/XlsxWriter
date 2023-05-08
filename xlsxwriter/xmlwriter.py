@@ -13,7 +13,7 @@ import re
 from io import StringIO
 
 
-class XMLwriter():
+class XMLwriter:
     """
     Simple XML writer class.
 
@@ -116,12 +116,12 @@ class XMLwriter():
 
         string = self._escape_data(string)
 
-        self.fh.write(""f"<si><t{attr}>{string}</t></si>""")
+        self.fh.write("" f"<si><t{attr}>{string}</t></si>" "")
 
     def _xml_rich_si_element(self, string):
         # Optimized tag writer for shared strings <si> rich string elements.
 
-        self.fh.write(""f"<si>{string}</si>""")
+        self.fh.write("" f"<si>{string}</si>" "")
 
     def _xml_number_element(self, number, attributes=[]):
         # Optimized tag writer for <c> cell number elements in the inner loop.

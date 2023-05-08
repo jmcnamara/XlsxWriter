@@ -29,7 +29,7 @@ from .theme import Theme
 from .vml import Vml
 
 
-class Packager():
+class Packager:
     """
     A class for writing the Excel XLSX Packager file.
 

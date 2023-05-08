@@ -26,11 +26,20 @@ from .drawing import Drawing
 from .exceptions import DuplicateTableName, OverlappingRange
 from .format import Format
 from .shape import Shape
-from .utility import (datetime_to_excel_datetime, get_sparkline_style,
-                      preserve_whitespace, quote_sheetname, supported_datetime,
-                      xl_cell_to_rowcol, xl_col_to_name, xl_color,
-                      xl_pixel_width, xl_range, xl_rowcol_to_cell,
-                      xl_rowcol_to_cell_fast)
+from .utility import (
+    datetime_to_excel_datetime,
+    get_sparkline_style,
+    preserve_whitespace,
+    quote_sheetname,
+    supported_datetime,
+    xl_cell_to_rowcol,
+    xl_col_to_name,
+    xl_color,
+    xl_pixel_width,
+    xl_range,
+    xl_rowcol_to_cell,
+    xl_rowcol_to_cell_fast,
+)
 from .xmlwriter import XMLwriter
 
 # Compile performance critical regular expressions.

@@ -121,7 +121,7 @@ class SharedStrings(xmlwriter.XMLwriter):
 
 
 # A metadata class to store Excel strings between worksheets.
-class SharedStringTable():
+class SharedStringTable:
     """
     A class to track Excel shared strings between worksheets.
 

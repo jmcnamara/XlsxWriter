@@ -11,9 +11,14 @@ from warnings import warn
 
 from . import xmlwriter
 from .shape import Shape
-from .utility import (datetime_to_excel_datetime, get_rgb_color,
-                      quote_sheetname, supported_datetime, xl_range_formula,
-                      xl_rowcol_to_cell)
+from .utility import (
+    datetime_to_excel_datetime,
+    get_rgb_color,
+    quote_sheetname,
+    supported_datetime,
+    xl_range_formula,
+    xl_rowcol_to_cell,
+)
 
 
 class Chart(xmlwriter.XMLwriter):
@@ -1361,9 +1366,7 @@ class Chart(xmlwriter.XMLwriter):
             try:
                 float(value)
             except ValueError:
-                warn(
-                    f"Property '{prop}' value '{value}' must be numeric in layout"
-                )
+                warn(f"Property '{prop}' value '{value}' must be numeric in layout")
                 return
 
             if value < 0 or value > 1:
