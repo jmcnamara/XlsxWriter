@@ -97,14 +97,32 @@ Dynamic Array support
 Excel introduced the concept of "Dynamic Arrays" and new functions that use
 them in Office 365. The new functions are:
 
+- ``BYCOL()``
+- ``BYROW()``
+- ``CHOOSECOLS()``
+- ``CHOOSEROWS()``
+- ``DROP()``
+- ``EXPAND()``
 - ``FILTER()``
-- ``UNIQUE()``
+- ``HSTACK()``
+- ``MAKEARRAY()``
+- ``MAP()``
+- ``RANDARRAY()``
+- ``REDUCE()``
+- ``SCAN()``
+- ``SEQUENCE()``
 - ``SORT()``
 - ``SORTBY()``
+- ``SWITCH()``
+- ``TAKE()``
+- ``TEXTSPLIT()``
+- ``TOCOL()``
+- ``TOROW()``
+- ``UNIQUE()``
+- ``VSTACK()``
+- ``WRAPCOLS()``
+- ``WRAPROWS()``
 - ``XLOOKUP()``
-- ``XMATCH()``
-- ``RANDARRAY()``
-- ``SEQUENCE()``
 
 The following special case functions were also added with Dynamic Arrays:
 
@@ -320,15 +338,16 @@ formula will be ignored and won't be expanded any further.
 The following list is taken from
 `MS XLSX extensions documentation on future functions <http://msdn.microsoft.com/en-us/library/dd907480%28v=office.12%29.aspx>`_.
 
-* ``_xlfn.ACOT``
 * ``_xlfn.ACOTH``
+* ``_xlfn.ACOT``
 * ``_xlfn.AGGREGATE``
 * ``_xlfn.ARABIC``
+* ``_xlfn.ARRAYTOTEXT``
 * ``_xlfn.BASE``
 * ``_xlfn.BETA.DIST``
 * ``_xlfn.BETA.INV``
-* ``_xlfn.BINOM.DIST``
 * ``_xlfn.BINOM.DIST.RANGE``
+* ``_xlfn.BINOM.DIST``
 * ``_xlfn.BINOM.INV``
 * ``_xlfn.BITAND``
 * ``_xlfn.BITLSHIFT``
@@ -337,60 +356,61 @@ The following list is taken from
 * ``_xlfn.BITXOR``
 * ``_xlfn.CEILING.MATH``
 * ``_xlfn.CEILING.PRECISE``
-* ``_xlfn.CHISQ.DIST``
 * ``_xlfn.CHISQ.DIST.RT``
-* ``_xlfn.CHISQ.INV``
+* ``_xlfn.CHISQ.DIST``
 * ``_xlfn.CHISQ.INV.RT``
+* ``_xlfn.CHISQ.INV``
 * ``_xlfn.CHISQ.TEST``
 * ``_xlfn.COMBINA``
 * ``_xlfn.CONCAT``
 * ``_xlfn.CONFIDENCE.NORM``
 * ``_xlfn.CONFIDENCE.T``
-* ``_xlfn.COT``
 * ``_xlfn.COTH``
+* ``_xlfn.COT``
 * ``_xlfn.COVARIANCE.P``
 * ``_xlfn.COVARIANCE.S``
-* ``_xlfn.CSC``
 * ``_xlfn.CSCH``
+* ``_xlfn.CSC``
 * ``_xlfn.DAYS``
 * ``_xlfn.DECIMAL``
 * ``ECMA.CEILING``
 * ``_xlfn.ERF.PRECISE``
 * ``_xlfn.ERFC.PRECISE``
 * ``_xlfn.EXPON.DIST``
-* ``_xlfn.F.DIST``
 * ``_xlfn.F.DIST.RT``
-* ``_xlfn.F.INV``
+* ``_xlfn.F.DIST``
 * ``_xlfn.F.INV.RT``
+* ``_xlfn.F.INV``
 * ``_xlfn.F.TEST``
 * ``_xlfn.FILTERXML``
 * ``_xlfn.FLOOR.MATH``
 * ``_xlfn.FLOOR.PRECISE``
-* ``_xlfn.FORECAST.ETS``
 * ``_xlfn.FORECAST.ETS.CONFINT``
 * ``_xlfn.FORECAST.ETS.SEASONALITY``
 * ``_xlfn.FORECAST.ETS.STAT``
+* ``_xlfn.FORECAST.ETS``
 * ``_xlfn.FORECAST.LINEAR``
 * ``_xlfn.FORMULATEXT``
-* ``_xlfn.GAMMA``
 * ``_xlfn.GAMMA.DIST``
 * ``_xlfn.GAMMA.INV``
 * ``_xlfn.GAMMALN.PRECISE``
+* ``_xlfn.GAMMA``
 * ``_xlfn.GAUSS``
 * ``_xlfn.HYPGEOM.DIST``
 * ``_xlfn.IFNA``
 * ``_xlfn.IFS``
 * ``_xlfn.IMCOSH``
 * ``_xlfn.IMCOT``
-* ``_xlfn.IMCSC``
 * ``_xlfn.IMCSCH``
-* ``_xlfn.IMSEC``
+* ``_xlfn.IMCSC``
 * ``_xlfn.IMSECH``
+* ``_xlfn.IMSEC``
 * ``_xlfn.IMSINH``
 * ``_xlfn.IMTAN``
 * ``_xlfn.ISFORMULA``
-* ``ISO.CEILING``
+* ``_xlfn.ISOMITTED``
 * ``_xlfn.ISOWEEKNUM``
+* ``_xlfn.LET``
 * ``_xlfn.LOGNORM.DIST``
 * ``_xlfn.LOGNORM.INV``
 * ``_xlfn.MAXIFS``
@@ -419,45 +439,67 @@ The following list is taken from
 * ``_xlfn.RANK.AVG``
 * ``_xlfn.RANK.EQ``
 * ``_xlfn.RRI``
-* ``_xlfn.SEC``
 * ``_xlfn.SECH``
-* ``_xlfn.SHEET``
+* ``_xlfn.SEC``
 * ``_xlfn.SHEETS``
+* ``_xlfn.SHEET``
 * ``_xlfn.SKEW.P``
 * ``_xlfn.STDEV.P``
 * ``_xlfn.STDEV.S``
-* ``_xlfn.SWITCH``
-* ``_xlfn.T.DIST``
 * ``_xlfn.T.DIST.2T``
 * ``_xlfn.T.DIST.RT``
-* ``_xlfn.T.INV``
+* ``_xlfn.T.DIST``
 * ``_xlfn.T.INV.2T``
+* ``_xlfn.T.INV``
 * ``_xlfn.T.TEST``
+* ``_xlfn.TEXTAFTER``
+* ``_xlfn.TEXTBEFORE``
 * ``_xlfn.TEXTJOIN``
 * ``_xlfn.UNICHAR``
 * ``_xlfn.UNICODE``
+* ``_xlfn.VALUETOTEXT``
 * ``_xlfn.VAR.P``
 * ``_xlfn.VAR.S``
 * ``_xlfn.WEBSERVICE``
 * ``_xlfn.WEIBULL.DIST``
 * ``WORKDAY.INTL``
+* ``_xlfn.XMATCH``
 * ``_xlfn.XOR``
 * ``_xlfn.Z.TEST``
 
 The dynamic array functions shown in the :ref:`formula_dynamic_arrays` section
 above are also future functions:
 
-* ``_xlfn.UNIQUE``
-* ``_xlfn.XMATCH``
-* ``_xlfn.XLOOKUP``
-* ``_xlfn.SORTBY``
-* ``_xlfn._xlws.SORT``
-* ``_xlfn._xlws.FILTER``
-* ``_xlfn.RANDARRAY``
-* ``_xlfn.SEQUENCE``
 * ``_xlfn.ANCHORARRAY``
-* ``_xlfn.SINGLE``
+* ``_xlfn.BYCOL``
+* ``_xlfn.BYROW``
+* ``_xlfn.CHOOSECOLS``
+* ``_xlfn.CHOOSEROWS``
+* ``_xlfn.DROP``
+* ``_xlfn.EXPAND``
+* ``_xlfn._xlws.FILTER``
+* ``_xlfn.HSTACK``
 * ``_xlfn.LAMBDA``
+* ``_xlfn.MAKEARRAY``
+* ``_xlfn.MAP``
+* ``_xlfn.RANDARRAY``
+* ``_xlfn.REDUCE``
+* ``_xlfn.SCAN``
+* ``_xlfn.SINGLE``
+* ``_xlfn.SEQUENCE``
+* ``_xlfn._xlws.SORT``
+* ``_xlfn.SORTBY``
+* ``_xlfn.SWITCH``
+* ``_xlfn.TAKE``
+* ``_xlfn.TEXTSPLIT``
+* ``_xlfn.TOCOL``
+* ``_xlfn.TOROW``
+* ``_xlfn.UNIQUE``
+* ``_xlfn.VSTACK``
+* ``_xlfn.WRAPCOLS``
+* ``_xlfn.WRAPROWS``
+* ``_xlfn.XLOOKUP``
+
 
 However, since these functions are part of a powerful new feature in Excel,
 and likely to be very important to end users, they are converted automatically
