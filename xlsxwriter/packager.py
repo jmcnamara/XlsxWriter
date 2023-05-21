@@ -475,7 +475,7 @@ class Packager(object):
     def _get_table_count(self):
         # Count the table files. Required for the [Content_Types] file.
         for worksheet in self.workbook.worksheets():
-            for table_props in worksheet.tables:
+            for _ in worksheet.tables:
                 self.table_count += 1
 
     def _write_root_rels_file(self):

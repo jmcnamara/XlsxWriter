@@ -126,7 +126,7 @@ class Chart(xmlwriter.XMLwriter):
             return
 
         if self.requires_category and "categories" not in options:
-            warn("Must specify 'categories' in add_series() " "for this chart type")
+            warn("Must specify 'categories' in add_series() for this chart type")
             return
 
         if len(self.series) == 255:
@@ -858,7 +858,7 @@ class Chart(xmlwriter.XMLwriter):
                 cell = xl_rowcol_to_cell(name[1], name[2], True, True)
                 name_formula = quote_sheetname(name[0]) + "!" + cell
                 name = ""
-            elif re.match(r"^=?[^!]+!\$?[A-Z]+\$?[0-9]+", name):
+            elif re.match(r"^=?[^!]+!\$?[A-Z]+\$?\d+", name):
                 # Name looks like a formula, use it to set name_formula.
                 name_formula = name
                 name = ""
@@ -1199,7 +1199,7 @@ class Chart(xmlwriter.XMLwriter):
                     continue
 
                 value = label.get("value")
-                if value and re.match(r"^=?[^!]+!\$?[A-Z]+\$?[0-9]+", str(value)):
+                if value and re.match(r"^=?[^!]+!\$?[A-Z]+\$?\d+", str(value)):
                     label["formula"] = value
 
                 formula = label.get("formula")

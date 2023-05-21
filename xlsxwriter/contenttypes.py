@@ -153,9 +153,8 @@ class ContentTypes(xmlwriter.XMLwriter):
         # Change the workbook.xml content-type from xlsx to xlsm.
         for i, override in enumerate(self.overrides):
             if override[0] == "/xl/workbook.xml":
-                self.overrides[i][1] = (
-                    "application/vnd.ms-excel." "sheet.macroEnabled.main+xml"
-                )
+                xlsm = "application/vnd.ms-excel.sheet.macroEnabled.main+xml"
+                self.overrides[i][1] = xlsm
 
         self._add_default(("bin", "application/vnd.ms-office.vbaProject"))
 

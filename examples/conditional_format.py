@@ -46,7 +46,7 @@ data = [
 #
 # Example 1.
 #
-caption = "Cells with values >= 50 are in light red. " "Values < 50 are in light green."
+caption = "Cells with values >= 50 are in light red. Values < 50 are in light green."
 
 # Write the data.
 worksheet1.write("A1", caption)
@@ -106,7 +106,7 @@ worksheet2.conditional_format(
 #
 # Example 3.
 #
-caption = "Duplicate values are in light red. " "Unique values are in light green."
+caption = "Duplicate values are in light red. Unique values are in light green."
 
 worksheet3.write("A1", caption)
 
@@ -123,7 +123,7 @@ worksheet3.conditional_format("B3:K12", {"type": "unique", "format": format2})
 # Example 4.
 #
 caption = (
-    "Above average values are in light red. " "Below average values are in light green."
+    "Above average values are in light red. Below average values are in light green."
 )
 
 worksheet4.write("A1", caption)
@@ -144,7 +144,7 @@ worksheet4.conditional_format(
 #
 # Example 5.
 #
-caption = "Top 10 values are in light red. " "Bottom 10 values are in light green."
+caption = "Top 10 values are in light red. Bottom 10 values are in light green."
 
 worksheet5.write("A1", caption)
 

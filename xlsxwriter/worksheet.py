@@ -2809,7 +2809,7 @@ class Worksheet(xmlwriter.XMLwriter):
 
             if "value" in options:
                 if not supported_datetime(options["value"]):
-                    warn("Conditional format 'value' must be a " "datetime object.")
+                    warn("Conditional format 'value' must be a datetime object.")
                     return -2
                 else:
                     date_time = self._convert_date_time(options["value"])
@@ -2818,7 +2818,7 @@ class Worksheet(xmlwriter.XMLwriter):
 
             if "minimum" in options:
                 if not supported_datetime(options["minimum"]):
-                    warn("Conditional format 'minimum' must be a " "datetime object.")
+                    warn("Conditional format 'minimum' must be a datetime object.")
                     return -2
                 else:
                     date_time = self._convert_date_time(options["minimum"])
@@ -2826,7 +2826,7 @@ class Worksheet(xmlwriter.XMLwriter):
 
             if "maximum" in options:
                 if not supported_datetime(options["maximum"]):
-                    warn("Conditional format 'maximum' must be a " "datetime object.")
+                    warn("Conditional format 'maximum' must be a datetime object.")
                     return -2
                 else:
                     date_time = self._convert_date_time(options["maximum"])
@@ -3282,7 +3282,7 @@ class Worksheet(xmlwriter.XMLwriter):
                 return -2
 
             # Warn if the name looks like a cell name.
-            if re.match(r"^[a-zA-Z][a-zA-Z]?[a-dA-D]?[0-9]+$", name):
+            if re.match(r"^[a-zA-Z][a-zA-Z]?[a-dA-D]?\d+$", name):
                 warn("Name looks like a cell name in add_table(): '%s'" % name)
                 return -2
 
@@ -4071,9 +4071,7 @@ class Worksheet(xmlwriter.XMLwriter):
         header = header.replace("&[Picture]", "&G")
 
         if len(header) > 255:
-            warn(
-                "Header string cannot be longer than Excel's " "limit of 255 characters"
-            )
+            warn("Header string cannot be longer than Excel's limit of 255 characters")
             return
 
         if options is not None:
@@ -4150,9 +4148,7 @@ class Worksheet(xmlwriter.XMLwriter):
         footer = footer.replace("&[Picture]", "&G")
 
         if len(footer) > 255:
-            warn(
-                "Footer string cannot be longer than Excel's " "limit of 255 characters"
-            )
+            warn("Footer string cannot be longer than Excel's limit of 255 characters")
             return
 
         if options is not None:

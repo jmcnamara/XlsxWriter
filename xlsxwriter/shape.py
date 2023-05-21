@@ -250,7 +250,7 @@ class Shape(object):
 
         # Check the colors array has the required number of entries.
         if not 2 <= len(gradient["colors"]) <= 10:
-            warn("Gradient colors list must at least 2 values " "and not more than 10")
+            warn("Gradient colors list must at least 2 values and not more than 10")
             return
 
         if "positions" in gradient:
@@ -262,9 +262,7 @@ class Shape(object):
             # Check the positions are in the correct range.
             for pos in gradient["positions"]:
                 if not 0 <= pos <= 100:
-                    warn(
-                        "Gradient position must be in the range " "0 <= position <= 100"
-                    )
+                    warn("Gradient position must be in the range 0 <= position <= 100")
                     return
         else:
             # Use the default gradient positions.
@@ -284,7 +282,7 @@ class Shape(object):
         angle = gradient.get("angle")
         if angle:
             if not 0 <= angle < 360:
-                warn("Gradient angle must be in the range " "0 <= angle < 360")
+                warn("Gradient angle must be in the range 0 <= angle < 360")
                 return
         else:
             gradient["angle"] = 90

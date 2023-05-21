@@ -490,7 +490,7 @@ class Workbook(xmlwriter.XMLwriter):
             formula = formula.lstrip("=")
 
         # Local defined names are formatted like "Sheet1!name".
-        sheet_parts = re.compile(r"^(.*)!(.*)$")
+        sheet_parts = re.compile(r"^([^!]+)!([^!]+)$")
         match = sheet_parts.match(name)
 
         if match:
@@ -514,7 +514,7 @@ class Workbook(xmlwriter.XMLwriter):
             return -1
 
         # Warn if the defined name looks like a cell name.
-        if re.match(r"^[a-zA-Z][a-zA-Z]?[a-dA-D]?[0-9]+$", name):
+        if re.match(r"^[a-zA-Z][a-zA-Z]?[a-dA-D]?\d+$", name):
             warn("Name looks like a cell name in defined_name(): '%s'" % name)
             return -1
 
