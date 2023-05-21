@@ -1190,11 +1190,11 @@ class Workbook(xmlwriter.XMLwriter):
 
                 (
                     image_type,
-                    width,
-                    height,
-                    name,
-                    x_dpi,
-                    y_dpi,
+                    _,
+                    _,
+                    _,
+                    _,
+                    _,
                     digest,
                 ) = self._get_image_properties(filename, image_data)
 
@@ -1313,7 +1313,7 @@ class Workbook(xmlwriter.XMLwriter):
                     self.images.append([filename, image_type, image_data])
 
                 sheet._prepare_header_image(
-                    image_ref_id,
+                    ref_id,
                     width,
                     height,
                     name,

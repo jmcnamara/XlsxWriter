@@ -433,13 +433,16 @@ class Worksheet(xmlwriter.XMLwriter):
         if token.startswith("{=") and token.endswith("}"):
             return self._write_formula(row, col, *args)
 
-        if ":" in token:
-            if self.strings_to_urls and re.match("(ftp|http)s?://", token):
-                return self._write_url(row, col, *args)
-            elif self.strings_to_urls and re.match("mailto:", token):
-                return self._write_url(row, col, *args)
-            elif self.strings_to_urls and re.match("(in|ex)ternal:", token):
-                return self._write_url(row, col, *args)
+        if (
+            ":" in token
+            and self.strings_to_urls
+            and (
+                re.match("(ftp|http)s?://", token)
+                or re.match("mailto:", token)
+                or re.match("(in|ex)ternal:", token)
+            )
+        ):
+            return self._write_url(row, col, *args)
 
         if self.strings_to_numbers:
             try:
@@ -2035,9 +2038,8 @@ class Worksheet(xmlwriter.XMLwriter):
 
                     # If the cell is in an autofilter header we add an
                     # additional 16 pixels for the dropdown arrow.
-                    if self.filter_cells.get((row_num, col_num)):
-                        if length > 0:
-                            length += 16
+                    if self.filter_cells.get((row_num, col_num)) and length > 0:
+                        length += 16
 
                     # Add the string length to the lookup table.
                     width_max = col_width_max.get(col_num, 0)
@@ -2575,10 +2577,9 @@ class Worksheet(xmlwriter.XMLwriter):
             # Format date number to the same precision as Excel.
             options["value"] = "%.16g" % date_time
 
-            if options["maximum"]:
-                if supported_datetime(options["maximum"]):
-                    date_time = self._convert_date_time(options["maximum"])
-                    options["maximum"] = "%.16g" % date_time
+            if options["maximum"] and supported_datetime(options["maximum"]):
+                date_time = self._convert_date_time(options["maximum"])
+                options["maximum"] = "%.16g" % date_time
 
         # Check that the input title doesn't exceed the maximum length.
         if options.get("input_title") and len(options["input_title"]) > 32:
@@ -8296,47 +8297,47 @@ class Worksheet(xmlwriter.XMLwriter):
         self._xml_start_tag("ignoredErrors")
 
         if self.ignored_errors.get("number_stored_as_text"):
-            range = self.ignored_errors["number_stored_as_text"]
-            self._write_ignored_error("numberStoredAsText", range)
+            ignored_range = self.ignored_errors["number_stored_as_text"]
+            self._write_ignored_error("numberStoredAsText", ignored_range)
 
         if self.ignored_errors.get("eval_error"):
-            range = self.ignored_errors["eval_error"]
-            self._write_ignored_error("evalError", range)
+            ignored_range = self.ignored_errors["eval_error"]
+            self._write_ignored_error("evalError", ignored_range)
 
         if self.ignored_errors.get("formula_differs"):
-            range = self.ignored_errors["formula_differs"]
-            self._write_ignored_error("formula", range)
+            ignored_range = self.ignored_errors["formula_differs"]
+            self._write_ignored_error("formula", ignored_range)
 
-        if self.ignored_errors.get("formula_range"):
-            range = self.ignored_errors["formula_range"]
-            self._write_ignored_error("formulaRange", range)
+        if self.ignored_errors.get("formula_ignored_range"):
+            ignored_range = self.ignored_errors["formula_ignored_range"]
+            self._write_ignored_error("formulaIgnored_range", ignored_range)
 
         if self.ignored_errors.get("formula_unlocked"):
-            range = self.ignored_errors["formula_unlocked"]
-            self._write_ignored_error("unlockedFormula", range)
+            ignored_range = self.ignored_errors["formula_unlocked"]
+            self._write_ignored_error("unlockedFormula", ignored_range)
 
         if self.ignored_errors.get("empty_cell_reference"):
-            range = self.ignored_errors["empty_cell_reference"]
-            self._write_ignored_error("emptyCellReference", range)
+            ignored_range = self.ignored_errors["empty_cell_reference"]
+            self._write_ignored_error("emptyCellReference", ignored_range)
 
         if self.ignored_errors.get("list_data_validation"):
-            range = self.ignored_errors["list_data_validation"]
-            self._write_ignored_error("listDataValidation", range)
+            ignored_range = self.ignored_errors["list_data_validation"]
+            self._write_ignored_error("listDataValidation", ignored_range)
 
         if self.ignored_errors.get("calculated_column"):
-            range = self.ignored_errors["calculated_column"]
-            self._write_ignored_error("calculatedColumn", range)
+            ignored_range = self.ignored_errors["calculated_column"]
+            self._write_ignored_error("calculatedColumn", ignored_range)
 
         if self.ignored_errors.get("two_digit_text_year"):
-            range = self.ignored_errors["two_digit_text_year"]
-            self._write_ignored_error("twoDigitTextYear", range)
+            ignored_range = self.ignored_errors["two_digit_text_year"]
+            self._write_ignored_error("twoDigitTextYear", ignored_range)
 
         self._xml_end_tag("ignoredErrors")
 
-    def _write_ignored_error(self, type, range):
+    def _write_ignored_error(self, type, ignored_range):
         # Write the <ignoredError> element.
         attributes = [
-            ("sqref", range),
+            ("sqref", ignored_range),
             (type, 1),
         ]
 

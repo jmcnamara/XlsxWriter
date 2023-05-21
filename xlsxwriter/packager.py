@@ -557,7 +557,7 @@ class Packager(object):
             rels = Relationships()
 
             for link_data in external_links:
-                rels._add_worksheet_relationship(*link_data)
+                rels._add_document_relationship(*link_data)
 
             # Create .rels file such as /xl/worksheets/_rels/sheet1.xml.rels.
             rels._set_xml_writer(
@@ -583,7 +583,7 @@ class Packager(object):
             rels = Relationships()
 
             for link_data in external_links:
-                rels._add_worksheet_relationship(*link_data)
+                rels._add_document_relationship(*link_data)
 
             # Create .rels file such as /xl/chartsheets/_rels/sheet1.xml.rels.
             rels._set_xml_writer(

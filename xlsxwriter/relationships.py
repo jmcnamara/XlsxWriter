@@ -75,12 +75,6 @@ class Relationships(xmlwriter.XMLwriter):
 
         self.relationships.append((rel_type, target, None))
 
-    def _add_worksheet_relationship(self, rel_type, target, target_mode=None):
-        # Add worksheet relationship to sheet.rels xml files.
-        rel_type = document_schema + rel_type
-
-        self.relationships.append((rel_type, target, target_mode))
-
     ###########################################################################
     #
     # XML methods.

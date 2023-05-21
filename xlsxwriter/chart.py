@@ -3047,7 +3047,7 @@ class Chart(xmlwriter.XMLwriter):
         self._xml_start_tag("a:p")
 
         # Write the a:pPr element.
-        self._write_a_p_pr_formula(font)
+        self._write_a_p_pr_rich(font)
 
         # Write the a:endParaRPr element.
         self._write_a_end_para_rpr()
@@ -3056,16 +3056,6 @@ class Chart(xmlwriter.XMLwriter):
 
     def _write_a_p_pr_rich(self, font):
         # Write the <a:pPr> element for rich string titles.
-
-        self._xml_start_tag("a:pPr")
-
-        # Write the a:defRPr element.
-        self._write_a_def_rpr(font)
-
-        self._xml_end_tag("a:pPr")
-
-    def _write_a_p_pr_formula(self, font):
-        # Write the <a:pPr> element for formula titles.
 
         self._xml_start_tag("a:pPr")
 
