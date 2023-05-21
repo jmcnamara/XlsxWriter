@@ -1744,8 +1744,6 @@ class Workbook(xmlwriter.XMLwriter):
                 # Get the data from the worksheet table.
                 data = worksheet._get_range_data(*cells)
 
-                # TODO. Handle SST string ids if required.
-
                 # Add the data to the chart.
                 chart.formula_data[r_id] = data
 

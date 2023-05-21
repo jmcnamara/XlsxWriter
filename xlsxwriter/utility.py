@@ -374,7 +374,6 @@ def quote_sheetname(sheetname):
 
     """
 
-    # TODO. Possibly extend this to quote sheetnames that look like ranges.
     if not sheetname.isalnum() and not sheetname.startswith("'"):
         # Double quote any single quotes.
         sheetname = sheetname.replace("'", "''")

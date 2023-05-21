@@ -1818,9 +1818,6 @@ class Worksheet(xmlwriter.XMLwriter):
         # A hidden worksheet shouldn't be active or selected.
         self.selected = 0
 
-        # TODO. Should add a check to see if the sheet is the global
-        # activesheet or firstsheet and reset them.
-
     def set_first_sheet(self):
         """
         Set current worksheet as the first visible sheet. This is necessary

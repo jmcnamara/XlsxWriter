@@ -1130,7 +1130,6 @@ class Drawing(xmlwriter.XMLwriter):
             self._xml_start_tag("a:gs", attributes)
 
             # Write the a:srgbClr element.
-            # TODO: Wait for a feature request to support transparency.
             color = get_rgb_color(colors[i])
             self._write_a_srgb_clr(color)
 

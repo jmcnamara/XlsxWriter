@@ -268,7 +268,6 @@ class ChartScatter(chart.Chart):
         # Check the type of cached data.
         data_type = self._get_data_type(data)
 
-        # TODO. Can a scatter plot have non-numeric data.
         if data_type == "str":
             # Write the c:numRef element.
             self._write_str_ref(formula, data, data_type)
