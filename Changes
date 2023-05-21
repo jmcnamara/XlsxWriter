@@ -1,4 +1,16 @@
 
+Release 3.1.1 - May 21 2023
+-----------------------------
+
+* Add support for new Excel dynamic functions added in 2023.
+
+  :issue:`984`.
+
+* Added support for adding a color to the `invert_if_negative` chart option.
+
+  :feature:`854`.
+
+
 Release 3.1.0 - April 13 2023
 -----------------------------
 
