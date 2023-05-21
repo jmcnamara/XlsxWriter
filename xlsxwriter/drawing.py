@@ -376,11 +376,11 @@ class Drawing(xmlwriter.XMLwriter):
         # Write the <a16:creationId> element.
 
         xmlns_a_16 = "http://schemas.microsoft.com/office/drawing/2014/main"
-        id = "{00000000-0008-0000-0000-000002000000}"
+        creation_id = "{00000000-0008-0000-0000-000002000000}"
 
         attributes = [
             ("xmlns:a16", xmlns_a_16),
-            ("id", id),
+            ("id", creation_id),
         ]
 
         self._xml_empty_tag("a16:creationId", attributes)
@@ -709,11 +709,7 @@ class Drawing(xmlwriter.XMLwriter):
 
     def _write_xdr_sp_pr(self, index, col_absolute, row_absolute, width, height, shape):
         # Write the <xdr:spPr> element for shapes.
-
-        attributes = []
-        # attributes = [('bwMode', 'auto')]
-
-        self._xml_start_tag("xdr:spPr", attributes)
+        self._xml_start_tag("xdr:spPr")
 
         # Write the a:xfrm element.
         self._write_a_xfrm(col_absolute, row_absolute, width, height, shape)

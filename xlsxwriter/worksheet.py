@@ -2040,8 +2040,8 @@ class Worksheet(xmlwriter.XMLwriter):
                             length += 16
 
                     # Add the string length to the lookup table.
-                    max = col_width_max.get(col_num, 0)
-                    if length > max:
+                    width_max = col_width_max.get(col_num, 0)
+                    if length > width_max:
                         col_width_max[col_num] = length
 
         # Apply the width to the column.
@@ -2566,12 +2566,14 @@ class Worksheet(xmlwriter.XMLwriter):
             options["error_type"] = error_types[options["error_type"]]
 
         # Convert date/times value if required.
-        if options["validate"] in ("date", "time"):
-            if options["value"]:
-                if supported_datetime(options["value"]):
-                    date_time = self._convert_date_time(options["value"])
-                    # Format date number to the same precision as Excel.
-                    options["value"] = "%.16g" % date_time
+        if (
+            options["validate"] in ("date", "time")
+            and options["value"]
+            and supported_datetime(options["value"])
+        ):
+            date_time = self._convert_date_time(options["value"])
+            # Format date number to the same precision as Excel.
+            options["value"] = "%.16g" % date_time
 
             if options["maximum"]:
                 if supported_datetime(options["maximum"]):
@@ -6171,11 +6173,10 @@ class Worksheet(xmlwriter.XMLwriter):
             attributes.append(("topLeftCell", self.top_left_cell))
 
         # Set the zoom level.
-        if self.zoom != 100:
-            if not self.page_view:
-                attributes.append(("zoomScale", self.zoom))
-                if self.zoom_scale_normal:
-                    attributes.append(("zoomScaleNormal", self.zoom))
+        if self.zoom != 100 and not self.page_view:
+            attributes.append(("zoomScale", self.zoom))
+            if self.zoom_scale_normal:
+                attributes.append(("zoomScaleNormal", self.zoom))
 
         attributes.append(("workbookViewId", 0))
 
@@ -7180,7 +7181,7 @@ class Worksheet(xmlwriter.XMLwriter):
             warn("Unknown operator = %s" % operator)
 
         # The 'equal' operator is the default attribute and isn't stored.
-        if not operator == "equal":
+        if operator != "equal":
             attributes.append(("operator", operator))
         attributes.append(("val", val))
 

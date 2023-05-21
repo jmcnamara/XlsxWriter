@@ -939,7 +939,6 @@ class Workbook(xmlwriter.XMLwriter):
         unique_num_formats = {}
         num_formats = []
         index = 164
-        num_format_count = 0
 
         for xf_format in self.xf_formats + self.dxf_formats:
             num_format = xf_format.num_format
@@ -975,7 +974,6 @@ class Workbook(xmlwriter.XMLwriter):
                 # Only increase font count for XF formats (not DXF formats).
                 if xf_format.xf_index:
                     num_formats.append(num_format)
-                    num_format_count += 1
 
         self.num_formats = num_formats
 

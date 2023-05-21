@@ -122,9 +122,8 @@ class ChartBar(chart.Chart):
             subtype = "percentStacked"
 
         # Set a default overlap for stacked charts.
-        if "stacked" in self.subtype:
-            if self.series_overlap_1 is None:
-                self.series_overlap_1 = 100
+        if "stacked" in self.subtype and self.series_overlap_1 is None:
+            self.series_overlap_1 = 100
 
         self._xml_start_tag("c:barChart")
 
