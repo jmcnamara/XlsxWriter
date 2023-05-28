@@ -128,6 +128,7 @@ class TestCalculateSpans(unittest.TestCase):
             ["CONCAT()", "_xlfn.CONCAT()"],
             ["F.DIST()", "_xlfn.F.DIST()"],
             ["F.TEST()", "_xlfn.F.TEST()"],
+            ["IMAGE()", "_xlfn.IMAGE()"],
             ["IMCOSH()", "_xlfn.IMCOSH()"],
             ["IMCSCH()", "_xlfn.IMCSCH()"],
             ["IMSECH()", "_xlfn.IMSECH()"],

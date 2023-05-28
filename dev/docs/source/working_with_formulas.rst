@@ -399,6 +399,7 @@ The following list is taken from
 * ``_xlfn.HYPGEOM.DIST``
 * ``_xlfn.IFNA``
 * ``_xlfn.IFS``
+* ``_xlfn.IMAGE``
 * ``_xlfn.IMCOSH``
 * ``_xlfn.IMCOT``
 * ``_xlfn.IMCSCH``

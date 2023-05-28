@@ -947,6 +947,7 @@ class Worksheet(xmlwriter.XMLwriter):
         formula = re.sub(r"\bHYPGEOM.DIST\(", "_xlfn.HYPGEOM.DIST(", formula)
         formula = re.sub(r"\bIFNA\(", "_xlfn.IFNA(", formula)
         formula = re.sub(r"\bIFS\(", "_xlfn.IFS(", formula)
+        formula = re.sub(r"\bIMAGE\(", "_xlfn.IMAGE(", formula)
         formula = re.sub(r"\bIMCOSH\(", "_xlfn.IMCOSH(", formula)
         formula = re.sub(r"\bIMCOT\(", "_xlfn.IMCOT(", formula)
         formula = re.sub(r"\bIMCSCH\(", "_xlfn.IMCSCH(", formula)
