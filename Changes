@@ -1,6 +1,11 @@
+Release 3.1.2 - May 28 2023
+---------------------------
+
+* Added worksheet page break preview mode via ``worksheet.set_pagebreak_view()``.
+
 
 Release 3.1.1 - May 21 2023
------------------------------
+---------------------------
 
 * Add support for new Excel dynamic functions added in 2023.
 
