@@ -44,13 +44,33 @@ generally need to call this method::
 worksheet.set_page_view()
 -------------------------
 
-.. py:function:: set_page_view()
+.. py:function:: set_page_view(view=1)
 
    Set the page view mode.
+
+   :param int view: 0: Normal, 1: Page Layout, 2: Page Break.
+
 
 This method is used to display the worksheet in "Page View/Layout" mode::
 
     worksheet.set_page_view()
+
+It can also be used to set the other view modes:
+
+- 0: Normal view mode.
+- 1: Page view mode (the default).
+- 2: Page break view mode. Same as ``set_pagebreak_view()``.
+
+worksheet.set_pagebreak_view()
+-------------------------
+
+.. py:function:: set_pagebreak_view()
+
+   Set the page break view mode.
+
+This method is used to display the worksheet in "Page Break Preview" mode::
+
+    worksheet.set_pagebreak_view()
 
 
 worksheet.set_paper()

@@ -3982,7 +3982,22 @@ class Worksheet(xmlwriter.XMLwriter):
         self.orientation = 1
         self.page_setup_changed = True
 
-    def set_page_view(self):
+    def set_page_view(self, view=1):
+        """
+        Set the page view mode.
+
+        Args:
+            0: Normal view mode
+            1: Page view mode (the default)
+            2: Page break view mode
+
+        Returns:
+            Nothing.
+
+        """
+        self.page_view = view
+
+    def set_pagebreak_view(self, view=1):
         """
         Set the page view mode.
 
@@ -3993,7 +4008,7 @@ class Worksheet(xmlwriter.XMLwriter):
             Nothing.
 
         """
-        self.page_view = 1
+        self.page_view = 2
 
     def set_paper(self, paper_size):
         """
@@ -6166,18 +6181,25 @@ class Worksheet(xmlwriter.XMLwriter):
             attributes.append(("showOutlineSymbols", 0))
 
         # Set the page view/layout mode if required.
-        if self.page_view:
+        if self.page_view == 1:
             attributes.append(("view", "pageLayout"))
+        elif self.page_view == 2:
+            attributes.append(("view", "pageBreakPreview"))
 
         # Set the first visible cell.
         if self.top_left_cell != "":
             attributes.append(("topLeftCell", self.top_left_cell))
 
         # Set the zoom level.
-        if self.zoom != 100 and not self.page_view:
+        if self.zoom != 100:
             attributes.append(("zoomScale", self.zoom))
-            if self.zoom_scale_normal:
+
+            if self.page_view == 0 and self.zoom_scale_normal:
                 attributes.append(("zoomScaleNormal", self.zoom))
+            if self.page_view == 1:
+                attributes.append(("zoomScalePageLayoutView", self.zoom))
+            if self.page_view == 2:
+                attributes.append(("zoomScaleSheetLayoutView", self.zoom))
 
         attributes.append(("workbookViewId", 0))
 
