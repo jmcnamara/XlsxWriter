@@ -12,7 +12,7 @@ import operator
 import os
 import re
 import time
-from datetime import datetime
+from datetime import datetime, timezone
 from decimal import Decimal
 from fractions import Fraction
 from struct import unpack
@@ -121,7 +121,7 @@ class Workbook(xmlwriter.XMLwriter):
         self.custom_colors = []
         self.doc_properties = {}
         self.custom_properties = []
-        self.createtime = datetime.utcnow()
+        self.createtime = datetime.now(timezone.utc)
         self.num_vml_files = 0
         self.num_comment_files = 0
         self.x_window = 240

@@ -7,7 +7,7 @@
 #
 
 # Standard packages.
-from datetime import datetime
+from datetime import datetime, timezone
 
 # Package imports.
 from . import xmlwriter
@@ -72,7 +72,7 @@ class Core(xmlwriter.XMLwriter):
     def _datetime_to_iso8601_date(self, date):
         # Convert to a ISO 8601 style "2010-01-01T00:00:00Z" date.
         if not date:
-            date = datetime.utcnow()
+            date = datetime.now(timezone.utc)
 
         return date.strftime("%Y-%m-%dT%H:%M:%SZ")
 
@@ -118,7 +118,7 @@ class Core(xmlwriter.XMLwriter):
 
     def _write_dcterms_created(self):
         # Write the <dcterms:created> element.
-        date = self.properties.get("created", datetime.utcnow())
+        date = self.properties.get("created", datetime.now(timezone.utc))
 
         xsi_type = "dcterms:W3CDTF"
 
@@ -135,7 +135,7 @@ class Core(xmlwriter.XMLwriter):
 
     def _write_dcterms_modified(self):
         # Write the <dcterms:modified> element.
-        date = self.properties.get("created", datetime.utcnow())
+        date = self.properties.get("created", datetime.now(timezone.utc))
 
         xsi_type = "dcterms:W3CDTF"
 
