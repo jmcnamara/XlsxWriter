@@ -142,17 +142,23 @@ class Table(xmlwriter.XMLwriter):
 
         if col_data.get("total_string"):
             attributes.append(("totalsRowLabel", col_data["total_string"]))
+        elif col_data.get("total_formula"):
+            attributes.append(("totalsRowFunction", "custom"))
         elif col_data.get("total_function"):
             attributes.append(("totalsRowFunction", col_data["total_function"]))
 
         if "format" in col_data and col_data["format"] is not None:
             attributes.append(("dataDxfId", col_data["format"]))
 
-        if col_data.get("formula"):
+        if col_data.get("formula") or col_data.get("total_formula"):
             self._xml_start_tag("tableColumn", attributes)
 
-            # Write the calculatedColumnFormula element.
-            self._write_calculated_column_formula(col_data["formula"])
+            if col_data.get("formula"):
+                # Write the calculatedColumnFormula element.
+                self._write_calculated_column_formula(col_data["formula"])
+            if col_data.get("total_formula"):
+                # Write the totalsRowFormula element
+                self._write_totals_row_formula(col_data["total_formula"])
 
             self._xml_end_tag("tableColumn")
         else:
@@ -182,3 +188,6 @@ class Table(xmlwriter.XMLwriter):
     def _write_calculated_column_formula(self, formula):
         # Write the <calculatedColumnFormula> element.
         self._xml_data_element("calculatedColumnFormula", formula)
+
+    def _write_totals_row_formula(self, formula):
+        self._xml_data_element("totalsRowFormula", formula)

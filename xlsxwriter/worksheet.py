@@ -3342,6 +3342,7 @@ class Worksheet(xmlwriter.XMLwriter):
                 "name": "Column" + str(col_id),
                 "total_string": "",
                 "total_function": "",
+                "total_formula": "",
                 "total_value": 0,
                 "formula": "",
                 "format": None,
@@ -3410,6 +3411,22 @@ class Worksheet(xmlwriter.XMLwriter):
                         formula = self._table_function_to_formula(
                             function, col_data["name"]
                         )
+
+                        value = user_data.get("total_value", 0)
+
+                        self._write_formula(last_row, col_num, formula, xformat, value)
+
+                    elif user_data.get("total_formula"):
+                        formula = user_data["total_formula"]
+
+                        # Remove the formula '=' sign if it exists.
+                        if formula.startswith("="):
+                            formula = formula.lstrip("=")
+
+                        # Convert Excel 2010 "@" ref to 2007 "#This Row".
+                        formula = formula.replace("@", "[#This Row],")
+
+                        col_data["total_formula"] = formula
 
                         value = user_data.get("total_value", 0)
 

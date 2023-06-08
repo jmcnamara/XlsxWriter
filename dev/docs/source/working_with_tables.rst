@@ -258,6 +258,8 @@ The sub-properties that can be set are:
 +----------------+
 | total_function |
 +----------------+
+| total_formula  |
++----------------+
 | total_value    |
 +----------------+
 | format         |
@@ -353,12 +355,15 @@ The supported totals row ``SUBTOTAL`` functions are:
 | var        |
 +------------+
 
-User defined functions or formulas aren't supported.
+Custom formula are supported using ``total_formula`` parameter, which accepts
+any valid formula. If ``total_function`` is specified, ``total_formula`` is
+ignored.
 
-It is also possible to set a calculated value for the ``total_function`` using
-the ``total_value`` sub property. This is only necessary when creating
-workbooks for applications that cannot calculate the value of formulas
-automatically. This is similar to setting the ``value`` optional property in
+It is also possible to set a calculated value for the ``total_function`` or
+``total_formula`` using the ``total_value`` sub property. This is only
+necessary when creating workbooks for applications that cannot calculate the
+value of formulas automatically. This is similar to setting the ``value``
+optional property in
 :func:`write_formula`::
 
 
