@@ -574,7 +574,9 @@ class Packager(object):
 
             index += 1
 
-            external_links = worksheet.external_drawing_links
+            external_links = (
+                worksheet.external_drawing_links + worksheet.external_vml_links
+            )
 
             if not external_links:
                 continue
