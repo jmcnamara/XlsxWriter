@@ -94,6 +94,8 @@ class Chart(xmlwriter.XMLwriter):
         self.title_layout = None
         self.title_overlay = None
         self.title_none = False
+        self.subtitle_font = None
+        self.subtitle_name = None
         self.date_category = False
         self.date_1904 = False
         self.remove_timezone = False
@@ -343,6 +345,26 @@ class Chart(xmlwriter.XMLwriter):
 
         # Set the automatic title option.
         self.title_none = options.get("none")
+
+    def set_subtitle(self, options=None):
+        """
+        Set the chart subtitle options.
+        Note: Formula is not supported
+
+        Args:
+            options: A dictionary of chart subtitle options.
+
+        Returns:
+            Nothing.
+
+        """
+        if options is None:
+            options = {}
+
+        self.subtitle_name = options.get("name")
+
+        # Set the font properties if present.
+        self.subtitle_font = self._convert_font_args(options.get("name_font"))
 
     def set_legend(self, options):
         """
@@ -1624,6 +1646,8 @@ class Chart(xmlwriter.XMLwriter):
                     self.title_font,
                     self.title_layout,
                     self.title_overlay,
+                    subtitle=self.subtitle_name,
+                    subtitle_font=self.subtitle_font,
                 )
 
         # Write the c:plotArea element.
@@ -2907,13 +2931,24 @@ class Chart(xmlwriter.XMLwriter):
         # Write the <c:autoTitleDeleted> element.
         self._xml_empty_tag("c:autoTitleDeleted", [("val", 1)])
 
-    def _write_title_rich(self, title, is_y_axis, font, layout, overlay=False):
+    def _write_title_rich(
+        self,
+        title,
+        is_y_axis,
+        font,
+        layout,
+        overlay=False,
+        subtitle=None,
+        subtitle_font=None,
+    ):
         # Write the <c:title> element for a rich string.
 
         self._xml_start_tag("c:title")
 
         # Write the c:tx element.
-        self._write_tx_rich(title, is_y_axis, font)
+        self._write_tx_rich(
+            title, is_y_axis, font, subtitle=subtitle, subtitle_font=subtitle_font
+        )
 
         # Write the c:layout element.
         self._write_layout(layout, "text")
@@ -2946,13 +2981,20 @@ class Chart(xmlwriter.XMLwriter):
 
         self._xml_end_tag("c:title")
 
-    def _write_tx_rich(self, title, is_y_axis, font):
+    def _write_tx_rich(self, title, is_y_axis, font, subtitle=None, subtitle_font=None):
         # Write the <c:tx> element.
 
         self._xml_start_tag("c:tx")
 
         # Write the c:rich element.
-        self._write_rich(title, font, is_y_axis, ignore_rich_pr=False)
+        self._write_rich(
+            title,
+            font,
+            is_y_axis,
+            ignore_rich_pr=False,
+            subtitle=subtitle,
+            subtitle_font=subtitle_font,
+        )
 
         self._xml_end_tag("c:tx")
 
@@ -2980,7 +3022,9 @@ class Chart(xmlwriter.XMLwriter):
 
         self._xml_end_tag("c:tx")
 
-    def _write_rich(self, title, font, is_y_axis, ignore_rich_pr):
+    def _write_rich(
+        self, title, font, is_y_axis, ignore_rich_pr, subtitle=None, subtitle_font=None
+    ):
         # Write the <c:rich> element.
 
         if font and font.get("rotation") is not None:
@@ -2998,6 +3042,9 @@ class Chart(xmlwriter.XMLwriter):
 
         # Write the a:p element.
         self._write_a_p_rich(title, font, ignore_rich_pr)
+
+        if subtitle:
+            self._write_a_p_rich(subtitle, subtitle_font, ignore_rich_pr)
 
         self._xml_end_tag("c:rich")
 
