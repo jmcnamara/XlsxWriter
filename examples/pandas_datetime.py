@@ -42,8 +42,8 @@ writer = pd.ExcelWriter(
 # Convert the dataframe to an XlsxWriter Excel object.
 df.to_excel(writer, sheet_name="Sheet1")
 
-# Get the xlsxwriter workbook and worksheet objects. in order to set the column
-# widths, to make the dates clearer.
+# Get the xlsxwriter workbook and worksheet objects in order
+# to set the column widths and make the dates clearer.
 workbook = writer.book
 worksheet = writer.sheets["Sheet1"]
 
