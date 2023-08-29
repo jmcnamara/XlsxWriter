@@ -1329,7 +1329,7 @@ class Workbook(xmlwriter.XMLwriter):
                 )
 
             # Prepare the first page header images.
-            for index in range(header_image_count):
+            for index in range(first_header_image_count):
                 filename = sheet.first_header_images[index][0]
                 image_data = sheet.first_header_images[index][1]
                 position = sheet.first_header_images[index][2]
@@ -1365,7 +1365,7 @@ class Workbook(xmlwriter.XMLwriter):
                 )
 
             # Prepare the first page footer images.
-            for index in range(footer_image_count):
+            for index in range(first_footer_image_count):
                 filename = sheet.first_footer_images[index][0]
                 image_data = sheet.first_footer_images[index][1]
                 position = sheet.first_footer_images[index][2]
