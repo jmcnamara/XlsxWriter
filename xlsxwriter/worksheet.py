@@ -2031,7 +2031,7 @@ class Worksheet(xmlwriter.XMLwriter):
                         elif isinstance(cell.value, str):
                             length = xl_pixel_width(cell.value)
 
-                        elif type(cell.value) == bool:
+                        elif isinstance(cell.value, bool):
                             if cell.value:
                                 length = 31
                             else:
@@ -2615,7 +2615,7 @@ class Worksheet(xmlwriter.XMLwriter):
             return -2
 
         # Check that the input list doesn't exceed the maximum length.
-        if options["validate"] == "list" and type(options["value"]) is list:
+        if options["validate"] == "list" and isinstance(options["value"], list):
             formula = self._csv_join(*options["value"])
             if len(formula) > 255:
                 warn(
@@ -3553,12 +3553,12 @@ class Worksheet(xmlwriter.XMLwriter):
 
         # We handle single location/range values or list of values.
         if "location" in options:
-            if type(options["location"]) is list:
+            if isinstance(options["location"], list):
                 sparkline["locations"] = options["location"]
             else:
                 sparkline["locations"] = [options["location"]]
 
-        if type(options["range"]) is list:
+        if isinstance(options["range"], list):
             sparkline["ranges"] = options["range"]
         else:
             sparkline["ranges"] = [options["range"]]
@@ -6761,7 +6761,7 @@ class Worksheet(xmlwriter.XMLwriter):
         elif type_cell_name == "Formula":
             # Write a formula. First check the formula value type.
             value = cell.value
-            if type(cell.value) == bool:
+            if isinstance(cell.value, bool):
                 attributes.append(("t", "b"))
                 if cell.value:
                     value = 1
@@ -7436,7 +7436,7 @@ class Worksheet(xmlwriter.XMLwriter):
     def _write_formula_1(self, formula):
         # Write the <formula1> element.
 
-        if type(formula) is list:
+        if isinstance(formula, list):
             formula = self._csv_join(*formula)
             formula = '"%s"' % formula
         else:

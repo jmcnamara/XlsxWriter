@@ -145,7 +145,7 @@ class ChartPie(chart.Chart):
         delete_series = []
         overlay = 0
 
-        if legend.get("delete_series") and type(legend["delete_series"]) is list:
+        if legend.get("delete_series") and isinstance(legend["delete_series"], list):
             delete_series = legend["delete_series"]
 
         if position.startswith("overlay_"):

@@ -836,7 +836,7 @@ class Chart(xmlwriter.XMLwriter):
         # Convert and list of row col values to a range formula.
 
         # If it isn't an array ref it is probably a formula already.
-        if type(data) is not list:
+        if not isinstance(data, list):
             # Check for unquoted sheetnames.
             if data and " " in data and "'" not in data and self.warn_sheetname:
                 warn(
@@ -882,7 +882,7 @@ class Chart(xmlwriter.XMLwriter):
 
             # Check for strings that would evaluate to float like
             # '1.1_1' of ' 1'.
-            if type(token) == str and re.search("[_ ]", token):
+            if isinstance(token, str) and re.search("[_ ]", token):
                 # Assume entire data series is string data.
                 return "str"
 
@@ -2772,7 +2772,7 @@ class Chart(xmlwriter.XMLwriter):
         delete_series = []
         overlay = 0
 
-        if legend.get("delete_series") and type(legend["delete_series"]) is list:
+        if legend.get("delete_series") and isinstance(legend["delete_series"], list):
             delete_series = legend["delete_series"]
 
         if position.startswith("overlay_"):

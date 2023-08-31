@@ -244,7 +244,7 @@ class Shape(object):
         }
 
         # Check the colors array exists and is valid.
-        if "colors" not in gradient or type(gradient["colors"]) != list:
+        if "colors" not in gradient or not isinstance(gradient["colors"], list):
             warn("Gradient must include colors list")
             return
 
