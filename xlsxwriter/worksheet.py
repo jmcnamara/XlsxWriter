@@ -3342,6 +3342,7 @@ class Worksheet(xmlwriter.XMLwriter):
                 "name": "Column" + str(col_id),
                 "total_string": "",
                 "total_function": "",
+                "custom_total": "",
                 "total_value": 0,
                 "formula": "",
                 "format": None,
@@ -3394,22 +3395,36 @@ class Worksheet(xmlwriter.XMLwriter):
                     # Handle the function for the total row.
                     if user_data.get("total_function"):
                         function = user_data["total_function"]
-
-                        # Massage the function name.
-                        function = function.lower()
-                        function = function.replace("_", "")
-                        function = function.replace(" ", "")
-
-                        if function == "countnums":
+                        if function == "count_nums":
                             function = "countNums"
-                        if function == "stddev":
+                        if function == "std_dev":
                             function = "stdDev"
 
-                        col_data["total_function"] = function
-
-                        formula = self._table_function_to_formula(
-                            function, col_data["name"]
+                        subtotals = set(
+                            [
+                                "average",
+                                "countNums",
+                                "count",
+                                "max",
+                                "min",
+                                "stdDev",
+                                "sum",
+                                "var",
+                            ]
                         )
+
+                        if function in subtotals:
+                            formula = self._table_function_to_formula(
+                                function, col_data["name"]
+                            )
+                        else:
+                            formula = function
+                            if formula.startswith("="):
+                                formula = formula.lstrip("=")
+                            col_data["custom_total"] = formula
+                            function = "custom"
+
+                        col_data["total_function"] = function
 
                         value = user_data.get("total_value", 0)
 

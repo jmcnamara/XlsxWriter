@@ -353,7 +353,7 @@ The supported totals row ``SUBTOTAL`` functions are:
 | var        |
 +------------+
 
-User defined functions or formulas aren't supported.
+User defined functions or formulas can also be added.
 
 It is also possible to set a calculated value for the ``total_function`` using
 the ``total_value`` sub property. This is only necessary when creating
