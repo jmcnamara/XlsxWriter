@@ -630,11 +630,47 @@ existing Excel xlsm file::
 
     workbook.add_vba_project('./vbaProject.bin')
 
-Only one ``vbaProject.bin`` file can be added per workbook.
+Only one `vbaProject.bin` file can be added per workbook. The name doesn't
+have to be `vbaProject.bin`. Any suitable path/name for an existing VBA bin
+file will do. 
 
 The ``is_stream`` parameter is used to indicate that ``vba_project`` refers to
 a BytesIO byte stream rather than a physical file. This can be used when
 working with the workbook ``in_memory`` mode.
+
+See :ref:`macros` for more details.
+
+
+workbook.add_signed_vba_project()
+---------------------------------
+
+.. py:function:: add_signed_vba_project(self, 
+                                        vba_project, 
+                                        signature [, 
+                                        project_is_stream, [
+                                        signature_is_stream ]]):
+
+   Add a vbaProject binary and a vbaProjectSignature binary to the Excel workbook.
+
+   :param      vba_project:         The vbaProject binary file name.
+   :param      signature:           The vbaProjectSignature binary file name.
+   :param bool project_is_stream:   The vba_project is an in memory byte stream.
+   :param bool signature_is_stream: The signature is an in memory byte stream.
+
+The ``add_signed_vba_project()`` method can be used to add digitally 
+signed macros or functions to a workbook. The method adds a binary VBA project 
+file and a binary VBA project signature file that have been extracted from an 
+existing Excel xlsm file with digitally signed macros:
+
+    workbook.add_signed_vba_project('./vbaProject.bin', './vbaProjectSignature.bin')
+
+Only one `vbaProject.bin` file can be added per workbook. The name doesn't
+have to be `vbaProject.bin`. Any suitable path/name for an existing VBA bin
+file will do. The same applies for `vbaProjectSignature.bin`.
+
+The ``project_is_stream`` (``signature_is_stream``, resp.) parameter is used to indicate
+that ``vba_project`` (``signature``, resp.) refers to a BytesIO byte stream rather than
+a physical file. This can be used when working with the workbook ``in_memory`` mode.
 
 See :ref:`macros` for more details.
 
