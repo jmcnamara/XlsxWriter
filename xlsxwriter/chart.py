@@ -68,7 +68,8 @@ class Chart(xmlwriter.XMLwriter):
         self.x2_axis = {}
         self.chart_name = ""
         self.show_blanks = "gap"
-        self.show_hidden = 0
+        self.show_na_as_empty = False
+        self.show_hidden = False
         self.show_crosses = 1
         self.width = 480
         self.height = 288
@@ -427,17 +428,29 @@ class Chart(xmlwriter.XMLwriter):
 
         self.show_blanks = option
 
+    def show_na_as_empty_cell(self):
+        """
+        Display ``#N/A`` on charts as blank/empty cells.
+
+        Args:
+            None.
+
+        Returns:
+            Nothing.
+        """
+        self.show_na_as_empty = True
+
     def show_hidden_data(self):
         """
         Display data on charts from hidden rows or columns.
 
         Args:
-            option: A string representing the display option.
+            None.
 
         Returns:
             Nothing.
         """
-        self.show_hidden = 1
+        self.show_hidden = True
 
     def set_size(self, options=None):
         """
@@ -1638,6 +1651,10 @@ class Chart(xmlwriter.XMLwriter):
         # Write the c:dispBlanksAs element.
         self._write_disp_blanks_as()
 
+        # Write the c:extLst element.
+        if self.show_na_as_empty:
+            self._write_c_ext_lst_display_na()
+
         self._xml_end_tag("c:chart")
 
     def _write_disp_blanks_as(self):
@@ -1821,11 +1838,11 @@ class Chart(xmlwriter.XMLwriter):
 
         # Write the c:extLst element.
         if series.get("inverted_color"):
-            self._write_c_ext_lst(series["inverted_color"])
+            self._write_c_ext_lst_inverted_color(series["inverted_color"])
 
         self._xml_end_tag("c:ser")
 
-    def _write_c_ext_lst(self, color):
+    def _write_c_ext_lst_inverted_color(self, color):
         # Write the <c:extLst> element for the inverted fill color.
 
         uri = "{6F2FDCE9-48DA-4B69-8628-5D25D57E5C99}"
@@ -1847,6 +1864,27 @@ class Chart(xmlwriter.XMLwriter):
 
         self._xml_end_tag("c14:spPr")
         self._xml_end_tag("c14:invertSolidFillFmt")
+        self._xml_end_tag("c:ext")
+        self._xml_end_tag("c:extLst")
+
+    def _write_c_ext_lst_display_na(self):
+        # Write the <c:extLst> element for the display NA as empty cell option.
+
+        uri = "{56B9EC1D-385E-4148-901F-78D8002777C0}"
+        xmlns_c_16 = "http://schemas.microsoft.com/office/drawing/2017/03/chart"
+
+        attributes1 = [
+            ("uri", uri),
+            ("xmlns:c16r3", xmlns_c_16),
+        ]
+
+        attributes2 = [("val", 1)]
+
+        self._xml_start_tag("c:extLst")
+        self._xml_start_tag("c:ext", attributes1)
+        self._xml_start_tag("c16r3:dataDisplayOptions16")
+        self._xml_empty_tag("c16r3:dispNaAsBlank", attributes2)
+        self._xml_end_tag("c16r3:dataDisplayOptions16")
         self._xml_end_tag("c:ext")
         self._xml_end_tag("c:extLst")
 

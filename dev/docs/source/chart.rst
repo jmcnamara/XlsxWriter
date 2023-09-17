@@ -1108,6 +1108,19 @@ The available options are::
     'span'  # Blank data is connected with a line.
 
 
+chart.show_na_as_empty_cell()
+------------------------
+
+.. py:function:: show_na_as_empty_cell()
+
+   Display ``#N/A`` on charts as blank/empty cells.
+
+
+Display ``#N/A`` values on a chart as blank/empty cells.::
+
+    chart.show_na_as_empty_cell()
+
+
 chart.show_hidden_data()
 ------------------------
 
