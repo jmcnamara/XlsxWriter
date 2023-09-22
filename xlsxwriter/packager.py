@@ -637,13 +637,10 @@ class Packager(object):
 
     def _write_vba_project_rels_file(self):
         # Write the vbaProject.rels xml file if signed macros exist.
-        vba_project = self.workbook.vba_project
         vba_project_signature = self.workbook.vba_project_signature
 
         if not vba_project_signature:
             return
-        if not vba_project:
-            return  # no VBA project: do not add signature
 
         # Create the vbaProject .rels dir.
         rels = Relationships()
@@ -703,14 +700,11 @@ class Packager(object):
 
     def _add_vba_project_signature(self):
         # Copy in a vbaProjectSignature.bin file.
-        vba_project = self.workbook.vba_project
         vba_project_signature = self.workbook.vba_project_signature
         vba_project_signature_is_stream = self.workbook.vba_project_signature_is_stream
 
         if not vba_project_signature:
             return
-        if not vba_project:
-            return  # no VBA project: do not add signature
 
         xml_vba_signature_name = "xl/vbaProjectSignature.bin"
 

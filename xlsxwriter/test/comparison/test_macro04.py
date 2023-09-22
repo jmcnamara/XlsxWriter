@@ -17,7 +17,7 @@ class TestCompareXLSXFiles(ExcelComparisonTest):
     """
 
     def setUp(self):
-        self.set_filename("macro_signed.xlsm")
+        self.set_filename("macro04.xlsm")
 
     def test_create_file(self):
         """Test the creation of a simple XlsxWriter file."""
