@@ -140,7 +140,7 @@ to format the XML for clarity::
    versions of Excel.
 
 
-Adding a VBA macro signature file to a libxlsxwriter file
+Adding a VBA macro signature file to an XlsxWriter file
 ---------------------------------------------------------
 
 VBA macros can be signed in Excel to allow for blocking execution of unsigned 
@@ -149,7 +149,7 @@ macros in certain environments, for example.
 The `vba_extract.py` utility can be used to extract the `vbaProject.bin` and
 `vbaProjectSignature.bin` files from an existing xlsm file with signed macros.
 
-To add these files to the libxlsxwriter workbook using the
+To add these files to the XlsxWriter workbook using the
 :func:`add_signed_vba_project` method::
 
     workbook.add_signed_vba_project('./vbaProject.bin', './vbaProjectSignature.bin');
