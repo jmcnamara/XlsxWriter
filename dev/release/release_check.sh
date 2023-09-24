@@ -211,7 +211,6 @@ function check_versions {
 #
 function check_pdf_doc {
 
-    clear
     echo
     echo -n     "Is the PDF doc up to date?   [y/N]: "
     read RESPONSE
@@ -223,6 +222,29 @@ function check_pdf_doc {
         if [ "$RESPONSE" == "y" ]; then
             make -C dev/docs latexpdf
             cp -r dev/docs/build/latex/XlsxWriter.pdf docs
+        fi
+    fi
+}
+
+
+#############################################################
+#
+# Check that the docs build correctly.
+#
+function check_doc_build {
+
+    clear
+    echo
+    echo -n     "Are the docs building cleanly?   [y/N]: "
+    read RESPONSE
+
+    if [ "$RESPONSE" != "y" ]; then
+        echo -n "    Build docs?             [y/N]: "
+        read RESPONSE
+
+        if [ "$RESPONSE" == "y" ]; then
+            make clean
+            make docs
         fi
     fi
 }
@@ -263,6 +285,7 @@ check_test_flake8
 check_testwarnings
 check_changefile
 check_versions
+check_doc_build
 check_pdf_doc
 check_git_status
 

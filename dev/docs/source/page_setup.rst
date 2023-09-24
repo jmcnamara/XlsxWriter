@@ -62,7 +62,7 @@ It can also be used to set the other view modes:
 - 2: Page break view mode. Same as ``set_pagebreak_view()``.
 
 worksheet.set_pagebreak_view()
--------------------------
+------------------------------
 
 .. py:function:: set_pagebreak_view()
 

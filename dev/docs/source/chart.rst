@@ -1109,7 +1109,7 @@ The available options are::
 
 
 chart.show_na_as_empty_cell()
-------------------------
+-----------------------------
 
 .. py:function:: show_na_as_empty_cell()
 

@@ -644,8 +644,7 @@ See :ref:`macros` for more details.
 workbook.add_signed_vba_project()
 ---------------------------------
 
-.. py:function:: add_signed_vba_project(self,
-                                        vba_project,
+.. py:function:: add_signed_vba_project(vba_project,
                                         signature [,
                                         project_is_stream, [
                                         signature_is_stream ]]):

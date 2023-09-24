@@ -1,9 +1,20 @@
 
+Release 3.1.5 - September 24 2023
+---------------------------------
+
+* Added support for adding signed VBA macros to workbooks via the via the
+  :func:`add_signed_vba_project` method. See `Working with VBA Macros`_.
+
+  :feature:`1008`.
+
+  .. _Working with VBA Macros: https://xlsxwriter.readthedocs.io/working_with_macros.html
+
+
 Release 3.1.4 - September 18 2023
 ---------------------------------
 
 * Added support for enabling the Excel "Show #N/A as an empty cell" chart option
-  via the ``chart.show_na_as_empty_cell()`` method.
+  via the :func:`show_na_as_empty_cell` method.
 
   :feature:`1008`.
 
@@ -19,7 +30,7 @@ Release 3.1.3 - September 8 2023
 Release 3.1.2 - May 28 2023
 ---------------------------
 
-* Added worksheet page break preview mode via ``worksheet.set_pagebreak_view()``.
+* Added worksheet page break preview mode via :func:`set_pagebreak_view()`.
 
 
 Release 3.1.1 - May 21 2023

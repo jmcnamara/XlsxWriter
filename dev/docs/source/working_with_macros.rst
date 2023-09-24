@@ -144,7 +144,7 @@ Adding a VBA macro signature file to an XlsxWriter file
 ---------------------------------------------------------
 
 VBA macros can be signed in Excel to allow for blocking execution of unsigned
-macros in certain environments, for example.
+macros in certain environments.
 
 The ``vba_extract.py`` utility can be used to extract the ``vbaProject.bin`` and
 ``vbaProjectSignature.bin`` files from an existing xlsm file with signed macros.
