@@ -131,7 +131,9 @@ class Workbook(xmlwriter.XMLwriter):
         self.tab_ratio = 600
         self.str_table = SharedStringTable()
         self.vba_project = None
-        self.vba_is_stream = False
+        self.vba_project_is_stream = False
+        self.vba_project_signature = None
+        self.vba_project_signature_is_stream = False
         self.vba_codename = None
         self.image_types = {}
         self.images = []
@@ -304,7 +306,34 @@ class Workbook(xmlwriter.XMLwriter):
             self.vba_codename = "ThisWorkbook"
 
         self.vba_project = vba_project
-        self.vba_is_stream = is_stream
+        self.vba_project_is_stream = is_stream
+
+    def add_signed_vba_project(
+        self, vba_project, signature, project_is_stream=False, signature_is_stream=False
+    ):
+        """
+        Add a vbaProject binary and a vbaProjectSignature binary to the
+        Excel workbook.
+
+        Args:
+            vba_project:           The vbaProject binary file name.
+            signature:             The vbaProjectSignature binary file name.
+            project_is_stream:     vba_project is an in memory byte stream.
+            signature_is_stream:   signature is an in memory byte stream.
+
+        Returns:
+            Nothing.
+
+        """
+        if self.add_vba_project(vba_project, project_is_stream) == -1:
+            return -1
+
+        if not signature_is_stream and not os.path.exists(signature):
+            warn("VBA project signature binary file '%s' not found." % signature)
+            return -1
+
+        self.vba_project_signature = signature
+        self.vba_project_signature_is_stream = signature_is_stream
 
     def close(self):
         """

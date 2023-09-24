@@ -158,6 +158,15 @@ class ContentTypes(xmlwriter.XMLwriter):
 
         self._add_default(("bin", "application/vnd.ms-office.vbaProject"))
 
+    def _add_vba_project_signature(self):
+        # Add a vbaProjectSignature to the ContentTypes overrides.
+        self._add_override(
+            (
+                "/xl/vbaProjectSignature.bin",
+                "application/vnd.ms-office.vbaProjectSignature",
+            )
+        )
+
     def _add_custom_properties(self):
         # Add the custom properties to the ContentTypes overrides.
         self._add_override(

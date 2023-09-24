@@ -63,7 +63,7 @@ class Packager(object):
         | | |____ theme1.xml
         | |
         | |_____rels
-        | |____ workbook.xml.rels
+        |   |____ workbook.xml.rels
         |
         |_____rels
           |____ .rels
@@ -151,6 +151,8 @@ class Packager(object):
         self._write_drawing_rels_files()
         self._add_image_files()
         self._add_vba_project()
+        self._add_vba_project_signature()
+        self._write_vba_project_rels_file()
         self._write_core_file()
         self._write_app_file()
         self._write_metadata_file()
@@ -402,9 +404,11 @@ class Packager(object):
         if self.workbook.str_table.count:
             content._add_shared_strings()
 
-        # Add vbaProject if present.
+        # Add vbaProject (and optionally vbaProjectSignature) if present.
         if self.workbook.vba_project:
             content._add_vba_project()
+            if self.workbook.vba_project_signature:
+                content._add_vba_project_signature()
 
         # Add the custom properties if present.
         if self.workbook.custom_properties:
@@ -631,6 +635,23 @@ class Packager(object):
         )
         rels._assemble_xml_file()
 
+    def _write_vba_project_rels_file(self):
+        # Write the vbaProject.rels xml file if signed macros exist.
+        vba_project_signature = self.workbook.vba_project_signature
+
+        if not vba_project_signature:
+            return
+
+        # Create the vbaProject .rels dir.
+        rels = Relationships()
+
+        rels._add_ms_package_relationship(
+            "/vbaProjectSignature", "vbaProjectSignature.bin"
+        )
+
+        rels._set_xml_writer(self._filename("xl/_rels/vbaProject.bin.rels"))
+        rels._assemble_xml_file()
+
     def _add_image_files(self):
         # Write the /xl/media/image?.xml files.
         workbook = self.workbook
@@ -677,10 +698,45 @@ class Packager(object):
 
             index += 1
 
+    def _add_vba_project_signature(self):
+        # Copy in a vbaProjectSignature.bin file.
+        vba_project_signature = self.workbook.vba_project_signature
+        vba_project_signature_is_stream = self.workbook.vba_project_signature_is_stream
+
+        if not vba_project_signature:
+            return
+
+        xml_vba_signature_name = "xl/vbaProjectSignature.bin"
+
+        if not self.in_memory:
+            # In file mode we just write or copy the VBA project signature file.
+            os_filename = self._filename(xml_vba_signature_name)
+
+            if vba_project_signature_is_stream:
+                # The data is in a byte stream. Write it to the target.
+                os_file = open(os_filename, mode="wb")
+                os_file.write(vba_project_signature.getvalue())
+                os_file.close()
+            else:
+                copy(vba_project_signature, os_filename)
+
+        else:
+            # For in-memory mode we read the vba into a stream.
+            if vba_project_signature_is_stream:
+                # The data is already in a byte stream.
+                os_filename = vba_project_signature
+            else:
+                vba_file = open(vba_project_signature, mode="rb")
+                vba_data = vba_file.read()
+                os_filename = BytesIO(vba_data)
+                vba_file.close()
+
+            self.filenames.append((os_filename, xml_vba_signature_name, True))
+
     def _add_vba_project(self):
         # Copy in a vbaProject.bin file.
         vba_project = self.workbook.vba_project
-        vba_is_stream = self.workbook.vba_is_stream
+        vba_project_is_stream = self.workbook.vba_project_is_stream
 
         if not vba_project:
             return
@@ -691,7 +747,7 @@ class Packager(object):
             # In file mode we just write or copy the VBA file.
             os_filename = self._filename(xml_vba_name)
 
-            if vba_is_stream:
+            if vba_project_is_stream:
                 # The data is in a byte stream. Write it to the target.
                 os_file = open(os_filename, mode="wb")
                 os_file.write(vba_project.getvalue())
@@ -701,7 +757,7 @@ class Packager(object):
 
         else:
             # For in-memory mode we read the vba into a stream.
-            if vba_is_stream:
+            if vba_project_is_stream:
                 # The data is already in a byte stream.
                 os_filename = vba_project
             else:
