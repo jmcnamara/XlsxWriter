@@ -249,3 +249,12 @@ class ChartPie(chart.Chart):
         attributes = [("val", self.rotation)]
 
         self._xml_empty_tag("c:firstSliceAng", attributes)
+
+    def _write_show_leader_lines(self):
+        # Write the <c:showLeaderLines> element.
+        #
+        # This is for Pie/Doughnut charts. Other chart types only supported
+        # leader lines after Excel 2015 via an extension element.
+        attributes = [("val", 1)]
+
+        self._xml_empty_tag("c:showLeaderLines", attributes)

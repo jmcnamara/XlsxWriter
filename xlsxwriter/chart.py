@@ -3856,11 +3856,23 @@ class Chart(xmlwriter.XMLwriter):
 
     def _write_show_leader_lines(self):
         # Write the <c:showLeaderLines> element.
-        val = 1
+        #
+        # This is different for Pie/Doughnut charts. Other chart types only
+        # supported leader lines after Excel 2015 via an extension element.
+        #
+        uri = "{CE6537A1-D6FC-4f65-9D91-7224C49458BB}"
+        xmlns_c_15 = "http://schemas.microsoft.com/office/drawing/2012/chart"
 
-        attributes = [("val", val)]
+        attributes = [
+            ("uri", uri),
+            ("xmlns:c15", xmlns_c_15),
+        ]
 
-        self._xml_empty_tag("c:showLeaderLines", attributes)
+        self._xml_start_tag("c:extLst")
+        self._xml_start_tag("c:ext", attributes)
+        self._xml_empty_tag("<c15:showLeaderLines", [("val", 1)])
+        self._xml_end_tag("c:ext")
+        self._xml_end_tag("c:extLst")
 
     def _write_d_lbl_pos(self, val):
         # Write the <c:dLblPos> element.

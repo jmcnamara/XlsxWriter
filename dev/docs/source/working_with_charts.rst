@@ -542,7 +542,7 @@ only available for Pie and Doughnut chart variants::
    :scale: 75 %
 
 The ``leader_lines`` property is used to turn on *Leader Lines* for the data
-label of a series. It is mainly used for pie charts::
+label of a series::
 
     chart.add_series({
         'values':      '=Sheet1!$A$1:$A$6',
