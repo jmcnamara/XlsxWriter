@@ -3388,9 +3388,7 @@ class Worksheet(xmlwriter.XMLwriter):
                         formula = formula.replace("@", "[#This Row],")
 
                         col_data["formula"] = formula
-
-                        for row in range(first_data_row, last_data_row + 1):
-                            self._write_formula(row, col_num, formula, xformat)
+                        # We write the formulas below after the table data.
 
                     # Handle the function for the total row.
                     if user_data.get("total_function"):
@@ -3474,6 +3472,17 @@ class Worksheet(xmlwriter.XMLwriter):
                             self._write(row, col, token, None)
                     j += 1
                 i += 1
+
+        # Write any columns formulas after the user supplied table data to
+        # overwrite it if required.
+        for col_id, col_num in enumerate(range(first_col, last_col + 1)):
+            column_data = table["columns"][col_id]
+            if column_data and column_data["formula"]:
+                formula_format = col_formats.get(col_id)
+                formula = column_data["formula"]
+
+                for row in range(first_data_row, last_data_row + 1):
+                    self._write_formula(row, col_num, formula, formula_format)
 
         # Store the table data.
         self.tables.append(table)
