@@ -1933,8 +1933,10 @@ class Workbook(xmlwriter.XMLwriter):
             ("sheetId", sheet_id),
         ]
 
-        if hidden:
+        if hidden == 1:
             attributes.append(("state", "hidden"))
+        elif hidden == 2:
+            attributes.append(("state", "veryHidden"))
 
         attributes.append(("r:id", "rId" + str(sheet_id)))
 

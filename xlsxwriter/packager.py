@@ -306,23 +306,28 @@ class Packager(object):
         properties = self.workbook.doc_properties
         app = App()
 
-        # Add the Worksheet heading pairs.
-        app._add_heading_pair(["Worksheets", self.worksheet_count])
-
-        # Add the Chartsheet heading pairs.
-        app._add_heading_pair(["Charts", self.chartsheet_count])
-
         # Add the Worksheet parts.
+        worksheet_count = 0
         for worksheet in self.workbook.worksheets():
             if worksheet.is_chartsheet:
                 continue
-            app._add_part_name(worksheet.name)
+
+            # Don't write/count veryHidden sheets.
+            if worksheet.hidden != 2:
+                app._add_part_name(worksheet.name)
+                worksheet_count += 1
+
+        # Add the Worksheet heading pairs.
+        app._add_heading_pair(["Worksheets", worksheet_count])
 
         # Add the Chartsheet parts.
         for worksheet in self.workbook.worksheets():
             if not worksheet.is_chartsheet:
                 continue
             app._add_part_name(worksheet.name)
+
+        # Add the Chartsheet heading pairs.
+        app._add_heading_pair(["Charts", self.chartsheet_count])
 
         # Add the Named Range heading pairs.
         if self.named_ranges:

@@ -2071,6 +2071,20 @@ sheet::
 
 See :ref:`ex_hide_sheet` for more details.
 
+
+worksheet.very_hidden()
+-----------------------
+
+.. py:function:: very_hidden()
+
+   Hide the current worksheet. Can only be unhidden by VBA.
+
+The ``very_hidden()`` method can be used to hide a worksheet similar to the
+``hide()`` method. The difference is that the worksheet cannot be unhidden in
+the the Excel user interface. The Excel worksheet "xlSheetVeryHidden" option can
+only be unset programmatically by VBA.
+
+
 worksheet.set_first_sheet()
 ---------------------------
 

@@ -1822,6 +1822,22 @@ class Worksheet(xmlwriter.XMLwriter):
         # A hidden worksheet shouldn't be active or selected.
         self.selected = 0
 
+    def very_hidden(self):
+        """
+        Hide the current worksheet. This can only be unhidden by VBA.
+
+        Args:
+            None.
+
+        Returns:
+            Nothing.
+
+        """
+        self.hidden = 2
+
+        # A hidden worksheet shouldn't be active or selected.
+        self.selected = 0
+
     def set_first_sheet(self):
         """
         Set current worksheet as the first visible sheet. This is necessary
