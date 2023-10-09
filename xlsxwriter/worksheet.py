@@ -3435,9 +3435,7 @@ class Worksheet(xmlwriter.XMLwriter):
                                 function, col_data["name"]
                             )
                         else:
-                            formula = function
-                            if formula.startswith("="):
-                                formula = formula.lstrip("=")
+                            formula = self._prepare_formula(function, True)
                             col_data["custom_total"] = formula
                             function = "custom"
 
