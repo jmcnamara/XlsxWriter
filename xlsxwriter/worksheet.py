@@ -836,7 +836,7 @@ class Worksheet(xmlwriter.XMLwriter):
 
     # Utility method to strip equal sign and array braces from a formula and
     # also expand out future and dynamic array formulas.
-    def _prepare_formula(self, formula):
+    def _prepare_formula(self, formula, expand_future_functions=False):
         # Remove array formula braces and the leading =.
         if formula.startswith("{"):
             formula = formula[1:]
@@ -880,7 +880,7 @@ class Worksheet(xmlwriter.XMLwriter):
         formula = re.sub(r"\bWRAPROWS\(", "_xlfn.WRAPROWS(", formula)
         formula = re.sub(r"\bXLOOKUP\(", "_xlfn.XLOOKUP(", formula)
 
-        if not self.use_future_functions:
+        if not self.use_future_functions and not expand_future_functions:
             return formula
 
         formula = re.sub(r"\bACOTH\(", "_xlfn.ACOTH(", formula)
@@ -3402,6 +3402,9 @@ class Worksheet(xmlwriter.XMLwriter):
 
                         # Convert Excel 2010 "@" ref to 2007 "#This Row".
                         formula = formula.replace("@", "[#This Row],")
+
+                        # Escape any future functions.
+                        formula = self._prepare_formula(formula, True)
 
                         col_data["formula"] = formula
                         # We write the formulas below after the table data.
