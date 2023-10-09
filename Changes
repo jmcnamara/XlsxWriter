@@ -1,4 +1,21 @@
 
+
+Release 3.1.7 - October 9 2023
+------------------------------
+
+* Add the :func:`very_hidden()` method to hide a worksheet. This is similar to
+  the :func:`hide()` method except that the worksheet cannot be unhidden in the
+  the Excel user interface. The Excel worksheet "xlSheetVeryHidden" option can
+  only be unset programmatically via VBA.
+
+  :feature:`947`.
+
+* Added fixes for column formulas in tables that were overridden by table data
+  and which also didn't take future functions into account.
+
+  :issue:`1015`.
+
+
 Release 3.1.6 - October 1 2023
 ------------------------------
 
