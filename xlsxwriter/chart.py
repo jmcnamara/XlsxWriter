@@ -1047,11 +1047,14 @@ class Chart(xmlwriter.XMLwriter):
         # Set the fill properties for the trendline.
         fill = Shape._get_fill_properties(trendline.get("fill"))
 
-        # Set the pattern fill properties for the series.
+        # Set the pattern fill properties for the trendline.
         pattern = Shape._get_pattern_properties(trendline.get("pattern"))
 
-        # Set the gradient fill properties for the series.
+        # Set the gradient fill properties for the trendline.
         gradient = Shape._get_gradient_properties(trendline.get("gradient"))
+
+        # Set the format properties for the trendline label.
+        label = self._get_trendline_label_properties(trendline.get("label"))
 
         # Pattern fill overrides solid fill.
         if pattern:
@@ -1066,8 +1069,54 @@ class Chart(xmlwriter.XMLwriter):
         trendline["fill"] = fill
         trendline["pattern"] = pattern
         trendline["gradient"] = gradient
+        trendline["label"] = label
 
         return trendline
+
+    def _get_trendline_label_properties(self, label):
+        # Convert user trendline properties to structure required internally.
+
+        if not label:
+            return {}
+
+        # Copy the user defined properties since they will be modified.
+        label = copy.deepcopy(label)
+
+        # Set the font properties if present.
+        font = self._convert_font_args(label.get("font"))
+
+        # Set the line properties for the label.
+        line = Shape._get_line_properties(label.get("line"))
+
+        # Allow 'border' as a synonym for 'line'.
+        if "border" in label:
+            line = Shape._get_line_properties(label["border"])
+
+        # Set the fill properties for the label.
+        fill = Shape._get_fill_properties(label.get("fill"))
+
+        # Set the pattern fill properties for the label.
+        pattern = Shape._get_pattern_properties(label.get("pattern"))
+
+        # Set the gradient fill properties for the label.
+        gradient = Shape._get_gradient_properties(label.get("gradient"))
+
+        # Pattern fill overrides solid fill.
+        if pattern:
+            self.fill = None
+
+        # Gradient fill overrides the solid and pattern fill.
+        if gradient:
+            pattern = None
+            fill = None
+
+        label["font"] = font
+        label["line"] = line
+        label["fill"] = fill
+        label["pattern"] = pattern
+        label["gradient"] = gradient
+
+        return label
 
     def _get_error_bars_props(self, options):
         # Convert user error bars properties to structure required internally.
@@ -3397,7 +3446,7 @@ class Chart(xmlwriter.XMLwriter):
             self._write_c_disp_eq()
 
             # Write the c:trendlineLbl element.
-            self._write_c_trendline_lbl()
+            self._write_c_trendline_lbl(trendline)
 
         self._xml_end_tag("c:trendline")
 
@@ -3472,7 +3521,7 @@ class Chart(xmlwriter.XMLwriter):
 
         self._xml_empty_tag("c:dispRSqr", attributes)
 
-    def _write_c_trendline_lbl(self):
+    def _write_c_trendline_lbl(self, trendline):
         # Write the <c:trendlineLbl> element.
         self._xml_start_tag("c:trendlineLbl")
 
@@ -3481,6 +3530,15 @@ class Chart(xmlwriter.XMLwriter):
 
         # Write the c:numFmt element.
         self._write_trendline_num_fmt()
+
+        # Write the c:spPr element.
+        self._write_sp_pr(trendline["label"])
+
+        # Write the data label font elements.
+        if trendline["label"]:
+            font = trendline["label"].get("font")
+            if font:
+                self._write_axis_font(font)
 
         self._xml_end_tag("c:trendlineLbl")
 
