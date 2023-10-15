@@ -1,3 +1,9 @@
+Release 3.1.8 - October 15 2023
+-------------------------------
+
+* Add support for formatting the data label in chart trendlines.
+
+  :feature:`750`.
 
 
 Release 3.1.7 - October 9 2023
