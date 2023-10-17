@@ -9,7 +9,7 @@ Author
 XlsxWriter was written by John McNamara.
 
 * `GitHub <https://github.com/jmcnamara>`_
-* `Twitter @jmcnamara13 <https://twitter.com/jmcnamara13>`_
+* Mastodon: @jmcnamara@hackyderm.io
 
 
 Asking questions
@@ -35,7 +35,7 @@ If you have questions about XlsxWriter here are some ways to deal with them:
 * **General Questions**:
 
   General questions about how to use the module should be asked on
-  `StackOverflow  <https://stackoverflow.com/search?tab=newest&q=xlsxwriter>`_.
+  `StackOverflow  <https://stackoverflow.com/questions/tagged/xlsxwriter>`_.
   Add the ``xlsxwriter`` tag to the question.
 
   Questions on StackOverflow have the advantage of (usually) getting several
@@ -55,10 +55,7 @@ Excel::Writer::XLSX and Spreadsheet::WriteExcel in Perl.
 
 My aim is to write well documented and well tested code that does what the
 user needs and doesn't get in their way.  You can help make this continue, or
-show your appreciation for work to date, by becoming a
-`GitHub Sponsor <https://github.com/sponsors/jmcnamara>`_.
-
-Or make a one-off donation via
+show your appreciation for work to date, by making a donation via
 `PayPal <https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=RRZCPSL65X858>`_.
 
 .. raw:: html

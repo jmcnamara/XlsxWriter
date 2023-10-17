@@ -166,7 +166,3 @@ the bug report more quickly.
        worksheet.write('A1', 'Hello world')
 
        workbook.close()
-
-See also how `How to create a Minimal, Complete, and Verifiable example
-<https://stackoverflow.com/help/minimal-reproducible-example>`_ from
-StackOverflow.

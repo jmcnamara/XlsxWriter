@@ -251,7 +251,7 @@ The worksheet name must be a valid Excel worksheet name:
 
 The rules for worksheet names in Excel are explained in the Microsoft Office
 documentation on how to `Rename a worksheet
-<https://support.office.com/en-ie/article/rename-a-worksheet-3f1f7148-ee83-404d-8ef0-9ff99fbad1f9>`_.
+<https://support.microsoft.com/en-us/office/rename-a-worksheet-3f1f7148-ee83-404d-8ef0-9ff99fbad1f9>`_.
 
 
 workbook.add_format()

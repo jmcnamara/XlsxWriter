@@ -169,7 +169,7 @@ clear indication of the future importance of dynamic arrays in Excel.
 
 For a wider and more general introduction to dynamic arrays see the following:
 `Dynamic array formulas in Excel
-<https://exceljet.net/dynamic-array-formulas-in-excel>`_.
+<https://exceljet.net/articles/dynamic-array-formulas-in-excel>`_.
 
 .. _formula_intersection_operator:
 
@@ -336,7 +336,7 @@ formula will be ignored and won't be expanded any further.
 
 
 The following list is taken from
-`MS XLSX extensions documentation on future functions <http://msdn.microsoft.com/en-us/library/dd907480%28v=office.12%29.aspx>`_.
+`MS XLSX extensions documentation on future functions <https://learn.microsoft.com/en-us/openspecs/office_standards/ms-xlsx/5d1b6d44-6fc1-4ecd-8fef-0b27406cc2bf>`_.
 
 * ``_xlfn.ACOTH``
 * ``_xlfn.ACOT``
@@ -564,7 +564,7 @@ syntax should be. To do this you should create a valid formula in Excel and
 save the file. You can then examine the XML in the unzipped file.
 
 The following shows how to do that using Linux ``unzip`` and `libxml's xmllint
-<http://xmlsoft.org/xmllint.html>`_ to format the XML for clarity::
+<https://gnome.pages.gitlab.gnome.org/libxml2/xmllint.html>`_ to format the XML for clarity::
 
     $ unzip myfile.xlsx -d myfile
     $ xmllint --format myfile/xl/worksheets/sheet1.xml | grep '</f>'

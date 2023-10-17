@@ -32,7 +32,7 @@ message is displayed:
 
 For more information on data validation see the Microsoft support article
 "Description and examples of data validation in Excel":
-http://support.microsoft.com/kb/211485.
+https://support.microsoft.com/en-us/office/apply-data-validation-to-cells-29fecbcc-d1b9-42c1-9d76-eff3ce5f7249.
 
 The following sections describe how to use the ``data_validation()`` method and
 its various options.

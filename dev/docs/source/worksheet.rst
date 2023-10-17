@@ -1116,7 +1116,7 @@ The ``width`` parameter sets the column width in the same units used by Excel
 which is: the number of characters in the default font. The default width is
 8.43 in the default font of Calibri 11. The actual relationship between a
 string width and a column width in Excel is complex. See the `following
-explanation of column widths <https://support.microsoft.com/en-us/kb/214123>`_
+explanation of column widths <https://learn.microsoft.com/en-US/office/troubleshoot/excel/determine-column-widths>`_
 from the Microsoft support documentation for more details. To set the width in
 pixels use the :func:`set_column_pixels` method.
 

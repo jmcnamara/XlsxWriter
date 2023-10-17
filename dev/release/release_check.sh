@@ -127,8 +127,12 @@ function check_test_flake8 {
 # Run testwarnings.
 #
 function check_testwarnings {
-    clear
 
+    echo
+    echo
+    echo
+    echo
+    echo
     echo
     echo -n "Is the testwarnings ok?              [y/N]: "
     read RESPONSE
@@ -207,6 +211,30 @@ function check_versions {
 
 #############################################################
 #
+# Check that the docs build correctly.
+#
+function check_doc_links {
+
+    clear
+    echo
+    echo -n     "Are the docs links okay?   [y/N]: "
+    read RESPONSE
+
+    if [ "$RESPONSE" != "y" ]; then
+        echo -n "    Check links?           [y/N]: "
+        read RESPONSE
+
+        if [ "$RESPONSE" == "y" ]; then
+            make linkcheck
+        fi
+    fi
+}
+
+
+
+
+#############################################################
+#
 # Check that the PDF doc is up to date.
 #
 function check_pdf_doc {
@@ -233,7 +261,6 @@ function check_pdf_doc {
 #
 function check_doc_build {
 
-    clear
     echo
     echo -n     "Are the docs building cleanly?   [y/N]: "
     read RESPONSE
@@ -282,6 +309,7 @@ check_test_status
 check_spellcheck
 check_lint
 check_test_flake8
+check_doc_links
 check_testwarnings
 check_changefile
 check_versions
