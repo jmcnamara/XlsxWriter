@@ -15,10 +15,10 @@ exclude_patterns = []
 pygments_style = 'sphinx'
 intersphinx_mapping = {'python': ('https://docs.python.org/3', None)}
 
-sys.path.append(os.path.abspath('_themes'))
-html_theme_path = ['_themes']
-html_theme = 'bootstrap'
-html_theme_options = {'nosidebar': True}
+#sys.path.append(os.path.abspath('_themes'))
+#html_theme_path = ['_themes']
+html_theme = 'sphinx_rtd_theme'
+#html_theme_options = {'nosidebar': True}
 html_title = "XlsxWriter Documentation"
 html_static_path = ['_static']
 html_show_sphinx = True
@@ -60,6 +60,6 @@ epub_copyright = '2013-2023, John McNamara'
 
 linkcheck_ignore = ["https://www.paypal.com"]
 
-extlinks = {'issue': ('https://github.com/jmcnamara/XlsxWriter/issues/%s', 'Issue #'),
-            'feature': ('https://github.com/jmcnamara/XlsxWriter/issues/%s', 'Feature Request #'),
-            'pull': ('https://github.com/jmcnamara/XlsxWriter/pull/%s', 'Pull Request #')}
+extlinks = {'issue': ('https://github.com/jmcnamara/XlsxWriter/issues/%s', 'Issue %s'),
+            'feature': ('https://github.com/jmcnamara/XlsxWriter/issues/%s', 'Feature Request %s'),
+            'pull': ('https://github.com/jmcnamara/XlsxWriter/pull/%s', 'Pull Request %s')}

@@ -3,7 +3,7 @@ Release 3.1.9 - October 19 2023
 
 * Add fix for errant XML tag in chart leader lines for non-Pie charts.
 
-  :issue  :`1019` and :feature:`1012`.
+  :issue:`1019` and :feature:`1012`.
 
 
 Release 3.1.8 - October 15 2023
