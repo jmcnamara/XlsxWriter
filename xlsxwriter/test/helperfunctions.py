@@ -153,6 +153,10 @@ def _compare_xlsx_files(got_file, exp_file, ignore_files, ignore_elements):
         got_xml_str = got_xml_str.decode("utf-8")
         exp_xml_str = exp_xml_str.decode("utf-8")
 
+        # Check for errant xml tags in the generated file.
+        if "<<" in got_xml_str:
+            return "Double start tag in XlsxWriter file %s" % filename, ""
+
         # Remove dates and user specific data from the core.xml data.
         if filename == "docProps/core.xml":
             exp_xml_str = re.sub(r" ?John", "", exp_xml_str)
