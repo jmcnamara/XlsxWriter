@@ -54,7 +54,7 @@ numbers. The figures are taken from an arbitrary, mid-range, machine. Specific
 figures will vary from machine to machine but the trends should be the same.
 
 XlsxWriter in normal operation mode: the execution time and memory usage
-increase more of less linearly with the number of rows:
+increase more or less linearly with the number of rows:
 
 +-------+---------+----------+----------------+
 | Rows  | Columns | Time (s) | Memory (bytes) |
