@@ -8372,9 +8372,9 @@ class Worksheet(xmlwriter.XMLwriter):
             ignored_range = self.ignored_errors["formula_differs"]
             self._write_ignored_error("formula", ignored_range)
 
-        if self.ignored_errors.get("formula_ignored_range"):
-            ignored_range = self.ignored_errors["formula_ignored_range"]
-            self._write_ignored_error("formulaIgnored_range", ignored_range)
+        if self.ignored_errors.get("formula_range"):
+            ignored_range = self.ignored_errors["formula_range"]
+            self._write_ignored_error("formulaRange", ignored_range)
 
         if self.ignored_errors.get("formula_unlocked"):
             ignored_range = self.ignored_errors["formula_unlocked"]
