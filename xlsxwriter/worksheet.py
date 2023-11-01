@@ -1493,7 +1493,7 @@ class Worksheet(xmlwriter.XMLwriter):
         return 0
 
     @convert_cell_args
-    def insert_image(self, row, col, filename, options=None):
+    def insert_image(self, row: int , col: int, filename, options=None):
         """
         Insert an image with its top-left corner in a worksheet cell.
 
