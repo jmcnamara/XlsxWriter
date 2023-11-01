@@ -1508,6 +1508,11 @@ class Worksheet(xmlwriter.XMLwriter):
             -1: Row or column is out of worksheet bounds.
 
         """
+        # Check if row is of type 'int'
+        if not isinstance(row, int):
+            warn("Argument 'row' must be of type 'int'. Was of type: '%d'" % (row))
+            return -1
+        
         # Check insert (row, col) without storing.
         if self._check_dimensions(row, col, True, True):
             warn("Cannot insert image at (%d, %d)." % (row, col))
