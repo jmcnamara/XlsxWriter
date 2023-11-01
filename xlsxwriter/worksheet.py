@@ -1512,7 +1512,10 @@ class Worksheet(xmlwriter.XMLwriter):
         if not isinstance(row, int):
             warn("Argument 'row' must be of type 'int'. Was of type: '%d'" % (row))
             return -1
-        
+        # Check if col is of type 'int'
+        if not isinstance(col, int):
+            warn("Argument 'col' must be of type 'int'. Was of type: '%d'" % (row))
+            return -1
         # Check insert (row, col) without storing.
         if self._check_dimensions(row, col, True, True):
             warn("Cannot insert image at (%d, %d)." % (row, col))
