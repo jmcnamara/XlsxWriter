@@ -44,10 +44,6 @@ from .utility import quote_sheetname
 from .exceptions import DuplicateTableName
 from .exceptions import OverlappingRange
 
-# Compile performance critical regular expressions.
-re_control_chars_1 = re.compile("(_x[0-9a-fA-F]{4}_)")
-re_control_chars_2 = re.compile(r"([\x00-\x08\x0b-\x1f])")
-
 re_dynamic_function = re.compile(
     r"""
     \bANCHORARRAY\(    |
@@ -6781,15 +6777,8 @@ class Worksheet(xmlwriter.XMLwriter):
             else:
                 # Write an optimized in-line string.
 
-                # Escape control characters. See SharedString.pm for details.
-                string = re_control_chars_1.sub(r"_x005F\1", string)
-                string = re_control_chars_2.sub(
-                    lambda match: "_x%04X_" % ord(match.group(1)), string
-                )
-
-                # Escapes non characters in strings.
-                string = string.replace("\uFFFE", "_xFFFE_")
-                string = string.replace("\uFFFF", "_xFFFF_")
+                # Convert control character to a _xHHHH_ escape.
+                string = self._escape_control_characters(string)
 
                 # Write any rich strings without further tags.
                 if string.startswith("<r>") and string.endswith("</r>"):

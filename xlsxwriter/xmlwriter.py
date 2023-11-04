@@ -12,6 +12,11 @@
 import re
 from io import StringIO
 
+# Compile performance critical regular expressions.
+re_control_chars_1 = re.compile("(_x[0-9a-fA-F]{4}_)")
+re_control_chars_2 = re.compile(r"([\x00-\x08\x0b-\x1f])")
+xml_escapes = re.compile('["&<>\n]')
+
 
 class XMLwriter(object):
     """
@@ -21,7 +26,6 @@ class XMLwriter(object):
 
     def __init__(self):
         self.fh = None
-        self.escapes = re.compile('["&<>\n]')
         self.internal_fh = False
 
     def _set_filehandle(self, filehandle):
@@ -94,6 +98,8 @@ class XMLwriter(object):
             tag += ' %s="%s"' % (key, value)
 
         data = self._escape_data(data)
+        data = self._escape_control_characters(data)
+
         self.fh.write("<%s>%s</%s>" % (tag, data, end_tag))
 
     def _xml_string_element(self, index, attributes=[]):
@@ -178,7 +184,7 @@ class XMLwriter(object):
     def _escape_attributes(self, attribute):
         # Escape XML characters in attributes.
         try:
-            if not self.escapes.search(attribute):
+            if not xml_escapes.search(attribute):
                 return attribute
         except TypeError:
             return attribute
@@ -197,10 +203,32 @@ class XMLwriter(object):
         # is different from _escape_attributes() in that double quotes
         # are not escaped by Excel.
         try:
-            if not self.escapes.search(data):
+            if not xml_escapes.search(data):
                 return data
         except TypeError:
             return data
 
         data = data.replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;")
+        return data
+
+    @staticmethod
+    def _escape_control_characters(data):
+        # Excel escapes control characters with _xHHHH_ and also escapes any
+        # literal strings of that type by encoding the leading underscore.
+        # So "\0" -> _x0000_ and "_x0000_" -> _x005F_x0000_.
+        # The following substitutions deal with those cases.
+        try:
+            # Escape the escape.
+            data = re_control_chars_1.sub(r"_x005F\1", data)
+        except TypeError:
+            return data
+
+        # Convert control character to the _xHHHH_ escape.
+        data = re_control_chars_2.sub(
+            lambda match: "_x%04X_" % ord(match.group(1)), data
+        )
+
+        # Escapes non characters in strings.
+        data = data.replace("\uFFFE", "_xFFFE_").replace("\uFFFF", "_xFFFF_")
+
         return data
