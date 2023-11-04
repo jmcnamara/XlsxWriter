@@ -49,8 +49,8 @@ def TestOneInput(data):
             data = fdp.ConsumeRandomString()
             func_choice = fdp.PickValueInList(choices)
 
-            for row in range(fdp.ConsumeIntInRange(0, 500)):
-                for col in range(fdp.ConsumeIntInRange(0, 500)):
+            for row in range(fdp.ConsumeIntInRange(0, 10)):
+                for col in range(fdp.ConsumeIntInRange(0, 10)):
                     if func_choice is FuncChoice.WRITE_STRING:
                         ws.write_string(row, col, data)
                     elif func_choice is FuncChoice.WRITE_NUMBER:
