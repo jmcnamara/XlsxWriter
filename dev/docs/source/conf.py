@@ -12,19 +12,29 @@ version = '3.1.9'
 release = version
 
 exclude_patterns = []
-pygments_style = 'sphinx'
 intersphinx_mapping = {'python': ('https://docs.python.org/3', None)}
 
-#sys.path.append(os.path.abspath('_themes'))
-#html_theme_path = ['_themes']
-html_theme = 'sphinx_rtd_theme'
-#html_theme_options = {'nosidebar': True}
-html_title = "XlsxWriter Documentation"
-html_static_path = ['_static']
+
+html_title = "XlsxWriter"
 html_show_sphinx = True
 html_show_copyright = True
-htmlhelp_basename = 'XlsxWriterdoc'
-html_add_permalinks = ""
+#html_static_path = ['_static']
+#html_css_files = ["custom.css"]
+
+html_theme = 'pydata_sphinx_theme'
+
+
+html_theme_options = {
+    "navbar_align": "left",
+    "header_links_before_dropdown": 1,
+    "secondary_sidebar_items": ["page-toc"],
+    "navbar_end": [],
+    "navbar_center": ["navbar-nav"],
+
+    "pygment_light_style": "vs",
+    "pygment_dark_style": "monokai"
+}
+
 
 latex_elements = {
     'pointsize': '11pt',

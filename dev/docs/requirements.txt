@@ -1,3 +1,2 @@
-sphinx-bootstrap-theme
 sphinx_rtd_theme
-
+pydata-sphinx-theme
