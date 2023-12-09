@@ -41,10 +41,10 @@ Release 3.1.6 - October 1 2023
 Release 3.1.5 - September 24 2023
 ---------------------------------
 
-* Added support for adding signed VBA macros to workbooks via the via the
+* Added support for adding signed VBA macros to workbooks via the
   :func:`add_signed_vba_project` method. See `Working with VBA Macros`_.
 
-  :feature:`1008`.
+  :feature:`1009`.
 
   .. _Working with VBA Macros: https://xlsxwriter.readthedocs.io/working_with_macros.html
 
