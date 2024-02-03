@@ -2986,13 +2986,13 @@ class Worksheet(xmlwriter.XMLwriter):
             elif options["criteria"] == "tomorrow":
                 options["formula"] = "FLOOR(%s,1)=TODAY()+1" % start_cell
 
+            # fmt: off
             elif options["criteria"] == "last7Days":
-                options[
-                    "formula"
-                ] = "AND(TODAY()-FLOOR(%s,1)<=6,FLOOR(%s,1)<=TODAY())" % (
-                    start_cell,
-                    start_cell,
+                options["formula"] = (
+                    "AND(TODAY()-FLOOR(%s,1)<=6,FLOOR(%s,1)<=TODAY())"
+                    % (start_cell, start_cell)
                 )
+            # fmt: on
 
             elif options["criteria"] == "lastWeek":
                 options["formula"] = (
@@ -3022,13 +3022,13 @@ class Worksheet(xmlwriter.XMLwriter):
                     % (start_cell, start_cell, start_cell)
                 )
 
+            # fmt: off
             elif options["criteria"] == "thisMonth":
-                options[
-                    "formula"
-                ] = "AND(MONTH(%s)=MONTH(TODAY()),YEAR(%s)=YEAR(TODAY()))" % (
-                    start_cell,
-                    start_cell,
+                options["formula"] = (
+                    "AND(MONTH(%s)=MONTH(TODAY()),YEAR(%s)=YEAR(TODAY()))"
+                    % (start_cell, start_cell)
                 )
+            # fmt: on
 
             elif options["criteria"] == "nextMonth":
                 options["formula"] = (
