@@ -784,14 +784,17 @@ class Format(xmlwriter.XMLwriter):
         else:
             return changed, align
 
-        # Indent is only allowed for horizontal left, right and distributed.
-        # If it is defined for any other alignment or no alignment has
-        # been set then default to left alignment.
+        # Indent is only allowed for some alignment properties. If it is
+        # defined for any other alignment or no alignment has been set then
+        # default to left alignment.
         if (
             self.indent
             and self.text_h_align != 1
             and self.text_h_align != 3
             and self.text_h_align != 7
+            and self.text_v_align != 1
+            and self.text_v_align != 3
+            and self.text_v_align != 5
         ):
             self.text_h_align = 1
 
@@ -840,10 +843,10 @@ class Format(xmlwriter.XMLwriter):
         if self.text_v_align == 5:
             align.append(("vertical", "distributed"))
 
-        if self.indent:
-            align.append(("indent", self.indent))
         if self.rotation:
             align.append(("textRotation", self.rotation))
+        if self.indent:
+            align.append(("indent", self.indent))
 
         if self.text_wrap:
             align.append(("wrapText", 1))

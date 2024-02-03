@@ -1,3 +1,15 @@
+
+
+
+Release 3.2.0 - February XX 2023
+--------------------------------
+
+* Fix issue where a horizontal alignment format was ignored if indentation was
+  also set.
+
+ :issue:`1041`.
+
+
 Release 3.1.9 - October 19 2023
 -------------------------------
 
