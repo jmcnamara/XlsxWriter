@@ -5,9 +5,14 @@
 # SPDX-License-Identifier: BSD-2-Clause
 # Copyright 2013-2023, John McNamara, jmcnamara@cpan.org
 #
-import re
 import datetime
+import hashlib
+import os
+import re
+from struct import unpack
 from warnings import warn
+from .exceptions import UndefinedImageSize
+from .exceptions import UnsupportedImageFormat
 
 COL_NAMES = {}
 
@@ -873,3 +878,244 @@ def preserve_whitespace(string):
         return True
     else:
         return False
+
+
+def get_image_properties(filename, image_data):
+    # Extract dimension information from the image file.
+    height = 0
+    width = 0
+    x_dpi = 96
+    y_dpi = 96
+
+    if not image_data:
+        # Open the image file and read in the data.
+        fh = open(filename, "rb")
+        data = fh.read()
+    else:
+        # Read the image data from the user supplied byte stream.
+        data = image_data.getvalue()
+
+    digest = hashlib.sha256(data).hexdigest()
+
+    # Get the image filename without the path.
+    image_name = os.path.basename(filename)
+
+    # Look for some common image file markers.
+    marker1 = unpack("3s", data[1:4])[0]
+    marker2 = unpack(">H", data[:2])[0]
+    marker3 = unpack("2s", data[:2])[0]
+    marker4 = unpack("<L", data[:4])[0]
+    marker5 = (unpack("4s", data[40:44]))[0]
+    marker6 = unpack("4s", data[:4])[0]
+
+    png_marker = b"PNG"
+    bmp_marker = b"BM"
+    emf_marker = b" EMF"
+    gif_marker = b"GIF8"
+
+    if marker1 == png_marker:
+        (image_type, width, height, x_dpi, y_dpi) = _process_png(data)
+
+    elif marker2 == 0xFFD8:
+        (image_type, width, height, x_dpi, y_dpi) = _process_jpg(data)
+
+    elif marker3 == bmp_marker:
+        (image_type, width, height) = _process_bmp(data)
+
+    elif marker4 == 0x9AC6CDD7:
+        (image_type, width, height, x_dpi, y_dpi) = _process_wmf(data)
+
+    elif marker4 == 1 and marker5 == emf_marker:
+        (image_type, width, height, x_dpi, y_dpi) = _process_emf(data)
+
+    elif marker6 == gif_marker:
+        (image_type, width, height, x_dpi, y_dpi) = _process_gif(data)
+
+    else:
+        raise UnsupportedImageFormat(
+            "%s: Unknown or unsupported image file format." % filename
+        )
+
+    # Check that we found the required data.
+    if not height or not width:
+        raise UndefinedImageSize("%s: no size data found in image file." % filename)
+
+    if not image_data:
+        fh.close()
+
+    # Set a default dpi for images with 0 dpi.
+    if x_dpi == 0:
+        x_dpi = 96
+    if y_dpi == 0:
+        y_dpi = 96
+
+    return image_type, width, height, image_name, x_dpi, y_dpi, digest
+
+
+def _process_png(data):
+    # Extract width and height information from a PNG file.
+    offset = 8
+    data_length = len(data)
+    end_marker = False
+    width = 0
+    height = 0
+    x_dpi = 96
+    y_dpi = 96
+
+    # Search through the image data to read the height and width in the
+    # IHDR element. Also read the DPI in the pHYs element.
+    while not end_marker and offset < data_length:
+        length = unpack(">I", data[offset + 0 : offset + 4])[0]
+        marker = unpack("4s", data[offset + 4 : offset + 8])[0]
+
+        # Read the image dimensions.
+        if marker == b"IHDR":
+            width = unpack(">I", data[offset + 8 : offset + 12])[0]
+            height = unpack(">I", data[offset + 12 : offset + 16])[0]
+
+        # Read the image DPI.
+        if marker == b"pHYs":
+            x_density = unpack(">I", data[offset + 8 : offset + 12])[0]
+            y_density = unpack(">I", data[offset + 12 : offset + 16])[0]
+            units = unpack("b", data[offset + 16 : offset + 17])[0]
+
+            if units == 1:
+                x_dpi = x_density * 0.0254
+                y_dpi = y_density * 0.0254
+
+        if marker == b"IEND":
+            end_marker = True
+            continue
+
+        offset = offset + length + 12
+
+    return "png", width, height, x_dpi, y_dpi
+
+
+def _process_jpg(data):
+    # Extract width and height information from a JPEG file.
+    offset = 2
+    data_length = len(data)
+    end_marker = False
+    width = 0
+    height = 0
+    x_dpi = 96
+    y_dpi = 96
+
+    # Search through the image data to read the JPEG markers.
+    while not end_marker and offset < data_length:
+        marker = unpack(">H", data[offset + 0 : offset + 2])[0]
+        length = unpack(">H", data[offset + 2 : offset + 4])[0]
+
+        # Read the height and width in the 0xFFCn elements (except C4, C8
+        # and CC which aren't SOF markers).
+        if (
+            (marker & 0xFFF0) == 0xFFC0
+            and marker != 0xFFC4
+            and marker != 0xFFC8
+            and marker != 0xFFCC
+        ):
+            height = unpack(">H", data[offset + 5 : offset + 7])[0]
+            width = unpack(">H", data[offset + 7 : offset + 9])[0]
+
+        # Read the DPI in the 0xFFE0 element.
+        if marker == 0xFFE0:
+            units = unpack("b", data[offset + 11 : offset + 12])[0]
+            x_density = unpack(">H", data[offset + 12 : offset + 14])[0]
+            y_density = unpack(">H", data[offset + 14 : offset + 16])[0]
+
+            if units == 1:
+                x_dpi = x_density
+                y_dpi = y_density
+
+            if units == 2:
+                x_dpi = x_density * 2.54
+                y_dpi = y_density * 2.54
+
+            # Workaround for incorrect dpi.
+            if x_dpi == 1:
+                x_dpi = 96
+            if y_dpi == 1:
+                y_dpi = 96
+
+        if marker == 0xFFDA:
+            end_marker = True
+            continue
+
+        offset = offset + length + 2
+
+    return "jpeg", width, height, x_dpi, y_dpi
+
+
+def _process_gif(data):
+    # Extract width and height information from a GIF file.
+    x_dpi = 96
+    y_dpi = 96
+
+    width = unpack("<h", data[6:8])[0]
+    height = unpack("<h", data[8:10])[0]
+
+    return "gif", width, height, x_dpi, y_dpi
+
+
+def _process_bmp(data):
+    # Extract width and height information from a BMP file.
+    width = unpack("<L", data[18:22])[0]
+    height = unpack("<L", data[22:26])[0]
+    return "bmp", width, height
+
+
+def _process_wmf(data):
+    # Extract width and height information from a WMF file.
+    x_dpi = 96
+    y_dpi = 96
+
+    # Read the bounding box, measured in logical units.
+    x1 = unpack("<h", data[6:8])[0]
+    y1 = unpack("<h", data[8:10])[0]
+    x2 = unpack("<h", data[10:12])[0]
+    y2 = unpack("<h", data[12:14])[0]
+
+    # Read the number of logical units per inch. Used to scale the image.
+    inch = unpack("<H", data[14:16])[0]
+
+    # Convert to rendered height and width.
+    width = float((x2 - x1) * x_dpi) / inch
+    height = float((y2 - y1) * y_dpi) / inch
+
+    return "wmf", width, height, x_dpi, y_dpi
+
+
+def _process_emf(data):
+    # Extract width and height information from a EMF file.
+
+    # Read the bounding box, measured in logical units.
+    bound_x1 = unpack("<l", data[8:12])[0]
+    bound_y1 = unpack("<l", data[12:16])[0]
+    bound_x2 = unpack("<l", data[16:20])[0]
+    bound_y2 = unpack("<l", data[20:24])[0]
+
+    # Convert the bounds to width and height.
+    width = bound_x2 - bound_x1
+    height = bound_y2 - bound_y1
+
+    # Read the rectangular frame in units of 0.01mm.
+    frame_x1 = unpack("<l", data[24:28])[0]
+    frame_y1 = unpack("<l", data[28:32])[0]
+    frame_x2 = unpack("<l", data[32:36])[0]
+    frame_y2 = unpack("<l", data[36:40])[0]
+
+    # Convert the frame bounds to mm width and height.
+    width_mm = 0.01 * (frame_x2 - frame_x1)
+    height_mm = 0.01 * (frame_y2 - frame_y1)
+
+    # Get the dpi based on the logical size.
+    x_dpi = width * 25.4 / width_mm
+    y_dpi = height * 25.4 / height_mm
+
+    # This is to match Excel's calculation. It is probably to account for
+    # the fact that the bounding box is inclusive-inclusive. Or a bug.
+    width += 1
+    height += 1
+
+    return "emf", width, height, x_dpi, y_dpi

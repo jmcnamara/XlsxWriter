@@ -1550,6 +1550,42 @@ class Worksheet(xmlwriter.XMLwriter):
         return 0
 
     @convert_cell_args
+    def embed_image(self, row, col, filename, options=None):
+        """
+        Embed an image in a worksheet cell.
+
+        Args:
+            row:      The cell row (zero indexed).
+            col:      The cell column (zero indexed).
+            filename: Path and filename for in supported formats.
+            options:  Url and data stream of the image.
+
+        Returns:
+            0:  Success.
+            -1: Row or column is out of worksheet bounds.
+
+        """
+        # Check insert (row, col) without storing.
+        if self._check_dimensions(row, col, True, True):
+            warn("Cannot embed image at (%d, %d)." % (row, col))
+            return -1
+
+        if options is None:
+            options = {}
+
+        # url = options.get("url", None)
+        # tip = options.get("tip", None)
+        image_data = options.get("image_data", None)
+        # description = options.get("description", None)
+        # decorative = options.get("decorative", False)
+
+        if not image_data and not os.path.exists(filename):
+            warn("Image file '%s' not found." % filename)
+            return -1
+
+        return 0
+
+    @convert_cell_args
     def insert_textbox(self, row, col, text, options=None):
         """
         Insert an textbox with its top-left corner in a worksheet cell.
