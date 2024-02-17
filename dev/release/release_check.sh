@@ -231,30 +231,6 @@ function check_doc_links {
 }
 
 
-
-
-#############################################################
-#
-# Check that the PDF doc is up to date.
-#
-function check_pdf_doc {
-
-    echo
-    echo -n     "Is the PDF doc up to date?   [y/N]: "
-    read RESPONSE
-
-    if [ "$RESPONSE" != "y" ]; then
-        echo -n "    Rebuild pdf?             [y/N]: "
-        read RESPONSE
-
-        if [ "$RESPONSE" == "y" ]; then
-            make -C dev/docs latexpdf
-            cp -r dev/docs/build/latex/XlsxWriter.pdf docs
-        fi
-    fi
-}
-
-
 #############################################################
 #
 # Check that the docs build correctly.
@@ -314,7 +290,6 @@ check_testwarnings
 check_changefile
 check_versions
 check_doc_build
-check_pdf_doc
 check_git_status
 
 

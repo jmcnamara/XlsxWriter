@@ -18,8 +18,6 @@ intersphinx_mapping = {'python': ('https://docs.python.org/3', None)}
 html_title = "XlsxWriter"
 html_show_sphinx = True
 html_show_copyright = True
-#html_static_path = ['_static']
-#html_css_files = ["custom.css"]
 
 html_theme = 'pydata_sphinx_theme'
 
@@ -35,18 +33,6 @@ html_theme_options = {
     "pygment_dark_style": "monokai"
 }
 
-
-latex_elements = {
-    'pointsize': '11pt',
-    'preamble': '',
-}
-latex_documents = [
-    ('index', 'XlsxWriter.tex',
-     'Creating Excel files with Python and XlsxWriter',
-     'John McNamara', 'manual'),
-]
-
-latex_logo = '_images/logo.png'
 man_pages = [
     ('index', 'xlsxwriter',
      'XlsxWriter Documentation',

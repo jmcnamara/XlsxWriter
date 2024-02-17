@@ -9,25 +9,16 @@
 
 docs doc:
 	@make -C dev/docs html
+	@open dev/docs/build/html/index.html
 
 docs_external:
 	@../build_readthedocs.sh
-
-pdf:
-	@make -C dev/docs latexpdf
 
 linkcheck:
 	@make -C dev/docs linkcheck
 
 clean:
 	@make -C dev/docs clean
-
-alldocs: clean docs pdf
-	@cp -r dev/docs/build/html docs
-	@cp -r dev/docs/build/latex/XlsxWriter.pdf docs
-
-pdf_release: pdf
-	@cp -r dev/docs/build/latex/XlsxWriter.pdf docs
 
 install:
 	@python setup.py install

@@ -95,13 +95,8 @@ with some sample applications that demonstrate different features of
 XlsxWriter.
 
 
-Documentation
--------------
-
-The latest version of this document is hosted on
-`Read The Docs <https://xlsxwriter.readthedocs.io>`_. It is also
-available as a
-`PDF <https://raw.githubusercontent.com/jmcnamara/XlsxWriter/main/docs/XlsxWriter.pdf>`_.
+Next steps
+----------
 
 Once you are happy that the module is installed and operational you can have a
 look at the rest of the XlsxWriter documentation. :ref:`tutorial1` is a good
