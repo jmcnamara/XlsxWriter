@@ -1,5 +1,5 @@
 .. SPDX-License-Identifier: BSD-2-Clause
-   Copyright 2013-2023, John McNamara, jmcnamara@cpan.org
+   Copyright 2013-2024, John McNamara, jmcnamara@cpan.org
 
 .. _ex_chart_date_axis:
 
@@ -16,7 +16,7 @@ for category axes. However, date axes are an exception.
    :scale: 75 %
 
 In XlsxWriter Date Category Axes are set using the ``date_axis`` option in
-:func:`set_x_axis` or :func:`set_y_axis`:: 
+:func:`set_x_axis` or :func:`set_y_axis`::
 
     chart.set_x_axis({'date_axis': True})
 

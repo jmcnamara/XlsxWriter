@@ -6,7 +6,7 @@
 # https://support.microsoft.com/en-us/office/add-a-watermark-in-excel-a372182a-d733-484e-825c-18ddf3edf009
 #
 # SPDX-License-Identifier: BSD-2-Clause
-# Copyright 2013-2023, John McNamara, jmcnamara@cpan.org
+# Copyright 2013-2024, John McNamara, jmcnamara@cpan.org
 #
 import xlsxwriter
 

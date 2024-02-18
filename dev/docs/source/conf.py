@@ -6,7 +6,7 @@ source_suffix = '.rst'
 master_doc = 'index'
 
 project = u'XlsxWriter'
-copyright = u'2013-2023, John McNamara'
+copyright = u'2013-2024, John McNamara'
 
 version = '3.1.9'
 release = version
@@ -52,7 +52,7 @@ texinfo_documents = [
 epub_title = 'XlsxWriter'
 epub_author = 'John McNamara'
 epub_publisher = 'John McNamara'
-epub_copyright = '2013-2023, John McNamara'
+epub_copyright = '2013-2024, John McNamara'
 
 linkcheck_ignore = ["https://www.paypal.com"]
 

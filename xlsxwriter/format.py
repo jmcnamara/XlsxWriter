@@ -3,7 +3,7 @@
 # Format - A class for writing the Excel XLSX Worksheet file.
 #
 # SPDX-License-Identifier: BSD-2-Clause
-# Copyright 2013-2023, John McNamara, jmcnamara@cpan.org
+# Copyright 2013-2024, John McNamara, jmcnamara@cpan.org
 #
 
 # Package imports.
