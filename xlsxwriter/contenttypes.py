@@ -179,6 +179,33 @@ class ContentTypes(xmlwriter.XMLwriter):
             ("/xl/metadata.xml", app_document + "spreadsheetml.sheetMetadata+xml")
         )
 
+    def _add_rich_value(self):
+        # Add the richValue files to the ContentTypes overrides.
+        self._add_override(
+            (
+                "/xl/richData/rdRichValueTypes.xml",
+                "application/vnd.ms-excel.rdrichvaluetypes+xml",
+            )
+        )
+
+        self._add_override(
+            ("/xl/richData/rdrichvalue.xml", "application/vnd.ms-excel.rdrichvalue+xml")
+        )
+
+        self._add_override(
+            (
+                "/xl/richData/rdrichvaluestructure.xml",
+                "application/vnd.ms-excel.rdrichvaluestructure+xml",
+            )
+        )
+
+        self._add_override(
+            (
+                "/xl/richData/richValueRel.xml",
+                "application/vnd.ms-excel.richvaluerel+xml",
+            )
+        )
+
     ###########################################################################
     #
     # XML methods.

@@ -23,6 +23,10 @@ from .custom import Custom
 from .metadata import Metadata
 from .relationships import Relationships
 from .sharedstrings import SharedStrings
+from .rich_value import RichValue
+from .rich_value_types import RichValueTypes
+from .rich_value_rel import RichValueRel
+from .rich_value_structure import RichValueStructure
 from .styles import Styles
 from .theme import Theme
 from .vml import Vml
@@ -149,6 +153,7 @@ class Packager(object):
         self._write_worksheet_rels_files()
         self._write_chartsheet_rels_files()
         self._write_drawing_rels_files()
+        self._write_rich_value_rels_files()
         self._add_image_files()
         self._add_vba_project()
         self._add_vba_project_signature()
@@ -156,6 +161,7 @@ class Packager(object):
         self._write_core_file()
         self._write_app_file()
         self._write_metadata_file()
+        self._write_rich_value_files()
 
         return self.filenames
 
@@ -358,8 +364,52 @@ class Packager(object):
             return
 
         metadata = Metadata()
+        metadata.has_dynamic_functions = self.workbook.has_dynamic_functions
+        metadata.num_embedded_images = len(self.workbook.embedded_images.images)
+
         metadata._set_xml_writer(self._filename("xl/metadata.xml"))
         metadata._assemble_xml_file()
+
+    def _write_rich_value_files(self):
+
+        if not self.workbook.embedded_images.has_images():
+            return
+
+        self._write_rich_value()
+        self._write_rich_value_types()
+        self._write_rich_value_structure()
+        self._write_rich_value_rel()
+
+    def _write_rich_value(self):
+        # Write the rdrichvalue.xml file.
+        filename = self._filename("xl/richData/rdrichvalue.xml")
+        xml_file = RichValue()
+        xml_file.embedded_images = self.workbook.embedded_images.images
+        xml_file._set_xml_writer(filename)
+        xml_file._assemble_xml_file()
+
+    def _write_rich_value_types(self):
+        # Write the rdRichValueTypes.xml file.
+        filename = self._filename("xl/richData/rdRichValueTypes.xml")
+        xml_file = RichValueTypes()
+        xml_file._set_xml_writer(filename)
+        xml_file._assemble_xml_file()
+
+    def _write_rich_value_structure(self):
+        # Write the rdrichvaluestructure.xml file.
+        filename = self._filename("xl/richData/rdrichvaluestructure.xml")
+        xml_file = RichValueStructure()
+        xml_file.has_embedded_descriptions = self.workbook.has_embedded_descriptions
+        xml_file._set_xml_writer(filename)
+        xml_file._assemble_xml_file()
+
+    def _write_rich_value_rel(self):
+        # Write the richValueRel.xml file.
+        filename = self._filename("xl/richData/richValueRel.xml")
+        xml_file = RichValueRel()
+        xml_file.num_embedded_images = len(self.workbook.embedded_images.images)
+        xml_file._set_xml_writer(filename)
+        xml_file._assemble_xml_file()
 
     def _write_custom_file(self):
         # Write the custom.xml file.
@@ -422,6 +472,10 @@ class Packager(object):
         # Add the metadata file if present.
         if self.workbook.has_metadata:
             content._add_metadata()
+
+        # Add the RichValue file if present.
+        if self.workbook.embedded_images.has_images():
+            content._add_rich_value()
 
         content._set_xml_writer(self._filename("[Content_Types].xml"))
         content._assemble_xml_file()
@@ -537,6 +591,10 @@ class Packager(object):
         # Add the metadata file if required.
         if self.workbook.has_metadata:
             rels._add_document_relationship("/sheetMetadata", "metadata.xml")
+
+        # Add the RichValue files if present.
+        if self.workbook.embedded_images.has_images():
+            rels._add_rich_value_relationship()
 
         rels._set_xml_writer(self._filename("xl/_rels/workbook.xml.rels"))
         rels._assemble_xml_file()
@@ -657,12 +715,34 @@ class Packager(object):
         rels._set_xml_writer(self._filename("xl/_rels/vbaProject.bin.rels"))
         rels._assemble_xml_file()
 
+    def _write_rich_value_rels_files(self):
+        # Write the richValueRel.xml.rels for embedded images.
+        if not self.workbook.embedded_images.has_images():
+            return
+
+        # Create the worksheet .rels dirs.
+        rels = Relationships()
+
+        index = 1
+        for image_data in self.workbook.embedded_images.images:
+            file_type = image_data[1]
+            image_file = f"../media/image{index}.{file_type}"
+            rels._add_document_relationship("/image", image_file)
+            index += 1
+
+        # Create .rels file such as /xl/worksheets/_rels/sheet1.xml.rels.
+        rels._set_xml_writer(self._filename("/xl/richData/_rels/richValueRel.xml.rels"))
+
+        rels._assemble_xml_file()
+
     def _add_image_files(self):
         # Write the /xl/media/image?.xml files.
         workbook = self.workbook
         index = 1
 
-        for image in workbook.images:
+        images = workbook.embedded_images.images + workbook.images
+
+        for image in images:
             filename = image[0]
             ext = "." + image[1]
             image_data = image[2]

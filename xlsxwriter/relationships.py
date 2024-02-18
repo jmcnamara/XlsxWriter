@@ -75,6 +75,28 @@ class Relationships(xmlwriter.XMLwriter):
 
         self.relationships.append((rel_type, target, None))
 
+    def _add_rich_value_relationship(self):
+        # Add RichValue relationship to XLSX .rels xml files.
+        schema = "http://schemas.microsoft.com/office/2022/10/relationships/"
+        rel_type = schema + "richValueRel"
+        target = "richData/richValueRel.xml"
+        self.relationships.append((rel_type, target, None))
+
+        schema = "http://schemas.microsoft.com/office/2017/06/relationships/"
+        rel_type = schema + "rdRichValue"
+        target = "richData/rdrichvalue.xml"
+        self.relationships.append((rel_type, target, None))
+
+        schema = "http://schemas.microsoft.com/office/2017/06/relationships/"
+        rel_type = schema + "rdRichValueStructure"
+        target = "richData/rdrichvaluestructure.xml"
+        self.relationships.append((rel_type, target, None))
+
+        schema = "http://schemas.microsoft.com/office/2017/06/relationships/"
+        rel_type = schema + "rdRichValueTypes"
+        target = "richData/rdRichValueTypes.xml"
+        self.relationships.append((rel_type, target, None))
+
     ###########################################################################
     #
     # XML methods.

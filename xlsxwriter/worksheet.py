@@ -39,6 +39,7 @@ from .utility import xl_pixel_width
 from .utility import get_sparkline_style
 from .utility import supported_datetime
 from .utility import datetime_to_excel_datetime
+from .utility import get_image_properties
 from .utility import preserve_whitespace
 from .utility import quote_sheetname
 from .exceptions import DuplicateTableName
@@ -182,6 +183,7 @@ cell_arformula_tuple = namedtuple(
     "ArrayFormula", "formula, format, value, range, atype"
 )
 cell_rich_string_tuple = namedtuple("RichString", "string, format, raw_string")
+cell_error_tuple = namedtuple("Error", "error, format, value")
 
 
 ###############################################################################
@@ -416,6 +418,7 @@ class Worksheet(xmlwriter.XMLwriter):
 
         self.has_dynamic_arrays = False
         self.use_future_functions = False
+        self.ignore_write_string = False
 
     # Utility function for writing different types of strings.
     def _write_token_as_string(self, token, row, col, *args):
@@ -1261,16 +1264,17 @@ class Worksheet(xmlwriter.XMLwriter):
             )
             return -4
 
-        # Write previous row if in in-line string constant_memory mode.
-        if self.constant_memory and row > self.previous_row:
-            self._write_single_row(row)
-
         # Add the default URL format.
         if cell_format is None:
             cell_format = self.default_url_format
 
-        # Write the hyperlink string.
-        self._write_string(row, col, string, cell_format)
+        if not self.ignore_write_string:
+            # Write previous row if in in-line string constant_memory mode.
+            if self.constant_memory and row > self.previous_row:
+                self._write_single_row(row)
+
+            # Write the hyperlink string.
+            self._write_string(row, col, string, cell_format)
 
         # Store the hyperlink data in a separate structure.
         self.hyperlinks[row][col] = {
@@ -1566,22 +1570,48 @@ class Worksheet(xmlwriter.XMLwriter):
 
         """
         # Check insert (row, col) without storing.
-        if self._check_dimensions(row, col, True, True):
+        if self._check_dimensions(row, col):
             warn("Cannot embed image at (%d, %d)." % (row, col))
             return -1
 
         if options is None:
             options = {}
 
-        # url = options.get("url", None)
-        # tip = options.get("tip", None)
+        url = options.get("url", None)
+        tip = options.get("tip", None)
+        cell_format = options.get("cell_format", None)
         image_data = options.get("image_data", None)
-        # description = options.get("description", None)
-        # decorative = options.get("decorative", False)
+        description = options.get("description", None)
+        decorative = options.get("decorative", False)
 
         if not image_data and not os.path.exists(filename):
             warn("Image file '%s' not found." % filename)
             return -1
+
+        if url:
+            if cell_format is None:
+                cell_format = self.default_url_format
+
+            self.ignore_write_string = True
+            self.write_url(row, col, url, cell_format, None, tip)
+            self.ignore_write_string = False
+
+        # Get the image properties, for the type and checksum.
+        (
+            image_type,
+            _,
+            _,
+            _,
+            _,
+            _,
+            digest,
+        ) = get_image_properties(filename, image_data)
+
+        image = [filename, image_type, image_data, description, decorative]
+        image_index = self.embedded_images.get_image_index(image, digest)
+
+        # Store the cell error and image index in the worksheet data table.
+        self.table[row][col] = cell_error_tuple("#VALUE!", cell_format, image_index)
 
         return 0
 
@@ -4626,6 +4656,7 @@ class Worksheet(xmlwriter.XMLwriter):
         self.remove_timezone = init_data["remove_timezone"]
         self.max_url_length = init_data["max_url_length"]
         self.use_future_functions = init_data["use_future_functions"]
+        self.embedded_images = init_data["embedded_images"]
 
         if self.excel2003_style:
             self.original_row_height = 12.75
@@ -6419,7 +6450,6 @@ class Worksheet(xmlwriter.XMLwriter):
 
     def _write_sheet_data(self):
         # Write the <sheetData> element.
-
         if self.dim_rowmin is None:
             # If the dimensions aren't defined there is no data to write.
             self._xml_empty_tag("sheetData")
@@ -6883,6 +6913,14 @@ class Worksheet(xmlwriter.XMLwriter):
             attributes.append(("t", "b"))
             self._xml_start_tag("c", attributes)
             self._write_cell_value(cell.boolean)
+            self._xml_end_tag("c")
+
+        elif type_cell_name == "Error":
+            # Write a boolean cell.
+            attributes.append(("t", "e"))
+            attributes.append(("vm", cell.value))
+            self._xml_start_tag("c", attributes)
+            self._write_cell_value(cell.error)
             self._xml_end_tag("c")
 
     def _write_cell_value(self, value):
