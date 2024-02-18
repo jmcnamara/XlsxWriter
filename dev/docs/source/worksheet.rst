@@ -1279,7 +1279,7 @@ worksheet.insert_image()
 
 This method can be used to insert a image into a worksheet.
 
-This is the equivalent to Excel's menu option to insert an image using the
+This is the equivalent of Excel's menu option to insert an image using the
 option to "Place over Cells". See :func:`embed_image` for the equivalent method
 to "Place in Cell".
 
@@ -1429,7 +1429,7 @@ image automatically scale to the width and height of the cell. The X/Y scaling
 of the image is preserved but the size of the image is adjusted to fit the
 largest possible width or height depending on the cell dimensions.
 
-This is the equivalent to Excel's menu option to insert an image using the
+This is the equivalent of Excel's menu option to insert an image using the
 option to "Place in Cell". See :func:`insert_image` for the equivalent method to
 "Place over Cells".
 
