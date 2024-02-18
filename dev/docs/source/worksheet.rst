@@ -1277,8 +1277,14 @@ worksheet.insert_image()
    :returns:  0: Success.
    :returns: -1: Row or column is out of worksheet bounds.
 
-This method can be used to insert a image into a worksheet. The image can be in
-PNG, JPEG, GIF, BMP, WMF or EMF format (see the notes about BMP and EMF below)::
+This method can be used to insert a image into a worksheet.
+
+This is the equivalent to Excel's menu option to insert an image using the
+option to "Place over Cells". See :func:`embed_image` for the equivalent method
+to "Place in Cell".
+
+The image can be in PNG, JPEG, GIF, BMP, WMF or EMF format (see the notes about
+BMP and EMF below)::
 
     worksheet.insert_image('B2', 'python.png')
 
@@ -1397,6 +1403,112 @@ and scaling of images within a worksheet.
      general aren't visible.
 
 See also :ref:`ex_insert_image`.
+
+
+worksheet.embed_image()
+-----------------------
+
+.. py:function:: embed_image(row, col, filename[, options])
+
+   Embed an image in a worksheet cell.
+
+   :param row:         The cell row (zero indexed).
+   :param col:         The cell column (zero indexed).
+   :param filename:    Image filename (with path if required).
+   :param options:     Optional parameters for formatting and url.
+   :type  row:         int
+   :type  col:         int
+   :type  image:       string
+   :type  options:     dict
+
+   :returns:  0: Success.
+   :returns: -1: Row or column is out of worksheet bounds.
+
+This method can be used to embed a image into a worksheet cell and have the
+image automatically scale to the width and height of the cell. The X/Y scaling
+of the image is preserved but the size of the image is adjusted to fit the
+largest possible width or height depending on the cell dimensions.
+
+This is the equivalent to Excel's menu option to insert an image using the
+option to "Place in Cell". See :func:`insert_image` for the equivalent method to
+"Place over Cells".
+
+Here is an example::
+
+    # Widen the first column to make the caption clearer.
+    worksheet.set_column(0, 0, 30)
+    worksheet.write(0, 0, "Embed images that scale to cell size")
+
+    # Embed an images in cells of different widths/heights.
+    worksheet.set_column(1, 1, 14)
+
+    worksheet.set_row(1, 60)
+    worksheet.embed_image(1, 1, "python.png")
+
+    worksheet.set_row(3, 120)
+    worksheet.embed_image(3, 1, "python.png")
+
+.. image:: _images/embedded_images.png
+
+The image can be in PNG, JPEG, GIF, BMP, WMF or EMF format (see
+:func:`insert_image` above for more details).
+
+Both row-column and A1 style notation are supported. The following are
+equivalent::
+
+    worksheet.embed_image(1, 1, 'python.png')
+    worksheet.embed_image('B2', 'python.png')
+
+See :ref:`cell_notation` for more details.
+
+
+A file path can be specified with the image name::
+
+    worksheet1.embed_image('B10', '../images/python.png')
+    worksheet2.embed_image('B20', r'c:\images\python.png')
+
+The ``embed_image()`` method takes optional parameters in a dictionary to
+position and scale the image. The available parameters with their default
+values are::
+
+    {
+        'cell_format':     None,
+        'url':             None,
+        'image_data':      None,
+        'description':     None,
+        'decorative':      False,
+    }
+
+The ``cell_format`` parameters can be an standard :ref:`Format <format>` to set
+the formatting of the cell behind the image.
+
+The ``url`` parameter can used to add a hyperlink/url to the image. The ``tip``
+parameter gives an optional mouseover tooltip for images with hyperlinks.
+
+See also :func:`write_url` for details on supported URIs.
+
+The ``image_data`` parameter is used to add an in-memory byte stream in
+:class:`io.BytesIO` format::
+
+    worksheet.embed_image('B5', 'python.png', {'image_data': image_data})
+
+This is generally used for inserting images from URLs::
+
+    url = 'https://python.org/logo.png'
+    image_data = io.BytesIO(urllib2.urlopen(url).read())
+
+    worksheet.embed_image('B5', url, {'image_data': image_data})
+
+The ``description`` field can be used to specify a description or "alt text"
+string for the image. In general this would be used to provide a text
+description of the image to help accessibility.
+
+The optional ``decorative`` parameter is also used to help accessibility. It is
+used to mark the image as decorative, and thus uninformative, for automated
+screen readers. As in Excel, if this parameter is in use the ``description``
+field isn't written.
+
+See also :ref:`ex_embedded_images`.
 
 
 worksheet.insert_chart()

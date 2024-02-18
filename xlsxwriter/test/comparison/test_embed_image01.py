@@ -8,6 +8,7 @@
 
 from ..excel_comparison_test import ExcelComparisonTest
 from ...workbook import Workbook
+from io import BytesIO
 
 
 class TestCompareXLSXFiles(ExcelComparisonTest):
@@ -28,6 +29,23 @@ class TestCompareXLSXFiles(ExcelComparisonTest):
         worksheet = workbook.add_worksheet()
 
         worksheet.embed_image(0, 0, self.image_dir + "red.png")
+
+        workbook.close()
+
+        self.assertExcelEqual()
+
+    def test_create_file_from_memory(self):
+        """Test the creation of a simple XlsxWriter file with image(s)."""
+
+        workbook = Workbook(self.got_filename)
+
+        worksheet = workbook.add_worksheet()
+
+        image_file = open(self.image_dir + "red.png", "rb")
+        image_data = BytesIO(image_file.read())
+        image_file.close()
+
+        worksheet.embed_image(0, 0, "", {"image_data": image_data})
 
         workbook.close()
 
