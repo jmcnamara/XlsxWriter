@@ -1,10 +1,14 @@
 ##############################################################################
 #
 # An example of embedding images into a worksheet cells using the XlsxWriter
-# Python module. This is equivalent to Excel's "Place in cell" image insert.
+# Python module.
 #
-# SPDX-License-Identifier: BSD-2-Clause
-# Copyright 2013-2024, John McNamara, jmcnamara@cpan.org
+# This is the equivalent of Excel's menu option to insert an image using the
+# option to "Place in Cell" which is only available in Excel 365 versions from
+# 2023 onwards. For older versions of Excel a ``#VALUE!`` error is displayed.
+#
+# SPDX-License-Identifier: BSD-2-Clause Copyright 2013-2024, John McNamara,
+# jmcnamara@cpan.org
 #
 import xlsxwriter
 

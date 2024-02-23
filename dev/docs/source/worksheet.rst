@@ -1430,8 +1430,9 @@ of the image is preserved but the size of the image is adjusted to fit the
 largest possible width or height depending on the cell dimensions.
 
 This is the equivalent of Excel's menu option to insert an image using the
-option to "Place in Cell". See :func:`insert_image` for the equivalent method to
-"Place over Cells".
+option to "Place in Cell" which is only available in Excel 365 versions from
+2023 onwards. For older versions of Excel a ``#VALUE!`` error is displayed. See
+:func:`insert_image` for the equivalent method to "Place over Cells".
 
 Here is an example::
 
