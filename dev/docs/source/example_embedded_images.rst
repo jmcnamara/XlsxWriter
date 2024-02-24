@@ -6,9 +6,12 @@
 Example: Embedding images into a worksheet
 ==========================================
 
-This program is an example of embedding images into a worksheet. This is
-equivalent to Excel's "Place in cell" image insert. The image will scale
-automatically to fit the cell.
+This program is an example of embedding images into a worksheet. The image will
+scale automatically to fit the cell.
+
+This is the equivalent of Excel's menu option to insert an image using the
+option to "Place in Cell" which is only available in Excel 365 versions from
+2023 onwards. For older versions of Excel a ``#VALUE!`` error is displayed.
 
 See the
 :func:`embed_image` method for more details.
