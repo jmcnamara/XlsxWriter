@@ -10,7 +10,7 @@ The following are some of the examples included in the
 `examples <https://github.com/jmcnamara/XlsxWriter/tree/master/examples>`_
 directory of the XlsxWriter distribution.
 
-They show how to use XlsxWriter with `Polars <https://www.pola.rs>`_ .
+They show how to use XlsxWriter with `Polars <https://pola.rs/>`_ .
 
 .. toctree::
    :maxdepth: 1

@@ -6,7 +6,7 @@
 Working with Polars and XlsxWriter
 ==================================
 
-`Polars <https://www.pola.rs>`_ is a fast dataframe library for Rust and Python.
+`Polars <https://pola.rs/>`_ is a fast dataframe library for Rust and Python.
 
 Polars provides very tight integration of XlsxWriter and supports a lot of
 features such as conditional formats, tables, autofilters, autofit and others
@@ -31,7 +31,7 @@ following:
 
 The `write_excel()`_ API is explained in detail in the Polars documentation.
 
-.. _write_excel(): https://pola-rs.github.io/polars/py-polars/html/reference/api/polars.DataFrame.write_excel.html#polars.DataFrame.write_excel
+.. _write_excel(): https://docs.pola.rs/py-polars/html/reference/api/polars.DataFrame.write_excel.html
 
 One interesting aspect of the Polars output is that it writes the dataframe as
 an :ref:`Excel Data Table <tables>`. We will discuss this and other XlsxWriter
