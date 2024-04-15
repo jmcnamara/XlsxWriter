@@ -841,6 +841,11 @@ class Workbook(xmlwriter.XMLwriter):
             else:
                 sheetname = self.sheet_name + str(self.sheetname_count)
 
+        if not isinstance(sheetname, str):
+            raise TypeError(
+                "The sheet name must be of type str, is type %s." % type(sheetname)
+            )
+
         # Check that sheet sheetname is <= 31. Excel limit.
         if len(sheetname) > 31:
             raise InvalidWorksheetName(
