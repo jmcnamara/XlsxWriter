@@ -40,6 +40,12 @@ class TestCheckSheetname(unittest.TestCase):
         exp = "Sheet4"
         self.assertEqual(got, exp)
 
+    def test_check_sheetname_with_incorrect_dtype(self):
+        """Test the _check_sheetname() method with exception"""
+
+        name = 42
+        self.assertRaises(TypeError, self.workbook._check_sheetname, name)
+
     def test_check_sheetname_with_long_name(self):
         """Test the _check_sheetname() method with exception"""
 
