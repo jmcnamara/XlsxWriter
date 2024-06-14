@@ -70,7 +70,7 @@ class Chart(xmlwriter.XMLwriter):
         self.show_blanks = "gap"
         self.show_na_as_empty = False
         self.show_hidden = False
-        self.show_crosses = 1
+        self.show_crosses = True
         self.width = 480
         self.height = 288
         self.x_scale = 1
@@ -722,10 +722,7 @@ class Chart(xmlwriter.XMLwriter):
             "text_axis": False,
         }
 
-        if "visible" in options:
-            axis["visible"] = options.get("visible")
-        else:
-            axis["visible"] = 1
+        axis["visible"] = options.get("visible", True)
 
         # Convert the display units.
         axis["display_units"] = self._get_display_units(axis["display_units"])

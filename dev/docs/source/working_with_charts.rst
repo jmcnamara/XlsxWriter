@@ -1501,8 +1501,8 @@ See :ref:`ex_chart_date_axis`.
 Chart Secondary Axes
 --------------------
 
-It is possible to add a secondary axis of the same type to a chart by setting
-the ``y2_axis`` or ``x2_axis`` property of the series::
+    It is possible to add a secondary axis of the same type to a chart by setting
+    the ``y2_axis`` or ``x2_axis`` property of the series::
 
     import xlsxwriter
 
@@ -1638,7 +1638,7 @@ There are some limitations on combined charts:
 * Pie charts cannot currently be combined.
 * Scatter charts cannot currently be used as a primary chart but they can be
   used as a secondary chart.
-* Bar charts can only combined secondary charts on a secondary axis. This is
+* Bar charts can only combine secondary charts on a secondary axis. This is
   an Excel limitation.
 
 

@@ -28,7 +28,7 @@ class ChartStock(chart.Chart):
         """
         super(ChartStock, self).__init__()
 
-        self.show_crosses = 0
+        self.show_crosses = False
         self.hi_low_lines = {}
         self.date_category = True
 

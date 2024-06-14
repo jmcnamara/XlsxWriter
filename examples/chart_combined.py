@@ -43,7 +43,7 @@ column_chart1.add_series(
     }
 )
 
-# Create a new column chart. This will use this as the secondary chart.
+# Create a new line chart. This will use this as the secondary chart.
 line_chart1 = workbook.add_chart({"type": "line"})
 
 # Configure the data series for the secondary chart.

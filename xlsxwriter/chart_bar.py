@@ -42,7 +42,7 @@ class ChartBar(chart.Chart):
         self.val_axis_position = "b"
         self.horiz_val_axis = 0
         self.horiz_cat_axis = 1
-        self.show_crosses = 0
+        self.show_crosses = False
 
         # Override and reset the default axis values.
         self.x_axis["defaults"]["major_gridlines"] = {"visible": 1}

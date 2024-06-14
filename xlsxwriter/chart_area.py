@@ -38,7 +38,7 @@ class ChartArea(chart.Chart):
             self.subtype = "standard"
 
         self.cross_between = "midCat"
-        self.show_crosses = 0
+        self.show_crosses = False
 
         # Override and reset the default axis values.
         if self.subtype == "percent_stacked":
