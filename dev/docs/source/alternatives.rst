@@ -39,5 +39,5 @@ XLRD
 
 From the `xlrd <https://xlrd.readthedocs.io/en/latest/>`_ documentation:
 
-   xlrd is a library for reading data and formatting information from older
-   Excel files (ie: .xls)
+  xlrd is a library for reading data and formatting information from Excel
+  files in the historical `.xls` format.
