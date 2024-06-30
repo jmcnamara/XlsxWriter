@@ -114,10 +114,25 @@ CHAR_WIDTHS = {
     "~": 7,
 }
 
+# The following is a list of Emojis used to decide if worksheet names require
+# quoting since there is (currently) no native support for matching them in
+# Python regular expressions. It is probably unnecessary to exclude them since
+# the default quoting is safe in Excel even when unnecessary (the reverse isn't
+# true). The Emoji list was generated from:
+#
+# https://util.unicode.org/UnicodeJsps/list-unicodeset.jsp?a=%5B%3AEmoji%3DYes%3A%5D&abb=on&esc=on&g=&i=
+#
+emojis = "\u00A9\u00AE\u203C\u2049\u2122\u2139\u2194-\u2199\u21A9\u21AA\u231A\u231B\u2328\u23CF\u23E9-\u23F3\u23F8-\u23FA\u24C2\u25AA\u25AB\u25B6\u25C0\u25FB-\u25FE\u2600-\u2604\u260E\u2611\u2614\u2615\u2618\u261D\u2620\u2622\u2623\u2626\u262A\u262E\u262F\u2638-\u263A\u2640\u2642\u2648-\u2653\u265F\u2660\u2663\u2665\u2666\u2668\u267B\u267E\u267F\u2692-\u2697\u2699\u269B\u269C\u26A0\u26A1\u26A7\u26AA\u26AB\u26B0\u26B1\u26BD\u26BE\u26C4\u26C5\u26C8\u26CE\u26CF\u26D1\u26D3\u26D4\u26E9\u26EA\u26F0-\u26F5\u26F7-\u26FA\u26FD\u2702\u2705\u2708-\u270D\u270F\u2712\u2714\u2716\u271D\u2721\u2728\u2733\u2734\u2744\u2747\u274C\u274E\u2753-\u2755\u2757\u2763\u2764\u2795-\u2797\u27A1\u27B0\u27BF\u2934\u2935\u2B05-\u2B07\u2B1B\u2B1C\u2B50\u2B55\u3030\u303D\u3297\u3299\U0001F004\U0001F0CF\U0001F170\U0001F171\U0001F17E\U0001F17F\U0001F18E\U0001F191-\U0001F19A\U0001F1E6-\U0001F1FF\U0001F201\U0001F202\U0001F21A\U0001F22F\U0001F232-\U0001F23A\U0001F250\U0001F251\U0001F300-\U0001F321\U0001F324-\U0001F393\U0001F396\U0001F397\U0001F399-\U0001F39B\U0001F39E-\U0001F3F0\U0001F3F3-\U0001F3F5\U0001F3F7-\U0001F4FD\U0001F4FF-\U0001F53D\U0001F549-\U0001F54E\U0001F550-\U0001F567\U0001F56F\U0001F570\U0001F573-\U0001F57A\U0001F587\U0001F58A-\U0001F58D\U0001F590\U0001F595\U0001F596\U0001F5A4\U0001F5A5\U0001F5A8\U0001F5B1\U0001F5B2\U0001F5BC\U0001F5C2-\U0001F5C4\U0001F5D1-\U0001F5D3\U0001F5DC-\U0001F5DE\U0001F5E1\U0001F5E3\U0001F5E8\U0001F5EF\U0001F5F3\U0001F5FA-\U0001F64F\U0001F680-\U0001F6C5\U0001F6CB-\U0001F6D2\U0001F6D5-\U0001F6D7\U0001F6DC-\U0001F6E5\U0001F6E9\U0001F6EB\U0001F6EC\U0001F6F0\U0001F6F3-\U0001F6FC\U0001F7E0-\U0001F7EB\U0001F7F0\U0001F90C-\U0001F93A\U0001F93C-\U0001F945\U0001F947-\U0001F9FF\U0001FA70-\U0001FA7C\U0001FA80-\U0001FA88\U0001FA90-\U0001FABD\U0001FABF-\U0001FAC5\U0001FACE-\U0001FADB\U0001FAE0-\U0001FAE8\U0001FAF0-\U0001FAF8"  # noqa
+
 # Compile performance critical regular expressions.
 re_leading = re.compile(r"^\s")
 re_trailing = re.compile(r"\s$")
 re_range_parts = re.compile(r"(\$?)([A-Z]{1,3})(\$?)(\d+)")
+re_quote_rule1 = re.compile(rf"[^\w\.{emojis}]")
+re_quote_rule2 = re.compile(rf"^[\d\.{emojis}]")
+re_quote_rule3 = re.compile(r"^([A-Z]{1,3}\d+)$")
+re_quote_rule4_row = re.compile(r"^R(\d+)")
+re_quote_rule4_column = re.compile(r"^R?C(\d+)")
 
 
 def xl_rowcol_to_cell(row, col, row_abs=False, col_abs=False):
@@ -368,8 +383,9 @@ def xl_range_formula(sheetname, first_row, first_col, last_row, last_col):
 
 def quote_sheetname(sheetname):
     """
-    Convert a worksheet name to a quoted  name if it contains spaces or
-    special characters.
+    Sheetnames used in references should be quoted if they contain any spaces,
+    special characters or if they look like a A1 or RC cell reference. The rules
+    are shown inline below.
 
     Args:
        sheetname: The worksheet name. String.
@@ -378,8 +394,72 @@ def quote_sheetname(sheetname):
         A quoted worksheet string.
 
     """
+    uppercase_sheetname = sheetname.upper()
+    requires_quoting = False
+    col_max = 163_84
+    row_max = 1048576
 
-    if not sheetname.isalnum() and not sheetname.startswith("'"):
+    # Don't quote sheetname if it is already quoted by the user.
+    if not sheetname.startswith("'"):
+
+        # --------------------------------------------------------------------
+        # Rule 1. Sheet names that contain anything other than \w and "."
+        # characters must be quoted.
+        # --------------------------------------------------------------------
+        if re_quote_rule1.search(sheetname):
+            requires_quoting = True
+
+        # --------------------------------------------------------------------
+        # Rule 2. Sheet names that start with a digit or "." must be quoted.
+        # --------------------------------------------------------------------
+        elif re_quote_rule2.search(sheetname):
+            requires_quoting = True
+
+        # --------------------------------------------------------------------
+        # Rule 3. Sheet names must not be a valid A1 style cell reference.
+        # Valid means that the row and column range values must also be within
+        # Excel row and column limits.
+        # --------------------------------------------------------------------
+        elif re_quote_rule3.match(uppercase_sheetname):
+            match = re_quote_rule3.match(uppercase_sheetname)
+            cell = match.group(1)
+            (row, col) = xl_cell_to_rowcol(cell)
+
+            if row >= 0 and row < row_max and col >= 0 and col < col_max:
+                requires_quoting = True
+
+        # --------------------------------------------------------------------
+        # Rule 4. Sheet names must not *start* with a valid RC style cell
+        # reference. Other characters after the valid RC reference are ignored
+        # by Excel. Valid means that the row and column range values must also
+        # be within Excel row and column limits.
+        #
+        # Note: references without trailing characters like R12345 or C12345
+        # are caught by Rule 3. Negative references like R-12345 are caught by
+        # Rule 1 due to dash.
+        # --------------------------------------------------------------------
+
+        # Rule 4a. Check for sheet names that start with R1 style references.
+        elif re_quote_rule4_row.match(uppercase_sheetname):
+            match = re_quote_rule4_row.match(uppercase_sheetname)
+            row = int(match.group(1))
+
+            if row > 0 and row <= row_max:
+                requires_quoting = True
+
+        # Rule 4b. Check for sheet names that start with C1 or RC1 style
+        elif re_quote_rule4_column.match(uppercase_sheetname):
+            match = re_quote_rule4_column.match(uppercase_sheetname)
+            col = int(match.group(1))
+
+            if col > 0 and col <= col_max:
+                requires_quoting = True
+
+        # Rule 4c. Check for some single R/C references.
+        elif uppercase_sheetname in ("R", "C", "RC"):
+            requires_quoting = True
+
+    if requires_quoting:
         # Double quote any single quotes.
         sheetname = sheetname.replace("'", "''")
 

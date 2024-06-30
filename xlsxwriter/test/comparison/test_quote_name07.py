@@ -25,7 +25,9 @@ class TestCompareXLSXFiles(ExcelComparisonTest):
 
         workbook = Workbook(self.got_filename)
 
-        worksheet = workbook.add_worksheet("Sheet'1")
+        sheet_name = "Sheet'1"
+
+        worksheet = workbook.add_worksheet(sheet_name)
         chart = workbook.add_chart({"type": "column"})
 
         chart.axis_ids = [48135552, 54701056]
@@ -44,9 +46,10 @@ class TestCompareXLSXFiles(ExcelComparisonTest):
         worksheet.set_portrait()
         worksheet.vertical_dpi = 200
 
-        chart.add_series({"values": ["Sheet'1", 0, 0, 4, 0]})
-        chart.add_series({"values": ["Sheet'1", 0, 1, 4, 1]})
-        chart.add_series({"values": ["Sheet'1", 0, 2, 4, 2]})
+        chart.add_series({"values": [sheet_name, 0, 0, 4, 0]})
+        chart.add_series({"values": [sheet_name, 0, 1, 4, 1]})
+        chart.add_series({"values": [sheet_name, 0, 2, 4, 2]})
+
         worksheet.insert_chart("E9", chart)
 
         workbook.close()

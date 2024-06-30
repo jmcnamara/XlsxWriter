@@ -18,19 +18,19 @@ class TestCompareXLSXFiles(ExcelComparisonTest):
 
     def setUp(self):
 
-        self.set_filename("quote_name05.xlsx")
+        self.set_filename("quote_name08.xlsx")
 
     def test_create_file(self):
         """Test the creation of a simple XlsxWriter file."""
 
         workbook = Workbook(self.got_filename)
 
-        sheet_name = "Sheet1"
+        sheet_name = "1Sheet"
 
         worksheet = workbook.add_worksheet(sheet_name)
         chart = workbook.add_chart({"type": "column"})
 
-        chart.axis_ids = [54437760, 59195776]
+        chart.axis_ids = [55487104, 84573184]
 
         data = [
             [1, 2, 3, 4, 5],
