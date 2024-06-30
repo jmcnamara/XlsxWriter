@@ -48,9 +48,9 @@ test_flake8:
 	@find xlsxwriter/test -name \*.py | xargs flake8 --ignore=E501,F841,W503
 
 lint:
-	@ruff xlsxwriter/*.py
-	@ruff xlsxwriter/test --ignore=E501,F841
-	@ruff examples
+	@ruff check xlsxwriter/*.py
+	@ruff check xlsxwriter/test --ignore=E501,F841
+	@ruff check examples
 	@black --check xlsxwriter/ examples/
 
 tags:
