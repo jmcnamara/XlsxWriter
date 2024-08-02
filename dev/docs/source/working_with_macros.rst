@@ -14,7 +14,7 @@ This section explains how to add a VBA file containing functions or macros to an
 The Excel XLSM file format
 --------------------------
 
-An Excel ``xlsm`` file is exactly the same as an ``xlsx`` file except that is
+An Excel ``xlsm`` file is exactly the same as an ``xlsx`` file except that it
 contains an additional ``vbaProject.bin`` file which contains functions and/or
 macros. Excel uses a different extension to differentiate between the two file
 formats since files containing macros are usually subject to additional
