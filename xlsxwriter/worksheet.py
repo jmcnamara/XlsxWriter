@@ -1015,6 +1015,37 @@ class Worksheet(xmlwriter.XMLwriter):
 
         return formula
 
+    # Escape/expand table functions. This mainly involves converting Excel 2010
+    # "@" table ref to 2007 "[#This Row],". We parse the string to avoid
+    # replacements in string literals within the formula.
+    @staticmethod
+    def _prepare_table_formula(formula):
+        if "@" not in formula:
+            # No escaping required.
+            return formula
+
+        escaped_formula = []
+        in_string_literal = False
+
+        for char in formula:
+            # Match the start/end of string literals to avoid escaping
+            # references in strings.
+            if char == '"':
+                in_string_literal = not in_string_literal
+
+            # Copy the string literal.
+            if in_string_literal:
+                escaped_formula.append(char)
+                continue
+
+            # Replace table reference.
+            if char == "@":
+                escaped_formula.append("[#This Row],")
+            else:
+                escaped_formula.append(char)
+
+        return ("").join(escaped_formula)
+
     # Undecorated version of write_array_formula() and
     # write_dynamic_array_formula().
     def _write_array_formula(
@@ -3463,7 +3494,7 @@ class Worksheet(xmlwriter.XMLwriter):
                             formula = formula.lstrip("=")
 
                         # Convert Excel 2010 "@" ref to 2007 "#This Row".
-                        formula = formula.replace("@", "[#This Row],")
+                        formula = self._prepare_table_formula(formula)
 
                         # Escape any future functions.
                         formula = self._prepare_formula(formula, True)

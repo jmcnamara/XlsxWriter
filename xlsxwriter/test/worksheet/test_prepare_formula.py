@@ -11,7 +11,7 @@ from io import StringIO
 from ...worksheet import Worksheet
 
 
-class TestCalculateSpans(unittest.TestCase):
+class TestPrepareFormula(unittest.TestCase):
     """
     Test the _prepare_formula Worksheet method for different formula types.
 
