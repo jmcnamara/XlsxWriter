@@ -479,7 +479,7 @@ Format strings can control any aspect of number formatting allowed by Excel::
     worksheet.write(7, 0, 36892.521, cell_format07)       # -> 1 January 2001
 
     cell_format08.set_num_format('dd/mm/yyyy hh:mm AM/PM')
-    worksheet.write(8, 0, 36892.521, cell_format08)       # -> 01/01/2001 12:30 AM
+    worksheet.write(8, 0, 36892.521, cell_format08)       # -> 01/01/2001 12:30 PM
 
     cell_format09.set_num_format('0 "dollar and" .00 "cents"')
     worksheet.write(9, 0, 1.87, cell_format09)            # -> 1 dollar and .87 cents
