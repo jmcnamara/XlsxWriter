@@ -36,7 +36,7 @@ def print_elapsed_time(module_name, elapsed, optimised=False):
     """ Print module run times in a consistent format. """
     if optimised:
         module_name += " (optimised)"
-    print("    %-22s: %6.2f" % (module_name, elapsed))
+    print(f"    {module_name:22s}: {elapsed:6.2f}")
 
 
 def time_xlsxwriter(optimised=False):
@@ -55,7 +55,7 @@ def time_xlsxwriter(optimised=False):
         worksheet = workbook.add_worksheet()
 
         for row in range(0, row_max, 2):
-            string_data = ["Row: %d Col: %d" % (row, col) for col in range(col_max)]
+            string_data = [f"Row: {row} Col: {col}" for col in range(col_max)]
             worksheet.write_row(row, 0, string_data)
 
             num_data = [row + col for col in range(col_max)]
@@ -81,7 +81,7 @@ def time_openpyxl(optimised=False):
 
         for row in range(row_max // 2):
 
-            string_data = ("Row: %d Col: %d" % (row, col) for col in range(col_max))
+            string_data = (f"Row: {row} Col: {col}" for col in range(col_max))
             worksheet.append(string_data)
 
             num_data = (row + col for col in range(col_max))
@@ -96,15 +96,15 @@ def time_openpyxl(optimised=False):
 
 print("")
 print("Versions:")
-print("%s: %s" % ('python', str(sys.version).split()[0]))
-print("%s: %s" % ('openpyxl', openpyxl.__version__))
-print("%s: %s" % ('xlsxwriter', xlsxwriter.__version__))
+print(f"python: {str(sys.version).split()[0]}")
+print(f"openpyxl: {openpyxl.__version__}")
+print(f"xlsxwriter: {xlsxwriter.__version__}")
 print("")
 
 print("Dimensions:")
-print("    Rows = %d" % row_max)
-print("    Cols = %d" % col_max)
-print("    Sheets = %d" % sheets)
+print(f"    Rows   = {row_max}")
+print(f"    Cols   = {col_max}")
+print(f"    Sheets = {sheets}")
 print("")
 
 print("Times:")

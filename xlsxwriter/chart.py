@@ -423,7 +423,7 @@ class Chart(xmlwriter.XMLwriter):
         }
 
         if option not in valid_options:
-            warn("Unknown show_blanks_as() option '%s'" % option)
+            warn(f"Unknown show_blanks_as() option '{option}'")
             return
 
         self.show_blanks = option
@@ -850,8 +850,8 @@ class Chart(xmlwriter.XMLwriter):
             # Check for unquoted sheetnames.
             if data and " " in data and "'" not in data and self.warn_sheetname:
                 warn(
-                    "Sheetname in '%s' contains spaces but isn't quoted. "
-                    "This may cause errors in Excel." % data
+                    f"Sheetname in '{data}' contains spaces but isn't quoted. "
+                    f"This may cause an error in Excel."
                 )
             return data
 
@@ -972,7 +972,7 @@ class Chart(xmlwriter.XMLwriter):
             if marker_type in types:
                 marker["type"] = types[marker_type]
             else:
-                warn("Unknown marker type '%s" % marker_type)
+                warn(f"Unknown marker type '{marker_type}")
                 return
 
         # Set the line properties for the marker.
@@ -1031,7 +1031,7 @@ class Chart(xmlwriter.XMLwriter):
         if trend_type in types:
             trendline["type"] = types[trend_type]
         else:
-            warn("Unknown trendline type '%s'" % trend_type)
+            warn(f"Unknown trendline type '{trend_type}'")
             return
 
         # Set the line properties for the trendline.
@@ -1137,7 +1137,7 @@ class Chart(xmlwriter.XMLwriter):
         if error_type in types:
             error_bars["type"] = types[error_type]
         else:
-            warn("Unknown error bars type '%s" % error_type)
+            warn(f"Unknown error bars type '{error_type}")
             return
 
         # Set the value for error types that require it.
@@ -1199,7 +1199,7 @@ class Chart(xmlwriter.XMLwriter):
                 else:
                     labels["position"] = self.label_positions[position]
             else:
-                warn("Unsupported label position '%s' for this chart type" % position)
+                warn(f"Unsupported label position '{position}' for this chart type")
                 return
 
         # Map the user defined label separator to the Excel separator.
@@ -1409,13 +1409,13 @@ class Chart(xmlwriter.XMLwriter):
         # Check for valid properties.
         for key in args.keys():
             if key not in properties:
-                warn("Property '%s' allowed not in layout options" % key)
+                warn(f"Property '{key}' not supported in layout options")
                 return
 
         # Set the layout properties.
         for prop in properties:
             if prop not in args.keys():
-                warn("Property '%s' must be specified in layout options" % prop)
+                warn(f"Property '{prop}' must be specified in layout options")
                 return
 
             value = args[prop]
@@ -1423,20 +1423,18 @@ class Chart(xmlwriter.XMLwriter):
             try:
                 float(value)
             except ValueError:
-                warn(
-                    "Property '%s' value '%s' must be numeric in layout" % (prop, value)
-                )
+                warn(f"Property '{prop}' value '{value}' must be numeric in layout")
                 return
 
             if value < 0 or value > 1:
                 warn(
-                    "Property '%s' value '%s' must be in range "
-                    "0 < x <= 1 in layout options" % (prop, value)
+                    f"Property '{prop}' value '{value}' must be in range "
+                    f"0 < x <= 1 in layout options"
                 )
                 return
 
             # Convert to the format used by Excel for easier testing
-            layout[prop] = "%.17g" % value
+            layout[prop] = f"{value:.17g}"
 
         return layout
 
@@ -1523,7 +1521,7 @@ class Chart(xmlwriter.XMLwriter):
         if display_units in types:
             display_units = types[display_units]
         else:
-            warn("Unknown display_units type '%s'" % display_units)
+            warn(f"Unknown display_units type '{display_units}'")
             return
 
         return display_units
@@ -1543,7 +1541,7 @@ class Chart(xmlwriter.XMLwriter):
         if tick_type in types:
             tick_type = types[tick_type]
         else:
-            warn("Unknown tick_type  '%s'" % tick_type)
+            warn(f"Unknown tick_type '{tick_type}'")
             return
 
         return tick_type
@@ -1573,8 +1571,8 @@ class Chart(xmlwriter.XMLwriter):
         chart_id = 5001 + int(self.id)
         axis_count = 1 + len(self.axis2_ids) + len(self.axis_ids)
 
-        id1 = "%04d%04d" % (chart_id, axis_count)
-        id2 = "%04d%04d" % (chart_id, axis_count + 1)
+        id1 = f"{chart_id:04d}{axis_count:04d}"
+        id2 = f"{chart_id:04d}{axis_count + 1:04d}"
 
         if args["primary_axes"]:
             self.axis_ids.append(id1)

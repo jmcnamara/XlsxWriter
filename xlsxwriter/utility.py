@@ -150,11 +150,11 @@ def xl_rowcol_to_cell(row, col, row_abs=False, col_abs=False):
 
     """
     if row < 0:
-        warn("Row number %d must be >= 0" % row)
+        warn(f"Row number '{row}' must be >= 0")
         return None
 
     if col < 0:
-        warn("Col number %d must be >= 0" % col)
+        warn(f"Col number '{col}' must be >= 0")
         return None
 
     row += 1  # Change to 1-index.
@@ -200,7 +200,7 @@ def xl_col_to_name(col, col_abs=False):
     """
     col_num = col
     if col_num < 0:
-        warn("Col number %d must be >= 0" % col_num)
+        warn(f"Col number '{col_num}' must be >= 0")
         return None
 
     col_num += 1  # Change to 1-index.
@@ -464,7 +464,7 @@ def quote_sheetname(sheetname):
         sheetname = sheetname.replace("'", "''")
 
         # Single quote the sheet name.
-        sheetname = "'%s'" % sheetname
+        sheetname = f"'{sheetname}'"
 
     return sheetname
 
@@ -517,7 +517,7 @@ def xl_color(color):
         color = named_colors[color]
 
     if not re.match("#[0-9a-fA-F]{6}", color):
-        warn("Color '%s' isn't a valid Excel color" % color)
+        warn(f"Color '{color}' isn't a valid Excel color")
 
     # Convert the RGB color to the Excel ARGB format.
     return "FF" + color.lstrip("#").upper()
@@ -1013,12 +1013,12 @@ def get_image_properties(filename, image_data):
 
     else:
         raise UnsupportedImageFormat(
-            "%s: Unknown or unsupported image file format." % filename
+            f"{filename}: Unknown or unsupported image file format."
         )
 
     # Check that we found the required data.
     if not height or not width:
-        raise UndefinedImageSize("%s: no size data found in image file." % filename)
+        raise UndefinedImageSize(f"{filename}: no size data found in image file.")
 
     if not image_data:
         fh.close()

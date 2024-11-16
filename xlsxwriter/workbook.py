@@ -272,7 +272,7 @@ class Workbook(xmlwriter.XMLwriter):
         elif chart_type == "stock":
             chart = ChartStock(options)
         else:
-            warn("Unknown chart type '%s' in add_chart()" % chart_type)
+            warn(f"Unknown chart type '{chart_type}' in add_chart()")
             return
 
         # Set the embedded chart name if present.
@@ -300,7 +300,7 @@ class Workbook(xmlwriter.XMLwriter):
 
         """
         if not is_stream and not os.path.exists(vba_project):
-            warn("VBA project binary file '%s' not found." % vba_project)
+            warn(f"VBA project binary file '{vba_project}' not found.")
             return -1
 
         if self.vba_codename is None:
@@ -330,7 +330,7 @@ class Workbook(xmlwriter.XMLwriter):
             return -1
 
         if not signature_is_stream and not os.path.exists(signature):
-            warn("VBA project signature binary file '%s' not found." % signature)
+            warn(f"VBA project signature binary file '{signature}' not found.")
             return -1
 
         self.vba_project_signature = signature
@@ -406,7 +406,7 @@ class Workbook(xmlwriter.XMLwriter):
             return
 
         if tab_ratio < 0 or tab_ratio > 100:
-            warn("Tab ratio '%d' outside: 0 <= tab_ratio <= 100" % tab_ratio)
+            warn(f"Tab ratio '{tab_ratio}' outside: 0 <= tab_ratio <= 100")
         else:
             self.tab_ratio = int(tab_ratio * 10)
 
@@ -461,14 +461,14 @@ class Workbook(xmlwriter.XMLwriter):
 
         if property_type == "text" and len(value) > 255:
             warn(
-                "Length of 'value' parameter exceeds Excel's limit of 255 "
-                "characters in set_custom_property(): '%s'" % value
+                f"Length of 'value' parameter exceeds Excel's limit of 255 "
+                f"characters in set_custom_property(): '{value}'"
             )
 
         if len(name) > 255:
             warn(
-                "Length of 'name' parameter exceeds Excel's limit of 255 "
-                "characters in set_custom_property(): '%s'" % name
+                f"Length of 'name' parameter exceeds Excel's limit of 255 "
+                f"characters in set_custom_property(): '{name}'"
             )
 
         self.custom_properties.append((name, value, property_type))
@@ -530,7 +530,7 @@ class Workbook(xmlwriter.XMLwriter):
 
             # Warn if the sheet index wasn't found.
             if sheet_index is None:
-                warn("Unknown sheet name '%s' in defined_name()" % sheetname)
+                warn(f"Unknown sheet name '{sheetname}' in defined_name()")
                 return -1
         else:
             # Use -1 to indicate global names.
@@ -540,17 +540,17 @@ class Workbook(xmlwriter.XMLwriter):
         if not re.match(r"^[\w\\][\w\\.]*$", name, re.UNICODE) or re.match(
             r"^\d", name
         ):
-            warn("Invalid Excel characters in defined_name(): '%s'" % name)
+            warn(f"Invalid Excel characters in defined_name(): '{name}'")
             return -1
 
         # Warn if the defined name looks like a cell name.
         if re.match(r"^[a-zA-Z][a-zA-Z]?[a-dA-D]?\d+$", name):
-            warn("Name looks like a cell name in defined_name(): '%s'" % name)
+            warn(f"Name looks like a cell name in defined_name(): '{name}'")
             return -1
 
         # Warn if the name looks like a R1C1 cell reference.
         if re.match(r"^[rcRC]$", name) or re.match(r"^[rcRC]\d+[rcRC]\d+$", name):
-            warn("Invalid name '%s' like a RC cell ref in defined_name()" % name)
+            warn(f"Invalid name '{name}' like a RC cell ref in defined_name()")
             return -1
 
         self.defined_names.append([name, sheet_index, formula, False])
@@ -844,19 +844,19 @@ class Workbook(xmlwriter.XMLwriter):
         # Check that sheet sheetname is <= 31. Excel limit.
         if len(sheetname) > 31:
             raise InvalidWorksheetName(
-                "Excel worksheet name '%s' must be <= 31 chars." % sheetname
+                f"Excel worksheet name '{sheetname}' must be <= 31 chars."
             )
 
         # Check that sheetname doesn't contain any invalid characters.
         if invalid_char.search(sheetname):
             raise InvalidWorksheetName(
-                "Invalid Excel character '[]:*?/\\' in sheetname '%s'." % sheetname
+                f"Invalid Excel character '[]:*?/\\' in sheetname '{sheetname}'."
             )
 
         # Check that sheetname doesn't start or end with an apostrophe.
         if sheetname.startswith("'") or sheetname.endswith("'"):
             raise InvalidWorksheetName(
-                'Sheet name cannot start or end with an apostrophe "%s".' % sheetname
+                f'Sheet name cannot start or end with an apostrophe "{sheetname}".'
             )
 
         # Check that the worksheet name doesn't already exist since this is a
@@ -864,7 +864,7 @@ class Workbook(xmlwriter.XMLwriter):
         for worksheet in self.worksheets():
             if sheetname.lower() == worksheet.name.lower():
                 raise DuplicateWorksheetName(
-                    "Sheetname '%s', with case ignored, is already in use." % sheetname
+                    f"Sheetname '{sheetname}', with case ignored, is already in use."
                 )
 
         return sheetname
@@ -1540,8 +1540,8 @@ class Workbook(xmlwriter.XMLwriter):
                 # in a chart series formula.
                 if sheetname not in worksheets:
                     warn(
-                        "Unknown worksheet reference '%s' in range "
-                        "'%s' passed to add_series()" % (sheetname, c_range)
+                        f"Unknown worksheet reference '{sheetname}' in range "
+                        f"'{c_range}' passed to add_series()"
                     )
                     chart.formula_data[r_id] = []
                     seen_ranges[c_range] = []

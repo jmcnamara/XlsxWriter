@@ -124,7 +124,7 @@ class Shape(object):
             if dash_type in dash_types:
                 line["dash_type"] = dash_types[dash_type]
             else:
-                warn("Unknown dash type '%s'" % dash_type)
+                warn(f"Unknown dash type '{dash_type}'")
                 return
 
         line["defined"] = True
@@ -216,7 +216,7 @@ class Shape(object):
 
         # Check for valid types.
         if pattern["pattern"] not in types:
-            warn("unknown pattern type '%s'" % pattern["pattern"])
+            warn(f"unknown pattern type '{pattern['pattern']}'")
             return
         else:
             pattern["pattern"] = types[pattern["pattern"]]
@@ -294,7 +294,7 @@ class Shape(object):
             if gradient_type in types:
                 gradient["type"] = types[gradient_type]
             else:
-                warn("Unknown gradient type '%s" % gradient_type)
+                warn(f"Unknown gradient type '{gradient_type}")
                 return
         else:
             gradient["type"] = "linear"
@@ -391,7 +391,7 @@ class Shape(object):
             if align_type in align_types:
                 align["vertical"] = align_types[align_type]
             else:
-                warn("Unknown alignment type '%s'" % align_type)
+                warn(f"Unknown alignment type '{align_type}'")
                 return {"defined": False}
 
         if "horizontal" in align:
@@ -406,7 +406,7 @@ class Shape(object):
             if align_type in align_types:
                 align["horizontal"] = align_types[align_type]
             else:
-                warn("Unknown alignment type '%s'" % align_type)
+                warn(f"Unknown alignment type '{align_type}'")
                 return {"defined": False}
 
         align["defined"] = True

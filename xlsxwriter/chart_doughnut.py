@@ -50,7 +50,7 @@ class ChartDoughnut(chart_pie.ChartPie):
 
         # Ensure the size is in Excel's range.
         if size < 10 or size > 90:
-            warn("Chart hole size %d outside Excel range: 10 <= size <= 90" % size)
+            warn("Chart hole size '{size}' outside Excel range: 10 <= size <= 90")
             return
 
         self.hole_size = int(size)

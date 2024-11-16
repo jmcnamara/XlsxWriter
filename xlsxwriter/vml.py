@@ -338,13 +338,13 @@ class Vml(xmlwriter.XMLwriter):
             visibility = "visible"
 
         style = (
-            "position:absolute;"
-            "margin-left:%.15gpt;"
-            "margin-top:%.15gpt;"
-            "width:%.15gpt;"
-            "height:%.15gpt;"
-            "z-index:%d;"
-            "visibility:%s" % (left, top, width, height, z_index, visibility)
+            f"position:absolute;"
+            f"margin-left:{left:.15g}pt;"
+            f"margin-top:{top:.15g}pt;"
+            f"width:{width:.15g}pt;"
+            f"height:{height:.15g}pt;"
+            f"z-index:{z_index};"
+            f"visibility:{visibility}"
         )
 
         attributes = [
@@ -389,13 +389,13 @@ class Vml(xmlwriter.XMLwriter):
         (left, top, width, height) = self._pixels_to_points(vertices)
 
         style = (
-            "position:absolute;"
-            "margin-left:%.15gpt;"
-            "margin-top:%.15gpt;"
-            "width:%.15gpt;"
-            "height:%.15gpt;"
-            "z-index:%d;"
-            "mso-wrap-style:tight" % (left, top, width, height, z_index)
+            f"position:absolute;"
+            f"margin-left:{left:.15g}pt;"
+            f"margin-top:{top:.15g}pt;"
+            f"width:{width:.15g}pt;"
+            f"height:{height:.15g}pt;"
+            f"z-index:{z_index};"
+            f"mso-wrap-style:tight"
         )
 
         attributes = [
@@ -453,12 +453,12 @@ class Vml(xmlwriter.XMLwriter):
         height = 72.0 / 96 * int(height * 96.0 / 72 + 0.25)
 
         style = (
-            "position:absolute;"
-            "margin-left:0;"
-            "margin-top:0;"
-            "width:%.15gpt;"
-            "height:%.15gpt;"
-            "z-index:%d" % (width, height, z_index)
+            f"position:absolute;"
+            f"margin-left:0;"
+            f"margin-top:0;"
+            f"width:{width:.15g}pt;"
+            f"height:{height:.15g}pt;"
+            f"z-index:{z_index}"
         )
 
         attributes = [

@@ -43,7 +43,7 @@ worksheet.set_column(0, col_max, 18)
 
 for row in range(0, row_max):
     for col in range(0, col_max):
-        worksheet.write_string(row * 2, col, "Row: %d Col: %d" % (row, col))
+        worksheet.write_string(row * 2, col, f"Row: {row} Col: {col}")
     for col in range(0, col_max + 1):
         worksheet.write_number(row * 2 + 1, col, row + col)
 
@@ -60,4 +60,4 @@ elapsed = perf_counter() - start_time
 
 # Print a simple CSV output for reporting.
 
-print("%6d, %3d, %6.2f, %d" % (row_max * 2, col_max, elapsed, total_size))
+print(f"{row_max * 2:6d}, {col_max:3d}, {elapsed:6.2f}, {total_size}")

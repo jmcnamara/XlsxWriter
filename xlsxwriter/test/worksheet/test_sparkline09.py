@@ -37,9 +37,9 @@ class TestAssembleWorksheet(unittest.TestCase):
         # Test all the styles.
         for i in range(36):
             row = i + 1
-            sparkrange = "Sheet1!A%d:E%d" % (row, row)
+            spark_range = f"Sheet1!A{row}:E{row}"
             worksheet.write_row(i, 0, data)
-            worksheet.add_sparkline(i, 5, {"range": sparkrange, "style": row})
+            worksheet.add_sparkline(i, 5, {"range": spark_range, "style": row})
 
         worksheet._assemble_xml_file()
 

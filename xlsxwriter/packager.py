@@ -225,8 +225,8 @@ class Packager(object):
             # Check that the chart has at least one data series.
             if not chart.series:
                 raise EmptyChartSeries(
-                    "Chart%d must contain at least one "
-                    "data series. See chart.add_series()." % index
+                    f"Chart{index} must contain at least one "
+                    f"data series. See chart.add_series()."
                 )
 
             chart._set_xml_writer(

@@ -59,7 +59,7 @@ class ChartPie(chart.Chart):
         # Ensure the rotation is in Excel's range.
         if rotation < 0 or rotation > 360:
             warn(
-                "Chart rotation %d outside Excel range: 0 <= rotation <= 360" % rotation
+                f"Chart rotation '{rotation}' outside Excel range: 0 <= rotation <= 360"
             )
             return
 

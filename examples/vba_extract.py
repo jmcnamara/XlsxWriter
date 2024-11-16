@@ -49,30 +49,30 @@ try:
 
     # Read the xl/vbaProject.bin file.
     extract_file(xlsm_zip, vba_filename)
-    print("Extracted: %s" % vba_filename)
+    print(f"Extracted: {vba_filename}")
 
     if "xl/" + vba_signature_filename in xlsm_zip.namelist():
         extract_file(xlsm_zip, vba_signature_filename)
-        print("Extracted: %s" % vba_signature_filename)
+        print(f"Extracted: {vba_signature_filename}")
 
 
 except IOError as e:
-    print("File error: %s" % str(e))
+    print(f"File error: {str(e)}")
     exit()
 
 except KeyError as e:
     # Usually when there isn't a xl/vbaProject.bin member in the file.
-    print("File error: %s" % str(e))
-    print("File may not be an Excel xlsm macro file: '%s'" % xlsm_file)
+    print(f"File error: {str(e)}")
+    print(f"File may not be an Excel xlsm macro file: '{xlsm_file}'")
     exit()
 
 except BadZipFile as e:
     # Usually if the file is an xls file and not an xlsm file.
-    print("File error: %s: '%s'" % (str(e), xlsm_file))
+    print(f"File error: {str(e)}: '{xlsm_file}'")
     print("File may not be an Excel xlsm macro file.")
     exit()
 
 except Exception as e:
     # Catch any other exceptions.
-    print("File error: %s" % str(e))
+    print(f"File error: {str(e)}")
     exit()

@@ -158,7 +158,7 @@ class App(xmlwriter.XMLwriter):
 
     def _write_vt_data(self, vt_data):
         # Write the <vt:*> elements such as <vt:lpstr> and <vt:if>.
-        self._xml_data_element("vt:%s" % vt_data[0], vt_data[1])
+        self._xml_data_element(f"vt:{vt_data[0]}", vt_data[1])
 
     def _write_company(self):
         company = self.properties.get("company", "")

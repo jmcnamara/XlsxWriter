@@ -25,7 +25,7 @@ for chart_type in chart_types:
         for col_num in range(0, 64, 8):
             chart = workbook.add_chart({"type": chart_type})
             chart.add_series({"values": "=Data!$A$1:$A$6"})
-            chart.set_title({"name": "Style %d" % style_number})
+            chart.set_title({"name": f"Style {style_number}"})
             chart.set_legend({"none": True})
             chart.set_style(style_number)
 
