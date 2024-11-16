@@ -1769,7 +1769,7 @@ class Workbook(xmlwriter.XMLwriter):
 
 
 # A metadata class to share data between worksheets.
-class WorksheetMeta(object):
+class WorksheetMeta():
     """
     A class to track worksheets data such as the active sheet and the
     first sheet.
@@ -1782,7 +1782,7 @@ class WorksheetMeta(object):
 
 
 # A helper class to share embedded images between worksheets.
-class EmbeddedImages(object):
+class EmbeddedImages():
     """
     A class to track duplicate embedded images between worksheets.
 

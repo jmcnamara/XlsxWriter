@@ -18,7 +18,7 @@ re_control_chars_2 = re.compile(r"([\x00-\x08\x0b-\x1f])")
 xml_escapes = re.compile('["&<>\n]')
 
 
-class XMLwriter(object):
+class XMLwriter():
     """
     Simple XML writer class.
 
