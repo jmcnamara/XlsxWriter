@@ -8,6 +8,7 @@
 #
 import os
 import sys
+
 try:
     from time import process_time
 except ImportError:
@@ -33,24 +34,23 @@ elif len(sys.argv) > 3:
 
 
 def print_elapsed_time(module_name, elapsed, optimised=False):
-    """ Print module run times in a consistent format. """
+    """Print module run times in a consistent format."""
     if optimised:
         module_name += " (optimised)"
     print(f"    {module_name:22s}: {elapsed:6.2f}")
 
 
 def time_xlsxwriter(optimised=False):
-    """ Run XlsxWriter in optimised/constant memory mode. """
+    """Run XlsxWriter in optimised/constant memory mode."""
     options = {}
     module_name = "xlsxwriter"
     if optimised:
-        options['constant_memory'] = True
+        options["constant_memory"] = True
 
     start_time = process_time()
-    filename = 'xlsxwriter_opt.xlsx'
+    filename = "xlsxwriter_opt.xlsx"
 
-    workbook = xlsxwriter.Workbook(filename,
-                                   options=options)
+    workbook = xlsxwriter.Workbook(filename, options=options)
     for r in range(sheets):
         worksheet = workbook.add_worksheet()
 
@@ -69,11 +69,11 @@ def time_xlsxwriter(optimised=False):
 
 
 def time_openpyxl(optimised=False):
-    """ Run OpenPyXL in default mode. """
+    """Run OpenPyXL in default mode."""
     module_name = "openpyxl"
 
     start_time = process_time()
-    filename = 'openpyxl.xlsx'
+    filename = "openpyxl.xlsx"
 
     workbook = openpyxl.Workbook(write_only=optimised)
     for r in range(sheets):
@@ -113,4 +113,3 @@ time_xlsxwriter(optimised=True)
 time_openpyxl()
 time_openpyxl(optimised=True)
 print("")
-

@@ -35,8 +35,7 @@ col_max = 50
 start_time = perf_counter()
 
 # Start of program being tested.
-workbook = xlsxwriter.Workbook('py_ewx.xlsx',
-                               {'constant_memory': optimise})
+workbook = xlsxwriter.Workbook("py_ewx.xlsx", {"constant_memory": optimise})
 worksheet = workbook.add_worksheet()
 
 worksheet.set_column(0, col_max, 18)
