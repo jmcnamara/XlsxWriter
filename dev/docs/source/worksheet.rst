@@ -234,7 +234,7 @@ parameter is optional but when present is should be a valid
 Unicode strings are supported in UTF-8 encoding. This generally requires that
 your source file is UTF-8 encoded::
 
-  worksheet.write('A1', u'Some UTF-8 text')
+  worksheet.write('A1', 'Some UTF-8 text')
 
 .. image:: _images/worksheet02.png
 

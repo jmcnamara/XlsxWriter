@@ -834,9 +834,9 @@ worksheet.
 
        worksheet.right_to_left()
 
-       worksheet.write('A1', u'نص عربي / English text')  # Default direction.
-       worksheet.write('A2', u'نص عربي / English text', format_left_to_right)
-       worksheet.write('A3', u'نص عربي / English text', format_right_to_left)
+       worksheet.write('A1', 'نص عربي / English text')  # Default direction.
+       worksheet.write('A2', 'نص عربي / English text', format_left_to_right)
+       worksheet.write('A3', 'نص عربي / English text', format_right_to_left)
 
 .. image:: _images/right_to_left.png
 
