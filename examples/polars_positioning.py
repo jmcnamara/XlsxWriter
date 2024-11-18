@@ -7,8 +7,8 @@
 # Copyright 2013-2024, John McNamara, jmcnamara@cpan.org
 #
 
-import xlsxwriter
 import polars as pl
+import xlsxwriter
 
 # Create some Polars dataframes from some data.
 df1 = pl.DataFrame({"Data": [11, 12, 13, 14]})
@@ -28,5 +28,5 @@ with xlsxwriter.Workbook("polars_positioning.xlsx") as workbook:
 
     # Write the dataframe without the header.
     df4.write_excel(
-        workbook=workbook, worksheet="Sheet1", position="C8", has_header=False
+        workbook=workbook, worksheet="Sheet1", position="C8", include_header=False
     )

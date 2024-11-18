@@ -35,7 +35,7 @@ from .comments import Comments
 from .exceptions import EmptyChartSeries
 
 
-class Packager():
+class Packager:
     """
     A class for writing the Excel XLSX Packager file.
 
@@ -89,7 +89,7 @@ class Packager():
 
         """
 
-        super(Packager, self).__init__()
+        super().__init__()
 
         self.tmpdir = ""
         self.in_memory = False
@@ -416,7 +416,7 @@ class Packager():
         properties = self.workbook.custom_properties
         custom = Custom()
 
-        if not len(properties):
+        if not properties:
             return
 
         custom._set_properties(properties)
@@ -736,6 +736,7 @@ class Packager():
         rels._assemble_xml_file()
 
     def _add_image_files(self):
+        # pylint: disable=consider-using-with
         # Write the /xl/media/image?.xml files.
         workbook = self.workbook
         index = 1
@@ -784,6 +785,7 @@ class Packager():
             index += 1
 
     def _add_vba_project_signature(self):
+        # pylint: disable=consider-using-with
         # Copy in a vbaProjectSignature.bin file.
         vba_project_signature = self.workbook.vba_project_signature
         vba_project_signature_is_stream = self.workbook.vba_project_signature_is_stream
@@ -819,6 +821,7 @@ class Packager():
             self.filenames.append((os_filename, xml_vba_signature_name, True))
 
     def _add_vba_project(self):
+        # pylint: disable=consider-using-with
         # Copy in a vbaProject.bin file.
         vba_project = self.workbook.vba_project
         vba_project_is_stream = self.workbook.vba_project_is_stream

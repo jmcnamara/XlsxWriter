@@ -61,7 +61,7 @@ class TestCompareXLSXFiles(ExcelComparisonTest):
                 "italic": 1,
                 "font_color": "red",
                 "font_size": 18,
-                "font": "Lucida Calligraphy",
+                "font_name": "Lucida Calligraphy",
             }
         )
 

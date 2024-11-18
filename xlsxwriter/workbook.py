@@ -39,7 +39,7 @@ from .exceptions import InvalidWorksheetName
 from .exceptions import DuplicateWorksheetName
 from .exceptions import FileCreateError
 from .exceptions import FileSizeError
-from .utility import get_image_properties
+from .utility import _get_image_properties
 
 
 class Workbook(xmlwriter.XMLwriter):
@@ -65,7 +65,7 @@ class Workbook(xmlwriter.XMLwriter):
         if options is None:
             options = {}
 
-        super(Workbook, self).__init__()
+        super().__init__()
 
         self.filename = filename
 
@@ -172,6 +172,7 @@ class Workbook(xmlwriter.XMLwriter):
         return self
 
     def __exit__(self, type, value, traceback):
+        # pylint: disable=redefined-builtin
         """Close workbook when exiting "with" statement."""
         self.close()
 
@@ -251,7 +252,7 @@ class Workbook(xmlwriter.XMLwriter):
         chart_type = options.get("type")
         if chart_type is None:
             warn("Chart type must be defined in add_chart()")
-            return
+            return None
 
         if chart_type == "area":
             chart = ChartArea(options)
@@ -260,20 +261,20 @@ class Workbook(xmlwriter.XMLwriter):
         elif chart_type == "column":
             chart = ChartColumn(options)
         elif chart_type == "doughnut":
-            chart = ChartDoughnut(options)
+            chart = ChartDoughnut()
         elif chart_type == "line":
             chart = ChartLine(options)
         elif chart_type == "pie":
-            chart = ChartPie(options)
+            chart = ChartPie()
         elif chart_type == "radar":
             chart = ChartRadar(options)
         elif chart_type == "scatter":
             chart = ChartScatter(options)
         elif chart_type == "stock":
-            chart = ChartStock(options)
+            chart = ChartStock()
         else:
             warn(f"Unknown chart type '{chart_type}' in add_chart()")
-            return
+            return None
 
         # Set the embedded chart name if present.
         if "name" in options:
@@ -296,7 +297,7 @@ class Workbook(xmlwriter.XMLwriter):
             is_stream:   vba_project is an in memory byte stream.
 
         Returns:
-            Nothing.
+            0 on success.
 
         """
         if not is_stream and not os.path.exists(vba_project):
@@ -308,6 +309,8 @@ class Workbook(xmlwriter.XMLwriter):
 
         self.vba_project = vba_project
         self.vba_project_is_stream = is_stream
+
+        return 0
 
     def add_signed_vba_project(
         self, vba_project, signature, project_is_stream=False, signature_is_stream=False
@@ -323,7 +326,7 @@ class Workbook(xmlwriter.XMLwriter):
             signature_is_stream:   signature is an in memory byte stream.
 
         Returns:
-            Nothing.
+            0 on success.
 
         """
         if self.add_vba_project(vba_project, project_is_stream) == -1:
@@ -336,6 +339,8 @@ class Workbook(xmlwriter.XMLwriter):
         self.vba_project_signature = signature
         self.vba_project_signature_is_stream = signature_is_stream
 
+        return 0
+
     def close(self):
         """
         Call finalization code and close file.
@@ -347,6 +352,7 @@ class Workbook(xmlwriter.XMLwriter):
             Nothing.
 
         """
+        # pylint: disable=raise-missing-from
         if not self.fileclosed:
             try:
                 self._store_workbook()
@@ -433,7 +439,7 @@ class Workbook(xmlwriter.XMLwriter):
             property_type: The type of the custom property. Optional.
 
         Returns:
-            Nothing.
+            0 on success.
 
         """
         if name is None or value is None:
@@ -473,6 +479,8 @@ class Workbook(xmlwriter.XMLwriter):
 
         self.custom_properties.append((name, value, property_type))
 
+        return 0
+
     def set_calc_mode(self, mode, calc_id=None):
         """
         Set the Excel calculation mode for the workbook.
@@ -509,7 +517,7 @@ class Workbook(xmlwriter.XMLwriter):
             formula: The cell or range that the defined name refers to.
 
         Returns:
-            Nothing.
+            0 on success.
 
         """
         sheet_index = None
@@ -554,6 +562,8 @@ class Workbook(xmlwriter.XMLwriter):
             return -1
 
         self.defined_names.append([name, sheet_index, formula, False])
+
+        return 0
 
     def worksheets(self):
         """
@@ -685,6 +695,7 @@ class Workbook(xmlwriter.XMLwriter):
         self._xml_close()
 
     def _store_workbook(self):
+        # pylint: disable=consider-using-with
         # Create the xlsx/zip file.
         try:
             xlsx_file = ZipFile(
@@ -984,11 +995,13 @@ class Workbook(xmlwriter.XMLwriter):
 
                 xf_format.num_format_index = num_format
                 continue
-            elif num_format == "0":
+
+            if num_format == "0":
                 # Number format '0' is indexed as 1 in Excel.
                 xf_format.num_format_index = 1
                 continue
-            elif num_format == "General":
+
+            if num_format == "General":
                 # The 'General' format has an number format index of 0.
                 xf_format.num_format_index = 0
                 continue
@@ -1235,7 +1248,7 @@ class Workbook(xmlwriter.XMLwriter):
                     _,
                     _,
                     digest,
-                ) = get_image_properties(filename, image_data)
+                ) = _get_image_properties(filename, image_data)
 
                 self.image_types[image_type] = True
 
@@ -1261,7 +1274,7 @@ class Workbook(xmlwriter.XMLwriter):
                     x_dpi,
                     y_dpi,
                     digest,
-                ) = get_image_properties(filename, image_data)
+                ) = _get_image_properties(filename, image_data)
 
                 self.image_types[image_type] = True
 
@@ -1309,7 +1322,7 @@ class Workbook(xmlwriter.XMLwriter):
                     x_dpi,
                     y_dpi,
                     digest,
-                ) = get_image_properties(filename, image_data)
+                ) = _get_image_properties(filename, image_data)
 
                 self.image_types[image_type] = True
 
@@ -1347,7 +1360,7 @@ class Workbook(xmlwriter.XMLwriter):
                     x_dpi,
                     y_dpi,
                     digest,
-                ) = get_image_properties(filename, image_data)
+                ) = _get_image_properties(filename, image_data)
 
                 self.image_types[image_type] = True
 
@@ -1421,8 +1434,8 @@ class Workbook(xmlwriter.XMLwriter):
 
         if sheetname in self.sheetnames:
             return self.sheetnames[sheetname].index
-        else:
-            return None
+
+        return None
 
     def _prepare_vml(self):
         # Iterate through the worksheets and set up the VML objects.
@@ -1769,7 +1782,7 @@ class Workbook(xmlwriter.XMLwriter):
 
 
 # A metadata class to share data between worksheets.
-class WorksheetMeta():
+class WorksheetMeta:
     """
     A class to track worksheets data such as the active sheet and the
     first sheet.
@@ -1782,7 +1795,7 @@ class WorksheetMeta():
 
 
 # A helper class to share embedded images between worksheets.
-class EmbeddedImages():
+class EmbeddedImages:
     """
     A class to track duplicate embedded images between worksheets.
 
@@ -1793,6 +1806,17 @@ class EmbeddedImages():
         self.image_indexes = {}
 
     def get_image_index(self, image, digest):
+        """
+        Get the index of an embedded image.
+
+        Args:
+            image: The image to lookup.
+            digest: The digest of the image.
+
+        Returns:
+            The image index.
+
+        """
         image_index = self.image_indexes.get(digest)
 
         if image_index is None:
@@ -1803,4 +1827,14 @@ class EmbeddedImages():
         return image_index
 
     def has_images(self):
+        """
+        Check if the worksheet has embedded images.
+
+        Args:
+            None.
+
+        Returns:
+            Boolean.
+
+        """
         return len(self.images) > 0

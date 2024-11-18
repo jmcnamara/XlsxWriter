@@ -29,7 +29,7 @@ class RichValueStructure(xmlwriter.XMLwriter):
 
         """
 
-        super(RichValueStructure, self).__init__()
+        super().__init__()
         self.has_embedded_descriptions = False
 
     ###########################################################################
@@ -88,11 +88,11 @@ class RichValueStructure(xmlwriter.XMLwriter):
 
         self._xml_end_tag("s")
 
-    def _write_k(self, name, type):
+    def _write_k(self, name, k_type):
         # Write the <k> element.
         attributes = [
             ("n", name),
-            ("t", type),
+            ("t", k_type),
         ]
 
         self._xml_empty_tag("k", attributes)

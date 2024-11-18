@@ -23,12 +23,12 @@ class ChartPie(chart.Chart):
     #
     ###########################################################################
 
-    def __init__(self, options=None):
+    def __init__(self):
         """
         Constructor.
 
         """
-        super(ChartPie, self).__init__()
+        super().__init__()
 
         self.vary_data_color = 1
         self.rotation = 0
@@ -74,7 +74,7 @@ class ChartPie(chart.Chart):
     def _write_chart_type(self, args):
         # Override the virtual superclass method with a chart specific method.
         # Write the c:pieChart element.
-        self._write_pie_chart(args)
+        self._write_pie_chart()
 
     ###########################################################################
     #
@@ -82,7 +82,7 @@ class ChartPie(chart.Chart):
     #
     ###########################################################################
 
-    def _write_pie_chart(self, args):
+    def _write_pie_chart(self):
         # Write the <c:pieChart> element.  Over-ridden method to remove
         # axis_id code since Pie charts don't require val and cat axes.
         self._xml_start_tag("c:pieChart")
@@ -129,6 +129,7 @@ class ChartPie(chart.Chart):
             second_chart.series_index = self.series_index
 
             # Write the subclass chart type elements for combined chart.
+            # pylint: disable-next=protected-access
             second_chart._write_chart_type(None)
 
         # Write the c:spPr element for the plotarea formatting.

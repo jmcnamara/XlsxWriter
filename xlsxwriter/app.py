@@ -29,7 +29,7 @@ class App(xmlwriter.XMLwriter):
 
         """
 
-        super(App, self).__init__()
+        super().__init__()
 
         self.part_names = []
         self.heading_pairs = []

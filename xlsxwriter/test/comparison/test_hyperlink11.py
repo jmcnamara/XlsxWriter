@@ -25,7 +25,7 @@ class TestCompareXLSXFiles(ExcelComparisonTest):
         workbook = Workbook(self.got_filename)
 
         worksheet = workbook.add_worksheet()
-        url_format = workbook.add_format({"color": "blue", "underline": 1})
+        url_format = workbook.add_format({"font_color": "blue", "underline": 1})
 
         worksheet.write_url("A1", "http://www.perl.org/", url_format)
 

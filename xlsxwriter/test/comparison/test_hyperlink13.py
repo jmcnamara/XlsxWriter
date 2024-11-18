@@ -25,10 +25,10 @@ class TestCompareXLSXFiles(ExcelComparisonTest):
         workbook = Workbook(self.got_filename)
 
         worksheet = workbook.add_worksheet()
-        format = workbook.add_format({"align": "center"})
+        cell_format = workbook.add_format({"align": "center"})
 
-        worksheet.merge_range("C4:E5", "", format)
-        worksheet.write_url("C4", "http://www.perl.org/", format)
+        worksheet.merge_range("C4:E5", "", cell_format)
+        worksheet.write_url("C4", "http://www.perl.org/", cell_format)
 
         workbook.close()
 

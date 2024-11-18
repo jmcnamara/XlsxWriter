@@ -8,7 +8,6 @@
 #
 
 import polars as pl
-from polars.datatypes import INTEGER_DTYPES
 
 df = pl.DataFrame(
     {
@@ -26,7 +25,7 @@ df.write_excel(
     # Set an alternative table style.
     table_style="Table Style Light 2",
     # Specify an Excel number format for integer types.
-    dtype_formats={INTEGER_DTYPES: "#,##0_);(#,##0)"},
+    dtype_formats={pl.Int32: "#,##0_);(#,##0)"},
     # Configure sparklines to the dataframe.
     sparklines={
         # We use the default options with just  the source columns.

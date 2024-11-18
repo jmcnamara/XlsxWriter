@@ -164,9 +164,9 @@ For example, say you wanted to automatically write :mod:`uuid` values as
 strings using ``write()`` you would start by creating a function that takes the
 uuid, converts it to a string and then writes it using :func:`write_string`::
 
-    def write_uuid(worksheet, row, col, uuid, format=None):
+    def write_uuid(worksheet, row, col, uuid, cell_format=None):
         string_uuid = str(uuid)
-        return worksheet.write_string(row, col, string_uuid, format)
+        return worksheet.write_string(row, col, string_uuid, cell_format)
 
 You could then add a handler that matches the ``uuid`` type and calls your
 user defined function::

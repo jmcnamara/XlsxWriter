@@ -32,7 +32,7 @@ class Core(xmlwriter.XMLwriter):
 
         """
 
-        super(Core, self).__init__()
+        super().__init__()
 
         self.properties = {}
 

@@ -10,20 +10,20 @@ import copy
 from . import xmlwriter
 
 # Long namespace strings used in the class.
-app_package = "application/vnd.openxmlformats-package."
-app_document = "application/vnd.openxmlformats-officedocument."
+APP_PACKAGE = "application/vnd.openxmlformats-package."
+APP_DOCUMENT = "application/vnd.openxmlformats-officedocument."
 
 defaults = [
-    ["rels", app_package + "relationships+xml"],
+    ["rels", APP_PACKAGE + "relationships+xml"],
     ["xml", "application/xml"],
 ]
 
 overrides = [
-    ["/docProps/app.xml", app_document + "extended-properties+xml"],
-    ["/docProps/core.xml", app_package + "core-properties+xml"],
-    ["/xl/styles.xml", app_document + "spreadsheetml.styles+xml"],
-    ["/xl/theme/theme1.xml", app_document + "theme+xml"],
-    ["/xl/workbook.xml", app_document + "spreadsheetml.sheet.main+xml"],
+    ["/docProps/app.xml", APP_DOCUMENT + "extended-properties+xml"],
+    ["/docProps/core.xml", APP_PACKAGE + "core-properties+xml"],
+    ["/xl/styles.xml", APP_DOCUMENT + "spreadsheetml.styles+xml"],
+    ["/xl/theme/theme1.xml", APP_DOCUMENT + "theme+xml"],
+    ["/xl/workbook.xml", APP_DOCUMENT + "spreadsheetml.sheet.main+xml"],
 ]
 
 
@@ -46,7 +46,7 @@ class ContentTypes(xmlwriter.XMLwriter):
 
         """
 
-        super(ContentTypes, self).__init__()
+        super().__init__()
 
         # Copy the defaults in case we need to change them.
         self.defaults = copy.deepcopy(defaults)
@@ -86,7 +86,7 @@ class ContentTypes(xmlwriter.XMLwriter):
         worksheet_name = "/xl/worksheets/" + worksheet_name + ".xml"
 
         self._add_override(
-            (worksheet_name, app_document + "spreadsheetml.worksheet+xml")
+            (worksheet_name, APP_DOCUMENT + "spreadsheetml.worksheet+xml")
         )
 
     def _add_chartsheet_name(self, chartsheet_name):
@@ -94,41 +94,41 @@ class ContentTypes(xmlwriter.XMLwriter):
         chartsheet_name = "/xl/chartsheets/" + chartsheet_name + ".xml"
 
         self._add_override(
-            (chartsheet_name, app_document + "spreadsheetml.chartsheet+xml")
+            (chartsheet_name, APP_DOCUMENT + "spreadsheetml.chartsheet+xml")
         )
 
     def _add_chart_name(self, chart_name):
         # Add the name of a chart to the ContentTypes overrides.
         chart_name = "/xl/charts/" + chart_name + ".xml"
 
-        self._add_override((chart_name, app_document + "drawingml.chart+xml"))
+        self._add_override((chart_name, APP_DOCUMENT + "drawingml.chart+xml"))
 
     def _add_drawing_name(self, drawing_name):
         # Add the name of a drawing to the ContentTypes overrides.
         drawing_name = "/xl/drawings/" + drawing_name + ".xml"
 
-        self._add_override((drawing_name, app_document + "drawing+xml"))
+        self._add_override((drawing_name, APP_DOCUMENT + "drawing+xml"))
 
     def _add_vml_name(self):
         # Add the name of a VML drawing to the ContentTypes defaults.
-        self._add_default(("vml", app_document + "vmlDrawing"))
+        self._add_default(("vml", APP_DOCUMENT + "vmlDrawing"))
 
     def _add_comment_name(self, comment_name):
         # Add the name of a comment to the ContentTypes overrides.
         comment_name = "/xl/" + comment_name + ".xml"
 
-        self._add_override((comment_name, app_document + "spreadsheetml.comments+xml"))
+        self._add_override((comment_name, APP_DOCUMENT + "spreadsheetml.comments+xml"))
 
     def _add_shared_strings(self):
         # Add the sharedStrings link to the ContentTypes overrides.
         self._add_override(
-            ("/xl/sharedStrings.xml", app_document + "spreadsheetml.sharedStrings+xml")
+            ("/xl/sharedStrings.xml", APP_DOCUMENT + "spreadsheetml.sharedStrings+xml")
         )
 
     def _add_calc_chain(self):
         # Add the calcChain link to the ContentTypes overrides.
         self._add_override(
-            ("/xl/calcChain.xml", app_document + "spreadsheetml.calcChain+xml")
+            ("/xl/calcChain.xml", APP_DOCUMENT + "spreadsheetml.calcChain+xml")
         )
 
     def _add_image_types(self, image_types):
@@ -145,7 +145,7 @@ class ContentTypes(xmlwriter.XMLwriter):
         # Add the name of a table to the ContentTypes overrides.
         table_name = "/xl/tables/" + table_name + ".xml"
 
-        self._add_override((table_name, app_document + "spreadsheetml.table+xml"))
+        self._add_override((table_name, APP_DOCUMENT + "spreadsheetml.table+xml"))
 
     def _add_vba_project(self):
         # Add a vbaProject to the ContentTypes defaults.
@@ -170,13 +170,13 @@ class ContentTypes(xmlwriter.XMLwriter):
     def _add_custom_properties(self):
         # Add the custom properties to the ContentTypes overrides.
         self._add_override(
-            ("/docProps/custom.xml", app_document + "custom-properties+xml")
+            ("/docProps/custom.xml", APP_DOCUMENT + "custom-properties+xml")
         )
 
     def _add_metadata(self):
         # Add the metadata file to the ContentTypes overrides.
         self._add_override(
-            ("/xl/metadata.xml", app_document + "spreadsheetml.sheetMetadata+xml")
+            ("/xl/metadata.xml", APP_DOCUMENT + "spreadsheetml.sheetMetadata+xml")
         )
 
     def _add_rich_value(self):

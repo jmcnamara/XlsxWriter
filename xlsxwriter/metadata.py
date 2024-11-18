@@ -28,7 +28,7 @@ class Metadata(xmlwriter.XMLwriter):
 
         """
 
-        super(Metadata, self).__init__()
+        super().__init__()
         self.has_dynamic_functions = False
         self.has_embedded_images = False
         self.num_embedded_images = 0
@@ -238,10 +238,10 @@ class Metadata(xmlwriter.XMLwriter):
     def _write_value_metadata(self):
         # Write the <valueMetadata> element.
         count = self.num_embedded_images
-        type = 1
+        rc_type = 1
 
         if self.has_dynamic_functions:
-            type = 2
+            rc_type = 2
 
         attributes = [("count", count)]
 
@@ -250,15 +250,15 @@ class Metadata(xmlwriter.XMLwriter):
         # Write the rc elements.
         for index in range(self.num_embedded_images):
             self._xml_start_tag("bk")
-            self._write_rc(type, index)
+            self._write_rc(rc_type, index)
             self._xml_end_tag("bk")
 
         self._xml_end_tag("valueMetadata")
 
-    def _write_rc(self, type, index):
+    def _write_rc(self, rc_type, index):
         # Write the <rc> element.
         attributes = [
-            ("t", type),
+            ("t", rc_type),
             ("v", index),
         ]
 

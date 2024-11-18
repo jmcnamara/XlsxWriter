@@ -26,9 +26,9 @@ class TestCompareXLSXFiles(ExcelComparisonTest):
 
         worksheet = workbook.add_worksheet()
 
-        format = workbook.add_format({"align": "center"})
+        cell_format = workbook.add_format({"align": "center"})
 
-        worksheet.merge_range(1, 1, 1, 3, 123, format)
+        worksheet.merge_range(1, 1, 1, 3, 123, cell_format)
 
         workbook.close()
 

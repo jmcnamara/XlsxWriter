@@ -250,8 +250,8 @@ As an example, say you wanted to modify ``write()`` to automatically write
 takes the uuid, converts it to a string and then writes it using
 :func:`write_string`::
 
-    def write_uuid(worksheet, row, col, uuid, format=None):
-        return worksheet.write_string(row, col, str(uuid), format)
+    def write_uuid(worksheet, row, col, uuid, cell_format=None):
+        return worksheet.write_string(row, col, str(uuid), cell_format)
 
 You could then add a handler that matches the ``uuid`` type and calls your
 user defined function::
@@ -324,8 +324,8 @@ The syntax of write handler functions
 Functions used in the :func:`add_write_handler` method should have the
 following method signature/parameters::
 
-    def my_function(worksheet, row, col, token, format=None):
-        return worksheet.write_string(row, col, token, format)
+    def my_function(worksheet, row, col, token, cell_format=None):
+        return worksheet.write_string(row, col, token, cell_format)
 
 The function will be passed a :ref:`worksheet <worksheet>` instance, an
 integer ``row`` and ``col`` value, a ``token`` that matches the type added to
@@ -347,11 +347,11 @@ passwords with '\*\*\*\*' when writing string data. If your data was
 structured so that the password data was in the second column, apart from the
 header row, you could write a handler function like this::
 
-    def hide_password(worksheet, row, col, string, format=None):
+    def hide_password(worksheet, row, col, string, cell_format=None):
         if col == 1 and row > 0:
-            return worksheet.write_string(row, col, '****', format)
+            return worksheet.write_string(row, col, '****', cell_format)
         else:
-            return worksheet.write_string(row, col, string, format)
+            return worksheet.write_string(row, col, string, cell_format)
 
 .. image:: _images/user_types5.png
 
@@ -377,9 +377,9 @@ doesn't support them. You could create a handler function like the following
 that matched against floats and which wrote a blank cell if it was a ``NaN``
 or else just returned to ``write()`` to continue as normal::
 
-    def ignore_nan(worksheet, row, col, number, format=None):
+    def ignore_nan(worksheet, row, col, number, cell_format=None):
         if math.isnan(number):
-            return worksheet.write_blank(row, col, None, format)
+            return worksheet.write_blank(row, col, None, cell_format)
         else:
             # Return control to the calling write() method.
             return None
@@ -387,7 +387,7 @@ or else just returned to ``write()`` to continue as normal::
 If you wanted to just drop the ``NaN`` values completely and not add any
 formatting to the cell you could just return 0, for no error::
 
-    def ignore_nan(worksheet, row, col, number, format=None):
+    def ignore_nan(worksheet, row, col, number, cell_format=None):
         if math.isnan(number):
             return 0
         else:

@@ -122,17 +122,18 @@ CHAR_WIDTHS = {
 #
 # https://util.unicode.org/UnicodeJsps/list-unicodeset.jsp?a=%5B%3AEmoji%3DYes%3A%5D&abb=on&esc=on&g=&i=
 #
-emojis = "\u00A9\u00AE\u203C\u2049\u2122\u2139\u2194-\u2199\u21A9\u21AA\u231A\u231B\u2328\u23CF\u23E9-\u23F3\u23F8-\u23FA\u24C2\u25AA\u25AB\u25B6\u25C0\u25FB-\u25FE\u2600-\u2604\u260E\u2611\u2614\u2615\u2618\u261D\u2620\u2622\u2623\u2626\u262A\u262E\u262F\u2638-\u263A\u2640\u2642\u2648-\u2653\u265F\u2660\u2663\u2665\u2666\u2668\u267B\u267E\u267F\u2692-\u2697\u2699\u269B\u269C\u26A0\u26A1\u26A7\u26AA\u26AB\u26B0\u26B1\u26BD\u26BE\u26C4\u26C5\u26C8\u26CE\u26CF\u26D1\u26D3\u26D4\u26E9\u26EA\u26F0-\u26F5\u26F7-\u26FA\u26FD\u2702\u2705\u2708-\u270D\u270F\u2712\u2714\u2716\u271D\u2721\u2728\u2733\u2734\u2744\u2747\u274C\u274E\u2753-\u2755\u2757\u2763\u2764\u2795-\u2797\u27A1\u27B0\u27BF\u2934\u2935\u2B05-\u2B07\u2B1B\u2B1C\u2B50\u2B55\u3030\u303D\u3297\u3299\U0001F004\U0001F0CF\U0001F170\U0001F171\U0001F17E\U0001F17F\U0001F18E\U0001F191-\U0001F19A\U0001F1E6-\U0001F1FF\U0001F201\U0001F202\U0001F21A\U0001F22F\U0001F232-\U0001F23A\U0001F250\U0001F251\U0001F300-\U0001F321\U0001F324-\U0001F393\U0001F396\U0001F397\U0001F399-\U0001F39B\U0001F39E-\U0001F3F0\U0001F3F3-\U0001F3F5\U0001F3F7-\U0001F4FD\U0001F4FF-\U0001F53D\U0001F549-\U0001F54E\U0001F550-\U0001F567\U0001F56F\U0001F570\U0001F573-\U0001F57A\U0001F587\U0001F58A-\U0001F58D\U0001F590\U0001F595\U0001F596\U0001F5A4\U0001F5A5\U0001F5A8\U0001F5B1\U0001F5B2\U0001F5BC\U0001F5C2-\U0001F5C4\U0001F5D1-\U0001F5D3\U0001F5DC-\U0001F5DE\U0001F5E1\U0001F5E3\U0001F5E8\U0001F5EF\U0001F5F3\U0001F5FA-\U0001F64F\U0001F680-\U0001F6C5\U0001F6CB-\U0001F6D2\U0001F6D5-\U0001F6D7\U0001F6DC-\U0001F6E5\U0001F6E9\U0001F6EB\U0001F6EC\U0001F6F0\U0001F6F3-\U0001F6FC\U0001F7E0-\U0001F7EB\U0001F7F0\U0001F90C-\U0001F93A\U0001F93C-\U0001F945\U0001F947-\U0001F9FF\U0001FA70-\U0001FA7C\U0001FA80-\U0001FA88\U0001FA90-\U0001FABD\U0001FABF-\U0001FAC5\U0001FACE-\U0001FADB\U0001FAE0-\U0001FAE8\U0001FAF0-\U0001FAF8"  # noqa
+# pylint: disable-next=line-too-long
+EMOJIS = "\u00A9\u00AE\u203C\u2049\u2122\u2139\u2194-\u2199\u21A9\u21AA\u231A\u231B\u2328\u23CF\u23E9-\u23F3\u23F8-\u23FA\u24C2\u25AA\u25AB\u25B6\u25C0\u25FB-\u25FE\u2600-\u2604\u260E\u2611\u2614\u2615\u2618\u261D\u2620\u2622\u2623\u2626\u262A\u262E\u262F\u2638-\u263A\u2640\u2642\u2648-\u2653\u265F\u2660\u2663\u2665\u2666\u2668\u267B\u267E\u267F\u2692-\u2697\u2699\u269B\u269C\u26A0\u26A1\u26A7\u26AA\u26AB\u26B0\u26B1\u26BD\u26BE\u26C4\u26C5\u26C8\u26CE\u26CF\u26D1\u26D3\u26D4\u26E9\u26EA\u26F0-\u26F5\u26F7-\u26FA\u26FD\u2702\u2705\u2708-\u270D\u270F\u2712\u2714\u2716\u271D\u2721\u2728\u2733\u2734\u2744\u2747\u274C\u274E\u2753-\u2755\u2757\u2763\u2764\u2795-\u2797\u27A1\u27B0\u27BF\u2934\u2935\u2B05-\u2B07\u2B1B\u2B1C\u2B50\u2B55\u3030\u303D\u3297\u3299\U0001F004\U0001F0CF\U0001F170\U0001F171\U0001F17E\U0001F17F\U0001F18E\U0001F191-\U0001F19A\U0001F1E6-\U0001F1FF\U0001F201\U0001F202\U0001F21A\U0001F22F\U0001F232-\U0001F23A\U0001F250\U0001F251\U0001F300-\U0001F321\U0001F324-\U0001F393\U0001F396\U0001F397\U0001F399-\U0001F39B\U0001F39E-\U0001F3F0\U0001F3F3-\U0001F3F5\U0001F3F7-\U0001F4FD\U0001F4FF-\U0001F53D\U0001F549-\U0001F54E\U0001F550-\U0001F567\U0001F56F\U0001F570\U0001F573-\U0001F57A\U0001F587\U0001F58A-\U0001F58D\U0001F590\U0001F595\U0001F596\U0001F5A4\U0001F5A5\U0001F5A8\U0001F5B1\U0001F5B2\U0001F5BC\U0001F5C2-\U0001F5C4\U0001F5D1-\U0001F5D3\U0001F5DC-\U0001F5DE\U0001F5E1\U0001F5E3\U0001F5E8\U0001F5EF\U0001F5F3\U0001F5FA-\U0001F64F\U0001F680-\U0001F6C5\U0001F6CB-\U0001F6D2\U0001F6D5-\U0001F6D7\U0001F6DC-\U0001F6E5\U0001F6E9\U0001F6EB\U0001F6EC\U0001F6F0\U0001F6F3-\U0001F6FC\U0001F7E0-\U0001F7EB\U0001F7F0\U0001F90C-\U0001F93A\U0001F93C-\U0001F945\U0001F947-\U0001F9FF\U0001FA70-\U0001FA7C\U0001FA80-\U0001FA88\U0001FA90-\U0001FABD\U0001FABF-\U0001FAC5\U0001FACE-\U0001FADB\U0001FAE0-\U0001FAE8\U0001FAF0-\U0001FAF8"  # noqa
 
 # Compile performance critical regular expressions.
-re_leading = re.compile(r"^\s")
-re_trailing = re.compile(r"\s$")
-re_range_parts = re.compile(r"(\$?)([A-Z]{1,3})(\$?)(\d+)")
-re_quote_rule1 = re.compile(rf"[^\w\.{emojis}]")
-re_quote_rule2 = re.compile(rf"^[\d\.{emojis}]")
-re_quote_rule3 = re.compile(r"^([A-Z]{1,3}\d+)$")
-re_quote_rule4_row = re.compile(r"^R(\d+)")
-re_quote_rule4_column = re.compile(r"^R?C(\d+)")
+RE_LEADING_WHITESPACE = re.compile(r"^\s")
+RE_TRAILING_WHITESPACE = re.compile(r"\s$")
+RE_RANGE_PARTS = re.compile(r"(\$?)([A-Z]{1,3})(\$?)(\d+)")
+RE_QUOTE_RULE1 = re.compile(rf"[^\w\.{EMOJIS}]")
+RE_QUOTE_RULE2 = re.compile(rf"^[\d\.{EMOJIS}]")
+RE_QUOTE_RULE3 = re.compile(r"^([A-Z]{1,3}\d+)$")
+RE_QUOTE_RULE4_ROW = re.compile(r"^R(\d+)")
+RE_QUOTE_RULE4_COLUMN = re.compile(r"^R?C(\d+)")
 
 
 def xl_rowcol_to_cell(row, col, row_abs=False, col_abs=False):
@@ -240,7 +241,7 @@ def xl_cell_to_rowcol(cell_str):
     if not cell_str:
         return 0, 0
 
-    match = re_range_parts.match(cell_str)
+    match = RE_RANGE_PARTS.match(cell_str)
     col_str = match.group(2)
     row_str = match.group(4)
 
@@ -273,22 +274,12 @@ def xl_cell_to_rowcol_abs(cell_str):
     if not cell_str:
         return 0, 0, False, False
 
-    match = re_range_parts.match(cell_str)
+    match = RE_RANGE_PARTS.match(cell_str)
 
-    col_abs = match.group(1)
+    col_abs = bool(match.group(1))
     col_str = match.group(2)
-    row_abs = match.group(3)
+    row_abs = bool(match.group(3))
     row_str = match.group(4)
-
-    if col_abs:
-        col_abs = True
-    else:
-        col_abs = False
-
-    if row_abs:
-        row_abs = True
-    else:
-        row_abs = False
 
     # Convert base26 column string to number.
     expn = 0
@@ -327,8 +318,8 @@ def xl_range(first_row, first_col, last_row, last_col):
 
     if range1 == range2:
         return range1
-    else:
-        return range1 + ":" + range2
+
+    return range1 + ":" + range2
 
 
 def xl_range_abs(first_row, first_col, last_row, last_col):
@@ -355,8 +346,8 @@ def xl_range_abs(first_row, first_col, last_row, last_col):
 
     if range1 == range2:
         return range1
-    else:
-        return range1 + ":" + range2
+
+    return range1 + ":" + range2
 
 
 def xl_range_formula(sheetname, first_row, first_col, last_row, last_col):
@@ -406,13 +397,13 @@ def quote_sheetname(sheetname):
         # Rule 1. Sheet names that contain anything other than \w and "."
         # characters must be quoted.
         # --------------------------------------------------------------------
-        if re_quote_rule1.search(sheetname):
+        if RE_QUOTE_RULE1.search(sheetname):
             requires_quoting = True
 
         # --------------------------------------------------------------------
         # Rule 2. Sheet names that start with a digit or "." must be quoted.
         # --------------------------------------------------------------------
-        elif re_quote_rule2.search(sheetname):
+        elif RE_QUOTE_RULE2.search(sheetname):
             requires_quoting = True
 
         # --------------------------------------------------------------------
@@ -420,12 +411,12 @@ def quote_sheetname(sheetname):
         # Valid means that the row and column range values must also be within
         # Excel row and column limits.
         # --------------------------------------------------------------------
-        elif re_quote_rule3.match(uppercase_sheetname):
-            match = re_quote_rule3.match(uppercase_sheetname)
+        elif RE_QUOTE_RULE3.match(uppercase_sheetname):
+            match = RE_QUOTE_RULE3.match(uppercase_sheetname)
             cell = match.group(1)
             (row, col) = xl_cell_to_rowcol(cell)
 
-            if row >= 0 and row < row_max and col >= 0 and col < col_max:
+            if 0 <= row < row_max and 0 <= col < col_max:
                 requires_quoting = True
 
         # --------------------------------------------------------------------
@@ -440,19 +431,19 @@ def quote_sheetname(sheetname):
         # --------------------------------------------------------------------
 
         # Rule 4a. Check for sheet names that start with R1 style references.
-        elif re_quote_rule4_row.match(uppercase_sheetname):
-            match = re_quote_rule4_row.match(uppercase_sheetname)
+        elif RE_QUOTE_RULE4_ROW.match(uppercase_sheetname):
+            match = RE_QUOTE_RULE4_ROW.match(uppercase_sheetname)
             row = int(match.group(1))
 
-            if row > 0 and row <= row_max:
+            if 0 < row <= row_max:
                 requires_quoting = True
 
         # Rule 4b. Check for sheet names that start with C1 or RC1 style
-        elif re_quote_rule4_column.match(uppercase_sheetname):
-            match = re_quote_rule4_column.match(uppercase_sheetname)
+        elif RE_QUOTE_RULE4_COLUMN.match(uppercase_sheetname):
+            match = RE_QUOTE_RULE4_COLUMN.match(uppercase_sheetname)
             col = int(match.group(1))
 
-            if col > 0 and col <= col_max:
+            if 0 < col <= col_max:
                 requires_quoting = True
 
         # Rule 4c. Check for some single R/C references.
@@ -490,7 +481,7 @@ def xl_pixel_width(string):
     return length
 
 
-def xl_color(color):
+def _xl_color(color):
     # Used in conjunction with the XlsxWriter *color() methods to convert
     # a color name into an RGB formatted string. These colors are for
     # backward compatibility with older versions of Excel.
@@ -513,8 +504,7 @@ def xl_color(color):
         "yellow": "#FFFF00",
     }
 
-    if color in named_colors:
-        color = named_colors[color]
+    color = named_colors.get(color, color)
 
     if not re.match("#[0-9a-fA-F]{6}", color):
         warn(f"Color '{color}' isn't a valid Excel color")
@@ -523,9 +513,9 @@ def xl_color(color):
     return "FF" + color.lstrip("#").upper()
 
 
-def get_rgb_color(color):
+def _get_rgb_color(color):
     # Convert the user specified color to an RGB color.
-    rgb_color = xl_color(color)
+    rgb_color = _xl_color(color)
 
     # Remove leading FF from RGB color for charts.
     rgb_color = re.sub(r"^FF", "", rgb_color)
@@ -533,7 +523,7 @@ def get_rgb_color(color):
     return rgb_color
 
 
-def get_sparkline_style(style_id):
+def _get_sparkline_style(style_id):
     styles = [
         {
             "series": {"theme": "4", "tint": "-0.499984740745262"},
@@ -873,14 +863,14 @@ def get_sparkline_style(style_id):
     return styles[style_id]
 
 
-def supported_datetime(dt):
+def _supported_datetime(dt):
     # Determine is an argument is a supported datetime object.
     return isinstance(
         dt, (datetime.datetime, datetime.date, datetime.time, datetime.timedelta)
     )
 
 
-def remove_datetime_timezone(dt_obj, remove_timezone):
+def _remove_datetime_timezone(dt_obj, remove_timezone):
     # Excel doesn't support timezones in datetimes/times so we remove the
     # tzinfo from the object if the user has specified that option in the
     # constructor.
@@ -897,7 +887,7 @@ def remove_datetime_timezone(dt_obj, remove_timezone):
     return dt_obj
 
 
-def datetime_to_excel_datetime(dt_obj, date_1904, remove_timezone):
+def _datetime_to_excel_datetime(dt_obj, date_1904, remove_timezone):
     # Convert a datetime object to an Excel serial date and time. The integer
     # part of the number stores the number of days since the epoch and the
     # fractional part stores the percentage of the day.
@@ -914,14 +904,14 @@ def datetime_to_excel_datetime(dt_obj, date_1904, remove_timezone):
     # We handle datetime .datetime, .date and .time objects but convert
     # them to datetime.datetime objects and process them in the same way.
     if isinstance(dt_obj, datetime.datetime):
-        dt_obj = remove_datetime_timezone(dt_obj, remove_timezone)
+        dt_obj = _remove_datetime_timezone(dt_obj, remove_timezone)
         delta = dt_obj - epoch
     elif isinstance(dt_obj, datetime.date):
         dt_obj = datetime.datetime.fromordinal(dt_obj.toordinal())
         delta = dt_obj - epoch
     elif isinstance(dt_obj, datetime.time):
         dt_obj = datetime.datetime.combine(epoch, dt_obj)
-        dt_obj = remove_datetime_timezone(dt_obj, remove_timezone)
+        dt_obj = _remove_datetime_timezone(dt_obj, remove_timezone)
         delta = dt_obj - epoch
     elif isinstance(dt_obj, datetime.timedelta):
         is_timedelta = True
@@ -951,16 +941,13 @@ def datetime_to_excel_datetime(dt_obj, date_1904, remove_timezone):
     return excel_time
 
 
-def preserve_whitespace(string):
+def _preserve_whitespace(string):
     # Check if a string has leading or trailing whitespace that requires a
     # "preserve" attribute.
-    if re_leading.search(string) or re_trailing.search(string):
-        return True
-    else:
-        return False
+    return RE_LEADING_WHITESPACE.search(string) or RE_TRAILING_WHITESPACE.search(string)
 
 
-def get_image_properties(filename, image_data):
+def _get_image_properties(filename, image_data):
     # Extract dimension information from the image file.
     height = 0
     width = 0
@@ -969,8 +956,8 @@ def get_image_properties(filename, image_data):
 
     if not image_data:
         # Open the image file and read in the data.
-        fh = open(filename, "rb")
-        data = fh.read()
+        with open(filename, "rb") as fh:
+            data = fh.read()
     else:
         # Read the image data from the user supplied byte stream.
         data = image_data.getvalue()

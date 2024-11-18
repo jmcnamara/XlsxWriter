@@ -52,6 +52,8 @@ lint:
 	@ruff check xlsxwriter/test --ignore=E501,F841
 	@ruff check examples
 	@black --check xlsxwriter/ examples/
+	@pylint xlsxwriter/*.py
+	@pylint --rcfile=examples/.pylintrc examples/*.py
 
 tags:
 	$(Q)rm -f TAGS

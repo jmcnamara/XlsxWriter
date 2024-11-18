@@ -7,8 +7,8 @@
 #
 
 # Package imports.
-from . import xmlwriter
 from warnings import warn
+from . import xmlwriter
 
 
 class Format(xmlwriter.XMLwriter):
@@ -32,7 +32,7 @@ class Format(xmlwriter.XMLwriter):
         if properties is None:
             properties = {}
 
-        super(Format, self).__init__()
+        super().__init__()
 
         self.xf_format_indices = xf_indices
         self.dxf_format_indices = dxf_indices
@@ -342,6 +342,7 @@ class Format(xmlwriter.XMLwriter):
             self.set_text_v_align(5)
 
     def set_center_across(self, align_type=None):
+        # pylint: disable=unused-argument
         """
         Set the Format center_across property.
 
@@ -665,99 +666,262 @@ class Format(xmlwriter.XMLwriter):
     ###########################################################################
 
     def set_has_font(self, has_font=True):
-        # Set the has_font property.
+        """
+        Set the property to indicate the format has a font.
+
+        Args:
+            has_font: Default is True, turns property on.
+
+        Returns:
+            Nothing.
+
+        """
         self.has_font = has_font
 
     def set_has_fill(self, has_fill=True):
-        # Set the has_fill property.
+        """
+        Set the property to indicate the format has a fill.
+
+        Args:
+            has_fill: Default is True, turns property on.
+
+        Returns:
+            Nothing.
+
+        """
         self.has_fill = has_fill
 
     def set_font_index(self, font_index):
-        # Set the font_index property.
+        """
+        Set the unique font index property.
+
+        Args:
+            font_index: The unique font index.
+
+        Returns:
+            Nothing.
+
+        """
         self.font_index = font_index
 
     def set_xf_index(self, xf_index):
-        # Set the xf_index property.
+        """
+        Set the unique format index property.
+
+        Args:
+            xf_index: The unique Excel format index.
+
+        Returns:
+            Nothing.
+
+        """
         self.xf_index = xf_index
 
     def set_dxf_index(self, dxf_index):
-        # Set the xf_index property.
+        """
+        Set the unique conditional format index property.
+
+        Args:
+            dxf_index: The unique Excel conditional format index.
+
+        Returns:
+            Nothing.
+
+        """
         self.dxf_index = dxf_index
 
     def set_num_format_index(self, num_format_index):
-        # Set the num_format_index property.
+        """
+        Set the number format_index property.
+
+        Args:
+            num_format_index: The unique number format index.
+
+        Returns:
+            Nothing.
+
+        """
         self.num_format_index = num_format_index
 
     def set_text_h_align(self, text_h_align):
-        # Set the text_h_align property.
+        """
+        Set the horizontal text alignment property.
+
+        Args:
+            text_h_align: Horizontal text alignment.
+
+        Returns:
+            Nothing.
+
+        """
         self.text_h_align = text_h_align
 
     def set_text_v_align(self, text_v_align):
-        # Set the text_v_align property.
+        """
+        Set the vertical text alignment property.
+
+        Args:
+            text_h_align: Vertical text alignment.
+
+        Returns:
+            Nothing.
+
+        """
         self.text_v_align = text_v_align
 
     def set_reading_order(self, direction=0):
         # Set the reading_order property.
+        """
+        Set the reading order property.
+
+        Args:
+            direction: Default is 0, left to right.
+
+        Returns:
+            Nothing.
+
+        """
         self.reading_order = direction
 
     def set_valign(self, align):
         # Set vertical cell alignment. This is required by the constructor
         # properties dict to differentiate between the vertical and horizontal
         # properties.
+        """
+        Set vertical cell alignment property.
+
+        This is required by the constructor properties dict to differentiate
+        between the vertical and horizontal properties.
+
+        Args:
+            align: Alignment property.
+
+        Returns:
+            Nothing.
+
+        """
         self.set_align(align)
 
     def set_font_family(self, font_family):
-        # Set the Format font_family property.
+        """
+        Set the font family property.
+
+        Args:
+            font_family: Font family number.
+
+        Returns:
+            Nothing.
+
+        """
         self.font_family = font_family
 
     def set_font_charset(self, font_charset):
-        # Set the Format font_charset property.
+        """
+        Set the font character set property.
+
+        Args:
+            font_charset: The font character set number.
+
+        Returns:
+            Nothing.
+
+        """
         self.font_charset = font_charset
 
     def set_font_scheme(self, font_scheme):
-        # Set the Format font_scheme property.
+        """
+        Set the font scheme property.
+
+        Args:
+            font_scheme: The font scheme.
+
+        Returns:
+            Nothing.
+
+        """
         self.font_scheme = font_scheme
 
     def set_font_condense(self, font_condense):
-        # Set the Format font_condense property.
+        """
+        Set the font condense property.
+
+        Args:
+            font_condense: The font condense property.
+
+        Returns:
+            Nothing.
+
+        """
         self.font_condense = font_condense
 
     def set_font_extend(self, font_extend):
-        # Set the Format font_extend property.
+        """
+        Set the font extend property.
+
+        Args:
+            font_extend: The font extend property.
+
+        Returns:
+            Nothing.
+
+        """
         self.font_extend = font_extend
 
     def set_theme(self, theme):
-        # Set the Format theme property.
+        """
+        Set the theme property.
+
+        Args:
+            theme: Format theme.
+
+        Returns:
+            Nothing.
+
+        """
         self.theme = theme
 
     def set_hyperlink(self, hyperlink=True):
-        # Set the properties for the hyperlink style. This isn't
-        # currently public. To be fixed when styles are supported.
+        """
+        Set the properties for the hyperlink style.
+
+        Args:
+            hyperlink: Default is True, turns property on.
+
+        Returns:
+            Nothing.
+
+        """
         self.xf_id = 1
         self.set_underline(1)
         self.set_theme(10)
         self.hyperlink = hyperlink
 
     def set_color_indexed(self, color_index):
-        # Used in the cell comment format.
+        """
+        Set the color index property. Some fundamental format properties use an
+        indexed color instead of a rbg or theme color.
+
+        Args:
+            color_index: Generally 0 or 1.
+
+        Returns:
+            Nothing.
+
+        """
         self.color_indexed = color_index
 
     def set_font_only(self, font_only=True):
-        # Used in the cell comment format.
+        """
+        Set property to indicate that the format is used for fonts only.
+
+        Args:
+            font_only: Default is True, turns property on.
+
+        Returns:
+            Nothing.
+
+        """
         self.font_only = font_only
-
-    # Compatibility methods.
-    def set_font(self, font_name):
-        #  For compatibility with Excel::Writer::XLSX.
-        self.font_name = font_name
-
-    def set_size(self, font_size):
-        #  For compatibility with Excel::Writer::XLSX.
-        self.font_size = font_size
-
-    def set_color(self, font_color):
-        #  For compatibility with Excel::Writer::XLSX.
-        self.font_color = self._get_color(font_color)
 
     ###########################################################################
     #
@@ -766,6 +930,7 @@ class Format(xmlwriter.XMLwriter):
     ###########################################################################
 
     def _get_align_properties(self):
+        # pylint: disable=too-many-boolean-expressions
         # Return properties for an Style xf <alignment> sub-element.
         changed = 0
         align = []
@@ -862,14 +1027,14 @@ class Format(xmlwriter.XMLwriter):
 
     def _get_protection_properties(self):
         # Return properties for an Excel XML <Protection> element.
-        attribs = []
+        attributes = []
 
         if not self.locked:
-            attribs.append(("locked", 0))
+            attributes.append(("locked", 0))
         if self.hidden:
-            attribs.append(("hidden", 1))
+            attributes.append(("hidden", 1))
 
-        return attribs
+        return attributes
 
     def _get_format_key(self):
         # Returns a unique hash key for a format. Used by Workbook.
@@ -963,39 +1128,39 @@ class Format(xmlwriter.XMLwriter):
         if self.xf_index is not None:
             # Format already has an index number so return it.
             return self.xf_index
-        else:
-            # Format doesn't have an index number so assign one.
-            key = self._get_format_key()
 
-            if key in self.xf_format_indices:
-                # Format matches existing format with an index.
-                return self.xf_format_indices[key]
-            else:
-                # New format requiring an index. Note. +1 since Excel
-                # has an implicit "General" format at index 0.
-                index = 1 + len(self.xf_format_indices)
-                self.xf_format_indices[key] = index
-                self.xf_index = index
-                return index
+        # Format doesn't have an index number so assign one.
+        key = self._get_format_key()
+
+        if key in self.xf_format_indices:
+            # Format matches existing format with an index.
+            return self.xf_format_indices[key]
+
+        # New format requiring an index. Note. +1 since Excel
+        # has an implicit "General" format at index 0.
+        index = 1 + len(self.xf_format_indices)
+        self.xf_format_indices[key] = index
+        self.xf_index = index
+        return index
 
     def _get_dxf_index(self):
         # Returns the DXF index number used by Excel to identify a format.
         if self.dxf_index is not None:
             # Format already has an index number so return it.
             return self.dxf_index
-        else:
-            # Format doesn't have an index number so assign one.
-            key = self._get_format_key()
 
-            if key in self.dxf_format_indices:
-                # Format matches existing format with an index.
-                return self.dxf_format_indices[key]
-            else:
-                # New format requiring an index.
-                index = len(self.dxf_format_indices)
-                self.dxf_format_indices[key] = index
-                self.dxf_index = index
-                return index
+        # Format doesn't have an index number so assign one.
+        key = self._get_format_key()
+
+        if key in self.dxf_format_indices:
+            # Format matches existing format with an index.
+            return self.dxf_format_indices[key]
+
+        # New format requiring an index.
+        index = len(self.dxf_format_indices)
+        self.dxf_format_indices[key] = index
+        self.dxf_index = index
+        return index
 
     def _get_color(self, color):
         # Used in conjunction with the set_xxx_color methods to convert a
@@ -1021,10 +1186,7 @@ class Format(xmlwriter.XMLwriter):
             "automatic": "Automatic",
         }
 
-        if color in named_colors:
-            color = named_colors[color]
-
-        return color
+        return named_colors.get(color, color)
 
     ###########################################################################
     #

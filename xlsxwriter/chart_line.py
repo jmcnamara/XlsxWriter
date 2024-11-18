@@ -27,7 +27,7 @@ class ChartLine(chart.Chart):
         Constructor.
 
         """
-        super(ChartLine, self).__init__()
+        super().__init__()
 
         if options is None:
             options = {}
@@ -84,7 +84,7 @@ class ChartLine(chart.Chart):
         else:
             series = self._get_secondary_axes_series()
 
-        if not len(series):
+        if not series:
             return
 
         subtype = self.subtype

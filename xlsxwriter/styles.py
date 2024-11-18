@@ -29,7 +29,7 @@ class Styles(xmlwriter.XMLwriter):
 
         """
 
-        super(Styles, self).__init__()
+        super().__init__()
 
         self.xf_formats = []
         self.palette = []
@@ -188,10 +188,7 @@ class Styles(xmlwriter.XMLwriter):
 
         # Set the format code for built-in number formats.
         if num_fmt_id < 164:
-            if num_fmt_id in format_codes:
-                format_code = format_codes[num_fmt_id]
-            else:
-                format_code = "General"
+            format_code = format_codes.get(num_fmt_id, "General")
 
         attributes = [
             ("numFmtId", num_fmt_id),

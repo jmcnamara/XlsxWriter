@@ -7,8 +7,8 @@
 # Copyright 2013-2024, John McNamara, jmcnamara@cpan.org
 #
 
-import pandas as pd
 from datetime import datetime, date
+import pandas as pd
 
 # Create a Pandas dataframe from some datetime data.
 df = pd.DataFrame(

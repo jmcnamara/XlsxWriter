@@ -6,8 +6,8 @@
 # SPDX-License-Identifier: BSD-2-Clause
 # Copyright 2013-2024, John McNamara, jmcnamara@cpan.org
 #
-import xlsxwriter
 import math
+import xlsxwriter
 
 
 # Create a function that will behave like a worksheet write() method.
@@ -16,9 +16,9 @@ import math
 # instead. It should take the parameters shown below and return the return
 # value from the called worksheet write_*() method.
 #
-def ignore_nan(worksheet, row, col, number, format=None):
+def ignore_nan(worksheet, row, col, number, cell_format=None):
     if math.isnan(number):
-        return worksheet.write_blank(row, col, None, format)
+        return worksheet.write_blank(row, col, None, cell_format)
     else:
         # Return control to the calling write() method for any other number.
         return None

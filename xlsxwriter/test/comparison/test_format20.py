@@ -26,7 +26,7 @@ class TestCompareXLSXFiles(ExcelComparisonTest):
 
         worksheet = workbook.add_worksheet()
 
-        format1 = workbook.add_format({"color": "automatic"})
+        format1 = workbook.add_format({"font_color": "automatic"})
 
         worksheet.write(0, 0, "Foo", format1)
 

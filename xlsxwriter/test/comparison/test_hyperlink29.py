@@ -26,7 +26,7 @@ class TestCompareXLSXFiles(ExcelComparisonTest):
 
         worksheet = workbook.add_worksheet()
         format1 = workbook.add_format({"hyperlink": True})
-        format2 = workbook.add_format({"color": "red", "underline": 1})
+        format2 = workbook.add_format({"font_color": "red", "underline": 1})
 
         worksheet.write_url("A1", "http://www.perl.org/", format1)
         worksheet.write_url("A2", "http://www.perl.com/", format2)
@@ -41,7 +41,7 @@ class TestCompareXLSXFiles(ExcelComparisonTest):
         workbook = Workbook(self.got_filename)
 
         worksheet = workbook.add_worksheet()
-        format2 = workbook.add_format({"color": "red", "underline": 1})
+        format2 = workbook.add_format({"font_color": "red", "underline": 1})
 
         worksheet.write_url("A1", "http://www.perl.org/")
         worksheet.write_url("A2", "http://www.perl.com/", format2)

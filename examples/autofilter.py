@@ -26,7 +26,7 @@ worksheet7 = workbook.add_worksheet()
 bold = workbook.add_format({"bold": 1})
 
 # Open a text file with autofilter example data.
-textfile = open("autofilter_data.txt")
+textfile = open("autofilter_data.txt", encoding="utf-8")
 
 # Read the headers from the first line of the input file.
 headers = textfile.readline().strip("\n").split()

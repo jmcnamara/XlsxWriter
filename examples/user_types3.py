@@ -13,11 +13,11 @@ import xlsxwriter
 # hides/replaces user passwords when writing string data. The password data,
 # based on the sample data structure, will be data in the second column, apart
 # from the header row.
-def hide_password(worksheet, row, col, string, format=None):
+def hide_password(worksheet, row, col, string, cell_format=None):
     if col == 1 and row > 0:
-        return worksheet.write_string(row, col, "****", format)
+        return worksheet.write_string(row, col, "****", cell_format)
     else:
-        return worksheet.write_string(row, col, string, format)
+        return worksheet.write_string(row, col, string, cell_format)
 
 
 # Set up the workbook as usual.

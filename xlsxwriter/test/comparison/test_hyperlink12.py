@@ -25,11 +25,11 @@ class TestCompareXLSXFiles(ExcelComparisonTest):
         workbook = Workbook(self.got_filename)
 
         worksheet = workbook.add_worksheet()
-        format = workbook.add_format({"color": "blue", "underline": 1})
+        cell_format = workbook.add_format({"font_color": "blue", "underline": 1})
 
-        worksheet.write_url("A1", "mailto:jmcnamara@cpan.org", format)
+        worksheet.write_url("A1", "mailto:jmcnamara@cpan.org", cell_format)
 
-        worksheet.write_url("A3", "ftp://perl.org/", format)
+        worksheet.write_url("A3", "ftp://perl.org/", cell_format)
 
         workbook.close()
 
@@ -41,11 +41,11 @@ class TestCompareXLSXFiles(ExcelComparisonTest):
         workbook = Workbook(self.got_filename)
 
         worksheet = workbook.add_worksheet()
-        format = workbook.add_format({"color": "blue", "underline": 1})
+        cell_format = workbook.add_format({"font_color": "blue", "underline": 1})
 
-        worksheet.write("A1", "mailto:jmcnamara@cpan.org", format)
+        worksheet.write("A1", "mailto:jmcnamara@cpan.org", cell_format)
 
-        worksheet.write("A3", "ftp://perl.org/", format)
+        worksheet.write("A3", "ftp://perl.org/", cell_format)
 
         workbook.close()
 

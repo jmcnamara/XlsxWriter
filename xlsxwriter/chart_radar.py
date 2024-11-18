@@ -27,7 +27,7 @@ class ChartRadar(chart.Chart):
         Constructor.
 
         """
-        super(ChartRadar, self).__init__()
+        super().__init__()
 
         if options is None:
             options = {}
@@ -73,7 +73,7 @@ class ChartRadar(chart.Chart):
         else:
             series = self._get_secondary_axes_series()
 
-        if not len(series):
+        if not series:
             return
 
         self._xml_start_tag("c:radarChart")

@@ -9,7 +9,7 @@ import copy
 from warnings import warn
 
 
-class Shape():
+class Shape:
     """
     A class for to represent Excel XLSX shape objects.
 
@@ -27,7 +27,7 @@ class Shape():
         Constructor.
 
         """
-        super(Shape, self).__init__()
+        super().__init__()
         self.name = name
         self.shape_type = shape_type
         self.connect = 0
@@ -125,7 +125,7 @@ class Shape():
                 line["dash_type"] = dash_types[dash_type]
             else:
                 warn(f"Unknown dash type '{dash_type}'")
-                return
+                return {}
 
         line["defined"] = True
 
@@ -150,18 +150,18 @@ class Shape():
         # Convert user defined pattern to the structure required internally.
 
         if not pattern:
-            return
+            return {}
 
         # Copy the user defined properties since they will be modified.
         pattern = copy.deepcopy(pattern)
 
         if not pattern.get("pattern"):
             warn("Pattern must include 'pattern'")
-            return
+            return {}
 
         if not pattern.get("fg_color"):
             warn("Pattern must include 'fg_color'")
-            return
+            return {}
 
         types = {
             "percent_5": "pct5",
@@ -217,9 +217,9 @@ class Shape():
         # Check for valid types.
         if pattern["pattern"] not in types:
             warn(f"unknown pattern type '{pattern['pattern']}'")
-            return
-        else:
-            pattern["pattern"] = types[pattern["pattern"]]
+            return {}
+
+        pattern["pattern"] = types[pattern["pattern"]]
 
         # Specify a default background color.
         pattern["bg_color"] = pattern.get("bg_color", "#FFFFFF")
@@ -228,10 +228,11 @@ class Shape():
 
     @staticmethod
     def _get_gradient_properties(gradient):
+        # pylint: disable=too-many-return-statements
         # Convert user defined gradient to the structure required internally.
 
         if not gradient:
-            return
+            return {}
 
         # Copy the user defined properties since they will be modified.
         gradient = copy.deepcopy(gradient)
@@ -246,24 +247,24 @@ class Shape():
         # Check the colors array exists and is valid.
         if "colors" not in gradient or not isinstance(gradient["colors"], list):
             warn("Gradient must include colors list")
-            return
+            return {}
 
         # Check the colors array has the required number of entries.
         if not 2 <= len(gradient["colors"]) <= 10:
             warn("Gradient colors list must at least 2 values and not more than 10")
-            return
+            return {}
 
         if "positions" in gradient:
             # Check the positions array has the right number of entries.
             if len(gradient["positions"]) != len(gradient["colors"]):
                 warn("Gradient positions not equal to number of colors")
-                return
+                return {}
 
             # Check the positions are in the correct range.
             for pos in gradient["positions"]:
                 if not 0 <= pos <= 100:
                     warn("Gradient position must be in the range 0 <= position <= 100")
-                    return
+                    return {}
         else:
             # Use the default gradient positions.
             if len(gradient["colors"]) == 2:
@@ -277,13 +278,13 @@ class Shape():
 
             else:
                 warn("Must specify gradient positions")
-                return
+                return {}
 
         angle = gradient.get("angle")
         if angle:
             if not 0 <= angle < 360:
                 warn("Gradient angle must be in the range 0 <= angle < 360")
-                return
+                return {}
         else:
             gradient["angle"] = 90
 
@@ -295,7 +296,7 @@ class Shape():
                 gradient["type"] = types[gradient_type]
             else:
                 warn(f"Unknown gradient type '{gradient_type}")
-                return
+                return {}
         else:
             gradient["type"] = "linear"
 

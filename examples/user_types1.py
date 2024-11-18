@@ -6,8 +6,8 @@
 # SPDX-License-Identifier: BSD-2-Clause
 # Copyright 2013-2024, John McNamara, jmcnamara@cpan.org
 #
-import xlsxwriter
 import uuid
+import xlsxwriter
 
 
 # Create a function that will behave like a worksheet write() method.
@@ -17,8 +17,8 @@ import uuid
 # write_*() method. In this case it changes the UUID to a string and calls
 # write_string() to write it.
 #
-def write_uuid(worksheet, row, col, token, format=None):
-    return worksheet.write_string(row, col, str(token), format)
+def write_uuid(worksheet, row, col, token, cell_format=None):
+    return worksheet.write_string(row, col, str(token), cell_format)
 
 
 # Set up the workbook as usual.

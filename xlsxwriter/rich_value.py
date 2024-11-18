@@ -29,7 +29,7 @@ class RichValue(xmlwriter.XMLwriter):
 
         """
 
-        super(RichValue, self).__init__()
+        super().__init__()
         self.embedded_images = []
 
     ###########################################################################

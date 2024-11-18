@@ -30,7 +30,7 @@ class TestCompareXLSXFiles(ExcelComparisonTest):
 
         font_format = workbook.add_format()
 
-        font_format.set_font("B Nazanin")
+        font_format.set_font_name("B Nazanin")
         font_format.set_font_family(0)
         font_format.set_font_charset(178)
 

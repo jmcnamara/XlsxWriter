@@ -8,7 +8,7 @@
 
 from . import xmlwriter
 from .shape import Shape
-from .utility import get_rgb_color
+from .utility import _get_rgb_color
 
 
 class Drawing(xmlwriter.XMLwriter):
@@ -30,7 +30,7 @@ class Drawing(xmlwriter.XMLwriter):
 
         """
 
-        super(Drawing, self).__init__()
+        super().__init__()
 
         self.drawings = []
         self.embedded = 0
@@ -519,9 +519,7 @@ class Drawing(xmlwriter.XMLwriter):
             self._write_nv_cxn_sp_pr(index, shape)
 
             # Write the xdr:spPr element.
-            self._write_xdr_sp_pr(
-                index, col_absolute, row_absolute, width, height, shape
-            )
+            self._write_xdr_sp_pr(col_absolute, row_absolute, width, height, shape)
 
             self._xml_end_tag("xdr:cxnSp")
         else:
@@ -536,16 +534,14 @@ class Drawing(xmlwriter.XMLwriter):
             )
 
             # Write the xdr:spPr element.
-            self._write_xdr_sp_pr(
-                index, col_absolute, row_absolute, width, height, shape
-            )
+            self._write_xdr_sp_pr(col_absolute, row_absolute, width, height, shape)
 
             # Write the xdr:style element.
             self._write_style()
 
             # Write the xdr:txBody element.
             if shape.text is not None:
-                self._write_tx_body(col_absolute, row_absolute, width, height, shape)
+                self._write_tx_body(shape)
 
             self._xml_end_tag("xdr:sp")
 
@@ -612,9 +608,7 @@ class Drawing(xmlwriter.XMLwriter):
         self._xml_start_tag("xdr:pic")
 
         # Write the xdr:nvPicPr element.
-        self._write_nv_pic_pr(
-            index, rel_index, description, url_rel_index, tip, decorative
-        )
+        self._write_nv_pic_pr(index, description, url_rel_index, tip, decorative)
         # Write the xdr:blipFill element.
         self._write_blip_fill(rel_index)
 
@@ -623,9 +617,7 @@ class Drawing(xmlwriter.XMLwriter):
 
         self._xml_end_tag("xdr:pic")
 
-    def _write_nv_pic_pr(
-        self, index, rel_index, description, url_rel_index, tip, decorative
-    ):
+    def _write_nv_pic_pr(self, index, description, url_rel_index, tip, decorative):
         # Write the <xdr:nvPicPr> element.
         self._xml_start_tag("xdr:nvPicPr")
 
@@ -707,7 +699,7 @@ class Drawing(xmlwriter.XMLwriter):
 
         self._xml_end_tag("xdr:spPr")
 
-    def _write_xdr_sp_pr(self, index, col_absolute, row_absolute, width, height, shape):
+    def _write_xdr_sp_pr(self, col_absolute, row_absolute, width, height, shape):
         # Write the <xdr:spPr> element for shapes.
         self._xml_start_tag("xdr:spPr")
 
@@ -726,7 +718,7 @@ class Drawing(xmlwriter.XMLwriter):
                 self._xml_empty_tag("a:noFill")
             elif "color" in shape.fill:
                 # Write the a:solidFill element.
-                self._write_a_solid_fill(get_rgb_color(shape.fill["color"]))
+                self._write_a_solid_fill(_get_rgb_color(shape.fill["color"]))
 
         if shape.gradient:
             # Write the a:gradFill element.
@@ -867,7 +859,7 @@ class Drawing(xmlwriter.XMLwriter):
 
         elif "color" in line:
             # Write the a:solidFill element.
-            self._write_a_solid_fill(get_rgb_color(line["color"]))
+            self._write_a_solid_fill(_get_rgb_color(line["color"]))
 
         else:
             # Write the a:solidFill element.
@@ -881,7 +873,7 @@ class Drawing(xmlwriter.XMLwriter):
 
         self._xml_end_tag("a:ln")
 
-    def _write_tx_body(self, col_absolute, row_absolute, width, height, shape):
+    def _write_tx_body(self, shape):
         # Write the <xdr:txBody> element.
         attributes = []
 
@@ -927,6 +919,7 @@ class Drawing(xmlwriter.XMLwriter):
 
         # Set the font attributes.
         font = shape.font
+        # pylint: disable=protected-access
         style_attrs = Shape._get_font_style_attributes(font)
         latin_attrs = Shape._get_font_latin_attributes(font)
         style_attrs.insert(0, ("lang", font["lang"]))
@@ -956,7 +949,8 @@ class Drawing(xmlwriter.XMLwriter):
                     self._write_font_run(font, style_attrs, latin_attrs, "a:endParaRPr")
                     self._xml_end_tag("a:p")
                     continue
-                elif "text" in shape.align:
+
+                if "text" in shape.align:
                     if shape.align["text"] == "left":
                         self._xml_empty_tag("a:pPr", [("algn", "l")])
                     if shape.align["text"] == "center":
@@ -977,16 +971,13 @@ class Drawing(xmlwriter.XMLwriter):
 
     def _write_font_run(self, font, style_attrs, latin_attrs, run_type):
         # Write a:rPr or a:endParaRPr.
-        if font.get("color") is not None:
-            has_color = True
-        else:
-            has_color = False
+        has_color = font.get("color") is not None
 
         if latin_attrs or has_color:
             self._xml_start_tag(run_type, style_attrs)
 
             if has_color:
-                self._write_a_solid_fill(get_rgb_color(font["color"]))
+                self._write_a_solid_fill(_get_rgb_color(font["color"]))
 
             if latin_attrs:
                 self._write_a_latin(latin_attrs)
@@ -1120,13 +1111,13 @@ class Drawing(xmlwriter.XMLwriter):
 
         self._xml_start_tag("a:gsLst")
 
-        for i in range(len(colors)):
+        for i, color in enumerate(colors):
             pos = int(positions[i] * 1000)
             attributes = [("pos", pos)]
             self._xml_start_tag("a:gs", attributes)
 
             # Write the a:srgbClr element.
-            color = get_rgb_color(colors[i])
+            color = _get_rgb_color(color)
             self._write_a_srgb_clr(color)
 
             self._xml_end_tag("a:gs")

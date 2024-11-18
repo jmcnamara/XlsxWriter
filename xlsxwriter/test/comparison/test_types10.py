@@ -11,8 +11,8 @@ from ...workbook import Workbook
 import uuid
 
 
-def write_uuid(worksheet, row, col, token, format=None):
-    return worksheet.write_string(row, col, str(token), format)
+def write_uuid(worksheet, row, col, token, cell_format=None):
+    return worksheet.write_string(row, col, str(token), cell_format)
 
 
 class TestCompareXLSXFiles(ExcelComparisonTest):

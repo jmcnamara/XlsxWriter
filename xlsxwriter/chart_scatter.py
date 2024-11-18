@@ -6,8 +6,8 @@
 # Copyright 2013-2024, John McNamara, jmcnamara@cpan.org
 #
 
-from . import chart
 from warnings import warn
+from . import chart
 
 
 class ChartScatter(chart.Chart):
@@ -28,7 +28,7 @@ class ChartScatter(chart.Chart):
         Constructor.
 
         """
-        super(ChartScatter, self).__init__()
+        super().__init__()
 
         if options is None:
             options = {}
@@ -58,6 +58,7 @@ class ChartScatter(chart.Chart):
         }
 
     def combine(self, chart=None):
+        # pylint: disable=redefined-outer-name
         """
         Create a combination chart with a secondary chart.
 
@@ -103,7 +104,7 @@ class ChartScatter(chart.Chart):
         else:
             series = self._get_secondary_axes_series()
 
-        if not len(series):
+        if not series:
             return
 
         style = "lineMarker"

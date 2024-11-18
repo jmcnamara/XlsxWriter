@@ -19,14 +19,14 @@ from xlsxwriter.worksheet import Worksheet
 from xlsxwriter.worksheet import convert_cell_args
 
 
-def excel_string_width(str):
+def excel_string_width(string):
     """
     Calculate the length of the string in Excel character units. This is only
     an example and won't give accurate results. It will need to be replaced
     by something more rigorous.
 
     """
-    string_width = len(str)
+    string_width = len(string)
 
     if string_width == 0:
         return 0
@@ -63,7 +63,7 @@ class MyWorksheet(Worksheet):
                 self.max_column_widths[col] = string_width
 
         # Now call the parent version of write_string() as usual.
-        return super(MyWorksheet, self).write_string(row, col, string, cell_format)
+        return super().write_string(row, col, string, cell_format)
 
 
 class MyWorkbook(Workbook):
@@ -76,7 +76,7 @@ class MyWorkbook(Workbook):
     def add_worksheet(self, name=None):
         # Overwrite add_worksheet() to create a MyWorksheet object.
         # Also add an Worksheet attribute to store the column widths.
-        worksheet = super(MyWorkbook, self).add_worksheet(name, MyWorksheet)
+        worksheet = super().add_worksheet(name, MyWorksheet)
         worksheet.max_column_widths = {}
 
         return worksheet
@@ -90,7 +90,7 @@ class MyWorkbook(Workbook):
             for column, width in worksheet.max_column_widths.items():
                 worksheet.set_column(column, column, width)
 
-        return super(MyWorkbook, self).close()
+        return super().close()
 
 
 # Create a new MyWorkbook object.

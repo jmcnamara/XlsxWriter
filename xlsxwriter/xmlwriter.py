@@ -8,6 +8,8 @@
 # Copyright 2013-2024, John McNamara, jmcnamara@cpan.org
 #
 
+# pylint: disable=dangerous-default-value
+
 # Standard packages.
 import re
 from io import StringIO
@@ -18,7 +20,7 @@ re_control_chars_2 = re.compile(r"([\x00-\x08\x0b-\x1f])")
 xml_escapes = re.compile('["&<>\n]')
 
 
-class XMLwriter():
+class XMLwriter:
     """
     Simple XML writer class.
 
@@ -40,6 +42,7 @@ class XMLwriter():
             self.fh = filename
         else:
             self.internal_fh = True
+            # pylint: disable-next=consider-using-with
             self.fh = open(filename, "w", encoding="utf-8")
 
     def _xml_close(self):

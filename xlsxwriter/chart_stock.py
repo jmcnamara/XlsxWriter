@@ -21,12 +21,12 @@ class ChartStock(chart.Chart):
     #
     ###########################################################################
 
-    def __init__(self, options=None):
+    def __init__(self):
         """
         Constructor.
 
         """
-        super(ChartStock, self).__init__()
+        super().__init__()
 
         self.show_crosses = False
         self.hi_low_lines = {}
@@ -78,7 +78,7 @@ class ChartStock(chart.Chart):
         else:
             series = self._get_secondary_axes_series()
 
-        if not len(series):
+        if not series:
             return
 
         # Add default formatting to the series data.

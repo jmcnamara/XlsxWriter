@@ -28,11 +28,11 @@ class TestCompareXLSXFiles(ExcelComparisonTest):
 
         bold = workbook.add_format({"bold": 1})
         italic = workbook.add_format({"italic": 1})
-        format = workbook.add_format({"align": "center"})
+        cell_format = workbook.add_format({"align": "center"})
 
         worksheet.write("A1", "Foo", bold)
         worksheet.write("A2", "Bar", italic)
-        worksheet.write_rich_string("A3", "ab", bold, "cd", "efg", format)
+        worksheet.write_rich_string("A3", "ab", bold, "cd", "efg", cell_format)
 
         workbook.close()
 

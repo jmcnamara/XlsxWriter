@@ -10,9 +10,9 @@
 from . import xmlwriter
 
 # Long namespace strings used in the class.
-schema_root = "http://schemas.openxmlformats.org"
-package_schema = schema_root + "/package/2006/relationships"
-document_schema = schema_root + "/officeDocument/2006/relationships"
+SCHEMA_ROOT = "http://schemas.openxmlformats.org"
+PACKAGE_SCHEMA = SCHEMA_ROOT + "/package/2006/relationships"
+DOCUMENT_SCHEMA = SCHEMA_ROOT + "/officeDocument/2006/relationships"
 
 
 class Relationships(xmlwriter.XMLwriter):
@@ -34,7 +34,7 @@ class Relationships(xmlwriter.XMLwriter):
 
         """
 
-        super(Relationships, self).__init__()
+        super().__init__()
 
         self.relationships = []
         self.id = 1
@@ -58,13 +58,13 @@ class Relationships(xmlwriter.XMLwriter):
 
     def _add_document_relationship(self, rel_type, target, target_mode=None):
         # Add container relationship to XLSX .rels xml files.
-        rel_type = document_schema + rel_type
+        rel_type = DOCUMENT_SCHEMA + rel_type
 
         self.relationships.append((rel_type, target, target_mode))
 
     def _add_package_relationship(self, rel_type, target):
         # Add container relationship to XLSX .rels xml files.
-        rel_type = package_schema + rel_type
+        rel_type = PACKAGE_SCHEMA + rel_type
 
         self.relationships.append((rel_type, target, None))
 
@@ -108,7 +108,7 @@ class Relationships(xmlwriter.XMLwriter):
         attributes = [
             (
                 "xmlns",
-                package_schema,
+                PACKAGE_SCHEMA,
             )
         ]
 

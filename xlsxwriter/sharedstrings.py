@@ -8,7 +8,7 @@
 
 # Package imports.
 from . import xmlwriter
-from .utility import preserve_whitespace
+from .utility import _preserve_whitespace
 
 
 class SharedStrings(xmlwriter.XMLwriter):
@@ -29,7 +29,7 @@ class SharedStrings(xmlwriter.XMLwriter):
 
         """
 
-        super(SharedStrings, self).__init__()
+        super().__init__()
 
         self.string_table = None
 
@@ -89,7 +89,7 @@ class SharedStrings(xmlwriter.XMLwriter):
         string = self._escape_control_characters(string)
 
         # Add attribute to preserve leading or trailing whitespace.
-        if preserve_whitespace(string):
+        if _preserve_whitespace(string):
             attributes.append(("xml:space", "preserve"))
 
         # Write any rich strings without further tags.
@@ -100,7 +100,7 @@ class SharedStrings(xmlwriter.XMLwriter):
 
 
 # A metadata class to store Excel strings between worksheets.
-class SharedStringTable():
+class SharedStringTable:
     """
     A class to track Excel shared strings between worksheets.
 
@@ -121,11 +121,11 @@ class SharedStringTable():
             self.count += 1
             self.unique_count += 1
             return index
-        else:
-            # String exists in the table.
-            index = self.string_table[string]
-            self.count += 1
-            return index
+
+        # String exists in the table.
+        index = self.string_table[string]
+        self.count += 1
+        return index
 
     def _get_shared_string(self, index):
         """ " Get a shared string from the index."""

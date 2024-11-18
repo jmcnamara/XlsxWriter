@@ -26,7 +26,7 @@ class TestCompareXLSXFiles(ExcelComparisonTest):
 
         worksheet = workbook.add_worksheet()
 
-        red = workbook.add_format({"color": "red"})
+        red = workbook.add_format({"font_color": "red"})
 
         worksheet.write("A1", "Foo", red)
         worksheet.write("A2", "Bar")

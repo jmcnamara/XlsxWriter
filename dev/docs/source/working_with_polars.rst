@@ -199,7 +199,7 @@ worksheet::
             workbook=workbook,
             worksheet="Sheet1",
             position="C8",
-            has_header=False)
+            include_header=False)
 
 Output:
 
@@ -292,7 +292,6 @@ Adding Sparklines to the output dataframe
 We can also add :ref:`sparklines <sparklines>` to the dataframe output::
 
     import polars as pl
-    from polars.datatypes import INTEGER_DTYPES
 
     df = pl.DataFrame(
         {
@@ -312,7 +311,7 @@ We can also add :ref:`sparklines <sparklines>` to the dataframe output::
         table_style="Table Style Light 2",
 
         # Specify an Excel number format for integer types.
-        dtype_formats={INTEGER_DTYPES: "#,##0_);(#,##0)"},
+        dtype_formats={pl.Int32: "#,##0_);(#,##0)"},
 
         # Configure sparklines to the dataframe.
         sparklines={

@@ -16,8 +16,8 @@ worksheet.set_column("A:A", 30)
 # Set up some formats to use.
 bold = workbook.add_format({"bold": True})
 italic = workbook.add_format({"italic": True})
-red = workbook.add_format({"color": "red"})
-blue = workbook.add_format({"color": "blue"})
+red = workbook.add_format({"font_color": "red"})
+blue = workbook.add_format({"font_color": "blue"})
 center = workbook.add_format({"align": "center"})
 superscript = workbook.add_format({"font_script": 1})
 

@@ -28,8 +28,8 @@ class TestCompareXLSXFiles(ExcelComparisonTest):
         workbook.custom_colors = ["FF0000FF"]
 
         worksheet = workbook.add_worksheet()
-        format1 = workbook.add_format({"color": "blue", "underline": 1})
-        format2 = workbook.add_format({"color": "red", "underline": 1})
+        format1 = workbook.add_format({"font_color": "blue", "underline": 1})
+        format2 = workbook.add_format({"font_color": "red", "underline": 1})
 
         worksheet.write_url("A1", "http://www.python.org/1", format1)
         worksheet.write_url("A2", "http://www.python.org/2", format2)

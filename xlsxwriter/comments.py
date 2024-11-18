@@ -7,7 +7,7 @@
 #
 
 from . import xmlwriter
-from .utility import preserve_whitespace
+from .utility import _preserve_whitespace
 from .utility import xl_rowcol_to_cell
 
 
@@ -30,7 +30,7 @@ class Comments(xmlwriter.XMLwriter):
 
         """
 
-        super(Comments, self).__init__()
+        super().__init__()
         self.author_ids = {}
 
     ###########################################################################
@@ -39,8 +39,11 @@ class Comments(xmlwriter.XMLwriter):
     #
     ###########################################################################
 
-    def _assemble_xml_file(self, comments_data=[]):
+    def _assemble_xml_file(self, comments_data=None):
         # Assemble and write the XML file.
+
+        if comments_data is None:
+            comments_data = []
 
         # Write the XML declaration.
         self._xml_declaration()
@@ -161,7 +164,7 @@ class Comments(xmlwriter.XMLwriter):
         # Write the text <t> element.
         attributes = []
 
-        if preserve_whitespace(text):
+        if _preserve_whitespace(text):
             attributes.append(("xml:space", "preserve"))
 
         self._xml_data_element("t", text, attributes)

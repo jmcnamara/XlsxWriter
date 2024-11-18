@@ -5,17 +5,18 @@
 # SPDX-License-Identifier: BSD-2-Clause
 # Copyright 2013-2024, John McNamara, jmcnamara@cpan.org
 #
+
 import re
 import copy
 from warnings import warn
 
 from .shape import Shape
 from . import xmlwriter
-from .utility import get_rgb_color
+from .utility import _get_rgb_color
 from .utility import xl_rowcol_to_cell
 from .utility import xl_range_formula
-from .utility import supported_datetime
-from .utility import datetime_to_excel_datetime
+from .utility import _supported_datetime
+from .utility import _datetime_to_excel_datetime
 from .utility import quote_sheetname
 
 
@@ -32,13 +33,13 @@ class Chart(xmlwriter.XMLwriter):
     #
     ###########################################################################
 
-    def __init__(self, options=None):
+    def __init__(self):
         """
         Constructor.
 
         """
 
-        super(Chart, self).__init__()
+        super().__init__()
 
         self.subtype = None
         self.sheet_type = 0x0200
@@ -105,6 +106,7 @@ class Chart(xmlwriter.XMLwriter):
         self.is_secondary = False
         self.warn_sheetname = True
         self._set_default_properties()
+        self.fill = {}
 
     def add_series(self, options=None):
         """
@@ -765,16 +767,16 @@ class Chart(xmlwriter.XMLwriter):
             axis["text_axis"] = True
 
         # Convert datetime args if required.
-        if axis.get("min") and supported_datetime(axis["min"]):
-            axis["min"] = datetime_to_excel_datetime(
+        if axis.get("min") and _supported_datetime(axis["min"]):
+            axis["min"] = _datetime_to_excel_datetime(
                 axis["min"], self.date_1904, self.remove_timezone
             )
-        if axis.get("max") and supported_datetime(axis["max"]):
-            axis["max"] = datetime_to_excel_datetime(
+        if axis.get("max") and _supported_datetime(axis["max"]):
+            axis["max"] = _datetime_to_excel_datetime(
                 axis["max"], self.date_1904, self.remove_timezone
             )
-        if axis.get("crossing") and supported_datetime(axis["crossing"]):
-            axis["crossing"] = datetime_to_excel_datetime(
+        if axis.get("crossing") and _supported_datetime(axis["crossing"]):
+            axis["crossing"] = _datetime_to_excel_datetime(
                 axis["crossing"], self.date_1904, self.remove_timezone
             )
 
@@ -817,7 +819,7 @@ class Chart(xmlwriter.XMLwriter):
     def _convert_font_args(self, options):
         # Convert user defined font values into private dict values.
         if not options:
-            return
+            return {}
 
         font = {
             "name": options.get("name"),
@@ -915,7 +917,7 @@ class Chart(xmlwriter.XMLwriter):
 
         # Ignore series without a range formula.
         if not formula:
-            return
+            return None
 
         # Strip the leading '=' from the formula.
         if formula.startswith("="):
@@ -943,7 +945,7 @@ class Chart(xmlwriter.XMLwriter):
         # Convert user marker properties to the structure required internally.
 
         if not marker:
-            return
+            return None
 
         # Copy the user defined properties since they will be modified.
         marker = copy.deepcopy(marker)
@@ -973,7 +975,7 @@ class Chart(xmlwriter.XMLwriter):
                 marker["type"] = types[marker_type]
             else:
                 warn(f"Unknown marker type '{marker_type}")
-                return
+                return None
 
         # Set the line properties for the marker.
         line = Shape._get_line_properties(marker.get("line"))
@@ -1011,7 +1013,7 @@ class Chart(xmlwriter.XMLwriter):
         # Convert user trendline properties to structure required internally.
 
         if not trendline:
-            return
+            return None
 
         # Copy the user defined properties since they will be modified.
         trendline = copy.deepcopy(trendline)
@@ -1032,7 +1034,7 @@ class Chart(xmlwriter.XMLwriter):
             trendline["type"] = types[trend_type]
         else:
             warn(f"Unknown trendline type '{trend_type}'")
-            return
+            return None
 
         # Set the line properties for the trendline.
         line = Shape._get_line_properties(trendline.get("line"))
@@ -1118,7 +1120,7 @@ class Chart(xmlwriter.XMLwriter):
     def _get_error_bars_props(self, options):
         # Convert user error bars properties to structure required internally.
         if not options:
-            return
+            return {}
 
         # Default values.
         error_bars = {"type": "fixedVal", "value": 1, "endcap": 1, "direction": "both"}
@@ -1138,7 +1140,7 @@ class Chart(xmlwriter.XMLwriter):
             error_bars["type"] = types[error_type]
         else:
             warn(f"Unknown error bars type '{error_type}")
-            return
+            return {}
 
         # Set the value for error types that require it.
         if "value" in options:
@@ -1200,7 +1202,7 @@ class Chart(xmlwriter.XMLwriter):
                     labels["position"] = self.label_positions[position]
             else:
                 warn(f"Unsupported label position '{position}' for this chart type")
-                return
+                return None
 
         # Map the user defined label separator to the Excel separator.
         separator = labels.get("separator")
@@ -1217,7 +1219,7 @@ class Chart(xmlwriter.XMLwriter):
                 labels["separator"] = separators[separator]
             else:
                 warn("Unsupported label separator")
-                return
+                return None
 
         # Set the font properties if present.
         labels["font"] = self._convert_font_args(labels.get("font"))
@@ -1399,7 +1401,7 @@ class Chart(xmlwriter.XMLwriter):
         layout = {}
 
         if not args:
-            return
+            return {}
 
         if is_text:
             properties = ("x", "y")
@@ -1410,13 +1412,13 @@ class Chart(xmlwriter.XMLwriter):
         for key in args.keys():
             if key not in properties:
                 warn(f"Property '{key}' not supported in layout options")
-                return
+                return {}
 
         # Set the layout properties.
         for prop in properties:
             if prop not in args.keys():
                 warn(f"Property '{prop}' must be specified in layout options")
-                return
+                return {}
 
             value = args[prop]
 
@@ -1424,14 +1426,14 @@ class Chart(xmlwriter.XMLwriter):
                 float(value)
             except ValueError:
                 warn(f"Property '{prop}' value '{value}' must be numeric in layout")
-                return
+                return {}
 
             if value < 0 or value > 1:
                 warn(
                     f"Property '{prop}' value '{value}' must be in range "
                     f"0 < x <= 1 in layout options"
                 )
-                return
+                return {}
 
             # Convert to the format used by Excel for easier testing
             layout[prop] = f"{value:.17g}"
@@ -1443,7 +1445,7 @@ class Chart(xmlwriter.XMLwriter):
         points = []
 
         if not user_points:
-            return
+            return []
 
         for user_point in user_points:
             point = {}
@@ -1496,15 +1498,12 @@ class Chart(xmlwriter.XMLwriter):
         if element.get("line") and element["line"]["defined"]:
             has_line = True
 
-        if not has_fill and not has_line and not has_pattern and not has_gradient:
-            return False
-        else:
-            return True
+        return has_fill or has_line or has_pattern or has_gradient
 
     def _get_display_units(self, display_units):
         # Convert user defined display units to internal units.
         if not display_units:
-            return
+            return None
 
         types = {
             "hundreds": "hundreds",
@@ -1522,14 +1521,14 @@ class Chart(xmlwriter.XMLwriter):
             display_units = types[display_units]
         else:
             warn(f"Unknown display_units type '{display_units}'")
-            return
+            return None
 
         return display_units
 
     def _get_tick_type(self, tick_type):
         # Convert user defined display units to internal units.
         if not tick_type:
-            return
+            return None
 
         types = {
             "outside": "out",
@@ -1542,7 +1541,7 @@ class Chart(xmlwriter.XMLwriter):
             tick_type = types[tick_type]
         else:
             warn(f"Unknown tick_type '{tick_type}'")
-            return
+            return None
 
         return tick_type
 
@@ -1818,7 +1817,8 @@ class Chart(xmlwriter.XMLwriter):
 
         self._xml_end_tag("c:manualLayout")
 
-    def _write_chart_type(self, options):
+    def _write_chart_type(self, args):
+        # pylint: disable=unused-argument
         # Write the chart type element. This method should be overridden
         # by the subclasses.
         return
@@ -2064,7 +2064,7 @@ class Chart(xmlwriter.XMLwriter):
 
             for i, point in enumerate(cat_data):
                 # Write the c:pt element.
-                self._write_pt(i, cat_data[i])
+                self._write_pt(i, point)
 
             self._xml_end_tag("c:lvl")
 
@@ -2109,7 +2109,7 @@ class Chart(xmlwriter.XMLwriter):
         axis_ids = args["axis_ids"]
 
         # If there are no axis_ids then we don't need to write this element.
-        if axis_ids is None or not len(axis_ids):
+        if axis_ids is None or not axis_ids:
             return
 
         position = self.cat_axis_position
@@ -2213,7 +2213,7 @@ class Chart(xmlwriter.XMLwriter):
         is_y_axis = self.horiz_val_axis
 
         # If there are no axis_ids then we don't need to write this element.
-        if axis_ids is None or not len(axis_ids):
+        if axis_ids is None or not axis_ids:
             return
 
         # Overwrite the default axis position with a user supplied value.
@@ -2319,7 +2319,7 @@ class Chart(xmlwriter.XMLwriter):
         is_y_axis = self.horiz_val_axis
 
         # If there are no axis_ids then we don't need to write this element.
-        if axis_ids is None or not len(axis_ids):
+        if axis_ids is None or not axis_ids:
             return
 
         # Overwrite the default axis position with a user supplied value.
@@ -2419,7 +2419,7 @@ class Chart(xmlwriter.XMLwriter):
         axis_ids = args["axis_ids"]
 
         # If there are no axis_ids then we don't need to write this element.
-        if axis_ids is None or not len(axis_ids):
+        if axis_ids is None or not axis_ids:
             return
 
         position = self.cat_axis_position
@@ -3360,7 +3360,7 @@ class Chart(xmlwriter.XMLwriter):
         self._xml_start_tag("a:solidFill")
 
         if "color" in fill:
-            color = get_rgb_color(fill["color"])
+            color = _get_rgb_color(fill["color"])
             transparency = fill.get("transparency")
             # Write the a:srgbClr element.
             self._write_a_srgb_clr(color, transparency)
@@ -3462,8 +3462,7 @@ class Chart(xmlwriter.XMLwriter):
 
     def _write_trendline_order(self, val):
         # Write the <c:order> element.
-        if val < 2:
-            val = 2
+        val = max(val, 2)
 
         attributes = [("val", val)]
 
@@ -3471,8 +3470,7 @@ class Chart(xmlwriter.XMLwriter):
 
     def _write_period(self, val):
         # Write the <c:period> element.
-        if val < 2:
-            val = 2
+        val = max(val, 2)
 
         attributes = [("val", val)]
 
@@ -4273,13 +4271,13 @@ class Chart(xmlwriter.XMLwriter):
 
         self._xml_start_tag("a:gsLst")
 
-        for i in range(len(colors)):
+        for i, color in enumerate(colors):
             pos = int(positions[i] * 1000)
             attributes = [("pos", pos)]
             self._xml_start_tag("a:gs", attributes)
 
             # Write the a:srgbClr element.
-            color = get_rgb_color(colors[i])
+            color = _get_rgb_color(color)
             self._write_a_srgb_clr(color)
 
             self._xml_end_tag("a:gs")
@@ -4359,7 +4357,7 @@ class Chart(xmlwriter.XMLwriter):
     def _write_a_fg_clr(self, color):
         # Write the <a:fgClr> element.
 
-        color = get_rgb_color(color)
+        color = _get_rgb_color(color)
 
         self._xml_start_tag("a:fgClr")
 
@@ -4371,7 +4369,7 @@ class Chart(xmlwriter.XMLwriter):
     def _write_a_bg_clr(self, color):
         # Write the <a:bgClr> element.
 
-        color = get_rgb_color(color)
+        color = _get_rgb_color(color)
 
         self._xml_start_tag("a:bgClr")
 

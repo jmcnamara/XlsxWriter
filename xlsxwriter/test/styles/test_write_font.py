@@ -129,7 +129,7 @@ class TestWriteFont(unittest.TestCase):
 
     def test_write_font_9(self):
         """Test the _write_font() method. Font size."""
-        properties = {"size": 12}
+        properties = {"font_size": 12}
 
         xf_format = Format(properties)
 
@@ -168,7 +168,7 @@ class TestWriteFont(unittest.TestCase):
 
     def test_write_font_12(self):
         """Test the _write_font() method. Colour = red."""
-        properties = {"color": "#FF0000"}
+        properties = {"font_color": "#FF0000"}
 
         xf_format = Format(properties)
 
@@ -183,13 +183,13 @@ class TestWriteFont(unittest.TestCase):
         """Test the _write_font() method. All font attributes to check order."""
         properties = {
             "bold": 1,
-            "color": "#FF0000",
+            "font_color": "#FF0000",
             "font_outline": 1,
             "font_script": 1,
             "font_shadow": 1,
             "font_strikeout": 1,
             "italic": 1,
-            "size": 12,
+            "font_size": 12,
             "underline": 1,
         }
 

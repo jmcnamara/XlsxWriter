@@ -6,6 +6,8 @@
 # SPDX-License-Identifier: BSD-2-Clause
 # Copyright 2013-2024, John McNamara, jmcnamara@cpan.org
 #
+# pylint: skip-file
+
 import io
 from django.http import HttpResponse
 from django.views.generic import View

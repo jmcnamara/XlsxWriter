@@ -23,12 +23,12 @@ class ChartDoughnut(chart_pie.ChartPie):
     #
     ###########################################################################
 
-    def __init__(self, options=None):
+    def __init__(self):
         """
         Constructor.
 
         """
-        super(ChartDoughnut, self).__init__()
+        super().__init__()
 
         self.vary_data_color = 1
         self.rotation = 0
@@ -64,7 +64,7 @@ class ChartDoughnut(chart_pie.ChartPie):
     def _write_chart_type(self, args):
         # Override the virtual superclass method with a chart specific method.
         # Write the c:doughnutChart element.
-        self._write_doughnut_chart(args)
+        self._write_doughnut_chart()
 
     ###########################################################################
     #
@@ -72,7 +72,7 @@ class ChartDoughnut(chart_pie.ChartPie):
     #
     ###########################################################################
 
-    def _write_doughnut_chart(self, args):
+    def _write_doughnut_chart(self):
         # Write the <c:doughnutChart> element.  Over-ridden method to remove
         # axis_id code since Doughnut charts don't require val and cat axes.
         self._xml_start_tag("c:doughnutChart")

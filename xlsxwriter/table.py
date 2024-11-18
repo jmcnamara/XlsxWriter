@@ -28,7 +28,7 @@ class Table(xmlwriter.XMLwriter):
 
         """
 
-        super(Table, self).__init__()
+        super().__init__()
 
         self.properties = {}
 
