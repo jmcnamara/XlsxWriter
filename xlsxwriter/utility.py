@@ -1046,7 +1046,7 @@ def _process_png(data):
             y_density = unpack(">I", data[offset + 12 : offset + 16])[0]
             units = unpack("b", data[offset + 16 : offset + 17])[0]
 
-            if units == 1:
+            if units == 1 and x_density > 0 and y_density > 0:
                 x_dpi = x_density * 0.0254
                 y_dpi = y_density * 0.0254
 
