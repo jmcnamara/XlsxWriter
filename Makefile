@@ -25,7 +25,7 @@ install:
 	@rm -rf build
 
 test:
-	@~/.pythonbrew/pythons/Python-3.9.0/bin/python -m unittest discover
+	@~/.pythonbrew/pythons/Python-3.12.7/bin/python3.12 -m unittest discover
 
 # Test with stable Python 3 releases.
 testpythons:
@@ -41,6 +41,10 @@ testpythons:
 	@~/.pythonbrew/pythons/Python-3.10.0/bin/py.test -q
 	@echo "Testing with Python 3.11.1:"
 	@~/.pythonbrew/pythons/Python-3.11.1/bin/py.test -q
+	@echo "Testing with Python 3.12.7:"
+	@~/.pythonbrew/pythons/Python-3.12.7/bin/py.test -q
+	@echo "Testing with Python 3.13.0:"
+	@~/.pythonbrew/pythons/Python-3.13.0/bin/py.test -q
 
 test_flake8:
 	@ls -1 xlsxwriter/*.py | egrep -v "theme|__init__" | xargs flake8 --show-source --max-line-length=88 --ignore=E203,W503
