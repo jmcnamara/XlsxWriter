@@ -15,9 +15,9 @@ import re
 from io import StringIO
 
 # Compile performance critical regular expressions.
-re_control_chars_1 = re.compile("(_x[0-9a-fA-F]{4}_)")
+re_control_chars_1 = re.compile(r"(_x[0-9a-fA-F]{4}_)")
 re_control_chars_2 = re.compile(r"([\x00-\x08\x0b-\x1f])")
-xml_escapes = re.compile('["&<>\n]')
+xml_escapes = re.compile(r'["&<>\n]')
 
 
 class XMLwriter:

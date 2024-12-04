@@ -439,9 +439,9 @@ class Worksheet(xmlwriter.XMLwriter):
             ":" in token
             and self.strings_to_urls
             and (
-                re.match("(ftp|http)s?://", token)
-                or re.match("mailto:", token)
-                or re.match("(in|ex)ternal:", token)
+                re.match(r"(ftp|http)s?://", token)
+                or re.match(r"mailto:", token)
+                or re.match(r"(in|ex)ternal:", token)
             )
         ):
             return self._write_url(row, col, *args)
@@ -4957,7 +4957,7 @@ class Worksheet(xmlwriter.XMLwriter):
             # or 7 (for 2  expressions).
             conditional = tokens[3]
 
-            if re.match("(and|&&)", conditional):
+            if re.match(r"(and|&&)", conditional):
                 conditional = 0
             elif re.match(r"(or|\|\|)", conditional):
                 conditional = 1
@@ -4996,7 +4996,7 @@ class Worksheet(xmlwriter.XMLwriter):
         token = tokens[2]
 
         # Special handling of "Top" filter expressions.
-        if re.match("top|bottom", tokens[0].lower()):
+        if re.match(r"top|bottom", tokens[0].lower()):
             value = int(tokens[1])
 
             if value < 1 or value > 500:
@@ -5030,7 +5030,7 @@ class Worksheet(xmlwriter.XMLwriter):
             )
 
         # Special handling for Blanks/NonBlanks.
-        if re.match("blanks|nonblanks", token.lower()):
+        if re.match(r"blanks|nonblanks", token.lower()):
             # Only allow Equals or NotEqual in this context.
             if operator not in (2, 5):
                 warn(
@@ -5055,7 +5055,7 @@ class Worksheet(xmlwriter.XMLwriter):
 
         # if the string token contains an Excel match character then change the
         # operator type to indicate a non "simple" equality.
-        if operator == 2 and re.search("[*?]", token):
+        if operator == 2 and re.search(r"[*?]", token):
             operator = 22
 
         return [operator, token]
@@ -5155,13 +5155,13 @@ class Worksheet(xmlwriter.XMLwriter):
             rel_type = "/hyperlink"
             target_mode = "External"
 
-            if re.match("(ftp|http)s?://", url):
+            if re.match(r"(ftp|http)s?://", url):
                 target = self._escape_url(url)
 
-            if re.match("^mailto:", url):
+            if re.match(r"^mailto:", url):
                 target = self._escape_url(url)
 
-            if re.match("external:", url):
+            if re.match(r"external:", url):
                 target = url.replace("external:", "")
                 target = self._escape_url(target)
                 # Additional escape not required in worksheet hyperlinks.
@@ -5172,7 +5172,7 @@ class Worksheet(xmlwriter.XMLwriter):
                 else:
                     target = target.replace("\\", "/")
 
-            if re.match("internal:", url):
+            if re.match(r"internal:", url):
                 target = url.replace("internal:", "#")
                 target_mode = None
 
@@ -5262,19 +5262,19 @@ class Worksheet(xmlwriter.XMLwriter):
             rel_type = "/hyperlink"
             target_mode = "External"
 
-            if re.match("(ftp|http)s?://", url):
+            if re.match(r"(ftp|http)s?://", url):
                 target = self._escape_url(url)
 
-            if re.match("^mailto:", url):
+            if re.match(r"^mailto:", url):
                 target = self._escape_url(url)
 
-            if re.match("external:", url):
+            if re.match(r"external:", url):
                 target = url.replace("external:", "file:///")
                 target = self._escape_url(target)
                 # Additional escape not required in worksheet hyperlinks.
                 target = target.replace("#", "%23")
 
-            if re.match("internal:", url):
+            if re.match(r"internal:", url):
                 target = url.replace("internal:", "#")
                 target_mode = None
 
@@ -6000,7 +6000,7 @@ class Worksheet(xmlwriter.XMLwriter):
 
     def _escape_url(self, url):
         # Don't escape URL if it looks already escaped.
-        if re.search("%[0-9a-fA-F]{2}", url):
+        if re.search(r"%[0-9a-fA-F]{2}", url):
             return url
 
         # Can't use url.quote() here because it doesn't match Excel.
@@ -7634,14 +7634,14 @@ class Worksheet(xmlwriter.XMLwriter):
             self._xml_end_tag("cfRule")
 
         elif params["type"] == "aboveAverage":
-            if re.search("below", params["criteria"]):
+            if re.search(r"below", params["criteria"]):
                 attributes.append(("aboveAverage", 0))
 
-            if re.search("equal", params["criteria"]):
+            if re.search(r"equal", params["criteria"]):
                 attributes.append(("equalAverage", 1))
 
-            if re.search("[123] std dev", params["criteria"]):
-                match = re.search("([123]) std dev", params["criteria"])
+            if re.search(r"[123] std dev", params["criteria"]):
+                match = re.search(r"([123]) std dev", params["criteria"])
                 attributes.append(("stdDev", match.group(1)))
 
             self._xml_empty_tag("cfRule", attributes)

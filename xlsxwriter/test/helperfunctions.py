@@ -56,11 +56,11 @@ def _vml_to_list(vml_str):
         line = line.replace("'", '"')
 
         # Add space between attributes.
-        if re.search('"$', line):
+        if re.search(r'"$', line):
             line += " "
 
         # Add newline after element end.
-        if re.search(">$", line):
+        if re.search(r">$", line):
             line += "\n"
 
         # Split multiple elements.
@@ -191,7 +191,7 @@ def _compare_xlsx_files(got_file, exp_file, ignore_files, ignore_elements):
             )
 
         # Convert the XML string to lists for comparison.
-        if re.search(".vml$", filename):
+        if re.search(r".vml$", filename):
             got_xml = _xml_to_list(got_xml_str)
             exp_xml = _vml_to_list(exp_xml_str)
         else:
@@ -207,7 +207,7 @@ def _compare_xlsx_files(got_file, exp_file, ignore_files, ignore_elements):
                 got_xml = [tag for tag in got_xml if not re.match(pattern, tag)]
 
         # Reorder the XML elements in the XLSX relationship files.
-        if filename == "[Content_Types].xml" or re.search(".rels$", filename):
+        if filename == "[Content_Types].xml" or re.search(r".rels$", filename):
             got_xml = _sort_rel_file_data(got_xml)
             exp_xml = _sort_rel_file_data(exp_xml)
 

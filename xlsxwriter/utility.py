@@ -506,7 +506,7 @@ def _xl_color(color):
 
     color = named_colors.get(color, color)
 
-    if not re.match("#[0-9a-fA-F]{6}", color):
+    if not re.match(r"#[0-9a-fA-F]{6}", color):
         warn(f"Color '{color}' isn't a valid Excel color")
 
     # Convert the RGB color to the Excel ARGB format.
