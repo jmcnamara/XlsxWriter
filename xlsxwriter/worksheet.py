@@ -7756,10 +7756,10 @@ class Worksheet(xmlwriter.XMLwriter):
 
         # Min and max bar lengths in in the spec but not supported directly by
         # Excel.
-        if param.get("min_length"):
+        if "min_length" in param:
             attributes.append(("minLength", param["min_length"]))
 
-        if param.get("max_length"):
+        if "max_length" in param:
             attributes.append(("maxLength", param["max_length"]))
 
         if param.get("bar_only"):
