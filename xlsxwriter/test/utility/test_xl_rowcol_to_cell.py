@@ -8,8 +8,8 @@
 
 import unittest
 import warnings
-from ...utility import xl_rowcol_to_cell
-from ...utility import xl_rowcol_to_cell_fast
+
+from ...utility import xl_rowcol_to_cell, xl_rowcol_to_cell_fast
 
 
 class TestUtility(unittest.TestCase):

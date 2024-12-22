@@ -8,8 +8,9 @@
 
 import unittest
 from io import StringIO
-from ..helperfunctions import _xml_to_list
+
 from ...contenttypes import ContentTypes
+from ..helperfunctions import _xml_to_list
 
 
 class TestAssembleContentTypes(unittest.TestCase):

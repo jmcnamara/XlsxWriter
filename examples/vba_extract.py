@@ -10,8 +10,7 @@
 #
 
 import sys
-from zipfile import ZipFile
-from zipfile import BadZipFile
+from zipfile import BadZipFile, ZipFile
 
 
 def extract_file(xlsm_zip, filename):

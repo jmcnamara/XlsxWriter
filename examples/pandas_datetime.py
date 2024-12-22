@@ -7,7 +7,8 @@
 # Copyright 2013-2024, John McNamara, jmcnamara@cpan.org
 #
 
-from datetime import datetime, date
+from datetime import date, datetime
+
 import pandas as pd
 
 # Create a Pandas dataframe from some datetime data.

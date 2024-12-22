@@ -10,7 +10,6 @@
 from io import BytesIO
 from urllib.request import urlopen
 
-
 import xlsxwriter
 
 # Create the workbook and add a worksheet.

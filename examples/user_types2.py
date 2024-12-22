@@ -7,6 +7,7 @@
 # Copyright 2013-2024, John McNamara, jmcnamara@cpan.org
 #
 import math
+
 import xlsxwriter
 
 

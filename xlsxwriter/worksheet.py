@@ -14,38 +14,36 @@ import math
 import os
 import re
 import tempfile
-
-from collections import defaultdict
-from collections import namedtuple
+from collections import defaultdict, namedtuple
 from decimal import Decimal
 from fractions import Fraction
 from functools import wraps
 from io import StringIO
-from math import isinf
-from math import isnan
+from math import isinf, isnan
 from warnings import warn
 
 # Package imports.
 from . import xmlwriter
-from .format import Format
 from .drawing import Drawing
+from .exceptions import DuplicateTableName, OverlappingRange
+from .format import Format
 from .shape import Shape
+from .utility import (
+    _datetime_to_excel_datetime,
+    _get_image_properties,
+    _get_sparkline_style,
+    _preserve_whitespace,
+    _supported_datetime,
+    _xl_color,
+    quote_sheetname,
+    xl_cell_to_rowcol,
+    xl_col_to_name,
+    xl_pixel_width,
+    xl_range,
+    xl_rowcol_to_cell,
+    xl_rowcol_to_cell_fast,
+)
 from .xmlwriter import XMLwriter
-from .utility import xl_rowcol_to_cell
-from .utility import xl_rowcol_to_cell_fast
-from .utility import xl_cell_to_rowcol
-from .utility import xl_col_to_name
-from .utility import xl_range
-from .utility import _xl_color
-from .utility import xl_pixel_width
-from .utility import _get_sparkline_style
-from .utility import _supported_datetime
-from .utility import _datetime_to_excel_datetime
-from .utility import _get_image_properties
-from .utility import _preserve_whitespace
-from .utility import quote_sheetname
-from .exceptions import DuplicateTableName
-from .exceptions import OverlappingRange
 
 re_dynamic_function = re.compile(
     r"""

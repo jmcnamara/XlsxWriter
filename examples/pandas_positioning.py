@@ -9,7 +9,6 @@
 
 import pandas as pd
 
-
 # Create some Pandas dataframes from some data.
 df1 = pd.DataFrame({"Data": [11, 12, 13, 14]})
 df2 = pd.DataFrame({"Data": [21, 22, 23, 24]})

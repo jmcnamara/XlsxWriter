@@ -8,6 +8,7 @@
 #
 
 import polars as pl
+
 import xlsxwriter
 
 # Create some Polars dataframes from some data.

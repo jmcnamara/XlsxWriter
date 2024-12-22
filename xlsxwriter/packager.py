@@ -10,29 +10,27 @@
 import os
 import stat
 import tempfile
+from io import BytesIO, StringIO
 from shutil import copy
-
-from io import StringIO
-from io import BytesIO
 
 # Package imports.
 from .app import App
+from .comments import Comments
 from .contenttypes import ContentTypes
 from .core import Core
 from .custom import Custom
+from .exceptions import EmptyChartSeries
 from .metadata import Metadata
 from .relationships import Relationships
-from .sharedstrings import SharedStrings
 from .rich_value import RichValue
-from .rich_value_types import RichValueTypes
 from .rich_value_rel import RichValueRel
 from .rich_value_structure import RichValueStructure
+from .rich_value_types import RichValueTypes
+from .sharedstrings import SharedStrings
 from .styles import Styles
+from .table import Table
 from .theme import Theme
 from .vml import Vml
-from .table import Table
-from .comments import Comments
-from .exceptions import EmptyChartSeries
 
 
 class Packager:

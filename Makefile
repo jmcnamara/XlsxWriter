@@ -58,6 +58,7 @@ lint:
 	@black --check xlsxwriter/ examples/
 	@pylint xlsxwriter/*.py
 	@pylint --rcfile=examples/.pylintrc examples/*.py
+	@isort --check --diff --profile black xlsxwriter/ examples/
 
 tags:
 	$(Q)rm -f TAGS

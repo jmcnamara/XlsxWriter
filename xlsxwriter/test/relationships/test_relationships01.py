@@ -8,8 +8,9 @@
 
 import unittest
 from io import StringIO
-from ..helperfunctions import _xml_to_list
+
 from ...relationships import Relationships
+from ..helperfunctions import _xml_to_list
 
 
 class TestAssembleRelationships(unittest.TestCase):

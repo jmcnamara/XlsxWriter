@@ -8,9 +8,10 @@
 
 import unittest
 from io import StringIO
-from ...worksheet import Worksheet
+
 from ...format import Format
 from ...sharedstrings import SharedStringTable
+from ...worksheet import Worksheet
 
 
 class TestWriteMergeCells(unittest.TestCase):

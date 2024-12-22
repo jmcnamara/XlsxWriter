@@ -10,6 +10,7 @@ import unittest
 
 from xlsxwriter.chartsheet import Chartsheet
 from xlsxwriter.worksheet import Worksheet
+
 from ...workbook import Workbook
 
 

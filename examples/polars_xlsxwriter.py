@@ -7,6 +7,7 @@
 #
 
 import polars as pl
+
 import xlsxwriter
 
 with xlsxwriter.Workbook("polars_xlsxwriter.xlsx") as workbook:

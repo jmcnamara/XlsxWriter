@@ -10,7 +10,6 @@
 #
 import xlsxwriter
 
-
 workbook = xlsxwriter.Workbook("defined_name.xlsx")
 worksheet1 = workbook.add_worksheet()
 worksheet2 = workbook.add_worksheet()

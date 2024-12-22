@@ -6,8 +6,9 @@
 # Copyright (c), 2013-2024, John McNamara, jmcnamara@cpan.org
 #
 
-import unittest
 import os
+import unittest
+
 from .helperfunctions import _compare_xlsx_files
 
 

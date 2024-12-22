@@ -8,6 +8,7 @@
 #
 
 from datetime import date
+
 import polars as pl
 
 # Create a Pandas dataframe with some sample data.

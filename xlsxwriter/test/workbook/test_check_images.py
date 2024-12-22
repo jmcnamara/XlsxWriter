@@ -8,9 +8,9 @@
 
 import unittest
 from io import StringIO
+
+from ...exceptions import UndefinedImageSize, UnsupportedImageFormat
 from ...workbook import Workbook
-from ...exceptions import UndefinedImageSize
-from ...exceptions import UnsupportedImageFormat
 
 
 class TestInsertImage(unittest.TestCase):

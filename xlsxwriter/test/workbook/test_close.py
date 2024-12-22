@@ -10,8 +10,9 @@ import os
 import tempfile
 import unittest
 import warnings
-from ...workbook import Workbook
+
 from ...exceptions import FileCreateError
+from ...workbook import Workbook
 
 
 class TestCloseWithException(unittest.TestCase):

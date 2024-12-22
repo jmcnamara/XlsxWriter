@@ -7,10 +7,11 @@
 #
 
 import unittest
-from io import StringIO
 from datetime import datetime
-from ..helperfunctions import _xml_to_list
+from io import StringIO
+
 from ...core import Core
+from ..helperfunctions import _xml_to_list
 
 
 class TestAssembleCore(unittest.TestCase):

@@ -8,6 +8,7 @@
 #
 
 import random
+
 import pandas as pd
 
 # Create some sample data to plot.

@@ -8,8 +8,9 @@
 
 import unittest
 from io import StringIO
-from ..helperfunctions import _xml_to_list
+
 from ...chartsheet import Chartsheet
+from ..helperfunctions import _xml_to_list
 
 
 class TestAssembleChartsheet(unittest.TestCase):

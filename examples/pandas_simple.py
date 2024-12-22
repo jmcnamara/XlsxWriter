@@ -9,7 +9,6 @@
 
 import pandas as pd
 
-
 # Create a Pandas dataframe from some data.
 df = pd.DataFrame({"Data": [10, 20, 30, 20, 15, 30, 45]})
 

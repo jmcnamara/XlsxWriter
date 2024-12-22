@@ -8,6 +8,7 @@
 #
 
 import polars as pl
+
 import xlsxwriter
 
 df = pl.DataFrame({"Data": [10, 20, 30, 20, 15, 30, 45]})

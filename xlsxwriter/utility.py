@@ -11,8 +11,8 @@ import os
 import re
 from struct import unpack
 from warnings import warn
-from .exceptions import UndefinedImageSize
-from .exceptions import UnsupportedImageFormat
+
+from .exceptions import UndefinedImageSize, UnsupportedImageFormat
 
 COL_NAMES = {}
 

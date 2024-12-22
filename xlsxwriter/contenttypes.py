@@ -7,6 +7,7 @@
 #
 
 import copy
+
 from . import xmlwriter
 
 # Long namespace strings used in the class.

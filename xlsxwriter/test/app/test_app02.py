@@ -8,8 +8,9 @@
 
 import unittest
 from io import StringIO
-from ..helperfunctions import _xml_to_list
+
 from ...app import App
+from ..helperfunctions import _xml_to_list
 
 
 class TestAssembleApp(unittest.TestCase):

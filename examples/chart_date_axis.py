@@ -8,6 +8,7 @@
 #
 
 from datetime import date
+
 import xlsxwriter
 
 workbook = xlsxwriter.Workbook("chart_date_axis.xlsx")

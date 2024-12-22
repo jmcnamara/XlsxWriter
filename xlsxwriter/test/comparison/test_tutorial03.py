@@ -6,9 +6,10 @@
 # Copyright (c), 2013-2024, John McNamara, jmcnamara@cpan.org
 #
 
-from ..excel_comparison_test import ExcelComparisonTest
 from datetime import datetime
+
 from ...workbook import Workbook
+from ..excel_comparison_test import ExcelComparisonTest
 
 
 class TestCompareXLSXFiles(ExcelComparisonTest):

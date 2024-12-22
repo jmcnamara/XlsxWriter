@@ -7,6 +7,7 @@
 #
 
 import unittest
+
 from ...utility import xl_pixel_width
 
 

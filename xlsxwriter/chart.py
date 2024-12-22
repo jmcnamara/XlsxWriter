@@ -6,18 +6,20 @@
 # Copyright 2013-2024, John McNamara, jmcnamara@cpan.org
 #
 
-import re
 import copy
+import re
 from warnings import warn
 
-from .shape import Shape
 from . import xmlwriter
-from .utility import _get_rgb_color
-from .utility import xl_rowcol_to_cell
-from .utility import xl_range_formula
-from .utility import _supported_datetime
-from .utility import _datetime_to_excel_datetime
-from .utility import quote_sheetname
+from .shape import Shape
+from .utility import (
+    _datetime_to_excel_datetime,
+    _get_rgb_color,
+    _supported_datetime,
+    quote_sheetname,
+    xl_range_formula,
+    xl_rowcol_to_cell,
+)
 
 
 class Chart(xmlwriter.XMLwriter):

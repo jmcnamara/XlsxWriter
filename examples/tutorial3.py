@@ -10,6 +10,7 @@
 # Copyright 2013-2024, John McNamara, jmcnamara@cpan.org
 #
 from datetime import datetime
+
 import xlsxwriter
 
 # Create a workbook and add a worksheet.

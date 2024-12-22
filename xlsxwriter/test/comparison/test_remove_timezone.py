@@ -6,13 +6,10 @@
 # Copyright (c), 2013-2024, John McNamara, jmcnamara@cpan.org
 #
 
-from ..excel_comparison_test import ExcelComparisonTest
-from datetime import date
-from datetime import datetime
-from datetime import time
-from datetime import timedelta
-from datetime import tzinfo
+from datetime import date, datetime, time, timedelta, tzinfo
+
 from ...workbook import Workbook
+from ..excel_comparison_test import ExcelComparisonTest
 
 
 # Simple class to add timezone to dates for testing.

@@ -8,8 +8,9 @@
 
 import unittest
 from io import StringIO
-from ..helperfunctions import _xml_to_list
+
 from ...drawing import Drawing
+from ..helperfunctions import _xml_to_list
 
 
 class TestAssembleDrawing(unittest.TestCase):
