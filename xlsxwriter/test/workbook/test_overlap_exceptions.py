@@ -96,3 +96,21 @@ class TestOverlapRanges(unittest.TestCase):
 
         with self.assertRaises(OverlappingRange):
             worksheet.merge_range("B3:C3", "")
+
+    def test_overlaps09(self):
+        """Test Worksheet range overlap exceptions"""
+        worksheet = self.workbook.add_worksheet()
+
+        worksheet.add_table("A1:C5", {"autofilter": True})
+
+        with self.assertRaises(OverlappingRange):
+            worksheet.autofilter("A1:C5")
+
+    def test_overlaps10(self):
+        """Test Worksheet range overlap exceptions"""
+        worksheet = self.workbook.add_worksheet()
+
+        worksheet.autofilter("A1:C5")
+
+        with self.assertRaises(OverlappingRange):
+            worksheet.add_table("A1:C5", {"autofilter": True})

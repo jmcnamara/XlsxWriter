@@ -2390,7 +2390,7 @@ class Worksheet(xmlwriter.XMLwriter):
         if last_col < first_col:
             (first_col, last_col) = (last_col, first_col)
 
-        # Build up the print area range "Sheet1!$A$1:$C$13".
+        # Build up the autofilter area range "Sheet1!$A$1:$C$13".
         area = self._convert_name_area(first_row, first_col, last_row, last_col)
         ref = xl_range(first_row, first_col, last_row, last_col)
 
@@ -2400,7 +2400,16 @@ class Worksheet(xmlwriter.XMLwriter):
 
         # Store the filter cell positions for use in the autofit calculation.
         for col in range(first_col, last_col + 1):
-            self.filter_cells[(first_row, col)] = True
+            # Check that the autofilter doesn't overlap a table filter.
+            if self.filter_cells.get((first_row, col)):
+                filter_type, filter_range = self.filter_cells.get((first_row, col))
+                if filter_type == "table":
+                    raise OverlappingRange(
+                        f"Worksheet autofilter range '{ref}' overlaps previous "
+                        f"Table autofilter range '{filter_range}'."
+                    )
+
+            self.filter_cells[(first_row, col)] = ("worksheet", ref)
 
     def filter_column(self, col, criteria):
         """
@@ -3591,7 +3600,16 @@ class Worksheet(xmlwriter.XMLwriter):
         # Store the filter cell positions for use in the autofit calculation.
         if options["autofilter"]:
             for col in range(first_col, last_col + 1):
-                self.filter_cells[(first_row, col)] = True
+                # Check that the table autofilter doesn't overlap a worksheet filter.
+                if self.filter_cells.get((first_row, col)):
+                    filter_type, filter_range = self.filter_cells.get((first_row, col))
+                    if filter_type == "worksheet":
+                        raise OverlappingRange(
+                            f"Table autofilter range '{cell_range}' overlaps previous "
+                            f"Worksheet autofilter range '{filter_range}'."
+                        )
+
+                self.filter_cells[(first_row, col)] = ("table", cell_range)
 
         return 0
 
