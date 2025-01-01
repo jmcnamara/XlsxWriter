@@ -427,7 +427,7 @@ def quote_sheetname(sheetname):
         #
         # Note: references without trailing characters like R12345 or C12345
         # are caught by Rule 3. Negative references like R-12345 are caught by
-        # Rule 1 due to dash.
+        # Rule 1 due to the dash.
         # --------------------------------------------------------------------
 
         # Rule 4a. Check for sheet names that start with R1 style references.
