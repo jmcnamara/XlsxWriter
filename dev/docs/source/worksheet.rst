@@ -1217,45 +1217,76 @@ documentation on :func:`set_column` for more details.
 worksheet.autofit()
 -------------------
 
-.. py:function:: autofit()
+.. py:function:: autofit([max_width])
 
-   Simulates autofit for column widths.
+   Autofit the worksheet column widths to the widest data in the column,
+   approximately.
 
+   :param int max_width: Optional maximum column width, in pixels, to use for
+    autofitting. The default is 1790 pixels/255 characters.
    :returns:  Nothing.
 
 The ``autofit()`` method can be used to simulate autofitting column widths based
 on the largest string/number in the column::
 
+    # Write some worksheet data to demonstrate autofitting.
+    worksheet.write(0, 0, "Foo")
+    worksheet.write(1, 0, "Food")
+    worksheet.write(2, 0, "Foody")
+    worksheet.write(3, 0, "Froody")
+
+    worksheet.write(0, 1, 12345)
+    worksheet.write(1, 1, 12345678)
+    worksheet.write(2, 1, 12345)
+
+    worksheet.write(0, 2, "Some longer text")
+
+    worksheet.write(0, 3, "http://ww.google.com")
+    worksheet.write(1, 3, "https://github.com")
+
+    # Autofit the worksheet.
     worksheet.autofit()
 
 .. image:: _images/autofit_win.png
 
 See :ref:`ex_autofit`
 
-There is no option in the xlsx file format that can be used to say "autofit
-columns on loading". Auto-fitting of columns is something that Excel does at
-runtime when it has access to all of the worksheet information as well as the
-Windows functions for calculating display areas based on fonts and formatting.
+Excel autofits columns at runtime when it has access to all of the required
+worksheet information as well as the Windows functions for calculating display
+areas based on fonts and formatting. XlsxWriter doesn't have access to these
+Windows functions so it simulates autofit by calculating string widths based on
+metrics taken from Excel. This isn't perfect but for most cases it should be
+sufficient and indistinguishable from the output of Excel. However there are
+some limitations to be aware of when using this method:
 
-The ``worksheet.autofit()`` method simulates this behavior by calculating string
-widths using metrics taken from Excel. As such there are some limitations to be
-aware of when using this method:
+- It is based on the default Excel font type and size of Calibri 11. It will not
+  give accurate results for other fonts or font sizes.
+- It doesn't take formatting of numbers or dates account, although this may be
+  addressed in a later version.
+- Autofit is a relatively expensive operation since it performs a calculation
+  for all the populated cells in a worksheet. See the note on performance below.
 
-- It is a simulated method and may not be accurate in all cases.
-- It is based on the default font and font size of Calibri 11. It will not give
-  accurate results for other fonts or font sizes.
+For cases that don't match your desired output you can set explicit column
+widths via :func:`set_column` or :func:`set_column_pixels` method ignores
+columns that have already been explicitly set if the width is greater than the
+calculated autofit width. Alternatively, setting the column width explicitly
+after calling ``autofit()`` will override the autofit value. You can also set an
+upper limit using the ``max_width`` parameter as explained below.
 
-This isn't perfect but for most cases it should be sufficient and if not you can
-set your own widths, see below.
+Excel autofits very long strings up to limit of 1790 pixels/255 characters. This
+is often too wide to display on a single screen at normal zoom. As such the
+``max_width`` parameter is provided to enable a smaller upper pixel limit for
+autofitting long strings. A value of 300 pixels is recommended as a good
+compromise between column width and readability::
 
-The ``autofit()`` method won't override a user defined column width set with
-``set_column()`` or ``set_column_pixels()`` if it is greater than the autofit
-value. This allows the user to set a minimum width value for a column.
+    worksheet.autofit(300)
 
-You can also  call ``set_column()`` and  ``set_column_pixels()`` after
-``autofit()`` to override any of the calculated values.
-
-
+**Performance**: By default ``autofit()`` performs a length calculation for each
+populated cell in a worksheet. For very large worksheets this could be slow.
+However, it is possible to mitigate this by calling ``autofit()`` after writing
+the first 100 or 200 rows. This will produce a reasonably accurate autofit for
+the first visible page of data without incurring the performance penalty of
+autofitting thousands of non-visible rows.
 
 
 worksheet.insert_image()
@@ -1691,7 +1722,7 @@ and scaling of images within a worksheet.
 worksheet.insert_button()
 -------------------------
 
-.. py:function:: insert_button(row, col[, options])
+.. py:function:: insert_button(row, col, [options])
 
    Insert a VBA button control on a worksheet.
 
