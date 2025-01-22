@@ -636,6 +636,25 @@ class Styles(xmlwriter.XMLwriter):
         else:
             self._xml_empty_tag("xf", attributes)
 
+    def _write_ext_lst_checkbox(self):
+        # Write the <extLst> element for the checkbox.
+
+        uri = "{C7286773-470A-42A8-94C5-96B5CB345126}"
+        xmlns_xfpb = "http://schemas.microsoft.com/office/spreadsheetml/2022/featurepropertybag"
+
+        attributes1 = [
+            ("uri", uri),
+            ("xmlns:xfpb", xmlns_xfpb),
+        ]
+
+        attributes2 = [("i", 0)]
+
+        self._xml_start_tag("extLst")
+        self._xml_start_tag("ext", attributes1)
+        self._xml_empty_tag("xfpb:xfComplement", attributes=attributes2)
+        self._xml_end_tag("ext")
+        self._xml_end_tag("extLst")
+
     def _write_cell_styles(self):
         # Write the <cellStyles> element.
         count = 1
