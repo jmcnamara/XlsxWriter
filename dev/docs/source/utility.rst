@@ -169,14 +169,13 @@ calculation. It works by estimating the pixel width of a string based on the
 width of each character. It also adds a 7 pixel padding for the cell
 boundary in the same way that Excel does.
 
-You can use the  calculated width in conjunction with Worksheet :func:`autofit`
-method::
+You can use the  calculated width in conjunction with Worksheet
+:func:`set_column_pixels` method:
 
-    worksheet.set_column('A:A', cell_autofit_width('Some long text'))
+.. literalinclude:: ../../../examples/autofit_manually.py
+   :lines: 11-
 
-    worksheet.autofit('A:A')
+.. image:: _images/autofit_manually.png
 
-    worksheet.write('A1', 'Some long text')
-
-The same limitation applies to this function as to the Worksheet ``autofit``
-method. See the docs on :func:`autofit`  for more information.
+The limitations that apply to the Worksheet ``autofit`` method also applies to
+this function. See the docs on :func:`autofit`  for more information.

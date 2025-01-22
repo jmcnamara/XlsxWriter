@@ -1,3 +1,21 @@
+Release 3.2.1 - January 22 2025
+--------------------------------
+
+Added improvements to ``autofit()``.
+
+* Added the optional ``max_width`` parameter to the :func:`autofit()` method to
+  work around the issue where the autofit width is too big.
+
+  Excel autofits very long strings up to limit of 1790 pixels/255 characters.
+  This is often too wide to display on a single screen at normal zoom. As such
+  the ``max_width`` parameter is provided to enable a smaller upper pixel limit
+  for autofitting long strings. See :func:`autofit()`.
+
+  :feature:`1106`.
+
+* Added the :func:`cell_autofit_width` utility function to allow users to
+  calculate the auto-fit width for a cell value. This allows the user to
+  implement their own auto-fit logic. See :ref:`ex_autofit_manually`.
 
 
 Release 3.2.0 - February 17 2024
