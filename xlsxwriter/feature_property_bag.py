@@ -59,7 +59,9 @@ class FeaturePropertyBag(xmlwriter.XMLwriter):
     def _write_feature_property_bag(self):
         # Write the <FeaturePropertyBags> element.
 
-        xmlns = "http://schemas.microsoft.com/office/spreadsheetml/2022/featurepropertybag"
+        xmlns = (
+            "http://schemas.microsoft.com/office/spreadsheetml/2022/featurepropertybag"
+        )
 
         attributes = [
             ('xmlns', xmlns),

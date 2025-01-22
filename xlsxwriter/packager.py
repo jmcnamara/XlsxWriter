@@ -419,7 +419,8 @@ class Packager:
         feature_property_bag = FeaturePropertyBag()
         feature_property_bag.checkbox = self.workbook.has_checkbox
 
-        feature_property_bag._set_xml_writer(self._filename("xl/featurePropertyBag/featurePropertyBag.xml"))
+        filename = self._filename("xl/featurePropertyBag/featurePropertyBag.xml")
+        feature_property_bag._set_xml_writer(filename)
         feature_property_bag._assemble_xml_file()
 
     def _write_custom_file(self):

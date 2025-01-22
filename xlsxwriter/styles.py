@@ -642,7 +642,9 @@ class Styles(xmlwriter.XMLwriter):
         # Write the <extLst> element for the checkbox.
 
         uri = "{C7286773-470A-42A8-94C5-96B5CB345126}"
-        xmlns_xfpb = "http://schemas.microsoft.com/office/spreadsheetml/2022/featurepropertybag"
+        xmlns_xfpb = (
+            "http://schemas.microsoft.com/office/spreadsheetml/2022/featurepropertybag"
+        )
 
         attributes1 = [
             ("uri", uri),
