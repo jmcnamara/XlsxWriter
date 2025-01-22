@@ -626,12 +626,14 @@ class Styles(xmlwriter.XMLwriter):
                 has_protect = 1
 
         # Write XF with sub-elements if required.
-        if has_align or has_protect:
+        if has_align or has_protect or xf_format.checkbox:
             self._xml_start_tag("xf", attributes)
             if has_align:
                 self._xml_empty_tag("alignment", align)
             if has_protect:
                 self._xml_empty_tag("protection", protection)
+            if xf_format.checkbox:
+                self._write_ext_lst_checkbox()
             self._xml_end_tag("xf")
         else:
             self._xml_empty_tag("xf", attributes)

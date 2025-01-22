@@ -64,6 +64,7 @@ class Format(xmlwriter.XMLwriter):
         self.theme = 0
         self.hyperlink = False
         self.xf_id = 0
+        self.checkbox = False
 
         self.hidden = 0
         self.locked = 1
@@ -896,6 +897,19 @@ class Format(xmlwriter.XMLwriter):
         self.set_underline(1)
         self.set_theme(10)
         self.hyperlink = hyperlink
+
+    def set_checkbox(self, checkbox=True):
+        """
+        Set the properties for the checkbox style.
+
+        Args:
+            checkbox: Default is True, turns property on.
+
+        Returns:
+            Nothing.
+
+        """
+        self.checkbox = checkbox
 
     def set_color_indexed(self, color_index):
         """
