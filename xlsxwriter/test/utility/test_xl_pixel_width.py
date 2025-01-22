@@ -8,7 +8,7 @@
 
 import unittest
 
-from ...utility import xl_pixel_width
+from ...utility import cell_autofit_width, xl_pixel_width
 
 
 class TestUtility(unittest.TestCase):
@@ -125,5 +125,7 @@ class TestUtility(unittest.TestCase):
 
         for string, exp in tests:
             got = xl_pixel_width(string)
-
             self.assertEqual(got, exp)
+
+            got = cell_autofit_width(string)
+            self.assertEqual(got, exp + 7)

@@ -1247,9 +1247,9 @@ on the largest string/number in the column::
     # Autofit the worksheet.
     worksheet.autofit()
 
-.. image:: _images/autofit_win.png
+.. image:: _images/autofit.png
 
-See :ref:`ex_autofit`
+See :ref:`ex_autofit`.
 
 Excel autofits columns at runtime when it has access to all of the required
 worksheet information as well as the Windows functions for calculating display
@@ -1280,6 +1280,11 @@ autofitting long strings. A value of 300 pixels is recommended as a good
 compromise between column width and readability::
 
     worksheet.autofit(300)
+
+If you need more control over the autofit effect you can use the
+:func:`cell_autofit_width` utility function to calculate the autofit width for a
+cell value. This is the same calculation used internally by ``autofit()``. See
+also See :ref:`ex_autofit_manually`.
 
 **Performance**: By default ``autofit()`` performs a length calculation for each
 populated cell in a worksheet. For very large worksheets this could be slow.

@@ -8,7 +8,7 @@ Example: Autofitting columns
 
 An example of simulating autofitting column widths using the  :func:`autofit` method:
 
-.. image:: _images/autofit_win.png
+.. image:: _images/autofit.png
 
 .. literalinclude:: ../../../examples/autofit.py
 

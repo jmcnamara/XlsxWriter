@@ -19,6 +19,7 @@ Contents
    chart.rst
    chartsheet.rst
    exceptions.rst
+   utility.rst
    working_with_cell_notation.rst
    working_with_data.rst
    working_with_formulas.rst

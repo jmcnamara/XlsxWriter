@@ -460,6 +460,24 @@ def quote_sheetname(sheetname):
     return sheetname
 
 
+def cell_autofit_width(string):
+    """
+    Calculate the width required to auto-fit a string in a cell.
+
+    Args:
+       string: The string to calculate the cell width for. String.
+
+    Returns:
+        The string autofit width in pixels. Returns 0 if the string is empty.
+
+    """
+    if not string or len(string) == 0:
+        return 0
+
+    # Excel adds an additional 7 pixels of padding to the cell boundary.
+    return xl_pixel_width(string) + 7
+
+
 def xl_pixel_width(string):
     """
     Get the pixel width of a string based on individual character widths taken

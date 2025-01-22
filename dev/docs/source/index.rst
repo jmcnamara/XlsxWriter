@@ -68,6 +68,7 @@ It supports Python 3.4+ and PyPy3 and uses standard libraries only.
    chart.rst
    chartsheet.rst
    exceptions.rst
+   utility.rst
 
 .. toctree::
    :maxdepth: 1

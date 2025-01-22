@@ -7,8 +7,8 @@
 # option to "Place in Cell" which is only available in Excel 365 versions from
 # 2023 onwards. For older versions of Excel a ``#VALUE!`` error is displayed.
 #
-# SPDX-License-Identifier: BSD-2-Clause Copyright 2013-2024, John McNamara,
-# jmcnamara@cpan.org
+# SPDX-License-Identifier: BSD-2-Clause
+# Copyright 2013-2024, John McNamara, jmcnamara@cpan.org
 #
 import xlsxwriter
 
