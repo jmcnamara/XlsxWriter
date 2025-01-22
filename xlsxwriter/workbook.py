@@ -146,6 +146,8 @@ class Workbook(xmlwriter.XMLwriter):
         self.has_embedded_images = False
         self.has_dynamic_functions = False
         self.has_embedded_descriptions = False
+        self.has_checkbox = False
+        self.has_feature_property_bag = False
         self.embedded_images = EmbeddedImages()
 
         # We can't do 'constant_memory' mode while doing 'in_memory' mode.
@@ -750,6 +752,9 @@ class Workbook(xmlwriter.XMLwriter):
 
         # Prepare the metadata file links.
         self._prepare_metadata()
+
+        # Prepare the feature property bag links.
+        self._prepare_feature_property_bag()
 
         # Package the workbook.
         packager._add_workbook(self)
@@ -1500,6 +1505,14 @@ class Workbook(xmlwriter.XMLwriter):
             if sheet.has_dynamic_arrays:
                 self.has_metadata = True
                 self.has_dynamic_functions = True
+
+    def _prepare_feature_property_bag(self):
+        # Set the feature property bag rel link.
+        self.has_checkbox = any(format.checkbox for format in self.formats)
+
+        # currently only used for checkboxes, but could be extended in the future.
+        feature_property_bag_elements = [self.has_checkbox]
+        self.has_feature_property_bag = any(feature_property_bag_elements)
 
     def _add_chart_data(self):
         # Add "cached" data to charts to provide the numCache and strCache

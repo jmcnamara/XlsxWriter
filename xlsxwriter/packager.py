@@ -20,6 +20,7 @@ from .contenttypes import ContentTypes
 from .core import Core
 from .custom import Custom
 from .exceptions import EmptyChartSeries
+from .feature_property_bag import FeaturePropertyBag
 from .metadata import Metadata
 from .relationships import Relationships
 from .rich_value import RichValue
@@ -160,6 +161,7 @@ class Packager:
         self._write_app_file()
         self._write_metadata_file()
         self._write_rich_value_files()
+        self._write_feature_property_bag_file()
 
         return self.filenames
 
@@ -409,6 +411,17 @@ class Packager:
         xml_file._set_xml_writer(filename)
         xml_file._assemble_xml_file()
 
+    def _write_feature_property_bag_file(self):
+        # Write the featurePropertyBag.xml file.
+        if not self.workbook.has_feature_property_bag:
+            return
+
+        feature_property_bag = FeaturePropertyBag()
+        feature_property_bag.checkbox = self.workbook.has_checkbox
+
+        feature_property_bag._set_xml_writer(self._filename("xl/featurePropertyBag/featurePropertyBag.xml"))
+        feature_property_bag._assemble_xml_file()
+
     def _write_custom_file(self):
         # Write the custom.xml file.
         properties = self.workbook.custom_properties
@@ -474,6 +487,9 @@ class Packager:
         # Add the RichValue file if present.
         if self.workbook.embedded_images.has_images():
             content._add_rich_value()
+
+        if self.workbook.has_feature_property_bag:
+            content._add_feature_property_bag()
 
         content._set_xml_writer(self._filename("[Content_Types].xml"))
         content._assemble_xml_file()
@@ -593,6 +609,9 @@ class Packager:
         # Add the RichValue files if present.
         if self.workbook.embedded_images.has_images():
             rels._add_rich_value_relationship()
+
+        if self.workbook.has_feature_property_bag:
+            rels._add_feature_property_bag_relationship()
 
         rels._set_xml_writer(self._filename("xl/_rels/workbook.xml.rels"))
         rels._assemble_xml_file()
