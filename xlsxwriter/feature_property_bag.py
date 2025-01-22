@@ -64,58 +64,48 @@ class FeaturePropertyBag(xmlwriter.XMLwriter):
         )
 
         attributes = [
-            ('xmlns', xmlns),
+            ("xmlns", xmlns),
         ]
 
-        self._xml_start_tag('FeaturePropertyBags', attributes)
+        self._xml_start_tag("FeaturePropertyBags", attributes)
 
         # Write the <bag> elements.
         if self.checkbox:
             self._write_checkbox()
 
-        self._xml_end_tag('FeaturePropertyBags')
+        self._xml_end_tag("FeaturePropertyBags")
 
     def _write_checkbox(self):
         # Write a checkbox element.
 
         # add Checkbox element
         attributes1 = [
-            ('type', 'Checkbox'),
+            ("type", "Checkbox"),
         ]
-        self._xml_empty_tag('bag', attributes1)
+        self._xml_empty_tag("bag", attributes1)
         # add XFControls element
-        attributes2 = [
-            ('type', 'XFControls')
-        ]
-        self._xml_start_tag('bag', attributes2)
-        attributes3 = [
-            ('k', 'CellControl')
-        ]
-        self._xml_data_element('bagId', self.bag_id_count, attributes3)
+        attributes2 = [("type", "XFControls")]
+        self._xml_start_tag("bag", attributes2)
+        attributes3 = [("k", "CellControl")]
+        self._xml_data_element("bagId", self.bag_id_count, attributes3)
         self.bag_id_count += 1
-        self._xml_end_tag('bag')
+        self._xml_end_tag("bag")
         # add XFComplement element
-        attributes4 = [
-            ('type', 'XFComplement')
-        ]
-        self._xml_start_tag('bag', attributes4)
-        attributes5 = [
-            ('k', 'XFControls')
-        ]
-        self._xml_data_element('bagId', self.bag_id_count, attributes5)
+        attributes4 = [("type", "XFComplement")]
+        self._xml_start_tag("bag", attributes4)
+        attributes5 = [("k", "XFControls")]
+        self._xml_data_element("bagId", self.bag_id_count, attributes5)
         self.bag_id_count += 1
-        self._xml_end_tag('bag')
+        self._xml_end_tag("bag")
         # add XFComplements element
         attributes6 = [
-            ('type', 'XFComplements'),
-            ('extRef', 'XFComplementsMapperExtRef')
+            ("type", "XFComplements"),
+            ("extRef", "XFComplementsMapperExtRef"),
         ]
-        self._xml_start_tag('bag', attributes6)
-        attributes7 = [
-            ('k', 'MappedFeaturePropertyBags')
-        ]
-        self._xml_start_tag('a', attributes7)
-        self._xml_data_element('bagId', self.bag_id_count)
+        self._xml_start_tag("bag", attributes6)
+        attributes7 = [("k", "MappedFeaturePropertyBags")]
+        self._xml_start_tag("a", attributes7)
+        self._xml_data_element("bagId", self.bag_id_count)
         self.bag_id_count += 1
-        self._xml_end_tag('a')
-        self._xml_end_tag('bag')
+        self._xml_end_tag("a")
+        self._xml_end_tag("bag")
