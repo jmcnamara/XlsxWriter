@@ -207,6 +207,15 @@ class ContentTypes(xmlwriter.XMLwriter):
             )
         )
 
+    def _add_feature_property_bag(self):
+        # Add the feature property bag to the ContentTypes overrides.
+        self._add_override(
+            (
+                "/xl/featurePropertyBag/featurePropertyBag.xml",
+                "application/vnd.ms-excel.featurepropertybag+xml",
+            )
+        )
+
     ###########################################################################
     #
     # XML methods.
