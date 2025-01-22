@@ -278,6 +278,8 @@ properties that can be applied and the equivalent object method:
 +------------+------------------+----------------------+------------------------------+
 |            | Right color      | ``'right_color'``    | :func:`set_right_color()`    |
 +------------+------------------+----------------------+------------------------------+
+| Other      | Checkbox         | ``'checkbox'``       | :func:`set_checkbox()`       |
++------------+------------------+----------------------+------------------------------+
 
 The format properties and methods are explained in the following sections.
 
@@ -1211,3 +1213,11 @@ Set the quote prefix property of a format to ensure a string is treated as a
 string after editing. This is the same as prefixing the string with a single
 quote in Excel. You don't need to add the quote to the string but you do need
 to add the format.
+
+
+format.set_checkbox()
+---------------------
+
+.. py:function:: set_checkbox()
+
+Set the checkbox property of a format. This turns the cell into a checkbox.
