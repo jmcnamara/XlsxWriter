@@ -2936,39 +2936,7 @@ spreadsheet but sometimes it is preferable to turn them off. Warnings can be
 turned off at the Excel level for all workbooks and worksheets by using the
 using "Excel options -> Formulas -> Error checking rules". Alternatively you
 can turn them off for individual cells in a worksheet, or ranges of cells,
-using the ``ignore_errors()`` method with a dict of options and ranges like
-this::
-
-    worksheet.ignore_errors({'number_stored_as_text': 'A1:H50'})
-
-    # Or for more than one option:
-    worksheet.ignore_errors({'number_stored_as_text': 'A1:H50',
-                             'eval_error':            'A1:H50'})
-
-The range can be a single cell, a range of cells, or multiple cells and ranges
-separated by spaces::
-
-    # Single cell.
-    worksheet.ignore_errors({'eval_error': 'C6'})
-
-    # Or a single range:
-    worksheet.ignore_errors({'eval_error': 'C6:G8'})
-
-    # Or multiple cells and ranges:
-    worksheet.ignore_errors({'eval_error': 'C6 E6 G1:G20 J2:J6'})
-
-Note: calling ``ignore_errors()`` multiple times will overwrite the previous
-settings.
-
-You can turn off warnings for an entire column by specifying the range from
-the first cell in the column to the last cell in the column::
-
-    worksheet.ignore_errors({'number_stored_as_text': 'A1:A1048576'})
-
-Or for the entire worksheet by specifying the range from the first cell in the
-worksheet to the last cell in the worksheet::
-
-    worksheet.ignore_errors({'number_stored_as_text': 'A1:XFD1048576'})
+using the ``ignore_errors()`` method.
 
 The worksheet errors/warnings that can be ignored are:
 
@@ -2998,5 +2966,46 @@ The worksheet errors/warnings that can be ignored are:
 
 * ``two_digit_text_year``: Turn off errors/warnings for formulas that contain
   a two digit text representation of a year.
+
+The ``ignore_errors()`` range can be a single cell, a range of cells, or
+multiple cells and ranges separated by spaces::
+
+    # Single cell.
+    worksheet.ignore_errors({'eval_error': 'C6'})
+
+    # Or a single range:
+    worksheet.ignore_errors({'eval_error': 'C6:G8'})
+
+    # Or multiple cells and ranges:
+    worksheet.ignore_errors({'eval_error': 'C6 E6 G1:G20 J2:J6'})
+
+Calling ``ignore_errors()`` multiple times will overwrite the previous values
+but it is possible to ignore several types of errors/warnings at the same time
+by adding them in a dict::
+
+    # Or for more than one option:
+    worksheet.ignore_errors({'number_stored_as_text': 'A1:A50',
+                             'eval_error':            'B1:B50'})
+
+It is important to note that Excel only supports one type of error/warning per
+cell or range so the cells/ranges must be unique and must not overlap::
+
+    # Error, overlapping cells!
+    worksheet.ignore_errors({'number_stored_as_text': 'A1:A50',
+                             'eval_error':            'A1'})
+
+This error isn't currently caught by XlsxWriter so some care is needed when
+handling multiple warning types.
+
+You can turn off warnings for an entire column by specifying the range from
+the first cell in the column to the last cell in the column::
+
+    worksheet.ignore_errors({'number_stored_as_text': 'A1:A1048576'})
+
+Or for the entire worksheet by specifying the range from the first cell in the
+worksheet to the last cell in the worksheet::
+
+    worksheet.ignore_errors({'number_stored_as_text': 'A1:XFD1048576'})
+
 
 See also :ref:`ex_ignore_errors`.
