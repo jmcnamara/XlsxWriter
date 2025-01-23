@@ -6818,17 +6818,17 @@ class Worksheet(xmlwriter.XMLwriter):
         if cell_format:
             attributes.append(("customFormat", 1))
 
-        if height != self.original_row_height:
-            attributes.append(("ht", f"{height:g}"))
-        elif height == self.original_row_height and height != self.default_row_height:
+        if height != self.original_row_height or (
+            height == self.original_row_height and height != self.default_row_height
+        ):
             attributes.append(("ht", f"{height:g}"))
 
         if hidden:
             attributes.append(("hidden", 1))
 
-        if height != self.original_row_height:
-            attributes.append(("customHeight", 1))
-        elif height == self.original_row_height and height != self.default_row_height:
+        if height != self.original_row_height or (
+            height == self.original_row_height and height != self.default_row_height
+        ):
             attributes.append(("customHeight", 1))
 
         if level:
