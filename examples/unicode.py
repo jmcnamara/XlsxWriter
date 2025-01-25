@@ -3,7 +3,8 @@
 # A simple Unicode spreadsheet in Python 3 using the XlsxWriter Python module.
 #
 # SPDX-License-Identifier: BSD-2-Clause
-# Copyright 2013-2024, John McNamara, jmcnamara@cpan.org
+#
+# Copyright (c) 2013-2025, John McNamara, jmcnamara@cpan.org
 #
 
 # To write Unicode text in UTF-8 to a xlsxwriter file in Python 3 you just

@@ -5,7 +5,7 @@
 # Simple test runner for measuring speed and memory usage of XlsxWriter
 # and the Excel::Writer::XLSX modules.
 #
-# Copyright 2013-2024, John McNamara, jmcnamara@cpan.org
+# Copyright (c) 2013-2025, John McNamara, jmcnamara@cpan.org
 
 echo ""
 echo "Python and XlsxWriter. Speed only."

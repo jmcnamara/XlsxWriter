@@ -8,7 +8,8 @@
 # a Gauge Chart in Excel: https://www.excel-easy.com/examples/gauge-chart.html
 #
 # SPDX-License-Identifier: BSD-2-Clause
-# Copyright 2013-2024, John McNamara, jmcnamara@cpan.org
+#
+# Copyright (c) 2013-2025, John McNamara, jmcnamara@cpan.org
 #
 import xlsxwriter
 

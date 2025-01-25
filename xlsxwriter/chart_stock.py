@@ -3,7 +3,8 @@
 # ChartStock - A class for writing the Excel XLSX Stock charts.
 #
 # SPDX-License-Identifier: BSD-2-Clause
-# Copyright 2013-2024, John McNamara, jmcnamara@cpan.org
+#
+# Copyright (c) 2013-2025, John McNamara, jmcnamara@cpan.org
 #
 
 from . import chart

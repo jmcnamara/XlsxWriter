@@ -4,7 +4,7 @@
 #
 # python bench_excel_writers.py [num_rows] [num_cols]
 #
-# Copyright 2013-2024, John McNamara, jmcnamara@cpan.org
+# Copyright (c) 2013-2025, John McNamara, jmcnamara@cpan.org
 #
 import os
 import sys

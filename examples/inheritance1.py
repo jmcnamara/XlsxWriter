@@ -4,7 +4,8 @@
 # override the default worksheet.write() method to show how that is done.
 #
 # SPDX-License-Identifier: BSD-2-Clause
-# Copyright 2013-2024, John McNamara, jmcnamara@cpan.org
+#
+# Copyright (c) 2013-2025, John McNamara, jmcnamara@cpan.org
 #
 from xlsxwriter.workbook import Workbook
 from xlsxwriter.worksheet import Worksheet, convert_cell_args
