@@ -181,6 +181,15 @@ class ContentTypes(xmlwriter.XMLwriter):
             ("/xl/metadata.xml", APP_DOCUMENT + "spreadsheetml.sheetMetadata+xml")
         )
 
+    def _add_feature_bag_property(self):
+        # Add the featurePropertyBag file to the ContentTypes overrides.
+        self._add_override(
+            (
+                "/xl/featurePropertyBag/featurePropertyBag.xml",
+                "application/vnd.ms-excel.featurepropertybag+xml",
+            )
+        )
+
     def _add_rich_value(self):
         # Add the richValue files to the ContentTypes overrides.
         self._add_override(

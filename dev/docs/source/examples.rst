@@ -38,6 +38,7 @@ directory of the XlsxWriter distribution.
    example_headers_footers.rst
    example_panes.rst
    example_tables.rst
+   example_checkbox.rst
    example_user_types1.rst
    example_user_types2.rst
    example_user_types3.rst

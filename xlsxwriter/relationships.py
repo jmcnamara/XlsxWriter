@@ -98,6 +98,13 @@ class Relationships(xmlwriter.XMLwriter):
         target = "richData/rdRichValueTypes.xml"
         self.relationships.append((rel_type, target, None))
 
+    def _add_feature_bag_relationship(self):
+        # Add FeaturePropertyBag relationship to XLSX .rels xml files.
+        schema = "http://schemas.microsoft.com/office/2022/11/relationships/"
+        rel_type = schema + "FeaturePropertyBag"
+        target = "featurePropertyBag/featurePropertyBag.xml"
+        self.relationships.append((rel_type, target, None))
+
     ###########################################################################
     #
     # XML methods.

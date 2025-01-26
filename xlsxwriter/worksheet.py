@@ -397,6 +397,8 @@ class Worksheet(xmlwriter.XMLwriter):
 
         self.default_date_format = None
         self.default_url_format = None
+        self.default_checkbox_format = None
+        self.workbook_add_format = None
         self.remove_timezone = False
         self.max_url_length = 2079
 
@@ -4101,6 +4103,37 @@ class Worksheet(xmlwriter.XMLwriter):
 
         return 0
 
+    @convert_cell_args
+    def insert_checkbox(self, row, col, boolean, cell_format=None):
+        """
+        Insert a boolean checkbox in a worksheet cell.
+
+        Args:
+            row:          The cell row (zero indexed).
+            col:          The cell column (zero indexed).
+            boolean:      The boolean value to display as a checkbox.
+            cell_format:  Cell Format object.  (optional)
+
+        Returns:
+            0:  Success.
+            -1: Row or column is out of worksheet bounds.
+
+        """
+        # Ensure that the checkbox property is set in the user defined format.
+        if cell_format and not cell_format.checkbox:
+            # This needs to be fixed with a clone.
+            cell_format.set_checkbox()
+
+        # If no format is supplied create and/or use the default checkbox format.
+        if not cell_format:
+            if not self.default_checkbox_format:
+                self.default_checkbox_format = self.workbook_add_format()
+                self.default_checkbox_format.set_checkbox()
+
+            cell_format = self.default_checkbox_format
+
+        return self._write_boolean(row, col, boolean, cell_format)
+
     ###########################################################################
     #
     # Public API. Page Setup methods.
@@ -4698,6 +4731,7 @@ class Worksheet(xmlwriter.XMLwriter):
         self.nan_inf_to_errors = init_data["nan_inf_to_errors"]
         self.default_date_format = init_data["default_date_format"]
         self.default_url_format = init_data["default_url_format"]
+        self.workbook_add_format = init_data["workbook_add_format"]
         self.excel2003_style = init_data["excel2003_style"]
         self.remove_timezone = init_data["remove_timezone"]
         self.max_url_length = init_data["max_url_length"]

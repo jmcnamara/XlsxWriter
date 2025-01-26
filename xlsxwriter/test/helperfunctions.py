@@ -210,6 +210,10 @@ def _compare_xlsx_files(got_file, exp_file, ignore_files, ignore_elements):
             got_xml = _sort_rel_file_data(got_xml)
             exp_xml = _sort_rel_file_data(exp_xml)
 
+        # Indent the XML elements to make the visual comparison of failures easier.
+        got_xml = _indent_elements(got_xml)
+        exp_xml = _indent_elements(exp_xml)
+
         # Compared the XML elements in each file.
         if got_xml != exp_xml:
             got_xml.insert(0, filename)
@@ -220,9 +224,12 @@ def _compare_xlsx_files(got_file, exp_file, ignore_files, ignore_elements):
     return "Ok", "Ok"
 
 
-# External wrapper function to allow simplified equality testing of two Excel
-# files. Note, this function doesn't test equivalence, only equality.
 def compare_xlsx_files(file1, file2, ignore_files=None, ignore_elements=None):
+    """
+    External wrapper function to allow simplified equality testing of two Excel
+    files. Note, this function doesn't test equivalence, only equality.
+
+    """
     if ignore_files is None:
         ignore_files = []
 
@@ -232,3 +239,24 @@ def compare_xlsx_files(file1, file2, ignore_files=None, ignore_elements=None):
     got, exp = _compare_xlsx_files(file1, file2, ignore_files, ignore_elements)
 
     return got == exp
+
+
+# Indent XML elements to make the visual comparison of failures easier.
+def _indent_elements(xml_elements):
+    indent_level = 0
+    indented_elements = []
+
+    for element in xml_elements:
+        if element.startswith("</"):
+            indent_level -= 1
+
+        indented_elements.append("    " * indent_level + element)
+
+        if (
+            not element.startswith("</")
+            and "</" not in element
+            and not element.endswith("/>")
+        ):
+            indent_level += 1
+
+    return indented_elements

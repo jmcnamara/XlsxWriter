@@ -572,13 +572,15 @@ class Styles(xmlwriter.XMLwriter):
 
     def _write_xf(self, xf_format):
         # Write the <xf> element.
-        num_fmt_id = xf_format.num_format_index
+        xf_id = xf_format.xf_id
         font_id = xf_format.font_index
         fill_id = xf_format.fill_index
         border_id = xf_format.border_index
-        xf_id = xf_format.xf_id
-        has_align = 0
-        has_protect = 0
+        num_fmt_id = xf_format.num_format_index
+
+        has_checkbox = xf_format.checkbox
+        has_alignment = False
+        has_protection = False
 
         attributes = [
             ("numFmtId", num_fmt_id),
@@ -611,7 +613,7 @@ class Styles(xmlwriter.XMLwriter):
 
         # Check if an alignment sub-element should be written.
         if apply_align and align:
-            has_align = 1
+            has_alignment = True
 
         # We can also have applyAlignment without a sub-element.
         if apply_align or xf_format.hyperlink:
@@ -624,15 +626,21 @@ class Styles(xmlwriter.XMLwriter):
             attributes.append(("applyProtection", 1))
 
             if not xf_format.hyperlink:
-                has_protect = 1
+                has_protection = True
 
         # Write XF with sub-elements if required.
-        if has_align or has_protect:
+        if has_alignment or has_protection or has_checkbox:
             self._xml_start_tag("xf", attributes)
-            if has_align:
+
+            if has_alignment:
                 self._xml_empty_tag("alignment", align)
-            if has_protect:
+
+            if has_protection:
                 self._xml_empty_tag("protection", protection)
+
+            if has_checkbox:
+                self._write_checkbox_ext()
+
             self._xml_end_tag("xf")
         else:
             self._xml_empty_tag("xf", attributes)
@@ -750,3 +758,22 @@ class Styles(xmlwriter.XMLwriter):
         attributes = [("val", 0)]
 
         self._xml_empty_tag("extend", attributes)
+
+    def _write_checkbox_ext(self):
+        # Write the Checkbox <extLst> element.
+        schema = "http://schemas.microsoft.com/office/spreadsheetml"
+        attributes = [
+            ("uri", "{C7286773-470A-42A8-94C5-96B5CB345126}"),
+            (
+                "xmlns:xfpb",
+                schema + "/2022/featurepropertybag",
+            ),
+        ]
+
+        self._xml_start_tag("extLst")
+        self._xml_start_tag("ext", attributes)
+
+        self._xml_empty_tag("xfpb:xfComplement", [("i", "0")])
+
+        self._xml_end_tag("ext")
+        self._xml_end_tag("extLst")

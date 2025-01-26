@@ -1724,6 +1724,61 @@ See :ref:`object_position` for more detailed information about the positioning
 and scaling of images within a worksheet.
 
 
+worksheet.insert_checkbox()
+---------------------------
+
+.. py:function:: insert_checkbox(row, col, boolean[, cell_format])
+
+   Insert a boolean checkbox in a worksheet cell.
+
+   :param row:         The cell row (zero indexed).
+   :param col:         The cell column (zero indexed).
+   :param boolean:     The boolean value to display as a checkbox.
+   :param cell_format: Optional Format object.
+   :type  row:         int
+   :type  col:         int
+   :type  boolean:     bool
+   :type  cell_format: :ref:`Format <format>`
+
+   :returns:  0: Success.
+   :returns: -1: Row or column is out of worksheet bounds.
+
+Checkboxes are a new feature added to `Excel in 2024`_. They are a way of
+displaying a boolean value as a checkbox in a cell. The underlying value is
+still an Excel ``TRUE/FALSE`` boolean value and can be used in formulas and in
+references.
+
+.. image:: _images/excel_checkbox.png
+
+.. _Excel in 2024: https://techcommunity.microsoft.com/blog/excelblog/introducing-checkboxes-in-excel/4173561
+
+The ``insert_checkbox()`` method can be used to replicate this behavior:
+
+.. literalinclude:: ../../../examples/checkbox.py
+   :lines: 18-36
+
+.. image:: _images/checkbox.png
+
+See :ref:`ex_checkbox` for the complete example.
+
+The checkbox feature is only available in Excel versions from 2024 and later. In
+older versions the value will be displayed as a standard Excel ``TRUE`` or
+``FALSE`` boolean. In fact Excel stores a checkbox as a normal boolean but with
+a special format. If required you can make use of this property to create a
+checkbox with :func:`write_boolean` and a cell format that has the
+:func:`set_checkbox` property set::
+
+    cell_format = workbook.add_format({"checkbox": True})
+
+    worksheet.write(2, 2, False, cell_format)
+    worksheet.write(3, 2, True, cell_format)
+
+.. image:: _images/checkbox_boolean.png
+
+This latter method isn't required very often but it can be occasionally useful
+if you are dealing with boolean values in a dataframe.
+
+
 worksheet.insert_button()
 -------------------------
 

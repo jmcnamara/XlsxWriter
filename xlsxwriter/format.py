@@ -109,6 +109,7 @@ class Format(xmlwriter.XMLwriter):
         self.font_only = 0
 
         self.quote_prefix = False
+        self.checkbox = False
 
         # Convert properties in the constructor to method calls.
         for key, value in properties.items():
@@ -660,6 +661,24 @@ class Format(xmlwriter.XMLwriter):
         """
         self.quote_prefix = quote_prefix
 
+    def set_checkbox(self, checkbox=True):
+        """
+        Set the Format property to show a checkbox in a cell.
+
+        This format property can be used with a cell that contains a boolean
+        value to display it as a checkbox. This property isn't required very
+        often and it is generally easier to create a checkbox using the
+        ``worksheet.insert_checkbox()`` method.
+
+        Args:
+            checkbox: Default is True, turns property on.
+
+        Returns:
+            Nothing.
+
+        """
+        self.checkbox = checkbox
+
     ###########################################################################
     #
     # Internal Format properties. These aren't documented since they are
@@ -1050,6 +1069,7 @@ class Format(xmlwriter.XMLwriter):
                     self._get_alignment_key(),
                     self.num_format,
                     self.locked,
+                    self.checkbox,
                     self.quote_prefix,
                     self.hidden,
                 )

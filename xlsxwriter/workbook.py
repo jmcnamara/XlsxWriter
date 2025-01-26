@@ -148,6 +148,7 @@ class Workbook(xmlwriter.XMLwriter):
         self.has_dynamic_functions = False
         self.has_embedded_descriptions = False
         self.embedded_images = EmbeddedImages()
+        self.has_checkboxes = False
 
         # We can't do 'constant_memory' mode while doing 'in_memory' mode.
         if self.in_memory:
@@ -821,6 +822,7 @@ class Workbook(xmlwriter.XMLwriter):
             "nan_inf_to_errors": self.nan_inf_to_errors,
             "default_date_format": self.default_date_format,
             "default_url_format": self.default_url_format,
+            "workbook_add_format": self.add_format,
             "excel2003_style": self.excel2003_style,
             "remove_timezone": self.remove_timezone,
             "max_url_length": self.max_url_length,
@@ -1119,6 +1121,18 @@ class Workbook(xmlwriter.XMLwriter):
                 index += 1
 
         self.fill_count = index
+
+    def _has_checkboxes(self):
+        # Check if any of the formats has a checkbox property.
+        if self.has_checkboxes:
+            return True
+
+        for cell_format in self.formats:
+            if cell_format.checkbox:
+                self.has_checkboxes = True
+                break
+
+        return self.has_checkboxes
 
     def _prepare_defined_names(self):
         # Iterate through the worksheets and store any defined names in
