@@ -110,3 +110,34 @@ class TestCompareXLSXFiles(ExcelComparisonTest):
         workbook.close()
 
         self.assertExcelEqual()
+
+    def test_conditional_format_with_boolean(self):
+        """Subtest for conditional format value as a Python boolean."""
+
+        workbook = Workbook(self.got_filename)
+        worksheet = workbook.add_worksheet()
+
+        cell_format1 = workbook.add_format({"checkbox": True})
+
+        worksheet.write("E9", False, cell_format1)
+
+        cell_format2 = workbook.add_format(
+            {
+                "font_color": "#9C0006",
+                "bg_color": "#FFC7CE",
+            }
+        )
+
+        worksheet.conditional_format(
+            "E9",
+            {
+                "type": "cell",
+                "format": cell_format2,
+                "criteria": "equal to",
+                "value": False,
+            },
+        )
+
+        workbook.close()
+
+        self.assertExcelEqual()

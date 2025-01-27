@@ -278,7 +278,7 @@ properties that can be applied and the equivalent object method:
 +------------+------------------+----------------------+------------------------------+
 |            | Right color      | ``'right_color'``    | :func:`set_right_color()`    |
 +------------+------------------+----------------------+------------------------------+
-| Misc.      | Cell border      | ``'quote_prefix'``   | :func:`set_quote_prefix()`   |
+| Other      | Cell border      | ``'quote_prefix'``   | :func:`set_quote_prefix()`   |
 +------------+------------------+----------------------+------------------------------+
 |            | Checkbox format  | ``'checkbox'``       | :func:`set_checkbox()`       |
 +------------+------------------+----------------------+------------------------------+
