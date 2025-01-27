@@ -23,5 +23,6 @@ They show how to use XlsxWriter with `Polars <https://pola.rs/>`_ .
    example_polars_conditional.rst
    example_polars_format_default.rst
    example_polars_format_custom.rst
+   example_polars_checkbox.rst
    example_polars_sparklines.rst
 

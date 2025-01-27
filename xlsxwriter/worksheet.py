@@ -2937,9 +2937,8 @@ class Worksheet(xmlwriter.XMLwriter):
             options["criteria"] = criteria_type[options["criteria"]]
 
         # Convert boolean values if required.
-        if "value" in options:
-            if isinstance(options["value"], bool):
-                options["value"] = str(options["value"]).upper()
+        if "value" in options and isinstance(options["value"], bool):
+            options["value"] = str(options["value"]).upper()
 
         # Convert date/times value if required.
         if options["type"] in ("date", "time"):

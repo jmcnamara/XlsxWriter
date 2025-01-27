@@ -1776,8 +1776,15 @@ checkbox with :func:`write_boolean` and a cell format that has the
 .. image:: _images/checkbox_boolean.png
 
 This latter method isn't required very often but it can be occasionally useful
-if you are dealing with boolean values in a dataframe.
+if you are dealing with boolean values in a dataframe:
 
+.. literalinclude:: ../../../examples/polars_checkbox.py
+   :lines: 11-
+
+.. image:: _images/polars_checkbox.png
+
+Note, this feature is currently possible with Pandas dataframes but it will be
+in a future release.
 
 worksheet.insert_button()
 -------------------------
