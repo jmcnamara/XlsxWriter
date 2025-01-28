@@ -112,7 +112,7 @@ class TestCompareXLSXFiles(ExcelComparisonTest):
         self.assertExcelEqual()
 
     def test_conditional_format_with_boolean(self):
-        """Subtest for conditional format value as a Python boolean."""
+        """Sub-test for conditional format value as a Python boolean."""
 
         workbook = Workbook(self.got_filename)
         worksheet = workbook.add_worksheet()

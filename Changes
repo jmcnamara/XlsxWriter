@@ -1,7 +1,18 @@
-Release 3.2.2 - January XX 2025
---------------------------------
+Release 3.2.2 - January 28 2025
+-------------------------------
 
-* Added support for checkboxes xxx
+* Added support for checkboxes via the :func:`insert_checkbox()` method.
+
+  Checkboxes are a new feature added to `Excel in 2024`_. They are a way of
+  displaying a boolean value as a checkbox in a cell. The underlying value is
+  still an Excel ``TRUE/FALSE`` boolean value and can be used in formulas and in
+  references.
+
+  .. image:: _images/checkbox.png
+
+  See :ref:`ex_checkbox`.
+
+  .. _Excel in 2024: https://techcommunity.microsoft.com/blog/excelblog/introducing-checkboxes-in-excel/4173561
 
 
 Release 3.2.1 - January 22 2025
@@ -39,6 +50,9 @@ everyone who has contributed code, given feedback or just used the library.
 
   This has been a frequently requested feature for people creating spreadsheets
   with images for product items. See also :ref:`ex_embedded_images`.
+
+  .. image:: _images/embedded_images.png
+
 
 * Fix issue where a horizontal alignment format was ignored if indentation was
   also set.
