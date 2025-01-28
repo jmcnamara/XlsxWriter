@@ -88,12 +88,10 @@ class Relationships(xmlwriter.XMLwriter):
         target = "richData/rdrichvalue.xml"
         self.relationships.append((rel_type, target, None))
 
-        schema = "http://schemas.microsoft.com/office/2017/06/relationships/"
         rel_type = schema + "rdRichValueStructure"
         target = "richData/rdrichvaluestructure.xml"
         self.relationships.append((rel_type, target, None))
 
-        schema = "http://schemas.microsoft.com/office/2017/06/relationships/"
         rel_type = schema + "rdRichValueTypes"
         target = "richData/rdRichValueTypes.xml"
         self.relationships.append((rel_type, target, None))
