@@ -21,6 +21,22 @@ class FeaturePropertyBag(xmlwriter.XMLwriter):
 
     ###########################################################################
     #
+    # Public API.
+    #
+    ###########################################################################
+
+    def __init__(self):
+        """
+        Constructor.
+
+        """
+
+        super().__init__()
+
+        self.feature_property_bags = set()
+
+    ###########################################################################
+    #
     # Private API.
     #
     ###########################################################################
@@ -45,6 +61,10 @@ class FeaturePropertyBag(xmlwriter.XMLwriter):
 
         # Write the XFComplements bag element.
         self._write_xf_compliments_bag()
+
+        # Write the DXFComplements bag element.
+        if "DXFComplements" in self.feature_property_bags:
+            self._write_dxf_compliments_bag()
 
         self._xml_end_tag("FeaturePropertyBags")
 
@@ -97,10 +117,25 @@ class FeaturePropertyBag(xmlwriter.XMLwriter):
         self._xml_end_tag("bag")
 
     def _write_xf_compliments_bag(self):
-        # Write the _write_xf_compliment_bag<bag> element.
+        # Write the XFComplements <bag> element.
         attributes = [
             ("type", "XFComplements"),
             ("extRef", "XFComplementsMapperExtRef"),
+        ]
+
+        self._xml_start_tag("bag", attributes)
+        self._xml_start_tag("a", [("k", "MappedFeaturePropertyBags")])
+
+        self._write_bag_id("", 2)
+
+        self._xml_end_tag("a")
+        self._xml_end_tag("bag")
+
+    def _write_dxf_compliments_bag(self):
+        # Write the DXFComplements <bag> element.
+        attributes = [
+            ("type", "DXFComplements"),
+            ("extRef", "DXFComplementsMapperExtRef"),
         ]
 
         self._xml_start_tag("bag", attributes)

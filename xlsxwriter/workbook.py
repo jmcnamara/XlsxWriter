@@ -148,7 +148,7 @@ class Workbook(xmlwriter.XMLwriter):
         self.has_dynamic_functions = False
         self.has_embedded_descriptions = False
         self.embedded_images = EmbeddedImages()
-        self.has_checkboxes = False
+        self.feature_property_bags = set()
 
         # We can't do 'constant_memory' mode while doing 'in_memory' mode.
         if self.in_memory:
@@ -1122,17 +1122,18 @@ class Workbook(xmlwriter.XMLwriter):
 
         self.fill_count = index
 
-    def _has_checkboxes(self):
-        # Check if any of the formats has a checkbox property.
-        if self.has_checkboxes:
-            return True
+    def _has_feature_property_bags(self):
+        # Check for any format properties that require a feature bag. Currently
+        # this only applies to checkboxes.
+        if not self.feature_property_bags:
+            for xf_format in self.formats:
+                if xf_format.checkbox:
+                    self.feature_property_bags.add("XFComplements")
 
-        for cell_format in self.formats:
-            if cell_format.checkbox:
-                self.has_checkboxes = True
-                break
+                if xf_format.dxf_index is not None and xf_format.checkbox:
+                    self.feature_property_bags.add("DXFComplements")
 
-        return self.has_checkboxes
+        return self.feature_property_bags
 
     def _prepare_defined_names(self):
         # Iterate through the worksheets and store any defined names in

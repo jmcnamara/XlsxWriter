@@ -639,7 +639,7 @@ class Styles(xmlwriter.XMLwriter):
                 self._xml_empty_tag("protection", protection)
 
             if has_checkbox:
-                self._write_checkbox_ext()
+                self._write_xf_format_extensions()
 
             self._xml_end_tag("xf")
         else:
@@ -684,20 +684,25 @@ class Styles(xmlwriter.XMLwriter):
             self._xml_start_tag("dxfs", attributes)
 
             # Write the font elements for xf_format objects that have them.
-            for xf_format in self.dxf_formats:
+            for dxf_format in self.dxf_formats:
                 self._xml_start_tag("dxf")
-                if xf_format.has_dxf_font:
-                    self._write_font(xf_format, True)
+                if dxf_format.has_dxf_font:
+                    self._write_font(dxf_format, True)
 
-                if xf_format.num_format_index:
+                if dxf_format.num_format_index:
                     self._write_num_fmt(
-                        xf_format.num_format_index, xf_format.num_format
+                        dxf_format.num_format_index, dxf_format.num_format
                     )
 
-                if xf_format.has_dxf_fill:
-                    self._write_fill(xf_format, True)
-                if xf_format.has_dxf_border:
-                    self._write_border(xf_format, True)
+                if dxf_format.has_dxf_fill:
+                    self._write_fill(dxf_format, True)
+
+                if dxf_format.has_dxf_border:
+                    self._write_border(dxf_format, True)
+
+                if dxf_format.checkbox:
+                    self._write_dxf_format_extensions()
+
                 self._xml_end_tag("dxf")
 
             self._xml_end_tag("dxfs")
@@ -759,8 +764,8 @@ class Styles(xmlwriter.XMLwriter):
 
         self._xml_empty_tag("extend", attributes)
 
-    def _write_checkbox_ext(self):
-        # Write the Checkbox <extLst> element.
+    def _write_xf_format_extensions(self):
+        # Write the xfComplement <extLst> elements.
         schema = "http://schemas.microsoft.com/office/spreadsheetml"
         attributes = [
             ("uri", "{C7286773-470A-42A8-94C5-96B5CB345126}"),
@@ -774,6 +779,25 @@ class Styles(xmlwriter.XMLwriter):
         self._xml_start_tag("ext", attributes)
 
         self._xml_empty_tag("xfpb:xfComplement", [("i", "0")])
+
+        self._xml_end_tag("ext")
+        self._xml_end_tag("extLst")
+
+    def _write_dxf_format_extensions(self):
+        # Write the DXFComplement <extLst> elements.
+        schema = "http://schemas.microsoft.com/office/spreadsheetml"
+        attributes = [
+            ("uri", "{0417FA29-78FA-4A13-93AC-8FF0FAFDF519}"),
+            (
+                "xmlns:xfpb",
+                schema + "/2022/featurepropertybag",
+            ),
+        ]
+
+        self._xml_start_tag("extLst")
+        self._xml_start_tag("ext", attributes)
+
+        self._xml_empty_tag("xfpb:DXFComplement", [("i", "0")])
 
         self._xml_end_tag("ext")
         self._xml_end_tag("extLst")

@@ -373,10 +373,12 @@ class Packager:
 
     def _write_feature_bag_property(self):
         # Write the featurePropertyBag.xml file.
-        if not self.workbook.has_checkboxes:
+        feature_property_bags = self.workbook._has_feature_property_bags()
+        if not feature_property_bags:
             return
 
         property_bag = FeaturePropertyBag()
+        property_bag.feature_property_bags = feature_property_bags
 
         property_bag._set_xml_writer(
             self._filename("xl/featurePropertyBag/featurePropertyBag.xml")
@@ -487,7 +489,7 @@ class Packager:
             content._add_metadata()
 
         # Add the metadata file if present.
-        if self.workbook._has_checkboxes():
+        if self.workbook._has_feature_property_bags():
             content._add_feature_bag_property()
 
         # Add the RichValue file if present.
@@ -614,7 +616,7 @@ class Packager:
             rels._add_rich_value_relationship()
 
         # Add the checkbox/FeaturePropertyBag file if present.
-        if self.workbook.has_checkboxes:
+        if self.workbook._has_feature_property_bags():
             rels._add_feature_bag_relationship()
 
         rels._set_xml_writer(self._filename("xl/_rels/workbook.xml.rels"))
