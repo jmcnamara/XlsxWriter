@@ -1638,8 +1638,8 @@ class Worksheet(xmlwriter.XMLwriter):
 
         # Get the image properties, for the type and checksum.
         (
-            image_type,
             _,
+            image_type,
             _,
             _,
             _,

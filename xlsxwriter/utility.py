@@ -10,12 +10,14 @@ import datetime
 import hashlib
 import os
 import re
+from io import BytesIO
 from struct import unpack
+from typing import Dict, Optional, Tuple, Union
 from warnings import warn
 
 from .exceptions import UndefinedImageSize, UnsupportedImageFormat
 
-COL_NAMES = {}
+COL_NAMES: Dict[int, str] = {}
 
 CHAR_WIDTHS = {
     " ": 3,
@@ -137,7 +139,12 @@ RE_QUOTE_RULE4_ROW = re.compile(r"^R(\d+)")
 RE_QUOTE_RULE4_COLUMN = re.compile(r"^R?C(\d+)")
 
 
-def xl_rowcol_to_cell(row, col, row_abs=False, col_abs=False):
+def xl_rowcol_to_cell(
+    row: int,
+    col: int,
+    row_abs: bool = False,
+    col_abs: bool = False,
+) -> str:
     """
     Convert a zero indexed row and column cell reference to a A1 style string.
 
@@ -153,21 +160,21 @@ def xl_rowcol_to_cell(row, col, row_abs=False, col_abs=False):
     """
     if row < 0:
         warn(f"Row number '{row}' must be >= 0")
-        return None
+        return ""
 
     if col < 0:
         warn(f"Col number '{col}' must be >= 0")
-        return None
+        return ""
 
     row += 1  # Change to 1-index.
-    row_abs = "$" if row_abs else ""
+    row_abs_str = "$" if row_abs else ""
 
     col_str = xl_col_to_name(col, col_abs)
 
-    return col_str + row_abs + str(row)
+    return col_str + row_abs_str + str(row)
 
 
-def xl_rowcol_to_cell_fast(row, col):
+def xl_rowcol_to_cell_fast(row: int, col: int) -> str:
     """
     Optimized version of the xl_rowcol_to_cell function. Only used internally.
 
@@ -188,7 +195,7 @@ def xl_rowcol_to_cell_fast(row, col):
     return col_str + str(row + 1)
 
 
-def xl_col_to_name(col, col_abs=False):
+def xl_col_to_name(col: int, col_abs: bool = False) -> str:
     """
     Convert a zero indexed column cell reference to a string.
 
@@ -203,11 +210,11 @@ def xl_col_to_name(col, col_abs=False):
     col_num = col
     if col_num < 0:
         warn(f"Col number '{col_num}' must be >= 0")
-        return None
+        return ""
 
     col_num += 1  # Change to 1-index.
     col_str = ""
-    col_abs = "$" if col_abs else ""
+    col_abs_str = "$" if col_abs else ""
 
     while col_num:
         # Set remainder from 1 .. 26
@@ -225,10 +232,10 @@ def xl_col_to_name(col, col_abs=False):
         # Get the next order of magnitude.
         col_num = int((col_num - 1) / 26)
 
-    return col_abs + col_str
+    return col_abs_str + col_str
 
 
-def xl_cell_to_rowcol(cell_str):
+def xl_cell_to_rowcol(cell_str: str) -> Tuple[int, int]:
     """
     Convert a cell reference in A1 notation to a zero indexed row and column.
 
@@ -243,6 +250,10 @@ def xl_cell_to_rowcol(cell_str):
         return 0, 0
 
     match = RE_RANGE_PARTS.match(cell_str)
+    if match is None:
+        warn(f"Invalid cell reference '{cell_str}'")
+        return 0, 0
+
     col_str = match.group(2)
     row_str = match.group(4)
 
@@ -260,7 +271,7 @@ def xl_cell_to_rowcol(cell_str):
     return row, col
 
 
-def xl_cell_to_rowcol_abs(cell_str):
+def xl_cell_to_rowcol_abs(cell_str: str) -> Tuple[int, int, bool, bool]:
     """
     Convert an absolute cell reference in A1 notation to a zero indexed
     row and column, with True/False values for absolute rows or columns.
@@ -276,6 +287,9 @@ def xl_cell_to_rowcol_abs(cell_str):
         return 0, 0, False, False
 
     match = RE_RANGE_PARTS.match(cell_str)
+    if match is None:
+        warn(f"Invalid cell reference '{cell_str}'")
+        return 0, 0, False, False
 
     col_abs = bool(match.group(1))
     col_str = match.group(2)
@@ -296,7 +310,7 @@ def xl_cell_to_rowcol_abs(cell_str):
     return row, col, row_abs, col_abs
 
 
-def xl_range(first_row, first_col, last_row, last_col):
+def xl_range(first_row: int, first_col: int, last_row: int, last_col: int) -> str:
     """
     Convert zero indexed row and col cell references to a A1:B1 range string.
 
@@ -313,9 +327,9 @@ def xl_range(first_row, first_col, last_row, last_col):
     range1 = xl_rowcol_to_cell(first_row, first_col)
     range2 = xl_rowcol_to_cell(last_row, last_col)
 
-    if range1 is None or range2 is None:
+    if range1 == "" or range2 == "":
         warn("Row and column numbers must be >= 0")
-        return None
+        return ""
 
     if range1 == range2:
         return range1
@@ -323,7 +337,7 @@ def xl_range(first_row, first_col, last_row, last_col):
     return range1 + ":" + range2
 
 
-def xl_range_abs(first_row, first_col, last_row, last_col):
+def xl_range_abs(first_row: int, first_col: int, last_row: int, last_col: int) -> str:
     """
     Convert zero indexed row and col cell references to a $A$1:$B$1 absolute
     range string.
@@ -341,9 +355,9 @@ def xl_range_abs(first_row, first_col, last_row, last_col):
     range1 = xl_rowcol_to_cell(first_row, first_col, True, True)
     range2 = xl_rowcol_to_cell(last_row, last_col, True, True)
 
-    if range1 is None or range2 is None:
+    if range1 == "" or range2 == "":
         warn("Row and column numbers must be >= 0")
-        return None
+        return ""
 
     if range1 == range2:
         return range1
@@ -351,7 +365,9 @@ def xl_range_abs(first_row, first_col, last_row, last_col):
     return range1 + ":" + range2
 
 
-def xl_range_formula(sheetname, first_row, first_col, last_row, last_col):
+def xl_range_formula(
+    sheetname: str, first_row: int, first_col: int, last_row: int, last_col: int
+) -> str:
     """
     Convert worksheet name and zero indexed row and col cell references to
     a Sheet1!A1:B1 range formula string.
@@ -373,7 +389,7 @@ def xl_range_formula(sheetname, first_row, first_col, last_row, last_col):
     return sheetname + "!" + cell_range
 
 
-def quote_sheetname(sheetname):
+def quote_sheetname(sheetname: str) -> str:
     """
     Sheetnames used in references should be quoted if they contain any spaces,
     special characters or if they look like a A1 or RC cell reference. The rules
@@ -394,6 +410,10 @@ def quote_sheetname(sheetname):
     # Don't quote sheetname if it is already quoted by the user.
     if not sheetname.startswith("'"):
 
+        match_rule3 = RE_QUOTE_RULE3.match(uppercase_sheetname)
+        match_rule4_row = RE_QUOTE_RULE4_ROW.match(uppercase_sheetname)
+        match_rule4_column = RE_QUOTE_RULE4_COLUMN.match(uppercase_sheetname)
+
         # --------------------------------------------------------------------
         # Rule 1. Sheet names that contain anything other than \w and "."
         # characters must be quoted.
@@ -412,9 +432,8 @@ def quote_sheetname(sheetname):
         # Valid means that the row and column range values must also be within
         # Excel row and column limits.
         # --------------------------------------------------------------------
-        elif RE_QUOTE_RULE3.match(uppercase_sheetname):
-            match = RE_QUOTE_RULE3.match(uppercase_sheetname)
-            cell = match.group(1)
+        elif match_rule3:
+            cell = match_rule3.group(1)
             (row, col) = xl_cell_to_rowcol(cell)
 
             if 0 <= row < row_max and 0 <= col < col_max:
@@ -432,17 +451,15 @@ def quote_sheetname(sheetname):
         # --------------------------------------------------------------------
 
         # Rule 4a. Check for sheet names that start with R1 style references.
-        elif RE_QUOTE_RULE4_ROW.match(uppercase_sheetname):
-            match = RE_QUOTE_RULE4_ROW.match(uppercase_sheetname)
-            row = int(match.group(1))
+        elif match_rule4_row:
+            row = int(match_rule4_row.group(1))
 
             if 0 < row <= row_max:
                 requires_quoting = True
 
         # Rule 4b. Check for sheet names that start with C1 or RC1 style
-        elif RE_QUOTE_RULE4_COLUMN.match(uppercase_sheetname):
-            match = RE_QUOTE_RULE4_COLUMN.match(uppercase_sheetname)
-            col = int(match.group(1))
+        elif match_rule4_column:
+            col = int(match_rule4_column.group(1))
 
             if 0 < col <= col_max:
                 requires_quoting = True
@@ -461,7 +478,7 @@ def quote_sheetname(sheetname):
     return sheetname
 
 
-def cell_autofit_width(string):
+def cell_autofit_width(string: str) -> int:
     """
     Calculate the width required to auto-fit a string in a cell.
 
@@ -479,7 +496,7 @@ def cell_autofit_width(string):
     return xl_pixel_width(string) + 7
 
 
-def xl_pixel_width(string):
+def xl_pixel_width(string: str) -> int:
     """
     Get the pixel width of a string based on individual character widths taken
     from Excel. UTF8 characters, and other unhandled characters, are given a
@@ -500,7 +517,7 @@ def xl_pixel_width(string):
     return length
 
 
-def _xl_color(color):
+def _xl_color(color: str) -> str:
     # Used in conjunction with the XlsxWriter *color() methods to convert
     # a color name into an RGB formatted string. These colors are for
     # backward compatibility with older versions of Excel.
@@ -532,7 +549,7 @@ def _xl_color(color):
     return "FF" + color.lstrip("#").upper()
 
 
-def _get_rgb_color(color):
+def _get_rgb_color(color: str) -> str:
     # Convert the user specified color to an RGB color.
     rgb_color = _xl_color(color)
 
@@ -542,7 +559,7 @@ def _get_rgb_color(color):
     return rgb_color
 
 
-def _get_sparkline_style(style_id):
+def _get_sparkline_style(style_id: int) -> Dict[str, Dict[str, str]]:
     styles = [
         {
             "series": {"theme": "4", "tint": "-0.499984740745262"},
@@ -882,14 +899,18 @@ def _get_sparkline_style(style_id):
     return styles[style_id]
 
 
-def _supported_datetime(dt):
+def _supported_datetime(
+    dt: Union[datetime.datetime, datetime.time, datetime.date]
+) -> bool:
     # Determine is an argument is a supported datetime object.
     return isinstance(
         dt, (datetime.datetime, datetime.date, datetime.time, datetime.timedelta)
     )
 
 
-def _remove_datetime_timezone(dt_obj, remove_timezone):
+def _remove_datetime_timezone(
+    dt_obj: datetime.datetime, remove_timezone: bool
+) -> datetime.datetime:
     # Excel doesn't support timezones in datetimes/times so we remove the
     # tzinfo from the object if the user has specified that option in the
     # constructor.
@@ -906,7 +927,11 @@ def _remove_datetime_timezone(dt_obj, remove_timezone):
     return dt_obj
 
 
-def _datetime_to_excel_datetime(dt_obj, date_1904, remove_timezone):
+def _datetime_to_excel_datetime(
+    dt_obj: Union[datetime.time, datetime.datetime, datetime.timedelta, datetime.date],
+    date_1904: bool,
+    remove_timezone: bool,
+) -> float:
     # Convert a datetime object to an Excel serial date and time. The integer
     # part of the number stores the number of days since the epoch and the
     # fractional part stores the percentage of the day.
@@ -946,10 +971,15 @@ def _datetime_to_excel_datetime(dt_obj, date_1904, remove_timezone):
     # The following is a workaround for the fact that in Excel a time only
     # value is represented as 1899-12-31+time whereas in datetime.datetime()
     # it is 1900-1-1+time so we need to subtract the 1 day difference.
-    if isinstance(date_type, datetime.datetime) and dt_obj.isocalendar() == (
-        1900,
-        1,
-        1,
+    if (
+        isinstance(date_type, datetime.datetime)
+        and not isinstance(dt_obj, datetime.timedelta)
+        and dt_obj.isocalendar()
+        == (
+            1900,
+            1,
+            1,
+        )
     ):
         excel_time -= 1
 
@@ -960,18 +990,20 @@ def _datetime_to_excel_datetime(dt_obj, date_1904, remove_timezone):
     return excel_time
 
 
-def _preserve_whitespace(string):
+def _preserve_whitespace(string: str) -> Optional[re.Match]:
     # Check if a string has leading or trailing whitespace that requires a
     # "preserve" attribute.
     return RE_LEADING_WHITESPACE.search(string) or RE_TRAILING_WHITESPACE.search(string)
 
 
-def _get_image_properties(filename, image_data):
+def _get_image_properties(
+    filename: str, image_data: Optional[BytesIO]
+) -> Tuple[str, str, float, float, float, float, str]:
     # Extract dimension information from the image file.
-    height = 0
-    width = 0
-    x_dpi = 96
-    y_dpi = 96
+    height = 0.0
+    width = 0.0
+    x_dpi = 96.0
+    y_dpi = 96.0
 
     if not image_data:
         # Open the image file and read in the data.
@@ -1026,27 +1058,26 @@ def _get_image_properties(filename, image_data):
     if not height or not width:
         raise UndefinedImageSize(f"{filename}: no size data found in image file.")
 
-    if not image_data:
-        fh.close()
-
     # Set a default dpi for images with 0 dpi.
     if x_dpi == 0:
         x_dpi = 96
     if y_dpi == 0:
         y_dpi = 96
 
-    return image_type, width, height, image_name, x_dpi, y_dpi, digest
+    return image_name, image_type, width, height, x_dpi, y_dpi, digest
 
 
-def _process_png(data):
+def _process_png(
+    data: bytes,
+) -> Tuple[str, float, float, float, float]:
     # Extract width and height information from a PNG file.
     offset = 8
     data_length = len(data)
     end_marker = False
-    width = 0
-    height = 0
-    x_dpi = 96
-    y_dpi = 96
+    width = 0.0
+    height = 0.0
+    x_dpi = 96.0
+    y_dpi = 96.0
 
     # Search through the image data to read the height and width in the
     # IHDR element. Also read the DPI in the pHYs element.
@@ -1078,15 +1109,15 @@ def _process_png(data):
     return "png", width, height, x_dpi, y_dpi
 
 
-def _process_jpg(data):
+def _process_jpg(data: bytes) -> Tuple[str, float, float, float, float]:
     # Extract width and height information from a JPEG file.
     offset = 2
     data_length = len(data)
     end_marker = False
-    width = 0
-    height = 0
-    x_dpi = 96
-    y_dpi = 96
+    width = 0.0
+    height = 0.0
+    x_dpi = 96.0
+    y_dpi = 96.0
 
     # Search through the image data to read the JPEG markers.
     while not end_marker and offset < data_length:
@@ -1133,10 +1164,10 @@ def _process_jpg(data):
     return "jpeg", width, height, x_dpi, y_dpi
 
 
-def _process_gif(data):
+def _process_gif(data: bytes) -> Tuple[str, float, float, float, float]:
     # Extract width and height information from a GIF file.
-    x_dpi = 96
-    y_dpi = 96
+    x_dpi = 96.0
+    y_dpi = 96.0
 
     width = unpack("<h", data[6:8])[0]
     height = unpack("<h", data[8:10])[0]
@@ -1144,17 +1175,17 @@ def _process_gif(data):
     return "gif", width, height, x_dpi, y_dpi
 
 
-def _process_bmp(data):
+def _process_bmp(data: bytes) -> Tuple[str, float, float]:
     # Extract width and height information from a BMP file.
     width = unpack("<L", data[18:22])[0]
     height = unpack("<L", data[22:26])[0]
     return "bmp", width, height
 
 
-def _process_wmf(data):
+def _process_wmf(data: bytes) -> Tuple[str, float, float, float, float]:
     # Extract width and height information from a WMF file.
-    x_dpi = 96
-    y_dpi = 96
+    x_dpi = 96.0
+    y_dpi = 96.0
 
     # Read the bounding box, measured in logical units.
     x1 = unpack("<h", data[6:8])[0]
@@ -1172,7 +1203,7 @@ def _process_wmf(data):
     return "wmf", width, height, x_dpi, y_dpi
 
 
-def _process_emf(data):
+def _process_emf(data: bytes) -> Tuple[str, float, float, float, float]:
     # Extract width and height information from a EMF file.
 
     # Read the bounding box, measured in logical units.

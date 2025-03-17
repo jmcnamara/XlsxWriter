@@ -39,8 +39,8 @@ class TestUtility(unittest.TestCase):
             (1, 256, "IW2"),
             (0, 16383, "XFD1"),
             (1048576, 16384, "XFE1048577"),
-            (0, -1, None),
-            (-1, 0, None),
+            (0, -1, ""),
+            (-1, 0, ""),
         ]
 
         for row, col, range in tests:
@@ -60,8 +60,8 @@ class TestUtility(unittest.TestCase):
             (0, 0, True, False, "A$1"),
             (0, 0, False, True, "$A1"),
             (0, 0, True, True, "$A$1"),
-            (-1, 0, 0, 0, None),
-            (0, -1, 0, 0, None),
+            (-1, 0, 0, 0, ""),
+            (0, -1, 0, 0, ""),
         ]
 
         for row, col, row_abs, col_abs, range in tests:

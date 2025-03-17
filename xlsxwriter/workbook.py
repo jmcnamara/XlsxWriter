@@ -1257,8 +1257,8 @@ class Workbook(xmlwriter.XMLwriter):
                     image_data = None
 
                 (
-                    image_type,
                     _,
+                    image_type,
                     _,
                     _,
                     _,
@@ -1283,10 +1283,10 @@ class Workbook(xmlwriter.XMLwriter):
                 filename = sheet.images[index][2]
                 image_data = sheet.images[index][10]
                 (
+                    name,
                     image_type,
                     width,
                     height,
-                    name,
                     x_dpi,
                     y_dpi,
                     digest,
@@ -1331,10 +1331,10 @@ class Workbook(xmlwriter.XMLwriter):
                 position = sheet.header_images[index][2]
 
                 (
+                    name,
                     image_type,
                     width,
                     height,
-                    name,
                     x_dpi,
                     y_dpi,
                     digest,
@@ -1369,10 +1369,10 @@ class Workbook(xmlwriter.XMLwriter):
                 position = sheet.footer_images[index][2]
 
                 (
+                    name,
                     image_type,
                     width,
                     height,
-                    name,
                     x_dpi,
                     y_dpi,
                     digest,

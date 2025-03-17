@@ -36,7 +36,7 @@ class TestUtility(unittest.TestCase):
             (256, "IW"),
             (16383, "XFD"),
             (16384, "XFE"),
-            (-1, None),
+            (-1, ""),
         ]
 
         for col, string in tests:
@@ -54,7 +54,7 @@ class TestUtility(unittest.TestCase):
         tests = [
             # col, col_abs, col string
             (0, True, "$A"),
-            (-1, True, None),
+            (-1, True, ""),
         ]
 
         for col, col_abs, string in tests:

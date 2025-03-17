@@ -36,10 +36,10 @@ class TestUtility(unittest.TestCase):
             (1, 254, 1, 255, "IU2:IV2"),
             (1, 256, 0, 16383, "IW2:XFD1"),
             (0, 0, 1048576, 16384, "A1:XFE1048577"),
-            (-1, 0, 0, 0, None),
-            (0, -1, 0, 0, None),
-            (0, 0, -1, 0, None),
-            (0, 0, 0, -1, None),
+            (-1, 0, 0, 0, ""),
+            (0, -1, 0, 0, ""),
+            (0, 0, -1, 0, ""),
+            (0, 0, 0, -1, ""),
         ]
 
         for first_row, first_col, last_row, last_col, cell_range in tests:
@@ -68,10 +68,10 @@ class TestUtility(unittest.TestCase):
             (1, 254, 1, 255, "$IU$2:$IV$2"),
             (1, 256, 0, 16383, "$IW$2:$XFD$1"),
             (0, 0, 1048576, 16384, "$A$1:$XFE$1048577"),
-            (-1, 0, 0, 0, None),
-            (0, -1, 0, 0, None),
-            (0, 0, -1, 0, None),
-            (0, 0, 0, -1, None),
+            (-1, 0, 0, 0, ""),
+            (0, -1, 0, 0, ""),
+            (0, 0, -1, 0, ""),
+            (0, 0, 0, -1, ""),
         ]
 
         for first_row, first_col, last_row, last_col, cell_range in tests:
