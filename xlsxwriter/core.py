@@ -7,10 +7,9 @@
 # Copyright (c) 2013-2025, John McNamara, jmcnamara@cpan.org
 #
 
-# Standard packages.
 from datetime import datetime, timezone
+from typing import Dict, Union
 
-# Package imports.
 from . import xmlwriter
 
 
@@ -36,6 +35,7 @@ class Core(xmlwriter.XMLwriter):
         super().__init__()
 
         self.properties = {}
+        self.iso_date = ""
 
     ###########################################################################
     #
@@ -45,6 +45,13 @@ class Core(xmlwriter.XMLwriter):
 
     def _assemble_xml_file(self):
         # Assemble and write the XML file.
+
+        # Set the creation date for the file.
+        date = self.properties.get("created")
+        if not isinstance(date, datetime):
+            date = datetime.now(timezone.utc)
+
+        self.iso_date = date.strftime("%Y-%m-%dT%H:%M:%SZ")
 
         # Write the XML declaration.
         self._xml_declaration()
@@ -66,16 +73,9 @@ class Core(xmlwriter.XMLwriter):
         # Close the file.
         self._xml_close()
 
-    def _set_properties(self, properties):
+    def _set_properties(self, properties: Dict[str, Union[str, datetime]]):
         # Set the document properties.
         self.properties = properties
-
-    def _datetime_to_iso8601_date(self, date):
-        # Convert to a ISO 8601 style "2010-01-01T00:00:00Z" date.
-        if not date:
-            date = datetime.now(timezone.utc)
-
-        return date.strftime("%Y-%m-%dT%H:%M:%SZ")
 
     ###########################################################################
     #
@@ -119,37 +119,13 @@ class Core(xmlwriter.XMLwriter):
 
     def _write_dcterms_created(self):
         # Write the <dcterms:created> element.
-        date = self.properties.get("created", datetime.now(timezone.utc))
-
-        xsi_type = "dcterms:W3CDTF"
-
-        date = self._datetime_to_iso8601_date(date)
-
-        attributes = [
-            (
-                "xsi:type",
-                xsi_type,
-            )
-        ]
-
-        self._xml_data_element("dcterms:created", date, attributes)
+        attributes = [("xsi:type", "dcterms:W3CDTF")]
+        self._xml_data_element("dcterms:created", self.iso_date, attributes)
 
     def _write_dcterms_modified(self):
         # Write the <dcterms:modified> element.
-        date = self.properties.get("created", datetime.now(timezone.utc))
-
-        xsi_type = "dcterms:W3CDTF"
-
-        date = self._datetime_to_iso8601_date(date)
-
-        attributes = [
-            (
-                "xsi:type",
-                xsi_type,
-            )
-        ]
-
-        self._xml_data_element("dcterms:modified", date, attributes)
+        attributes = [("xsi:type", "dcterms:W3CDTF")]
+        self._xml_data_element("dcterms:modified", self.iso_date, attributes)
 
     def _write_dc_title(self):
         # Write the <dc:title> element.
