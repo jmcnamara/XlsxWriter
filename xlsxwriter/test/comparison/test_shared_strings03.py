@@ -27,8 +27,8 @@ class TestCompareXLSXFiles(ExcelComparisonTest):
 
         worksheet = workbook.add_worksheet()
 
-        non_char1 = "\uFFFE"
-        non_char2 = "\uFFFF"
+        non_char1 = "\ufffe"
+        non_char2 = "\uffff"
 
         worksheet.write(0, 0, non_char1)
         worksheet.write(1, 0, non_char2)

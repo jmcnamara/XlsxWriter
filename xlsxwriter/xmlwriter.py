@@ -230,6 +230,6 @@ class XMLwriter:
         )
 
         # Escapes non characters in strings.
-        data = data.replace("\uFFFE", "_xFFFE_").replace("\uFFFF", "_xFFFF_")
+        data = data.replace("\ufffe", "_xFFFE_").replace("\uffff", "_xFFFF_")
 
         return data
