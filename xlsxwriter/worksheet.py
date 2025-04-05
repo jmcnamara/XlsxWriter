@@ -23,6 +23,8 @@ from io import StringIO
 from math import isinf, isnan
 from warnings import warn
 
+from xlsxwriter.comments import CommentType
+
 # Package imports.
 from . import xmlwriter
 from .drawing import Drawing
@@ -332,7 +334,7 @@ class Worksheet(xmlwriter.XMLwriter):
         self.comments = defaultdict(dict)
         self.comments_list = []
         self.comments_author = ""
-        self.comments_visible = 0
+        self.comments_visible = False
         self.vml_shape_id = 1024
         self.buttons_list = []
         self.vml_header_id = 0
@@ -1795,9 +1797,6 @@ class Worksheet(xmlwriter.XMLwriter):
             -2: String longer than 32k characters.
 
         """
-        if options is None:
-            options = {}
-
         # Check that row and col are valid and store max and min values
         if self._check_dimensions(row, col):
             return -1
@@ -1810,7 +1809,8 @@ class Worksheet(xmlwriter.XMLwriter):
         self.has_comments = True
 
         # Store the options of the cell comment, to process on file close.
-        self.comments[row][col] = [row, col, comment, options]
+        comment = CommentType(row, col, comment, options)
+        self.comments[row][col] = comment
 
         return 0
 
@@ -1825,7 +1825,7 @@ class Worksheet(xmlwriter.XMLwriter):
             Nothing.
 
         """
-        self.comments_visible = 1
+        self.comments_visible = True
 
     def set_background(self, filename, is_byte_stream=False):
         """
@@ -5664,142 +5664,24 @@ class Worksheet(xmlwriter.XMLwriter):
         # Convert the height of a cell from pixels to character units.
         return 0.75 * pixels
 
-    def _comment_params(self, row, col, string, options):
-        # This method handles the additional optional parameters to
-        # write_comment() as well as calculating the comment object
-        # position and vertices.
-        default_width = 128
-        default_height = 74
-        anchor = 0
-
-        params = {
-            "author": None,
-            "color": "#ffffe1",
-            "start_cell": None,
-            "start_col": None,
-            "start_row": None,
-            "visible": None,
-            "width": default_width,
-            "height": default_height,
-            "x_offset": None,
-            "x_scale": 1,
-            "y_offset": None,
-            "y_scale": 1,
-            "font_name": "Tahoma",
-            "font_size": 8,
-            "font_family": 2,
-        }
-
-        # Overwrite the defaults with any user supplied values. Incorrect or
-        # misspelled parameters are silently ignored.
-        for key in options.keys():
-            params[key] = options[key]
-
-        # Ensure that a width and height have been set.
-        if not params["width"]:
-            params["width"] = default_width
-        if not params["height"]:
-            params["height"] = default_height
-
-        # Set the comment background color.
-        params["color"] = _xl_color(params["color"]).lower()
-
-        # Convert from Excel XML style color to XML html style color.
-        params["color"] = params["color"].replace("ff", "#", 1)
-
-        # Convert a cell reference to a row and column.
-        if params["start_cell"] is not None:
-            (start_row, start_col) = xl_cell_to_rowcol(params["start_cell"])
-            params["start_row"] = start_row
-            params["start_col"] = start_col
-
-        # Set the default start cell and offsets for the comment. These are
-        # generally fixed in relation to the parent cell. However there are
-        # some edge cases for cells at the, er, edges.
-        row_max = self.xls_rowmax
-        col_max = self.xls_colmax
-
-        if params["start_row"] is None:
-            if row == 0:
-                params["start_row"] = 0
-            elif row == row_max - 3:
-                params["start_row"] = row_max - 7
-            elif row == row_max - 2:
-                params["start_row"] = row_max - 6
-            elif row == row_max - 1:
-                params["start_row"] = row_max - 5
-            else:
-                params["start_row"] = row - 1
-
-        if params["y_offset"] is None:
-            if row == 0:
-                params["y_offset"] = 2
-            elif row == row_max - 3:
-                params["y_offset"] = 16
-            elif row == row_max - 2:
-                params["y_offset"] = 16
-            elif row == row_max - 1:
-                params["y_offset"] = 14
-            else:
-                params["y_offset"] = 10
-
-        if params["start_col"] is None:
-            if col == col_max - 3:
-                params["start_col"] = col_max - 6
-            elif col == col_max - 2:
-                params["start_col"] = col_max - 5
-            elif col == col_max - 1:
-                params["start_col"] = col_max - 4
-            else:
-                params["start_col"] = col + 1
-
-        if params["x_offset"] is None:
-            if col == col_max - 3:
-                params["x_offset"] = 49
-            elif col == col_max - 2:
-                params["x_offset"] = 49
-            elif col == col_max - 1:
-                params["x_offset"] = 49
-            else:
-                params["x_offset"] = 15
-
-        # Scale the size of the comment box if required.
-        if params["x_scale"]:
-            params["width"] = params["width"] * params["x_scale"]
-
-        if params["y_scale"]:
-            params["height"] = params["height"] * params["y_scale"]
-
-        # Round the dimensions to the nearest pixel.
-        params["width"] = int(0.5 + params["width"])
-        params["height"] = int(0.5 + params["height"])
-
+    def _comment_vertices(self, comment: CommentType):
         # Calculate the positions of the comment object.
+        anchor = 0
         vertices = self._position_object_pixels(
-            params["start_col"],
-            params["start_row"],
-            params["x_offset"],
-            params["y_offset"],
-            params["width"],
-            params["height"],
+            comment.start_col,
+            comment.start_row,
+            comment.x_offset,
+            comment.y_offset,
+            comment.width,
+            comment.height,
             anchor,
         )
 
         # Add the width and height for VML.
-        vertices.append(params["width"])
-        vertices.append(params["height"])
+        vertices.append(comment.width)
+        vertices.append(comment.height)
 
-        return [
-            row,
-            col,
-            string,
-            params["author"],
-            params["visible"],
-            params["color"],
-            params["font_name"],
-            params["font_size"],
-            params["font_family"],
-        ] + [vertices]
+        return vertices
 
     def _button_params(self, row, col, options):
         # This method handles the parameters passed to insert_button() as well
@@ -5886,20 +5768,18 @@ class Worksheet(xmlwriter.XMLwriter):
             col_nums = sorted(self.comments[row].keys())
 
             for col in col_nums:
-                user_options = self.comments[row][col]
-                params = self._comment_params(*user_options)
-                self.comments[row][col] = params
+                comment = self.comments[row][col]
+                comment.vertices = self._comment_vertices(comment)
 
                 # Set comment visibility if required and not user defined.
-                if self.comments_visible:
-                    if self.comments[row][col][4] is None:
-                        self.comments[row][col][4] = 1
+                if comment.is_visible is None:
+                    comment.is_visible = self.comments_visible
 
                 # Set comment author if not already user defined.
-                if self.comments[row][col][3] is None:
-                    self.comments[row][col][3] = self.comments_author
+                if comment.author is None:
+                    comment.author = self.comments_author
 
-                comments.append(self.comments[row][col])
+                comments.append(comment)
 
         self.external_vml_links.append(
             ["/vmlDrawing", "../drawings/vmlDrawing" + str(vml_drawing_id) + ".vml"]

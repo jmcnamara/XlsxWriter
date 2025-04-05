@@ -8,6 +8,8 @@
 #
 
 # Package imports.
+from xlsxwriter.comments import CommentType
+
 from . import xmlwriter
 
 
@@ -302,7 +304,7 @@ class Vml(xmlwriter.XMLwriter):
 
         self._xml_empty_tag("o:lock", attributes)
 
-    def _write_comment_shape(self, shape_id, z_index, comment):
+    def _write_comment_shape(self, shape_id, z_index, comment: CommentType):
         # Write the <v:shape> element.
         shape_type = "#_x0000_t202"
         insetmode = "auto"
@@ -311,17 +313,10 @@ class Vml(xmlwriter.XMLwriter):
         # Set the shape index.
         shape_id = "_x0000_s" + str(shape_id)
 
-        # Get the comment parameters
-        row = comment[0]
-        col = comment[1]
-        visible = comment[4]
-        fillcolor = comment[5]
-        vertices = comment[9]
-
-        (left, top, width, height) = self._pixels_to_points(vertices)
+        (left, top, width, height) = self._pixels_to_points(comment.vertices)
 
         # Set the visibility.
-        if visible:
+        if comment.is_visible:
             visibility = "visible"
 
         style = (
@@ -338,7 +333,7 @@ class Vml(xmlwriter.XMLwriter):
             ("id", shape_id),
             ("type", shape_type),
             ("style", style),
-            ("fillcolor", fillcolor),
+            ("fillcolor", comment.color),
             ("o:insetmode", insetmode),
         ]
 
@@ -357,7 +352,7 @@ class Vml(xmlwriter.XMLwriter):
         self._write_comment_textbox()
 
         # Write the x:ClientData element.
-        self._write_comment_client_data(row, col, visible, vertices)
+        self._write_comment_client_data(comment)
 
         self._xml_end_tag("v:shape")
 
@@ -555,7 +550,7 @@ class Vml(xmlwriter.XMLwriter):
 
         self._xml_data_element("font", caption, attributes)
 
-    def _write_comment_client_data(self, row, col, visible, vertices):
+    def _write_comment_client_data(self, comment: CommentType):
         # Write the <x:ClientData> element.
         object_type = "Note"
 
@@ -570,19 +565,19 @@ class Vml(xmlwriter.XMLwriter):
         self._write_size_with_cells()
 
         # Write the x:Anchor element.
-        self._write_anchor(vertices)
+        self._write_anchor(comment.vertices)
 
         # Write the x:AutoFill element.
         self._write_auto_fill()
 
         # Write the x:Row element.
-        self._write_row(row)
+        self._write_row(comment.row)
 
         # Write the x:Column element.
-        self._write_column(col)
+        self._write_column(comment.col)
 
         # Write the x:Visible element.
-        if visible:
+        if comment.is_visible:
             self._write_visible()
 
         self._xml_end_tag("x:ClientData")

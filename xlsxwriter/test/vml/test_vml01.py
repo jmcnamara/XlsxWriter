@@ -10,6 +10,8 @@
 import unittest
 from io import StringIO
 
+from xlsxwriter.comments import CommentType
+
 from ...vml import Vml
 from ..helperfunctions import _vml_to_list, _xml_to_list
 
@@ -28,23 +30,13 @@ class TestAssembleVml(unittest.TestCase):
         vml = Vml()
         vml._set_filehandle(fh)
 
+        comment = CommentType(1, 1, "Some text")
+        comment.vertices = [2, 0, 15, 10, 4, 4, 15, 4, 143, 10, 128, 74]
+
         vml._assemble_xml_file(
             1,
             1024,
-            [
-                [
-                    1,
-                    1,
-                    "Some text",
-                    "",
-                    None,
-                    "#ffffe1",
-                    "Tahoma",
-                    8,
-                    2,
-                    [2, 0, 15, 10, 4, 4, 15, 4, 143, 10, 128, 74],
-                ]
-            ],
+            [comment],
             [],
         )
 

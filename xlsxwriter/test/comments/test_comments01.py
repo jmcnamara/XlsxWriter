@@ -10,7 +10,7 @@
 import unittest
 from io import StringIO
 
-from ...comments import Comments
+from ...comments import Comments, CommentType
 from ..helperfunctions import _xml_to_list
 
 
@@ -28,22 +28,11 @@ class TestAssembleComments(unittest.TestCase):
         comments = Comments()
         comments._set_filehandle(fh)
 
-        comments._assemble_xml_file(
-            [
-                [
-                    1,
-                    1,
-                    "Some text",
-                    "John",
-                    None,
-                    81,
-                    "Tahoma",
-                    8,
-                    2,
-                    [2, 0, 4, 4, 143, 10, 128, 74],
-                ]
-            ]
-        )
+        comment = CommentType(1, 1, "Some text")
+        comment.vertices = [2, 0, 4, 4, 143, 10, 128, 74]
+        comment.author = "John"
+
+        comments._assemble_xml_file([comment])
 
         exp = _xml_to_list(
             """
