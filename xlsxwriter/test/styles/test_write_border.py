@@ -29,7 +29,7 @@ class TestWriteBorder(unittest.TestCase):
         """Test the _write_border() method"""
 
         xf_format = Format()
-        xf_format.has_border = 1
+        xf_format.has_border = True
 
         self.styles._write_border(xf_format)
 

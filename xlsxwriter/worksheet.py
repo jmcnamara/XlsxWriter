@@ -298,7 +298,7 @@ class Worksheet(xmlwriter.XMLwriter):
         self.zoom = 100
         self.zoom_scale_normal = 1
         self.print_scale = 100
-        self.is_right_to_left = 0
+        self.is_right_to_left = False
         self.show_zeros = 1
         self.leading_zeros = 0
 
@@ -1806,8 +1806,8 @@ class Worksheet(xmlwriter.XMLwriter):
         if len(comment) > self.xls_strmax:
             return -2
 
-        self.has_vml = 1
-        self.has_comments = 1
+        self.has_vml = True
+        self.has_comments = True
 
         # Store the options of the cell comment, to process on file close.
         self.comments[row][col] = [row, col, comment, options]
@@ -3963,7 +3963,7 @@ class Worksheet(xmlwriter.XMLwriter):
             Nothing.
 
         """
-        self.is_right_to_left = 1
+        self.is_right_to_left = True
 
     def hide_zero(self):
         """
@@ -4103,7 +4103,7 @@ class Worksheet(xmlwriter.XMLwriter):
 
         self.buttons_list.append(button)
 
-        self.has_vml = 1
+        self.has_vml = True
 
         return 0
 
@@ -7985,7 +7985,7 @@ class Worksheet(xmlwriter.XMLwriter):
     def _write_split_panes(self, row, col, top_row, left_col, _):
         # Write the <pane> element for split panes.
         attributes = []
-        has_selection = 0
+        has_selection = False
         active_pane = ""
         active_cell = ""
         sqref = ""
@@ -7997,7 +7997,7 @@ class Worksheet(xmlwriter.XMLwriter):
         if self.selections:
             (_, active_cell, sqref) = self.selections[0]
             self.selections = []
-            has_selection = 1
+            has_selection = True
 
         # Convert the row and col to 1/20 twip units with padding.
         if y_split:

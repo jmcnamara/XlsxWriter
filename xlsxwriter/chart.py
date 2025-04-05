@@ -54,7 +54,7 @@ class Chart(xmlwriter.XMLwriter):
         self.style_id = 2
         self.axis_ids = []
         self.axis2_ids = []
-        self.cat_has_num_fmt = 0
+        self.cat_has_num_fmt = False
         self.requires_category = False
         self.legend = {}
         self.cat_axis_position = "b"
@@ -1982,17 +1982,17 @@ class Chart(xmlwriter.XMLwriter):
         cat_type = self._get_data_type(data)
 
         if cat_type == "str":
-            self.cat_has_num_fmt = 0
+            self.cat_has_num_fmt = False
             # Write the c:numRef element.
             self._write_str_ref(formula, data, cat_type)
 
         elif cat_type == "multi_str":
-            self.cat_has_num_fmt = 0
+            self.cat_has_num_fmt = False
             # Write the c:numRef element.
             self._write_multi_lvl_str_ref(formula, data)
 
         else:
-            self.cat_has_num_fmt = 1
+            self.cat_has_num_fmt = True
             # Write the c:numRef element.
             self._write_num_ref(formula, data, cat_type)
 
@@ -3151,13 +3151,13 @@ class Chart(xmlwriter.XMLwriter):
 
     def _write_a_def_rpr(self, font):
         # Write the <a:defRPr> element.
-        has_color = 0
+        has_color = False
 
         style_attributes = Shape._get_font_style_attributes(font)
         latin_attributes = Shape._get_font_latin_attributes(font)
 
         if font and font.get("color") is not None:
-            has_color = 1
+            has_color = True
 
         if latin_attributes or has_color:
             self._xml_start_tag("a:defRPr", style_attributes)
@@ -3195,14 +3195,14 @@ class Chart(xmlwriter.XMLwriter):
 
     def _write_a_r_pr(self, font):
         # Write the <a:rPr> element.
-        has_color = 0
+        has_color = False
         lang = "en-US"
 
         style_attributes = Shape._get_font_style_attributes(font)
         latin_attributes = Shape._get_font_latin_attributes(font)
 
         if font and font["color"] is not None:
-            has_color = 1
+            has_color = True
 
         # Add the lang type to the attributes.
         style_attributes.insert(0, ("lang", lang))

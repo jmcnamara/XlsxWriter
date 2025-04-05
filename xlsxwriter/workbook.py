@@ -956,12 +956,12 @@ class Workbook(xmlwriter.XMLwriter):
             if key in fonts:
                 # Font has already been used.
                 xf_format.font_index = fonts[key]
-                xf_format.has_font = 0
+                xf_format.has_font = False
             else:
                 # This is a new font.
                 fonts[key] = index
                 xf_format.font_index = index
-                xf_format.has_font = 1
+                xf_format.has_font = True
                 index += 1
 
         self.font_count = index
@@ -977,7 +977,7 @@ class Workbook(xmlwriter.XMLwriter):
                 or xf_format.underline
                 or xf_format.font_strikeout
             ):
-                xf_format.has_dxf_font = 1
+                xf_format.has_dxf_font = True
 
     def _prepare_num_formats(self):
         # User defined records in Excel start from index 0xA4.
@@ -1036,12 +1036,12 @@ class Workbook(xmlwriter.XMLwriter):
             if key in borders:
                 # Border has already been used.
                 xf_format.border_index = borders[key]
-                xf_format.has_border = 0
+                xf_format.has_border = False
             else:
                 # This is a new border.
                 borders[key] = index
                 xf_format.border_index = index
-                xf_format.has_border = 1
+                xf_format.has_border = True
                 index += 1
 
         self.border_count = index
@@ -1053,7 +1053,7 @@ class Workbook(xmlwriter.XMLwriter):
             key = xf_format._get_border_key()
 
             if has_border.search(key):
-                xf_format.has_dxf_border = 1
+                xf_format.has_dxf_border = True
 
     def _prepare_fills(self):
         # Iterate through the XF Format objects and give them an index to
@@ -1070,7 +1070,7 @@ class Workbook(xmlwriter.XMLwriter):
         # Store the DXF colors separately since them may be reversed below.
         for xf_format in self.dxf_formats:
             if xf_format.pattern or xf_format.bg_color or xf_format.fg_color:
-                xf_format.has_dxf_fill = 1
+                xf_format.has_dxf_fill = True
                 xf_format.dxf_bg_color = xf_format.bg_color
                 xf_format.dxf_fg_color = xf_format.fg_color
 
@@ -1112,12 +1112,12 @@ class Workbook(xmlwriter.XMLwriter):
             if key in fills:
                 # Fill has already been used.
                 xf_format.fill_index = fills[key]
-                xf_format.has_fill = 0
+                xf_format.has_fill = False
             else:
                 # This is a new fill.
                 fills[key] = index
                 xf_format.fill_index = index
-                xf_format.has_fill = 1
+                xf_format.has_fill = True
                 index += 1
 
         self.fill_count = index

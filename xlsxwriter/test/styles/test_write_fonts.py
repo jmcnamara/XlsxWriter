@@ -29,7 +29,7 @@ class TestWriteFonts(unittest.TestCase):
         """Test the _write_fonts() method"""
 
         xf_format = Format()
-        xf_format.has_font = 1
+        xf_format.has_font = True
 
         self.styles._set_style_properties([[xf_format], None, 1, 0, 0, 0, [], [], 0])
 

@@ -44,8 +44,8 @@ class Format(xmlwriter.XMLwriter):
         self.num_format = "General"
         self.num_format_index = 0
         self.font_index = 0
-        self.has_font = 0
-        self.has_dxf_font = 0
+        self.has_font = False
+        self.has_dxf_font = False
 
         self.bold = 0
         self.underline = 0
@@ -78,14 +78,14 @@ class Format(xmlwriter.XMLwriter):
         self.fg_color = 0
         self.bg_color = 0
         self.pattern = 0
-        self.has_fill = 0
-        self.has_dxf_fill = 0
+        self.has_fill = False
+        self.has_dxf_fill = False
         self.fill_index = 0
         self.fill_count = 0
 
         self.border_index = 0
-        self.has_border = 0
-        self.has_dxf_border = 0
+        self.has_border = False
+        self.has_dxf_border = False
         self.border_count = 0
 
         self.bottom = 0
