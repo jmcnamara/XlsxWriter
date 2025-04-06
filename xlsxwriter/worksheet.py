@@ -24,6 +24,7 @@ from math import isinf, isnan
 from warnings import warn
 
 from xlsxwriter.comments import CommentType
+from xlsxwriter.vml import ButtonType
 
 # Package imports.
 from . import xmlwriter
@@ -4099,7 +4100,12 @@ class Worksheet(xmlwriter.XMLwriter):
         if options is None:
             options = {}
 
-        button = self._button_params(row, col, options)
+        # Create a new button object.
+        height = self.default_row_pixels
+        width = self.default_col_pixels
+        button_number = 1 + len(self.buttons_list)
+
+        button = ButtonType(row, col, height, width, button_number, options)
 
         self.buttons_list.append(button)
 
@@ -5683,78 +5689,24 @@ class Worksheet(xmlwriter.XMLwriter):
 
         return vertices
 
-    def _button_params(self, row, col, options):
-        # This method handles the parameters passed to insert_button() as well
-        # as calculating the button object position and vertices.
-
-        default_height = self.default_row_pixels
-        default_width = self.default_col_pixels
-        anchor = 0
-
-        button_number = 1 + len(self.buttons_list)
-        button = {"row": row, "col": col, "font": {}}
-        params = {}
-
-        # Overwrite the defaults with any user supplied values. Incorrect or
-        # misspelled parameters are silently ignored.
-        for key in options.keys():
-            params[key] = options[key]
-
-        # Set the button caption.
-        caption = params.get("caption")
-
-        # Set a default caption if none was specified by user.
-        if caption is None:
-            caption = f"Button {button_number}"
-
-        button["font"]["caption"] = caption
-
-        # Set the macro name.
-        if params.get("macro"):
-            button["macro"] = "[0]!" + params["macro"]
-        else:
-            button["macro"] = f"[0]!Button{button_number}_Click"
-
-        # Set the alt text for the button.
-        button["description"] = params.get("description")
-
-        # Ensure that a width and height have been set.
-        params["width"] = params.get("width", default_width)
-        params["height"] = params.get("height", default_height)
-
-        # Set the x/y offsets.
-        params["x_offset"] = params.get("x_offset", 0)
-        params["y_offset"] = params.get("y_offset", 0)
-
-        # Scale the size of the button if required.
-        params["width"] = params["width"] * params.get("x_scale", 1)
-        params["height"] = params["height"] * params.get("y_scale", 1)
-
-        # Round the dimensions to the nearest pixel.
-        params["width"] = int(0.5 + params["width"])
-        params["height"] = int(0.5 + params["height"])
-
-        params["start_row"] = row
-        params["start_col"] = col
-
+    def _button_vertices(self, button: ButtonType):
         # Calculate the positions of the button object.
+        anchor = 0
         vertices = self._position_object_pixels(
-            params["start_col"],
-            params["start_row"],
-            params["x_offset"],
-            params["y_offset"],
-            params["width"],
-            params["height"],
+            button.col,
+            button.row,
+            button.x_offset,
+            button.y_offset,
+            button.width,
+            button.height,
             anchor,
         )
 
         # Add the width and height for VML.
-        vertices.append(params["width"])
-        vertices.append(params["height"])
+        vertices.append(button.width)
+        vertices.append(button.height)
 
-        button["vertices"] = vertices
-
-        return button
+        return vertices
 
     def _prepare_vml_objects(
         self, vml_data_id, vml_shape_id, vml_drawing_id, comment_id
@@ -5780,6 +5732,9 @@ class Worksheet(xmlwriter.XMLwriter):
                     comment.author = self.comments_author
 
                 comments.append(comment)
+
+        for button in self.buttons_list:
+            button.vertices = self._button_vertices(button)
 
         self.external_vml_links.append(
             ["/vmlDrawing", "../drawings/vmlDrawing" + str(vml_drawing_id) + ".vml"]

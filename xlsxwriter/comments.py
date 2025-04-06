@@ -25,11 +25,6 @@ class CommentType:
     """
     A class to represent a comment in an Excel worksheet.
 
-    Attributes:
-        row (int): The row number of the comment.
-        col (int): The column number of the comment.
-        text (str): The text of the comment.
-        options (dict): Additional options for the comment.
     """
 
     def __init__(self, row: int, col: int, text: str, options: dict = None):
@@ -40,6 +35,7 @@ class CommentType:
             row (int): The row number of the comment.
             col (int): The column number of the comment.
             text (str): The text of the comment.
+            options (dict): Additional options for the comment.
         """
         self.row = row
         self.col = col
@@ -76,8 +72,7 @@ class CommentType:
     def set_user_options(self, options=None):
         """
         This method handles the additional optional parameters to
-        ``write_comment()`` as well as calculating the comment object position
-        and vertices.
+        ``write_comment()``.
         """
         if options is None:
             options = {}

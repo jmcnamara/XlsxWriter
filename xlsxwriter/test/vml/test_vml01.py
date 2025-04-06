@@ -10,8 +10,7 @@
 import unittest
 from io import StringIO
 
-from xlsxwriter.comments import CommentType
-
+from ...comments import CommentType
 from ...vml import Vml
 from ..helperfunctions import _vml_to_list, _xml_to_list
 

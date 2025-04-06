@@ -10,7 +10,7 @@
 import unittest
 from io import StringIO
 
-from ...vml import Vml
+from ...vml import ButtonType, Vml
 from ..helperfunctions import _vml_to_list, _xml_to_list
 
 
@@ -28,20 +28,14 @@ class TestAssembleVml(unittest.TestCase):
         vml = Vml()
         vml._set_filehandle(fh)
 
+        button = ButtonType(1, 2, 17, 64, 1)
+        button.vertices = [2, 1, 0, 0, 3, 2, 0, 0, 128, 20, 64, 20]
+
         vml._assemble_xml_file(
             1,
             1024,
             None,
-            [
-                {
-                    "row": 1,
-                    "col": 2,
-                    "fillcolor": "buttonFace [67]",
-                    "vertices": [2, 1, 0, 0, 3, 2, 0, 0, 128, 20, 64, 20],
-                    "font": {"caption": "Button 1"},
-                    "macro": "[0]!Button1_Click",
-                }
-            ],
+            [button],
         )
 
         exp = _vml_to_list(
