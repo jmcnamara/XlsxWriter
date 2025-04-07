@@ -7,7 +7,8 @@
 # Copyright (c) 2013-2025, John McNamara, jmcnamara@cpan.org
 #
 
-# Package imports.
+from xlsxwriter.image import Image
+
 from . import xmlwriter
 
 
@@ -69,16 +70,16 @@ class RichValue(xmlwriter.XMLwriter):
 
         self._xml_start_tag("rvData", attributes)
 
-        for index, image_data in enumerate(self.embedded_images):
+        for index, image in enumerate(self.embedded_images):
             # Write the rv element.
-            self._write_rv(index, image_data[3], image_data[4])
+            self._write_rv(index, image)
 
-    def _write_rv(self, index, description, decorative):
+    def _write_rv(self, index, image: Image):
         # Write the <rv> element.
         attributes = [("s", 0)]
         value = 5
 
-        if decorative:
+        if image.decorative:
             value = 6
 
         self._xml_start_tag("rv", attributes)
@@ -87,8 +88,8 @@ class RichValue(xmlwriter.XMLwriter):
         self._write_v(index)
         self._write_v(value)
 
-        if description:
-            self._write_v(description)
+        if image.description:
+            self._write_v(image.description)
 
         self._xml_end_tag("rv")
 

@@ -7,9 +7,21 @@
 # Copyright (c) 2013-2025, John McNamara, jmcnamara@cpan.org
 #
 
+from enum import Enum
+
 from . import xmlwriter
 from .shape import Shape
 from .utility import _get_rgb_color
+
+
+class DrawingTypes(Enum):
+    """
+    Enum to represent different types of drawings in a worksheet.
+    """
+
+    CHART = 1
+    IMAGE = 2
+    SHAPE = 3
 
 
 class Drawing(xmlwriter.XMLwriter):
@@ -111,7 +123,7 @@ class Drawing(xmlwriter.XMLwriter):
 
     def _write_two_cell_anchor(self, index, drawing_properties):
         # Write the <xdr:twoCellAnchor> element.
-        anchor_type = drawing_properties["type"]
+        drawing_type = drawing_properties["type"]
         dimensions = drawing_properties["dimensions"]
         col_from = dimensions[0]
         row_from = dimensions[1]
@@ -154,11 +166,11 @@ class Drawing(xmlwriter.XMLwriter):
         # Write the xdr:from element.
         self._write_to(col_to, row_to, col_to_offset, row_to_offset)
 
-        if anchor_type == 1:
+        if drawing_type == DrawingTypes.CHART:
             # Graphic frame.
             # Write the xdr:graphicFrame element for charts.
             self._write_graphic_frame(index, rel_index, name, description, decorative)
-        elif anchor_type == 2:
+        elif drawing_type == DrawingTypes.IMAGE:
             # Write the xdr:pic element.
             self._write_pic(
                 index,

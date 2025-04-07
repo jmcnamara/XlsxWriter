@@ -29,9 +29,10 @@ class TestInsertImage(unittest.TestCase):
 
         worksheet = workbook.add_worksheet()
 
-        worksheet.insert_image("B13", "xlsxwriter/test/comparison/images/nosize.png")
-
-        self.assertRaises(UndefinedImageSize, workbook._prepare_drawings)
+        with self.assertRaises(UndefinedImageSize):
+            worksheet.insert_image(
+                "B13", "xlsxwriter/test/comparison/images/nosize.png"
+            )
 
         workbook.fileclosed = True
 
@@ -44,10 +45,9 @@ class TestInsertImage(unittest.TestCase):
 
         worksheet = workbook.add_worksheet()
 
-        worksheet.insert_image(
-            "B13", "xlsxwriter/test/comparison/images/unsupported.txt"
-        )
-
-        self.assertRaises(UnsupportedImageFormat, workbook._prepare_drawings)
+        with self.assertRaises(UnsupportedImageFormat):
+            worksheet.insert_image(
+                "B13", "xlsxwriter/test/comparison/images/unsupported.txt"
+            )
 
         workbook.fileclosed = True

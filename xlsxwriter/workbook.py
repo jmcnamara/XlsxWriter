@@ -18,6 +18,8 @@ from fractions import Fraction
 from warnings import warn
 from zipfile import ZIP_DEFLATED, LargeZipFile, ZipFile, ZipInfo
 
+from xlsxwriter.image import Image
+
 # Package imports.
 from . import xmlwriter
 from .chart_area import ChartArea
@@ -39,7 +41,7 @@ from .exceptions import (
 from .format import Format
 from .packager import Packager
 from .sharedstrings import SharedStringTable
-from .utility import _get_image_properties, xl_cell_to_rowcol
+from .utility import xl_cell_to_rowcol
 from .worksheet import Worksheet
 
 
@@ -1214,10 +1216,11 @@ class Workbook(xmlwriter.XMLwriter):
         background_ids = {}
 
         # Store the image types for any embedded images.
-        for image_data in self.embedded_images.images:
-            image_type = image_data[1]
-            self.image_types[image_type] = True
-            if image_data[3]:
+        for image in self.embedded_images.images:
+            image_extension = image._image_extension
+            self.image_types[image_extension] = True
+
+            if image.description is not None:
                 self.has_embedded_descriptions = True
 
         image_ref_id = len(self.embedded_images.images)
@@ -1249,70 +1252,42 @@ class Workbook(xmlwriter.XMLwriter):
 
             # Prepare the background images.
             if sheet.background_image:
-                if sheet.background_bytes:
-                    filename = ""
-                    image_data = sheet.background_image
-                else:
-                    filename = sheet.background_image
-                    image_data = None
+                image = sheet.background_image
+                image_extension = image._image_extension
+                image_digest = image._digest
 
-                (
-                    _,
-                    image_type,
-                    _,
-                    _,
-                    _,
-                    _,
-                    digest,
-                ) = _get_image_properties(filename, image_data)
+                self.image_types[image_extension] = True
 
-                self.image_types[image_type] = True
-
-                if digest in background_ids:
-                    ref_id = background_ids[digest]
+                if image_digest in background_ids:
+                    ref_id = background_ids[image_digest]
                 else:
                     image_ref_id += 1
                     ref_id = image_ref_id
-                    background_ids[digest] = image_ref_id
-                    self.images.append([filename, image_type, image_data])
+                    background_ids[image_digest] = image_ref_id
+                    self.images.append(image)
 
-                sheet._prepare_background(ref_id, image_type)
+                sheet._prepare_background(ref_id, image_extension)
 
             # Prepare the worksheet images.
             for index in range(image_count):
-                filename = sheet.images[index][2]
-                image_data = sheet.images[index][10]
-                (
-                    name,
-                    image_type,
-                    width,
-                    height,
-                    x_dpi,
-                    y_dpi,
-                    digest,
-                ) = _get_image_properties(filename, image_data)
+                image = sheet.images[index]
+                image_extension = image._image_extension
+                image_digest = image._digest
 
-                self.image_types[image_type] = True
+                self.image_types[image_extension] = True
 
-                if digest in image_ids:
-                    ref_id = image_ids[digest]
+                if image_digest in image_ids:
+                    ref_id = image_ids[image_digest]
                 else:
                     image_ref_id += 1
                     ref_id = image_ref_id
-                    image_ids[digest] = image_ref_id
-                    self.images.append([filename, image_type, image_data])
+                    image_ids[image_digest] = image_ref_id
+                    self.images.append(image)
 
                 sheet._prepare_image(
-                    index,
+                    image,
                     ref_id,
                     drawing_id,
-                    width,
-                    height,
-                    name,
-                    image_type,
-                    x_dpi,
-                    y_dpi,
-                    digest,
                 )
 
             # Prepare the worksheet charts.
@@ -1325,80 +1300,38 @@ class Workbook(xmlwriter.XMLwriter):
                 sheet._prepare_shape(index, drawing_id)
 
             # Prepare the header images.
-            for index in range(header_image_count):
-                filename = sheet.header_images[index][0]
-                image_data = sheet.header_images[index][1]
-                position = sheet.header_images[index][2]
+            for image in sheet.header_images:
+                image_extension = image._image_extension
+                image_digest = image._digest
 
-                (
-                    name,
-                    image_type,
-                    width,
-                    height,
-                    x_dpi,
-                    y_dpi,
-                    digest,
-                ) = _get_image_properties(filename, image_data)
+                self.image_types[image_extension] = True
 
-                self.image_types[image_type] = True
-
-                if digest in header_image_ids:
-                    ref_id = header_image_ids[digest]
+                if image_digest in header_image_ids:
+                    ref_id = header_image_ids[image_digest]
                 else:
                     image_ref_id += 1
                     ref_id = image_ref_id
-                    header_image_ids[digest] = image_ref_id
-                    self.images.append([filename, image_type, image_data])
+                    header_image_ids[image_digest] = image_ref_id
+                    self.images.append(image)
 
-                sheet._prepare_header_image(
-                    ref_id,
-                    width,
-                    height,
-                    name,
-                    image_type,
-                    position,
-                    x_dpi,
-                    y_dpi,
-                    digest,
-                )
+                sheet._prepare_header_image(ref_id, image)
 
             # Prepare the footer images.
-            for index in range(footer_image_count):
-                filename = sheet.footer_images[index][0]
-                image_data = sheet.footer_images[index][1]
-                position = sheet.footer_images[index][2]
+            for image in sheet.footer_images:
+                image_extension = image._image_extension
+                image_digest = image._digest
 
-                (
-                    name,
-                    image_type,
-                    width,
-                    height,
-                    x_dpi,
-                    y_dpi,
-                    digest,
-                ) = _get_image_properties(filename, image_data)
+                self.image_types[image_extension] = True
 
-                self.image_types[image_type] = True
-
-                if digest in header_image_ids:
-                    ref_id = header_image_ids[digest]
+                if image_digest in header_image_ids:
+                    ref_id = header_image_ids[image_digest]
                 else:
                     image_ref_id += 1
                     ref_id = image_ref_id
-                    header_image_ids[digest] = image_ref_id
-                    self.images.append([filename, image_type, image_data])
+                    header_image_ids[image_digest] = image_ref_id
+                    self.images.append(image)
 
-                sheet._prepare_header_image(
-                    ref_id,
-                    width,
-                    height,
-                    name,
-                    image_type,
-                    position,
-                    x_dpi,
-                    y_dpi,
-                    digest,
-                )
+                sheet._prepare_header_image(ref_id, image)
 
             if has_drawing:
                 drawing = sheet.drawing
@@ -1821,24 +1754,23 @@ class EmbeddedImages:
         self.images = []
         self.image_indexes = {}
 
-    def get_image_index(self, image, digest):
+    def get_image_index(self, image: Image):
         """
         Get the index of an embedded image.
 
         Args:
             image: The image to lookup.
-            digest: The digest of the image.
 
         Returns:
             The image index.
 
         """
-        image_index = self.image_indexes.get(digest)
+        image_index = self.image_indexes.get(image._digest)
 
         if image_index is None:
             self.images.append(image)
             image_index = len(self.images)
-            self.image_indexes[digest] = image_index
+            self.image_indexes[image._digest] = image_index
 
         return image_index
 

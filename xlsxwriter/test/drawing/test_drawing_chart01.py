@@ -10,7 +10,7 @@
 import unittest
 from io import StringIO
 
-from ...drawing import Drawing
+from ...drawing import Drawing, DrawingTypes
 from ..helperfunctions import _xml_to_list
 
 
@@ -30,7 +30,7 @@ class TestAssembleDrawing(unittest.TestCase):
 
         dimensions = [4, 8, 457200, 104775, 12, 22, 152400, 180975, 0, 0]
         drawing_object = drawing._add_drawing_object()
-        drawing_object["type"] = 1
+        drawing_object["type"] = DrawingTypes.CHART
         drawing_object["dimensions"] = dimensions
         drawing_object["width"] = 0
         drawing_object["height"] = 0

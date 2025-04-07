@@ -67,15 +67,15 @@ class CommentType:
         self.set_offsets(self.row, self.col)
 
         # Set any user supplied options.
-        self.set_user_options(options)
+        self._set_user_options(options)
 
-    def set_user_options(self, options=None):
+    def _set_user_options(self, options=None):
         """
         This method handles the additional optional parameters to
         ``write_comment()``.
         """
         if options is None:
-            options = {}
+            return
 
         # Overwrite the defaults with any user supplied values. Incorrect or
         # misspelled parameters are silently ignored.

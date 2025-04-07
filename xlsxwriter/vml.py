@@ -9,6 +9,7 @@
 
 # Package imports.
 from xlsxwriter.comments import CommentType
+from xlsxwriter.image import Image
 
 from . import xmlwriter
 
@@ -61,15 +62,15 @@ class ButtonType:
         self.vertices = []
 
         # Set any user supplied options.
-        self.set_user_options(options)
+        self._set_user_options(options)
 
-    def set_user_options(self, options=None):
+    def _set_user_options(self, options=None):
         """
         This method handles the additional optional parameters to
         ``insert_button()``.
         """
         if options is None:
-            options = {}
+            return
 
         # Overwrite the defaults with any user supplied values. Incorrect or
         # misspelled parameters are silently ignored.
@@ -121,7 +122,7 @@ class Vml(xmlwriter.XMLwriter):
         vml_shape_id,
         comments_data=None,
         buttons_data=None,
-        header_images_data=None,
+        header_images=None,
     ):
         # Assemble and write the XML file.
         z_index = 1
@@ -151,12 +152,12 @@ class Vml(xmlwriter.XMLwriter):
                 self._write_comment_shape(vml_shape_id, z_index, comment)
                 z_index += 1
 
-        if header_images_data:
+        if header_images:
             # Write the v:shapetype element.
             self._write_image_shapetype()
 
             index = 1
-            for image in header_images_data:
+            for image in header_images:
                 # Write the v:shape element.
                 vml_shape_id += 1
                 self._write_image_shape(vml_shape_id, index, image)
@@ -495,7 +496,7 @@ class Vml(xmlwriter.XMLwriter):
 
         self._xml_end_tag("v:shape")
 
-    def _write_image_shape(self, shape_id, z_index, image_data):
+    def _write_image_shape(self, shape_id, z_index, image: Image):
         # Write the <v:shape> element.
         shape_type = "#_x0000_t75"
 
@@ -503,13 +504,13 @@ class Vml(xmlwriter.XMLwriter):
         shape_id = "_x0000_s" + str(shape_id)
 
         # Get the image parameters
-        width = image_data[0]
-        height = image_data[1]
-        name = image_data[2]
-        position = image_data[3]
-        x_dpi = image_data[4]
-        y_dpi = image_data[5]
-        ref_id = image_data[6]
+        name = image.image_name
+        width = image._width
+        x_dpi = image._x_dpi
+        y_dpi = image._y_dpi
+        height = image._height
+        ref_id = image._ref_id
+        position = image._header_position
 
         # Scale the height/width by the resolution, relative to 72dpi.
         width = width * 72.0 / x_dpi

@@ -24,17 +24,17 @@ from math import isinf, isnan
 from warnings import warn
 
 from xlsxwriter.comments import CommentType
+from xlsxwriter.image import Image
 from xlsxwriter.vml import ButtonType
 
 # Package imports.
 from . import xmlwriter
-from .drawing import Drawing
+from .drawing import Drawing, DrawingTypes
 from .exceptions import DuplicateTableName, OverlappingRange
 from .format import Format
 from .shape import Shape
 from .utility import (
     _datetime_to_excel_datetime,
-    _get_image_properties,
     _get_sparkline_style,
     _preserve_whitespace,
     _supported_datetime,
@@ -376,7 +376,6 @@ class Worksheet(xmlwriter.XMLwriter):
         self.vml_drawing_rels = {}
         self.vml_drawing_rels_id = 0
         self.background_image = None
-        self.background_bytes = False
 
         self.rstring = ""
         self.previous_row = 0
@@ -1536,14 +1535,14 @@ class Worksheet(xmlwriter.XMLwriter):
         return 0
 
     @convert_cell_args
-    def insert_image(self, row, col, filename, options=None):
+    def insert_image(self, row, col, source, options=None):
         """
         Insert an image with its top-left corner in a worksheet cell.
 
         Args:
             row:      The cell row (zero indexed).
             col:      The cell column (zero indexed).
-            filename: Path and filename for in supported formats.
+            source:   Filename, BytesIO, or Image object.
             options:  Position, scale, url and data stream of the image.
 
         Returns:
@@ -1556,55 +1555,26 @@ class Worksheet(xmlwriter.XMLwriter):
             warn(f"Cannot insert image at ({row}, {col}).")
             return -1
 
-        if options is None:
-            options = {}
+        # Convert the source to an Image object.
+        image = self._image_from_source(source, options)
 
-        x_offset = options.get("x_offset", 0)
-        y_offset = options.get("y_offset", 0)
-        x_scale = options.get("x_scale", 1)
-        y_scale = options.get("y_scale", 1)
-        url = options.get("url", None)
-        tip = options.get("tip", None)
-        anchor = options.get("object_position", 2)
-        image_data = options.get("image_data", None)
-        description = options.get("description", None)
-        decorative = options.get("decorative", False)
+        image._row = row
+        image._col = col
+        image._set_user_options(options)
 
-        # For backward compatibility with older parameter name.
-        anchor = options.get("positioning", anchor)
+        self.images.append(image)
 
-        if not image_data and not os.path.exists(filename):
-            warn(f"Image file '{filename}' not found.")
-            return -1
-
-        self.images.append(
-            [
-                row,
-                col,
-                filename,
-                x_offset,
-                y_offset,
-                x_scale,
-                y_scale,
-                url,
-                tip,
-                anchor,
-                image_data,
-                description,
-                decorative,
-            ]
-        )
         return 0
 
     @convert_cell_args
-    def embed_image(self, row, col, filename, options=None):
+    def embed_image(self, row, col, source, options=None):
         """
         Embed an image in a worksheet cell.
 
         Args:
             row:      The cell row (zero indexed).
             col:      The cell column (zero indexed).
-            filename: Path and filename for in supported formats.
+            source:   Filename, BytesIO, or Image object.
             options:  Url and data stream of the image.
 
         Returns:
@@ -1620,16 +1590,13 @@ class Worksheet(xmlwriter.XMLwriter):
         if options is None:
             options = {}
 
+        # Convert the source to an Image object.
+        image = self._image_from_source(source, options)
+        image._set_user_options(options)
+
         url = options.get("url", None)
         tip = options.get("tip", None)
         cell_format = options.get("cell_format", None)
-        image_data = options.get("image_data", None)
-        description = options.get("description", None)
-        decorative = options.get("decorative", False)
-
-        if not image_data and not os.path.exists(filename):
-            warn(f"Image file '{filename}' not found.")
-            return -1
 
         if url:
             if cell_format is None:
@@ -1639,19 +1606,7 @@ class Worksheet(xmlwriter.XMLwriter):
             self.write_url(row, col, url, cell_format, None, tip)
             self.ignore_write_string = False
 
-        # Get the image properties, for the type and checksum.
-        (
-            _,
-            image_type,
-            _,
-            _,
-            _,
-            _,
-            digest,
-        ) = _get_image_properties(filename, image_data)
-
-        image = [filename, image_type, image_data, description, decorative]
-        image_index = self.embedded_images.get_image_index(image, digest)
+        image_index = self.embedded_images.get_image_index(image)
 
         # Store the cell error and image index in the worksheet data table.
         self.table[row][col] = CellErrorTuple("#VALUE!", cell_format, image_index)
@@ -1828,26 +1783,28 @@ class Worksheet(xmlwriter.XMLwriter):
         """
         self.comments_visible = True
 
-    def set_background(self, filename, is_byte_stream=False):
+    def set_background(self, source, is_byte_stream=False):
         """
         Set a background image for a worksheet.
 
         Args:
-            filename:       Path and filename for in supported formats.
-            is_byte_stream: File is a stream of bytes.
+            source:         Filename, BytesIO, or Image object.
+            is_byte_stream: Deprecated. Use a BytesIO object instead.
 
         Returns:
             0:  Success.
-            -1: Image file not found.
 
         """
+        # Convert the source to an Image object.
+        image = self._image_from_source(source)
 
-        if not is_byte_stream and not os.path.exists(filename):
-            warn(f"Image file '{filename}' not found.")
-            return -1
+        self.background_image = image
 
-        self.background_bytes = is_byte_stream
-        self.background_image = filename
+        if is_byte_stream:
+            warn(
+                "The `is_byte_stream` parameter in `set_background()` is deprecated. "
+                "This argument can be omitted if you are using a BytesIO object."
+            )
 
         return 0
 
@@ -4305,19 +4262,22 @@ class Worksheet(xmlwriter.XMLwriter):
         self.header_images = []
 
         if options.get("image_left"):
-            self.header_images.append(
-                [options.get("image_left"), options.get("image_data_left"), "LH"]
-            )
+            options["image_data"] = options.get("image_data_left")
+            image = self._image_from_source(options.get("image_left"), options)
+            image._header_position = "LH"
+            self.header_images.append(image)
 
         if options.get("image_center"):
-            self.header_images.append(
-                [options.get("image_center"), options.get("image_data_center"), "CH"]
-            )
+            options["image_data"] = options.get("image_data_center")
+            image = self._image_from_source(options.get("image_center"), options)
+            image._header_position = "CH"
+            self.header_images.append(image)
 
         if options.get("image_right"):
-            self.header_images.append(
-                [options.get("image_right"), options.get("image_data_right"), "RH"]
-            )
+            options["image_data"] = options.get("image_data_right")
+            image = self._image_from_source(options.get("image_right"), options)
+            image._header_position = "RH"
+            self.header_images.append(image)
 
         placeholder_count = header.count("&G")
         image_count = len(self.header_images)
@@ -4381,19 +4341,22 @@ class Worksheet(xmlwriter.XMLwriter):
         self.footer_images = []
 
         if options.get("image_left"):
-            self.footer_images.append(
-                [options.get("image_left"), options.get("image_data_left"), "LF"]
-            )
+            options["image_data"] = options.get("image_data_left")
+            image = self._image_from_source(options.get("image_left"), options)
+            image._header_position = "LF"
+            self.footer_images.append(image)
 
         if options.get("image_center"):
-            self.footer_images.append(
-                [options.get("image_center"), options.get("image_data_center"), "CF"]
-            )
+            options["image_data"] = options.get("image_data_center")
+            image = self._image_from_source(options.get("image_center"), options)
+            image._header_position = "CF"
+            self.footer_images.append(image)
 
         if options.get("image_right"):
-            self.footer_images.append(
-                [options.get("image_right"), options.get("image_data_right"), "RF"]
-            )
+            options["image_data"] = options.get("image_data_right")
+            image = self._image_from_source(options.get("image_right"), options)
+            image._header_position = "RF"
+            self.footer_images.append(image)
 
         placeholder_count = footer.count("&G")
         image_count = len(self.footer_images)
@@ -5142,47 +5105,46 @@ class Worksheet(xmlwriter.XMLwriter):
 
         return f"{digest:X}"
 
+    def _image_from_source(self, source, options=None):
+        # Backward compatibility utility method to convert an input argument to
+        # an Image object. The source can be a filename, BytesIO stream or
+        # an existing Image object.
+        if isinstance(source, Image):
+            image = source
+        elif options is not None and options.get("image_data"):
+            image = Image(options["image_data"])
+            image.image_name = source
+        else:
+            image = Image(source)
+
+        return image
+
     def _prepare_image(
         self,
-        index,
-        image_id,
-        drawing_id,
-        width,
-        height,
-        name,
-        image_type,
-        x_dpi,
-        y_dpi,
-        digest,
+        image: Image,
+        image_id: int,
+        drawing_id: int,
     ):
         # Set up images/drawings.
-        drawing_type = 2
-        (
-            row,
-            col,
-            _,
-            x_offset,
-            y_offset,
-            x_scale,
-            y_scale,
-            url,
-            tip,
-            anchor,
-            _,
-            description,
-            decorative,
-        ) = self.images[index]
 
-        width *= x_scale
-        height *= y_scale
+        # Get the effective image width and height in pixels.
+        width = image._width * image._x_scale
+        height = image._height * image._y_scale
 
         # Scale by non 96dpi resolutions.
-        width *= 96.0 / x_dpi
-        height *= 96.0 / y_dpi
+        width *= 96.0 / image._x_dpi
+        height *= 96.0 / image._y_dpi
 
         dimensions = self._position_object_emus(
-            col, row, x_offset, y_offset, width, height, anchor
+            image._col,
+            image._row,
+            image._x_offset,
+            image._y_offset,
+            width,
+            height,
+            image._anchor,
         )
+
         # Convert from pixels to emus.
         width = int(0.5 + (width * 9525))
         height = int(0.5 + (height * 9525))
@@ -5200,22 +5162,23 @@ class Worksheet(xmlwriter.XMLwriter):
             drawing = self.drawing
 
         drawing_object = drawing._add_drawing_object()
-        drawing_object["type"] = drawing_type
+        drawing_object["type"] = DrawingTypes.IMAGE
         drawing_object["dimensions"] = dimensions
+        drawing_object["description"] = image.image_name
         drawing_object["width"] = width
         drawing_object["height"] = height
-        drawing_object["description"] = name
         drawing_object["shape"] = None
-        drawing_object["anchor"] = anchor
+        drawing_object["anchor"] = image._anchor
         drawing_object["rel_index"] = 0
         drawing_object["url_rel_index"] = 0
-        drawing_object["tip"] = tip
-        drawing_object["decorative"] = decorative
+        drawing_object["tip"] = image._tip
+        drawing_object["decorative"] = image._decorative
 
-        if description is not None:
-            drawing_object["description"] = description
+        if image.description is not None:
+            drawing_object["description"] = image.description
 
-        if url:
+        if image._url:
+            url = image._url
             target = None
             rel_type = "/hyperlink"
             target_mode = "External"
@@ -5254,17 +5217,18 @@ class Worksheet(xmlwriter.XMLwriter):
 
                     drawing_object["url_rel_index"] = self._get_drawing_rel_index(url)
 
-        if not self.drawing_rels.get(digest):
+        if not self.drawing_rels.get(image._digest):
             self.drawing_links.append(
-                ["/image", "../media/image" + str(image_id) + "." + image_type]
+                [
+                    "/image",
+                    "../media/image" + str(image_id) + "." + image._image_extension,
+                ]
             )
 
-        drawing_object["rel_index"] = self._get_drawing_rel_index(digest)
+        drawing_object["rel_index"] = self._get_drawing_rel_index(image._digest)
 
     def _prepare_shape(self, index, drawing_id):
         # Set up shapes/drawings.
-        drawing_type = 3
-
         (
             row,
             col,
@@ -5309,7 +5273,7 @@ class Worksheet(xmlwriter.XMLwriter):
         shape.text = text
 
         drawing_object = drawing._add_drawing_object()
-        drawing_object["type"] = drawing_type
+        drawing_object["type"] = DrawingTypes.SHAPE
         drawing_object["dimensions"] = dimensions
         drawing_object["width"] = width
         drawing_object["height"] = height
@@ -5356,35 +5320,32 @@ class Worksheet(xmlwriter.XMLwriter):
 
                     drawing_object["url_rel_index"] = self._get_drawing_rel_index(url)
 
-    def _prepare_header_image(
-        self, image_id, width, height, name, image_type, position, x_dpi, y_dpi, digest
-    ):
+    def _prepare_header_image(self, image_id, image):
         # Set up an image without a drawing object for header/footer images.
 
         # Strip the extension from the filename.
-        name = re.sub(r"\..*$", "", name)
+        image.image_name = re.sub(r"\..*$", "", image.image_name)
 
-        if not self.vml_drawing_rels.get(digest):
+        if not self.vml_drawing_rels.get(image._digest):
             self.vml_drawing_links.append(
-                ["/image", "../media/image" + str(image_id) + "." + image_type]
+                [
+                    "/image",
+                    "../media/image" + str(image_id) + "." + image._image_extension,
+                ]
             )
 
-        ref_id = self._get_vml_drawing_rel_index(digest)
+        image._ref_id = self._get_vml_drawing_rel_index(image._digest)
 
-        self.header_images_list.append(
-            [width, height, name, position, x_dpi, y_dpi, ref_id]
-        )
+        self.header_images_list.append(image)
 
-    def _prepare_background(self, image_id, image_type):
+    def _prepare_background(self, image_id, image_extension):
         # Set up an image without a drawing object for backgrounds.
         self.external_background_links.append(
-            ["/image", "../media/image" + str(image_id) + "." + image_type]
+            ["/image", "../media/image" + str(image_id) + "." + image_extension]
         )
 
     def _prepare_chart(self, index, chart_id, drawing_id):
         # Set up chart/drawings.
-        drawing_type = 1
-
         (
             row,
             col,
@@ -5424,7 +5385,7 @@ class Worksheet(xmlwriter.XMLwriter):
             drawing = self.drawing
 
         drawing_object = drawing._add_drawing_object()
-        drawing_object["type"] = drawing_type
+        drawing_object["type"] = DrawingTypes.CHART
         drawing_object["dimensions"] = dimensions
         drawing_object["width"] = width
         drawing_object["height"] = height

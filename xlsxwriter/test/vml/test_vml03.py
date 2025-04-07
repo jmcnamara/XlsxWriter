@@ -10,6 +10,7 @@
 import unittest
 from io import StringIO
 
+from ...image import Image
 from ...vml import Vml
 from ..helperfunctions import _vml_to_list, _xml_to_list
 
@@ -28,7 +29,12 @@ class TestAssembleVml(unittest.TestCase):
         vml = Vml()
         vml._set_filehandle(fh)
 
-        vml._assemble_xml_file(1, 1024, None, None, [[32, 32, "red", "CH", 96, 96, 1]])
+        image = Image("xlsxwriter/test/comparison/images/red.png")
+        image._header_position = "CH"
+        image._ref_id = 1
+        image.image_name = "red"
+
+        vml._assemble_xml_file(1, 1024, None, None, [image])
 
         exp = _vml_to_list(
             """
@@ -65,4 +71,4 @@ class TestAssembleVml(unittest.TestCase):
 
         got = _xml_to_list(fh.getvalue())
 
-        self.assertEqual(got, exp)
+        self.assertEqual(exp, got)

@@ -42,11 +42,10 @@ class TestCompareXLSXFiles(ExcelComparisonTest):
 
         worksheet = workbook.add_worksheet()
 
-        image_file = open(self.image_dir + "logo.jpg", "rb")
-        image_data = BytesIO(image_file.read())
-        image_file.close()
+        with open(self.image_dir + "logo.jpg", "rb") as image_file:
+            image_data = BytesIO(image_file.read())
 
-        worksheet.set_background(image_data, is_byte_stream=True)
+        worksheet.set_background(image_data)
 
         workbook.close()
 

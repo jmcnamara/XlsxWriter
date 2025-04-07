@@ -747,9 +747,9 @@ class Packager:
         rels = Relationships()
 
         index = 1
-        for image_data in self.workbook.embedded_images.images:
-            file_type = image_data[1]
-            image_file = f"../media/image{index}.{file_type}"
+        for image in self.workbook.embedded_images.images:
+            image_extension = image.image_type.lower()
+            image_file = f"../media/image{index}.{image_extension}"
             rels._add_document_relationship("/image", image_file)
             index += 1
 
@@ -767,23 +767,21 @@ class Packager:
         images = workbook.embedded_images.images + workbook.images
 
         for image in images:
-            filename = image[0]
-            ext = "." + image[1]
-            image_data = image[2]
-
-            xml_image_name = "xl/media/image" + str(index) + ext
+            xml_image_name = (
+                "xl/media/image" + str(index) + "." + image._image_extension
+            )
 
             if not self.in_memory:
                 # In file mode we just write or copy the image file.
                 os_filename = self._filename(xml_image_name)
 
-                if image_data:
+                if image.image_data:
                     # The data is in a byte stream. Write it to the target.
                     os_file = open(os_filename, mode="wb")
-                    os_file.write(image_data.getvalue())
+                    os_file.write(image.image_data.getvalue())
                     os_file.close()
                 else:
-                    copy(filename, os_filename)
+                    copy(image.filename, os_filename)
 
                     # Allow copies of Windows read-only images to be deleted.
                     try:
@@ -794,11 +792,11 @@ class Packager:
                         pass
             else:
                 # For in-memory mode we read the image into a stream.
-                if image_data:
+                if image.image_data:
                     # The data is already in a byte stream.
-                    os_filename = image_data
+                    os_filename = image.image_data
                 else:
-                    image_file = open(filename, mode="rb")
+                    image_file = open(image.filename, mode="rb")
                     image_data = image_file.read()
                     os_filename = BytesIO(image_data)
                     image_file.close()
