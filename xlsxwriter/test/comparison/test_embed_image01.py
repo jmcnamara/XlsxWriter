@@ -43,9 +43,8 @@ class TestCompareXLSXFiles(ExcelComparisonTest):
 
         worksheet = workbook.add_worksheet()
 
-        image_file = open(self.image_dir + "red.png", "rb")
-        image_data = BytesIO(image_file.read())
-        image_file.close()
+        with open(self.image_dir + "red.png", "rb") as image_file:
+            image_data = BytesIO(image_file.read())
 
         worksheet.embed_image(0, 0, "", {"image_data": image_data})
 

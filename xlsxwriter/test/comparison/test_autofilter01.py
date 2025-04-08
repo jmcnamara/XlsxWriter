@@ -35,7 +35,7 @@ class TestCompareXLSXFiles(ExcelComparisonTest):
         worksheet.autofilter("A1:D51")
 
         # Open a text file with autofilter example data.
-        textfile = open(self.txt_filename)
+        textfile = open(self.txt_filename, encoding="utf-8")
 
         # Start writing data from the first worksheet row.
         row = 0
@@ -59,6 +59,7 @@ class TestCompareXLSXFiles(ExcelComparisonTest):
             row += 1
 
         textfile.close()
+
         workbook.close()
 
         self.assertExcelEqual()

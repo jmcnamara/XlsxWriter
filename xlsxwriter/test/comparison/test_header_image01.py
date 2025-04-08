@@ -59,9 +59,8 @@ class TestCompareXLSXFiles(ExcelComparisonTest):
 
         worksheet = workbook.add_worksheet()
 
-        image_file = open(self.image_dir + "red.jpg", "rb")
-        image_data = BytesIO(image_file.read())
-        image_file.close()
+        with open(self.image_dir + "red.jpg", "rb") as image_file:
+            image_data = BytesIO(image_file.read())
 
         worksheet.set_header(
             "&L&G", {"image_left": "red.jpg", "image_data_left": image_data}
@@ -78,9 +77,8 @@ class TestCompareXLSXFiles(ExcelComparisonTest):
 
         worksheet = workbook.add_worksheet()
 
-        image_file = open(self.image_dir + "red.jpg", "rb")
-        image_data = BytesIO(image_file.read())
-        image_file.close()
+        with open(self.image_dir + "red.jpg", "rb") as image_file:
+            image_data = BytesIO(image_file.read())
 
         worksheet.set_header(
             "&L&G", {"image_left": "red.jpg", "image_data_left": image_data}
