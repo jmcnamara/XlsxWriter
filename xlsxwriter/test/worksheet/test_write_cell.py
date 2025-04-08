@@ -36,7 +36,7 @@ class TestWriteCell(unittest.TestCase):
         exp = """<c r="A1"><v>1</v></c>"""
         got = self.fh.getvalue()
 
-        self.assertEqual(got, exp)
+        self.assertEqual(exp, got)
 
     def test_write_cell_string(self):
         """Test the _write_cell() method for strings."""
@@ -49,7 +49,7 @@ class TestWriteCell(unittest.TestCase):
         exp = """<c r="B4" t="s"><v>0</v></c>"""
         got = self.fh.getvalue()
 
-        self.assertEqual(got, exp)
+        self.assertEqual(exp, got)
 
     def test_write_cell_formula01(self):
         """Test the _write_cell() method for formulas."""
@@ -62,7 +62,7 @@ class TestWriteCell(unittest.TestCase):
         exp = """<c r="C2"><f>A3+A5</f><v>0</v></c>"""
         got = self.fh.getvalue()
 
-        self.assertEqual(got, exp)
+        self.assertEqual(exp, got)
 
     def test_write_cell_formula02(self):
         """Test the _write_cell() method for formulas."""
@@ -75,4 +75,4 @@ class TestWriteCell(unittest.TestCase):
         exp = """<c r="C2"><f>A3+A5</f><v>7</v></c>"""
         got = self.fh.getvalue()
 
-        self.assertEqual(got, exp)
+        self.assertEqual(exp, got)

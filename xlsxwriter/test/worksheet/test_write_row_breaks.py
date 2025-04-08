@@ -34,7 +34,7 @@ class TestWriteRowBreaks(unittest.TestCase):
         exp = """<rowBreaks count="1" manualBreakCount="1"><brk id="1" max="16383" man="1"/></rowBreaks>"""
         got = self.fh.getvalue()
 
-        self.assertEqual(got, exp)
+        self.assertEqual(exp, got)
 
     def test_write_row_breaks_2(self):
         """Test the _write_row_breaks() method"""
@@ -46,4 +46,4 @@ class TestWriteRowBreaks(unittest.TestCase):
         exp = """<rowBreaks count="3" manualBreakCount="3"><brk id="3" max="16383" man="1"/><brk id="7" max="16383" man="1"/><brk id="15" max="16383" man="1"/></rowBreaks>"""
         got = self.fh.getvalue()
 
-        self.assertEqual(got, exp)
+        self.assertEqual(exp, got)

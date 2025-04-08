@@ -32,7 +32,7 @@ class TestWriteCalcPr(unittest.TestCase):
         exp = """<calcPr calcId="124519" fullCalcOnLoad="1"/>"""
         got = self.fh.getvalue()
 
-        self.assertEqual(got, exp)
+        self.assertEqual(exp, got)
 
     def test_calc_mode_auto_except_tables(self):
         """
@@ -47,7 +47,7 @@ class TestWriteCalcPr(unittest.TestCase):
         exp = """<calcPr calcId="124519" calcMode="autoNoTable" fullCalcOnLoad="1"/>"""
         got = self.fh.getvalue()
 
-        self.assertEqual(got, exp)
+        self.assertEqual(exp, got)
 
     def test_calc_mode_manual(self):
         """
@@ -62,7 +62,7 @@ class TestWriteCalcPr(unittest.TestCase):
         exp = """<calcPr calcId="124519" calcMode="manual" calcOnSave="0"/>"""
         got = self.fh.getvalue()
 
-        self.assertEqual(got, exp)
+        self.assertEqual(exp, got)
 
     def test_write_calc_pr2(self):
         """Test the _write_calc_pr() method with non-default calc id."""
@@ -73,7 +73,7 @@ class TestWriteCalcPr(unittest.TestCase):
         exp = """<calcPr calcId="12345" fullCalcOnLoad="1"/>"""
         got = self.fh.getvalue()
 
-        self.assertEqual(got, exp)
+        self.assertEqual(exp, got)
 
     def tearDown(self):
         self.workbook.fileclosed = 1

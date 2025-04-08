@@ -27,19 +27,19 @@ class TestCheckSheetname(unittest.TestCase):
 
         got = self.workbook._check_sheetname("name")
         exp = "name"
-        self.assertEqual(got, exp)
+        self.assertEqual(exp, got)
 
         got = self.workbook._check_sheetname("Sheet1")
         exp = "Sheet1"
-        self.assertEqual(got, exp)
+        self.assertEqual(exp, got)
 
         got = self.workbook._check_sheetname(None)
         exp = "Sheet3"
-        self.assertEqual(got, exp)
+        self.assertEqual(exp, got)
 
         got = self.workbook._check_sheetname("")
         exp = "Sheet4"
-        self.assertEqual(got, exp)
+        self.assertEqual(exp, got)
 
     def test_check_sheetname_with_long_name(self):
         """Test the _check_sheetname() method with exception"""

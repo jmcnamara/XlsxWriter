@@ -32,4 +32,4 @@ class TestWriteXColumn(unittest.TestCase):
         exp = """<x:Column>2</x:Column>"""
         got = self.fh.getvalue()
 
-        self.assertEqual(got, exp)
+        self.assertEqual(exp, got)

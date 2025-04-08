@@ -29,7 +29,7 @@ class TestAssembleWorkbook(unittest.TestCase):
         got = workbook.get_worksheet_by_name("Sheet1")
         workbook.fileclosed = 1
 
-        self.assertEqual(got, exp)
+        self.assertEqual(exp, got)
 
     def test_get_worksheet_by_name02(self):
         """Test get_worksheet_by_name()"""
@@ -42,7 +42,7 @@ class TestAssembleWorkbook(unittest.TestCase):
         got = workbook.get_worksheet_by_name("Sheet2")
         workbook.fileclosed = 1
 
-        self.assertEqual(got, exp)
+        self.assertEqual(exp, got)
 
     def test_get_worksheet_by_name03(self):
         """Test get_worksheet_by_name()"""
@@ -54,7 +54,7 @@ class TestAssembleWorkbook(unittest.TestCase):
         got = workbook.get_worksheet_by_name("Sheet 3")
         workbook.fileclosed = 1
 
-        self.assertEqual(got, exp)
+        self.assertEqual(exp, got)
 
     def test_get_worksheet_by_name04(self):
         """Test get_worksheet_by_name()"""
@@ -66,7 +66,7 @@ class TestAssembleWorkbook(unittest.TestCase):
         got = workbook.get_worksheet_by_name("Sheet '4")
         workbook.fileclosed = 1
 
-        self.assertEqual(got, exp)
+        self.assertEqual(exp, got)
 
     def test_get_worksheet_by_name05(self):
         """Test get_worksheet_by_name()"""
@@ -78,4 +78,4 @@ class TestAssembleWorkbook(unittest.TestCase):
         got = workbook.get_worksheet_by_name("Sheet 5")
         workbook.fileclosed = 1
 
-        self.assertEqual(got, exp)
+        self.assertEqual(exp, got)

@@ -46,7 +46,7 @@ class TestWriteDataValidations(unittest.TestCase):
         exp = _xml_to_list(exp)
         got = _xml_to_list(got)
 
-        self.assertEqual(got, exp)
+        self.assertEqual(exp, got)
 
     def test_write_data_validations_1b(self):
         """Test the _write_data_validations() method. Data validation example 1 from docs (with options turned off)"""
@@ -71,7 +71,7 @@ class TestWriteDataValidations(unittest.TestCase):
         exp = _xml_to_list(exp)
         got = _xml_to_list(got)
 
-        self.assertEqual(got, exp)
+        self.assertEqual(exp, got)
 
     def test_write_data_validations_2(self):
         """Test the _write_data_validations() method. Data validation example 2 from docs"""
@@ -93,7 +93,7 @@ class TestWriteDataValidations(unittest.TestCase):
         exp = _xml_to_list(exp)
         got = _xml_to_list(got)
 
-        self.assertEqual(got, exp)
+        self.assertEqual(exp, got)
 
     def test_write_data_validations_3(self):
         """Test the _write_data_validations() method. Data validation example 3 from docs"""
@@ -116,7 +116,7 @@ class TestWriteDataValidations(unittest.TestCase):
         exp = _xml_to_list(exp)
         got = _xml_to_list(got)
 
-        self.assertEqual(got, exp)
+        self.assertEqual(exp, got)
 
     def test_write_data_validations_4(self):
         """Test the _write_data_validations() method. Data validation example 4 from docs"""
@@ -137,7 +137,7 @@ class TestWriteDataValidations(unittest.TestCase):
         exp = _xml_to_list(exp)
         got = _xml_to_list(got)
 
-        self.assertEqual(got, exp)
+        self.assertEqual(exp, got)
 
     def test_write_data_validations_5(self):
         """Test the _write_data_validations() method. Data validation example 5 from docs"""
@@ -158,7 +158,7 @@ class TestWriteDataValidations(unittest.TestCase):
         exp = _xml_to_list(exp)
         got = _xml_to_list(got)
 
-        self.assertEqual(got, exp)
+        self.assertEqual(exp, got)
 
     def test_write_data_validations_6(self):
         """Test the _write_data_validations() method. Data validation example 6 from docs"""
@@ -181,7 +181,7 @@ class TestWriteDataValidations(unittest.TestCase):
         exp = _xml_to_list(exp)
         got = _xml_to_list(got)
 
-        self.assertEqual(got, exp)
+        self.assertEqual(exp, got)
 
     def test_write_data_validations_7(self):
         """Test the _write_data_validations() method. Data validation example 7 from docs"""
@@ -206,4 +206,4 @@ class TestWriteDataValidations(unittest.TestCase):
         exp = _xml_to_list(exp)
         got = _xml_to_list(got)
 
-        self.assertEqual(got, exp)
+        self.assertEqual(exp, got)

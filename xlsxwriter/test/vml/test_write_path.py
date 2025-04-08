@@ -32,7 +32,7 @@ class TestWriteVpath(unittest.TestCase):
         exp = """<v:path gradientshapeok="t" o:connecttype="rect"/>"""
         got = self.fh.getvalue()
 
-        self.assertEqual(got, exp)
+        self.assertEqual(exp, got)
 
     def test_write_comment_path_2(self):
         """Test the _write_comment_path() method"""
@@ -42,7 +42,7 @@ class TestWriteVpath(unittest.TestCase):
         exp = """<v:path o:connecttype="none"/>"""
         got = self.fh.getvalue()
 
-        self.assertEqual(got, exp)
+        self.assertEqual(exp, got)
 
     def test_write_button_path(self):
         """Test the _write_button_path() method"""
@@ -52,4 +52,4 @@ class TestWriteVpath(unittest.TestCase):
         exp = """<v:path shadowok="f" o:extrusionok="f" strokeok="f" fillok="f" o:connecttype="rect"/>"""
         got = self.fh.getvalue()
 
-        self.assertEqual(got, exp)
+        self.assertEqual(exp, got)

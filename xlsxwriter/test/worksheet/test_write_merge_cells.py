@@ -38,7 +38,7 @@ class TestWriteMergeCells(unittest.TestCase):
         exp = """<mergeCells count="1"><mergeCell ref="B3:C3"/></mergeCells>"""
         got = self.fh.getvalue()
 
-        self.assertEqual(got, exp)
+        self.assertEqual(exp, got)
 
     def test_write_merge_cells_2(self):
         """Test the _write_merge_cells() method"""
@@ -51,7 +51,7 @@ class TestWriteMergeCells(unittest.TestCase):
         exp = """<mergeCells count="1"><mergeCell ref="B3:C3"/></mergeCells>"""
         got = self.fh.getvalue()
 
-        self.assertEqual(got, exp)
+        self.assertEqual(exp, got)
 
     def test_write_merge_cells_3(self):
         """Test the _write_merge_cells() method"""
@@ -65,4 +65,4 @@ class TestWriteMergeCells(unittest.TestCase):
         exp = """<mergeCells count="2"><mergeCell ref="B3:C3"/><mergeCell ref="A2:D2"/></mergeCells>"""
         got = self.fh.getvalue()
 
-        self.assertEqual(got, exp)
+        self.assertEqual(exp, got)

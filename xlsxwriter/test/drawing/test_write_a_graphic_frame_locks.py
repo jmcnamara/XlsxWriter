@@ -32,4 +32,4 @@ class TestWriteAgraphicFrameLocks(unittest.TestCase):
         exp = """<a:graphicFrameLocks noGrp="1"/>"""
         got = self.fh.getvalue()
 
-        self.assertEqual(got, exp)
+        self.assertEqual(exp, got)

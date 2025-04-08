@@ -43,7 +43,7 @@ class TestUtility(unittest.TestCase):
         for row, col, string in tests:
             exp = (row, col)
             got = xl_cell_to_rowcol(string)
-            self.assertEqual(got, exp)
+            self.assertEqual(exp, got)
 
     def test_xl_cell_to_rowcol_abs(self):
         """Test xl_cell_to_rowcol() with absolute references"""
@@ -59,4 +59,4 @@ class TestUtility(unittest.TestCase):
         for row, col, row_abs, col_abs, string in tests:
             exp = (row, col)
             got = xl_cell_to_rowcol(string)
-            self.assertEqual(got, exp)
+            self.assertEqual(exp, got)

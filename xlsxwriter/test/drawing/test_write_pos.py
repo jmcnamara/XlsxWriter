@@ -32,4 +32,4 @@ class TestWriteXdrpos(unittest.TestCase):
         exp = """<xdr:pos x="0" y="0"/>"""
         got = self.fh.getvalue()
 
-        self.assertEqual(got, exp)
+        self.assertEqual(exp, got)

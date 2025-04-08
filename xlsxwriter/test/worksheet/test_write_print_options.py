@@ -32,7 +32,7 @@ class TestWritePrintOptions(unittest.TestCase):
         exp = """"""
         got = self.fh.getvalue()
 
-        self.assertEqual(got, exp)
+        self.assertEqual(exp, got)
 
     def test_write_print_options_hcenter(self):
         """Test the _write_print_options() method with horizontal center"""
@@ -43,7 +43,7 @@ class TestWritePrintOptions(unittest.TestCase):
         exp = """<printOptions horizontalCentered="1"/>"""
         got = self.fh.getvalue()
 
-        self.assertEqual(got, exp)
+        self.assertEqual(exp, got)
 
     def test_write_print_options_vcenter(self):
         """Test the _write_print_options() method with vertical center"""
@@ -54,7 +54,7 @@ class TestWritePrintOptions(unittest.TestCase):
         exp = """<printOptions verticalCentered="1"/>"""
         got = self.fh.getvalue()
 
-        self.assertEqual(got, exp)
+        self.assertEqual(exp, got)
 
     def test_write_print_options_center(self):
         """Test the _write_print_options() method with horiz + vert center"""
@@ -66,7 +66,7 @@ class TestWritePrintOptions(unittest.TestCase):
         exp = """<printOptions horizontalCentered="1" verticalCentered="1"/>"""
         got = self.fh.getvalue()
 
-        self.assertEqual(got, exp)
+        self.assertEqual(exp, got)
 
     def test_write_print_options_gridlines_default(self):
         """Test the _write_print_options() method with default value"""
@@ -77,7 +77,7 @@ class TestWritePrintOptions(unittest.TestCase):
         exp = """"""
         got = self.fh.getvalue()
 
-        self.assertEqual(got, exp)
+        self.assertEqual(exp, got)
 
     def test_write_print_options_gridlines_0(self):
         """Test the _write_print_options() method with 0 value"""
@@ -88,4 +88,4 @@ class TestWritePrintOptions(unittest.TestCase):
         exp = """<printOptions gridLines="1"/>"""
         got = self.fh.getvalue()
 
-        self.assertEqual(got, exp)
+        self.assertEqual(exp, got)

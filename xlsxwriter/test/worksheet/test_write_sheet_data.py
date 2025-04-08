@@ -32,4 +32,4 @@ class TestWriteSheetData(unittest.TestCase):
         exp = """<sheetData/>"""
         got = self.fh.getvalue()
 
-        self.assertEqual(got, exp)
+        self.assertEqual(exp, got)

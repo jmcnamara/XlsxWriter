@@ -440,7 +440,7 @@ class TestConvertDateTime(unittest.TestCase):
             got = self.worksheet._convert_date_time(test_date)
             exp = excel_date[1]
 
-            self.assertEqual(got, exp)
+            self.assertEqual(exp, got)
 
     def test_convert_date_time_date(self):
         """Test the _convert_date_time() method with date objects."""
@@ -454,7 +454,7 @@ class TestConvertDateTime(unittest.TestCase):
             got = self.worksheet._convert_date_time(test_date)
             exp = excel_date[1]
 
-            self.assertEqual(got, exp)
+            self.assertEqual(exp, got)
 
     def test_convert_date_time_1904(self):
         """Test the _convert_date_time() method with 1904 date system."""
@@ -468,4 +468,4 @@ class TestConvertDateTime(unittest.TestCase):
             got = self.worksheet._convert_date_time(date)
             exp = excel_date[1]
 
-            self.assertEqual(got, exp)
+            self.assertEqual(exp, got)

@@ -235,4 +235,4 @@ class TestPrepareFormula(unittest.TestCase):
             exp = testcase[1]
             got = self.worksheet._prepare_formula(formula)
 
-            self.assertEqual(got, exp)
+            self.assertEqual(exp, got)

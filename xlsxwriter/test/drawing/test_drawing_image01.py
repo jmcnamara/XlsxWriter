@@ -93,7 +93,7 @@ class TestAssembleDrawing(unittest.TestCase):
 
         got = _xml_to_list(fh.getvalue())
 
-        self.assertEqual(got, exp)
+        self.assertEqual(exp, got)
 
     def test_assemble_xml_file_with_url(self):
         """Test writing a drawing with no cell data."""
@@ -173,4 +173,4 @@ class TestAssembleDrawing(unittest.TestCase):
 
         got = _xml_to_list(fh.getvalue())
 
-        self.assertEqual(got, exp)
+        self.assertEqual(exp, got)

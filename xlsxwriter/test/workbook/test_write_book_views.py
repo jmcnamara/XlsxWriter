@@ -32,7 +32,7 @@ class TestWriteBookViews(unittest.TestCase):
         exp = """<bookViews><workbookView xWindow="240" yWindow="15" windowWidth="16095" windowHeight="9660"/></bookViews>"""
         got = self.fh.getvalue()
 
-        self.assertEqual(got, exp)
+        self.assertEqual(exp, got)
 
     def tearDown(self):
         self.workbook.fileclosed = 1

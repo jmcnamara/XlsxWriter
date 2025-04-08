@@ -32,7 +32,7 @@ class TestWriteSheet(unittest.TestCase):
         exp = """<sheet name="Sheet1" sheetId="1" r:id="rId1"/>"""
         got = self.fh.getvalue()
 
-        self.assertEqual(got, exp)
+        self.assertEqual(exp, got)
 
     def test_write_sheet2(self):
         """Test the _write_sheet() method"""
@@ -42,7 +42,7 @@ class TestWriteSheet(unittest.TestCase):
         exp = """<sheet name="Sheet1" sheetId="1" state="hidden" r:id="rId1"/>"""
         got = self.fh.getvalue()
 
-        self.assertEqual(got, exp)
+        self.assertEqual(exp, got)
 
     def test_write_sheet3(self):
         """Test the _write_sheet() method"""
@@ -52,7 +52,7 @@ class TestWriteSheet(unittest.TestCase):
         exp = """<sheet name="Bits &amp; Bobs" sheetId="1" r:id="rId1"/>"""
         got = self.fh.getvalue()
 
-        self.assertEqual(got, exp)
+        self.assertEqual(exp, got)
 
     def tearDown(self):
         self.workbook.fileclosed = 1

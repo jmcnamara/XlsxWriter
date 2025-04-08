@@ -32,4 +32,4 @@ class TestWriteOshapelayout(unittest.TestCase):
         exp = """<o:shapelayout v:ext="edit"><o:idmap v:ext="edit" data="1"/></o:shapelayout>"""
         got = self.fh.getvalue()
 
-        self.assertEqual(got, exp)
+        self.assertEqual(exp, got)

@@ -32,7 +32,7 @@ class TestWriteWorkbookView(unittest.TestCase):
         exp = """<workbookView xWindow="240" yWindow="15" windowWidth="16095" windowHeight="9660"/>"""
         got = self.fh.getvalue()
 
-        self.assertEqual(got, exp)
+        self.assertEqual(exp, got)
 
     def test_write_workbook_view2(self):
         """Test the _write_workbook_view() method"""
@@ -43,7 +43,7 @@ class TestWriteWorkbookView(unittest.TestCase):
         exp = """<workbookView xWindow="240" yWindow="15" windowWidth="16095" windowHeight="9660" activeTab="1"/>"""
         got = self.fh.getvalue()
 
-        self.assertEqual(got, exp)
+        self.assertEqual(exp, got)
 
     def test_write_workbook_view3(self):
         """Test the _write_workbook_view() method"""
@@ -55,7 +55,7 @@ class TestWriteWorkbookView(unittest.TestCase):
         exp = """<workbookView xWindow="240" yWindow="15" windowWidth="16095" windowHeight="9660" firstSheet="2" activeTab="1"/>"""
         got = self.fh.getvalue()
 
-        self.assertEqual(got, exp)
+        self.assertEqual(exp, got)
 
     def test_write_workbook_view4(self):
         """Test the _write_workbook_view() method"""
@@ -66,7 +66,7 @@ class TestWriteWorkbookView(unittest.TestCase):
         exp = """<workbookView xWindow="240" yWindow="15" windowWidth="16095" windowHeight="9660"/>"""
         got = self.fh.getvalue()
 
-        self.assertEqual(got, exp)
+        self.assertEqual(exp, got)
 
     def test_write_workbook_view5(self):
         """Test the _write_workbook_view() method"""
@@ -77,7 +77,7 @@ class TestWriteWorkbookView(unittest.TestCase):
         exp = """<workbookView xWindow="240" yWindow="15" windowWidth="16095" windowHeight="9660"/>"""
         got = self.fh.getvalue()
 
-        self.assertEqual(got, exp)
+        self.assertEqual(exp, got)
 
     def test_write_workbook_view6(self):
         """Test the _write_workbook_view() method"""
@@ -88,7 +88,7 @@ class TestWriteWorkbookView(unittest.TestCase):
         exp = """<workbookView xWindow="240" yWindow="15" windowWidth="16095" windowHeight="9660"/>"""
         got = self.fh.getvalue()
 
-        self.assertEqual(got, exp)
+        self.assertEqual(exp, got)
 
     def test_write_workbook_view7(self):
         """Test the _write_workbook_view() method"""
@@ -99,7 +99,7 @@ class TestWriteWorkbookView(unittest.TestCase):
         exp = """<workbookView xWindow="240" yWindow="15" windowWidth="1845" windowHeight="1050"/>"""
         got = self.fh.getvalue()
 
-        self.assertEqual(got, exp)
+        self.assertEqual(exp, got)
 
     def test_write_workbook_view8(self):
         """Test the _write_workbook_view() method"""
@@ -110,7 +110,7 @@ class TestWriteWorkbookView(unittest.TestCase):
         exp = """<workbookView xWindow="240" yWindow="15" windowWidth="10785" windowHeight="7350"/>"""
         got = self.fh.getvalue()
 
-        self.assertEqual(got, exp)
+        self.assertEqual(exp, got)
 
     def test_write_workbook_view9(self):
         """Test the _write_workbook_view() method"""
@@ -121,7 +121,7 @@ class TestWriteWorkbookView(unittest.TestCase):
         exp = """<workbookView xWindow="240" yWindow="15" windowWidth="16095" windowHeight="9660"/>"""
         got = self.fh.getvalue()
 
-        self.assertEqual(got, exp)
+        self.assertEqual(exp, got)
 
     def test_write_workbook_view10(self):
         """Test the _write_workbook_view() method"""
@@ -132,7 +132,7 @@ class TestWriteWorkbookView(unittest.TestCase):
         exp = """<workbookView xWindow="240" yWindow="15" windowWidth="16095" windowHeight="9660" tabRatio="346"/>"""
         got = self.fh.getvalue()
 
-        self.assertEqual(got, exp)
+        self.assertEqual(exp, got)
 
     def test_write_workbook_view11(self):
         """Test the _write_workbook_view() method"""
@@ -143,7 +143,7 @@ class TestWriteWorkbookView(unittest.TestCase):
         exp = """<workbookView xWindow="240" yWindow="15" windowWidth="16095" windowHeight="9660" tabRatio="0"/>"""
         got = self.fh.getvalue()
 
-        self.assertEqual(got, exp)
+        self.assertEqual(exp, got)
 
     def test_write_workbook_view12(self):
         """Test the _write_workbook_view() method"""
@@ -154,7 +154,7 @@ class TestWriteWorkbookView(unittest.TestCase):
         exp = """<workbookView xWindow="240" yWindow="15" windowWidth="16095" windowHeight="9660" tabRatio="1000"/>"""
         got = self.fh.getvalue()
 
-        self.assertEqual(got, exp)
+        self.assertEqual(exp, got)
 
     def tearDown(self):
         self.workbook.fileclosed = 1

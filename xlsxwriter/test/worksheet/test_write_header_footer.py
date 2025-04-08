@@ -33,7 +33,7 @@ class TestWriteHeaderFooter(unittest.TestCase):
         exp = """<headerFooter><oddHeader>Page &amp;P of &amp;N</oddHeader></headerFooter>"""
         got = self.fh.getvalue()
 
-        self.assertEqual(got, exp)
+        self.assertEqual(exp, got)
 
     def test_write_header_footer_footer_only(self):
         """Test the _write_header_footer() method footer only"""
@@ -44,7 +44,7 @@ class TestWriteHeaderFooter(unittest.TestCase):
         exp = """<headerFooter><oddFooter>&amp;F</oddFooter></headerFooter>"""
         got = self.fh.getvalue()
 
-        self.assertEqual(got, exp)
+        self.assertEqual(exp, got)
 
     def test_write_header_footer_both(self):
         """Test the _write_header_footer() method header and footer"""
@@ -56,4 +56,4 @@ class TestWriteHeaderFooter(unittest.TestCase):
         exp = """<headerFooter><oddHeader>Page &amp;P of &amp;N</oddHeader><oddFooter>&amp;F</oddFooter></headerFooter>"""
         got = self.fh.getvalue()
 
-        self.assertEqual(got, exp)
+        self.assertEqual(exp, got)

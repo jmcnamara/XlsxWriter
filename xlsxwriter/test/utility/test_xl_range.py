@@ -49,7 +49,7 @@ class TestUtility(unittest.TestCase):
             # Ignore the warnings for negative values.
             warnings.filterwarnings("ignore")
 
-            self.assertEqual(got, exp)
+            self.assertEqual(exp, got)
 
     def test_xl_range_abs(self):
         """Test xl_range_abs()"""
@@ -81,4 +81,4 @@ class TestUtility(unittest.TestCase):
             # Ignore the warnings for negative values.
             warnings.filterwarnings("ignore")
 
-            self.assertEqual(got, exp)
+            self.assertEqual(exp, got)

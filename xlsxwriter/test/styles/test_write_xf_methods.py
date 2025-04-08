@@ -36,7 +36,7 @@ class TestWriteXf(unittest.TestCase):
         exp = """<xf numFmtId="0" fontId="0" fillId="0" borderId="0" xfId="0"/>"""
         got = self.fh.getvalue()
 
-        self.assertEqual(got, exp)
+        self.assertEqual(exp, got)
 
     def test_write_xf_2(self):
         """Test the _write_xf() method. Has font but is first XF."""
@@ -49,7 +49,7 @@ class TestWriteXf(unittest.TestCase):
         exp = """<xf numFmtId="0" fontId="0" fillId="0" borderId="0" xfId="0"/>"""
         got = self.fh.getvalue()
 
-        self.assertEqual(got, exp)
+        self.assertEqual(exp, got)
 
     def test_write_xf_3(self):
         """Test the _write_xf() method. Has font but isn't first XF."""
@@ -63,7 +63,7 @@ class TestWriteXf(unittest.TestCase):
         exp = """<xf numFmtId="0" fontId="1" fillId="0" borderId="0" xfId="0" applyFont="1"/>"""
         got = self.fh.getvalue()
 
-        self.assertEqual(got, exp)
+        self.assertEqual(exp, got)
 
     def test_write_xf_4(self):
         """Test the _write_xf() method. Uses built-in number format."""
@@ -76,7 +76,7 @@ class TestWriteXf(unittest.TestCase):
         exp = """<xf numFmtId="2" fontId="0" fillId="0" borderId="0" xfId="0" applyNumberFormat="1"/>"""
         got = self.fh.getvalue()
 
-        self.assertEqual(got, exp)
+        self.assertEqual(exp, got)
 
     def test_write_xf_5(self):
         """Test the _write_xf() method. Uses built-in number format + font."""
@@ -91,7 +91,7 @@ class TestWriteXf(unittest.TestCase):
         exp = """<xf numFmtId="2" fontId="1" fillId="0" borderId="0" xfId="0" applyNumberFormat="1" applyFont="1"/>"""
         got = self.fh.getvalue()
 
-        self.assertEqual(got, exp)
+        self.assertEqual(exp, got)
 
     def test_write_xf_6(self):
         """Test the _write_xf() method. Vertical alignment = top."""
@@ -104,7 +104,7 @@ class TestWriteXf(unittest.TestCase):
         exp = """<xf numFmtId="0" fontId="0" fillId="0" borderId="0" xfId="0" applyAlignment="1"><alignment vertical="top"/></xf>"""
         got = self.fh.getvalue()
 
-        self.assertEqual(got, exp)
+        self.assertEqual(exp, got)
 
     def test_write_xf_7(self):
         """Test the _write_xf() method. Vertical alignment = centre."""
@@ -117,7 +117,7 @@ class TestWriteXf(unittest.TestCase):
         exp = """<xf numFmtId="0" fontId="0" fillId="0" borderId="0" xfId="0" applyAlignment="1"><alignment vertical="center"/></xf>"""
         got = self.fh.getvalue()
 
-        self.assertEqual(got, exp)
+        self.assertEqual(exp, got)
 
     def test_write_xf_8(self):
         """Test the _write_xf() method. Vertical alignment = bottom."""
@@ -130,7 +130,7 @@ class TestWriteXf(unittest.TestCase):
         exp = """<xf numFmtId="0" fontId="0" fillId="0" borderId="0" xfId="0" applyAlignment="1"/>"""
         got = self.fh.getvalue()
 
-        self.assertEqual(got, exp)
+        self.assertEqual(exp, got)
 
     def test_write_xf_9(self):
         """Test the _write_xf() method. Vertical alignment = justify."""
@@ -143,7 +143,7 @@ class TestWriteXf(unittest.TestCase):
         exp = """<xf numFmtId="0" fontId="0" fillId="0" borderId="0" xfId="0" applyAlignment="1"><alignment vertical="justify"/></xf>"""
         got = self.fh.getvalue()
 
-        self.assertEqual(got, exp)
+        self.assertEqual(exp, got)
 
     def test_write_xf_10(self):
         """Test the _write_xf() method. Vertical alignment = distributed."""
@@ -156,7 +156,7 @@ class TestWriteXf(unittest.TestCase):
         exp = """<xf numFmtId="0" fontId="0" fillId="0" borderId="0" xfId="0" applyAlignment="1"><alignment vertical="distributed"/></xf>"""
         got = self.fh.getvalue()
 
-        self.assertEqual(got, exp)
+        self.assertEqual(exp, got)
 
     def test_write_xf_11(self):
         """Test the _write_xf() method. Horizontal alignment = left."""
@@ -169,7 +169,7 @@ class TestWriteXf(unittest.TestCase):
         exp = """<xf numFmtId="0" fontId="0" fillId="0" borderId="0" xfId="0" applyAlignment="1"><alignment horizontal="left"/></xf>"""
         got = self.fh.getvalue()
 
-        self.assertEqual(got, exp)
+        self.assertEqual(exp, got)
 
     def test_write_xf_12(self):
         """Test the _write_xf() method. Horizontal alignment = center."""
@@ -182,7 +182,7 @@ class TestWriteXf(unittest.TestCase):
         exp = """<xf numFmtId="0" fontId="0" fillId="0" borderId="0" xfId="0" applyAlignment="1"><alignment horizontal="center"/></xf>"""
         got = self.fh.getvalue()
 
-        self.assertEqual(got, exp)
+        self.assertEqual(exp, got)
 
     def test_write_xf_13(self):
         """Test the _write_xf() method. Horizontal alignment = right."""
@@ -195,7 +195,7 @@ class TestWriteXf(unittest.TestCase):
         exp = """<xf numFmtId="0" fontId="0" fillId="0" borderId="0" xfId="0" applyAlignment="1"><alignment horizontal="right"/></xf>"""
         got = self.fh.getvalue()
 
-        self.assertEqual(got, exp)
+        self.assertEqual(exp, got)
 
     def test_write_xf_14(self):
         """Test the _write_xf() method. Horizontal alignment = left + indent."""
@@ -209,7 +209,7 @@ class TestWriteXf(unittest.TestCase):
         exp = """<xf numFmtId="0" fontId="0" fillId="0" borderId="0" xfId="0" applyAlignment="1"><alignment horizontal="left" indent="1"/></xf>"""
         got = self.fh.getvalue()
 
-        self.assertEqual(got, exp)
+        self.assertEqual(exp, got)
 
     def test_write_xf_15(self):
         """Test the _write_xf() method. Horizontal alignment = right + indent."""
@@ -223,7 +223,7 @@ class TestWriteXf(unittest.TestCase):
         exp = """<xf numFmtId="0" fontId="0" fillId="0" borderId="0" xfId="0" applyAlignment="1"><alignment horizontal="right" indent="1"/></xf>"""
         got = self.fh.getvalue()
 
-        self.assertEqual(got, exp)
+        self.assertEqual(exp, got)
 
     def test_write_xf_16(self):
         """Test the _write_xf() method. Horizontal alignment = fill."""
@@ -236,7 +236,7 @@ class TestWriteXf(unittest.TestCase):
         exp = """<xf numFmtId="0" fontId="0" fillId="0" borderId="0" xfId="0" applyAlignment="1"><alignment horizontal="fill"/></xf>"""
         got = self.fh.getvalue()
 
-        self.assertEqual(got, exp)
+        self.assertEqual(exp, got)
 
     def test_write_xf_17(self):
         """Test the _write_xf() method. Horizontal alignment = justify."""
@@ -249,7 +249,7 @@ class TestWriteXf(unittest.TestCase):
         exp = """<xf numFmtId="0" fontId="0" fillId="0" borderId="0" xfId="0" applyAlignment="1"><alignment horizontal="justify"/></xf>"""
         got = self.fh.getvalue()
 
-        self.assertEqual(got, exp)
+        self.assertEqual(exp, got)
 
     def test_write_xf_18(self):
         """Test the _write_xf() method. Horizontal alignment = center across."""
@@ -262,7 +262,7 @@ class TestWriteXf(unittest.TestCase):
         exp = """<xf numFmtId="0" fontId="0" fillId="0" borderId="0" xfId="0" applyAlignment="1"><alignment horizontal="centerContinuous"/></xf>"""
         got = self.fh.getvalue()
 
-        self.assertEqual(got, exp)
+        self.assertEqual(exp, got)
 
     def test_write_xf_19(self):
         """Test the _write_xf() method. Horizontal alignment = distributed."""
@@ -275,7 +275,7 @@ class TestWriteXf(unittest.TestCase):
         exp = """<xf numFmtId="0" fontId="0" fillId="0" borderId="0" xfId="0" applyAlignment="1"><alignment horizontal="distributed"/></xf>"""
         got = self.fh.getvalue()
 
-        self.assertEqual(got, exp)
+        self.assertEqual(exp, got)
 
     def test_write_xf_20(self):
         """Test the _write_xf() method. Horizontal alignment = distributed + indent."""
@@ -289,7 +289,7 @@ class TestWriteXf(unittest.TestCase):
         exp = """<xf numFmtId="0" fontId="0" fillId="0" borderId="0" xfId="0" applyAlignment="1"><alignment horizontal="distributed" indent="1"/></xf>"""
         got = self.fh.getvalue()
 
-        self.assertEqual(got, exp)
+        self.assertEqual(exp, got)
 
     def test_write_xf_21(self):
         """Test the _write_xf() method. Horizontal alignment = justify distributed."""
@@ -302,7 +302,7 @@ class TestWriteXf(unittest.TestCase):
         exp = """<xf numFmtId="0" fontId="0" fillId="0" borderId="0" xfId="0" applyAlignment="1"><alignment horizontal="distributed" justifyLastLine="1"/></xf>"""
         got = self.fh.getvalue()
 
-        self.assertEqual(got, exp)
+        self.assertEqual(exp, got)
 
     def test_write_xf_22(self):
         """Test the _write_xf() method. Horizontal alignment = indent only."""
@@ -315,7 +315,7 @@ class TestWriteXf(unittest.TestCase):
         exp = """<xf numFmtId="0" fontId="0" fillId="0" borderId="0" xfId="0" applyAlignment="1"><alignment horizontal="left" indent="1"/></xf>"""
         got = self.fh.getvalue()
 
-        self.assertEqual(got, exp)
+        self.assertEqual(exp, got)
 
     def test_write_xf_23(self):
         """Test the _write_xf() method. Horizontal alignment = distributed + indent."""
@@ -329,7 +329,7 @@ class TestWriteXf(unittest.TestCase):
         exp = """<xf numFmtId="0" fontId="0" fillId="0" borderId="0" xfId="0" applyAlignment="1"><alignment horizontal="distributed" indent="1"/></xf>"""
         got = self.fh.getvalue()
 
-        self.assertEqual(got, exp)
+        self.assertEqual(exp, got)
 
     def test_write_xf_24(self):
         """Test the _write_xf() method. Alignment = text wrap"""
@@ -342,7 +342,7 @@ class TestWriteXf(unittest.TestCase):
         exp = """<xf numFmtId="0" fontId="0" fillId="0" borderId="0" xfId="0" applyAlignment="1"><alignment wrapText="1"/></xf>"""
         got = self.fh.getvalue()
 
-        self.assertEqual(got, exp)
+        self.assertEqual(exp, got)
 
     def test_write_xf_25(self):
         """Test the _write_xf() method. Alignment = shrink to fit"""
@@ -355,7 +355,7 @@ class TestWriteXf(unittest.TestCase):
         exp = """<xf numFmtId="0" fontId="0" fillId="0" borderId="0" xfId="0" applyAlignment="1"><alignment shrinkToFit="1"/></xf>"""
         got = self.fh.getvalue()
 
-        self.assertEqual(got, exp)
+        self.assertEqual(exp, got)
 
     def test_write_xf_26(self):
         """Test the _write_xf() method. Alignment = reading order"""
@@ -368,7 +368,7 @@ class TestWriteXf(unittest.TestCase):
         exp = """<xf numFmtId="0" fontId="0" fillId="0" borderId="0" xfId="0" applyAlignment="1"><alignment readingOrder="1"/></xf>"""
         got = self.fh.getvalue()
 
-        self.assertEqual(got, exp)
+        self.assertEqual(exp, got)
 
     def test_write_xf_27(self):
         """Test the _write_xf() method. Alignment = reading order"""
@@ -381,7 +381,7 @@ class TestWriteXf(unittest.TestCase):
         exp = """<xf numFmtId="0" fontId="0" fillId="0" borderId="0" xfId="0" applyAlignment="1"><alignment readingOrder="2"/></xf>"""
         got = self.fh.getvalue()
 
-        self.assertEqual(got, exp)
+        self.assertEqual(exp, got)
 
     def test_write_xf_28(self):
         """Test the _write_xf() method. Alignment = rotation"""
@@ -394,7 +394,7 @@ class TestWriteXf(unittest.TestCase):
         exp = """<xf numFmtId="0" fontId="0" fillId="0" borderId="0" xfId="0" applyAlignment="1"><alignment textRotation="45"/></xf>"""
         got = self.fh.getvalue()
 
-        self.assertEqual(got, exp)
+        self.assertEqual(exp, got)
 
     def test_write_xf_29(self):
         """Test the _write_xf() method. Alignment = rotation"""
@@ -407,7 +407,7 @@ class TestWriteXf(unittest.TestCase):
         exp = """<xf numFmtId="0" fontId="0" fillId="0" borderId="0" xfId="0" applyAlignment="1"><alignment textRotation="135"/></xf>"""
         got = self.fh.getvalue()
 
-        self.assertEqual(got, exp)
+        self.assertEqual(exp, got)
 
     def test_write_xf_30(self):
         """Test the _write_xf() method. Alignment = rotation"""
@@ -420,7 +420,7 @@ class TestWriteXf(unittest.TestCase):
         exp = """<xf numFmtId="0" fontId="0" fillId="0" borderId="0" xfId="0" applyAlignment="1"><alignment textRotation="255"/></xf>"""
         got = self.fh.getvalue()
 
-        self.assertEqual(got, exp)
+        self.assertEqual(exp, got)
 
     def test_write_xf_31(self):
         """Test the _write_xf() method. Alignment = rotation"""
@@ -433,7 +433,7 @@ class TestWriteXf(unittest.TestCase):
         exp = """<xf numFmtId="0" fontId="0" fillId="0" borderId="0" xfId="0" applyAlignment="1"><alignment textRotation="90"/></xf>"""
         got = self.fh.getvalue()
 
-        self.assertEqual(got, exp)
+        self.assertEqual(exp, got)
 
     def test_write_xf_32(self):
         """Test the _write_xf() method. Alignment = rotation"""
@@ -446,7 +446,7 @@ class TestWriteXf(unittest.TestCase):
         exp = """<xf numFmtId="0" fontId="0" fillId="0" borderId="0" xfId="0" applyAlignment="1"><alignment textRotation="180"/></xf>"""
         got = self.fh.getvalue()
 
-        self.assertEqual(got, exp)
+        self.assertEqual(exp, got)
 
     def test_write_xf_33(self):
         """Test the _write_xf() method. With cell protection."""
@@ -459,7 +459,7 @@ class TestWriteXf(unittest.TestCase):
         exp = """<xf numFmtId="0" fontId="0" fillId="0" borderId="0" xfId="0" applyProtection="1"><protection locked="0"/></xf>"""
         got = self.fh.getvalue()
 
-        self.assertEqual(got, exp)
+        self.assertEqual(exp, got)
 
     def test_write_xf_34(self):
         """Test the _write_xf() method. With cell protection."""
@@ -472,7 +472,7 @@ class TestWriteXf(unittest.TestCase):
         exp = """<xf numFmtId="0" fontId="0" fillId="0" borderId="0" xfId="0" applyProtection="1"><protection hidden="1"/></xf>"""
         got = self.fh.getvalue()
 
-        self.assertEqual(got, exp)
+        self.assertEqual(exp, got)
 
     def test_write_xf_35(self):
         """Test the _write_xf() method. With cell protection."""
@@ -486,7 +486,7 @@ class TestWriteXf(unittest.TestCase):
         exp = """<xf numFmtId="0" fontId="0" fillId="0" borderId="0" xfId="0" applyProtection="1"><protection locked="0" hidden="1"/></xf>"""
         got = self.fh.getvalue()
 
-        self.assertEqual(got, exp)
+        self.assertEqual(exp, got)
 
     def test_write_xf_36(self):
         """Test the _write_xf() method. With cell protection + align."""
@@ -501,4 +501,4 @@ class TestWriteXf(unittest.TestCase):
         exp = """<xf numFmtId="0" fontId="0" fillId="0" borderId="0" xfId="0" applyAlignment="1" applyProtection="1"><alignment horizontal="right"/><protection locked="0" hidden="1"/></xf>"""
         got = self.fh.getvalue()
 
-        self.assertEqual(got, exp)
+        self.assertEqual(exp, got)

@@ -32,4 +32,4 @@ class TestWriteMergeCell(unittest.TestCase):
         exp = """<mergeCell ref="B3:C3"/>"""
         got = self.fh.getvalue()
 
-        self.assertEqual(got, exp)
+        self.assertEqual(exp, got)

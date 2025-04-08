@@ -32,4 +32,4 @@ class TestWriteXdrext(unittest.TestCase):
         exp = """<xdr:ext cx="9308969" cy="6078325"/>"""
         got = self.fh.getvalue()
 
-        self.assertEqual(got, exp)
+        self.assertEqual(exp, got)

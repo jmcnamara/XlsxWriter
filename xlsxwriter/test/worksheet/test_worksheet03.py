@@ -63,7 +63,7 @@ class TestAssembleWorksheet(unittest.TestCase):
 
         got = _xml_to_list(fh.getvalue())
 
-        self.assertEqual(got, exp)
+        self.assertEqual(exp, got)
 
     def test_assemble_xml_file_A1(self):
         """
@@ -110,4 +110,4 @@ class TestAssembleWorksheet(unittest.TestCase):
 
         got = _xml_to_list(fh.getvalue())
 
-        self.assertEqual(got, exp)
+        self.assertEqual(exp, got)

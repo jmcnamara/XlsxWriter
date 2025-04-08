@@ -32,7 +32,7 @@ class TestWritePageMargins(unittest.TestCase):
         exp = """<pageMargins left="0.7" right="0.7" top="0.75" bottom="0.75" header="0.3" footer="0.3"/>"""
         got = self.fh.getvalue()
 
-        self.assertEqual(got, exp)
+        self.assertEqual(exp, got)
 
     def test_write_page_margins_deafult(self):
         """Test the _write_page_margins() method with default margins"""
@@ -43,7 +43,7 @@ class TestWritePageMargins(unittest.TestCase):
         exp = """<pageMargins left="0.7" right="0.7" top="0.75" bottom="0.75" header="0.3" footer="0.3"/>"""
         got = self.fh.getvalue()
 
-        self.assertEqual(got, exp)
+        self.assertEqual(exp, got)
 
     def test_write_page_margins_left(self):
         """Test the _write_page_margins() method with left margin"""
@@ -54,7 +54,7 @@ class TestWritePageMargins(unittest.TestCase):
         exp = """<pageMargins left="0.5" right="0.7" top="0.75" bottom="0.75" header="0.3" footer="0.3"/>"""
         got = self.fh.getvalue()
 
-        self.assertEqual(got, exp)
+        self.assertEqual(exp, got)
 
     def test_write_page_margins_right(self):
         """Test the _write_page_margins() method with right margin"""
@@ -65,7 +65,7 @@ class TestWritePageMargins(unittest.TestCase):
         exp = """<pageMargins left="0.7" right="0.5" top="0.75" bottom="0.75" header="0.3" footer="0.3"/>"""
         got = self.fh.getvalue()
 
-        self.assertEqual(got, exp)
+        self.assertEqual(exp, got)
 
     def test_write_page_margins_top(self):
         """Test the _write_page_margins() method with top margin"""
@@ -76,7 +76,7 @@ class TestWritePageMargins(unittest.TestCase):
         exp = """<pageMargins left="0.7" right="0.7" top="0.5" bottom="0.75" header="0.3" footer="0.3"/>"""
         got = self.fh.getvalue()
 
-        self.assertEqual(got, exp)
+        self.assertEqual(exp, got)
 
     def test_write_page_margins_bottom(self):
         """Test the _write_page_margins() method with bottom margin"""
@@ -87,7 +87,7 @@ class TestWritePageMargins(unittest.TestCase):
         exp = """<pageMargins left="0.7" right="0.7" top="0.75" bottom="0.5" header="0.3" footer="0.3"/>"""
         got = self.fh.getvalue()
 
-        self.assertEqual(got, exp)
+        self.assertEqual(exp, got)
 
     def test_write_page_margins_header(self):
         """Test the _write_page_margins() method with header margin"""
@@ -98,7 +98,7 @@ class TestWritePageMargins(unittest.TestCase):
         exp = """<pageMargins left="0.7" right="0.7" top="0.75" bottom="0.75" header="0.5" footer="0.3"/>"""
         got = self.fh.getvalue()
 
-        self.assertEqual(got, exp)
+        self.assertEqual(exp, got)
 
     def test_write_page_margins_footer(self):
         """Test the _write_page_margins() method with footer margin"""
@@ -109,4 +109,4 @@ class TestWritePageMargins(unittest.TestCase):
         exp = """<pageMargins left="0.7" right="0.7" top="0.75" bottom="0.75" header="0.3" footer="0.5"/>"""
         got = self.fh.getvalue()
 
-        self.assertEqual(got, exp)
+        self.assertEqual(exp, got)

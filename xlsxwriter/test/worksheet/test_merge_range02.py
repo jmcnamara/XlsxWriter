@@ -74,7 +74,7 @@ class TestAssembleWorksheet(unittest.TestCase):
 
         got = _xml_to_list(fh.getvalue())
 
-        self.assertEqual(got, exp)
+        self.assertEqual(exp, got)
 
     def test_assemble_xml_file_write(self):
         """Test writing a worksheet with a blank cell with write() method."""
@@ -114,7 +114,7 @@ class TestAssembleWorksheet(unittest.TestCase):
 
         got = _xml_to_list(fh.getvalue())
 
-        self.assertEqual(got, exp)
+        self.assertEqual(exp, got)
 
     def test_assemble_xml_file_A1(self):
         """Test writing a worksheet with a blank cell with A1 notation."""
@@ -154,4 +154,4 @@ class TestAssembleWorksheet(unittest.TestCase):
 
         got = _xml_to_list(fh.getvalue())
 
-        self.assertEqual(got, exp)
+        self.assertEqual(exp, got)

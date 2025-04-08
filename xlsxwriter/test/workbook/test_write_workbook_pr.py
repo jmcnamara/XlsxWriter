@@ -32,7 +32,7 @@ class TestWriteWorkbookPr(unittest.TestCase):
         exp = """<workbookPr defaultThemeVersion="124226"/>"""
         got = self.fh.getvalue()
 
-        self.assertEqual(got, exp)
+        self.assertEqual(exp, got)
 
     def tearDown(self):
         self.workbook.fileclosed = 1

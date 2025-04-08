@@ -32,7 +32,7 @@ class TestWriteText(unittest.TestCase):
         exp = """<t>Some text</t>"""
         got = self.fh.getvalue()
 
-        self.assertEqual(got, exp)
+        self.assertEqual(exp, got)
 
     def test_write_text_t_2(self):
         """Test the _write_text_t() method"""
@@ -42,7 +42,7 @@ class TestWriteText(unittest.TestCase):
         exp = """<t xml:space="preserve"> Some text</t>"""
         got = self.fh.getvalue()
 
-        self.assertEqual(got, exp)
+        self.assertEqual(exp, got)
 
     def test_write_text_t_3(self):
         """Test the _write_text_t() method"""
@@ -52,7 +52,7 @@ class TestWriteText(unittest.TestCase):
         exp = """<t xml:space="preserve">Some text </t>"""
         got = self.fh.getvalue()
 
-        self.assertEqual(got, exp)
+        self.assertEqual(exp, got)
 
     def test_write_text_t_4(self):
         """Test the _write_text_t() method"""
@@ -62,7 +62,7 @@ class TestWriteText(unittest.TestCase):
         exp = """<t xml:space="preserve"> Some text </t>"""
         got = self.fh.getvalue()
 
-        self.assertEqual(got, exp)
+        self.assertEqual(exp, got)
 
     def test_write_text_t_5(self):
         """Test the _write_text_t() method"""
@@ -72,4 +72,4 @@ class TestWriteText(unittest.TestCase):
         exp = """<t xml:space="preserve">Some text\n</t>"""
         got = self.fh.getvalue()
 
-        self.assertEqual(got, exp)
+        self.assertEqual(exp, got)

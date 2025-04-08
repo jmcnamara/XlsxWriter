@@ -32,4 +32,4 @@ class TestWriteDimension(unittest.TestCase):
         exp = """<dimension ref="A1"/>"""
         got = self.fh.getvalue()
 
-        self.assertEqual(got, exp)
+        self.assertEqual(exp, got)

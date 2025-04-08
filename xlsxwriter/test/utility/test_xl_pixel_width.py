@@ -126,7 +126,7 @@ class TestUtility(unittest.TestCase):
 
         for string, exp in tests:
             got = xl_pixel_width(string)
-            self.assertEqual(got, exp)
+            self.assertEqual(exp, got)
 
             got = cell_autofit_width(string)
             self.assertEqual(got, exp + 7)

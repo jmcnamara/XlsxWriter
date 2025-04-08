@@ -33,7 +33,7 @@ class TestWriteColors(unittest.TestCase):
         exp = """<colors><mruColors><color rgb="FF26DA55"/></mruColors></colors>"""
         got = self.fh.getvalue()
 
-        self.assertEqual(got, exp)
+        self.assertEqual(exp, got)
 
     def test_write_colors2(self):
         """Test the _write_colors() method"""
@@ -44,7 +44,7 @@ class TestWriteColors(unittest.TestCase):
         exp = """<colors><mruColors><color rgb="FF646462"/><color rgb="FF792DC8"/><color rgb="FF26DA55"/></mruColors></colors>"""
         got = self.fh.getvalue()
 
-        self.assertEqual(got, exp)
+        self.assertEqual(exp, got)
 
     def test_write_colors3(self):
         """Test the _write_colors() method"""
@@ -69,4 +69,4 @@ class TestWriteColors(unittest.TestCase):
         exp = """<colors><mruColors><color rgb="FFD97827"/><color rgb="FFB97847"/><color rgb="FF913AC6"/><color rgb="FFE3FA06"/><color rgb="FF0CF49C"/><color rgb="FF600FF1"/><color rgb="FFA1A759"/><color rgb="FFE31DAF"/><color rgb="FF583AC6"/><color rgb="FF5EA29C"/></mruColors></colors>"""
         got = self.fh.getvalue()
 
-        self.assertEqual(got, exp)
+        self.assertEqual(exp, got)

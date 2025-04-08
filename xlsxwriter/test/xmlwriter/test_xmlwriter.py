@@ -32,7 +32,7 @@ class TestXMLwriter(unittest.TestCase):
         exp = """<?xml version="1.0" encoding="UTF-8" standalone="yes"?>\n"""
         got = self.fh.getvalue()
 
-        self.assertEqual(got, exp)
+        self.assertEqual(exp, got)
 
     def test_xml_start_tag(self):
         """Test _xml_start_tag() with no attributes"""
@@ -42,7 +42,7 @@ class TestXMLwriter(unittest.TestCase):
         exp = """<foo>"""
         got = self.fh.getvalue()
 
-        self.assertEqual(got, exp)
+        self.assertEqual(exp, got)
 
     def test_xml_start_tag_with_attributes(self):
         """Test _xml_start_tag() with attributes"""
@@ -52,7 +52,7 @@ class TestXMLwriter(unittest.TestCase):
         exp = """<foo span="8" baz="7">"""
         got = self.fh.getvalue()
 
-        self.assertEqual(got, exp)
+        self.assertEqual(exp, got)
 
     def test_xml_start_tag_with_attributes_to_escape(self):
         """Test _xml_start_tag() with attributes requiring escaping"""
@@ -62,7 +62,7 @@ class TestXMLwriter(unittest.TestCase):
         exp = """<foo span="&amp;&lt;&gt;&quot;">"""
         got = self.fh.getvalue()
 
-        self.assertEqual(got, exp)
+        self.assertEqual(exp, got)
 
     def test_xml_start_tag_unencoded(self):
         """Test _xml_start_tag_unencoded() with attributes"""
@@ -72,7 +72,7 @@ class TestXMLwriter(unittest.TestCase):
         exp = """<foo span="&<>"">"""
         got = self.fh.getvalue()
 
-        self.assertEqual(got, exp)
+        self.assertEqual(exp, got)
 
     def test_xml_end_tag(self):
         """Test _xml_end_tag()"""
@@ -82,7 +82,7 @@ class TestXMLwriter(unittest.TestCase):
         exp = """</foo>"""
         got = self.fh.getvalue()
 
-        self.assertEqual(got, exp)
+        self.assertEqual(exp, got)
 
     def test_xml_empty_tag(self):
         """Test _xml_empty_tag()"""
@@ -92,7 +92,7 @@ class TestXMLwriter(unittest.TestCase):
         exp = """<foo/>"""
         got = self.fh.getvalue()
 
-        self.assertEqual(got, exp)
+        self.assertEqual(exp, got)
 
     def test_xml_empty_tag_with_attributes(self):
         """Test _xml_empty_tag() with attributes"""
@@ -102,7 +102,7 @@ class TestXMLwriter(unittest.TestCase):
         exp = """<foo span="8"/>"""
         got = self.fh.getvalue()
 
-        self.assertEqual(got, exp)
+        self.assertEqual(exp, got)
 
     def test_xml_empty_tag_unencoded(self):
         """Test _xml_empty_tag_unencoded() with attributes"""
@@ -112,7 +112,7 @@ class TestXMLwriter(unittest.TestCase):
         exp = """<foo span="&"/>"""
         got = self.fh.getvalue()
 
-        self.assertEqual(got, exp)
+        self.assertEqual(exp, got)
 
     def test_xml_data_element(self):
         """Test _xml_data_element()"""
@@ -122,7 +122,7 @@ class TestXMLwriter(unittest.TestCase):
         exp = """<foo>bar</foo>"""
         got = self.fh.getvalue()
 
-        self.assertEqual(got, exp)
+        self.assertEqual(exp, got)
 
     def test_xml_data_element_with_attributes(self):
         """Test _xml_data_element() with attributes"""
@@ -132,7 +132,7 @@ class TestXMLwriter(unittest.TestCase):
         exp = """<foo span="8">bar</foo>"""
         got = self.fh.getvalue()
 
-        self.assertEqual(got, exp)
+        self.assertEqual(exp, got)
 
     def test_xml_data_element_with_escapes(self):
         """Test _xml_data_element() with data requiring escaping"""
@@ -142,7 +142,7 @@ class TestXMLwriter(unittest.TestCase):
         exp = """<foo span="8">&amp;&lt;&gt;"</foo>"""
         got = self.fh.getvalue()
 
-        self.assertEqual(got, exp)
+        self.assertEqual(exp, got)
 
     def test_xml_string_element(self):
         """Test _xml_string_element()"""
@@ -152,7 +152,7 @@ class TestXMLwriter(unittest.TestCase):
         exp = """<c span="8" t=\"s\"><v>99</v></c>"""
         got = self.fh.getvalue()
 
-        self.assertEqual(got, exp)
+        self.assertEqual(exp, got)
 
     def test_xml_si_element(self):
         """Test _xml_si_element()"""
@@ -162,7 +162,7 @@ class TestXMLwriter(unittest.TestCase):
         exp = """<si><t span="8">foo</t></si>"""
         got = self.fh.getvalue()
 
-        self.assertEqual(got, exp)
+        self.assertEqual(exp, got)
 
     def test_xml_rich_si_element(self):
         """Test _xml_rich_si_element()"""
@@ -172,7 +172,7 @@ class TestXMLwriter(unittest.TestCase):
         exp = """<si>foo</si>"""
         got = self.fh.getvalue()
 
-        self.assertEqual(got, exp)
+        self.assertEqual(exp, got)
 
     def test_xml_number_element(self):
         """Test _xml_number_element()"""
@@ -182,7 +182,7 @@ class TestXMLwriter(unittest.TestCase):
         exp = """<c span="8"><v>99</v></c>"""
         got = self.fh.getvalue()
 
-        self.assertEqual(got, exp)
+        self.assertEqual(exp, got)
 
     def test_xml_formula_element(self):
         """Test _xml_formula_element()"""
@@ -192,4 +192,4 @@ class TestXMLwriter(unittest.TestCase):
         exp = """<c span="8"><f>1+2</f><v>3</v></c>"""
         got = self.fh.getvalue()
 
-        self.assertEqual(got, exp)
+        self.assertEqual(exp, got)

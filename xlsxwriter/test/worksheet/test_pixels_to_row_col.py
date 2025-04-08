@@ -47,7 +47,7 @@ class TestPixelsToRowCol(unittest.TestCase):
             exp = pixels
             got = self.width_to_pixels(self.worksheet._pixels_to_width(pixels))
 
-            self.assertEqual(got, exp)
+            self.assertEqual(exp, got)
 
     def test_pixels_to_height(self):
         """Test the _pixels_to_height() function"""
@@ -56,4 +56,4 @@ class TestPixelsToRowCol(unittest.TestCase):
             exp = pixels
             got = self.height_to_pixels(self.worksheet._pixels_to_height(pixels))
 
-            self.assertEqual(got, exp)
+            self.assertEqual(exp, got)

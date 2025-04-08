@@ -36,7 +36,7 @@ class TestWriteSheetProtection(unittest.TestCase):
         exp = """<sheetProtection content="1" objects="1"/>"""
         got = self.fh.getvalue()
 
-        self.assertEqual(got, exp)
+        self.assertEqual(exp, got)
 
     def test_write_sheet_protection_2(self):
         """Test the _write_sheet_protection() method."""
@@ -50,7 +50,7 @@ class TestWriteSheetProtection(unittest.TestCase):
         exp = """<sheetProtection password="83AF" content="1" objects="1"/>"""
         got = self.fh.getvalue()
 
-        self.assertEqual(got, exp)
+        self.assertEqual(exp, got)
 
     def test_write_sheet_protection_3(self):
         """Test the _write_sheet_protection() method."""
@@ -64,7 +64,7 @@ class TestWriteSheetProtection(unittest.TestCase):
         exp = """<sheetProtection content="1"/>"""
         got = self.fh.getvalue()
 
-        self.assertEqual(got, exp)
+        self.assertEqual(exp, got)
 
     def test_write_sheet_protection_4(self):
         """Test the _write_sheet_protection() method."""
@@ -78,7 +78,7 @@ class TestWriteSheetProtection(unittest.TestCase):
         exp = """<sheetProtection objects="1"/>"""
         got = self.fh.getvalue()
 
-        self.assertEqual(got, exp)
+        self.assertEqual(exp, got)
 
     def test_write_sheet_protection_5(self):
         """Test the _write_sheet_protection() method."""
@@ -92,7 +92,7 @@ class TestWriteSheetProtection(unittest.TestCase):
         exp = ""
         got = self.fh.getvalue()
 
-        self.assertEqual(got, exp)
+        self.assertEqual(exp, got)
 
     def test_write_sheet_protection_6(self):
         """Test the _write_sheet_protection() method."""
@@ -106,7 +106,7 @@ class TestWriteSheetProtection(unittest.TestCase):
         exp = """<sheetProtection password="83AF"/>"""
         got = self.fh.getvalue()
 
-        self.assertEqual(got, exp)
+        self.assertEqual(exp, got)
 
     def test_write_sheet_protection_7(self):
         """Test the _write_sheet_protection() method."""
@@ -136,4 +136,4 @@ class TestWriteSheetProtection(unittest.TestCase):
         exp = """<sheetProtection password="83AF" content="1" objects="1"/>"""
         got = self.fh.getvalue()
 
-        self.assertEqual(got, exp)
+        self.assertEqual(exp, got)

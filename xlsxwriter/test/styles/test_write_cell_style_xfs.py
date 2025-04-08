@@ -32,4 +32,4 @@ class TestWriteCellStyleXfs(unittest.TestCase):
         exp = """<cellStyleXfs count="1"><xf numFmtId="0" fontId="0" fillId="0" borderId="0"/></cellStyleXfs>"""
         got = self.fh.getvalue()
 
-        self.assertEqual(got, exp)
+        self.assertEqual(exp, got)

@@ -32,4 +32,4 @@ class TestWriteTableColumn(unittest.TestCase):
         exp = """<tableColumn id="1" name="Column1"/>"""
         got = self.fh.getvalue()
 
-        self.assertEqual(got, exp)
+        self.assertEqual(exp, got)

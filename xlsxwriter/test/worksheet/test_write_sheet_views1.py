@@ -33,7 +33,7 @@ class TestWriteSheetViews(unittest.TestCase):
         exp = """<sheetViews><sheetView tabSelected="1" workbookViewId="0"/></sheetViews>"""
         got = self.fh.getvalue()
 
-        self.assertEqual(got, exp)
+        self.assertEqual(exp, got)
 
     def test_write_sheet_views_zoom_100(self):
         """Test the _write_sheet_views() method"""
@@ -45,7 +45,7 @@ class TestWriteSheetViews(unittest.TestCase):
         exp = """<sheetViews><sheetView tabSelected="1" workbookViewId="0"/></sheetViews>"""
         got = self.fh.getvalue()
 
-        self.assertEqual(got, exp)
+        self.assertEqual(exp, got)
 
     def test_write_sheet_views_zoom_200(self):
         """Test the _write_sheet_views() method"""
@@ -57,7 +57,7 @@ class TestWriteSheetViews(unittest.TestCase):
         exp = """<sheetViews><sheetView tabSelected="1" zoomScale="200" zoomScaleNormal="200" workbookViewId="0"/></sheetViews>"""
         got = self.fh.getvalue()
 
-        self.assertEqual(got, exp)
+        self.assertEqual(exp, got)
 
     def test_write_sheet_views_right_to_left(self):
         """Test the _write_sheet_views() method"""
@@ -69,7 +69,7 @@ class TestWriteSheetViews(unittest.TestCase):
         exp = """<sheetViews><sheetView rightToLeft="1" tabSelected="1" workbookViewId="0"/></sheetViews>"""
         got = self.fh.getvalue()
 
-        self.assertEqual(got, exp)
+        self.assertEqual(exp, got)
 
     def test_write_sheet_views_hide_zero(self):
         """Test the _write_sheet_views() method"""
@@ -81,7 +81,7 @@ class TestWriteSheetViews(unittest.TestCase):
         exp = """<sheetViews><sheetView showZeros="0" tabSelected="1" workbookViewId="0"/></sheetViews>"""
         got = self.fh.getvalue()
 
-        self.assertEqual(got, exp)
+        self.assertEqual(exp, got)
 
     def test_write_sheet_views_page_view(self):
         """Test the _write_sheet_views() method"""
@@ -93,4 +93,4 @@ class TestWriteSheetViews(unittest.TestCase):
         exp = """<sheetViews><sheetView tabSelected="1" view="pageLayout" workbookViewId="0"/></sheetViews>"""
         got = self.fh.getvalue()
 
-        self.assertEqual(got, exp)
+        self.assertEqual(exp, got)

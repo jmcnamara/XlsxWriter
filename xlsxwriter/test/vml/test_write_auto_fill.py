@@ -32,4 +32,4 @@ class TestWriteXAutoFill(unittest.TestCase):
         exp = """<x:AutoFill>False</x:AutoFill>"""
         got = self.fh.getvalue()
 
-        self.assertEqual(got, exp)
+        self.assertEqual(exp, got)

@@ -36,7 +36,7 @@ class TestWriteFont(unittest.TestCase):
         exp = """<font><sz val="11"/><color theme="1"/><name val="Calibri"/><family val="2"/><scheme val="minor"/></font>"""
         got = self.fh.getvalue()
 
-        self.assertEqual(got, exp)
+        self.assertEqual(exp, got)
 
     def test_write_font_2(self):
         """Test the _write_font() method. Bold."""
@@ -49,7 +49,7 @@ class TestWriteFont(unittest.TestCase):
         exp = """<font><b/><sz val="11"/><color theme="1"/><name val="Calibri"/><family val="2"/><scheme val="minor"/></font>"""
         got = self.fh.getvalue()
 
-        self.assertEqual(got, exp)
+        self.assertEqual(exp, got)
 
     def test_write_font_3(self):
         """Test the _write_font() method. Italic."""
@@ -62,7 +62,7 @@ class TestWriteFont(unittest.TestCase):
         exp = """<font><i/><sz val="11"/><color theme="1"/><name val="Calibri"/><family val="2"/><scheme val="minor"/></font>"""
         got = self.fh.getvalue()
 
-        self.assertEqual(got, exp)
+        self.assertEqual(exp, got)
 
     def test_write_font_4(self):
         """Test the _write_font() method. Underline."""
@@ -75,7 +75,7 @@ class TestWriteFont(unittest.TestCase):
         exp = """<font><u/><sz val="11"/><color theme="1"/><name val="Calibri"/><family val="2"/><scheme val="minor"/></font>"""
         got = self.fh.getvalue()
 
-        self.assertEqual(got, exp)
+        self.assertEqual(exp, got)
 
     def test_write_font_5(self):
         """Test the _write_font() method. Strikeout."""
@@ -88,7 +88,7 @@ class TestWriteFont(unittest.TestCase):
         exp = """<font><strike/><sz val="11"/><color theme="1"/><name val="Calibri"/><family val="2"/><scheme val="minor"/></font>"""
         got = self.fh.getvalue()
 
-        self.assertEqual(got, exp)
+        self.assertEqual(exp, got)
 
     def test_write_font_6(self):
         """Test the _write_font() method. Superscript."""
@@ -101,7 +101,7 @@ class TestWriteFont(unittest.TestCase):
         exp = """<font><vertAlign val="superscript"/><sz val="11"/><color theme="1"/><name val="Calibri"/><family val="2"/><scheme val="minor"/></font>"""
         got = self.fh.getvalue()
 
-        self.assertEqual(got, exp)
+        self.assertEqual(exp, got)
 
     def test_write_font_7(self):
         """Test the _write_font() method. Subscript."""
@@ -114,7 +114,7 @@ class TestWriteFont(unittest.TestCase):
         exp = """<font><vertAlign val="subscript"/><sz val="11"/><color theme="1"/><name val="Calibri"/><family val="2"/><scheme val="minor"/></font>"""
         got = self.fh.getvalue()
 
-        self.assertEqual(got, exp)
+        self.assertEqual(exp, got)
 
     def test_write_font_8(self):
         """Test the _write_font() method. Font name."""
@@ -127,7 +127,7 @@ class TestWriteFont(unittest.TestCase):
         exp = """<font><sz val="11"/><color theme="1"/><name val="Arial"/><family val="2"/></font>"""
         got = self.fh.getvalue()
 
-        self.assertEqual(got, exp)
+        self.assertEqual(exp, got)
 
     def test_write_font_9(self):
         """Test the _write_font() method. Font size."""
@@ -140,7 +140,7 @@ class TestWriteFont(unittest.TestCase):
         exp = """<font><sz val="12"/><color theme="1"/><name val="Calibri"/><family val="2"/><scheme val="minor"/></font>"""
         got = self.fh.getvalue()
 
-        self.assertEqual(got, exp)
+        self.assertEqual(exp, got)
 
     def test_write_font_10(self):
         """Test the _write_font() method. Outline."""
@@ -153,7 +153,7 @@ class TestWriteFont(unittest.TestCase):
         exp = """<font><outline/><sz val="11"/><color theme="1"/><name val="Calibri"/><family val="2"/><scheme val="minor"/></font>"""
         got = self.fh.getvalue()
 
-        self.assertEqual(got, exp)
+        self.assertEqual(exp, got)
 
     def test_write_font_11(self):
         """Test the _write_font() method. Shadow."""
@@ -166,7 +166,7 @@ class TestWriteFont(unittest.TestCase):
         exp = """<font><shadow/><sz val="11"/><color theme="1"/><name val="Calibri"/><family val="2"/><scheme val="minor"/></font>"""
         got = self.fh.getvalue()
 
-        self.assertEqual(got, exp)
+        self.assertEqual(exp, got)
 
     def test_write_font_12(self):
         """Test the _write_font() method. Colour = red."""
@@ -179,7 +179,7 @@ class TestWriteFont(unittest.TestCase):
         exp = """<font><sz val="11"/><color rgb="FFFF0000"/><name val="Calibri"/><family val="2"/><scheme val="minor"/></font>"""
         got = self.fh.getvalue()
 
-        self.assertEqual(got, exp)
+        self.assertEqual(exp, got)
 
     def test_write_font_13(self):
         """Test the _write_font() method. All font attributes to check order."""
@@ -202,7 +202,7 @@ class TestWriteFont(unittest.TestCase):
         exp = """<font><b/><i/><strike/><outline/><shadow/><u/><vertAlign val="superscript"/><sz val="12"/><color rgb="FFFF0000"/><name val="Calibri"/><family val="2"/><scheme val="minor"/></font>"""
         got = self.fh.getvalue()
 
-        self.assertEqual(got, exp)
+        self.assertEqual(exp, got)
 
     def test_write_font_14(self):
         """Test the _write_font() method. Double underline."""
@@ -215,7 +215,7 @@ class TestWriteFont(unittest.TestCase):
         exp = """<font><u val="double"/><sz val="11"/><color theme="1"/><name val="Calibri"/><family val="2"/><scheme val="minor"/></font>"""
         got = self.fh.getvalue()
 
-        self.assertEqual(got, exp)
+        self.assertEqual(exp, got)
 
     def test_write_font_15(self):
         """Test the _write_font() method. Double underline."""
@@ -228,7 +228,7 @@ class TestWriteFont(unittest.TestCase):
         exp = """<font><u val="singleAccounting"/><sz val="11"/><color theme="1"/><name val="Calibri"/><family val="2"/><scheme val="minor"/></font>"""
         got = self.fh.getvalue()
 
-        self.assertEqual(got, exp)
+        self.assertEqual(exp, got)
 
     def test_write_font_16(self):
         """Test the _write_font() method. Double underline."""
@@ -241,7 +241,7 @@ class TestWriteFont(unittest.TestCase):
         exp = """<font><u val="doubleAccounting"/><sz val="11"/><color theme="1"/><name val="Calibri"/><family val="2"/><scheme val="minor"/></font>"""
         got = self.fh.getvalue()
 
-        self.assertEqual(got, exp)
+        self.assertEqual(exp, got)
 
     def test_write_font_17(self):
         """Test the _write_font() method. Hyperlink."""
@@ -254,4 +254,4 @@ class TestWriteFont(unittest.TestCase):
         exp = """<font><u/><sz val="11"/><color theme="10"/><name val="Calibri"/><family val="2"/></font>"""
         got = self.fh.getvalue()
 
-        self.assertEqual(got, exp)
+        self.assertEqual(exp, got)

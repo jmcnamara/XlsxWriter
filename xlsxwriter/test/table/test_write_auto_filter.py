@@ -34,4 +34,4 @@ class TestWriteAutoFilter(unittest.TestCase):
         exp = """<autoFilter ref="C3:F13"/>"""
         got = self.fh.getvalue()
 
-        self.assertEqual(got, exp)
+        self.assertEqual(exp, got)

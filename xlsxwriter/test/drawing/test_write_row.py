@@ -32,4 +32,4 @@ class TestWriteXdrrow(unittest.TestCase):
         exp = """<xdr:row>8</xdr:row>"""
         got = self.fh.getvalue()
 
-        self.assertEqual(got, exp)
+        self.assertEqual(exp, got)

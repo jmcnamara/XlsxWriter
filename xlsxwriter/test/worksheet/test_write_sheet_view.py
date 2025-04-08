@@ -32,7 +32,7 @@ class TestWriteSheetView(unittest.TestCase):
         exp = """<sheetView workbookViewId="0"/>"""
         got = self.fh.getvalue()
 
-        self.assertEqual(got, exp)
+        self.assertEqual(exp, got)
 
     def test_write_sheet_view_tab_selected(self):
         """Test the _write_sheet_view() method. Tab selected"""
@@ -43,7 +43,7 @@ class TestWriteSheetView(unittest.TestCase):
         exp = """<sheetView tabSelected="1" workbookViewId="0"/>"""
         got = self.fh.getvalue()
 
-        self.assertEqual(got, exp)
+        self.assertEqual(exp, got)
 
     def test_write_sheet_view_hide_gridlines(self):
         """Test the _write_sheet_view() method. Tab selected + hide_gridlines()"""
@@ -55,7 +55,7 @@ class TestWriteSheetView(unittest.TestCase):
         exp = """<sheetView tabSelected="1" workbookViewId="0"/>"""
         got = self.fh.getvalue()
 
-        self.assertEqual(got, exp)
+        self.assertEqual(exp, got)
 
     def test_write_sheet_view_hide_gridlines_0(self):
         """Test the _write_sheet_view() method. Tab selected + hide_gridlines(0)"""
@@ -67,7 +67,7 @@ class TestWriteSheetView(unittest.TestCase):
         exp = """<sheetView tabSelected="1" workbookViewId="0"/>"""
         got = self.fh.getvalue()
 
-        self.assertEqual(got, exp)
+        self.assertEqual(exp, got)
 
     def test_write_sheet_view_hide_gridlines_1(self):
         """Test the _write_sheet_view() method. Tab selected + hide_gridlines(1)"""
@@ -79,7 +79,7 @@ class TestWriteSheetView(unittest.TestCase):
         exp = """<sheetView tabSelected="1" workbookViewId="0"/>"""
         got = self.fh.getvalue()
 
-        self.assertEqual(got, exp)
+        self.assertEqual(exp, got)
 
     def test_write_sheet_view_hide_gridlines_2(self):
         """Test the _write_sheet_view() method. Tab selected + hide_gridlines(2)"""
@@ -91,7 +91,7 @@ class TestWriteSheetView(unittest.TestCase):
         exp = """<sheetView showGridLines="0" tabSelected="1" workbookViewId="0"/>"""
         got = self.fh.getvalue()
 
-        self.assertEqual(got, exp)
+        self.assertEqual(exp, got)
 
     def test_write_sheet_view_hide_row_col_headers(self):
         """Test the _write_sheet_views() method"""
@@ -105,4 +105,4 @@ class TestWriteSheetView(unittest.TestCase):
         )
         got = self.fh.getvalue()
 
-        self.assertEqual(got, exp)
+        self.assertEqual(exp, got)

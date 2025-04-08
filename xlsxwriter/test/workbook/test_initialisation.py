@@ -32,7 +32,7 @@ class TestInitialisation(unittest.TestCase):
         exp = """<?xml version="1.0" encoding="UTF-8" standalone="yes"?>\n"""
         got = self.fh.getvalue()
 
-        self.assertEqual(got, exp)
+        self.assertEqual(exp, got)
 
     def tearDown(self):
         self.workbook.fileclosed = 1

@@ -32,4 +32,4 @@ class TestWriteNumFmt(unittest.TestCase):
         exp = """<numFmt numFmtId="164" formatCode="#,##0.0"/>"""
         got = self.fh.getvalue()
 
-        self.assertEqual(got, exp)
+        self.assertEqual(exp, got)

@@ -32,4 +32,4 @@ class TestWriteXSizeWithCells(unittest.TestCase):
         exp = """<x:SizeWithCells/>"""
         got = self.fh.getvalue()
 
-        self.assertEqual(got, exp)
+        self.assertEqual(exp, got)

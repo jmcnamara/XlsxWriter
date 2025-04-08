@@ -58,4 +58,4 @@ class TestAssembleContentTypes(unittest.TestCase):
 
         got = _xml_to_list(fh.getvalue())
 
-        self.assertEqual(got, exp)
+        self.assertEqual(exp, got)

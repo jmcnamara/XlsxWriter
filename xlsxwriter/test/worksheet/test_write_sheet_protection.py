@@ -36,7 +36,7 @@ class TestWriteSheetProtection(unittest.TestCase):
         exp = """<sheetProtection sheet="1" objects="1" scenarios="1"/>"""
         got = self.fh.getvalue()
 
-        self.assertEqual(got, exp)
+        self.assertEqual(exp, got)
 
     def test_write_sheet_protection_2(self):
         """Test the _write_sheet_protection() method."""
@@ -52,7 +52,7 @@ class TestWriteSheetProtection(unittest.TestCase):
         )
         got = self.fh.getvalue()
 
-        self.assertEqual(got, exp)
+        self.assertEqual(exp, got)
 
     def test_write_sheet_protection_3(self):
         """Test the _write_sheet_protection() method."""
@@ -66,7 +66,7 @@ class TestWriteSheetProtection(unittest.TestCase):
         exp = """<sheetProtection sheet="1" objects="1" scenarios="1" selectLockedCells="1"/>"""
         got = self.fh.getvalue()
 
-        self.assertEqual(got, exp)
+        self.assertEqual(exp, got)
 
     def test_write_sheet_protection_4(self):
         """Test the _write_sheet_protection() method."""
@@ -82,7 +82,7 @@ class TestWriteSheetProtection(unittest.TestCase):
         )
         got = self.fh.getvalue()
 
-        self.assertEqual(got, exp)
+        self.assertEqual(exp, got)
 
     def test_write_sheet_protection_5(self):
         """Test the _write_sheet_protection() method."""
@@ -96,7 +96,7 @@ class TestWriteSheetProtection(unittest.TestCase):
         exp = """<sheetProtection sheet="1" objects="1" scenarios="1" formatColumns="0"/>"""
         got = self.fh.getvalue()
 
-        self.assertEqual(got, exp)
+        self.assertEqual(exp, got)
 
     def test_write_sheet_protection_6(self):
         """Test the _write_sheet_protection() method."""
@@ -112,7 +112,7 @@ class TestWriteSheetProtection(unittest.TestCase):
         )
         got = self.fh.getvalue()
 
-        self.assertEqual(got, exp)
+        self.assertEqual(exp, got)
 
     def test_write_sheet_protection_7(self):
         """Test the _write_sheet_protection() method."""
@@ -126,7 +126,7 @@ class TestWriteSheetProtection(unittest.TestCase):
         exp = """<sheetProtection sheet="1" objects="1" scenarios="1" insertColumns="0"/>"""
         got = self.fh.getvalue()
 
-        self.assertEqual(got, exp)
+        self.assertEqual(exp, got)
 
     def test_write_sheet_protection_8(self):
         """Test the _write_sheet_protection() method."""
@@ -142,7 +142,7 @@ class TestWriteSheetProtection(unittest.TestCase):
         )
         got = self.fh.getvalue()
 
-        self.assertEqual(got, exp)
+        self.assertEqual(exp, got)
 
     def test_write_sheet_protection_9(self):
         """Test the _write_sheet_protection() method."""
@@ -156,7 +156,7 @@ class TestWriteSheetProtection(unittest.TestCase):
         exp = """<sheetProtection sheet="1" objects="1" scenarios="1" insertHyperlinks="0"/>"""
         got = self.fh.getvalue()
 
-        self.assertEqual(got, exp)
+        self.assertEqual(exp, got)
 
     def test_write_sheet_protection_10(self):
         """Test the _write_sheet_protection() method."""
@@ -170,7 +170,7 @@ class TestWriteSheetProtection(unittest.TestCase):
         exp = """<sheetProtection sheet="1" objects="1" scenarios="1" deleteColumns="0"/>"""
         got = self.fh.getvalue()
 
-        self.assertEqual(got, exp)
+        self.assertEqual(exp, got)
 
     def test_write_sheet_protection_11(self):
         """Test the _write_sheet_protection() method."""
@@ -186,7 +186,7 @@ class TestWriteSheetProtection(unittest.TestCase):
         )
         got = self.fh.getvalue()
 
-        self.assertEqual(got, exp)
+        self.assertEqual(exp, got)
 
     def test_write_sheet_protection_12(self):
         """Test the _write_sheet_protection() method."""
@@ -200,7 +200,7 @@ class TestWriteSheetProtection(unittest.TestCase):
         exp = """<sheetProtection sheet="1" objects="1" scenarios="1" sort="0"/>"""
         got = self.fh.getvalue()
 
-        self.assertEqual(got, exp)
+        self.assertEqual(exp, got)
 
     def test_write_sheet_protection_13(self):
         """Test the _write_sheet_protection() method."""
@@ -216,7 +216,7 @@ class TestWriteSheetProtection(unittest.TestCase):
         )
         got = self.fh.getvalue()
 
-        self.assertEqual(got, exp)
+        self.assertEqual(exp, got)
 
     def test_write_sheet_protection_14(self):
         """Test the _write_sheet_protection() method."""
@@ -232,7 +232,7 @@ class TestWriteSheetProtection(unittest.TestCase):
         )
         got = self.fh.getvalue()
 
-        self.assertEqual(got, exp)
+        self.assertEqual(exp, got)
 
     def test_write_sheet_protection_15(self):
         """Test the _write_sheet_protection() method."""
@@ -246,7 +246,7 @@ class TestWriteSheetProtection(unittest.TestCase):
         exp = """<sheetProtection sheet="1" scenarios="1"/>"""
         got = self.fh.getvalue()
 
-        self.assertEqual(got, exp)
+        self.assertEqual(exp, got)
 
     def test_write_sheet_protection_16(self):
         """Test the _write_sheet_protection() method."""
@@ -260,7 +260,7 @@ class TestWriteSheetProtection(unittest.TestCase):
         exp = """<sheetProtection sheet="1" objects="1"/>"""
         got = self.fh.getvalue()
 
-        self.assertEqual(got, exp)
+        self.assertEqual(exp, got)
 
     def test_write_sheet_protection_17(self):
         """Test the _write_sheet_protection() method."""
@@ -278,7 +278,7 @@ class TestWriteSheetProtection(unittest.TestCase):
         exp = """<sheetProtection sheet="1" objects="1" scenarios="1" formatCells="0" selectLockedCells="1" selectUnlockedCells="1"/>"""
         got = self.fh.getvalue()
 
-        self.assertEqual(got, exp)
+        self.assertEqual(exp, got)
 
     def test_write_sheet_protection_18(self):
         """Test the _write_sheet_protection() method."""
@@ -308,4 +308,4 @@ class TestWriteSheetProtection(unittest.TestCase):
         exp = """<sheetProtection password="996B" sheet="1" formatCells="0" formatColumns="0" formatRows="0" insertColumns="0" insertRows="0" insertHyperlinks="0" deleteColumns="0" deleteRows="0" selectLockedCells="1" sort="0" autoFilter="0" pivotTables="0" selectUnlockedCells="1"/>"""
         got = self.fh.getvalue()
 
-        self.assertEqual(got, exp)
+        self.assertEqual(exp, got)

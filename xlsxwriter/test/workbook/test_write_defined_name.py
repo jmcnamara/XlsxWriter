@@ -32,7 +32,7 @@ class TestWriteDefinedName(unittest.TestCase):
         exp = """<definedName name="_xlnm.Print_Titles" localSheetId="0">Sheet1!$1:$1</definedName>"""
         got = self.fh.getvalue()
 
-        self.assertEqual(got, exp)
+        self.assertEqual(exp, got)
 
     def tearDown(self):
         self.workbook.fileclosed = 1

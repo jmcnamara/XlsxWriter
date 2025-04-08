@@ -32,4 +32,4 @@ class TestWriteXdrcNvGraphicFramePr(unittest.TestCase):
         exp = """<xdr:cNvGraphicFramePr><a:graphicFrameLocks noGrp="1"/></xdr:cNvGraphicFramePr>"""
         got = self.fh.getvalue()
 
-        self.assertEqual(got, exp)
+        self.assertEqual(exp, got)

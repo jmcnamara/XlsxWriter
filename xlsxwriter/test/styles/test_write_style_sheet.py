@@ -32,4 +32,4 @@ class TestWriteStyleSheet(unittest.TestCase):
         exp = """<styleSheet xmlns="http://schemas.openxmlformats.org/spreadsheetml/2006/main">"""
         got = self.fh.getvalue()
 
-        self.assertEqual(got, exp)
+        self.assertEqual(exp, got)

@@ -32,4 +32,4 @@ class TestWriteDxfs(unittest.TestCase):
         exp = """<dxfs count="0"/>"""
         got = self.fh.getvalue()
 
-        self.assertEqual(got, exp)
+        self.assertEqual(exp, got)

@@ -32,4 +32,4 @@ class TestWriteVstroke(unittest.TestCase):
         exp = """<v:stroke joinstyle="miter"/>"""
         got = self.fh.getvalue()
 
-        self.assertEqual(got, exp)
+        self.assertEqual(exp, got)

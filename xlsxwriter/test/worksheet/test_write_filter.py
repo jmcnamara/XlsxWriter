@@ -32,4 +32,4 @@ class TestWriteFilter(unittest.TestCase):
         exp = """<filter val="East"/>"""
         got = self.fh.getvalue()
 
-        self.assertEqual(got, exp)
+        self.assertEqual(exp, got)

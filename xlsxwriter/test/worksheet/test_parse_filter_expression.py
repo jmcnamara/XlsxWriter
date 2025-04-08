@@ -133,4 +133,4 @@ class TestParseFilterExpression(unittest.TestCase):
             exp = testcase[1]
             got = self.worksheet._parse_filter_expression(expression, tokens)
 
-            self.assertEqual(got, exp)
+            self.assertEqual(exp, got)

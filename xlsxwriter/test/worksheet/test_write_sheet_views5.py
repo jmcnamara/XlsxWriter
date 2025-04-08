@@ -36,7 +36,7 @@ class TestWriteSheetViews(unittest.TestCase):
         exp = '<sheetViews><sheetView tabSelected="1" workbookViewId="0"/></sheetViews>'
         got = self.fh.getvalue()
 
-        self.assertEqual(got, exp)
+        self.assertEqual(exp, got)
 
     def test_write_sheet_views2(self):
         """Test the _write_sheet_views() method with selection set"""
@@ -50,7 +50,7 @@ class TestWriteSheetViews(unittest.TestCase):
         exp = '<sheetViews><sheetView tabSelected="1" workbookViewId="0"><selection activeCell="A2" sqref="A2"/></sheetView></sheetViews>'
         got = self.fh.getvalue()
 
-        self.assertEqual(got, exp)
+        self.assertEqual(exp, got)
 
     def test_write_sheet_views3(self):
         """Test the _write_sheet_views() method with selection set"""
@@ -64,7 +64,7 @@ class TestWriteSheetViews(unittest.TestCase):
         exp = '<sheetViews><sheetView tabSelected="1" workbookViewId="0"><selection activeCell="B1" sqref="B1"/></sheetView></sheetViews>'
         got = self.fh.getvalue()
 
-        self.assertEqual(got, exp)
+        self.assertEqual(exp, got)
 
     def test_write_sheet_views4(self):
         """Test the _write_sheet_views() method with selection set"""
@@ -78,7 +78,7 @@ class TestWriteSheetViews(unittest.TestCase):
         exp = '<sheetViews><sheetView tabSelected="1" workbookViewId="0"><selection activeCell="D3" sqref="D3"/></sheetView></sheetViews>'
         got = self.fh.getvalue()
 
-        self.assertEqual(got, exp)
+        self.assertEqual(exp, got)
 
     def test_write_sheet_views5(self):
         """Test the _write_sheet_views() method with selection set"""
@@ -92,7 +92,7 @@ class TestWriteSheetViews(unittest.TestCase):
         exp = '<sheetViews><sheetView tabSelected="1" workbookViewId="0"><selection activeCell="D3" sqref="D3:F4"/></sheetView></sheetViews>'
         got = self.fh.getvalue()
 
-        self.assertEqual(got, exp)
+        self.assertEqual(exp, got)
 
     def test_write_sheet_views6(self):
         """Test the _write_sheet_views() method with selection set"""
@@ -107,7 +107,7 @@ class TestWriteSheetViews(unittest.TestCase):
         exp = '<sheetViews><sheetView tabSelected="1" workbookViewId="0"><selection activeCell="F4" sqref="D3:F4"/></sheetView></sheetViews>'
         got = self.fh.getvalue()
 
-        self.assertEqual(got, exp)
+        self.assertEqual(exp, got)
 
     def test_write_sheet_views7(self):
         """Test the _write_sheet_views() method with selection set"""
@@ -122,4 +122,4 @@ class TestWriteSheetViews(unittest.TestCase):
         exp = '<sheetViews><sheetView tabSelected="1" workbookViewId="0"><selection activeCell="A2" sqref="A2"/></sheetView></sheetViews>'
         got = self.fh.getvalue()
 
-        self.assertEqual(got, exp)
+        self.assertEqual(exp, got)

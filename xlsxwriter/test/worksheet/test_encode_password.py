@@ -62,4 +62,4 @@ class TestEncodePassword(unittest.TestCase):
         for password, exp in tests:
             got = self.worksheet._encode_password(password)
 
-            self.assertEqual(got, exp)
+            self.assertEqual(exp, got)

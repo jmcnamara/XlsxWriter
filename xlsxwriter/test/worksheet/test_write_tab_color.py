@@ -33,4 +33,4 @@ class TestWriteTabColor(unittest.TestCase):
         exp = """<tabColor rgb="FFFF0000"/>"""
         got = self.fh.getvalue()
 
-        self.assertEqual(got, exp)
+        self.assertEqual(exp, got)

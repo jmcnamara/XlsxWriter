@@ -32,4 +32,4 @@ class TestWriteSi(unittest.TestCase):
         exp = """<si><t>neptune</t></si>"""
         got = self.fh.getvalue()
 
-        self.assertEqual(got, exp)
+        self.assertEqual(exp, got)

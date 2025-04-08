@@ -32,4 +32,4 @@ class TestWriteFilterColumn(unittest.TestCase):
         exp = """<filterColumn colId="0"><filters><filter val="East"/></filters></filterColumn>"""
         got = self.fh.getvalue()
 
-        self.assertEqual(got, exp)
+        self.assertEqual(exp, got)

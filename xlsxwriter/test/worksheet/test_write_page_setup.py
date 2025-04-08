@@ -32,7 +32,7 @@ class TestWritePageSetup(unittest.TestCase):
         exp = ""
         got = self.fh.getvalue()
 
-        self.assertEqual(got, exp)
+        self.assertEqual(exp, got)
 
     def test_write_page_setup_landscape(self):
         """Test the _write_page_setup() method. With set_landscape()"""
@@ -44,7 +44,7 @@ class TestWritePageSetup(unittest.TestCase):
         exp = """<pageSetup orientation="landscape"/>"""
         got = self.fh.getvalue()
 
-        self.assertEqual(got, exp)
+        self.assertEqual(exp, got)
 
     def test_write_page_setup_portrait(self):
         """Test the _write_page_setup() method. With set_portrait()"""
@@ -56,7 +56,7 @@ class TestWritePageSetup(unittest.TestCase):
         exp = """<pageSetup orientation="portrait"/>"""
         got = self.fh.getvalue()
 
-        self.assertEqual(got, exp)
+        self.assertEqual(exp, got)
 
     def test_write_page_setup_paper(self):
         """Test the _write_page_setup() method. With set_paper()"""
@@ -68,7 +68,7 @@ class TestWritePageSetup(unittest.TestCase):
         exp = """<pageSetup paperSize="9" orientation="portrait"/>"""
         got = self.fh.getvalue()
 
-        self.assertEqual(got, exp)
+        self.assertEqual(exp, got)
 
     def test_write_page_setup_print_across(self):
         """Test the _write_page_setup() method. With print_across()"""
@@ -80,4 +80,4 @@ class TestWritePageSetup(unittest.TestCase):
         exp = """<pageSetup pageOrder="overThenDown" orientation="portrait"/>"""
         got = self.fh.getvalue()
 
-        self.assertEqual(got, exp)
+        self.assertEqual(exp, got)

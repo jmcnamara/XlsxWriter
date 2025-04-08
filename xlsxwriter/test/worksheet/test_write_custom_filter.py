@@ -32,4 +32,4 @@ class TestWriteCustomFilter(unittest.TestCase):
         exp = """<customFilter operator="greaterThan" val="3000"/>"""
         got = self.fh.getvalue()
 
-        self.assertEqual(got, exp)
+        self.assertEqual(exp, got)

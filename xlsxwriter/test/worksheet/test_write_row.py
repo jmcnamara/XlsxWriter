@@ -33,7 +33,7 @@ class TestWriteRow(unittest.TestCase):
         exp = """<row r="1">"""
         got = self.fh.getvalue()
 
-        self.assertEqual(got, exp)
+        self.assertEqual(exp, got)
 
     def test_write_row_2(self):
         """Test the _write_row() method"""
@@ -43,7 +43,7 @@ class TestWriteRow(unittest.TestCase):
         exp = """<row r="3" spans="2:2">"""
         got = self.fh.getvalue()
 
-        self.assertEqual(got, exp)
+        self.assertEqual(exp, got)
 
     def test_write_row_3(self):
         """Test the _write_row() method"""
@@ -53,7 +53,7 @@ class TestWriteRow(unittest.TestCase):
         exp = """<row r="2" ht="30" customHeight="1">"""
         got = self.fh.getvalue()
 
-        self.assertEqual(got, exp)
+        self.assertEqual(exp, got)
 
     def test_write_row_4(self):
         """Test the _write_row() method"""
@@ -63,7 +63,7 @@ class TestWriteRow(unittest.TestCase):
         exp = """<row r="4" hidden="1">"""
         got = self.fh.getvalue()
 
-        self.assertEqual(got, exp)
+        self.assertEqual(exp, got)
 
     def test_write_row_5(self):
         """Test the _write_row() method"""
@@ -75,7 +75,7 @@ class TestWriteRow(unittest.TestCase):
         exp = """<row r="7" s="1" customFormat="1">"""
         got = self.fh.getvalue()
 
-        self.assertEqual(got, exp)
+        self.assertEqual(exp, got)
 
     def test_write_row_6(self):
         """Test the _write_row() method"""
@@ -85,7 +85,7 @@ class TestWriteRow(unittest.TestCase):
         exp = """<row r="10" ht="3" customHeight="1">"""
         got = self.fh.getvalue()
 
-        self.assertEqual(got, exp)
+        self.assertEqual(exp, got)
 
     def test_write_row_7(self):
         """Test the _write_row() method"""
@@ -95,7 +95,7 @@ class TestWriteRow(unittest.TestCase):
         exp = """<row r="13" ht="24" hidden="1" customHeight="1">"""
         got = self.fh.getvalue()
 
-        self.assertEqual(got, exp)
+        self.assertEqual(exp, got)
 
     def test_write_row_8(self):
         """Test the _write_row() method"""
@@ -105,4 +105,4 @@ class TestWriteRow(unittest.TestCase):
         exp = """<row r="13" ht="24" hidden="1" customHeight="1"/>"""
         got = self.fh.getvalue()
 
-        self.assertEqual(got, exp)
+        self.assertEqual(exp, got)

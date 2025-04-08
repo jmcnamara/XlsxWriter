@@ -32,4 +32,4 @@ class TestWriteDefaultFill(unittest.TestCase):
         exp = """<fill><patternFill patternType="none"/></fill>"""
         got = self.fh.getvalue()
 
-        self.assertEqual(got, exp)
+        self.assertEqual(exp, got)

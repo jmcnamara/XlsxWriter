@@ -32,7 +32,7 @@ class TestWriteVfill(unittest.TestCase):
         exp = """<v:fill color2="#ffffe1"/>"""
         got = self.fh.getvalue()
 
-        self.assertEqual(got, exp)
+        self.assertEqual(exp, got)
 
     def test_write_button_fill(self):
         """Test the _write_button_fill() method"""
@@ -42,4 +42,4 @@ class TestWriteVfill(unittest.TestCase):
         exp = """<v:fill color2="buttonFace [67]" o:detectmouseclick="t"/>"""
         got = self.fh.getvalue()
 
-        self.assertEqual(got, exp)
+        self.assertEqual(exp, got)

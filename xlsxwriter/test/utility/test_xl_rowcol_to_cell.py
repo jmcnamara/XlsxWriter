@@ -50,7 +50,7 @@ class TestUtility(unittest.TestCase):
             # Ignore the warnings for negative values.
             warnings.filterwarnings("ignore")
 
-            self.assertEqual(got, exp)
+            self.assertEqual(exp, got)
 
     def test_xl_rowcol_to_cell_abs(self):
         """Test xl_rowcol_to_cell() with absolute references"""
@@ -71,7 +71,7 @@ class TestUtility(unittest.TestCase):
             # Ignore the warnings for negative values.
             warnings.filterwarnings("ignore")
 
-            self.assertEqual(got, exp)
+            self.assertEqual(exp, got)
 
     def test_xl_rowcol_to_cell_fast(self):
         """Test xl_rowcol_to_cell_fast()"""
@@ -98,4 +98,4 @@ class TestUtility(unittest.TestCase):
         for row, col, range in tests:
             exp = range
             got = xl_rowcol_to_cell_fast(row, col)
-            self.assertEqual(got, exp)
+            self.assertEqual(exp, got)

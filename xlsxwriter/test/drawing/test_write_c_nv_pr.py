@@ -32,11 +32,11 @@ class TestWriteXdrcNvPr(unittest.TestCase):
         exp = """<xdr:cNvPr id="2" name="Chart 1"/>"""
         got = self.fh.getvalue()
 
-        self.assertEqual(got, exp)
+        self.assertEqual(exp, got)
 
         self.drawing._write_c_nv_pr(2, "Chart 1", None, 1, "tip", None)
 
         exp = """<xdr:cNvPr id="2" name="Chart 1"/><xdr:cNvPr id="2" name="Chart 1"><a:hlinkClick xmlns:r="http://schemas.openxmlformats.org/officeDocument/2006/relationships" r:id="rId1" tooltip="tip"/></xdr:cNvPr>"""
         got = self.fh.getvalue()
 
-        self.assertEqual(got, exp)
+        self.assertEqual(exp, got)

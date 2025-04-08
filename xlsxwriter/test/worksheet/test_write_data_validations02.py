@@ -49,7 +49,7 @@ class TestWriteDataValidations(unittest.TestCase):
         exp = _xml_to_list(exp)
         got = _xml_to_list(got)
 
-        self.assertEqual(got, exp)
+        self.assertEqual(exp, got)
 
     def test_write_data_validations_2(self):
         """
@@ -73,7 +73,7 @@ class TestWriteDataValidations(unittest.TestCase):
         exp = _xml_to_list(exp)
         got = _xml_to_list(got)
 
-        self.assertEqual(got, exp)
+        self.assertEqual(exp, got)
 
     def test_write_data_validations_3(self):
         """
@@ -96,7 +96,7 @@ class TestWriteDataValidations(unittest.TestCase):
         exp = _xml_to_list(exp)
         got = _xml_to_list(got)
 
-        self.assertEqual(got, exp)
+        self.assertEqual(exp, got)
 
     def test_write_data_validations_4(self):
         """
@@ -119,7 +119,7 @@ class TestWriteDataValidations(unittest.TestCase):
         exp = _xml_to_list(exp)
         got = _xml_to_list(got)
 
-        self.assertEqual(got, exp)
+        self.assertEqual(exp, got)
 
     def test_write_data_validations_5(self):
         """
@@ -142,7 +142,7 @@ class TestWriteDataValidations(unittest.TestCase):
         exp = _xml_to_list(exp)
         got = _xml_to_list(got)
 
-        self.assertEqual(got, exp)
+        self.assertEqual(exp, got)
 
     def test_write_data_validations_6(self):
         """
@@ -165,7 +165,7 @@ class TestWriteDataValidations(unittest.TestCase):
         exp = _xml_to_list(exp)
         got = _xml_to_list(got)
 
-        self.assertEqual(got, exp)
+        self.assertEqual(exp, got)
 
     def test_write_data_validations_7(self):
         """
@@ -188,7 +188,7 @@ class TestWriteDataValidations(unittest.TestCase):
         exp = _xml_to_list(exp)
         got = _xml_to_list(got)
 
-        self.assertEqual(got, exp)
+        self.assertEqual(exp, got)
 
     def test_write_data_validations_8(self):
         """
@@ -211,7 +211,7 @@ class TestWriteDataValidations(unittest.TestCase):
         exp = _xml_to_list(exp)
         got = _xml_to_list(got)
 
-        self.assertEqual(got, exp)
+        self.assertEqual(exp, got)
 
     def test_write_data_validations_9(self):
         """
@@ -234,7 +234,7 @@ class TestWriteDataValidations(unittest.TestCase):
         exp = _xml_to_list(exp)
         got = _xml_to_list(got)
 
-        self.assertEqual(got, exp)
+        self.assertEqual(exp, got)
 
     def test_write_data_validations_10(self):
         """
@@ -257,7 +257,7 @@ class TestWriteDataValidations(unittest.TestCase):
         exp = _xml_to_list(exp)
         got = _xml_to_list(got)
 
-        self.assertEqual(got, exp)
+        self.assertEqual(exp, got)
 
     def test_write_data_validations_11(self):
         """
@@ -280,7 +280,7 @@ class TestWriteDataValidations(unittest.TestCase):
         exp = _xml_to_list(exp)
         got = _xml_to_list(got)
 
-        self.assertEqual(got, exp)
+        self.assertEqual(exp, got)
 
     def test_write_data_validations_12(self):
         """
@@ -303,7 +303,7 @@ class TestWriteDataValidations(unittest.TestCase):
         exp = _xml_to_list(exp)
         got = _xml_to_list(got)
 
-        self.assertEqual(got, exp)
+        self.assertEqual(exp, got)
 
     def test_write_data_validations_13(self):
         """
@@ -326,7 +326,7 @@ class TestWriteDataValidations(unittest.TestCase):
         exp = _xml_to_list(exp)
         got = _xml_to_list(got)
 
-        self.assertEqual(got, exp)
+        self.assertEqual(exp, got)
 
     def test_write_data_validations_14(self):
         """
@@ -349,7 +349,7 @@ class TestWriteDataValidations(unittest.TestCase):
         exp = _xml_to_list(exp)
         got = _xml_to_list(got)
 
-        self.assertEqual(got, exp)
+        self.assertEqual(exp, got)
 
     def test_write_data_validations_15(self):
         """
@@ -372,7 +372,7 @@ class TestWriteDataValidations(unittest.TestCase):
         exp = _xml_to_list(exp)
         got = _xml_to_list(got)
 
-        self.assertEqual(got, exp)
+        self.assertEqual(exp, got)
 
     def test_write_data_validations_16(self):
         """
@@ -395,7 +395,7 @@ class TestWriteDataValidations(unittest.TestCase):
         exp = _xml_to_list(exp)
         got = _xml_to_list(got)
 
-        self.assertEqual(got, exp)
+        self.assertEqual(exp, got)
 
     def test_write_data_validations_17(self):
         """
@@ -420,7 +420,7 @@ class TestWriteDataValidations(unittest.TestCase):
         exp = _xml_to_list(exp)
         got = _xml_to_list(got)
 
-        self.assertEqual(got, exp)
+        self.assertEqual(exp, got)
 
     def test_write_data_validations_18(self):
         """
@@ -445,7 +445,7 @@ class TestWriteDataValidations(unittest.TestCase):
         exp = _xml_to_list(exp)
         got = _xml_to_list(got)
 
-        self.assertEqual(got, exp)
+        self.assertEqual(exp, got)
 
     def test_write_data_validations_19(self):
         """
@@ -470,7 +470,7 @@ class TestWriteDataValidations(unittest.TestCase):
         exp = _xml_to_list(exp)
         got = _xml_to_list(got)
 
-        self.assertEqual(got, exp)
+        self.assertEqual(exp, got)
 
     def test_write_data_validations_20(self):
         """
@@ -496,7 +496,7 @@ class TestWriteDataValidations(unittest.TestCase):
         exp = _xml_to_list(exp)
         got = _xml_to_list(got)
 
-        self.assertEqual(got, exp)
+        self.assertEqual(exp, got)
 
     def test_write_data_validations_21(self):
         """
@@ -524,7 +524,7 @@ class TestWriteDataValidations(unittest.TestCase):
         exp = _xml_to_list(exp)
         got = _xml_to_list(got)
 
-        self.assertEqual(got, exp)
+        self.assertEqual(exp, got)
 
     def test_write_data_validations_22(self):
         """
@@ -554,7 +554,7 @@ class TestWriteDataValidations(unittest.TestCase):
         exp = _xml_to_list(exp)
         got = _xml_to_list(got)
 
-        self.assertEqual(got, exp)
+        self.assertEqual(exp, got)
 
     def test_write_data_validations_23(self):
         """
@@ -586,7 +586,7 @@ class TestWriteDataValidations(unittest.TestCase):
         exp = _xml_to_list(exp)
         got = _xml_to_list(got)
 
-        self.assertEqual(got, exp)
+        self.assertEqual(exp, got)
 
     def test_write_data_validations_24(self):
         """
@@ -620,7 +620,7 @@ class TestWriteDataValidations(unittest.TestCase):
         exp = _xml_to_list(exp)
         got = _xml_to_list(got)
 
-        self.assertEqual(got, exp)
+        self.assertEqual(exp, got)
 
     def test_write_data_validations_25(self):
         """
@@ -656,7 +656,7 @@ class TestWriteDataValidations(unittest.TestCase):
         exp = _xml_to_list(exp)
         got = _xml_to_list(got)
 
-        self.assertEqual(got, exp)
+        self.assertEqual(exp, got)
 
     def test_write_data_validations_26(self):
         """
@@ -669,7 +669,7 @@ class TestWriteDataValidations(unittest.TestCase):
         exp = ""
         got = self.fh.getvalue()
 
-        self.assertEqual(got, exp)
+        self.assertEqual(exp, got)
 
     def test_write_data_validations_27(self):
         """
@@ -692,7 +692,7 @@ class TestWriteDataValidations(unittest.TestCase):
         exp = _xml_to_list(exp)
         got = _xml_to_list(got)
 
-        self.assertEqual(got, exp)
+        self.assertEqual(exp, got)
 
     def test_write_data_validations_28(self):
         """
@@ -714,7 +714,7 @@ class TestWriteDataValidations(unittest.TestCase):
         exp = _xml_to_list(exp)
         got = _xml_to_list(got)
 
-        self.assertEqual(got, exp)
+        self.assertEqual(exp, got)
 
     def test_write_data_validations_29(self):
         """
@@ -737,7 +737,7 @@ class TestWriteDataValidations(unittest.TestCase):
         exp = _xml_to_list(exp)
         got = _xml_to_list(got)
 
-        self.assertEqual(got, exp)
+        self.assertEqual(exp, got)
 
     def test_write_data_validations_30(self):
         """
@@ -759,7 +759,7 @@ class TestWriteDataValidations(unittest.TestCase):
         exp = _xml_to_list(exp)
         got = _xml_to_list(got)
 
-        self.assertEqual(got, exp)
+        self.assertEqual(exp, got)
 
     def test_write_data_validations_31(self):
         """
@@ -782,7 +782,7 @@ class TestWriteDataValidations(unittest.TestCase):
         exp = _xml_to_list(exp)
         got = _xml_to_list(got)
 
-        self.assertEqual(got, exp)
+        self.assertEqual(exp, got)
 
     def test_write_data_validations_32(self):
         """
@@ -805,7 +805,7 @@ class TestWriteDataValidations(unittest.TestCase):
         exp = _xml_to_list(exp)
         got = _xml_to_list(got)
 
-        self.assertEqual(got, exp)
+        self.assertEqual(exp, got)
 
     def test_write_data_validations_33(self):
         """
@@ -829,7 +829,7 @@ class TestWriteDataValidations(unittest.TestCase):
         exp = _xml_to_list(exp)
         got = _xml_to_list(got)
 
-        self.assertEqual(got, exp)
+        self.assertEqual(exp, got)
 
     def test_write_data_validations_34(self):
         """
@@ -852,7 +852,7 @@ class TestWriteDataValidations(unittest.TestCase):
         exp = _xml_to_list(exp)
         got = _xml_to_list(got)
 
-        self.assertEqual(got, exp)
+        self.assertEqual(exp, got)
 
     def test_write_data_validations_35(self):
         """
@@ -875,7 +875,7 @@ class TestWriteDataValidations(unittest.TestCase):
         exp = _xml_to_list(exp)
         got = _xml_to_list(got)
 
-        self.assertEqual(got, exp)
+        self.assertEqual(exp, got)
 
     def test_write_data_validations_36(self):
         """
@@ -898,7 +898,7 @@ class TestWriteDataValidations(unittest.TestCase):
         exp = _xml_to_list(exp)
         got = _xml_to_list(got)
 
-        self.assertEqual(got, exp)
+        self.assertEqual(exp, got)
 
     def test_write_data_validations_37(self):
         """
@@ -922,7 +922,7 @@ class TestWriteDataValidations(unittest.TestCase):
         exp = _xml_to_list(exp)
         got = _xml_to_list(got)
 
-        self.assertEqual(got, exp)
+        self.assertEqual(exp, got)
 
     def test_write_data_validations_38(self):
         """
@@ -946,7 +946,7 @@ class TestWriteDataValidations(unittest.TestCase):
         exp = _xml_to_list(exp)
         got = _xml_to_list(got)
 
-        self.assertEqual(got, exp)
+        self.assertEqual(exp, got)
 
     def test_write_data_validations_39(self):
         """
@@ -973,7 +973,7 @@ class TestWriteDataValidations(unittest.TestCase):
         exp = _xml_to_list(exp)
         got = _xml_to_list(got)
 
-        self.assertEqual(got, exp)
+        self.assertEqual(exp, got)
 
     def test_write_data_validations_40(self):
         """
@@ -1000,7 +1000,7 @@ class TestWriteDataValidations(unittest.TestCase):
         exp = _xml_to_list(exp)
         got = _xml_to_list(got)
 
-        self.assertEqual(got, exp)
+        self.assertEqual(exp, got)
 
     def test_write_data_validations_41(self):
         """
@@ -1028,7 +1028,7 @@ class TestWriteDataValidations(unittest.TestCase):
         exp = _xml_to_list(exp)
         got = _xml_to_list(got)
 
-        self.assertEqual(got, exp)
+        self.assertEqual(exp, got)
 
     def test_write_data_validations_42(self):
         """
@@ -1056,7 +1056,7 @@ class TestWriteDataValidations(unittest.TestCase):
         exp = _xml_to_list(exp)
         got = _xml_to_list(got)
 
-        self.assertEqual(got, exp)
+        self.assertEqual(exp, got)
 
     def test_write_data_validations_43(self):
         """
@@ -1084,7 +1084,7 @@ class TestWriteDataValidations(unittest.TestCase):
         exp = _xml_to_list(exp)
         got = _xml_to_list(got)
 
-        self.assertEqual(got, exp)
+        self.assertEqual(exp, got)
 
     def test_write_data_validations_44(self):
         """
@@ -1116,7 +1116,7 @@ class TestWriteDataValidations(unittest.TestCase):
         exp = _xml_to_list(exp)
         got = _xml_to_list(got)
 
-        self.assertEqual(got, exp)
+        self.assertEqual(exp, got)
 
     def test_write_data_validations_45(self):
         """
@@ -1139,7 +1139,7 @@ class TestWriteDataValidations(unittest.TestCase):
         exp = _xml_to_list(exp)
         got = _xml_to_list(got)
 
-        self.assertEqual(got, exp)
+        self.assertEqual(exp, got)
 
     def test_write_data_validations_46(self):
         """
@@ -1163,7 +1163,7 @@ class TestWriteDataValidations(unittest.TestCase):
         exp = _xml_to_list(exp)
         got = _xml_to_list(got)
 
-        self.assertEqual(got, exp)
+        self.assertEqual(exp, got)
 
     def test_write_data_validations_47(self):
         """
@@ -1191,7 +1191,7 @@ class TestWriteDataValidations(unittest.TestCase):
         exp = _xml_to_list(exp)
         got = _xml_to_list(got)
 
-        self.assertEqual(got, exp)
+        self.assertEqual(exp, got)
 
     def test_write_data_validations_48(self):
         """
@@ -1220,4 +1220,4 @@ class TestWriteDataValidations(unittest.TestCase):
         exp = _xml_to_list(exp)
         got = _xml_to_list(got)
 
-        self.assertEqual(got, exp)
+        self.assertEqual(exp, got)

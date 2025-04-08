@@ -32,7 +32,7 @@ class TestWriteHyperlink(unittest.TestCase):
         exp = """<hyperlink ref="A1" r:id="rId1"/>"""
         got = self.fh.getvalue()
 
-        self.assertEqual(got, exp)
+        self.assertEqual(exp, got)
 
     def test_write_hyperlink_internal_1(self):
         """Test the _write_hyperlink() method"""
@@ -42,7 +42,7 @@ class TestWriteHyperlink(unittest.TestCase):
         exp = """<hyperlink ref="A1" location="Sheet2!A1" display="Sheet2!A1"/>"""
         got = self.fh.getvalue()
 
-        self.assertEqual(got, exp)
+        self.assertEqual(exp, got)
 
     def test_write_hyperlink_internal_2(self):
         """Test the _write_hyperlink() method"""
@@ -54,7 +54,7 @@ class TestWriteHyperlink(unittest.TestCase):
         exp = """<hyperlink ref="A5" location="'Data Sheet'!D5" display="'Data Sheet'!D5"/>"""
         got = self.fh.getvalue()
 
-        self.assertEqual(got, exp)
+        self.assertEqual(exp, got)
 
     def test_write_hyperlink_internal_3(self):
         """Test the _write_hyperlink() method"""
@@ -66,4 +66,4 @@ class TestWriteHyperlink(unittest.TestCase):
         exp = """<hyperlink ref="A18" location="Sheet2!A1" tooltip="Screen Tip 1" display="Sheet2!A1"/>"""
         got = self.fh.getvalue()
 
-        self.assertEqual(got, exp)
+        self.assertEqual(exp, got)

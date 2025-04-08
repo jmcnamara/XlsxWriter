@@ -32,4 +32,4 @@ class TestWriteVshadow(unittest.TestCase):
         exp = """<v:shadow on="t" color="black" obscured="t"/>"""
         got = self.fh.getvalue()
 
-        self.assertEqual(got, exp)
+        self.assertEqual(exp, got)

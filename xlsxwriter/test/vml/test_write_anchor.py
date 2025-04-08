@@ -32,4 +32,4 @@ class TestWriteXAnchor(unittest.TestCase):
         exp = """<x:Anchor>2, 15, 0, 10, 4, 15, 4, 4</x:Anchor>"""
         got = self.fh.getvalue()
 
-        self.assertEqual(got, exp)
+        self.assertEqual(exp, got)

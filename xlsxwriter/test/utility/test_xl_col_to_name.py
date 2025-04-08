@@ -46,7 +46,7 @@ class TestUtility(unittest.TestCase):
             # Ignore the warnings for negative values.
             warnings.filterwarnings("ignore")
 
-            self.assertEqual(got, exp)
+            self.assertEqual(exp, got)
 
     def test_xl_col_to_name_abs(self):
         """Test xl_col_to_name() with absolute references"""
@@ -64,4 +64,4 @@ class TestUtility(unittest.TestCase):
             # Ignore the warnings for negative values.
             warnings.filterwarnings("ignore")
 
-            self.assertEqual(got, exp)
+            self.assertEqual(exp, got)

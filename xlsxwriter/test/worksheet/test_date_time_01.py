@@ -133,4 +133,4 @@ class TestConvertDateTime(unittest.TestCase):
 
             got = self.worksheet._convert_date_time(date)
             exp = excel_date[1]
-            self.assertEqual(got, exp)
+            self.assertEqual(exp, got)

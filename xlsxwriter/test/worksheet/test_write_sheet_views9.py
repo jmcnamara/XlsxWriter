@@ -38,7 +38,7 @@ class TestWriteSheetViews(unittest.TestCase):
         exp = '<sheetViews><sheetView tabSelected="1" workbookViewId="0"><pane ySplit="600" topLeftCell="A21" activePane="bottomLeft"/><selection pane="bottomLeft" activeCell="A2" sqref="A2"/></sheetView></sheetViews>'
         got = self.fh.getvalue()
 
-        self.assertEqual(got, exp)
+        self.assertEqual(exp, got)
 
     def test_write_sheet_views2(self):
         """Test the _write_sheet_views() method with split panes + selection"""
@@ -53,7 +53,7 @@ class TestWriteSheetViews(unittest.TestCase):
         exp = '<sheetViews><sheetView tabSelected="1" workbookViewId="0"><pane ySplit="600" topLeftCell="A21" activePane="bottomLeft"/><selection pane="bottomLeft" activeCell="A21" sqref="A21"/></sheetView></sheetViews>'
         got = self.fh.getvalue()
 
-        self.assertEqual(got, exp)
+        self.assertEqual(exp, got)
 
     def test_write_sheet_views3(self):
         """Test the _write_sheet_views() method with split panes + selection"""
@@ -68,7 +68,7 @@ class TestWriteSheetViews(unittest.TestCase):
         exp = '<sheetViews><sheetView tabSelected="1" workbookViewId="0"><pane xSplit="1350" topLeftCell="E1" activePane="topRight"/><selection pane="topRight" activeCell="B1" sqref="B1"/></sheetView></sheetViews>'
         got = self.fh.getvalue()
 
-        self.assertEqual(got, exp)
+        self.assertEqual(exp, got)
 
     def test_write_sheet_views4(self):
         """Test the _write_sheet_views() method with split panes + selection"""
@@ -83,4 +83,4 @@ class TestWriteSheetViews(unittest.TestCase):
         exp = '<sheetViews><sheetView tabSelected="1" workbookViewId="0"><pane xSplit="1350" topLeftCell="E1" activePane="topRight"/><selection pane="topRight" activeCell="E1" sqref="E1"/></sheetView></sheetViews>'
         got = self.fh.getvalue()
 
-        self.assertEqual(got, exp)
+        self.assertEqual(exp, got)

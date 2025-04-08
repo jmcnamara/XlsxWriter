@@ -32,7 +32,7 @@ class TestWriteFileVersion(unittest.TestCase):
         exp = """<fileVersion appName="xl" lastEdited="4" lowestEdited="4" rupBuild="4505"/>"""
         got = self.fh.getvalue()
 
-        self.assertEqual(got, exp)
+        self.assertEqual(exp, got)
 
     def tearDown(self):
         self.workbook.fileclosed = 1

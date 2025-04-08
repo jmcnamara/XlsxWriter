@@ -34,7 +34,7 @@ class TestWriteColBreaks(unittest.TestCase):
         exp = """<colBreaks count="1" manualBreakCount="1"><brk id="1" max="1048575" man="1"/></colBreaks>"""
         got = self.fh.getvalue()
 
-        self.assertEqual(got, exp)
+        self.assertEqual(exp, got)
 
     def test_write_col_breaks_2(self):
         """Test the _write_col_breaks() method"""
@@ -46,4 +46,4 @@ class TestWriteColBreaks(unittest.TestCase):
         exp = """<colBreaks count="3" manualBreakCount="3"><brk id="1" max="1048575" man="1"/><brk id="3" max="1048575" man="1"/><brk id="8" max="1048575" man="1"/></colBreaks>"""
         got = self.fh.getvalue()
 
-        self.assertEqual(got, exp)
+        self.assertEqual(exp, got)

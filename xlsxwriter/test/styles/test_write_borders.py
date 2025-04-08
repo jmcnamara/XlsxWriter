@@ -38,4 +38,4 @@ class TestWriteBorders(unittest.TestCase):
         exp = """<borders count="1"><border><left/><right/><top/><bottom/><diagonal/></border></borders>"""
         got = self.fh.getvalue()
 
-        self.assertEqual(got, exp)
+        self.assertEqual(exp, got)

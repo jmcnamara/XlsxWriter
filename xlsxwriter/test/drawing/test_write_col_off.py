@@ -32,4 +32,4 @@ class TestWriteXdrcolOff(unittest.TestCase):
         exp = """<xdr:colOff>457200</xdr:colOff>"""
         got = self.fh.getvalue()
 
-        self.assertEqual(got, exp)
+        self.assertEqual(exp, got)

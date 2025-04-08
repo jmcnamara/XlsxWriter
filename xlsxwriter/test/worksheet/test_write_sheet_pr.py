@@ -33,7 +33,7 @@ class TestWriteSheetPr(unittest.TestCase):
         exp = """<sheetPr><pageSetUpPr fitToPage="1"/></sheetPr>"""
         got = self.fh.getvalue()
 
-        self.assertEqual(got, exp)
+        self.assertEqual(exp, got)
 
     def test_write_sheet_pr_tab_color(self):
         """Test the _write_sheet_pr() method"""
@@ -44,7 +44,7 @@ class TestWriteSheetPr(unittest.TestCase):
         exp = """<sheetPr><tabColor rgb="FFFF0000"/></sheetPr>"""
         got = self.fh.getvalue()
 
-        self.assertEqual(got, exp)
+        self.assertEqual(exp, got)
 
     def test_write_sheet_pr_both(self):
         """Test the _write_sheet_pr() method"""
@@ -56,4 +56,4 @@ class TestWriteSheetPr(unittest.TestCase):
         exp = """<sheetPr><tabColor rgb="FFFF0000"/><pageSetUpPr fitToPage="1"/></sheetPr>"""
         got = self.fh.getvalue()
 
-        self.assertEqual(got, exp)
+        self.assertEqual(exp, got)

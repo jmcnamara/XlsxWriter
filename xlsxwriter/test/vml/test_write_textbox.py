@@ -32,4 +32,4 @@ class TestWriteVtextbox(unittest.TestCase):
         exp = """<v:textbox style="mso-direction-alt:auto"><div style="text-align:left"></div></v:textbox>"""
         got = self.fh.getvalue()
 
-        self.assertEqual(got, exp)
+        self.assertEqual(exp, got)

@@ -32,4 +32,4 @@ class TestWriteDiv(unittest.TestCase):
         exp = """<div style="text-align:left"></div>"""
         got = self.fh.getvalue()
 
-        self.assertEqual(got, exp)
+        self.assertEqual(exp, got)

@@ -33,7 +33,7 @@ class TestWriteSheets(unittest.TestCase):
         exp = """<sheets><sheet name="Sheet2" sheetId="1" r:id="rId1"/></sheets>"""
         got = self.fh.getvalue()
 
-        self.assertEqual(got, exp)
+        self.assertEqual(exp, got)
 
     def tearDown(self):
         self.workbook.fileclosed = 1

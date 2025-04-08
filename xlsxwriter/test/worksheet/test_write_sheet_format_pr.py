@@ -32,4 +32,4 @@ class TestWriteSheetFormatPr(unittest.TestCase):
         exp = """<sheetFormatPr defaultRowHeight="15"/>"""
         got = self.fh.getvalue()
 
-        self.assertEqual(got, exp)
+        self.assertEqual(exp, got)

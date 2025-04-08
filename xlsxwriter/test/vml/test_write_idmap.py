@@ -32,4 +32,4 @@ class TestWriteOidmap(unittest.TestCase):
         exp = """<o:idmap v:ext="edit" data="1"/>"""
         got = self.fh.getvalue()
 
-        self.assertEqual(got, exp)
+        self.assertEqual(exp, got)

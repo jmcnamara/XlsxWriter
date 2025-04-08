@@ -156,4 +156,4 @@ class TestUtility(unittest.TestCase):
 
         for sheetname, exp in tests:
             got = quote_sheetname(sheetname)
-            self.assertEqual(got, exp)
+            self.assertEqual(exp, got)

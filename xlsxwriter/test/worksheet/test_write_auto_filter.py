@@ -34,7 +34,7 @@ class TestWriteAutoFilter(unittest.TestCase):
         exp = """<autoFilter ref="A1:D51"/>"""
         got = self.fh.getvalue()
 
-        self.assertEqual(got, exp)
+        self.assertEqual(exp, got)
 
     def test_write_auto_filter_2(self):
         """Test the _write_auto_filter() method"""
@@ -47,7 +47,7 @@ class TestWriteAutoFilter(unittest.TestCase):
 
         got = self.fh.getvalue()
 
-        self.assertEqual(got, exp)
+        self.assertEqual(exp, got)
 
     def test_write_auto_filter_3(self):
         """Test the _write_auto_filter() method"""
@@ -60,7 +60,7 @@ class TestWriteAutoFilter(unittest.TestCase):
 
         got = self.fh.getvalue()
 
-        self.assertEqual(got, exp)
+        self.assertEqual(exp, got)
 
     def test_write_auto_filter_4(self):
         """Test the _write_auto_filter() method"""
@@ -73,7 +73,7 @@ class TestWriteAutoFilter(unittest.TestCase):
 
         got = self.fh.getvalue()
 
-        self.assertEqual(got, exp)
+        self.assertEqual(exp, got)
 
     def test_write_auto_filter_5(self):
         """Test the _write_auto_filter() method"""
@@ -86,7 +86,7 @@ class TestWriteAutoFilter(unittest.TestCase):
 
         got = self.fh.getvalue()
 
-        self.assertEqual(got, exp)
+        self.assertEqual(exp, got)
 
     def test_write_auto_filter_6(self):
         """Test the _write_auto_filter() method"""
@@ -99,7 +99,7 @@ class TestWriteAutoFilter(unittest.TestCase):
 
         got = self.fh.getvalue()
 
-        self.assertEqual(got, exp)
+        self.assertEqual(exp, got)
 
     def test_write_auto_filter_7(self):
         """Test the _write_auto_filter() method"""
@@ -112,7 +112,7 @@ class TestWriteAutoFilter(unittest.TestCase):
 
         got = self.fh.getvalue()
 
-        self.assertEqual(got, exp)
+        self.assertEqual(exp, got)
 
     def test_write_auto_filter_8(self):
         """Test the _write_auto_filter() method"""
@@ -125,7 +125,7 @@ class TestWriteAutoFilter(unittest.TestCase):
 
         got = self.fh.getvalue()
 
-        self.assertEqual(got, exp)
+        self.assertEqual(exp, got)
 
     def test_write_auto_filter_9(self):
         """Test the _write_auto_filter() method"""
@@ -138,7 +138,7 @@ class TestWriteAutoFilter(unittest.TestCase):
 
         got = self.fh.getvalue()
 
-        self.assertEqual(got, exp)
+        self.assertEqual(exp, got)
 
     def test_write_auto_filter_10(self):
         """Test the _write_auto_filter() method"""
@@ -151,7 +151,7 @@ class TestWriteAutoFilter(unittest.TestCase):
 
         got = self.fh.getvalue()
 
-        self.assertEqual(got, exp)
+        self.assertEqual(exp, got)
 
     def test_write_auto_filter_11(self):
         """Test the _write_auto_filter() method"""
@@ -164,7 +164,7 @@ class TestWriteAutoFilter(unittest.TestCase):
 
         got = self.fh.getvalue()
 
-        self.assertEqual(got, exp)
+        self.assertEqual(exp, got)
 
     def test_write_auto_filter_12(self):
         """Test the _write_auto_filter() method"""
@@ -177,7 +177,7 @@ class TestWriteAutoFilter(unittest.TestCase):
 
         got = self.fh.getvalue()
 
-        self.assertEqual(got, exp)
+        self.assertEqual(exp, got)
 
     def test_write_auto_filter_13(self):
         """Test the _write_auto_filter() method"""
@@ -190,7 +190,7 @@ class TestWriteAutoFilter(unittest.TestCase):
 
         got = self.fh.getvalue()
 
-        self.assertEqual(got, exp)
+        self.assertEqual(exp, got)
 
     def test_write_auto_filter_14(self):
         """Test the _write_auto_filter() method"""
@@ -203,7 +203,7 @@ class TestWriteAutoFilter(unittest.TestCase):
 
         got = self.fh.getvalue()
 
-        self.assertEqual(got, exp)
+        self.assertEqual(exp, got)
 
     def test_write_auto_filter_15(self):
         """Test the _write_auto_filter() method"""
@@ -216,7 +216,7 @@ class TestWriteAutoFilter(unittest.TestCase):
 
         got = self.fh.getvalue()
 
-        self.assertEqual(got, exp)
+        self.assertEqual(exp, got)
 
     def test_write_auto_filter_16(self):
         """Test the _write_auto_filter() method"""
@@ -229,7 +229,7 @@ class TestWriteAutoFilter(unittest.TestCase):
 
         got = self.fh.getvalue()
 
-        self.assertEqual(got, exp)
+        self.assertEqual(exp, got)
 
     def test_write_auto_filter_17(self):
         """Test the _write_auto_filter() method"""
@@ -242,7 +242,7 @@ class TestWriteAutoFilter(unittest.TestCase):
 
         got = self.fh.getvalue()
 
-        self.assertEqual(got, exp)
+        self.assertEqual(exp, got)
 
     def test_write_auto_filter_18(self):
         """Test the _write_auto_filter() method"""
@@ -255,7 +255,7 @@ class TestWriteAutoFilter(unittest.TestCase):
 
         got = self.fh.getvalue()
 
-        self.assertEqual(got, exp)
+        self.assertEqual(exp, got)
 
     def test_write_auto_filter_19(self):
         """Test the _write_auto_filter() method"""
@@ -268,7 +268,7 @@ class TestWriteAutoFilter(unittest.TestCase):
 
         got = self.fh.getvalue()
 
-        self.assertEqual(got, exp)
+        self.assertEqual(exp, got)
 
     def test_write_auto_filter_20(self):
         """Test the _write_auto_filter() method"""
@@ -281,7 +281,7 @@ class TestWriteAutoFilter(unittest.TestCase):
 
         got = self.fh.getvalue()
 
-        self.assertEqual(got, exp)
+        self.assertEqual(exp, got)
 
     def test_write_auto_filter_21(self):
         """Test the _write_auto_filter() method"""
@@ -294,4 +294,4 @@ class TestWriteAutoFilter(unittest.TestCase):
 
         got = self.fh.getvalue()
 
-        self.assertEqual(got, exp)
+        self.assertEqual(exp, got)

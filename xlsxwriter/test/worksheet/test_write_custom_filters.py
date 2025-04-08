@@ -32,7 +32,7 @@ class TestWriteCustomFilters(unittest.TestCase):
         exp = """<customFilters><customFilter operator="greaterThan" val="4000"/></customFilters>"""
         got = self.fh.getvalue()
 
-        self.assertEqual(got, exp)
+        self.assertEqual(exp, got)
 
     def test_write_custom_filters_2(self):
         """Test the _write_custom_filters() method"""
@@ -42,4 +42,4 @@ class TestWriteCustomFilters(unittest.TestCase):
         exp = """<customFilters and="1"><customFilter operator="greaterThan" val="3000"/><customFilter operator="lessThan" val="8000"/></customFilters>"""
         got = self.fh.getvalue()
 
-        self.assertEqual(got, exp)
+        self.assertEqual(exp, got)

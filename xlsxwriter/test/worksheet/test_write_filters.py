@@ -32,7 +32,7 @@ class TestWriteFilters(unittest.TestCase):
         exp = """<filters><filter val="East"/></filters>"""
         got = self.fh.getvalue()
 
-        self.assertEqual(got, exp)
+        self.assertEqual(exp, got)
 
     def test_write_filters_2(self):
         """Test the _write_filters() method"""
@@ -42,7 +42,7 @@ class TestWriteFilters(unittest.TestCase):
         exp = """<filters><filter val="East"/><filter val="South"/></filters>"""
         got = self.fh.getvalue()
 
-        self.assertEqual(got, exp)
+        self.assertEqual(exp, got)
 
     def test_write_filters_3(self):
         """Test the _write_filters() method"""
@@ -52,4 +52,4 @@ class TestWriteFilters(unittest.TestCase):
         exp = """<filters blank="1"/>"""
         got = self.fh.getvalue()
 
-        self.assertEqual(got, exp)
+        self.assertEqual(exp, got)

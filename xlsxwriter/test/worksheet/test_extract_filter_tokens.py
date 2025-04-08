@@ -108,4 +108,4 @@ class TestExtractFilterTokens(unittest.TestCase):
             exp = testcase[1]
             got = self.worksheet._extract_filter_tokens(expression)
 
-            self.assertEqual(got, exp)
+            self.assertEqual(exp, got)

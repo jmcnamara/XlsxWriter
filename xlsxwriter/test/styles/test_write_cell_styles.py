@@ -32,4 +32,4 @@ class TestWriteCellStyles(unittest.TestCase):
         exp = """<cellStyles count="1"><cellStyle name="Normal" xfId="0" builtinId="0"/></cellStyles>"""
         got = self.fh.getvalue()
 
-        self.assertEqual(got, exp)
+        self.assertEqual(exp, got)
