@@ -10,7 +10,7 @@
 import unittest
 from io import StringIO
 
-from ...drawing import Drawing
+from ...drawing import Drawing, DrawingInfo
 
 
 class TestWriteXdrcNvPr(unittest.TestCase):
@@ -27,16 +27,26 @@ class TestWriteXdrcNvPr(unittest.TestCase):
     def test_write_c_nv_pr(self):
         """Test the _write_c_nv_pr() method"""
 
-        self.drawing._write_c_nv_pr(2, "Chart 1", None, None, None, None)
+        drawing_info = DrawingInfo()
+
+        self.drawing._write_c_nv_pr(2, drawing_info, "Chart 1")
 
         exp = """<xdr:cNvPr id="2" name="Chart 1"/>"""
         got = self.fh.getvalue()
 
         self.assertEqual(exp, got)
 
-        self.drawing._write_c_nv_pr(2, "Chart 1", None, 1, "tip", None)
+    def test_write_c_nv_pr_with_hyperlink(self):
+        """Test the _write_c_nv_pr() method with a hyperlink"""
 
-        exp = """<xdr:cNvPr id="2" name="Chart 1"/><xdr:cNvPr id="2" name="Chart 1"><a:hlinkClick xmlns:r="http://schemas.openxmlformats.org/officeDocument/2006/relationships" r:id="rId1" tooltip="tip"/></xdr:cNvPr>"""
+        drawing_info = DrawingInfo()
+        drawing_info._tip = "tip"
+        drawing_info._rel_index = 1
+        drawing_info._url_rel_index = 1
+
+        self.drawing._write_c_nv_pr(2, drawing_info, "Chart 1")
+
+        exp = """<xdr:cNvPr id="2" name="Chart 1"><a:hlinkClick xmlns:r="http://schemas.openxmlformats.org/officeDocument/2006/relationships" r:id="rId1" tooltip="tip"/></xdr:cNvPr>"""
         got = self.fh.getvalue()
 
         self.assertEqual(exp, got)

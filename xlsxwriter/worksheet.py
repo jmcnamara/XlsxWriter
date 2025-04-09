@@ -29,7 +29,7 @@ from xlsxwriter.vml import ButtonType
 
 # Package imports.
 from . import xmlwriter
-from .drawing import Drawing, DrawingTypes
+from .drawing import Drawing, DrawingInfo, DrawingTypes
 from .exceptions import DuplicateTableName, OverlappingRange
 from .format import Format
 from .shape import Shape
@@ -5161,21 +5161,21 @@ class Worksheet(xmlwriter.XMLwriter):
         else:
             drawing = self.drawing
 
-        drawing_object = drawing._add_drawing_object()
-        drawing_object["type"] = DrawingTypes.IMAGE
-        drawing_object["dimensions"] = dimensions
-        drawing_object["description"] = image.image_name
-        drawing_object["width"] = width
-        drawing_object["height"] = height
-        drawing_object["shape"] = None
-        drawing_object["anchor"] = image._anchor
-        drawing_object["rel_index"] = 0
-        drawing_object["url_rel_index"] = 0
-        drawing_object["tip"] = image._tip
-        drawing_object["decorative"] = image._decorative
+        drawing_object = DrawingInfo()
+        drawing_object._drawing_type = DrawingTypes.IMAGE
+        drawing_object._dimensions = dimensions
+        drawing_object._description = image.image_name
+        drawing_object._width = width
+        drawing_object._height = height
+        drawing_object._shape = None
+        drawing_object._anchor = image._anchor
+        drawing_object._rel_index = 0
+        drawing_object._url_rel_index = 0
+        drawing_object._tip = image._tip
+        drawing_object._decorative = image._decorative
 
         if image.description is not None:
-            drawing_object["description"] = image.description
+            drawing_object._description = image.description
 
         if image._url:
             url = image._url
@@ -5215,7 +5215,7 @@ class Worksheet(xmlwriter.XMLwriter):
                     if not self.drawing_rels.get(url):
                         self.drawing_links.append([rel_type, target, target_mode])
 
-                    drawing_object["url_rel_index"] = self._get_drawing_rel_index(url)
+                    drawing_object._url_rel_index = self._get_drawing_rel_index(url)
 
         if not self.drawing_rels.get(image._digest):
             self.drawing_links.append(
@@ -5225,7 +5225,8 @@ class Worksheet(xmlwriter.XMLwriter):
                 ]
             )
 
-        drawing_object["rel_index"] = self._get_drawing_rel_index(image._digest)
+        drawing_object._rel_index = self._get_drawing_rel_index(image._digest)
+        drawing._add_drawing_object(drawing_object)
 
     def _prepare_shape(self, index, drawing_id):
         # Set up shapes/drawings.
@@ -5272,18 +5273,18 @@ class Worksheet(xmlwriter.XMLwriter):
         shape = Shape("rect", "TextBox", options)
         shape.text = text
 
-        drawing_object = drawing._add_drawing_object()
-        drawing_object["type"] = DrawingTypes.SHAPE
-        drawing_object["dimensions"] = dimensions
-        drawing_object["width"] = width
-        drawing_object["height"] = height
-        drawing_object["description"] = description
-        drawing_object["shape"] = shape
-        drawing_object["anchor"] = anchor
-        drawing_object["rel_index"] = 0
-        drawing_object["url_rel_index"] = 0
-        drawing_object["tip"] = options.get("tip")
-        drawing_object["decorative"] = decorative
+        drawing_object = DrawingInfo()
+        drawing_object._drawing_type = DrawingTypes.SHAPE
+        drawing_object._dimensions = dimensions
+        drawing_object._width = width
+        drawing_object._height = height
+        drawing_object._description = description
+        drawing_object._shape = shape
+        drawing_object._anchor = anchor
+        drawing_object._rel_index = 0
+        drawing_object._url_rel_index = 0
+        drawing_object._tip = options.get("tip")
+        drawing_object._decorative = decorative
 
         url = options.get("url", None)
         if url:
@@ -5318,7 +5319,9 @@ class Worksheet(xmlwriter.XMLwriter):
                     if not self.drawing_rels.get(url):
                         self.drawing_links.append([rel_type, target, target_mode])
 
-                    drawing_object["url_rel_index"] = self._get_drawing_rel_index(url)
+                    drawing_object._url_rel_index = self._get_drawing_rel_index(url)
+
+        drawing._add_drawing_object(drawing_object)
 
     def _prepare_header_image(self, image_id, image):
         # Set up an image without a drawing object for header/footer images.
@@ -5384,19 +5387,21 @@ class Worksheet(xmlwriter.XMLwriter):
         else:
             drawing = self.drawing
 
-        drawing_object = drawing._add_drawing_object()
-        drawing_object["type"] = DrawingTypes.CHART
-        drawing_object["dimensions"] = dimensions
-        drawing_object["width"] = width
-        drawing_object["height"] = height
-        drawing_object["name"] = name
-        drawing_object["shape"] = None
-        drawing_object["anchor"] = anchor
-        drawing_object["rel_index"] = self._get_drawing_rel_index()
-        drawing_object["url_rel_index"] = 0
-        drawing_object["tip"] = None
-        drawing_object["description"] = description
-        drawing_object["decorative"] = decorative
+        drawing_object = DrawingInfo()
+        drawing_object._drawing_type = DrawingTypes.CHART
+        drawing_object._dimensions = dimensions
+        drawing_object._width = width
+        drawing_object._height = height
+        drawing_object._name = name
+        drawing_object._shape = None
+        drawing_object._anchor = anchor
+        drawing_object._rel_index = self._get_drawing_rel_index()
+        drawing_object._url_rel_index = 0
+        drawing_object._tip = None
+        drawing_object._description = description
+        drawing_object._decorative = decorative
+
+        drawing._add_drawing_object(drawing_object)
 
         self.drawing_links.append(
             ["/chart", "../charts/chart" + str(chart_id) + ".xml"]

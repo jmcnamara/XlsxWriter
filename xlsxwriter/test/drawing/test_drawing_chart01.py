@@ -10,7 +10,7 @@
 import unittest
 from io import StringIO
 
-from ...drawing import Drawing, DrawingTypes
+from ...drawing import Drawing, DrawingInfo, DrawingTypes
 from ..helperfunctions import _xml_to_list
 
 
@@ -29,17 +29,19 @@ class TestAssembleDrawing(unittest.TestCase):
         drawing._set_filehandle(fh)
 
         dimensions = [4, 8, 457200, 104775, 12, 22, 152400, 180975, 0, 0]
-        drawing_object = drawing._add_drawing_object()
-        drawing_object["type"] = DrawingTypes.CHART
-        drawing_object["dimensions"] = dimensions
-        drawing_object["width"] = 0
-        drawing_object["height"] = 0
-        drawing_object["description"] = None
-        drawing_object["shape"] = None
-        drawing_object["anchor"] = 1
-        drawing_object["rel_index"] = 1
-        drawing_object["url_rel_index"] = 0
-        drawing_object["tip"] = None
+        drawing_object = DrawingInfo()
+        drawing_object._drawing_type = DrawingTypes.CHART
+        drawing_object._dimensions = dimensions
+        drawing_object._width = 0
+        drawing_object._height = 0
+        drawing_object._description = None
+        drawing_object._shape = None
+        drawing_object._anchor = 1
+        drawing_object._rel_index = 1
+        drawing_object._url_rel_index = 0
+        drawing_object._tip = None
+
+        drawing._add_drawing_object(drawing_object)
 
         drawing.embedded = 1
 
