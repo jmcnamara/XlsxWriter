@@ -57,8 +57,6 @@ class Shape:
         self.font = None
         self.format = None
         self.line = None
-        self.url_rel_index = None
-        self.tip = None
 
         self._set_options(options)
 

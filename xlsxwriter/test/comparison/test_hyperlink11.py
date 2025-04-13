@@ -21,7 +21,11 @@ class TestCompareXLSXFiles(ExcelComparisonTest):
         self.set_filename("hyperlink11.xlsx")
 
     def test_link_format_explicit(self):
-        """Test the creation of a simple XlsxWriter file with hyperlinks. This example has link formatting."""
+        """
+        Test the creation of a simple XlsxWriter file with hyperlinks. This
+        example has link formatting.
+
+        """
 
         workbook = Workbook(self.got_filename)
 

@@ -21,7 +21,12 @@ class TestCompareXLSXFiles(ExcelComparisonTest):
         self.set_filename("hyperlink16.xlsx")
 
     def test_create_file(self):
-        """Test the creation of a simple XlsxWriter file with hyperlinks.This example doesn't have any link formatting and tests the relationship linkage code."""
+        """
+        Test the creation of a simple XlsxWriter file with hyperlinks. This
+        example doesn't have any link formatting and tests the relationship
+        linkage code.
+
+        """
 
         workbook = Workbook(self.got_filename)
 

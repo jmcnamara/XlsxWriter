@@ -11,6 +11,7 @@ import unittest
 from io import StringIO
 
 from ...drawing import Drawing, DrawingInfo, DrawingTypes
+from ...url import Url
 from ..helperfunctions import _xml_to_list
 
 
@@ -38,8 +39,7 @@ class TestAssembleDrawing(unittest.TestCase):
         drawing_object._shape = None
         drawing_object._anchor = 2
         drawing_object._rel_index = 1
-        drawing_object._url_rel_index = 0
-        drawing_object._tip = None
+        drawing_object._url = None
 
         drawing._add_drawing_object(drawing_object)
 
@@ -101,6 +101,10 @@ class TestAssembleDrawing(unittest.TestCase):
         """Test writing a drawing with no cell data."""
         self.maxDiff = None
 
+        url = Url("https://test")
+        url.tip = "this is a tooltip"
+        url._rel_index = 1
+
         fh = StringIO()
         drawing = Drawing()
         drawing._set_filehandle(fh)
@@ -118,8 +122,7 @@ class TestAssembleDrawing(unittest.TestCase):
         drawing_object._shape = None
         drawing_object._anchor = 2
         drawing_object._rel_index = 2
-        drawing_object._url_rel_index = 1
-        drawing_object._tip = "this is a tooltip"
+        drawing_object._url = url
 
         drawing._add_drawing_object(drawing_object)
 

@@ -13,6 +13,8 @@ from io import BytesIO
 from struct import unpack
 from typing import Tuple, Union
 
+from xlsxwriter.url import Url
+
 from .exceptions import UndefinedImageSize, UnsupportedImageFormat
 
 DEFAULT_DPI = 96.0
@@ -49,7 +51,6 @@ class Image:
         self._x_scale = 1.0
         self._y_scale = 1.0
         self._url = None
-        self._tip = None
         self._anchor = 2
         self._description = None
         self._decorative = False
@@ -72,7 +73,7 @@ class Image:
         instance.
         """
         return (
-            f"Image(\n"
+            f"Image:\n"
             f"    filename   = {self.filename!r}\n"
             f"    image_name = {self.image_name!r}\n"
             f"    image_type = {self.image_type!r}\n"
@@ -80,7 +81,6 @@ class Image:
             f"    height     = {self._height}\n"
             f"    x_dpi      = {self._x_dpi}\n"
             f"    y_dpi      = {self._y_dpi}\n"
-            f")"
         )
 
     @property
@@ -128,6 +128,16 @@ class Image:
         """Set whether the image is decorative."""
         self._decorative = value
 
+    @property
+    def url(self) -> Url:
+        """Get the image url."""
+        return self._url
+
+    @url.setter
+    def url(self, value: Url):
+        """Set the image url."""
+        self._url = value
+
     def _set_user_options(self, options=None):
         """
         This handles the additional optional parameters to ``insert_button()``.
@@ -135,8 +145,11 @@ class Image:
         if options is None:
             return
 
-        self._url = options.get("url", self._url)
-        self._tip = options.get("tip", self._tip)
+        if not self._url:
+            self._url = Url.from_options(options)
+            if self._url:
+                self._url._set_object_link()
+
         self._anchor = options.get("object_position", self._anchor)
         self._x_scale = options.get("x_scale", self._x_scale)
         self._y_scale = options.get("y_scale", self._y_scale)

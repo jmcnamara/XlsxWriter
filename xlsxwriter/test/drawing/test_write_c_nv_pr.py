@@ -11,6 +11,7 @@ import unittest
 from io import StringIO
 
 from ...drawing import Drawing, DrawingInfo
+from ...url import Url
 
 
 class TestWriteXdrcNvPr(unittest.TestCase):
@@ -39,10 +40,14 @@ class TestWriteXdrcNvPr(unittest.TestCase):
     def test_write_c_nv_pr_with_hyperlink(self):
         """Test the _write_c_nv_pr() method with a hyperlink"""
 
+        url = Url("https://test")
+        url.tip = "tip"
+        url._rel_index = 1
+
         drawing_info = DrawingInfo()
         drawing_info._tip = "tip"
         drawing_info._rel_index = 1
-        drawing_info._url_rel_index = 1
+        drawing_info._url = url
 
         self.drawing._write_c_nv_pr(2, drawing_info, "Chart 1")
 

@@ -31,7 +31,7 @@ class TestCompareXLSXFiles(ExcelComparisonTest):
         worksheet = workbook.add_worksheet()
 
         worksheet.write_url(
-            "A1", "external://VBOXSVR/share/foo.xlsx", None, "J:/foo.xlsx"
+            "A1", "external://VBOXSVR/share/foo.xlsx", None, "J:\\foo.xlsx"
         )
         worksheet.write_url("A3", "external:foo.xlsx")
 

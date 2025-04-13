@@ -29,8 +29,8 @@ class TestCompareXLSXFiles(ExcelComparisonTest):
         workbook.default_url_format = None
 
         worksheet1 = workbook.add_worksheet()
-        worksheet2 = workbook.add_worksheet()
-        worksheet3 = workbook.add_worksheet("Data Sheet")
+        workbook.add_worksheet()
+        workbook.add_worksheet("Data Sheet")
 
         worksheet1.write_url("A1", "internal:Sheet2!A1")
         worksheet1.write_url("A3", "internal:Sheet2!A1:A5")
@@ -55,8 +55,8 @@ class TestCompareXLSXFiles(ExcelComparisonTest):
         workbook.default_url_format = None
 
         worksheet1 = workbook.add_worksheet()
-        worksheet2 = workbook.add_worksheet()
-        worksheet3 = workbook.add_worksheet("Data Sheet")
+        workbook.add_worksheet()
+        workbook.add_worksheet("Data Sheet")
 
         worksheet1.write("A1", "internal:Sheet2!A1")
         worksheet1.write("A3", "internal:Sheet2!A1:A5")

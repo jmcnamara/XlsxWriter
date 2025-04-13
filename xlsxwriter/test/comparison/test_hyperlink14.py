@@ -21,7 +21,11 @@ class TestCompareXLSXFiles(ExcelComparisonTest):
         self.set_filename("hyperlink14.xlsx")
 
     def test_create_file(self):
-        """Test the creation of a simple XlsxWriter file with hyperlinks. This example has writes a url in a range."""
+        """
+        Test the creation of a simple XlsxWriter file with hyperlinks. This
+        example has writes a url in a range.
+
+        """
 
         workbook = Workbook(self.got_filename)
 

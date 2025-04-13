@@ -7,6 +7,7 @@
 # Copyright (c), 2013-2025, John McNamara, jmcnamara@cpan.org
 #
 
+from ...url import Url
 from ...workbook import Workbook
 from ..excel_comparison_test import ExcelComparisonTest
 
@@ -24,12 +25,25 @@ class TestCompareXLSXFiles(ExcelComparisonTest):
         """Test the creation of a simple XlsxWriter file with textbox(s)."""
 
         workbook = Workbook(self.got_filename)
-
         worksheet = workbook.add_worksheet()
 
         worksheet.insert_textbox(
             "E9", "This is some text", {"url": "https://github.com/jmcnamara"}
         )
+
+        workbook.close()
+
+        self.assertExcelEqual()
+
+    def test_create_file_with_url_object(self):
+        """Test the creation of a simple XlsxWriter file with textbox(s)."""
+
+        workbook = Workbook(self.got_filename)
+        worksheet = workbook.add_worksheet()
+
+        url = Url("https://github.com/jmcnamara")
+
+        worksheet.insert_textbox("E9", "This is some text", {"url": url})
 
         workbook.close()
 

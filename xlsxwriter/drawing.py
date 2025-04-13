@@ -9,6 +9,8 @@
 
 from enum import Enum
 
+from xlsxwriter.url import Url
+
 from . import xmlwriter
 from .shape import Shape
 from .utility import _get_rgb_color
@@ -42,9 +44,8 @@ class DrawingInfo:
         self._height = 0
         self._shape = None
         self._anchor = None
+        self._url = None
         self._rel_index = 0
-        self._url_rel_index = 0
-        self._tip = None
         self._name = None
         self._description = None
         self._decorative = False
@@ -316,11 +317,11 @@ class Drawing(xmlwriter.XMLwriter):
         if drawing._description and not drawing._decorative:
             attributes.append(("descr", drawing._description))
 
-        if drawing._url_rel_index or drawing._decorative:
+        if drawing._url or drawing._decorative:
             self._xml_start_tag("xdr:cNvPr", attributes)
 
-            if drawing._url_rel_index:
-                self._write_a_hlink_click(drawing._url_rel_index, drawing._tip)
+            if drawing._url:
+                self._write_a_hlink_click(drawing._url)
 
             if drawing._decorative:
                 self._write_decorative()
@@ -373,18 +374,18 @@ class Drawing(xmlwriter.XMLwriter):
 
         self._xml_empty_tag("a16:creationId", attributes)
 
-    def _write_a_hlink_click(self, rel_index, tip):
+    def _write_a_hlink_click(self, url: Url):
         # Write the <a:hlinkClick> element.
         schema = "http://schemas.openxmlformats.org/officeDocument/"
         xmlns_r = schema + "2006/relationships"
 
         attributes = [
             ("xmlns:r", xmlns_r),
-            ("r:id", "rId" + str(rel_index)),
+            ("r:id", "rId" + str(url._rel_index)),
         ]
 
-        if tip:
-            attributes.append(("tooltip", tip))
+        if url._tip:
+            attributes.append(("tooltip", url._tip))
 
         self._xml_empty_tag("a:hlinkClick", attributes)
 
