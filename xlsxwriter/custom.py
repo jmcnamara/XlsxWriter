@@ -8,6 +8,8 @@
 #
 
 # Package imports.
+from typing import List, Tuple
+
 from . import xmlwriter
 
 
@@ -35,7 +37,7 @@ class Custom(xmlwriter.XMLwriter):
         self.properties = []
         self.pid = 1
 
-    def _set_properties(self, properties):
+    def _set_properties(self, properties: List[Tuple[str, str, str]]):
         # Set the document properties.
         self.properties = properties
 
@@ -81,7 +83,7 @@ class Custom(xmlwriter.XMLwriter):
             # Write the property element.
             self._write_property(custom_property)
 
-    def _write_property(self, custom_property):
+    def _write_property(self, custom_property: Tuple[str, str, str]):
         # Write the <property> element.
 
         fmtid = "{D5CDD505-2E9C-101B-9397-08002B2CF9AE}"
@@ -115,28 +117,22 @@ class Custom(xmlwriter.XMLwriter):
 
         self._xml_end_tag("property")
 
-    def _write_vt_lpwstr(self, value):
+    def _write_vt_lpwstr(self, value: str):
         # Write the <vt:lpwstr> element.
         self._xml_data_element("vt:lpwstr", value)
 
-    def _write_vt_filetime(self, value):
+    def _write_vt_filetime(self, value: str):
         # Write the <vt:filetime> element.
         self._xml_data_element("vt:filetime", value)
 
-    def _write_vt_i4(self, value):
+    def _write_vt_i4(self, value: str):
         # Write the <vt:i4> element.
         self._xml_data_element("vt:i4", value)
 
-    def _write_vt_r8(self, value):
+    def _write_vt_r8(self, value: str):
         # Write the <vt:r8> element.
         self._xml_data_element("vt:r8", value)
 
-    def _write_vt_bool(self, value):
+    def _write_vt_bool(self, value: str):
         # Write the <vt:bool> element.
-
-        if value:
-            value = "true"
-        else:
-            value = "false"
-
         self._xml_data_element("vt:bool", value)

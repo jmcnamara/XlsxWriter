@@ -466,8 +466,15 @@ class Workbook(xmlwriter.XMLwriter):
             else:
                 property_type = "text"
 
+        # Convert non-string values to strings to have a single data type.
+        if property_type == "bool":
+            value = str(value).lower()
+
         if property_type == "date":
             value = value.strftime("%Y-%m-%dT%H:%M:%SZ")
+
+        if property_type in ("number", "number_int"):
+            value = str(value)
 
         if property_type == "text" and len(value) > 255:
             warn(
