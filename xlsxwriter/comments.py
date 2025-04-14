@@ -7,6 +7,8 @@
 # Copyright (c) 2013-2025, John McNamara, jmcnamara@cpan.org
 #
 
+from typing import Dict, List, Optional, Union
+
 from . import xmlwriter
 from .utility import (
     _preserve_whitespace,
@@ -27,7 +29,13 @@ class CommentType:
 
     """
 
-    def __init__(self, row: int, col: int, text: str, options: dict = None):
+    def __init__(
+        self,
+        row: int,
+        col: int,
+        text: str,
+        options: Optional[Dict[str, Union[str, int, float]]] = None,
+    ):
         """
         Initialize a Comment instance.
 
@@ -37,31 +45,31 @@ class CommentType:
             text (str): The text of the comment.
             options (dict): Additional options for the comment.
         """
-        self.row = row
-        self.col = col
-        self.text = text
+        self.row: int = row
+        self.col: int = col
+        self.text: str = text
 
-        self.author = None
-        self.color = "#ffffe1"
+        self.author: Optional[str] = None
+        self.color: str = "#ffffe1"
 
-        self.start_row = 0
-        self.start_col = 0
+        self.start_row: int = 0
+        self.start_col: int = 0
 
-        self.is_visible = None
+        self.is_visible: Optional[bool] = None
 
-        self.width = 128
-        self.height = 74
+        self.width: float = 128
+        self.height: float = 74
 
-        self.x_scale = 1
-        self.y_scale = 1
-        self.x_offset = 0
-        self.y_offset = 0
+        self.x_scale: float = 1
+        self.y_scale: float = 1
+        self.x_offset: int = 0
+        self.y_offset: int = 0
 
-        self.font_size = 8
-        self.font_name = "Tahoma"
-        self.font_family = 2
+        self.font_size: float = 8
+        self.font_name: str = "Tahoma"
+        self.font_family: int = 2
 
-        self.vertices = []
+        self.vertices: List[Union[int, float]] = []
 
         # Set the default start cell and offsets for the comment.
         self.set_offsets(self.row, self.col)
@@ -69,7 +77,9 @@ class CommentType:
         # Set any user supplied options.
         self._set_user_options(options)
 
-    def _set_user_options(self, options=None):
+    def _set_user_options(
+        self, options: Optional[Dict[str, Union[str, int, float]]] = None
+    ):
         """
         This method handles the additional optional parameters to
         ``write_comment()``.
@@ -79,37 +89,73 @@ class CommentType:
 
         # Overwrite the defaults with any user supplied values. Incorrect or
         # misspelled parameters are silently ignored.
-        self.width = options.get("width", self.width)
-        self.author = options.get("author", self.author)
-        self.height = options.get("height", self.height)
-        self.x_offset = options.get("x_offset", self.x_offset)
-        self.y_offset = options.get("y_offset", self.y_offset)
-        self.start_col = options.get("start_col", self.start_col)
-        self.start_row = options.get("start_row", self.start_row)
-        self.font_size = options.get("font_size", self.font_size)
-        self.font_name = options.get("font_name", self.font_name)
-        self.is_visible = options.get("visible", self.is_visible)
-        self.font_family = options.get("font_family", self.font_family)
+        width = options.get("width")
+        if width and isinstance(width, (int, float)):
+            self.width = width
 
-        if options.get("color"):
+        height = options.get("height")
+        if height and isinstance(height, (int, float)):
+            self.height = height
+
+        x_offset = options.get("x_offset")
+        if x_offset and isinstance(x_offset, int):
+            self.x_offset = x_offset
+
+        y_offset = options.get("y_offset")
+        if y_offset and isinstance(y_offset, int):
+            self.y_offset = y_offset
+
+        start_col = options.get("start_col")
+        if start_col and isinstance(start_col, int):
+            self.start_col = start_col
+
+        start_row = options.get("start_row")
+        if start_row and isinstance(start_row, int):
+            self.start_row = start_row
+
+        font_size = options.get("font_size")
+        if font_size and isinstance(font_size, (int, float)):
+            self.font_size = font_size
+
+        font_name = options.get("font_name")
+        if font_name and isinstance(font_name, str):
+            self.font_name = font_name
+
+        font_family = options.get("font_family")
+        if font_family and isinstance(font_family, int):
+            self.font_family = font_family
+
+        author = options.get("author")
+        if author and isinstance(author, str):
+            self.author = author
+
+        visible = options.get("visible")
+        if visible is not None and isinstance(visible, bool):
+            self.is_visible = visible
+
+        color = options.get("color")
+        if color and isinstance(color, str):
             # Set the comment background color.
-            self.color = _xl_color(options["color"]).lower()
+            color = _xl_color(color).lower()
 
             # Convert from Excel XML style color to XML html style color.
-            self.color = options["color"].replace("ff", "#", 1)
+            self.color = color.replace("ff", "#", 1)
 
         # Convert a cell reference to a row and column.
-        if options.get("start_cell"):
-            (start_row, start_col) = xl_cell_to_rowcol(options["start_cell"])
+        start_cell = options.get("start_cell")
+        if start_cell and isinstance(start_cell, str):
+            (start_row, start_col) = xl_cell_to_rowcol(start_cell)
             self.start_row = start_row
             self.start_col = start_col
 
         # Scale the size of the comment box if required.
-        if options.get("x_scale"):
-            self.width = self.width * options["x_scale"]
+        x_scale = options.get("x_scale")
+        if x_scale and isinstance(x_scale, (int, float)):
+            self.width = self.width * x_scale
 
-        if options.get("y_scale"):
-            self.height = self.height * options["y_scale"]
+        y_scale = options.get("y_scale")
+        if y_scale and isinstance(y_scale, (int, float)):
+            self.height = self.height * y_scale
 
         # Round the dimensions to the nearest pixel.
         self.width = int(0.5 + self.width)
@@ -187,7 +233,7 @@ class Comments(xmlwriter.XMLwriter):
     #
     ###########################################################################
 
-    def _assemble_xml_file(self, comments_data=None):
+    def _assemble_xml_file(self, comments_data: Optional[List[CommentType]] = None):
         # Assemble and write the XML file.
 
         if comments_data is None:
@@ -224,7 +270,7 @@ class Comments(xmlwriter.XMLwriter):
 
         self._xml_start_tag("comments", attributes)
 
-    def _write_authors(self, comment_data):
+    def _write_authors(self, comment_data: List[CommentType]):
         # Write the <authors> element.
         author_count = 0
 
@@ -243,17 +289,17 @@ class Comments(xmlwriter.XMLwriter):
 
         self._xml_end_tag("authors")
 
-    def _write_author(self, data):
+    def _write_author(self, data: str):
         # Write the <author> element.
         self._xml_data_element("author", data)
 
-    def _write_comment_list(self, comment_data):
+    def _write_comment_list(self, comment_data: List[CommentType]):
         # Write the <commentList> element.
         self._xml_start_tag("commentList")
 
         for comment in comment_data:
             # Look up the author id.
-            author_id = None
+            author_id = -1
             if comment.author is not None:
                 author_id = self.author_ids[comment.author]
 
@@ -268,8 +314,8 @@ class Comments(xmlwriter.XMLwriter):
 
         attributes = [("ref", ref)]
 
-        if author_id is not None:
-            attributes.append(("authorId", author_id))
+        if author_id != -1:
+            attributes.append(("authorId", f"{author_id}"))
 
         self._xml_start_tag("comment", attributes)
 
@@ -299,7 +345,7 @@ class Comments(xmlwriter.XMLwriter):
 
         self._xml_end_tag("r")
 
-    def _write_text_t(self, text):
+    def _write_text_t(self, text: str):
         # Write the text <t> element.
         attributes = []
 
@@ -308,7 +354,7 @@ class Comments(xmlwriter.XMLwriter):
 
         self._xml_data_element("t", text, attributes)
 
-    def _write_r_pr(self, comment):
+    def _write_r_pr(self, comment: CommentType):
         # Write the <rPr> element.
         self._xml_start_tag("rPr")
 
@@ -326,7 +372,7 @@ class Comments(xmlwriter.XMLwriter):
 
         self._xml_end_tag("rPr")
 
-    def _write_sz(self, font_size: int):
+    def _write_sz(self, font_size: float):
         # Write the <sz> element.
         attributes = [("val", font_size)]
 
