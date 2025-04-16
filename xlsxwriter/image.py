@@ -38,32 +38,32 @@ class Image:
             self.image_data = None
             self.image_name = os.path.basename(source)
         elif isinstance(source, BytesIO):
-            self.filename = None
+            self.filename = ""
             self.image_data = source
-            self.image_name = None
+            self.image_name = ""
         else:
             raise ValueError("Source must be a filename (str) or a BytesIO object.")
 
-        self._row = 0
-        self._col = 0
-        self._x_offset = 0
-        self._y_offset = 0
-        self._x_scale = 1.0
-        self._y_scale = 1.0
-        self._url = None
-        self._anchor = 2
-        self._description = None
-        self._decorative = False
-        self._header_position = None
-        self._ref_id = None
+        self._row: int = 0
+        self._col: int = 0
+        self._x_offset: int = 0
+        self._y_offset: int = 0
+        self._x_scale: float = 1.0
+        self._y_scale: float = 1.0
+        self._url: Union[Url, None] = None
+        self._anchor: int = 2
+        self._description: Union[str, None] = None
+        self._decorative: bool = False
+        self._header_position: Union[str, None] = None
+        self._ref_id: Union[str, None] = None
 
         # Derived properties.
-        self._image_extension = None
-        self._width = 0.0
-        self._height = 0.0
-        self._x_dpi = DEFAULT_DPI
-        self._y_dpi = DEFAULT_DPI
-        self._digest = None
+        self._image_extension: str = ""
+        self._width: float = 0.0
+        self._height: float = 0.0
+        self._x_dpi: float = DEFAULT_DPI
+        self._y_dpi: float = DEFAULT_DPI
+        self._digest: Union[str, None] = None
 
         self._get_image_properties()
 
@@ -109,14 +109,15 @@ class Image:
         return self._y_dpi
 
     @property
-    def description(self) -> str:
+    def description(self) -> Union[str, None]:
         """Get the description/alt-text of the image."""
         return self._description
 
     @description.setter
     def description(self, value: str):
         """Set the description/alt-text of the image."""
-        self._description = value
+        if value:
+            self._description = value
 
     @property
     def decorative(self) -> bool:
@@ -129,14 +130,15 @@ class Image:
         self._decorative = value
 
     @property
-    def url(self) -> Url:
+    def url(self) -> Union[Url, None]:
         """Get the image url."""
         return self._url
 
     @url.setter
     def url(self, value: Url):
         """Set the image url."""
-        self._url = value
+        if value:
+            self._url = value
 
     def _set_user_options(self, options=None):
         """
@@ -162,7 +164,7 @@ class Image:
         # For backward compatibility with older parameter name.
         self._anchor = options.get("positioning", self._anchor)
 
-    def _get_image_properties(self) -> Tuple[str, str, float, float, float, float, str]:
+    def _get_image_properties(self):
         # Extract dimension information from the image file.
         height = 0.0
         width = 0.0
