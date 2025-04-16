@@ -10,6 +10,7 @@
 
 import re
 from enum import Enum
+from typing import Optional
 
 
 class UrlTypes(Enum):
@@ -33,15 +34,15 @@ class Url:
     MAX_PARAMETER_LEN = 255
 
     def __init__(self, link: str):
-        self._link_type = UrlTypes.UNKNOWN
-        self._original_url = link
-        self._link = link
-        self._relationship_link = link
-        self._text = ""
-        self._tip = ""
-        self._anchor = ""
-        self._is_object_link = False
-        self._rel_index = 0
+        self._link_type: UrlTypes = UrlTypes.UNKNOWN
+        self._original_url: str = link
+        self._link: str = link
+        self._relationship_link: str = link
+        self._text: str = ""
+        self._tip: str = ""
+        self._anchor: str = ""
+        self._is_object_link: bool = False
+        self._rel_index: int = 0
 
         self._parse_url()
 
@@ -76,7 +77,7 @@ class Url:
         )
 
     @classmethod
-    def from_options(cls, options: dict):
+    def from_options(cls, options: dict) -> Optional["Url"]:
         """
         For backward compatibility, convert the 'url' key and 'tip' keys in an
         options dictionary to a Url object, or return the Url object if already
