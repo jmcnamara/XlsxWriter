@@ -202,7 +202,7 @@ class Url:
 
     def _set_object_link(self):
         """
-        Set the _is_object_link flag and reparse the URL since the relationship
+        Set the _is_object_link flag and re-parse the URL since the relationship
         link is different for object links.
 
         """

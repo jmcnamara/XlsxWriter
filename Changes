@@ -1,3 +1,32 @@
+Release 3.2.3 - April 17 2025
+-----------------------------
+
+* Fix for a breaking change in v3.2.1.
+
+  The Format class contained methods called ``set_font()``, ``set_size()`` and
+  ``set_color()`` which were old internal testing alternatives for
+  ``set_font_name()``, ``set_font_size()`` and ``set_font_color()``. Since they
+  were intentionally internal methods they were removed as part of a general
+  refactoring in v3.2.1. However, the alternative method names had leaked out
+  into production code and the removal caused breaks in dependent code. These
+  methods have been reinstated to prevent inadvertent breakages but may be
+  removed in the future after an orderly deprecation. Users should update to the
+  documented method names.
+
+* This release drops support for Python 3.6 and 3.7, which are both EOL, in
+  order to simplify the additions of type annotations. The minimum supported
+  version of Python is now Python 3.8.
+
+* This release contains code with initial type annotations as part of an overall
+  effort to add type annotations to the entire code base. It also contains
+  internal refactoring of some pseudo-types, based on dicts, into actual enum or
+  class types to allow stronger type checking. These will be rolled out in
+  upcoming releases.
+
+  This is part of a modernization of the XlsxWriter code base, see "XlsxWriter
+  Roadmap v2" :feature:`1128`.
+
+
 Release 3.2.2 - January 28 2025
 -------------------------------
 
