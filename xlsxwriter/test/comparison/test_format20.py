@@ -42,7 +42,9 @@ class TestCompareXLSXFiles(ExcelComparisonTest):
 
         worksheet = workbook.add_worksheet()
 
-        format1 = workbook.add_format({"color": "automatic", "font": "Calibri", "size": 11})
+        format1 = workbook.add_format(
+            {"color": "automatic", "font": "Calibri", "size": 11}
+        )
 
         worksheet.write(0, 0, "Foo", format1)
 
