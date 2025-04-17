@@ -34,3 +34,18 @@ class TestCompareXLSXFiles(ExcelComparisonTest):
         workbook.close()
 
         self.assertExcelEqual()
+
+    def test_create_file_backward_compatibility(self):
+        """Test backward compatibility with deprecated method name."""
+
+        workbook = Workbook(self.got_filename)
+
+        worksheet = workbook.add_worksheet()
+
+        format1 = workbook.add_format({"color": "automatic", "font": "Calibri", "size": 11})
+
+        worksheet.write(0, 0, "Foo", format1)
+
+        workbook.close()
+
+        self.assertExcelEqual()

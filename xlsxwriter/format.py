@@ -944,6 +944,22 @@ class Format(xmlwriter.XMLwriter):
         """
         self.font_only = font_only
 
+    # Compatibility methods. These versions of the method names were added in an
+    # initial version for compatibility testing with Excel::Writer::XLSX and
+    # leaked out into production code. They are deprecated and will be removed
+    # in a future after a suitable deprecation period.
+    def set_font(self, font_name):
+        """Deprecated: Use set_font_name() instead."""
+        self.font_name = font_name
+
+    def set_size(self, font_size):
+        """Deprecated: Use set_font_size() instead."""
+        self.font_size = font_size
+
+    def set_color(self, font_color):
+        """Deprecated: Use set_font_color() instead."""
+        self.font_color = self._get_color(font_color)
+
     ###########################################################################
     #
     # Private API.
