@@ -7,7 +7,9 @@
 # Copyright (c), 2013-2025, John McNamara, jmcnamara@cpan.org
 #
 
-from ...workbook import Workbook
+from xlsxwriter.color import Color
+from xlsxwriter.workbook import Workbook
+
 from ..excel_comparison_test import ExcelComparisonTest
 
 
@@ -135,6 +137,35 @@ class TestCompareXLSXFiles(ExcelComparisonTest):
                 "format": cell_format2,
                 "criteria": "equal to",
                 "value": False,
+            },
+        )
+
+        workbook.close()
+
+        self.assertExcelEqual()
+
+    def test_create_file_with_color_type(self):
+        """Test the creation of a simple XlsxWriter file."""
+
+        workbook = Workbook(self.got_filename)
+        worksheet = workbook.add_worksheet()
+
+        worksheet.insert_checkbox("E9", False)
+
+        cell_format = workbook.add_format(
+            {
+                "font_color": Color("#9C0006"),
+                "bg_color": Color("#FFC7CE"),
+            }
+        )
+
+        worksheet.conditional_format(
+            "E9",
+            {
+                "type": "cell",
+                "format": cell_format,
+                "criteria": "equal to",
+                "value": "FALSE",
             },
         )
 

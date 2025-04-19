@@ -11,6 +11,8 @@ import re
 from typing import Dict, Optional, Tuple, Union
 from warnings import warn
 
+from xlsxwriter.color import Color
+
 COL_NAMES: Dict[int, str] = {}
 
 CHAR_WIDTHS = {
@@ -511,383 +513,345 @@ def xl_pixel_width(string: str) -> int:
     return length
 
 
-def _xl_color(color: str) -> str:
-    # Used in conjunction with the XlsxWriter *color() methods to convert
-    # a color name into an RGB formatted string. These colors are for
-    # backward compatibility with older versions of Excel.
-    named_colors = {
-        "black": "#000000",
-        "blue": "#0000FF",
-        "brown": "#800000",
-        "cyan": "#00FFFF",
-        "gray": "#808080",
-        "green": "#008000",
-        "lime": "#00FF00",
-        "magenta": "#FF00FF",
-        "navy": "#000080",
-        "orange": "#FF6600",
-        "pink": "#FF00FF",
-        "purple": "#800080",
-        "red": "#FF0000",
-        "silver": "#C0C0C0",
-        "white": "#FFFFFF",
-        "yellow": "#FFFF00",
-    }
-
-    color = named_colors.get(color, color)
-
-    if not re.match("#[0-9a-fA-F]{6}", color):
-        warn(f"Color '{color}' isn't a valid Excel color")
-
-    # Convert the RGB color to the Excel ARGB format.
-    return "FF" + color.lstrip("#").upper()
-
-
-def _get_rgb_color(color: str) -> str:
-    # Convert the user specified color to an RGB color.
-    rgb_color = _xl_color(color)
-
-    # Remove leading FF from RGB color for charts.
-    rgb_color = re.sub(r"^FF", "", rgb_color)
-
-    return rgb_color
-
-
 def _get_sparkline_style(style_id: int) -> Dict[str, Dict[str, str]]:
+    """
+    Get the numbered sparkline styles.
+
+    """
     styles = [
-        {
-            "series": {"theme": "4", "tint": "-0.499984740745262"},
-            "negative": {"theme": "5"},
-            "markers": {"theme": "4", "tint": "-0.499984740745262"},
-            "first": {"theme": "4", "tint": "0.39997558519241921"},
-            "last": {"theme": "4", "tint": "0.39997558519241921"},
-            "high": {"theme": "4"},
-            "low": {"theme": "4"},
-        },  # 0
-        {
-            "series": {"theme": "4", "tint": "-0.499984740745262"},
-            "negative": {"theme": "5"},
-            "markers": {"theme": "4", "tint": "-0.499984740745262"},
-            "first": {"theme": "4", "tint": "0.39997558519241921"},
-            "last": {"theme": "4", "tint": "0.39997558519241921"},
-            "high": {"theme": "4"},
-            "low": {"theme": "4"},
-        },  # 1
-        {
-            "series": {"theme": "5", "tint": "-0.499984740745262"},
-            "negative": {"theme": "6"},
-            "markers": {"theme": "5", "tint": "-0.499984740745262"},
-            "first": {"theme": "5", "tint": "0.39997558519241921"},
-            "last": {"theme": "5", "tint": "0.39997558519241921"},
-            "high": {"theme": "5"},
-            "low": {"theme": "5"},
-        },  # 2
-        {
-            "series": {"theme": "6", "tint": "-0.499984740745262"},
-            "negative": {"theme": "7"},
-            "markers": {"theme": "6", "tint": "-0.499984740745262"},
-            "first": {"theme": "6", "tint": "0.39997558519241921"},
-            "last": {"theme": "6", "tint": "0.39997558519241921"},
-            "high": {"theme": "6"},
-            "low": {"theme": "6"},
-        },  # 3
-        {
-            "series": {"theme": "7", "tint": "-0.499984740745262"},
-            "negative": {"theme": "8"},
-            "markers": {"theme": "7", "tint": "-0.499984740745262"},
-            "first": {"theme": "7", "tint": "0.39997558519241921"},
-            "last": {"theme": "7", "tint": "0.39997558519241921"},
-            "high": {"theme": "7"},
-            "low": {"theme": "7"},
-        },  # 4
-        {
-            "series": {"theme": "8", "tint": "-0.499984740745262"},
-            "negative": {"theme": "9"},
-            "markers": {"theme": "8", "tint": "-0.499984740745262"},
-            "first": {"theme": "8", "tint": "0.39997558519241921"},
-            "last": {"theme": "8", "tint": "0.39997558519241921"},
-            "high": {"theme": "8"},
-            "low": {"theme": "8"},
-        },  # 5
-        {
-            "series": {"theme": "9", "tint": "-0.499984740745262"},
-            "negative": {"theme": "4"},
-            "markers": {"theme": "9", "tint": "-0.499984740745262"},
-            "first": {"theme": "9", "tint": "0.39997558519241921"},
-            "last": {"theme": "9", "tint": "0.39997558519241921"},
-            "high": {"theme": "9"},
-            "low": {"theme": "9"},
-        },  # 6
-        {
-            "series": {"theme": "4", "tint": "-0.249977111117893"},
-            "negative": {"theme": "5"},
-            "markers": {"theme": "5", "tint": "-0.249977111117893"},
-            "first": {"theme": "5", "tint": "-0.249977111117893"},
-            "last": {"theme": "5", "tint": "-0.249977111117893"},
-            "high": {"theme": "5", "tint": "-0.249977111117893"},
-            "low": {"theme": "5", "tint": "-0.249977111117893"},
-        },  # 7
-        {
-            "series": {"theme": "5", "tint": "-0.249977111117893"},
-            "negative": {"theme": "6"},
-            "markers": {"theme": "6", "tint": "-0.249977111117893"},
-            "first": {"theme": "6", "tint": "-0.249977111117893"},
-            "last": {"theme": "6", "tint": "-0.249977111117893"},
-            "high": {"theme": "6", "tint": "-0.249977111117893"},
-            "low": {"theme": "6", "tint": "-0.249977111117893"},
-        },  # 8
-        {
-            "series": {"theme": "6", "tint": "-0.249977111117893"},
-            "negative": {"theme": "7"},
-            "markers": {"theme": "7", "tint": "-0.249977111117893"},
-            "first": {"theme": "7", "tint": "-0.249977111117893"},
-            "last": {"theme": "7", "tint": "-0.249977111117893"},
-            "high": {"theme": "7", "tint": "-0.249977111117893"},
-            "low": {"theme": "7", "tint": "-0.249977111117893"},
-        },  # 9
-        {
-            "series": {"theme": "7", "tint": "-0.249977111117893"},
-            "negative": {"theme": "8"},
-            "markers": {"theme": "8", "tint": "-0.249977111117893"},
-            "first": {"theme": "8", "tint": "-0.249977111117893"},
-            "last": {"theme": "8", "tint": "-0.249977111117893"},
-            "high": {"theme": "8", "tint": "-0.249977111117893"},
-            "low": {"theme": "8", "tint": "-0.249977111117893"},
-        },  # 10
-        {
-            "series": {"theme": "8", "tint": "-0.249977111117893"},
-            "negative": {"theme": "9"},
-            "markers": {"theme": "9", "tint": "-0.249977111117893"},
-            "first": {"theme": "9", "tint": "-0.249977111117893"},
-            "last": {"theme": "9", "tint": "-0.249977111117893"},
-            "high": {"theme": "9", "tint": "-0.249977111117893"},
-            "low": {"theme": "9", "tint": "-0.249977111117893"},
-        },  # 11
-        {
-            "series": {"theme": "9", "tint": "-0.249977111117893"},
-            "negative": {"theme": "4"},
-            "markers": {"theme": "4", "tint": "-0.249977111117893"},
-            "first": {"theme": "4", "tint": "-0.249977111117893"},
-            "last": {"theme": "4", "tint": "-0.249977111117893"},
-            "high": {"theme": "4", "tint": "-0.249977111117893"},
-            "low": {"theme": "4", "tint": "-0.249977111117893"},
-        },  # 12
-        {
-            "series": {"theme": "4"},
-            "negative": {"theme": "5"},
-            "markers": {"theme": "4", "tint": "-0.249977111117893"},
-            "first": {"theme": "4", "tint": "-0.249977111117893"},
-            "last": {"theme": "4", "tint": "-0.249977111117893"},
-            "high": {"theme": "4", "tint": "-0.249977111117893"},
-            "low": {"theme": "4", "tint": "-0.249977111117893"},
-        },  # 13
-        {
-            "series": {"theme": "5"},
-            "negative": {"theme": "6"},
-            "markers": {"theme": "5", "tint": "-0.249977111117893"},
-            "first": {"theme": "5", "tint": "-0.249977111117893"},
-            "last": {"theme": "5", "tint": "-0.249977111117893"},
-            "high": {"theme": "5", "tint": "-0.249977111117893"},
-            "low": {"theme": "5", "tint": "-0.249977111117893"},
-        },  # 14
-        {
-            "series": {"theme": "6"},
-            "negative": {"theme": "7"},
-            "markers": {"theme": "6", "tint": "-0.249977111117893"},
-            "first": {"theme": "6", "tint": "-0.249977111117893"},
-            "last": {"theme": "6", "tint": "-0.249977111117893"},
-            "high": {"theme": "6", "tint": "-0.249977111117893"},
-            "low": {"theme": "6", "tint": "-0.249977111117893"},
-        },  # 15
-        {
-            "series": {"theme": "7"},
-            "negative": {"theme": "8"},
-            "markers": {"theme": "7", "tint": "-0.249977111117893"},
-            "first": {"theme": "7", "tint": "-0.249977111117893"},
-            "last": {"theme": "7", "tint": "-0.249977111117893"},
-            "high": {"theme": "7", "tint": "-0.249977111117893"},
-            "low": {"theme": "7", "tint": "-0.249977111117893"},
-        },  # 16
-        {
-            "series": {"theme": "8"},
-            "negative": {"theme": "9"},
-            "markers": {"theme": "8", "tint": "-0.249977111117893"},
-            "first": {"theme": "8", "tint": "-0.249977111117893"},
-            "last": {"theme": "8", "tint": "-0.249977111117893"},
-            "high": {"theme": "8", "tint": "-0.249977111117893"},
-            "low": {"theme": "8", "tint": "-0.249977111117893"},
-        },  # 17
-        {
-            "series": {"theme": "9"},
-            "negative": {"theme": "4"},
-            "markers": {"theme": "9", "tint": "-0.249977111117893"},
-            "first": {"theme": "9", "tint": "-0.249977111117893"},
-            "last": {"theme": "9", "tint": "-0.249977111117893"},
-            "high": {"theme": "9", "tint": "-0.249977111117893"},
-            "low": {"theme": "9", "tint": "-0.249977111117893"},
-        },  # 18
-        {
-            "series": {"theme": "4", "tint": "0.39997558519241921"},
-            "negative": {"theme": "0", "tint": "-0.499984740745262"},
-            "markers": {"theme": "4", "tint": "0.79998168889431442"},
-            "first": {"theme": "4", "tint": "-0.249977111117893"},
-            "last": {"theme": "4", "tint": "-0.249977111117893"},
-            "high": {"theme": "4", "tint": "-0.499984740745262"},
-            "low": {"theme": "4", "tint": "-0.499984740745262"},
-        },  # 19
-        {
-            "series": {"theme": "5", "tint": "0.39997558519241921"},
-            "negative": {"theme": "0", "tint": "-0.499984740745262"},
-            "markers": {"theme": "5", "tint": "0.79998168889431442"},
-            "first": {"theme": "5", "tint": "-0.249977111117893"},
-            "last": {"theme": "5", "tint": "-0.249977111117893"},
-            "high": {"theme": "5", "tint": "-0.499984740745262"},
-            "low": {"theme": "5", "tint": "-0.499984740745262"},
-        },  # 20
-        {
-            "series": {"theme": "6", "tint": "0.39997558519241921"},
-            "negative": {"theme": "0", "tint": "-0.499984740745262"},
-            "markers": {"theme": "6", "tint": "0.79998168889431442"},
-            "first": {"theme": "6", "tint": "-0.249977111117893"},
-            "last": {"theme": "6", "tint": "-0.249977111117893"},
-            "high": {"theme": "6", "tint": "-0.499984740745262"},
-            "low": {"theme": "6", "tint": "-0.499984740745262"},
-        },  # 21
-        {
-            "series": {"theme": "7", "tint": "0.39997558519241921"},
-            "negative": {"theme": "0", "tint": "-0.499984740745262"},
-            "markers": {"theme": "7", "tint": "0.79998168889431442"},
-            "first": {"theme": "7", "tint": "-0.249977111117893"},
-            "last": {"theme": "7", "tint": "-0.249977111117893"},
-            "high": {"theme": "7", "tint": "-0.499984740745262"},
-            "low": {"theme": "7", "tint": "-0.499984740745262"},
-        },  # 22
-        {
-            "series": {"theme": "8", "tint": "0.39997558519241921"},
-            "negative": {"theme": "0", "tint": "-0.499984740745262"},
-            "markers": {"theme": "8", "tint": "0.79998168889431442"},
-            "first": {"theme": "8", "tint": "-0.249977111117893"},
-            "last": {"theme": "8", "tint": "-0.249977111117893"},
-            "high": {"theme": "8", "tint": "-0.499984740745262"},
-            "low": {"theme": "8", "tint": "-0.499984740745262"},
-        },  # 23
-        {
-            "series": {"theme": "9", "tint": "0.39997558519241921"},
-            "negative": {"theme": "0", "tint": "-0.499984740745262"},
-            "markers": {"theme": "9", "tint": "0.79998168889431442"},
-            "first": {"theme": "9", "tint": "-0.249977111117893"},
-            "last": {"theme": "9", "tint": "-0.249977111117893"},
-            "high": {"theme": "9", "tint": "-0.499984740745262"},
-            "low": {"theme": "9", "tint": "-0.499984740745262"},
-        },  # 24
-        {
-            "series": {"theme": "1", "tint": "0.499984740745262"},
-            "negative": {"theme": "1", "tint": "0.249977111117893"},
-            "markers": {"theme": "1", "tint": "0.249977111117893"},
-            "first": {"theme": "1", "tint": "0.249977111117893"},
-            "last": {"theme": "1", "tint": "0.249977111117893"},
-            "high": {"theme": "1", "tint": "0.249977111117893"},
-            "low": {"theme": "1", "tint": "0.249977111117893"},
-        },  # 25
-        {
-            "series": {"theme": "1", "tint": "0.34998626667073579"},
-            "negative": {"theme": "0", "tint": "-0.249977111117893"},
-            "markers": {"theme": "0", "tint": "-0.249977111117893"},
-            "first": {"theme": "0", "tint": "-0.249977111117893"},
-            "last": {"theme": "0", "tint": "-0.249977111117893"},
-            "high": {"theme": "0", "tint": "-0.249977111117893"},
-            "low": {"theme": "0", "tint": "-0.249977111117893"},
-        },  # 26
-        {
-            "series": {"rgb": "FF323232"},
-            "negative": {"rgb": "FFD00000"},
-            "markers": {"rgb": "FFD00000"},
-            "first": {"rgb": "FFD00000"},
-            "last": {"rgb": "FFD00000"},
-            "high": {"rgb": "FFD00000"},
-            "low": {"rgb": "FFD00000"},
-        },  # 27
-        {
-            "series": {"rgb": "FF000000"},
-            "negative": {"rgb": "FF0070C0"},
-            "markers": {"rgb": "FF0070C0"},
-            "first": {"rgb": "FF0070C0"},
-            "last": {"rgb": "FF0070C0"},
-            "high": {"rgb": "FF0070C0"},
-            "low": {"rgb": "FF0070C0"},
-        },  # 28
-        {
-            "series": {"rgb": "FF376092"},
-            "negative": {"rgb": "FFD00000"},
-            "markers": {"rgb": "FFD00000"},
-            "first": {"rgb": "FFD00000"},
-            "last": {"rgb": "FFD00000"},
-            "high": {"rgb": "FFD00000"},
-            "low": {"rgb": "FFD00000"},
-        },  # 29
-        {
-            "series": {"rgb": "FF0070C0"},
-            "negative": {"rgb": "FF000000"},
-            "markers": {"rgb": "FF000000"},
-            "first": {"rgb": "FF000000"},
-            "last": {"rgb": "FF000000"},
-            "high": {"rgb": "FF000000"},
-            "low": {"rgb": "FF000000"},
-        },  # 30
-        {
-            "series": {"rgb": "FF5F5F5F"},
-            "negative": {"rgb": "FFFFB620"},
-            "markers": {"rgb": "FFD70077"},
-            "first": {"rgb": "FF5687C2"},
-            "last": {"rgb": "FF359CEB"},
-            "high": {"rgb": "FF56BE79"},
-            "low": {"rgb": "FFFF5055"},
-        },  # 31
-        {
-            "series": {"rgb": "FF5687C2"},
-            "negative": {"rgb": "FFFFB620"},
-            "markers": {"rgb": "FFD70077"},
-            "first": {"rgb": "FF777777"},
-            "last": {"rgb": "FF359CEB"},
-            "high": {"rgb": "FF56BE79"},
-            "low": {"rgb": "FFFF5055"},
-        },  # 32
-        {
-            "series": {"rgb": "FFC6EFCE"},
-            "negative": {"rgb": "FFFFC7CE"},
-            "markers": {"rgb": "FF8CADD6"},
-            "first": {"rgb": "FFFFDC47"},
-            "last": {"rgb": "FFFFEB9C"},
-            "high": {"rgb": "FF60D276"},
-            "low": {"rgb": "FFFF5367"},
-        },  # 33
-        {
-            "series": {"rgb": "FF00B050"},
-            "negative": {"rgb": "FFFF0000"},
-            "markers": {"rgb": "FF0070C0"},
-            "first": {"rgb": "FFFFC000"},
-            "last": {"rgb": "FFFFC000"},
-            "high": {"rgb": "FF00B050"},
-            "low": {"rgb": "FFFF0000"},
-        },  # 34
-        {
-            "series": {"theme": "3"},
-            "negative": {"theme": "9"},
-            "markers": {"theme": "8"},
-            "first": {"theme": "4"},
-            "last": {"theme": "5"},
-            "high": {"theme": "6"},
-            "low": {"theme": "7"},
-        },  # 35
-        {
-            "series": {"theme": "1"},
-            "negative": {"theme": "9"},
-            "markers": {"theme": "8"},
-            "first": {"theme": "4"},
-            "last": {"theme": "5"},
-            "high": {"theme": "6"},
-            "low": {"theme": "7"},
-        },  # 36
+        {  # 0
+            "low": Color.theme(4, 0),
+            "high": Color.theme(4, 0),
+            "last": Color.theme(4, 3),
+            "first": Color.theme(4, 3),
+            "series": Color.theme(4, 5),
+            "markers": Color.theme(4, 5),
+            "negative": Color.theme(5, 0),
+        },
+        {  # 1
+            "low": Color.theme(4, 0),
+            "high": Color.theme(4, 0),
+            "last": Color.theme(4, 3),
+            "first": Color.theme(4, 3),
+            "series": Color.theme(4, 5),
+            "markers": Color.theme(4, 5),
+            "negative": Color.theme(5, 0),
+        },
+        {  # 2
+            "low": Color.theme(5, 0),
+            "high": Color.theme(5, 0),
+            "last": Color.theme(5, 3),
+            "first": Color.theme(5, 3),
+            "series": Color.theme(5, 5),
+            "markers": Color.theme(5, 5),
+            "negative": Color.theme(6, 0),
+        },
+        {  # 3
+            "low": Color.theme(6, 0),
+            "high": Color.theme(6, 0),
+            "last": Color.theme(6, 3),
+            "first": Color.theme(6, 3),
+            "series": Color.theme(6, 5),
+            "markers": Color.theme(6, 5),
+            "negative": Color.theme(7, 0),
+        },
+        {  # 4
+            "low": Color.theme(7, 0),
+            "high": Color.theme(7, 0),
+            "last": Color.theme(7, 3),
+            "first": Color.theme(7, 3),
+            "series": Color.theme(7, 5),
+            "markers": Color.theme(7, 5),
+            "negative": Color.theme(8, 0),
+        },
+        {  # 5
+            "low": Color.theme(8, 0),
+            "high": Color.theme(8, 0),
+            "last": Color.theme(8, 3),
+            "first": Color.theme(8, 3),
+            "series": Color.theme(8, 5),
+            "markers": Color.theme(8, 5),
+            "negative": Color.theme(9, 0),
+        },
+        {  # 6
+            "low": Color.theme(9, 0),
+            "high": Color.theme(9, 0),
+            "last": Color.theme(9, 3),
+            "first": Color.theme(9, 3),
+            "series": Color.theme(9, 5),
+            "markers": Color.theme(9, 5),
+            "negative": Color.theme(4, 0),
+        },
+        {  # 7
+            "low": Color.theme(5, 4),
+            "high": Color.theme(5, 4),
+            "last": Color.theme(5, 4),
+            "first": Color.theme(5, 4),
+            "series": Color.theme(4, 4),
+            "markers": Color.theme(5, 4),
+            "negative": Color.theme(5, 0),
+        },
+        {  # 8
+            "low": Color.theme(6, 4),
+            "high": Color.theme(6, 4),
+            "last": Color.theme(6, 4),
+            "first": Color.theme(6, 4),
+            "series": Color.theme(5, 4),
+            "markers": Color.theme(6, 4),
+            "negative": Color.theme(6, 0),
+        },
+        {  # 9
+            "low": Color.theme(7, 4),
+            "high": Color.theme(7, 4),
+            "last": Color.theme(7, 4),
+            "first": Color.theme(7, 4),
+            "series": Color.theme(6, 4),
+            "markers": Color.theme(7, 4),
+            "negative": Color.theme(7, 0),
+        },
+        {  # 10
+            "low": Color.theme(8, 4),
+            "high": Color.theme(8, 4),
+            "last": Color.theme(8, 4),
+            "first": Color.theme(8, 4),
+            "series": Color.theme(7, 4),
+            "markers": Color.theme(8, 4),
+            "negative": Color.theme(8, 0),
+        },
+        {  # 11
+            "low": Color.theme(9, 4),
+            "high": Color.theme(9, 4),
+            "last": Color.theme(9, 4),
+            "first": Color.theme(9, 4),
+            "series": Color.theme(8, 4),
+            "markers": Color.theme(9, 4),
+            "negative": Color.theme(9, 0),
+        },
+        {  # 12
+            "low": Color.theme(4, 4),
+            "high": Color.theme(4, 4),
+            "last": Color.theme(4, 4),
+            "first": Color.theme(4, 4),
+            "series": Color.theme(9, 4),
+            "markers": Color.theme(4, 4),
+            "negative": Color.theme(4, 0),
+        },
+        {  # 13
+            "low": Color.theme(4, 4),
+            "high": Color.theme(4, 4),
+            "last": Color.theme(4, 4),
+            "first": Color.theme(4, 4),
+            "series": Color.theme(4, 0),
+            "markers": Color.theme(4, 4),
+            "negative": Color.theme(5, 0),
+        },
+        {  # 14
+            "low": Color.theme(5, 4),
+            "high": Color.theme(5, 4),
+            "last": Color.theme(5, 4),
+            "first": Color.theme(5, 4),
+            "series": Color.theme(5, 0),
+            "markers": Color.theme(5, 4),
+            "negative": Color.theme(6, 0),
+        },
+        {  # 15
+            "low": Color.theme(6, 4),
+            "high": Color.theme(6, 4),
+            "last": Color.theme(6, 4),
+            "first": Color.theme(6, 4),
+            "series": Color.theme(6, 0),
+            "markers": Color.theme(6, 4),
+            "negative": Color.theme(7, 0),
+        },
+        {  # 16
+            "low": Color.theme(7, 4),
+            "high": Color.theme(7, 4),
+            "last": Color.theme(7, 4),
+            "first": Color.theme(7, 4),
+            "series": Color.theme(7, 0),
+            "markers": Color.theme(7, 4),
+            "negative": Color.theme(8, 0),
+        },
+        {  # 17
+            "low": Color.theme(8, 4),
+            "high": Color.theme(8, 4),
+            "last": Color.theme(8, 4),
+            "first": Color.theme(8, 4),
+            "series": Color.theme(8, 0),
+            "markers": Color.theme(8, 4),
+            "negative": Color.theme(9, 0),
+        },
+        {  # 18
+            "low": Color.theme(9, 4),
+            "high": Color.theme(9, 4),
+            "last": Color.theme(9, 4),
+            "first": Color.theme(9, 4),
+            "series": Color.theme(9, 0),
+            "markers": Color.theme(9, 4),
+            "negative": Color.theme(4, 0),
+        },
+        {  # 19
+            "low": Color.theme(4, 5),
+            "high": Color.theme(4, 5),
+            "last": Color.theme(4, 4),
+            "first": Color.theme(4, 4),
+            "series": Color.theme(4, 3),
+            "markers": Color.theme(4, 1),
+            "negative": Color.theme(0, 5),
+        },
+        {  # 20
+            "low": Color.theme(5, 5),
+            "high": Color.theme(5, 5),
+            "last": Color.theme(5, 4),
+            "first": Color.theme(5, 4),
+            "series": Color.theme(5, 3),
+            "markers": Color.theme(5, 1),
+            "negative": Color.theme(0, 5),
+        },
+        {  # 21
+            "low": Color.theme(6, 5),
+            "high": Color.theme(6, 5),
+            "last": Color.theme(6, 4),
+            "first": Color.theme(6, 4),
+            "series": Color.theme(6, 3),
+            "markers": Color.theme(6, 1),
+            "negative": Color.theme(0, 5),
+        },
+        {  # 22
+            "low": Color.theme(7, 5),
+            "high": Color.theme(7, 5),
+            "last": Color.theme(7, 4),
+            "first": Color.theme(7, 4),
+            "series": Color.theme(7, 3),
+            "markers": Color.theme(7, 1),
+            "negative": Color.theme(0, 5),
+        },
+        {  # 23
+            "low": Color.theme(8, 5),
+            "high": Color.theme(8, 5),
+            "last": Color.theme(8, 4),
+            "first": Color.theme(8, 4),
+            "series": Color.theme(8, 3),
+            "markers": Color.theme(8, 1),
+            "negative": Color.theme(0, 5),
+        },
+        {  # 24
+            "low": Color.theme(9, 5),
+            "high": Color.theme(9, 5),
+            "last": Color.theme(9, 4),
+            "first": Color.theme(9, 4),
+            "series": Color.theme(9, 3),
+            "markers": Color.theme(9, 1),
+            "negative": Color.theme(0, 5),
+        },
+        {  # 25
+            "low": Color.theme(1, 3),
+            "high": Color.theme(1, 3),
+            "last": Color.theme(1, 3),
+            "first": Color.theme(1, 3),
+            "series": Color.theme(1, 1),
+            "markers": Color.theme(1, 3),
+            "negative": Color.theme(1, 3),
+        },
+        {  # 26
+            "low": Color.theme(0, 3),
+            "high": Color.theme(0, 3),
+            "last": Color.theme(0, 3),
+            "first": Color.theme(0, 3),
+            "series": Color.theme(1, 2),
+            "markers": Color.theme(0, 3),
+            "negative": Color.theme(0, 3),
+        },
+        {  # 27
+            "low": Color("#D00000"),
+            "high": Color("#D00000"),
+            "last": Color("#D00000"),
+            "first": Color("#D00000"),
+            "series": Color("#323232"),
+            "markers": Color("#D00000"),
+            "negative": Color("#D00000"),
+        },
+        {  # 28
+            "low": Color("#0070C0"),
+            "high": Color("#0070C0"),
+            "last": Color("#0070C0"),
+            "first": Color("#0070C0"),
+            "series": Color("#000000"),
+            "markers": Color("#0070C0"),
+            "negative": Color("#0070C0"),
+        },
+        {  # 29
+            "low": Color("#D00000"),
+            "high": Color("#D00000"),
+            "last": Color("#D00000"),
+            "first": Color("#D00000"),
+            "series": Color("#376092"),
+            "markers": Color("#D00000"),
+            "negative": Color("#D00000"),
+        },
+        {  # 30
+            "low": Color("#000000"),
+            "high": Color("#000000"),
+            "last": Color("#000000"),
+            "first": Color("#000000"),
+            "series": Color("#0070C0"),
+            "markers": Color("#000000"),
+            "negative": Color("#000000"),
+        },
+        {  # 31
+            "low": Color("#FF5055"),
+            "high": Color("#56BE79"),
+            "last": Color("#359CEB"),
+            "first": Color("#5687C2"),
+            "series": Color("#5F5F5F"),
+            "markers": Color("#D70077"),
+            "negative": Color("#FFB620"),
+        },
+        {  # 32
+            "low": Color("#FF5055"),
+            "high": Color("#56BE79"),
+            "last": Color("#359CEB"),
+            "first": Color("#777777"),
+            "series": Color("#5687C2"),
+            "markers": Color("#D70077"),
+            "negative": Color("#FFB620"),
+        },
+        {  # 33
+            "low": Color("#FF5367"),
+            "high": Color("#60D276"),
+            "last": Color("#FFEB9C"),
+            "first": Color("#FFDC47"),
+            "series": Color("#C6EFCE"),
+            "markers": Color("#8CADD6"),
+            "negative": Color("#FFC7CE"),
+        },
+        {  # 34
+            "low": Color("#FF0000"),
+            "high": Color("#00B050"),
+            "last": Color("#FFC000"),
+            "first": Color("#FFC000"),
+            "series": Color("#00B050"),
+            "markers": Color("#0070C0"),
+            "negative": Color("#FF0000"),
+        },
+        {  # 35
+            "low": Color.theme(7, 0),
+            "high": Color.theme(6, 0),
+            "last": Color.theme(5, 0),
+            "first": Color.theme(4, 0),
+            "series": Color.theme(3, 0),
+            "markers": Color.theme(8, 0),
+            "negative": Color.theme(9, 0),
+        },
+        {  # 36
+            "low": Color.theme(7, 0),
+            "high": Color.theme(6, 0),
+            "last": Color.theme(5, 0),
+            "first": Color.theme(4, 0),
+            "series": Color.theme(1, 0),
+            "markers": Color.theme(8, 0),
+            "negative": Color.theme(9, 0),
+        },
     ]
 
     return styles[style_id]

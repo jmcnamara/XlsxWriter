@@ -10,6 +10,8 @@
 import unittest
 from io import StringIO
 
+from xlsxwriter.color import Color
+
 from ...styles import Styles
 
 
@@ -27,7 +29,7 @@ class TestWriteColors(unittest.TestCase):
     def test_write_colors1(self):
         """Test the _write_colors() method"""
 
-        self.styles.custom_colors = ["FF26DA55"]
+        self.styles.custom_colors = [Color("#26DA55")]
         self.styles._write_colors()
 
         exp = """<colors><mruColors><color rgb="FF26DA55"/></mruColors></colors>"""
@@ -38,7 +40,11 @@ class TestWriteColors(unittest.TestCase):
     def test_write_colors2(self):
         """Test the _write_colors() method"""
 
-        self.styles.custom_colors = ["FF26DA55", "FF792DC8", "FF646462"]
+        self.styles.custom_colors = [
+            Color("#26DA55"),
+            Color("#792DC8"),
+            Color("#646462"),
+        ]
         self.styles._write_colors()
 
         exp = """<colors><mruColors><color rgb="FF646462"/><color rgb="FF792DC8"/><color rgb="FF26DA55"/></mruColors></colors>"""
@@ -50,18 +56,18 @@ class TestWriteColors(unittest.TestCase):
         """Test the _write_colors() method"""
 
         self.styles.custom_colors = [
-            "FF792DC8",
-            "FF646462",
-            "FF5EA29C",
-            "FF583AC6",
-            "FFE31DAF",
-            "FFA1A759",
-            "FF600FF1",
-            "FF0CF49C",
-            "FFE3FA06",
-            "FF913AC6",
-            "FFB97847",
-            "FFD97827",
+            Color("#792DC8"),
+            Color("#646462"),
+            Color("#5EA29C"),
+            Color("#583AC6"),
+            Color("#E31DAF"),
+            Color("#A1A759"),
+            Color("#600FF1"),
+            Color("#0CF49C"),
+            Color("#E3FA06"),
+            Color("#913AC6"),
+            Color("#B97847"),
+            Color("#D97827"),
         ]
 
         self.styles._write_colors()

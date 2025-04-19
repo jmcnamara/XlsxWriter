@@ -10,6 +10,8 @@
 # Package imports.
 from warnings import warn
 
+from xlsxwriter.color import Color
+
 from . import xmlwriter
 
 
@@ -52,7 +54,7 @@ class Format(xmlwriter.XMLwriter):
         self.italic = 0
         self.font_name = "Calibri"
         self.font_size = 11
-        self.font_color = 0x0
+        self.font_color = None
         self.font_strikeout = 0
         self.font_outline = 0
         self.font_shadow = 0
@@ -75,8 +77,8 @@ class Format(xmlwriter.XMLwriter):
         self.text_justlast = 0
         self.rotation = 0
 
-        self.fg_color = 0
-        self.bg_color = 0
+        self.fg_color = None
+        self.bg_color = None
         self.pattern = 0
         self.has_fill = False
         self.has_dxf_fill = False
@@ -89,16 +91,16 @@ class Format(xmlwriter.XMLwriter):
         self.border_count = 0
 
         self.bottom = 0
-        self.bottom_color = 0
+        self.bottom_color = None
         self.diag_border = 0
-        self.diag_color = 0
+        self.diag_color = None
         self.diag_type = 0
         self.left = 0
-        self.left_color = 0
+        self.left_color = None
         self.right = 0
-        self.right_color = 0
+        self.right_color = None
         self.top = 0
-        self.top_color = 0
+        self.top_color = None
 
         self.indent = 0
         self.shrink = 0
@@ -116,6 +118,28 @@ class Format(xmlwriter.XMLwriter):
             getattr(self, "set_" + key)(value)
 
         self._format_key = None
+
+    def __repr__(self):
+        """
+        Return a string representation of the Format instance.
+        """
+        return (
+            f"Format("
+            f"font_name={self.font_name!r}, "
+            f"font_size={self.font_size}, "
+            f"bold={self.bold}, "
+            f"italic={self.italic}, "
+            f"underline={self.underline}, "
+            f"font_color={self.font_color}, "
+            f"num_format={self.num_format!r}, "
+            f"text_h_align={self.text_h_align}, "
+            f"text_v_align={self.text_v_align}, "
+            f"fg_color={self.fg_color}, "
+            f"bg_color={self.bg_color}, "
+            f"pattern={self.pattern}, "
+            f"locked={self.locked}, "
+            f"hidden={self.hidden})"
+        )
 
     ###########################################################################
     #
@@ -161,7 +185,7 @@ class Format(xmlwriter.XMLwriter):
             Nothing.
 
         """
-        self.font_color = self._get_color(font_color)
+        self.font_color = Color.from_value(font_color)
 
     def set_bold(self, bold=True):
         """
@@ -456,7 +480,7 @@ class Format(xmlwriter.XMLwriter):
             Nothing.
 
         """
-        self.bg_color = self._get_color(bg_color)
+        self.bg_color = Color.from_value(bg_color)
 
     def set_fg_color(self, fg_color):
         """
@@ -469,7 +493,7 @@ class Format(xmlwriter.XMLwriter):
             Nothing.
 
         """
-        self.fg_color = self._get_color(fg_color)
+        self.fg_color = Color.from_value(fg_color)
 
     # set_border(style) Set cells borders to the same style
     def set_border(self, style=1):
@@ -529,7 +553,7 @@ class Format(xmlwriter.XMLwriter):
             Nothing.
 
         """
-        self.bottom_color = self._get_color(bottom_color)
+        self.bottom_color = Color.from_value(bottom_color)
 
     def set_diag_type(self, diag_type=1):
         """
@@ -568,7 +592,7 @@ class Format(xmlwriter.XMLwriter):
             Nothing.
 
         """
-        self.left_color = self._get_color(left_color)
+        self.left_color = Color.from_value(left_color)
 
     def set_right(self, right=1):
         """
@@ -594,7 +618,7 @@ class Format(xmlwriter.XMLwriter):
             Nothing.
 
         """
-        self.right_color = self._get_color(right_color)
+        self.right_color = Color.from_value(right_color)
 
     def set_top(self, top=1):
         """
@@ -620,7 +644,7 @@ class Format(xmlwriter.XMLwriter):
             Nothing.
 
         """
-        self.top_color = self._get_color(top_color)
+        self.top_color = Color.from_value(top_color)
 
     def set_diag_color(self, diag_color):
         """
@@ -633,7 +657,7 @@ class Format(xmlwriter.XMLwriter):
             Nothing.
 
         """
-        self.diag_color = self._get_color(diag_color)
+        self.diag_color = Color.from_value(diag_color)
 
     def set_diag_border(self, diag_border=1):
         """
@@ -958,7 +982,7 @@ class Format(xmlwriter.XMLwriter):
 
     def set_color(self, font_color):
         """Deprecated: Use set_font_color() instead."""
-        self.font_color = self._get_color(font_color)
+        self.font_color = Color.from_value(font_color)
 
     ###########################################################################
     #
@@ -1199,32 +1223,6 @@ class Format(xmlwriter.XMLwriter):
         self.dxf_format_indices[key] = index
         self.dxf_index = index
         return index
-
-    def _get_color(self, color):
-        # Used in conjunction with the set_xxx_color methods to convert a
-        # color name into an RGB formatted string. These colors are for
-        # backward compatibility with older versions of Excel.
-        named_colors = {
-            "black": "#000000",
-            "blue": "#0000FF",
-            "brown": "#800000",
-            "cyan": "#00FFFF",
-            "gray": "#808080",
-            "green": "#008000",
-            "lime": "#00FF00",
-            "magenta": "#FF00FF",
-            "navy": "#000080",
-            "orange": "#FF6600",
-            "pink": "#FF00FF",
-            "purple": "#800080",
-            "red": "#FF0000",
-            "silver": "#C0C0C0",
-            "white": "#FFFFFF",
-            "yellow": "#FFFF00",
-            "automatic": "Automatic",
-        }
-
-        return named_colors.get(color, color)
 
     ###########################################################################
     #

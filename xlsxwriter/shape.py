@@ -9,6 +9,8 @@
 import copy
 from warnings import warn
 
+from xlsxwriter.color import Color
+
 
 class Shape:
     """
@@ -126,6 +128,9 @@ class Shape:
                 warn(f"Unknown dash type '{dash_type}'")
                 return {}
 
+        if line.get("color"):
+            line["color"] = Color.from_value(line["color"])
+
         line["defined"] = True
 
         return line
@@ -139,6 +144,9 @@ class Shape:
 
         # Copy the user defined properties since they will be modified.
         fill = copy.deepcopy(fill)
+
+        if fill.get("color"):
+            fill["color"] = Color.from_value(fill["color"])
 
         fill["defined"] = True
 
@@ -220,8 +228,13 @@ class Shape:
 
         pattern["pattern"] = types[pattern["pattern"]]
 
-        # Specify a default background color.
-        pattern["bg_color"] = pattern.get("bg_color", "#FFFFFF")
+        if pattern.get("fg_color"):
+            pattern["fg_color"] = Color.from_value(pattern["fg_color"])
+
+        if pattern.get("bg_color"):
+            pattern["bg_color"] = Color.from_value(pattern["bg_color"])
+        else:
+            pattern["bg_color"] = Color("#FFFFFF")
 
         return pattern
 
@@ -299,6 +312,8 @@ class Shape:
         else:
             gradient["type"] = "linear"
 
+        gradient["colors"] = [Color.from_value(color) for color in gradient["colors"]]
+
         return gradient
 
     @staticmethod
@@ -323,6 +338,9 @@ class Shape:
         # Convert font size units.
         if font["size"]:
             font["size"] = int(font["size"] * 100)
+
+        if font.get("color"):
+            font["color"] = Color.from_value(font["color"])
 
         return font
 

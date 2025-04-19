@@ -23,6 +23,7 @@ from io import StringIO
 from math import isinf, isnan
 from warnings import warn
 
+from xlsxwriter.color import Color
 from xlsxwriter.comments import CommentType
 from xlsxwriter.image import Image
 from xlsxwriter.url import Url, UrlTypes
@@ -39,7 +40,6 @@ from .utility import (
     _get_sparkline_style,
     _preserve_whitespace,
     _supported_datetime,
-    _xl_color,
     quote_sheetname,
     xl_cell_to_rowcol,
     xl_col_to_name,
@@ -3076,11 +3076,11 @@ class Worksheet(xmlwriter.XMLwriter):
             options.setdefault("max_type", "max")
             options.setdefault("min_value", 0)
             options.setdefault("max_value", 0)
-            options.setdefault("min_color", "#FF7128")
-            options.setdefault("max_color", "#FFEF9C")
+            options.setdefault("min_color", Color("#FF7128"))
+            options.setdefault("max_color", Color("#FFEF9C"))
 
-            options["min_color"] = _xl_color(options["min_color"])
-            options["max_color"] = _xl_color(options["max_color"])
+            options["min_color"] = Color.from_value(options["min_color"])
+            options["max_color"] = Color.from_value(options["max_color"])
 
         # Special handling for 3 color scale.
         if options["type"] == "3_color_scale":
@@ -3094,13 +3094,13 @@ class Worksheet(xmlwriter.XMLwriter):
             options.setdefault("max_type", "max")
             options.setdefault("min_value", 0)
             options.setdefault("max_value", 0)
-            options.setdefault("min_color", "#F8696B")
-            options.setdefault("mid_color", "#FFEB84")
-            options.setdefault("max_color", "#63BE7B")
+            options.setdefault("min_color", Color("#F8696B"))
+            options.setdefault("mid_color", Color("#FFEB84"))
+            options.setdefault("max_color", Color("#63BE7B"))
 
-            options["min_color"] = _xl_color(options["min_color"])
-            options["mid_color"] = _xl_color(options["mid_color"])
-            options["max_color"] = _xl_color(options["max_color"])
+            options["min_color"] = Color.from_value(options["min_color"])
+            options["mid_color"] = Color.from_value(options["mid_color"])
+            options["max_color"] = Color.from_value(options["max_color"])
 
             # Set a default mid value.
             if "mid_value" not in options:
@@ -3125,24 +3125,26 @@ class Worksheet(xmlwriter.XMLwriter):
 
             options.setdefault("min_value", 0)
             options.setdefault("max_value", 0)
-            options.setdefault("bar_color", "#638EC6")
+            options.setdefault("bar_color", Color("#638EC6"))
             options.setdefault("bar_border_color", options["bar_color"])
             options.setdefault("bar_only", False)
             options.setdefault("bar_no_border", False)
             options.setdefault("bar_solid", False)
             options.setdefault("bar_direction", "")
-            options.setdefault("bar_negative_color", "#FF0000")
-            options.setdefault("bar_negative_border_color", "#FF0000")
+            options.setdefault("bar_negative_color", Color("#FF0000"))
+            options.setdefault("bar_negative_border_color", Color("#FF0000"))
             options.setdefault("bar_negative_color_same", False)
             options.setdefault("bar_negative_border_color_same", False)
             options.setdefault("bar_axis_position", "")
-            options.setdefault("bar_axis_color", "#000000")
+            options.setdefault("bar_axis_color", Color("#000000"))
 
-            options["bar_color"] = _xl_color(options["bar_color"])
-            options["bar_border_color"] = _xl_color(options["bar_border_color"])
-            options["bar_axis_color"] = _xl_color(options["bar_axis_color"])
-            options["bar_negative_color"] = _xl_color(options["bar_negative_color"])
-            options["bar_negative_border_color"] = _xl_color(
+            options["bar_color"] = Color.from_value(options["bar_color"])
+            options["bar_border_color"] = Color.from_value(options["bar_border_color"])
+            options["bar_axis_color"] = Color.from_value(options["bar_axis_color"])
+            options["bar_negative_color"] = Color.from_value(
+                options["bar_negative_color"]
+            )
+            options["bar_negative_border_color"] = Color.from_value(
                 options["bar_negative_border_color"]
             )
 
@@ -3887,7 +3889,7 @@ class Worksheet(xmlwriter.XMLwriter):
             Nothing.
 
         """
-        self.tab_color = _xl_color(color)
+        self.tab_color = Color.from_value(color)
 
     def protect(self, password="", options=None):
         """
@@ -5676,7 +5678,7 @@ class Worksheet(xmlwriter.XMLwriter):
         if user_color not in options:
             return
 
-        sparkline[user_color] = {"rgb": _xl_color(options[user_color])}
+        sparkline[user_color] = Color.from_value(options[user_color])
 
     def _get_range_data(self, row_start, col_start, row_end, col_end):
         # Returns a range of data from the worksheet _table to be used in
@@ -5783,8 +5785,8 @@ class Worksheet(xmlwriter.XMLwriter):
 
     ###########################################################################
     #
-    # The following font methods are, more or less, duplicated from the
-    # Styles class. Not the cleanest version of reuse but works for now.
+    # The following font methods are mainly duplicated from the Styles class
+    # with appropriate changes for rich string styles.
     #
     ###########################################################################
     def _write_font(self, xf_format):
@@ -5823,14 +5825,15 @@ class Worksheet(xmlwriter.XMLwriter):
             # Ignore for excel2003_style.
             pass
         elif xf_format.theme:
-            self._write_color("theme", xf_format.theme)
+            self._write_rstring_color("color", [("theme", xf_format.theme)])
         elif xf_format.color_indexed:
-            self._write_color("indexed", xf_format.color_indexed)
+            self._write_rstring_color("color", [("indexed", xf_format.color_indexed)])
         elif xf_format.font_color:
-            color = self._get_palette_color(xf_format.font_color)
-            self._write_rstring_color("rgb", color)
+            color = xf_format.font_color
+            if not color._is_automatic:
+                self._write_rstring_color("color", color._attributes())
         else:
-            self._write_rstring_color("theme", 1)
+            self._write_rstring_color("color", [("theme", 1)])
 
         # Write some other font properties related to font families.
         xml_writer._xml_empty_tag("rFont", [("val", xf_format.font_name)])
@@ -5861,18 +5864,9 @@ class Worksheet(xmlwriter.XMLwriter):
 
         self.rstring._xml_empty_tag("vertAlign", attributes)
 
-    def _write_rstring_color(self, name, value):
+    def _write_rstring_color(self, name, attributes):
         # Write the <color> element.
-        attributes = [(name, value)]
-
-        self.rstring._xml_empty_tag("color", attributes)
-
-    def _get_palette_color(self, color):
-        # Convert the RGB color.
-        if color[0] == "#":
-            color = color[1:]
-
-        return "FF" + color.upper()
+        self.rstring._xml_empty_tag(name, attributes)
 
     def _opt_close(self):
         # Close the row data filehandle in constant_memory mode.
@@ -6744,9 +6738,7 @@ class Worksheet(xmlwriter.XMLwriter):
         if not color:
             return
 
-        attributes = [("rgb", color)]
-
-        self._xml_empty_tag("tabColor", attributes)
+        self._write_color("tabColor", color._attributes())
 
     def _write_outline_pr(self):
         # Write the <outlinePr> element.
@@ -7457,12 +7449,12 @@ class Worksheet(xmlwriter.XMLwriter):
 
         self._write_cfvo(param["max_type"], param["max_value"])
 
-        self._write_color("rgb", param["min_color"])
+        self._write_color("color", param["min_color"]._attributes())
 
         if param["mid_color"] is not None:
-            self._write_color("rgb", param["mid_color"])
+            self._write_color("color", param["mid_color"]._attributes())
 
-        self._write_color("rgb", param["max_color"])
+        self._write_color("color", param["max_color"]._attributes())
 
         self._xml_end_tag("colorScale")
 
@@ -7485,7 +7477,7 @@ class Worksheet(xmlwriter.XMLwriter):
 
         self._write_cfvo(param["min_type"], param["min_value"])
         self._write_cfvo(param["max_type"], param["max_value"])
-        self._write_color("rgb", param["bar_color"])
+        self._write_color("color", param["bar_color"]._attributes())
 
         self._xml_end_tag("dataBar")
 
@@ -7541,11 +7533,9 @@ class Worksheet(xmlwriter.XMLwriter):
 
         self._xml_empty_tag("cfvo", attributes)
 
-    def _write_color(self, name, value):
+    def _write_color(self, name, attributes):
         # Write the <color> element.
-        attributes = [(name, value)]
-
-        self._xml_empty_tag("color", attributes)
+        self._xml_empty_tag(name, attributes)
 
     def _write_selections(self):
         # Write the <selection> elements.
@@ -7904,25 +7894,21 @@ class Worksheet(xmlwriter.XMLwriter):
             self._xml_data_element("xm:f", value)
             self._xml_end_tag("x14:cfvo")
 
-    def _write_x14_border_color(self, rgb):
+    def _write_x14_border_color(self, color):
         # Write the <x14:borderColor> element.
-        attributes = [("rgb", rgb)]
-        self._xml_empty_tag("x14:borderColor", attributes)
+        self._write_color("x14:borderColor", color._attributes())
 
-    def _write_x14_negative_fill_color(self, rgb):
+    def _write_x14_negative_fill_color(self, color):
         # Write the <x14:negativeFillColor> element.
-        attributes = [("rgb", rgb)]
-        self._xml_empty_tag("x14:negativeFillColor", attributes)
+        self._xml_empty_tag("x14:negativeFillColor", color._attributes())
 
-    def _write_x14_negative_border_color(self, rgb):
+    def _write_x14_negative_border_color(self, color):
         # Write the <x14:negativeBorderColor> element.
-        attributes = [("rgb", rgb)]
-        self._xml_empty_tag("x14:negativeBorderColor", attributes)
+        self._xml_empty_tag("x14:negativeBorderColor", color._attributes())
 
-    def _write_x14_axis_color(self, rgb):
+    def _write_x14_axis_color(self, color):
         # Write the <x14:axisColor> element.
-        attributes = [("rgb", rgb)]
-        self._xml_empty_tag("x14:axisColor", attributes)
+        self._xml_empty_tag("x14:axisColor", color._attributes())
 
     def _write_ext_list_sparklines(self):
         # Write the sparkline extension sub-elements.
@@ -8096,20 +8082,10 @@ class Worksheet(xmlwriter.XMLwriter):
 
         self._xml_start_tag("x14:sparklineGroup", attributes)
 
-    def _write_spark_color(self, element, color):
+    def _write_spark_color(self, tag, color):
         # Helper function for the sparkline color functions below.
-        attributes = []
-
-        if color.get("rgb"):
-            attributes.append(("rgb", color["rgb"]))
-
-        if color.get("theme"):
-            attributes.append(("theme", color["theme"]))
-
-        if color.get("tint"):
-            attributes.append(("tint", color["tint"]))
-
-        self._xml_empty_tag(element, attributes)
+        if color:
+            self._write_color(tag, color._attributes())
 
     def _write_color_series(self, color):
         # Write the <x14:colorSeries> element.
@@ -8121,7 +8097,7 @@ class Worksheet(xmlwriter.XMLwriter):
 
     def _write_color_axis(self):
         # Write the <x14:colorAxis> element.
-        self._write_spark_color("x14:colorAxis", {"rgb": "FF000000"})
+        self._write_spark_color("x14:colorAxis", Color("#000000"))
 
     def _write_color_markers(self, color):
         # Write the <x14:colorMarkers> element.

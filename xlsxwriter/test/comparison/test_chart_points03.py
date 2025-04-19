@@ -7,6 +7,8 @@
 # Copyright (c), 2013-2025, John McNamara, jmcnamara@cpan.org
 #
 
+from xlsxwriter.color import Color
+
 from ...workbook import Workbook
 from ..excel_comparison_test import ExcelComparisonTest
 
@@ -28,7 +30,7 @@ class TestCompareXLSXFiles(ExcelComparisonTest):
         worksheet = workbook.add_worksheet()
         chart = workbook.add_chart({"type": "pie"})
 
-        workbook.custom_colors = ["FFCC0000", "FF990000"]
+        workbook.custom_colors = [Color("#CC0000"), Color("#990000")]
 
         data = [2, 5, 4]
 

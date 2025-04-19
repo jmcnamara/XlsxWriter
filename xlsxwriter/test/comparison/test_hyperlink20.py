@@ -7,6 +7,8 @@
 # Copyright (c), 2013-2025, John McNamara, jmcnamara@cpan.org
 #
 
+from xlsxwriter.color import Color
+
 from ...workbook import Workbook
 from ..excel_comparison_test import ExcelComparisonTest
 
@@ -30,7 +32,7 @@ class TestCompareXLSXFiles(ExcelComparisonTest):
         workbook = Workbook(self.got_filename)
 
         # Simulate custom color for testing.
-        workbook.custom_colors = ["FF0000FF"]
+        workbook.custom_colors = [Color("#0000FF")]
 
         worksheet = workbook.add_worksheet()
         format1 = workbook.add_format({"font_color": "blue", "underline": 1})

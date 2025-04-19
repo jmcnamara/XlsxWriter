@@ -10,6 +10,8 @@
 import unittest
 from io import StringIO
 
+from xlsxwriter.color import Color
+
 from ...worksheet import Worksheet
 from ..helperfunctions import _xml_to_list
 
@@ -42,7 +44,7 @@ class TestAssembleWorksheet(unittest.TestCase):
             "A2:B2",
             {
                 "type": "data_bar",
-                "bar_color": "#63C384",
+                "bar_color": Color("#63C384"),
                 "data_bar_2010": True,
             },
         )
@@ -51,7 +53,7 @@ class TestAssembleWorksheet(unittest.TestCase):
             "A3:C3",
             {
                 "type": "data_bar",
-                "bar_color": "#FF555A",
+                "bar_color": Color("#FF555A"),
                 "data_bar_2010": True,
             },
         )

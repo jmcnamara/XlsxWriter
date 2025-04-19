@@ -9,11 +9,11 @@
 
 from enum import Enum
 
+from xlsxwriter.color import Color
 from xlsxwriter.url import Url
 
 from . import xmlwriter
 from .shape import Shape
-from .utility import _get_rgb_color
 
 
 class DrawingTypes(Enum):
@@ -684,7 +684,7 @@ class Drawing(xmlwriter.XMLwriter):
                 self._xml_empty_tag("a:noFill")
             elif "color" in shape.fill:
                 # Write the a:solidFill element.
-                self._write_a_solid_fill(_get_rgb_color(shape.fill["color"]))
+                self._write_a_solid_fill(shape.fill["color"])
 
         if shape.gradient:
             # Write the a:gradFill element.
@@ -779,20 +779,17 @@ class Drawing(xmlwriter.XMLwriter):
         else:
             self._xml_empty_tag("a:avLst")
 
-    def _write_a_solid_fill(self, rgb):
+    def _write_a_solid_fill(self, color: Color):
         # Write the <a:solidFill> element.
-        if rgb is None:
-            rgb = "FFFFFF"
-
         self._xml_start_tag("a:solidFill")
 
         # Write the a:srgbClr element.
-        self._write_a_srgb_clr(rgb)
+        self._write_a_srgb_clr(color)
 
         self._xml_end_tag("a:solidFill")
 
-    def _write_a_solid_fill_scheme(self, color, shade=None):
-        attributes = [("val", color)]
+    def _write_a_solid_fill_scheme(self, named_color, shade=None):
+        attributes = [("val", named_color)]
 
         self._xml_start_tag("a:solidFill")
 
@@ -825,7 +822,7 @@ class Drawing(xmlwriter.XMLwriter):
 
         elif "color" in line:
             # Write the a:solidFill element.
-            self._write_a_solid_fill(_get_rgb_color(line["color"]))
+            self._write_a_solid_fill(line["color"])
 
         else:
             # Write the a:solidFill element.
@@ -943,7 +940,7 @@ class Drawing(xmlwriter.XMLwriter):
             self._xml_start_tag(run_type, style_attrs)
 
             if has_color:
-                self._write_a_solid_fill(_get_rgb_color(font["color"]))
+                self._write_a_solid_fill(font["color"])
 
             if latin_attrs:
                 self._write_a_latin(latin_attrs)
@@ -1083,7 +1080,6 @@ class Drawing(xmlwriter.XMLwriter):
             self._xml_start_tag("a:gs", attributes)
 
             # Write the a:srgbClr element.
-            color = _get_rgb_color(color)
             self._write_a_srgb_clr(color)
 
             self._xml_end_tag("a:gs")
@@ -1145,10 +1141,9 @@ class Drawing(xmlwriter.XMLwriter):
 
         self._xml_empty_tag("a:tileRect", attributes)
 
-    def _write_a_srgb_clr(self, val):
+    def _write_a_srgb_clr(self, color: Color):
         # Write the <a:srgbClr> element.
-
-        attributes = [("val", val)]
+        attributes = [("val", color._rgb_hex_value())]
 
         self._xml_empty_tag("a:srgbClr", attributes)
 

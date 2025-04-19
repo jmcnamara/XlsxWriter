@@ -1056,7 +1056,7 @@ class Workbook(xmlwriter.XMLwriter):
         self.border_count = index
 
         # For DXF formats we only need to check if the properties have changed.
-        has_border = re.compile(r"[^0:]")
+        has_border = re.compile(r"[^0None:]")
 
         for xf_format in self.dxf_formats:
             key = xf_format._get_border_key()
@@ -1073,8 +1073,8 @@ class Workbook(xmlwriter.XMLwriter):
         index = 2  # Start from 2. See above.
 
         # Add the default fills.
-        fills["0:0:0"] = 0
-        fills["17:0:0"] = 1
+        fills["0:None:None"] = 0
+        fills["17:None:None"] = 1
 
         # Store the DXF colors separately since them may be reversed below.
         for xf_format in self.dxf_formats:
@@ -1091,29 +1091,17 @@ class Workbook(xmlwriter.XMLwriter):
             # 2. If the user specifies a foreground or background color
             # without a pattern they probably wanted a solid fill, so we fill
             # in the defaults.
-            if (
-                xf_format.pattern == 1
-                and xf_format.bg_color != 0
-                and xf_format.fg_color != 0
-            ):
+            if xf_format.pattern == 1 and xf_format.bg_color and xf_format.fg_color:
                 tmp = xf_format.fg_color
                 xf_format.fg_color = xf_format.bg_color
                 xf_format.bg_color = tmp
 
-            if (
-                xf_format.pattern <= 1
-                and xf_format.bg_color != 0
-                and xf_format.fg_color == 0
-            ):
+            if xf_format.pattern <= 1 and xf_format.bg_color and not xf_format.fg_color:
                 xf_format.fg_color = xf_format.bg_color
-                xf_format.bg_color = 0
+                xf_format.bg_color = None
                 xf_format.pattern = 1
 
-            if (
-                xf_format.pattern <= 1
-                and xf_format.bg_color == 0
-                and xf_format.fg_color != 0
-            ):
+            if xf_format.pattern <= 1 and not xf_format.bg_color and xf_format.fg_color:
                 xf_format.pattern = 1
 
             key = xf_format._get_fill_key()

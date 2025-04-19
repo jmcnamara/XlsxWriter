@@ -9,13 +9,10 @@
 
 from typing import Dict, List, Optional, Union
 
+from xlsxwriter.color import Color
+
 from . import xmlwriter
-from .utility import (
-    _preserve_whitespace,
-    _xl_color,
-    xl_cell_to_rowcol,
-    xl_rowcol_to_cell,
-)
+from .utility import _preserve_whitespace, xl_cell_to_rowcol, xl_rowcol_to_cell
 
 
 ###########################################################################
@@ -50,7 +47,7 @@ class CommentType:
         self.text: str = text
 
         self.author: Optional[str] = None
-        self.color: str = "#ffffe1"
+        self.color: Color = Color("#ffffe1")
 
         self.start_row: int = 0
         self.start_col: int = 0
@@ -133,13 +130,9 @@ class CommentType:
         if visible is not None and isinstance(visible, bool):
             self.is_visible = visible
 
-        color = options.get("color")
-        if color and isinstance(color, str):
+        if options.get("color"):
             # Set the comment background color.
-            color = _xl_color(color).lower()
-
-            # Convert from Excel XML style color to XML html style color.
-            self.color = color.replace("ff", "#", 1)
+            self.color = Color.from_value(options["color"])
 
         # Convert a cell reference to a row and column.
         start_cell = options.get("start_cell")

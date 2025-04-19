@@ -108,17 +108,6 @@ class Styles(xmlwriter.XMLwriter):
         self.dxf_formats = properties[7]
         self.has_comments = properties[8]
 
-    def _get_palette_color(self, color):
-        # Special handling for automatic color.
-        if color == "Automatic":
-            return color
-
-        # Convert the RGB color.
-        if color[0] == "#":
-            color = color[1:]
-
-        return "FF" + color.upper()
-
     ###########################################################################
     #
     # XML methods.
@@ -261,15 +250,15 @@ class Styles(xmlwriter.XMLwriter):
             # Ignore for excel2003_style.
             pass
         elif xf_format.theme:
-            self._write_color("theme", xf_format.theme)
+            self._write_color([("theme", xf_format.theme)])
         elif xf_format.color_indexed:
-            self._write_color("indexed", xf_format.color_indexed)
+            self._write_color([("indexed", xf_format.color_indexed)])
         elif xf_format.font_color:
-            color = self._get_palette_color(xf_format.font_color)
-            if color != "Automatic":
-                self._write_color("rgb", color)
+            color = xf_format.font_color
+            if not color._is_automatic:
+                self._write_color(color._attributes())
         elif not is_dxf_format:
-            self._write_color("theme", 1)
+            self._write_color([("theme", 1)])
 
         if not is_dxf_format:
             self._xml_empty_tag("name", [("val", xf_format.font_name)])
@@ -295,7 +284,7 @@ class Styles(xmlwriter.XMLwriter):
         self._xml_start_tag("font")
 
         self._xml_empty_tag("sz", [("val", 8)])
-        self._write_color("indexed", 81)
+        self._write_color([("indexed", 81)])
         self._xml_empty_tag("name", [("val", "Tahoma")])
         self._xml_empty_tag("family", [("val", 2)])
 
@@ -322,10 +311,8 @@ class Styles(xmlwriter.XMLwriter):
 
         self._xml_empty_tag("vertAlign", attributes)
 
-    def _write_color(self, name, value):
+    def _write_color(self, attributes):
         # Write the <color> element.
-        attributes = [(name, value)]
-
         self._xml_empty_tag("color", attributes)
 
     def _write_fills(self):
@@ -400,14 +387,12 @@ class Styles(xmlwriter.XMLwriter):
             self._xml_start_tag("patternFill", [("patternType", patterns[pattern])])
 
         if fg_color:
-            fg_color = self._get_palette_color(fg_color)
-            if fg_color != "Automatic":
-                self._xml_empty_tag("fgColor", [("rgb", fg_color)])
+            if not fg_color._is_automatic:
+                self._xml_empty_tag("fgColor", fg_color._attributes())
 
         if bg_color:
-            bg_color = self._get_palette_color(bg_color)
-            if bg_color != "Automatic":
-                self._xml_empty_tag("bgColor", [("rgb", bg_color)])
+            if not bg_color._is_automatic:
+                self._xml_empty_tag("bgColor", bg_color._attributes())
         else:
             if not is_dxf_format and pattern <= 1:
                 self._xml_empty_tag("bgColor", [("indexed", 64)])
@@ -498,9 +483,8 @@ class Styles(xmlwriter.XMLwriter):
 
         self._xml_start_tag(border_type, attributes)
 
-        if color and color != "Automatic":
-            color = self._get_palette_color(color)
-            self._xml_empty_tag("color", [("rgb", color)])
+        if color and not color._is_automatic:
+            self._xml_empty_tag("color", color._attributes())
         else:
             self._xml_empty_tag("color", [("auto", 1)])
 
@@ -748,7 +732,8 @@ class Styles(xmlwriter.XMLwriter):
 
         # Write the custom custom_colors in reverse order.
         for color in custom_colors:
-            self._write_color("rgb", color)
+            # For backwards compatibility convert possible
+            self._write_color(color._attributes())
 
         self._xml_end_tag("mruColors")
 

@@ -424,7 +424,7 @@ class Vml(xmlwriter.XMLwriter):
             ("id", shape_id),
             ("type", shape_type),
             ("style", style),
-            ("fillcolor", comment.color),
+            ("fillcolor", comment.color._vml_rgb_hex_value()),
             ("o:insetmode", insetmode),
         ]
 
