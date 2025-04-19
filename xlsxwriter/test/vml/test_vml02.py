@@ -10,7 +10,8 @@
 import unittest
 from io import StringIO
 
-from ...vml import ButtonType, Vml
+from xlsxwriter.vml import ButtonType, Vml
+
 from ..helperfunctions import _vml_to_list, _xml_to_list
 
 

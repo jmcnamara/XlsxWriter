@@ -10,7 +10,8 @@
 import unittest
 from io import StringIO
 
-from ...contenttypes import ContentTypes
+from xlsxwriter.contenttypes import ContentTypes
+
 from ..helperfunctions import _xml_to_list
 
 

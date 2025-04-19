@@ -10,9 +10,9 @@
 import unittest
 from io import StringIO
 
-from ...format import Format
-from ...sharedstrings import SharedStringTable
-from ...worksheet import Worksheet
+from xlsxwriter.format import Format
+from xlsxwriter.sharedstrings import SharedStringTable
+from xlsxwriter.worksheet import Worksheet
 
 
 class TestWriteMergeCells(unittest.TestCase):

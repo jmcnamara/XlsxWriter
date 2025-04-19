@@ -10,8 +10,8 @@
 import unittest
 from io import StringIO
 
-from ...format import Format
-from ...styles import Styles
+from xlsxwriter.format import Format
+from xlsxwriter.styles import Styles
 
 
 class TestWriteFonts(unittest.TestCase):

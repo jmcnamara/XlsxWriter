@@ -10,9 +10,8 @@
 import unittest
 
 from xlsxwriter.chartsheet import Chartsheet
+from xlsxwriter.workbook import Workbook
 from xlsxwriter.worksheet import Worksheet
-
-from ...workbook import Workbook
 
 
 class MyWorksheet(Worksheet):

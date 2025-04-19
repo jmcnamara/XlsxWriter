@@ -10,7 +10,7 @@
 import unittest
 from io import StringIO
 
-from ...contenttypes import ContentTypes
+from xlsxwriter.contenttypes import ContentTypes
 
 
 class TestInitialisation(unittest.TestCase):

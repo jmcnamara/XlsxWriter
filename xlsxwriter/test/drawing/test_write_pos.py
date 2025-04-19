@@ -10,7 +10,7 @@
 import unittest
 from io import StringIO
 
-from ...drawing import Drawing
+from xlsxwriter.drawing import Drawing
 
 
 class TestWriteXdrpos(unittest.TestCase):

@@ -10,7 +10,7 @@
 import unittest
 from io import StringIO
 
-from ...core import Core
+from xlsxwriter.core import Core
 
 
 class TestInitialisation(unittest.TestCase):

@@ -10,7 +10,8 @@
 import unittest
 from io import StringIO
 
-from ...relationships import Relationships
+from xlsxwriter.relationships import Relationships
+
 from ..helperfunctions import _xml_to_list
 
 

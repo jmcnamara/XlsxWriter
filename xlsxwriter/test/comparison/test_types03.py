@@ -10,7 +10,8 @@
 from decimal import Decimal
 from fractions import Fraction
 
-from ...workbook import Workbook
+from xlsxwriter.workbook import Workbook
+
 from ..excel_comparison_test import ExcelComparisonTest
 
 

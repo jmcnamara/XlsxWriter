@@ -9,7 +9,7 @@
 
 import unittest
 
-from ...utility import xl_cell_to_rowcol
+from xlsxwriter.utility import xl_cell_to_rowcol
 
 
 class TestUtility(unittest.TestCase):

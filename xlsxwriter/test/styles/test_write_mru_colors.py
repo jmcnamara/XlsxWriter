@@ -11,8 +11,7 @@ import unittest
 from io import StringIO
 
 from xlsxwriter.color import Color
-
-from ...styles import Styles
+from xlsxwriter.styles import Styles
 
 
 class TestWriteMruColors(unittest.TestCase):

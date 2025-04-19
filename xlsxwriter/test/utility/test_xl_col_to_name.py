@@ -10,7 +10,7 @@
 import unittest
 import warnings
 
-from ...utility import xl_col_to_name
+from xlsxwriter.utility import xl_col_to_name
 
 
 class TestUtility(unittest.TestCase):

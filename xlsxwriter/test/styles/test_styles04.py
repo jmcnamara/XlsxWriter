@@ -10,8 +10,9 @@
 import unittest
 from io import StringIO
 
-from ...styles import Styles
-from ...workbook import Workbook
+from xlsxwriter.styles import Styles
+from xlsxwriter.workbook import Workbook
+
 from ..helperfunctions import _xml_to_list
 
 

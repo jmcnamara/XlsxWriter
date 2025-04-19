@@ -9,7 +9,7 @@
 
 import unittest
 
-from ...worksheet import Worksheet
+from xlsxwriter.worksheet import Worksheet
 
 
 class TestRangeReturnValues(unittest.TestCase):

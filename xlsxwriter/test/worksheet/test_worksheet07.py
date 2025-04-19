@@ -10,8 +10,9 @@
 import unittest
 from io import StringIO
 
-from ...sharedstrings import SharedStringTable
-from ...worksheet import Worksheet
+from xlsxwriter.sharedstrings import SharedStringTable
+from xlsxwriter.worksheet import Worksheet
+
 from ..helperfunctions import _xml_to_list
 
 

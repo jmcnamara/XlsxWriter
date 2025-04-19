@@ -11,8 +11,8 @@ import unittest
 from io import StringIO
 
 from xlsxwriter.color import Color
+from xlsxwriter.worksheet import Worksheet
 
-from ...worksheet import Worksheet
 from ..helperfunctions import _xml_to_list
 
 

@@ -10,7 +10,7 @@
 import unittest
 from io import StringIO
 
-from ...sharedstrings import SharedStrings
+from xlsxwriter.sharedstrings import SharedStrings
 
 
 class TestWriteSi(unittest.TestCase):

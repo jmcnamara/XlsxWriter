@@ -10,7 +10,8 @@
 import unittest
 from io import StringIO
 
-from ...app import App
+from xlsxwriter.app import App
+
 from ..helperfunctions import _xml_to_list
 
 

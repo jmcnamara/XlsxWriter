@@ -10,7 +10,8 @@
 import unittest
 from io import StringIO
 
-from ...workbook import Workbook
+from xlsxwriter.workbook import Workbook
+
 from ..helperfunctions import _xml_to_list
 
 

@@ -10,7 +10,7 @@
 import unittest
 from io import StringIO
 
-from ...vml import Vml
+from xlsxwriter.vml import Vml
 
 
 class TestWriteOshapelayout(unittest.TestCase):

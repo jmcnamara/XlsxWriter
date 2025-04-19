@@ -10,8 +10,8 @@
 import unittest
 from io import StringIO
 
-from ...exceptions import DuplicateTableName
-from ...workbook import Workbook
+from xlsxwriter.exceptions import DuplicateTableName
+from xlsxwriter.workbook import Workbook
 
 
 class TestAddTable(unittest.TestCase):

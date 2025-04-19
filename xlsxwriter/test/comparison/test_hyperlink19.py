@@ -7,8 +7,9 @@
 # Copyright (c), 2013-2025, John McNamara, jmcnamara@cpan.org
 #
 
-from ...sharedstrings import SharedStringTable
-from ...workbook import Workbook
+from xlsxwriter.sharedstrings import SharedStringTable
+from xlsxwriter.workbook import Workbook
+
 from ..excel_comparison_test import ExcelComparisonTest
 
 

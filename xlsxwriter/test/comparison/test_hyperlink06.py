@@ -7,8 +7,9 @@
 # Copyright (c), 2013-2025, John McNamara, jmcnamara@cpan.org
 #
 
-from ...url import Url
-from ...workbook import Workbook
+from xlsxwriter.url import Url
+from xlsxwriter.workbook import Workbook
+
 from ..excel_comparison_test import ExcelComparisonTest
 
 

@@ -10,8 +10,8 @@
 import unittest
 from io import StringIO
 
-from ...exceptions import OverlappingRange
-from ...workbook import Workbook
+from xlsxwriter.exceptions import OverlappingRange
+from xlsxwriter.workbook import Workbook
 
 
 class TestOverlapRanges(unittest.TestCase):

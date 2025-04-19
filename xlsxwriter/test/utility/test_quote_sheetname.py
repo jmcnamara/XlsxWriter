@@ -9,7 +9,7 @@
 
 import unittest
 
-from ...utility import quote_sheetname
+from xlsxwriter.utility import quote_sheetname
 
 
 class TestUtility(unittest.TestCase):

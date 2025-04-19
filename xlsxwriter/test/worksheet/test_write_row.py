@@ -10,8 +10,8 @@
 import unittest
 from io import StringIO
 
-from ...format import Format
-from ...worksheet import Worksheet
+from xlsxwriter.format import Format
+from xlsxwriter.worksheet import Worksheet
 
 
 class TestWriteRow(unittest.TestCase):

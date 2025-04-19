@@ -12,8 +12,8 @@ import tempfile
 import unittest
 import warnings
 
-from ...exceptions import FileCreateError
-from ...workbook import Workbook
+from xlsxwriter.exceptions import FileCreateError
+from xlsxwriter.workbook import Workbook
 
 
 class TestCloseWithException(unittest.TestCase):

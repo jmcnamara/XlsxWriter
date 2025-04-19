@@ -7,9 +7,10 @@
 # Copyright (c), 2013-2025, John McNamara, jmcnamara@cpan.org
 #
 
-from ...image import Image
-from ...url import Url
-from ...workbook import Workbook
+from xlsxwriter.image import Image
+from xlsxwriter.url import Url
+from xlsxwriter.workbook import Workbook
+
 from ..excel_comparison_test import ExcelComparisonTest
 
 

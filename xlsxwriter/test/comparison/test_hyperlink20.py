@@ -8,8 +8,8 @@
 #
 
 from xlsxwriter.color import Color
+from xlsxwriter.workbook import Workbook
 
-from ...workbook import Workbook
 from ..excel_comparison_test import ExcelComparisonTest
 
 

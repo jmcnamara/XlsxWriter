@@ -10,7 +10,7 @@
 import unittest
 from io import StringIO
 
-from ...styles import Styles
+from xlsxwriter.styles import Styles
 
 
 class TestWriteNumFmt(unittest.TestCase):

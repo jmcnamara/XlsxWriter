@@ -10,8 +10,8 @@
 import unittest
 from io import StringIO
 
-from ...drawing import Drawing, DrawingInfo
-from ...url import Url
+from xlsxwriter.drawing import Drawing, DrawingInfo
+from xlsxwriter.url import Url
 
 
 class TestWriteXdrcNvPr(unittest.TestCase):

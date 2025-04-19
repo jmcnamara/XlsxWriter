@@ -9,7 +9,7 @@
 
 import unittest
 
-from ...utility import cell_autofit_width, xl_pixel_width
+from xlsxwriter.utility import cell_autofit_width, xl_pixel_width
 
 
 class TestUtility(unittest.TestCase):

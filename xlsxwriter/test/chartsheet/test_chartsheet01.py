@@ -10,7 +10,8 @@
 import unittest
 from io import StringIO
 
-from ...chartsheet import Chartsheet
+from xlsxwriter.chartsheet import Chartsheet
+
 from ..helperfunctions import _xml_to_list
 
 

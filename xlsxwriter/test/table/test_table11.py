@@ -10,11 +10,12 @@
 import unittest
 from io import StringIO
 
-from ...format import Format
-from ...sharedstrings import SharedStringTable
-from ...table import Table
-from ...workbook import WorksheetMeta
-from ...worksheet import Worksheet
+from xlsxwriter.format import Format
+from xlsxwriter.sharedstrings import SharedStringTable
+from xlsxwriter.table import Table
+from xlsxwriter.workbook import WorksheetMeta
+from xlsxwriter.worksheet import Worksheet
+
 from ..helperfunctions import _xml_to_list
 
 

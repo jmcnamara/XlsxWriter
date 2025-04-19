@@ -11,7 +11,8 @@ import unittest
 from datetime import datetime
 from io import StringIO
 
-from ...core import Core
+from xlsxwriter.core import Core
+
 from ..helperfunctions import _xml_to_list
 
 

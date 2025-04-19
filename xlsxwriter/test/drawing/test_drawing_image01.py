@@ -10,8 +10,9 @@
 import unittest
 from io import StringIO
 
-from ...drawing import Drawing, DrawingInfo, DrawingTypes
-from ...url import Url
+from xlsxwriter.drawing import Drawing, DrawingInfo, DrawingTypes
+from xlsxwriter.url import Url
+
 from ..helperfunctions import _xml_to_list
 
 

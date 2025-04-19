@@ -9,7 +9,8 @@
 
 from io import BytesIO
 
-from ...workbook import Workbook
+from xlsxwriter.workbook import Workbook
+
 from ..excel_comparison_test import ExcelComparisonTest
 
 

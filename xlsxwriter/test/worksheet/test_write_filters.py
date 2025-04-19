@@ -10,7 +10,7 @@
 import unittest
 from io import StringIO
 
-from ...worksheet import Worksheet
+from xlsxwriter.worksheet import Worksheet
 
 
 class TestWriteFilters(unittest.TestCase):

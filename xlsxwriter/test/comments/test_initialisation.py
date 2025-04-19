@@ -10,7 +10,7 @@
 import unittest
 from io import StringIO
 
-from ...comments import Comments
+from xlsxwriter.comments import Comments
 
 
 class TestInitialisation(unittest.TestCase):

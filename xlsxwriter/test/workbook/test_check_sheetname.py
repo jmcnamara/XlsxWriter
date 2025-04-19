@@ -9,8 +9,8 @@
 
 import unittest
 
-from ...exceptions import DuplicateWorksheetName, InvalidWorksheetName
-from ...workbook import Workbook
+from xlsxwriter.exceptions import DuplicateWorksheetName, InvalidWorksheetName
+from xlsxwriter.workbook import Workbook
 
 
 class TestCheckSheetname(unittest.TestCase):

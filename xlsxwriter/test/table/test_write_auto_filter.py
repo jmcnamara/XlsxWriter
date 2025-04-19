@@ -10,7 +10,7 @@
 import unittest
 from io import StringIO
 
-from ...table import Table
+from xlsxwriter.table import Table
 
 
 class TestWriteAutoFilter(unittest.TestCase):

@@ -10,7 +10,7 @@
 import unittest
 from datetime import datetime
 
-from ...worksheet import Worksheet
+from xlsxwriter.worksheet import Worksheet
 
 
 class TestConvertDateTime(unittest.TestCase):

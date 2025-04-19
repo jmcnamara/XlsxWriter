@@ -9,7 +9,7 @@
 import unittest
 from io import BytesIO
 
-from ...image import Image
+from xlsxwriter.image import Image
 
 
 class TestImageProperties(unittest.TestCase):

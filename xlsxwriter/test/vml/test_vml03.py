@@ -10,8 +10,9 @@
 import unittest
 from io import StringIO
 
-from ...image import Image
-from ...vml import Vml
+from xlsxwriter.image import Image
+from xlsxwriter.vml import Vml
+
 from ..helperfunctions import _vml_to_list, _xml_to_list
 
 

@@ -10,7 +10,7 @@
 import unittest
 from io import StringIO
 
-from ...chartsheet import Chartsheet
+from xlsxwriter.chartsheet import Chartsheet
 
 
 class TestInitialisation(unittest.TestCase):

@@ -9,8 +9,9 @@
 
 from io import BytesIO
 
-from ...image import Image
-from ...workbook import Workbook
+from xlsxwriter.image import Image
+from xlsxwriter.workbook import Workbook
+
 from ..excel_comparison_test import ExcelComparisonTest
 
 

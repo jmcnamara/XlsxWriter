@@ -10,7 +10,7 @@
 import unittest
 from io import StringIO
 
-from ...relationships import Relationships
+from xlsxwriter.relationships import Relationships
 
 
 class TestInitialisation(unittest.TestCase):

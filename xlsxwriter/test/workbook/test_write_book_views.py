@@ -10,7 +10,7 @@
 import unittest
 from io import StringIO
 
-from ...workbook import Workbook
+from xlsxwriter.workbook import Workbook
 
 
 class TestWriteBookViews(unittest.TestCase):

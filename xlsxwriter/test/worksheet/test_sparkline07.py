@@ -10,7 +10,8 @@
 import unittest
 from io import StringIO
 
-from ...worksheet import Worksheet
+from xlsxwriter.worksheet import Worksheet
+
 from ..helperfunctions import _xml_to_list
 
 

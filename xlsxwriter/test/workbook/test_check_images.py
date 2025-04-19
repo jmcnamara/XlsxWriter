@@ -10,8 +10,8 @@
 import unittest
 from io import StringIO
 
-from ...exceptions import UndefinedImageSize, UnsupportedImageFormat
-from ...workbook import Workbook
+from xlsxwriter.exceptions import UndefinedImageSize, UnsupportedImageFormat
+from xlsxwriter.workbook import Workbook
 
 
 class TestInsertImage(unittest.TestCase):

@@ -10,7 +10,7 @@
 import unittest
 from io import StringIO
 
-from ...xmlwriter import XMLwriter
+from xlsxwriter.xmlwriter import XMLwriter
 
 
 class TestXMLwriter(unittest.TestCase):

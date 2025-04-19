@@ -10,7 +10,7 @@
 import unittest
 from io import StringIO
 
-from ...sharedstrings import SharedStrings, SharedStringTable
+from xlsxwriter.sharedstrings import SharedStrings, SharedStringTable
 
 
 class TestWriteSst(unittest.TestCase):
