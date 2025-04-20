@@ -132,7 +132,7 @@ class CommentType:
 
         if options.get("color"):
             # Set the comment background color.
-            self.color = Color.from_value(options["color"])
+            self.color = Color._from_value(options["color"])
 
         # Convert a cell reference to a row and column.
         start_cell = options.get("start_cell")

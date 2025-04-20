@@ -172,3 +172,32 @@ class TestCompareXLSXFiles(ExcelComparisonTest):
         workbook.close()
 
         self.assertExcelEqual()
+
+    def test_create_file_with_color_methods(self):
+        """Test the creation of a simple XlsxWriter file."""
+
+        workbook = Workbook(self.got_filename)
+        worksheet = workbook.add_worksheet()
+
+        worksheet.insert_checkbox("E9", False)
+
+        cell_format = workbook.add_format(
+            {
+                "font_color": Color.rgb("#9C0006"),
+                "bg_color": Color.rgb_integer(0xFFC7CE),
+            }
+        )
+
+        worksheet.conditional_format(
+            "E9",
+            {
+                "type": "cell",
+                "format": cell_format,
+                "criteria": "equal to",
+                "value": "FALSE",
+            },
+        )
+
+        workbook.close()
+
+        self.assertExcelEqual()

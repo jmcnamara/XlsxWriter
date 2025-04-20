@@ -3079,8 +3079,8 @@ class Worksheet(xmlwriter.XMLwriter):
             options.setdefault("min_color", Color("#FF7128"))
             options.setdefault("max_color", Color("#FFEF9C"))
 
-            options["min_color"] = Color.from_value(options["min_color"])
-            options["max_color"] = Color.from_value(options["max_color"])
+            options["min_color"] = Color._from_value(options["min_color"])
+            options["max_color"] = Color._from_value(options["max_color"])
 
         # Special handling for 3 color scale.
         if options["type"] == "3_color_scale":
@@ -3098,9 +3098,9 @@ class Worksheet(xmlwriter.XMLwriter):
             options.setdefault("mid_color", Color("#FFEB84"))
             options.setdefault("max_color", Color("#63BE7B"))
 
-            options["min_color"] = Color.from_value(options["min_color"])
-            options["mid_color"] = Color.from_value(options["mid_color"])
-            options["max_color"] = Color.from_value(options["max_color"])
+            options["min_color"] = Color._from_value(options["min_color"])
+            options["mid_color"] = Color._from_value(options["mid_color"])
+            options["max_color"] = Color._from_value(options["max_color"])
 
             # Set a default mid value.
             if "mid_value" not in options:
@@ -3138,13 +3138,13 @@ class Worksheet(xmlwriter.XMLwriter):
             options.setdefault("bar_axis_position", "")
             options.setdefault("bar_axis_color", Color("#000000"))
 
-            options["bar_color"] = Color.from_value(options["bar_color"])
-            options["bar_border_color"] = Color.from_value(options["bar_border_color"])
-            options["bar_axis_color"] = Color.from_value(options["bar_axis_color"])
-            options["bar_negative_color"] = Color.from_value(
+            options["bar_color"] = Color._from_value(options["bar_color"])
+            options["bar_border_color"] = Color._from_value(options["bar_border_color"])
+            options["bar_axis_color"] = Color._from_value(options["bar_axis_color"])
+            options["bar_negative_color"] = Color._from_value(
                 options["bar_negative_color"]
             )
-            options["bar_negative_border_color"] = Color.from_value(
+            options["bar_negative_border_color"] = Color._from_value(
                 options["bar_negative_border_color"]
             )
 
@@ -3889,7 +3889,7 @@ class Worksheet(xmlwriter.XMLwriter):
             Nothing.
 
         """
-        self.tab_color = Color.from_value(color)
+        self.tab_color = Color._from_value(color)
 
     def protect(self, password="", options=None):
         """
@@ -5678,7 +5678,7 @@ class Worksheet(xmlwriter.XMLwriter):
         if user_color not in options:
             return
 
-        sparkline[user_color] = Color.from_value(options[user_color])
+        sparkline[user_color] = Color._from_value(options[user_color])
 
     def _get_range_data(self, row_start, col_start, row_end, col_end):
         # Returns a range of data from the worksheet _table to be used in

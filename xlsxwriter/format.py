@@ -185,7 +185,7 @@ class Format(xmlwriter.XMLwriter):
             Nothing.
 
         """
-        self.font_color = Color.from_value(font_color)
+        self.font_color = Color._from_value(font_color)
 
     def set_bold(self, bold=True):
         """
@@ -480,7 +480,7 @@ class Format(xmlwriter.XMLwriter):
             Nothing.
 
         """
-        self.bg_color = Color.from_value(bg_color)
+        self.bg_color = Color._from_value(bg_color)
 
     def set_fg_color(self, fg_color):
         """
@@ -493,7 +493,7 @@ class Format(xmlwriter.XMLwriter):
             Nothing.
 
         """
-        self.fg_color = Color.from_value(fg_color)
+        self.fg_color = Color._from_value(fg_color)
 
     # set_border(style) Set cells borders to the same style
     def set_border(self, style=1):
@@ -553,7 +553,7 @@ class Format(xmlwriter.XMLwriter):
             Nothing.
 
         """
-        self.bottom_color = Color.from_value(bottom_color)
+        self.bottom_color = Color._from_value(bottom_color)
 
     def set_diag_type(self, diag_type=1):
         """
@@ -592,7 +592,7 @@ class Format(xmlwriter.XMLwriter):
             Nothing.
 
         """
-        self.left_color = Color.from_value(left_color)
+        self.left_color = Color._from_value(left_color)
 
     def set_right(self, right=1):
         """
@@ -618,7 +618,7 @@ class Format(xmlwriter.XMLwriter):
             Nothing.
 
         """
-        self.right_color = Color.from_value(right_color)
+        self.right_color = Color._from_value(right_color)
 
     def set_top(self, top=1):
         """
@@ -644,7 +644,7 @@ class Format(xmlwriter.XMLwriter):
             Nothing.
 
         """
-        self.top_color = Color.from_value(top_color)
+        self.top_color = Color._from_value(top_color)
 
     def set_diag_color(self, diag_color):
         """
@@ -657,7 +657,7 @@ class Format(xmlwriter.XMLwriter):
             Nothing.
 
         """
-        self.diag_color = Color.from_value(diag_color)
+        self.diag_color = Color._from_value(diag_color)
 
     def set_diag_border(self, diag_border=1):
         """
@@ -982,7 +982,7 @@ class Format(xmlwriter.XMLwriter):
 
     def set_color(self, font_color):
         """Deprecated: Use set_font_color() instead."""
-        self.font_color = Color.from_value(font_color)
+        self.font_color = Color._from_value(font_color)
 
     ###########################################################################
     #

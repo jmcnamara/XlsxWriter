@@ -11,6 +11,99 @@
 from enum import Enum
 from typing import Tuple, Union
 
+CHART_THEMES = [
+    # Color 0 (bg1).
+    [
+        ("bg1", 0, 0),
+        ("bg1", 95000, 0),
+        ("bg1", 85000, 0),
+        ("bg1", 75000, 0),
+        ("bg1", 65000, 0),
+        ("bg1", 50000, 0),
+    ],
+    # Color 1 (tx1).
+    [
+        ("tx1", 0, 0),
+        ("tx1", 50000, 50000),
+        ("tx1", 65000, 35000),
+        ("tx1", 75000, 25000),
+        ("tx1", 85000, 15000),
+        ("tx1", 95000, 5000),
+    ],
+    # Color 2 (bg2).
+    [
+        ("bg2", 0, 0),
+        ("bg2", 90000, 0),
+        ("bg2", 75000, 0),
+        ("bg2", 50000, 0),
+        ("bg2", 25000, 0),
+        ("bg2", 10000, 0),
+    ],
+    # Color 3 (tx2).
+    [
+        ("tx2", 0, 0),
+        ("tx2", 20000, 80000),
+        ("tx2", 40000, 60000),
+        ("tx2", 60000, 40000),
+        ("tx2", 75000, 0),
+        ("tx2", 50000, 0),
+    ],
+    # Color 4 (accent1).
+    [
+        ("accent1", 0, 0),
+        ("accent1", 20000, 80000),
+        ("accent1", 40000, 60000),
+        ("accent1", 60000, 40000),
+        ("accent1", 75000, 0),
+        ("accent1", 50000, 0),
+    ],
+    # Color 5 (accent2).
+    [
+        ("accent2", 0, 0),
+        ("accent2", 20000, 80000),
+        ("accent2", 40000, 60000),
+        ("accent2", 60000, 40000),
+        ("accent2", 75000, 0),
+        ("accent2", 50000, 0),
+    ],
+    # Color 6 (accent3).
+    [
+        ("accent3", 0, 0),
+        ("accent3", 20000, 80000),
+        ("accent3", 40000, 60000),
+        ("accent3", 60000, 40000),
+        ("accent3", 75000, 0),
+        ("accent3", 50000, 0),
+    ],
+    # Color 7 (accent4).
+    [
+        ("accent4", 0, 0),
+        ("accent4", 20000, 80000),
+        ("accent4", 40000, 60000),
+        ("accent4", 60000, 40000),
+        ("accent4", 75000, 0),
+        ("accent4", 50000, 0),
+    ],
+    # Color 8 (accent5).
+    [
+        ("accent5", 0, 0),
+        ("accent5", 20000, 80000),
+        ("accent5", 40000, 60000),
+        ("accent5", 60000, 40000),
+        ("accent5", 75000, 0),
+        ("accent5", 50000, 0),
+    ],
+    # Color 9 (accent6).
+    [
+        ("accent6", 0, 0),
+        ("accent6", 20000, 80000),
+        ("accent6", 40000, 60000),
+        ("accent6", 60000, 40000),
+        ("accent6", 75000, 0),
+        ("accent6", 50000, 0),
+    ],
+]
+
 
 class ColorTypes(Enum):
     """
@@ -83,11 +176,11 @@ class Color:
         )
 
     @staticmethod
-    def from_value(value: Union["Color", str]) -> "Color":
+    def _from_value(value: Union["Color", str]) -> "Color":
         """
-        Convert a string to a Color instance or return the Color instance if
-        already provided. This is mainly used for backward compatibility
-        support.
+        Internal method to convert a string to a Color instance or return the
+        Color instance if already provided. This is mainly used for backward
+        compatibility support in the XlsxWriter API.
 
         Args:
             value (Union[Color, str]): A Color instance or a string representing
@@ -105,15 +198,28 @@ class Color:
         raise TypeError("Value must be a Color instance or a string.")
 
     @staticmethod
-    def rgb(color: int) -> "Color":
+    def rgb(color: str) -> "Color":
         """
-        Create a user-defined RGB color.
+        Create a user-defined RGB color from a Html color string.
 
         Args:
             color (int): An RGB value in the range 0x000000 (black) to 0xFFFFFF (white).
 
         Returns:
-            Color: A Color object representing the RGB color.
+            Color: A Color object representing an Excel RGB color.
+        """
+        return Color(color)
+
+    @staticmethod
+    def rgb_integer(color: int) -> "Color":
+        """
+        Create a user-defined RGB color from an integer value.
+
+        Args:
+            color (int): An RGB value in the range 0x000000 (black) to 0xFFFFFF (white).
+
+        Returns:
+            Color: A Color object representing an Excel RGB color.
         """
         if color > 0xFFFFFF:
             raise ValueError("RGB color must be in the range 0x000000 - 0xFFFFFF.")
@@ -129,13 +235,30 @@ class Color:
             shade (int): The theme shade index (0-5).
 
         Returns:
-            Color: A Color object representing the theme color.
+            Color: A Color object representing an Excel Theme color.
         """
         if color > 9:
             raise ValueError("Theme color must be in the range 0-9.")
         if shade > 5:
             raise ValueError("Theme shade must be in the range 0-5.")
         return Color((color, shade))
+
+    @staticmethod
+    def automatic() -> "Color":
+        """
+        Create an Excel color representing an "Automatic" color.
+
+        The Automatic color for an Excel property is usually the same as the
+        Default color but can vary according to system settings. This method and
+        color type are rarely used in practice but are included for completeness.
+
+        Returns:
+            Color: A Color object representing an Excel Automatic color.
+        """
+        color = Color(0x000000)
+        color._is_automatic = True
+
+        return color
 
     def _parse_string_color(self, value: str):
         """
@@ -296,3 +419,13 @@ class Color:
 
         # Default case for other colors.
         return []
+
+    def _chart_scheme(self) -> Tuple[str, int, int]:
+        """
+        Return the chart theme based on color and shade.
+
+        Returns:
+            Tuple[str, int, int]: The corresponding tuple of values from CHART_THEMES.
+
+        """
+        return CHART_THEMES[self._theme_color[0]][self._theme_color[1]]

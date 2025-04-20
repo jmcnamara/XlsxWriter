@@ -129,7 +129,7 @@ class Shape:
                 return {}
 
         if line.get("color"):
-            line["color"] = Color.from_value(line["color"])
+            line["color"] = Color._from_value(line["color"])
 
         line["defined"] = True
 
@@ -146,7 +146,7 @@ class Shape:
         fill = copy.deepcopy(fill)
 
         if fill.get("color"):
-            fill["color"] = Color.from_value(fill["color"])
+            fill["color"] = Color._from_value(fill["color"])
 
         fill["defined"] = True
 
@@ -229,10 +229,10 @@ class Shape:
         pattern["pattern"] = types[pattern["pattern"]]
 
         if pattern.get("fg_color"):
-            pattern["fg_color"] = Color.from_value(pattern["fg_color"])
+            pattern["fg_color"] = Color._from_value(pattern["fg_color"])
 
         if pattern.get("bg_color"):
-            pattern["bg_color"] = Color.from_value(pattern["bg_color"])
+            pattern["bg_color"] = Color._from_value(pattern["bg_color"])
         else:
             pattern["bg_color"] = Color("#FFFFFF")
 
@@ -312,7 +312,7 @@ class Shape:
         else:
             gradient["type"] = "linear"
 
-        gradient["colors"] = [Color.from_value(color) for color in gradient["colors"]]
+        gradient["colors"] = [Color._from_value(color) for color in gradient["colors"]]
 
         return gradient
 
@@ -340,7 +340,7 @@ class Shape:
             font["size"] = int(font["size"] * 100)
 
         if font.get("color"):
-            font["color"] = Color.from_value(font["color"])
+            font["color"] = Color._from_value(font["color"])
 
         return font
 
