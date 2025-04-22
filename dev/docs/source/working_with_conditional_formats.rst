@@ -837,8 +837,8 @@ properties are used as follows::
                                             'min_color': '#C5D9F1',
                                             'max_color': '#538ED5'})
 
-The color can be a Html style ``#RRGGBB`` string or a limited number named
-colors, see :ref:`colors`.
+The color can be a :ref:`Color() <Color>` instance, a HTML style ``#RRGGBB``
+string or a limited number of named colors, see :ref:`colors`.
 
 
 mid_color:
@@ -863,8 +863,8 @@ The ``bar_color`` parameter sets the fill color for data bars::
 
 .. image:: _images/conditional_format7.png
 
-The color can be a Html style ``#RRGGBB`` string or a limited number named
-colors, see :ref:`colors`.
+The color can be a :ref:`Color() <Color>` instance, a HTML style ``#RRGGBB``
+string or a limited number of named colors, see :ref:`colors`.
 
 
 bar_only:
@@ -901,8 +901,8 @@ portion of a data bar::
     worksheet.conditional_format('F3:F14', {'type': 'data_bar',
                                             'bar_negative_color': '#63C384'})
 
-The color can be a Html style ``#RRGGBB`` string or a limited number named
-colors, see :ref:`colors`.
+The color can be a :ref:`Color() <Color>` instance, a HTML style ``#RRGGBB``
+string or a limited number of named colors, see :ref:`colors`.
 
 Note, this property is only visible in Excel 2010 and later.
 
@@ -915,8 +915,8 @@ bar::
     worksheet.conditional_format('F3:F14', {'type': 'data_bar',
                                             'bar_border_color': '#63C384'})
 
-The color can be a Html style ``#RRGGBB`` string or a limited number named
-colors, see :ref:`colors`.
+The color can be a :ref:`Color() <Color>` instance, a HTML style ``#RRGGBB``
+string or a limited number of named colors, see :ref:`colors`.
 
 Note, this property is only visible in Excel 2010 and later.
 
@@ -929,8 +929,8 @@ the negative portion of a data bar::
     worksheet.conditional_format('F3:F14', {'type': 'data_bar',
                                             'bar_negative_border_color': '#63C384'})
 
-The color can be a Html style ``#RRGGBB`` string or a limited number named
-colors, see :ref:`colors`.
+The color can be a :ref:`Color() <Color>` instance, a HTML style ``#RRGGBB``
+string or a limited number of named colors, see :ref:`colors`.
 
 Note, this property is only visible in Excel 2010 and later.
 

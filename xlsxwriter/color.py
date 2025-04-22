@@ -125,7 +125,7 @@ class Color:
         Initialize a Color instance.
 
         Args:
-            value (Union[str, int, Tuple[int, int]]): The value of the color
+            color (Union[str, int, Tuple[int, int]]): The value of the color
             (e.g., a hex string, an integer, or a tuple of two integers).
         """
         self._rgb_value: int = 0x000000

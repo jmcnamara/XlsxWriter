@@ -16,6 +16,7 @@ Contents
    worksheet.rst
    page_setup.rst
    format.rst
+   color.rst
    chart.rst
    chartsheet.rst
    exceptions.rst

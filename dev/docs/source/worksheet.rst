@@ -2758,11 +2758,12 @@ See :ref:`ex_background` for an example.
 worksheet.set_tab_color()
 -------------------------
 
-.. py:function:: set_tab_color()
+.. py:function:: set_tab_color(color)
 
    Set the color of the worksheet tab.
 
-   :param string color: The tab color.
+   :param color: The tab color.
+   :type color: string|Color
 
 The ``set_tab_color()`` method is used to change the color of the worksheet
 tab::
@@ -2770,8 +2771,8 @@ tab::
     worksheet1.set_tab_color('red')
     worksheet2.set_tab_color('#FF9900')  # Orange
 
-The color can be a Html style ``#RRGGBB`` string or a limited number named
-colors, see :ref:`colors`.
+The color can be a :ref:`Color() <Color>` instance, a HTML style ``#RRGGBB``
+string or a limited number of named colors, see :ref:`colors`.
 
 See :ref:`ex_tab_colors` for more details.
 

@@ -337,7 +337,8 @@ format.set_font_color()
 
    Set the color of the font used in the cell.
 
-   :param string color: The cell font color.
+   :param color: The cell font color.
+   :type color: string|Color
 
 
 Set the font color::
@@ -350,8 +351,8 @@ Set the font color::
 
 .. image:: _images/format_font_color.png
 
-The color can be a Html style ``#RRGGBB`` string or a limited number of named
-colors, see :ref:`colors`.
+The color can be a :ref:`Color() <Color>` instance, a HTML style ``#RRGGBB``
+string or a limited number of named colors, see :ref:`colors`.
 
 Note: The :func:`set_font_color` method is used to set the color of the font
 in a cell. To set the color of a cell use the :func:`set_bg_color` and
@@ -918,7 +919,8 @@ format.set_bg_color()
 
    Set the color of the background pattern in a cell.
 
-   :param string color: The cell font color.
+   :param color: The cell background color.
+   :type color: string|Color
 
 The :func:`set_bg_color` method can be used to set the background color of a
 pattern. Patterns are defined via the :func:`set_pattern` method. If a pattern
@@ -935,8 +937,8 @@ Here is an example of how to set up a solid fill in a cell::
 
 .. image:: _images/formats_set_bg_color.png
 
-The color can be a Html style ``#RRGGBB`` string or a limited number of named
-colors, see :ref:`colors`.
+The color can be a :ref:`Color() <Color>` instance, a HTML style ``#RRGGBB``
+string or a limited number of named colors, see :ref:`colors`.
 
 
 
@@ -947,13 +949,14 @@ format.set_fg_color()
 
    Set the color of the foreground pattern in a cell.
 
-   :param string color: The cell font color.
+   :param color: The cell foreground color.
+   :type color: string|Color
 
 The :func:`set_fg_color` method can be used to set the foreground color of a
 pattern.
 
-The color can be a Html style ``#RRGGBB`` string or a limited number of named
-colors, see :ref:`colors`.
+The color can be a :ref:`Color() <Color>` instance, a HTML style ``#RRGGBB``
+string or a limited number of named colors, see :ref:`colors`.
 
 
 
@@ -1092,7 +1095,8 @@ format.set_border_color()
 
    Set the color of the cell border.
 
-   :param string color: The cell border color.
+   :param color: The cell border color.
+   :type color: string|Color
 
 Individual border elements can be configured using the following methods with
 the same parameters:
@@ -1107,8 +1111,8 @@ the bottom, top, left and right. These can be set to the same color using
 :func:`set_border_color` or individually using the relevant method calls shown
 above.
 
-The color can be a Html style ``#RRGGBB`` string or a limited number of named
-colors, see :ref:`colors`.
+The color can be a :ref:`Color() <Color>` instance, a HTML style ``#RRGGBB``
+string or a limited number of named colors, see :ref:`colors`.
 
 
 format.set_bottom_color()
@@ -1118,7 +1122,8 @@ format.set_bottom_color()
 
    Set the color of the bottom cell border.
 
-   :param string color: The cell border color.
+   :param color: The cell border color.
+   :type color: string|Color
 
 See :func:`set_border_color` for details on the border colors.
 
@@ -1130,7 +1135,8 @@ format.set_top_color()
 
    Set the color of the top cell border.
 
-   :param string color: The cell border color.
+   :param color: The cell border color.
+   :type color: string|Color
 
 See :func:`set_border_color` for details on the border colors.
 
@@ -1142,7 +1148,8 @@ format.set_left_color()
 
    Set the color of the left cell border.
 
-   :param string color: The cell border color.
+   :param color: The cell border color.
+   :type color: string|Color
 
 See :func:`set_border_color` for details on the border colors.
 
@@ -1154,7 +1161,8 @@ format.set_right_color()
 
    Set the color of the right cell border.
 
-   :param string color: The cell border color.
+   :param color: The cell border color.
+   :type color: string|Color
 
 See :func:`set_border_color` for details on the border colors.
 
@@ -1200,7 +1208,8 @@ format.set_diag_color()
 
    Set the color of the diagonal cell border.
 
-   :param string color: The cell border color.
+   :param color: The cell border color.
+   :type color: string|Color
 
 See :func:`set_border_color` for details on the border colors.
 

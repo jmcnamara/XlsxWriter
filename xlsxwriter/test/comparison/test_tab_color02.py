@@ -20,7 +20,7 @@ class TestCompareXLSXFiles(ExcelComparisonTest):
     """
 
     def setUp(self):
-        self.set_filename("tab_color01.xlsx")
+        self.set_filename("tab_color02.xlsx")
 
     def test_create_file(self):
         """Test the creation of a simple XlsxWriter file with a tab color."""
@@ -30,21 +30,7 @@ class TestCompareXLSXFiles(ExcelComparisonTest):
         worksheet = workbook.add_worksheet()
 
         worksheet.write("A1", "Foo")
-        worksheet.set_tab_color("red")
-
-        workbook.close()
-
-        self.assertExcelEqual()
-
-    def test_create_file_with_color(self):
-        """Test the creation of a simple XlsxWriter file with a tab color."""
-
-        workbook = Workbook(self.got_filename)
-
-        worksheet = workbook.add_worksheet()
-
-        worksheet.write("A1", "Foo")
-        worksheet.set_tab_color(Color("red"))
+        worksheet.set_tab_color(Color.theme(9, 4))
 
         workbook.close()
 

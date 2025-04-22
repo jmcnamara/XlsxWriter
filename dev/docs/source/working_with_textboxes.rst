@@ -208,9 +208,8 @@ The ``color`` property sets the color of the ``line``::
 .. image:: _images/textbox13.png
 
 
-The available colors are shown in the main XlsxWriter documentation. It is
-also possible to set the color of a line with a Html style ``#RRGGBB`` string
-or a limited number of named colors, see :ref:`colors`::
+The color can be a :ref:`Color() <Color>` instance, a HTML style ``#RRGGBB``
+string or a limited number of named colors, see :ref:`colors`::
 
     worksheet.insert_textbox('B2', 'A textbox with a color border',
                              {'line': {'color': '#FF9900'}})
@@ -295,9 +294,8 @@ The ``color`` property sets the color of the ``fill`` area::
 
 .. image:: _images/textbox22.png
 
-The available colors are shown in the main XlsxWriter documentation. It is
-also possible to set the color of a fill with a Html style ``#RRGGBB`` string
-or a limited number of named colors, see :ref:`colors`::
+The color can be a :ref:`Color() <Color>` instance, a HTML style ``#RRGGBB``
+string or a limited number of named colors, see :ref:`colors`::
 
     worksheet.insert_textbox('B2', 'A textbox with color fill',
                              {'fill': {'color': 'red'}})

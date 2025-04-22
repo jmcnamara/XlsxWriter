@@ -65,6 +65,7 @@ It supports Python 3.4+ and PyPy3 and uses standard libraries only.
    worksheet.rst
    page_setup.rst
    format.rst
+   color.rst
    chart.rst
    chartsheet.rst
    exceptions.rst

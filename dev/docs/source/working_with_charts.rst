@@ -929,20 +929,21 @@ with markers but without a line::
    :scale: 75 %
 
 
-The ``color`` property sets the color of the ``line``::
 
+The ``color`` property can be a :ref:`Color() <Color>` instance, a HTML style
+``#RRGGBB`` string or a limited number of named colors, see :ref:`colors`.
+
+::
     chart.add_series({
         'values': '=Sheet1!$A$1:$A$6',
-        'line':   {'color': 'red'},
+        'line':   {'color': '#FF0000'},
     })
 
-The available colors are shown in the main XlsxWriter documentation. It is
-also possible to set the color of a line with a Html style ``#RRGGBB`` string
-or a limited number of named colors, see :ref:`colors`::
+    # Or:
 
     chart.add_series({
         'values': '=Sheet1!$A$1:$A$6',
-        'line':   {'color': '#FF9900'},
+        'line':   {'color': Color('#FF9900')},
     })
 
 .. image:: _images/chart_formatting4.png
