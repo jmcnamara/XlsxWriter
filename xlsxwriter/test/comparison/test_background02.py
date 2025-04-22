@@ -8,6 +8,7 @@
 #
 
 from io import BytesIO
+from pathlib import Path
 
 from xlsxwriter.workbook import Workbook
 
@@ -47,6 +48,19 @@ class TestCompareXLSXFiles(ExcelComparisonTest):
             image_data = BytesIO(image_file.read())
 
         worksheet.set_background(image_data)
+
+        workbook.close()
+
+        self.assertExcelEqual()
+
+    def test_create_file_with_path(self):
+        """Test the creation of an XlsxWriter file with a background image."""
+
+        workbook = Workbook(self.got_filename)
+
+        worksheet = workbook.add_worksheet()
+
+        worksheet.set_background(Path(self.image_dir + "logo.jpg"))
 
         workbook.close()
 

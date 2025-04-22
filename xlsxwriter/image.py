@@ -10,6 +10,7 @@
 import hashlib
 import os
 from io import BytesIO
+from pathlib import Path
 from struct import unpack
 from typing import Tuple, Union
 
@@ -26,14 +27,15 @@ class Image:
 
     """
 
-    def __init__(self, source: Union[str, BytesIO]):
+    def __init__(self, source: Union[str, Path, BytesIO]):
         """
         Initialize an Image instance.
 
         Args:
-            source (Union[str, BytesIO]): The filename or BytesIO object of the image.
+            source (Union[str, Path, BytesIO]): The filename, Path or BytesIO
+            object of the image.
         """
-        if isinstance(source, str):
+        if isinstance(source, (str, Path)):
             self.filename = source
             self.image_data = None
             self.image_name = os.path.basename(source)
