@@ -9,7 +9,7 @@
 
 
 from enum import Enum
-from typing import Tuple, Union
+from typing import List, Tuple, Union
 
 CHART_THEMES = [
     # Color 0 (bg1).
@@ -159,7 +159,7 @@ class Color:
                 "Invalid color value. Must be a string, integer, or tuple."
             )
 
-    def __repr__(self):
+    def __repr__(self) -> str:
         """
         Return a string representation of the Color instance.
         """
@@ -341,7 +341,7 @@ class Color:
         """
         return f"FF{self._rgb_hex_value()}"
 
-    def _attributes(self):
+    def _attributes(self) -> List[Tuple[str, str]]:
         """
         Convert the color into a set of "rgb" or "theme/tint" attributes used in
         color-related Style XML elements.
