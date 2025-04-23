@@ -37,7 +37,7 @@ Constructor
 
 .. py:function:: Color(color)
 
-   Create a new XlsxWriter Workbook object.
+   Create a new XlsxWriter Color object.
 
    :param str|int|tuple(int, int) color: The value of the color. A hex string,
     an integer, or a tuple of two integers.
@@ -49,21 +49,21 @@ The ``Color`` constructor can be used to create colors in three ways:
 
 1. **String argument**
 
-   A string to represent a RGB color in HTML format ``#RRGGBB``. The range is
+   A string to represent an RGB color in HTML format ``#RRGGBB``. The range is
    from ``#000000`` (black) to ``#FFFFFF`` (white). A limited number of named
-   colors like ``Green``, ``Red`` and ``Blue`` are also supported. These are
+   colors like ``Green``, ``Red``, and ``Blue`` are also supported. These are
    shortcuts for RGB colors. See :func:`rgb()` below for more details.
 
 2. **Integer argument**
 
-   An integer to represent a RGB color in the format
-   ``0xRRGGBB``. As with the HTML variant the range is from ``0x000000`` (black)
-   to ``0xFFFFFF`` (white).  See the :func:`rgb_integer()` below for more details.
+   An integer to represent an RGB color in the format
+   ``0xRRGGBB``. As with the HTML variant, the range is from ``0x000000`` (black)
+   to ``0xFFFFFF`` (white). See the :func:`rgb_integer()` below for more details.
 
 3. **Tuple**
 
    Theme colors are defined by a tuple of two integers: the first is the theme
-   color index (0-9) and the second is the theme shade index (0-5).  See the
+   color index (0-9) and the second is the theme shade index (0-5). See the
    :func:`theme()` below for more details.
 
 
