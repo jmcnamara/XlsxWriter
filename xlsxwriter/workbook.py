@@ -1227,6 +1227,8 @@ class Workbook(xmlwriter.XMLwriter):
 
             header_image_count = len(sheet.header_images)
             footer_image_count = len(sheet.footer_images)
+            first_header_image_count = len(sheet.first_header_images)
+            first_footer_image_count = len(sheet.first_footer_images)
             has_background = sheet.background_image
             has_drawing = False
 
@@ -1236,6 +1238,8 @@ class Workbook(xmlwriter.XMLwriter):
                 or shape_count
                 or header_image_count
                 or footer_image_count
+                or first_header_image_count
+                or first_footer_image_count
                 or has_background
             ):
                 continue
@@ -1327,6 +1331,78 @@ class Workbook(xmlwriter.XMLwriter):
                     self.images.append(image)
 
                 sheet._prepare_header_image(ref_id, image)
+
+            # Prepare the first page header images.
+            for index in range(first_header_image_count):
+                filename = sheet.first_header_images[index][0]
+                image_data = sheet.first_header_images[index][1]
+                position = sheet.first_header_images[index][2]
+
+                (
+                    image_type,
+                    width,
+                    height,
+                    name,
+                    x_dpi,
+                    y_dpi,
+                    digest,
+                ) = self._get_image_properties(filename, image_data)
+
+                if digest in header_image_ids:
+                    ref_id = header_image_ids[digest]
+                else:
+                    image_ref_id += 1
+                    ref_id = image_ref_id
+                    header_image_ids[digest] = image_ref_id
+                    self.images.append([filename, image_type, image_data])
+
+                sheet._prepare_header_image(
+                    ref_id,
+                    width,
+                    height,
+                    name,
+                    image_type,
+                    position,
+                    x_dpi,
+                    y_dpi,
+                    digest,
+                )
+
+            # Prepare the first page footer images.
+            for index in range(first_footer_image_count):
+                filename = sheet.first_footer_images[index][0]
+                image_data = sheet.first_footer_images[index][1]
+                position = sheet.first_footer_images[index][2]
+
+                (
+                    image_type,
+                    width,
+                    height,
+                    name,
+                    x_dpi,
+                    y_dpi,
+                    digest,
+                ) = self._get_image_properties(filename, image_data)
+
+                if digest in header_image_ids:
+                    ref_id = header_image_ids[digest]
+                else:
+                    image_ref_id += 1
+                    ref_id = image_ref_id
+                    header_image_ids[digest] = image_ref_id
+                    self.images.append([filename, image_type, image_data])
+
+                sheet._prepare_header_image(
+                    ref_id,
+                    width,
+                    height,
+                    name,
+                    image_type,
+                    position,
+                    x_dpi,
+                    y_dpi,
+                    digest,
+                )
 
             if has_drawing:
                 drawing = sheet.drawing

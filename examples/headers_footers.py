@@ -128,3 +128,25 @@ worksheet6.set_column("A:A", 50)
 worksheet6.write("A1", preview)
 
 workbook.close()
+
+
+######################################################################
+#
+# Example of inserting a different first page header/footer.
+#
+worksheet7 = workbook.add_worksheet("Different first page")
+header7 = "&CCentered first page header"
+footer7 = "&LLeft first page footer" + "&RRight first page footer"
+
+worksheet7.set_first_header(header7)
+worksheet7.set_first_footer(footer7)
+
+worksheet7.set_header("&CCentered header")
+worksheet7.set_footer("&C&IPage &P")
+
+worksheet7.set_column("A:A", 50)
+
+worksheet7.set_column("A:A", 50)
+worksheet7.write("A1", preview)
+
+workbook.close()
