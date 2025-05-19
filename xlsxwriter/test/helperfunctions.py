@@ -159,6 +159,7 @@ def _compare_xlsx_files(got_file, exp_file, ignore_files, ignore_elements):
         # Remove dates and user specific data from the core.xml data.
         if filename == "docProps/core.xml":
             exp_xml_str = re.sub(r" ?John", "", exp_xml_str)
+            got_xml_str = re.sub(r" ?John", "", got_xml_str)
             exp_xml_str = re.sub(
                 r"\d\d\d\d-\d\d-\d\dT\d\d\:\d\d:\d\dZ", "", exp_xml_str
             )
@@ -177,8 +178,13 @@ def _compare_xlsx_files(got_file, exp_file, ignore_files, ignore_elements):
         # Remove printer specific settings from Worksheet pageSetup elements.
         if re.match(r"xl/worksheets/sheet\d.xml", filename):
             exp_xml_str = re.sub(r'horizontalDpi="200" ', "", exp_xml_str)
+            got_xml_str = re.sub(r'horizontalDpi="200" ', "", got_xml_str)
+
             exp_xml_str = re.sub(r'verticalDpi="200" ', "", exp_xml_str)
+            got_xml_str = re.sub(r'verticalDpi="200" ', "", got_xml_str)
+
             exp_xml_str = re.sub(r'(<pageSetup[^>]*) r:id="rId1"', r"\1", exp_xml_str)
+            got_xml_str = re.sub(r'(<pageSetup[^>]*) r:id="rId1"', r"\1", got_xml_str)
 
         # Remove Chart pageMargin dimensions which are almost always different.
         if re.match(r"xl/charts/chart\d.xml", filename):
@@ -234,7 +240,7 @@ def compare_xlsx_files(file1, file2, ignore_files=None, ignore_elements=None):
         ignore_files = []
 
     if ignore_elements is None:
-        ignore_elements = []
+        ignore_elements = {}
 
     got, exp = _compare_xlsx_files(file1, file2, ignore_files, ignore_elements)
 
