@@ -1235,6 +1235,23 @@ class Worksheet(xmlwriter.XMLwriter):
 
         # If the URL is a string convert it to a Url object.
         if not isinstance(url, Url):
+
+            # For backwards compatibility check if the string URL exceeds the
+            # Excel character limit for URLs and ignore it with a warning.
+            max_url = self.max_url_length
+            if "#" in url:
+                url_str, anchor_str = url.split("#", 1)
+            else:
+                url_str = url
+                anchor_str = ""
+
+            if len(url_str) > max_url or len(anchor_str) > max_url:
+                warn(
+                    f"Ignoring URL '{url}' with link or location/anchor > {max_url} "
+                    f"characters since it exceeds Excel's limit for URLs."
+                )
+                return -3
+
             url = Url(url)
 
             if string is not None:
