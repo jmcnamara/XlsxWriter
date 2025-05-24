@@ -125,25 +125,8 @@ class Url:
     def _parse_url(self):
         """Parse the URL and determine its type."""
 
-        # Handle web links like https://.
-        if self._link.startswith(("http://", "https://", "ftp://", "ftps://")):
-            self._link_type = UrlTypes.URL
-
-            if not self._text:
-                self._text = self._link
-
-            if "#" in self._link:
-                self._link, self._anchor = self._link.split("#", 1)
-
-            # Set up the relationship link. This doesn't usually contain the
-            # anchor unless it is a link from an object like an image.
-            if self._is_object_link:
-                self._relationship_link = self._original_url
-            else:
-                self._relationship_link = self._link
-
         # Handle mail address links.
-        elif self._link.startswith("mailto:"):
+        if self._link.startswith("mailto:"):
             self._link_type = UrlTypes.URL
 
             if not self._text:
@@ -196,6 +179,24 @@ class Url:
             # Convert a .\dir\file.xlsx link to dir\file.xlsx.
             if self._relationship_link.startswith(".\\"):
                 self._relationship_link = self._relationship_link.replace(".\\", "", 1)
+
+        # Handle standard Excel links like http://, https://, ftp://, ftps://
+        # but also allow custom "foo://bar" URLs.
+        elif "://" in self._link:
+            self._link_type = UrlTypes.URL
+
+            if not self._text:
+                self._text = self._link
+
+            if "#" in self._link:
+                self._link, self._anchor = self._link.split("#", 1)
+
+            # Set up the relationship link. This doesn't usually contain the
+            # anchor unless it is a link from an object like an image.
+            if self._is_object_link:
+                self._relationship_link = self._original_url
+            else:
+                self._relationship_link = self._link
 
         else:
             raise ValueError(f"Unknown URL type: {self._original_url}")
