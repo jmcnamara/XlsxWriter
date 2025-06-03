@@ -1,0 +1,45 @@
+import pandas as pd
+from io import BytesIO
+
+# Data anggota tim
+anggota = ["Golang", "Ricky", "Evan", "Fitrah", "Firman", "Hilbran"]
+
+# Kriteria penilaian
+kriteria = [
+    "Tepat Waktu", "Semangat Kerja", "Teamwork", "Disiplin Target Harian",
+    "Skill Penerapan Tugas", "Pemahaman Fungsi Miner", "Loyalitas Kerja", "Konsistensi Kerja"
+]
+
+# Buat struktur DataFrame
+data = {
+    "No": list(range(1, len(anggota)+1)),
+    "Nama": anggota,
+}
+
+# Tambahkan kolom kriteria dengan nilai kosong
+for k in kriteria:
+    data[k] = [""] * len(anggota)
+
+# Tambahkan kolom nilai rata-rata
+data["Nilai Rata-rata"] = [""] * len(anggota)
+
+df = pd.DataFrame(data)
+
+# Simpan ke file Excel
+with pd.ExcelWriter("Penilaian_Kerja.xlsx", engine='xlsxwriter') as writer:
+    df.to_excel(writer, index=False, sheet_name="Penilaian Kerja")
+    workbook = writer.book
+    worksheet = writer.sheets["Penilaian Kerja"]
+    
+    # Tambahkan dropdown A/B/C/D ke setiap kolom penilaian
+    drop_down_range = ["A", "B", "C", "D"]
+    for col_num in range(2, 2 + len(kriteria)):
+        col_letter = chr(65 + col_num)
+        worksheet.data_validation(f'{col_letter}2:{col_letter}{len(anggota)+1}', {
+            'validate': 'list',
+            'source': drop_down_range,
+            'input_message': 'Pilih nilai: A, B, C, atau D',
+            'error_message': 'Nilai harus A, B, C, atau D',
+        })
+
+print("File 'Penilaian_Kerja.xlsx' berhasil dibuat.")
