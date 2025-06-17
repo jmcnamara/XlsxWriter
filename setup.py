@@ -9,7 +9,7 @@ if sys.version_info < (3, 8):
 
 setup(
     name="xlsxwriter",
-    version="3.2.4",
+    version="3.2.5",
     author="John McNamara",
     author_email="jmcnamara@cpan.org",
     url="https://github.com/jmcnamara/XlsxWriter",

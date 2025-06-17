@@ -1,3 +1,12 @@
+Release 3.2.5 - June 17 2025
+----------------------------
+
+* Fixed issue where a test function was made public incorrectly which caused
+  warnings about a missing ``xlsxwriter.test`` module.
+
+  :issue:`1138`.
+
+
 Release 3.2.4 - June 17 2025
 ----------------------------
 
@@ -13,9 +22,6 @@ Release 3.2.4 - June 17 2025
 * Fixed issue where ``max_url_length`` parameter wasn't honored.
 
   :issue:`1130`.
-
-* Made internal test function ``compare_xlsx_files()`` public via the Utility
-  module in order to facilitate similar testing by third party libraries.
 
 
 Release 3.2.3 - April 17 2025
