@@ -13,8 +13,6 @@ from warnings import warn
 
 from xlsxwriter.color import Color
 
-from .test.helperfunctions import _compare_xlsx_files
-
 COL_NAMES: Dict[int, str] = {}
 
 CHAR_WIDTHS = {
@@ -954,45 +952,3 @@ def _preserve_whitespace(string: str) -> Optional[re.Match]:
     # Check if a string has leading or trailing whitespace that requires a
     # "preserve" attribute.
     return RE_LEADING_WHITESPACE.search(string) or RE_TRAILING_WHITESPACE.search(string)
-
-
-def compare_xlsx_files(
-    file1: str,
-    file2: str,
-    ignore_files: Optional[list] = None,
-    ignore_elements: Optional[dict] = None,
-    verbose: bool = False,
-) -> Union[bool, Tuple[bool, str, str]]:
-    """
-    Simple function to allow simplified equality testing of two Excel files.
-
-    It works by unzipping the files and comparing the contents of the XML files
-    in the two files.
-
-    Note, this function doesn't test equivalence, only equality.
-
-    Args:
-         file1:           The first file to compare. String.
-         file2:           The second file to compare. String.
-         ignore_files:    A list of xml files to ignore. List of strings.
-         ignore_elements: A dict of xml elements to ignore. Dict of List of strings.
-         verbose:         Return the contents of the files if True. Bool.
-
-    Returns:
-        Boolean value of file equality.
-        Or, if verbose is True then a tuple of (result, got, expected).
-
-    """
-    if ignore_files is None:
-        ignore_files = []
-
-    if ignore_elements is None:
-        ignore_elements = {}
-
-    got, expected = _compare_xlsx_files(file1, file2, ignore_files, ignore_elements)
-    result = got == expected
-
-    if verbose:
-        return result, got, expected
-
-    return result
