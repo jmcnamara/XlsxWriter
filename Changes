@@ -1,3 +1,23 @@
+Release 3.2.4 - June 17 2025
+----------------------------
+
+* Added support for a :ref:`Color() <Color>` type. This is backwards compatible
+  with existing Html and named color string types but also adds support for
+  theme colors. See also :ref:`colors`.
+
+* Fixed issue where ``write_url()`` dropped implicit support for generic URL
+  types due to the refactoring into a ``Url`` type in the previous release.
+
+  :issue:`1129`.
+
+* Fixed issue where ``max_url_length`` parameter wasn't honored.
+
+  :issue:`1130`.
+
+* Made internal test function ``compare_xlsx_files()`` public via the Utility
+  module in order to facilitate similar testing by third party libraries.
+
+
 Release 3.2.3 - April 17 2025
 -----------------------------
 
@@ -25,6 +45,10 @@ Release 3.2.3 - April 17 2025
 
   This is part of a modernization of the XlsxWriter code base, see "XlsxWriter
   Roadmap v2" :feature:`1128`.
+
+* As part of the type annotation refactoring support was added for an explicit
+  ``Url`` type in addition to the implicit string URLs used in previous
+  versions. This isn't documented in this release.
 
 
 Release 3.2.2 - January 28 2025

@@ -933,7 +933,8 @@ with markers but without a line::
 The ``color`` property can be a :ref:`Color() <Color>` instance, a HTML style
 ``#RRGGBB`` string or a limited number of named colors, see :ref:`colors`.
 
-::
+Example::
+
     chart.add_series({
         'values': '=Sheet1!$A$1:$A$6',
         'line':   {'color': '#FF0000'},
