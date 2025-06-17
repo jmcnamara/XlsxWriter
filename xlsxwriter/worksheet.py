@@ -269,6 +269,14 @@ class Worksheet(xmlwriter.XMLwriter):
         self.footer_images = []
         self.header_images_list = []
 
+        self.first_header = ''
+        self.first_footer = ''
+        self.first_header_footer_aligns = True
+        self.first_header_footer_scales = True
+        self.first_header_images = []
+        self.first_footer_images = []
+        self.first_header_images_list = []
+
         self.margin_left = 0.7
         self.margin_right = 0.7
         self.margin_top = 0.75
@@ -332,6 +340,7 @@ class Worksheet(xmlwriter.XMLwriter):
 
         self.has_vml = False
         self.has_header_vml = False
+        self.has_first_header_vml = False
         self.has_comments = False
         self.comments = defaultdict(dict)
         self.comments_list = []
@@ -4262,6 +4271,83 @@ class Worksheet(xmlwriter.XMLwriter):
         if image_count:
             self.has_header_vml = True
 
+    def set_first_header(self, header="", options=None, margin=None):
+        """
+        Set the first page header caption and optional margin.
+
+        Args:
+            header:  Header string.
+            margin:  Header margin.
+            options: Header options, mainly for images.
+
+        Returns:
+            Nothing.
+
+        """
+        header_orig = header
+        header = header.replace("&[Picture]", "&G")
+
+        if len(header) > 255:
+            warn("Header string cannot be longer than Excel's limit of 255 characters")
+            return
+
+        if options is not None:
+            # For backward compatibility allow options to be the margin.
+            if not isinstance(options, dict):
+                options = {"margin": options}
+        else:
+            options = {}
+
+        # Copy the user defined options so they aren't modified.
+        options = options.copy()
+
+        # For backward compatibility.
+        if margin is not None:
+            options["margin"] = margin
+
+        # Reset the list in case the function is called more than once.
+        self.first_header_images = []
+
+        if options.get("image_left"):
+            self.first_header_images.append(
+                [options.get("image_left"), options.get("image_data_left"), "LH"]
+            )
+
+        if options.get("image_center"):
+            self.first_header_images.append(
+                [options.get("image_center"), options.get("image_data_center"), "CH"]
+            )
+
+        if options.get("image_right"):
+            self.first_header_images.append(
+                [options.get("image_right"), options.get("image_data_right"), "RH"]
+            )
+
+        placeholder_count = header.count("&G")
+        image_count = len(self.first_header_images)
+
+        if placeholder_count != image_count:
+            warn(
+                "Number of header images (%s) doesn't match placeholder "
+                "count (%s) in string: %s"
+                % (image_count, placeholder_count, header_orig)
+            )
+            self.first_header_images = []
+            return
+
+        if "align_with_margins" in options:
+            self.first_header_footer_aligns = options["align_with_margins"]
+
+        if "scale_with_doc" in options:
+            self.first_header_footer_scales = options["scale_with_doc"]
+
+        self.first_header = header
+        self.margin_first_header = options.get("margin", 0.3)
+        self.header_footer_changed = True
+
+        if image_count:
+            self.has_first_header_vml = True
+
     def set_footer(self, footer="", options=None, margin=None):
         """
         Set the page footer caption and optional margin.
@@ -4340,6 +4426,83 @@ class Worksheet(xmlwriter.XMLwriter):
 
         if image_count:
             self.has_header_vml = True
+
+    def set_first_footer(self, footer="", options=None, margin=None):
+        """
+        Set the first page footer caption and optional margin.
+
+        Args:
+            footer:  Footer string.
+            margin:  Footer margin.
+            options: Footer options, mainly for images.
+
+        Returns:
+            Nothing.
+
+        """
+        footer_orig = footer
+        footer = footer.replace("&[Picture]", "&G")
+
+        if len(footer) > 255:
+            warn("Footer string cannot be longer than Excel's limit of 255 characters")
+            return
+
+        if options is not None:
+            # For backward compatibility allow options to be the margin.
+            if not isinstance(options, dict):
+                options = {"margin": options}
+        else:
+            options = {}
+
+        # Copy the user defined options so they aren't modified.
+        options = options.copy()
+
+        # For backward compatibility.
+        if margin is not None:
+            options["margin"] = margin
+
+        # Reset the list in case the function is called more than once.
+        self.first_footer_images = []
+
+        if options.get("image_left"):
+            self.first_footer_images.append(
+                [options.get("image_left"), options.get("image_data_left"), "LF"]
+            )
+
+        if options.get("image_center"):
+            self.first_footer_images.append(
+                [options.get("image_center"), options.get("image_data_center"), "CF"]
+            )
+
+        if options.get("image_right"):
+            self.first_footer_images.append(
+                [options.get("image_right"), options.get("image_data_right"), "RF"]
+            )
+
+        placeholder_count = footer.count("&G")
+        image_count = len(self.first_footer_images)
+
+        if placeholder_count != image_count:
+            warn(
+                "Number of footer images (%s) doesn't match placeholder "
+                "count (%s) in string: %s"
+                % (image_count, placeholder_count, footer_orig)
+            )
+            self.first_footer_images = []
+            return
+
+        if "align_with_margins" in options:
+            self.first_header_footer_aligns = options["align_with_margins"]
+
+        if "scale_with_doc" in options:
+            self.first_header_footer_scales = options["scale_with_doc"]
+
+        self.first_footer = footer
+        self.first_margin_footer = options.get("margin", 0.3)
+        self.header_footer_changed = True
+
+        if image_count:
+            self.has_first_header_vml = True
 
     def repeat_rows(self, first_row, last_row=None):
         """
@@ -6384,12 +6547,19 @@ class Worksheet(xmlwriter.XMLwriter):
         if not self.header_footer_aligns:
             attributes.append(("alignWithMargins", 0))
 
+        if self.first_header or self.first_footer:
+            attributes.append(('differentFirst', 1))
+
         if self.header_footer_changed:
             self._xml_start_tag("headerFooter", attributes)
             if self.header:
                 self._write_odd_header()
             if self.footer:
                 self._write_odd_footer()
+            if self.first_header:
+                self._write_first_header()
+            if self.first_footer:
+                self._write_first_footer()
             self._xml_end_tag("headerFooter")
         elif self.excel2003_style:
             self._xml_empty_tag("headerFooter", attributes)
@@ -6401,6 +6571,14 @@ class Worksheet(xmlwriter.XMLwriter):
     def _write_odd_footer(self):
         # Write the <headerFooter> element.
         self._xml_data_element("oddFooter", self.footer)
+
+    def _write_first_header(self):
+        # Write the <headerFooter> element.
+        self._xml_data_element('firstHeader', self.first_header)
+
+    def _write_first_footer(self):
+        # Write the <headerFooter> element.
+        self._xml_data_element('firstFooter', self.first_footer)
 
     def _write_rows(self):
         # Write out the worksheet data as a series of rows and cells.
