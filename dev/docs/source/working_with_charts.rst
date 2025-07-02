@@ -889,7 +889,7 @@ contain ``border`` and ``fill`` sub-properties::
         'values': '=Sheet1!$A$1:$A$6',
         'line':   {'color': 'blue'},
         'marker': {'type': 'square',
-                   'size,': 5,
+                   'size': 5,
                    'border': {'color': 'red'},
                    'fill':   {'color': 'yellow'}
         },
