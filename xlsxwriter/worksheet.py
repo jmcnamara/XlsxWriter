@@ -1964,6 +1964,53 @@ class Worksheet(xmlwriter.XMLwriter):
 
         return self.set_column(first_col, last_col, width, cell_format, options)
 
+    def get_num_fmt_str(self, format_index):
+        format_code = None
+        # copied table from _write_num_fmt()
+        format_codes = {
+            0: "General",
+            1: "0",
+            2: "0.00",
+            3: "#,##0",
+            4: "#,##0.00",
+            5: "($#,##0_);($#,##0)",
+            6: "($#,##0_);[Red]($#,##0)",
+            7: "($#,##0.00_);($#,##0.00)",
+            8: "($#,##0.00_);[Red]($#,##0.00)",
+            9: "0%",
+            10: "0.00%",
+            11: "0.00E+00",
+            12: "# ?/?",
+            13: "# ??/??",
+            14: "m/d/yy",
+            15: "d-mmm-yy",
+            16: "d-mmm",
+            17: "mmm-yy",
+            18: "h:mm AM/PM",
+            19: "h:mm:ss AM/PM",
+            20: "h:mm",
+            21: "h:mm:ss",
+            22: "m/d/yy h:mm",
+            37: "(#,##0_);(#,##0)",
+            38: "(#,##0_);[Red](#,##0)",
+            39: "(#,##0.00_);(#,##0.00)",
+            40: "(#,##0.00_);[Red](#,##0.00)",
+            41: '_(* #,##0_);_(* (#,##0);_(* "-"_);_(_)',
+            42: '_($* #,##0_);_($* (#,##0);_($* "-"_);_(_)',
+            43: '_(* #,##0.00_);_(* (#,##0.00);_(* "-"??_);_(_)',
+            44: '_($* #,##0.00_);_($* (#,##0.00);_($* "-"??_);_(_)',
+            45: "mm:ss",
+            46: "[h]:mm:ss",
+            47: "mm:ss.0",
+            48: "##0.0E+0",
+            49: "@",
+        }
+
+        # map index to format string:
+        if format_index < 164:
+            format_code = format_codes.get(format_index, "General")
+        return format_code
+
     def autofit(self, max_width=1790):
         """
         Simulate autofit based on the data, and datatypes in each column.
@@ -2007,6 +2054,15 @@ class Worksheet(xmlwriter.XMLwriter):
                     cell_type = cell.__class__.__name__
                     length = 0
 
+                    col_info = self.col_info.get(col_num)
+                    col_num_format_str = None
+                    if col_info:
+                        format = col_info[1]
+                        if format:
+                            col_num_format_str = format.num_format
+                            if type(col_num_format_str) == int:
+                                col_num_format_str = self.get_num_fmt_str(col_num_format_str)
+
                     if cell_type in ("String", "RichString"):
                         # Handle strings and rich strings.
                         #
@@ -2039,6 +2095,16 @@ class Worksheet(xmlwriter.XMLwriter):
                         # minus sign but only by a few pixels and
                         # over-estimation is okay.
                         length = 7 * len(str(cell.number))
+
+                        # if format is defined take this into account for improved estimate:
+                        if col_num_format_str:
+                            # documentation for formats: https://xlsxwriter.readthedocs.io/format.html#set_num_format
+                            # '0.0' to '0.000000...'
+                            if len(col_num_format_str) >= 3 and col_num_format_str == '0.'+'0'*(len(col_num_format_str)-2):
+                                length = 7 * len(f'{{:.{len(col_num_format_str)-2}f}}'.format(cell.number))
+                            # '0'
+                            elif col_num_format_str == '0':
+                                length = 7 * len('{:.0f}'.format(cell.number))
 
                     elif cell_type == "Datetime":
                         # Handle dates.
