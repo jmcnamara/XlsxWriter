@@ -1307,6 +1307,19 @@ class Chart(xmlwriter.XMLwriter):
                     pattern = None
                     fill = None
 
+                # Map user defined label positions to Excel positions.
+                position = label.get("position")
+
+                if position:
+                    if position in self.label_positions:
+                        if position == self.label_position_default:
+                            label["position"] = None
+                        else:
+                            label["position"] = self.label_positions[position]
+                    else:
+                        warn(f"Unsupported label position '{position}' for chart type")
+                        return None
+
                 label["line"] = line
                 label["fill"] = fill
                 label["pattern"] = pattern
@@ -3843,6 +3856,8 @@ class Chart(xmlwriter.XMLwriter):
             if label is None:
                 continue
 
+            use_custom_formatting = True
+
             self._xml_start_tag("c:dLbl")
 
             # Write the c:idx element.
@@ -3853,33 +3868,37 @@ class Chart(xmlwriter.XMLwriter):
             if delete_label:
                 self._write_delete(1)
 
-            elif label.get("formula"):
-                self._write_custom_label_formula(label)
+            elif label.get("formula") or label.get("value") or label.get("position"):
 
-                if parent.get("position"):
+                # Write the c:layout element.
+                self._write_layout(None, None)
+
+                if label.get("formula"):
+                    self._write_custom_label_formula(label)
+                elif label.get("value"):
+                    self._write_custom_label_str(label)
+                    # String values use spPr formatting.
+                    use_custom_formatting = False
+
+                if use_custom_formatting:
+                    self._write_custom_label_format(label)
+
+                if label.get("position"):
+                    self._write_d_lbl_pos(label["position"])
+                elif parent.get("position"):
                     self._write_d_lbl_pos(parent["position"])
 
                 if parent.get("value"):
                     self._write_show_val()
+
                 if parent.get("category"):
                     self._write_show_cat_name()
+
                 if parent.get("series_name"):
                     self._write_show_ser_name()
 
-            elif label.get("value"):
-                self._write_custom_label_str(label)
-
-                if parent.get("position"):
-                    self._write_d_lbl_pos(parent["position"])
-
-                if parent.get("value"):
-                    self._write_show_val()
-                if parent.get("category"):
-                    self._write_show_cat_name()
-                if parent.get("series_name"):
-                    self._write_show_ser_name()
             else:
-                self._write_custom_label_format_only(label)
+                self._write_custom_label_format(label)
 
             self._xml_end_tag("c:dLbl")
 
@@ -3888,9 +3907,6 @@ class Chart(xmlwriter.XMLwriter):
         title = label.get("value")
         font = label.get("font")
         has_formatting = self._has_fill_formatting(label)
-
-        # Write the c:layout element.
-        self._write_layout(None, None)
 
         self._xml_start_tag("c:tx")
 
@@ -3911,9 +3927,6 @@ class Chart(xmlwriter.XMLwriter):
         if data_id is not None:
             data = self.formula_data[data_id]
 
-        # Write the c:layout element.
-        self._write_layout(None, None)
-
         self._xml_start_tag("c:tx")
 
         # Write the c:strRef element.
@@ -3921,11 +3934,8 @@ class Chart(xmlwriter.XMLwriter):
 
         self._xml_end_tag("c:tx")
 
-        # Write the data label formatting, if any.
-        self._write_custom_label_format_only(label)
-
-    def _write_custom_label_format_only(self, label):
-        # Write parts of the <c:dLbl> labels with changed formatting.
+    def _write_custom_label_format(self, label):
+        # Write the formatting and font elements for the custom labels.
         font = label.get("font")
         has_formatting = self._has_fill_formatting(label)
 
