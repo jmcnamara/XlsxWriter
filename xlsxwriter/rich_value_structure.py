@@ -24,7 +24,7 @@ class RichValueStructure(xmlwriter.XMLwriter):
     #
     ###########################################################################
 
-    def __init__(self):
+    def __init__(self) -> None:
         """
         Constructor.
 
@@ -39,7 +39,7 @@ class RichValueStructure(xmlwriter.XMLwriter):
     #
     ###########################################################################
 
-    def _assemble_xml_file(self):
+    def _assemble_xml_file(self) -> None:
         # Assemble and write the XML file.
 
         # Write the XML declaration.
@@ -58,7 +58,7 @@ class RichValueStructure(xmlwriter.XMLwriter):
     # XML methods.
     #
     ###########################################################################
-    def _write_rv_structures(self):
+    def _write_rv_structures(self) -> None:
         # Write the <rvStructures> element.
         xmlns = "http://schemas.microsoft.com/office/spreadsheetml/2017/richdata"
         count = "1"
@@ -73,7 +73,7 @@ class RichValueStructure(xmlwriter.XMLwriter):
         # Write the s element.
         self._write_s()
 
-    def _write_s(self):
+    def _write_s(self) -> None:
         # Write the <s> element.
         t = "_localImage"
         attributes = [("t", t)]
@@ -89,7 +89,7 @@ class RichValueStructure(xmlwriter.XMLwriter):
 
         self._xml_end_tag("s")
 
-    def _write_k(self, name, k_type):
+    def _write_k(self, name, k_type) -> None:
         # Write the <k> element.
         attributes = [
             ("n", name),

@@ -22,7 +22,7 @@ class ChartStock(chart.Chart):
     #
     ###########################################################################
 
-    def __init__(self):
+    def __init__(self) -> None:
         """
         Constructor.
 
@@ -59,7 +59,7 @@ class ChartStock(chart.Chart):
     #
     ###########################################################################
 
-    def _write_chart_type(self, args):
+    def _write_chart_type(self, args) -> None:
         # Override the virtual superclass method with a chart specific method.
         # Write the c:stockChart element.
         self._write_stock_chart(args)
@@ -70,7 +70,7 @@ class ChartStock(chart.Chart):
     #
     ###########################################################################
 
-    def _write_stock_chart(self, args):
+    def _write_stock_chart(self, args) -> None:
         # Write the <c:stockChart> element.
         # Overridden to add hi_low_lines().
 
@@ -106,7 +106,7 @@ class ChartStock(chart.Chart):
 
         self._xml_end_tag("c:stockChart")
 
-    def _modify_series_formatting(self):
+    def _modify_series_formatting(self) -> None:
         # Add default formatting to the series data.
 
         index = 0

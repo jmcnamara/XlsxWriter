@@ -33,7 +33,7 @@ class DrawingInfo:
 
     """
 
-    def __init__(self):
+    def __init__(self) -> None:
         """
         Initialize a DrawingType instance with default values.
         """
@@ -64,7 +64,7 @@ class Drawing(xmlwriter.XMLwriter):
     #
     ###########################################################################
 
-    def __init__(self):
+    def __init__(self) -> None:
         """
         Constructor.
 
@@ -82,7 +82,7 @@ class Drawing(xmlwriter.XMLwriter):
     #
     ###########################################################################
 
-    def _assemble_xml_file(self):
+    def _assemble_xml_file(self) -> None:
         # Assemble and write the XML file.
 
         # Write the XML declaration.
@@ -109,7 +109,7 @@ class Drawing(xmlwriter.XMLwriter):
         # Close the file.
         self._xml_close()
 
-    def _add_drawing_object(self, drawing_object: DrawingInfo):
+    def _add_drawing_object(self, drawing_object: DrawingInfo) -> None:
         # Add a chart, image or shape sub object to the drawing.
         self.drawings.append(drawing_object)
 
@@ -119,7 +119,7 @@ class Drawing(xmlwriter.XMLwriter):
     #
     ###########################################################################
 
-    def _write_drawing_workspace(self):
+    def _write_drawing_workspace(self) -> None:
         # Write the <xdr:wsDr> element.
         schema = "http://schemas.openxmlformats.org/drawingml/"
         xmlns_xdr = schema + "2006/spreadsheetDrawing"
@@ -132,7 +132,7 @@ class Drawing(xmlwriter.XMLwriter):
 
         self._xml_start_tag("xdr:wsDr", attributes)
 
-    def _write_two_cell_anchor(self, index: int, drawing: DrawingInfo):
+    def _write_two_cell_anchor(self, index: int, drawing: DrawingInfo) -> None:
         # Write the <xdr:twoCellAnchor> element.
         dimensions = drawing._dimensions
         col_from = dimensions[0]
@@ -182,7 +182,7 @@ class Drawing(xmlwriter.XMLwriter):
 
         self._xml_end_tag("xdr:twoCellAnchor")
 
-    def _write_absolute_anchor(self, index: int, drawing: DrawingInfo):
+    def _write_absolute_anchor(self, index: int, drawing: DrawingInfo) -> None:
         self._xml_start_tag("xdr:absoluteAnchor")
         # Write the <xdr:absoluteAnchor> element.
 
@@ -209,7 +209,7 @@ class Drawing(xmlwriter.XMLwriter):
 
         self._xml_end_tag("xdr:absoluteAnchor")
 
-    def _write_from(self, col: int, row: int, col_offset, row_offset):
+    def _write_from(self, col: int, row: int, col_offset, row_offset) -> None:
         # Write the <xdr:from> element.
         self._xml_start_tag("xdr:from")
 
@@ -227,7 +227,7 @@ class Drawing(xmlwriter.XMLwriter):
 
         self._xml_end_tag("xdr:from")
 
-    def _write_to(self, col: int, row: int, col_offset, row_offset):
+    def _write_to(self, col: int, row: int, col_offset, row_offset) -> None:
         # Write the <xdr:to> element.
         self._xml_start_tag("xdr:to")
 
@@ -245,37 +245,37 @@ class Drawing(xmlwriter.XMLwriter):
 
         self._xml_end_tag("xdr:to")
 
-    def _write_col(self, data):
+    def _write_col(self, data) -> None:
         # Write the <xdr:col> element.
         self._xml_data_element("xdr:col", data)
 
-    def _write_col_off(self, data):
+    def _write_col_off(self, data) -> None:
         # Write the <xdr:colOff> element.
         self._xml_data_element("xdr:colOff", data)
 
-    def _write_row(self, data):
+    def _write_row(self, data) -> None:
         # Write the <xdr:row> element.
         self._xml_data_element("xdr:row", data)
 
-    def _write_row_off(self, data):
+    def _write_row_off(self, data) -> None:
         # Write the <xdr:rowOff> element.
         self._xml_data_element("xdr:rowOff", data)
 
-    def _write_pos(self, x, y):
+    def _write_pos(self, x, y) -> None:
         # Write the <xdr:pos> element.
 
         attributes = [("x", x), ("y", y)]
 
         self._xml_empty_tag("xdr:pos", attributes)
 
-    def _write_xdr_ext(self, cx, cy):
+    def _write_xdr_ext(self, cx, cy) -> None:
         # Write the <xdr:ext> element.
 
         attributes = [("cx", cx), ("cy", cy)]
 
         self._xml_empty_tag("xdr:ext", attributes)
 
-    def _write_graphic_frame(self, index: int, drawing: DrawingInfo):
+    def _write_graphic_frame(self, index: int, drawing: DrawingInfo) -> None:
         # Write the <xdr:graphicFrame> element.
         attributes = [("macro", "")]
 
@@ -292,7 +292,7 @@ class Drawing(xmlwriter.XMLwriter):
 
         self._xml_end_tag("xdr:graphicFrame")
 
-    def _write_nv_graphic_frame_pr(self, index: int, drawing: DrawingInfo):
+    def _write_nv_graphic_frame_pr(self, index: int, drawing: DrawingInfo) -> None:
         # Write the <xdr:nvGraphicFramePr> element.
 
         name = drawing._name
@@ -309,7 +309,7 @@ class Drawing(xmlwriter.XMLwriter):
 
         self._xml_end_tag("xdr:nvGraphicFramePr")
 
-    def _write_c_nv_pr(self, index: int, drawing: DrawingInfo, name: str):
+    def _write_c_nv_pr(self, index: int, drawing: DrawingInfo, name: str) -> None:
         # Write the <xdr:cNvPr> element.
         attributes = [("id", index), ("name", name)]
 
@@ -330,7 +330,7 @@ class Drawing(xmlwriter.XMLwriter):
         else:
             self._xml_empty_tag("xdr:cNvPr", attributes)
 
-    def _write_decorative(self):
+    def _write_decorative(self) -> None:
         self._xml_start_tag("a:extLst")
 
         self._write_uri_ext("{FF2B5EF4-FFF2-40B4-BE49-F238E27FC236}")
@@ -343,13 +343,13 @@ class Drawing(xmlwriter.XMLwriter):
 
         self._xml_end_tag("a:extLst")
 
-    def _write_uri_ext(self, uri):
+    def _write_uri_ext(self, uri) -> None:
         # Write the <a:ext> element.
         attributes = [("uri", uri)]
 
         self._xml_start_tag("a:ext", attributes)
 
-    def _write_adec_decorative(self):
+    def _write_adec_decorative(self) -> None:
         # Write the <adec:decorative> element.
         xmlns = "http://schemas.microsoft.com/office/drawing/2017/decorative"
         val = "1"
@@ -361,7 +361,7 @@ class Drawing(xmlwriter.XMLwriter):
 
         self._xml_empty_tag("adec:decorative", attributes)
 
-    def _write_a16_creation_id(self):
+    def _write_a16_creation_id(self) -> None:
         # Write the <a16:creationId> element.
 
         xmlns_a_16 = "http://schemas.microsoft.com/office/drawing/2014/main"
@@ -374,7 +374,7 @@ class Drawing(xmlwriter.XMLwriter):
 
         self._xml_empty_tag("a16:creationId", attributes)
 
-    def _write_a_hlink_click(self, url: Url):
+    def _write_a_hlink_click(self, url: Url) -> None:
         # Write the <a:hlinkClick> element.
         schema = "http://schemas.openxmlformats.org/officeDocument/"
         xmlns_r = schema + "2006/relationships"
@@ -389,7 +389,7 @@ class Drawing(xmlwriter.XMLwriter):
 
         self._xml_empty_tag("a:hlinkClick", attributes)
 
-    def _write_c_nv_graphic_frame_pr(self):
+    def _write_c_nv_graphic_frame_pr(self) -> None:
         # Write the <xdr:cNvGraphicFramePr> element.
         if self.embedded:
             self._xml_empty_tag("xdr:cNvGraphicFramePr")
@@ -401,13 +401,13 @@ class Drawing(xmlwriter.XMLwriter):
 
             self._xml_end_tag("xdr:cNvGraphicFramePr")
 
-    def _write_a_graphic_frame_locks(self):
+    def _write_a_graphic_frame_locks(self) -> None:
         # Write the <a:graphicFrameLocks> element.
         attributes = [("noGrp", 1)]
 
         self._xml_empty_tag("a:graphicFrameLocks", attributes)
 
-    def _write_xfrm(self):
+    def _write_xfrm(self) -> None:
         # Write the <xdr:xfrm> element.
         self._xml_start_tag("xdr:xfrm")
 
@@ -419,7 +419,7 @@ class Drawing(xmlwriter.XMLwriter):
 
         self._xml_end_tag("xdr:xfrm")
 
-    def _write_xfrm_offset(self):
+    def _write_xfrm_offset(self) -> None:
         # Write the <a:off> xfrm sub-element.
 
         attributes = [
@@ -429,7 +429,7 @@ class Drawing(xmlwriter.XMLwriter):
 
         self._xml_empty_tag("a:off", attributes)
 
-    def _write_xfrm_extension(self):
+    def _write_xfrm_extension(self) -> None:
         # Write the <a:ext> xfrm sub-element.
 
         attributes = [
@@ -439,7 +439,7 @@ class Drawing(xmlwriter.XMLwriter):
 
         self._xml_empty_tag("a:ext", attributes)
 
-    def _write_atag_graphic(self, index: int):
+    def _write_atag_graphic(self, index: int) -> None:
         # Write the <a:graphic> element.
         self._xml_start_tag("a:graphic")
 
@@ -448,7 +448,7 @@ class Drawing(xmlwriter.XMLwriter):
 
         self._xml_end_tag("a:graphic")
 
-    def _write_atag_graphic_data(self, index: int):
+    def _write_atag_graphic_data(self, index: int) -> None:
         # Write the <a:graphicData> element.
         uri = "http://schemas.openxmlformats.org/drawingml/2006/chart"
 
@@ -466,7 +466,7 @@ class Drawing(xmlwriter.XMLwriter):
 
         self._xml_end_tag("a:graphicData")
 
-    def _write_c_chart(self, r_id):
+    def _write_c_chart(self, r_id) -> None:
         # Write the <c:chart> element.
 
         schema = "http://schemas.openxmlformats.org/"
@@ -481,7 +481,7 @@ class Drawing(xmlwriter.XMLwriter):
 
         self._xml_empty_tag("c:chart", attributes)
 
-    def _write_client_data(self):
+    def _write_client_data(self) -> None:
         # Write the <xdr:clientData> element.
         self._xml_empty_tag("xdr:clientData")
 
@@ -491,7 +491,7 @@ class Drawing(xmlwriter.XMLwriter):
         col_absolute,
         row_absolute,
         drawing: DrawingInfo,
-    ):
+    ) -> None:
         # Write the <xdr:sp> element.
 
         if drawing._shape and drawing._shape.connect:
@@ -526,7 +526,7 @@ class Drawing(xmlwriter.XMLwriter):
 
             self._xml_end_tag("xdr:sp")
 
-    def _write_nv_cxn_sp_pr(self, shape):
+    def _write_nv_cxn_sp_pr(self, shape) -> None:
         # Write the <xdr:nvCxnSpPr> element.
         self._xml_start_tag("xdr:nvCxnSpPr")
 
@@ -546,7 +546,7 @@ class Drawing(xmlwriter.XMLwriter):
         self._xml_end_tag("xdr:cNvCxnSpPr")
         self._xml_end_tag("xdr:nvCxnSpPr")
 
-    def _write_nv_sp_pr(self, index: int, drawing: DrawingInfo):
+    def _write_nv_sp_pr(self, index: int, drawing: DrawingInfo) -> None:
         # Write the <xdr:NvSpPr> element.
         attributes = []
 
@@ -569,7 +569,7 @@ class Drawing(xmlwriter.XMLwriter):
         col_absolute: int,
         row_absolute: int,
         drawing: DrawingInfo,
-    ):
+    ) -> None:
         # Write the <xdr:pic> element.
         self._xml_start_tag("xdr:pic")
 
@@ -583,7 +583,7 @@ class Drawing(xmlwriter.XMLwriter):
 
         self._xml_end_tag("xdr:pic")
 
-    def _write_nv_pic_pr(self, index: int, drawing: DrawingInfo):
+    def _write_nv_pic_pr(self, index: int, drawing: DrawingInfo) -> None:
         # Write the <xdr:nvPicPr> element.
         self._xml_start_tag("xdr:nvPicPr")
 
@@ -597,7 +597,7 @@ class Drawing(xmlwriter.XMLwriter):
 
         self._xml_end_tag("xdr:nvPicPr")
 
-    def _write_c_nv_pic_pr(self):
+    def _write_c_nv_pic_pr(self) -> None:
         # Write the <xdr:cNvPicPr> element.
         self._xml_start_tag("xdr:cNvPicPr")
 
@@ -606,13 +606,13 @@ class Drawing(xmlwriter.XMLwriter):
 
         self._xml_end_tag("xdr:cNvPicPr")
 
-    def _write_a_pic_locks(self):
+    def _write_a_pic_locks(self) -> None:
         # Write the <a:picLocks> element.
         attributes = [("noChangeAspect", 1)]
 
         self._xml_empty_tag("a:picLocks", attributes)
 
-    def _write_blip_fill(self, index: int):
+    def _write_blip_fill(self, index: int) -> None:
         # Write the <xdr:blipFill> element.
         self._xml_start_tag("xdr:blipFill")
 
@@ -624,7 +624,7 @@ class Drawing(xmlwriter.XMLwriter):
 
         self._xml_end_tag("xdr:blipFill")
 
-    def _write_a_blip(self, index: int):
+    def _write_a_blip(self, index: int) -> None:
         # Write the <a:blip> element.
         schema = "http://schemas.openxmlformats.org/officeDocument/"
         xmlns_r = schema + "2006/relationships"
@@ -634,7 +634,7 @@ class Drawing(xmlwriter.XMLwriter):
 
         self._xml_empty_tag("a:blip", attributes)
 
-    def _write_a_stretch(self):
+    def _write_a_stretch(self) -> None:
         # Write the <a:stretch> element.
         self._xml_start_tag("a:stretch")
 
@@ -643,11 +643,11 @@ class Drawing(xmlwriter.XMLwriter):
 
         self._xml_end_tag("a:stretch")
 
-    def _write_a_fill_rect(self):
+    def _write_a_fill_rect(self) -> None:
         # Write the <a:fillRect> element.
         self._xml_empty_tag("a:fillRect")
 
-    def _write_sp_pr(self, col_absolute, row_absolute, drawing: DrawingInfo):
+    def _write_sp_pr(self, col_absolute, row_absolute, drawing: DrawingInfo) -> None:
         # Write the <xdr:spPr> element, for charts.
 
         self._xml_start_tag("xdr:spPr")
@@ -662,7 +662,7 @@ class Drawing(xmlwriter.XMLwriter):
 
     def _write_xdr_sp_pr(
         self, col_absolute: int, row_absolute: int, drawing: DrawingInfo
-    ):
+    ) -> None:
         # Write the <xdr:spPr> element for shapes.
         self._xml_start_tag("xdr:spPr")
 
@@ -695,7 +695,9 @@ class Drawing(xmlwriter.XMLwriter):
 
         self._xml_end_tag("xdr:spPr")
 
-    def _write_a_xfrm(self, col_absolute, row_absolute, width, height, shape=None):
+    def _write_a_xfrm(
+        self, col_absolute, row_absolute, width, height, shape=None
+    ) -> None:
         # Write the <a:xfrm> element.
         attributes = []
 
@@ -720,7 +722,7 @@ class Drawing(xmlwriter.XMLwriter):
 
         self._xml_end_tag("a:xfrm")
 
-    def _write_a_off(self, x, y):
+    def _write_a_off(self, x, y) -> None:
         # Write the <a:off> element.
         attributes = [
             ("x", x),
@@ -729,7 +731,7 @@ class Drawing(xmlwriter.XMLwriter):
 
         self._xml_empty_tag("a:off", attributes)
 
-    def _write_a_ext(self, cx, cy):
+    def _write_a_ext(self, cx, cy) -> None:
         # Write the <a:ext> element.
         attributes = [
             ("cx", cx),
@@ -738,7 +740,7 @@ class Drawing(xmlwriter.XMLwriter):
 
         self._xml_empty_tag("a:ext", attributes)
 
-    def _write_a_prst_geom(self, shape=None):
+    def _write_a_prst_geom(self, shape=None) -> None:
         # Write the <a:prstGeom> element.
         attributes = [("prst", "rect")]
 
@@ -749,7 +751,7 @@ class Drawing(xmlwriter.XMLwriter):
 
         self._xml_end_tag("a:prstGeom")
 
-    def _write_a_av_lst(self, shape=None):
+    def _write_a_av_lst(self, shape=None) -> None:
         # Write the <a:avLst> element.
         adjustments = []
 
@@ -779,7 +781,7 @@ class Drawing(xmlwriter.XMLwriter):
         else:
             self._xml_empty_tag("a:avLst")
 
-    def _write_a_solid_fill(self, color: Color):
+    def _write_a_solid_fill(self, color: Color) -> None:
         # Write the <a:solidFill> element.
         self._xml_start_tag("a:solidFill")
 
@@ -788,7 +790,7 @@ class Drawing(xmlwriter.XMLwriter):
 
         self._xml_end_tag("a:solidFill")
 
-    def _write_a_solid_fill_scheme(self, named_color, shade=None):
+    def _write_a_solid_fill_scheme(self, named_color, shade=None) -> None:
         attributes = [("val", named_color)]
 
         self._xml_start_tag("a:solidFill")
@@ -802,7 +804,7 @@ class Drawing(xmlwriter.XMLwriter):
 
         self._xml_end_tag("a:solidFill")
 
-    def _write_a_ln(self, line):
+    def _write_a_ln(self, line) -> None:
         # Write the <a:ln> element.
         width = line.get("width", 0.75)
 
@@ -836,7 +838,7 @@ class Drawing(xmlwriter.XMLwriter):
 
         self._xml_end_tag("a:ln")
 
-    def _write_tx_body(self, shape):
+    def _write_tx_body(self, shape) -> None:
         # Write the <xdr:txBody> element.
         attributes = []
 
@@ -932,7 +934,7 @@ class Drawing(xmlwriter.XMLwriter):
 
         self._xml_end_tag("xdr:txBody")
 
-    def _write_font_run(self, font, style_attrs, latin_attrs, run_type):
+    def _write_font_run(self, font, style_attrs, latin_attrs, run_type) -> None:
         # Write a:rPr or a:endParaRPr.
         has_color = font.get("color") is not None
 
@@ -950,7 +952,7 @@ class Drawing(xmlwriter.XMLwriter):
         else:
             self._xml_empty_tag(run_type, style_attrs)
 
-    def _write_style(self):
+    def _write_style(self) -> None:
         # Write the <xdr:style> element.
         self._xml_start_tag("xdr:style")
 
@@ -968,7 +970,7 @@ class Drawing(xmlwriter.XMLwriter):
 
         self._xml_end_tag("xdr:style")
 
-    def _write_a_ln_ref(self):
+    def _write_a_ln_ref(self) -> None:
         # Write the <a:lnRef> element.
         attributes = [("idx", "0")]
 
@@ -979,7 +981,7 @@ class Drawing(xmlwriter.XMLwriter):
 
         self._xml_end_tag("a:lnRef")
 
-    def _write_a_fill_ref(self):
+    def _write_a_fill_ref(self) -> None:
         # Write the <a:fillRef> element.
         attributes = [("idx", "0")]
 
@@ -990,7 +992,7 @@ class Drawing(xmlwriter.XMLwriter):
 
         self._xml_end_tag("a:fillRef")
 
-    def _write_a_effect_ref(self):
+    def _write_a_effect_ref(self) -> None:
         # Write the <a:effectRef> element.
         attributes = [("idx", "0")]
 
@@ -1001,7 +1003,7 @@ class Drawing(xmlwriter.XMLwriter):
 
         self._xml_end_tag("a:effectRef")
 
-    def _write_a_scrgb_clr(self):
+    def _write_a_scrgb_clr(self) -> None:
         # Write the <a:scrgbClr> element.
 
         attributes = [
@@ -1012,7 +1014,7 @@ class Drawing(xmlwriter.XMLwriter):
 
         self._xml_empty_tag("a:scrgbClr", attributes)
 
-    def _write_a_font_ref(self):
+    def _write_a_font_ref(self) -> None:
         # Write the <a:fontRef> element.
         attributes = [("idx", "minor")]
 
@@ -1023,26 +1025,26 @@ class Drawing(xmlwriter.XMLwriter):
 
         self._xml_end_tag("a:fontRef")
 
-    def _write_a_scheme_clr(self, val):
+    def _write_a_scheme_clr(self, val) -> None:
         # Write the <a:schemeClr> element.
         attributes = [("val", val)]
 
         self._xml_empty_tag("a:schemeClr", attributes)
 
-    def _write_a_shade(self, shade):
+    def _write_a_shade(self, shade) -> None:
         # Write the <a:shade> element.
         attributes = [("val", shade)]
 
         self._xml_empty_tag("a:shade", attributes)
 
-    def _write_a_prst_dash(self, val):
+    def _write_a_prst_dash(self, val) -> None:
         # Write the <a:prstDash> element.
 
         attributes = [("val", val)]
 
         self._xml_empty_tag("a:prstDash", attributes)
 
-    def _write_a_grad_fill(self, gradient):
+    def _write_a_grad_fill(self, gradient) -> None:
         # Write the <a:gradFill> element.
 
         attributes = [("flip", "none"), ("rotWithShape", "1")]
@@ -1067,7 +1069,7 @@ class Drawing(xmlwriter.XMLwriter):
 
         self._xml_end_tag("a:gradFill")
 
-    def _write_a_gs_lst(self, gradient):
+    def _write_a_gs_lst(self, gradient) -> None:
         # Write the <a:gsLst> element.
         positions = gradient["positions"]
         colors = gradient["colors"]
@@ -1086,7 +1088,7 @@ class Drawing(xmlwriter.XMLwriter):
 
         self._xml_end_tag("a:gsLst")
 
-    def _write_a_lin(self, angle):
+    def _write_a_lin(self, angle) -> None:
         # Write the <a:lin> element.
 
         angle = int(60000 * angle)
@@ -1098,7 +1100,7 @@ class Drawing(xmlwriter.XMLwriter):
 
         self._xml_empty_tag("a:lin", attributes)
 
-    def _write_a_path(self, gradient_type):
+    def _write_a_path(self, gradient_type) -> None:
         # Write the <a:path> element.
 
         attributes = [("path", gradient_type)]
@@ -1110,7 +1112,7 @@ class Drawing(xmlwriter.XMLwriter):
 
         self._xml_end_tag("a:path")
 
-    def _write_a_fill_to_rect(self, gradient_type):
+    def _write_a_fill_to_rect(self, gradient_type) -> None:
         # Write the <a:fillToRect> element.
 
         if gradient_type == "shape":
@@ -1128,7 +1130,7 @@ class Drawing(xmlwriter.XMLwriter):
 
         self._xml_empty_tag("a:fillToRect", attributes)
 
-    def _write_a_tile_rect(self, gradient_type):
+    def _write_a_tile_rect(self, gradient_type) -> None:
         # Write the <a:tileRect> element.
 
         if gradient_type == "shape":
@@ -1141,16 +1143,16 @@ class Drawing(xmlwriter.XMLwriter):
 
         self._xml_empty_tag("a:tileRect", attributes)
 
-    def _write_a_srgb_clr(self, color: Color):
+    def _write_a_srgb_clr(self, color: Color) -> None:
         # Write the <a:srgbClr> element.
         attributes = [("val", color._rgb_hex_value())]
 
         self._xml_empty_tag("a:srgbClr", attributes)
 
-    def _write_a_latin(self, attributes):
+    def _write_a_latin(self, attributes) -> None:
         # Write the <a:latin> element.
         self._xml_empty_tag("a:latin", attributes)
 
-    def _write_a_cs(self, attributes):
+    def _write_a_cs(self, attributes) -> None:
         # Write the <a:latin> element.
         self._xml_empty_tag("a:cs", attributes)

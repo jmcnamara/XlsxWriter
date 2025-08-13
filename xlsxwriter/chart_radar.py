@@ -23,7 +23,7 @@ class ChartRadar(chart.Chart):
     #
     ###########################################################################
 
-    def __init__(self, options=None):
+    def __init__(self, options=None) -> None:
         """
         Constructor.
 
@@ -56,7 +56,7 @@ class ChartRadar(chart.Chart):
     #
     ###########################################################################
 
-    def _write_chart_type(self, args):
+    def _write_chart_type(self, args) -> None:
         # Write the c:radarChart element.
         self._write_radar_chart(args)
 
@@ -66,7 +66,7 @@ class ChartRadar(chart.Chart):
     #
     ###########################################################################
 
-    def _write_radar_chart(self, args):
+    def _write_radar_chart(self, args) -> None:
         # Write the <c:radarChart> element.
 
         if args["primary_axes"]:
@@ -91,7 +91,7 @@ class ChartRadar(chart.Chart):
 
         self._xml_end_tag("c:radarChart")
 
-    def _write_radar_style(self):
+    def _write_radar_style(self) -> None:
         # Write the <c:radarStyle> element.
         val = "marker"
 

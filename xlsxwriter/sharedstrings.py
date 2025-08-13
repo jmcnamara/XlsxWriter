@@ -24,7 +24,7 @@ class SharedStrings(xmlwriter.XMLwriter):
     #
     ###########################################################################
 
-    def __init__(self):
+    def __init__(self) -> None:
         """
         Constructor.
 
@@ -40,7 +40,7 @@ class SharedStrings(xmlwriter.XMLwriter):
     #
     ###########################################################################
 
-    def _assemble_xml_file(self):
+    def _assemble_xml_file(self) -> None:
         # Assemble and write the XML file.
 
         # Write the XML declaration.
@@ -64,7 +64,7 @@ class SharedStrings(xmlwriter.XMLwriter):
     #
     ###########################################################################
 
-    def _write_sst(self):
+    def _write_sst(self) -> None:
         # Write the <sst> element.
         xmlns = "http://schemas.openxmlformats.org/spreadsheetml/2006/main"
 
@@ -76,13 +76,13 @@ class SharedStrings(xmlwriter.XMLwriter):
 
         self._xml_start_tag("sst", attributes)
 
-    def _write_sst_strings(self):
+    def _write_sst_strings(self) -> None:
         # Write the sst string elements.
 
         for string in self.string_table.string_array:
             self._write_si(string)
 
-    def _write_si(self, string):
+    def _write_si(self, string) -> None:
         # Write the <si> element.
         attributes = []
 
@@ -107,7 +107,7 @@ class SharedStringTable:
 
     """
 
-    def __init__(self):
+    def __init__(self) -> None:
         self.count = 0
         self.unique_count = 0
         self.string_table = {}
@@ -132,7 +132,7 @@ class SharedStringTable:
         """ " Get a shared string from the index."""
         return self.string_array[index]
 
-    def _sort_string_data(self):
+    def _sort_string_data(self) -> None:
         """ " Sort the shared string data and convert from dict to list."""
         self.string_array = sorted(self.string_table, key=self.string_table.__getitem__)
         self.string_table = {}

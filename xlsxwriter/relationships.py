@@ -29,7 +29,7 @@ class Relationships(xmlwriter.XMLwriter):
     #
     ###########################################################################
 
-    def __init__(self):
+    def __init__(self) -> None:
         """
         Constructor.
 
@@ -46,7 +46,7 @@ class Relationships(xmlwriter.XMLwriter):
     #
     ###########################################################################
 
-    def _assemble_xml_file(self):
+    def _assemble_xml_file(self) -> None:
         # Assemble and write the XML file.
 
         # Write the XML declaration.
@@ -57,26 +57,26 @@ class Relationships(xmlwriter.XMLwriter):
         # Close the file.
         self._xml_close()
 
-    def _add_document_relationship(self, rel_type, target, target_mode=None):
+    def _add_document_relationship(self, rel_type, target, target_mode=None) -> None:
         # Add container relationship to XLSX .rels xml files.
         rel_type = DOCUMENT_SCHEMA + rel_type
 
         self.relationships.append((rel_type, target, target_mode))
 
-    def _add_package_relationship(self, rel_type, target):
+    def _add_package_relationship(self, rel_type, target) -> None:
         # Add container relationship to XLSX .rels xml files.
         rel_type = PACKAGE_SCHEMA + rel_type
 
         self.relationships.append((rel_type, target, None))
 
-    def _add_ms_package_relationship(self, rel_type, target):
+    def _add_ms_package_relationship(self, rel_type, target) -> None:
         # Add container relationship to XLSX .rels xml files. Uses MS schema.
         schema = "http://schemas.microsoft.com/office/2006/relationships"
         rel_type = schema + rel_type
 
         self.relationships.append((rel_type, target, None))
 
-    def _add_rich_value_relationship(self):
+    def _add_rich_value_relationship(self) -> None:
         # Add RichValue relationship to XLSX .rels xml files.
         schema = "http://schemas.microsoft.com/office/2022/10/relationships/"
         rel_type = schema + "richValueRel"
@@ -96,7 +96,7 @@ class Relationships(xmlwriter.XMLwriter):
         target = "richData/rdRichValueTypes.xml"
         self.relationships.append((rel_type, target, None))
 
-    def _add_feature_bag_relationship(self):
+    def _add_feature_bag_relationship(self) -> None:
         # Add FeaturePropertyBag relationship to XLSX .rels xml files.
         schema = "http://schemas.microsoft.com/office/2022/11/relationships/"
         rel_type = schema + "FeaturePropertyBag"
@@ -109,7 +109,7 @@ class Relationships(xmlwriter.XMLwriter):
     #
     ###########################################################################
 
-    def _write_relationships(self):
+    def _write_relationships(self) -> None:
         # Write the <Relationships> element.
         attributes = [
             (
@@ -125,7 +125,7 @@ class Relationships(xmlwriter.XMLwriter):
 
         self._xml_end_tag("Relationships")
 
-    def _write_relationship(self, relationship):
+    def _write_relationship(self, relationship) -> None:
         # Write the <Relationship> element.
         rel_type, target, target_mode = relationship
 

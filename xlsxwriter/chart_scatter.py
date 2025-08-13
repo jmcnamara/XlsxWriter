@@ -25,7 +25,7 @@ class ChartScatter(chart.Chart):
     #
     ###########################################################################
 
-    def __init__(self, options=None):
+    def __init__(self, options=None) -> None:
         """
         Constructor.
 
@@ -59,7 +59,7 @@ class ChartScatter(chart.Chart):
             "bottom": "b",
         }
 
-    def combine(self, chart=None):
+    def combine(self, chart=None) -> None:
         # pylint: disable=redefined-outer-name
         """
         Create a combination chart with a secondary chart.
@@ -87,7 +87,7 @@ class ChartScatter(chart.Chart):
     #
     ###########################################################################
 
-    def _write_chart_type(self, args):
+    def _write_chart_type(self, args) -> None:
         # Override the virtual superclass method with a chart specific method.
         # Write the c:scatterChart element.
         self._write_scatter_chart(args)
@@ -98,7 +98,7 @@ class ChartScatter(chart.Chart):
     #
     ###########################################################################
 
-    def _write_scatter_chart(self, args):
+    def _write_scatter_chart(self, args) -> None:
         # Write the <c:scatterChart> element.
 
         if args["primary_axes"]:
@@ -147,7 +147,7 @@ class ChartScatter(chart.Chart):
 
         self._xml_end_tag("c:scatterChart")
 
-    def _write_ser(self, series):
+    def _write_ser(self, series) -> None:
         # Over-ridden to write c:xVal/c:yVal instead of c:cat/c:val elements.
         # Write the <c:ser> element.
 
@@ -198,7 +198,7 @@ class ChartScatter(chart.Chart):
 
         self._xml_end_tag("c:ser")
 
-    def _write_plot_area(self):
+    def _write_plot_area(self) -> None:
         # Over-ridden to have 2 valAx elements for scatter charts instead
         # of catAx/valAx.
         #
@@ -260,7 +260,7 @@ class ChartScatter(chart.Chart):
 
         self._xml_end_tag("c:plotArea")
 
-    def _write_x_val(self, series):
+    def _write_x_val(self, series) -> None:
         # Write the <c:xVal> element.
         formula = series.get("categories")
         data_id = series.get("cat_data_id")
@@ -280,7 +280,7 @@ class ChartScatter(chart.Chart):
 
         self._xml_end_tag("c:xVal")
 
-    def _write_y_val(self, series):
+    def _write_y_val(self, series) -> None:
         # Write the <c:yVal> element.
         formula = series.get("values")
         data_id = series.get("val_data_id")
@@ -294,13 +294,13 @@ class ChartScatter(chart.Chart):
 
         self._xml_end_tag("c:yVal")
 
-    def _write_scatter_style(self, val):
+    def _write_scatter_style(self, val) -> None:
         # Write the <c:scatterStyle> element.
         attributes = [("val", val)]
 
         self._xml_empty_tag("c:scatterStyle", attributes)
 
-    def _modify_series_formatting(self):
+    def _modify_series_formatting(self) -> None:
         # Add default formatting to the series data unless it has already been
         # specified by the user.
         subtype = self.subtype
@@ -317,7 +317,7 @@ class ChartScatter(chart.Chart):
                         "defined": 1,
                     }
 
-    def _write_d_pt_point(self, index, point):
+    def _write_d_pt_point(self, index, point) -> None:
         # Write an individual <c:dPt> element. Override the parent method to
         # add markers.
 

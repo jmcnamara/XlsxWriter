@@ -24,7 +24,7 @@ class RichValueTypes(xmlwriter.XMLwriter):
     #
     ###########################################################################
 
-    def _assemble_xml_file(self):
+    def _assemble_xml_file(self) -> None:
         # Assemble and write the XML file.
 
         # Write the XML declaration.
@@ -47,7 +47,7 @@ class RichValueTypes(xmlwriter.XMLwriter):
     #
     ###########################################################################
 
-    def _write_rv_types_info(self):
+    def _write_rv_types_info(self) -> None:
         # Write the <rvTypesInfo> element.
         xmlns = "http://schemas.microsoft.com/office/spreadsheetml/2017/richdata2"
         xmlns_x = "http://schemas.openxmlformats.org/spreadsheetml/2006/main"
@@ -63,7 +63,7 @@ class RichValueTypes(xmlwriter.XMLwriter):
 
         self._xml_start_tag("rvTypesInfo", attributes)
 
-    def _write_global(self):
+    def _write_global(self) -> None:
         # Write the <global> element.
         key_flags = [
             ["_Self", ["ExcludeFromFile", "ExcludeFromCalcComparison"]],
@@ -88,7 +88,7 @@ class RichValueTypes(xmlwriter.XMLwriter):
         self._xml_end_tag("keyFlags")
         self._xml_end_tag("global")
 
-    def _write_key(self, key_flag):
+    def _write_key(self, key_flag) -> None:
         # Write the <key> element.
         name = key_flag[0]
         attributes = [("name", name)]
@@ -101,7 +101,7 @@ class RichValueTypes(xmlwriter.XMLwriter):
 
         self._xml_end_tag("key")
 
-    def _write_flag(self, name):
+    def _write_flag(self, name) -> None:
         # Write the <flag> element.
         attributes = [
             ("name", name),

@@ -27,7 +27,7 @@ class Image:
 
     """
 
-    def __init__(self, source: Union[str, Path, BytesIO]):
+    def __init__(self, source: Union[str, Path, BytesIO]) -> None:
         """
         Initialize an Image instance.
 
@@ -69,7 +69,7 @@ class Image:
 
         self._get_image_properties()
 
-    def __repr__(self):
+    def __repr__(self) -> str:
         """
         Return a string representation of the main properties of the Image
         instance.
@@ -116,7 +116,7 @@ class Image:
         return self._description
 
     @description.setter
-    def description(self, value: str):
+    def description(self, value: str) -> None:
         """Set the description/alt-text of the image."""
         if value:
             self._description = value
@@ -127,7 +127,7 @@ class Image:
         return self._decorative
 
     @decorative.setter
-    def decorative(self, value: bool):
+    def decorative(self, value: bool) -> None:
         """Set whether the image is decorative."""
         self._decorative = value
 
@@ -137,12 +137,12 @@ class Image:
         return self._url
 
     @url.setter
-    def url(self, value: Url):
+    def url(self, value: Url) -> None:
         """Set the image url."""
         if value:
             self._url = value
 
-    def _set_user_options(self, options=None):
+    def _set_user_options(self, options=None) -> None:
         """
         This handles the additional optional parameters to ``insert_button()``.
         """
@@ -166,7 +166,7 @@ class Image:
         # For backward compatibility with older parameter name.
         self._anchor = options.get("positioning", self._anchor)
 
-    def _get_image_properties(self):
+    def _get_image_properties(self) -> None:
         # Extract dimension information from the image file.
         height = 0.0
         width = 0.0

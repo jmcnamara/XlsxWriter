@@ -25,7 +25,7 @@ class ChartPie(chart.Chart):
     #
     ###########################################################################
 
-    def __init__(self):
+    def __init__(self) -> None:
         """
         Constructor.
 
@@ -44,7 +44,7 @@ class ChartPie(chart.Chart):
             "best_fit": "bestFit",
         }
 
-    def set_rotation(self, rotation):
+    def set_rotation(self, rotation) -> None:
         """
         Set the Pie/Doughnut chart rotation: the angle of the first slice.
 
@@ -73,7 +73,7 @@ class ChartPie(chart.Chart):
     #
     ###########################################################################
 
-    def _write_chart_type(self, args):
+    def _write_chart_type(self, args) -> None:
         # Override the virtual superclass method with a chart specific method.
         # Write the c:pieChart element.
         self._write_pie_chart()
@@ -84,7 +84,7 @@ class ChartPie(chart.Chart):
     #
     ###########################################################################
 
-    def _write_pie_chart(self):
+    def _write_pie_chart(self) -> None:
         # Write the <c:pieChart> element.  Over-ridden method to remove
         # axis_id code since Pie charts don't require val and cat axes.
         self._xml_start_tag("c:pieChart")
@@ -101,7 +101,7 @@ class ChartPie(chart.Chart):
 
         self._xml_end_tag("c:pieChart")
 
-    def _write_plot_area(self):
+    def _write_plot_area(self) -> None:
         # Over-ridden method to remove the cat_axis() and val_axis() code
         # since Pie charts don't require those axes.
         #
@@ -139,7 +139,7 @@ class ChartPie(chart.Chart):
 
         self._xml_end_tag("c:plotArea")
 
-    def _write_legend(self):
+    def _write_legend(self) -> None:
         # Over-ridden method to add <c:txPr> to legend.
         # Write the <c:legend> element.
         legend = self.legend
@@ -196,7 +196,7 @@ class ChartPie(chart.Chart):
 
         self._xml_end_tag("c:legend")
 
-    def _write_tx_pr_legend(self, horiz, font):
+    def _write_tx_pr_legend(self, horiz, font) -> None:
         # Write the <c:txPr> element for legends.
 
         if font and font.get("rotation"):
@@ -217,7 +217,7 @@ class ChartPie(chart.Chart):
 
         self._xml_end_tag("c:txPr")
 
-    def _write_a_p_legend(self, font):
+    def _write_a_p_legend(self, font) -> None:
         # Write the <a:p> element for legends.
 
         self._xml_start_tag("a:p")
@@ -230,7 +230,7 @@ class ChartPie(chart.Chart):
 
         self._xml_end_tag("a:p")
 
-    def _write_a_p_pr_legend(self, font):
+    def _write_a_p_pr_legend(self, font) -> None:
         # Write the <a:pPr> element for legends.
         attributes = [("rtl", 0)]
 
@@ -241,19 +241,19 @@ class ChartPie(chart.Chart):
 
         self._xml_end_tag("a:pPr")
 
-    def _write_vary_colors(self):
+    def _write_vary_colors(self) -> None:
         # Write the <c:varyColors> element.
         attributes = [("val", 1)]
 
         self._xml_empty_tag("c:varyColors", attributes)
 
-    def _write_first_slice_ang(self):
+    def _write_first_slice_ang(self) -> None:
         # Write the <c:firstSliceAng> element.
         attributes = [("val", self.rotation)]
 
         self._xml_empty_tag("c:firstSliceAng", attributes)
 
-    def _write_show_leader_lines(self):
+    def _write_show_leader_lines(self) -> None:
         # Write the <c:showLeaderLines> element.
         #
         # This is for Pie/Doughnut charts. Other chart types only supported

@@ -23,7 +23,7 @@ class Metadata(xmlwriter.XMLwriter):
     #
     ###########################################################################
 
-    def __init__(self):
+    def __init__(self) -> None:
         """
         Constructor.
 
@@ -40,7 +40,7 @@ class Metadata(xmlwriter.XMLwriter):
     #
     ###########################################################################
 
-    def _assemble_xml_file(self):
+    def _assemble_xml_file(self) -> None:
         # Assemble and write the XML file.
 
         if self.num_embedded_images > 0:
@@ -78,7 +78,7 @@ class Metadata(xmlwriter.XMLwriter):
     #
     ###########################################################################
 
-    def _write_metadata(self):
+    def _write_metadata(self) -> None:
         # Write the <metadata> element.
         xmlns = "http://schemas.openxmlformats.org/spreadsheetml/2006/main"
         schema = "http://schemas.microsoft.com/office/spreadsheetml"
@@ -93,7 +93,7 @@ class Metadata(xmlwriter.XMLwriter):
 
         self._xml_start_tag("metadata", attributes)
 
-    def _write_metadata_types(self):
+    def _write_metadata_types(self) -> None:
         # Write the <metadataTypes> element.
         count = 0
 
@@ -114,7 +114,7 @@ class Metadata(xmlwriter.XMLwriter):
 
         self._xml_end_tag("metadataTypes")
 
-    def _write_cell_metadata_type(self):
+    def _write_cell_metadata_type(self) -> None:
         # Write the <metadataType> element.
         attributes = [
             ("name", "XLDAPR"),
@@ -134,7 +134,7 @@ class Metadata(xmlwriter.XMLwriter):
 
         self._xml_empty_tag("metadataType", attributes)
 
-    def _write_value_metadata_type(self):
+    def _write_value_metadata_type(self) -> None:
         # Write the <metadataType> element.
         attributes = [
             ("name", "XLRICHVALUE"),
@@ -153,7 +153,7 @@ class Metadata(xmlwriter.XMLwriter):
 
         self._xml_empty_tag("metadataType", attributes)
 
-    def _write_cell_future_metadata(self):
+    def _write_cell_future_metadata(self) -> None:
         # Write the <futureMetadata> element.
         attributes = [
             ("name", "XLDAPR"),
@@ -168,7 +168,7 @@ class Metadata(xmlwriter.XMLwriter):
         self._xml_end_tag("bk")
         self._xml_end_tag("futureMetadata")
 
-    def _write_value_future_metadata(self):
+    def _write_value_future_metadata(self) -> None:
         # Write the <futureMetadata> element.
         attributes = [
             ("name", "XLRICHVALUE"),
@@ -186,7 +186,7 @@ class Metadata(xmlwriter.XMLwriter):
 
         self._xml_end_tag("futureMetadata")
 
-    def _write_cell_ext(self):
+    def _write_cell_ext(self) -> None:
         # Write the <ext> element.
         attributes = [("uri", "{bdbb8cdc-fa1e-496e-a857-3c3f30c029c3}")]
 
@@ -197,7 +197,7 @@ class Metadata(xmlwriter.XMLwriter):
 
         self._xml_end_tag("ext")
 
-    def _write_xda_dynamic_array_properties(self):
+    def _write_xda_dynamic_array_properties(self) -> None:
         # Write the <xda:dynamicArrayProperties> element.
         attributes = [
             ("fDynamic", 1),
@@ -206,7 +206,7 @@ class Metadata(xmlwriter.XMLwriter):
 
         self._xml_empty_tag("xda:dynamicArrayProperties", attributes)
 
-    def _write_value_ext(self, index):
+    def _write_value_ext(self, index) -> None:
         # Write the <ext> element.
         attributes = [("uri", "{3e2802c4-a4d2-4d8b-9148-e3be6c30e623}")]
 
@@ -217,13 +217,13 @@ class Metadata(xmlwriter.XMLwriter):
 
         self._xml_end_tag("ext")
 
-    def _write_xlrd_rvb(self, index):
+    def _write_xlrd_rvb(self, index) -> None:
         # Write the <xlrd:rvb> element.
         attributes = [("i", index)]
 
         self._xml_empty_tag("xlrd:rvb", attributes)
 
-    def _write_cell_metadata(self):
+    def _write_cell_metadata(self) -> None:
         # Write the <cellMetadata> element.
         attributes = [("count", 1)]
 
@@ -236,7 +236,7 @@ class Metadata(xmlwriter.XMLwriter):
         self._xml_end_tag("bk")
         self._xml_end_tag("cellMetadata")
 
-    def _write_value_metadata(self):
+    def _write_value_metadata(self) -> None:
         # Write the <valueMetadata> element.
         count = self.num_embedded_images
         rc_type = 1
@@ -256,7 +256,7 @@ class Metadata(xmlwriter.XMLwriter):
 
         self._xml_end_tag("valueMetadata")
 
-    def _write_rc(self, rc_type, index):
+    def _write_rc(self, rc_type, index) -> None:
         # Write the <rc> element.
         attributes = [
             ("t", rc_type),

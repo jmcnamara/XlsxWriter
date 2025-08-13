@@ -25,7 +25,7 @@ class ChartDoughnut(chart_pie.ChartPie):
     #
     ###########################################################################
 
-    def __init__(self):
+    def __init__(self) -> None:
         """
         Constructor.
 
@@ -36,7 +36,7 @@ class ChartDoughnut(chart_pie.ChartPie):
         self.rotation = 0
         self.hole_size = 50
 
-    def set_hole_size(self, size):
+    def set_hole_size(self, size) -> None:
         """
         Set the Doughnut chart hole size.
 
@@ -63,7 +63,7 @@ class ChartDoughnut(chart_pie.ChartPie):
     #
     ###########################################################################
 
-    def _write_chart_type(self, args):
+    def _write_chart_type(self, args) -> None:
         # Override the virtual superclass method with a chart specific method.
         # Write the c:doughnutChart element.
         self._write_doughnut_chart()
@@ -74,7 +74,7 @@ class ChartDoughnut(chart_pie.ChartPie):
     #
     ###########################################################################
 
-    def _write_doughnut_chart(self):
+    def _write_doughnut_chart(self) -> None:
         # Write the <c:doughnutChart> element.  Over-ridden method to remove
         # axis_id code since Doughnut charts don't require val and cat axes.
         self._xml_start_tag("c:doughnutChart")
@@ -94,7 +94,7 @@ class ChartDoughnut(chart_pie.ChartPie):
 
         self._xml_end_tag("c:doughnutChart")
 
-    def _write_c_hole_size(self):
+    def _write_c_hole_size(self) -> None:
         # Write the <c:holeSize> element.
         attributes = [("val", self.hole_size)]
 

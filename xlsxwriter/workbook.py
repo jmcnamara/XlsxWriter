@@ -60,7 +60,7 @@ class Workbook(xmlwriter.XMLwriter):
     chartsheet_class = Chartsheet
     worksheet_class = Worksheet
 
-    def __init__(self, filename=None, options=None):
+    def __init__(self, filename=None, options=None) -> None:
         """
         Constructor.
 
@@ -292,7 +292,7 @@ class Workbook(xmlwriter.XMLwriter):
 
         return chart
 
-    def add_vba_project(self, vba_project, is_stream=False):
+    def add_vba_project(self, vba_project, is_stream=False) -> int:
         """
         Add a vbaProject binary to the Excel workbook.
 
@@ -318,7 +318,7 @@ class Workbook(xmlwriter.XMLwriter):
 
     def add_signed_vba_project(
         self, vba_project, signature, project_is_stream=False, signature_is_stream=False
-    ):
+    ) -> int:
         """
         Add a vbaProject binary and a vbaProjectSignature binary to the
         Excel workbook.
@@ -345,7 +345,7 @@ class Workbook(xmlwriter.XMLwriter):
 
         return 0
 
-    def close(self):
+    def close(self) -> None:
         """
         Call finalization code and close file.
 
@@ -378,7 +378,7 @@ class Workbook(xmlwriter.XMLwriter):
         else:
             warn("Calling close() on already closed file.")
 
-    def set_size(self, width, height):
+    def set_size(self, width, height) -> None:
         """
         Set the size of a workbook window.
 
@@ -401,7 +401,7 @@ class Workbook(xmlwriter.XMLwriter):
         else:
             self.window_height = 9660
 
-    def set_tab_ratio(self, tab_ratio=None):
+    def set_tab_ratio(self, tab_ratio=None) -> None:
         """
         Set the ratio between worksheet tabs and the horizontal slider.
 
@@ -420,7 +420,7 @@ class Workbook(xmlwriter.XMLwriter):
         else:
             self.tab_ratio = int(tab_ratio * 10)
 
-    def set_properties(self, properties):
+    def set_properties(self, properties) -> None:
         """
         Set the document properties such as Title, Author etc.
 
@@ -433,7 +433,7 @@ class Workbook(xmlwriter.XMLwriter):
         """
         self.doc_properties = properties
 
-    def set_custom_property(self, name, value, property_type=None):
+    def set_custom_property(self, name, value, property_type=None) -> int:
         """
         Set a custom document property.
 
@@ -492,7 +492,7 @@ class Workbook(xmlwriter.XMLwriter):
 
         return 0
 
-    def set_calc_mode(self, mode, calc_id=None):
+    def set_calc_mode(self, mode, calc_id=None) -> None:
         """
         Set the Excel calculation mode for the workbook.
 
@@ -517,7 +517,7 @@ class Workbook(xmlwriter.XMLwriter):
         if calc_id:
             self.calc_id = calc_id
 
-    def define_name(self, name, formula):
+    def define_name(self, name, formula) -> int:
         # Create a defined name in Excel. We handle global/workbook level
         # names and local/worksheet names.
         """
@@ -617,7 +617,7 @@ class Workbook(xmlwriter.XMLwriter):
         """
         return self.default_url_format
 
-    def use_zip64(self):
+    def use_zip64(self) -> None:
         """
         Allow ZIP64 extensions when writing xlsx file zip container.
 
@@ -630,7 +630,7 @@ class Workbook(xmlwriter.XMLwriter):
         """
         self.allow_zip64 = True
 
-    def set_vba_name(self, name=None):
+    def set_vba_name(self, name=None) -> None:
         """
         Set the VBA name for the workbook. By default the workbook is referred
         to as ThisWorkbook in VBA.
@@ -647,7 +647,7 @@ class Workbook(xmlwriter.XMLwriter):
         else:
             self.vba_codename = "ThisWorkbook"
 
-    def read_only_recommended(self):
+    def read_only_recommended(self) -> None:
         """
         Set the Excel "Read-only recommended" option when saving a file.
 
@@ -666,7 +666,7 @@ class Workbook(xmlwriter.XMLwriter):
     #
     ###########################################################################
 
-    def _assemble_xml_file(self):
+    def _assemble_xml_file(self) -> None:
         # Assemble and write the XML file.
 
         # Prepare format object for passing to Style.pm.
@@ -705,7 +705,7 @@ class Workbook(xmlwriter.XMLwriter):
         # Close the file.
         self._xml_close()
 
-    def _store_workbook(self):
+    def _store_workbook(self) -> None:
         # pylint: disable=consider-using-with
         # Create the xlsx/zip file.
         try:
@@ -892,7 +892,7 @@ class Workbook(xmlwriter.XMLwriter):
 
         return sheetname
 
-    def _prepare_format_properties(self):
+    def _prepare_format_properties(self) -> None:
         # Prepare all Format properties prior to passing them to styles.py.
 
         # Separate format objects into XF and DXF formats.
@@ -910,7 +910,7 @@ class Workbook(xmlwriter.XMLwriter):
         # Set the fill index for the format objects.
         self._prepare_fills()
 
-    def _prepare_formats(self):
+    def _prepare_formats(self) -> None:
         # Iterate through the XF Format objects and separate them into
         # XF and DXF formats. The XF and DF formats then need to be sorted
         # back into index order rather than creation order.
@@ -938,7 +938,7 @@ class Workbook(xmlwriter.XMLwriter):
             index = dxf_format.dxf_index
             self.dxf_formats[index] = dxf_format
 
-    def _set_default_xf_indices(self):
+    def _set_default_xf_indices(self) -> None:
         # Set the default index for each format. Only used for testing.
 
         formats = list(self.formats)
@@ -954,7 +954,7 @@ class Workbook(xmlwriter.XMLwriter):
         for xf_format in formats:
             xf_format._get_xf_index()
 
-    def _prepare_fonts(self):
+    def _prepare_fonts(self) -> None:
         # Iterate through the XF Format objects and give them an index to
         # non-default font elements.
         fonts = {}
@@ -988,7 +988,7 @@ class Workbook(xmlwriter.XMLwriter):
             ):
                 xf_format.has_dxf_font = True
 
-    def _prepare_num_formats(self):
+    def _prepare_num_formats(self) -> None:
         # User defined records in Excel start from index 0xA4.
         unique_num_formats = {}
         num_formats = []
@@ -1033,7 +1033,7 @@ class Workbook(xmlwriter.XMLwriter):
 
         self.num_formats = num_formats
 
-    def _prepare_borders(self):
+    def _prepare_borders(self) -> None:
         # Iterate through the XF Format objects and give them an index to
         # non-default border elements.
         borders = {}
@@ -1064,7 +1064,7 @@ class Workbook(xmlwriter.XMLwriter):
             if has_border.search(key):
                 xf_format.has_dxf_border = True
 
-    def _prepare_fills(self):
+    def _prepare_fills(self) -> None:
         # Iterate through the XF Format objects and give them an index to
         # non-default fill elements.
         # The user defined fill properties start from 2 since there are 2
@@ -1132,7 +1132,7 @@ class Workbook(xmlwriter.XMLwriter):
 
         return self.feature_property_bags
 
-    def _prepare_defined_names(self):
+    def _prepare_defined_names(self) -> None:
         # Iterate through the worksheets and store any defined names in
         # addition to any user defined names. Stores the defined names
         # for the Workbook.xml and the named ranges for App.xml.
@@ -1201,7 +1201,7 @@ class Workbook(xmlwriter.XMLwriter):
 
         return names
 
-    def _prepare_drawings(self):
+    def _prepare_drawings(self) -> None:
         # Iterate through the worksheets and set up chart and image drawings.
         chart_ref_id = 0
         ref_id = 0
@@ -1381,7 +1381,7 @@ class Workbook(xmlwriter.XMLwriter):
 
         return None
 
-    def _prepare_vml(self):
+    def _prepare_vml(self) -> None:
         # Iterate through the worksheets and set up the VML objects.
         comment_id = 0
         vml_drawing_id = 0
@@ -1421,7 +1421,7 @@ class Workbook(xmlwriter.XMLwriter):
             self.num_vml_files = vml_files
             self.num_comment_files = comment_files
 
-    def _prepare_tables(self):
+    def _prepare_tables(self) -> None:
         # Set the table ids for the worksheet tables.
         table_id = 0
         seen = {}
@@ -1435,7 +1435,7 @@ class Workbook(xmlwriter.XMLwriter):
             sheet._prepare_tables(table_id + 1, seen)
             table_id += table_count
 
-    def _prepare_metadata(self):
+    def _prepare_metadata(self) -> None:
         # Set the metadata rel link.
         self.has_embedded_images = self.embedded_images.has_images()
         self.has_metadata = self.has_embedded_images
@@ -1445,7 +1445,7 @@ class Workbook(xmlwriter.XMLwriter):
                 self.has_metadata = True
                 self.has_dynamic_functions = True
 
-    def _add_chart_data(self):
+    def _add_chart_data(self) -> None:
         # Add "cached" data to charts to provide the numCache and strCache
         # data for series and title/axis ranges.
         worksheets = {}
@@ -1552,7 +1552,7 @@ class Workbook(xmlwriter.XMLwriter):
 
         return sheetname, [row_start, col_start, row_end, col_end]
 
-    def _prepare_sst_string_data(self):
+    def _prepare_sst_string_data(self) -> None:
         # Convert the SST string data from a dict to a list.
         self.str_table._sort_string_data()
 
@@ -1567,7 +1567,7 @@ class Workbook(xmlwriter.XMLwriter):
     #
     ###########################################################################
 
-    def _write_workbook(self):
+    def _write_workbook(self) -> None:
         # Write <workbook> element.
 
         schema = "http://schemas.openxmlformats.org"
@@ -1581,7 +1581,7 @@ class Workbook(xmlwriter.XMLwriter):
 
         self._xml_start_tag("workbook", attributes)
 
-    def _write_file_version(self):
+    def _write_file_version(self) -> None:
         # Write the <fileVersion> element.
 
         app_name = "xl"
@@ -1601,7 +1601,7 @@ class Workbook(xmlwriter.XMLwriter):
 
         self._xml_empty_tag("fileVersion", attributes)
 
-    def _write_file_sharing(self):
+    def _write_file_sharing(self) -> None:
         # Write the <fileSharing> element.
         if self.read_only == 0:
             return
@@ -1610,7 +1610,7 @@ class Workbook(xmlwriter.XMLwriter):
 
         self._xml_empty_tag("fileSharing", attributes)
 
-    def _write_workbook_pr(self):
+    def _write_workbook_pr(self) -> None:
         # Write <workbookPr> element.
         default_theme_version = 124226
         attributes = []
@@ -1624,13 +1624,13 @@ class Workbook(xmlwriter.XMLwriter):
 
         self._xml_empty_tag("workbookPr", attributes)
 
-    def _write_book_views(self):
+    def _write_book_views(self) -> None:
         # Write <bookViews> element.
         self._xml_start_tag("bookViews")
         self._write_workbook_view()
         self._xml_end_tag("bookViews")
 
-    def _write_workbook_view(self):
+    def _write_workbook_view(self) -> None:
         # Write <workbookView> element.
         attributes = [
             ("xWindow", self.x_window),
@@ -1654,7 +1654,7 @@ class Workbook(xmlwriter.XMLwriter):
 
         self._xml_empty_tag("workbookView", attributes)
 
-    def _write_sheets(self):
+    def _write_sheets(self) -> None:
         # Write <sheets> element.
         self._xml_start_tag("sheets")
 
@@ -1665,7 +1665,7 @@ class Workbook(xmlwriter.XMLwriter):
 
         self._xml_end_tag("sheets")
 
-    def _write_sheet(self, name, sheet_id, hidden):
+    def _write_sheet(self, name, sheet_id, hidden) -> None:
         # Write <sheet> element.
         attributes = [
             ("name", name),
@@ -1681,7 +1681,7 @@ class Workbook(xmlwriter.XMLwriter):
 
         self._xml_empty_tag("sheet", attributes)
 
-    def _write_calc_pr(self):
+    def _write_calc_pr(self) -> None:
         # Write the <calcPr> element.
         attributes = [("calcId", self.calc_id)]
 
@@ -1696,7 +1696,7 @@ class Workbook(xmlwriter.XMLwriter):
 
         self._xml_empty_tag("calcPr", attributes)
 
-    def _write_defined_names(self):
+    def _write_defined_names(self) -> None:
         # Write the <definedNames> element.
         if not self.defined_names:
             return
@@ -1708,7 +1708,7 @@ class Workbook(xmlwriter.XMLwriter):
 
         self._xml_end_tag("definedNames")
 
-    def _write_defined_name(self, defined_name):
+    def _write_defined_name(self, defined_name) -> None:
         # Write the <definedName> element.
         name = defined_name[0]
         sheet_id = defined_name[1]
@@ -1733,7 +1733,7 @@ class WorksheetMeta:
 
     """
 
-    def __init__(self):
+    def __init__(self) -> None:
         self.activesheet = 0
         self.firstsheet = 0
 
@@ -1745,7 +1745,7 @@ class EmbeddedImages:
 
     """
 
-    def __init__(self):
+    def __init__(self) -> None:
         self.images = []
         self.image_indexes = {}
 

@@ -37,7 +37,7 @@ class Chart(xmlwriter.XMLwriter):
     #
     ###########################################################################
 
-    def __init__(self):
+    def __init__(self) -> None:
         """
         Constructor.
 
@@ -112,7 +112,7 @@ class Chart(xmlwriter.XMLwriter):
         self._set_default_properties()
         self.fill = {}
 
-    def add_series(self, options=None):
+    def add_series(self, options=None) -> None:
         """
         Add a data series to a chart.
 
@@ -259,7 +259,7 @@ class Chart(xmlwriter.XMLwriter):
 
         self.series.append(series)
 
-    def set_x_axis(self, options):
+    def set_x_axis(self, options) -> None:
         """
         Set the chart X axis options.
 
@@ -274,7 +274,7 @@ class Chart(xmlwriter.XMLwriter):
 
         self.x_axis = axis
 
-    def set_y_axis(self, options):
+    def set_y_axis(self, options) -> None:
         """
         Set the chart Y axis options.
 
@@ -289,7 +289,7 @@ class Chart(xmlwriter.XMLwriter):
 
         self.y_axis = axis
 
-    def set_x2_axis(self, options):
+    def set_x2_axis(self, options) -> None:
         """
         Set the chart secondary X axis options.
 
@@ -304,7 +304,7 @@ class Chart(xmlwriter.XMLwriter):
 
         self.x2_axis = axis
 
-    def set_y2_axis(self, options):
+    def set_y2_axis(self, options) -> None:
         """
         Set the chart secondary Y axis options.
 
@@ -319,7 +319,7 @@ class Chart(xmlwriter.XMLwriter):
 
         self.y2_axis = axis
 
-    def set_title(self, options=None):
+    def set_title(self, options=None) -> None:
         """
         Set the chart title options.
 
@@ -354,7 +354,7 @@ class Chart(xmlwriter.XMLwriter):
         # Set the automatic title option.
         self.title_none = options.get("none")
 
-    def set_legend(self, options):
+    def set_legend(self, options) -> None:
         """
         Set the chart legend options.
 
@@ -367,7 +367,7 @@ class Chart(xmlwriter.XMLwriter):
         # Convert the user defined properties to internal properties.
         self.legend = self._get_legend_properties(options)
 
-    def set_plotarea(self, options):
+    def set_plotarea(self, options) -> None:
         """
         Set the chart plot area options.
 
@@ -380,7 +380,7 @@ class Chart(xmlwriter.XMLwriter):
         # Convert the user defined properties to internal properties.
         self.plotarea = self._get_area_properties(options)
 
-    def set_chartarea(self, options):
+    def set_chartarea(self, options) -> None:
         """
         Set the chart area options.
 
@@ -393,7 +393,7 @@ class Chart(xmlwriter.XMLwriter):
         # Convert the user defined properties to internal properties.
         self.chartarea = self._get_area_properties(options)
 
-    def set_style(self, style_id):
+    def set_style(self, style_id) -> None:
         """
         Set the chart style type.
 
@@ -412,7 +412,7 @@ class Chart(xmlwriter.XMLwriter):
 
         self.style_id = style_id
 
-    def show_blanks_as(self, option):
+    def show_blanks_as(self, option) -> None:
         """
         Set the option for displaying blank data in a chart.
 
@@ -437,7 +437,7 @@ class Chart(xmlwriter.XMLwriter):
 
         self.show_blanks = option
 
-    def show_na_as_empty_cell(self):
+    def show_na_as_empty_cell(self) -> None:
         """
         Display ``#N/A`` on charts as blank/empty cells.
 
@@ -449,7 +449,7 @@ class Chart(xmlwriter.XMLwriter):
         """
         self.show_na_as_empty = True
 
-    def show_hidden_data(self):
+    def show_hidden_data(self) -> None:
         """
         Display data on charts from hidden rows or columns.
 
@@ -461,7 +461,7 @@ class Chart(xmlwriter.XMLwriter):
         """
         self.show_hidden = True
 
-    def set_size(self, options=None):
+    def set_size(self, options=None) -> None:
         """
         Set size or scale of the chart.
 
@@ -482,7 +482,7 @@ class Chart(xmlwriter.XMLwriter):
         self.x_offset = options.get("x_offset", 0)
         self.y_offset = options.get("y_offset", 0)
 
-    def set_table(self, options=None):
+    def set_table(self, options=None) -> None:
         """
         Set properties for an axis data table.
 
@@ -506,7 +506,7 @@ class Chart(xmlwriter.XMLwriter):
 
         self.table = table
 
-    def set_up_down_bars(self, options=None):
+    def set_up_down_bars(self, options=None) -> None:
         """
         Set properties for the chart up-down bars.
 
@@ -561,7 +561,7 @@ class Chart(xmlwriter.XMLwriter):
             },
         }
 
-    def set_drop_lines(self, options=None):
+    def set_drop_lines(self, options=None) -> None:
         """
         Set properties for the chart drop lines.
 
@@ -600,7 +600,7 @@ class Chart(xmlwriter.XMLwriter):
             "gradient": gradient,
         }
 
-    def set_high_low_lines(self, options=None):
+    def set_high_low_lines(self, options=None) -> None:
         """
         Set properties for the chart high-low lines.
 
@@ -639,7 +639,7 @@ class Chart(xmlwriter.XMLwriter):
             "gradient": gradient,
         }
 
-    def combine(self, chart=None):
+    def combine(self, chart=None) -> None:
         """
         Create a combination chart with a secondary chart.
 
@@ -661,7 +661,7 @@ class Chart(xmlwriter.XMLwriter):
     #
     ###########################################################################
 
-    def _assemble_xml_file(self):
+    def _assemble_xml_file(self) -> None:
         # Assemble and write the XML file.
 
         # Write the XML declaration.
@@ -887,7 +887,7 @@ class Chart(xmlwriter.XMLwriter):
 
         return name, name_formula
 
-    def _get_data_type(self, data):
+    def _get_data_type(self, data) -> str:
         # Find the overall type of the data associated with a series.
 
         # Check for no data in the series.
@@ -1588,7 +1588,7 @@ class Chart(xmlwriter.XMLwriter):
 
         return secondary_axes_series
 
-    def _add_axis_ids(self, args):
+    def _add_axis_ids(self, args) -> None:
         # Add unique ids for primary or secondary axes
         chart_id = 5001 + int(self.id)
         axis_count = 1 + len(self.axis2_ids) + len(self.axis_ids)
@@ -1604,7 +1604,7 @@ class Chart(xmlwriter.XMLwriter):
             self.axis2_ids.append(id1)
             self.axis2_ids.append(id2)
 
-    def _set_default_properties(self):
+    def _set_default_properties(self) -> None:
         # Setup the default properties for a chart.
 
         self.x_axis["defaults"] = {
@@ -1643,7 +1643,7 @@ class Chart(xmlwriter.XMLwriter):
     #
     ###########################################################################
 
-    def _write_chart_space(self):
+    def _write_chart_space(self) -> None:
         # Write the <c:chartSpace> element.
         schema = "http://schemas.openxmlformats.org/"
         xmlns_c = schema + "drawingml/2006/chart"
@@ -1658,7 +1658,7 @@ class Chart(xmlwriter.XMLwriter):
 
         self._xml_start_tag("c:chartSpace", attributes)
 
-    def _write_lang(self):
+    def _write_lang(self) -> None:
         # Write the <c:lang> element.
         val = "en-US"
 
@@ -1666,7 +1666,7 @@ class Chart(xmlwriter.XMLwriter):
 
         self._xml_empty_tag("c:lang", attributes)
 
-    def _write_style(self):
+    def _write_style(self) -> None:
         # Write the <c:style> element.
         style_id = self.style_id
 
@@ -1678,7 +1678,7 @@ class Chart(xmlwriter.XMLwriter):
 
         self._xml_empty_tag("c:style", attributes)
 
-    def _write_chart(self):
+    def _write_chart(self) -> None:
         # Write the <c:chart> element.
         self._xml_start_tag("c:chart")
 
@@ -1723,7 +1723,7 @@ class Chart(xmlwriter.XMLwriter):
 
         self._xml_end_tag("c:chart")
 
-    def _write_disp_blanks_as(self):
+    def _write_disp_blanks_as(self) -> None:
         # Write the <c:dispBlanksAs> element.
         val = self.show_blanks
 
@@ -1735,7 +1735,7 @@ class Chart(xmlwriter.XMLwriter):
 
         self._xml_empty_tag("c:dispBlanksAs", attributes)
 
-    def _write_plot_area(self):
+    def _write_plot_area(self) -> None:
         # Write the <c:plotArea> element.
         self._xml_start_tag("c:plotArea")
 
@@ -1807,7 +1807,7 @@ class Chart(xmlwriter.XMLwriter):
 
         self._xml_end_tag("c:plotArea")
 
-    def _write_layout(self, layout, layout_type):
+    def _write_layout(self, layout, layout_type) -> None:
         # Write the <c:layout> element.
 
         if not layout:
@@ -1819,7 +1819,7 @@ class Chart(xmlwriter.XMLwriter):
             self._write_manual_layout(layout, layout_type)
             self._xml_end_tag("c:layout")
 
-    def _write_manual_layout(self, layout, layout_type):
+    def _write_manual_layout(self, layout, layout_type) -> None:
         # Write the <c:manualLayout> element.
         self._xml_start_tag("c:manualLayout")
 
@@ -1840,23 +1840,23 @@ class Chart(xmlwriter.XMLwriter):
 
         self._xml_end_tag("c:manualLayout")
 
-    def _write_chart_type(self, args):
+    def _write_chart_type(self, args) -> None:
         # pylint: disable=unused-argument
         # Write the chart type element. This method should be overridden
         # by the subclasses.
         return
 
-    def _write_grouping(self, val):
+    def _write_grouping(self, val) -> None:
         # Write the <c:grouping> element.
         attributes = [("val", val)]
 
         self._xml_empty_tag("c:grouping", attributes)
 
-    def _write_series(self, series):
+    def _write_series(self, series) -> None:
         # Write the series elements.
         self._write_ser(series)
 
-    def _write_ser(self, series):
+    def _write_ser(self, series) -> None:
         # Write the <c:ser> element.
         index = self.series_index
         self.series_index += 1
@@ -1909,7 +1909,7 @@ class Chart(xmlwriter.XMLwriter):
 
         self._xml_end_tag("c:ser")
 
-    def _write_c_ext_lst_inverted_color(self, color: Color):
+    def _write_c_ext_lst_inverted_color(self, color: Color) -> None:
         # Write the <c:extLst> element for the inverted fill color.
 
         uri = "{6F2FDCE9-48DA-4B69-8628-5D25D57E5C99}"
@@ -1934,7 +1934,7 @@ class Chart(xmlwriter.XMLwriter):
         self._xml_end_tag("c:ext")
         self._xml_end_tag("c:extLst")
 
-    def _write_c_ext_lst_display_na(self):
+    def _write_c_ext_lst_display_na(self) -> None:
         # Write the <c:extLst> element for the display NA as empty cell option.
 
         uri = "{56B9EC1D-385E-4148-901F-78D8002777C0}"
@@ -1955,21 +1955,21 @@ class Chart(xmlwriter.XMLwriter):
         self._xml_end_tag("c:ext")
         self._xml_end_tag("c:extLst")
 
-    def _write_idx(self, val):
+    def _write_idx(self, val) -> None:
         # Write the <c:idx> element.
 
         attributes = [("val", val)]
 
         self._xml_empty_tag("c:idx", attributes)
 
-    def _write_order(self, val):
+    def _write_order(self, val) -> None:
         # Write the <c:order> element.
 
         attributes = [("val", val)]
 
         self._xml_empty_tag("c:order", attributes)
 
-    def _write_series_name(self, series):
+    def _write_series_name(self, series) -> None:
         # Write the series name.
 
         if series["name_formula"] is not None:
@@ -1977,13 +1977,13 @@ class Chart(xmlwriter.XMLwriter):
         elif series["name"] is not None:
             self._write_tx_value(series["name"])
 
-    def _write_c_smooth(self, smooth):
+    def _write_c_smooth(self, smooth) -> None:
         # Write the <c:smooth> element.
 
         if smooth:
             self._xml_empty_tag("c:smooth", [("val", "1")])
 
-    def _write_cat(self, series):
+    def _write_cat(self, series) -> None:
         # Write the <c:cat> element.
         formula = series["categories"]
         data_id = series["cat_data_id"]
@@ -2018,7 +2018,7 @@ class Chart(xmlwriter.XMLwriter):
 
         self._xml_end_tag("c:cat")
 
-    def _write_val(self, series):
+    def _write_val(self, series) -> None:
         # Write the <c:val> element.
         formula = series["values"]
         data_id = series["val_data_id"]
@@ -2032,7 +2032,7 @@ class Chart(xmlwriter.XMLwriter):
 
         self._xml_end_tag("c:val")
 
-    def _write_num_ref(self, formula, data, ref_type):
+    def _write_num_ref(self, formula, data, ref_type) -> None:
         # Write the <c:numRef> element.
         self._xml_start_tag("c:numRef")
 
@@ -2048,7 +2048,7 @@ class Chart(xmlwriter.XMLwriter):
 
         self._xml_end_tag("c:numRef")
 
-    def _write_str_ref(self, formula, data, ref_type):
+    def _write_str_ref(self, formula, data, ref_type) -> None:
         # Write the <c:strRef> element.
 
         self._xml_start_tag("c:strRef")
@@ -2065,7 +2065,7 @@ class Chart(xmlwriter.XMLwriter):
 
         self._xml_end_tag("c:strRef")
 
-    def _write_multi_lvl_str_ref(self, formula, data):
+    def _write_multi_lvl_str_ref(self, formula, data) -> None:
         # Write the <c:multiLvlStrRef> element.
 
         if not data:
@@ -2094,7 +2094,7 @@ class Chart(xmlwriter.XMLwriter):
         self._xml_end_tag("c:multiLvlStrCache")
         self._xml_end_tag("c:multiLvlStrRef")
 
-    def _write_series_formula(self, formula):
+    def _write_series_formula(self, formula) -> None:
         # Write the <c:f> element.
 
         # Strip the leading '=' from the formula.
@@ -2103,7 +2103,7 @@ class Chart(xmlwriter.XMLwriter):
 
         self._xml_data_element("c:f", formula)
 
-    def _write_axis_ids(self, args):
+    def _write_axis_ids(self, args) -> None:
         # Write the <c:axId> elements for the primary or secondary axes.
 
         # Generate the axis ids.
@@ -2118,14 +2118,14 @@ class Chart(xmlwriter.XMLwriter):
             self._write_axis_id(self.axis2_ids[0])
             self._write_axis_id(self.axis2_ids[1])
 
-    def _write_axis_id(self, val):
+    def _write_axis_id(self, val) -> None:
         # Write the <c:axId> element.
 
         attributes = [("val", val)]
 
         self._xml_empty_tag("c:axId", attributes)
 
-    def _write_cat_axis(self, args):
+    def _write_cat_axis(self, args) -> None:
         # Write the <c:catAx> element. Usually the X axis.
         x_axis = args["x_axis"]
         y_axis = args["y_axis"]
@@ -2227,7 +2227,7 @@ class Chart(xmlwriter.XMLwriter):
 
         self._xml_end_tag("c:catAx")
 
-    def _write_val_axis(self, args):
+    def _write_val_axis(self, args) -> None:
         # Write the <c:valAx> element. Usually the Y axis.
         x_axis = args["x_axis"]
         y_axis = args["y_axis"]
@@ -2332,7 +2332,7 @@ class Chart(xmlwriter.XMLwriter):
 
         self._xml_end_tag("c:valAx")
 
-    def _write_cat_val_axis(self, args):
+    def _write_cat_val_axis(self, args) -> None:
         # Write the <c:valAx> element. This is for the second valAx
         # in scatter plots. Usually the X axis.
         x_axis = args["x_axis"]
@@ -2435,7 +2435,7 @@ class Chart(xmlwriter.XMLwriter):
 
         self._xml_end_tag("c:valAx")
 
-    def _write_date_axis(self, args):
+    def _write_date_axis(self, args) -> None:
         # Write the <c:dateAx> element. Usually the X axis.
         x_axis = args["x_axis"]
         y_axis = args["y_axis"]
@@ -2550,7 +2550,7 @@ class Chart(xmlwriter.XMLwriter):
 
         self._xml_end_tag("c:dateAx")
 
-    def _write_scaling(self, reverse, min_val, max_val, log_base):
+    def _write_scaling(self, reverse, min_val, max_val, log_base) -> None:
         # Write the <c:scaling> element.
 
         self._xml_start_tag("c:scaling")
@@ -2569,7 +2569,7 @@ class Chart(xmlwriter.XMLwriter):
 
         self._xml_end_tag("c:scaling")
 
-    def _write_c_log_base(self, val):
+    def _write_c_log_base(self, val) -> None:
         # Write the <c:logBase> element.
 
         if not val:
@@ -2579,7 +2579,7 @@ class Chart(xmlwriter.XMLwriter):
 
         self._xml_empty_tag("c:logBase", attributes)
 
-    def _write_orientation(self, reverse):
+    def _write_orientation(self, reverse) -> None:
         # Write the <c:orientation> element.
         val = "minMax"
 
@@ -2590,7 +2590,7 @@ class Chart(xmlwriter.XMLwriter):
 
         self._xml_empty_tag("c:orientation", attributes)
 
-    def _write_c_max(self, max_val):
+    def _write_c_max(self, max_val) -> None:
         # Write the <c:max> element.
 
         if max_val is None:
@@ -2600,7 +2600,7 @@ class Chart(xmlwriter.XMLwriter):
 
         self._xml_empty_tag("c:max", attributes)
 
-    def _write_c_min(self, min_val):
+    def _write_c_min(self, min_val) -> None:
         # Write the <c:min> element.
 
         if min_val is None:
@@ -2610,7 +2610,7 @@ class Chart(xmlwriter.XMLwriter):
 
         self._xml_empty_tag("c:min", attributes)
 
-    def _write_axis_pos(self, val, reverse):
+    def _write_axis_pos(self, val, reverse) -> None:
         # Write the <c:axPos> element.
 
         if reverse:
@@ -2623,7 +2623,7 @@ class Chart(xmlwriter.XMLwriter):
 
         self._xml_empty_tag("c:axPos", attributes)
 
-    def _write_number_format(self, axis):
+    def _write_number_format(self, axis) -> None:
         # Write the <c:numberFormat> element. Note: It is assumed that if
         # a user defined number format is supplied (i.e., non-default) then
         # the sourceLinked attribute is 0.
@@ -2646,7 +2646,7 @@ class Chart(xmlwriter.XMLwriter):
 
         self._xml_empty_tag("c:numFmt", attributes)
 
-    def _write_cat_number_format(self, axis):
+    def _write_cat_number_format(self, axis) -> None:
         # Write the <c:numFmt> element. Special case handler for category
         # axes which don't always have a number format.
         format_code = axis.get("num_format")
@@ -2673,7 +2673,7 @@ class Chart(xmlwriter.XMLwriter):
 
         self._xml_empty_tag("c:numFmt", attributes)
 
-    def _write_data_label_number_format(self, format_code):
+    def _write_data_label_number_format(self, format_code) -> None:
         # Write the <c:numberFormat> element for data labels.
         source_linked = 0
 
@@ -2684,7 +2684,7 @@ class Chart(xmlwriter.XMLwriter):
 
         self._xml_empty_tag("c:numFmt", attributes)
 
-    def _write_major_tick_mark(self, val):
+    def _write_major_tick_mark(self, val) -> None:
         # Write the <c:majorTickMark> element.
 
         if not val:
@@ -2694,7 +2694,7 @@ class Chart(xmlwriter.XMLwriter):
 
         self._xml_empty_tag("c:majorTickMark", attributes)
 
-    def _write_minor_tick_mark(self, val):
+    def _write_minor_tick_mark(self, val) -> None:
         # Write the <c:minorTickMark> element.
 
         if not val:
@@ -2704,7 +2704,7 @@ class Chart(xmlwriter.XMLwriter):
 
         self._xml_empty_tag("c:minorTickMark", attributes)
 
-    def _write_tick_label_pos(self, val=None):
+    def _write_tick_label_pos(self, val=None) -> None:
         # Write the <c:tickLblPos> element.
         if val is None or val == "next_to":
             val = "nextTo"
@@ -2713,14 +2713,14 @@ class Chart(xmlwriter.XMLwriter):
 
         self._xml_empty_tag("c:tickLblPos", attributes)
 
-    def _write_cross_axis(self, val):
+    def _write_cross_axis(self, val) -> None:
         # Write the <c:crossAx> element.
 
         attributes = [("val", val)]
 
         self._xml_empty_tag("c:crossAx", attributes)
 
-    def _write_crosses(self, val=None):
+    def _write_crosses(self, val=None) -> None:
         # Write the <c:crosses> element.
         if val is None:
             val = "autoZero"
@@ -2729,21 +2729,21 @@ class Chart(xmlwriter.XMLwriter):
 
         self._xml_empty_tag("c:crosses", attributes)
 
-    def _write_c_crosses_at(self, val):
+    def _write_c_crosses_at(self, val) -> None:
         # Write the <c:crossesAt> element.
 
         attributes = [("val", val)]
 
         self._xml_empty_tag("c:crossesAt", attributes)
 
-    def _write_auto(self, val):
+    def _write_auto(self, val) -> None:
         # Write the <c:auto> element.
 
         attributes = [("val", val)]
 
         self._xml_empty_tag("c:auto", attributes)
 
-    def _write_label_align(self, val=None):
+    def _write_label_align(self, val=None) -> None:
         # Write the <c:labelAlign> element.
 
         if val is None:
@@ -2759,14 +2759,14 @@ class Chart(xmlwriter.XMLwriter):
 
         self._xml_empty_tag("c:lblAlgn", attributes)
 
-    def _write_label_offset(self, val):
+    def _write_label_offset(self, val) -> None:
         # Write the <c:labelOffset> element.
 
         attributes = [("val", val)]
 
         self._xml_empty_tag("c:lblOffset", attributes)
 
-    def _write_c_tick_lbl_skip(self, val):
+    def _write_c_tick_lbl_skip(self, val) -> None:
         # Write the <c:tickLblSkip> element.
         if val is None:
             return
@@ -2775,7 +2775,7 @@ class Chart(xmlwriter.XMLwriter):
 
         self._xml_empty_tag("c:tickLblSkip", attributes)
 
-    def _write_c_tick_mark_skip(self, val):
+    def _write_c_tick_mark_skip(self, val) -> None:
         # Write the <c:tickMarkSkip> element.
         if val is None:
             return
@@ -2784,7 +2784,7 @@ class Chart(xmlwriter.XMLwriter):
 
         self._xml_empty_tag("c:tickMarkSkip", attributes)
 
-    def _write_major_gridlines(self, gridlines):
+    def _write_major_gridlines(self, gridlines) -> None:
         # Write the <c:majorGridlines> element.
 
         if not gridlines:
@@ -2803,7 +2803,7 @@ class Chart(xmlwriter.XMLwriter):
         else:
             self._xml_empty_tag("c:majorGridlines")
 
-    def _write_minor_gridlines(self, gridlines):
+    def _write_minor_gridlines(self, gridlines) -> None:
         # Write the <c:minorGridlines> element.
 
         if not gridlines:
@@ -2822,7 +2822,7 @@ class Chart(xmlwriter.XMLwriter):
         else:
             self._xml_empty_tag("c:minorGridlines")
 
-    def _write_cross_between(self, val):
+    def _write_cross_between(self, val) -> None:
         # Write the <c:crossBetween> element.
         if val is None:
             val = self.cross_between
@@ -2831,7 +2831,7 @@ class Chart(xmlwriter.XMLwriter):
 
         self._xml_empty_tag("c:crossBetween", attributes)
 
-    def _write_c_major_unit(self, val):
+    def _write_c_major_unit(self, val) -> None:
         # Write the <c:majorUnit> element.
 
         if not val:
@@ -2841,7 +2841,7 @@ class Chart(xmlwriter.XMLwriter):
 
         self._xml_empty_tag("c:majorUnit", attributes)
 
-    def _write_c_minor_unit(self, val):
+    def _write_c_minor_unit(self, val) -> None:
         # Write the <c:minorUnit> element.
 
         if not val:
@@ -2851,7 +2851,7 @@ class Chart(xmlwriter.XMLwriter):
 
         self._xml_empty_tag("c:minorUnit", attributes)
 
-    def _write_c_major_time_unit(self, val=None):
+    def _write_c_major_time_unit(self, val=None) -> None:
         # Write the <c:majorTimeUnit> element.
         if val is None:
             val = "days"
@@ -2860,7 +2860,7 @@ class Chart(xmlwriter.XMLwriter):
 
         self._xml_empty_tag("c:majorTimeUnit", attributes)
 
-    def _write_c_minor_time_unit(self, val=None):
+    def _write_c_minor_time_unit(self, val=None) -> None:
         # Write the <c:minorTimeUnit> element.
         if val is None:
             val = "days"
@@ -2869,7 +2869,7 @@ class Chart(xmlwriter.XMLwriter):
 
         self._xml_empty_tag("c:minorTimeUnit", attributes)
 
-    def _write_legend(self):
+    def _write_legend(self) -> None:
         # Write the <c:legend> element.
         legend = self.legend
         position = legend.get("position", "right")
@@ -2925,14 +2925,14 @@ class Chart(xmlwriter.XMLwriter):
 
         self._xml_end_tag("c:legend")
 
-    def _write_legend_pos(self, val):
+    def _write_legend_pos(self, val) -> None:
         # Write the <c:legendPos> element.
 
         attributes = [("val", val)]
 
         self._xml_empty_tag("c:legendPos", attributes)
 
-    def _write_legend_entry(self, index):
+    def _write_legend_entry(self, index) -> None:
         # Write the <c:legendEntry> element.
 
         self._xml_start_tag("c:legendEntry")
@@ -2945,7 +2945,7 @@ class Chart(xmlwriter.XMLwriter):
 
         self._xml_end_tag("c:legendEntry")
 
-    def _write_overlay(self):
+    def _write_overlay(self) -> None:
         # Write the <c:overlay> element.
         val = 1
 
@@ -2953,7 +2953,7 @@ class Chart(xmlwriter.XMLwriter):
 
         self._xml_empty_tag("c:overlay", attributes)
 
-    def _write_plot_vis_only(self):
+    def _write_plot_vis_only(self) -> None:
         # Write the <c:plotVisOnly> element.
         val = 1
 
@@ -2965,7 +2965,7 @@ class Chart(xmlwriter.XMLwriter):
 
         self._xml_empty_tag("c:plotVisOnly", attributes)
 
-    def _write_print_settings(self):
+    def _write_print_settings(self) -> None:
         # Write the <c:printSettings> element.
         self._xml_start_tag("c:printSettings")
 
@@ -2980,11 +2980,11 @@ class Chart(xmlwriter.XMLwriter):
 
         self._xml_end_tag("c:printSettings")
 
-    def _write_header_footer(self):
+    def _write_header_footer(self) -> None:
         # Write the <c:headerFooter> element.
         self._xml_empty_tag("c:headerFooter")
 
-    def _write_page_margins(self):
+    def _write_page_margins(self) -> None:
         # Write the <c:pageMargins> element.
         bottom = 0.75
         left = 0.7
@@ -3004,15 +3004,15 @@ class Chart(xmlwriter.XMLwriter):
 
         self._xml_empty_tag("c:pageMargins", attributes)
 
-    def _write_page_setup(self):
+    def _write_page_setup(self) -> None:
         # Write the <c:pageSetup> element.
         self._xml_empty_tag("c:pageSetup")
 
-    def _write_c_auto_title_deleted(self):
+    def _write_c_auto_title_deleted(self) -> None:
         # Write the <c:autoTitleDeleted> element.
         self._xml_empty_tag("c:autoTitleDeleted", [("val", 1)])
 
-    def _write_title_rich(self, title, is_y_axis, font, layout, overlay=False):
+    def _write_title_rich(self, title, is_y_axis, font, layout, overlay=False) -> None:
         # Write the <c:title> element for a rich string.
 
         self._xml_start_tag("c:title")
@@ -3031,7 +3031,7 @@ class Chart(xmlwriter.XMLwriter):
 
     def _write_title_formula(
         self, title, data_id, is_y_axis, font, layout, overlay=False
-    ):
+    ) -> None:
         # Write the <c:title> element for a rich string.
 
         self._xml_start_tag("c:title")
@@ -3051,7 +3051,7 @@ class Chart(xmlwriter.XMLwriter):
 
         self._xml_end_tag("c:title")
 
-    def _write_tx_rich(self, title, is_y_axis, font):
+    def _write_tx_rich(self, title, is_y_axis, font) -> None:
         # Write the <c:tx> element.
 
         self._xml_start_tag("c:tx")
@@ -3061,7 +3061,7 @@ class Chart(xmlwriter.XMLwriter):
 
         self._xml_end_tag("c:tx")
 
-    def _write_tx_value(self, title):
+    def _write_tx_value(self, title) -> None:
         # Write the <c:tx> element with a value such as for series names.
 
         self._xml_start_tag("c:tx")
@@ -3071,7 +3071,7 @@ class Chart(xmlwriter.XMLwriter):
 
         self._xml_end_tag("c:tx")
 
-    def _write_tx_formula(self, title, data_id):
+    def _write_tx_formula(self, title, data_id) -> None:
         # Write the <c:tx> element.
         data = None
 
@@ -3085,7 +3085,7 @@ class Chart(xmlwriter.XMLwriter):
 
         self._xml_end_tag("c:tx")
 
-    def _write_rich(self, title, font, is_y_axis, ignore_rich_pr):
+    def _write_rich(self, title, font, is_y_axis, ignore_rich_pr) -> None:
         # Write the <c:rich> element.
 
         if font and font.get("rotation") is not None:
@@ -3106,7 +3106,7 @@ class Chart(xmlwriter.XMLwriter):
 
         self._xml_end_tag("c:rich")
 
-    def _write_a_body_pr(self, rotation, is_y_axis):
+    def _write_a_body_pr(self, rotation, is_y_axis) -> None:
         # Write the <a:bodyPr> element.
         attributes = []
 
@@ -3128,11 +3128,11 @@ class Chart(xmlwriter.XMLwriter):
 
         self._xml_empty_tag("a:bodyPr", attributes)
 
-    def _write_a_lst_style(self):
+    def _write_a_lst_style(self) -> None:
         # Write the <a:lstStyle> element.
         self._xml_empty_tag("a:lstStyle")
 
-    def _write_a_p_rich(self, title, font, ignore_rich_pr):
+    def _write_a_p_rich(self, title, font, ignore_rich_pr) -> None:
         # Write the <a:p> element for rich string titles.
 
         self._xml_start_tag("a:p")
@@ -3146,7 +3146,7 @@ class Chart(xmlwriter.XMLwriter):
 
         self._xml_end_tag("a:p")
 
-    def _write_a_p_formula(self, font):
+    def _write_a_p_formula(self, font) -> None:
         # Write the <a:p> element for formula titles.
 
         self._xml_start_tag("a:p")
@@ -3159,7 +3159,7 @@ class Chart(xmlwriter.XMLwriter):
 
         self._xml_end_tag("a:p")
 
-    def _write_a_p_pr_rich(self, font):
+    def _write_a_p_pr_rich(self, font) -> None:
         # Write the <a:pPr> element for rich string titles.
 
         self._xml_start_tag("a:pPr")
@@ -3169,7 +3169,7 @@ class Chart(xmlwriter.XMLwriter):
 
         self._xml_end_tag("a:pPr")
 
-    def _write_a_def_rpr(self, font):
+    def _write_a_def_rpr(self, font) -> None:
         # Write the <a:defRPr> element.
         has_color = False
 
@@ -3192,7 +3192,7 @@ class Chart(xmlwriter.XMLwriter):
         else:
             self._xml_empty_tag("a:defRPr", style_attributes)
 
-    def _write_a_end_para_rpr(self):
+    def _write_a_end_para_rpr(self) -> None:
         # Write the <a:endParaRPr> element.
         lang = "en-US"
 
@@ -3200,7 +3200,7 @@ class Chart(xmlwriter.XMLwriter):
 
         self._xml_empty_tag("a:endParaRPr", attributes)
 
-    def _write_a_r(self, title, font):
+    def _write_a_r(self, title, font) -> None:
         # Write the <a:r> element.
 
         self._xml_start_tag("a:r")
@@ -3213,7 +3213,7 @@ class Chart(xmlwriter.XMLwriter):
 
         self._xml_end_tag("a:r")
 
-    def _write_a_r_pr(self, font):
+    def _write_a_r_pr(self, font) -> None:
         # Write the <a:rPr> element.
         has_color = False
         lang = "en-US"
@@ -3240,12 +3240,12 @@ class Chart(xmlwriter.XMLwriter):
         else:
             self._xml_empty_tag("a:rPr", style_attributes)
 
-    def _write_a_t(self, title):
+    def _write_a_t(self, title) -> None:
         # Write the <a:t> element.
 
         self._xml_data_element("a:t", title)
 
-    def _write_tx_pr(self, font, is_y_axis=False):
+    def _write_tx_pr(self, font, is_y_axis=False) -> None:
         # Write the <c:txPr> element.
 
         if font and font.get("rotation") is not None:
@@ -3266,7 +3266,7 @@ class Chart(xmlwriter.XMLwriter):
 
         self._xml_end_tag("c:txPr")
 
-    def _write_marker(self, marker):
+    def _write_marker(self, marker) -> None:
         # Write the <c:marker> element.
         if marker is None:
             marker = self.default_marker
@@ -3291,21 +3291,21 @@ class Chart(xmlwriter.XMLwriter):
 
         self._xml_end_tag("c:marker")
 
-    def _write_marker_size(self, val):
+    def _write_marker_size(self, val) -> None:
         # Write the <c:size> element.
 
         attributes = [("val", val)]
 
         self._xml_empty_tag("c:size", attributes)
 
-    def _write_symbol(self, val):
+    def _write_symbol(self, val) -> None:
         # Write the <c:symbol> element.
 
         attributes = [("val", val)]
 
         self._xml_empty_tag("c:symbol", attributes)
 
-    def _write_sp_pr(self, series):
+    def _write_sp_pr(self, series) -> None:
         # Write the <c:spPr> element.
 
         if not self._has_fill_formatting(series):
@@ -3336,7 +3336,7 @@ class Chart(xmlwriter.XMLwriter):
 
         self._xml_end_tag("c:spPr")
 
-    def _write_a_ln(self, line):
+    def _write_a_ln(self, line) -> None:
         # Write the <a:ln> element.
         attributes = []
 
@@ -3373,11 +3373,11 @@ class Chart(xmlwriter.XMLwriter):
         else:
             self._xml_empty_tag("a:ln", attributes)
 
-    def _write_a_no_fill(self):
+    def _write_a_no_fill(self) -> None:
         # Write the <a:noFill> element.
         self._xml_empty_tag("a:noFill")
 
-    def _write_a_solid_fill(self, fill):
+    def _write_a_solid_fill(self, fill) -> None:
         # Write the <a:solidFill> element.
 
         self._xml_start_tag("a:solidFill")
@@ -3387,7 +3387,7 @@ class Chart(xmlwriter.XMLwriter):
 
         self._xml_end_tag("a:solidFill")
 
-    def _write_color(self, color: Color, transparency=None):
+    def _write_color(self, color: Color, transparency=None) -> None:
         # Write the appropriate chart color element.
 
         if not color:
@@ -3402,7 +3402,7 @@ class Chart(xmlwriter.XMLwriter):
         elif color._type == ColorTypes.THEME:
             self._write_a_scheme_clr(color, transparency)
 
-    def _write_a_sys_clr(self):
+    def _write_a_sys_clr(self) -> None:
         # Write the <a:sysClr> element.
 
         val = "window"
@@ -3415,7 +3415,7 @@ class Chart(xmlwriter.XMLwriter):
 
         self._xml_empty_tag("a:sysClr", attributes)
 
-    def _write_a_srgb_clr(self, color: Color, transparency=None):
+    def _write_a_srgb_clr(self, color: Color, transparency=None) -> None:
         # Write the <a:srgbClr> element.
 
         if not color:
@@ -3433,7 +3433,7 @@ class Chart(xmlwriter.XMLwriter):
         else:
             self._xml_empty_tag("a:srgbClr", attributes)
 
-    def _write_a_scheme_clr(self, color: Color, transparency=None):
+    def _write_a_scheme_clr(self, color: Color, transparency=None) -> None:
         # Write the <a:schemeClr> element.
         scheme, lum_mod, lum_off = color._chart_scheme()
         attributes = [("val", scheme)]
@@ -3457,19 +3457,19 @@ class Chart(xmlwriter.XMLwriter):
         else:
             self._xml_empty_tag("a:schemeClr", attributes)
 
-    def _write_a_lum_mod(self, value: int):
+    def _write_a_lum_mod(self, value: int) -> None:
         # Write the <a:lumMod> element.
         attributes = [("val", value)]
 
         self._xml_empty_tag("a:lumMod", attributes)
 
-    def _write_a_lum_off(self, value: int):
+    def _write_a_lum_off(self, value: int) -> None:
         # Write the <a:lumOff> element.
         attributes = [("val", value)]
 
         self._xml_empty_tag("a:lumOff", attributes)
 
-    def _write_a_alpha(self, val):
+    def _write_a_alpha(self, val) -> None:
         # Write the <a:alpha> element.
 
         val = int((100 - int(val)) * 1000)
@@ -3478,14 +3478,14 @@ class Chart(xmlwriter.XMLwriter):
 
         self._xml_empty_tag("a:alpha", attributes)
 
-    def _write_a_prst_dash(self, val):
+    def _write_a_prst_dash(self, val) -> None:
         # Write the <a:prstDash> element.
 
         attributes = [("val", val)]
 
         self._xml_empty_tag("a:prstDash", attributes)
 
-    def _write_trendline(self, trendline):
+    def _write_trendline(self, trendline) -> None:
         # Write the <c:trendline> element.
 
         if not trendline:
@@ -3533,14 +3533,14 @@ class Chart(xmlwriter.XMLwriter):
 
         self._xml_end_tag("c:trendline")
 
-    def _write_trendline_type(self, val):
+    def _write_trendline_type(self, val) -> None:
         # Write the <c:trendlineType> element.
 
         attributes = [("val", val)]
 
         self._xml_empty_tag("c:trendlineType", attributes)
 
-    def _write_name(self, data):
+    def _write_name(self, data) -> None:
         # Write the <c:name> element.
 
         if data is None:
@@ -3548,7 +3548,7 @@ class Chart(xmlwriter.XMLwriter):
 
         self._xml_data_element("c:name", data)
 
-    def _write_trendline_order(self, val):
+    def _write_trendline_order(self, val) -> None:
         # Write the <c:order> element.
         val = max(val, 2)
 
@@ -3556,7 +3556,7 @@ class Chart(xmlwriter.XMLwriter):
 
         self._xml_empty_tag("c:order", attributes)
 
-    def _write_period(self, val):
+    def _write_period(self, val) -> None:
         # Write the <c:period> element.
         val = max(val, 2)
 
@@ -3564,7 +3564,7 @@ class Chart(xmlwriter.XMLwriter):
 
         self._xml_empty_tag("c:period", attributes)
 
-    def _write_forward(self, val):
+    def _write_forward(self, val) -> None:
         # Write the <c:forward> element.
 
         if not val:
@@ -3574,7 +3574,7 @@ class Chart(xmlwriter.XMLwriter):
 
         self._xml_empty_tag("c:forward", attributes)
 
-    def _write_backward(self, val):
+    def _write_backward(self, val) -> None:
         # Write the <c:backward> element.
 
         if not val:
@@ -3584,25 +3584,25 @@ class Chart(xmlwriter.XMLwriter):
 
         self._xml_empty_tag("c:backward", attributes)
 
-    def _write_c_intercept(self, val):
+    def _write_c_intercept(self, val) -> None:
         # Write the <c:intercept> element.
         attributes = [("val", val)]
 
         self._xml_empty_tag("c:intercept", attributes)
 
-    def _write_c_disp_eq(self):
+    def _write_c_disp_eq(self) -> None:
         # Write the <c:dispEq> element.
         attributes = [("val", 1)]
 
         self._xml_empty_tag("c:dispEq", attributes)
 
-    def _write_c_disp_rsqr(self):
+    def _write_c_disp_rsqr(self) -> None:
         # Write the <c:dispRSqr> element.
         attributes = [("val", 1)]
 
         self._xml_empty_tag("c:dispRSqr", attributes)
 
-    def _write_c_trendline_lbl(self, trendline):
+    def _write_c_trendline_lbl(self, trendline) -> None:
         # Write the <c:trendlineLbl> element.
         self._xml_start_tag("c:trendlineLbl")
 
@@ -3623,7 +3623,7 @@ class Chart(xmlwriter.XMLwriter):
 
         self._xml_end_tag("c:trendlineLbl")
 
-    def _write_trendline_num_fmt(self):
+    def _write_trendline_num_fmt(self) -> None:
         # Write the <c:numFmt> element.
         attributes = [
             ("formatCode", "General"),
@@ -3632,7 +3632,7 @@ class Chart(xmlwriter.XMLwriter):
 
         self._xml_empty_tag("c:numFmt", attributes)
 
-    def _write_hi_low_lines(self):
+    def _write_hi_low_lines(self) -> None:
         # Write the <c:hiLowLines> element.
         hi_low_lines = self.hi_low_lines
 
@@ -3649,7 +3649,7 @@ class Chart(xmlwriter.XMLwriter):
         else:
             self._xml_empty_tag("c:hiLowLines")
 
-    def _write_drop_lines(self):
+    def _write_drop_lines(self) -> None:
         # Write the <c:dropLines> element.
         drop_lines = self.drop_lines
 
@@ -3666,7 +3666,7 @@ class Chart(xmlwriter.XMLwriter):
         else:
             self._xml_empty_tag("c:dropLines")
 
-    def _write_overlap(self, val):
+    def _write_overlap(self, val) -> None:
         # Write the <c:overlap> element.
 
         if val is None:
@@ -3676,7 +3676,7 @@ class Chart(xmlwriter.XMLwriter):
 
         self._xml_empty_tag("c:overlap", attributes)
 
-    def _write_num_cache(self, data):
+    def _write_num_cache(self, data) -> None:
         # Write the <c:numCache> element.
         if data:
             count = len(data)
@@ -3708,7 +3708,7 @@ class Chart(xmlwriter.XMLwriter):
 
         self._xml_end_tag("c:numCache")
 
-    def _write_str_cache(self, data):
+    def _write_str_cache(self, data) -> None:
         # Write the <c:strCache> element.
         count = len(data)
 
@@ -3723,19 +3723,19 @@ class Chart(xmlwriter.XMLwriter):
 
         self._xml_end_tag("c:strCache")
 
-    def _write_format_code(self, data):
+    def _write_format_code(self, data) -> None:
         # Write the <c:formatCode> element.
 
         self._xml_data_element("c:formatCode", data)
 
-    def _write_pt_count(self, val):
+    def _write_pt_count(self, val) -> None:
         # Write the <c:ptCount> element.
 
         attributes = [("val", val)]
 
         self._xml_empty_tag("c:ptCount", attributes)
 
-    def _write_pt(self, idx, value):
+    def _write_pt(self, idx, value) -> None:
         # Write the <c:pt> element.
 
         if value is None:
@@ -3750,19 +3750,19 @@ class Chart(xmlwriter.XMLwriter):
 
         self._xml_end_tag("c:pt")
 
-    def _write_v(self, data):
+    def _write_v(self, data) -> None:
         # Write the <c:v> element.
 
         self._xml_data_element("c:v", data)
 
-    def _write_protection(self):
+    def _write_protection(self) -> None:
         # Write the <c:protection> element.
         if not self.protection:
             return
 
         self._xml_empty_tag("c:protection")
 
-    def _write_d_pt(self, points):
+    def _write_d_pt(self, points) -> None:
         # Write the <c:dPt> elements.
         index = -1
 
@@ -3776,7 +3776,7 @@ class Chart(xmlwriter.XMLwriter):
 
             self._write_d_pt_point(index, point)
 
-    def _write_d_pt_point(self, index, point):
+    def _write_d_pt_point(self, index, point) -> None:
         # Write an individual <c:dPt> element.
 
         self._xml_start_tag("c:dPt")
@@ -3789,7 +3789,7 @@ class Chart(xmlwriter.XMLwriter):
 
         self._xml_end_tag("c:dPt")
 
-    def _write_d_lbls(self, labels):
+    def _write_d_lbls(self, labels) -> None:
         # Write the <c:dLbls> element.
 
         if not labels:
@@ -3846,7 +3846,7 @@ class Chart(xmlwriter.XMLwriter):
 
         self._xml_end_tag("c:dLbls")
 
-    def _write_custom_labels(self, parent, labels):
+    def _write_custom_labels(self, parent, labels) -> None:
         # Write the <c:showLegendKey> element.
         index = 0
 
@@ -3902,7 +3902,7 @@ class Chart(xmlwriter.XMLwriter):
 
             self._xml_end_tag("c:dLbl")
 
-    def _write_custom_label_str(self, label):
+    def _write_custom_label_str(self, label) -> None:
         # Write parts of the <c:dLbl> element for strings.
         title = label.get("value")
         font = label.get("font")
@@ -3918,7 +3918,7 @@ class Chart(xmlwriter.XMLwriter):
         # Write the c:spPr element.
         self._write_sp_pr(label)
 
-    def _write_custom_label_formula(self, label):
+    def _write_custom_label_formula(self, label) -> None:
         # Write parts of the <c:dLbl> element for formulas.
         formula = label.get("formula")
         data_id = label.get("data_id")
@@ -3934,7 +3934,7 @@ class Chart(xmlwriter.XMLwriter):
 
         self._xml_end_tag("c:tx")
 
-    def _write_custom_label_format(self, label):
+    def _write_custom_label_format(self, label) -> None:
         # Write the formatting and font elements for the custom labels.
         font = label.get("font")
         has_formatting = self._has_fill_formatting(label)
@@ -3946,7 +3946,7 @@ class Chart(xmlwriter.XMLwriter):
             self._xml_empty_tag("c:spPr")
             self._write_tx_pr(font)
 
-    def _write_show_legend_key(self):
+    def _write_show_legend_key(self) -> None:
         # Write the <c:showLegendKey> element.
         val = "1"
 
@@ -3954,7 +3954,7 @@ class Chart(xmlwriter.XMLwriter):
 
         self._xml_empty_tag("c:showLegendKey", attributes)
 
-    def _write_show_val(self):
+    def _write_show_val(self) -> None:
         # Write the <c:showVal> element.
         val = 1
 
@@ -3962,7 +3962,7 @@ class Chart(xmlwriter.XMLwriter):
 
         self._xml_empty_tag("c:showVal", attributes)
 
-    def _write_show_cat_name(self):
+    def _write_show_cat_name(self) -> None:
         # Write the <c:showCatName> element.
         val = 1
 
@@ -3970,7 +3970,7 @@ class Chart(xmlwriter.XMLwriter):
 
         self._xml_empty_tag("c:showCatName", attributes)
 
-    def _write_show_ser_name(self):
+    def _write_show_ser_name(self) -> None:
         # Write the <c:showSerName> element.
         val = 1
 
@@ -3978,7 +3978,7 @@ class Chart(xmlwriter.XMLwriter):
 
         self._xml_empty_tag("c:showSerName", attributes)
 
-    def _write_show_percent(self):
+    def _write_show_percent(self) -> None:
         # Write the <c:showPercent> element.
         val = 1
 
@@ -3986,11 +3986,11 @@ class Chart(xmlwriter.XMLwriter):
 
         self._xml_empty_tag("c:showPercent", attributes)
 
-    def _write_separator(self, data):
+    def _write_separator(self, data) -> None:
         # Write the <c:separator> element.
         self._xml_data_element("c:separator", data)
 
-    def _write_show_leader_lines(self):
+    def _write_show_leader_lines(self) -> None:
         # Write the <c:showLeaderLines> element.
         #
         # This is different for Pie/Doughnut charts. Other chart types only
@@ -4010,21 +4010,21 @@ class Chart(xmlwriter.XMLwriter):
         self._xml_end_tag("c:ext")
         self._xml_end_tag("c:extLst")
 
-    def _write_d_lbl_pos(self, val):
+    def _write_d_lbl_pos(self, val) -> None:
         # Write the <c:dLblPos> element.
 
         attributes = [("val", val)]
 
         self._xml_empty_tag("c:dLblPos", attributes)
 
-    def _write_delete(self, val):
+    def _write_delete(self, val) -> None:
         # Write the <c:delete> element.
 
         attributes = [("val", val)]
 
         self._xml_empty_tag("c:delete", attributes)
 
-    def _write_c_invert_if_negative(self, invert):
+    def _write_c_invert_if_negative(self, invert) -> None:
         # Write the <c:invertIfNegative> element.
         val = 1
 
@@ -4035,7 +4035,7 @@ class Chart(xmlwriter.XMLwriter):
 
         self._xml_empty_tag("c:invertIfNegative", attributes)
 
-    def _write_axis_font(self, font):
+    def _write_axis_font(self, font) -> None:
         # Write the axis font elements.
 
         if not font:
@@ -4052,11 +4052,11 @@ class Chart(xmlwriter.XMLwriter):
         self._xml_end_tag("a:p")
         self._xml_end_tag("c:txPr")
 
-    def _write_a_latin(self, attributes):
+    def _write_a_latin(self, attributes) -> None:
         # Write the <a:latin> element.
         self._xml_empty_tag("a:latin", attributes)
 
-    def _write_d_table(self):
+    def _write_d_table(self) -> None:
         # Write the <c:dTable> element.
         table = self.table
 
@@ -4087,31 +4087,31 @@ class Chart(xmlwriter.XMLwriter):
 
         self._xml_end_tag("c:dTable")
 
-    def _write_show_horz_border(self):
+    def _write_show_horz_border(self) -> None:
         # Write the <c:showHorzBorder> element.
         attributes = [("val", 1)]
 
         self._xml_empty_tag("c:showHorzBorder", attributes)
 
-    def _write_show_vert_border(self):
+    def _write_show_vert_border(self) -> None:
         # Write the <c:showVertBorder> element.
         attributes = [("val", 1)]
 
         self._xml_empty_tag("c:showVertBorder", attributes)
 
-    def _write_show_outline(self):
+    def _write_show_outline(self) -> None:
         # Write the <c:showOutline> element.
         attributes = [("val", 1)]
 
         self._xml_empty_tag("c:showOutline", attributes)
 
-    def _write_show_keys(self):
+    def _write_show_keys(self) -> None:
         # Write the <c:showKeys> element.
         attributes = [("val", 1)]
 
         self._xml_empty_tag("c:showKeys", attributes)
 
-    def _write_error_bars(self, error_bars):
+    def _write_error_bars(self, error_bars) -> None:
         # Write the X and Y error bars.
 
         if not error_bars:
@@ -4123,7 +4123,7 @@ class Chart(xmlwriter.XMLwriter):
         if error_bars["y_error_bars"]:
             self._write_err_bars("y", error_bars["y_error_bars"])
 
-    def _write_err_bars(self, direction, error_bars):
+    def _write_err_bars(self, direction, error_bars) -> None:
         # Write the <c:errBars> element.
 
         if not error_bars:
@@ -4159,41 +4159,41 @@ class Chart(xmlwriter.XMLwriter):
 
         self._xml_end_tag("c:errBars")
 
-    def _write_err_dir(self, val):
+    def _write_err_dir(self, val) -> None:
         # Write the <c:errDir> element.
 
         attributes = [("val", val)]
 
         self._xml_empty_tag("c:errDir", attributes)
 
-    def _write_err_bar_type(self, val):
+    def _write_err_bar_type(self, val) -> None:
         # Write the <c:errBarType> element.
 
         attributes = [("val", val)]
 
         self._xml_empty_tag("c:errBarType", attributes)
 
-    def _write_err_val_type(self, val):
+    def _write_err_val_type(self, val) -> None:
         # Write the <c:errValType> element.
 
         attributes = [("val", val)]
 
         self._xml_empty_tag("c:errValType", attributes)
 
-    def _write_no_end_cap(self):
+    def _write_no_end_cap(self) -> None:
         # Write the <c:noEndCap> element.
         attributes = [("val", 1)]
 
         self._xml_empty_tag("c:noEndCap", attributes)
 
-    def _write_error_val(self, val):
+    def _write_error_val(self, val) -> None:
         # Write the <c:val> element for error bars.
 
         attributes = [("val", val)]
 
         self._xml_empty_tag("c:val", attributes)
 
-    def _write_custom_error(self, error_bars):
+    def _write_custom_error(self, error_bars) -> None:
         # Write the custom error bars tags.
 
         if error_bars["plus_values"]:
@@ -4220,7 +4220,7 @@ class Chart(xmlwriter.XMLwriter):
                 )
             self._xml_end_tag("c:minus")
 
-    def _write_num_lit(self, data):
+    def _write_num_lit(self, data) -> None:
         # Write the <c:numLit> element for literal number list elements.
         count = len(data)
 
@@ -4250,7 +4250,7 @@ class Chart(xmlwriter.XMLwriter):
 
         self._xml_end_tag("c:numLit")
 
-    def _write_up_down_bars(self):
+    def _write_up_down_bars(self) -> None:
         # Write the <c:upDownBars> element.
         up_down_bars = self.up_down_bars
 
@@ -4270,7 +4270,7 @@ class Chart(xmlwriter.XMLwriter):
 
         self._xml_end_tag("c:upDownBars")
 
-    def _write_gap_width(self, val):
+    def _write_gap_width(self, val) -> None:
         # Write the <c:gapWidth> element.
 
         if val is None:
@@ -4280,7 +4280,7 @@ class Chart(xmlwriter.XMLwriter):
 
         self._xml_empty_tag("c:gapWidth", attributes)
 
-    def _write_up_bars(self, bar_format):
+    def _write_up_bars(self, bar_format) -> None:
         # Write the <c:upBars> element.
 
         if bar_format["line"] and bar_format["line"]["defined"]:
@@ -4293,7 +4293,7 @@ class Chart(xmlwriter.XMLwriter):
         else:
             self._xml_empty_tag("c:upBars")
 
-    def _write_down_bars(self, bar_format):
+    def _write_down_bars(self, bar_format) -> None:
         # Write the <c:downBars> element.
 
         if bar_format["line"] and bar_format["line"]["defined"]:
@@ -4306,7 +4306,7 @@ class Chart(xmlwriter.XMLwriter):
         else:
             self._xml_empty_tag("c:downBars")
 
-    def _write_disp_units(self, units, display):
+    def _write_disp_units(self, units, display) -> None:
         # Write the <c:dispUnits> element.
 
         if not units:
@@ -4324,7 +4324,7 @@ class Chart(xmlwriter.XMLwriter):
 
         self._xml_end_tag("c:dispUnits")
 
-    def _write_a_grad_fill(self, gradient):
+    def _write_a_grad_fill(self, gradient) -> None:
         # Write the <a:gradFill> element.
 
         attributes = [("flip", "none"), ("rotWithShape", "1")]
@@ -4349,7 +4349,7 @@ class Chart(xmlwriter.XMLwriter):
 
         self._xml_end_tag("a:gradFill")
 
-    def _write_a_gs_lst(self, gradient):
+    def _write_a_gs_lst(self, gradient) -> None:
         # Write the <a:gsLst> element.
         positions = gradient["positions"]
         colors = gradient["colors"]
@@ -4367,7 +4367,7 @@ class Chart(xmlwriter.XMLwriter):
 
         self._xml_end_tag("a:gsLst")
 
-    def _write_a_lin(self, angle):
+    def _write_a_lin(self, angle) -> None:
         # Write the <a:lin> element.
 
         angle = int(60000 * angle)
@@ -4379,7 +4379,7 @@ class Chart(xmlwriter.XMLwriter):
 
         self._xml_empty_tag("a:lin", attributes)
 
-    def _write_a_path(self, gradient_type):
+    def _write_a_path(self, gradient_type) -> None:
         # Write the <a:path> element.
 
         attributes = [("path", gradient_type)]
@@ -4391,7 +4391,7 @@ class Chart(xmlwriter.XMLwriter):
 
         self._xml_end_tag("a:path")
 
-    def _write_a_fill_to_rect(self, gradient_type):
+    def _write_a_fill_to_rect(self, gradient_type) -> None:
         # Write the <a:fillToRect> element.
 
         if gradient_type == "shape":
@@ -4409,7 +4409,7 @@ class Chart(xmlwriter.XMLwriter):
 
         self._xml_empty_tag("a:fillToRect", attributes)
 
-    def _write_a_tile_rect(self, gradient_type):
+    def _write_a_tile_rect(self, gradient_type) -> None:
         # Write the <a:tileRect> element.
 
         if gradient_type == "shape":
@@ -4422,7 +4422,7 @@ class Chart(xmlwriter.XMLwriter):
 
         self._xml_empty_tag("a:tileRect", attributes)
 
-    def _write_a_patt_fill(self, pattern):
+    def _write_a_patt_fill(self, pattern) -> None:
         # Write the <a:pattFill> element.
 
         attributes = [("prst", pattern["pattern"])]
@@ -4437,13 +4437,13 @@ class Chart(xmlwriter.XMLwriter):
 
         self._xml_end_tag("a:pattFill")
 
-    def _write_a_fg_clr(self, color: Color):
+    def _write_a_fg_clr(self, color: Color) -> None:
         # Write the <a:fgClr> element.
         self._xml_start_tag("a:fgClr")
         self._write_color(color)
         self._xml_end_tag("a:fgClr")
 
-    def _write_a_bg_clr(self, color: Color):
+    def _write_a_bg_clr(self, color: Color) -> None:
         # Write the <a:bgClr> element.
         self._xml_start_tag("a:bgClr")
         self._write_color(color)

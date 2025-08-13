@@ -26,7 +26,7 @@ class Custom(xmlwriter.XMLwriter):
     #
     ###########################################################################
 
-    def __init__(self):
+    def __init__(self) -> None:
         """
         Constructor.
 
@@ -37,7 +37,7 @@ class Custom(xmlwriter.XMLwriter):
         self.properties = []
         self.pid = 1
 
-    def _set_properties(self, properties: List[Tuple[str, str, str]]):
+    def _set_properties(self, properties: List[Tuple[str, str, str]]) -> None:
         # Set the document properties.
         self.properties = properties
 
@@ -47,7 +47,7 @@ class Custom(xmlwriter.XMLwriter):
     #
     ###########################################################################
 
-    def _assemble_xml_file(self):
+    def _assemble_xml_file(self) -> None:
         # Assemble and write the XML file.
 
         # Write the XML declaration.
@@ -66,7 +66,7 @@ class Custom(xmlwriter.XMLwriter):
     #
     ###########################################################################
 
-    def _write_properties(self):
+    def _write_properties(self) -> None:
         # Write the <Properties> element.
         schema = "http://schemas.openxmlformats.org/officeDocument/2006/"
         xmlns = schema + "custom-properties"
@@ -83,7 +83,7 @@ class Custom(xmlwriter.XMLwriter):
             # Write the property element.
             self._write_property(custom_property)
 
-    def _write_property(self, custom_property: Tuple[str, str, str]):
+    def _write_property(self, custom_property: Tuple[str, str, str]) -> None:
         # Write the <property> element.
 
         fmtid = "{D5CDD505-2E9C-101B-9397-08002B2CF9AE}"
@@ -117,22 +117,22 @@ class Custom(xmlwriter.XMLwriter):
 
         self._xml_end_tag("property")
 
-    def _write_vt_lpwstr(self, value: str):
+    def _write_vt_lpwstr(self, value: str) -> None:
         # Write the <vt:lpwstr> element.
         self._xml_data_element("vt:lpwstr", value)
 
-    def _write_vt_filetime(self, value: str):
+    def _write_vt_filetime(self, value: str) -> None:
         # Write the <vt:filetime> element.
         self._xml_data_element("vt:filetime", value)
 
-    def _write_vt_i4(self, value: str):
+    def _write_vt_i4(self, value: str) -> None:
         # Write the <vt:i4> element.
         self._xml_data_element("vt:i4", value)
 
-    def _write_vt_r8(self, value: str):
+    def _write_vt_r8(self, value: str) -> None:
         # Write the <vt:r8> element.
         self._xml_data_element("vt:r8", value)
 
-    def _write_vt_bool(self, value: str):
+    def _write_vt_bool(self, value: str) -> None:
         # Write the <vt:bool> element.
         self._xml_data_element("vt:bool", value)
