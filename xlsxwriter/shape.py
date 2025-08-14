@@ -25,7 +25,7 @@ class Shape:
     #
     ###########################################################################
 
-    def __init__(self, shape_type, name, options) -> None:
+    def __init__(self, shape_type, name: str, options) -> None:
         """
         Constructor.
 

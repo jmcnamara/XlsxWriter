@@ -428,7 +428,7 @@ class Worksheet(xmlwriter.XMLwriter):
         self.embedded_images = None
 
     # Utility function for writing different types of strings.
-    def _write_token_as_string(self, token, row, col, *args):
+    def _write_token_as_string(self, token, row: int, col: int, *args):
         # Map the data to the appropriate write_*() method.
         if token == "":
             return self._write_blank(row, col, *args)
@@ -467,7 +467,7 @@ class Worksheet(xmlwriter.XMLwriter):
         return self._write_string(row, col, *args)
 
     @convert_cell_args
-    def write(self, row, col, *args):
+    def write(self, row: int, col: int, *args):
         """
         Write data to a worksheet cell by calling the appropriate write_*()
         method based on the type of data being passed.
@@ -486,7 +486,7 @@ class Worksheet(xmlwriter.XMLwriter):
         return self._write(row, col, *args)
 
     # Undecorated version of write().
-    def _write(self, row, col, *args):
+    def _write(self, row: int, col: int, *args):
         # pylint: disable=raise-missing-from
         # Check the number of args passed.
         if not args:
@@ -572,7 +572,7 @@ class Worksheet(xmlwriter.XMLwriter):
             raise TypeError(f"Unsupported type {type(token)} in write()")
 
     @convert_cell_args
-    def write_string(self, row, col, string, cell_format=None):
+    def write_string(self, row: int, col: int, string, cell_format=None):
         """
         Write a string to a worksheet cell.
 
@@ -591,7 +591,7 @@ class Worksheet(xmlwriter.XMLwriter):
         return self._write_string(row, col, string, cell_format)
 
     # Undecorated version of write_string().
-    def _write_string(self, row, col, string, cell_format=None):
+    def _write_string(self, row: int, col: int, string, cell_format=None):
         str_error = 0
 
         # Check that row and col are valid and store max and min values.
@@ -619,7 +619,7 @@ class Worksheet(xmlwriter.XMLwriter):
         return str_error
 
     @convert_cell_args
-    def write_number(self, row, col, number, cell_format=None):
+    def write_number(self, row: int, col: int, number, cell_format=None):
         """
         Write a number to a worksheet cell.
 
@@ -637,7 +637,7 @@ class Worksheet(xmlwriter.XMLwriter):
         return self._write_number(row, col, number, cell_format)
 
     # Undecorated version of write_number().
-    def _write_number(self, row, col, number, cell_format=None):
+    def _write_number(self, row: int, col: int, number, cell_format=None):
         if isnan(number) or isinf(number):
             if self.nan_inf_to_errors:
                 if isnan(number):
@@ -671,7 +671,7 @@ class Worksheet(xmlwriter.XMLwriter):
         return 0
 
     @convert_cell_args
-    def write_blank(self, row, col, blank, cell_format=None):
+    def write_blank(self, row: int, col: int, blank, cell_format=None):
         """
         Write a blank cell with formatting to a worksheet cell. The blank
         token is ignored and the format only is written to the cell.
@@ -690,7 +690,7 @@ class Worksheet(xmlwriter.XMLwriter):
         return self._write_blank(row, col, blank, cell_format)
 
     # Undecorated version of write_blank().
-    def _write_blank(self, row, col, _, cell_format=None) -> int:
+    def _write_blank(self, row: int, col: int, _, cell_format=None) -> int:
         # Don't write a blank cell unless it has a format.
         if cell_format is None:
             return 0
@@ -709,7 +709,7 @@ class Worksheet(xmlwriter.XMLwriter):
         return 0
 
     @convert_cell_args
-    def write_formula(self, row, col, formula, cell_format=None, value=0):
+    def write_formula(self, row: int, col: int, formula, cell_format=None, value=0):
         """
         Write a formula to a worksheet cell.
 
@@ -730,7 +730,7 @@ class Worksheet(xmlwriter.XMLwriter):
         return self._write_formula(row, col, formula, cell_format, value)
 
     # Undecorated version of write_formula().
-    def _write_formula(self, row, col, formula, cell_format=None, value=0):
+    def _write_formula(self, row: int, col: int, formula, cell_format=None, value=0):
         if self._check_dimensions(row, col):
             return -1
 
@@ -1121,7 +1121,7 @@ class Worksheet(xmlwriter.XMLwriter):
         return 0
 
     @convert_cell_args
-    def write_datetime(self, row, col, date, cell_format=None):
+    def write_datetime(self, row: int, col: int, date, cell_format=None):
         """
         Write a date or time to a worksheet cell.
 
@@ -1139,7 +1139,7 @@ class Worksheet(xmlwriter.XMLwriter):
         return self._write_datetime(row, col, date, cell_format)
 
     # Undecorated version of write_datetime().
-    def _write_datetime(self, row, col, date, cell_format=None) -> int:
+    def _write_datetime(self, row: int, col: int, date, cell_format=None) -> int:
         # Check that row and col are valid and store max and min values.
         if self._check_dimensions(row, col):
             return -1
@@ -1161,7 +1161,7 @@ class Worksheet(xmlwriter.XMLwriter):
         return 0
 
     @convert_cell_args
-    def write_boolean(self, row, col, boolean, cell_format=None):
+    def write_boolean(self, row: int, col: int, boolean, cell_format=None):
         """
         Write a boolean value to a worksheet cell.
 
@@ -1179,7 +1179,7 @@ class Worksheet(xmlwriter.XMLwriter):
         return self._write_boolean(row, col, boolean, cell_format)
 
     # Undecorated version of write_boolean().
-    def _write_boolean(self, row, col, boolean, cell_format=None) -> int:
+    def _write_boolean(self, row: int, col: int, boolean, cell_format=None) -> int:
         # Check that row and col are valid and store max and min values.
         if self._check_dimensions(row, col):
             return -1
@@ -1207,7 +1207,9 @@ class Worksheet(xmlwriter.XMLwriter):
     # The hyperlink can be to a http, ftp, mail, internal sheet, or external
     # directory urls.
     @convert_cell_args
-    def write_url(self, row, col, url, cell_format=None, string=None, tip=None):
+    def write_url(
+        self, row: int, col: int, url, cell_format=None, string=None, tip=None
+    ):
         """
         Write a hyperlink to a worksheet cell.
 
@@ -1228,7 +1230,9 @@ class Worksheet(xmlwriter.XMLwriter):
         return self._write_url(row, col, url, cell_format, string, tip)
 
     # Undecorated version of write_url().
-    def _write_url(self, row, col, url, cell_format=None, string=None, tip=None) -> int:
+    def _write_url(
+        self, row: int, col: int, url, cell_format=None, string=None, tip=None
+    ) -> int:
         # Check that row and col are valid and store max and min values
         if self._check_dimensions(row, col):
             return -1
@@ -1288,7 +1292,7 @@ class Worksheet(xmlwriter.XMLwriter):
         return 0
 
     @convert_cell_args
-    def write_rich_string(self, row, col, *args):
+    def write_rich_string(self, row: int, col: int, *args):
         """
         Write a "rich" string with multiple formats to a worksheet cell.
 
@@ -1311,7 +1315,7 @@ class Worksheet(xmlwriter.XMLwriter):
         return self._write_rich_string(row, col, *args)
 
     # Undecorated version of write_rich_string().
-    def _write_rich_string(self, row, col, *args) -> int:
+    def _write_rich_string(self, row: int, col: int, *args) -> int:
         tokens = list(args)
         cell_format = None
         string_index = 0
@@ -1448,7 +1452,7 @@ class Worksheet(xmlwriter.XMLwriter):
         self.write_handlers[user_type] = user_function
 
     @convert_cell_args
-    def write_row(self, row, col, data, cell_format=None):
+    def write_row(self, row: int, col: int, data, cell_format=None):
         """
         Write a row of data starting from (row, col).
 
@@ -1471,7 +1475,7 @@ class Worksheet(xmlwriter.XMLwriter):
         return 0
 
     @convert_cell_args
-    def write_column(self, row, col, data, cell_format=None):
+    def write_column(self, row: int, col: int, data, cell_format=None):
         """
         Write a column of data starting from (row, col).
 
@@ -1494,7 +1498,7 @@ class Worksheet(xmlwriter.XMLwriter):
         return 0
 
     @convert_cell_args
-    def insert_image(self, row, col, source, options=None) -> int:
+    def insert_image(self, row: int, col: int, source, options=None) -> int:
         """
         Insert an image with its top-left corner in a worksheet cell.
 
@@ -1526,7 +1530,7 @@ class Worksheet(xmlwriter.XMLwriter):
         return 0
 
     @convert_cell_args
-    def embed_image(self, row, col, source, options=None) -> int:
+    def embed_image(self, row: int, col: int, source, options=None) -> int:
         """
         Embed an image in a worksheet cell.
 
@@ -1571,7 +1575,7 @@ class Worksheet(xmlwriter.XMLwriter):
         return 0
 
     @convert_cell_args
-    def insert_textbox(self, row, col, text, options=None) -> int:
+    def insert_textbox(self, row: int, col: int, text, options=None) -> int:
         """
         Insert an textbox with its top-left corner in a worksheet cell.
 
@@ -1623,7 +1627,7 @@ class Worksheet(xmlwriter.XMLwriter):
         return 0
 
     @convert_cell_args
-    def insert_chart(self, row, col, chart, options=None) -> int:
+    def insert_chart(self, row: int, col: int, chart, options=None) -> int:
         """
         Insert an chart with its top-left corner in a worksheet cell.
 
@@ -1694,7 +1698,7 @@ class Worksheet(xmlwriter.XMLwriter):
         return 0
 
     @convert_cell_args
-    def write_comment(self, row, col, comment, options=None) -> int:
+    def write_comment(self, row: int, col: int, comment, options=None) -> int:
         """
         Write a comment to a worksheet cell.
 
@@ -2113,7 +2117,7 @@ class Worksheet(xmlwriter.XMLwriter):
             else:
                 self.col_info[col_num] = [width, None, False, 0, False, True]
 
-    def set_row(self, row, height=None, cell_format=None, options=None) -> int:
+    def set_row(self, row: int, height=None, cell_format=None, options=None) -> int:
         """
         Set the width, and other properties of a row.
 
@@ -2171,7 +2175,7 @@ class Worksheet(xmlwriter.XMLwriter):
 
         return 0
 
-    def set_row_pixels(self, row, height=None, cell_format=None, options=None):
+    def set_row_pixels(self, row: int, height=None, cell_format=None, options=None):
         """
         Set the width (in pixels), and other properties of a row.
 
@@ -2333,7 +2337,7 @@ class Worksheet(xmlwriter.XMLwriter):
 
             self.filter_cells[(first_row, col)] = ("worksheet", ref)
 
-    def filter_column(self, col, criteria) -> None:
+    def filter_column(self, col: int, criteria) -> None:
         """
         Set the column filter criteria.
 
@@ -2393,7 +2397,7 @@ class Worksheet(xmlwriter.XMLwriter):
 
         self.filter_on = 1
 
-    def filter_column_list(self, col, filters) -> None:
+    def filter_column_list(self, col: int, filters) -> None:
         """
         Set the column filter criteria in Excel 2007 list style.
 
@@ -3544,7 +3548,7 @@ class Worksheet(xmlwriter.XMLwriter):
         return 0
 
     @convert_cell_args
-    def add_sparkline(self, row, col, options=None) -> int:
+    def add_sparkline(self, row: int, col: int, options=None) -> int:
         """
         Add sparklines to the worksheet.
 
@@ -3813,7 +3817,9 @@ class Worksheet(xmlwriter.XMLwriter):
         self.outline_changed = True
 
     @convert_cell_args
-    def freeze_panes(self, row, col, top_row=None, left_col=None, pane_type=0) -> None:
+    def freeze_panes(
+        self, row: int, col: int, top_row=None, left_col=None, pane_type=0
+    ) -> None:
         """
         Create worksheet panes and mark them as frozen.
 
@@ -3996,7 +4002,7 @@ class Worksheet(xmlwriter.XMLwriter):
         return 0
 
     @convert_cell_args
-    def insert_button(self, row, col, options=None) -> int:
+    def insert_button(self, row: int, col: int, options=None) -> int:
         """
         Insert a button form object into the worksheet.
 
@@ -4032,7 +4038,7 @@ class Worksheet(xmlwriter.XMLwriter):
         return 0
 
     @convert_cell_args
-    def insert_checkbox(self, row, col, boolean, cell_format=None):
+    def insert_checkbox(self, row: int, col: int, boolean, cell_format=None):
         """
         Insert a boolean checkbox in a worksheet cell.
 
@@ -4797,7 +4803,9 @@ class Worksheet(xmlwriter.XMLwriter):
         # Close the file.
         self._xml_close()
 
-    def _check_dimensions(self, row, col, ignore_row=False, ignore_col=False) -> int:
+    def _check_dimensions(
+        self, row: int, col: int, ignore_row=False, ignore_col=False
+    ) -> int:
         # Check that row and col are valid and store the max and min
         # values for use in other methods/elements. The ignore_row /
         # ignore_col flags is used to indicate that we wish to perform
@@ -5471,7 +5479,7 @@ class Worksheet(xmlwriter.XMLwriter):
 
         return [col_start, row_start, x1, y1, col_end, row_end, x2, y2, x_abs, y_abs]
 
-    def _size_col(self, col, anchor=0):
+    def _size_col(self, col: int, anchor=0):
         # Convert the width of a cell from character units to pixels. Excel
         # rounds the column width to the nearest pixel. If the width hasn't
         # been set by the user we use the default value. A hidden column is
@@ -5501,7 +5509,7 @@ class Worksheet(xmlwriter.XMLwriter):
 
         return pixels
 
-    def _size_row(self, row, anchor=0):
+    def _size_row(self, row: int, anchor=0):
         # Convert the height of a cell from character units to pixels. If the
         # height hasn't been set by the user we use the default value. A
         # hidden row is treated as having a height of zero unless it has the
@@ -6524,7 +6532,7 @@ class Worksheet(xmlwriter.XMLwriter):
 
         self.row_spans = spans
 
-    def _write_row(self, row, spans, properties=None, empty_row=False) -> None:
+    def _write_row(self, row: int, spans, properties=None, empty_row=False) -> None:
         # Write the <row> element.
         xf_index = 0
 
@@ -6579,11 +6587,11 @@ class Worksheet(xmlwriter.XMLwriter):
         else:
             self._xml_start_tag_unencoded("row", attributes)
 
-    def _write_empty_row(self, row, spans, properties=None) -> None:
+    def _write_empty_row(self, row: int, spans, properties=None) -> None:
         # Write and empty <row> element.
         self._write_row(row, spans, properties, empty_row=True)
 
-    def _write_cell(self, row, col, cell) -> None:
+    def _write_cell(self, row: int, col: int, cell) -> None:
         # Write the <cell> element.
         # Note. This is the innermost loop so efficiency is important.
 
@@ -7590,7 +7598,9 @@ class Worksheet(xmlwriter.XMLwriter):
         else:
             self._write_freeze_panes(*panes)
 
-    def _write_freeze_panes(self, row, col, top_row, left_col, pane_type) -> None:
+    def _write_freeze_panes(
+        self, row: int, col: int, top_row, left_col, pane_type
+    ) -> None:
         # Write the <pane> element for freeze panes.
         attributes = []
 
@@ -7646,7 +7656,7 @@ class Worksheet(xmlwriter.XMLwriter):
 
         self._xml_empty_tag("pane", attributes)
 
-    def _write_split_panes(self, row, col, top_row, left_col, _) -> None:
+    def _write_split_panes(self, row: int, col: int, top_row, left_col, _) -> None:
         # Write the <pane> element for split panes.
         attributes = []
         has_selection = False
