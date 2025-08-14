@@ -15,6 +15,7 @@ import time
 from datetime import datetime, timezone
 from decimal import Decimal
 from fractions import Fraction
+from typing import Any, List, Literal, Optional, Union
 from warnings import warn
 from zipfile import ZIP_DEFLATED, LargeZipFile, ZipFile, ZipInfo
 
@@ -175,12 +176,14 @@ class Workbook(xmlwriter.XMLwriter):
         """Return self object to use with "with" statement."""
         return self
 
-    def __exit__(self, type, value, traceback):
+    def __exit__(self, type, value, traceback) -> None:
         # pylint: disable=redefined-builtin
         """Close workbook when exiting "with" statement."""
         self.close()
 
-    def add_worksheet(self, name=None, worksheet_class=None):
+    def add_worksheet(
+        self, name: Optional[str] = None, worksheet_class=None
+    ) -> Worksheet:
         """
         Add a new worksheet to the Excel workbook.
 
@@ -196,7 +199,9 @@ class Workbook(xmlwriter.XMLwriter):
 
         return self._add_sheet(name, worksheet_class=worksheet_class)
 
-    def add_chartsheet(self, name=None, chartsheet_class=None):
+    def add_chartsheet(
+        self, name: Optional[str] = None, chartsheet_class=None
+    ) -> Chartsheet:
         """
         Add a new chartsheet to the Excel workbook.
 
@@ -212,7 +217,7 @@ class Workbook(xmlwriter.XMLwriter):
 
         return self._add_sheet(name, worksheet_class=chartsheet_class)
 
-    def add_format(self, properties=None):
+    def add_format(self, properties=None) -> Format:
         """
         Add a new Format to the Excel Workbook.
 
@@ -240,7 +245,19 @@ class Workbook(xmlwriter.XMLwriter):
 
         return xf_format
 
-    def add_chart(self, options):
+    def add_chart(self, options) -> Optional[
+        Union[
+            ChartArea,
+            ChartBar,
+            ChartColumn,
+            ChartDoughnut,
+            ChartLine,
+            ChartPie,
+            ChartRadar,
+            ChartScatter,
+            ChartStock,
+        ]
+    ]:
         """
         Create a chart object.
 
@@ -292,7 +309,7 @@ class Workbook(xmlwriter.XMLwriter):
 
         return chart
 
-    def add_vba_project(self, vba_project, is_stream=False) -> int:
+    def add_vba_project(self, vba_project: str, is_stream: bool = False) -> int:
         """
         Add a vbaProject binary to the Excel workbook.
 
@@ -317,7 +334,11 @@ class Workbook(xmlwriter.XMLwriter):
         return 0
 
     def add_signed_vba_project(
-        self, vba_project, signature, project_is_stream=False, signature_is_stream=False
+        self,
+        vba_project: str,
+        signature: str,
+        project_is_stream: bool = False,
+        signature_is_stream: bool = False,
     ) -> int:
         """
         Add a vbaProject binary and a vbaProjectSignature binary to the
@@ -378,7 +399,7 @@ class Workbook(xmlwriter.XMLwriter):
         else:
             warn("Calling close() on already closed file.")
 
-    def set_size(self, width, height) -> None:
+    def set_size(self, width: int, height: int) -> None:
         """
         Set the size of a workbook window.
 
@@ -401,7 +422,7 @@ class Workbook(xmlwriter.XMLwriter):
         else:
             self.window_height = 9660
 
-    def set_tab_ratio(self, tab_ratio=None) -> None:
+    def set_tab_ratio(self, tab_ratio: Optional[Union[int, float]] = None) -> None:
         """
         Set the ratio between worksheet tabs and the horizontal slider.
 
@@ -433,7 +454,14 @@ class Workbook(xmlwriter.XMLwriter):
         """
         self.doc_properties = properties
 
-    def set_custom_property(self, name, value, property_type=None) -> int:
+    def set_custom_property(
+        self,
+        name: str,
+        value: Union[bool, datetime, int, float, Decimal, Fraction, Any],
+        property_type: Optional[
+            Literal["bool", "date", "number", "number_int", "text"]
+        ] = None,
+    ) -> int:
         """
         Set a custom document property.
 
@@ -492,7 +520,9 @@ class Workbook(xmlwriter.XMLwriter):
 
         return 0
 
-    def set_calc_mode(self, mode, calc_id=None) -> None:
+    def set_calc_mode(
+        self, mode: Literal["manual", "auto_except_tables", "auto"], calc_id=None
+    ) -> None:
         """
         Set the Excel calculation mode for the workbook.
 
@@ -517,7 +547,7 @@ class Workbook(xmlwriter.XMLwriter):
         if calc_id:
             self.calc_id = calc_id
 
-    def define_name(self, name, formula) -> int:
+    def define_name(self, name: str, formula: str) -> int:
         # Create a defined name in Excel. We handle global/workbook level
         # names and local/worksheet names.
         """
@@ -576,7 +606,7 @@ class Workbook(xmlwriter.XMLwriter):
 
         return 0
 
-    def worksheets(self):
+    def worksheets(self) -> List[Worksheet]:
         """
         Return a list of the worksheet objects in the workbook.
 
@@ -589,7 +619,7 @@ class Workbook(xmlwriter.XMLwriter):
         """
         return self.worksheets_objs
 
-    def get_worksheet_by_name(self, name):
+    def get_worksheet_by_name(self, name) -> Optional[Worksheet]:
         """
         Return a worksheet object in the workbook using the sheetname.
 
@@ -602,7 +632,7 @@ class Workbook(xmlwriter.XMLwriter):
         """
         return self.sheetnames.get(name)
 
-    def get_default_url_format(self):
+    def get_default_url_format(self) -> Format:
         """
         Get the default url format used when a user defined format isn't
         specified with write_url(). The format is the hyperlink style defined
