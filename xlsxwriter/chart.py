@@ -393,7 +393,7 @@ class Chart(xmlwriter.XMLwriter):
         # Convert the user defined properties to internal properties.
         self.chartarea = self._get_area_properties(options)
 
-    def set_style(self, style_id) -> None:
+    def set_style(self, style_id: int = 2) -> None:
         """
         Set the chart style type.
 
@@ -412,7 +412,7 @@ class Chart(xmlwriter.XMLwriter):
 
         self.style_id = style_id
 
-    def show_blanks_as(self, option) -> None:
+    def show_blanks_as(self, option: str) -> None:
         """
         Set the option for displaying blank data in a chart.
 
