@@ -19,10 +19,12 @@ from collections import defaultdict, namedtuple
 from decimal import Decimal
 from fractions import Fraction
 from functools import wraps
-from io import StringIO
+from io import BytesIO, StringIO
 from math import isinf, isnan
+from typing import Any, List, Literal, Optional, Union
 from warnings import warn
 
+from xlsxwriter.chart import Chart
 from xlsxwriter.color import Color
 from xlsxwriter.comments import CommentType
 from xlsxwriter.image import Image
@@ -467,7 +469,7 @@ class Worksheet(xmlwriter.XMLwriter):
         return self._write_string(row, col, *args)
 
     @convert_cell_args
-    def write(self, row: int, col: int, *args):
+    def write(self, row: int, col: int, *args) -> Union[Literal[0, -1], Any]:
         """
         Write data to a worksheet cell by calling the appropriate write_*()
         method based on the type of data being passed.
@@ -572,7 +574,9 @@ class Worksheet(xmlwriter.XMLwriter):
             raise TypeError(f"Unsupported type {type(token)} in write()")
 
     @convert_cell_args
-    def write_string(self, row: int, col: int, string, cell_format=None):
+    def write_string(
+        self, row: int, col: int, string, cell_format=None
+    ) -> Literal[0, -1, -2]:
         """
         Write a string to a worksheet cell.
 
@@ -619,7 +623,9 @@ class Worksheet(xmlwriter.XMLwriter):
         return str_error
 
     @convert_cell_args
-    def write_number(self, row: int, col: int, number, cell_format=None):
+    def write_number(
+        self, row: int, col: int, number: Union[int, float], cell_format=None
+    ) -> Literal[0, -1]:
         """
         Write a number to a worksheet cell.
 
@@ -671,7 +677,9 @@ class Worksheet(xmlwriter.XMLwriter):
         return 0
 
     @convert_cell_args
-    def write_blank(self, row: int, col: int, blank, cell_format=None):
+    def write_blank(
+        self, row: int, col: int, blank: Any, cell_format: Optional[Format] = None
+    ):
         """
         Write a blank cell with formatting to a worksheet cell. The blank
         token is ignored and the format only is written to the cell.
@@ -709,7 +717,14 @@ class Worksheet(xmlwriter.XMLwriter):
         return 0
 
     @convert_cell_args
-    def write_formula(self, row: int, col: int, formula, cell_format=None, value=0):
+    def write_formula(
+        self,
+        row: int,
+        col: int,
+        formula: str,
+        cell_format: Optional[Format] = None,
+        value=0,
+    ) -> Literal[0, -1, -2]:
         """
         Write a formula to a worksheet cell.
 
@@ -765,14 +780,14 @@ class Worksheet(xmlwriter.XMLwriter):
     @convert_range_args
     def write_array_formula(
         self,
-        first_row,
-        first_col,
-        last_row,
-        last_col,
-        formula,
-        cell_format=None,
+        first_row: int,
+        first_col: int,
+        last_row: int,
+        last_col: int,
+        formula: str,
+        cell_format: Optional[Format] = None,
         value=0,
-    ):
+    ) -> Literal[0, -1]:
         """
         Write a formula to a worksheet cell/range.
 
@@ -810,14 +825,14 @@ class Worksheet(xmlwriter.XMLwriter):
     @convert_range_args
     def write_dynamic_array_formula(
         self,
-        first_row,
-        first_col,
-        last_row,
-        last_col,
-        formula,
-        cell_format=None,
+        first_row: int,
+        first_col: int,
+        last_row: int,
+        last_col: int,
+        formula: str,
+        cell_format: Optional[Format] = None,
         value=0,
-    ):
+    ) -> Literal[0, -1]:
         """
         Write a dynamic array formula to a worksheet cell/range.
 
@@ -1121,7 +1136,13 @@ class Worksheet(xmlwriter.XMLwriter):
         return 0
 
     @convert_cell_args
-    def write_datetime(self, row: int, col: int, date, cell_format=None):
+    def write_datetime(
+        self,
+        row: int,
+        col: int,
+        date: datetime.datetime,
+        cell_format: Optional[Format] = None,
+    ):
         """
         Write a date or time to a worksheet cell.
 
@@ -1161,7 +1182,9 @@ class Worksheet(xmlwriter.XMLwriter):
         return 0
 
     @convert_cell_args
-    def write_boolean(self, row: int, col: int, boolean, cell_format=None):
+    def write_boolean(
+        self, row: int, col: int, boolean: bool, cell_format: Optional[Format] = None
+    ):
         """
         Write a boolean value to a worksheet cell.
 
@@ -1208,7 +1231,13 @@ class Worksheet(xmlwriter.XMLwriter):
     # directory urls.
     @convert_cell_args
     def write_url(
-        self, row: int, col: int, url, cell_format=None, string=None, tip=None
+        self,
+        row: int,
+        col: int,
+        url: str,
+        cell_format: Optional[Format] = None,
+        string: Optional[str] = None,
+        tip: Optional[str] = None,
     ):
         """
         Write a hyperlink to a worksheet cell.
@@ -1292,7 +1321,9 @@ class Worksheet(xmlwriter.XMLwriter):
         return 0
 
     @convert_cell_args
-    def write_rich_string(self, row: int, col: int, *args):
+    def write_rich_string(
+        self, row: int, col: int, *args: Union[str, Format]
+    ) -> Literal[0, -1, -2, -3, -4, -5]:
         """
         Write a "rich" string with multiple formats to a worksheet cell.
 
@@ -1452,7 +1483,7 @@ class Worksheet(xmlwriter.XMLwriter):
         self.write_handlers[user_type] = user_function
 
     @convert_cell_args
-    def write_row(self, row: int, col: int, data, cell_format=None):
+    def write_row(self, row: int, col: int, data, cell_format: Optional[Format] = None):
         """
         Write a row of data starting from (row, col).
 
@@ -1475,7 +1506,9 @@ class Worksheet(xmlwriter.XMLwriter):
         return 0
 
     @convert_cell_args
-    def write_column(self, row: int, col: int, data, cell_format=None):
+    def write_column(
+        self, row: int, col: int, data, cell_format: Optional[Format] = None
+    ):
         """
         Write a column of data starting from (row, col).
 
@@ -1498,7 +1531,9 @@ class Worksheet(xmlwriter.XMLwriter):
         return 0
 
     @convert_cell_args
-    def insert_image(self, row: int, col: int, source, options=None) -> int:
+    def insert_image(
+        self, row: int, col: int, source: Union[str, BytesIO, Image], options=None
+    ) -> int:
         """
         Insert an image with its top-left corner in a worksheet cell.
 
@@ -1530,7 +1565,9 @@ class Worksheet(xmlwriter.XMLwriter):
         return 0
 
     @convert_cell_args
-    def embed_image(self, row: int, col: int, source, options=None) -> int:
+    def embed_image(
+        self, row: int, col: int, source: Union[str, BytesIO, Image], options=None
+    ) -> int:
         """
         Embed an image in a worksheet cell.
 
@@ -1575,7 +1612,7 @@ class Worksheet(xmlwriter.XMLwriter):
         return 0
 
     @convert_cell_args
-    def insert_textbox(self, row: int, col: int, text, options=None) -> int:
+    def insert_textbox(self, row: int, col: int, text: str, options=None) -> int:
         """
         Insert an textbox with its top-left corner in a worksheet cell.
 
@@ -1627,7 +1664,7 @@ class Worksheet(xmlwriter.XMLwriter):
         return 0
 
     @convert_cell_args
-    def insert_chart(self, row: int, col: int, chart, options=None) -> int:
+    def insert_chart(self, row: int, col: int, chart: Chart, options=None) -> int:
         """
         Insert an chart with its top-left corner in a worksheet cell.
 
@@ -1698,7 +1735,7 @@ class Worksheet(xmlwriter.XMLwriter):
         return 0
 
     @convert_cell_args
-    def write_comment(self, row: int, col: int, comment, options=None) -> int:
+    def write_comment(self, row: int, col: int, comment: str, options=None) -> int:
         """
         Write a comment to a worksheet cell.
 
@@ -1744,7 +1781,9 @@ class Worksheet(xmlwriter.XMLwriter):
         """
         self.comments_visible = True
 
-    def set_background(self, source, is_byte_stream=False) -> int:
+    def set_background(
+        self, source: Union[str, BytesIO, Image], is_byte_stream: bool = False
+    ) -> Literal[0]:
         """
         Set a background image for a worksheet.
 
@@ -1883,7 +1922,12 @@ class Worksheet(xmlwriter.XMLwriter):
 
     @convert_column_args
     def set_column(
-        self, first_col, last_col, width=None, cell_format=None, options=None
+        self,
+        first_col: int,
+        last_col: int,
+        width: Optional[float] = None,
+        cell_format: Optional[Format] = None,
+        options=None,
     ) -> int:
         """
         Set the width, and other properties of a single column or a
@@ -1945,7 +1989,12 @@ class Worksheet(xmlwriter.XMLwriter):
 
     @convert_column_args
     def set_column_pixels(
-        self, first_col, last_col, width=None, cell_format=None, options=None
+        self,
+        first_col: int,
+        last_col: int,
+        width: Optional[float] = None,
+        cell_format: Optional[Format] = None,
+        options=None,
     ):
         """
         Set the width, and other properties of a single column or a
@@ -1968,7 +2017,7 @@ class Worksheet(xmlwriter.XMLwriter):
 
         return self.set_column(first_col, last_col, width, cell_format, options)
 
-    def autofit(self, max_width=1790) -> None:
+    def autofit(self, max_width: int = 1790) -> None:
         """
         Simulate autofit based on the data, and datatypes in each column.
 
@@ -2117,7 +2166,13 @@ class Worksheet(xmlwriter.XMLwriter):
             else:
                 self.col_info[col_num] = [width, None, False, 0, False, True]
 
-    def set_row(self, row: int, height=None, cell_format=None, options=None) -> int:
+    def set_row(
+        self,
+        row: int,
+        height: Optional[float] = None,
+        cell_format: Optional[Format] = None,
+        options=None,
+    ) -> Literal[0, -1]:
         """
         Set the width, and other properties of a row.
 
@@ -2175,7 +2230,13 @@ class Worksheet(xmlwriter.XMLwriter):
 
         return 0
 
-    def set_row_pixels(self, row: int, height=None, cell_format=None, options=None):
+    def set_row_pixels(
+        self,
+        row: int,
+        height: float = None,
+        cell_format: Optional[Format] = None,
+        options=None,
+    ) -> Literal[0, -1]:
         """
         Set the width (in pixels), and other properties of a row.
 
@@ -2195,7 +2256,9 @@ class Worksheet(xmlwriter.XMLwriter):
 
         return self.set_row(row, height, cell_format, options)
 
-    def set_default_row(self, height=None, hide_unused_rows=False) -> None:
+    def set_default_row(
+        self, height: Optional[float] = None, hide_unused_rows: bool = False
+    ) -> None:
         """
         Set the default row properties.
 
@@ -2220,7 +2283,13 @@ class Worksheet(xmlwriter.XMLwriter):
 
     @convert_range_args
     def merge_range(
-        self, first_row, first_col, last_row, last_col, data, cell_format=None
+        self,
+        first_row: int,
+        first_col: int,
+        last_row: int,
+        last_col: int,
+        data: Any,
+        cell_format: Optional[Format] = None,
     ) -> int:
         """
         Merge a range of cells.
@@ -2296,7 +2365,9 @@ class Worksheet(xmlwriter.XMLwriter):
         return 0
 
     @convert_range_args
-    def autofilter(self, first_row, first_col, last_row, last_col) -> None:
+    def autofilter(
+        self, first_row: int, first_col: int, last_row: int, last_col: int
+    ) -> None:
         """
         Set the autofilter area in the worksheet.
 
@@ -2337,7 +2408,7 @@ class Worksheet(xmlwriter.XMLwriter):
 
             self.filter_cells[(first_row, col)] = ("worksheet", ref)
 
-    def filter_column(self, col: int, criteria) -> None:
+    def filter_column(self, col: int, criteria: str) -> None:
         """
         Set the column filter criteria.
 
@@ -2397,7 +2468,7 @@ class Worksheet(xmlwriter.XMLwriter):
 
         self.filter_on = 1
 
-    def filter_column_list(self, col: int, filters) -> None:
+    def filter_column_list(self, col: int, filters: List[str]) -> None:
         """
         Set the column filter criteria in Excel 2007 list style.
 
@@ -2441,8 +2512,8 @@ class Worksheet(xmlwriter.XMLwriter):
 
     @convert_range_args
     def data_validation(
-        self, first_row, first_col, last_row, last_col, options=None
-    ) -> int:
+        self, first_row: int, first_col: int, last_row: int, last_col: int, options=None
+    ) -> Literal[0, -1, -2]:
         """
         Add a data validation to a worksheet.
 
@@ -2702,8 +2773,8 @@ class Worksheet(xmlwriter.XMLwriter):
 
     @convert_range_args
     def conditional_format(
-        self, first_row, first_col, last_row, last_col, options=None
-    ) -> int:
+        self, first_row: int, first_col: int, last_row: int, last_col: int, options=None
+    ) -> Literal[0, -1, -2]:
         """
         Add a conditional format to a worksheet.
 
@@ -3206,7 +3277,9 @@ class Worksheet(xmlwriter.XMLwriter):
         return 0
 
     @convert_range_args
-    def add_table(self, first_row, first_col, last_row, last_col, options=None) -> int:
+    def add_table(
+        self, first_row: int, first_col: int, last_row: int, last_col: int, options=None
+    ) -> Literal[0, -1, -2, -3]:
         """
         Add an Excel table to a worksheet.
 
@@ -3548,7 +3621,7 @@ class Worksheet(xmlwriter.XMLwriter):
         return 0
 
     @convert_cell_args
-    def add_sparkline(self, row: int, col: int, options=None) -> int:
+    def add_sparkline(self, row: int, col: int, options=None) -> Literal[0, -1, -2]:
         """
         Add sparklines to the worksheet.
 
@@ -3740,7 +3813,9 @@ class Worksheet(xmlwriter.XMLwriter):
         return 0
 
     @convert_range_args
-    def set_selection(self, first_row, first_col, last_row, last_col) -> None:
+    def set_selection(
+        self, first_row: int, first_col: int, last_row: int, last_col: int
+    ) -> None:
         """
         Set the selected cell or cells in a worksheet
 
@@ -3775,7 +3850,7 @@ class Worksheet(xmlwriter.XMLwriter):
         self.selections = [[pane, active_cell, sqref]]
 
     @convert_cell_args
-    def set_top_left_cell(self, row=0, col=0) -> None:
+    def set_top_left_cell(self, row: int = 0, col: int = 0) -> None:
         """
         Set the first visible cell at the top left of a worksheet.
 
@@ -3818,7 +3893,12 @@ class Worksheet(xmlwriter.XMLwriter):
 
     @convert_cell_args
     def freeze_panes(
-        self, row: int, col: int, top_row=None, left_col=None, pane_type=0
+        self,
+        row: int,
+        col: int,
+        top_row: Optional[int] = None,
+        left_col: Optional[int] = None,
+        pane_type: int = 0,
     ) -> None:
         """
         Create worksheet panes and mark them as frozen.
@@ -3842,7 +3922,13 @@ class Worksheet(xmlwriter.XMLwriter):
         self.panes = [row, col, top_row, left_col, pane_type]
 
     @convert_cell_args
-    def split_panes(self, x, y, top_row=None, left_col=None) -> None:
+    def split_panes(
+        self,
+        x: float,
+        y: float,
+        top_row: Optional[int] = None,
+        left_col: Optional[int] = None,
+    ) -> None:
         """
         Create worksheet panes and mark them as split.
 
@@ -3859,7 +3945,7 @@ class Worksheet(xmlwriter.XMLwriter):
         # Same as freeze panes with a different pane type.
         self.freeze_panes(x, y, top_row, left_col, 2)
 
-    def set_zoom(self, zoom=100) -> None:
+    def set_zoom(self, zoom: int = 100) -> None:
         """
         Set the worksheet zoom factor.
 
@@ -3903,7 +3989,7 @@ class Worksheet(xmlwriter.XMLwriter):
         """
         self.show_zeros = 0
 
-    def set_tab_color(self, color) -> None:
+    def set_tab_color(self, color: Union[str, Color]) -> None:
         """
         Set the color of the worksheet tab.
 
@@ -3916,7 +4002,7 @@ class Worksheet(xmlwriter.XMLwriter):
         """
         self.tab_color = Color._from_value(color)
 
-    def protect(self, password="", options=None) -> None:
+    def protect(self, password: str = "", options=None) -> None:
         """
         Set the password and protection options of the worksheet.
 
@@ -3967,7 +4053,12 @@ class Worksheet(xmlwriter.XMLwriter):
 
         self.protect_options = defaults
 
-    def unprotect_range(self, cell_range, range_name=None, password=None) -> int:
+    def unprotect_range(
+        self,
+        cell_range: str,
+        range_name: Optional[str] = None,
+        password: Optional[str] = None,
+    ) -> int:
         """
         Unprotect ranges within a protected worksheet.
 
@@ -4002,7 +4093,7 @@ class Worksheet(xmlwriter.XMLwriter):
         return 0
 
     @convert_cell_args
-    def insert_button(self, row: int, col: int, options=None) -> int:
+    def insert_button(self, row: int, col: int, options=None) -> Literal[0, -1]:
         """
         Insert a button form object into the worksheet.
 
@@ -4038,7 +4129,9 @@ class Worksheet(xmlwriter.XMLwriter):
         return 0
 
     @convert_cell_args
-    def insert_checkbox(self, row: int, col: int, boolean, cell_format=None):
+    def insert_checkbox(
+        self, row: int, col: int, boolean: bool, cell_format: Optional[Format] = None
+    ):
         """
         Insert a boolean checkbox in a worksheet cell.
 
@@ -4101,7 +4194,7 @@ class Worksheet(xmlwriter.XMLwriter):
         self.orientation = 1
         self.page_setup_changed = True
 
-    def set_page_view(self, view=1) -> None:
+    def set_page_view(self, view: Literal[0, 1, 2] = 1) -> None:
         """
         Set the page view mode.
 
@@ -4129,7 +4222,7 @@ class Worksheet(xmlwriter.XMLwriter):
         """
         self.page_view = 2
 
-    def set_paper(self, paper_size) -> None:
+    def set_paper(self, paper_size: Union[Literal[1, 9], int]) -> None:
         """
         Set the paper type. US Letter = 1, A4 = 9.
 
@@ -4172,7 +4265,13 @@ class Worksheet(xmlwriter.XMLwriter):
         self.print_options_changed = True
         self.vcenter = 1
 
-    def set_margins(self, left=0.7, right=0.7, top=0.75, bottom=0.75) -> None:
+    def set_margins(
+        self,
+        left: float = 0.7,
+        right: float = 0.7,
+        top: float = 0.75,
+        bottom: float = 0.75,
+    ) -> None:
         """
         Set all the page margins in inches.
 
@@ -4191,7 +4290,7 @@ class Worksheet(xmlwriter.XMLwriter):
         self.margin_top = top
         self.margin_bottom = bottom
 
-    def set_header(self, header="", options=None, margin=None) -> None:
+    def set_header(self, header: str = "", options=None, margin=None) -> None:
         """
         Set the page header caption and optional margin.
 
@@ -4270,7 +4369,7 @@ class Worksheet(xmlwriter.XMLwriter):
         if image_count:
             self.has_header_vml = True
 
-    def set_footer(self, footer="", options=None, margin=None) -> None:
+    def set_footer(self, footer: str = "", options=None, margin=None) -> None:
         """
         Set the page footer caption and optional margin.
 
@@ -4349,7 +4448,7 @@ class Worksheet(xmlwriter.XMLwriter):
         if image_count:
             self.has_header_vml = True
 
-    def repeat_rows(self, first_row, last_row=None) -> None:
+    def repeat_rows(self, first_row: int, last_row: Optional[int] = None) -> None:
         """
         Set the rows to repeat at the top of each printed page.
 
@@ -4376,7 +4475,7 @@ class Worksheet(xmlwriter.XMLwriter):
         self.repeat_row_range = sheetname + "!" + area
 
     @convert_column_args
-    def repeat_columns(self, first_col, last_col=None) -> None:
+    def repeat_columns(self, first_col: int, last_col: Optional[int] = None) -> None:
         """
         Set the columns to repeat at the left hand side of each printed page.
 
@@ -4402,7 +4501,7 @@ class Worksheet(xmlwriter.XMLwriter):
         sheetname = quote_sheetname(self.name)
         self.repeat_col_range = sheetname + "!" + area
 
-    def hide_gridlines(self, option=1) -> None:
+    def hide_gridlines(self, option: Literal[0, 1, 2] = 1) -> None:
         """
         Set the option to hide gridlines on the screen and the printed page.
 
@@ -4454,7 +4553,9 @@ class Worksheet(xmlwriter.XMLwriter):
         self.row_col_headers = True
 
     @convert_range_args
-    def print_area(self, first_row, first_col, last_row, last_col) -> int:
+    def print_area(
+        self, first_row: int, first_col: int, last_row: int, last_col: int
+    ) -> Literal[0, -1]:
         """
         Set the print area in the current worksheet.
 
@@ -4500,7 +4601,7 @@ class Worksheet(xmlwriter.XMLwriter):
         self.page_order = 1
         self.page_setup_changed = True
 
-    def fit_to_pages(self, width, height) -> None:
+    def fit_to_pages(self, width: int, height: int) -> None:
         """
         Fit the printed area to a specific number of pages both vertically and
         horizontally.
@@ -4518,7 +4619,7 @@ class Worksheet(xmlwriter.XMLwriter):
         self.fit_height = height
         self.page_setup_changed = True
 
-    def set_start_page(self, start_page) -> None:
+    def set_start_page(self, start_page: int) -> None:
         """
         Set the start page number when printing.
 
@@ -4531,7 +4632,7 @@ class Worksheet(xmlwriter.XMLwriter):
         """
         self.page_start = start_page
 
-    def set_print_scale(self, scale) -> None:
+    def set_print_scale(self, scale: int) -> None:
         """
         Set the scale factor for the printed page.
 
@@ -4567,7 +4668,7 @@ class Worksheet(xmlwriter.XMLwriter):
         self.black_white = True
         self.page_setup_changed = True
 
-    def set_h_pagebreaks(self, breaks) -> None:
+    def set_h_pagebreaks(self, breaks: List[int]) -> None:
         """
         Set the horizontal page breaks on a worksheet.
 
@@ -4580,7 +4681,7 @@ class Worksheet(xmlwriter.XMLwriter):
         """
         self.hbreaks = breaks
 
-    def set_v_pagebreaks(self, breaks) -> None:
+    def set_v_pagebreaks(self, breaks: List[int]) -> None:
         """
         Set the horizontal page breaks on a worksheet.
 
@@ -4593,7 +4694,7 @@ class Worksheet(xmlwriter.XMLwriter):
         """
         self.vbreaks = breaks
 
-    def set_vba_name(self, name=None) -> None:
+    def set_vba_name(self, name: Optional[str] = None) -> None:
         """
         Set the VBA name for the worksheet. By default this is the
         same as the sheet name: i.e., Sheet1 etc.
@@ -4610,7 +4711,7 @@ class Worksheet(xmlwriter.XMLwriter):
         else:
             self.vba_codename = "Sheet" + str(self.index + 1)
 
-    def ignore_errors(self, options=None) -> int:
+    def ignore_errors(self, options=None) -> Literal[0, -1]:
         """
         Ignore various Excel errors/warnings in a worksheet for user defined
         ranges.
