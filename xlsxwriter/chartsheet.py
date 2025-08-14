@@ -7,6 +7,7 @@
 # Copyright (c) 2013-2025, John McNamara, jmcnamara@cpan.org
 #
 
+from xlsxwriter.chart import Chart
 from . import worksheet
 from .drawing import Drawing
 
@@ -40,7 +41,7 @@ class Chartsheet(worksheet.Worksheet):
         self.orientation = 0
         self.protection = False
 
-    def set_chart(self, chart):
+    def set_chart(self, chart: Chart) -> Chart:
         """
         Set the chart object for the chartsheet.
         Args:
@@ -54,7 +55,7 @@ class Chartsheet(worksheet.Worksheet):
         self.charts.append([0, 0, chart, 0, 0, 1, 1])
         return chart
 
-    def protect(self, password="", options=None) -> None:
+    def protect(self, password: str = "", options=None) -> None:
         """
         Set the password and protection options of the worksheet.
 
