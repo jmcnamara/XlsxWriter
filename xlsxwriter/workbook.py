@@ -61,7 +61,7 @@ class Workbook(xmlwriter.XMLwriter):
     chartsheet_class = Chartsheet
     worksheet_class = Worksheet
 
-    def __init__(self, filename=None, options=None) -> None:
+    def __init__(self, filename: Optional[str] = None, options=None) -> None:
         """
         Constructor.
 
@@ -339,7 +339,7 @@ class Workbook(xmlwriter.XMLwriter):
         signature: str,
         project_is_stream: bool = False,
         signature_is_stream: bool = False,
-    ) -> int:
+    ) -> Literal[0, -1]:
         """
         Add a vbaProject binary and a vbaProjectSignature binary to the
         Excel workbook.
@@ -461,7 +461,7 @@ class Workbook(xmlwriter.XMLwriter):
         property_type: Optional[
             Literal["bool", "date", "number", "number_int", "text"]
         ] = None,
-    ) -> int:
+    ) -> Literal[0, -1]:
         """
         Set a custom document property.
 
@@ -547,7 +547,7 @@ class Workbook(xmlwriter.XMLwriter):
         if calc_id:
             self.calc_id = calc_id
 
-    def define_name(self, name: str, formula: str) -> int:
+    def define_name(self, name: str, formula: str) -> Literal[0, -1]:
         # Create a defined name in Excel. We handle global/workbook level
         # names and local/worksheet names.
         """
@@ -619,7 +619,7 @@ class Workbook(xmlwriter.XMLwriter):
         """
         return self.worksheets_objs
 
-    def get_worksheet_by_name(self, name) -> Optional[Worksheet]:
+    def get_worksheet_by_name(self, name: str) -> Optional[Worksheet]:
         """
         Return a worksheet object in the workbook using the sheetname.
 
@@ -660,7 +660,7 @@ class Workbook(xmlwriter.XMLwriter):
         """
         self.allow_zip64 = True
 
-    def set_vba_name(self, name=None) -> None:
+    def set_vba_name(self, name: Optional[str] = None) -> None:
         """
         Set the VBA name for the workbook. By default the workbook is referred
         to as ThisWorkbook in VBA.

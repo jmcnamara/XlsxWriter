@@ -642,7 +642,7 @@ class Format(xmlwriter.XMLwriter):
         """
         self.right_color = Color._from_value(right_color)
 
-    def set_top(self, top=1) -> None:
+    def set_top(self, top: int = 1) -> None:
         """
         Set the Format top property.
 
@@ -890,7 +890,7 @@ class Format(xmlwriter.XMLwriter):
         """
         self.set_align(align)
 
-    def set_font_family(self, font_family) -> None:
+    def set_font_family(self, font_family: int) -> None:
         """
         Set the font family property.
 
@@ -968,7 +968,7 @@ class Format(xmlwriter.XMLwriter):
         """
         self.theme = theme
 
-    def set_hyperlink(self, hyperlink: bool=True) -> None:
+    def set_hyperlink(self, hyperlink: bool = True) -> None:
         """
         Set the properties for the hyperlink style.
 
@@ -984,7 +984,7 @@ class Format(xmlwriter.XMLwriter):
         self.set_theme(10)
         self.hyperlink = hyperlink
 
-    def set_color_indexed(self, color_index) -> None:
+    def set_color_indexed(self, color_index: Literal[0, 1]) -> None:
         """
         Set the color index property. Some fundamental format properties use an
         indexed color instead of a rbg or theme color.
@@ -998,7 +998,7 @@ class Format(xmlwriter.XMLwriter):
         """
         self.color_indexed = color_index
 
-    def set_font_only(self, font_only: bool=True) -> None:
+    def set_font_only(self, font_only: bool = True) -> None:
         """
         Set property to indicate that the format is used for fonts only.
 
