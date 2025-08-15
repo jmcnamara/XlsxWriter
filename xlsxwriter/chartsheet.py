@@ -7,6 +7,8 @@
 # Copyright (c) 2013-2025, John McNamara, jmcnamara@cpan.org
 #
 
+from xlsxwriter.chart import Chart
+
 from . import worksheet
 from .drawing import Drawing
 
@@ -24,7 +26,7 @@ class Chartsheet(worksheet.Worksheet):
     #
     ###########################################################################
 
-    def __init__(self):
+    def __init__(self) -> None:
         """
         Constructor.
 
@@ -40,7 +42,7 @@ class Chartsheet(worksheet.Worksheet):
         self.orientation = 0
         self.protection = False
 
-    def set_chart(self, chart):
+    def set_chart(self, chart: Chart) -> Chart:
         """
         Set the chart object for the chartsheet.
         Args:
@@ -54,7 +56,7 @@ class Chartsheet(worksheet.Worksheet):
         self.charts.append([0, 0, chart, 0, 0, 1, 1])
         return chart
 
-    def protect(self, password="", options=None):
+    def protect(self, password: str = "", options=None) -> None:
         """
         Set the password and protection options of the worksheet.
 
@@ -106,7 +108,7 @@ class Chartsheet(worksheet.Worksheet):
     # Private API.
     #
     ###########################################################################
-    def _assemble_xml_file(self):
+    def _assemble_xml_file(self) -> None:
         # Assemble and write the XML file.
 
         # Write the XML declaration.
@@ -148,7 +150,7 @@ class Chartsheet(worksheet.Worksheet):
         # Close the file.
         self._xml_close()
 
-    def _prepare_chart(self, index, chart_id, drawing_id):
+    def _prepare_chart(self, index, chart_id, drawing_id) -> None:
         # Set up chart/drawings.
 
         self.chart.id = chart_id - 1
@@ -170,7 +172,7 @@ class Chartsheet(worksheet.Worksheet):
     #
     ###########################################################################
 
-    def _write_chartsheet(self):
+    def _write_chartsheet(self) -> None:
         # Write the <worksheet> element. This is the root element.
 
         schema = "http://schemas.openxmlformats.org/"
@@ -181,7 +183,7 @@ class Chartsheet(worksheet.Worksheet):
 
         self._xml_start_tag("chartsheet", attributes)
 
-    def _write_sheet_pr(self):
+    def _write_sheet_pr(self) -> None:
         # Write the <sheetPr> element for Sheet level properties.
         attributes = []
 

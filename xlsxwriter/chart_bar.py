@@ -7,6 +7,7 @@
 # Copyright (c) 2013-2025, John McNamara, jmcnamara@cpan.org
 #
 
+from typing import Optional
 from warnings import warn
 
 from . import chart
@@ -25,7 +26,7 @@ class ChartBar(chart.Chart):
     #
     ###########################################################################
 
-    def __init__(self, options=None):
+    def __init__(self, options=None) -> None:
         """
         Constructor.
 
@@ -65,7 +66,7 @@ class ChartBar(chart.Chart):
         self.set_x_axis({})
         self.set_y_axis({})
 
-    def combine(self, chart=None):
+    def combine(self, chart: Optional[chart.Chart] = None) -> None:
         # pylint: disable=redefined-outer-name
         """
         Create a combination chart with a secondary chart.
@@ -95,7 +96,7 @@ class ChartBar(chart.Chart):
     #
     ###########################################################################
 
-    def _write_chart_type(self, args):
+    def _write_chart_type(self, args) -> None:
         # Override the virtual superclass method with a chart specific method.
         if args["primary_axes"]:
             # Reverse X and Y axes for Bar charts.
@@ -109,7 +110,7 @@ class ChartBar(chart.Chart):
         # Write the c:barChart element.
         self._write_bar_chart(args)
 
-    def _write_bar_chart(self, args):
+    def _write_bar_chart(self, args) -> None:
         # Write the <c:barChart> element.
 
         if args["primary_axes"]:
@@ -163,7 +164,7 @@ class ChartBar(chart.Chart):
     #
     ###########################################################################
 
-    def _write_bar_dir(self):
+    def _write_bar_dir(self) -> None:
         # Write the <c:barDir> element.
         val = "bar"
 
@@ -171,6 +172,6 @@ class ChartBar(chart.Chart):
 
         self._xml_empty_tag("c:barDir", attributes)
 
-    def _write_err_dir(self, val):
+    def _write_err_dir(self, val) -> None:
         # Overridden from Chart class since it is not used in Bar charts.
         pass

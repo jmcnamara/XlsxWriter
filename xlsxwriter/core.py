@@ -26,7 +26,7 @@ class Core(xmlwriter.XMLwriter):
     #
     ###########################################################################
 
-    def __init__(self):
+    def __init__(self) -> None:
         """
         Constructor.
 
@@ -43,7 +43,7 @@ class Core(xmlwriter.XMLwriter):
     #
     ###########################################################################
 
-    def _assemble_xml_file(self):
+    def _assemble_xml_file(self) -> None:
         # Assemble and write the XML file.
 
         # Set the creation date for the file.
@@ -73,7 +73,7 @@ class Core(xmlwriter.XMLwriter):
         # Close the file.
         self._xml_close()
 
-    def _set_properties(self, properties: Dict[str, Union[str, datetime]]):
+    def _set_properties(self, properties: Dict[str, Union[str, datetime]]) -> None:
         # Set the document properties.
         self.properties = properties
 
@@ -83,7 +83,7 @@ class Core(xmlwriter.XMLwriter):
     #
     ###########################################################################
 
-    def _write_cp_core_properties(self):
+    def _write_cp_core_properties(self) -> None:
         # Write the <cp:coreProperties> element.
 
         xmlns_cp = (
@@ -105,29 +105,29 @@ class Core(xmlwriter.XMLwriter):
 
         self._xml_start_tag("cp:coreProperties", attributes)
 
-    def _write_dc_creator(self):
+    def _write_dc_creator(self) -> None:
         # Write the <dc:creator> element.
         data = self.properties.get("author", "")
 
         self._xml_data_element("dc:creator", data)
 
-    def _write_cp_last_modified_by(self):
+    def _write_cp_last_modified_by(self) -> None:
         # Write the <cp:lastModifiedBy> element.
         data = self.properties.get("author", "")
 
         self._xml_data_element("cp:lastModifiedBy", data)
 
-    def _write_dcterms_created(self):
+    def _write_dcterms_created(self) -> None:
         # Write the <dcterms:created> element.
         attributes = [("xsi:type", "dcterms:W3CDTF")]
         self._xml_data_element("dcterms:created", self.iso_date, attributes)
 
-    def _write_dcterms_modified(self):
+    def _write_dcterms_modified(self) -> None:
         # Write the <dcterms:modified> element.
         attributes = [("xsi:type", "dcterms:W3CDTF")]
         self._xml_data_element("dcterms:modified", self.iso_date, attributes)
 
-    def _write_dc_title(self):
+    def _write_dc_title(self) -> None:
         # Write the <dc:title> element.
         if "title" in self.properties:
             data = self.properties["title"]
@@ -136,7 +136,7 @@ class Core(xmlwriter.XMLwriter):
 
         self._xml_data_element("dc:title", data)
 
-    def _write_dc_subject(self):
+    def _write_dc_subject(self) -> None:
         # Write the <dc:subject> element.
         if "subject" in self.properties:
             data = self.properties["subject"]
@@ -145,7 +145,7 @@ class Core(xmlwriter.XMLwriter):
 
         self._xml_data_element("dc:subject", data)
 
-    def _write_cp_keywords(self):
+    def _write_cp_keywords(self) -> None:
         # Write the <cp:keywords> element.
         if "keywords" in self.properties:
             data = self.properties["keywords"]
@@ -154,7 +154,7 @@ class Core(xmlwriter.XMLwriter):
 
         self._xml_data_element("cp:keywords", data)
 
-    def _write_dc_description(self):
+    def _write_dc_description(self) -> None:
         # Write the <dc:description> element.
         if "comments" in self.properties:
             data = self.properties["comments"]
@@ -163,7 +163,7 @@ class Core(xmlwriter.XMLwriter):
 
         self._xml_data_element("dc:description", data)
 
-    def _write_cp_category(self):
+    def _write_cp_category(self) -> None:
         # Write the <cp:category> element.
         if "category" in self.properties:
             data = self.properties["category"]
@@ -172,7 +172,7 @@ class Core(xmlwriter.XMLwriter):
 
         self._xml_data_element("cp:category", data)
 
-    def _write_cp_content_status(self):
+    def _write_cp_content_status(self) -> None:
         # Write the <cp:contentStatus> element.
         if "status" in self.properties:
             data = self.properties["status"]

@@ -24,7 +24,7 @@ class Styles(xmlwriter.XMLwriter):
     #
     ###########################################################################
 
-    def __init__(self):
+    def __init__(self) -> None:
         """
         Constructor.
 
@@ -50,7 +50,7 @@ class Styles(xmlwriter.XMLwriter):
     #
     ###########################################################################
 
-    def _assemble_xml_file(self):
+    def _assemble_xml_file(self) -> None:
         # Assemble and write the XML file.
 
         # Write the XML declaration.
@@ -95,7 +95,7 @@ class Styles(xmlwriter.XMLwriter):
         # Close the file.
         self._xml_close()
 
-    def _set_style_properties(self, properties):
+    def _set_style_properties(self, properties) -> None:
         # Pass in the Format objects and other properties used in the styles.
 
         self.xf_formats = properties[0]
@@ -114,14 +114,14 @@ class Styles(xmlwriter.XMLwriter):
     #
     ###########################################################################
 
-    def _write_style_sheet(self):
+    def _write_style_sheet(self) -> None:
         # Write the <styleSheet> element.
         xmlns = "http://schemas.openxmlformats.org/spreadsheetml/2006/main"
 
         attributes = [("xmlns", xmlns)]
         self._xml_start_tag("styleSheet", attributes)
 
-    def _write_num_fmts(self):
+    def _write_num_fmts(self) -> None:
         # Write the <numFmts> element.
         if not self.num_formats:
             return
@@ -135,7 +135,7 @@ class Styles(xmlwriter.XMLwriter):
 
         self._xml_end_tag("numFmts")
 
-    def _write_num_fmt(self, num_fmt_id, format_code):
+    def _write_num_fmt(self, num_fmt_id, format_code) -> None:
         # Write the <numFmt> element.
         format_codes = {
             0: "General",
@@ -187,7 +187,7 @@ class Styles(xmlwriter.XMLwriter):
 
         self._xml_empty_tag("numFmt", attributes)
 
-    def _write_fonts(self):
+    def _write_fonts(self) -> None:
         # Write the <fonts> element.
         if self.has_comments:
             # Add extra font for comments.
@@ -207,7 +207,7 @@ class Styles(xmlwriter.XMLwriter):
 
         self._xml_end_tag("fonts")
 
-    def _write_font(self, xf_format, is_dxf_format=False):
+    def _write_font(self, xf_format, is_dxf_format=False) -> None:
         # Write the <font> element.
         self._xml_start_tag("font")
 
@@ -279,7 +279,7 @@ class Styles(xmlwriter.XMLwriter):
 
         self._xml_end_tag("font")
 
-    def _write_comment_font(self):
+    def _write_comment_font(self) -> None:
         # Write the <font> element for comments.
         self._xml_start_tag("font")
 
@@ -290,7 +290,7 @@ class Styles(xmlwriter.XMLwriter):
 
         self._xml_end_tag("font")
 
-    def _write_underline(self, underline):
+    def _write_underline(self, underline) -> None:
         # Write the underline font element.
 
         if underline == 2:
@@ -305,17 +305,17 @@ class Styles(xmlwriter.XMLwriter):
 
         self._xml_empty_tag("u", attributes)
 
-    def _write_vert_align(self, val):
+    def _write_vert_align(self, val) -> None:
         # Write the <vertAlign> font sub-element.
         attributes = [("val", val)]
 
         self._xml_empty_tag("vertAlign", attributes)
 
-    def _write_color(self, attributes):
+    def _write_color(self, attributes) -> None:
         # Write the <color> element.
         self._xml_empty_tag("color", attributes)
 
-    def _write_fills(self):
+    def _write_fills(self) -> None:
         # Write the <fills> element.
         attributes = [("count", self.fill_count)]
 
@@ -332,13 +332,13 @@ class Styles(xmlwriter.XMLwriter):
 
         self._xml_end_tag("fills")
 
-    def _write_default_fill(self, pattern_type):
+    def _write_default_fill(self, pattern_type) -> None:
         # Write the <fill> element for the default fills.
         self._xml_start_tag("fill")
         self._xml_empty_tag("patternFill", [("patternType", pattern_type)])
         self._xml_end_tag("fill")
 
-    def _write_fill(self, xf_format, is_dxf_format=False):
+    def _write_fill(self, xf_format, is_dxf_format=False) -> None:
         # Write the <fill> element.
         pattern = xf_format.pattern
         bg_color = xf_format.bg_color
@@ -400,7 +400,7 @@ class Styles(xmlwriter.XMLwriter):
         self._xml_end_tag("patternFill")
         self._xml_end_tag("fill")
 
-    def _write_borders(self):
+    def _write_borders(self) -> None:
         # Write the <borders> element.
         attributes = [("count", self.border_count)]
 
@@ -413,7 +413,7 @@ class Styles(xmlwriter.XMLwriter):
 
         self._xml_end_tag("borders")
 
-    def _write_border(self, xf_format, is_dxf_format=False):
+    def _write_border(self, xf_format, is_dxf_format=False) -> None:
         # Write the <border> element.
         attributes = []
 
@@ -454,7 +454,7 @@ class Styles(xmlwriter.XMLwriter):
 
         self._xml_end_tag("border")
 
-    def _write_sub_border(self, border_type, style, color):
+    def _write_sub_border(self, border_type, style, color) -> None:
         # Write the <border> sub elements such as <right>, <top>, etc.
         attributes = []
 
@@ -490,7 +490,7 @@ class Styles(xmlwriter.XMLwriter):
 
         self._xml_end_tag(border_type)
 
-    def _write_cell_style_xfs(self):
+    def _write_cell_style_xfs(self) -> None:
         # Write the <cellStyleXfs> element.
         count = 1
 
@@ -507,7 +507,7 @@ class Styles(xmlwriter.XMLwriter):
 
         self._xml_end_tag("cellStyleXfs")
 
-    def _write_cell_xfs(self):
+    def _write_cell_xfs(self) -> None:
         # Write the <cellXfs> element.
         formats = self.xf_formats
 
@@ -526,7 +526,7 @@ class Styles(xmlwriter.XMLwriter):
 
         self._xml_end_tag("cellXfs")
 
-    def _write_style_xf(self, has_hyperlink=False, font_id=0):
+    def _write_style_xf(self, has_hyperlink=False, font_id=0) -> None:
         # Write the style <xf> element.
         num_fmt_id = 0
         fill_id = 0
@@ -554,7 +554,7 @@ class Styles(xmlwriter.XMLwriter):
         else:
             self._xml_empty_tag("xf", attributes)
 
-    def _write_xf(self, xf_format):
+    def _write_xf(self, xf_format) -> None:
         # Write the <xf> element.
         xf_id = xf_format.xf_id
         font_id = xf_format.font_index
@@ -629,7 +629,7 @@ class Styles(xmlwriter.XMLwriter):
         else:
             self._xml_empty_tag("xf", attributes)
 
-    def _write_cell_styles(self):
+    def _write_cell_styles(self) -> None:
         # Write the <cellStyles> element.
         count = 1
 
@@ -647,7 +647,7 @@ class Styles(xmlwriter.XMLwriter):
 
         self._xml_end_tag("cellStyles")
 
-    def _write_cell_style(self, name="Normal", xf_id=0, builtin_id=0):
+    def _write_cell_style(self, name="Normal", xf_id=0, builtin_id=0) -> None:
         # Write the <cellStyle> element.
         attributes = [
             ("name", name),
@@ -657,7 +657,7 @@ class Styles(xmlwriter.XMLwriter):
 
         self._xml_empty_tag("cellStyle", attributes)
 
-    def _write_dxfs(self):
+    def _write_dxfs(self) -> None:
         # Write the <dxfs> element.
         formats = self.dxf_formats
         count = len(formats)
@@ -693,7 +693,7 @@ class Styles(xmlwriter.XMLwriter):
         else:
             self._xml_empty_tag("dxfs", attributes)
 
-    def _write_table_styles(self):
+    def _write_table_styles(self) -> None:
         # Write the <tableStyles> element.
         count = 0
         default_table_style = "TableStyleMedium9"
@@ -707,7 +707,7 @@ class Styles(xmlwriter.XMLwriter):
 
         self._xml_empty_tag("tableStyles", attributes)
 
-    def _write_colors(self):
+    def _write_colors(self) -> None:
         # Write the <colors> element.
         custom_colors = self.custom_colors
 
@@ -718,7 +718,7 @@ class Styles(xmlwriter.XMLwriter):
         self._write_mru_colors(custom_colors)
         self._xml_end_tag("colors")
 
-    def _write_mru_colors(self, custom_colors):
+    def _write_mru_colors(self, custom_colors) -> None:
         # Write the <mruColors> element for the most recently used colors.
 
         # Write the custom custom_colors in reverse order.
@@ -737,19 +737,19 @@ class Styles(xmlwriter.XMLwriter):
 
         self._xml_end_tag("mruColors")
 
-    def _write_condense(self):
+    def _write_condense(self) -> None:
         # Write the <condense> element.
         attributes = [("val", 0)]
 
         self._xml_empty_tag("condense", attributes)
 
-    def _write_extend(self):
+    def _write_extend(self) -> None:
         # Write the <extend> element.
         attributes = [("val", 0)]
 
         self._xml_empty_tag("extend", attributes)
 
-    def _write_xf_format_extensions(self):
+    def _write_xf_format_extensions(self) -> None:
         # Write the xfComplement <extLst> elements.
         schema = "http://schemas.microsoft.com/office/spreadsheetml"
         attributes = [
@@ -768,7 +768,7 @@ class Styles(xmlwriter.XMLwriter):
         self._xml_end_tag("ext")
         self._xml_end_tag("extLst")
 
-    def _write_dxf_format_extensions(self):
+    def _write_dxf_format_extensions(self) -> None:
         # Write the DXFComplement <extLst> elements.
         schema = "http://schemas.microsoft.com/office/spreadsheetml"
         attributes = [

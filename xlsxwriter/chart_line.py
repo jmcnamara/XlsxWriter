@@ -23,7 +23,7 @@ class ChartLine(chart.Chart):
     #
     ###########################################################################
 
-    def __init__(self, options=None):
+    def __init__(self, options=None) -> None:
         """
         Constructor.
 
@@ -66,7 +66,7 @@ class ChartLine(chart.Chart):
     #
     ###########################################################################
 
-    def _write_chart_type(self, args):
+    def _write_chart_type(self, args) -> None:
         # Override the virtual superclass method with a chart specific method.
         # Write the c:lineChart element.
         self._write_line_chart(args)
@@ -77,7 +77,7 @@ class ChartLine(chart.Chart):
     #
     ###########################################################################
 
-    def _write_line_chart(self, args):
+    def _write_line_chart(self, args) -> None:
         # Write the <c:lineChart> element.
 
         if args["primary_axes"]:
@@ -119,7 +119,7 @@ class ChartLine(chart.Chart):
 
         self._xml_end_tag("c:lineChart")
 
-    def _write_d_pt_point(self, index, point):
+    def _write_d_pt_point(self, index, point) -> None:
         # Write an individual <c:dPt> element. Override the parent method to
         # add markers.
 
@@ -137,7 +137,7 @@ class ChartLine(chart.Chart):
 
         self._xml_end_tag("c:dPt")
 
-    def _write_marker_value(self):
+    def _write_marker_value(self) -> None:
         # Write the <c:marker> element without a sub-element.
         attributes = [("val", 1)]
 

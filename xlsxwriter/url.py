@@ -33,7 +33,7 @@ class Url:
     MAX_URL_LEN = 2080
     MAX_PARAMETER_LEN = 255
 
-    def __init__(self, link: str):
+    def __init__(self, link: str) -> None:
         self._link_type: UrlTypes = UrlTypes.UNKNOWN
         self._original_url: str = link
         self._link: str = link
@@ -57,7 +57,7 @@ class Url:
 
         self._escape_strings()
 
-    def __repr__(self):
+    def __repr__(self) -> str:
         """
         Return a string representation of the Url instance.
 
@@ -108,7 +108,7 @@ class Url:
         return self._text
 
     @text.setter
-    def text(self, value: str):
+    def text(self, value: str) -> None:
         """Set the alternative, user-friendly, text for the URL."""
         self._text = value
 
@@ -118,11 +118,11 @@ class Url:
         return self._tip
 
     @tip.setter
-    def tip(self, value: str):
+    def tip(self, value: str) -> None:
         """Set the screen tip for the URL."""
         self._tip = value
 
-    def _parse_url(self):
+    def _parse_url(self) -> None:
         """Parse the URL and determine its type."""
 
         # Handle mail address links.
@@ -201,7 +201,7 @@ class Url:
         else:
             raise ValueError(f"Unknown URL type: {self._original_url}")
 
-    def _set_object_link(self):
+    def _set_object_link(self) -> None:
         """
         Set the _is_object_link flag and re-parse the URL since the relationship
         link is different for object links.
@@ -212,7 +212,7 @@ class Url:
         self._parse_url()
         self._escape_strings()
 
-    def _escape_strings(self):
+    def _escape_strings(self) -> None:
         """Escape special characters in the URL strings."""
 
         if self._link_type != UrlTypes.INTERNAL:

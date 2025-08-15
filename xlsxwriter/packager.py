@@ -83,7 +83,7 @@ class Packager:
     #
     ###########################################################################
 
-    def __init__(self):
+    def __init__(self) -> None:
         """
         Constructor.
 
@@ -110,15 +110,15 @@ class Packager:
     #
     ###########################################################################
 
-    def _set_tmpdir(self, tmpdir):
+    def _set_tmpdir(self, tmpdir) -> None:
         # Set an optional user defined temp directory.
         self.tmpdir = tmpdir
 
-    def _set_in_memory(self, in_memory):
+    def _set_in_memory(self, in_memory) -> None:
         # Set the optional 'in_memory' mode.
         self.in_memory = in_memory
 
-    def _add_workbook(self, workbook):
+    def _add_workbook(self, workbook) -> None:
         # Add the Excel::Writer::XLSX::Workbook object to the package.
         self.workbook = workbook
         self.chart_count = len(workbook.charts)
@@ -179,14 +179,14 @@ class Packager:
 
         return os_filename
 
-    def _write_workbook_file(self):
+    def _write_workbook_file(self) -> None:
         # Write the workbook.xml file.
         workbook = self.workbook
 
         workbook._set_xml_writer(self._filename("xl/workbook.xml"))
         workbook._assemble_xml_file()
 
-    def _write_worksheet_files(self):
+    def _write_worksheet_files(self) -> None:
         # Write the worksheet files.
         index = 1
         for worksheet in self.workbook.worksheets():
@@ -203,7 +203,7 @@ class Packager:
             worksheet._assemble_xml_file()
             index += 1
 
-    def _write_chartsheet_files(self):
+    def _write_chartsheet_files(self) -> None:
         # Write the chartsheet files.
         index = 1
         for worksheet in self.workbook.worksheets():
@@ -216,7 +216,7 @@ class Packager:
             worksheet._assemble_xml_file()
             index += 1
 
-    def _write_chart_files(self):
+    def _write_chart_files(self) -> None:
         # Write the chart files.
         if not self.workbook.charts:
             return
@@ -236,7 +236,7 @@ class Packager:
             chart._assemble_xml_file()
             index += 1
 
-    def _write_drawing_files(self):
+    def _write_drawing_files(self) -> None:
         # Write the drawing files.
         if not self.drawing_count:
             return
@@ -249,7 +249,7 @@ class Packager:
             drawing._assemble_xml_file()
             index += 1
 
-    def _write_vml_files(self):
+    def _write_vml_files(self) -> None:
         # Write the comment VML files.
         index = 1
         for worksheet in self.workbook.worksheets():
@@ -285,7 +285,7 @@ class Packager:
                 self._write_vml_drawing_rels_file(worksheet, index)
                 index += 1
 
-    def _write_comment_files(self):
+    def _write_comment_files(self) -> None:
         # Write the comment files.
         index = 1
         for worksheet in self.workbook.worksheets():
@@ -297,7 +297,7 @@ class Packager:
             comment._assemble_xml_file(worksheet.comments_list)
             index += 1
 
-    def _write_shared_strings_file(self):
+    def _write_shared_strings_file(self) -> None:
         # Write the sharedStrings.xml file.
         sst = SharedStrings()
         sst.string_table = self.workbook.str_table
@@ -308,7 +308,7 @@ class Packager:
         sst._set_xml_writer(self._filename("xl/sharedStrings.xml"))
         sst._assemble_xml_file()
 
-    def _write_app_file(self):
+    def _write_app_file(self) -> None:
         # Write the app.xml file.
         properties = self.workbook.doc_properties
         app = App()
@@ -350,7 +350,7 @@ class Packager:
         app._set_xml_writer(self._filename("docProps/app.xml"))
         app._assemble_xml_file()
 
-    def _write_core_file(self):
+    def _write_core_file(self) -> None:
         # Write the core.xml file.
         properties = self.workbook.doc_properties
         core = Core()
@@ -359,7 +359,7 @@ class Packager:
         core._set_xml_writer(self._filename("docProps/core.xml"))
         core._assemble_xml_file()
 
-    def _write_metadata_file(self):
+    def _write_metadata_file(self) -> None:
         # Write the metadata.xml file.
         if not self.workbook.has_metadata:
             return
@@ -371,7 +371,7 @@ class Packager:
         metadata._set_xml_writer(self._filename("xl/metadata.xml"))
         metadata._assemble_xml_file()
 
-    def _write_feature_bag_property(self):
+    def _write_feature_bag_property(self) -> None:
         # Write the featurePropertyBag.xml file.
         feature_property_bags = self.workbook._has_feature_property_bags()
         if not feature_property_bags:
@@ -385,7 +385,7 @@ class Packager:
         )
         property_bag._assemble_xml_file()
 
-    def _write_rich_value_files(self):
+    def _write_rich_value_files(self) -> None:
 
         if not self.workbook.embedded_images.has_images():
             return
@@ -395,7 +395,7 @@ class Packager:
         self._write_rich_value_structure()
         self._write_rich_value_rel()
 
-    def _write_rich_value(self):
+    def _write_rich_value(self) -> None:
         # Write the rdrichvalue.xml file.
         filename = self._filename("xl/richData/rdrichvalue.xml")
         xml_file = RichValue()
@@ -403,14 +403,14 @@ class Packager:
         xml_file._set_xml_writer(filename)
         xml_file._assemble_xml_file()
 
-    def _write_rich_value_types(self):
+    def _write_rich_value_types(self) -> None:
         # Write the rdRichValueTypes.xml file.
         filename = self._filename("xl/richData/rdRichValueTypes.xml")
         xml_file = RichValueTypes()
         xml_file._set_xml_writer(filename)
         xml_file._assemble_xml_file()
 
-    def _write_rich_value_structure(self):
+    def _write_rich_value_structure(self) -> None:
         # Write the rdrichvaluestructure.xml file.
         filename = self._filename("xl/richData/rdrichvaluestructure.xml")
         xml_file = RichValueStructure()
@@ -418,7 +418,7 @@ class Packager:
         xml_file._set_xml_writer(filename)
         xml_file._assemble_xml_file()
 
-    def _write_rich_value_rel(self):
+    def _write_rich_value_rel(self) -> None:
         # Write the richValueRel.xml file.
         filename = self._filename("xl/richData/richValueRel.xml")
         xml_file = RichValueRel()
@@ -426,7 +426,7 @@ class Packager:
         xml_file._set_xml_writer(filename)
         xml_file._assemble_xml_file()
 
-    def _write_custom_file(self):
+    def _write_custom_file(self) -> None:
         # Write the custom.xml file.
         properties = self.workbook.custom_properties
         custom = Custom()
@@ -438,7 +438,7 @@ class Packager:
         custom._set_xml_writer(self._filename("docProps/custom.xml"))
         custom._assemble_xml_file()
 
-    def _write_content_types_file(self):
+    def _write_content_types_file(self) -> None:
         # Write the ContentTypes.xml file.
         content = ContentTypes()
         content._add_image_types(self.workbook.image_types)
@@ -499,7 +499,7 @@ class Packager:
         content._set_xml_writer(self._filename("[Content_Types].xml"))
         content._assemble_xml_file()
 
-    def _write_styles_file(self):
+    def _write_styles_file(self) -> None:
         # Write the style xml file.
         xf_formats = self.workbook.xf_formats
         palette = self.workbook.palette
@@ -529,14 +529,14 @@ class Packager:
         styles._set_xml_writer(self._filename("xl/styles.xml"))
         styles._assemble_xml_file()
 
-    def _write_theme_file(self):
+    def _write_theme_file(self) -> None:
         # Write the theme xml file.
         theme = Theme()
 
         theme._set_xml_writer(self._filename("xl/theme/theme1.xml"))
         theme._assemble_xml_file()
 
-    def _write_table_files(self):
+    def _write_table_files(self) -> None:
         # Write the table files.
         index = 1
         for worksheet in self.workbook.worksheets():
@@ -554,13 +554,13 @@ class Packager:
                 table._assemble_xml_file()
                 index += 1
 
-    def _get_table_count(self):
+    def _get_table_count(self) -> None:
         # Count the table files. Required for the [Content_Types] file.
         for worksheet in self.workbook.worksheets():
             for _ in worksheet.tables:
                 self.table_count += 1
 
-    def _write_root_rels_file(self):
+    def _write_root_rels_file(self) -> None:
         # Write the _rels/.rels xml file.
         rels = Relationships()
 
@@ -577,7 +577,7 @@ class Packager:
 
         rels._assemble_xml_file()
 
-    def _write_workbook_rels_file(self):
+    def _write_workbook_rels_file(self) -> None:
         # Write the _rels/.rels xml file.
         rels = Relationships()
 
@@ -622,7 +622,7 @@ class Packager:
         rels._set_xml_writer(self._filename("xl/_rels/workbook.xml.rels"))
         rels._assemble_xml_file()
 
-    def _write_worksheet_rels_files(self):
+    def _write_worksheet_rels_files(self) -> None:
         # Write data such as hyperlinks or drawings.
         index = 0
         for worksheet in self.workbook.worksheets():
@@ -655,7 +655,7 @@ class Packager:
             )
             rels._assemble_xml_file()
 
-    def _write_chartsheet_rels_files(self):
+    def _write_chartsheet_rels_files(self) -> None:
         # Write the chartsheet .rels files for links to drawing files.
         index = 0
         for worksheet in self.workbook.worksheets():
@@ -683,7 +683,7 @@ class Packager:
             )
             rels._assemble_xml_file()
 
-    def _write_drawing_rels_files(self):
+    def _write_drawing_rels_files(self) -> None:
         # Write the drawing .rels files for worksheets with charts or drawings.
         index = 0
         for worksheet in self.workbook.worksheets():
@@ -705,7 +705,7 @@ class Packager:
             )
             rels._assemble_xml_file()
 
-    def _write_vml_drawing_rels_file(self, worksheet, index):
+    def _write_vml_drawing_rels_file(self, worksheet, index) -> None:
         # Write the vmlDdrawing .rels files for worksheets with images in
         # headers or footers.
 
@@ -721,7 +721,7 @@ class Packager:
         )
         rels._assemble_xml_file()
 
-    def _write_vba_project_rels_file(self):
+    def _write_vba_project_rels_file(self) -> None:
         # Write the vbaProject.rels xml file if signed macros exist.
         vba_project_signature = self.workbook.vba_project_signature
 
@@ -738,7 +738,7 @@ class Packager:
         rels._set_xml_writer(self._filename("xl/_rels/vbaProject.bin.rels"))
         rels._assemble_xml_file()
 
-    def _write_rich_value_rels_files(self):
+    def _write_rich_value_rels_files(self) -> None:
         # Write the richValueRel.xml.rels for embedded images.
         if not self.workbook.embedded_images.has_images():
             return
@@ -758,7 +758,7 @@ class Packager:
 
         rels._assemble_xml_file()
 
-    def _add_image_files(self):
+    def _add_image_files(self) -> None:
         # pylint: disable=consider-using-with
         # Write the /xl/media/image?.xml files.
         workbook = self.workbook
@@ -805,7 +805,7 @@ class Packager:
 
             index += 1
 
-    def _add_vba_project_signature(self):
+    def _add_vba_project_signature(self) -> None:
         # pylint: disable=consider-using-with
         # Copy in a vbaProjectSignature.bin file.
         vba_project_signature = self.workbook.vba_project_signature
@@ -841,7 +841,7 @@ class Packager:
 
             self.filenames.append((os_filename, xml_vba_signature_name, True))
 
-    def _add_vba_project(self):
+    def _add_vba_project(self) -> None:
         # pylint: disable=consider-using-with
         # Copy in a vbaProject.bin file.
         vba_project = self.workbook.vba_project

@@ -14,7 +14,7 @@ from xlsxwriter.workbook import Workbook
 from ..excel_comparison_test import ExcelComparisonTest
 
 
-def write_uuid(worksheet, row, col, token, cell_format=None):
+def write_uuid(worksheet, row: int, col: int, token, cell_format=None):
     return worksheet.write_string(row, col, str(token), cell_format)
 
 

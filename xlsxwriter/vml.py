@@ -33,7 +33,7 @@ class ButtonType:
         width: int,
         button_number: int,
         options: dict = None,
-    ):
+    ) -> None:
         """
         Initialize a ButtonType instance.
 
@@ -64,7 +64,7 @@ class ButtonType:
         # Set any user supplied options.
         self._set_user_options(options)
 
-    def _set_user_options(self, options=None):
+    def _set_user_options(self, options=None) -> None:
         """
         This method handles the additional optional parameters to
         ``insert_button()``.
@@ -123,7 +123,7 @@ class Vml(xmlwriter.XMLwriter):
         comments_data=None,
         buttons_data=None,
         header_images=None,
-    ):
+    ) -> None:
         # Assemble and write the XML file.
         z_index = 1
 
@@ -186,7 +186,7 @@ class Vml(xmlwriter.XMLwriter):
     # XML methods.
     #
     ###########################################################################
-    def _write_xml_namespace(self):
+    def _write_xml_namespace(self) -> None:
         # Write the <xml> element. This is the root element of VML.
         schema = "urn:schemas-microsoft-com:"
         xmlns = schema + "vml"
@@ -201,7 +201,7 @@ class Vml(xmlwriter.XMLwriter):
 
         self._xml_start_tag("xml", attributes)
 
-    def _write_shapelayout(self, data_id):
+    def _write_shapelayout(self, data_id) -> None:
         # Write the <o:shapelayout> element.
         attributes = [("v:ext", "edit")]
 
@@ -212,7 +212,7 @@ class Vml(xmlwriter.XMLwriter):
 
         self._xml_end_tag("o:shapelayout")
 
-    def _write_idmap(self, data_id):
+    def _write_idmap(self, data_id) -> None:
         # Write the <o:idmap> element.
         attributes = [
             ("v:ext", "edit"),
@@ -221,7 +221,7 @@ class Vml(xmlwriter.XMLwriter):
 
         self._xml_empty_tag("o:idmap", attributes)
 
-    def _write_comment_shapetype(self):
+    def _write_comment_shapetype(self) -> None:
         # Write the <v:shapetype> element.
         shape_id = "_x0000_t202"
         coordsize = "21600,21600"
@@ -245,7 +245,7 @@ class Vml(xmlwriter.XMLwriter):
 
         self._xml_end_tag("v:shapetype")
 
-    def _write_button_shapetype(self):
+    def _write_button_shapetype(self) -> None:
         # Write the <v:shapetype> element.
         shape_id = "_x0000_t201"
         coordsize = "21600,21600"
@@ -272,7 +272,7 @@ class Vml(xmlwriter.XMLwriter):
 
         self._xml_end_tag("v:shapetype")
 
-    def _write_image_shapetype(self):
+    def _write_image_shapetype(self) -> None:
         # Write the <v:shapetype> element.
         shape_id = "_x0000_t75"
         coordsize = "21600,21600"
@@ -308,7 +308,7 @@ class Vml(xmlwriter.XMLwriter):
 
         self._xml_end_tag("v:shapetype")
 
-    def _write_stroke(self):
+    def _write_stroke(self) -> None:
         # Write the <v:stroke> element.
         joinstyle = "miter"
 
@@ -316,7 +316,7 @@ class Vml(xmlwriter.XMLwriter):
 
         self._xml_empty_tag("v:stroke", attributes)
 
-    def _write_comment_path(self, gradientshapeok, connecttype):
+    def _write_comment_path(self, gradientshapeok, connecttype) -> None:
         # Write the <v:path> element.
         attributes = []
 
@@ -327,7 +327,7 @@ class Vml(xmlwriter.XMLwriter):
 
         self._xml_empty_tag("v:path", attributes)
 
-    def _write_button_path(self):
+    def _write_button_path(self) -> None:
         # Write the <v:path> element.
         shadowok = "f"
         extrusionok = "f"
@@ -345,7 +345,7 @@ class Vml(xmlwriter.XMLwriter):
 
         self._xml_empty_tag("v:path", attributes)
 
-    def _write_image_path(self):
+    def _write_image_path(self) -> None:
         # Write the <v:path> element.
         extrusionok = "f"
         gradientshapeok = "t"
@@ -359,7 +359,7 @@ class Vml(xmlwriter.XMLwriter):
 
         self._xml_empty_tag("v:path", attributes)
 
-    def _write_shapetype_lock(self):
+    def _write_shapetype_lock(self) -> None:
         # Write the <o:lock> element.
         ext = "edit"
         shapetype = "t"
@@ -371,7 +371,7 @@ class Vml(xmlwriter.XMLwriter):
 
         self._xml_empty_tag("o:lock", attributes)
 
-    def _write_rotation_lock(self):
+    def _write_rotation_lock(self) -> None:
         # Write the <o:lock> element.
         ext = "edit"
         rotation = "t"
@@ -383,7 +383,7 @@ class Vml(xmlwriter.XMLwriter):
 
         self._xml_empty_tag("o:lock", attributes)
 
-    def _write_aspect_ratio_lock(self):
+    def _write_aspect_ratio_lock(self) -> None:
         # Write the <o:lock> element.
         ext = "edit"
         aspectratio = "t"
@@ -395,7 +395,7 @@ class Vml(xmlwriter.XMLwriter):
 
         self._xml_empty_tag("o:lock", attributes)
 
-    def _write_comment_shape(self, shape_id, z_index, comment: CommentType):
+    def _write_comment_shape(self, shape_id, z_index, comment: CommentType) -> None:
         # Write the <v:shape> element.
         shape_type = "#_x0000_t202"
         insetmode = "auto"
@@ -447,7 +447,7 @@ class Vml(xmlwriter.XMLwriter):
 
         self._xml_end_tag("v:shape")
 
-    def _write_button_shape(self, shape_id, z_index, button: ButtonType):
+    def _write_button_shape(self, shape_id, z_index, button: ButtonType) -> None:
         # Write the <v:shape> element.
         shape_type = "#_x0000_t201"
 
@@ -496,7 +496,7 @@ class Vml(xmlwriter.XMLwriter):
 
         self._xml_end_tag("v:shape")
 
-    def _write_image_shape(self, shape_id, z_index, image: Image):
+    def _write_image_shape(self, shape_id, z_index, image: Image) -> None:
         # Write the <v:shape> element.
         shape_type = "#_x0000_t75"
 
@@ -546,7 +546,7 @@ class Vml(xmlwriter.XMLwriter):
 
         self._xml_end_tag("v:shape")
 
-    def _write_comment_fill(self):
+    def _write_comment_fill(self) -> None:
         # Write the <v:fill> element.
         color_2 = "#ffffe1"
 
@@ -554,7 +554,7 @@ class Vml(xmlwriter.XMLwriter):
 
         self._xml_empty_tag("v:fill", attributes)
 
-    def _write_button_fill(self):
+    def _write_button_fill(self) -> None:
         # Write the <v:fill> element.
         color_2 = "buttonFace [67]"
         detectmouseclick = "t"
@@ -566,7 +566,7 @@ class Vml(xmlwriter.XMLwriter):
 
         self._xml_empty_tag("v:fill", attributes)
 
-    def _write_shadow(self):
+    def _write_shadow(self) -> None:
         # Write the <v:shadow> element.
         on = "t"
         color = "black"
@@ -580,7 +580,7 @@ class Vml(xmlwriter.XMLwriter):
 
         self._xml_empty_tag("v:shadow", attributes)
 
-    def _write_comment_textbox(self):
+    def _write_comment_textbox(self) -> None:
         # Write the <v:textbox> element.
         style = "mso-direction-alt:auto"
 
@@ -593,7 +593,7 @@ class Vml(xmlwriter.XMLwriter):
 
         self._xml_end_tag("v:textbox")
 
-    def _write_button_textbox(self, button: ButtonType):
+    def _write_button_textbox(self, button: ButtonType) -> None:
         # Write the <v:textbox> element.
         style = "mso-direction-alt:auto"
 
@@ -606,7 +606,7 @@ class Vml(xmlwriter.XMLwriter):
 
         self._xml_end_tag("v:textbox")
 
-    def _write_div(self, align: str, caption: str = None):
+    def _write_div(self, align: str, caption: str = None) -> None:
         # Write the <div> element.
 
         style = "text-align:" + align
@@ -620,7 +620,7 @@ class Vml(xmlwriter.XMLwriter):
 
         self._xml_end_tag("div")
 
-    def _write_button_font(self, caption: str):
+    def _write_button_font(self, caption: str) -> None:
         # Write the <font> element.
         face = "Calibri"
         size = 220
@@ -634,7 +634,7 @@ class Vml(xmlwriter.XMLwriter):
 
         self._xml_data_element("font", caption, attributes)
 
-    def _write_comment_client_data(self, comment: CommentType):
+    def _write_comment_client_data(self, comment: CommentType) -> None:
         # Write the <x:ClientData> element.
         object_type = "Note"
 
@@ -666,7 +666,7 @@ class Vml(xmlwriter.XMLwriter):
 
         self._xml_end_tag("x:ClientData")
 
-    def _write_button_client_data(self, button):
+    def _write_button_client_data(self, button) -> None:
         # Write the <x:ClientData> element.
         object_type = "Button"
 
@@ -694,19 +694,19 @@ class Vml(xmlwriter.XMLwriter):
 
         self._xml_end_tag("x:ClientData")
 
-    def _write_move_with_cells(self):
+    def _write_move_with_cells(self) -> None:
         # Write the <x:MoveWithCells> element.
         self._xml_empty_tag("x:MoveWithCells")
 
-    def _write_size_with_cells(self):
+    def _write_size_with_cells(self) -> None:
         # Write the <x:SizeWithCells> element.
         self._xml_empty_tag("x:SizeWithCells")
 
-    def _write_visible(self):
+    def _write_visible(self) -> None:
         # Write the <x:Visible> element.
         self._xml_empty_tag("x:Visible")
 
-    def _write_anchor(self, vertices):
+    def _write_anchor(self, vertices) -> None:
         # Write the <x:Anchor> element.
         (col_start, row_start, x1, y1, col_end, row_end, x2, y2) = vertices[:8]
 
@@ -717,37 +717,37 @@ class Vml(xmlwriter.XMLwriter):
 
         self._xml_data_element("x:Anchor", data)
 
-    def _write_auto_fill(self):
+    def _write_auto_fill(self) -> None:
         # Write the <x:AutoFill> element.
         data = "False"
 
         self._xml_data_element("x:AutoFill", data)
 
-    def _write_row(self, data):
+    def _write_row(self, data) -> None:
         # Write the <x:Row> element.
         self._xml_data_element("x:Row", data)
 
-    def _write_column(self, data):
+    def _write_column(self, data) -> None:
         # Write the <x:Column> element.
         self._xml_data_element("x:Column", data)
 
-    def _write_print_object(self):
+    def _write_print_object(self) -> None:
         # Write the <x:PrintObject> element.
         self._xml_data_element("x:PrintObject", "False")
 
-    def _write_text_halign(self):
+    def _write_text_halign(self) -> None:
         # Write the <x:TextHAlign> element.
         self._xml_data_element("x:TextHAlign", "Center")
 
-    def _write_text_valign(self):
+    def _write_text_valign(self) -> None:
         # Write the <x:TextVAlign> element.
         self._xml_data_element("x:TextVAlign", "Center")
 
-    def _write_fmla_macro(self, data):
+    def _write_fmla_macro(self, data) -> None:
         # Write the <x:FmlaMacro> element.
         self._xml_data_element("x:FmlaMacro", data)
 
-    def _write_imagedata(self, ref_id, o_title):
+    def _write_imagedata(self, ref_id, o_title) -> None:
         # Write the <v:imagedata> element.
         attributes = [
             ("o:relid", "rId" + str(ref_id)),
@@ -756,7 +756,7 @@ class Vml(xmlwriter.XMLwriter):
 
         self._xml_empty_tag("v:imagedata", attributes)
 
-    def _write_formulas(self):
+    def _write_formulas(self) -> None:
         # Write the <v:formulas> element.
         self._xml_start_tag("v:formulas")
 
@@ -776,7 +776,7 @@ class Vml(xmlwriter.XMLwriter):
 
         self._xml_end_tag("v:formulas")
 
-    def _write_formula(self, eqn):
+    def _write_formula(self, eqn) -> None:
         # Write the <v:f> element.
         attributes = [("eqn", eqn)]
 

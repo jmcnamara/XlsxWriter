@@ -25,7 +25,7 @@ class Shape:
     #
     ###########################################################################
 
-    def __init__(self, shape_type, name, options):
+    def __init__(self, shape_type, name: str, options) -> None:
         """
         Constructor.
 
@@ -68,7 +68,7 @@ class Shape:
     #
     ###########################################################################
 
-    def _set_options(self, options):
+    def _set_options(self, options) -> None:
         self.align = self._get_align_properties(options.get("align"))
         self.fill = self._get_fill_properties(options.get("fill"))
         self.font = self._get_font_properties(options.get("font"))
