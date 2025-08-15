@@ -9,6 +9,7 @@
 
 import copy
 import re
+from typing import Optional
 from warnings import warn
 
 from xlsxwriter.color import Color, ColorTypes
@@ -639,7 +640,7 @@ class Chart(xmlwriter.XMLwriter):
             "gradient": gradient,
         }
 
-    def combine(self, chart=None) -> None:
+    def combine(self, chart: Optional["Chart"] = None) -> None:
         """
         Create a combination chart with a secondary chart.
 

@@ -8,6 +8,7 @@
 #
 
 from xlsxwriter.chart import Chart
+
 from . import worksheet
 from .drawing import Drawing
 

@@ -7,6 +7,7 @@
 # Copyright (c) 2013-2025, John McNamara, jmcnamara@cpan.org
 #
 
+from typing import Optional
 from warnings import warn
 
 from . import chart
@@ -65,7 +66,7 @@ class ChartBar(chart.Chart):
         self.set_x_axis({})
         self.set_y_axis({})
 
-    def combine(self, chart=None) -> None:
+    def combine(self, chart: Optional[chart.Chart] = None) -> None:
         # pylint: disable=redefined-outer-name
         """
         Create a combination chart with a secondary chart.

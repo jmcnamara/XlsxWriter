@@ -36,7 +36,7 @@ class ChartDoughnut(chart_pie.ChartPie):
         self.rotation = 0
         self.hole_size = 50
 
-    def set_hole_size(self, size) -> None:
+    def set_hole_size(self, size: int) -> None:
         """
         Set the Doughnut chart hole size.
 

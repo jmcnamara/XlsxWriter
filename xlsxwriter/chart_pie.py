@@ -44,7 +44,7 @@ class ChartPie(chart.Chart):
             "best_fit": "bestFit",
         }
 
-    def set_rotation(self, rotation) -> None:
+    def set_rotation(self, rotation: int) -> None:
         """
         Set the Pie/Doughnut chart rotation: the angle of the first slice.
 
