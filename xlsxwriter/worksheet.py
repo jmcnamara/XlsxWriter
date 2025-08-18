@@ -21,7 +21,7 @@ from fractions import Fraction
 from functools import wraps
 from io import BytesIO, StringIO
 from math import isinf, isnan
-from typing import Any, List, Literal, Optional, Union
+from typing import Any, Dict, List, Literal, Optional, Union
 from warnings import warn
 
 from xlsxwriter.chart import Chart
@@ -1555,7 +1555,11 @@ class Worksheet(xmlwriter.XMLwriter):
 
     @convert_cell_args
     def insert_image(
-        self, row: int, col: int, source: Union[str, BytesIO, Image], options=None
+        self,
+        row: int,
+        col: int,
+        source: Union[str, BytesIO, Image],
+        options: Optional[Dict[str, Any]] = None,
     ) -> Literal[0, -1]:
         """
         Insert an image with its top-left corner in a worksheet cell.
@@ -1589,7 +1593,11 @@ class Worksheet(xmlwriter.XMLwriter):
 
     @convert_cell_args
     def embed_image(
-        self, row: int, col: int, source: Union[str, BytesIO, Image], options=None
+        self,
+        row: int,
+        col: int,
+        source: Union[str, BytesIO, Image],
+        options: Optional[Dict[str, Any]] = None,
     ) -> Literal[0, -1]:
         """
         Embed an image in a worksheet cell.
@@ -1636,7 +1644,7 @@ class Worksheet(xmlwriter.XMLwriter):
 
     @convert_cell_args
     def insert_textbox(
-        self, row: int, col: int, text: str, options=None
+        self, row: int, col: int, text: str, options: Optional[Dict[str, Any]] = None
     ) -> Literal[0, -1]:
         """
         Insert an textbox with its top-left corner in a worksheet cell.
@@ -1690,7 +1698,7 @@ class Worksheet(xmlwriter.XMLwriter):
 
     @convert_cell_args
     def insert_chart(
-        self, row: int, col: int, chart: Chart, options=None
+        self, row: int, col: int, chart: Chart, options: Optional[Dict[str, Any]] = None
     ) -> Literal[0, -1, -2]:
         """
         Insert an chart with its top-left corner in a worksheet cell.
@@ -1763,7 +1771,7 @@ class Worksheet(xmlwriter.XMLwriter):
 
     @convert_cell_args
     def write_comment(
-        self, row: int, col: int, comment: str, options=None
+        self, row: int, col: int, comment: str, options: Optional[Dict[str, Any]] = None
     ) -> Literal[0, -1, -2]:
         """
         Write a comment to a worksheet cell.
@@ -1956,7 +1964,7 @@ class Worksheet(xmlwriter.XMLwriter):
         last_col: int,
         width: Optional[float] = None,
         cell_format: Optional[Format] = None,
-        options=None,
+        options: Optional[Dict[str, Any]] = None,
     ) -> Literal[0, -1]:
         """
         Set the width, and other properties of a single column or a
@@ -2023,7 +2031,7 @@ class Worksheet(xmlwriter.XMLwriter):
         last_col: int,
         width: Optional[float] = None,
         cell_format: Optional[Format] = None,
-        options=None,
+        options: Optional[Dict[str, Any]] = None,
     ) -> Literal[0, -1]:
         """
         Set the width, and other properties of a single column or a
@@ -2200,7 +2208,7 @@ class Worksheet(xmlwriter.XMLwriter):
         row: int,
         height: Optional[float] = None,
         cell_format: Optional[Format] = None,
-        options=None,
+        options: Optional[Dict[str, Any]] = None,
     ) -> Literal[0, -1]:
         """
         Set the width, and other properties of a row.
@@ -2264,7 +2272,7 @@ class Worksheet(xmlwriter.XMLwriter):
         row: int,
         height: Optional[float] = None,
         cell_format: Optional[Format] = None,
-        options=None,
+        options: Optional[Dict[str, Any]] = None,
     ) -> Literal[0, -1]:
         """
         Set the width (in pixels), and other properties of a row.
@@ -2541,7 +2549,12 @@ class Worksheet(xmlwriter.XMLwriter):
 
     @convert_range_args
     def data_validation(
-        self, first_row: int, first_col: int, last_row: int, last_col: int, options=None
+        self,
+        first_row: int,
+        first_col: int,
+        last_row: int,
+        last_col: int,
+        options: Optional[Dict[str, Any]] = None,
     ) -> Literal[0, -1, -2]:
         """
         Add a data validation to a worksheet.
@@ -2802,7 +2815,12 @@ class Worksheet(xmlwriter.XMLwriter):
 
     @convert_range_args
     def conditional_format(
-        self, first_row: int, first_col: int, last_row: int, last_col: int, options=None
+        self,
+        first_row: int,
+        first_col: int,
+        last_row: int,
+        last_col: int,
+        options: Optional[Dict[str, Any]] = None,
     ) -> Literal[0, -1, -2]:
         """
         Add a conditional format to a worksheet.
@@ -3307,7 +3325,12 @@ class Worksheet(xmlwriter.XMLwriter):
 
     @convert_range_args
     def add_table(
-        self, first_row: int, first_col: int, last_row: int, last_col: int, options=None
+        self,
+        first_row: int,
+        first_col: int,
+        last_row: int,
+        last_col: int,
+        options: Optional[Dict[str, Any]] = None,
     ) -> Literal[0, -1, -2, -3]:
         """
         Add an Excel table to a worksheet.
@@ -3650,7 +3673,9 @@ class Worksheet(xmlwriter.XMLwriter):
         return 0
 
     @convert_cell_args
-    def add_sparkline(self, row: int, col: int, options=None) -> Literal[0, -1, -2]:
+    def add_sparkline(
+        self, row: int, col: int, options: Optional[Dict[str, Any]] = None
+    ) -> Literal[0, -1, -2]:
         """
         Add sparklines to the worksheet.
 
@@ -4035,7 +4060,9 @@ class Worksheet(xmlwriter.XMLwriter):
         """
         self.tab_color = Color._from_value(color)
 
-    def protect(self, password: str = "", options=None) -> None:
+    def protect(
+        self, password: str = "", options: Optional[Dict[str, Any]] = None
+    ) -> None:
         """
         Set the password and protection options of the worksheet.
 
@@ -4126,7 +4153,9 @@ class Worksheet(xmlwriter.XMLwriter):
         return 0
 
     @convert_cell_args
-    def insert_button(self, row: int, col: int, options=None) -> Literal[0, -1]:
+    def insert_button(
+        self, row: int, col: int, options: Optional[Dict[str, Any]] = None
+    ) -> Literal[0, -1]:
         """
         Insert a button form object into the worksheet.
 
@@ -4323,7 +4352,9 @@ class Worksheet(xmlwriter.XMLwriter):
         self.margin_top = top
         self.margin_bottom = bottom
 
-    def set_header(self, header: str = "", options=None, margin=None) -> None:
+    def set_header(
+        self, header: str = "", options: Optional[Dict[str, Any]] = None, margin=None
+    ) -> None:
         """
         Set the page header caption and optional margin.
 
@@ -4402,7 +4433,9 @@ class Worksheet(xmlwriter.XMLwriter):
         if image_count:
             self.has_header_vml = True
 
-    def set_footer(self, footer: str = "", options=None, margin=None) -> None:
+    def set_footer(
+        self, footer: str = "", options: Optional[Dict[str, Any]] = None, margin=None
+    ) -> None:
         """
         Set the page footer caption and optional margin.
 
@@ -4744,7 +4777,7 @@ class Worksheet(xmlwriter.XMLwriter):
         else:
             self.vba_codename = "Sheet" + str(self.index + 1)
 
-    def ignore_errors(self, options=None) -> Literal[0, -1]:
+    def ignore_errors(self, options: Optional[Dict[str, Any]] = None) -> Literal[0, -1]:
         """
         Ignore various Excel errors/warnings in a worksheet for user defined
         ranges.
@@ -5208,7 +5241,7 @@ class Worksheet(xmlwriter.XMLwriter):
 
         return f"{digest:X}"
 
-    def _image_from_source(self, source, options=None):
+    def _image_from_source(self, source, options: Optional[Dict[str, Any]] = None):
         # Backward compatibility utility method to convert an input argument to
         # an Image object. The source can be a filename, BytesIO stream or
         # an existing Image object.

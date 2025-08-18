@@ -9,7 +9,7 @@
 
 import copy
 import re
-from typing import Optional
+from typing import Any, Dict, Optional
 from warnings import warn
 
 from xlsxwriter.color import Color, ColorTypes
@@ -113,7 +113,7 @@ class Chart(xmlwriter.XMLwriter):
         self._set_default_properties()
         self.fill = {}
 
-    def add_series(self, options=None) -> None:
+    def add_series(self, options: Optional[Dict[str, Any]] = None) -> None:
         """
         Add a data series to a chart.
 
@@ -260,7 +260,7 @@ class Chart(xmlwriter.XMLwriter):
 
         self.series.append(series)
 
-    def set_x_axis(self, options) -> None:
+    def set_x_axis(self, options: Dict[str, Any]) -> None:
         """
         Set the chart X axis options.
 
@@ -275,7 +275,7 @@ class Chart(xmlwriter.XMLwriter):
 
         self.x_axis = axis
 
-    def set_y_axis(self, options) -> None:
+    def set_y_axis(self, options: Dict[str, Any]) -> None:
         """
         Set the chart Y axis options.
 
@@ -290,7 +290,7 @@ class Chart(xmlwriter.XMLwriter):
 
         self.y_axis = axis
 
-    def set_x2_axis(self, options) -> None:
+    def set_x2_axis(self, options: Dict[str, Any]) -> None:
         """
         Set the chart secondary X axis options.
 
@@ -305,7 +305,7 @@ class Chart(xmlwriter.XMLwriter):
 
         self.x2_axis = axis
 
-    def set_y2_axis(self, options) -> None:
+    def set_y2_axis(self, options: Dict[str, Any]) -> None:
         """
         Set the chart secondary Y axis options.
 
@@ -320,7 +320,7 @@ class Chart(xmlwriter.XMLwriter):
 
         self.y2_axis = axis
 
-    def set_title(self, options=None) -> None:
+    def set_title(self, options: Optional[Dict[str, Any]] = None) -> None:
         """
         Set the chart title options.
 
@@ -355,7 +355,7 @@ class Chart(xmlwriter.XMLwriter):
         # Set the automatic title option.
         self.title_none = options.get("none")
 
-    def set_legend(self, options) -> None:
+    def set_legend(self, options: Dict[str, Any]) -> None:
         """
         Set the chart legend options.
 
@@ -368,7 +368,7 @@ class Chart(xmlwriter.XMLwriter):
         # Convert the user defined properties to internal properties.
         self.legend = self._get_legend_properties(options)
 
-    def set_plotarea(self, options) -> None:
+    def set_plotarea(self, options: Dict[str, Any]) -> None:
         """
         Set the chart plot area options.
 
@@ -381,7 +381,7 @@ class Chart(xmlwriter.XMLwriter):
         # Convert the user defined properties to internal properties.
         self.plotarea = self._get_area_properties(options)
 
-    def set_chartarea(self, options) -> None:
+    def set_chartarea(self, options: Dict[str, Any]) -> None:
         """
         Set the chart area options.
 
@@ -462,7 +462,7 @@ class Chart(xmlwriter.XMLwriter):
         """
         self.show_hidden = True
 
-    def set_size(self, options=None) -> None:
+    def set_size(self, options: Optional[Dict[str, Any]] = None) -> None:
         """
         Set size or scale of the chart.
 
@@ -483,7 +483,7 @@ class Chart(xmlwriter.XMLwriter):
         self.x_offset = options.get("x_offset", 0)
         self.y_offset = options.get("y_offset", 0)
 
-    def set_table(self, options=None) -> None:
+    def set_table(self, options: Optional[Dict[str, Any]] = None) -> None:
         """
         Set properties for an axis data table.
 
@@ -507,7 +507,7 @@ class Chart(xmlwriter.XMLwriter):
 
         self.table = table
 
-    def set_up_down_bars(self, options=None) -> None:
+    def set_up_down_bars(self, options: Optional[Dict[str, Any]] = None) -> None:
         """
         Set properties for the chart up-down bars.
 
@@ -562,7 +562,7 @@ class Chart(xmlwriter.XMLwriter):
             },
         }
 
-    def set_drop_lines(self, options=None) -> None:
+    def set_drop_lines(self, options: Optional[Dict[str, Any]] = None) -> None:
         """
         Set properties for the chart drop lines.
 
@@ -601,7 +601,7 @@ class Chart(xmlwriter.XMLwriter):
             "gradient": gradient,
         }
 
-    def set_high_low_lines(self, options=None) -> None:
+    def set_high_low_lines(self, options: Optional[Dict[str, Any]] = None) -> None:
         """
         Set properties for the chart high-low lines.
 
@@ -1368,7 +1368,7 @@ class Chart(xmlwriter.XMLwriter):
 
         return area
 
-    def _get_legend_properties(self, options=None):
+    def _get_legend_properties(self, options: Optional[Dict[str, Any]] = None):
         # Convert user legend properties to the structure required internally.
         legend = {}
 

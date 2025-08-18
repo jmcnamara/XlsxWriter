@@ -15,7 +15,7 @@ import time
 from datetime import datetime, timezone
 from decimal import Decimal
 from fractions import Fraction
-from typing import Any, List, Literal, Optional, Union
+from typing import Any, Dict, List, Literal, Optional, Union
 from warnings import warn
 from zipfile import ZIP_DEFLATED, LargeZipFile, ZipFile, ZipInfo
 
@@ -61,7 +61,9 @@ class Workbook(xmlwriter.XMLwriter):
     chartsheet_class = Chartsheet
     worksheet_class = Worksheet
 
-    def __init__(self, filename: Optional[str] = None, options=None) -> None:
+    def __init__(
+        self, filename: Optional[str] = None, options: Optional[Dict[str, Any]] = None
+    ) -> None:
         """
         Constructor.
 
@@ -245,7 +247,7 @@ class Workbook(xmlwriter.XMLwriter):
 
         return xf_format
 
-    def add_chart(self, options) -> Optional[
+    def add_chart(self, options: Dict[str, Any]) -> Optional[
         Union[
             ChartArea,
             ChartBar,
