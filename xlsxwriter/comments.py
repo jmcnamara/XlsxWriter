@@ -32,7 +32,7 @@ class CommentType:
         col: int,
         text: str,
         options: Optional[Dict[str, Union[str, int, float]]] = None,
-    ):
+    ) -> None:
         """
         Initialize a Comment instance.
 
@@ -76,7 +76,7 @@ class CommentType:
 
     def _set_user_options(
         self, options: Optional[Dict[str, Union[str, int, float]]] = None
-    ):
+    ) -> None:
         """
         This method handles the additional optional parameters to
         ``write_comment()``.
@@ -154,7 +154,7 @@ class CommentType:
         self.width = int(0.5 + self.width)
         self.height = int(0.5 + self.height)
 
-    def set_offsets(self, row: int, col: int):
+    def set_offsets(self, row: int, col: int) -> None:
         """
         Set the default start cell and offsets for the comment. These are
         generally a fixed offset relative to the parent cell. However there are
@@ -211,7 +211,7 @@ class Comments(xmlwriter.XMLwriter):
     #
     ###########################################################################
 
-    def __init__(self):
+    def __init__(self) -> None:
         """
         Constructor.
 
@@ -226,7 +226,9 @@ class Comments(xmlwriter.XMLwriter):
     #
     ###########################################################################
 
-    def _assemble_xml_file(self, comments_data: Optional[List[CommentType]] = None):
+    def _assemble_xml_file(
+        self, comments_data: Optional[List[CommentType]] = None
+    ) -> None:
         # Assemble and write the XML file.
 
         if comments_data is None:
@@ -255,7 +257,7 @@ class Comments(xmlwriter.XMLwriter):
     #
     ###########################################################################
 
-    def _write_comments(self):
+    def _write_comments(self) -> None:
         # Write the <comments> element.
         xmlns = "http://schemas.openxmlformats.org/spreadsheetml/2006/main"
 
@@ -263,7 +265,7 @@ class Comments(xmlwriter.XMLwriter):
 
         self._xml_start_tag("comments", attributes)
 
-    def _write_authors(self, comment_data: List[CommentType]):
+    def _write_authors(self, comment_data: List[CommentType]) -> None:
         # Write the <authors> element.
         author_count = 0
 
@@ -282,11 +284,11 @@ class Comments(xmlwriter.XMLwriter):
 
         self._xml_end_tag("authors")
 
-    def _write_author(self, data: str):
+    def _write_author(self, data: str) -> None:
         # Write the <author> element.
         self._xml_data_element("author", data)
 
-    def _write_comment_list(self, comment_data: List[CommentType]):
+    def _write_comment_list(self, comment_data: List[CommentType]) -> None:
         # Write the <commentList> element.
         self._xml_start_tag("commentList")
 
@@ -301,7 +303,7 @@ class Comments(xmlwriter.XMLwriter):
 
         self._xml_end_tag("commentList")
 
-    def _write_comment(self, comment: CommentType, author_id: int):
+    def _write_comment(self, comment: CommentType, author_id: int) -> None:
         # Write the <comment> element.
         ref = xl_rowcol_to_cell(comment.row, comment.col)
 
@@ -317,7 +319,7 @@ class Comments(xmlwriter.XMLwriter):
 
         self._xml_end_tag("comment")
 
-    def _write_text(self, comment: CommentType):
+    def _write_text(self, comment: CommentType) -> None:
         # Write the <text> element.
         self._xml_start_tag("text")
 
@@ -326,7 +328,7 @@ class Comments(xmlwriter.XMLwriter):
 
         self._xml_end_tag("text")
 
-    def _write_text_r(self, comment: CommentType):
+    def _write_text_r(self, comment: CommentType) -> None:
         # Write the <r> element.
         self._xml_start_tag("r")
 
@@ -338,7 +340,7 @@ class Comments(xmlwriter.XMLwriter):
 
         self._xml_end_tag("r")
 
-    def _write_text_t(self, text: str):
+    def _write_text_t(self, text: str) -> None:
         # Write the text <t> element.
         attributes = []
 
@@ -347,7 +349,7 @@ class Comments(xmlwriter.XMLwriter):
 
         self._xml_data_element("t", text, attributes)
 
-    def _write_r_pr(self, comment: CommentType):
+    def _write_r_pr(self, comment: CommentType) -> None:
         # Write the <rPr> element.
         self._xml_start_tag("rPr")
 
@@ -365,25 +367,25 @@ class Comments(xmlwriter.XMLwriter):
 
         self._xml_end_tag("rPr")
 
-    def _write_sz(self, font_size: float):
+    def _write_sz(self, font_size: float) -> None:
         # Write the <sz> element.
         attributes = [("val", font_size)]
 
         self._xml_empty_tag("sz", attributes)
 
-    def _write_color(self):
+    def _write_color(self) -> None:
         # Write the <color> element.
         attributes = [("indexed", 81)]
 
         self._xml_empty_tag("color", attributes)
 
-    def _write_r_font(self, font_name: str):
+    def _write_r_font(self, font_name: str) -> None:
         # Write the <rFont> element.
         attributes = [("val", font_name)]
 
         self._xml_empty_tag("rFont", attributes)
 
-    def _write_family(self, font_family: int):
+    def _write_family(self, font_family: int) -> None:
         # Write the <family> element.
         attributes = [("val", font_family)]
 

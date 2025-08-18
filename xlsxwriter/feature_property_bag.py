@@ -25,7 +25,7 @@ class FeaturePropertyBag(xmlwriter.XMLwriter):
     #
     ###########################################################################
 
-    def __init__(self):
+    def __init__(self) -> None:
         """
         Constructor.
 
@@ -41,7 +41,7 @@ class FeaturePropertyBag(xmlwriter.XMLwriter):
     #
     ###########################################################################
 
-    def _assemble_xml_file(self):
+    def _assemble_xml_file(self) -> None:
         # Assemble and write the XML file.
 
         # Write the XML declaration.
@@ -77,7 +77,7 @@ class FeaturePropertyBag(xmlwriter.XMLwriter):
     #
     ###########################################################################
 
-    def _write_feature_property_bags(self):
+    def _write_feature_property_bags(self) -> None:
         # Write the <FeaturePropertyBags> element.
 
         xmlns = (
@@ -88,13 +88,13 @@ class FeaturePropertyBag(xmlwriter.XMLwriter):
 
         self._xml_start_tag("FeaturePropertyBags", attributes)
 
-    def _write_checkbox_bag(self):
+    def _write_checkbox_bag(self) -> None:
         # Write the Checkbox <bag> element.
         attributes = [("type", "Checkbox")]
 
         self._xml_empty_tag("bag", attributes)
 
-    def _write_xf_control_bag(self):
+    def _write_xf_control_bag(self) -> None:
         # Write the XFControls<bag> element.
         attributes = [("type", "XFControls")]
 
@@ -105,7 +105,7 @@ class FeaturePropertyBag(xmlwriter.XMLwriter):
 
         self._xml_end_tag("bag")
 
-    def _write_xf_compliment_bag(self):
+    def _write_xf_compliment_bag(self) -> None:
         # Write the XFComplement <bag> element.
         attributes = [("type", "XFComplement")]
 
@@ -116,7 +116,7 @@ class FeaturePropertyBag(xmlwriter.XMLwriter):
 
         self._xml_end_tag("bag")
 
-    def _write_xf_compliments_bag(self):
+    def _write_xf_compliments_bag(self) -> None:
         # Write the XFComplements <bag> element.
         attributes = [
             ("type", "XFComplements"),
@@ -131,7 +131,7 @@ class FeaturePropertyBag(xmlwriter.XMLwriter):
         self._xml_end_tag("a")
         self._xml_end_tag("bag")
 
-    def _write_dxf_compliments_bag(self):
+    def _write_dxf_compliments_bag(self) -> None:
         # Write the DXFComplements <bag> element.
         attributes = [
             ("type", "DXFComplements"),
@@ -146,7 +146,7 @@ class FeaturePropertyBag(xmlwriter.XMLwriter):
         self._xml_end_tag("a")
         self._xml_end_tag("bag")
 
-    def _write_bag_id(self, key, bag_id):
+    def _write_bag_id(self, key, bag_id) -> None:
         # Write the <bagId> element.
         attributes = []
 

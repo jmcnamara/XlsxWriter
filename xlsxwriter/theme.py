@@ -23,7 +23,7 @@ class Theme:
     #
     ###########################################################################
 
-    def __init__(self):
+    def __init__(self) -> None:
         """
         Constructor.
 
@@ -38,13 +38,13 @@ class Theme:
     #
     ###########################################################################
 
-    def _assemble_xml_file(self):
+    def _assemble_xml_file(self) -> None:
         # Assemble and write the XML file.
         self._write_theme_file()
         if self.internal_fh:
             self.fh.close()
 
-    def _set_xml_writer(self, filename):
+    def _set_xml_writer(self, filename) -> None:
         # Set the XML writer filehandle for the object.
         if isinstance(filename, StringIO):
             self.internal_fh = False
@@ -60,7 +60,7 @@ class Theme:
     #
     ###########################################################################
 
-    def _write_theme_file(self):
+    def _write_theme_file(self) -> None:
         # Write a default theme.xml file.
 
         # pylint: disable=line-too-long

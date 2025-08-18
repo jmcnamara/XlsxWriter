@@ -23,7 +23,7 @@ class Table(xmlwriter.XMLwriter):
     #
     ###########################################################################
 
-    def __init__(self):
+    def __init__(self) -> None:
         """
         Constructor.
 
@@ -39,7 +39,7 @@ class Table(xmlwriter.XMLwriter):
     #
     ###########################################################################
 
-    def _assemble_xml_file(self):
+    def _assemble_xml_file(self) -> None:
         # Assemble and write the XML file.
 
         # Write the XML declaration.
@@ -63,7 +63,7 @@ class Table(xmlwriter.XMLwriter):
         # Close the file.
         self._xml_close()
 
-    def _set_properties(self, properties):
+    def _set_properties(self, properties) -> None:
         # Set the document properties.
         self.properties = properties
 
@@ -73,7 +73,7 @@ class Table(xmlwriter.XMLwriter):
     #
     ###########################################################################
 
-    def _write_table(self):
+    def _write_table(self) -> None:
         # Write the <table> element.
         schema = "http://schemas.openxmlformats.org/"
         xmlns = schema + "spreadsheetml/2006/main"
@@ -102,7 +102,7 @@ class Table(xmlwriter.XMLwriter):
 
         self._xml_start_tag("table", attributes)
 
-    def _write_auto_filter(self):
+    def _write_auto_filter(self) -> None:
         # Write the <autoFilter> element.
         autofilter = self.properties.get("autofilter", 0)
 
@@ -118,7 +118,7 @@ class Table(xmlwriter.XMLwriter):
 
         self._xml_empty_tag("autoFilter", attributes)
 
-    def _write_table_columns(self):
+    def _write_table_columns(self) -> None:
         # Write the <tableColumns> element.
         columns = self.properties["columns"]
 
@@ -134,7 +134,7 @@ class Table(xmlwriter.XMLwriter):
 
         self._xml_end_tag("tableColumns")
 
-    def _write_table_column(self, col_data):
+    def _write_table_column(self, col_data) -> None:
         # Write the <tableColumn> element.
         attributes = [
             ("id", col_data["id"]),
@@ -164,7 +164,7 @@ class Table(xmlwriter.XMLwriter):
         else:
             self._xml_empty_tag("tableColumn", attributes)
 
-    def _write_table_style_info(self):
+    def _write_table_style_info(self) -> None:
         # Write the <tableStyleInfo> element.
         props = self.properties
         attributes = []
@@ -185,10 +185,10 @@ class Table(xmlwriter.XMLwriter):
 
         self._xml_empty_tag("tableStyleInfo", attributes)
 
-    def _write_calculated_column_formula(self, formula):
+    def _write_calculated_column_formula(self, formula) -> None:
         # Write the <calculatedColumnFormula> element.
         self._xml_data_element("calculatedColumnFormula", formula)
 
-    def _write_totals_row_formula(self, formula):
+    def _write_totals_row_formula(self, formula) -> None:
         # Write the <totalsRowFormula> element.
         self._xml_data_element("totalsRowFormula", formula)

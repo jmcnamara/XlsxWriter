@@ -23,7 +23,7 @@ class ChartArea(chart.Chart):
     #
     ###########################################################################
 
-    def __init__(self, options=None):
+    def __init__(self, options=None) -> None:
         """
         Constructor.
 
@@ -57,7 +57,7 @@ class ChartArea(chart.Chart):
     #
     ###########################################################################
 
-    def _write_chart_type(self, args):
+    def _write_chart_type(self, args) -> None:
         # Override the virtual superclass method with a chart specific method.
         # Write the c:areaChart element.
         self._write_area_chart(args)
@@ -68,7 +68,7 @@ class ChartArea(chart.Chart):
     #
     ###########################################################################
     #
-    def _write_area_chart(self, args):
+    def _write_area_chart(self, args) -> None:
         # Write the <c:areaChart> element.
 
         if args["primary_axes"]:

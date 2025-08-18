@@ -25,7 +25,7 @@ class RichValue(xmlwriter.XMLwriter):
     #
     ###########################################################################
 
-    def __init__(self):
+    def __init__(self) -> None:
         """
         Constructor.
 
@@ -40,7 +40,7 @@ class RichValue(xmlwriter.XMLwriter):
     #
     ###########################################################################
 
-    def _assemble_xml_file(self):
+    def _assemble_xml_file(self) -> None:
         # Assemble and write the XML file.
 
         # Write the XML declaration.
@@ -59,7 +59,7 @@ class RichValue(xmlwriter.XMLwriter):
     # XML methods.
     #
     ###########################################################################
-    def _write_rv_data(self):
+    def _write_rv_data(self) -> None:
         # Write the <rvData> element.
         xmlns = "http://schemas.microsoft.com/office/spreadsheetml/2017/richdata"
 
@@ -74,7 +74,7 @@ class RichValue(xmlwriter.XMLwriter):
             # Write the rv element.
             self._write_rv(index, image)
 
-    def _write_rv(self, index, image: Image):
+    def _write_rv(self, index, image: Image) -> None:
         # Write the <rv> element.
         attributes = [("s", 0)]
         value = 5
@@ -93,6 +93,6 @@ class RichValue(xmlwriter.XMLwriter):
 
         self._xml_end_tag("rv")
 
-    def _write_v(self, data):
+    def _write_v(self, data) -> None:
         # Write the <v> element.
         self._xml_data_element("v", data)

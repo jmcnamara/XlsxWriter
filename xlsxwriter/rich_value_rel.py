@@ -24,7 +24,7 @@ class RichValueRel(xmlwriter.XMLwriter):
     #
     ###########################################################################
 
-    def __init__(self):
+    def __init__(self) -> None:
         """
         Constructor.
 
@@ -39,7 +39,7 @@ class RichValueRel(xmlwriter.XMLwriter):
     #
     ###########################################################################
 
-    def _assemble_xml_file(self):
+    def _assemble_xml_file(self) -> None:
         # Assemble and write the XML file.
 
         # Write the XML declaration.
@@ -58,7 +58,7 @@ class RichValueRel(xmlwriter.XMLwriter):
     # XML methods.
     #
     ###########################################################################
-    def _write_rich_value_rels(self):
+    def _write_rich_value_rels(self) -> None:
         # Write the <richValueRels> element.
         xmlns = "http://schemas.microsoft.com/office/spreadsheetml/2022/richvaluerel"
         xmlns_r = "http://schemas.openxmlformats.org/officeDocument/2006/relationships"
@@ -74,7 +74,7 @@ class RichValueRel(xmlwriter.XMLwriter):
         for index in range(self.num_embedded_images):
             self._write_rel(index + 1)
 
-    def _write_rel(self, index):
+    def _write_rel(self, index) -> None:
         # Write the <rel> element.
         r_id = f"rId{index}"
         attributes = [("r:id", r_id)]

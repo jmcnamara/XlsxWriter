@@ -8,6 +8,7 @@
 #
 
 # Package imports.
+from typing import Literal, Union
 from warnings import warn
 
 from xlsxwriter.color import Color
@@ -28,7 +29,7 @@ class Format(xmlwriter.XMLwriter):
     #
     ###########################################################################
 
-    def __init__(self, properties=None, xf_indices=None, dxf_indices=None):
+    def __init__(self, properties=None, xf_indices=None, dxf_indices=None) -> None:
         """
         Constructor.
 
@@ -119,7 +120,7 @@ class Format(xmlwriter.XMLwriter):
 
         self._format_key = None
 
-    def __repr__(self):
+    def __repr__(self) -> str:
         """
         Return a string representation of the Format instance.
         """
@@ -147,7 +148,7 @@ class Format(xmlwriter.XMLwriter):
     #
     ###########################################################################
 
-    def set_font_name(self, font_name):
+    def set_font_name(self, font_name) -> None:
         """
         Set the Format font_name property such as 'Time New Roman'. The
         default Excel font is 'Calibri'.
@@ -161,7 +162,7 @@ class Format(xmlwriter.XMLwriter):
         """
         self.font_name = font_name
 
-    def set_font_size(self, font_size=11):
+    def set_font_size(self, font_size: int = 11) -> None:
         """
         Set the Format font_size property. The default Excel font size is 11.
 
@@ -174,7 +175,7 @@ class Format(xmlwriter.XMLwriter):
         """
         self.font_size = font_size
 
-    def set_font_color(self, font_color):
+    def set_font_color(self, font_color: Union[str, Color]) -> None:
         """
         Set the Format font_color property. The Excel default is black.
 
@@ -187,7 +188,7 @@ class Format(xmlwriter.XMLwriter):
         """
         self.font_color = Color._from_value(font_color)
 
-    def set_bold(self, bold=True):
+    def set_bold(self, bold: bool = True) -> None:
         """
         Set the Format bold property.
 
@@ -200,7 +201,7 @@ class Format(xmlwriter.XMLwriter):
         """
         self.bold = bold
 
-    def set_italic(self, italic=True):
+    def set_italic(self, italic: bool = True) -> None:
         """
         Set the Format italic property.
 
@@ -213,7 +214,7 @@ class Format(xmlwriter.XMLwriter):
         """
         self.italic = italic
 
-    def set_underline(self, underline=1):
+    def set_underline(self, underline: Literal[1, 2, 33, 34] = 1) -> None:
         """
         Set the Format underline property.
 
@@ -226,7 +227,7 @@ class Format(xmlwriter.XMLwriter):
         """
         self.underline = underline
 
-    def set_font_strikeout(self, font_strikeout=True):
+    def set_font_strikeout(self, font_strikeout: bool = True) -> None:
         """
         Set the Format font_strikeout property.
 
@@ -239,7 +240,7 @@ class Format(xmlwriter.XMLwriter):
         """
         self.font_strikeout = font_strikeout
 
-    def set_font_script(self, font_script=1):
+    def set_font_script(self, font_script: Literal[1, 2] = 1) -> None:
         """
         Set the Format font_script property.
 
@@ -252,7 +253,7 @@ class Format(xmlwriter.XMLwriter):
         """
         self.font_script = font_script
 
-    def set_font_outline(self, font_outline=True):
+    def set_font_outline(self, font_outline: bool = True) -> None:
         """
         Set the Format font_outline property.
 
@@ -265,7 +266,7 @@ class Format(xmlwriter.XMLwriter):
         """
         self.font_outline = font_outline
 
-    def set_font_shadow(self, font_shadow=True):
+    def set_font_shadow(self, font_shadow: bool = True) -> None:
         """
         Set the Format font_shadow property.
 
@@ -278,7 +279,7 @@ class Format(xmlwriter.XMLwriter):
         """
         self.font_shadow = font_shadow
 
-    def set_num_format(self, num_format):
+    def set_num_format(self, num_format: str) -> None:
         """
         Set the Format num_format property such as '#,##0'.
 
@@ -291,7 +292,7 @@ class Format(xmlwriter.XMLwriter):
         """
         self.num_format = num_format
 
-    def set_locked(self, locked=True):
+    def set_locked(self, locked: bool = True) -> None:
         """
         Set the Format locked property.
 
@@ -304,7 +305,7 @@ class Format(xmlwriter.XMLwriter):
         """
         self.locked = locked
 
-    def set_hidden(self, hidden=True):
+    def set_hidden(self, hidden: bool = True) -> None:
         """
         Set the Format hidden property.
 
@@ -317,7 +318,28 @@ class Format(xmlwriter.XMLwriter):
         """
         self.hidden = hidden
 
-    def set_align(self, alignment):
+    def set_align(
+        self,
+        alignment: Literal[
+            "left",
+            "centre",
+            "center",
+            "right",
+            "fill",
+            "justify",
+            "center_across",
+            "centre_across",
+            "distributed",
+            "justify_distributed",
+            "justify_distributed",
+            "top",
+            "vcentre",
+            "vcenter",
+            "bottom",
+            "vjustify",
+            "vdistributed",
+        ],
+    ) -> None:
         """
         Set the Format cell alignment.
 
@@ -368,7 +390,7 @@ class Format(xmlwriter.XMLwriter):
         if alignment == "vdistributed":
             self.set_text_v_align(5)
 
-    def set_center_across(self, align_type=None):
+    def set_center_across(self, align_type: None = None) -> None:
         # pylint: disable=unused-argument
         """
         Set the Format center_across property.
@@ -379,7 +401,7 @@ class Format(xmlwriter.XMLwriter):
         """
         self.set_text_h_align(6)
 
-    def set_text_wrap(self, text_wrap=True):
+    def set_text_wrap(self, text_wrap: bool = True) -> None:
         """
         Set the Format text_wrap property.
 
@@ -392,7 +414,7 @@ class Format(xmlwriter.XMLwriter):
         """
         self.text_wrap = text_wrap
 
-    def set_rotation(self, rotation):
+    def set_rotation(self, rotation: int) -> None:
         """
         Set the Format rotation property.
 
@@ -417,7 +439,7 @@ class Format(xmlwriter.XMLwriter):
 
         self.rotation = rotation
 
-    def set_indent(self, indent=1):
+    def set_indent(self, indent: int = 1) -> None:
         """
         Set the Format indent property.
 
@@ -430,7 +452,7 @@ class Format(xmlwriter.XMLwriter):
         """
         self.indent = indent
 
-    def set_shrink(self, shrink=True):
+    def set_shrink(self, shrink: bool = True) -> None:
         """
         Set the Format shrink property.
 
@@ -443,7 +465,7 @@ class Format(xmlwriter.XMLwriter):
         """
         self.shrink = shrink
 
-    def set_text_justlast(self, text_justlast=True):
+    def set_text_justlast(self, text_justlast: bool = True) -> None:
         """
         Set the Format text_justlast property.
 
@@ -456,7 +478,7 @@ class Format(xmlwriter.XMLwriter):
         """
         self.text_justlast = text_justlast
 
-    def set_pattern(self, pattern=1):
+    def set_pattern(self, pattern: int = 1) -> None:
         """
         Set the Format pattern property.
 
@@ -469,7 +491,7 @@ class Format(xmlwriter.XMLwriter):
         """
         self.pattern = pattern
 
-    def set_bg_color(self, bg_color):
+    def set_bg_color(self, bg_color: Union[str, Color]) -> None:
         """
         Set the Format bg_color property.
 
@@ -482,7 +504,7 @@ class Format(xmlwriter.XMLwriter):
         """
         self.bg_color = Color._from_value(bg_color)
 
-    def set_fg_color(self, fg_color):
+    def set_fg_color(self, fg_color: Union[str, Color]) -> None:
         """
         Set the Format fg_color property.
 
@@ -496,7 +518,7 @@ class Format(xmlwriter.XMLwriter):
         self.fg_color = Color._from_value(fg_color)
 
     # set_border(style) Set cells borders to the same style
-    def set_border(self, style=1):
+    def set_border(self, style: int = 1) -> None:
         """
         Set the Format bottom property.
 
@@ -513,7 +535,7 @@ class Format(xmlwriter.XMLwriter):
         self.set_right(style)
 
     # set_border_color(color) Set cells border to the same color
-    def set_border_color(self, color):
+    def set_border_color(self, color: Union[str, Color]) -> None:
         """
         Set the Format bottom property.
 
@@ -529,7 +551,7 @@ class Format(xmlwriter.XMLwriter):
         self.set_left_color(color)
         self.set_right_color(color)
 
-    def set_bottom(self, bottom=1):
+    def set_bottom(self, bottom: int = 1) -> None:
         """
         Set the Format bottom property.
 
@@ -542,7 +564,7 @@ class Format(xmlwriter.XMLwriter):
         """
         self.bottom = bottom
 
-    def set_bottom_color(self, bottom_color):
+    def set_bottom_color(self, bottom_color: Union[str, Color]) -> None:
         """
         Set the Format bottom_color property.
 
@@ -555,7 +577,7 @@ class Format(xmlwriter.XMLwriter):
         """
         self.bottom_color = Color._from_value(bottom_color)
 
-    def set_diag_type(self, diag_type=1):
+    def set_diag_type(self, diag_type: Literal[1, 2, 3] = 1) -> None:
         """
         Set the Format diag_type property.
 
@@ -568,7 +590,7 @@ class Format(xmlwriter.XMLwriter):
         """
         self.diag_type = diag_type
 
-    def set_left(self, left=1):
+    def set_left(self, left: int = 1) -> None:
         """
         Set the Format left property.
 
@@ -581,7 +603,7 @@ class Format(xmlwriter.XMLwriter):
         """
         self.left = left
 
-    def set_left_color(self, left_color):
+    def set_left_color(self, left_color: Union[str, Color]) -> None:
         """
         Set the Format left_color property.
 
@@ -594,7 +616,7 @@ class Format(xmlwriter.XMLwriter):
         """
         self.left_color = Color._from_value(left_color)
 
-    def set_right(self, right=1):
+    def set_right(self, right: int = 1) -> None:
         """
         Set the Format right property.
 
@@ -607,7 +629,7 @@ class Format(xmlwriter.XMLwriter):
         """
         self.right = right
 
-    def set_right_color(self, right_color):
+    def set_right_color(self, right_color: Union[str, Color]) -> None:
         """
         Set the Format right_color property.
 
@@ -620,7 +642,7 @@ class Format(xmlwriter.XMLwriter):
         """
         self.right_color = Color._from_value(right_color)
 
-    def set_top(self, top=1):
+    def set_top(self, top: int = 1) -> None:
         """
         Set the Format top property.
 
@@ -633,7 +655,7 @@ class Format(xmlwriter.XMLwriter):
         """
         self.top = top
 
-    def set_top_color(self, top_color):
+    def set_top_color(self, top_color: Union[str, Color]) -> None:
         """
         Set the Format top_color property.
 
@@ -646,7 +668,7 @@ class Format(xmlwriter.XMLwriter):
         """
         self.top_color = Color._from_value(top_color)
 
-    def set_diag_color(self, diag_color):
+    def set_diag_color(self, diag_color: Union[str, Color]) -> None:
         """
         Set the Format diag_color property.
 
@@ -659,7 +681,7 @@ class Format(xmlwriter.XMLwriter):
         """
         self.diag_color = Color._from_value(diag_color)
 
-    def set_diag_border(self, diag_border=1):
+    def set_diag_border(self, diag_border: int = 1) -> None:
         """
         Set the Format diag_border property.
 
@@ -672,7 +694,7 @@ class Format(xmlwriter.XMLwriter):
         """
         self.diag_border = diag_border
 
-    def set_quote_prefix(self, quote_prefix=True):
+    def set_quote_prefix(self, quote_prefix: bool = True) -> None:
         """
         Set the Format quote prefix property.
 
@@ -685,7 +707,7 @@ class Format(xmlwriter.XMLwriter):
         """
         self.quote_prefix = quote_prefix
 
-    def set_checkbox(self, checkbox=True):
+    def set_checkbox(self, checkbox: bool = True) -> None:
         """
         Set the Format property to show a checkbox in a cell.
 
@@ -710,7 +732,7 @@ class Format(xmlwriter.XMLwriter):
     #
     ###########################################################################
 
-    def set_has_font(self, has_font=True):
+    def set_has_font(self, has_font: bool = True) -> None:
         """
         Set the property to indicate the format has a font.
 
@@ -723,7 +745,7 @@ class Format(xmlwriter.XMLwriter):
         """
         self.has_font = has_font
 
-    def set_has_fill(self, has_fill=True):
+    def set_has_fill(self, has_fill: bool = True) -> None:
         """
         Set the property to indicate the format has a fill.
 
@@ -736,7 +758,7 @@ class Format(xmlwriter.XMLwriter):
         """
         self.has_fill = has_fill
 
-    def set_font_index(self, font_index):
+    def set_font_index(self, font_index: int) -> None:
         """
         Set the unique font index property.
 
@@ -749,7 +771,7 @@ class Format(xmlwriter.XMLwriter):
         """
         self.font_index = font_index
 
-    def set_xf_index(self, xf_index):
+    def set_xf_index(self, xf_index: int) -> None:
         """
         Set the unique format index property.
 
@@ -762,7 +784,7 @@ class Format(xmlwriter.XMLwriter):
         """
         self.xf_index = xf_index
 
-    def set_dxf_index(self, dxf_index):
+    def set_dxf_index(self, dxf_index: int) -> None:
         """
         Set the unique conditional format index property.
 
@@ -775,7 +797,7 @@ class Format(xmlwriter.XMLwriter):
         """
         self.dxf_index = dxf_index
 
-    def set_num_format_index(self, num_format_index):
+    def set_num_format_index(self, num_format_index: int) -> None:
         """
         Set the number format_index property.
 
@@ -788,7 +810,7 @@ class Format(xmlwriter.XMLwriter):
         """
         self.num_format_index = num_format_index
 
-    def set_text_h_align(self, text_h_align):
+    def set_text_h_align(self, text_h_align: int) -> None:
         """
         Set the horizontal text alignment property.
 
@@ -801,7 +823,7 @@ class Format(xmlwriter.XMLwriter):
         """
         self.text_h_align = text_h_align
 
-    def set_text_v_align(self, text_v_align):
+    def set_text_v_align(self, text_v_align: int) -> None:
         """
         Set the vertical text alignment property.
 
@@ -814,7 +836,7 @@ class Format(xmlwriter.XMLwriter):
         """
         self.text_v_align = text_v_align
 
-    def set_reading_order(self, direction=0):
+    def set_reading_order(self, direction: int = 0) -> None:
         # Set the reading_order property.
         """
         Set the reading order property.
@@ -828,7 +850,28 @@ class Format(xmlwriter.XMLwriter):
         """
         self.reading_order = direction
 
-    def set_valign(self, align):
+    def set_valign(
+        self,
+        align: Literal[
+            "left",
+            "centre",
+            "center",
+            "right",
+            "fill",
+            "justify",
+            "center_across",
+            "centre_across",
+            "distributed",
+            "justify_distributed",
+            "justify_distributed",
+            "top",
+            "vcentre",
+            "vcenter",
+            "bottom",
+            "vjustify",
+            "vdistributed",
+        ],
+    ) -> None:
         # Set vertical cell alignment. This is required by the constructor
         # properties dict to differentiate between the vertical and horizontal
         # properties.
@@ -847,7 +890,7 @@ class Format(xmlwriter.XMLwriter):
         """
         self.set_align(align)
 
-    def set_font_family(self, font_family):
+    def set_font_family(self, font_family: int) -> None:
         """
         Set the font family property.
 
@@ -860,7 +903,7 @@ class Format(xmlwriter.XMLwriter):
         """
         self.font_family = font_family
 
-    def set_font_charset(self, font_charset):
+    def set_font_charset(self, font_charset: int) -> None:
         """
         Set the font character set property.
 
@@ -873,7 +916,7 @@ class Format(xmlwriter.XMLwriter):
         """
         self.font_charset = font_charset
 
-    def set_font_scheme(self, font_scheme):
+    def set_font_scheme(self, font_scheme: int) -> None:
         """
         Set the font scheme property.
 
@@ -886,7 +929,7 @@ class Format(xmlwriter.XMLwriter):
         """
         self.font_scheme = font_scheme
 
-    def set_font_condense(self, font_condense):
+    def set_font_condense(self, font_condense: int) -> None:
         """
         Set the font condense property.
 
@@ -899,7 +942,7 @@ class Format(xmlwriter.XMLwriter):
         """
         self.font_condense = font_condense
 
-    def set_font_extend(self, font_extend):
+    def set_font_extend(self, font_extend: int) -> None:
         """
         Set the font extend property.
 
@@ -912,7 +955,7 @@ class Format(xmlwriter.XMLwriter):
         """
         self.font_extend = font_extend
 
-    def set_theme(self, theme):
+    def set_theme(self, theme: int) -> None:
         """
         Set the theme property.
 
@@ -925,7 +968,7 @@ class Format(xmlwriter.XMLwriter):
         """
         self.theme = theme
 
-    def set_hyperlink(self, hyperlink=True):
+    def set_hyperlink(self, hyperlink: bool = True) -> None:
         """
         Set the properties for the hyperlink style.
 
@@ -941,7 +984,7 @@ class Format(xmlwriter.XMLwriter):
         self.set_theme(10)
         self.hyperlink = hyperlink
 
-    def set_color_indexed(self, color_index):
+    def set_color_indexed(self, color_index: Literal[0, 1]) -> None:
         """
         Set the color index property. Some fundamental format properties use an
         indexed color instead of a rbg or theme color.
@@ -955,7 +998,7 @@ class Format(xmlwriter.XMLwriter):
         """
         self.color_indexed = color_index
 
-    def set_font_only(self, font_only=True):
+    def set_font_only(self, font_only: bool = True) -> None:
         """
         Set property to indicate that the format is used for fonts only.
 
@@ -972,15 +1015,15 @@ class Format(xmlwriter.XMLwriter):
     # initial version for compatibility testing with Excel::Writer::XLSX and
     # leaked out into production code. They are deprecated and will be removed
     # in a future after a suitable deprecation period.
-    def set_font(self, font_name):
+    def set_font(self, font_name: str) -> None:
         """Deprecated: Use set_font_name() instead."""
         self.font_name = font_name
 
-    def set_size(self, font_size):
+    def set_size(self, font_size: int) -> None:
         """Deprecated: Use set_font_size() instead."""
         self.font_size = font_size
 
-    def set_color(self, font_color):
+    def set_color(self, font_color: Union[Color, str]) -> None:
         """Deprecated: Use set_font_color() instead."""
         self.font_color = Color._from_value(font_color)
 

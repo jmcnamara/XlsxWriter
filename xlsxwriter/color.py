@@ -120,7 +120,7 @@ class Color:
 
     """
 
-    def __init__(self, color: Union[str, int, Tuple[int, int]]):
+    def __init__(self, color: Union[str, int, Tuple[int, int]]) -> None:
         """
         Initialize a Color instance.
 
@@ -260,7 +260,7 @@ class Color:
 
         return color
 
-    def _parse_string_color(self, value: str):
+    def _parse_string_color(self, value: str) -> None:
         """
         Convert a hex string or named color to an RGB value.
 
