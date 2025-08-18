@@ -10,7 +10,7 @@
 
 import re
 from enum import Enum
-from typing import Optional
+from typing import Any, Dict, Optional
 
 
 class UrlTypes(Enum):
@@ -77,7 +77,7 @@ class Url:
         )
 
     @classmethod
-    def from_options(cls, options: dict) -> Optional["Url"]:
+    def from_options(cls, options: Dict[str, Any]) -> Optional["Url"]:
         """
         For backward compatibility, convert the 'url' key and 'tip' keys in an
         options dictionary to a Url object, or return the Url object if already

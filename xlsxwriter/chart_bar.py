@@ -7,7 +7,7 @@
 # Copyright (c) 2013-2025, John McNamara, jmcnamara@cpan.org
 #
 
-from typing import Optional
+from typing import Any, Dict, Optional
 from warnings import warn
 
 from . import chart
@@ -26,7 +26,7 @@ class ChartBar(chart.Chart):
     #
     ###########################################################################
 
-    def __init__(self, options=None) -> None:
+    def __init__(self, options: Optional[Dict[str, Any]] = None) -> None:
         """
         Constructor.
 

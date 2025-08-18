@@ -7,6 +7,8 @@
 # Copyright (c) 2013-2025, John McNamara, jmcnamara@cpan.org
 #
 
+from typing import Any, Dict, Optional
+
 from xlsxwriter.chart import Chart
 
 from . import worksheet
@@ -56,7 +58,9 @@ class Chartsheet(worksheet.Worksheet):
         self.charts.append([0, 0, chart, 0, 0, 1, 1])
         return chart
 
-    def protect(self, password: str = "", options=None) -> None:
+    def protect(
+        self, password: str = "", options: Optional[Dict[str, Any]] = None
+    ) -> None:
         """
         Set the password and protection options of the worksheet.
 
