@@ -489,7 +489,8 @@ Here is an example with all three data label types shown:
    :scale: 75 %
 
 
-The ``position`` property is used to position the data label for a series::
+The ``position`` property is used to position the data label for a series,
+relative to the data point::
 
     chart.add_series({
         'values':      '=Sheet1!$A$1:$A$6',
@@ -695,6 +696,7 @@ following allowable keys/sub-properties::
 
     value
     font
+    position
     delete
 
 The ``value`` property should be a string, number or formula string that refers to
@@ -729,6 +731,9 @@ See :ref:`chart_fonts` for details on the available font properties.
 
 .. image:: _images/chart_data_labels20.png
    :scale: 75 %
+
+The ``position`` property is used to position the custom data label, such as
+"center" or "right". See the ``position`` property for series data labels above.
 
 The ``delete`` property can be used to delete labels in a series. This can be
 useful if you want to highlight one or more cells in the series, for example
