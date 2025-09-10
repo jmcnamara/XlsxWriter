@@ -1510,18 +1510,12 @@ class Chart(xmlwriter.XMLwriter):
 
         return points
 
-    def _has_fill_formatting(self, element):
+    def _has_formatting(self, element: dict) -> bool:
         # Check if a chart element has line, fill or gradient formatting.
-        has_fill = False
-        has_line = False
+        has_fill = element.get("fill") and element["fill"]["defined"]
+        has_line = element.get("line") and element["line"]["defined"]
         has_pattern = element.get("pattern")
         has_gradient = element.get("gradient")
-
-        if element.get("fill") and element["fill"]["defined"]:
-            has_fill = True
-
-        if element.get("line") and element["line"]["defined"]:
-            has_line = True
 
         return has_fill or has_line or has_pattern or has_gradient
 
@@ -3254,7 +3248,7 @@ class Chart(xmlwriter.XMLwriter):
     def _write_sp_pr(self, series) -> None:
         # Write the <c:spPr> element.
 
-        if not self._has_fill_formatting(series):
+        if not self._has_formatting(series):
             return
 
         self._xml_start_tag("c:spPr")
@@ -3852,7 +3846,7 @@ class Chart(xmlwriter.XMLwriter):
         # Write parts of the <c:dLbl> element for strings.
         title = label.get("value")
         font = label.get("font")
-        has_formatting = self._has_fill_formatting(label)
+        has_formatting = self._has_formatting(label)
 
         self._xml_start_tag("c:tx")
 
@@ -3883,7 +3877,7 @@ class Chart(xmlwriter.XMLwriter):
     def _write_custom_label_format(self, label) -> None:
         # Write the formatting and font elements for the custom labels.
         font = label.get("font")
-        has_formatting = self._has_fill_formatting(label)
+        has_formatting = self._has_formatting(label)
 
         if has_formatting:
             self._write_sp_pr(label)

@@ -29,6 +29,9 @@ class ChartTitle:
         self.layout: Optional[Dict[str, Any]] = None
         self.overlay: Optional[bool] = None
         self.hidden: bool = False
+        self.fill: Optional[Dict[str, Any]] = None
+        self.pattern: Optional[Dict[str, Any]] = None
+        self.gradient: Optional[Dict[str, Any]] = None
 
     def has_name(self) -> bool:
         """
@@ -47,6 +50,20 @@ class ChartTitle:
             True if formula has been set.
         """
         return self.formula is not None
+
+    def has_formatting(self) -> bool:
+        """
+        Check if the title has any formatting properties set.
+
+        Returns:
+            True if the title has font, fill, pattern, or gradient formatting.
+        """
+        has_font = self.font is not None
+        has_fill = self.fill is not None and self.fill.get("defined", False)
+        has_pattern = self.pattern is not None
+        has_gradient = self.gradient is not None
+
+        return has_font or has_fill or has_pattern or has_gradient
 
     def is_hidden(self) -> bool:
         """
