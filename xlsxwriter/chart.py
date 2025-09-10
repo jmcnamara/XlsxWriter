@@ -155,11 +155,7 @@ class Chart(xmlwriter.XMLwriter):
         name_id = self._get_data_id(name_formula, options.get("name_data"))
 
         # Set the line properties for the series.
-        line = Shape._get_line_properties(options.get("line"))
-
-        # Allow 'border' as a synonym for 'line' in bar/column style charts.
-        if options.get("border"):
-            line = Shape._get_line_properties(options["border"])
+        line = Shape._get_line_properties(options)
 
         # Set the fill properties for the series.
         fill = Shape._get_fill_properties(options.get("fill"))
@@ -527,27 +523,13 @@ class Chart(xmlwriter.XMLwriter):
 
         # Set properties for 'up' bar.
         if options.get("up"):
-            if "border" in options["up"]:
-                # Map border to line.
-                up_line = Shape._get_line_properties(options["up"]["border"])
-
-            if "line" in options["up"]:
-                up_line = Shape._get_line_properties(options["up"]["line"])
-
-            if "fill" in options["up"]:
-                up_fill = Shape._get_fill_properties(options["up"]["fill"])
+            up_line = Shape._get_line_properties(options["up"])
+            up_fill = Shape._get_fill_properties(options["up"]["fill"])
 
         # Set properties for 'down' bar.
         if options.get("down"):
-            if "border" in options["down"]:
-                # Map border to line.
-                down_line = Shape._get_line_properties(options["down"]["border"])
-
-            if "line" in options["down"]:
-                down_line = Shape._get_line_properties(options["down"]["line"])
-
-            if "fill" in options["down"]:
-                down_fill = Shape._get_fill_properties(options["down"]["fill"])
+            down_line = Shape._get_line_properties(options["down"])
+            down_fill = Shape._get_fill_properties(options["down"]["fill"])
 
         self.up_down_bars = {
             "up": {
@@ -574,7 +556,7 @@ class Chart(xmlwriter.XMLwriter):
         if options is None:
             options = {}
 
-        line = Shape._get_line_properties(options.get("line"))
+        line = Shape._get_line_properties(options)
         fill = Shape._get_fill_properties(options.get("fill"))
 
         # Set the pattern fill properties for the series.
@@ -613,7 +595,7 @@ class Chart(xmlwriter.XMLwriter):
         if options is None:
             options = {}
 
-        line = Shape._get_line_properties(options.get("line"))
+        line = Shape._get_line_properties(options)
         fill = Shape._get_fill_properties(options.get("fill"))
 
         # Set the pattern fill properties for the series.
@@ -782,7 +764,7 @@ class Chart(xmlwriter.XMLwriter):
         axis["num_font"] = self._convert_font_args(options.get("num_font"))
 
         # Set the line properties for the axis.
-        axis["line"] = Shape._get_line_properties(options.get("line"))
+        axis["line"] = Shape._get_line_properties(options)
 
         # Set the fill properties for the axis.
         axis["fill"] = Shape._get_fill_properties(options.get("fill"))
@@ -990,11 +972,7 @@ class Chart(xmlwriter.XMLwriter):
                 return None
 
         # Set the line properties for the marker.
-        line = Shape._get_line_properties(marker.get("line"))
-
-        # Allow 'border' as a synonym for 'line'.
-        if "border" in marker:
-            line = Shape._get_line_properties(marker["border"])
+        line = Shape._get_line_properties(marker)
 
         # Set the fill properties for the marker.
         fill = Shape._get_fill_properties(marker.get("fill"))
@@ -1049,11 +1027,7 @@ class Chart(xmlwriter.XMLwriter):
             return None
 
         # Set the line properties for the trendline.
-        line = Shape._get_line_properties(trendline.get("line"))
-
-        # Allow 'border' as a synonym for 'line'.
-        if "border" in trendline:
-            line = Shape._get_line_properties(trendline["border"])
+        line = Shape._get_line_properties(trendline)
 
         # Set the fill properties for the trendline.
         fill = Shape._get_fill_properties(trendline.get("fill"))
@@ -1097,11 +1071,7 @@ class Chart(xmlwriter.XMLwriter):
         font = self._convert_font_args(label.get("font"))
 
         # Set the line properties for the label.
-        line = Shape._get_line_properties(label.get("line"))
-
-        # Allow 'border' as a synonym for 'line'.
-        if "border" in label:
-            line = Shape._get_line_properties(label["border"])
+        line = Shape._get_line_properties(label)
 
         # Set the fill properties for the label.
         fill = Shape._get_fill_properties(label.get("fill"))
@@ -1179,7 +1149,7 @@ class Chart(xmlwriter.XMLwriter):
         error_bars["minus_data"] = options.get("minus_data")
 
         # Set the line properties for the error bars.
-        error_bars["line"] = Shape._get_line_properties(options.get("line"))
+        error_bars["line"] = Shape._get_line_properties(options)
 
         return error_bars
 
@@ -1190,7 +1160,7 @@ class Chart(xmlwriter.XMLwriter):
         gridline = {"visible": options.get("visible")}
 
         # Set the line properties for the gridline.
-        gridline["line"] = Shape._get_line_properties(options.get("line"))
+        gridline["line"] = Shape._get_line_properties(options)
 
         return gridline
 
@@ -1237,11 +1207,7 @@ class Chart(xmlwriter.XMLwriter):
         labels["font"] = self._convert_font_args(labels.get("font"))
 
         # Set the line properties for the labels.
-        line = Shape._get_line_properties(labels.get("line"))
-
-        # Allow 'border' as a synonym for 'line'.
-        if "border" in labels:
-            line = Shape._get_line_properties(labels["border"])
+        line = Shape._get_line_properties(labels)
 
         # Set the fill properties for the labels.
         fill = Shape._get_fill_properties(labels.get("fill"))
@@ -1285,11 +1251,7 @@ class Chart(xmlwriter.XMLwriter):
                 label["font"] = self._convert_font_args(label.get("font"))
 
                 # Set the line properties for the label.
-                line = Shape._get_line_properties(label.get("line"))
-
-                # Allow 'border' as a synonym for 'line'.
-                if "border" in label:
-                    line = Shape._get_line_properties(label["border"])
+                line = Shape._get_line_properties(label)
 
                 # Set the fill properties for the label.
                 fill = Shape._get_fill_properties(label.get("fill"))
@@ -1334,11 +1296,7 @@ class Chart(xmlwriter.XMLwriter):
         area = {}
 
         # Set the line properties for the chartarea.
-        line = Shape._get_line_properties(options.get("line"))
-
-        # Allow 'border' as a synonym for 'line'.
-        if options.get("border"):
-            line = Shape._get_line_properties(options["border"])
+        line = Shape._get_line_properties(options)
 
         # Set the fill properties for the chartarea.
         fill = Shape._get_fill_properties(options.get("fill"))
@@ -1386,11 +1344,7 @@ class Chart(xmlwriter.XMLwriter):
             legend["position"] = "none"
 
         # Set the line properties for the legend.
-        line = Shape._get_line_properties(options.get("line"))
-
-        # Allow 'border' as a synonym for 'line'.
-        if options.get("border"):
-            line = Shape._get_line_properties(options["border"])
+        line = Shape._get_line_properties(options)
 
         # Set the fill properties for the legend.
         fill = Shape._get_fill_properties(options.get("fill"))
@@ -1477,11 +1431,7 @@ class Chart(xmlwriter.XMLwriter):
 
             if user_point is not None:
                 # Set the line properties for the point.
-                line = Shape._get_line_properties(user_point.get("line"))
-
-                # Allow 'border' as a synonym for 'line'.
-                if "border" in user_point:
-                    line = Shape._get_line_properties(user_point["border"])
+                line = Shape._get_line_properties(user_point)
 
                 # Set the fill properties for the chartarea.
                 fill = Shape._get_fill_properties(user_point.get("fill"))
