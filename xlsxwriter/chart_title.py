@@ -29,6 +29,7 @@ class ChartTitle:
         self.layout: Optional[Dict[str, Any]] = None
         self.overlay: Optional[bool] = None
         self.hidden: bool = False
+        self.line: Optional[Dict[str, Any]] = None
         self.fill: Optional[Dict[str, Any]] = None
         self.pattern: Optional[Dict[str, Any]] = None
         self.gradient: Optional[Dict[str, Any]] = None
@@ -56,14 +57,28 @@ class ChartTitle:
         Check if the title has any formatting properties set.
 
         Returns:
-            True if the title has font, fill, pattern, or gradient formatting.
+            True if the title has line, fill, pattern, or gradient formatting.
         """
-        has_font = self.font is not None
+        has_line = self.line is not None and self.line.get("defined", False)
         has_fill = self.fill is not None and self.fill.get("defined", False)
-        has_pattern = self.pattern is not None
-        has_gradient = self.gradient is not None
+        has_pattern = self.pattern
+        has_gradient = self.gradient
 
-        return has_font or has_fill or has_pattern or has_gradient
+        return has_line or has_fill or has_pattern or has_gradient
+
+    def get_formatting(self) -> Dict[str, Any]:
+        """
+        Get a dictionary containing the formatting properties.
+
+        Returns:
+            A dictionary with line, fill, pattern, and gradient properties.
+        """
+        return {
+            "line": self.line,
+            "fill": self.fill,
+            "pattern": self.pattern,
+            "gradient": self.gradient,
+        }
 
     def is_hidden(self) -> bool:
         """
@@ -82,9 +97,14 @@ class ChartTitle:
             f"ChartTitle(\n"
             f"    name = {self.name!r},\n"
             f"    formula = {self.formula!r},\n"
-            f"    hidden = {self.hidden!r})\n,"
+            f"    hidden = {self.hidden!r},\n"
             f"    font = {self.font!r},\n"
+            f"    line = {self.line!r},\n"
+            f"    fill = {self.fill!r},\n"
+            f"    pattern = {self.pattern!r},\n"
+            f"    gradient = {self.gradient!r},\n"
             f"    layout = {self.layout!r},\n"
             f"    overlay = {self.overlay!r},\n"
-            f")"
+            f"    has_formatting = {self.has_formatting()!r},\n"
+            f")\n"
         )

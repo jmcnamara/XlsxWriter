@@ -378,13 +378,13 @@ class Shape:
         if not font:
             return attributes
 
-        if font["name"] is not None:
+        if font.get("name") is not None:
             attributes.append(("typeface", font["name"]))
 
-        if font["pitch_family"] is not None:
+        if font.get("pitch_family") is not None:
             attributes.append(("pitchFamily", font["pitch_family"]))
 
-        if font["charset"] is not None:
+        if font.get("charset") is not None:
             attributes.append(("charset", font["charset"]))
 
         return attributes

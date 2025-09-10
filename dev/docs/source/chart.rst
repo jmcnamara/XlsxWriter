@@ -720,8 +720,20 @@ The properties that can be set are:
   with a sheetname, row and column such as ``['Sheet1', 0, 0]``. The name
   property is optional. The default is to have no chart title.
 
-* ``name_font``: Set the font properties for the chart title. See
+* ``font``: Set the font properties for the chart title. See
   :ref:`chart_fonts`.
+
+* ``border``: Set the border properties of the legend such as color and
+  style. See :ref:`chart_formatting_border`.
+
+* ``fill``: Set the solid fill properties of the legend such as color. See
+  :ref:`chart_formatting_fill`.
+
+* ``pattern``: Set the pattern fill properties of the legend. See
+  :ref:`chart_formatting_pattern`.
+
+* ``gradient``: Set the gradient fill properties of the legend. See
+  :ref:`chart_formatting_gradient`.
 
 * ``overlay``: Allow the title to be overlaid on the chart. Generally used
   with the layout property below.

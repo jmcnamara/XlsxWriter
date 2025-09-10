@@ -338,9 +338,22 @@ class Chart(xmlwriter.XMLwriter):
         self.title.data_id = data_id
 
         # Set the font properties if present.
-        self.title.font = self._convert_font_args(options.get("name_font"))
+        if options.get("font"):
+            self.title.font = self._convert_font_args(options.get("font"))
+        else:
+            # For backward/axis compatibility.
+            self.title.font = self._convert_font_args(options.get("name_font"))
 
-        # Set the axis name layout.
+        # Set the line properties.
+        self.title.line = Shape._get_line_properties(options)
+
+        # Set the fill properties.
+        self.title.fill = Shape._get_fill_properties(options.get("fill"))
+
+        # Set the gradient properties.
+        self.title.gradient = Shape._get_gradient_properties(options.get("gradient"))
+
+        # Set the layout.
         self.title.layout = self._get_layout_properties(options.get("layout"), True)
 
         # Set the title overlay option.
@@ -2901,10 +2914,11 @@ class Chart(xmlwriter.XMLwriter):
             self._write_title_rich(title, is_horizontal)
         elif title.has_formula():
             self._write_title_formula(title, is_horizontal)
+        elif title.has_formatting():
+            self._write_title_format_only(title)
 
     def _write_title_rich(self, title: ChartTitle, is_horizontal: bool = False) -> None:
         # Write the <c:title> element for a rich string.
-
         self._xml_start_tag("c:title")
 
         # Write the c:tx element.
@@ -2917,13 +2931,15 @@ class Chart(xmlwriter.XMLwriter):
         if title.overlay:
             self._write_overlay()
 
+        # Write the c:spPr element.
+        self._write_sp_pr(title.get_formatting())
+
         self._xml_end_tag("c:title")
 
     def _write_title_formula(
         self, title: ChartTitle, is_horizontal: bool = False
     ) -> None:
         # Write the <c:title> element for a rich string.
-
         self._xml_start_tag("c:title")
 
         # Write the c:tx element.
@@ -2936,8 +2952,27 @@ class Chart(xmlwriter.XMLwriter):
         if title.overlay:
             self._write_overlay()
 
+        # Write the c:spPr element.
+        self._write_sp_pr(title.get_formatting())
+
         # Write the c:txPr element.
         self._write_tx_pr(title.font, is_horizontal)
+
+        self._xml_end_tag("c:title")
+
+    def _write_title_format_only(self, title: ChartTitle) -> None:
+        # Write the <c:title> element title with formatting and default name.
+        self._xml_start_tag("c:title")
+
+        # Write the c:layout element.
+        self._write_layout(title.layout, "text")
+
+        # Write the c:overlay element.
+        if title.overlay:
+            self._write_overlay()
+
+        # Write the c:spPr element.
+        self._write_sp_pr(title.get_formatting())
 
         self._xml_end_tag("c:title")
 
@@ -3195,34 +3230,33 @@ class Chart(xmlwriter.XMLwriter):
 
         self._xml_empty_tag("c:symbol", attributes)
 
-    def _write_sp_pr(self, series) -> None:
+    def _write_sp_pr(self, chart_format: dict) -> None:
         # Write the <c:spPr> element.
-
-        if not self._has_formatting(series):
+        if not self._has_formatting(chart_format):
             return
 
         self._xml_start_tag("c:spPr")
 
         # Write the fill elements for solid charts such as pie and bar.
-        if series.get("fill") and series["fill"]["defined"]:
-            if "none" in series["fill"]:
+        if chart_format.get("fill") and chart_format["fill"]["defined"]:
+            if "none" in chart_format["fill"]:
                 # Write the a:noFill element.
                 self._write_a_no_fill()
             else:
                 # Write the a:solidFill element.
-                self._write_a_solid_fill(series["fill"])
+                self._write_a_solid_fill(chart_format["fill"])
 
-        if series.get("pattern"):
+        if chart_format.get("pattern"):
             # Write the a:gradFill element.
-            self._write_a_patt_fill(series["pattern"])
+            self._write_a_patt_fill(chart_format["pattern"])
 
-        if series.get("gradient"):
+        if chart_format.get("gradient"):
             # Write the a:gradFill element.
-            self._write_a_grad_fill(series["gradient"])
+            self._write_a_grad_fill(chart_format["gradient"])
 
         # Write the a:ln element.
-        if series.get("line") and series["line"]["defined"]:
-            self._write_a_ln(series["line"])
+        if chart_format.get("line") and chart_format["line"]["defined"]:
+            self._write_a_ln(chart_format["line"])
 
         self._xml_end_tag("c:spPr")
 
