@@ -818,6 +818,19 @@ class Chart(xmlwriter.XMLwriter):
             options.get("name_layout"), True
         )
 
+        # Map the line and border properties for the axis title.
+        options["line"] = options.get("name_line")
+        options["border"] = options.get("name_border")
+
+        axis["title"].line = Shape._get_line_properties(options)
+        axis["title"].fill = Shape._get_fill_properties(options.get("name_fill"))
+        axis["title"].pattern = Shape._get_pattern_properties(
+            options.get("name_pattern")
+        )
+        axis["title"].gradient = Shape._get_gradient_properties(
+            options.get("name_gradient")
+        )
+
         return axis
 
     def _convert_font_args(self, options):

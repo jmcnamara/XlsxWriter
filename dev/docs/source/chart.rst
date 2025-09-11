@@ -272,14 +272,18 @@ The ``set_x_axis()`` method is used to set properties of the X axis::
 The options that can be set are::
 
     name
-    name_font
     name_layout
-    num_font
-    num_format
+    name_font
+    name_line
+    name_fill
+    name_pattern
+    name_gradient
     line
     fill
     pattern
     gradient
+    num_format
+    num_font
     min
     max
     minor_unit
@@ -327,6 +331,19 @@ the axis types.
 
   See the :ref:`chart_fonts` section for more details on font properties.
 
+* ``name_line``: Set the properties of the axis title/name border type such as
+  color and width. See :ref:`chart_formatting_line`.
+
+* ``name_fill``: Set the solid fill properties of the axis title/name. See
+  :ref:`chart_formatting_fill`.
+
+* ``name_pattern``: Set the pattern fill properties of the axis title/name. See
+  :ref:`chart_formatting_pattern`.
+
+* ``name_gradient``: Set the gradient fill properties of the axis title/name. See
+  :ref:`chart_formatting_gradient`.
+
+
 * ``name_layout``: Set the ``(x, y)`` position of the axis caption in chart
   relative units. (Applicable to category, date and value axes.)::
 
@@ -363,7 +380,7 @@ the axis types.
 
     chart.set_x_axis({'line': {'none': True}})
 
-* ``fill``: Set the solid fill properties of the axis such as color. See
+* ``fill``: Set the solid fill properties of the axis. See
   :ref:`chart_formatting_fill`.  Note, in Excel the axis fill is applied to
   the area of the numbers of the axis and not to the area of the axis bounding
   box. That background is set from the chartarea fill.
