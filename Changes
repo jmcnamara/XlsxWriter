@@ -1,3 +1,21 @@
+Release 3.2.6 - September 12 2025
+---------------------------------
+
+* Add the option to position custom data labels in the same way that the data
+  labels can be positioned for the entire series.
+
+  :feature:`1147`.
+
+* Add border, fill, gradient and pattern formatting options for
+  chart titles and also chart axis titles.
+
+  :feature:`957`.
+
+* Add additional type annotations. This is an ongoing refactoring.
+
+  :feature:`1123`.
+
+
 Release 3.2.5 - June 17 2025
 ----------------------------
 
