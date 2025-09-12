@@ -203,7 +203,7 @@ function check_versions {
             exit 1
         else
             echo "    Updating versions...";
-            perl -i dev/release/update_revison.pl setup.py dev/docs/source/conf.py xlsxwriter/__init__.py
+            perl -i dev/release/update_revision.pl setup.py dev/docs/source/conf.py xlsxwriter/__init__.py
             check_versions
          fi
     fi
@@ -276,7 +276,7 @@ function check_git_status {
         echo
         echo -e "Please fix git status.\n";
 
-        git tag -l -n1 | tail -1 | perl -lane 'printf "git add -u\ngit commit -m \"Prep for release %s\"\ngit tag \"%s\"\n\n", $F[4], $F[0]' | perl dev/release/update_revison.pl
+        git tag -l -n1 | tail -1 | perl -lane 'printf "git add -u\ngit commit -m \"Prep for release %s\"\ngit tag \"%s\"\n\n", $F[4], $F[0]' | perl dev/release/update_revision.pl
         exit 1
     fi
 }

@@ -34,7 +34,7 @@ class TestWritePageMargins(unittest.TestCase):
 
         self.assertEqual(exp, got)
 
-    def test_write_page_margins_deafult(self):
+    def test_write_page_margins_default(self):
         """Test the _write_page_margins() method with default margins"""
 
         self.worksheet.set_margins()
