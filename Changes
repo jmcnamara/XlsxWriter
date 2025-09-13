@@ -1,3 +1,12 @@
+
+Release 3.2.7 - September 13 2025
+---------------------------------
+
+* Fix typing issue in ``Workbook()`` constructor.
+
+  :issue:`1152`.
+
+
 Release 3.2.6 - September 12 2025
 ---------------------------------
 
