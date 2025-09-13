@@ -63,7 +63,7 @@ class Workbook(xmlwriter.XMLwriter):
 
     def __init__(
         self,
-        filename: Optional[str | IO[AnyStr] | os.PathLike] = None,
+        filename: Optional[Union[str, IO[AnyStr], os.PathLike]] = None,
         options: Optional[Dict[str, Any]] = None,
     ) -> None:
         """
