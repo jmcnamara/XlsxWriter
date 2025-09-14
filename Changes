@@ -1,8 +1,17 @@
 
+Release 3.2.8 - September 14 2025
+---------------------------------
+
+* Fixed ``mypy`` implicit export error caused by the ``Workbook()`` type
+  annotations changes in v3.2.7 and v3.2.6.
+
+  :issue:`1154`.
+
+
 Release 3.2.7 - September 13 2025
 ---------------------------------
 
-* Fix typing issue in ``Workbook()`` constructor.
+* Fixed typing issue in ``Workbook()`` constructor.
 
   :issue:`1152`.
 
@@ -10,7 +19,7 @@ Release 3.2.7 - September 13 2025
 Release 3.2.6 - September 12 2025
 ---------------------------------
 
-* Add the option to position custom data labels in the same way that the data
+* Added an option to position custom data labels in the same way that the data
   labels can be positioned for the entire series.
 
   :feature:`1147`.

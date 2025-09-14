@@ -3,7 +3,7 @@
 #
 # Copyright (c) 2013-2025, John McNamara, jmcnamara@cpan.org
 #
-__version__ = "3.2.7"
+__version__ = "3.2.8"
 __VERSION__ = __version__
 from .workbook import Workbook  # noqa
 
