@@ -6,3 +6,5 @@
 __version__ = "3.2.7"
 __VERSION__ = __version__
 from .workbook import Workbook  # noqa
+
+__all__ = ["Workbook"]
