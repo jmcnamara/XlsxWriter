@@ -1,4 +1,14 @@
 
+Release 3.2.9 - September 16 2025
+---------------------------------
+
+* Removed the `py.typed` file since it was causing a lot of downstream CI
+  failures where consumers weren't handling the xlsxwriter types correctly or
+  taking them into account.
+
+  The file will be re-added once the xlsxwriter typing is more comprehensive.
+
+
 Release 3.2.8 - September 14 2025
 ---------------------------------
 
