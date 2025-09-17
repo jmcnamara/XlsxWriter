@@ -2680,6 +2680,18 @@ The default zoom factor is 100. It isn't possible to set the zoom to
 Note, ``set_zoom()`` does not affect the scale of the printed page. For that
 you should use :func:`set_print_scale()`.
 
+worksheet.set_zoom_to_fit()
+---------------------------
+
+.. py:function:: set_zoom_to_fit()
+
+   Set the chartsheet to zoom to fit the screen.
+
+This method is used to ensure that a chartsheet is zoomed automatically by Excel
+to fit the screen even when the window is resized.
+
+It only has an effect for chartsheets.
+
 
 worksheet.right_to_left()
 -------------------------

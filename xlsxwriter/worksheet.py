@@ -302,7 +302,8 @@ class Worksheet(xmlwriter.XMLwriter):
         self.set_rows = defaultdict(dict)
 
         self.zoom = 100
-        self.zoom_scale_normal = 1
+        self.zoom_scale_normal = True
+        self.zoom_to_fit = False
         self.print_scale = 100
         self.is_right_to_left = False
         self.show_zeros = 1
@@ -4021,6 +4022,19 @@ class Worksheet(xmlwriter.XMLwriter):
 
         self.zoom = int(zoom)
 
+    def set_zoom_to_fit(self) -> None:
+        """
+        Set the worksheet zoom  to selection/fit. Only works for chartsheets.
+
+        Args:
+            None.
+
+        Returns:
+            Nothing.
+
+        """
+        self.zoom_to_fit = True
+
     def right_to_left(self) -> None:
         """
         Display the worksheet right to left for some versions of Excel.
@@ -6260,6 +6274,9 @@ class Worksheet(xmlwriter.XMLwriter):
                 attributes.append(("zoomScaleSheetLayoutView", self.zoom))
 
         attributes.append(("workbookViewId", 0))
+
+        if self.is_chartsheet and self.zoom_to_fit:
+            attributes.append(("zoomToFit", 1))
 
         if self.panes or self.selections:
             self._xml_start_tag("sheetView", attributes)

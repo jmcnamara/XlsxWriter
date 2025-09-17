@@ -77,6 +77,7 @@ The following :ref:`Worksheet` methods are also available through a chartsheet:
 * :func:`set_first_sheet()`
 * :func:`protect()`
 * :func:`set_zoom()`
+* :func:`set_zoom_to_fit()`
 * :func:`set_tab_color()`
 * :func:`set_landscape()`
 * :func:`set_portrait()`
@@ -91,8 +92,9 @@ For example::
 
     chartsheet.set_tab_color('#FF9900')
 
-The :func:`set_zoom()` method can be used to modify the displayed size of the
-chart.
+The :func:`set_zoom_to_fit()` method only has an effect for chartsheets. It
+ensures that a chartsheet is zoomed automatically by Excel to fit the screen
+even when the window is resized.
 
 
 Chartsheet Example

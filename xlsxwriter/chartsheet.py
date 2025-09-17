@@ -40,7 +40,7 @@ class Chartsheet(worksheet.Worksheet):
         self.drawing = None
         self.chart = None
         self.charts = []
-        self.zoom_scale_normal = 0
+        self.zoom_scale_normal = False
         self.orientation = 0
         self.protection = False
 

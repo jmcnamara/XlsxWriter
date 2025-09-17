@@ -1,4 +1,12 @@
 
+Release 3.3.0 - Month XX 2025
+-----------------------------
+
+* Added the :func:`set_zoom_to_fit()` method for chartsheets. It ensures that a
+  chartsheet is zoomed automatically by Excel to fit the screen even when the
+  window is resized.
+
+
 Release 3.2.9 - September 16 2025
 ---------------------------------
 
