@@ -5892,7 +5892,7 @@ class Worksheet(xmlwriter.XMLwriter):
         # Returns a range of data from the worksheet _table to be used in
         # chart cached data. Strings are returned as SST ids and decoded
         # in the workbook. Return None for data that doesn't exist since
-        # Excel can chart series with data missing.
+        # Excel can chart have series with data missing.
 
         if self.constant_memory:
             return ()
