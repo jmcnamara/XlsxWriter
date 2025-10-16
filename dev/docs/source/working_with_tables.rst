@@ -65,6 +65,10 @@ the table options and data. The available options are:
 +----------------+
 | name           |
 +----------------+
+| description    |
++----------------+
+| title          |
++----------------+
 
 
 These options are explained below. There are no required parameters and the
@@ -235,6 +239,26 @@ formatting and also with dropdown ``SUBTOTAL`` functions::
 
 The default total row doesn't have any captions or functions. These must by
 specified via the ``columns`` parameter below.
+
+description
+-----------
+
+The ``description`` parameter can be used to set the alt text description for
+the table. This is useful for accessibility purposes and for users of screen
+readers::
+
+    worksheet.add_table("B3:F7", {"description": "Table with the sales data for Spain"})
+
+
+title
+-----
+
+The ``title`` parameter can be used to set the alt text title for the table.
+This is useful for accessibility purposes and for users of screen readers. It
+can be used in conjunction with the ``description`` parameter::
+
+    worksheet.add_table("B3:F7", {"title": "Sales data table",
+                                  "description": "Sales data for Spain"})
 
 
 columns

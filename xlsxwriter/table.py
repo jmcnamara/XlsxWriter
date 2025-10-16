@@ -57,6 +57,9 @@ class Table(xmlwriter.XMLwriter):
         # Write the tableStyleInfo element.
         self._write_table_style_info()
 
+        # Write the extLst element for alt text/title.
+        self._write_ext_lst()
+
         # Close the table tag.
         self._xml_end_tag("table")
 
@@ -192,3 +195,40 @@ class Table(xmlwriter.XMLwriter):
     def _write_totals_row_formula(self, formula) -> None:
         # Write the <totalsRowFormula> element.
         self._xml_data_element("totalsRowFormula", formula)
+
+    def _write_ext_lst(self) -> None:
+        # Write the <extLst> element for the alt text/description.
+        props = self.properties
+
+        if not props.get("description") and not props.get("title"):
+            return
+
+        attributes = [
+            ("uri", "{504A1905-F514-4f6f-8877-14C23A59335A}"),
+            (
+                "xmlns:x14",
+                "http://schemas.microsoft.com/office/spreadsheetml/2009/9/main",
+            ),
+        ]
+
+        self._xml_start_tag("extLst")
+        self._xml_start_tag("ext", attributes)
+
+        # Write the x14:table element.
+        self._write_x14_table()
+
+        self._xml_end_tag("ext")
+        self._xml_end_tag("extLst")
+
+    def _write_x14_table(self):
+        # Write the <x14:table> element.
+        props = self.properties
+        attributes = []
+
+        if props.get("title"):
+            attributes.append(("altText", props["title"]))
+
+        if props.get("description"):
+            attributes.append(("altTextSummary", props["description"]))
+
+        self._xml_empty_tag("x14:table", attributes)

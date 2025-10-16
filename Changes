@@ -6,6 +6,8 @@ Release 3.3.0 - Month XX 2025
   chartsheet is zoomed automatically by Excel to fit the screen even when the
   window is resized.
 
+* Added alt text ``description`` and ``title`` options to worksheet Tables.
+
 
 Release 3.2.9 - September 16 2025
 ---------------------------------

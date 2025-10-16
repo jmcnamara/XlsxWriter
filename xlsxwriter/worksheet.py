@@ -3408,6 +3408,8 @@ class Worksheet(xmlwriter.XMLwriter):
             "name",
             "style",
             "total_row",
+            "description",
+            "title",
         }
 
         # Check for valid input parameters.
@@ -3437,6 +3439,8 @@ class Worksheet(xmlwriter.XMLwriter):
         table["show_col_stripes"] = options.get("banded_columns", False)
         table["header_row_count"] = options.get("header_row", 0)
         table["totals_row_shown"] = options.get("total_row", False)
+        table["description"] = options.get("description")
+        table["title"] = options.get("title")
 
         # Set the table name.
         if "name" in options:
