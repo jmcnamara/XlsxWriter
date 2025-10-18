@@ -378,7 +378,7 @@ class Workbook(xmlwriter.XMLwriter):
 
         Args:
             custom_ui:  The custom UI xml file name
-            verion:     Excel file version for the ribbon (2006 = pre-excel-2014, 2007 = excel 2014)
+            version:     Excel file version for the ribbon (2006 = pre-excel-2014, 2007 = excel 2014)
         """
 
         if not os.path.exists(custom_ui):
