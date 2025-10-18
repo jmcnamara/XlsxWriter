@@ -372,7 +372,7 @@ class Workbook(xmlwriter.XMLwriter):
 
         return 0
 
-    def add_custom_ui(self, custom_ui, version=2006) -> None:
+    def add_custom_ui(self, custom_ui, version=2007) -> Literal[0, -1]:
         """
         Add a custom UI to the Excel workbook.
 
@@ -382,10 +382,12 @@ class Workbook(xmlwriter.XMLwriter):
         """
 
         if not os.path.exists(custom_ui):
-            warn("Custom UI xml file '%s' not found." % custom_ui)
+            warn(f"Custom UI xml file '{custom_ui}' not found.")
             return -1
 
         self.custom_uis.append((custom_ui, version))
+
+        return 0
 
     def close(self) -> None:
         """
