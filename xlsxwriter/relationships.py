@@ -69,9 +69,9 @@ class Relationships(xmlwriter.XMLwriter):
 
         self.relationships.append((rel_type, target, None))
 
-    def _add_ms_package_relationship(self, rel_type, target) -> None:
+    def _add_ms_package_relationship(self, rel_type, target, version=2006) -> None:
         # Add container relationship to XLSX .rels xml files. Uses MS schema.
-        schema = "http://schemas.microsoft.com/office/2006/relationships"
+        schema = f"http://schemas.microsoft.com/office/{version}/relationships"
         rel_type = schema + rel_type
 
         self.relationships.append((rel_type, target, None))
