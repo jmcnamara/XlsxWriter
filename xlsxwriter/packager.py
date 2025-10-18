@@ -576,9 +576,9 @@ class Packager:
 
         for custom_ui, version in self.workbook.custom_uis:
             xml_custom_ui_name = os.path.split(custom_ui)[1]
-            rels._add_ms_package_relationship('/ui/extensibility',
-                                              'customUI/%s' % xml_custom_ui_name,
-                                              version=version)
+            rels._add_ms_package_relationship(
+                "/ui/extensibility", "customUI/%s" % xml_custom_ui_name, version=version
+            )
 
         rels._set_xml_writer(self._filename("_rels/.rels"))
 
@@ -895,15 +895,16 @@ class Packager:
             xml_custom_ui_name = os.path.split(custom_ui)[1]
             if not self.in_memory:
                 # In file mode we just copy the xml files.
-                os_filename = self._filename('customUI/%s' % xml_custom_ui_name)
+                os_filename = self._filename("customUI/%s" % xml_custom_ui_name)
                 copy(custom_ui, os_filename)
 
             else:
                 # For in-memory mode we read the custom ui into a stream.
-                custom_ui_file = open(custom_ui, mode='r')
+                custom_ui_file = open(custom_ui, mode="r")
                 custom_ui_data = custom_ui_file.read()
                 os_filename = StringIO(custom_ui_data)
                 custom_ui_file.close()
 
-                self.filenames.append((os_filename, 'customUI/%s' % xml_custom_ui_name, True))
-
+                self.filenames.append(
+                    (os_filename, "customUI/%s" % xml_custom_ui_name, True)
+                )

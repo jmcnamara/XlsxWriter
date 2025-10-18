@@ -27,15 +27,15 @@ class TestCompareXLSXFiles(ExcelComparisonTest):
         
         worksheet = workbook.add_worksheet()
         
-        workbook.add_custom_ui(self.vba_dir + 'customUI-01.xml', version=2006)
-        workbook.add_custom_ui(self.vba_dir + 'customUI14-01.xml', version=2007)
+        workbook.add_custom_ui(self.vba_dir + "customUI-01.xml", version=2006)
+        workbook.add_custom_ui(self.vba_dir + "customUI14-01.xml", version=2007)
 
         workbook.add_signed_vba_project(
             self.vba_dir + "vbaProject06.bin",
             self.vba_dir + "vbaProject06Signature.bin",
         )
 
-        worksheet.write('A1', 'Test')
+        worksheet.write("A1", "Test")
 
         workbook.close()
 
