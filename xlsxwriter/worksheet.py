@@ -21,7 +21,17 @@ from fractions import Fraction
 from functools import wraps
 from io import BytesIO, StringIO
 from math import isinf, isnan
-from typing import Any, Dict, List, Literal, Optional, Union
+from typing import (
+    TYPE_CHECKING,
+    Any,
+    Callable,
+    Dict,
+    List,
+    Literal,
+    Optional,
+    TypeVar,
+    Union,
+)
 from warnings import warn
 
 from xlsxwriter.chart import Chart
@@ -51,6 +61,59 @@ from .utility import (
     xl_rowcol_to_cell_fast,
 )
 from .xmlwriter import XMLwriter
+
+if TYPE_CHECKING:
+    from typing_extensions import Concatenate, ParamSpec, Protocol, overload
+
+    ReturnTypeT_co = TypeVar("ReturnTypeT_co", covariant=True)
+    P = ParamSpec("P")
+
+    class CellMethod(Protocol[P, ReturnTypeT_co]):
+        """Overloads to support cell notation."""
+
+        @overload
+        def __call__(
+            self, row: int, col: int, /, *args: P.args, **kwargs: P.kwargs
+        ) -> ReturnTypeT_co: ...
+
+        @overload
+        def __call__(
+            self, cell: str, /, *args: P.args, **kwargs: P.kwargs
+        ) -> ReturnTypeT_co: ...
+
+    class RangeMethod(Protocol[P, ReturnTypeT_co]):
+        """Overloads to support range notation."""
+
+        @overload
+        def __call__(
+            self,
+            first_row: int,
+            first_col: int,
+            last_row: int,
+            last_col: int,
+            /,
+            *args: P.args,
+            **kwargs: P.kwargs,
+        ) -> ReturnTypeT_co: ...
+
+        @overload
+        def __call__(
+            self, cell_range: str, /, *args: P.args, **kwargs: P.kwargs
+        ) -> ReturnTypeT_co: ...
+
+    class ColumnMethod(Protocol[P, ReturnTypeT_co]):
+        """Overloads to support column range notation."""
+
+        @overload
+        def __call__(
+            self, first_col: int, last_col: int, /, *args: P.args, **kwargs: P.kwargs
+        ) -> ReturnTypeT_co: ...
+
+        @overload
+        def __call__(
+            self, col_range: str, /, *args: P.args, **kwargs: P.kwargs
+        ) -> ReturnTypeT_co: ...
+
 
 re_dynamic_function = re.compile(
     r"""
@@ -92,7 +155,9 @@ re_dynamic_function = re.compile(
 # Decorator functions.
 #
 ###############################################################################
-def convert_cell_args(method):
+def convert_cell_args(
+    method: "Callable[Concatenate[Any, int, int, P], ReturnTypeT_co]",
+) -> "CellMethod[P, ReturnTypeT_co]":
     """
     Decorator function to convert A1 notation in cell method calls
     to the default row/col notation.
@@ -116,7 +181,9 @@ def convert_cell_args(method):
     return cell_wrapper
 
 
-def convert_range_args(method):
+def convert_range_args(
+    method: "Callable[Concatenate[Any, int, int, int, int, P], ReturnTypeT_co]",
+) -> "RangeMethod[P, ReturnTypeT_co]":
     """
     Decorator function to convert A1 notation in range method calls
     to the default row/col notation.
@@ -148,7 +215,9 @@ def convert_range_args(method):
     return cell_wrapper
 
 
-def convert_column_args(method):
+def convert_column_args(
+    method: "Callable[Concatenate[Any, int, int, P], ReturnTypeT_co]",
+) -> "ColumnMethod[P, ReturnTypeT_co]":
     """
     Decorator function to convert A1 notation in columns method calls
     to the default row/col notation.

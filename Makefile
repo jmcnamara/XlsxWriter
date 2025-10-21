@@ -46,7 +46,7 @@ testpythons:
 	@~/.pythonbrew/pythons/Python-3.14.0/bin/py.test -q
 
 test_flake8:
-	@ls -1 xlsxwriter/*.py | egrep -v "theme|__init__" | xargs flake8 --show-source --max-line-length=88 --ignore=E203,W503
+	@ls -1 xlsxwriter/*.py | egrep -v "theme|__init__" | xargs flake8 --show-source --max-line-length=88 --ignore=E203,E704,W503
 	@flake8 --ignore=E501 xlsxwriter/theme.py
 	@find xlsxwriter/test -name \*.py | xargs flake8 --ignore=E501,F841,W503
 
