@@ -30,7 +30,7 @@ jobs:
     - name: Install test dependencies
       run: |
         python -m pip install --upgrade pip
-        pip install pytest flake8 black ruff isort pylint polars pandas
+        pip install pytest flake8 black ruff isort pylint polars pandas typing-extensions
 
     - name: Test the code style
       run: |
