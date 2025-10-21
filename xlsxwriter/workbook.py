@@ -157,6 +157,8 @@ class Workbook(xmlwriter.XMLwriter):
         self.embedded_images = EmbeddedImages()
         self.feature_property_bags = set()
 
+        self.custom_uis = []
+
         # We can't do 'constant_memory' mode while doing 'in_memory' mode.
         if self.in_memory:
             self.constant_memory = False
@@ -367,6 +369,23 @@ class Workbook(xmlwriter.XMLwriter):
 
         self.vba_project_signature = signature
         self.vba_project_signature_is_stream = signature_is_stream
+
+        return 0
+
+    def add_custom_ui(self, custom_ui, version=2007) -> Literal[0, -1]:
+        """
+        Add a custom UI to the Excel workbook.
+
+        Args:
+            custom_ui:  The custom UI xml file name
+            version:     Excel file version for the ribbon (2006 = pre-excel-2014, 2007 = excel 2014)
+        """
+
+        if not os.path.exists(custom_ui):
+            warn(f"Custom UI xml file '{custom_ui}' not found.")
+            return -1
+
+        self.custom_uis.append((custom_ui, version))
 
         return 0
 
