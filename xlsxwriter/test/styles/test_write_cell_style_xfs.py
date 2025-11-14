@@ -10,6 +10,7 @@
 import unittest
 from io import StringIO
 
+from xlsxwriter.format import Format
 from xlsxwriter.styles import Styles
 
 
@@ -27,6 +28,7 @@ class TestWriteCellStyleXfs(unittest.TestCase):
     def test_write_cell_style_xfs(self):
         """Test the _write_cell_style_xfs() method"""
 
+        self.styles.xf_formats = [Format()]
         self.styles._write_cell_style_xfs()
 
         exp = """<cellStyleXfs count="1"><xf numFmtId="0" fontId="0" fillId="0" borderId="0"/></cellStyleXfs>"""

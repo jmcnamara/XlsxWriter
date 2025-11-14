@@ -4992,6 +4992,13 @@ class Worksheet(xmlwriter.XMLwriter):
         self.max_url_length = init_data["max_url_length"]
         self.use_future_functions = init_data["use_future_functions"]
         self.embedded_images = init_data["embedded_images"]
+        self.default_row_height = init_data["default_row_height"]
+        self.default_col_width = init_data["default_col_width"]
+        self.max_digit_width = init_data["max_digit_width"]
+        self.cell_padding = init_data["cell_padding"]
+        self.max_col_width = init_data["max_col_width"]
+
+        self.original_row_height = self.default_row_height
 
         if self.excel2003_style:
             self.original_row_height = 17

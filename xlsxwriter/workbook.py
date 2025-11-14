@@ -15,7 +15,7 @@ import time
 from datetime import datetime, timezone
 from decimal import Decimal
 from fractions import Fraction
-from typing import IO, Any, AnyStr, Dict, List, Literal, Optional, Union
+from typing import IO, Any, AnyStr, Dict, List, Literal, Optional, Tuple, Union
 from warnings import warn
 from zipfile import ZIP_DEFLATED, LargeZipFile, ZipFile, ZipInfo
 
@@ -89,7 +89,11 @@ class Workbook(xmlwriter.XMLwriter):
         self.excel2003_style = options.get("excel2003_style", False)
         self.remove_timezone = options.get("remove_timezone", False)
         self.use_future_functions = options.get("use_future_functions", False)
-        self.default_format_properties = options.get("default_format_properties", {})
+        self.default_row_height = options.get("default_row_height", 20)
+        self.default_col_width = options.get("default_column_width", 64)
+        self.default_format_properties = options.get(
+            "default_format_properties", {"font_name": "Calibri", "font_size": 11}
+        )
 
         self.max_url_length = options.get("max_url_length", 2079)
         if self.max_url_length < 255:
@@ -165,7 +169,9 @@ class Workbook(xmlwriter.XMLwriter):
         if self.excel2003_style:
             self.add_format({"xf_index": 0, "font_family": 0})
         else:
-            self.add_format({"xf_index": 0})
+            format_properties = self.default_format_properties.copy()
+            format_properties["xf_index"] = 0
+            self.add_format(format_properties)
 
         # Add a default URL format.
         self.default_url_format = self.add_format({"hyperlink": True})
@@ -175,6 +181,10 @@ class Workbook(xmlwriter.XMLwriter):
             self.default_date_format = self.add_format(
                 {"num_format": self.default_date_format}
             )
+
+        (self.max_digit_width, self.cell_padding, self.max_col_width) = (
+            self._default_column_metrics(self.default_col_width)
+        )
 
     def __enter__(self):
         """Return self object to use with "with" statement."""
@@ -871,6 +881,11 @@ class Workbook(xmlwriter.XMLwriter):
             "max_url_length": self.max_url_length,
             "use_future_functions": self.use_future_functions,
             "embedded_images": self.embedded_images,
+            "default_row_height": self.default_row_height,
+            "default_col_width": self.default_col_width,
+            "max_digit_width": self.max_digit_width,
+            "cell_padding": self.cell_padding,
+            "max_col_width": self.max_col_width,
         }
 
         worksheet._initialize(init_data)
@@ -1594,6 +1609,34 @@ class Workbook(xmlwriter.XMLwriter):
         # Get and instance of the Packager class to create the xlsx package.
         # This allows the default packager to be over-ridden.
         return Packager()
+
+    def _default_column_metrics(self, width: int) -> Tuple[int, int, int]:
+        # Get default font metrics for a default column width.
+        #
+        # This function returns the font metrics (max_digit_width, padding,
+        # max_col_width) based on the column pixel width for a default font.
+        #
+        # To add support for additional fonts and sizes please open a GitHub request
+        # with an empty sample workbook with one worksheet.
+        if width == 56:
+            metrics = (6, 5, 1533)
+        elif width == 64:
+            metrics = (7, 5, 1790)
+        elif width == 72:
+            metrics = (8, 5, 2043)
+        elif width == 80:
+            metrics = (9, 7, 2300)
+        elif width == 96:
+            metrics = (11, 7, 2810)
+        elif width == 104:
+            metrics = (12, 7, 3065)
+        elif width == 120:
+            metrics = (13, 9, 3323)
+        else:
+            warn(f"Unsupported default_column_width '{width}'. Using 64 pixels.")
+            metrics = (7, 5, 1790)
+
+        return metrics
 
     ###########################################################################
     #
