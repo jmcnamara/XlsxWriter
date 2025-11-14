@@ -33,7 +33,7 @@ class TestCompareXLSXFiles(ExcelComparisonTest):
 
         worksheet.set_column("A:A", 36, bold)
         worksheet.set_column("B:B", 20)
-        worksheet.set_row(0, 40)
+        worksheet.set_row(0, 39.75)
 
         heading_format = workbook.add_format(
             {

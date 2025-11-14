@@ -48,7 +48,7 @@ class TestWriteRow(unittest.TestCase):
     def test_write_row_3(self):
         """Test the _write_row() method"""
 
-        row_info = RowInfo(height=30)
+        row_info = RowInfo(height=40)
         self.worksheet._write_row(1, None, row_info)
 
         exp = """<row r="2" ht="30" customHeight="1">"""
@@ -59,7 +59,7 @@ class TestWriteRow(unittest.TestCase):
     def test_write_row_4(self):
         """Test the _write_row() method"""
 
-        row_info = RowInfo(height=15, hidden=True)
+        row_info = RowInfo(height=20, hidden=True)
         self.worksheet._write_row(3, None, row_info)
 
         exp = """<row r="4" hidden="1">"""
@@ -71,7 +71,7 @@ class TestWriteRow(unittest.TestCase):
         """Test the _write_row() method"""
 
         row_format = Format({"xf_index": 1})
-        row_info = RowInfo(height=15, row_format=row_format)
+        row_info = RowInfo(height=20, row_format=row_format)
 
         self.worksheet._write_row(6, None, row_info)
 
@@ -83,7 +83,7 @@ class TestWriteRow(unittest.TestCase):
     def test_write_row_6(self):
         """Test the _write_row() method"""
 
-        row_info = RowInfo(height=3)
+        row_info = RowInfo(height=4)
         self.worksheet._write_row(9, None, row_info)
 
         exp = """<row r="10" ht="3" customHeight="1">"""
@@ -94,7 +94,7 @@ class TestWriteRow(unittest.TestCase):
     def test_write_row_7(self):
         """Test the _write_row() method"""
 
-        row_info = RowInfo(height=24, hidden=True)
+        row_info = RowInfo(height=32, hidden=True)
         self.worksheet._write_row(12, None, row_info)
 
         exp = """<row r="13" ht="24" hidden="1" customHeight="1">"""
@@ -105,7 +105,7 @@ class TestWriteRow(unittest.TestCase):
     def test_write_row_8(self):
         """Test the _write_row() method"""
 
-        row_info = RowInfo(height=24, hidden=True)
+        row_info = RowInfo(height=32, hidden=True)
         self.worksheet._write_row(12, None, row_info, 1)
 
         exp = """<row r="13" ht="24" hidden="1" customHeight="1"/>"""

@@ -273,7 +273,7 @@ CellArrayFormulaTuple = namedtuple(
 class ColumnInfo:
     """Type to hold user modified properties for a column."""
 
-    width: Optional[float] = None
+    width: Optional[int] = None
     column_format: Optional["Format"] = None
     hidden: bool = False
     level: int = 0
@@ -285,7 +285,7 @@ class ColumnInfo:
 class RowInfo:
     """Type to hold user modified properties for a row."""
 
-    height: Optional[float] = None
+    height: Optional[int] = None
     row_format: Optional["Format"] = None
     hidden: bool = False
     level: int = 0
@@ -340,6 +340,14 @@ class Worksheet(xmlwriter.XMLwriter):
 
         self.col_info: Dict[int, ColumnInfo] = {}
         self.row_info: Dict[int, RowInfo] = {}
+        self.default_row_height: int = 20
+        self.default_col_width: int = 64
+        self.cell_padding: int = 5
+        self.original_row_height: int = 20
+        self.max_digit_width: int = 7
+        self.max_col_width: int = 1790
+        self.default_date_width = 68
+        self.default_row_zeroed = 0
 
         self.selections = []
         self.hidden = 0
@@ -415,14 +423,6 @@ class Worksheet(xmlwriter.XMLwriter):
         self.outline_right = 1
         self.outline_on = 1
         self.outline_changed = False
-
-        self.original_row_height = 15
-        self.default_row_height = 15
-        self.default_row_pixels = 20
-        self.default_col_width = 8.43
-        self.default_col_pixels = 64
-        self.default_date_pixels = 68
-        self.default_row_zeroed = 0
 
         self.names = {}
         self.write_match = []
@@ -2082,6 +2082,46 @@ class Worksheet(xmlwriter.XMLwriter):
             -1: Column number is out of worksheet bounds.
 
         """
+        # Convert from Excel character width to pixels. The conversion is
+        # different below 1 character widths.
+        if width is None:
+            width_pixels = None
+        elif width == 0.0:
+            width_pixels = 0
+        elif width < 1.0:
+            width_pixels = round(width * (self.max_digit_width + self.cell_padding))
+        else:
+            width_pixels = round(width * self.max_digit_width) + self.cell_padding
+
+        return self.set_column_pixels(
+            first_col, last_col, width_pixels, cell_format, options
+        )
+
+    @convert_column_args
+    def set_column_pixels(
+        self,
+        first_col: int,
+        last_col: int,
+        width: Optional[float] = None,
+        cell_format: Optional[Format] = None,
+        options: Optional[Dict[str, Any]] = None,
+    ) -> Literal[0, -1]:
+        """
+        Set the width, and other properties of a single column or a
+        range of columns, where column width is in pixels.
+
+        Args:
+            first_col:   First column (zero-indexed).
+            last_col:    Last column (zero-indexed). Can be same as first_col.
+            width:       Column width in pixels. (optional).
+            cell_format: Column cell_format. (optional).
+            options:     Dict of options such as hidden and level.
+
+        Returns:
+            0:  Success.
+            -1: Column number is out of worksheet bounds.
+
+        """
         if options is None:
             options = {}
 
@@ -2130,37 +2170,7 @@ class Worksheet(xmlwriter.XMLwriter):
 
         return 0
 
-    @convert_column_args
-    def set_column_pixels(
-        self,
-        first_col: int,
-        last_col: int,
-        width: Optional[float] = None,
-        cell_format: Optional[Format] = None,
-        options: Optional[Dict[str, Any]] = None,
-    ) -> Literal[0, -1]:
-        """
-        Set the width, and other properties of a single column or a
-        range of columns, where column width is in pixels.
-
-        Args:
-            first_col:   First column (zero-indexed).
-            last_col:    Last column (zero-indexed). Can be same as first_col.
-            width:       Column width in pixels. (optional).
-            cell_format: Column cell_format. (optional).
-            options:     Dict of options such as hidden and level.
-
-        Returns:
-            0:  Success.
-            -1: Column number is out of worksheet bounds.
-
-        """
-        if width is not None:
-            width = self._pixels_to_width(width)
-
-        return self.set_column(first_col, last_col, width, cell_format, options)
-
-    def autofit(self, max_width: int = 1790) -> None:
+    def autofit(self, max_width: int = None) -> None:
         """
         Simulate autofit based on the data, and datatypes in each column.
 
@@ -2185,7 +2195,10 @@ class Worksheet(xmlwriter.XMLwriter):
 
         # Convert the autofit maximum pixel width to a column/character width,
         # but limit it to the Excel max limit.
-        max_width = min(self._pixels_to_width(max_width), 255.0)
+        if max_width is None:
+            max_width = self.max_col_width
+
+        max_width = min(max_width, self.max_col_width)
 
         # Create a reverse lookup for the share strings table so we can convert
         # the string id back to the original string.
@@ -2242,7 +2255,7 @@ class Worksheet(xmlwriter.XMLwriter):
                         # The following uses the default width for mm/dd/yyyy
                         # dates. It isn't feasible to parse the number format
                         # to get the actual string width for all format types.
-                        length = self.default_date_pixels
+                        length = self.default_date_width
 
                     elif cell_type == "Boolean":
                         # Handle boolean values.
@@ -2282,10 +2295,9 @@ class Worksheet(xmlwriter.XMLwriter):
                         col_width_max[col_num] = length
 
         # Apply the width to the column.
-        for col_num, pixel_width in col_width_max.items():
-            # Convert the string pixel width to a character width using an
-            # additional padding of 7 pixels, like Excel.
-            width = self._pixels_to_width(pixel_width + 7)
+        for col_num, width in col_width_max.items():
+            # Add a 7 pixels padding, like Excel.
+            width += 7
 
             # Limit the width to the maximum user or Excel value.
             width = min(width, max_width)
@@ -2333,6 +2345,34 @@ class Worksheet(xmlwriter.XMLwriter):
             -1: Row number is out of worksheet bounds.
 
         """
+        if height is not None:
+            pixel_height = round(height * 4.0 / 3.0)
+        else:
+            pixel_height = None
+
+        return self.set_row_pixels(row, pixel_height, cell_format, options)
+
+    def set_row_pixels(
+        self,
+        row: int,
+        height: Optional[float] = None,
+        cell_format: Optional[Format] = None,
+        options: Optional[Dict[str, Any]] = None,
+    ) -> Literal[0, -1]:
+        """
+        Set the width (in pixels), and other properties of a row.
+
+        Args:
+            row:         Row number (zero-indexed).
+            height:      Row height in pixels. (optional).
+            cell_format: Row cell_format. (optional).
+            options:     Dict of options such as hidden, level and collapsed.
+
+        Returns:
+            0:  Success.
+            -1: Row number is out of worksheet bounds.
+
+        """
         if options is None:
             options = {}
 
@@ -2356,7 +2396,7 @@ class Worksheet(xmlwriter.XMLwriter):
 
         # If the height is 0 the row is hidden and the height is the default.
         if height == 0:
-            hidden = 1
+            hidden = True
             height = self.default_row_height
 
         # Set the limits for the outline levels (0 <= x <= 7).
@@ -2382,32 +2422,6 @@ class Worksheet(xmlwriter.XMLwriter):
 
         return 0
 
-    def set_row_pixels(
-        self,
-        row: int,
-        height: Optional[float] = None,
-        cell_format: Optional[Format] = None,
-        options: Optional[Dict[str, Any]] = None,
-    ) -> Literal[0, -1]:
-        """
-        Set the width (in pixels), and other properties of a row.
-
-        Args:
-            row:         Row number (zero-indexed).
-            height:      Row height in pixels. (optional).
-            cell_format: Row cell_format. (optional).
-            options:     Dict of options such as hidden, level and collapsed.
-
-        Returns:
-            0:  Success.
-            -1: Row number is out of worksheet bounds.
-
-        """
-        if height is not None:
-            height = self._pixels_to_height(height)
-
-        return self.set_row(row, height, cell_format, options)
-
     def set_default_row(
         self, height: Optional[float] = None, hide_unused_rows: bool = False
     ) -> None:
@@ -2423,12 +2437,14 @@ class Worksheet(xmlwriter.XMLwriter):
 
         """
         if height is None:
-            height = self.default_row_height
+            pixel_height = self.default_row_height
+        else:
+            pixel_height = int(round(height * 4.0 / 3.0))
 
-        if height != self.original_row_height:
+        if pixel_height != self.original_row_height:
             # Store the row change to allow optimizations.
             self.row_size_changed = True
-            self.default_row_height = height
+            self.default_row_height = pixel_height
 
         if hide_unused_rows:
             self.default_row_zeroed = 1
@@ -4310,8 +4326,8 @@ class Worksheet(xmlwriter.XMLwriter):
             options = {}
 
         # Create a new button object.
-        height = self.default_row_pixels
-        width = self.default_col_pixels
+        height = self.default_row_height
+        width = self.default_col_width
         button_number = 1 + len(self.buttons_list)
 
         button = ButtonType(row, col, height, width, button_number, options)
@@ -4978,9 +4994,8 @@ class Worksheet(xmlwriter.XMLwriter):
         self.embedded_images = init_data["embedded_images"]
 
         if self.excel2003_style:
-            self.original_row_height = 12.75
-            self.default_row_height = 12.75
-            self.default_row_pixels = 17
+            self.original_row_height = 17
+            self.default_row_height = 17
             self.margin_left = 0.75
             self.margin_right = 0.75
             self.margin_top = 1
@@ -5481,8 +5496,8 @@ class Worksheet(xmlwriter.XMLwriter):
             decorative,
         ) = self.shapes[index]
 
-        width = options.get("width", self.default_col_pixels * 3)
-        height = options.get("height", self.default_row_pixels * 6)
+        width = options.get("width", self.default_col_width * 3)
+        height = options.get("height", self.default_row_height * 6)
 
         width *= x_scale
         height *= y_scale
@@ -5728,7 +5743,7 @@ class Worksheet(xmlwriter.XMLwriter):
                 x_abs += self._size_col(col_id)
         else:
             # Optimization for when the column widths haven't changed.
-            x_abs += self.default_col_pixels * col_start
+            x_abs += self.default_col_width * col_start
 
         x_abs += x1
 
@@ -5738,7 +5753,7 @@ class Worksheet(xmlwriter.XMLwriter):
                 y_abs += self._size_row(row_id)
         else:
             # Optimization for when the row heights haven't changed.
-            y_abs += self.default_row_pixels * row_start
+            y_abs += self.default_row_height * row_start
 
         y_abs += y1
 
@@ -5779,15 +5794,6 @@ class Worksheet(xmlwriter.XMLwriter):
         return [col_start, row_start, x1, y1, col_end, row_end, x2, y2, x_abs, y_abs]
 
     def _size_col(self, col: int, anchor=0):
-        # Convert the width of a cell from character units to pixels. Excel
-        # rounds the column width to the nearest pixel. If the width hasn't
-        # been set by the user we use the default value. A hidden column is
-        # treated as having a width of zero unless it has the special
-        # "object_position" of 4 (size with cells).
-        max_digit_width = 7  # For Calibri 11.
-        padding = 5
-        pixels = 0
-
         # Look up the cell value to see if it has been changed.
         if col in self.col_info:
             width = self.col_info[col].width
@@ -5796,50 +5802,25 @@ class Worksheet(xmlwriter.XMLwriter):
             if width is None:
                 width = self.default_col_width
 
-            # Convert to pixels.
             if hidden and anchor != 4:
-                pixels = 0
-            elif width < 1:
-                pixels = int(width * (max_digit_width + padding) + 0.5)
-            else:
-                pixels = int(width * max_digit_width + 0.5) + padding
-        else:
-            pixels = self.default_col_pixels
+                width = 0
 
-        return pixels
+            return width
+
+        return self.default_col_width
 
     def _size_row(self, row: int, anchor=0):
-        # Convert the height of a cell from character units to pixels. If the
-        # height hasn't been set by the user we use the default value. A
-        # hidden row is treated as having a height of zero unless it has the
-        # special "object_position" of 4 (size with cells).
-        pixels = 0
-
         # Look up the cell value to see if it has been changed
         if row in self.row_sizes:
             height = self.row_sizes[row][0]
             hidden = self.row_sizes[row][1]
 
             if hidden and anchor != 4:
-                pixels = 0
-            else:
-                pixels = int(4.0 / 3.0 * height)
-        else:
-            pixels = int(4.0 / 3.0 * self.default_row_height)
+                height = 0
 
-        return pixels
+            return height
 
-    def _pixels_to_width(self, pixels):
-        # Convert the width of a cell from pixels to character units.
-        max_digit_width = 7.0  # For Calabri 11.
-        padding = 5.0
-
-        if pixels <= 12:
-            width = pixels / (max_digit_width + padding)
-        else:
-            width = (pixels - padding) / max_digit_width
-
-        return width
+        return self.default_row_height
 
     def _pixels_to_height(self, pixels):
         # Convert the height of a cell from pixels to character units.
@@ -6406,11 +6387,11 @@ class Worksheet(xmlwriter.XMLwriter):
 
     def _write_sheet_format_pr(self) -> None:
         # Write the <sheetFormatPr> element.
-        default_row_height = self.default_row_height
+        height_in_chars = self.default_row_height * 0.75
         row_level = self.outline_row_level
         col_level = self.outline_col_level
 
-        attributes = [("defaultRowHeight", default_row_height)]
+        attributes = [("defaultRowHeight", f"{height_in_chars:.16g}")]
 
         if self.default_row_height != self.original_row_height:
             attributes.append(("customHeight", 1))
@@ -6471,7 +6452,6 @@ class Worksheet(xmlwriter.XMLwriter):
     def _write_col_info(self, col_min: int, col_max: int, col_info: ColumnInfo) -> None:
         # Write the <col> element.
         width = col_info.width
-
         has_custom_width = True
         xf_index = 0
 
@@ -6482,43 +6462,21 @@ class Worksheet(xmlwriter.XMLwriter):
         # Set the Excel default column width.
         if width is None:
             if not col_info.hidden:
-                width = 8.43
+                width = self.default_col_width
                 has_custom_width = False
             else:
                 width = 0
-        elif width == 8.43:
+        elif width == self.default_col_width:
             # Width is defined but same as default.
             has_custom_width = False
 
-        # Convert column width from user units to character width.
-        if width > 0:
-            # For Calabri 11.
-            max_digit_width = 7
-            padding = 5
-
-            if width < 1:
-                width = (
-                    int(
-                        (int(width * (max_digit_width + padding) + 0.5))
-                        / float(max_digit_width)
-                        * 256.0
-                    )
-                    / 256.0
-                )
-            else:
-                width = (
-                    int(
-                        (int(width * max_digit_width + 0.5) + padding)
-                        / float(max_digit_width)
-                        * 256.0
-                    )
-                    / 256.0
-                )
+        # Convert column width from pixels to character width.
+        char_width = (width * 256 // self.max_digit_width) / 256.0
 
         attributes = [
             ("min", col_min + 1),
             ("max", col_max + 1),
-            ("width", f"{width:.16g}"),
+            ("width", f"{char_width:.16g}"),
         ]
 
         if xf_index:
@@ -6885,7 +6843,8 @@ class Worksheet(xmlwriter.XMLwriter):
         if height != self.original_row_height or (
             height == self.original_row_height and height != self.default_row_height
         ):
-            attributes.append(("ht", f"{height:g}"))
+            height_in_chars = height * 0.75
+            attributes.append(("ht", f"{height_in_chars:.16g}"))
 
         if hidden:
             attributes.append(("hidden", 1))
