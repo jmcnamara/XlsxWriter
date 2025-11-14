@@ -20,6 +20,7 @@ from warnings import warn
 from zipfile import ZIP_DEFLATED, LargeZipFile, ZipFile, ZipInfo
 
 from xlsxwriter.image import Image
+from xlsxwriter.theme import THEME_XML_2007, THEME_XML_2023
 
 # Package imports.
 from . import xmlwriter
@@ -87,6 +88,7 @@ class Workbook(xmlwriter.XMLwriter):
         self.constant_memory = options.get("constant_memory", False)
         self.in_memory = options.get("in_memory", False)
         self.excel2003_style = options.get("excel2003_style", False)
+        self.excel_2023_theme = options.get("excel_2023_theme", False)
         self.remove_timezone = options.get("remove_timezone", False)
         self.use_future_functions = options.get("use_future_functions", False)
         self.default_row_height = options.get("default_row_height", 20)
@@ -160,21 +162,62 @@ class Workbook(xmlwriter.XMLwriter):
         self.has_embedded_descriptions = False
         self.embedded_images = EmbeddedImages()
         self.feature_property_bags = set()
+        self.default_theme_version: str = "124226"
+        self.theme_xml: str = THEME_XML_2007
 
         # We can't do 'constant_memory' mode while doing 'in_memory' mode.
         if self.in_memory:
             self.constant_memory = False
 
         # Add the default cell format.
-        if self.excel2003_style:
-            self.add_format({"xf_index": 0, "font_family": 0})
+        if self.excel_2023_theme:
+            format_properties = {
+                "font_name": "Aptos Narrow",
+                "font_size": 11,
+                "font_scheme": "minor",
+            }
+            self.default_format_properties = format_properties.copy()
+            self.default_col_width = 64
+            self.default_row_height = 20
+            self.default_theme_version = "202300"
+            self.theme_xml: str = THEME_XML_2023
+
+            format_properties["xf_index"] = 0
+            self.add_format(format_properties)
+
+        elif self.excel2003_style:
+            # This is a deprecated workaround for Excel 2003 style default format.
+            format_properties = {
+                "font_name": "Arial",
+                "font_size": 10,
+                "font_family": 0,
+                "font_scheme": False,
+                "theme": -1,
+            }
+            format_properties["xf_index"] = 0
+            self.add_format(format_properties)
+
+            self.default_format_properties = {
+                "font_name": "Arial",
+                "font_size": 10,
+                "font_scheme": False,
+                "theme": -1,
+            }
         else:
             format_properties = self.default_format_properties.copy()
             format_properties["xf_index"] = 0
             self.add_format(format_properties)
 
+        # Store the theme font name to cell format properties.
+        self.default_format_properties["theme_font_name"] = (
+            self.default_format_properties.get("font_name", "Calibri")
+        )
+
         # Add a default URL format.
-        self.default_url_format = self.add_format({"hyperlink": True})
+        format_properties = self.default_format_properties.copy()
+        format_properties["hyperlink"] = True
+        format_properties["font_scheme"] = "none"
+        self.default_url_format = self.add_format(format_properties)
 
         # Add the default date format.
         if self.default_date_format is not None:
@@ -243,9 +286,6 @@ class Workbook(xmlwriter.XMLwriter):
 
         """
         format_properties = self.default_format_properties.copy()
-
-        if self.excel2003_style:
-            format_properties = {"font_name": "Arial", "font_size": 10, "theme": 1 * -1}
 
         if properties:
             format_properties.update(properties)
@@ -378,6 +418,24 @@ class Workbook(xmlwriter.XMLwriter):
         self.vba_project_signature = signature
         self.vba_project_signature_is_stream = signature_is_stream
 
+        return 0
+
+    def use_custom_theme(self, theme: str) -> int:
+        """
+        Add a custom theme to the Excel workbook.
+
+        Args:
+            theme: The custom theme file name.
+
+        Returns:
+            0 on success.
+
+        """
+        with open(theme, "r", encoding="utf-8") as file:
+            theme_xml = file.read()
+
+        self.theme_xml = theme_xml
+        self.default_theme_version = ""
         return 0
 
     def close(self) -> None:
@@ -1689,7 +1747,6 @@ class Workbook(xmlwriter.XMLwriter):
 
     def _write_workbook_pr(self) -> None:
         # Write <workbookPr> element.
-        default_theme_version = 124226
         attributes = []
 
         if self.vba_codename:
@@ -1697,7 +1754,8 @@ class Workbook(xmlwriter.XMLwriter):
         if self.date_1904:
             attributes.append(("date1904", 1))
 
-        attributes.append(("defaultThemeVersion", default_theme_version))
+        if self.default_theme_version:
+            attributes.append(("defaultThemeVersion", self.default_theme_version))
 
         self._xml_empty_tag("workbookPr", attributes)
 

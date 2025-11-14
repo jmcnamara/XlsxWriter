@@ -534,7 +534,7 @@ class Packager:
         theme = Theme()
 
         theme._set_xml_writer(self._filename("xl/theme/theme1.xml"))
-        theme._assemble_xml_file()
+        theme._assemble_xml_file(self.workbook.theme_xml)
 
     def _write_table_files(self) -> None:
         # Write the table files.

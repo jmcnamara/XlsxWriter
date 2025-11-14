@@ -30,6 +30,7 @@ class ExcelComparisonTest(unittest.TestCase):
         self.test_dir = "xlsxwriter/test/comparison/"
         self.vba_dir = self.test_dir + "xlsx_files/"
         self.image_dir = self.test_dir + "images/"
+        self.theme_dir = self.test_dir + "themes/"
 
         # The reference Excel generated file.
         self.exp_filename = self.test_dir + "xlsx_files/" + filename

@@ -54,6 +54,7 @@ class Format(xmlwriter.XMLwriter):
         self.underline = 0
         self.italic = 0
         self.font_name = "Calibri"
+        self.theme_font_name = "Calibri"
         self.font_size = 11
         self.font_color = None
         self.font_strikeout = 0
@@ -114,6 +115,10 @@ class Format(xmlwriter.XMLwriter):
         self.quote_prefix = False
         self.checkbox = False
 
+        # Set the property first.
+        if properties.get("theme_font_name"):
+            self.theme_font_name = properties["theme_font_name"]
+
         # Convert properties in the constructor to method calls.
         for key, value in properties.items():
             getattr(self, "set_" + key)(value)
@@ -161,6 +166,9 @@ class Format(xmlwriter.XMLwriter):
 
         """
         self.font_name = font_name
+
+        if font_name != self.theme_font_name:
+            self.font_scheme = "none"
 
     def set_font_size(self, font_size: int = 11) -> None:
         """
@@ -916,9 +924,27 @@ class Format(xmlwriter.XMLwriter):
         """
         self.font_charset = font_charset
 
-    def set_font_scheme(self, font_scheme: int) -> None:
+    def set_font_scheme(self, font_scheme: str) -> None:
         """
-        Set the font scheme property.
+        Set the font scheme property to indicate if the font is tied to the
+        workbook theme
+
+        This method can be used to indicate that a font is part of a themeThe
+        theme must also contain the appropriate font for this to work.
+
+        This method can also be used to indicate that a font is not part of a
+        theme, for example, if you wished to use a "Calibri" font that is not
+        connected to the theme and which will not change if the theme is
+        changed.
+
+
+        The allowed values are:
+
+        - "minor": This is used to indicate a theme font that is used for body
+          text.
+        - "major": This is used to indicate a theme font that is used for
+          headings.
+        - "none": This is used to indicate a font that is not part of the theme.
 
         Args:
             font_scheme: The font scheme.
@@ -983,6 +1009,7 @@ class Format(xmlwriter.XMLwriter):
         self.set_underline(1)
         self.set_theme(10)
         self.hyperlink = hyperlink
+        self.font_scheme = "none"
 
     def set_color_indexed(self, color_index: Literal[0, 1]) -> None:
         """
@@ -1011,21 +1038,34 @@ class Format(xmlwriter.XMLwriter):
         """
         self.font_only = font_only
 
+    def set_theme_font_name(self, font_name) -> None:
+        """
+        Set the Format font name use for the theme.
+
+        Args:
+            font_name: String with the font name. No default.
+
+        Returns:
+            Nothing.
+
+        """
+        self.theme_font_name = font_name
+
     # Compatibility methods. These versions of the method names were added in an
     # initial version for compatibility testing with Excel::Writer::XLSX and
     # leaked out into production code. They are deprecated and will be removed
     # in a future after a suitable deprecation period.
     def set_font(self, font_name: str) -> None:
         """Deprecated: Use set_font_name() instead."""
-        self.font_name = font_name
+        self.set_font_name(font_name)
 
     def set_size(self, font_size: int) -> None:
         """Deprecated: Use set_font_size() instead."""
-        self.font_size = font_size
+        self.set_font_size(font_size)
 
     def set_color(self, font_color: Union[Color, str]) -> None:
         """Deprecated: Use set_font_color() instead."""
-        self.font_color = Color._from_value(font_color)
+        self.set_font_color(font_color)
 
     ###########################################################################
     #
