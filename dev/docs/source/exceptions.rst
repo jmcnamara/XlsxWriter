@@ -35,6 +35,8 @@ The hierarchy of exceptions in XlsxWriter is:
 
     * ``OverlappingRange(XlsxInputError)``
 
+    * ``ThemeFileError(XlsxInputError)``
+
 
 Exception: XlsxWriterException
 ------------------------------
@@ -349,3 +351,26 @@ Raises::
 
     xlsxwriter.exceptions.OverlappingRange:
         Merge range 'G10:K20' overlaps previous merge range 'A1:G10'.
+
+Exception: ThemeFileError
+-------------------------
+
+.. py:exception:: ThemeFileError
+
+This exception is raised during Workbook :func:`use_custom_theme()` if the theme
+file is invalid or contains unsupported elements such as image fills::
+
+    import xlsxwriter
+
+    workbook = xlsxwriter.Workbook('exception.xlsx')
+
+    workbook.use_custom_theme("theme.xml")
+
+    worksheet = workbook.add_worksheet()
+
+    workbook.close()
+
+Raises::
+
+    xlsxwriter.exceptions.ThemeFileError:
+        Invalid XML theme file: 'theme.xml'.

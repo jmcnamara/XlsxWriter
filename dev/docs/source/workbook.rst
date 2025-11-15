@@ -214,7 +214,6 @@ workbook.add_worksheet()
 
    :raises DuplicateWorksheetName: if a duplicate worksheet name is used.
    :raises InvalidWorksheetName: if an invalid worksheet name is used.
-   :raises ReservedWorksheetName: if a reserved worksheet name is used.
 
 The ``add_worksheet()`` method adds a new worksheet to a workbook.
 
@@ -377,7 +376,7 @@ workbook.close()
    :raises EmptyChartSeries: if a chart is added without a data series.
    :raises UndefinedImageSize: if an image doesn't contain height/width data.
    :raises UnsupportedImageFormat: if an image type isn't supported.
-   :raises FileSizeError: if the filesize would require ZIP64 extensions.
+   :raises FileSizeError: if the file size would require ZIP64 extensions.
 
 The workbook ``close()`` method writes all data to the xlsx file and closes
 it::
@@ -815,6 +814,40 @@ workbook. This is sometimes required when a vbaProject macro included via
 ``ThisWorkbook`` is used if a user defined name isn't specified.
 
 See :ref:`macros` for more details.
+
+
+workbook.use_custom_theme()
+---------------------------
+
+.. py:function:: use_custom_theme(theme)
+
+   Change the default workbook theme to a user defined custom theme.
+
+   :param theme: The custom theme as a file path, file-like object, or StringIO object.
+   :type theme:  str, os.PathLike, or StringIO
+
+   :raises IOError: If the theme file cannot be read.
+   :raises ThemeFileError: If the theme file is invalid or contains unsupported features.
+   :raises ValueError: If the theme parameter type is not supported.
+
+Excel uses themes to define default fonts and colors for a workbook. The
+XlsxWriter library uses the original "Office" theme with Calibri 11 as the
+default font but, if required, the ``use_custom_theme()`` method can be used to
+change to a custom, user-supplied, theme.
+
+The theme file must be a valid Excel theme XML file extracted from an
+unzipped Excel xlsx file. This theme file is typically located at
+``xl/theme/theme1.xml``.
+
+In addition to supplying the theme XML file it is also necessary to set the
+default format to match the theme. This is done via the constructor properties
+``default_format_properties``, ``default_row_height``, and
+``default_col_width``. When setting a font that will be used as the default
+format it is also necessary to set the scheme parameter to ``minor``.
+
+Note, older Excel 2007 style theme files that contain image fills as part of the
+theme are not currently supported and will raise an :exc:`ThemeFileError`
+exception on loading.
 
 
 workbook.worksheets()

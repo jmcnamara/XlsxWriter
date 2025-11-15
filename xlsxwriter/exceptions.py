@@ -54,3 +54,7 @@ class FileCreateError(XlsxFileError):
 
 class FileSizeError(XlsxFileError):
     """Filesize would require ZIP64 extensions. Use workbook.use_zip64()."""
+
+
+class ThemeFileError(XlsxFileError):
+    """Error when processing a custom theme file."""

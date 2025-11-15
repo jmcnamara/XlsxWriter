@@ -15,6 +15,7 @@ import time
 from datetime import datetime, timezone
 from decimal import Decimal
 from fractions import Fraction
+from io import StringIO
 from typing import IO, Any, AnyStr, Dict, List, Literal, Optional, Tuple, Union
 from warnings import warn
 from zipfile import ZIP_DEFLATED, LargeZipFile, ZipFile, ZipInfo
@@ -39,6 +40,7 @@ from .exceptions import (
     FileCreateError,
     FileSizeError,
     InvalidWorksheetName,
+    ThemeFileError,
 )
 from .format import Format
 from .packager import Packager
@@ -420,23 +422,48 @@ class Workbook(xmlwriter.XMLwriter):
 
         return 0
 
-    def use_custom_theme(self, theme: str) -> int:
+    def use_custom_theme(self, theme: Union[str, os.PathLike, IO[AnyStr]]) -> int:
         """
         Add a custom theme to the Excel workbook.
 
         Args:
-            theme: The custom theme file name.
+            theme: The custom theme as a file path (string or PathLike),
+                   or in-memory string as a StringIO object.
 
-        Returns:
-            0 on success.
+        Raises:
+            IOError: If the file cannot be read.
+            ThemeFileError: If the theme file is invalid or unsupported.
+            ValueError: If the theme parameter type is not supported.
 
         """
-        with open(theme, "r", encoding="utf-8") as file:
-            theme_xml = file.read()
+        theme_xml = ""
+
+        if isinstance(theme, (str, os.PathLike)):
+            with open(theme, "r", encoding="utf-8") as file:
+                theme_xml = file.read()
+
+        elif isinstance(theme, StringIO):
+            theme_xml = theme.getvalue()
+
+        else:
+            raise ValueError(
+                "Theme must be a file path (string or PathLike), or BytesIO object"
+            )
+
+        # Simple check to see if the file is text/XML.
+        if not theme_xml.startswith("<?xml"):
+            raise ThemeFileError(f"Invalid XML theme file: '{theme}'.")
+
+        # Check for Excel 2007 theme files that contain images as fills. These
+        # aren't currently supported.
+        if "<a:blipFill>" in theme_xml:
+            raise ThemeFileError(
+                "Theme file contains image fills which aren't currently "
+                f"supported: '{theme}'."
+            )
 
         self.theme_xml = theme_xml
         self.default_theme_version = ""
-        return 0
 
     def close(self) -> None:
         """
