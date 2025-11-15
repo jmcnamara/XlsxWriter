@@ -1,0 +1,4 @@
+# Output dir for xlsx files created by the tests programs.
+# These are ignored since we only need them for testing.
+*.xlsx
+
