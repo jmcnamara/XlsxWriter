@@ -8,7 +8,7 @@
 #
 
 # Package imports.
-from . import xmlwriter
+from xlsxwriter import xmlwriter
 
 
 class RichValueTypes(xmlwriter.XMLwriter):

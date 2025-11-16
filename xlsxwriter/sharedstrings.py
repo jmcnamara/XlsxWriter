@@ -8,8 +8,8 @@
 #
 
 # Package imports.
-from . import xmlwriter
-from .utility import _preserve_whitespace
+from xlsxwriter import xmlwriter
+from xlsxwriter.utility import _preserve_whitespace
 
 
 class SharedStrings(xmlwriter.XMLwriter):

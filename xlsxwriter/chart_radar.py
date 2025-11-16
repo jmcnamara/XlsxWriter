@@ -9,7 +9,7 @@
 
 from typing import Any, Dict, Optional
 
-from . import chart
+from xlsxwriter import chart
 
 
 class ChartRadar(chart.Chart):

@@ -9,7 +9,7 @@
 
 from warnings import warn
 
-from . import chart
+from xlsxwriter import chart
 
 
 class ChartPie(chart.Chart):

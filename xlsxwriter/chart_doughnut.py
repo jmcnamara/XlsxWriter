@@ -9,7 +9,7 @@
 
 from warnings import warn
 
-from . import chart_pie
+from xlsxwriter import chart_pie
 
 
 class ChartDoughnut(chart_pie.ChartPie):

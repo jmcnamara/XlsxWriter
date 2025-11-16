@@ -9,7 +9,7 @@
 #
 
 # Package imports.
-from . import xmlwriter
+from xlsxwriter import xmlwriter
 
 
 class FeaturePropertyBag(xmlwriter.XMLwriter):

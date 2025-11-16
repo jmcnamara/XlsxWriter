@@ -15,24 +15,24 @@ from io import BytesIO, StringIO
 from shutil import copy
 
 # Package imports.
-from .app import App
-from .comments import Comments
-from .contenttypes import ContentTypes
-from .core import Core
-from .custom import Custom
-from .exceptions import EmptyChartSeries
-from .feature_property_bag import FeaturePropertyBag
-from .metadata import Metadata
-from .relationships import Relationships
-from .rich_value import RichValue
-from .rich_value_rel import RichValueRel
-from .rich_value_structure import RichValueStructure
-from .rich_value_types import RichValueTypes
-from .sharedstrings import SharedStrings
-from .styles import Styles
-from .table import Table
-from .theme import Theme
-from .vml import Vml
+from xlsxwriter.app import App
+from xlsxwriter.comments import Comments
+from xlsxwriter.contenttypes import ContentTypes
+from xlsxwriter.core import Core
+from xlsxwriter.custom import Custom
+from xlsxwriter.exceptions import EmptyChartSeries
+from xlsxwriter.feature_property_bag import FeaturePropertyBag
+from xlsxwriter.metadata import Metadata
+from xlsxwriter.relationships import Relationships
+from xlsxwriter.rich_value import RichValue
+from xlsxwriter.rich_value_rel import RichValueRel
+from xlsxwriter.rich_value_structure import RichValueStructure
+from xlsxwriter.rich_value_types import RichValueTypes
+from xlsxwriter.sharedstrings import SharedStrings
+from xlsxwriter.styles import Styles
+from xlsxwriter.table import Table
+from xlsxwriter.theme import Theme
+from xlsxwriter.vml import Vml
 
 
 class Packager:

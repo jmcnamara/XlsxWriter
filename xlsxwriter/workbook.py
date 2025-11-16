@@ -20,33 +20,32 @@ from typing import IO, Any, AnyStr, Dict, List, Literal, Optional, Tuple, Union
 from warnings import warn
 from zipfile import ZIP_DEFLATED, LargeZipFile, ZipFile, ZipInfo
 
-from xlsxwriter.image import Image
-from xlsxwriter.theme import THEME_XML_2007, THEME_XML_2023
-
 # Package imports.
-from . import xmlwriter
-from .chart_area import ChartArea
-from .chart_bar import ChartBar
-from .chart_column import ChartColumn
-from .chart_doughnut import ChartDoughnut
-from .chart_line import ChartLine
-from .chart_pie import ChartPie
-from .chart_radar import ChartRadar
-from .chart_scatter import ChartScatter
-from .chart_stock import ChartStock
-from .chartsheet import Chartsheet
-from .exceptions import (
+from xlsxwriter import xmlwriter
+from xlsxwriter.chart_area import ChartArea
+from xlsxwriter.chart_bar import ChartBar
+from xlsxwriter.chart_column import ChartColumn
+from xlsxwriter.chart_doughnut import ChartDoughnut
+from xlsxwriter.chart_line import ChartLine
+from xlsxwriter.chart_pie import ChartPie
+from xlsxwriter.chart_radar import ChartRadar
+from xlsxwriter.chart_scatter import ChartScatter
+from xlsxwriter.chart_stock import ChartStock
+from xlsxwriter.chartsheet import Chartsheet
+from xlsxwriter.exceptions import (
     DuplicateWorksheetName,
     FileCreateError,
     FileSizeError,
     InvalidWorksheetName,
     ThemeFileError,
 )
-from .format import Format
-from .packager import Packager
-from .sharedstrings import SharedStringTable
-from .utility import xl_cell_to_rowcol
-from .worksheet import Worksheet
+from xlsxwriter.format import Format
+from xlsxwriter.image import Image
+from xlsxwriter.packager import Packager
+from xlsxwriter.sharedstrings import SharedStringTable
+from xlsxwriter.theme import THEME_XML_2007, THEME_XML_2023
+from xlsxwriter.utility import xl_cell_to_rowcol
+from xlsxwriter.worksheet import Worksheet
 
 
 class Workbook(xmlwriter.XMLwriter):

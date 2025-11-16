@@ -12,12 +12,11 @@ import re
 from typing import Any, Dict, Optional
 from warnings import warn
 
+from xlsxwriter import xmlwriter
+from xlsxwriter.chart_title import ChartTitle
 from xlsxwriter.color import Color, ColorTypes
-
-from . import xmlwriter
-from .chart_title import ChartTitle
-from .shape import Shape
-from .utility import (
+from xlsxwriter.shape import Shape
+from xlsxwriter.utility import (
     _datetime_to_excel_datetime,
     _supported_datetime,
     quote_sheetname,

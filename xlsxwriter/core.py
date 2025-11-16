@@ -10,7 +10,7 @@
 from datetime import datetime, timezone
 from typing import Dict, Union
 
-from . import xmlwriter
+from xlsxwriter import xmlwriter
 
 
 class Core(xmlwriter.XMLwriter):

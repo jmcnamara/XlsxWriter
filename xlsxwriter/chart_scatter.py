@@ -10,7 +10,7 @@
 from typing import Any, Dict, Optional
 from warnings import warn
 
-from . import chart
+from xlsxwriter import chart
 
 
 class ChartScatter(chart.Chart):

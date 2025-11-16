@@ -10,7 +10,7 @@
 # Package imports.
 from typing import List, Tuple
 
-from . import xmlwriter
+from xlsxwriter import xmlwriter
 
 
 class Custom(xmlwriter.XMLwriter):

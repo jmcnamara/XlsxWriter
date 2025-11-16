@@ -9,11 +9,10 @@
 
 from enum import Enum
 
+from xlsxwriter import xmlwriter
 from xlsxwriter.color import Color
+from xlsxwriter.shape import Shape
 from xlsxwriter.url import Url
-
-from . import xmlwriter
-from .shape import Shape
 
 
 class DrawingTypes(Enum):

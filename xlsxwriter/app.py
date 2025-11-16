@@ -9,7 +9,7 @@
 
 from typing import Dict, List, Tuple
 
-from . import xmlwriter
+from xlsxwriter import xmlwriter
 
 
 class App(xmlwriter.XMLwriter):

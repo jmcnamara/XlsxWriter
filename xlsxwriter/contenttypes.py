@@ -10,7 +10,7 @@
 import copy
 from typing import Dict, Tuple
 
-from . import xmlwriter
+from xlsxwriter import xmlwriter
 
 # Long namespace strings used in the class.
 APP_PACKAGE = "application/vnd.openxmlformats-package."

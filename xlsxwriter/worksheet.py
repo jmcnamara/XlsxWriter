@@ -35,20 +35,18 @@ from typing import (
 )
 from warnings import warn
 
+# Package imports.
+from xlsxwriter import xmlwriter
 from xlsxwriter.chart import Chart
 from xlsxwriter.color import Color
 from xlsxwriter.comments import CommentType
+from xlsxwriter.drawing import Drawing, DrawingInfo, DrawingTypes
+from xlsxwriter.exceptions import DuplicateTableName, OverlappingRange
+from xlsxwriter.format import Format
 from xlsxwriter.image import Image
+from xlsxwriter.shape import Shape
 from xlsxwriter.url import Url, UrlTypes
-from xlsxwriter.vml import ButtonType
-
-# Package imports.
-from . import xmlwriter
-from .drawing import Drawing, DrawingInfo, DrawingTypes
-from .exceptions import DuplicateTableName, OverlappingRange
-from .format import Format
-from .shape import Shape
-from .utility import (
+from xlsxwriter.utility import (
     _datetime_to_excel_datetime,
     _get_sparkline_style,
     _preserve_whitespace,
@@ -61,7 +59,8 @@ from .utility import (
     xl_rowcol_to_cell,
     xl_rowcol_to_cell_fast,
 )
-from .xmlwriter import XMLwriter
+from xlsxwriter.vml import ButtonType
+from xlsxwriter.xmlwriter import XMLwriter
 
 if TYPE_CHECKING:
     from typing_extensions import Concatenate, ParamSpec, Protocol, overload

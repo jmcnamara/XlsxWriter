@@ -10,7 +10,7 @@
 from enum import Enum
 
 # Package imports.
-from . import xmlwriter
+from xlsxwriter import xmlwriter
 
 
 class XFormatType(Enum):

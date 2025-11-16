@@ -9,10 +9,9 @@
 
 from typing import Any, Dict, Optional
 
+from xlsxwriter import worksheet
 from xlsxwriter.chart import Chart
-
-from . import worksheet
-from .drawing import Drawing
+from xlsxwriter.drawing import Drawing
 
 
 class Chartsheet(worksheet.Worksheet):

@@ -7,7 +7,7 @@
 # Copyright (c) 2013-2025, John McNamara, jmcnamara@cpan.org
 #
 
-from . import xmlwriter
+from xlsxwriter import xmlwriter
 
 
 class Table(xmlwriter.XMLwriter):

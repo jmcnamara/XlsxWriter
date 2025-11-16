@@ -14,9 +14,8 @@ from pathlib import Path
 from struct import unpack
 from typing import Tuple, Union
 
+from xlsxwriter.exceptions import UndefinedImageSize, UnsupportedImageFormat
 from xlsxwriter.url import Url
-
-from .exceptions import UndefinedImageSize, UnsupportedImageFormat
 
 DEFAULT_DPI = 96.0
 
