@@ -928,7 +928,7 @@ class Format(xmlwriter.XMLwriter):
         Set the font scheme property to indicate if the font is tied to the
         workbook theme
 
-        This method can be used to indicate that a font is part of a themeThe
+        This method can be used to indicate that a font is part of a theme. The
         theme must also contain the appropriate font for this to work.
 
         This method can also be used to indicate that a font is not part of a

@@ -12,6 +12,7 @@ import operator
 import os
 import re
 import time
+import zipfile
 from datetime import datetime, timezone
 from decimal import Decimal
 from fractions import Fraction
@@ -421,7 +422,7 @@ class Workbook(xmlwriter.XMLwriter):
 
         return 0
 
-    def use_custom_theme(self, theme: Union[str, os.PathLike, IO[AnyStr]]) -> int:
+    def use_custom_theme(self, theme: Union[str, os.PathLike, IO[AnyStr]]) -> None:
         """
         Add a custom theme to the Excel workbook.
 
@@ -438,19 +439,18 @@ class Workbook(xmlwriter.XMLwriter):
         theme_xml = ""
 
         if isinstance(theme, (str, os.PathLike)):
-            with open(theme, "r", encoding="utf-8") as file:
-                theme_xml = file.read()
+            theme_xml = self._read_theme_from_file(theme)
 
         elif isinstance(theme, StringIO):
             theme_xml = theme.getvalue()
 
         else:
             raise ValueError(
-                "Theme must be a file path (string or PathLike), or BytesIO object"
+                "Theme must be a file path (string or PathLike), or StringIO object."
             )
 
         # Simple check to see if the file is text/XML.
-        if not theme_xml.startswith("<?xml"):
+        if not theme_xml.startswith("<?xml") or "<a:theme" not in theme_xml:
             raise ThemeFileError(f"Invalid XML theme file: '{theme}'.")
 
         # Check for Excel 2007 theme files that contain images as fills. These
@@ -1721,6 +1721,34 @@ class Workbook(xmlwriter.XMLwriter):
             metrics = (7, 5, 1790)
 
         return metrics
+
+    def _read_theme_from_file(self, path: Union[str, os.PathLike]) -> str:
+        # Read theme XML from either a zip file (thmx/xlsx) or a text file.
+        try:
+            # Try to read as a thmx/xlsx zip file first.
+            with zipfile.ZipFile(path, "r") as archive:
+                possible_paths = [
+                    "theme/theme/theme1.xml",  # thmx file.
+                    "xl/theme/theme1.xml",  # xlsx file.
+                ]
+
+                for theme_path in possible_paths:
+                    try:
+                        with archive.open(theme_path) as theme_file:
+                            theme_xml = theme_file.read().decode("utf-8")
+                            return theme_xml
+                    except KeyError:
+                        continue
+
+                raise ThemeFileError(f"No theme1.xml found in file: '{path}'.")
+
+        except zipfile.BadZipFile:
+            try:
+                # Try reading as a text file if zipfile failed.
+                with open(path, "r", encoding="utf-8") as f:
+                    return f.read()
+            except IOError as e:
+                raise IOError(f"Could not read file '{path}': {e}.") from e
 
     ###########################################################################
     #

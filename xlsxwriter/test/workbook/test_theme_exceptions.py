@@ -21,16 +21,19 @@ class TestThemeExceptions(unittest.TestCase):
     """
 
     def test_theme_exception01(self):
-        """Test use_custom_theme() exceptions"""
+        """No exception."""
         workbook = Workbook()
 
-        theme = StringIO("""<?xml version="1.0" encoding="UTF-8" standalone="yes"?>""")
+        theme = StringIO(
+            """<?xml version="1.0" encoding="UTF-8" standalone="yes"?>\n"""
+            """<a:theme xmlns:a="..." name="Custom Theme"></a:theme>"""
+        )
 
         # No exception.
         workbook.use_custom_theme(theme)
 
     def test_theme_exception02(self):
-        """Test use_custom_theme() exceptions"""
+        """Doesn't have a XML header."""
         workbook = Workbook()
 
         theme = StringIO("<invalid></invalid>")
@@ -39,10 +42,17 @@ class TestThemeExceptions(unittest.TestCase):
             workbook.use_custom_theme(theme)
 
     def test_theme_exception03(self):
-        """Test use_custom_theme() exceptions"""
+        """Contains blipFill/image elements"""
         workbook = Workbook()
 
         theme = StringIO("<a:blipFill>")
 
         with self.assertRaises(ThemeFileError):
             workbook.use_custom_theme(theme)
+
+    def test_theme_exception04(self):
+        """Zip file that doesn't contain a theme1.xml file."""
+        workbook = Workbook()
+
+        with self.assertRaises(ThemeFileError):
+            workbook.use_custom_theme("xlsxwriter/test/comparison/themes/no_theme.zip")

@@ -823,7 +823,11 @@ workbook.use_custom_theme()
 
    Change the default workbook theme to a user defined custom theme.
 
-   :param theme: The custom theme as a file path, file-like object, or StringIO object.
+   :param theme: The custom theme as a file path or StringIO object. The file
+                 should be a valid Excel ``.thmx`` or ``.xlsx`` file or a
+                 ``theme1.xml`` file extracted from an unzipped Excel xlsx file.
+                 The ``StringIO`` object should contain the XML data of a valid
+                 theme XML file.
    :type theme:  str, os.PathLike, or StringIO
 
    :raises IOError: If the theme file cannot be read.
@@ -835,9 +839,10 @@ XlsxWriter library uses the original "Office" theme with Calibri 11 as the
 default font but, if required, the ``use_custom_theme()`` method can be used to
 change to a custom, user-supplied, theme.
 
-The theme file must be a valid Excel theme XML file extracted from an
-unzipped Excel xlsx file. This theme file is typically located at
-``xl/theme/theme1.xml``.
+The theme file must be a valid Excel ``.thmx`` or ``.xlsx`` file or a theme XML
+file extracted from an unzipped Excel xlsx file. This theme file is typically
+located at ``xl/theme/theme1.xml``. Alternatively ``theme`` argument can be a
+``StringIO`` object containing the XML data of a valid theme XML file.
 
 In addition to supplying the theme XML file it is also necessary to set the
 default format to match the theme. This is done via the constructor properties
