@@ -4962,7 +4962,9 @@ class Worksheet(xmlwriter.XMLwriter):
                 warn(f"Unknown parameter '{param_key}' in ignore_errors()")
                 return -1
 
-        self.ignored_errors = options
+        if not self.ignored_errors:
+            self.ignored_errors = []
+        self.ignored_errors.append(options)
 
         return 0
 
@@ -8455,41 +8457,42 @@ class Worksheet(xmlwriter.XMLwriter):
 
         self._xml_start_tag("ignoredErrors")
 
-        if self.ignored_errors.get("number_stored_as_text"):
-            ignored_range = self.ignored_errors["number_stored_as_text"]
-            self._write_ignored_error("numberStoredAsText", ignored_range)
+        for ignored_error in self.ignored_errors:
+            if ignored_error.get("number_stored_as_text"):
+                ignored_range = ignored_error["number_stored_as_text"]
+                self._write_ignored_error("numberStoredAsText", ignored_range)
 
-        if self.ignored_errors.get("eval_error"):
-            ignored_range = self.ignored_errors["eval_error"]
-            self._write_ignored_error("evalError", ignored_range)
+            if ignored_error.get("eval_error"):
+                ignored_range = ignored_error["eval_error"]
+                self._write_ignored_error("evalError", ignored_range)
 
-        if self.ignored_errors.get("formula_differs"):
-            ignored_range = self.ignored_errors["formula_differs"]
-            self._write_ignored_error("formula", ignored_range)
+            if ignored_error.get("formula_differs"):
+                ignored_range = ignored_error["formula_differs"]
+                self._write_ignored_error("formula", ignored_range)
 
-        if self.ignored_errors.get("formula_range"):
-            ignored_range = self.ignored_errors["formula_range"]
-            self._write_ignored_error("formulaRange", ignored_range)
+            if ignored_error.get("formula_range"):
+                ignored_range = ignored_error["formula_range"]
+                self._write_ignored_error("formulaRange", ignored_range)
 
-        if self.ignored_errors.get("formula_unlocked"):
-            ignored_range = self.ignored_errors["formula_unlocked"]
-            self._write_ignored_error("unlockedFormula", ignored_range)
+            if ignored_error.get("formula_unlocked"):
+                ignored_range = ignored_error["formula_unlocked"]
+                self._write_ignored_error("unlockedFormula", ignored_range)
 
-        if self.ignored_errors.get("empty_cell_reference"):
-            ignored_range = self.ignored_errors["empty_cell_reference"]
-            self._write_ignored_error("emptyCellReference", ignored_range)
+            if ignored_error.get("empty_cell_reference"):
+                ignored_range = ignored_error["empty_cell_reference"]
+                self._write_ignored_error("emptyCellReference", ignored_range)
 
-        if self.ignored_errors.get("list_data_validation"):
-            ignored_range = self.ignored_errors["list_data_validation"]
-            self._write_ignored_error("listDataValidation", ignored_range)
+            if ignored_error.get("list_data_validation"):
+                ignored_range = ignored_error["list_data_validation"]
+                self._write_ignored_error("listDataValidation", ignored_range)
 
-        if self.ignored_errors.get("calculated_column"):
-            ignored_range = self.ignored_errors["calculated_column"]
-            self._write_ignored_error("calculatedColumn", ignored_range)
+            if ignored_error.get("calculated_column"):
+                ignored_range = ignored_error["calculated_column"]
+                self._write_ignored_error("calculatedColumn", ignored_range)
 
-        if self.ignored_errors.get("two_digit_text_year"):
-            ignored_range = self.ignored_errors["two_digit_text_year"]
-            self._write_ignored_error("twoDigitTextYear", ignored_range)
+            if ignored_error.get("two_digit_text_year"):
+                ignored_range = ignored_error["two_digit_text_year"]
+                self._write_ignored_error("twoDigitTextYear", ignored_range)
 
         self._xml_end_tag("ignoredErrors")
 
