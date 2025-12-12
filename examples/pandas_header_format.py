@@ -38,8 +38,8 @@ header_format = workbook.add_format(
 )
 
 # Write the column headers with the defined format.
-for col_num, value in enumerate(df.columns.values):
-    worksheet.write(0, col_num + 1, value, header_format)
+for col_num, value in enumerate(df.columns):
+    worksheet.write(0, col_num, value, header_format)
 
 # Close the Pandas Excel writer and output the Excel file.
 writer.close()
