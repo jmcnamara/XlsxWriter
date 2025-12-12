@@ -1,0 +1,40 @@
+[build-system]
+requires = ["uv_build>=0.9.17,<0.10.0"]
+build-backend = "uv_build"
+
+[project]
+name = "xlsxwriter"
+version = "3.2.9"
+requires-python = ">=3.8"
+authors = [{ name = "John McNamara", email = "jmcnamara@cpan.org" }]
+description = "A Python module for creating Excel XLSX files."
+readme = "README.rst"
+license = "BSD-2-Clause"
+license-files = ["LICEN[CS]E.*"]
+classifiers = [
+    "Development Status :: 5 - Production/Stable",
+    "License :: OSI Approved :: BSD License",
+    "Programming Language :: Python",
+    "Programming Language :: Python :: 3 :: Only",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Programming Language :: Python :: 3.14",
+]
+
+[project.urls]
+Homepage = "https://github.com/jmcnamara/XlsxWriter"
+Documentation = "https://xlsxwriter.readthedocs.io"
+Repository = "https://github.com/jmcnamara/XlsxWriter"
+"Bug Tracker" = "https://github.com/jmcnamara/XlsxWriter/issues"
+Changelog = "https://github.com/jmcnamara/XlsxWriter/blob/main/Changes"
+
+[project.scripts]
+vba_extract = "xlsxwriter.vba_extract:main"
+
+[tool.uv.build-backend]
+module-root = ""

@@ -41,7 +41,7 @@ The vba_extract.py utility
 
 The ``vba_extract.py`` utility is used to extract the ``vbaProject.bin`` binary
 from an Excel 2007+ xlsm file. The utility is included in the XlsxWriter
-examples directory and is also installed as a standalone executable file::
+directory and is also installed as a standalone executable file::
 
     $ vba_extract.py macro_file.xlsm
     Extracted: vbaProject.bin
