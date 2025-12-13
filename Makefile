@@ -22,28 +22,27 @@ clean:
 	@make -C dev/docs clean
 
 install:
-	@python setup.py install
-	@rm -rf build
+	@pip install --user .
 
 test:
-	@~/.pythonbrew/pythons/Python-3.12.7/bin/python3.12 -m unittest discover
+	@uv run --with pytest pytest -q
 
 # Test with stable Python 3 releases.
 testpythons:
-	@echo "Testing with Python 3.8.0:"
-	@~/.pythonbrew/pythons/Python-3.8.0/bin/py.test -q
-	@echo "Testing with Python 3.9.0:"
-	@~/.pythonbrew/pythons/Python-3.9.0/bin/py.test -q
-	@echo "Testing with Python 3.10.0:"
-	@~/.pythonbrew/pythons/Python-3.10.0/bin/py.test -q
-	@echo "Testing with Python 3.11.1:"
-	@~/.pythonbrew/pythons/Python-3.11.1/bin/py.test -q
-	@echo "Testing with Python 3.12.7:"
-	@~/.pythonbrew/pythons/Python-3.12.7/bin/py.test -q
-	@echo "Testing with Python 3.13.0:"
-	@~/.pythonbrew/pythons/Python-3.13.0/bin/py.test -q
-	@echo "Testing with Python 3.14.0:"
-	@~/.pythonbrew/pythons/Python-3.14.0/bin/py.test -q
+	@echo "Testing with Python 3.8:"
+	@uv run --python 3.8 --with pytest pytest -q
+	@echo "Testing with Python 3.9:"
+	@uv run --python 3.9 --with pytest pytest -q
+	@echo "Testing with Python 3.10:"
+	@uv run --python 3.10 --with pytest pytest -q
+	@echo "Testing with Python 3.11:"
+	@uv run --python 3.11 --with pytest pytest -q
+	@echo "Testing with Python 3.12:"
+	@uv run --python 3.12 --with pytest pytest -q
+	@echo "Testing with Python 3.13:"
+	@uv run --python 3.13 --with pytest pytest -q
+	@echo "Testing with Python 3.14:"
+	@uv run --python 3.14 --with pytest pytest -q
 
 test_flake8:
 	@ls -1 xlsxwriter/*.py | egrep -v "theme|__init__" | xargs flake8 --show-source --max-line-length=88 --ignore=E203,E704,W503
@@ -82,8 +81,8 @@ release: releasecheck
 	@git push --tags
 
 	@rm -rf dist/ build/ XlsxWriter.egg-info/
-	@python3 setup.py sdist bdist_wheel
-	@twine upload dist/*
+	@uv build
+	@uv publish
 	@rm -rf dist/ build/ XlsxWriter.egg-info/
 
 	@../build_readthedocs.sh

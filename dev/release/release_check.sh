@@ -187,25 +187,14 @@ function check_versions {
     echo
     echo "Latest file versions: "
 
-    grep -He "[0-9]\.[0-9]\.[0-9]" setup.py dev/docs/source/conf.py xlsxwriter/__init__.py | sed 's/:/ : /g' | sed 's/=/ = /' | awk '{printf "    | %-24s %s\n", $1, $5}'
+    grep -He "['\"][0-9]\.[0-9]\.[0-9]['\"]" pyproject.toml dev/docs/source/conf.py xlsxwriter/__init__.py | sed 's/:/ : /g' | sed 's/=/ = /' | awk '{printf "    | %-24s %s\n", $1, $5}'
 
     echo
     echo -n "Are the versions up to date?   [y/N]: "
     read RESPONSE
 
     if [ "$RESPONSE" != "y" ]; then
-        echo -n "    Update versions?           [y/N]: "
-        read RESPONSE
-
-        if [ "$RESPONSE" != "y" ]; then
-            echo
-            echo -e "Please update the versions to proceed.\n";
-            exit 1
-        else
-            echo "    Updating versions...";
-            perl -i dev/release/update_revision.pl setup.py dev/docs/source/conf.py xlsxwriter/__init__.py
-            check_versions
-         fi
+        echo -e "Please update the versions to proceed.\n";
     fi
 }
 
@@ -275,8 +264,6 @@ function check_git_status {
     if [ "$RESPONSE" != "y" ]; then
         echo
         echo -e "Please fix git status.\n";
-
-        git tag -l -n1 | tail -1 | perl -lane 'printf "git add -u\ngit commit -m \"Prep for release %s\"\ngit tag \"%s\"\n\n", $F[4], $F[0]' | perl dev/release/update_revision.pl
         exit 1
     fi
 }
