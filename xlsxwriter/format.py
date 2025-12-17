@@ -8,7 +8,7 @@
 #
 
 # Package imports.
-from typing import Literal, Union
+from typing import Any, Dict, Literal, Optional, Union
 from warnings import warn
 
 from xlsxwriter import xmlwriter
@@ -28,7 +28,12 @@ class Format(xmlwriter.XMLwriter):
     #
     ###########################################################################
 
-    def __init__(self, properties=None, xf_indices=None, dxf_indices=None) -> None:
+    def __init__(
+        self,
+        properties: Optional[Dict[str, Any]] = None,
+        xf_indices=None,
+        dxf_indices=None,
+    ) -> None:
         """
         Constructor.
 
@@ -40,8 +45,8 @@ class Format(xmlwriter.XMLwriter):
 
         self.xf_format_indices = xf_indices
         self.dxf_format_indices = dxf_indices
-        self.xf_index = None
-        self.dxf_index = None
+        self.xf_index: Optional[int] = None
+        self.dxf_index: Optional[int] = None
 
         self.num_format = "General"
         self.num_format_index = 0
@@ -1267,7 +1272,7 @@ class Format(xmlwriter.XMLwriter):
 
         return key
 
-    def _get_xf_index(self):
+    def _get_xf_index(self) -> int:
         # Returns the XF index number used by Excel to identify a format.
         if self.xf_index is not None:
             # Format already has an index number so return it.
@@ -1287,7 +1292,7 @@ class Format(xmlwriter.XMLwriter):
         self.xf_index = index
         return index
 
-    def _get_dxf_index(self):
+    def _get_dxf_index(self) -> int:
         # Returns the DXF index number used by Excel to identify a format.
         if self.dxf_index is not None:
             # Format already has an index number so return it.

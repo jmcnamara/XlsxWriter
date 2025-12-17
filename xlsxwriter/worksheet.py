@@ -27,9 +27,11 @@ from typing import (
     Any,
     Callable,
     Dict,
+    Iterable,
     List,
     Literal,
     Optional,
+    Tuple,
     TypeVar,
     Union,
 )
@@ -316,8 +318,8 @@ class Worksheet(xmlwriter.XMLwriter):
 
         super().__init__()
 
-        self.name = None
-        self.index = None
+        self.name: Optional[str] = None
+        self.index: Optional[int] = None
         self.str_table = None
         self.palette = None
         self.constant_memory = 0
@@ -529,7 +531,7 @@ class Worksheet(xmlwriter.XMLwriter):
         self.embedded_images = None
 
     # Utility function for writing different types of strings.
-    def _write_token_as_string(self, token, row: int, col: int, *args):
+    def _write_token_as_string(self, token: str, row: int, col: int, *args: Any) -> int:
         # Map the data to the appropriate write_*() method.
         if token == "":
             return self._write_blank(row, col, *args)
@@ -568,7 +570,7 @@ class Worksheet(xmlwriter.XMLwriter):
         return self._write_string(row, col, *args)
 
     @convert_cell_args
-    def write(self, row: int, col: int, *args) -> Union[Literal[0, -1], Any]:
+    def write(self, row: int, col: int, *args: Any) -> Union[Literal[0, -1], Any]:
         """
         Write data to a worksheet cell by calling the appropriate write_*()
         method based on the type of data being passed.
@@ -587,7 +589,7 @@ class Worksheet(xmlwriter.XMLwriter):
         return self._write(row, col, *args)
 
     # Undecorated version of write().
-    def _write(self, row: int, col: int, *args):
+    def _write(self, row: int, col: int, *args: Any) -> int:
         # pylint: disable=raise-missing-from
         # Check the number of args passed.
         if not args:
@@ -790,7 +792,7 @@ class Worksheet(xmlwriter.XMLwriter):
     @convert_cell_args
     def write_blank(
         self, row: int, col: int, blank: Any, cell_format: Optional[Format] = None
-    ):
+    ) -> Literal[0, -1]:
         """
         Write a blank cell with formatting to a worksheet cell. The blank
         token is ignored and the format only is written to the cell.
@@ -810,7 +812,7 @@ class Worksheet(xmlwriter.XMLwriter):
 
     # Undecorated version of write_blank().
     def _write_blank(
-        self, row: int, col: int, _, cell_format: Optional[Format] = None
+        self, row: int, col: int, _: object, cell_format: Optional[Format] = None
     ) -> Literal[0, -1]:
         # Don't write a blank cell unless it has a format.
         if cell_format is None:
@@ -836,7 +838,7 @@ class Worksheet(xmlwriter.XMLwriter):
         col: int,
         formula: str,
         cell_format: Optional[Format] = None,
-        value=0,
+        value: Any = 0,
     ) -> Literal[0, -1, -2]:
         """
         Write a formula to a worksheet cell.
@@ -864,7 +866,7 @@ class Worksheet(xmlwriter.XMLwriter):
         col: int,
         formula: str,
         cell_format: Optional[Format] = None,
-        value=0,
+        value: Any = 0,
     ) -> Literal[0, -1, -2]:
         if self._check_dimensions(row, col):
             return -1
@@ -906,7 +908,7 @@ class Worksheet(xmlwriter.XMLwriter):
         last_col: int,
         formula: str,
         cell_format: Optional[Format] = None,
-        value=0,
+        value: Any = 0,
     ) -> Literal[0, -1]:
         """
         Write a formula to a worksheet cell/range.
@@ -951,7 +953,7 @@ class Worksheet(xmlwriter.XMLwriter):
         last_col: int,
         formula: str,
         cell_format: Optional[Format] = None,
-        value=0,
+        value: Any = 0,
     ) -> Literal[0, -1]:
         """
         Write a dynamic array formula to a worksheet cell/range.
@@ -1388,7 +1390,6 @@ class Worksheet(xmlwriter.XMLwriter):
 
         # If the URL is a string convert it to a Url object.
         if not isinstance(url, Url):
-
             # For backwards compatibility check if the string URL exceeds the
             # Excel character limit for URLs and ignore it with a warning.
             max_url = self.max_url_length
@@ -1604,7 +1605,11 @@ class Worksheet(xmlwriter.XMLwriter):
 
     @convert_cell_args
     def write_row(
-        self, row: int, col: int, data, cell_format: Optional[Format] = None
+        self,
+        row: int,
+        col: int,
+        data: Iterable[Any],
+        cell_format: Optional[Format] = None,
     ) -> Union[Literal[0], Any]:
         """
         Write a row of data starting from (row, col).
@@ -8169,7 +8174,7 @@ class Worksheet(xmlwriter.XMLwriter):
         min_length = 0
         max_length = 100
 
-        attributes = [
+        attributes: List[Tuple[str, Union[int, str]]] = [
             ("minLength", min_length),
             ("maxLength", max_length),
         ]
