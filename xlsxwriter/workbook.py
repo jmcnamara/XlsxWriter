@@ -12,12 +12,12 @@ import operator
 import os
 import re
 import time
-from types import TracebackType
 import zipfile
 from datetime import datetime, timezone
 from decimal import Decimal
 from fractions import Fraction
 from io import StringIO
+from types import TracebackType
 from typing import (
     IO,
     Any,
