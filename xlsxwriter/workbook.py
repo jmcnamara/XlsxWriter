@@ -150,6 +150,8 @@ class Workbook(xmlwriter.XMLwriter):
         self.vba_codename = None
         self.image_types = {}
         self.images = []
+        self.model3d_types = {}
+        self.models_3d = []
         self.border_count = 0
         self.fill_count = 0
         self.drawing_count = 0
@@ -1342,6 +1344,8 @@ class Workbook(xmlwriter.XMLwriter):
         image_ids = {}
         header_image_ids = {}
         background_ids = {}
+        model3d_ids = {}
+        model3d_ref_id = 0
 
         # Store the image types for any embedded images.
         for image in self.embedded_images.images:
@@ -1357,6 +1361,7 @@ class Workbook(xmlwriter.XMLwriter):
             chart_count = len(sheet.charts)
             image_count = len(sheet.images)
             shape_count = len(sheet.shapes)
+            model3d_count = len(sheet.models_3d)
 
             header_image_count = len(sheet.header_images)
             footer_image_count = len(sheet.footer_images)
@@ -1367,6 +1372,7 @@ class Workbook(xmlwriter.XMLwriter):
                 chart_count
                 or image_count
                 or shape_count
+                or model3d_count
                 or header_image_count
                 or footer_image_count
                 or has_background
@@ -1374,7 +1380,7 @@ class Workbook(xmlwriter.XMLwriter):
                 continue
 
             # Don't increase the drawing_id header/footer images.
-            if chart_count or image_count or shape_count:
+            if chart_count or image_count or shape_count or model3d_count:
                 drawing_id += 1
                 has_drawing = True
 
@@ -1426,6 +1432,57 @@ class Workbook(xmlwriter.XMLwriter):
             # Prepare the worksheet shapes.
             for index in range(shape_count):
                 sheet._prepare_shape(index, drawing_id)
+
+            # Prepare the 3D models.
+            for model in sheet.models_3d:
+                model_extension = model._model_extension
+                model_digest = model._digest
+
+                self.model3d_types[model_extension] = True
+
+                if model_digest in model3d_ids:
+                    model_ref_id = model3d_ids[model_digest]
+                else:
+                    model3d_ref_id += 1
+                    model_ref_id = model3d_ref_id
+                    model3d_ids[model_digest] = model3d_ref_id
+                    self.models_3d.append(model)
+
+                # 3D models need a preview image for fallback.
+                # Use next available image_ref_id for the preview.
+                image_ref_id += 1
+                preview_image_id = image_ref_id
+
+                # Also register png for the preview image type.
+                self.image_types["png"] = True
+
+                # Add the preview image to the images list.
+                # Use user-provided preview or a minimal placeholder PNG.
+                from xlsxwriter.image import Image
+                from io import BytesIO
+
+                if model._preview_image:
+                    preview_data = model._preview_image
+                else:
+                    # Minimal 1x1 transparent PNG as placeholder.
+                    # This allows the file to be valid; Excel will re-render.
+                    preview_data = (
+                        b"\x89PNG\r\n\x1a\n\x00\x00\x00\rIHDR\x00\x00\x00\x01"
+                        b"\x00\x00\x00\x01\x08\x06\x00\x00\x00\x1f\x15\xc4\x89"
+                        b"\x00\x00\x00\nIDATx\x9cc\x00\x01\x00\x00\x05\x00\x01"
+                        b"\r\n-\xb4\x00\x00\x00\x00IEND\xaeB`\x82"
+                    )
+
+                preview = Image(BytesIO(preview_data))
+                preview._image_extension = "png"
+                self.images.append(preview)
+
+                sheet._prepare_model3d(
+                    model,
+                    model_ref_id,
+                    drawing_id,
+                    preview_image_id,
+                )
 
             # Prepare the header images.
             for image in sheet.header_images:

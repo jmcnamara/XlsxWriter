@@ -59,9 +59,14 @@ class Relationships(xmlwriter.XMLwriter):
 
     def _add_document_relationship(self, rel_type, target, target_mode=None) -> None:
         # Add container relationship to XLSX .rels xml files.
-        rel_type = DOCUMENT_SCHEMA + rel_type
+        # Handle special relationship types that use Microsoft schemas.
+        if rel_type == "/model3d":
+            schema = "http://schemas.microsoft.com/office/2017/06/relationships/"
+            full_rel_type = schema + "model3d"
+        else:
+            full_rel_type = DOCUMENT_SCHEMA + rel_type
 
-        self.relationships.append((rel_type, target, target_mode))
+        self.relationships.append((full_rel_type, target, target_mode))
 
     def _add_package_relationship(self, rel_type, target) -> None:
         # Add container relationship to XLSX .rels xml files.
@@ -101,6 +106,13 @@ class Relationships(xmlwriter.XMLwriter):
         schema = "http://schemas.microsoft.com/office/2022/11/relationships/"
         rel_type = schema + "FeaturePropertyBag"
         target = "featurePropertyBag/featurePropertyBag.xml"
+        self.relationships.append((rel_type, target, None))
+
+    def _add_model3d_relationship(self, target) -> None:
+        # Add 3D model relationship to drawing .rels xml files.
+        # Uses Microsoft Office 2017 schema for 3D models.
+        schema = "http://schemas.microsoft.com/office/2017/06/relationships/"
+        rel_type = schema + "model3d"
         self.relationships.append((rel_type, target, None))
 
     ###########################################################################

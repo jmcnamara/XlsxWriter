@@ -144,6 +144,14 @@ class ContentTypes(xmlwriter.XMLwriter):
 
             self._add_default((extension, "image/" + image_type))
 
+    def _add_model3d_types(self, model_types: Dict[str, bool]) -> None:
+        # Add the 3D model default types.
+        for model_type in model_types:
+            if model_type == "glb":
+                self._add_default(("glb", "model/gltf.binary"))
+            elif model_type == "gltf":
+                self._add_default(("gltf", "model/gltf+json"))
+
     def _add_table_name(self, table_name: str) -> None:
         # Add the name of a table to the ContentTypes overrides.
         table_name = "/xl/tables/" + table_name + ".xml"

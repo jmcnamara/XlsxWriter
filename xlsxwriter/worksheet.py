@@ -44,6 +44,7 @@ from xlsxwriter.drawing import Drawing, DrawingInfo, DrawingTypes
 from xlsxwriter.exceptions import DuplicateTableName, OverlappingRange
 from xlsxwriter.format import Format
 from xlsxwriter.image import Image
+from xlsxwriter.model3d import Model3D
 from xlsxwriter.shape import Shape
 from xlsxwriter.url import Url, UrlTypes
 from xlsxwriter.utility import (
@@ -468,6 +469,7 @@ class Worksheet(xmlwriter.XMLwriter):
         self.vml_drawing_links = []
         self.charts = []
         self.images = []
+        self.models_3d = []
         self.tables = []
         self.sparklines = []
         self.shapes = []
@@ -1687,6 +1689,44 @@ class Worksheet(xmlwriter.XMLwriter):
         image._set_user_options(options)
 
         self.images.append(image)
+
+        return 0
+
+    @convert_cell_args
+    def insert_3d_model(
+        self,
+        row: int,
+        col: int,
+        source: Union[str, BytesIO, Model3D],
+        options: Optional[Dict[str, Any]] = None,
+    ) -> Literal[0, -1]:
+        """
+        Insert a 3D model (GLB format) with its top-left corner in a worksheet cell.
+
+        Args:
+            row:      The cell row (zero indexed).
+            col:      The cell column (zero indexed).
+            source:   Filename, BytesIO, or Model3D object (GLB format).
+            options:  Position, scale, and other options for the model.
+
+        Returns:
+            0:  Success.
+            -1: Row or column is out of worksheet bounds.
+
+        """
+        # Check insert (row, col) without storing.
+        if self._check_dimensions(row, col, True, True):
+            warn(f"Cannot insert 3D model at ({row}, {col}).")
+            return -1
+
+        # Convert the source to a Model3D object.
+        model = self._model3d_from_source(source, options)
+
+        model._row = row
+        model._col = col
+        model._set_user_options(options)
+
+        self.models_3d.append(model)
 
         return 0
 
@@ -5408,6 +5448,19 @@ class Worksheet(xmlwriter.XMLwriter):
 
         return image
 
+    def _model3d_from_source(self, source, options: Optional[Dict[str, Any]] = None):
+        # Utility method to convert an input argument to a Model3D object.
+        # The source can be a filename, BytesIO stream or an existing Model3D object.
+        if isinstance(source, Model3D):
+            model = source
+        elif options is not None and options.get("model_data"):
+            model = Model3D(options["model_data"])
+            model.model_name = source
+        else:
+            model = Model3D(source)
+
+        return model
+
     def _prepare_image(
         self,
         image: Image,
@@ -5484,6 +5537,86 @@ class Worksheet(xmlwriter.XMLwriter):
             )
 
         drawing_object._rel_index = self._get_drawing_rel_index(image._digest)
+        drawing._add_drawing_object(drawing_object)
+
+    def _prepare_model3d(
+        self,
+        model: Model3D,
+        model_id: int,
+        drawing_id: int,
+        preview_image_id: int,
+    ) -> None:
+        # Set up 3D models/drawings.
+
+        # Get the effective display width and height in pixels.
+        width = model._width * model._x_scale
+        height = model._height * model._y_scale
+
+        dimensions = self._position_object_emus(
+            model._col,
+            model._row,
+            model._x_offset,
+            model._y_offset,
+            width,
+            height,
+            model._anchor,
+        )
+
+        # Convert from pixels to emus.
+        width = int(0.5 + (width * 9525))
+        height = int(0.5 + (height * 9525))
+
+        # Create a Drawing obj to use with worksheet unless one already exists.
+        if not self.drawing:
+            drawing = Drawing()
+            drawing.embedded = 1
+            self.drawing = drawing
+
+            self.external_drawing_links.append(
+                ["/drawing", "../drawings/drawing" + str(drawing_id) + ".xml", None]
+            )
+        else:
+            drawing = self.drawing
+
+        drawing_object = DrawingInfo()
+        drawing_object._drawing_type = DrawingTypes.MODEL3D
+        drawing_object._dimensions = dimensions
+        drawing_object._description = model.model_name
+        drawing_object._width = width
+        drawing_object._height = height
+        drawing_object._shape = None
+        drawing_object._anchor = model._anchor
+        drawing_object._rel_index = 0
+        drawing_object._decorative = model._decorative
+
+        # Store the Model3D object for access to camera/transform properties
+        drawing_object._model3d = model
+
+        if model.description is not None:
+            drawing_object._description = model.description
+
+        # Add 3D model relationship
+        if not self.drawing_rels.get(model._digest):
+            self.drawing_links.append(
+                [
+                    "/model3d",
+                    "../media/model3d" + str(model_id) + "." + model._model_extension,
+                ]
+            )
+
+        drawing_object._rel_index = self._get_drawing_rel_index(model._digest)
+
+        # Add preview image relationship (for fallback in older Excel versions)
+        preview_digest = model._digest + "_preview"
+        if not self.drawing_rels.get(preview_digest):
+            self.drawing_links.append(
+                [
+                    "/image",
+                    "../media/image" + str(preview_image_id) + ".png",
+                ]
+            )
+        drawing_object._preview_rel_index = self._get_drawing_rel_index(preview_digest)
+
         drawing._add_drawing_object(drawing_object)
 
     def _prepare_shape(self, index, drawing_id) -> None:

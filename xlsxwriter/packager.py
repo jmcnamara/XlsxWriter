@@ -155,6 +155,7 @@ class Packager:
         self._write_drawing_rels_files()
         self._write_rich_value_rels_files()
         self._add_image_files()
+        self._add_model3d_files()
         self._add_vba_project()
         self._add_vba_project_signature()
         self._write_vba_project_rels_file()
@@ -442,6 +443,7 @@ class Packager:
         # Write the ContentTypes.xml file.
         content = ContentTypes()
         content._add_image_types(self.workbook.image_types)
+        content._add_model3d_types(self.workbook.model3d_types)
 
         self._get_table_count()
 
@@ -802,6 +804,51 @@ class Packager:
                     image_file.close()
 
                 self.filenames.append((os_filename, xml_image_name, True))
+
+            index += 1
+
+    def _add_model3d_files(self) -> None:
+        # pylint: disable=consider-using-with
+        # Write the /xl/media/model3d?.glb files.
+        workbook = self.workbook
+        index = 1
+
+        for model in workbook.models_3d:
+            xml_model_name = (
+                "xl/media/model3d" + str(index) + "." + model._model_extension
+            )
+
+            if not self.in_memory:
+                # In file mode we just write or copy the model file.
+                os_filename = self._filename(xml_model_name)
+
+                if model.model_data:
+                    # The data is in a byte stream. Write it to the target.
+                    os_file = open(os_filename, mode="wb")
+                    os_file.write(model.model_data.getvalue())
+                    os_file.close()
+                else:
+                    copy(model.filename, os_filename)
+
+                    # Allow copies of read-only files to be deleted.
+                    try:
+                        os.chmod(
+                            os_filename, os.stat(os_filename).st_mode | stat.S_IWRITE
+                        )
+                    except OSError:
+                        pass
+            else:
+                # For in-memory mode we read the model into a stream.
+                if model.model_data:
+                    # The data is already in a byte stream.
+                    os_filename = model.model_data
+                else:
+                    model_file = open(model.filename, mode="rb")
+                    model_data = model_file.read()
+                    os_filename = BytesIO(model_data)
+                    model_file.close()
+
+                self.filenames.append((os_filename, xml_model_name, True))
 
             index += 1
 

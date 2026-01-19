@@ -24,6 +24,7 @@ class DrawingTypes(Enum):
     CHART = 1
     IMAGE = 2
     SHAPE = 3
+    MODEL3D = 4
 
 
 class DrawingInfo:
@@ -48,6 +49,8 @@ class DrawingInfo:
         self._name = None
         self._description = None
         self._decorative = False
+        self._model3d = None
+        self._preview_rel_index = 0
 
 
 class Drawing(xmlwriter.XMLwriter):
@@ -172,6 +175,9 @@ class Drawing(xmlwriter.XMLwriter):
         elif drawing._drawing_type == DrawingTypes.IMAGE:
             # Write the xdr:pic element.
             self._write_pic(index, col_absolute, row_absolute, drawing)
+        elif drawing._drawing_type == DrawingTypes.MODEL3D:
+            # Write the 3D model element with mc:AlternateContent.
+            self._write_model3d(index, col_absolute, row_absolute, drawing)
         else:
             # Write the xdr:sp element for shapes.
             self._write_sp(index, col_absolute, row_absolute, drawing)
@@ -1155,3 +1161,438 @@ class Drawing(xmlwriter.XMLwriter):
     def _write_a_cs(self, attributes) -> None:
         # Write the <a:latin> element.
         self._xml_empty_tag("a:cs", attributes)
+
+    ###########################################################################
+    #
+    # 3D Model methods.
+    #
+    ###########################################################################
+
+    def _write_model3d(
+        self,
+        index: int,
+        col_absolute: int,
+        row_absolute: int,
+        drawing: DrawingInfo,
+    ) -> None:
+        # Write the 3D model element wrapped in mc:AlternateContent.
+        # This provides a fallback image for older Excel versions.
+
+        # Write mc:AlternateContent wrapper
+        mc_attrs = [
+            ("xmlns:mc", "http://schemas.openxmlformats.org/markup-compatibility/2006"),
+        ]
+        self._xml_start_tag("mc:AlternateContent", mc_attrs)
+
+        # Write mc:Choice with the 3D model for Excel 2016+
+        choice_attrs = [
+            ("xmlns:am3d", "http://schemas.microsoft.com/office/drawing/2017/model3d"),
+            ("Requires", "am3d"),
+        ]
+        self._xml_start_tag("mc:Choice", choice_attrs)
+
+        # Write the xdr:graphicFrame element for 3D model
+        self._write_model3d_graphic_frame(index, drawing)
+
+        self._xml_end_tag("mc:Choice")
+
+        # Write mc:Fallback with preview image for older Excel versions
+        self._xml_start_tag("mc:Fallback")
+
+        # Write fallback as a picture
+        self._write_model3d_fallback_pic(index, col_absolute, row_absolute, drawing)
+
+        self._xml_end_tag("mc:Fallback")
+
+        self._xml_end_tag("mc:AlternateContent")
+
+    def _write_model3d_graphic_frame(self, index: int, drawing: DrawingInfo) -> None:
+        # Write the <xdr:graphicFrame> element for 3D models.
+        attributes = [("macro", "")]
+
+        self._xml_start_tag("xdr:graphicFrame", attributes)
+
+        # Write the xdr:nvGraphicFramePr element.
+        self._write_model3d_nv_graphic_frame_pr(index, drawing)
+
+        # Write the xdr:xfrm element.
+        self._write_xfrm()
+
+        # Write the a:graphic element with 3D model data.
+        self._write_model3d_graphic(drawing)
+
+        self._xml_end_tag("xdr:graphicFrame")
+
+    def _write_model3d_nv_graphic_frame_pr(
+        self, index: int, drawing: DrawingInfo
+    ) -> None:
+        # Write the <xdr:nvGraphicFramePr> element for 3D models.
+        self._xml_start_tag("xdr:nvGraphicFramePr")
+
+        name = "3D Model " + str(index)
+
+        # Write the xdr:cNvPr element with creationId extension.
+        self._write_model3d_c_nv_pr(index + 1, drawing, name)
+
+        # Write the xdr:cNvGraphicFramePr element.
+        self._write_model3d_c_nv_graphic_frame_pr()
+
+        self._xml_end_tag("xdr:nvGraphicFramePr")
+
+    def _write_model3d_c_nv_pr(
+        self, index: int, drawing: DrawingInfo, name: str
+    ) -> None:
+        # Write the <xdr:cNvPr> element for 3D models.
+        attributes = [("id", index), ("name", name)]
+
+        self._xml_start_tag("xdr:cNvPr", attributes)
+
+        # Write the a:extLst with creationId for 3D models.
+        self._xml_start_tag("a:extLst")
+        self._write_uri_ext("{FF2B5EF4-FFF2-40B4-BE49-F238E27FC236}")
+        self._write_a16_creation_id()
+        self._xml_end_tag("a:ext")
+        self._xml_end_tag("a:extLst")
+
+        self._xml_end_tag("xdr:cNvPr")
+
+    def _write_model3d_c_nv_graphic_frame_pr(self) -> None:
+        # Write the <xdr:cNvGraphicFramePr> element for 3D models.
+        self._xml_start_tag("xdr:cNvGraphicFramePr")
+
+        # Write the a:graphicFrameLocks element.
+        attributes = [("noChangeAspect", "1")]
+        self._xml_empty_tag("a:graphicFrameLocks", attributes)
+
+        self._xml_end_tag("xdr:cNvGraphicFramePr")
+
+    def _write_model3d_graphic(self, drawing: DrawingInfo) -> None:
+        # Write the <a:graphic> element for 3D models.
+        self._xml_start_tag("a:graphic")
+
+        # Write the a:graphicData element.
+        self._write_model3d_graphic_data(drawing)
+
+        self._xml_end_tag("a:graphic")
+
+    def _write_model3d_graphic_data(self, drawing: DrawingInfo) -> None:
+        # Write the <a:graphicData> element for 3D models.
+        uri = "http://schemas.microsoft.com/office/drawing/2017/model3d"
+
+        attributes = [("uri", uri)]
+
+        self._xml_start_tag("a:graphicData", attributes)
+
+        # Write the am3d:model3d element.
+        self._write_am3d_model3d(drawing)
+
+        self._xml_end_tag("a:graphicData")
+
+    def _write_am3d_model3d(self, drawing: DrawingInfo) -> None:
+        # Write the <am3d:model3d> element.
+        xmlns_r = "http://schemas.openxmlformats.org/officeDocument/2006/relationships"
+        r_embed = "rId" + str(drawing._rel_index)
+
+        attributes = [
+            ("xmlns:r", xmlns_r),
+            ("r:embed", r_embed),
+        ]
+
+        self._xml_start_tag("am3d:model3d", attributes)
+
+        # Write the am3d:spPr element.
+        self._write_am3d_sp_pr(drawing)
+
+        # Write the am3d:camera element.
+        self._write_am3d_camera(drawing)
+
+        # Write the am3d:trans element.
+        self._write_am3d_trans(drawing)
+
+        # Write the am3d:raster element (preview image reference).
+        self._write_am3d_raster(drawing)
+
+        # Write the am3d:objViewport element.
+        self._write_am3d_obj_viewport()
+
+        # Write lighting elements.
+        self._write_am3d_lighting()
+
+        self._xml_end_tag("am3d:model3d")
+
+    def _write_am3d_sp_pr(self, drawing: DrawingInfo) -> None:
+        # Write the <am3d:spPr> element.
+        self._xml_start_tag("am3d:spPr")
+
+        # Write the a:xfrm element.
+        self._xml_start_tag("a:xfrm")
+        self._xml_empty_tag("a:off", [("x", "0"), ("y", "0")])
+        self._xml_empty_tag(
+            "a:ext", [("cx", str(drawing._width)), ("cy", str(drawing._height))]
+        )
+        self._xml_end_tag("a:xfrm")
+
+        # Write the a:prstGeom element.
+        self._xml_start_tag("a:prstGeom", [("prst", "rect")])
+        self._xml_empty_tag("a:avLst")
+        self._xml_end_tag("a:prstGeom")
+
+        self._xml_end_tag("am3d:spPr")
+
+    def _write_am3d_camera(self, drawing: DrawingInfo) -> None:
+        # Write the <am3d:camera> element with default camera settings.
+        self._xml_start_tag("am3d:camera")
+
+        # Get camera properties from model or use defaults
+        model = drawing._model3d
+        if model:
+            cam_pos = model._camera_pos
+            cam_up = model._camera_up
+            cam_look_at = model._camera_look_at
+            cam_fov = model._camera_fov
+        else:
+            cam_pos = (0, 0, 54040559)
+            cam_up = (0, 36000000, 0)
+            cam_look_at = (0, 0, 0)
+            cam_fov = 2700000
+
+        # Write camera position.
+        self._xml_empty_tag(
+            "am3d:pos",
+            [("x", str(cam_pos[0])), ("y", str(cam_pos[1])), ("z", str(cam_pos[2]))],
+        )
+
+        # Write camera up vector.
+        self._xml_empty_tag(
+            "am3d:up",
+            [("dx", str(cam_up[0])), ("dy", str(cam_up[1])), ("dz", str(cam_up[2]))],
+        )
+
+        # Write camera look at point.
+        self._xml_empty_tag(
+            "am3d:lookAt",
+            [
+                ("x", str(cam_look_at[0])),
+                ("y", str(cam_look_at[1])),
+                ("z", str(cam_look_at[2])),
+            ],
+        )
+
+        # Write perspective field of view.
+        self._xml_empty_tag("am3d:perspective", [("fov", str(cam_fov))])
+
+        self._xml_end_tag("am3d:camera")
+
+    def _write_am3d_trans(self, drawing: DrawingInfo) -> None:
+        # Write the <am3d:trans> element for model transformation.
+        self._xml_start_tag("am3d:trans")
+
+        # Get transform properties from model or use defaults
+        model = drawing._model3d
+        if model:
+            meter_per_unit = model._meter_per_unit
+            pre_trans = model._pre_trans
+            scale = model._scale
+            post_trans = model._post_trans
+        else:
+            meter_per_unit = (1000000, 1000000)
+            pre_trans = (0, 0, 0)
+            scale = (1000000, 1000000, 1000000)
+            post_trans = (0, 0, 0)
+
+        # Write meterPerModelUnit.
+        self._xml_empty_tag(
+            "am3d:meterPerModelUnit",
+            [("n", str(meter_per_unit[0])), ("d", str(meter_per_unit[1]))],
+        )
+
+        # Write preTrans.
+        self._xml_empty_tag(
+            "am3d:preTrans",
+            [
+                ("dx", str(pre_trans[0])),
+                ("dy", str(pre_trans[1])),
+                ("dz", str(pre_trans[2])),
+            ],
+        )
+
+        # Write scale.
+        self._xml_start_tag("am3d:scale")
+        self._xml_empty_tag(
+            "am3d:sx", [("n", str(scale[0])), ("d", "1000000")]
+        )
+        self._xml_empty_tag(
+            "am3d:sy", [("n", str(scale[1])), ("d", "1000000")]
+        )
+        self._xml_empty_tag(
+            "am3d:sz", [("n", str(scale[2])), ("d", "1000000")]
+        )
+        self._xml_end_tag("am3d:scale")
+
+        # Write rotation (empty by default).
+        self._xml_empty_tag("am3d:rot")
+
+        # Write postTrans.
+        self._xml_empty_tag(
+            "am3d:postTrans",
+            [
+                ("dx", str(post_trans[0])),
+                ("dy", str(post_trans[1])),
+                ("dz", str(post_trans[2])),
+            ],
+        )
+
+        self._xml_end_tag("am3d:trans")
+
+    def _write_am3d_raster(self, drawing: DrawingInfo) -> None:
+        # Write the <am3d:raster> element for preview image.
+        attributes = [
+            ("rName", "Office3DRenderer"),
+            ("rVer", "16.0.8326"),
+        ]
+
+        self._xml_start_tag("am3d:raster", attributes)
+
+        # Write the am3d:blip element referencing the preview image.
+        xmlns_r = "http://schemas.openxmlformats.org/officeDocument/2006/relationships"
+        r_embed = "rId" + str(drawing._preview_rel_index)
+
+        self._xml_empty_tag(
+            "am3d:blip", [("xmlns:r", xmlns_r), ("r:embed", r_embed)]
+        )
+
+        self._xml_end_tag("am3d:raster")
+
+    def _write_am3d_obj_viewport(self) -> None:
+        # Write the <am3d:objViewport> element.
+        self._xml_empty_tag("am3d:objViewport", [("viewportSz", "2743200")])
+
+    def _write_am3d_lighting(self) -> None:
+        # Write the lighting elements for 3D model.
+        # Uses Excel's default lighting setup.
+
+        # Ambient light.
+        self._xml_start_tag("am3d:ambientLight")
+        self._xml_start_tag("am3d:clr")
+        self._xml_empty_tag(
+            "a:scrgbClr", [("r", "50000"), ("g", "50000"), ("b", "50000")]
+        )
+        self._xml_end_tag("am3d:clr")
+        self._xml_empty_tag("am3d:illuminance", [("n", "500000"), ("d", "1000000")])
+        self._xml_end_tag("am3d:ambientLight")
+
+        # Point light 1.
+        self._xml_start_tag("am3d:ptLight", [("rad", "0")])
+        self._xml_start_tag("am3d:clr")
+        self._xml_empty_tag(
+            "a:scrgbClr", [("r", "100000"), ("g", "75000"), ("b", "50000")]
+        )
+        self._xml_end_tag("am3d:clr")
+        self._xml_empty_tag("am3d:intensity", [("n", "9765625"), ("d", "1000000")])
+        self._xml_empty_tag(
+            "am3d:pos", [("x", "21959998"), ("y", "70920001"), ("z", "16344003")]
+        )
+        self._xml_end_tag("am3d:ptLight")
+
+        # Point light 2.
+        self._xml_start_tag("am3d:ptLight", [("rad", "0")])
+        self._xml_start_tag("am3d:clr")
+        self._xml_empty_tag(
+            "a:scrgbClr", [("r", "40000"), ("g", "60000"), ("b", "95000")]
+        )
+        self._xml_end_tag("am3d:clr")
+        self._xml_empty_tag("am3d:intensity", [("n", "12250000"), ("d", "1000000")])
+        self._xml_empty_tag(
+            "am3d:pos", [("x", "-37964106"), ("y", "51130435"), ("z", "57631972")]
+        )
+        self._xml_end_tag("am3d:ptLight")
+
+        # Point light 3.
+        self._xml_start_tag("am3d:ptLight", [("rad", "0")])
+        self._xml_start_tag("am3d:clr")
+        self._xml_empty_tag(
+            "a:scrgbClr", [("r", "86837"), ("g", "72700"), ("b", "100000")]
+        )
+        self._xml_end_tag("am3d:clr")
+        self._xml_empty_tag("am3d:intensity", [("n", "3125000"), ("d", "1000000")])
+        self._xml_empty_tag(
+            "am3d:pos", [("x", "-37739122"), ("y", "58056624"), ("z", "-34769649")]
+        )
+        self._xml_end_tag("am3d:ptLight")
+
+    def _write_model3d_fallback_pic(
+        self, index: int, col_absolute: int, row_absolute: int, drawing: DrawingInfo
+    ) -> None:
+        # Write the fallback <xdr:pic> element for older Excel versions.
+        self._xml_start_tag("xdr:pic")
+
+        # Write the xdr:nvPicPr element.
+        self._write_model3d_fallback_nv_pic_pr(index, drawing)
+
+        # Write the xdr:blipFill element.
+        self._write_blip_fill(drawing._preview_rel_index)
+
+        # Write the xdr:spPr element.
+        self._write_model3d_fallback_sp_pr(col_absolute, row_absolute, drawing)
+
+        self._xml_end_tag("xdr:pic")
+
+    def _write_model3d_fallback_nv_pic_pr(
+        self, index: int, drawing: DrawingInfo
+    ) -> None:
+        # Write the <xdr:nvPicPr> element for fallback image.
+        self._xml_start_tag("xdr:nvPicPr")
+
+        name = "3D Model " + str(index)
+
+        # Write xdr:cNvPr with all picture locks.
+        attributes = [("id", index + 1), ("name", name)]
+        self._xml_start_tag("xdr:cNvPr", attributes)
+        self._xml_start_tag("a:extLst")
+        self._write_uri_ext("{FF2B5EF4-FFF2-40B4-BE49-F238E27FC236}")
+        self._write_a16_creation_id()
+        self._xml_end_tag("a:ext")
+        self._xml_end_tag("a:extLst")
+        self._xml_end_tag("xdr:cNvPr")
+
+        # Write xdr:cNvPicPr with all locks.
+        self._xml_start_tag("xdr:cNvPicPr")
+        lock_attrs = [
+            ("noGrp", "1"),
+            ("noRot", "1"),
+            ("noChangeAspect", "1"),
+            ("noMove", "1"),
+            ("noResize", "1"),
+            ("noEditPoints", "1"),
+            ("noAdjustHandles", "1"),
+            ("noChangeArrowheads", "1"),
+            ("noChangeShapeType", "1"),
+            ("noCrop", "1"),
+        ]
+        self._xml_empty_tag("a:picLocks", lock_attrs)
+        self._xml_end_tag("xdr:cNvPicPr")
+
+        self._xml_end_tag("xdr:nvPicPr")
+
+    def _write_model3d_fallback_sp_pr(
+        self, col_absolute: int, row_absolute: int, drawing: DrawingInfo
+    ) -> None:
+        # Write the <xdr:spPr> element for fallback image.
+        self._xml_start_tag("xdr:spPr")
+
+        # Write the a:xfrm element.
+        self._xml_start_tag("a:xfrm")
+        self._xml_empty_tag(
+            "a:off", [("x", str(col_absolute)), ("y", str(row_absolute))]
+        )
+        self._xml_empty_tag(
+            "a:ext", [("cx", str(drawing._width)), ("cy", str(drawing._height))]
+        )
+        self._xml_end_tag("a:xfrm")
+
+        # Write the a:prstGeom element.
+        self._xml_start_tag("a:prstGeom", [("prst", "rect")])
+        self._xml_empty_tag("a:avLst")
+        self._xml_end_tag("a:prstGeom")
+
+        self._xml_end_tag("xdr:spPr")
