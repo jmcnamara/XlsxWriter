@@ -49,6 +49,8 @@ from xlsxwriter.theme import THEME_XML_2007, THEME_XML_2023
 from xlsxwriter.utility import xl_cell_to_rowcol
 from xlsxwriter.worksheet import Worksheet
 
+INVALID_SHEET_NAME_REGEX = re.compile(r"[\[\]:*?/\\]")
+
 
 class Workbook(xmlwriter.XMLwriter):
     """
@@ -981,7 +983,6 @@ class Workbook(xmlwriter.XMLwriter):
     def _check_sheetname(self, sheetname, is_chartsheet=False):
         # Check for valid worksheet names. We check the length, if it contains
         # any invalid chars and if the sheetname is unique in the workbook.
-        invalid_char = re.compile(r"[\[\]:*?/\\]")
 
         # Increment the Sheet/Chart number used for default sheet names below.
         if is_chartsheet:
@@ -1003,7 +1004,7 @@ class Workbook(xmlwriter.XMLwriter):
             )
 
         # Check that sheetname doesn't contain any invalid characters.
-        if invalid_char.search(sheetname):
+        if INVALID_SHEET_NAME_REGEX.search(sheetname):
             raise InvalidWorksheetName(
                 f"Invalid Excel character '[]:*?/\\' in sheetname '{sheetname}'."
             )
