@@ -341,8 +341,12 @@ class Image:
 
     def _process_bmp(self, data: bytes) -> Tuple[str, float, float]:
         # Extract width and height information from a BMP file.
-        width = unpack("<L", data[18:22])[0]
-        height = unpack("<L", data[22:26])[0]
+        width = unpack("<l", data[18:22])[0]
+        height = unpack("<l", data[22:26])[0]
+
+        # The biHeight field is signed and is negative for top-down bitmaps,
+        # so use the magnitude as the pixel height.
+        height = abs(height)
         return "bmp", width, height
 
     def _process_wmf(self, data: bytes) -> Tuple[str, float, float, float, float]:
