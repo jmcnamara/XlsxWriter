@@ -651,16 +651,14 @@ class Worksheet(xmlwriter.XMLwriter):
         try:
             f = float(token)
             return self._write_number(row, col, f, *args[1:])
-        except ValueError:
+        except (ValueError, TypeError):
             pass
-        except TypeError:
-            raise TypeError(f"Unsupported type {type(token)} in write()")
 
         # Finally try string.
         try:
-            str(token)
-            return self._write_string(row, col, *args)
-        except ValueError:
+            s = str(token)
+            return self._write_string(row, col, s, *args[1:])
+        except (ValueError, TypeError):
             raise TypeError(f"Unsupported type {type(token)} in write()")
 
     @convert_cell_args
