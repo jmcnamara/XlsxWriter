@@ -106,6 +106,8 @@ class Chart(xmlwriter.XMLwriter):
         self.warn_sheetname = True
         self._set_default_properties()
         self.fill = {}
+        self.user_shapes = []
+        self.user_shapes_id = 0
 
     def add_series(self, options: Optional[Dict[str, Any]] = None) -> None:
         """
@@ -647,6 +649,80 @@ class Chart(xmlwriter.XMLwriter):
 
         self.combined = chart
 
+    def add_textbox(
+        self,
+        text,
+        options: Optional[Dict[str, Any]] = None,
+    ) -> None:
+        """
+        Insert a textbox into the chart, anchored within the chart area.
+
+        Args:
+            text: The text for the textbox. A plain string, or rich text as
+                a list of paragraphs.
+            options: Optional parameters to position and scale the textbox.
+
+        Returns:
+            Nothing.
+
+        """
+        if options is None:
+            options = {}
+
+        x = options.get("x", 0.35)
+        y = options.get("y", 0.4)
+        width = options.get("width", 0.3)
+        height = options.get("height", 0.2)
+
+        for name, value in (("x", x), ("y", y), ("width", width), ("height", height)):
+            if not 0 <= value <= 1:
+                warn(
+                    f"Chart textbox '{name}' value '{value}' must be a "
+                    f"fraction in the range 0 to 1."
+                )
+                return
+
+        x2 = min(x + width, 1)
+        y2 = min(y + height, 1)
+
+        textbox = {
+            "from": (x, y),
+            "to": (x2, y2),
+            "name": options.get("name"),
+            "paragraphs": self._textbox_paragraphs(text),
+        }
+
+        self.user_shapes.append(textbox)
+
+    def _textbox_paragraphs(self, text):
+        # Normalize the user textbox text into a list of paragraphs of runs.
+        if isinstance(text, str):
+            text = [text]
+
+        paragraphs = []
+
+        for paragraph in text:
+            if isinstance(paragraph, str):
+                paragraph = {"runs": [{"text": paragraph}]}
+            elif isinstance(paragraph, list):
+                paragraph = {"runs": paragraph}
+
+            runs = []
+            for run in paragraph.get("runs", []):
+                if isinstance(run, str):
+                    run = {"text": run}
+
+                runs.append(
+                    {
+                        "text": run.get("text", ""),
+                        "font": Shape._get_font_properties(run.get("font")),
+                    }
+                )
+
+            paragraphs.append({"align": paragraph.get("align"), "runs": runs})
+
+        return paragraphs
+
     ###########################################################################
     #
     # Private API.
@@ -680,6 +756,10 @@ class Chart(xmlwriter.XMLwriter):
         # Write the c:printSettings element.
         if self.embedded:
             self._write_print_settings()
+
+        # Write the c:userShapes element.
+        if self.user_shapes:
+            self._write_user_shapes()
 
         # Close the worksheet tag.
         self._xml_end_tag("c:chartSpace")
@@ -1627,6 +1707,11 @@ class Chart(xmlwriter.XMLwriter):
         ]
 
         self._xml_start_tag("c:chartSpace", attributes)
+
+    def _write_user_shapes(self) -> None:
+        # Write the <c:userShapes> element.
+        r_id = "rId1"
+        self._xml_empty_tag("c:userShapes", [("r:id", r_id)])
 
     def _write_lang(self) -> None:
         # Write the <c:lang> element.
@@ -3804,7 +3889,6 @@ class Chart(xmlwriter.XMLwriter):
                 self._write_delete(1)
 
             elif label.get("formula") or label.get("value") or label.get("position"):
-
                 # Write the c:layout element.
                 self._write_layout(None, None)
 

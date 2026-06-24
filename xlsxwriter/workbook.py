@@ -28,6 +28,7 @@ from xlsxwriter.chart_area import ChartArea
 from xlsxwriter.chart_bar import ChartBar
 from xlsxwriter.chart_column import ChartColumn
 from xlsxwriter.chart_doughnut import ChartDoughnut
+from xlsxwriter.chart_drawing import ChartDrawing
 from xlsxwriter.chart_line import ChartLine
 from xlsxwriter.chart_pie import ChartPie
 from xlsxwriter.chart_radar import ChartRadar
@@ -1472,6 +1473,18 @@ class Workbook(xmlwriter.XMLwriter):
         # Sort the workbook charts references into the order that the were
         # written to the worksheets above.
         self.charts = sorted(self.charts, key=lambda chart: chart.id)
+
+        # Set up the chart user-shapes (textboxes) as separate drawing parts.
+        for chart in self.charts:
+            if not chart.user_shapes:
+                continue
+
+            drawing_id += 1
+            chart.user_shapes_id = drawing_id
+
+            chart_drawing = ChartDrawing()
+            chart_drawing.textboxes = chart.user_shapes
+            self.drawings.append(chart_drawing)
 
         self.drawing_count = drawing_id
 

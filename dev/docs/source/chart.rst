@@ -249,6 +249,63 @@ It is also possible to specify non-contiguous ranges::
     })
 
 
+chart.add_textbox()
+-------------------
+
+.. py:function:: add_textbox(text, options)
+
+   Add a textbox to the chart.
+
+   :param text: The text for the textbox. A plain string, or rich text as
+       a list of paragraphs.
+   :param dict options: Optional parameters to position and scale the textbox.
+
+The ``add_textbox()`` method is used to add a textbox to a chart. The textbox
+can be positioned and scaled using the ``x``, ``y``, ``width`` and ``height``
+options. All four options are relative to the chart area size. All values are
+in the range 0.0 to 1.0. If no options are supplied the textbox will be
+centered in the chart area with a default size of 0.3 x 0.2::
+
+    chart.add_textbox("Hello")
+
+The ``text`` parameter can be a plain string or a list of rich text
+paragraphs::
+
+    chart.add_textbox("Hello", {"x": 0.7, "y": 0.2})
+
+    # Rich text example. Each element in the list is a paragraph. Each
+    # paragraph can have multiple runs of text with different formatting.
+    chart.add_textbox(
+        [
+            {
+                "align": "center",
+                "runs": [
+                    {
+                        "text": "Centered underlined text",
+                        "font": {"underline": True},
+                    },
+                ],
+            },
+            "unformatted text",
+            {
+                "align": "left",
+                "runs": [
+                    {"text": "Hello", "font": {"bold": True}},
+                    {"text": " World", "font": {"italic": True}},
+                    {"text": "1", "font": {"baseline": 25000}}, #superscript
+                    {"text": "2", "font": {"baseline": -25000}}, #subscript
+                ],
+            },
+        ],
+        {"x": 0.6, "y": 0.18, "width": 0.4, "height": 0.6},
+    )
+
+As shown above the ``text`` parameter can be a plain string or a list of rich
+text paragraphs. Each paragraph can have multiple runs of text with different
+formatting. Changing the font properties of a run is done by setting the
+``font`` property to a dictionary of font properties. See the :ref:`format`
+section for more details about Format properties and how to set them.
+
 chart.set_x_axis()
 ------------------
 

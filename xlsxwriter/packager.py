@@ -16,6 +16,7 @@ from shutil import copy
 
 # Package imports.
 from xlsxwriter.app import App
+from xlsxwriter.chart_drawing import ChartDrawing
 from xlsxwriter.comments import Comments
 from xlsxwriter.contenttypes import ContentTypes
 from xlsxwriter.core import Core
@@ -152,6 +153,7 @@ class Packager:
         self._write_theme_file()
         self._write_worksheet_rels_files()
         self._write_chartsheet_rels_files()
+        self._write_chart_rels_files()
         self._write_drawing_rels_files()
         self._write_rich_value_rels_files()
         self._add_image_files()
@@ -458,8 +460,11 @@ class Packager:
         for i in range(1, self.chart_count + 1):
             content._add_chart_name("chart" + str(i))
 
-        for i in range(1, self.drawing_count + 1):
-            content._add_drawing_name("drawing" + str(i))
+        for index, drawing in enumerate(self.workbook.drawings, start=1):
+            if isinstance(drawing, ChartDrawing):
+                content._add_chartshapes_name("drawing" + str(index))
+            else:
+                content._add_drawing_name("drawing" + str(index))
 
         if self.num_vml_files:
             content._add_vml_name()
@@ -680,6 +685,29 @@ class Packager:
             # Create .rels file such as /xl/chartsheets/_rels/sheet1.xml.rels.
             rels._set_xml_writer(
                 self._filename("xl/chartsheets/_rels/sheet" + str(index) + ".xml.rels")
+            )
+            rels._assemble_xml_file()
+
+    def _write_chart_rels_files(self) -> None:
+        # Write the chart .rels files for charts with user-shape drawings.
+        index = 0
+        for chart in self.workbook.charts:
+            index += 1
+
+            if not chart.user_shapes:
+                continue
+
+            # Create the chart .rels dir.
+            rels = Relationships()
+
+            rels._add_document_relationship(
+                "/chartUserShapes",
+                "../drawings/drawing" + str(chart.user_shapes_id) + ".xml",
+            )
+
+            # Create .rels file such as /xl/charts/_rels/chart1.xml.rels.
+            rels._set_xml_writer(
+                self._filename("xl/charts/_rels/chart" + str(index) + ".xml.rels")
             )
             rels._assemble_xml_file()
 

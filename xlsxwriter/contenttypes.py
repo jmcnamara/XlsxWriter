@@ -112,6 +112,12 @@ class ContentTypes(xmlwriter.XMLwriter):
 
         self._add_override((drawing_name, APP_DOCUMENT + "drawing+xml"))
 
+    def _add_chartshapes_name(self, drawing_name: str) -> None:
+        # Add the name of a chart user-shapes drawing to the overrides.
+        drawing_name = "/xl/drawings/" + drawing_name + ".xml"
+
+        self._add_override((drawing_name, APP_DOCUMENT + "drawingml.chartshapes+xml"))
+
     def _add_vml_name(self) -> None:
         # Add the name of a VML drawing to the ContentTypes defaults.
         self._add_default(("vml", APP_DOCUMENT + "vmlDrawing"))
