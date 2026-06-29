@@ -49,3 +49,13 @@ class TestImageProperties(unittest.TestCase):
         self.assertEqual(image.height, 20)
         self.assertEqual(image.x_dpi, 96)
         self.assertEqual(image.y_dpi, 96)
+
+    def test_image_properties04(self):
+        """Test the Image class properties for a top-down BMP."""
+        image = Image("xlsxwriter/test/comparison/images/red_top_down.bmp")
+
+        self.assertEqual(image.image_type, "BMP")
+        self.assertEqual(image.width, 32)
+        self.assertEqual(image.height, 32)
+        self.assertEqual(image.x_dpi, 96)
+        self.assertEqual(image.y_dpi, 96)
