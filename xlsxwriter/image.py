@@ -340,9 +340,10 @@ class Image:
         return "gif", width, height, x_dpi, y_dpi
 
     def _process_bmp(self, data: bytes) -> Tuple[str, float, float]:
-        # Extract width and height information from a BMP file.
-        width = unpack("<L", data[18:22])[0]
-        height = unpack("<L", data[22:26])[0]
+        # Extract width and height information from a BMP file. The height can
+        # be negative for a top-down bitmap so we take the absolute value.
+        width = unpack("<l", data[18:22])[0]
+        height = abs(unpack("<l", data[22:26])[0])
         return "bmp", width, height
 
     def _process_wmf(self, data: bytes) -> Tuple[str, float, float, float, float]:

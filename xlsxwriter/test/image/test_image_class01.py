@@ -49,3 +49,23 @@ class TestImageProperties(unittest.TestCase):
         self.assertEqual(image.height, 20)
         self.assertEqual(image.x_dpi, 96)
         self.assertEqual(image.y_dpi, 96)
+
+    def test_image_properties04(self):
+        """Test a top-down BMP (negative height)."""
+        image = Image("xlsxwriter/test/comparison/images/red_topdown_32x32.bmp")
+
+        self.assertEqual(image.image_type, "BMP")
+        self.assertEqual(image.width, 32)
+        self.assertEqual(image.height, 32)
+        self.assertEqual(image.x_dpi, 96)
+        self.assertEqual(image.y_dpi, 96)
+
+    def test_image_properties05(self):
+        """Test a top-down BMP (negative height)."""
+        image = Image("xlsxwriter/test/comparison/images/red_topdown_20x12.bmp")
+
+        self.assertEqual(image.image_type, "BMP")
+        self.assertEqual(image.width, 20)
+        self.assertEqual(image.height, 12)
+        self.assertEqual(image.x_dpi, 96)
+        self.assertEqual(image.y_dpi, 96)
