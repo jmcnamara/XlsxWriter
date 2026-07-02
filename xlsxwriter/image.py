@@ -334,8 +334,8 @@ class Image:
         x_dpi = DEFAULT_DPI
         y_dpi = DEFAULT_DPI
 
-        width = unpack("<h", data[6:8])[0]
-        height = unpack("<h", data[8:10])[0]
+        width = unpack("<H", data[6:8])[0]
+        height = unpack("<H", data[8:10])[0]
 
         return "gif", width, height, x_dpi, y_dpi
 

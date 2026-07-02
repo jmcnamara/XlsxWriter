@@ -69,3 +69,13 @@ class TestImageProperties(unittest.TestCase):
         self.assertEqual(image.height, 12)
         self.assertEqual(image.x_dpi, 96)
         self.assertEqual(image.y_dpi, 96)
+
+    def test_image_properties06(self):
+        """Test that a GIF with dimensions >= 32768 are read as unsigned."""
+        image = Image("xlsxwriter/test/comparison/images/black_40000x45000.gif")
+
+        self.assertEqual(image.image_type, "GIF")
+        self.assertEqual(image.width, 40000)
+        self.assertEqual(image.height, 45000)
+        self.assertEqual(image.x_dpi, 96)
+        self.assertEqual(image.y_dpi, 96)
