@@ -8,7 +8,9 @@
 #
 import unittest
 from io import BytesIO
+from struct import pack
 
+from xlsxwriter.exceptions import UndefinedImageSize, UnsupportedImageFormat
 from xlsxwriter.image import Image
 
 
@@ -77,5 +79,44 @@ class TestImageProperties(unittest.TestCase):
         self.assertEqual(image.image_type, "GIF")
         self.assertEqual(image.width, 40000)
         self.assertEqual(image.height, 45000)
+        self.assertEqual(image.x_dpi, 96)
+        self.assertEqual(image.y_dpi, 96)
+
+    def test_image_too_small(self):
+        """Test that a truncated/too-small file raises UnsupportedImageFormat."""
+        # Create and test a 12-byte buffer with a valid BMP marker but is too
+        # short to hold the image markers/dimensions read from the header.
+        image_data = BytesIO(b"BM" + b"\x00" * 10)
+
+        with self.assertRaises(UnsupportedImageFormat):
+            Image(image_data)
+
+    def test_image_wmf_zero_inch(self):
+        """Test that a WMF with a zero inch value doesn't divide by zero."""
+        # A placeable WMF header with a malformed zero "inch" scaling value.
+        data = bytearray(44)
+        data[0:4] = pack("<L", 0x9AC6CDD7)  # Placeable WMF marker.
+        data[10:12] = pack("<h", 100)  # Bounding box x2.
+        data[12:14] = pack("<h", 100)  # Bounding box y2.
+        data[14:16] = pack("<H", 0)  # Logical units per inch (malformed).
+
+        with self.assertRaises(UndefinedImageSize):
+            Image(BytesIO(bytes(data)))
+
+    def test_image_emf_zero_frame(self):
+        """Test that an EMF with a zero frame extent doesn't divide by zero."""
+        # An EMF header with a malformed zero rectangular frame.
+        data = bytearray(44)
+        data[0:4] = pack("<l", 1)  # EMF iType marker.
+        data[16:20] = pack("<l", 99)  # Bounding box x2.
+        data[20:24] = pack("<l", 99)  # Bounding box y2.
+        # Rectangular frame is left as zero (malformed).
+        data[40:44] = b" EMF"  # EMF signature marker.
+
+        image = Image(BytesIO(bytes(data)))
+
+        self.assertEqual(image.image_type, "EMF")
+        self.assertEqual(image.width, 100)
+        self.assertEqual(image.height, 100)
         self.assertEqual(image.x_dpi, 96)
         self.assertEqual(image.y_dpi, 96)

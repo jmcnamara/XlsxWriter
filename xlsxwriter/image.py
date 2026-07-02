@@ -183,6 +183,12 @@ class Image:
         # Get the image digest to check for duplicates.
         digest = hashlib.sha256(data).hexdigest()
 
+        # Ensure the data is large enough to hold the image markers.
+        if len(data) < 44:
+            raise UnsupportedImageFormat(
+                f"{self.filename}: image file is too small to be a valid image."
+            )
+
         # Look for some common image file markers.
         png_marker = unpack("3s", data[1:4])[0]
         jpg_marker = unpack(">H", data[:2])[0]
@@ -360,6 +366,12 @@ class Image:
         # Read the number of logical units per inch. Used to scale the image.
         inch = unpack("<H", data[14:16])[0]
 
+        # Guard against a malformed file with a zero inch value.
+        if inch == 0:
+            raise UndefinedImageSize(
+                f"{self.filename}: no size data found in image file."
+            )
+
         # Convert to rendered height and width.
         width = float((x2 - x1) * x_dpi) / inch
         height = float((y2 - y1) * y_dpi) / inch
@@ -368,6 +380,8 @@ class Image:
 
     def _process_emf(self, data: bytes) -> Tuple[str, float, float, float, float]:
         # Extract width and height information from a EMF file.
+        x_dpi = DEFAULT_DPI
+        y_dpi = DEFAULT_DPI
 
         # Read the bounding box, measured in logical units.
         bound_x1 = unpack("<l", data[8:12])[0]
@@ -389,9 +403,12 @@ class Image:
         width_mm = 0.01 * (frame_x2 - frame_x1)
         height_mm = 0.01 * (frame_y2 - frame_y1)
 
-        # Get the dpi based on the logical size.
-        x_dpi = width * 25.4 / width_mm
-        y_dpi = height * 25.4 / height_mm
+        # Get the dpi based on the logical size but guard against a malformed
+        # file with a zero frame extent. Falls back to the default dpi.
+        if width_mm != 0:
+            x_dpi = width * 25.4 / width_mm
+        if height_mm != 0:
+            y_dpi = height * 25.4 / height_mm
 
         # This is to match Excel's calculation. It is probably to account for
         # the fact that the bounding box is inclusive-inclusive. Or a bug.
