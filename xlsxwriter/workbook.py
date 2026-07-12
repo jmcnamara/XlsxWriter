@@ -18,12 +18,27 @@ from datetime import datetime
 from decimal import Decimal
 from fractions import Fraction
 from io import StringIO
-from typing import IO, Any, AnyStr, Dict, List, Literal, Optional, Tuple, Union
+from types import TracebackType
+from typing import (
+    IO,
+    Any,
+    AnyStr,
+    Dict,
+    List,
+    Literal,
+    Optional,
+    Set,
+    Tuple,
+    Type,
+    Union,
+    overload,
+)
 from warnings import warn
 from zipfile import ZIP_DEFLATED, LargeZipFile, ZipFile, ZipInfo
 
 # Package imports.
 from xlsxwriter import xmlwriter
+from xlsxwriter.chart import Chart
 from xlsxwriter.chart_area import ChartArea
 from xlsxwriter.chart_bar import ChartBar
 from xlsxwriter.chart_column import ChartColumn
@@ -117,19 +132,19 @@ class Workbook(xmlwriter.XMLwriter):
         self.chart_name = "Chart"
         self.sheetname_count = 0
         self.chartname_count = 0
-        self.worksheets_objs = []
-        self.charts = []
+        self.worksheets_objs: List[Worksheet] = []
+        self.charts: List[Chart] = []
         self.drawings = []
-        self.sheetnames = {}
-        self.formats = []
-        self.xf_formats = []
+        self.sheetnames: Dict[str, Worksheet] = {}
+        self.formats: List[Format] = []
+        self.xf_formats: List[Format] = []
         self.xf_format_indices = {}
-        self.dxf_formats = []
+        self.dxf_formats: List[Format] = []
         self.dxf_format_indices = {}
         self.palette = []
         self.font_count = 0
         self.num_formats = []
-        self.defined_names = []
+        self.defined_names: List[List[Optional[Union[str, int, bool]]]] = []
         self.named_ranges = []
         self.custom_colors = []
         self.doc_properties = {}
@@ -154,15 +169,15 @@ class Workbook(xmlwriter.XMLwriter):
         self.drawing_count = 0
         self.calc_mode = "auto"
         self.calc_on_load = True
-        self.calc_id = 124519
+        self.calc_id: Union[int, str] = 124519
         self.has_comments = False
         self.read_only = 0
         self.has_metadata = False
         self.has_embedded_images = False
         self.has_dynamic_functions = False
         self.has_embedded_descriptions = False
-        self.embedded_images = EmbeddedImages()
-        self.feature_property_bags = set()
+        self.embedded_images: EmbeddedImages = EmbeddedImages()
+        self.feature_property_bags: Set[str] = set()
         self.default_theme_version: str = "124226"
         self.theme_xml: str = THEME_XML_2007
 
@@ -181,7 +196,7 @@ class Workbook(xmlwriter.XMLwriter):
             self.default_col_width = 64
             self.default_row_height = 20
             self.default_theme_version = "202300"
-            self.theme_xml: str = THEME_XML_2023
+            self.theme_xml = THEME_XML_2023
 
             format_properties["xf_index"] = 0
             self.add_format(format_properties)
@@ -218,7 +233,7 @@ class Workbook(xmlwriter.XMLwriter):
         format_properties = self.default_format_properties.copy()
         format_properties["hyperlink"] = True
         format_properties["font_scheme"] = "none"
-        self.default_url_format = self.add_format(format_properties)
+        self.default_url_format: Format = self.add_format(format_properties)
 
         # Add the default date format.
         if self.default_date_format is not None:
@@ -234,13 +249,20 @@ class Workbook(xmlwriter.XMLwriter):
         """Return self object to use with "with" statement."""
         return self
 
-    def __exit__(self, type, value, traceback) -> None:
+    def __exit__(
+        self,
+        type: Optional[Type[BaseException]],
+        value: Optional[BaseException],
+        traceback: Optional[TracebackType],
+    ) -> None:
         # pylint: disable=redefined-builtin
         """Close workbook when exiting "with" statement."""
         self.close()
 
     def add_worksheet(
-        self, name: Optional[str] = None, worksheet_class=None
+        self,
+        name: Optional[str] = None,
+        worksheet_class: Optional[Type[Worksheet]] = None,
     ) -> Worksheet:
         """
         Add a new worksheet to the Excel workbook.
@@ -258,7 +280,9 @@ class Workbook(xmlwriter.XMLwriter):
         return self._add_sheet(name, worksheet_class=worksheet_class)
 
     def add_chartsheet(
-        self, name: Optional[str] = None, chartsheet_class=None
+        self,
+        name: Optional[str] = None,
+        chartsheet_class: Optional[Type[Chartsheet]] = None,
     ) -> Chartsheet:
         """
         Add a new chartsheet to the Excel workbook.
@@ -275,7 +299,7 @@ class Workbook(xmlwriter.XMLwriter):
 
         return self._add_sheet(name, worksheet_class=chartsheet_class)
 
-    def add_format(self, properties=None) -> Format:
+    def add_format(self, properties: Optional[Dict[str, Any]] = None) -> Format:
         """
         Add a new Format to the Excel Workbook.
 
@@ -482,8 +506,7 @@ class Workbook(xmlwriter.XMLwriter):
                 raise FileCreateError(e)
             except LargeZipFile:
                 raise FileSizeError(
-                    "Filesize would require ZIP64 extensions. "
-                    "Use workbook.use_zip64()."
+                    "Filesize would require ZIP64 extensions. Use workbook.use_zip64()."
                 )
 
             self.fileclosed = True
@@ -538,7 +561,7 @@ class Workbook(xmlwriter.XMLwriter):
         else:
             self.tab_ratio = int(tab_ratio * 10)
 
-    def set_properties(self, properties) -> None:
+    def set_properties(self, properties: Dict[str, Any]) -> None:
         """
         Set the document properties such as Title, Author etc.
 
@@ -618,7 +641,9 @@ class Workbook(xmlwriter.XMLwriter):
         return 0
 
     def set_calc_mode(
-        self, mode: Literal["manual", "auto_except_tables", "auto"], calc_id=None
+        self,
+        mode: Literal["manual", "auto_except_tables", "auto"],
+        calc_id: Optional[int] = None,
     ) -> None:
         """
         Set the Excel calculation mode for the workbook.
@@ -932,7 +957,19 @@ class Workbook(xmlwriter.XMLwriter):
 
         xlsx_file.close()
 
-    def _add_sheet(self, name, worksheet_class=None):
+    @overload
+    def _add_sheet(
+        self, name: Optional[str], worksheet_class: Optional[Type[Chartsheet]] = None
+    ) -> Chartsheet: ...
+
+    @overload
+    def _add_sheet(
+        self, name: Optional[str], worksheet_class: Optional[Type[Worksheet]] = None
+    ) -> Worksheet: ...
+
+    def _add_sheet(
+        self, name: Optional[str], worksheet_class: Optional[Type[Worksheet]] = None
+    ) -> Worksheet:
         # Utility for shared code in add_worksheet() and add_chartsheet().
 
         if worksheet_class:
@@ -978,7 +1015,9 @@ class Workbook(xmlwriter.XMLwriter):
 
         return worksheet
 
-    def _check_sheetname(self, sheetname, is_chartsheet=False):
+    def _check_sheetname(
+        self, sheetname: Optional[str], is_chartsheet: bool = False
+    ) -> str:
         # Check for valid worksheet names. We check the length, if it contains
         # any invalid chars and if the sheetname is unique in the workbook.
         invalid_char = re.compile(r"[\[\]:*?/\\]")
@@ -1046,8 +1085,8 @@ class Workbook(xmlwriter.XMLwriter):
         # Iterate through the XF Format objects and separate them into
         # XF and DXF formats. The XF and DF formats then need to be sorted
         # back into index order rather than creation order.
-        xf_formats = []
-        dxf_formats = []
+        xf_formats: List[Format] = []
+        dxf_formats: List[Format] = []
 
         # Sort into XF and DXF formats.
         for xf_format in self.formats:
@@ -1251,7 +1290,7 @@ class Workbook(xmlwriter.XMLwriter):
 
         self.fill_count = index
 
-    def _has_feature_property_bags(self):
+    def _has_feature_property_bags(self) -> Set[str]:
         # Check for any format properties that require a feature bag. Currently
         # this only applies to checkboxes.
         if not self.feature_property_bags:
@@ -1306,7 +1345,7 @@ class Workbook(xmlwriter.XMLwriter):
         self.defined_names = defined_names
         self.named_ranges = self._extract_named_ranges(defined_names)
 
-    def _sort_defined_names(self, names):
+    def _sort_defined_names(self, names: List[List[str]]) -> List[List[str]]:
         # Sort the list of list of internal and user defined names in
         # the same order as used by Excel.
 
@@ -1504,7 +1543,7 @@ class Workbook(xmlwriter.XMLwriter):
 
         return named_ranges
 
-    def _get_sheet_index(self, sheetname):
+    def _get_sheet_index(self, sheetname: str) -> Optional[int]:
         # Convert a sheet name to its index. Return None otherwise.
         sheetname = sheetname.strip("'")
 
@@ -1580,9 +1619,9 @@ class Workbook(xmlwriter.XMLwriter):
     def _add_chart_data(self) -> None:
         # Add "cached" data to charts to provide the numCache and strCache
         # data for series and title/axis ranges.
-        worksheets = {}
+        worksheets: Dict[Optional[str], Worksheet] = {}
         seen_ranges = {}
-        charts = []
+        charts: List[Chart] = []
 
         # Map worksheet names to worksheet objects.
         for worksheet in self.worksheets():
@@ -1650,7 +1689,9 @@ class Workbook(xmlwriter.XMLwriter):
                 # Store range data locally to avoid lookup if seen again.
                 seen_ranges[c_range] = data
 
-    def _get_chart_range(self, c_range):
+    def _get_chart_range(
+        self, c_range: str
+    ) -> Tuple[Optional[str], Optional[List[int]]]:
         # Convert a range formula such as Sheet1!$B$1:$B$5 into a sheet name
         # and cell range such as ( 'Sheet1', 0, 1, 4, 1 ).
 
@@ -1924,8 +1965,8 @@ class WorksheetMeta:
     """
 
     def __init__(self) -> None:
-        self.activesheet = 0
-        self.firstsheet = 0
+        self.activesheet: int = 0
+        self.firstsheet: int = 0
 
 
 # A helper class to share embedded images between worksheets.
@@ -1936,10 +1977,10 @@ class EmbeddedImages:
     """
 
     def __init__(self) -> None:
-        self.images = []
-        self.image_indexes = {}
+        self.images: List[Image] = []
+        self.image_indexes: Dict[str, int] = {}
 
-    def get_image_index(self, image: Image):
+    def get_image_index(self, image: Image) -> int:
         """
         Get the index of an embedded image.
 
@@ -1959,7 +2000,7 @@ class EmbeddedImages:
 
         return image_index
 
-    def has_images(self):
+    def has_images(self) -> bool:
         """
         Check if the worksheet has embedded images.
 
