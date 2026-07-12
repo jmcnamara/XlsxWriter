@@ -91,6 +91,7 @@ It supports Python 3.8+ and PyPy3 and uses standard libraries only.
    working_with_outlines.rst
    working_with_memory.rst
    working_with_macros.rst
+   working_with_customui_elements.rst
    working_with_pandas.rst
    working_with_polars.rst
 
