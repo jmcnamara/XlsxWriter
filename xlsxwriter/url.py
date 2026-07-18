@@ -240,7 +240,8 @@ class Url:
         if url.startswith(r"\\"):
             return False
 
-        if url[0].isalpha() and url[1] == ":":
+        # Drive paths need two chars (e.g. "C:"); shorter paths are relative.
+        if len(url) >= 2 and url[0].isalpha() and url[1] == ":":
             return False
 
         return True
