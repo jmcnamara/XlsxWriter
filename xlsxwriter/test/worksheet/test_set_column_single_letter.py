@@ -31,3 +31,19 @@ class TestSetColumnSingleLetter(unittest.TestCase):
         worksheet = workbook.add_worksheet()
         self.assertEqual(worksheet.set_column("B:D", 5), 0)
         workbook.close()
+
+    def test_set_column_empty_raises_clear_error(self):
+        workbook = Workbook(BytesIO(), {"in_memory": True})
+        worksheet = workbook.add_worksheet()
+        with self.assertRaises(ValueError) as ctx:
+            worksheet.set_column("", 10)
+        self.assertIn("Unknown column range", str(ctx.exception))
+        workbook.close()
+
+    def test_set_column_multi_colon_raises_clear_error(self):
+        workbook = Workbook(BytesIO(), {"in_memory": True})
+        worksheet = workbook.add_worksheet()
+        with self.assertRaises(ValueError) as ctx:
+            worksheet.set_column("::", 10)
+        self.assertIn("Unknown column range", str(ctx.exception))
+        workbook.close()
