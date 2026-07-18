@@ -232,17 +232,14 @@ def convert_column_args(
                 int(args[0])
         except ValueError:
             # First arg isn't an int, convert to A1 notation.
-            # Allow "A" as "A:A"; reject empty or multi-colon ranges.
-            parts = args[0].split(":")
-            if len(parts) == 1:
-                if parts[0] == "":
-                    raise ValueError(f"Unknown column range: {args[0]}")
-                parts = [parts[0], parts[0]]
-            elif len(parts) != 2:
-                raise ValueError(f"Unknown column range: {args[0]}")
-            cell_1, cell_2 = [col + "1" for col in parts]
-            _, col_1 = xl_cell_to_rowcol(cell_1)
-            _, col_2 = xl_cell_to_rowcol(cell_2)
+            # Single column letter ("A") matches convert_range_args: treat as A:A.
+            if ":" in args[0]:
+                cell_1, cell_2 = [col + "1" for col in args[0].split(":")]
+                _, col_1 = xl_cell_to_rowcol(cell_1)
+                _, col_2 = xl_cell_to_rowcol(cell_2)
+            else:
+                _, col_1 = xl_cell_to_rowcol(args[0] + "1")
+                col_2 = col_1
             new_args = [col_1, col_2]
             new_args.extend(args[1:])
             args = new_args
