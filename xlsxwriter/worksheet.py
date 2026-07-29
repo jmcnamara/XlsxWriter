@@ -7748,9 +7748,10 @@ class Worksheet(xmlwriter.XMLwriter):
         try:
             float(formula)
         except ValueError:
-            # Not a number. Remove the formula '=' sign if it exists.
-            if formula.startswith("="):
-                formula = formula.lstrip("=")
+            # Not a number. Prepare the formula: strip '=' and add _xlfn.
+            # prefixes for Excel 2013+ functions (ISFORMULA, ISOWEEKNUM, etc.)
+            # so non-English editions of Excel can resolve them correctly.
+            formula = self._prepare_formula(formula, True)
 
         self._xml_data_element("formula", formula)
 
