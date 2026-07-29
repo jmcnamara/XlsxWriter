@@ -240,7 +240,7 @@ class Url:
         if url.startswith(r"\\"):
             return False
 
-        if url[0].isalpha() and url[1] == ":":
+        if len(url) >= 2 and url[0].isalpha() and url[1] == ":":
             return False
 
         return True
