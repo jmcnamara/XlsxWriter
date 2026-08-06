@@ -47,7 +47,7 @@ class TestCompareXLSXFiles(ExcelComparisonTest):
         worksheet19 = workbook.add_worksheet()
         worksheet20 = workbook.add_worksheet()
 
-        worksheet8.set_first_sheet()
+        worksheet9.set_first_sheet()
         worksheet20.activate()
 
         workbook.close()
