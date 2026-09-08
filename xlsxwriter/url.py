@@ -52,9 +52,6 @@ class Url:
         if len(self._anchor) > self.MAX_URL_LEN:
             raise ValueError("Anchor segment or url exceeds Excel's maximum length.")
 
-        if len(self._tip) > self.MAX_PARAMETER_LEN:
-            raise ValueError("Hyperlink tool tip exceeds Excel's maximum length.")
-
         self._escape_strings()
 
     def __repr__(self) -> str:
@@ -98,7 +95,7 @@ class Url:
         if isinstance(url, str):
             url = cls(options["url"])
             if options.get("tip"):
-                url._tip = options["tip"]
+                url.tip = options["tip"]
 
         return url
 
@@ -120,6 +117,8 @@ class Url:
     @tip.setter
     def tip(self, value: str) -> None:
         """Set the screen tip for the URL."""
+        if len(value) > self.MAX_PARAMETER_LEN:
+            raise ValueError("Hyperlink tool tip exceeds Excel's maximum length.")
         self._tip = value
 
     def _parse_url(self) -> None:
