@@ -3586,6 +3586,14 @@ class Worksheet(xmlwriter.XMLwriter):
                 warn(f"Invalid Excel characters in add_table(): '{name}'")
                 return -2
 
+            # Warn if the name exceeds Excel's maximum length.
+            if len(name) > 255:
+                warn(
+                    f"Name '{name}' in add_table() exceeds Excel's limit of 255 "
+                    f"characters"
+                )
+                return -2
+
             # Warn if the name looks like a cell name.
             if re.match(r"^[a-zA-Z][a-zA-Z]?[a-dA-D]?\d+$", name):
                 warn(f"Name looks like a cell name in add_table(): '{name}'")
