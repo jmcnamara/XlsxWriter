@@ -3235,6 +3235,8 @@ class Worksheet(xmlwriter.XMLwriter):
         if options["type"] == "text":
             value = options["value"]
             length = len(value)
+            # Escape double quotes in the generated formula's string literal.
+            value = value.replace('"', '""')
             criteria = options["criteria"]
 
             if options["criteria"] == "containsText":
