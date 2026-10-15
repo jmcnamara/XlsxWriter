@@ -5754,8 +5754,13 @@ class Worksheet(xmlwriter.XMLwriter):
 
         # Calculate the absolute y offset of the top-left vertex.
         if self.row_size_changed:
-            for row_id in range(row_start):
-                y_abs += self._size_row(row_id)
+            if not self.row_sizes:
+                # A different default height still leaves all rows the same size.
+                # Keep range() validation and its handling of negative indexes.
+                y_abs += self.default_row_height * len(range(row_start))
+            else:
+                for row_id in range(row_start):
+                    y_abs += self._size_row(row_id)
         else:
             # Optimization for when the row heights haven't changed.
             y_abs += self.default_row_height * row_start
