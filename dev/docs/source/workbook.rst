@@ -89,7 +89,8 @@ The constructor options are:
 
 * **strings_to_formulas**: Enable the
   :ref:`worksheet. <Worksheet>`:func:`write()` method to convert strings to
-  formulas. The default is ``True``. To disable this option use::
+  formulas, including array formulas such as ``{=SUM(A1:A3*B1:B3)}``. The
+  default is ``True``. To disable this option use::
 
       workbook = xlsxwriter.Workbook(filename, {'strings_to_formulas': False})
 

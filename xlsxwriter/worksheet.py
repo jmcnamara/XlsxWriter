@@ -525,11 +525,12 @@ class Worksheet(xmlwriter.XMLwriter):
         if token == "":
             return self._write_blank(row, col, *args)
 
-        if self.strings_to_formulas and token.startswith("="):
-            return self._write_formula(row, col, *args)
+        if self.strings_to_formulas:
+            if token.startswith("="):
+                return self._write_formula(row, col, *args)
 
-        if token.startswith("{=") and token.endswith("}"):
-            return self._write_formula(row, col, *args)
+            if token.startswith("{=") and token.endswith("}"):
+                return self._write_formula(row, col, *args)
 
         # pylint: disable=too-many-boolean-expressions
         if (
