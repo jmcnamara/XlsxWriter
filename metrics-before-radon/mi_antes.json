@@ -1,0 +1,5302 @@
+{
+  "xlsxwriter\\app.py": {
+    "mi": 69.29741549116801,
+    "rank": "A"
+  },
+  "xlsxwriter\\chart.py": {
+    "mi": 0.0,
+    "rank": "C"
+  },
+  "xlsxwriter\\chartsheet.py": {
+    "mi": 67.60223274628375,
+    "rank": "A"
+  },
+  "xlsxwriter\\chart_area.py": {
+    "mi": 76.7255565731522,
+    "rank": "A"
+  },
+  "xlsxwriter\\chart_bar.py": {
+    "mi": 69.70296448259026,
+    "rank": "A"
+  },
+  "xlsxwriter\\chart_column.py": {
+    "mi": 74.75336730359258,
+    "rank": "A"
+  },
+  "xlsxwriter\\chart_doughnut.py": {
+    "mi": 67.60059640243837,
+    "rank": "A"
+  },
+  "xlsxwriter\\chart_line.py": {
+    "mi": 77.16870381975643,
+    "rank": "A"
+  },
+  "xlsxwriter\\chart_pie.py": {
+    "mi": 66.43187962202,
+    "rank": "A"
+  },
+  "xlsxwriter\\chart_radar.py": {
+    "mi": 77.84222019423973,
+    "rank": "A"
+  },
+  "xlsxwriter\\chart_scatter.py": {
+    "mi": 62.46148480292675,
+    "rank": "A"
+  },
+  "xlsxwriter\\chart_stock.py": {
+    "mi": 75.34623372666665,
+    "rank": "A"
+  },
+  "xlsxwriter\\chart_title.py": {
+    "mi": 73.28348121625025,
+    "rank": "A"
+  },
+  "xlsxwriter\\color.py": {
+    "mi": 52.595806043045634,
+    "rank": "A"
+  },
+  "xlsxwriter\\comments.py": {
+    "mi": 49.06246541363251,
+    "rank": "A"
+  },
+  "xlsxwriter\\contenttypes.py": {
+    "mi": 61.70267936062562,
+    "rank": "A"
+  },
+  "xlsxwriter\\core.py": {
+    "mi": 69.82063151666688,
+    "rank": "A"
+  },
+  "xlsxwriter\\custom.py": {
+    "mi": 75.14414840537057,
+    "rank": "A"
+  },
+  "xlsxwriter\\drawing.py": {
+    "mi": 25.295907523627466,
+    "rank": "A"
+  },
+  "xlsxwriter\\exceptions.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\feature_property_bag.py": {
+    "mi": 83.77304270803697,
+    "rank": "A"
+  },
+  "xlsxwriter\\format.py": {
+    "mi": 26.520537065588293,
+    "rank": "A"
+  },
+  "xlsxwriter\\image.py": {
+    "mi": 38.221935571175095,
+    "rank": "A"
+  },
+  "xlsxwriter\\metadata.py": {
+    "mi": 67.49241245036559,
+    "rank": "A"
+  },
+  "xlsxwriter\\packager.py": {
+    "mi": 25.985974857299173,
+    "rank": "A"
+  },
+  "xlsxwriter\\relationships.py": {
+    "mi": 73.67906444188243,
+    "rank": "A"
+  },
+  "xlsxwriter\\rich_value.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\rich_value_rel.py": {
+    "mi": 80.49660148641411,
+    "rank": "A"
+  },
+  "xlsxwriter\\rich_value_structure.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\rich_value_types.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\shape.py": {
+    "mi": 43.101641973365055,
+    "rank": "A"
+  },
+  "xlsxwriter\\sharedstrings.py": {
+    "mi": 75.05127484367686,
+    "rank": "A"
+  },
+  "xlsxwriter\\styles.py": {
+    "mi": 29.751626565253503,
+    "rank": "A"
+  },
+  "xlsxwriter\\table.py": {
+    "mi": 63.4421593557768,
+    "rank": "A"
+  },
+  "xlsxwriter\\theme.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\url.py": {
+    "mi": 55.820769016428436,
+    "rank": "A"
+  },
+  "xlsxwriter\\utility.py": {
+    "mi": 47.20364704326937,
+    "rank": "A"
+  },
+  "xlsxwriter\\vml.py": {
+    "mi": 44.38845205026596,
+    "rank": "A"
+  },
+  "xlsxwriter\\workbook.py": {
+    "mi": 0.0,
+    "rank": "C"
+  },
+  "xlsxwriter\\worksheet.py": {
+    "mi": 0.0,
+    "rank": "C"
+  },
+  "xlsxwriter\\xmlwriter.py": {
+    "mi": 61.11069649292662,
+    "rank": "A"
+  },
+  "xlsxwriter\\__init__.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\excel_comparison_test.py": {
+    "mi": 67.97901322769223,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\helperfunctions.py": {
+    "mi": 56.07210992815169,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\__init__.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\app\\test_app01.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\app\\test_app02.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\app\\test_app03.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\app\\test_initialisation.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\app\\__init__.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\chart\\test_initialisation.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\chart\\__init__.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\chartsheet\\test_chartsheet01.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\chartsheet\\test_initialisation.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\chartsheet\\test_write_sheet_protection.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\chartsheet\\__init__.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\color\\test_color01.py": {
+    "mi": 87.17979338568979,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comments\\test_comments01.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comments\\test_initialisation.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comments\\test_write_text_t.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comments\\__init__.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_array_formula01.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_array_formula02.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_array_formula03.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_array_formula04.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_autofilter00.py": {
+    "mi": 90.73880361181091,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_autofilter01.py": {
+    "mi": 89.22777148023856,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_autofilter02.py": {
+    "mi": 83.12671239429024,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_autofilter03.py": {
+    "mi": 82.68191105008931,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_autofilter04.py": {
+    "mi": 78.84798418026773,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_autofilter05.py": {
+    "mi": 81.35668351857743,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_autofilter06.py": {
+    "mi": 81.15485796358183,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_autofilter07.py": {
+    "mi": 83.12671239429024,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_autofilter08.py": {
+    "mi": 79.4141335148054,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_autofilter09.py": {
+    "mi": 78.35598855841886,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_autofilter10.py": {
+    "mi": 78.76145294562696,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_autofilter11.py": {
+    "mi": 79.77016054534653,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_autofit01.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_autofit02.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_autofit03.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_autofit04.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_autofit05.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_autofit06.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_autofit07.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_autofit08.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_autofit09.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_autofit10.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_autofit11.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_autofit12.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_autofit13.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_autofit14.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_background01.py": {
+    "mi": 96.19793775220995,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_background02.py": {
+    "mi": 85.31797590817999,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_background03.py": {
+    "mi": 94.52624907259882,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_background04.py": {
+    "mi": 94.70415788160639,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_background05.py": {
+    "mi": 93.99687750249515,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_background06.py": {
+    "mi": 91.63672340847219,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_background07.py": {
+    "mi": 91.06939267284,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_bootstrap62.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_bootstrap63.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_bootstrap64.py": {
+    "mi": 93.32749635148643,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_bootstrap65.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_button01.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_button02.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_button03.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_button04.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_button05.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_button06.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_button07.py": {
+    "mi": 83.08935640001395,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_button08.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_button09.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_button10.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_button11.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_button12.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_button15.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_chartsheet01.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_chartsheet02.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_chartsheet03.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_chartsheet04.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_chartsheet05.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_chartsheet06.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_chartsheet07.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_chartsheet08.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_chartsheet09.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_chartsheet10.py": {
+    "mi": 89.13741220896442,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_chartsheet11.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_chart_area01.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_chart_area02.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_chart_area03.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_chart_area04.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_chart_area05.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_chart_area06.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_chart_axis01.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_chart_axis02.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_chart_axis03.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_chart_axis04.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_chart_axis05.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_chart_axis06.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_chart_axis07.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_chart_axis08.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_chart_axis09.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_chart_axis10.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_chart_axis11.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_chart_axis12.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_chart_axis13.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_chart_axis14.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_chart_axis15.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_chart_axis16.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_chart_axis17.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_chart_axis18.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_chart_axis19.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_chart_axis20.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_chart_axis21.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_chart_axis22.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_chart_axis23.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_chart_axis24.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_chart_axis25.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_chart_axis26.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_chart_axis27.py": {
+    "mi": 93.78237928896608,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_chart_axis28.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_chart_axis29.py": {
+    "mi": 93.78237928896608,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_chart_axis30.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_chart_axis31.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_chart_axis32.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_chart_axis33.py": {
+    "mi": 87.44180710102151,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_chart_axis34.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_chart_axis35.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_chart_axis36.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_chart_axis37.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_chart_axis38.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_chart_axis39.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_chart_axis40.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_chart_axis41.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_chart_axis42.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_chart_axis43.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_chart_axis44.py": {
+    "mi": 83.79540528718883,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_chart_axis45.py": {
+    "mi": 87.30375688341293,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_chart_axis46.py": {
+    "mi": 87.30375688341293,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_chart_axis47.py": {
+    "mi": 91.67456330129839,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_chart_axis48.py": {
+    "mi": 90.82807092020644,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_chart_axis49.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_chart_axis50.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_chart_axis51.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_chart_axis52.py": {
+    "mi": 94.22244630137904,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_chart_axis53.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_chart_axis54.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_chart_bar01.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_chart_bar02.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_chart_bar03.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_chart_bar04.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_chart_bar05.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_chart_bar06.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_chart_bar07.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_chart_bar08.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_chart_bar09.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_chart_bar10.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_chart_bar11.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_chart_bar12.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_chart_bar13.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_chart_bar14.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_chart_bar15.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_chart_bar16.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_chart_bar17.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_chart_bar18.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_chart_bar19.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_chart_bar20.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_chart_bar21.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_chart_bar22.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_chart_bar23.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_chart_bar24.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_chart_blank01.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_chart_blank02.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_chart_blank03.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_chart_blank04.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_chart_blank05.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_chart_blank06.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_chart_blank07.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_chart_chartarea01.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_chart_chartarea02.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_chart_chartarea03.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_chart_chartarea04.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_chart_chartarea05.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_chart_chartarea06.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_chart_clustered01.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_chart_column01.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_chart_column02.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_chart_column03.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_chart_column04.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_chart_column05.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_chart_column06.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_chart_column07.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_chart_column08.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_chart_column09.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_chart_column10.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_chart_column11.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_chart_column12.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_chart_column13.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_chart_combined01.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_chart_combined02.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_chart_combined03.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_chart_combined04.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_chart_combined05.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_chart_combined06.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_chart_combined07.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_chart_combined08.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_chart_combined09.py": {
+    "mi": 90.2357728014359,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_chart_combined10.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_chart_combined11.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_chart_crossing01.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_chart_crossing02.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_chart_crossing03.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_chart_crossing04.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_chart_crossing05.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_chart_crossing06.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_chart_crossing07.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_chart_data_labels01.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_chart_data_labels02.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_chart_data_labels03.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_chart_data_labels04.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_chart_data_labels05.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_chart_data_labels06.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_chart_data_labels07.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_chart_data_labels08.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_chart_data_labels09.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_chart_data_labels10.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_chart_data_labels11.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_chart_data_labels12.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_chart_data_labels13.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_chart_data_labels14.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_chart_data_labels15.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_chart_data_labels16.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_chart_data_labels17.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_chart_data_labels18.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_chart_data_labels19.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_chart_data_labels20.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_chart_data_labels21.py": {
+    "mi": 89.26510647716754,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_chart_data_labels22.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_chart_data_labels23.py": {
+    "mi": 87.24177289539645,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_chart_data_labels24.py": {
+    "mi": 87.0626531910728,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_chart_data_labels25.py": {
+    "mi": 87.39462514858457,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_chart_data_labels26.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_chart_data_labels27.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_chart_data_labels28.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_chart_data_labels29.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_chart_data_labels30.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_chart_data_labels31.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_chart_data_labels32.py": {
+    "mi": 91.42263288590058,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_chart_data_labels33.py": {
+    "mi": 93.2845006254284,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_chart_data_labels34.py": {
+    "mi": 91.42263288590058,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_chart_data_labels35.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_chart_data_labels36.py": {
+    "mi": 93.98018393346223,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_chart_data_labels37.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_chart_data_labels38.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_chart_data_labels39.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_chart_data_labels40.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_chart_data_labels41.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_chart_data_labels42.py": {
+    "mi": 92.14369150747055,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_chart_data_labels43.py": {
+    "mi": 92.13597005601477,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_chart_data_labels44.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_chart_data_labels45.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_chart_data_labels46.py": {
+    "mi": 91.9599218118864,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_chart_data_labels47.py": {
+    "mi": 91.95685035169114,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_chart_data_labels48.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_chart_data_labels49.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_chart_data_labels50.py": {
+    "mi": 91.95685035169114,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_chart_data_labels51.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_chart_data_labels52.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_chart_data_labels53.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_chart_data_labels54.py": {
+    "mi": 91.78017283521176,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_chart_date01.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_chart_date02.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_chart_date03.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_chart_date04.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_chart_date05.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_chart_display_units01.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_chart_display_units02.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_chart_display_units03.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_chart_display_units04.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_chart_display_units05.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_chart_display_units06.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_chart_display_units07.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_chart_display_units08.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_chart_display_units09.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_chart_display_units10.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_chart_display_units11.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_chart_display_units12.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_chart_doughnut01.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_chart_doughnut02.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_chart_doughnut03.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_chart_doughnut04.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_chart_doughnut05.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_chart_doughnut06.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_chart_doughnut07.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_chart_drop_lines01.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_chart_drop_lines02.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_chart_drop_lines03.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_chart_drop_lines04.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_chart_errorbars01.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_chart_errorbars02.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_chart_errorbars03.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_chart_errorbars04.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_chart_errorbars05.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_chart_errorbars06.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_chart_errorbars07.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_chart_errorbars08.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_chart_errorbars09.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_chart_errorbars10.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_chart_errorbars11.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_chart_font01.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_chart_font02.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_chart_font03.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_chart_font04.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_chart_font05.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_chart_font06.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_chart_font07.py": {
+    "mi": 94.59843802563059,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_chart_font08.py": {
+    "mi": 94.59843802563059,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_chart_font09.py": {
+    "mi": 90.7556736178561,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_chart_format01.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_chart_format02.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_chart_format03.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_chart_format04.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_chart_format05.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_chart_format06.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_chart_format07.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_chart_format08.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_chart_format09.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_chart_format10.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_chart_format11.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_chart_format12.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_chart_format13.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_chart_format14.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_chart_format15.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_chart_format16.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_chart_format17.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_chart_format18.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_chart_format19.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_chart_format20.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_chart_format21.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_chart_format22.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_chart_format23.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_chart_format24.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_chart_format25.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_chart_format26.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_chart_format27.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_chart_format28.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_chart_format29.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_chart_format30.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_chart_format31.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_chart_format32.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_chart_format33.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_chart_format34.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_chart_format35.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_chart_gap01.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_chart_gap02.py": {
+    "mi": 94.20692549072828,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_chart_gap03.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_chart_gap04.py": {
+    "mi": 96.54661289783958,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_chart_gap05.py": {
+    "mi": 95.69933581736153,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_chart_gradient01.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_chart_gradient02.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_chart_gradient03.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_chart_gradient04.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_chart_gradient05.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_chart_gradient06.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_chart_gradient07.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_chart_gradient08.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_chart_gradient09.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_chart_gradient10.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_chart_gradient11.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_chart_gradient12.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_chart_gradient13.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_chart_gridlines01.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_chart_gridlines02.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_chart_gridlines03.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_chart_gridlines04.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_chart_gridlines05.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_chart_gridlines06.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_chart_gridlines07.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_chart_gridlines08.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_chart_gridlines09.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_chart_high_low_lines01.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_chart_high_low_lines02.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_chart_layout01.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_chart_layout02.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_chart_layout03.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_chart_layout04.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_chart_layout05.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_chart_layout06.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_chart_layout07.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_chart_layout08.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_chart_legend01.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_chart_legend02.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_chart_legend03.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_chart_legend04.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_chart_legend05.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_chart_legend06.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_chart_legend07.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_chart_line01.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_chart_line02.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_chart_line03.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_chart_line04.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_chart_line05.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_chart_line06.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_chart_line07.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_chart_line08.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_chart_name01.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_chart_name02.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_chart_name03.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_chart_name04.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_chart_order01.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_chart_order02.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_chart_pattern01.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_chart_pattern02.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_chart_pattern03.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_chart_pattern04.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_chart_pattern05.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_chart_pattern06.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_chart_pattern07.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_chart_pattern08.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_chart_pattern09.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_chart_pattern10.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_chart_pie01.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_chart_pie02.py": {
+    "mi": 96.88313119547479,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_chart_pie03.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_chart_pie04.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_chart_pie05.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_chart_points01.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_chart_points02.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_chart_points03.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_chart_points04.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_chart_points05.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_chart_points06.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_chart_radar01.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_chart_radar02.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_chart_radar03.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_chart_scatter01.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_chart_scatter02.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_chart_scatter03.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_chart_scatter04.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_chart_scatter05.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_chart_scatter06.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_chart_scatter07.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_chart_scatter09.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_chart_scatter10.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_chart_scatter11.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_chart_scatter12.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_chart_scatter13.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_chart_scatter14.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_chart_scatter15.py": {
+    "mi": 94.97378418845571,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_chart_size01.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_chart_size02.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_chart_size03.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_chart_size04.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_chart_size05.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_chart_sparse01.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_chart_stock01.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_chart_stock02.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_chart_str01.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_chart_str02.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_chart_table01.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_chart_table02.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_chart_table03.py": {
+    "mi": 92.28634837182796,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_chart_theme01.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_chart_theme02.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_chart_theme03.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_chart_theme04.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_chart_theme05.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_chart_theme06.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_chart_theme07.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_chart_theme08.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_chart_theme09.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_chart_theme10.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_chart_theme11.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_chart_theme12.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_chart_title01.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_chart_title02.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_chart_title03.py": {
+    "mi": 96.34330230385876,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_chart_title04.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_chart_up_down_bars01.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_chart_up_down_bars02.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_chart_up_down_bars03.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_checkbox01.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_checkbox02.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_checkbox03.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_checkbox04.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_checkbox05.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_checkbox06.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_checkbox07.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_comment01.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_comment02.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_comment03.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_comment04.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_comment05.py": {
+    "mi": 89.98127724975214,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_comment06.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_comment07.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_comment08.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_comment09.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_comment10.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_comment12.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_comment13.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_comment14.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_comment15.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_comment16.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_cond_format01.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_cond_format02.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_cond_format03.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_cond_format04.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_cond_format05.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_cond_format06.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_cond_format07.py": {
+    "mi": 89.59625522477707,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_cond_format08.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_cond_format09.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_cond_format10.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_cond_format11.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_cond_format12.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_cond_format13.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_cond_format14.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_cond_format15.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_cond_format16.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_cond_format17.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_cond_format18.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_cond_format20.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_data_validation01.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_data_validation02.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_data_validation03.py": {
+    "mi": 85.60265371355658,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_data_validation04.py": {
+    "mi": 85.07649627949043,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_data_validation05.py": {
+    "mi": 85.07649627949043,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_data_validation06.py": {
+    "mi": 85.07649627949043,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_data_validation07.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_data_validation08.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_date_1904_01.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_date_1904_02.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_date_examples01.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_default_date_format01.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_default_date_format02.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_default_format01.py": {
+    "mi": 99.05818971511164,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_default_format02.py": {
+    "mi": 99.05818971511164,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_default_format03.py": {
+    "mi": 99.05818971511164,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_default_format04.py": {
+    "mi": 99.05818971511164,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_default_format05.py": {
+    "mi": 99.01936661659724,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_default_format06.py": {
+    "mi": 98.81605602261641,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_default_format07.py": {
+    "mi": 87.83810059216285,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_default_format08.py": {
+    "mi": 87.83810059216285,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_default_format09.py": {
+    "mi": 87.83810059216285,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_default_format10.py": {
+    "mi": 87.83810059216285,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_default_format11.py": {
+    "mi": 87.83810059216285,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_default_format12.py": {
+    "mi": 89.01805024286654,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_default_format13.py": {
+    "mi": 87.83810059216285,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_default_format14.py": {
+    "mi": 87.83810059216285,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_default_format15.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_default_row01.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_default_row02.py": {
+    "mi": 96.51534145442459,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_default_row03.py": {
+    "mi": 96.51534145442459,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_default_row04.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_default_row05.py": {
+    "mi": 92.59506171569677,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_default_row06.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_defined_name01.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_defined_name02.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_defined_name03.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_defined_name04.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_dynamic_array01.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_dynamic_array02.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_dynamic_array03.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_embed_image01.py": {
+    "mi": 90.56657267310011,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_embed_image02.py": {
+    "mi": 94.52624907259882,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_embed_image03.py": {
+    "mi": 93.81896869348755,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_embed_image04.py": {
+    "mi": 93.99687750249515,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_embed_image05.py": {
+    "mi": 96.63406506026647,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_embed_image06.py": {
+    "mi": 94.52624907259882,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_embed_image07.py": {
+    "mi": 92.76388419128904,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_embed_image08.py": {
+    "mi": 97.46559054651888,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_embed_image09.py": {
+    "mi": 98.7767614793785,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_embed_image10.py": {
+    "mi": 89.91957752314066,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_embed_image11.py": {
+    "mi": 96.81197386927404,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_embed_image12.py": {
+    "mi": 96.80065237162296,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_embed_image13.py": {
+    "mi": 86.47351946307239,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_escapes01.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_escapes02.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_escapes03.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_escapes04.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_escapes05.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_escapes06.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_escapes07.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_escapes08.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_escapes09.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_excel2003_style01.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_excel2003_style02.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_excel2003_style03.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_excel2003_style04.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_excel2003_style05.py": {
+    "mi": 97.81128224173058,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_excel2003_style06.py": {
+    "mi": 97.09101610358573,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_excel2003_style07.py": {
+    "mi": 97.09101610358573,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_excel2003_style08.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_firstsheet01.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_fit_to_pages01.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_fit_to_pages02.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_fit_to_pages03.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_fit_to_pages04.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_fit_to_pages05.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_format01.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_format11.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_format12.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_format13.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_format14.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_format15.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_format16.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_format17.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_format18.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_format19.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_format20.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_format21.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_format22.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_format23.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_format24.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_format25.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_formula_results01.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_header01.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_header02.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_header03.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_header04.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_header_image01.py": {
+    "mi": 77.34807129261044,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_header_image02.py": {
+    "mi": 94.99618587495166,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_header_image03.py": {
+    "mi": 73.70827230998543,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_header_image04.py": {
+    "mi": 73.70827230998543,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_header_image05.py": {
+    "mi": 93.29324724892801,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_header_image06.py": {
+    "mi": 93.25054506511225,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_header_image07.py": {
+    "mi": 93.83474801162227,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_header_image08.py": {
+    "mi": 96.06564143189115,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_header_image09.py": {
+    "mi": 95.71379580281624,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_header_image10.py": {
+    "mi": 95.71379580281624,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_header_image11.py": {
+    "mi": 96.80065237162296,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_header_image12.py": {
+    "mi": 96.80065237162296,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_header_image13.py": {
+    "mi": 93.25238080742436,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_header_image14.py": {
+    "mi": 93.25238080742436,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_header_image15.py": {
+    "mi": 93.9578254442235,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_header_image16.py": {
+    "mi": 90.1741033207689,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_header_image17.py": {
+    "mi": 89.29649339540711,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_header_image18.py": {
+    "mi": 87.67310077874654,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_header_image19.py": {
+    "mi": 94.54202839073352,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_header_image20.py": {
+    "mi": 95.36903081434994,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_header_image22.py": {
+    "mi": 93.29324724892801,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_hide01.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_hide02.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_hyperlink01.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_hyperlink02.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_hyperlink03.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_hyperlink04.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_hyperlink05.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_hyperlink06.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_hyperlink07.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_hyperlink08.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_hyperlink09.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_hyperlink10.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_hyperlink11.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_hyperlink12.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_hyperlink13.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_hyperlink14.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_hyperlink15.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_hyperlink16.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_hyperlink17.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_hyperlink18.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_hyperlink19.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_hyperlink20.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_hyperlink21.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_hyperlink22.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_hyperlink23.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_hyperlink24.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_hyperlink25.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_hyperlink26.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_hyperlink27.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_hyperlink28.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_hyperlink29.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_hyperlink30.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_hyperlink31.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_hyperlink32.py": {
+    "mi": 97.46559054651888,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_hyperlink33.py": {
+    "mi": 98.4892171467892,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_hyperlink34.py": {
+    "mi": 90.97420975462212,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_hyperlink35.py": {
+    "mi": 89.84825665788377,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_hyperlink36.py": {
+    "mi": 95.21694132250796,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_hyperlink37.py": {
+    "mi": 97.41206994029469,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_hyperlink38.py": {
+    "mi": 97.46559054651888,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_hyperlink39.py": {
+    "mi": 97.46559054651888,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_hyperlink40.py": {
+    "mi": 98.4892171467892,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_hyperlink41.py": {
+    "mi": 98.4892171467892,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_hyperlink42.py": {
+    "mi": 97.46559054651888,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_hyperlink43.py": {
+    "mi": 97.46559054651888,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_hyperlink44.py": {
+    "mi": 97.46559054651888,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_hyperlink45.py": {
+    "mi": 98.4892171467892,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_hyperlink46.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_hyperlink47.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_hyperlink48.py": {
+    "mi": 95.40391124579432,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_hyperlink49.py": {
+    "mi": 97.41206994029469,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_hyperlink50.py": {
+    "mi": 97.46559054651888,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_hyperlink51.py": {
+    "mi": 97.46559054651888,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_hyperlink52.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_ignore_error01.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_ignore_error02.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_ignore_error03.py": {
+    "mi": 96.06605337662572,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_ignore_error04.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_ignore_error05.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_ignore_error06.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_image01.py": {
+    "mi": 91.7140211747982,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_image02.py": {
+    "mi": 97.46559054651888,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_image03.py": {
+    "mi": 96.19793775220995,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_image04.py": {
+    "mi": 96.19793775220995,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_image05.py": {
+    "mi": 91.0975459422157,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_image06.py": {
+    "mi": 94.11296973122163,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_image07.py": {
+    "mi": 93.99687750249515,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_image08.py": {
+    "mi": 97.46559054651888,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_image09.py": {
+    "mi": 96.19793775220995,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_image10.py": {
+    "mi": 96.19793775220995,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_image11.py": {
+    "mi": 97.46559054651888,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_image12.py": {
+    "mi": 96.81197386927404,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_image13.py": {
+    "mi": 97.22418290087265,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_image14.py": {
+    "mi": 96.64984437840117,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_image15.py": {
+    "mi": 96.5778572123464,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_image16.py": {
+    "mi": 96.19793775220995,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_image17.py": {
+    "mi": 96.81197386927404,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_image18.py": {
+    "mi": 97.22418290087265,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_image19.py": {
+    "mi": 96.19793775220995,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_image21.py": {
+    "mi": 96.63406506026647,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_image22.py": {
+    "mi": 96.19793775220995,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_image23.py": {
+    "mi": 91.0975459422157,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_image24.py": {
+    "mi": 96.19793775220995,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_image25.py": {
+    "mi": 96.19793775220995,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_image26.py": {
+    "mi": 91.0975459422157,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_image27.py": {
+    "mi": 96.19793775220995,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_image28.py": {
+    "mi": 97.46559054651888,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_image29.py": {
+    "mi": 94.75106042039181,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_image30.py": {
+    "mi": 93.40153780355017,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_image31.py": {
+    "mi": 93.16013015790398,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_image32.py": {
+    "mi": 93.72786999323958,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_image33.py": {
+    "mi": 92.51380446937772,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_image34.py": {
+    "mi": 96.19793775220995,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_image35.py": {
+    "mi": 96.19793775220995,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_image36.py": {
+    "mi": 96.19793775220995,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_image37.py": {
+    "mi": 96.19793775220995,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_image38.py": {
+    "mi": 96.19793775220995,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_image40.py": {
+    "mi": 92.57686422611677,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_image41.py": {
+    "mi": 92.57686422611677,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_image42.py": {
+    "mi": 92.57686422611677,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_image43.py": {
+    "mi": 92.57686422611677,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_image44.py": {
+    "mi": 96.63406506026647,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_image45.py": {
+    "mi": 95.36903081434994,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_image46.py": {
+    "mi": 96.80065237162296,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_image47.py": {
+    "mi": 95.98044838302167,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_image48.py": {
+    "mi": 94.70415788160639,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_image49.py": {
+    "mi": 83.77319390213682,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_image50.py": {
+    "mi": 94.52624907259882,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_image51.py": {
+    "mi": 83.53322457539942,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_image52.py": {
+    "mi": 98.4892171467892,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_image53.py": {
+    "mi": 95.49586222654314,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_image54.py": {
+    "mi": 95.49586222654314,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_image55.py": {
+    "mi": 98.4892171467892,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_image56.py": {
+    "mi": 96.19793775220995,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_image57.py": {
+    "mi": 96.19793775220995,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_image58.py": {
+    "mi": 96.19793775220995,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_image59.py": {
+    "mi": 96.19793775220995,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_image_anchor01.py": {
+    "mi": 90.85218327600711,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_image_anchor02.py": {
+    "mi": 90.85218327600711,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_image_anchor03.py": {
+    "mi": 90.85218327600711,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_image_anchor04.py": {
+    "mi": 98.4892171467892,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_image_anchor05.py": {
+    "mi": 98.4892171467892,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_image_anchor06.py": {
+    "mi": 98.4892171467892,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_image_anchor07.py": {
+    "mi": 89.46949087659472,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_image_bytes01.py": {
+    "mi": 76.39031860646061,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_image_bytes02.py": {
+    "mi": 96.93738871099048,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_image_bytes03.py": {
+    "mi": 96.22631384915148,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_image_bytes04.py": {
+    "mi": 86.55963310203352,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_image_bytes05.py": {
+    "mi": 87.4465386828077,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_landscape01.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_macro01.py": {
+    "mi": 78.31765481144924,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_macro02.py": {
+    "mi": 96.80065237162296,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_macro03.py": {
+    "mi": 96.63406506026647,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_macro04.py": {
+    "mi": 95.67412078001028,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_merge_cells01.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_merge_range01.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_merge_range02.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_merge_range03.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_merge_range04.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_merge_range05.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_object_position01.py": {
+    "mi": 95.49586222654314,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_object_position02.py": {
+    "mi": 95.49586222654314,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_object_position03.py": {
+    "mi": 95.49586222654314,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_object_position04.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_object_position05.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_object_position06.py": {
+    "mi": 95.36903081434994,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_object_position07.py": {
+    "mi": 95.36903081434994,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_object_position08.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_object_position09.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_object_position10.py": {
+    "mi": 95.36903081434994,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_object_position11.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_object_position12.py": {
+    "mi": 96.63406506026647,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_object_position13.py": {
+    "mi": 95.98044838302167,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_object_position14.py": {
+    "mi": 95.98044838302167,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_object_position15.py": {
+    "mi": 95.98044838302167,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_object_position16.py": {
+    "mi": 95.36903081434994,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_object_position17.py": {
+    "mi": 95.36903081434994,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_object_position18.py": {
+    "mi": 95.98044838302167,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_object_position19.py": {
+    "mi": 95.36903081434994,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_object_position20.py": {
+    "mi": 95.36903081434994,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_optimize01.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_optimize02.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_optimize03.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_optimize04.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_optimize05.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_optimize06.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_optimize07.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_optimize08.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_optimize09.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_optimize10.py": {
+    "mi": 92.7181301083986,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_optimize11.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_optimize13.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_optimize14.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_outline01.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_outline02.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_outline03.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_outline04.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_outline05.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_outline06.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_page_breaks01.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_page_breaks02.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_page_breaks03.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_page_breaks04.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_page_breaks05.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_page_breaks06.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_page_view01.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_page_view02.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_page_view03.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_panes01.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_print_across01.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_print_area01.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_print_area02.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_print_area03.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_print_area04.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_print_area05.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_print_area06.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_print_area07.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_print_options01.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_print_options02.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_print_options03.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_print_options04.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_print_options05.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_print_options06.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_print_options07.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_properties01.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_properties02.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_properties03.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_properties04.py": {
+    "mi": 77.95702880050183,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_properties05.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_properties06.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_protect01.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_protect02.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_protect03.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_protect04.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_protect05.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_protect06.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_protect07.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_protect08.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_quote_name01.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_quote_name02.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_quote_name03.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_quote_name04.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_quote_name05.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_quote_name06.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_quote_name07.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_quote_name08.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_quote_name09.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_quote_name10.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_quote_name11.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_remove_timezone.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_repeat01.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_repeat02.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_repeat03.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_repeat04.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_repeat05.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_rich_string01.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_rich_string02.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_rich_string03.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_rich_string04.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_rich_string05.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_rich_string06.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_rich_string07.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_rich_string08.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_rich_string09.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_rich_string10.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_rich_string11.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_rich_string12.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_selection01.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_selection02.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_set_column01.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_set_column02.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_set_column03.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_set_column04.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_set_column05.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_set_column06.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_set_column07.py": {
+    "mi": 91.63049629431767,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_set_column08.py": {
+    "mi": 92.30944468222368,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_set_column09.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_set_column10.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_set_column11.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_set_print_scale01.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_set_row01.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_set_row02.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_set_row03.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_set_row04.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_set_start_page01.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_set_start_page02.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_set_start_page03.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_shared_strings01.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_shared_strings02.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_shared_strings03.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_simple01.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_simple02.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_simple03.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_simple04.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_simple05.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_simple06.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_simple07.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_simple08.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_simple09.py": {
+    "mi": 94.40193510067151,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_simple10.py": {
+    "mi": 93.14948984161991,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_table01.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_table02.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_table03.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_table04.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_table05.py": {
+    "mi": 95.50032987654323,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_table06.py": {
+    "mi": 94.38994057488138,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_table07.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_table08.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_table09.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_table10.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_table11.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_table12.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_table13.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_table14.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_table15.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_table16.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_table17.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_table18.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_table19.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_table20.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_table21.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_table22.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_table23.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_table24.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_table25.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_table26.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_table27.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_table28.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_table29.py": {
+    "mi": 96.81197386927404,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_table30.py": {
+    "mi": 96.81197386927404,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_table31.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_table32.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_table33.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_table34.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_table35.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_table36.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_table37.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_table38.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_table39.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_tab_color01.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_tab_color02.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_tab_color03.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_textbox01.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_textbox02.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_textbox03.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_textbox04.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_textbox05.py": {
+    "mi": 91.80246704644833,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_textbox06.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_textbox07.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_textbox08.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_textbox09.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_textbox10.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_textbox11.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_textbox12.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_textbox13.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_textbox14.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_textbox15.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_textbox16.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_textbox17.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_textbox18.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_textbox19.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_textbox20.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_textbox21.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_textbox22.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_textbox23.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_textbox24.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_textbox25.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_textbox26.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_textbox27.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_textbox28.py": {
+    "mi": 91.11881901423887,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_textbox29.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_textbox30.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_textbox31.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_textbox32.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_textbox33.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_textbox34.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_textbox35.py": {
+    "mi": 98.12939114630568,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_textbox36.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_textbox37.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_textbox38.py": {
+    "mi": 90.04035075447909,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_textbox39.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_textbox40.py": {
+    "mi": 90.42444576515074,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_textbox41.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_textbox42.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_textbox43.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_theme01.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_theme02.py": {
+    "mi": 61.25434596818118,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_theme03.py": {
+    "mi": 89.92048608582168,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_theme04.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_theme_color01.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_theme_color02.py": {
+    "mi": 90.89121305477413,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_theme_color03.py": {
+    "mi": 90.89121305477413,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_theme_color04.py": {
+    "mi": 90.89121305477413,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_top_left_cell01.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_top_left_cell02.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_top_left_cell03.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_tutorial01.py": {
+    "mi": 91.76690416046513,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_tutorial02.py": {
+    "mi": 89.55312450410781,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_tutorial03.py": {
+    "mi": 76.65602546347206,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_types01.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_types02.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_types03.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_types04.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_types05.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_types06.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_types07.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_types09.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_types10.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_unicode_polish_utf8.py": {
+    "mi": 92.37272229953834,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_unicode_shift_jis.py": {
+    "mi": 92.37272229953834,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_utf8_01.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_utf8_03.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_utf8_04.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_utf8_05.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_utf8_06.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_utf8_07.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_utf8_08.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_utf8_09.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_utf8_10.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\test_utf8_11.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\comparison\\__init__.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\contenttypes\\test_contenttypes01.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\contenttypes\\test_initialisation.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\contenttypes\\__init__.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\core\\test_core01.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\core\\test_core02.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\core\\test_initialisation.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\core\\__init__.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\drawing\\test_drawing_chart01.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\drawing\\test_drawing_image01.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\drawing\\test_write_a_graphic_frame_locks.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\drawing\\test_write_col.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\drawing\\test_write_col_off.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\drawing\\test_write_c_chart.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\drawing\\test_write_c_nv_graphic_frame_pr.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\drawing\\test_write_c_nv_pr.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\drawing\\test_write_ext.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\drawing\\test_write_pos.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\drawing\\test_write_row.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\drawing\\test_write_row_off.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\drawing\\test_xml_declaration.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\drawing\\__init__.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\format\\test_initialisation.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\format\\__init__.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\image\\test_image_class01.py": {
+    "mi": 74.51602528282001,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\image\\__init__.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\relationships\\test_initialisation.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\relationships\\test_relationships01.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\relationships\\__init__.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\sharedstrings\\test_initialisation.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\sharedstrings\\test_sharedstrings01.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\sharedstrings\\test_sharedstrings02.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\sharedstrings\\test_write_si.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\sharedstrings\\test_write_sst.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\sharedstrings\\__init__.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\styles\\test_initialisation.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\styles\\test_styles01.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\styles\\test_styles02.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\styles\\test_styles03.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\styles\\test_styles04.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\styles\\test_styles05.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\styles\\test_styles06.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\styles\\test_styles07.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\styles\\test_styles08.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\styles\\test_styles09.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\styles\\test_write_border.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\styles\\test_write_borders.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\styles\\test_write_cell_style.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\styles\\test_write_cell_styles.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\styles\\test_write_cell_style_xfs.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\styles\\test_write_cell_xfs.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\styles\\test_write_colors.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\styles\\test_write_default_fill.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\styles\\test_write_dxfs.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\styles\\test_write_fills.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\styles\\test_write_font.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\styles\\test_write_fonts.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\styles\\test_write_mru_colors.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\styles\\test_write_num_fmt.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\styles\\test_write_num_fmts.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\styles\\test_write_style_sheet.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\styles\\test_write_style_xf.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\styles\\test_write_xf.py": {
+    "mi": 46.31463569849505,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\styles\\test_write_xf_methods.py": {
+    "mi": 47.38888782608089,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\styles\\__init__.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\table\\test_initialisation.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\table\\test_table01.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\table\\test_table02.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\table\\test_table03.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\table\\test_table04.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\table\\test_table05.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\table\\test_table06.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\table\\test_table07.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\table\\test_table08.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\table\\test_table09.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\table\\test_table10.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\table\\test_table11.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\table\\test_table12.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\table\\test_write_auto_filter.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\table\\test_write_table_column.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\table\\test_write_table_style_info.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\table\\__init__.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\theme\\__init__.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\utility\\test_quote_sheetname.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\utility\\test_xl_cell_to_rowcol.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\utility\\test_xl_cell_to_rowcol_abs.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\utility\\test_xl_col_to_name.py": {
+    "mi": 93.1885545264222,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\utility\\test_xl_pixel_width.py": {
+    "mi": 89.06270586041089,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\utility\\test_xl_range.py": {
+    "mi": 86.60569498168682,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\utility\\test_xl_rowcol_to_cell.py": {
+    "mi": 84.56742942645971,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\utility\\__init__.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\vml\\test_vml01.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\vml\\test_vml02.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\vml\\test_vml03.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\vml\\test_write_anchor.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\vml\\test_write_auto_fill.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\vml\\test_write_column.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\vml\\test_write_div.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\vml\\test_write_fill.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\vml\\test_write_idmap.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\vml\\test_write_move_with_cells.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\vml\\test_write_path.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\vml\\test_write_row.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\vml\\test_write_shadow.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\vml\\test_write_shapelayout.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\vml\\test_write_shapetype.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\vml\\test_write_size_with_cells.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\vml\\test_write_stroke.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\vml\\test_write_textbox.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\vml\\test_xml_declaration.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\vml\\__init__.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\workbook\\test_check_add_table.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\workbook\\test_check_images.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\workbook\\test_check_sheetname.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\workbook\\test_close.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\workbook\\test_custom_sheet.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\workbook\\test_get_worksheet_by_name.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\workbook\\test_initialisation.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\workbook\\test_overlap_exceptions.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\workbook\\test_theme_exceptions.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\workbook\\test_workbook01.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\workbook\\test_workbook02.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\workbook\\test_workbook03.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\workbook\\test_write_book_views.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\workbook\\test_write_calc_pr.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\workbook\\test_write_defined_name.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\workbook\\test_write_defined_names.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\workbook\\test_write_file_version.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\workbook\\test_write_sheet.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\workbook\\test_write_sheets.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\workbook\\test_write_workbook.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\workbook\\test_write_workbook_pr.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\workbook\\test_write_workbook_view.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\workbook\\__init__.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\worksheet\\test_calculate_spans.py": {
+    "mi": 36.55334421880917,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\worksheet\\test_cond_format01.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\worksheet\\test_cond_format02.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\worksheet\\test_cond_format03.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\worksheet\\test_cond_format04.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\worksheet\\test_cond_format05.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\worksheet\\test_cond_format06.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\worksheet\\test_cond_format07.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\worksheet\\test_cond_format08.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\worksheet\\test_cond_format09.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\worksheet\\test_cond_format10.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\worksheet\\test_cond_format11.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\worksheet\\test_cond_format12.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\worksheet\\test_cond_format13.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\worksheet\\test_cond_format14.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\worksheet\\test_cond_format15.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\worksheet\\test_cond_format16.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\worksheet\\test_cond_format17.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\worksheet\\test_cond_format18.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\worksheet\\test_cond_format19.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\worksheet\\test_cond_format20.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\worksheet\\test_cond_format21.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\worksheet\\test_cond_format22.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\worksheet\\test_cond_format23.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\worksheet\\test_cond_format24.py": {
+    "mi": 73.73648490471108,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\worksheet\\test_cond_format25.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\worksheet\\test_data_bar01.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\worksheet\\test_data_bar02.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\worksheet\\test_data_bar03.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\worksheet\\test_data_bar04.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\worksheet\\test_data_bar05.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\worksheet\\test_data_bar06.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\worksheet\\test_data_bar07.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\worksheet\\test_data_bar08.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\worksheet\\test_data_bar09.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\worksheet\\test_data_bar10.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\worksheet\\test_data_bar11.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\worksheet\\test_data_bar12.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\worksheet\\test_data_bar13.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\worksheet\\test_date_time_01.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\worksheet\\test_date_time_02.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\worksheet\\test_date_time_03.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\worksheet\\test_encode_password.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\worksheet\\test_extract_filter_tokens.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\worksheet\\test_initialisation.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\worksheet\\test_merge_range01.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\worksheet\\test_merge_range02.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\worksheet\\test_parse_filter_expression.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\worksheet\\test_prepare_formula.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\worksheet\\test_prepare_table_formula.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\worksheet\\test_range_return_values.py": {
+    "mi": 84.83861607835628,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\worksheet\\test_sparkline01.py": {
+    "mi": 91.05374064978298,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\worksheet\\test_sparkline02.py": {
+    "mi": 86.41324323635686,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\worksheet\\test_sparkline03.py": {
+    "mi": 82.02224686221088,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\worksheet\\test_sparkline04.py": {
+    "mi": 85.74867085132601,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\worksheet\\test_sparkline05.py": {
+    "mi": 85.64321494380853,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\worksheet\\test_sparkline06.py": {
+    "mi": 83.31807248281214,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\worksheet\\test_sparkline07.py": {
+    "mi": 70.61580143944278,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\worksheet\\test_sparkline08.py": {
+    "mi": 78.73006475880392,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\worksheet\\test_sparkline09.py": {
+    "mi": 66.07543277784707,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\worksheet\\test_sparkline10.py": {
+    "mi": 84.57215840690853,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\worksheet\\test_sparkline11.py": {
+    "mi": 74.29588588123411,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\worksheet\\test_sparkline12.py": {
+    "mi": 86.41324323635686,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\worksheet\\test_worksheet01.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\worksheet\\test_worksheet02.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\worksheet\\test_worksheet03.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\worksheet\\test_worksheet04.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\worksheet\\test_worksheet05.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\worksheet\\test_worksheet06.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\worksheet\\test_worksheet07.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\worksheet\\test_worksheet08.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\worksheet\\test_worksheet09.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\worksheet\\test_write_auto_filter.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\worksheet\\test_write_cell.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\worksheet\\test_write_col_breaks.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\worksheet\\test_write_custom_filter.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\worksheet\\test_write_custom_filters.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\worksheet\\test_write_data_validations01.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\worksheet\\test_write_data_validations02.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\worksheet\\test_write_dimension.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\worksheet\\test_write_filter.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\worksheet\\test_write_filters.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\worksheet\\test_write_filter_column.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\worksheet\\test_write_header_footer.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\worksheet\\test_write_merge_cell.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\worksheet\\test_write_merge_cells.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\worksheet\\test_write_page_margins.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\worksheet\\test_write_page_setup.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\worksheet\\test_write_print_options.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\worksheet\\test_write_row.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\worksheet\\test_write_row_breaks.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\worksheet\\test_write_sheet_data.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\worksheet\\test_write_sheet_format_pr.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\worksheet\\test_write_sheet_pr.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\worksheet\\test_write_sheet_protection.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\worksheet\\test_write_sheet_view.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\worksheet\\test_write_sheet_views1.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\worksheet\\test_write_sheet_views2.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\worksheet\\test_write_sheet_views3.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\worksheet\\test_write_sheet_views4.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\worksheet\\test_write_sheet_views5.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\worksheet\\test_write_sheet_views6.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\worksheet\\test_write_sheet_views7.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\worksheet\\test_write_sheet_views8.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\worksheet\\test_write_sheet_views9.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\worksheet\\test_write_tab_color.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\worksheet\\test_write_worksheet.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\worksheet\\__init__.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\xmlwriter\\test_xmlwriter.py": {
+    "mi": 100.0,
+    "rank": "A"
+  },
+  "xlsxwriter\\test\\xmlwriter\\__init__.py": {
+    "mi": 100.0,
+    "rank": "A"
+  }
+}
