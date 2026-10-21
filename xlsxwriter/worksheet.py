@@ -7613,16 +7613,10 @@ class Worksheet(xmlwriter.XMLwriter):
         self._xml_data_element("formula2", formula)
 
     def _write_conditional_formats(self) -> None:
-        # Write the Worksheet conditional formats.
-        ranges = sorted(self.cond_formats.keys())
-
-        if not ranges:
-            return
-
-        for cond_range in ranges:
-            self._write_conditional_formatting(
-                cond_range, self.cond_formats[cond_range]
-            )
+        # Write the Worksheet conditional formats, in the order that the ranges
+        # were added in.
+        for cond_range, params in self.cond_formats.items():
+            self._write_conditional_formatting(cond_range, params)
 
     def _write_conditional_formatting(self, cond_range, params) -> None:
         # Write the <conditionalFormatting> element.
