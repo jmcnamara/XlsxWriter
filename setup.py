@@ -20,7 +20,6 @@ setup(
     long_description=open("README.rst", encoding="utf-8").read(),
     classifiers=[
         "Development Status :: 5 - Production/Stable",
-        "License :: OSI Approved :: BSD License",
         "Programming Language :: Python",
         "Programming Language :: Python :: 3 :: Only",
         "Programming Language :: Python :: 3",
