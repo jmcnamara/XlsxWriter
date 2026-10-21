@@ -22,8 +22,7 @@ clean:
 	@make -C dev/docs clean
 
 install:
-	@python setup.py install
-	@rm -rf build
+	@pip install .
 
 test:
 	@~/.pythonbrew/pythons/Python-3.12.7/bin/python3.12 -m unittest discover
@@ -81,9 +80,9 @@ release: releasecheck
 	@git push origin main
 	@git push --tags
 
-	@rm -rf dist/ build/ XlsxWriter.egg-info/
-	@python3 setup.py sdist bdist_wheel
+	@rm -rf dist/ build/ *.egg-info/
+	@python3 -m build
 	@twine upload dist/*
-	@rm -rf dist/ build/ XlsxWriter.egg-info/
+	@rm -rf dist/ build/ *.egg-info/
 
 	@../build_readthedocs.sh

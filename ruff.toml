@@ -1,6 +1,6 @@
 # Ruff configuration for XlsxWriter.
 
-# Match python_requires in setup.py.
+# Match requires-python in pyproject.toml.
 target-version = "py38"
 
 [lint]
@@ -11,7 +11,7 @@ ignore = [
     # Ignore until we move to py310 and later.
     "FA100",
 
-    # The vba_extract.py script has a shebang for setup.py but isn't executable.
+    # The vba_extract.py script has a shebang for packaging but isn't executable.
     "EXE001",
 ]
 
