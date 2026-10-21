@@ -28,7 +28,7 @@ class TestCompareXLSXFiles(ExcelComparisonTest):
 
         worksheet = workbook.add_worksheet()
 
-        for row in range(0, 9 + 1):
+        for row in range(9 + 1):
             worksheet.write_string(row, 0, "123")
 
         worksheet.ignore_errors({"number_stored_as_text": "A1:A10"})

@@ -36,30 +36,21 @@ class TestCompareXLSXFiles(ExcelComparisonTest):
         worksheet.autofilter("A1:D51")
 
         # Open a text file with autofilter example data.
-        textfile = open(self.txt_filename, encoding="utf-8")
+        with open(self.txt_filename, encoding="utf-8") as textfile:
+            # Read the text file and write it to the worksheet.
+            for row, line in enumerate(textfile):
+                # Split the input data based on whitespace.
+                data = line.strip("\n").split()
 
-        # Start writing data from the first worksheet row.
-        row = 0
+                # Convert the number data from the text file.
+                for i, item in enumerate(data):
+                    try:
+                        data[i] = float(item)
+                    except ValueError:
+                        pass
 
-        # Read the text file and write it to the worksheet.
-        for line in textfile:
-            # Split the input data based on whitespace.
-            data = line.strip("\n").split()
-
-            # Convert the number data from the text file.
-            for i, item in enumerate(data):
-                try:
-                    data[i] = float(item)
-                except ValueError:
-                    pass
-
-            # Write out the row data.
-            worksheet.write_row(row, 0, data)
-
-            # Move on to the next worksheet row.
-            row += 1
-
-        textfile.close()
+                # Write out the row data.
+                worksheet.write_row(row, 0, data)
 
         workbook.close()
 

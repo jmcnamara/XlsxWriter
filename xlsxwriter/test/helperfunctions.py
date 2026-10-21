@@ -23,9 +23,9 @@ def _xml_to_list(xml_str):
 
     # Add back the removed brackets.
     for index, element in enumerate(elements):
-        if not element[0] == "<":
+        if element[0] != "<":
             elements[index] = "<" + elements[index]
-        if not element[-1] == ">":
+        if element[-1] != ">":
             elements[index] = elements[index] + ">"
 
     return elements
@@ -108,7 +108,7 @@ def _compare_xlsx_files(got_file, exp_file, ignore_files, ignore_elements):
     try:
         # Open the XlsxWriter as a zip file for testing.
         got_zip = ZipFile(got_file, "r")
-    except IOError as e:
+    except OSError as e:
         error = "XlsxWriter file error: " + str(e)
         return error, ""
     except (BadZipFile, LargeZipFile) as e:
@@ -118,7 +118,7 @@ def _compare_xlsx_files(got_file, exp_file, ignore_files, ignore_elements):
     try:
         # Open the Excel as a zip file for testing.
         exp_zip = ZipFile(exp_file, "r")
-    except IOError as e:
+    except OSError as e:
         error = "Excel file error: " + str(e)
         return error, ""
     except (BadZipFile, LargeZipFile) as e:

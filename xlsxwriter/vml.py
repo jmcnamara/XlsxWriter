@@ -7,6 +7,8 @@
 # Copyright (c) 2013-2025, John McNamara, jmcnamara@cpan.org
 #
 
+from typing import Optional
+
 from xlsxwriter import xmlwriter
 
 # Package imports.
@@ -32,7 +34,7 @@ class ButtonType:
         height: int,
         width: int,
         button_number: int,
-        options: dict = None,
+        options: Optional[dict] = None,
     ) -> None:
         """
         Initialize a ButtonType instance.
@@ -606,7 +608,7 @@ class Vml(xmlwriter.XMLwriter):
 
         self._xml_end_tag("v:textbox")
 
-    def _write_div(self, align: str, caption: str = None) -> None:
+    def _write_div(self, align: str, caption: Optional[str] = None) -> None:
         # Write the <div> element.
 
         style = "text-align:" + align

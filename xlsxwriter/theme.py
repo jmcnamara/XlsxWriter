@@ -55,7 +55,7 @@ class Theme:
         else:
             self.internal_fh = True
             # pylint: disable=consider-using-with
-            self.fh = open(filename, mode="w", encoding="utf-8")
+            self.fh = open(filename, mode="w", encoding="utf-8")  # noqa: SIM115
 
     ###########################################################################
     #

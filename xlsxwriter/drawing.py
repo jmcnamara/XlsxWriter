@@ -91,10 +91,8 @@ class Drawing(xmlwriter.XMLwriter):
         self._write_drawing_workspace()
 
         if self.embedded:
-            index = 0
-            for drawing in self.drawings:
+            for index, drawing in enumerate(self.drawings, 1):
                 # Write the xdr:twoCellAnchor element.
-                index += 1
                 self._write_two_cell_anchor(index, drawing)
 
         else:
@@ -760,9 +758,7 @@ class Drawing(xmlwriter.XMLwriter):
         if adjustments:
             self._xml_start_tag("a:avLst")
 
-            i = 0
-            for adj in adjustments:
-                i += 1
+            for i, adj in enumerate(adjustments, 1):
                 # Only connectors have multiple adjustments.
                 if shape.connect:
                     suffix = i

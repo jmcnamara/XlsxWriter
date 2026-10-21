@@ -35,9 +35,8 @@ worksheet.insert_image("B2", url, {"image_data": image_data})
 # method can do this directly. This is for illustration purposes only.
 filename = "python.png"
 
-image_file = open(filename, "rb")
-image_data = BytesIO(image_file.read())
-image_file.close()
+with open(filename, "rb") as image_file:
+    image_data = BytesIO(image_file.read())
 
 
 # Write the byte stream image to a cell. The filename must  be specified.

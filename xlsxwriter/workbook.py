@@ -432,7 +432,7 @@ class Workbook(xmlwriter.XMLwriter):
         Raises:
             IOError: If the file cannot be read.
             ThemeFileError: If the theme file is invalid or unsupported.
-            ValueError: If the theme parameter type is not supported.
+            TypeError: If the theme parameter type is not supported.
 
         """
         theme_xml = ""
@@ -444,7 +444,7 @@ class Workbook(xmlwriter.XMLwriter):
             theme_xml = theme.getvalue()
 
         else:
-            raise ValueError(
+            raise TypeError(
                 "Theme must be a file path (string or PathLike), or StringIO object."
             )
 
@@ -478,7 +478,7 @@ class Workbook(xmlwriter.XMLwriter):
         if not self.fileclosed:
             try:
                 self._store_workbook()
-            except IOError as e:
+            except OSError as e:
                 raise FileCreateError(e)
             except LargeZipFile:
                 raise FileSizeError(
@@ -554,7 +554,7 @@ class Workbook(xmlwriter.XMLwriter):
     def set_custom_property(
         self,
         name: str,
-        value: Union[bool, datetime, int, float, Decimal, Fraction, Any],
+        value: Union[bool, datetime, float, Decimal, Fraction, Any],
         property_type: Optional[
             Literal["bool", "date", "number", "number_int", "text"]
         ] = None,
@@ -835,15 +835,12 @@ class Workbook(xmlwriter.XMLwriter):
     def _store_workbook(self) -> None:
         # pylint: disable=consider-using-with
         # Create the xlsx/zip file.
-        try:
-            xlsx_file = ZipFile(
-                self.filename,
-                "w",
-                compression=ZIP_DEFLATED,
-                allowZip64=self.allow_zip64,
-            )
-        except IOError as e:
-            raise e
+        xlsx_file = ZipFile(
+            self.filename,
+            "w",
+            compression=ZIP_DEFLATED,
+            allowZip64=self.allow_zip64,
+        )
 
         # Assemble worksheets into a workbook.
         packager = self._get_packager()
@@ -924,11 +921,11 @@ class Workbook(xmlwriter.XMLwriter):
                 try:
                     xlsx_file.write(os_filename, xml_filename)
                     os.remove(os_filename)
-                except LargeZipFile as e:
+                except LargeZipFile:
                     # Close open temp files on zipfile.LargeZipFile exception.
                     for i in range(file_id, len(xml_files) - 1):
                         os.remove(xml_files[i][0])
-                    raise e
+                    raise
 
         xlsx_file.close()
 
@@ -1595,7 +1592,7 @@ class Workbook(xmlwriter.XMLwriter):
                 charts.append(chart.combined)
 
         for chart in charts:
-            for c_range in chart.formula_ids.keys():
+            for c_range in chart.formula_ids:
                 r_id = chart.formula_ids[c_range]
 
                 # Skip if the series has user defined data.
@@ -1748,8 +1745,8 @@ class Workbook(xmlwriter.XMLwriter):
                 # Try reading as a text file if zipfile failed.
                 with open(path, "r", encoding="utf-8") as f:
                     return f.read()
-            except IOError as e:
-                raise IOError(f"Could not read file '{path}': {e}.") from e
+            except OSError as e:
+                raise OSError(f"Could not read file '{path}': {e}.") from e
 
     ###########################################################################
     #

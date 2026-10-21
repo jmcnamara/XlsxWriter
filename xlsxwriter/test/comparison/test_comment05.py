@@ -37,8 +37,8 @@ class TestCompareXLSXFiles(ExcelComparisonTest):
         worksheet2 = workbook.add_worksheet()
         worksheet3 = workbook.add_worksheet()
 
-        for row in range(0, 127 + 1):
-            for col in range(0, 15 + 1):
+        for row in range(127 + 1):
+            for col in range(15 + 1):
                 worksheet1.write_comment(row, col, "Some text")
 
         worksheet3.write_comment("A1", "More text")

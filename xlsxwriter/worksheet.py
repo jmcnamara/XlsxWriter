@@ -719,7 +719,7 @@ class Worksheet(xmlwriter.XMLwriter):
         self,
         row: int,
         col: int,
-        number: Union[int, float, Fraction],
+        number: Union[float, Fraction],
         cell_format: Optional[Format] = None,
     ) -> Literal[0, -1]:
         """
@@ -743,7 +743,7 @@ class Worksheet(xmlwriter.XMLwriter):
         self,
         row: int,
         col: int,
-        number: Union[int, float, Fraction],
+        number: Union[float, Fraction],
         cell_format: Optional[Format] = None,
     ) -> Literal[0, -1]:
         if isnan(number) or isinf(number):
@@ -1485,8 +1485,6 @@ class Worksheet(xmlwriter.XMLwriter):
         # formatting run. Use the default for strings without a leading format.
         fragments = []
         previous = "format"
-        pos = 0
-
         if len(tokens) <= 2:
             warn(
                 "You must specify more than 2 format/fragments for rich "
@@ -1494,7 +1492,7 @@ class Worksheet(xmlwriter.XMLwriter):
             )
             return -5
 
-        for token in tokens:
+        for pos, token in enumerate(tokens):
             if not isinstance(token, Format):
                 # Token is a string.
                 if previous != "format":
@@ -1527,8 +1525,6 @@ class Worksheet(xmlwriter.XMLwriter):
                 # Token is a format object. Add it to the fragment list.
                 fragments.append(token)
                 previous = "format"
-
-            pos += 1
 
         # If the first token is a string start the <r> element.
         if not isinstance(fragments[0], Format):
@@ -2160,7 +2156,7 @@ class Worksheet(xmlwriter.XMLwriter):
 
         return 0
 
-    def autofit(self, max_width: int = None) -> None:
+    def autofit(self, max_width: Optional[int] = None) -> None:
         """
         Simulate autofit based on the data, and datatypes in each column.
 
@@ -2225,8 +2221,8 @@ class Worksheet(xmlwriter.XMLwriter):
                             length = xl_pixel_width(string)
                         else:
                             # Handle multi-line strings.
-                            for string in string.split("\n"):
-                                seg_length = xl_pixel_width(string)
+                            for segment in string.split("\n"):
+                                seg_length = xl_pixel_width(segment)
                                 length = max(length, seg_length)
 
                     elif cell_type == "Number":
@@ -2429,7 +2425,7 @@ class Worksheet(xmlwriter.XMLwriter):
         if height is None:
             pixel_height = self.default_row_height
         else:
-            pixel_height = int(round(height * 4.0 / 3.0))
+            pixel_height = int(round(height * 4.0 / 3.0))  # noqa: RUF046
 
         if pixel_height != self.original_row_height:
             # Store the row change to allow optimizations.
@@ -2734,7 +2730,7 @@ class Worksheet(xmlwriter.XMLwriter):
         }
 
         # Check for valid input parameters.
-        for param_key in options.keys():
+        for param_key in options:
             if param_key not in valid_parameters:
                 warn(f"Unknown parameter '{param_key}' in data_validation()")
                 return -2
@@ -3019,7 +3015,7 @@ class Worksheet(xmlwriter.XMLwriter):
         }
 
         # Check for valid input parameters.
-        for param_key in options.keys():
+        for param_key in options:
             if param_key not in valid_parameter:
                 warn(f"Unknown parameter '{param_key}' in conditional_format()")
                 return -2
@@ -3206,7 +3202,7 @@ class Worksheet(xmlwriter.XMLwriter):
             cell_range = cell_range.replace("$", "")
 
         # Get the dxf format index.
-        if "format" in options and options["format"]:
+        if options.get("format"):
             options["format"] = options["format"]._get_dxf_index()
 
         # Set the priority based on the order of adding.
@@ -3541,7 +3537,7 @@ class Worksheet(xmlwriter.XMLwriter):
         }
 
         # Check for valid input parameters.
-        for param_key in options.keys():
+        for param_key in options:
             if param_key not in valid_parameter:
                 warn(f"Unknown parameter '{param_key}' in add_table()")
                 return -2
@@ -3678,7 +3674,7 @@ class Worksheet(xmlwriter.XMLwriter):
                     col_data["name_format"] = user_data.get("header_format")
 
                     # Handle the column formula.
-                    if "formula" in user_data and user_data["formula"]:
+                    if user_data.get("formula"):
                         formula = user_data["formula"]
 
                         # Remove the formula '=' sign if it exists.
@@ -3702,18 +3698,16 @@ class Worksheet(xmlwriter.XMLwriter):
                         if function == "std_dev":
                             function = "stdDev"
 
-                        subtotals = set(
-                            [
-                                "average",
-                                "countNums",
-                                "count",
-                                "max",
-                                "min",
-                                "stdDev",
-                                "sum",
-                                "var",
-                            ]
-                        )
+                        subtotals = {
+                            "average",
+                            "countNums",
+                            "count",
+                            "max",
+                            "min",
+                            "stdDev",
+                            "sum",
+                            "var",
+                        }
 
                         if function in subtotals:
                             formula = self._table_function_to_formula(
@@ -3762,18 +3756,15 @@ class Worksheet(xmlwriter.XMLwriter):
         if "data" in options:
             data = options["data"]
 
-            i = 0  # For indexing the row data.
-            for row in range(first_data_row, last_data_row + 1):
-                j = 0  # For indexing the col data.
-                for col in range(first_col, last_col + 1):
+            # Index the row and col data with i and j.
+            for i, row in enumerate(range(first_data_row, last_data_row + 1)):
+                for j, col in enumerate(range(first_col, last_col + 1)):
                     if i < len(data) and j < len(data[i]):
                         token = data[i][j]
                         if j in col_formats:
                             self._write(row, col, token, col_formats[j])
                         else:
                             self._write(row, col, token, None)
-                    j += 1
-                i += 1
 
         # Write any columns formulas after the user supplied table data to
         # overwrite it if required.
@@ -3864,7 +3855,7 @@ class Worksheet(xmlwriter.XMLwriter):
         }
 
         # Check for valid input parameters.
-        for param_key in options.keys():
+        for param_key in options:
             if param_key not in valid_parameters:
                 warn(f"Unknown parameter '{param_key}' in add_sparkline()")
                 return -1
@@ -4248,7 +4239,7 @@ class Worksheet(xmlwriter.XMLwriter):
         }
 
         # Overwrite the defaults with user specified values.
-        for key in options.keys():
+        for key in options:
             if key in defaults:
                 defaults[key] = options[key]
             else:
@@ -4956,7 +4947,7 @@ class Worksheet(xmlwriter.XMLwriter):
         }
 
         # Check for valid input parameters.
-        for param_key in options.keys():
+        for param_key in options:
             if param_key not in valid_parameters:
                 warn(f"Unknown parameter '{param_key}' in ignore_errors()")
                 return -1
@@ -5017,7 +5008,9 @@ class Worksheet(xmlwriter.XMLwriter):
             os.close(fd)
             self.row_data_filename = filename
             # pylint: disable=consider-using-with
-            self.row_data_fh = open(filename, mode="w+", encoding="utf-8")
+            self.row_data_fh = open(  # noqa: SIM115
+                filename, mode="w+", encoding="utf-8"
+            )
 
             # Set as the worksheet filehandle until the file is assembled.
             self.fh = self.row_data_fh
@@ -5139,9 +5132,13 @@ class Worksheet(xmlwriter.XMLwriter):
 
         # In constant_memory mode we don't change dimensions for rows
         # that are already written.
-        if not ignore_row and not ignore_col and self.constant_memory:
-            if row < self.previous_row:
-                return -2
+        if (
+            not ignore_row
+            and not ignore_col
+            and self.constant_memory
+            and row < self.previous_row
+        ):
+            return -2
 
         if not ignore_row:
             if self.dim_rowmin is None or row < self.dim_rowmin:
@@ -5213,8 +5210,7 @@ class Worksheet(xmlwriter.XMLwriter):
 
         breaks_set = set(breaks)
 
-        if 0 in breaks_set:
-            breaks_set.remove(0)
+        breaks_set.discard(0)
 
         breaks_list = list(breaks_set)
         breaks_list.sort()
@@ -6191,7 +6187,9 @@ class Worksheet(xmlwriter.XMLwriter):
         if self.row_data_fh_closed:
             filename = self.row_data_filename
             # pylint: disable=consider-using-with
-            self.row_data_fh = open(filename, mode="a+", encoding="utf-8")
+            self.row_data_fh = open(  # noqa: SIM115
+                filename, mode="a+", encoding="utf-8"
+            )
             self.row_data_fh_closed = False
             self.fh = self.row_data_fh
 
@@ -6425,7 +6423,7 @@ class Worksheet(xmlwriter.XMLwriter):
 
         # Use the first element of the column information structures to set
         # the initial/previous properties.
-        first_col = (sorted(self.col_info.keys()))[0]
+        first_col = min(self.col_info.keys())
         last_col = first_col
         prev_col_options = self.col_info[first_col]
         del self.col_info[first_col]
@@ -7677,10 +7675,7 @@ class Worksheet(xmlwriter.XMLwriter):
 
             self._xml_empty_tag("cfRule", attributes)
 
-        elif params["type"] == "duplicateValues":
-            self._xml_empty_tag("cfRule", attributes)
-
-        elif params["type"] == "uniqueValues":
+        elif params["type"] in ("duplicateValues", "uniqueValues"):
             self._xml_empty_tag("cfRule", attributes)
 
         elif (
@@ -7798,7 +7793,7 @@ class Worksheet(xmlwriter.XMLwriter):
         # Create a pseudo GUID for each unique Excel 2010 data bar.
         worksheet_count = self.index + 1
         data_bar_count = len(self.data_bars_2010) + 1
-        guid = "{DA7ABA51-AAAA-BBBB-%04X-%012X}" % (worksheet_count, data_bar_count)
+        guid = f"{{DA7ABA51-AAAA-BBBB-{worksheet_count:04X}-{data_bar_count:012X}}}"
 
         # Store the 2010 data bar parameters to write the extLst elements.
         param["guid"] = guid

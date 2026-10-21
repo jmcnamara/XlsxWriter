@@ -44,7 +44,7 @@ class XMLwriter:
         else:
             self.internal_fh = True
             # pylint: disable-next=consider-using-with
-            self.fh = open(filename, "w", encoding="utf-8")
+            self.fh = open(filename, "w", encoding="utf-8")  # noqa: SIM115
 
     def _xml_close(self) -> None:
         # Close the XML filehandle if we created it.

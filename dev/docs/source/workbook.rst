@@ -832,7 +832,7 @@ workbook.use_custom_theme()
 
    :raises IOError: If the theme file cannot be read.
    :raises ThemeFileError: If the theme file is invalid or contains unsupported features.
-   :raises ValueError: If the theme parameter type is not supported.
+   :raises TypeError: If the theme parameter type is not supported.
 
 Excel uses themes to define default fonts and colors for a workbook. The
 XlsxWriter library uses the original "Office" theme with Calibri 11 as the

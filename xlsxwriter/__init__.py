@@ -5,6 +5,6 @@
 #
 __version__ = "3.2.9"
 __VERSION__ = __version__
-from xlsxwriter.workbook import Workbook  # noqa
+from xlsxwriter.workbook import Workbook
 
 __all__ = ["Workbook"]

@@ -43,7 +43,7 @@ class Image:
             self.image_data = source
             self.image_name = ""
         else:
-            raise ValueError("Source must be a filename (str) or a BytesIO object.")
+            raise TypeError("Source must be a filename (str) or a BytesIO object.")
 
         self._row: int = 0
         self._col: int = 0

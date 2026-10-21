@@ -8,6 +8,10 @@ Release 3.3.0 - Month XX 2025
 
 * Added alt text ``description`` and ``title`` options to worksheet Tables.
 
+* Changed the exception raised for an unsupported ``source`` type in
+  ``Image()`` and an unsupported ``theme`` type in ``use_custom_theme()`` from
+  ``ValueError`` to ``TypeError``.
+
 
 Release 3.2.9 - September 16 2025
 ---------------------------------

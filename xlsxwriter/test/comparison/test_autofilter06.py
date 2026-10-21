@@ -39,51 +39,49 @@ class TestCompareXLSXFiles(ExcelComparisonTest):
         worksheet.filter_column(0, "x == NonBlanks")
 
         # Open a text file with autofilter example data.
-        textfile = open(self.txt_filename)
+        with open(self.txt_filename) as textfile:
+            # Read the headers from the first line of the input file.
+            headers = textfile.readline().strip("\n").split()
 
-        # Read the headers from the first line of the input file.
-        headers = textfile.readline().strip("\n").split()
+            # Write out the headers.
+            worksheet.write_row("A1", headers)
 
-        # Write out the headers.
-        worksheet.write_row("A1", headers)
+            # Start writing data after the headers.
+            row = 1
 
-        # Start writing data after the headers.
-        row = 1
+            # Read the rest of the text file and write it to the worksheet.
+            for line in textfile:
+                # Split the input data based on whitespace.
+                data = line.strip("\n").split()
 
-        # Read the rest of the text file and write it to the worksheet.
-        for line in textfile:
-            # Split the input data based on whitespace.
-            data = line.strip("\n").split()
+                # Convert the number data from the text file.
+                for i, item in enumerate(data):
+                    try:
+                        data[i] = float(item)
+                    except ValueError:
+                        pass
 
-            # Convert the number data from the text file.
-            for i, item in enumerate(data):
-                try:
-                    data[i] = float(item)
-                except ValueError:
+                # Simulate a blank cell in the data.
+                if row == 6:
+                    data[0] = ""
+
+                # Get some of the field data.
+                region = data[0]
+
+                # Check for rows that match the filter.
+                if region != "":
+                    # Row matches the filter, no further action required.
                     pass
+                else:
+                    # We need to hide rows that don't match the filter.
+                    worksheet.set_row(row, options={"hidden": True})
 
-            # Simulate a blank cell in the data.
-            if row == 6:
-                data[0] = ""
+                # Write out the row data.
+                worksheet.write_row(row, 0, data)
 
-            # Get some of the field data.
-            region = data[0]
+                # Move on to the next worksheet row.
+                row += 1
 
-            # Check for rows that match the filter.
-            if region != "":
-                # Row matches the filter, no further action required.
-                pass
-            else:
-                # We need to hide rows that don't match the filter.
-                worksheet.set_row(row, options={"hidden": True})
-
-            # Write out the row data.
-            worksheet.write_row(row, 0, data)
-
-            # Move on to the next worksheet row.
-            row += 1
-
-        textfile.close()
         workbook.close()
 
         self.assertExcelEqual()

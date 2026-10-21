@@ -37,7 +37,7 @@ class TestCompareXLSXFiles(ExcelComparisonTest):
 
         worksheet = workbook.add_worksheet()
 
-        worksheet.set_h_pagebreaks(range(0, 1025))
+        worksheet.set_h_pagebreaks(range(1025))
 
         worksheet.write("A1", "Foo")
 

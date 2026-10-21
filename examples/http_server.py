@@ -52,7 +52,6 @@ class Handler(http.server.SimpleHTTPRequestHandler):
         )
         self.end_headers()
         self.wfile.write(output.read())
-        return
 
 
 print("Server listening on port 8000...")

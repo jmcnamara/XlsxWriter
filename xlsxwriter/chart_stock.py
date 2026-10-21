@@ -109,9 +109,7 @@ class ChartStock(chart.Chart):
     def _modify_series_formatting(self) -> None:
         # Add default formatting to the series data.
 
-        index = 0
-
-        for series in self.series:
+        for index, series in enumerate(self.series):
             if index % 4 != 3:
                 if not series["line"]["defined"]:
                     series["line"] = {"width": 2.25, "none": 1, "defined": 1}
@@ -121,5 +119,3 @@ class ChartStock(chart.Chart):
                         series["marker"] = {"type": "dot", "size": 3}
                     else:
                         series["marker"] = {"type": "none"}
-
-            index += 1
