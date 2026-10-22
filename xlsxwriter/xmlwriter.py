@@ -6,7 +6,7 @@
 #
 # SPDX-License-Identifier: BSD-2-Clause
 #
-# Copyright (c) 2013-2025, John McNamara, jmcnamara@cpan.org
+# Copyright (c) 2013-2026, John McNamara, jmcnamara@cpan.org
 #
 
 # pylint: disable=dangerous-default-value
@@ -44,7 +44,7 @@ class XMLwriter:
         else:
             self.internal_fh = True
             # pylint: disable-next=consider-using-with
-            self.fh = open(filename, "w", encoding="utf-8")
+            self.fh = open(filename, "w", encoding="utf-8")  # noqa: SIM115
 
     def _xml_close(self) -> None:
         # Close the XML filehandle if we created it.

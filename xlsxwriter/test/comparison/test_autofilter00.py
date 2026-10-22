@@ -4,7 +4,7 @@
 #
 # SPDX-License-Identifier: BSD-2-Clause
 #
-# Copyright (c), 2013-2025, John McNamara, jmcnamara@cpan.org
+# Copyright (c), 2013-2026, John McNamara, jmcnamara@cpan.org
 #
 
 from xlsxwriter.workbook import Workbook
@@ -32,30 +32,22 @@ class TestCompareXLSXFiles(ExcelComparisonTest):
         worksheet = workbook.add_worksheet()
 
         # Open a text file with autofilter example data.
-        textfile = open(self.txt_filename)
+        with open(self.txt_filename) as textfile:
+            # Read the text file and write it to the worksheet.
+            for row, line in enumerate(textfile):
+                # Split the input data based on whitespace.
+                data = line.strip("\n").split()
 
-        # Start writing data from the first worksheet row.
-        row = 0
+                # Convert the number data from the text file.
+                for i, item in enumerate(data):
+                    try:
+                        data[i] = float(item)
+                    except ValueError:
+                        pass
 
-        # Read the text file and write it to the worksheet.
-        for line in textfile:
-            # Split the input data based on whitespace.
-            data = line.strip("\n").split()
+                for col in range(len(data)):
+                    worksheet.write(row, col, data[col])
 
-            # Convert the number data from the text file.
-            for i, item in enumerate(data):
-                try:
-                    data[i] = float(item)
-                except ValueError:
-                    pass
-
-            for col in range(len(data)):
-                worksheet.write(row, col, data[col])
-
-            # Move on to the next worksheet row.
-            row += 1
-
-        textfile.close()
         workbook.close()
 
         self.assertExcelEqual()

@@ -8,7 +8,7 @@
 #
 # SPDX-License-Identifier: BSD-2-Clause
 #
-# Copyright (c) 2013-2025, John McNamara, jmcnamara@cpan.org
+# Copyright (c) 2013-2026, John McNamara, jmcnamara@cpan.org
 #
 import xlsxwriter
 
@@ -27,26 +27,24 @@ worksheet7 = workbook.add_worksheet()
 bold = workbook.add_format({"bold": 1})
 
 # Open a text file with autofilter example data.
-textfile = open("autofilter_data.txt", encoding="utf-8")
+with open("autofilter_data.txt", encoding="utf-8") as textfile:
+    # Read the headers from the first line of the input file.
+    headers = textfile.readline().strip("\n").split()
 
-# Read the headers from the first line of the input file.
-headers = textfile.readline().strip("\n").split()
+    # Read the text file and store the field data.
+    data = []
+    for line in textfile:
+        # Split the input data based on whitespace.
+        row_data = line.strip("\n").split()
 
+        # Convert the number data from the text file.
+        for i, item in enumerate(row_data):
+            try:
+                row_data[i] = float(item)
+            except ValueError:
+                pass
 
-# Read the text file and store the field data.
-data = []
-for line in textfile:
-    # Split the input data based on whitespace.
-    row_data = line.strip("\n").split()
-
-    # Convert the number data from the text file.
-    for i, item in enumerate(row_data):
-        try:
-            row_data[i] = float(item)
-        except ValueError:
-            pass
-
-    data.append(row_data)
+        data.append(row_data)
 
 
 # Set up several sheets with the same data.

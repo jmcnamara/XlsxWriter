@@ -4,7 +4,7 @@
 #
 # SPDX-License-Identifier: BSD-2-Clause
 #
-# Copyright (c) 2013-2025, John McNamara, jmcnamara@cpan.org
+# Copyright (c) 2013-2026, John McNamara, jmcnamara@cpan.org
 #
 
 
@@ -240,7 +240,7 @@ class Url:
         if url.startswith(r"\\"):
             return False
 
-        if url[0].isalpha() and url[1] == ":":
+        if url[0].isalpha() and url[1] == ":":  # noqa: SIM103
             return False
 
         return True

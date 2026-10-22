@@ -187,7 +187,7 @@ function check_versions {
     echo
     echo "Latest file versions: "
 
-    grep -He "[0-9]\.[0-9]\.[0-9]" setup.py dev/docs/source/conf.py xlsxwriter/__init__.py | sed 's/:/ : /g' | sed 's/=/ = /' | awk '{printf "    | %-24s %s\n", $1, $5}'
+    grep -He "[0-9]\.[0-9]\.[0-9]" pyproject.toml dev/docs/source/conf.py xlsxwriter/__init__.py | sed 's/:/ : /g' | sed 's/=/ = /' | awk '{printf "    | %-24s %s\n", $1, $5}'
 
     echo
     echo -n "Are the versions up to date?   [y/N]: "
@@ -203,7 +203,7 @@ function check_versions {
             exit 1
         else
             echo "    Updating versions...";
-            perl -i dev/release/update_revision.pl setup.py dev/docs/source/conf.py xlsxwriter/__init__.py
+            perl -i dev/release/update_revision.pl pyproject.toml dev/docs/source/conf.py xlsxwriter/__init__.py
             check_versions
          fi
     fi

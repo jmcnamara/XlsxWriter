@@ -4,7 +4,7 @@
 #
 # SPDX-License-Identifier: BSD-2-Clause
 #
-# Copyright (c), 2013-2025, John McNamara, jmcnamara@cpan.org
+# Copyright (c), 2013-2026, John McNamara, jmcnamara@cpan.org
 #
 
 import os.path
@@ -23,9 +23,9 @@ def _xml_to_list(xml_str):
 
     # Add back the removed brackets.
     for index, element in enumerate(elements):
-        if not element[0] == "<":
+        if element[0] != "<":
             elements[index] = "<" + elements[index]
-        if not element[-1] == ">":
+        if element[-1] != ">":
             elements[index] = elements[index] + ">"
 
     return elements
@@ -108,7 +108,7 @@ def _compare_xlsx_files(got_file, exp_file, ignore_files, ignore_elements):
     try:
         # Open the XlsxWriter as a zip file for testing.
         got_zip = ZipFile(got_file, "r")
-    except IOError as e:
+    except OSError as e:
         error = "XlsxWriter file error: " + str(e)
         return error, ""
     except (BadZipFile, LargeZipFile) as e:
@@ -118,7 +118,7 @@ def _compare_xlsx_files(got_file, exp_file, ignore_files, ignore_elements):
     try:
         # Open the Excel as a zip file for testing.
         exp_zip = ZipFile(exp_file, "r")
-    except IOError as e:
+    except OSError as e:
         error = "Excel file error: " + str(e)
         return error, ""
     except (BadZipFile, LargeZipFile) as e:
@@ -170,8 +170,12 @@ def _compare_xlsx_files(got_file, exp_file, ignore_files, ignore_elements):
         # Remove workbookView dimensions which are almost always different
         # and calcPr which can have different Excel version ids.
         if filename == "xl/workbook.xml":
-            exp_xml_str = re.sub(r"<workbookView[^>]*>", "<workbookView/>", exp_xml_str)
-            got_xml_str = re.sub(r"<workbookView[^>]*>", "<workbookView/>", got_xml_str)
+            dimensions = (
+                r'<workbookView xWindow="\d+" yWindow="\d+" '
+                r'windowWidth="\d+" windowHeight="\d+"'
+            )
+            exp_xml_str = re.sub(dimensions, "<workbookView", exp_xml_str)
+            got_xml_str = re.sub(dimensions, "<workbookView", got_xml_str)
             exp_xml_str = re.sub(r"<calcPr[^>]*>", "<calcPr/>", exp_xml_str)
             got_xml_str = re.sub(r"<calcPr[^>]*>", "<calcPr/>", got_xml_str)
 

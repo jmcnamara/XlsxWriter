@@ -4,7 +4,7 @@
 #
 # SPDX-License-Identifier: BSD-2-Clause
 #
-# Copyright (c), 2013-2025, John McNamara, jmcnamara@cpan.org
+# Copyright (c), 2013-2026, John McNamara, jmcnamara@cpan.org
 #
 
 from xlsxwriter.workbook import Workbook
@@ -32,7 +32,7 @@ class TestCompareXLSXFiles(ExcelComparisonTest):
         # Test that control characters and any other single byte characters are
         # handled correctly by the SharedStrings module. We skip chr 34 = " in
         # this test since it isn't encoded by Excel as &quot;.
-        ordinals = list(range(0, 34))
+        ordinals = list(range(34))
         ordinals.extend(range(35, 128))
 
         for i in ordinals:

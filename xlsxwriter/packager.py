@@ -4,7 +4,7 @@
 #
 # SPDX-License-Identifier: BSD-2-Clause
 #
-# Copyright (c) 2013-2025, John McNamara, jmcnamara@cpan.org
+# Copyright (c) 2013-2026, John McNamara, jmcnamara@cpan.org
 #
 
 # Standard packages.
@@ -545,12 +545,12 @@ class Packager:
             if not table_props:
                 continue
 
-            for table_props in table_props:
+            for props in table_props:
                 table = Table()
                 table._set_xml_writer(
                     self._filename("xl/tables/table" + str(index) + ".xml")
                 )
-                table._set_properties(table_props)
+                table._set_properties(props)
                 table._assemble_xml_file()
                 index += 1
 
@@ -777,9 +777,8 @@ class Packager:
 
                 if image.image_data:
                     # The data is in a byte stream. Write it to the target.
-                    os_file = open(os_filename, mode="wb")
-                    os_file.write(image.image_data.getvalue())
-                    os_file.close()
+                    with open(os_filename, mode="wb") as os_file:
+                        os_file.write(image.image_data.getvalue())
                 else:
                     copy(image.filename, os_filename)
 
@@ -796,10 +795,9 @@ class Packager:
                     # The data is already in a byte stream.
                     os_filename = image.image_data
                 else:
-                    image_file = open(image.filename, mode="rb")
-                    image_data = image_file.read()
+                    with open(image.filename, mode="rb") as image_file:
+                        image_data = image_file.read()
                     os_filename = BytesIO(image_data)
-                    image_file.close()
 
                 self.filenames.append((os_filename, xml_image_name, True))
 
@@ -822,9 +820,8 @@ class Packager:
 
             if vba_project_signature_is_stream:
                 # The data is in a byte stream. Write it to the target.
-                os_file = open(os_filename, mode="wb")
-                os_file.write(vba_project_signature.getvalue())
-                os_file.close()
+                with open(os_filename, mode="wb") as os_file:
+                    os_file.write(vba_project_signature.getvalue())
             else:
                 copy(vba_project_signature, os_filename)
 
@@ -834,10 +831,9 @@ class Packager:
                 # The data is already in a byte stream.
                 os_filename = vba_project_signature
             else:
-                vba_file = open(vba_project_signature, mode="rb")
-                vba_data = vba_file.read()
+                with open(vba_project_signature, mode="rb") as vba_file:
+                    vba_data = vba_file.read()
                 os_filename = BytesIO(vba_data)
-                vba_file.close()
 
             self.filenames.append((os_filename, xml_vba_signature_name, True))
 
@@ -858,9 +854,8 @@ class Packager:
 
             if vba_project_is_stream:
                 # The data is in a byte stream. Write it to the target.
-                os_file = open(os_filename, mode="wb")
-                os_file.write(vba_project.getvalue())
-                os_file.close()
+                with open(os_filename, mode="wb") as os_file:
+                    os_file.write(vba_project.getvalue())
             else:
                 copy(vba_project, os_filename)
 
@@ -870,9 +865,8 @@ class Packager:
                 # The data is already in a byte stream.
                 os_filename = vba_project
             else:
-                vba_file = open(vba_project, mode="rb")
-                vba_data = vba_file.read()
+                with open(vba_project, mode="rb") as vba_file:
+                    vba_data = vba_file.read()
                 os_filename = BytesIO(vba_data)
-                vba_file.close()
 
             self.filenames.append((os_filename, xml_vba_name, True))

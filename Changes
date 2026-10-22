@@ -1,12 +1,63 @@
 
-Release 3.3.0 - Month XX 2025
+Release 3.3.1 - Month XX 2026
 -----------------------------
+
+* Fixed performance issue where positioning objects such as images and comments
+  on a worksheet with a custom default row height re-scanned every preceding
+  row for each object.
+
+  :issue:`1210`.
+
+* Fixed off by one error in the worksheet :func:`set_first_sheet()` method.
+
+  :issue:`1187`.
+
+
+Release 3.3.0 - October 22 2026
+-------------------------------
 
 * Added the :func:`set_zoom_to_fit()` method for chartsheets. It ensures that a
   chartsheet is zoomed automatically by Excel to fit the screen even when the
   window is resized.
 
 * Added alt text ``description`` and ``title`` options to worksheet Tables.
+
+* Added the :func:`use_custom_theme()` method to change the default workbook
+  theme to a user supplied ``.thmx``, ``.xlsx`` or ``theme1.xml`` file, along
+  with the ``default_format_properties``, ``default_row_height`` and
+  ``default_column_width`` constructor options to change the default font and
+  cell size to match the theme.
+
+  :feature:`1163`.
+
+* Changed the exception raised for an unsupported ``source`` type in
+  ``Image()`` and an unsupported ``theme`` type in ``use_custom_theme()`` from
+  ``ValueError`` to ``TypeError``.
+
+* Fixed issue where conditional format rule priorities were out of order when a
+  cell range was repeated after a different range. The priorities now follow
+  the order in which the rules were added.
+
+* Fixed issue where ``autofilter()`` didn't check that the range was within
+  the worksheet limits, which could produce a corrupt file for large
+  worksheets.
+
+  :issue:`1179`.
+
+* Fixed spurious "Invalid cell reference" warning when a chart series used a
+  defined name with a sheet reference.
+
+  :issue:`1173`.
+
+* Fixed the width and height detection for large GIF images and for top-down
+  BMP images, and added extra image dimension validation.
+
+  :issue:`1188` and :issue:`1189`.
+
+* Migrated the packaging configuration from ``setup.py`` to ``pyproject.toml``
+  with the license declared as a PEP 639 SPDX expression.
+
+  :issue:`1201`.
 
 
 Release 3.2.9 - September 16 2025

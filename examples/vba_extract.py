@@ -7,7 +7,7 @@
 #
 # SPDX-License-Identifier: BSD-2-Clause
 #
-# Copyright (c) 2013-2025, John McNamara, jmcnamara@cpan.org
+# Copyright (c) 2013-2026, John McNamara, jmcnamara@cpan.org
 #
 
 import sys
@@ -19,9 +19,8 @@ def extract_file(xlsm_zip, filename):
     data = xlsm_zip.read("xl/" + filename)
 
     # Write the data to a local file.
-    file = open(filename, "wb")
-    file.write(data)
-    file.close()
+    with open(filename, "wb") as file:
+        file.write(data)
 
 
 # The VBA project file and project signature file we want to extract.
@@ -57,23 +56,23 @@ try:
         print(f"Extracted: {vba_signature_filename}")
 
 
-except IOError as e:
-    print(f"File error: {str(e)}")
+except OSError as e:
+    print(f"File error: {e}")
     sys.exit()
 
 except KeyError as e:
     # Usually when there isn't a xl/vbaProject.bin member in the file.
-    print(f"File error: {str(e)}")
+    print(f"File error: {e}")
     print(f"File may not be an Excel xlsm macro file: '{xlsm_file}'")
     sys.exit()
 
 except BadZipFile as e:
     # Usually if the file is an xls file and not an xlsm file.
-    print(f"File error: {str(e)}: '{xlsm_file}'")
+    print(f"File error: {e}: '{xlsm_file}'")
     print("File may not be an Excel xlsm macro file.")
     sys.exit()
 
-except Exception as e:
+except Exception as e:  # noqa: BLE001
     # Catch any other exceptions.
-    print(f"File error: {str(e)}")
+    print(f"File error: {e}")
     sys.exit()

@@ -4,7 +4,7 @@
 #
 # SPDX-License-Identifier: BSD-2-Clause
 #
-# Copyright (c), 2013-2025, John McNamara, jmcnamara@cpan.org
+# Copyright (c), 2013-2026, John McNamara, jmcnamara@cpan.org
 #
 
 from xlsxwriter.workbook import Workbook
@@ -47,7 +47,7 @@ class TestCompareXLSXFiles(ExcelComparisonTest):
         worksheet19 = workbook.add_worksheet()
         worksheet20 = workbook.add_worksheet()
 
-        worksheet8.set_first_sheet()
+        worksheet9.set_first_sheet()
         worksheet20.activate()
 
         workbook.close()

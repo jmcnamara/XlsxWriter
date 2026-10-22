@@ -1,0 +1,21 @@
+# Ruff configuration for XlsxWriter.
+
+# Match requires-python in pyproject.toml.
+target-version = "py38"
+
+[lint]
+# Match the flake8 line length check.
+extend-select = ["E501"]
+
+ignore = [
+    # Ignore until we move to py310 and later.
+    "FA100",
+
+    # The vba_extract.py script has a shebang for packaging but isn't executable.
+    "EXE001",
+]
+
+[lint.per-file-ignores]
+# Ignore for performance reasons. The `attributes=[]` defaults in the
+# xmlwriter.py tag helpers are never mutated and are on the hot loop.
+"xlsxwriter/xmlwriter.py" = ["B006"]

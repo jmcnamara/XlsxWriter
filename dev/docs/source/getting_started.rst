@@ -1,5 +1,5 @@
 .. SPDX-License-Identifier: BSD-2-Clause
-   Copyright (c) 2013-2025, John McNamara, jmcnamara@cpan.org
+   Copyright (c) 2013-2026, John McNamara, jmcnamara@cpan.org
 
 .. _getting_started:
 
@@ -38,7 +38,10 @@ it as follows (change the version number to suit)::
     $ tar -zxvf XlsxWriter-1.2.3.tar.gz
 
     $ cd XlsxWriter-1.2.3
-    $ python setup.py install
+    $ pip install .
+
+    # Or to a non system dir:
+    $ pip install --user .
 
 A tarball of the latest code can be downloaded from GitHub as follows::
 
@@ -46,7 +49,10 @@ A tarball of the latest code can be downloaded from GitHub as follows::
 
     $ tar zxvf main.tar.gz
     $ cd XlsxWriter-main/
-    $ python setup.py install
+    $ pip install .
+
+    # Or to a non system dir:
+    $ pip install --user .
 
 
 Cloning from GitHub
@@ -59,7 +65,10 @@ You can clone the repository and install from it as follows::
     $ git clone https://github.com/jmcnamara/XlsxWriter.git
 
     $ cd XlsxWriter
-    $ python setup.py install
+    $ pip install .
+
+    # Or to a non system dir:
+    $ pip install --user .
 
 
 Running a sample program

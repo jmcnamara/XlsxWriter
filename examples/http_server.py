@@ -6,7 +6,7 @@
 #
 # SPDX-License-Identifier: BSD-2-Clause
 #
-# Copyright (c) 2013-2025, John McNamara, jmcnamara@cpan.org
+# Copyright (c) 2013-2026, John McNamara, jmcnamara@cpan.org
 #
 
 import http.server
@@ -52,7 +52,6 @@ class Handler(http.server.SimpleHTTPRequestHandler):
         )
         self.end_headers()
         self.wfile.write(output.read())
-        return
 
 
 print("Server listening on port 8000...")

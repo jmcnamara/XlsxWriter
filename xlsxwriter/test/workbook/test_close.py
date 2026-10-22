@@ -4,7 +4,7 @@
 #
 # SPDX-License-Identifier: BSD-2-Clause
 #
-# Copyright (c), 2013-2025, John McNamara, jmcnamara@cpan.org
+# Copyright (c), 2013-2026, John McNamara, jmcnamara@cpan.org
 #
 
 import os
@@ -38,7 +38,7 @@ class TestCloseWithException(unittest.TestCase):
 
         warnings.simplefilter("always")
         with warnings.catch_warnings(record=True) as warnings_emitted:
-            workbook = Workbook(filepath, dict(constant_memory=True))
+            workbook = Workbook(filepath, {"constant_memory": True})
             workbook.close()
             del workbook
 

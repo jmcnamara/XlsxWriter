@@ -4,7 +4,7 @@
 #
 # SPDX-License-Identifier: BSD-2-Clause
 #
-# Copyright (c), 2013-2025, John McNamara, jmcnamara@cpan.org
+# Copyright (c), 2013-2026, John McNamara, jmcnamara@cpan.org
 #
 
 from xlsxwriter.workbook import Workbook
@@ -37,8 +37,8 @@ class TestCompareXLSXFiles(ExcelComparisonTest):
         worksheet2 = workbook.add_worksheet()
         worksheet3 = workbook.add_worksheet()
 
-        for row in range(0, 127 + 1):
-            for col in range(0, 15 + 1):
+        for row in range(127 + 1):
+            for col in range(15 + 1):
                 worksheet1.write_comment(row, col, "Some text")
 
         worksheet3.write_comment("A1", "More text")

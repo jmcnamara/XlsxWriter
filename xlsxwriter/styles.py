@@ -4,7 +4,7 @@
 #
 # SPDX-License-Identifier: BSD-2-Clause
 #
-# Copyright (c) 2013-2025, John McNamara, jmcnamara@cpan.org
+# Copyright (c) 2013-2026, John McNamara, jmcnamara@cpan.org
 #
 
 from enum import Enum
@@ -400,9 +400,8 @@ class Styles(xmlwriter.XMLwriter):
         else:
             self._xml_start_tag("patternFill", [("patternType", patterns[pattern])])
 
-        if fg_color:
-            if not fg_color._is_automatic:
-                self._xml_empty_tag("fgColor", fg_color._attributes())
+        if fg_color and not fg_color._is_automatic:
+            self._xml_empty_tag("fgColor", fg_color._attributes())
 
         if bg_color:
             if not bg_color._is_automatic:

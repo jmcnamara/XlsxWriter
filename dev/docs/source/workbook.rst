@@ -1,5 +1,5 @@
 .. SPDX-License-Identifier: BSD-2-Clause
-   Copyright (c) 2013-2025, John McNamara, jmcnamara@cpan.org
+   Copyright (c) 2013-2026, John McNamara, jmcnamara@cpan.org
 
 .. _workbook:
 
@@ -832,7 +832,7 @@ workbook.use_custom_theme()
 
    :raises IOError: If the theme file cannot be read.
    :raises ThemeFileError: If the theme file is invalid or contains unsupported features.
-   :raises ValueError: If the theme parameter type is not supported.
+   :raises TypeError: If the theme parameter type is not supported.
 
 Excel uses themes to define default fonts and colors for a workbook. The
 XlsxWriter library uses the original "Office" theme with Calibri 11 as the
@@ -847,7 +847,7 @@ located at ``xl/theme/theme1.xml``. Alternatively ``theme`` argument can be a
 In addition to supplying the theme XML file it is also necessary to set the
 default format to match the theme. This is done via the constructor properties
 ``default_format_properties``, ``default_row_height``, and
-``default_col_width``. When setting a font that will be used as the default
+``default_column_width``. When setting a font that will be used as the default
 format it is also necessary to set the scheme parameter to ``minor``.
 
 Note, older Excel 2007 style theme files that contain image fills as part of the

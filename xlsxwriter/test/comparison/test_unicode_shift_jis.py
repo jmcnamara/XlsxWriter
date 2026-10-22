@@ -4,7 +4,7 @@
 #
 # SPDX-License-Identifier: BSD-2-Clause
 #
-# Copyright (c), 2013-2025, John McNamara, jmcnamara@cpan.org
+# Copyright (c), 2013-2026, John McNamara, jmcnamara@cpan.org
 #
 
 from xlsxwriter.workbook import Workbook
@@ -26,30 +26,28 @@ class TestCompareXLSXFiles(ExcelComparisonTest):
         """Test example file converting Unicode text."""
 
         # Open the input file with the correct encoding.
-        textfile = open(self.txt_filename, mode="r", encoding="shift_jis")
+        with open(self.txt_filename, mode="r", encoding="shift_jis") as textfile:
+            # Create an new Excel file and convert the text data.
+            workbook = Workbook(self.got_filename)
+            worksheet = workbook.add_worksheet()
 
-        # Create an new Excel file and convert the text data.
-        workbook = Workbook(self.got_filename)
-        worksheet = workbook.add_worksheet()
+            # Widen the first column to make the text clearer.
+            worksheet.set_column("A:A", 50)
 
-        # Widen the first column to make the text clearer.
-        worksheet.set_column("A:A", 50)
+            # Start from the first cell.
+            row = 0
+            col = 0
 
-        # Start from the first cell.
-        row = 0
-        col = 0
+            # Read the text file and write it to the worksheet.
+            for line in textfile:
+                # Ignore the comments in the sample file.
+                if line.startswith("#"):
+                    continue
 
-        # Read the text file and write it to the worksheet.
-        for line in textfile:
-            # Ignore the comments in the sample file.
-            if line.startswith("#"):
-                continue
-
-            # Write any other lines to the worksheet.
-            worksheet.write(row, col, line.rstrip("\n"))
-            row += 1
+                # Write any other lines to the worksheet.
+                worksheet.write(row, col, line.rstrip("\n"))
+                row += 1
 
         workbook.close()
-        textfile.close()
 
         self.assertExcelEqual()

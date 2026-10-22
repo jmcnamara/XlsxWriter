@@ -4,7 +4,7 @@
 #
 # SPDX-License-Identifier: BSD-2-Clause
 #
-# Copyright (c) 2013-2025, John McNamara, jmcnamara@cpan.org
+# Copyright (c) 2013-2026, John McNamara, jmcnamara@cpan.org
 #
 
 import copy
@@ -1412,14 +1412,14 @@ class Chart(xmlwriter.XMLwriter):
             properties = ("x", "y", "width", "height")
 
         # Check for valid properties.
-        for key in args.keys():
+        for key in args:
             if key not in properties:
                 warn(f"Property '{key}' not supported in layout options")
                 return {}
 
         # Set the layout properties.
         for prop in properties:
-            if prop not in args.keys():
+            if prop not in args:
                 warn(f"Property '{prop}' must be specified in layout options")
                 return {}
 

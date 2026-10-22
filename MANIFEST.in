@@ -1,9 +1,4 @@
-include README.rst
 include Changes
-include LICENSE.txt
-include xlsxwriter/*.py
 include examples/*.py
 include examples/*.txt
 include examples/*.bin
-include docs/readme.html
-recursive-include docs/_static *

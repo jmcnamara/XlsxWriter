@@ -4,7 +4,7 @@
 #
 # SPDX-License-Identifier: BSD-2-Clause
 #
-# Copyright (c) 2013-2025, John McNamara, jmcnamara@cpan.org
+# Copyright (c) 2013-2026, John McNamara, jmcnamara@cpan.org
 #
 import datetime
 import re
@@ -254,11 +254,9 @@ def xl_cell_to_rowcol(cell_str: str) -> Tuple[int, int]:
     row_str = match.group(4)
 
     # Convert base26 column string to number.
-    expn = 0
     col = 0
-    for char in reversed(col_str):
+    for expn, char in enumerate(reversed(col_str)):
         col += (ord(char) - ord("A") + 1) * (26**expn)
-        expn += 1
 
     # Convert 1-index to zero-index
     row = int(row_str) - 1
@@ -293,11 +291,9 @@ def xl_cell_to_rowcol_abs(cell_str: str) -> Tuple[int, int, bool, bool]:
     row_str = match.group(4)
 
     # Convert base26 column string to number.
-    expn = 0
     col = 0
-    for char in reversed(col_str):
+    for expn, char in enumerate(reversed(col_str)):
         col += (ord(char) - ord("A") + 1) * (26**expn)
-        expn += 1
 
     # Convert 1-index to zero-index
     row = int(row_str) - 1
@@ -414,7 +410,7 @@ def quote_sheetname(sheetname: str) -> str:
         # Rule 1. Sheet names that contain anything other than \w and "."
         # characters must be quoted.
         # --------------------------------------------------------------------
-        if RE_QUOTE_RULE1.search(sheetname):
+        if RE_QUOTE_RULE1.search(sheetname):  # noqa: SIM114
             requires_quoting = True
 
         # --------------------------------------------------------------------

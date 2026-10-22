@@ -4,7 +4,7 @@
 #
 # SPDX-License-Identifier: BSD-2-Clause
 #
-# Copyright (c) 2013-2025, John McNamara, jmcnamara@cpan.org
+# Copyright (c) 2013-2026, John McNamara, jmcnamara@cpan.org
 #
 # pylint: disable=line-too-long
 from io import StringIO
@@ -55,7 +55,7 @@ class Theme:
         else:
             self.internal_fh = True
             # pylint: disable=consider-using-with
-            self.fh = open(filename, mode="w", encoding="utf-8")
+            self.fh = open(filename, mode="w", encoding="utf-8")  # noqa: SIM115
 
     ###########################################################################
     #

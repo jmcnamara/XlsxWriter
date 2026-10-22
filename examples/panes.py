@@ -5,7 +5,7 @@
 #
 # SPDX-License-Identifier: BSD-2-Clause
 #
-# Copyright (c) 2013-2025, John McNamara, jmcnamara@cpan.org
+# Copyright (c) 2013-2026, John McNamara, jmcnamara@cpan.org
 #
 import xlsxwriter
 
@@ -46,11 +46,11 @@ worksheet1.set_selection("C3")
 
 
 # Some text to demonstrate scrolling.
-for col in range(0, 9):
+for col in range(9):
     worksheet1.write(0, col, "Scroll down", header_format)
 
 for row in range(1, 100):
-    for col in range(0, 9):
+    for col in range(9):
         worksheet1.write(row, col, row + 1, center_format)
 
 
@@ -65,7 +65,7 @@ worksheet2.set_column("A:A", 16)
 worksheet2.set_selection("C3")
 
 # Some text to demonstrate scrolling.
-for row in range(0, 50):
+for row in range(50):
     worksheet2.write(row, 0, "Scroll right", header_format)
     for col in range(1, 26):
         worksheet2.write(row, col, col, center_format)
