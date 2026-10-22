@@ -847,7 +847,7 @@ located at ``xl/theme/theme1.xml``. Alternatively ``theme`` argument can be a
 In addition to supplying the theme XML file it is also necessary to set the
 default format to match the theme. This is done via the constructor properties
 ``default_format_properties``, ``default_row_height``, and
-``default_col_width``. When setting a font that will be used as the default
+``default_column_width``. When setting a font that will be used as the default
 format it is also necessary to set the scheme parameter to ``minor``.
 
 Note, older Excel 2007 style theme files that contain image fills as part of the
