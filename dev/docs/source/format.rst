@@ -510,7 +510,7 @@ The color format should have one of the following values::
     [Black] [Blue] [Cyan] [Green] [Magenta] [Red] [White] [Yellow]
 
 For more information refer to the `Microsoft documentation on cell formats
-<https://support.microsoft.com/en-us/office/create-a-custom-number-format-78f2a361-936b-4c03-8772-09fab54be7f4?ui=en-us&rs=en-us&ad=us>`_.
+<https://support.microsoft.com/en-us/excel/get-started/create-a-custom-number-format>`_.
 
 For information on how to get a number format to show up as one of the number
 format categories such as Currency, Accounting, Date, Time, Percentage,

@@ -75,7 +75,7 @@ The constructor options are:
      This option used to be the recommended way of deploying XlsxWriter on
      Google APP Engine since it didn't support a ``/tmp`` directory. However,
      the Python 3 Runtime Environment in Google App Engine supports a
-     `filesystem with read/write access to /tmp <https://cloud.google.com/appengine/docs/standard/python3/runtime#filesystem>`_
+     `filesystem with read/write access to /tmp <https://docs.cloud.google.com/appengine/docs/standard/python3/runtime#filesystem>`_
      which means this option isn't required.
 
 
@@ -250,7 +250,7 @@ The worksheet name must be a valid Excel worksheet name:
 
 The rules for worksheet names in Excel are explained in the Microsoft Office
 documentation on how to `Rename a worksheet
-<https://support.microsoft.com/en-us/office/rename-a-worksheet-3f1f7148-ee83-404d-8ef0-9ff99fbad1f9>`_.
+<https://support.microsoft.com/en-us/excel/rename-a-worksheet>`_.
 
 
 workbook.add_format()
@@ -575,7 +575,7 @@ enabled for enterprise versions of Office.
 
 See the following Microsoft documentation on how to `Apply sensitivity labels to
 your files and email
-<https://support.microsoft.com/en-us/office/apply-sensitivity-labels-to-your-files-and-email-2f96e7cd-d5a4-403b-8bd7-4cc636bae0f9>`_.
+<https://support.microsoft.com/en-us/office/security-privacy/apply-sensitivity-labels-to-your-files>`_.
 
 Sensitivity Labels are generally stored as custom document properties so they
 can be enabled using ``set_custom_property()``. However, since the metadata
@@ -734,7 +734,7 @@ Excel convention and enclose it in single quotes::
 
 The rules for names in Excel are explained in the Microsoft Office
 documentation on how to `Define and use names in formulas
-<https://support.microsoft.com/en-us/office/define-and-use-names-in-formulas-4d0f13ac-53b7-422e-afd2-abd7ff379c64>`_.
+<https://support.microsoft.com/en-us/excel/get-started/define-and-use-names-in-formulas>`_.
 
 See also :ref:`ex_defined_name`.
 

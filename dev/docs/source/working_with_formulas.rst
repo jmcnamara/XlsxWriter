@@ -163,7 +163,7 @@ Which gives the following result:
 The difference between the two types of array functions is explained in the
 Microsoft documentation on `Dynamic array formulas vs. legacy CSE array
 formulas
-<https://support.microsoft.com/en-us/office/dynamic-array-formulas-vs-legacy-cse-array-formulas-ca421f1b-fbb2-4c99-9924-df571bd4f1b4>`_. Note
+<https://support.microsoft.com/en-us/excel/dynamic-array-formulas-vs-legacy-cse-array-formulas>`_. Note
 the use of the word "legacy" here. This, and the documentation itself, is a
 clear indication of the future importance of dynamic arrays in Excel.
 
@@ -215,7 +215,7 @@ or :func:`write_dynamic_array_formula` (see the previous section on
 
 A full explanation of this operator is shown in the Microsoft documentation on
 the `Implicit intersection operator: @
-<https://support.microsoft.com/en-us/office/implicit-intersection-operator-ce3be07b-0101-4450-a24e-c1c999be2b34?ui=en-us&rs=en-us&ad=us>`_.
+<https://support.microsoft.com/en-us/excel/implicit-intersection-operator>`_.
 
 One important thing to note is that the "@" operator isn't stored with the
 formula. It is just displayed by Excel 365 when reading "legacy"
@@ -233,11 +233,11 @@ array formulas can return variable sized ranges of results. The Excel
 documentation refers to this as a "Spilled" range/array from the idea that the
 results spill into the required number of cells. This is explained in the
 Microsoft documentation on `Dynamic array formulas and spilled array behavior
-<https://support.microsoft.com/en-us/office/dynamic-array-formulas-and-spilled-array-behavior-205c6b06-03ba-4151-89a1-87a7eb36e531>`_.
+<https://support.microsoft.com/en-us/excel/dynamic-array-formulas-and-spilled-array-behavior>`_.
 
 Since a spilled range is variable in size a new operator is required to refer
 to the range. This operator is the `Spilled range operator
-<https://support.microsoft.com/en-us/office/spilled-range-operator-3dd5899f-bca2-4b9d-a172-3eae9ac22efd>`_
+<https://support.microsoft.com/en-us/excel/spilled-range-operator>`_
 and it is represented by "#". For example, the range ``F2#`` in the image
 below is used to refer to a dynamic array returned by ``UNIQUE()`` in the cell
 ``F2``. This example is taken from the XlsxWriter program :ref:`ex_dynamic_arrays`.

@@ -59,7 +59,7 @@ Q. Why do my formulas have a @ in them?
 
 Microsoft refers to the ``@`` in formulas as the `Implicit Intersection
 Operator
-<https://support.microsoft.com/en-us/office/implicit-intersection-operator-ce3be07b-0101-4450-a24e-c1c999be2b34?ui=en-us&rs=en-us&ad=us>`_.
+<https://support.microsoft.com/en-us/excel/implicit-intersection-operator>`_.
 It indicates that an input range is being reduced from multiple values to a
 single value. In some cases it is just a warning indicator and doesn't affect
 the calculation or result. However, in practical terms it generally means that

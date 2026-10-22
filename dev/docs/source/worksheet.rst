@@ -1116,7 +1116,7 @@ The ``width`` parameter sets the column width in the same units used by Excel
 which is: the number of characters in the default font. The default width is
 8.43 in the default font of Calibri 11. The actual relationship between a
 string width and a column width in Excel is complex. See the `following
-explanation of column widths <https://learn.microsoft.com/en-US/office/troubleshoot/excel/determine-column-widths>`_
+explanation of column widths <https://learn.microsoft.com/en-us/office/troubleshoot/excel/determine-column-widths>`_
 from the Microsoft support documentation for more details. To set the width in
 pixels use the :func:`set_column_pixels` method.
 
@@ -2759,7 +2759,7 @@ The ``set_background()`` method supports all the image formats supported by
 Some people use this method to add a watermark background to their
 document. However, Microsoft recommends using a header image `to set a
 watermark
-<https://support.microsoft.com/en-us/office/add-a-watermark-in-excel-a372182a-d733-484e-825c-18ddf3edf009>`_.
+<https://support.microsoft.com/en-us/excel/get-started/add-a-watermark-in-excel>`_.
 The choice of method depends on whether you want the watermark to be visible
 in normal viewing mode or just when the file is printed. In XlsxWriter you can
 get the header watermark effect using :func:`set_header`::

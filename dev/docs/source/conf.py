@@ -54,7 +54,8 @@ epub_author = 'John McNamara'
 epub_publisher = 'John McNamara'
 epub_copyright = '2013-2026, John McNamara'
 
-linkcheck_ignore = ["https://www.paypal.com"]
+linkcheck_ignore = ["https://www.paypal.com",
+                    "https://stackoverflow.com/questions/tagged/xlsxwriter"]
 
 extlinks = {'issue': ('https://github.com/jmcnamara/XlsxWriter/issues/%s', 'Issue %s'),
             'feature': ('https://github.com/jmcnamara/XlsxWriter/issues/%s', 'Feature Request %s'),

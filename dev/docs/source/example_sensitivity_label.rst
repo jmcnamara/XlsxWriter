@@ -17,7 +17,7 @@ generally only enabled for enterprise versions of Office.
 
 See the following Microsoft documentation on how to `Apply sensitivity labels to
 your files and email
-<https://support.microsoft.com/en-us/office/apply-sensitivity-labels-to-your-files-and-email-2f96e7cd-d5a4-403b-8bd7-4cc636bae0f9>`_.
+<https://support.microsoft.com/en-us/office/security-privacy/apply-sensitivity-labels-to-your-files>`_.
 
 Sensitivity Labels are generally stored as custom document properties so they
 can be enabled using ``set_custom_property()``. However, since the metadata

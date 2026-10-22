@@ -91,7 +91,7 @@ references are prefixed by the dollar symbol as shown below::
     '$A$1'  # Column and row are absolute.
 
 See the Microsoft Office documentation for
-`more information on relative and absolute references <https://support.microsoft.com/en-us/office/switch-between-relative-absolute-and-mixed-references-dfec08cd-ae65-4f56-839e-5f0d8d0baca9>`_.
+`more information on relative and absolute references <https://support.microsoft.com/en-us/excel/switch-between-relative-absolute-and-mixed-references>`_.
 
 Some functions such as :func:`conditional_format()` may require absolute
 references, depending on the range being specified.
