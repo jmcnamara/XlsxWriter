@@ -445,7 +445,6 @@ class Worksheet(xmlwriter.XMLwriter):
 
         self.row_sizes = {}
         self.col_size_changed = False
-        self.row_size_changed = False
 
         self.rel_count = 0
         self.hlink_count = 0
@@ -2400,9 +2399,6 @@ class Worksheet(xmlwriter.XMLwriter):
             collapsed=collapsed,
         )
 
-        # Store the row change to allow optimizations.
-        self.row_size_changed = True
-
         # Store the row sizes for use when calculating image vertices.
         self.row_sizes[row] = [height, hidden]
 
@@ -2428,8 +2424,6 @@ class Worksheet(xmlwriter.XMLwriter):
             pixel_height = int(round(height * 4.0 / 3.0))  # noqa: RUF046
 
         if pixel_height != self.original_row_height:
-            # Store the row change to allow optimizations.
-            self.row_size_changed = True
             self.default_row_height = pixel_height
 
         if hide_unused_rows:
@@ -5749,11 +5743,11 @@ class Worksheet(xmlwriter.XMLwriter):
         x_abs += x1
 
         # Calculate the absolute y offset of the top-left vertex.
-        if self.row_size_changed:
+        if self.row_sizes:
             for row_id in range(row_start):
                 y_abs += self._size_row(row_id)
         else:
-            # Optimization for when the row heights haven't changed.
+            # Optimization for when no individual row heights have changed.
             y_abs += self.default_row_height * row_start
 
         y_abs += y1
