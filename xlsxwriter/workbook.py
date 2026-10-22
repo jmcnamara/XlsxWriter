@@ -689,6 +689,14 @@ class Workbook(xmlwriter.XMLwriter):
             warn(f"Invalid Excel characters in defined_name(): '{name}'")
             return -1
 
+        # Warn if the defined name exceeds Excel's maximum length.
+        if len(name) > 255:
+            warn(
+                f"Name '{name}' in define_name() exceeds Excel's limit of 255 "
+                f"characters"
+            )
+            return -1
+
         # Warn if the defined name looks like a cell name.
         if re.match(r"^[a-zA-Z][a-zA-Z]?[a-dA-D]?\d+$", name):
             warn(f"Name looks like a cell name in defined_name(): '{name}'")
