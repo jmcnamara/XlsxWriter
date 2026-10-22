@@ -170,8 +170,12 @@ def _compare_xlsx_files(got_file, exp_file, ignore_files, ignore_elements):
         # Remove workbookView dimensions which are almost always different
         # and calcPr which can have different Excel version ids.
         if filename == "xl/workbook.xml":
-            exp_xml_str = re.sub(r"<workbookView[^>]*>", "<workbookView/>", exp_xml_str)
-            got_xml_str = re.sub(r"<workbookView[^>]*>", "<workbookView/>", got_xml_str)
+            dimensions = (
+                r'<workbookView xWindow="\d+" yWindow="\d+" '
+                r'windowWidth="\d+" windowHeight="\d+"'
+            )
+            exp_xml_str = re.sub(dimensions, "<workbookView", exp_xml_str)
+            got_xml_str = re.sub(dimensions, "<workbookView", got_xml_str)
             exp_xml_str = re.sub(r"<calcPr[^>]*>", "<calcPr/>", exp_xml_str)
             got_xml_str = re.sub(r"<calcPr[^>]*>", "<calcPr/>", got_xml_str)
 

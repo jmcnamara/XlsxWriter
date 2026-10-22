@@ -8,6 +8,7 @@
 #
 
 import unittest
+import warnings
 from io import StringIO
 
 from xlsxwriter.workbook import Workbook
@@ -155,6 +156,34 @@ class TestWriteWorkbookView(unittest.TestCase):
         got = self.fh.getvalue()
 
         self.assertEqual(exp, got)
+
+    def test_write_workbook_view13(self):
+        """Test the _write_workbook_view() method"""
+
+        self.workbook.set_tab_ratio(50)
+        self.workbook.worksheet_meta.firstsheet = 1
+        self.workbook.worksheet_meta.activesheet = 2
+        self.workbook._write_workbook_view()
+
+        exp = """<workbookView xWindow="240" yWindow="15" windowWidth="16095" windowHeight="9660" tabRatio="500" firstSheet="1" activeTab="2"/>"""
+        got = self.fh.getvalue()
+
+        self.assertEqual(exp, got)
+
+    def test_write_workbook_view14(self):
+        """Test the _write_workbook_view() method with an out of range ratio"""
+
+        with warnings.catch_warnings(record=True) as warnings_emitted:
+            warnings.simplefilter("always")
+            self.workbook.set_tab_ratio(101)
+
+        self.workbook._write_workbook_view()
+
+        exp = """<workbookView xWindow="240" yWindow="15" windowWidth="16095" windowHeight="9660"/>"""
+        got = self.fh.getvalue()
+
+        self.assertEqual(exp, got)
+        self.assertEqual(len(warnings_emitted), 1)
 
     def tearDown(self):
         self.workbook.fileclosed = 1
