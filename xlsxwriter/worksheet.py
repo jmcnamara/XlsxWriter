@@ -1401,7 +1401,7 @@ class Worksheet(xmlwriter.XMLwriter):
                 url._text = string
 
             if tip is not None:
-                url._tip = tip
+                url.tip = tip
 
         # Check the limit of URLs per worksheet.
         self.hlink_count += 1
