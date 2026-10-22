@@ -2308,11 +2308,16 @@ However, if there are a large number of worksheets the selected worksheet may
 not appear on the screen. To avoid this you can select which is the leftmost
 visible worksheet tab using ``set_first_sheet()``::
 
-    for in range(1, 21):
-        workbook.add_worksheet
+    for _ in range(16):
+        workbook.add_worksheet()
 
-    worksheet19.set_first_sheet()  # First visible worksheet tab.
-    worksheet20.activate()         # First visible worksheet.
+    worksheet13 = workbook.get_worksheet_by_name("Sheet13")
+    worksheet16 = workbook.get_worksheet_by_name("Sheet16")
+
+    worksheet13.set_first_sheet()  # First visible worksheet tab.
+    worksheet16.activate()         # Active worksheet.
+
+.. image:: _images/worksheet_set_first_sheet.png
 
 This method is not required very often. The default value is the first
 worksheet.

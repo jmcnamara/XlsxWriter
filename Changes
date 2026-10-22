@@ -8,6 +8,10 @@ Release 3.3.1 - Month XX 2026
 
   :issue:`1210`.
 
+* Fixed off by one error in the worksheet :func:`set_first_sheet()` method.
+
+  :issue:`1187`.
+
 
 Release 3.3.0 - October 22 2026
 -------------------------------
