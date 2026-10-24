@@ -3648,100 +3648,99 @@ class Worksheet(xmlwriter.XMLwriter):
                 "name_format": None,
             }
 
+            # Check if there are user defined values for this column.
+            user_data = None
+            if "columns" in options and col_id <= len(options["columns"]):
+                user_data = options["columns"][col_id - 1]
+
+            # Map the user defined header before checking its uniqueness.
+            if user_data and user_data.get("header"):
+                col_data["name"] = user_data["header"]
+
+            # Excel requires unique case insensitive header names, including
+            # any generated default names.
+            header_name = col_data["name"]
+            name = header_name.lower()
+            if name in seen_names:
+                warn(f"Duplicate header name in add_table(): '{name}'")
+                return -2
+
+            seen_names[name] = True
+
             # Overwrite the defaults with any user defined values.
-            if "columns" in options:
-                # Check if there are user defined values for this column.
-                if col_id <= len(options["columns"]):
-                    user_data = options["columns"][col_id - 1]
-                else:
-                    user_data = None
+            if user_data:
+                # Get the column format.
+                xformat = user_data.get("format", None)
 
-                if user_data:
-                    # Get the column format.
-                    xformat = user_data.get("format", None)
+                col_data["name_format"] = user_data.get("header_format")
 
-                    # Map user defined values to internal values.
-                    if user_data.get("header"):
-                        col_data["name"] = user_data["header"]
+                # Handle the column formula.
+                if user_data.get("formula"):
+                    formula = user_data["formula"]
 
-                    # Excel requires unique case insensitive header names.
-                    header_name = col_data["name"]
-                    name = header_name.lower()
-                    if name in seen_names:
-                        warn(f"Duplicate header name in add_table(): '{name}'")
-                        return -2
+                    # Remove the formula '=' sign if it exists.
+                    if formula.startswith("="):
+                        formula = formula.lstrip("=")
 
-                    seen_names[name] = True
+                    # Convert Excel 2010 "@" ref to 2007 "#This Row".
+                    formula = self._prepare_table_formula(formula)
 
-                    col_data["name_format"] = user_data.get("header_format")
+                    # Escape any future functions.
+                    formula = self._prepare_formula(formula, True)
 
-                    # Handle the column formula.
-                    if user_data.get("formula"):
-                        formula = user_data["formula"]
+                    col_data["formula"] = formula
+                    # We write the formulas below after the table data.
 
-                        # Remove the formula '=' sign if it exists.
-                        if formula.startswith("="):
-                            formula = formula.lstrip("=")
+                # Handle the function for the total row.
+                if user_data.get("total_function"):
+                    function = user_data["total_function"]
+                    if function == "count_nums":
+                        function = "countNums"
+                    if function == "std_dev":
+                        function = "stdDev"
 
-                        # Convert Excel 2010 "@" ref to 2007 "#This Row".
-                        formula = self._prepare_table_formula(formula)
+                    subtotals = {
+                        "average",
+                        "countNums",
+                        "count",
+                        "max",
+                        "min",
+                        "stdDev",
+                        "sum",
+                        "var",
+                    }
 
-                        # Escape any future functions.
-                        formula = self._prepare_formula(formula, True)
-
-                        col_data["formula"] = formula
-                        # We write the formulas below after the table data.
-
-                    # Handle the function for the total row.
-                    if user_data.get("total_function"):
-                        function = user_data["total_function"]
-                        if function == "count_nums":
-                            function = "countNums"
-                        if function == "std_dev":
-                            function = "stdDev"
-
-                        subtotals = {
-                            "average",
-                            "countNums",
-                            "count",
-                            "max",
-                            "min",
-                            "stdDev",
-                            "sum",
-                            "var",
-                        }
-
-                        if function in subtotals:
-                            formula = self._table_function_to_formula(
-                                function, col_data["name"]
-                            )
-                        else:
-                            formula = self._prepare_formula(function, True)
-                            col_data["custom_total"] = formula
-                            function = "custom"
-
-                        col_data["total_function"] = function
-
-                        value = user_data.get("total_value", 0)
-
-                        self._write_formula(last_row, col_num, formula, xformat, value)
-
-                    elif user_data.get("total_string"):
-                        # Total label only (not a function).
-                        total_string = user_data["total_string"]
-                        col_data["total_string"] = total_string
-
-                        self._write_string(
-                            last_row, col_num, total_string, user_data.get("format")
+                    if function in subtotals:
+                        formula = self._table_function_to_formula(
+                            function, col_data["name"]
                         )
+                    else:
+                        formula = self._prepare_formula(function, True)
+                        col_data["custom_total"] = formula
+                        function = "custom"
 
-                    # Get the dxf format index.
-                    if xformat is not None:
-                        col_data["format"] = xformat._get_dxf_index()
+                    col_data["total_function"] = function
 
-                    # Store the column format for writing the cell data.
-                    # It doesn't matter if it is undefined.
-                    col_formats[col_id - 1] = xformat
+                    value = user_data.get("total_value", 0)
+
+                    self._write_formula(last_row, col_num, formula, xformat, value)
+
+                elif user_data.get("total_string"):
+                    # Total label only (not a function).
+                    total_string = user_data["total_string"]
+                    col_data["total_string"] = total_string
+
+                    self._write_string(
+                        last_row, col_num, total_string, user_data.get("format")
+                    )
+
+                # Get the dxf format index.
+                if xformat is not None:
+                    col_data["format"] = xformat._get_dxf_index()
+
+                # Store the column format for writing the cell data.
+                # It doesn't matter if it is undefined.
+                col_formats[col_id - 1] = xformat
 
             # Store the column data.
             table["columns"].append(col_data)
