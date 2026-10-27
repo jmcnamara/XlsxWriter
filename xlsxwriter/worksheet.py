@@ -443,6 +443,8 @@ class Worksheet(xmlwriter.XMLwriter):
         self.filter_type = {}
         self.filter_cells = {}
 
+        self.col_pixel_offsets = [0]  # Cache the absolute pixel offset for each col
+        self.row_pixel_offsets = [0]  # Cache the absolute pixel offset for each row
         self.row_sizes = {}
         self.col_size_changed = False
 
@@ -5742,8 +5744,7 @@ class Worksheet(xmlwriter.XMLwriter):
 
         # Calculate the absolute x offset of the top-left vertex.
         if self.col_size_changed:
-            for col_id in range(col_start):
-                x_abs += self._size_col(col_id)
+            x_abs += self._col_pixel_offset(col_start)
         else:
             # Optimization for when the column widths haven't changed.
             x_abs += self.default_col_width * col_start
@@ -5752,8 +5753,7 @@ class Worksheet(xmlwriter.XMLwriter):
 
         # Calculate the absolute y offset of the top-left vertex.
         if self.row_sizes:
-            for row_id in range(row_start):
-                y_abs += self._size_row(row_id)
+            y_abs += self._row_pixel_offset(row_start)
         else:
             # Optimization for when no individual row heights have changed.
             y_abs += self.default_row_height * row_start
@@ -5796,6 +5796,17 @@ class Worksheet(xmlwriter.XMLwriter):
 
         return [col_start, row_start, x1, y1, col_end, row_end, x2, y2, x_abs, y_abs]
 
+    def _col_pixel_offset(self, col):
+        # Cache the absolute pixel offset for each col.
+
+        # Extend the offset list for uncached column indexes.
+        # self.col_pixel_offsets[n+1] = self.col_pixel_offsets[n] + self._size_col(n)
+        for col_id in range(len(self.col_pixel_offsets) - 1, col):
+            offset = self.col_pixel_offsets[col_id] + self._size_col(col_id)
+            self.col_pixel_offsets.append(offset)
+
+        return self.col_pixel_offsets[col]
+
     def _size_col(self, col: int, anchor=0):
         # Look up the cell value to see if it has been changed.
         if col in self.col_info:
@@ -5811,6 +5822,17 @@ class Worksheet(xmlwriter.XMLwriter):
             return width
 
         return self.default_col_width
+
+    def _row_pixel_offset(self, row):
+        # Cache the absolute pixel offset for each row.
+
+        # Extend the offset list for uncached row indexes.
+        # self.row_pixel_offsets[n+1] = self.row_pixel_offsets[n] + self._size_row(n)
+        for row_id in range(len(self.row_pixel_offsets) - 1, row):
+            offset = self.row_pixel_offsets[row_id] + self._size_row(row_id)
+            self.row_pixel_offsets.append(offset)
+
+        return self.row_pixel_offsets[row]
 
     def _size_row(self, row: int, anchor=0):
         # Look up the cell value to see if it has been changed
