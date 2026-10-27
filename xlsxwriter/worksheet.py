@@ -2294,15 +2294,15 @@ class Worksheet(xmlwriter.XMLwriter):
                 # to pre-load a minimum col width.
                 col_info = self.col_info.get(col_num)
                 user_width = col_info.width
-                hidden = col_info.hidden
-                if user_width is not None and not hidden:
+                autofit = col_info.autofit
+                if user_width is not None and not autofit:
                     # Col info is user defined.
                     if width > user_width:
                         self.col_info[col_num].width = width
-                        self.col_info[col_num].hidden = True
+                        self.col_info[col_num].autofit = True
                 else:
                     self.col_info[col_num].width = width
-                    self.col_info[col_num].hidden = True
+                    self.col_info[col_num].autofit = True
             else:
                 self.col_info[col_num] = ColumnInfo(
                     width=width,
