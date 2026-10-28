@@ -3,10 +3,15 @@ Release 3.3.1 - Month XX 2026
 -----------------------------
 
 * Fixed performance issue where positioning objects such as images and comments
-  on a worksheet with a custom default row height re-scanned every preceding
-  row for each object.
+  on a worksheet with a custom default row height.
 
   :issue:`1210`.
+
+* Fixed a (different) performance issue where positioning a large number of
+  objects such as comments on a worksheet with custom row heights or column
+  widths.
+
+  :issue:`1217`.
 
 * Fixed off by one error in the worksheet :func:`set_first_sheet()` method.
 

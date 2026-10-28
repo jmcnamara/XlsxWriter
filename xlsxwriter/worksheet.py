@@ -446,6 +446,11 @@ class Worksheet(xmlwriter.XMLwriter):
         self.row_sizes = {}
         self.col_size_changed = False
 
+        # The previously calculated (index, pixel offset) used to position
+        # objects, to avoid re-summing the sizes from the first row/col.
+        self.prev_col_offset = (0, 0)
+        self.prev_row_offset = (0, 0)
+
         self.rel_count = 0
         self.hlink_count = 0
         self.external_hyper_links = []
@@ -5742,8 +5747,7 @@ class Worksheet(xmlwriter.XMLwriter):
 
         # Calculate the absolute x offset of the top-left vertex.
         if self.col_size_changed:
-            for col_id in range(col_start):
-                x_abs += self._size_col(col_id)
+            x_abs += self._col_offset(col_start)
         else:
             # Optimization for when the column widths haven't changed.
             x_abs += self.default_col_width * col_start
@@ -5752,8 +5756,7 @@ class Worksheet(xmlwriter.XMLwriter):
 
         # Calculate the absolute y offset of the top-left vertex.
         if self.row_sizes:
-            for row_id in range(row_start):
-                y_abs += self._size_row(row_id)
+            y_abs += self._row_offset(row_start)
         else:
             # Optimization for when no individual row heights have changed.
             y_abs += self.default_row_height * row_start
@@ -5824,6 +5827,38 @@ class Worksheet(xmlwriter.XMLwriter):
             return height
 
         return self.default_row_height
+
+    def _col_offset(self, col: int):
+        # Get the absolute pixel offset of a column by summing the widths of
+        # the columns before it. Objects are generally positioned in row/col
+        # order so, to avoid re-summing from the first column for each object,
+        # the sum restarts from the previously calculated column and offset.
+        prev_col, offset = self.prev_col_offset
+
+        if col < prev_col:
+            prev_col, offset = 0, 0
+
+        for col_id in range(prev_col, col):
+            offset += self._size_col(col_id)
+
+        self.prev_col_offset = (col, offset)
+
+        return offset
+
+    def _row_offset(self, row: int):
+        # Get the absolute pixel offset of a row by summing the heights of the
+        # rows before it. See _col_offset() above.
+        prev_row, offset = self.prev_row_offset
+
+        if row < prev_row:
+            prev_row, offset = 0, 0
+
+        for row_id in range(prev_row, row):
+            offset += self._size_row(row_id)
+
+        self.prev_row_offset = (row, offset)
+
+        return offset
 
     def _pixels_to_height(self, pixels):
         # Convert the height of a cell from pixels to character units.
