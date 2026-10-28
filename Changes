@@ -33,6 +33,11 @@ Release 3.3.1 - Month XX 2026
 
   :issue:`1212`.
 
+* Fixed :func:`set_column()` rounding a half-pixel width to the nearest even
+  pixel, which made some widths one pixel narrower than in 3.2.9.
+
+  :issue:`1221`.
+
 
 Release 3.3.0 - October 22 2026
 -------------------------------

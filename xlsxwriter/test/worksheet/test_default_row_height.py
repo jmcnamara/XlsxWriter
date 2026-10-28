@@ -1,0 +1,53 @@
+###############################################################################
+#
+# Tests for XlsxWriter.
+#
+# SPDX-License-Identifier: BSD-2-Clause
+#
+# Copyright (c), 2013-2026, John McNamara, jmcnamara@cpan.org
+#
+
+import unittest
+from io import StringIO
+
+from xlsxwriter.worksheet import Worksheet
+
+from ..helperfunctions import _xml_to_list
+
+
+class TestAssembleWorksheet(unittest.TestCase):
+    """
+    Test assembling a complete Worksheet file.
+
+    """
+
+    def test_set_default_row_half_pixel_rounding(self):
+        """Test set_default_row() rounds half pixel heights up."""
+        self.maxDiff = None
+
+        fh = StringIO()
+        worksheet = Worksheet()
+        worksheet._set_filehandle(fh)
+
+        # 3.375 points is 4.5 pixels, which should round up to 5.
+        worksheet.set_default_row(3.375)
+
+        worksheet.select()
+        worksheet._assemble_xml_file()
+
+        exp = _xml_to_list("""
+                <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+                <worksheet xmlns="http://schemas.openxmlformats.org/spreadsheetml/2006/main" xmlns:r="http://schemas.openxmlformats.org/officeDocument/2006/relationships">
+                  <dimension ref="A1"/>
+                  <sheetViews>
+                    <sheetView tabSelected="1" workbookViewId="0"/>
+                  </sheetViews>
+                  <sheetFormatPr defaultRowHeight="3.75" customHeight="1"/>
+                  <sheetData/>
+                  <pageMargins left="0.7" right="0.7" top="0.75" bottom="0.75" header="0.3" footer="0.3"/>
+                </worksheet>
+                """)
+
+        got = _xml_to_list(fh.getvalue())
+
+        self.assertEqual(exp, got)

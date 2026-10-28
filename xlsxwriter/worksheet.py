@@ -2079,9 +2079,9 @@ class Worksheet(xmlwriter.XMLwriter):
         elif width == 0.0:
             width_pixels = 0
         elif width < 1.0:
-            width_pixels = round(width * (self.max_digit_width + self.cell_padding))
+            width_pixels = int(width * (self.max_digit_width + self.cell_padding) + 0.5)
         else:
-            width_pixels = round(width * self.max_digit_width) + self.cell_padding
+            width_pixels = int(width * self.max_digit_width + 0.5) + self.cell_padding
 
         return self.set_column_pixels(
             first_col, last_col, width_pixels, cell_format, options
@@ -2336,7 +2336,7 @@ class Worksheet(xmlwriter.XMLwriter):
 
         """
         if height is not None:
-            pixel_height = round(height * 4.0 / 3.0)
+            pixel_height = int(height * 4.0 / 3.0 + 0.5)
         else:
             pixel_height = None
 
@@ -2426,7 +2426,7 @@ class Worksheet(xmlwriter.XMLwriter):
         if height is None:
             pixel_height = self.default_row_height
         else:
-            pixel_height = int(round(height * 4.0 / 3.0))  # noqa: RUF046
+            pixel_height = int(height * 4.0 / 3.0 + 0.5)
 
         if pixel_height != self.original_row_height:
             self.default_row_height = pixel_height
