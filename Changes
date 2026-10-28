@@ -17,6 +17,11 @@ Release 3.3.1 - Month XX 2026
 
   :issue:`1187`.
 
+* Fixed issue where :func:`autofit()` hid a column that had a user defined
+  width narrower than the autofit width.
+
+  :issue:`1219`.
+
 
 Release 3.3.0 - October 22 2026
 -------------------------------
