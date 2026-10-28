@@ -3552,7 +3552,7 @@ class Worksheet(xmlwriter.XMLwriter):
             num_rows -= 1
 
         if num_rows < 0:
-            warn("Must have at least one data row in in add_table()")
+            warn("Must have at least one data row in add_table()")
             return -2
 
         # Set the table options.
@@ -3634,10 +3634,29 @@ class Worksheet(xmlwriter.XMLwriter):
         if options["autofilter"]:
             table["autofilter"] = table["a_range"]
 
+        # Excel requires unique case insensitive header names. Check the user
+        # defined and default names before any table data is written.
+        seen_names = set()
+        user_columns = options.get("columns", [])
+
+        for col_id in range(1, last_col - first_col + 2):
+            name = "Column" + str(col_id)
+
+            if col_id <= len(user_columns):
+                user_data = user_columns[col_id - 1]
+                if user_data and user_data.get("header"):
+                    name = user_data["header"]
+
+            name = name.lower()
+            if name in seen_names:
+                warn(f"Duplicate header name in add_table(): '{name}'")
+                return -2
+
+            seen_names.add(name)
+
         # Add the table columns.
         col_id = 1
         table["columns"] = []
-        seen_names = {}
 
         for col_num in range(first_col, last_col + 1):
             # Set up the default column data.
@@ -3668,15 +3687,6 @@ class Worksheet(xmlwriter.XMLwriter):
                     # Map user defined values to internal values.
                     if user_data.get("header"):
                         col_data["name"] = user_data["header"]
-
-                    # Excel requires unique case insensitive header names.
-                    header_name = col_data["name"]
-                    name = header_name.lower()
-                    if name in seen_names:
-                        warn(f"Duplicate header name in add_table(): '{name}'")
-                        return -2
-
-                    seen_names[name] = True
 
                     col_data["name_format"] = user_data.get("header_format")
 

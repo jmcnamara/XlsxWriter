@@ -42,7 +42,7 @@ class TestCompareXLSXFiles(ExcelComparisonTest):
         warnings.filterwarnings("ignore")
 
         worksheet.add_table(
-            "G3:H3", {"columns": [{"header": "Column1"}, {"header": "Column1"}]}
+            "G3:H4", {"columns": [{"header": "Column1"}, {"header": "Column1"}]}
         )
         workbook.close()
 

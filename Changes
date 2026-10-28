@@ -22,6 +22,11 @@ Release 3.3.1 - Month XX 2026
 
   :issue:`1219`.
 
+* Fixed issue where :func:`add_table()` didn't detect a duplicate header name
+  when a user defined header matched a default ``ColumnN`` header.
+
+  :issue:`1215`.
+
 
 Release 3.3.0 - October 22 2026
 -------------------------------
