@@ -27,6 +27,12 @@ Release 3.3.1 - Month XX 2026
 
   :issue:`1215`.
 
+* Fixed issue where the ``strings_to_formulas`` Workbook option didn't prevent
+  :func:`write()` from converting strings like ``{=SUM(A1:B1*A2:B2)}`` to
+  array formulas.
+
+  :issue:`1212`.
+
 
 Release 3.3.0 - October 22 2026
 -------------------------------

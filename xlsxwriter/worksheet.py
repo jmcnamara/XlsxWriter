@@ -532,7 +532,7 @@ class Worksheet(xmlwriter.XMLwriter):
         if self.strings_to_formulas and token.startswith("="):
             return self._write_formula(row, col, *args)
 
-        if token.startswith("{=") and token.endswith("}"):
+        if self.strings_to_formulas and token.startswith("{=") and token.endswith("}"):
             return self._write_formula(row, col, *args)
 
         # pylint: disable=too-many-boolean-expressions
