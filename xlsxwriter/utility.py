@@ -133,6 +133,10 @@ RE_QUOTE_RULE2 = re.compile(rf"^[\d\.{EMOJIS}]")
 RE_QUOTE_RULE3 = re.compile(r"^([A-Z]{1,3}\d+)$")
 RE_QUOTE_RULE4_ROW = re.compile(r"^R(\d+)")
 RE_QUOTE_RULE4_COLUMN = re.compile(r"^R?C(\d+)")
+RE_INVALID_NAME_CHARS = re.compile(
+    r"[ !\"#$%&'()*+,\-/:;<=>@\[\]^`{|}~\x00-\x1f\x7f-\x9f]"
+)
+RE_INVALID_NAME_START = re.compile(r"^[\d.?]")
 
 
 def xl_rowcol_to_cell(
@@ -948,3 +952,30 @@ def _preserve_whitespace(string: str) -> Optional[re.Match]:
     # Check if a string has leading or trailing whitespace that requires a
     # "preserve" attribute.
     return RE_LEADING_WHITESPACE.search(string) or RE_TRAILING_WHITESPACE.search(string)
+
+
+def _utf16_len(string: str) -> int:
+    # Get the length of a string in UTF-16 units. Excel's string length limits
+    # are in UTF-16 units, so characters above U+FFFF, such as emojis, count as 2.
+    return len(string.encode("utf-16-le", "surrogatepass")) // 2
+
+
+def _utf16_truncate(string: str, max_len: int) -> str:
+    # Truncate a string to a maximum length in UTF-16 units without splitting
+    # a character above U+FFFF.
+    length = 0
+    for index, char in enumerate(string):
+        length += 2 if ord(char) > 0xFFFF else 1
+        if length > max_len:
+            return string[:index]
+
+    return string
+
+
+def _has_invalid_name_chars(name: str) -> bool:
+    # Check for characters that Excel doesn't allow in defined and table names.
+    return (
+        not name
+        or bool(RE_INVALID_NAME_CHARS.search(name))
+        or bool(RE_INVALID_NAME_START.match(name))
+    )

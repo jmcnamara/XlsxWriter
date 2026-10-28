@@ -46,7 +46,7 @@ from xlsxwriter.image import Image
 from xlsxwriter.packager import Packager
 from xlsxwriter.sharedstrings import SharedStringTable
 from xlsxwriter.theme import THEME_XML_2007, THEME_XML_2023
-from xlsxwriter.utility import xl_cell_to_rowcol
+from xlsxwriter.utility import _has_invalid_name_chars, _utf16_len, xl_cell_to_rowcol
 from xlsxwriter.worksheet import Worksheet
 
 
@@ -601,13 +601,13 @@ class Workbook(xmlwriter.XMLwriter):
         if property_type in ("number", "number_int"):
             value = str(value)
 
-        if property_type == "text" and len(value) > 255:
+        if property_type == "text" and _utf16_len(value) > 255:
             warn(
                 f"Length of 'value' parameter exceeds Excel's limit of 255 "
                 f"characters in set_custom_property(): '{value}'"
             )
 
-        if len(name) > 255:
+        if _utf16_len(name) > 255:
             warn(
                 f"Length of 'name' parameter exceeds Excel's limit of 255 "
                 f"characters in set_custom_property(): '{name}'"
@@ -683,14 +683,12 @@ class Workbook(xmlwriter.XMLwriter):
             sheet_index = -1
 
         # Warn if the defined name contains invalid chars as defined by Excel.
-        if not re.match(r"^[\w\\][\w\\.]*$", name, re.UNICODE) or re.match(
-            r"^\d", name
-        ):
+        if _has_invalid_name_chars(name):
             warn(f"Invalid Excel characters in defined_name(): '{name}'")
             return -1
 
         # Warn if the defined name exceeds Excel's maximum length.
-        if len(name) > 255:
+        if _utf16_len(name) > 255:
             warn(
                 f"Name '{name}' in define_name() exceeds Excel's limit of 255 "
                 f"characters"
@@ -1002,7 +1000,7 @@ class Workbook(xmlwriter.XMLwriter):
                 sheetname = self.sheet_name + str(self.sheetname_count)
 
         # Check that sheet sheetname is <= 31. Excel limit.
-        if len(sheetname) > 31:
+        if _utf16_len(sheetname) > 31:
             raise InvalidWorksheetName(
                 f"Excel worksheet name '{sheetname}' must be <= 31 chars."
             )

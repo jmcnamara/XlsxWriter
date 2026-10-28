@@ -12,6 +12,8 @@ import re
 from enum import Enum
 from typing import Any, Dict, Optional
 
+from xlsxwriter.utility import _utf16_len
+
 
 class UrlTypes(Enum):
     """
@@ -46,10 +48,10 @@ class Url:
 
         self._parse_url()
 
-        if len(self._link) > self.MAX_URL_LEN:
+        if _utf16_len(self._link) > self.MAX_URL_LEN:
             raise ValueError("URL exceeds Excel's maximum length.")
 
-        if len(self._anchor) > self.MAX_URL_LEN:
+        if _utf16_len(self._anchor) > self.MAX_URL_LEN:
             raise ValueError("Anchor segment or url exceeds Excel's maximum length.")
 
         self._escape_strings()
@@ -117,7 +119,7 @@ class Url:
     @tip.setter
     def tip(self, value: str) -> None:
         """Set the screen tip for the URL."""
-        if len(value) > self.MAX_PARAMETER_LEN:
+        if _utf16_len(value) > self.MAX_PARAMETER_LEN:
             raise ValueError("Hyperlink tool tip exceeds Excel's maximum length.")
         self._tip = value
 

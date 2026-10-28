@@ -49,8 +49,11 @@ from xlsxwriter.url import Url, UrlTypes
 from xlsxwriter.utility import (
     _datetime_to_excel_datetime,
     _get_sparkline_style,
+    _has_invalid_name_chars,
     _preserve_whitespace,
     _supported_datetime,
+    _utf16_len,
+    _utf16_truncate,
     quote_sheetname,
     xl_cell_to_rowcol,
     xl_col_to_name,
@@ -698,9 +701,10 @@ class Worksheet(xmlwriter.XMLwriter):
         if self._check_dimensions(row, col):
             return -1
 
-        # Check that the string is < 32767 chars.
-        if len(string) > self.xls_strmax:
-            string = string[: self.xls_strmax]
+        # Check that the string is < 32767 UTF-16 units. A string can't exceed
+        # the limit if it is less than half of it, so skip the slower check.
+        if len(string) > self.xls_strmax // 2 and _utf16_len(string) > self.xls_strmax:
+            string = _utf16_truncate(string, self.xls_strmax)
             str_error = -2
 
         # Write a shared string or an in-line string in constant_memory mode.
@@ -1393,7 +1397,7 @@ class Worksheet(xmlwriter.XMLwriter):
                 url_str = url
                 anchor_str = ""
 
-            if len(url_str) > max_url or len(anchor_str) > max_url:
+            if _utf16_len(url_str) > max_url or _utf16_len(anchor_str) > max_url:
                 warn(
                     f"Ignoring URL '{url}' with link or location/anchor > {max_url} "
                     f"characters since it exceeds Excel's limit for URLs."
@@ -1554,7 +1558,7 @@ class Worksheet(xmlwriter.XMLwriter):
         string = self.rstring.fh.getvalue()
 
         # Check that the string is < 32767 chars.
-        if len(raw_string) > self.xls_strmax:
+        if _utf16_len(raw_string) > self.xls_strmax:
             warn(
                 "String length must be less than or equal to Excel's limit "
                 "of 32,767 characters in write_rich_string()."
@@ -1883,7 +1887,7 @@ class Worksheet(xmlwriter.XMLwriter):
             return -1
 
         # Check that the comment string is < 32767 chars.
-        if len(comment) > self.xls_strmax:
+        if _utf16_len(comment) > self.xls_strmax:
             return -2
 
         self.has_vml = True
@@ -2870,7 +2874,7 @@ class Worksheet(xmlwriter.XMLwriter):
                 options["maximum"] = f"{date_time:.16g}"
 
         # Check that the input title doesn't exceed the maximum length.
-        if options.get("input_title") and len(options["input_title"]) > 32:
+        if options.get("input_title") and _utf16_len(options["input_title"]) > 32:
             warn(
                 f"Length of input title '{options['input_title']}' "
                 f"exceeds Excel's limit of 32"
@@ -2878,7 +2882,7 @@ class Worksheet(xmlwriter.XMLwriter):
             return -2
 
         # Check that the error title doesn't exceed the maximum length.
-        if options.get("error_title") and len(options["error_title"]) > 32:
+        if options.get("error_title") and _utf16_len(options["error_title"]) > 32:
             warn(
                 f"Length of error title '{options['error_title']}' "
                 f"exceeds Excel's limit of 32"
@@ -2886,7 +2890,7 @@ class Worksheet(xmlwriter.XMLwriter):
             return -2
 
         # Check that the input message doesn't exceed the maximum length.
-        if options.get("input_message") and len(options["input_message"]) > 255:
+        if options.get("input_message") and _utf16_len(options["input_message"]) > 255:
             warn(
                 f"Length of input message '{options['input_message']}' "
                 f"exceeds Excel's limit of 255"
@@ -2894,7 +2898,7 @@ class Worksheet(xmlwriter.XMLwriter):
             return -2
 
         # Check that the error message doesn't exceed the maximum length.
-        if options.get("error_message") and len(options["error_message"]) > 255:
+        if options.get("error_message") and _utf16_len(options["error_message"]) > 255:
             warn(
                 f"Length of error message '{options['error_message']}' "
                 f"exceeds Excel's limit of 255"
@@ -2904,7 +2908,7 @@ class Worksheet(xmlwriter.XMLwriter):
         # Check that the input list doesn't exceed the maximum length.
         if options["validate"] == "list" and isinstance(options["value"], list):
             formula = self._csv_join(*options["value"])
-            if len(formula) > 255:
+            if _utf16_len(formula) > 255:
                 warn(
                     f"Length of list items '{formula}' exceeds Excel's limit of "
                     f"255, use a formula range instead"
@@ -3580,14 +3584,12 @@ class Worksheet(xmlwriter.XMLwriter):
                 return -2
 
             # Warn if the name contains invalid chars as defined by Excel.
-            if not re.match(r"^[\w\\][\w\\.]*$", name, re.UNICODE) or re.match(
-                r"^\d", name
-            ):
+            if _has_invalid_name_chars(name):
                 warn(f"Invalid Excel characters in add_table(): '{name}'")
                 return -2
 
             # Warn if the name exceeds Excel's maximum length.
-            if len(name) > 255:
+            if _utf16_len(name) > 255:
                 warn(
                     f"Name '{name}' in add_table() exceeds Excel's limit of 255 "
                     f"characters"
@@ -4529,7 +4531,7 @@ class Worksheet(xmlwriter.XMLwriter):
         header_orig = header
         header = header.replace("&[Picture]", "&G")
 
-        if len(header) > 255:
+        if _utf16_len(header) > 255:
             warn("Header string cannot be longer than Excel's limit of 255 characters")
             return
 
@@ -4610,7 +4612,7 @@ class Worksheet(xmlwriter.XMLwriter):
         footer_orig = footer
         footer = footer.replace("&[Picture]", "&G")
 
-        if len(footer) > 255:
+        if _utf16_len(footer) > 255:
             warn("Footer string cannot be longer than Excel's limit of 255 characters")
             return
 

@@ -41,10 +41,19 @@ class TestCheckSheetname(unittest.TestCase):
         exp = "Sheet4"
         self.assertEqual(exp, got)
 
+        # Excel's limit is in UTF-16 units, so these emojis count as 2.
+        name = "\U0001f600" * 15 + "a"
+        got = self.workbook._check_sheetname(name)
+        self.assertEqual(name, got)
+
     def test_check_sheetname_with_long_name(self):
         """Test the _check_sheetname() method with exception"""
 
         name = "name_that_is_longer_than_thirty_one_characters"
+        self.assertRaises(InvalidWorksheetName, self.workbook._check_sheetname, name)
+
+        # Excel's limit is in UTF-16 units, so these emojis count as 2.
+        name = "\U0001f600" * 16
         self.assertRaises(InvalidWorksheetName, self.workbook._check_sheetname, name)
 
     def test_check_sheetname_with_invalid_name(self):

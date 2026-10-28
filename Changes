@@ -49,6 +49,9 @@ Release 3.3.1 - Month XX 2026
 
   :issue:`1171`.
 
+* Fixed Excel string length limit checks for strings with characters such as
+  emojis, which Excel counts as 2 characters.
+
 
 Release 3.3.0 - October 22 2026
 -------------------------------

@@ -61,5 +61,16 @@ class TestWriteDefinedNames(unittest.TestCase):
 
         self.assertEqual(exp, got)
 
+    def test_define_name_emojis(self):
+        """Test define_name() with emojis and Excel's 255 UTF-16 unit limit."""
+
+        # Excel's limit is in UTF-16 units, so these emojis count as 2.
+        got = self.workbook.define_name("\U0001f600" * 127 + "a", "=1")
+        self.assertEqual(got, 0)
+
+        with self.assertWarns(UserWarning):
+            got = self.workbook.define_name("\U0001f600" * 128, "=1")
+        self.assertEqual(got, -1)
+
     def tearDown(self):
         self.workbook.fileclosed = 1

@@ -9,6 +9,7 @@
 
 import unittest
 
+from xlsxwriter.sharedstrings import SharedStringTable
 from xlsxwriter.worksheet import Worksheet
 
 
@@ -102,3 +103,18 @@ class TestRangeReturnValues(unittest.TestCase):
 
         # Reverse man and min column numbers
         worksheet.set_column(0, 3, 17)
+
+    def test_string_length_return_values(self):
+        """Test writing strings at Excel's length limit in UTF-16 units."""
+        worksheet = Worksheet()
+        worksheet.str_table = SharedStringTable()
+
+        # Excel's limit is in UTF-16 units, so these emojis count as 2.
+        got = worksheet.write_string(0, 0, "\U0001f600" * 16383 + "a")
+        self.assertEqual(got, 0)
+
+        got = worksheet.write_string(1, 0, "\U0001f600" * 16384)
+        self.assertEqual(got, -2)
+
+        # The string is truncated without splitting an emoji.
+        self.assertIn("\U0001f600" * 16383, worksheet.str_table.string_table)
