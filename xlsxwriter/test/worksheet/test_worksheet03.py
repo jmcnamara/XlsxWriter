@@ -36,6 +36,8 @@ class TestAssembleWorksheet(unittest.TestCase):
         worksheet.set_column(7, 7, None, cell_format)
         worksheet.set_column(9, 9, 2)
         worksheet.set_column(11, 11, None, None, {"hidden": True})
+        worksheet.set_column(13, 13, 5.5)
+        worksheet.set_column(15, 15, 6.5)
 
         worksheet.select()
         worksheet._assemble_xml_file()
@@ -54,6 +56,8 @@ class TestAssembleWorksheet(unittest.TestCase):
                     <col min="8" max="8" width="9.140625" style="1"/>
                     <col min="10" max="10" width="2.7109375" customWidth="1"/>
                     <col min="12" max="12" width="0" hidden="1" customWidth="1"/>
+                    <col min="14" max="14" width="6.28515625" customWidth="1"/>
+                    <col min="16" max="16" width="7.28515625" customWidth="1"/>
                   </cols>
                   <sheetData/>
                   <pageMargins left="0.7" right="0.7" top="0.75" bottom="0.75" header="0.3" footer="0.3"/>

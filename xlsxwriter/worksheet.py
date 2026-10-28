@@ -2079,9 +2079,9 @@ class Worksheet(xmlwriter.XMLwriter):
         elif width == 0.0:
             width_pixels = 0
         elif width < 1.0:
-            width_pixels = round(width * (self.max_digit_width + self.cell_padding))
+            width_pixels = int(width * (self.max_digit_width + self.cell_padding) + 0.5)
         else:
-            width_pixels = round(width * self.max_digit_width) + self.cell_padding
+            width_pixels = int(width * self.max_digit_width + 0.5) + self.cell_padding
 
         return self.set_column_pixels(
             first_col, last_col, width_pixels, cell_format, options
