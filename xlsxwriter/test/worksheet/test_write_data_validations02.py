@@ -1222,3 +1222,25 @@ class TestWriteDataValidations(unittest.TestCase):
         got = _xml_to_list(got)
 
         self.assertEqual(exp, got)
+
+    def test_write_data_validations_49(self):
+        """
+        Test 49 Custom formula with a future function.
+        """
+        self.worksheet.data_validation(
+            "B5",
+            {
+                "validate": "custom",
+                "value": "=ISFORMULA(B5)",
+            },
+        )
+
+        self.worksheet._write_data_validations()
+
+        exp = '<dataValidations count="1"><dataValidation type="custom" allowBlank="1" showInputMessage="1" showErrorMessage="1" sqref="B5"><formula1>_xlfn.ISFORMULA(B5)</formula1></dataValidation></dataValidations>'
+        got = self.fh.getvalue()
+
+        exp = _xml_to_list(exp)
+        got = _xml_to_list(got)
+
+        self.assertEqual(exp, got)

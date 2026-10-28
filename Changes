@@ -43,6 +43,12 @@ Release 3.3.1 - Month XX 2026
 
   :issue:`1206`.
 
+* Fixed issue where "future" functions such as ``ISFORMULA()`` weren't prefixed
+  with ``_xlfn.`` in :func:`conditional_format()` and :func:`data_validation()`
+  formulas. See :ref:`formula_future`.
+
+  :issue:`1171`.
+
 
 Release 3.3.0 - October 22 2026
 -------------------------------

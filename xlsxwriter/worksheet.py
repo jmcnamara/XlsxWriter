@@ -7643,9 +7643,8 @@ class Worksheet(xmlwriter.XMLwriter):
             try:
                 float(formula)
             except ValueError:
-                # Not a number. Remove the formula '=' sign if it exists.
-                if formula.startswith("="):
-                    formula = formula.lstrip("=")
+                # Not a number, treat as a formula.
+                formula = self._prepare_formula(formula, True)
 
         self._xml_data_element("formula1", formula)
 
@@ -7656,9 +7655,8 @@ class Worksheet(xmlwriter.XMLwriter):
         try:
             float(formula)
         except ValueError:
-            # Not a number. Remove the formula '=' sign if it exists.
-            if formula.startswith("="):
-                formula = formula.lstrip("=")
+            # Not a number, treat as a formula.
+            formula = self._prepare_formula(formula, True)
 
         self._xml_data_element("formula2", formula)
 
@@ -7789,9 +7787,8 @@ class Worksheet(xmlwriter.XMLwriter):
         try:
             float(formula)
         except ValueError:
-            # Not a number. Remove the formula '=' sign if it exists.
-            if formula.startswith("="):
-                formula = formula.lstrip("=")
+            # Not a number, treat as a formula.
+            formula = self._prepare_formula(formula, True)
 
         self._xml_data_element("formula", formula)
 
