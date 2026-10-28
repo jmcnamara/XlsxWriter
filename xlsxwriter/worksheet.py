@@ -2336,7 +2336,7 @@ class Worksheet(xmlwriter.XMLwriter):
 
         """
         if height is not None:
-            pixel_height = round(height * 4.0 / 3.0)
+            pixel_height = int(height * 4.0 / 3.0 + 0.5)
         else:
             pixel_height = None
 
@@ -2426,7 +2426,7 @@ class Worksheet(xmlwriter.XMLwriter):
         if height is None:
             pixel_height = self.default_row_height
         else:
-            pixel_height = int(round(height * 4.0 / 3.0))  # noqa: RUF046
+            pixel_height = int(height * 4.0 / 3.0 + 0.5)
 
         if pixel_height != self.original_row_height:
             self.default_row_height = pixel_height
