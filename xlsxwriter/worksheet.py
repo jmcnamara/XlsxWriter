@@ -3229,8 +3229,13 @@ class Worksheet(xmlwriter.XMLwriter):
         # Special handling of text criteria.
         if options["type"] == "text":
             value = options["value"]
-            length = len(value)
             criteria = options["criteria"]
+
+            # Excel string lengths are in UTF-16 units.
+            length = len(value.encode("utf-16-le")) // 2
+
+            # Excel requires that double quotes in formula strings are doubled.
+            value = value.replace('"', '""')
 
             if options["criteria"] == "containsText":
                 options["type"] = "containsText"
