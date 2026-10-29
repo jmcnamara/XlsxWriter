@@ -22,80 +22,56 @@ class TestUtility(unittest.TestCase):
     def test_xl_rowcol_to_cell(self):
         """Test xl_rowcol_to_cell()"""
 
-        tests = [
-            # row, col, A1 string
-            (0, 0, "A1"),
-            (0, 1, "B1"),
-            (0, 2, "C1"),
-            (0, 9, "J1"),
-            (1, 0, "A2"),
-            (2, 0, "A3"),
-            (9, 0, "A10"),
-            (1, 24, "Y2"),
-            (7, 25, "Z8"),
-            (9, 26, "AA10"),
-            (1, 254, "IU2"),
-            (1, 255, "IV2"),
-            (1, 256, "IW2"),
-            (0, 16383, "XFD1"),
-            (1048576, 16384, "XFE1048577"),
-            (0, -1, ""),
-            (-1, 0, ""),
-        ]
+        self.assertEqual("A1", xl_rowcol_to_cell(0, 0))
+        self.assertEqual("B1", xl_rowcol_to_cell(0, 1))
+        self.assertEqual("C1", xl_rowcol_to_cell(0, 2))
+        self.assertEqual("J1", xl_rowcol_to_cell(0, 9))
+        self.assertEqual("A2", xl_rowcol_to_cell(1, 0))
+        self.assertEqual("A3", xl_rowcol_to_cell(2, 0))
+        self.assertEqual("A10", xl_rowcol_to_cell(9, 0))
+        self.assertEqual("Y2", xl_rowcol_to_cell(1, 24))
+        self.assertEqual("Z8", xl_rowcol_to_cell(7, 25))
+        self.assertEqual("AA10", xl_rowcol_to_cell(9, 26))
+        self.assertEqual("IU2", xl_rowcol_to_cell(1, 254))
+        self.assertEqual("IV2", xl_rowcol_to_cell(1, 255))
+        self.assertEqual("IW2", xl_rowcol_to_cell(1, 256))
+        self.assertEqual("XFD1", xl_rowcol_to_cell(0, 16383))
+        self.assertEqual("XFE1048577", xl_rowcol_to_cell(1048576, 16384))
 
-        for row, col, range in tests:
-            exp = range
-            got = xl_rowcol_to_cell(row, col)
-
-            # Ignore the warnings for negative values.
-            warnings.filterwarnings("ignore")
-
-            self.assertEqual(exp, got)
+        # Ignore the warnings for negative values.
+        with warnings.catch_warnings():
+            warnings.simplefilter("ignore")
+            self.assertEqual("", xl_rowcol_to_cell(0, -1))
+            self.assertEqual("", xl_rowcol_to_cell(-1, 0))
 
     def test_xl_rowcol_to_cell_abs(self):
         """Test xl_rowcol_to_cell() with absolute references"""
 
-        tests = [
-            # row, col, row_abs, col_abs, A1 range
-            (0, 0, True, False, "A$1"),
-            (0, 0, False, True, "$A1"),
-            (0, 0, True, True, "$A$1"),
-            (-1, 0, 0, 0, ""),
-            (0, -1, 0, 0, ""),
-        ]
+        self.assertEqual("A$1", xl_rowcol_to_cell(0, 0, True, False))
+        self.assertEqual("$A1", xl_rowcol_to_cell(0, 0, False, True))
+        self.assertEqual("$A$1", xl_rowcol_to_cell(0, 0, True, True))
 
-        for row, col, row_abs, col_abs, range in tests:
-            exp = range
-            got = xl_rowcol_to_cell(row, col, row_abs, col_abs)
-
-            # Ignore the warnings for negative values.
-            warnings.filterwarnings("ignore")
-
-            self.assertEqual(exp, got)
+        # Ignore the warnings for negative values.
+        with warnings.catch_warnings():
+            warnings.simplefilter("ignore")
+            self.assertEqual("", xl_rowcol_to_cell(-1, 0, 0, 0))
+            self.assertEqual("", xl_rowcol_to_cell(0, -1, 0, 0))
 
     def test_xl_rowcol_to_cell_fast(self):
         """Test xl_rowcol_to_cell_fast()"""
 
-        tests = [
-            # row, col, A1 range
-            (0, 0, "A1"),
-            (0, 1, "B1"),
-            (0, 2, "C1"),
-            (0, 9, "J1"),
-            (1, 0, "A2"),
-            (2, 0, "A3"),
-            (9, 0, "A10"),
-            (1, 24, "Y2"),
-            (7, 25, "Z8"),
-            (9, 26, "AA10"),
-            (1, 254, "IU2"),
-            (1, 255, "IV2"),
-            (1, 256, "IW2"),
-            (0, 16383, "XFD1"),
-            (1048576, 16384, "XFE1048577"),
-        ]
-
-        for row, col, range in tests:
-            exp = range
-            got = xl_rowcol_to_cell_fast(row, col)
-            self.assertEqual(exp, got)
+        self.assertEqual("A1", xl_rowcol_to_cell_fast(0, 0))
+        self.assertEqual("B1", xl_rowcol_to_cell_fast(0, 1))
+        self.assertEqual("C1", xl_rowcol_to_cell_fast(0, 2))
+        self.assertEqual("J1", xl_rowcol_to_cell_fast(0, 9))
+        self.assertEqual("A2", xl_rowcol_to_cell_fast(1, 0))
+        self.assertEqual("A3", xl_rowcol_to_cell_fast(2, 0))
+        self.assertEqual("A10", xl_rowcol_to_cell_fast(9, 0))
+        self.assertEqual("Y2", xl_rowcol_to_cell_fast(1, 24))
+        self.assertEqual("Z8", xl_rowcol_to_cell_fast(7, 25))
+        self.assertEqual("AA10", xl_rowcol_to_cell_fast(9, 26))
+        self.assertEqual("IU2", xl_rowcol_to_cell_fast(1, 254))
+        self.assertEqual("IV2", xl_rowcol_to_cell_fast(1, 255))
+        self.assertEqual("IW2", xl_rowcol_to_cell_fast(1, 256))
+        self.assertEqual("XFD1", xl_rowcol_to_cell_fast(0, 16383))
+        self.assertEqual("XFE1048577", xl_rowcol_to_cell_fast(1048576, 16384))

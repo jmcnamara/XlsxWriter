@@ -230,46 +230,42 @@ class TestConvertDateTime(unittest.TestCase):
     def test_convert_date_time(self):
         """Test the _convert_date_time() method for seconds."""
 
-        for excel_date in self.excel_dates:
-            date = datetime.datetime.strptime(excel_date[0], "%Y-%m-%dT%H:%M:%S.%f")
+        for excel_date, exp in self.excel_dates:
+            with self.subTest(excel_date=excel_date):
+                date = datetime.datetime.strptime(excel_date, "%Y-%m-%dT%H:%M:%S.%f")
+                got = self.worksheet._convert_date_time(date)
 
-            got = self.worksheet._convert_date_time(date)
-            exp = excel_date[1]
-
-            self.assertAlmostEqual(got, exp, places=15)
+                self.assertAlmostEqual(got, exp, places=15)
 
     def test_convert_date_time_seconds_only(self):
         """Test the _convert_date_time() method for datetime seconds."""
 
-        for excel_date in self.excel_seconds:
-            date = datetime.datetime.strptime(excel_date[0], "%H:%M:%S.%f")
+        for excel_date, exp in self.excel_seconds:
+            with self.subTest(excel_date=excel_date):
+                date = datetime.datetime.strptime(excel_date, "%H:%M:%S.%f")
+                got = self.worksheet._convert_date_time(date)
 
-            got = self.worksheet._convert_date_time(date)
-            exp = excel_date[1]
-
-            self.assertAlmostEqual(got, exp, places=15)
+                self.assertAlmostEqual(got, exp, places=15)
 
     def test_convert_date_time_seconds_only_time(self):
         """Test the _convert_date_time() method for time seconds."""
 
-        for excel_date in self.excel_seconds:
-            date = datetime.datetime.strptime(excel_date[0], "%H:%M:%S.%f")
+        for excel_date, exp in self.excel_seconds:
+            with self.subTest(excel_date=excel_date):
+                date = datetime.datetime.strptime(excel_date, "%H:%M:%S.%f")
+                time = datetime.time(
+                    date.hour, date.minute, date.second, date.microsecond
+                )
+                got = self.worksheet._convert_date_time(time)
 
-            time = datetime.time(date.hour, date.minute, date.second, date.microsecond)
-
-            got = self.worksheet._convert_date_time(time)
-            exp = excel_date[1]
-
-            self.assertAlmostEqual(got, exp, places=15)
+                self.assertAlmostEqual(got, exp, places=15)
 
     def test_convert_date_time_timedelta(self):
         """Test the _convert_date_time() method for timedelta around the 1900 "leap" day."""
-        excel_hours = [(1416, 59), (1440, 60), (1464, 61), (1488, 62), (1500, 62.5)]
+        convert = self.worksheet._convert_date_time
 
-        for python_hours, excel_date in excel_hours:
-            timedelta = datetime.timedelta(hours=python_hours)
-
-            got = self.worksheet._convert_date_time(timedelta)
-            exp = excel_date
-
-            self.assertAlmostEqual(got, exp, places=15)
+        self.assertAlmostEqual(convert(datetime.timedelta(hours=1416)), 59, places=15)
+        self.assertAlmostEqual(convert(datetime.timedelta(hours=1440)), 60, places=15)
+        self.assertAlmostEqual(convert(datetime.timedelta(hours=1464)), 61, places=15)
+        self.assertAlmostEqual(convert(datetime.timedelta(hours=1488)), 62, places=15)
+        self.assertAlmostEqual(convert(datetime.timedelta(hours=1500)), 62.5, places=15)

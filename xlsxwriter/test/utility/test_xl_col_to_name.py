@@ -22,46 +22,30 @@ class TestUtility(unittest.TestCase):
     def test_xl_col_to_name(self):
         """Test xl_col_to_name()"""
 
-        tests = [
-            # col,  col string
-            (0, "A"),
-            (1, "B"),
-            (2, "C"),
-            (9, "J"),
-            (24, "Y"),
-            (25, "Z"),
-            (26, "AA"),
-            (254, "IU"),
-            (255, "IV"),
-            (256, "IW"),
-            (16383, "XFD"),
-            (16384, "XFE"),
-            (-1, ""),
-        ]
+        self.assertEqual("A", xl_col_to_name(0))
+        self.assertEqual("B", xl_col_to_name(1))
+        self.assertEqual("C", xl_col_to_name(2))
+        self.assertEqual("J", xl_col_to_name(9))
+        self.assertEqual("Y", xl_col_to_name(24))
+        self.assertEqual("Z", xl_col_to_name(25))
+        self.assertEqual("AA", xl_col_to_name(26))
+        self.assertEqual("IU", xl_col_to_name(254))
+        self.assertEqual("IV", xl_col_to_name(255))
+        self.assertEqual("IW", xl_col_to_name(256))
+        self.assertEqual("XFD", xl_col_to_name(16383))
+        self.assertEqual("XFE", xl_col_to_name(16384))
 
-        for col, string in tests:
-            exp = string
-            got = xl_col_to_name(col)
-
-            # Ignore the warnings for negative values.
-            warnings.filterwarnings("ignore")
-
-            self.assertEqual(exp, got)
+        # Ignore the warnings for negative values.
+        with warnings.catch_warnings():
+            warnings.simplefilter("ignore")
+            self.assertEqual("", xl_col_to_name(-1))
 
     def test_xl_col_to_name_abs(self):
         """Test xl_col_to_name() with absolute references"""
 
-        tests = [
-            # col, col_abs, col string
-            (0, True, "$A"),
-            (-1, True, ""),
-        ]
+        self.assertEqual("$A", xl_col_to_name(0, True))
 
-        for col, col_abs, string in tests:
-            exp = string
-            got = xl_col_to_name(col, col_abs)
-
-            # Ignore the warnings for negative values.
-            warnings.filterwarnings("ignore")
-
-            self.assertEqual(exp, got)
+        # Ignore the warnings for negative values.
+        with warnings.catch_warnings():
+            warnings.simplefilter("ignore")
+            self.assertEqual("", xl_col_to_name(-1, True))

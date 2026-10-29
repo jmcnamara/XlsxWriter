@@ -30,7 +30,7 @@ class TestThemeExceptions(unittest.TestCase):
         )
 
         # No exception.
-        workbook.use_custom_theme(theme)
+        self.assertIsNone(workbook.use_custom_theme(theme))
 
     def test_theme_exception02(self):
         """Doesn't have a XML header."""

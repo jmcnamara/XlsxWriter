@@ -21,42 +21,26 @@ class TestUtility(unittest.TestCase):
     def test_xl_cell_to_rowcol(self):
         """Test xl_cell_to_rowcol()"""
 
-        tests = [
-            # row, col, A1 string
-            (0, 0, "A1"),
-            (0, 1, "B1"),
-            (0, 2, "C1"),
-            (0, 9, "J1"),
-            (1, 0, "A2"),
-            (2, 0, "A3"),
-            (9, 0, "A10"),
-            (1, 24, "Y2"),
-            (7, 25, "Z8"),
-            (9, 26, "AA10"),
-            (1, 254, "IU2"),
-            (1, 255, "IV2"),
-            (1, 256, "IW2"),
-            (0, 16383, "XFD1"),
-            (1048576, 16384, "XFE1048577"),
-        ]
-
-        for row, col, string in tests:
-            exp = (row, col)
-            got = xl_cell_to_rowcol(string)
-            self.assertEqual(exp, got)
+        self.assertEqual((0, 0), xl_cell_to_rowcol("A1"))
+        self.assertEqual((0, 1), xl_cell_to_rowcol("B1"))
+        self.assertEqual((0, 2), xl_cell_to_rowcol("C1"))
+        self.assertEqual((0, 9), xl_cell_to_rowcol("J1"))
+        self.assertEqual((1, 0), xl_cell_to_rowcol("A2"))
+        self.assertEqual((2, 0), xl_cell_to_rowcol("A3"))
+        self.assertEqual((9, 0), xl_cell_to_rowcol("A10"))
+        self.assertEqual((1, 24), xl_cell_to_rowcol("Y2"))
+        self.assertEqual((7, 25), xl_cell_to_rowcol("Z8"))
+        self.assertEqual((9, 26), xl_cell_to_rowcol("AA10"))
+        self.assertEqual((1, 254), xl_cell_to_rowcol("IU2"))
+        self.assertEqual((1, 255), xl_cell_to_rowcol("IV2"))
+        self.assertEqual((1, 256), xl_cell_to_rowcol("IW2"))
+        self.assertEqual((0, 16383), xl_cell_to_rowcol("XFD1"))
+        self.assertEqual((1048576, 16384), xl_cell_to_rowcol("XFE1048577"))
 
     def test_xl_cell_to_rowcol_abs(self):
         """Test xl_cell_to_rowcol() with absolute references"""
 
-        tests = [
-            # row, col, row_abs, col_abs, A1 string
-            (0, 0, 0, 0, "A1"),
-            (0, 0, 1, 0, "A$1"),
-            (0, 0, 0, 1, "$A1"),
-            (0, 0, 1, 1, "$A$1"),
-        ]
-
-        for row, col, row_abs, col_abs, string in tests:
-            exp = (row, col)
-            got = xl_cell_to_rowcol(string)
-            self.assertEqual(exp, got)
+        self.assertEqual((0, 0), xl_cell_to_rowcol("A1"))
+        self.assertEqual((0, 0), xl_cell_to_rowcol("A$1"))
+        self.assertEqual((0, 0), xl_cell_to_rowcol("$A1"))
+        self.assertEqual((0, 0), xl_cell_to_rowcol("$A$1"))

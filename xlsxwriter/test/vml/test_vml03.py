@@ -15,29 +15,7 @@ from xlsxwriter.vml import Vml
 
 from ..helperfunctions import _vml_to_list, _xml_to_list
 
-
-class TestAssembleVml(unittest.TestCase):
-    """
-    Test assembling a complete Vml file.
-
-    """
-
-    def test_assemble_xml_file(self):
-        """Test writing a vml with no cell data."""
-        self.maxDiff = None
-
-        fh = StringIO()
-        vml = Vml()
-        vml._set_filehandle(fh)
-
-        image = Image("xlsxwriter/test/comparison/images/red.png")
-        image._header_position = "CH"
-        image._ref_id = 1
-        image.image_name = "red"
-
-        vml._assemble_xml_file(1, 1024, None, None, [image])
-
-        exp = _vml_to_list("""
+EXPECTED_VML_HEADER_IMAGE = """
                 <xml xmlns:v="urn:schemas-microsoft-com:vml" xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:x="urn:schemas-microsoft-com:office:excel">
                   <o:shapelayout v:ext="edit">
                     <o:idmap v:ext="edit" data="1"/>
@@ -66,8 +44,32 @@ class TestAssembleVml(unittest.TestCase):
                     <o:lock v:ext="edit" rotation="t"/>
                   </v:shape>
                 </xml>
-                """)
+                """
 
-        got = _xml_to_list(fh.getvalue())
+
+class TestAssembleVml(unittest.TestCase):
+    """
+    Test assembling a complete Vml file.
+
+    """
+
+    maxDiff = None
+
+    def setUp(self):
+        self.fh = StringIO()
+        self.vml = Vml()
+        self.vml._set_filehandle(self.fh)
+
+    def test_assemble_xml_file(self):
+        """Test writing a vml with no cell data."""
+        image = Image("xlsxwriter/test/comparison/images/red.png")
+        image._header_position = "CH"
+        image._ref_id = 1
+        image.image_name = "red"
+
+        self.vml._assemble_xml_file(1, 1024, None, None, [image])
+
+        exp = _vml_to_list(EXPECTED_VML_HEADER_IMAGE)
+        got = _xml_to_list(self.fh.getvalue())
 
         self.assertEqual(exp, got)

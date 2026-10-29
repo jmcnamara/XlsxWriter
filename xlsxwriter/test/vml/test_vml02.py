@@ -14,32 +14,7 @@ from xlsxwriter.vml import ButtonType, Vml
 
 from ..helperfunctions import _vml_to_list, _xml_to_list
 
-
-class TestAssembleVml(unittest.TestCase):
-    """
-    Test assembling a complete Vml file.
-
-    """
-
-    def test_assemble_xml_file(self):
-        """Test writing a vml with no cell data."""
-        self.maxDiff = None
-
-        fh = StringIO()
-        vml = Vml()
-        vml._set_filehandle(fh)
-
-        button = ButtonType(1, 2, 17, 64, 1)
-        button.vertices = [2, 1, 0, 0, 3, 2, 0, 0, 128, 20, 64, 20]
-
-        vml._assemble_xml_file(
-            1,
-            1024,
-            None,
-            [button],
-        )
-
-        exp = _vml_to_list("""
+EXPECTED_VML_BUTTON = """
                 <xml xmlns:v="urn:schemas-microsoft-com:vml" xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:x="urn:schemas-microsoft-com:office:excel">
                   <o:shapelayout v:ext="edit">
                     <o:idmap v:ext="edit" data="1"/>
@@ -67,8 +42,30 @@ class TestAssembleVml(unittest.TestCase):
                     </x:ClientData>
                   </v:shape>
                 </xml>
-                """)
+                """
 
-        got = _xml_to_list(fh.getvalue())
+
+class TestAssembleVml(unittest.TestCase):
+    """
+    Test assembling a complete Vml file.
+
+    """
+
+    maxDiff = None
+
+    def setUp(self):
+        self.fh = StringIO()
+        self.vml = Vml()
+        self.vml._set_filehandle(self.fh)
+
+    def test_assemble_xml_file(self):
+        """Test writing a vml with no cell data."""
+        button = ButtonType(1, 2, 17, 64, 1)
+        button.vertices = [2, 1, 0, 0, 3, 2, 0, 0, 128, 20, 64, 20]
+
+        self.vml._assemble_xml_file(1, 1024, None, [button])
+
+        exp = _vml_to_list(EXPECTED_VML_BUTTON)
+        got = _xml_to_list(self.fh.getvalue())
 
         self.assertEqual(exp, got)
