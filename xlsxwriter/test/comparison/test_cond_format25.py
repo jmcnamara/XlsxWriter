@@ -19,7 +19,7 @@ class TestCompareXLSXFiles(ExcelComparisonTest):
     """
 
     def setUp(self):
-        self.set_filename("cond_format24.xlsx")
+        self.set_filename("cond_format25.xlsx")
 
     def test_create_file(self):
         """Test text conditional formats with double quotes and non-ASCII strings."""
