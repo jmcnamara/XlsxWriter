@@ -14,6 +14,21 @@ from xlsxwriter.sharedstrings import SharedStrings, SharedStringTable
 
 from ..helperfunctions import _xml_to_list
 
+EXPECTED_SHARED_STRINGS_XML = """
+    <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+    <sst xmlns="http://schemas.openxmlformats.org/spreadsheetml/2006/main" count="3" uniqueCount="3">
+      <si>
+        <t>abcdefg</t>
+      </si>
+      <si>
+        <t xml:space="preserve">   abcdefg</t>
+      </si>
+      <si>
+        <t xml:space="preserve">abcdefg   </t>
+      </si>
+    </sst>
+"""
+
 
 class TestAssembleSharedStrings(unittest.TestCase):
     """
@@ -21,45 +36,34 @@ class TestAssembleSharedStrings(unittest.TestCase):
 
     """
 
-    def test_assemble_xml_file(self):
-        """Test the _assemble_xml_file() method"""
+    maxDiff = None
 
-        string_table = SharedStringTable()
+    def setUp(self):
+        self.string_table = SharedStringTable()
+        self.fh = StringIO()
+
+    def test_shared_string_table_indices(self):
 
         # Add some strings with leading/trailing whitespace.
-        index = string_table._get_shared_string_index("abcdefg")
-        self.assertEqual(index, 0)
+        self.assertEqual(self.string_table._get_shared_string_index("abcdefg"), 0)
+        self.assertEqual(self.string_table._get_shared_string_index("   abcdefg"), 1)
+        self.assertEqual(self.string_table._get_shared_string_index("abcdefg   "), 2)
 
-        index = string_table._get_shared_string_index("   abcdefg")
-        self.assertEqual(index, 1)
+    def test_assemble_xml_file_with_whitespace_strings(self):
+        """Test the _assemble_xml_file() method"""
 
-        index = string_table._get_shared_string_index("abcdefg   ")
-        self.assertEqual(index, 2)
+        self.string_table._get_shared_string_index("abcdefg")
+        self.string_table._get_shared_string_index("   abcdefg")
+        self.string_table._get_shared_string_index("abcdefg   ")
+        self.string_table._sort_string_data()
 
-        string_table._sort_string_data()
-
-        fh = StringIO()
         sharedstrings = SharedStrings()
-        sharedstrings._set_filehandle(fh)
-        sharedstrings.string_table = string_table
+        sharedstrings._set_filehandle(self.fh)
+        sharedstrings.string_table = self.string_table
 
         sharedstrings._assemble_xml_file()
 
-        exp = _xml_to_list("""
-                <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-                <sst xmlns="http://schemas.openxmlformats.org/spreadsheetml/2006/main" count="3" uniqueCount="3">
-                  <si>
-                    <t>abcdefg</t>
-                  </si>
-                  <si>
-                    <t xml:space="preserve">   abcdefg</t>
-                  </si>
-                  <si>
-                    <t xml:space="preserve">abcdefg   </t>
-                  </si>
-                </sst>
-                """)
+        expected = _xml_to_list(EXPECTED_SHARED_STRINGS_XML)
+        got = _xml_to_list(self.fh.getvalue())
 
-        got = _xml_to_list(fh.getvalue())
-
-        self.assertEqual(exp, got)
+        self.assertEqual(expected, got)

@@ -19,28 +19,33 @@ class TestPrepareTableFormula(unittest.TestCase):
 
     """
 
-    def test_prepare_table_formula(self):
+    def setUp(self):
         self.fh = StringIO()
         self.worksheet = Worksheet()
         self.worksheet._set_filehandle(self.fh)
+        self.prepare = self.worksheet._prepare_table_formula
 
-        testcases = [
-            ["", ""],
-            ["@", "[#This Row],"],
-            ['"Comment @"', r'"Comment @"'],
-            [
-                "SUM(Table1[@[Column1]:[Column3]])",
-                "SUM(Table1[[#This Row],[Column1]:[Column3]])",
-            ],
-            [
-                """HYPERLINK(CONCAT("http://myweb.com:1677/'@md=d&path/to/sour/...'@/",[@CL],"?ac=10"),[@CL])""",
-                """HYPERLINK(CONCAT("http://myweb.com:1677/'@md=d&path/to/sour/...'@/",[[#This Row],CL],"?ac=10"),[[#This Row],CL])""",
-            ],
-        ]
+    def test_prepare_table_formula_empty(self):
+        self.assertEqual(self.prepare(""), "")
 
-        for testcase in testcases:
-            formula = testcase[0]
-            exp = testcase[1]
-            got = self.worksheet._prepare_table_formula(formula)
+    def test_prepare_table_formula_this_row_shortcut(self):
+        self.assertEqual(self.prepare("@"), "[#This Row],")
 
-            self.assertEqual(exp, got)
+    def test_prepare_table_formula_at_inside_string_is_unchanged(self):
+        self.assertEqual(self.prepare('"Comment @"'), '"Comment @"')
+
+    def test_prepare_table_formula_column_range(self):
+        got = self.prepare("SUM(Table1[@[Column1]:[Column3]])")
+        expected = "SUM(Table1[[#This Row],[Column1]:[Column3]])"
+        self.assertEqual(got, expected)
+
+    def test_prepare_table_formula_hyperlink_with_at_in_url(self):
+        formula = (
+            "HYPERLINK(CONCAT(\"http://myweb.com:1677/'@md=d&path/to/sour/...'@/\","
+            '[@CL],"?ac=10"),[@CL])'
+        )
+        expected = (
+            "HYPERLINK(CONCAT(\"http://myweb.com:1677/'@md=d&path/to/sour/...'@/\","
+            '[[#This Row],CL],"?ac=10"),[[#This Row],CL])'
+        )
+        self.assertEqual(self.prepare(formula), expected)

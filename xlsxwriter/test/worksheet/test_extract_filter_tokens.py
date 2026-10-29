@@ -24,88 +24,146 @@ class TestExtractFilterTokens(unittest.TestCase):
         self.worksheet = Worksheet()
         self.worksheet._set_filehandle(self.fh)
 
-    def test_extract_filter_tokens(self):
-        """Test the _extract_filter_tokens() method"""
+    def test_none_returns_empty_list(self):
+        expression = None
 
-        testcases = [
-            [
-                None,
-                [],
-            ],
-            [
-                "",
-                [],
-            ],
-            [
-                "0 <  2001",
-                ["0", "<", "2001"],
-            ],
-            [
-                "x <  2000",
-                ["x", "<", "2000"],
-            ],
-            [
-                "x >  2000",
-                ["x", ">", "2000"],
-            ],
-            [
-                "x == 2000",
-                ["x", "==", "2000"],
-            ],
-            [
-                "x >  2000 and x <  5000",
-                ["x", ">", "2000", "and", "x", "<", "5000"],
-            ],
-            [
-                'x = "goo"',
-                ["x", "=", "goo"],
-            ],
-            [
-                "x = moo",
-                ["x", "=", "moo"],
-            ],
-            [
-                'x = "foo baz"',
-                ["x", "=", "foo baz"],
-            ],
-            [
-                'x = "moo "" bar"',
-                ["x", "=", 'moo " bar'],
-            ],
-            [
-                'x = "foo bar" or x = "bar foo"',
-                ["x", "=", "foo bar", "or", "x", "=", "bar foo"],
-            ],
-            [
-                'x = "foo "" bar" or x = "bar "" foo"',
-                ["x", "=", 'foo " bar', "or", "x", "=", 'bar " foo'],
-            ],
-            [
-                'x = """"""""',
-                ["x", "=", '"""'],
-            ],
-            [
-                "x = Blanks",
-                ["x", "=", "Blanks"],
-            ],
-            [
-                "x = NonBlanks",
-                ["x", "=", "NonBlanks"],
-            ],
-            [
-                "top 10 %",
-                ["top", "10", "%"],
-            ],
-            [
-                "top 10 items",
-                ["top", "10", "items"],
-            ],
-        ]
+        exp = []
+        got = self.worksheet._extract_filter_tokens(expression)
 
-        for testcase in testcases:
-            expression = testcase[0]
+        self.assertEqual(exp, got)
 
-            exp = testcase[1]
-            got = self.worksheet._extract_filter_tokens(expression)
+    def test_empty_string_returns_empty_list(self):
+        expression = ""
 
-            self.assertEqual(exp, got)
+        exp = []
+        got = self.worksheet._extract_filter_tokens(expression)
+
+        self.assertEqual(exp, got)
+
+    def test_numeric_left_operand(self):
+        expression = "0 <  2001"
+
+        exp = ["0", "<", "2001"]
+        got = self.worksheet._extract_filter_tokens(expression)
+
+        self.assertEqual(exp, got)
+
+    def test_less_than(self):
+        expression = "x <  2000"
+
+        exp = ["x", "<", "2000"]
+        got = self.worksheet._extract_filter_tokens(expression)
+
+        self.assertEqual(exp, got)
+
+    def test_greater_than(self):
+        expression = "x >  2000"
+
+        exp = ["x", ">", "2000"]
+        got = self.worksheet._extract_filter_tokens(expression)
+
+        self.assertEqual(exp, got)
+
+    def test_double_equal_operator(self):
+        expression = "x == 2000"
+
+        exp = ["x", "==", "2000"]
+        got = self.worksheet._extract_filter_tokens(expression)
+
+        self.assertEqual(exp, got)
+
+    def test_and_expression(self):
+        expression = "x >  2000 and x <  5000"
+
+        exp = ["x", ">", "2000", "and", "x", "<", "5000"]
+        got = self.worksheet._extract_filter_tokens(expression)
+
+        self.assertEqual(exp, got)
+
+    def test_quoted_string(self):
+        expression = 'x = "goo"'
+
+        exp = ["x", "=", "goo"]
+        got = self.worksheet._extract_filter_tokens(expression)
+
+        self.assertEqual(exp, got)
+
+    def test_unquoted_string(self):
+        expression = "x = moo"
+
+        exp = ["x", "=", "moo"]
+        got = self.worksheet._extract_filter_tokens(expression)
+
+        self.assertEqual(exp, got)
+
+    def test_quoted_string_with_space(self):
+        expression = 'x = "foo baz"'
+
+        exp = ["x", "=", "foo baz"]
+        got = self.worksheet._extract_filter_tokens(expression)
+
+        self.assertEqual(exp, got)
+
+    def test_quoted_string_with_escaped_quote(self):
+        expression = 'x = "moo "" bar"'
+
+        exp = ["x", "=", 'moo " bar']
+        got = self.worksheet._extract_filter_tokens(expression)
+
+        self.assertEqual(exp, got)
+
+    def test_or_expression_with_quoted_strings(self):
+        expression = 'x = "foo bar" or x = "bar foo"'
+
+        exp = ["x", "=", "foo bar", "or", "x", "=", "bar foo"]
+        got = self.worksheet._extract_filter_tokens(expression)
+
+        self.assertEqual(exp, got)
+
+    def test_or_expression_with_escaped_quotes(self):
+        expression = 'x = "foo "" bar" or x = "bar "" foo"'
+
+        exp = ["x", "=", 'foo " bar', "or", "x", "=", 'bar " foo']
+        got = self.worksheet._extract_filter_tokens(expression)
+
+        self.assertEqual(exp, got)
+
+    def test_only_escaped_quotes(self):
+        expression = "x = " + '"' * 8
+
+        exp = ["x", "=", '"' * 3]
+        got = self.worksheet._extract_filter_tokens(expression)
+
+        self.assertEqual(exp, got)
+
+    def test_blanks(self):
+        expression = "x = Blanks"
+
+        exp = ["x", "=", "Blanks"]
+        got = self.worksheet._extract_filter_tokens(expression)
+
+        self.assertEqual(exp, got)
+
+    def test_nonblanks(self):
+        expression = "x = NonBlanks"
+
+        exp = ["x", "=", "NonBlanks"]
+        got = self.worksheet._extract_filter_tokens(expression)
+
+        self.assertEqual(exp, got)
+
+    def test_top_percent(self):
+        expression = "top 10 %"
+
+        exp = ["top", "10", "%"]
+        got = self.worksheet._extract_filter_tokens(expression)
+
+        self.assertEqual(exp, got)
+
+    def test_top_items(self):
+        expression = "top 10 items"
+
+        exp = ["top", "10", "items"]
+        got = self.worksheet._extract_filter_tokens(expression)
+
+        self.assertEqual(exp, got)

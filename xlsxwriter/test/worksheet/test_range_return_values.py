@@ -19,90 +19,110 @@ class TestRangeReturnValues(unittest.TestCase):
 
     """
 
-    def test_range_return_values(self):
-        """Test writing a worksheet with data out of bounds."""
-        worksheet = Worksheet()
+    MAX_ROW = 1048576
+    MAX_COL = 16384
+    BOUND_ERROR = -1
 
-        max_row = 1048576
-        max_col = 16384
-        bound_error = -1
+    def setUp(self):
+        self.ws = Worksheet()
 
-        # Test some out of bound values.
-        got = worksheet.write_string(max_row, 0, "Foo")
-        self.assertEqual(got, bound_error)
+    def test_write_string_row_out_of_bounds(self):
+        got = self.ws.write_string(self.MAX_ROW, 0, "Foo")
+        self.assertEqual(got, self.BOUND_ERROR)
 
-        got = worksheet.write_string(0, max_col, "Foo")
-        self.assertEqual(got, bound_error)
+    def test_write_string_col_out_of_bounds(self):
+        got = self.ws.write_string(0, self.MAX_COL, "Foo")
+        self.assertEqual(got, self.BOUND_ERROR)
 
-        got = worksheet.write_string(max_row, max_col, "Foo")
-        self.assertEqual(got, bound_error)
+    def test_write_string_row_and_col_out_of_bounds(self):
+        got = self.ws.write_string(self.MAX_ROW, self.MAX_COL, "Foo")
+        self.assertEqual(got, self.BOUND_ERROR)
 
-        got = worksheet.write_number(max_row, 0, 123)
-        self.assertEqual(got, bound_error)
+    def test_write_number_row_out_of_bounds(self):
+        got = self.ws.write_number(self.MAX_ROW, 0, 123)
+        self.assertEqual(got, self.BOUND_ERROR)
 
-        got = worksheet.write_number(0, max_col, 123)
-        self.assertEqual(got, bound_error)
+    def test_write_number_col_out_of_bounds(self):
+        got = self.ws.write_number(0, self.MAX_COL, 123)
+        self.assertEqual(got, self.BOUND_ERROR)
 
-        got = worksheet.write_number(max_row, max_col, 123)
-        self.assertEqual(got, bound_error)
+    def test_write_number_row_and_col_out_of_bounds(self):
+        got = self.ws.write_number(self.MAX_ROW, self.MAX_COL, 123)
+        self.assertEqual(got, self.BOUND_ERROR)
 
-        got = worksheet.write_blank(max_row, 0, None, "format")
-        self.assertEqual(got, bound_error)
+    def test_write_blank_row_out_of_bounds(self):
+        got = self.ws.write_blank(self.MAX_ROW, 0, None, "format")
+        self.assertEqual(got, self.BOUND_ERROR)
 
-        got = worksheet.write_blank(0, max_col, None, "format")
-        self.assertEqual(got, bound_error)
+    def test_write_blank_col_out_of_bounds(self):
+        got = self.ws.write_blank(0, self.MAX_COL, None, "format")
+        self.assertEqual(got, self.BOUND_ERROR)
 
-        got = worksheet.write_blank(max_row, max_col, None, "format")
-        self.assertEqual(got, bound_error)
+    def test_write_blank_row_and_col_out_of_bounds(self):
+        got = self.ws.write_blank(self.MAX_ROW, self.MAX_COL, None, "format")
+        self.assertEqual(got, self.BOUND_ERROR)
 
-        got = worksheet.write_formula(max_row, 0, "=A1")
-        self.assertEqual(got, bound_error)
+    def test_write_formula_row_out_of_bounds(self):
+        got = self.ws.write_formula(self.MAX_ROW, 0, "=A1")
+        self.assertEqual(got, self.BOUND_ERROR)
 
-        got = worksheet.write_formula(0, max_col, "=A1")
-        self.assertEqual(got, bound_error)
+    def test_write_formula_col_out_of_bounds(self):
+        got = self.ws.write_formula(0, self.MAX_COL, "=A1")
+        self.assertEqual(got, self.BOUND_ERROR)
 
-        got = worksheet.write_formula(max_row, max_col, "=A1")
-        self.assertEqual(got, bound_error)
+    def test_write_formula_row_and_col_out_of_bounds(self):
+        got = self.ws.write_formula(self.MAX_ROW, self.MAX_COL, "=A1")
+        self.assertEqual(got, self.BOUND_ERROR)
 
-        got = worksheet.write_array_formula(0, 0, 0, max_col, "=A1")
-        self.assertEqual(got, bound_error)
+    def test_write_array_formula_last_col_out_of_bounds(self):
+        got = self.ws.write_array_formula(0, 0, 0, self.MAX_COL, "=A1")
+        self.assertEqual(got, self.BOUND_ERROR)
 
-        got = worksheet.write_array_formula(0, 0, max_row, 0, "=A1")
-        self.assertEqual(got, bound_error)
+    def test_write_array_formula_last_row_out_of_bounds(self):
+        got = self.ws.write_array_formula(0, 0, self.MAX_ROW, 0, "=A1")
+        self.assertEqual(got, self.BOUND_ERROR)
 
-        got = worksheet.write_array_formula(0, max_col, 0, 0, "=A1")
-        self.assertEqual(got, bound_error)
+    def test_write_array_formula_first_col_out_of_bounds(self):
+        got = self.ws.write_array_formula(0, self.MAX_COL, 0, 0, "=A1")
+        self.assertEqual(got, self.BOUND_ERROR)
 
-        got = worksheet.write_array_formula(max_row, 0, 0, 0, "=A1")
-        self.assertEqual(got, bound_error)
+    def test_write_array_formula_first_row_out_of_bounds(self):
+        got = self.ws.write_array_formula(self.MAX_ROW, 0, 0, 0, "=A1")
+        self.assertEqual(got, self.BOUND_ERROR)
 
-        got = worksheet.write_array_formula(max_row, max_col, max_row, max_col, "=A1")
-        self.assertEqual(got, bound_error)
+    def test_write_array_formula_all_out_of_bounds(self):
+        got = self.ws.write_array_formula(
+            self.MAX_ROW, self.MAX_COL, self.MAX_ROW, self.MAX_COL, "=A1"
+        )
+        self.assertEqual(got, self.BOUND_ERROR)
 
-        got = worksheet.merge_range(0, 0, 0, max_col, "Foo")
-        self.assertEqual(got, bound_error)
+    def test_merge_range_last_col_out_of_bounds(self):
+        got = self.ws.merge_range(0, 0, 0, self.MAX_COL, "Foo")
+        self.assertEqual(got, self.BOUND_ERROR)
 
-        got = worksheet.merge_range(0, 0, max_row, 0, "Foo")
-        self.assertEqual(got, bound_error)
+    def test_merge_range_last_row_out_of_bounds(self):
+        got = self.ws.merge_range(0, 0, self.MAX_ROW, 0, "Foo")
+        self.assertEqual(got, self.BOUND_ERROR)
 
-        got = worksheet.merge_range(0, max_col, 0, 0, "Foo")
-        self.assertEqual(got, bound_error)
+    def test_merge_range_first_col_out_of_bounds(self):
+        got = self.ws.merge_range(0, self.MAX_COL, 0, 0, "Foo")
+        self.assertEqual(got, self.BOUND_ERROR)
 
-        got = worksheet.merge_range(max_row, 0, 0, 0, "Foo")
-        self.assertEqual(got, bound_error)
+    def test_merge_range_first_row_out_of_bounds(self):
+        got = self.ws.merge_range(self.MAX_ROW, 0, 0, 0, "Foo")
+        self.assertEqual(got, self.BOUND_ERROR)
 
-        # Column out of bounds.
-        got = worksheet.set_column(6, max_col, 17)
-        self.assertEqual(got, bound_error)
+    def test_set_column_last_col_out_of_bounds(self):
+        got = self.ws.set_column(6, self.MAX_COL, 17)
+        self.assertEqual(got, self.BOUND_ERROR)
 
-        got = worksheet.set_column(max_col, 6, 17)
-        self.assertEqual(got, bound_error)
+    def test_set_column_first_col_out_of_bounds(self):
+        got = self.ws.set_column(self.MAX_COL, 6, 17)
+        self.assertEqual(got, self.BOUND_ERROR)
 
-        # Row out of bounds.
-        worksheet.set_row(max_row, 30)
-
-        # Reverse man and min column numbers
-        worksheet.set_column(0, 3, 17)
+    def test_set_row_out_of_bounds(self):
+        got = self.ws.set_row(self.MAX_ROW, 30)
+        self.assertEqual(got, self.BOUND_ERROR)
 
     def test_string_length_return_values(self):
         """Test writing strings at Excel's length limit in UTF-16 units."""

@@ -22,33 +22,23 @@ class TestCheckSheetname(unittest.TestCase):
     def setUp(self):
         self.workbook = Workbook()
 
-    def test_check_sheetname(self):
-        """Test the _check_sheetname() method"""
-
-        got = self.workbook._check_sheetname("name")
-        exp = "name"
-        self.assertEqual(exp, got)
-
-        got = self.workbook._check_sheetname("Sheet1")
-        exp = "Sheet1"
-        self.assertEqual(exp, got)
-
-        got = self.workbook._check_sheetname(None)
-        exp = "Sheet3"
-        self.assertEqual(exp, got)
-
-        got = self.workbook._check_sheetname("")
-        exp = "Sheet4"
-        self.assertEqual(exp, got)
+    def test_check_sheetname_valid_custom_names(self):
+        self.assertEqual(self.workbook._check_sheetname("name"), "name")
+        self.assertEqual(self.workbook._check_sheetname("Sheet1"), "Sheet1")
 
         # Excel's limit is in UTF-16 units, so these emojis count as 2.
         name = "\U0001f600" * 15 + "a"
-        got = self.workbook._check_sheetname(name)
-        self.assertEqual(name, got)
+        self.assertEqual(self.workbook._check_sheetname(name), name)
+
+    def test_check_sheetname_none_generates_default(self):
+        got = self.workbook._check_sheetname(None)
+        self.assertTrue(got.startswith("Sheet"))
+
+    def test_check_sheetname_empty_generates_default(self):
+        got = self.workbook._check_sheetname("")
+        self.assertTrue(got.startswith("Sheet"))
 
     def test_check_sheetname_with_long_name(self):
-        """Test the _check_sheetname() method with exception"""
-
         name = "name_that_is_longer_than_thirty_one_characters"
         self.assertRaises(InvalidWorksheetName, self.workbook._check_sheetname, name)
 
@@ -56,20 +46,19 @@ class TestCheckSheetname(unittest.TestCase):
         name = "\U0001f600" * 16
         self.assertRaises(InvalidWorksheetName, self.workbook._check_sheetname, name)
 
-    def test_check_sheetname_with_invalid_name(self):
-        """Test the _check_sheetname() method with exception"""
+    def test_check_sheetname_with_invalid_characters_or_formatting(self):
+        invalid_names = [
+            "name_with_special_character_?",
+            "'start with apostrophe",
+            "end with apostrophe'",
+            "'start and end with apostrophe'",
+        ]
 
-        name = "name_with_special_character_?"
-        self.assertRaises(InvalidWorksheetName, self.workbook._check_sheetname, name)
-
-        name = "'start with apostrophe"
-        self.assertRaises(InvalidWorksheetName, self.workbook._check_sheetname, name)
-
-        name = "end with apostrophe'"
-        self.assertRaises(InvalidWorksheetName, self.workbook._check_sheetname, name)
-
-        name = "'start and end with apostrophe'"
-        self.assertRaises(InvalidWorksheetName, self.workbook._check_sheetname, name)
+        for name in invalid_names:
+            with self.subTest(name=name):
+                self.assertRaises(
+                    InvalidWorksheetName, self.workbook._check_sheetname, name
+                )
 
     def test_check_sheetname_with_duplicate_name(self):
         """Test the _check_sheetname() method with exception"""

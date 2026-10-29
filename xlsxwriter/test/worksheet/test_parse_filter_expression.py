@@ -24,113 +24,146 @@ class TestParseFilterExpression(unittest.TestCase):
         self.worksheet = Worksheet()
         self.worksheet._set_filehandle(self.fh)
 
-    def test_parse_filter_expression(self):
-        """Test the _parse_filter_expression() method"""
+    def test_equal_1(self):
+        expression = "x =  2000"
+        tokens = self.worksheet._extract_filter_tokens(expression)
+        got = self.worksheet._parse_filter_expression(expression, tokens)
+        self.assertEqual([2, "2000"], got)
 
-        testcases = [
-            [
-                "x =  2000",
-                [2, "2000"],
-            ],
-            [
-                "x == 2000",
-                [2, "2000"],
-            ],
-            [
-                "x =~ 2000",
-                [2, "2000"],
-            ],
-            [
-                "x eq 2000",
-                [2, "2000"],
-            ],
-            [
-                "x <> 2000",
-                [5, "2000"],
-            ],
-            [
-                "x != 2000",
-                [5, "2000"],
-            ],
-            [
-                "x ne 2000",
-                [5, "2000"],
-            ],
-            [
-                "x !~ 2000",
-                [5, "2000"],
-            ],
-            [
-                "x >  2000",
-                [4, "2000"],
-            ],
-            [
-                "x <  2000",
-                [1, "2000"],
-            ],
-            [
-                "x >= 2000",
-                [6, "2000"],
-            ],
-            [
-                "x <= 2000",
-                [3, "2000"],
-            ],
-            [
-                "x >  2000 and x <  5000",
-                [4, "2000", 0, 1, "5000"],
-            ],
-            [
-                "x >  2000 &&  x <  5000",
-                [4, "2000", 0, 1, "5000"],
-            ],
-            [
-                "x >  2000 or  x <  5000",
-                [4, "2000", 1, 1, "5000"],
-            ],
-            [
-                "x >  2000 ||  x <  5000",
-                [4, "2000", 1, 1, "5000"],
-            ],
-            [
-                "x =  Blanks",
-                [2, "blanks"],
-            ],
-            [
-                "x =  NonBlanks",
-                [5, " "],
-            ],
-            [
-                "x <> Blanks",
-                [5, " "],
-            ],
-            [
-                "x <> NonBlanks",
-                [2, "blanks"],
-            ],
-            [
-                "Top 10 Items",
-                [30, "10"],
-            ],
-            [
-                "Top 20 %",
-                [31, "20"],
-            ],
-            [
-                "Bottom 5 Items",
-                [32, "5"],
-            ],
-            [
-                "Bottom 101 %",
-                [33, "101"],
-            ],
-        ]
+    def test_equal_2(self):
+        expression = "x == 2000"
+        tokens = self.worksheet._extract_filter_tokens(expression)
+        got = self.worksheet._parse_filter_expression(expression, tokens)
+        self.assertEqual([2, "2000"], got)
 
-        for testcase in testcases:
-            expression = testcase[0]
-            tokens = self.worksheet._extract_filter_tokens(expression)
+    def test_equal_3(self):
+        expression = "x =~ 2000"
+        tokens = self.worksheet._extract_filter_tokens(expression)
+        got = self.worksheet._parse_filter_expression(expression, tokens)
+        self.assertEqual([2, "2000"], got)
 
-            exp = testcase[1]
-            got = self.worksheet._parse_filter_expression(expression, tokens)
+    def test_equal_4(self):
+        expression = "x eq 2000"
+        tokens = self.worksheet._extract_filter_tokens(expression)
+        got = self.worksheet._parse_filter_expression(expression, tokens)
+        self.assertEqual([2, "2000"], got)
 
-            self.assertEqual(exp, got)
+    def test_not_equal_1(self):
+        expression = "x <> 2000"
+        tokens = self.worksheet._extract_filter_tokens(expression)
+        got = self.worksheet._parse_filter_expression(expression, tokens)
+        self.assertEqual([5, "2000"], got)
+
+    def test_not_equal_2(self):
+        expression = "x != 2000"
+        tokens = self.worksheet._extract_filter_tokens(expression)
+        got = self.worksheet._parse_filter_expression(expression, tokens)
+        self.assertEqual([5, "2000"], got)
+
+    def test_not_equal_3(self):
+        expression = "x ne 2000"
+        tokens = self.worksheet._extract_filter_tokens(expression)
+        got = self.worksheet._parse_filter_expression(expression, tokens)
+        self.assertEqual([5, "2000"], got)
+
+    def test_not_equal_4(self):
+        expression = "x !~ 2000"
+        tokens = self.worksheet._extract_filter_tokens(expression)
+        got = self.worksheet._parse_filter_expression(expression, tokens)
+        self.assertEqual([5, "2000"], got)
+
+    def test_greater_than(self):
+        expression = "x >  2000"
+        tokens = self.worksheet._extract_filter_tokens(expression)
+        got = self.worksheet._parse_filter_expression(expression, tokens)
+        self.assertEqual([4, "2000"], got)
+
+    def test_less_than(self):
+        expression = "x <  2000"
+        tokens = self.worksheet._extract_filter_tokens(expression)
+        got = self.worksheet._parse_filter_expression(expression, tokens)
+        self.assertEqual([1, "2000"], got)
+
+    def test_greater_or_equal(self):
+        expression = "x >= 2000"
+        tokens = self.worksheet._extract_filter_tokens(expression)
+        got = self.worksheet._parse_filter_expression(expression, tokens)
+        self.assertEqual([6, "2000"], got)
+
+    def test_less_or_equal(self):
+        expression = "x <= 2000"
+        tokens = self.worksheet._extract_filter_tokens(expression)
+        got = self.worksheet._parse_filter_expression(expression, tokens)
+        self.assertEqual([3, "2000"], got)
+
+    def test_and_1(self):
+        expression = "x >  2000 and x <  5000"
+        tokens = self.worksheet._extract_filter_tokens(expression)
+        got = self.worksheet._parse_filter_expression(expression, tokens)
+        self.assertEqual([4, "2000", 0, 1, "5000"], got)
+
+    def test_and_2(self):
+        expression = "x >  2000 &&  x <  5000"
+        tokens = self.worksheet._extract_filter_tokens(expression)
+        got = self.worksheet._parse_filter_expression(expression, tokens)
+        self.assertEqual([4, "2000", 0, 1, "5000"], got)
+
+    def test_or_1(self):
+        expression = "x >  2000 or  x <  5000"
+        tokens = self.worksheet._extract_filter_tokens(expression)
+        got = self.worksheet._parse_filter_expression(expression, tokens)
+        self.assertEqual([4, "2000", 1, 1, "5000"], got)
+
+    def test_or_2(self):
+        expression = "x >  2000 ||  x <  5000"
+        tokens = self.worksheet._extract_filter_tokens(expression)
+        got = self.worksheet._parse_filter_expression(expression, tokens)
+        self.assertEqual([4, "2000", 1, 1, "5000"], got)
+
+    def test_equal_blanks(self):
+        expression = "x =  Blanks"
+        tokens = self.worksheet._extract_filter_tokens(expression)
+        got = self.worksheet._parse_filter_expression(expression, tokens)
+        self.assertEqual([2, "blanks"], got)
+
+    def test_equal_nonblanks(self):
+        expression = "x =  NonBlanks"
+        tokens = self.worksheet._extract_filter_tokens(expression)
+        got = self.worksheet._parse_filter_expression(expression, tokens)
+        self.assertEqual([5, " "], got)
+
+    def test_not_equal_blanks(self):
+        expression = "x <> Blanks"
+        tokens = self.worksheet._extract_filter_tokens(expression)
+        got = self.worksheet._parse_filter_expression(expression, tokens)
+        self.assertEqual([5, " "], got)
+
+    def test_not_equal_nonblanks(self):
+        expression = "x <> NonBlanks"
+        tokens = self.worksheet._extract_filter_tokens(expression)
+        got = self.worksheet._parse_filter_expression(expression, tokens)
+        self.assertEqual([2, "blanks"], got)
+
+    def test_top_items(self):
+        expression = "Top 10 Items"
+        tokens = self.worksheet._extract_filter_tokens(expression)
+        got = self.worksheet._parse_filter_expression(expression, tokens)
+        self.assertEqual([30, "10"], got)
+
+    def test_top_percent(self):
+        expression = "Top 20 %"
+        tokens = self.worksheet._extract_filter_tokens(expression)
+        got = self.worksheet._parse_filter_expression(expression, tokens)
+        self.assertEqual([31, "20"], got)
+
+    def test_bottom_items(self):
+        expression = "Bottom 5 Items"
+        tokens = self.worksheet._extract_filter_tokens(expression)
+        got = self.worksheet._parse_filter_expression(expression, tokens)
+        self.assertEqual([32, "5"], got)
+
+    def test_bottom_percent(self):
+        expression = "Bottom 101 %"
+        tokens = self.worksheet._extract_filter_tokens(expression)
+        got = self.worksheet._parse_filter_expression(expression, tokens)
+        self.assertEqual([33, "101"], got)
