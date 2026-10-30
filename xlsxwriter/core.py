@@ -7,7 +7,7 @@
 # Copyright (c) 2013-2026, John McNamara, jmcnamara@cpan.org
 #
 
-from datetime import datetime, timezone
+from datetime import date, datetime, timezone
 from typing import Dict, Union
 
 from xlsxwriter import xmlwriter
@@ -46,12 +46,13 @@ class Core(xmlwriter.XMLwriter):
     def _assemble_xml_file(self) -> None:
         # Assemble and write the XML file.
 
-        # Set the creation date for the file.
-        date = self.properties.get("created")
-        if not isinstance(date, datetime):
-            date = datetime.now(timezone.utc)
+        # Set the creation date for the file. A datetime.datetime is also a
+        # datetime.date, so this handles both.
+        created = self.properties.get("created")
+        if not isinstance(created, date):
+            created = datetime.now(timezone.utc)
 
-        self.iso_date = date.strftime("%Y-%m-%dT%H:%M:%SZ")
+        self.iso_date = created.strftime("%Y-%m-%dT%H:%M:%SZ")
 
         # Write the XML declaration.
         self._xml_declaration()
@@ -73,7 +74,7 @@ class Core(xmlwriter.XMLwriter):
         # Close the file.
         self._xml_close()
 
-    def _set_properties(self, properties: Dict[str, Union[str, datetime]]) -> None:
+    def _set_properties(self, properties: Dict[str, Union[str, date]]) -> None:
         # Set the document properties.
         self.properties = properties
 
