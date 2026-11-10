@@ -3525,8 +3525,6 @@ class Worksheet(xmlwriter.XMLwriter):
                         f"merge range '{previous_range}'."
                     )
 
-                self.table_cells[(row, col)] = cell_range
-
         # Valid input parameters.
         valid_parameter = {
             "autofilter",
@@ -3800,6 +3798,11 @@ class Worksheet(xmlwriter.XMLwriter):
 
                 for row in range(first_data_row, last_data_row + 1):
                     self._write_formula(row, col_num, formula, formula_format)
+
+        # Store the table range only after the table has passed validation.
+        for row in range(first_row, last_row + 1):
+            for col in range(first_col, last_col + 1):
+                self.table_cells[(row, col)] = cell_range
 
         # Store the table data.
         self.tables.append(table)
