@@ -9,6 +9,17 @@ Release 3.3.2 - Month XX 2026
 
   :feature:`1163`.
 
+* Fixed issue where a ``created`` date in :func:`set_properties` was replaced
+  with the current time if it was a ``datetime.date``. Also allow a
+  ``datetime.date`` in :func:`set_custom_property`.
+
+  :issue:`1225`.
+
+* Fixed issue where timezone aware datetimes in :func:`set_properties` and
+  :func:`set_custom_property` weren't converted to UTC.
+
+  :issue:`1227`.
+
 
 Release 3.3.1 - October 28 2026
 -------------------------------

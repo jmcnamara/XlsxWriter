@@ -566,7 +566,9 @@ The properties that can be set are:
 * ``comments``
 * ``status``
 * ``hyperlink_base``
-* ``created`` - the file creation date as a :class:`datetime.date` object.
+* ``created`` - the file creation date as a :class:`datetime.date` or
+  :class:`datetime.datetime` object. Timezone aware datetimes are converted
+  to UTC. Naive datetimes are treated as UTC.
 
 The properties are all optional and should be passed in dictionary format as
 follows::
@@ -619,7 +621,9 @@ For example::
 .. image:: _images/custom_properties.png
 
 
-Date parameters should be :class:`datetime.datetime` objects.
+Date parameters should be :class:`datetime.date` or :class:`datetime.datetime`
+objects. Timezone aware datetimes are converted to UTC. Naive datetimes are
+treated as UTC.
 
 The optional ``property_type`` parameter can be used to set an explicit type
 for the custom property, just like in Excel. The available types are::

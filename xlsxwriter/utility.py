@@ -954,6 +954,15 @@ def _preserve_whitespace(string: str) -> Optional[re.Match]:
     return RE_LEADING_WHITESPACE.search(string) or RE_TRAILING_WHITESPACE.search(string)
 
 
+def _datetime_to_w3cdtf(date: datetime.date) -> str:
+    # Convert a date or datetime to the UTC string used in the document
+    # properties. Timezone aware datetimes are converted to UTC.
+    if isinstance(date, datetime.datetime) and date.tzinfo is not None:
+        date = date.astimezone(datetime.timezone.utc)
+
+    return date.strftime("%Y-%m-%dT%H:%M:%SZ")
+
+
 def _utf16_len(string: str) -> int:
     # Get the length of a string in UTF-16 units. Excel's string length limits
     # are in UTF-16 units, so characters above U+FFFF, such as emojis, count as 2.

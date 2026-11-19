@@ -14,7 +14,7 @@ import re
 import time
 import warnings
 import zipfile
-from datetime import datetime
+from datetime import date
 from decimal import Decimal
 from fractions import Fraction
 from io import StringIO
@@ -46,7 +46,12 @@ from xlsxwriter.image import Image
 from xlsxwriter.packager import Packager
 from xlsxwriter.sharedstrings import SharedStringTable
 from xlsxwriter.theme import THEME_XML_2007, THEME_XML_2023
-from xlsxwriter.utility import _has_invalid_name_chars, _utf16_len, xl_cell_to_rowcol
+from xlsxwriter.utility import (
+    _datetime_to_w3cdtf,
+    _has_invalid_name_chars,
+    _utf16_len,
+    xl_cell_to_rowcol,
+)
 from xlsxwriter.worksheet import Worksheet
 
 
@@ -544,7 +549,7 @@ class Workbook(xmlwriter.XMLwriter):
     def set_custom_property(
         self,
         name: str,
-        value: Union[bool, datetime, float, Decimal, Fraction, Any],
+        value: Union[bool, date, float, Decimal, Fraction, Any],
         property_type: Optional[
             Literal["bool", "date", "number", "number_int", "text"]
         ] = None,
@@ -572,7 +577,7 @@ class Workbook(xmlwriter.XMLwriter):
             # Determine the property type from the Python type.
             if isinstance(value, bool):
                 property_type = "bool"
-            elif isinstance(value, datetime):
+            elif isinstance(value, date):
                 property_type = "date"
             elif isinstance(value, int):
                 property_type = "number_int"
@@ -586,7 +591,7 @@ class Workbook(xmlwriter.XMLwriter):
             value = str(value).lower()
 
         if property_type == "date":
-            value = value.strftime("%Y-%m-%dT%H:%M:%SZ")
+            value = _datetime_to_w3cdtf(value)
 
         if property_type in ("number", "number_int"):
             value = str(value)
