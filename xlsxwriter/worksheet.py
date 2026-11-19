@@ -2487,7 +2487,9 @@ class Worksheet(xmlwriter.XMLwriter):
             return -1
 
         # Check if the merge range overlaps a previous merged or table range.
-        # This is a critical file corruption error in Excel.
+        # This is a critical file corruption error in Excel. The check is done
+        # before any cells are stored so that a rejected range doesn't change
+        # the worksheet.
         cell_range = xl_range(first_row, first_col, last_row, last_col)
         for row in range(first_row, last_row + 1):
             for col in range(first_col, last_col + 1):
@@ -2505,6 +2507,9 @@ class Worksheet(xmlwriter.XMLwriter):
                         f"range '{previous_range}'."
                     )
 
+        # Store the merged cells for overlap testing.
+        for row in range(first_row, last_row + 1):
+            for col in range(first_col, last_col + 1):
                 self.merged_cells[(row, col)] = cell_range
 
         # Store the merge range.
@@ -2555,13 +2560,10 @@ class Worksheet(xmlwriter.XMLwriter):
         area = self._convert_name_area(first_row, first_col, last_row, last_col)
         ref = xl_range(first_row, first_col, last_row, last_col)
 
-        self.autofilter_area = area
-        self.autofilter_ref = ref
-        self.filter_range = [first_col, last_col]
-
-        # Store the filter cell positions for use in the autofit calculation.
+        # Check that the autofilter doesn't overlap a table filter. This is done
+        # before any data is stored so that a rejected autofilter doesn't change
+        # the worksheet.
         for col in range(first_col, last_col + 1):
-            # Check that the autofilter doesn't overlap a table filter.
             if self.filter_cells.get((first_row, col)):
                 filter_type, filter_range = self.filter_cells.get((first_row, col))
                 if filter_type == "table":
@@ -2570,6 +2572,12 @@ class Worksheet(xmlwriter.XMLwriter):
                         f"Table autofilter range '{filter_range}'."
                     )
 
+        self.autofilter_area = area
+        self.autofilter_ref = ref
+        self.filter_range = [first_col, last_col]
+
+        # Store the filter cell positions for use in the autofit calculation.
+        for col in range(first_col, last_col + 1):
             self.filter_cells[(first_row, col)] = ("worksheet", ref)
 
         return 0
@@ -3508,7 +3516,9 @@ class Worksheet(xmlwriter.XMLwriter):
             first_col, last_col = (last_col, first_col)
 
         # Check if the table range overlaps a previous merged or table range.
-        # This is a critical file corruption error in Excel.
+        # This is a critical file corruption error in Excel. The overlap checks
+        # are done before any cells are written or stored so that a rejected
+        # table doesn't change the worksheet.
         cell_range = xl_range(first_row, first_col, last_row, last_col)
         for row in range(first_row, last_row + 1):
             for col in range(first_col, last_col + 1):
@@ -3525,8 +3535,6 @@ class Worksheet(xmlwriter.XMLwriter):
                         f"Table range '{cell_range}' overlaps previous "
                         f"merge range '{previous_range}'."
                     )
-
-                self.table_cells[(row, col)] = cell_range
 
         # Valid input parameters.
         valid_parameter = {
@@ -3661,6 +3669,17 @@ class Worksheet(xmlwriter.XMLwriter):
                 return -2
 
             seen_names.add(name)
+
+        # Check that the table autofilter doesn't overlap a worksheet filter.
+        if options["autofilter"]:
+            for col in range(first_col, last_col + 1):
+                if self.filter_cells.get((first_row, col)):
+                    filter_type, filter_range = self.filter_cells.get((first_row, col))
+                    if filter_type == "worksheet":
+                        raise OverlappingRange(
+                            f"Table autofilter range '{cell_range}' overlaps previous "
+                            f"Worksheet autofilter range '{filter_range}'."
+                        )
 
         # Add the table columns.
         col_id = 1
@@ -3805,18 +3824,14 @@ class Worksheet(xmlwriter.XMLwriter):
         # Store the table data.
         self.tables.append(table)
 
+        # Store the table cells for overlap testing.
+        for row in range(first_row, last_row + 1):
+            for col in range(first_col, last_col + 1):
+                self.table_cells[(row, col)] = cell_range
+
         # Store the filter cell positions for use in the autofit calculation.
         if options["autofilter"]:
             for col in range(first_col, last_col + 1):
-                # Check that the table autofilter doesn't overlap a worksheet filter.
-                if self.filter_cells.get((first_row, col)):
-                    filter_type, filter_range = self.filter_cells.get((first_row, col))
-                    if filter_type == "worksheet":
-                        raise OverlappingRange(
-                            f"Table autofilter range '{cell_range}' overlaps previous "
-                            f"Worksheet autofilter range '{filter_range}'."
-                        )
-
                 self.filter_cells[(first_row, col)] = ("table", cell_range)
 
         return 0

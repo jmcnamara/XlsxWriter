@@ -20,6 +20,12 @@ Release 3.3.2 - Month XX 2026
 
   :issue:`1227`.
 
+* Fixed issue where a rejected :func:`add_table`, :func:`merge_range` or
+  :func:`autofilter` could leave reserved cells that caused a later
+  ``OverlappingRange`` exception.
+
+  :issue:`1229`.
+
 
 Release 3.3.1 - October 28 2026
 -------------------------------
