@@ -99,6 +99,7 @@ class Workbook(xmlwriter.XMLwriter):
         self.default_format_properties = options.get(
             "default_format_properties", {"font_name": "Calibri", "font_size": 11}
         )
+        self.default_format = None
 
         self.max_url_length = options.get("max_url_length", 2079)
         if self.max_url_length < 255:
@@ -172,47 +173,35 @@ class Workbook(xmlwriter.XMLwriter):
 
         # Add the default cell format.
         if self.excel_2023_theme:
+            self.default_theme_version = "202300"
+            self.theme_xml: str = THEME_XML_2023
+
             format_properties = {
                 "font_name": "Aptos Narrow",
                 "font_size": 11,
                 "font_scheme": "minor",
             }
-            self.default_format_properties = format_properties.copy()
-            self.default_col_width = 64
-            self.default_row_height = 20
-            self.default_theme_version = "202300"
-            self.theme_xml: str = THEME_XML_2023
-
-            format_properties["xf_index"] = 0
-            self.add_format(format_properties)
+            self._set_default_format(format_properties, 20, 64)
 
         elif self.excel2003_style:
             # This is a deprecated workaround for Excel 2003 style default format.
             format_properties = {
                 "font_name": "Arial",
                 "font_size": 10,
-                "font_family": 0,
                 "font_scheme": False,
                 "theme": -1,
             }
-            format_properties["xf_index"] = 0
-            self.add_format(format_properties)
+            self._set_default_format(
+                format_properties, self.default_row_height, self.default_col_width
+            )
+            self.default_format.set_font_family(0)
 
-            self.default_format_properties = {
-                "font_name": "Arial",
-                "font_size": 10,
-                "font_scheme": False,
-                "theme": -1,
-            }
         else:
-            format_properties = self.default_format_properties.copy()
-            format_properties["xf_index"] = 0
-            self.add_format(format_properties)
-
-        # Store the theme font name to cell format properties.
-        self.default_format_properties["theme_font_name"] = (
-            self.default_format_properties.get("font_name", "Calibri")
-        )
+            self._set_default_format(
+                self.default_format_properties,
+                self.default_row_height,
+                self.default_col_width,
+            )
 
         # Add a default URL format.
         format_properties = self.default_format_properties.copy()
@@ -225,10 +214,6 @@ class Workbook(xmlwriter.XMLwriter):
             self.default_date_format = self.add_format(
                 {"num_format": self.default_date_format}
             )
-
-        self.max_digit_width, self.cell_padding, self.max_col_width = (
-            self._default_column_metrics(self.default_col_width)
-        )
 
     def __enter__(self):
         """Return self object to use with "with" statement."""
@@ -290,6 +275,11 @@ class Workbook(xmlwriter.XMLwriter):
 
         if properties:
             format_properties.update(properties)
+
+            # Set a user font name after any default font scheme, so that it
+            # can turn off the theme scheme.
+            if "font_name" in properties and "font_scheme" not in properties:
+                format_properties["font_name"] = format_properties.pop("font_name")
 
         xf_format = Format(
             format_properties, self.xf_format_indices, self.dxf_format_indices
@@ -961,6 +951,7 @@ class Workbook(xmlwriter.XMLwriter):
             "nan_inf_to_errors": self.nan_inf_to_errors,
             "default_date_format": self.default_date_format,
             "default_url_format": self.default_url_format,
+            "default_format": self.default_format,
             "workbook_add_format": self.add_format,
             "excel2003_style": self.excel2003_style,
             "remove_timezone": self.remove_timezone,
@@ -1698,7 +1689,30 @@ class Workbook(xmlwriter.XMLwriter):
         # This allows the default packager to be over-ridden.
         return Packager()
 
-    def _default_column_metrics(self, width: int) -> Tuple[int, int, int]:
+    def _set_default_format(
+        self, properties: Dict[str, Any], row_height: int, col_width: int
+    ) -> None:
+        # Set the default cell format and the row/column dimensions that go
+        # with it.
+        metrics = self._default_column_metrics(col_width)
+        if metrics is None:
+            warn(f"Unsupported default_column_width '{col_width}'. Using 64 pixels.")
+            col_width = 64
+            metrics = self._default_column_metrics(col_width)
+
+        self.max_digit_width, self.cell_padding, self.max_col_width = metrics
+        self.default_col_width = col_width
+        self.default_row_height = row_height
+
+        self.default_format_properties = properties.copy()
+        self.default_format = self.add_format({"xf_index": 0})
+
+        # Store the theme font name to cell format properties.
+        self.default_format_properties["theme_font_name"] = properties.get(
+            "font_name", "Calibri"
+        )
+
+    def _default_column_metrics(self, width: int) -> Optional[Tuple[int, int, int]]:
         # Get default font metrics for a default column width.
         #
         # This function returns the font metrics (max_digit_width, padding,
@@ -1721,8 +1735,7 @@ class Workbook(xmlwriter.XMLwriter):
         elif width == 120:
             metrics = (13, 9, 3323)
         else:
-            warn(f"Unsupported default_column_width '{width}'. Using 64 pixels.")
-            metrics = (7, 5, 1790)
+            metrics = None
 
         return metrics
 

@@ -51,6 +51,8 @@ directory of the XlsxWriter distribution.
    example_outline1.rst
    example_outline2.rst
    example_doc_properties.rst
+   example_theme_excel_2023.rst
+   example_theme_custom.rst
    example_sensitivity_label.rst
    example_unicode.rst
    example_unicode_polish_utf8.rst

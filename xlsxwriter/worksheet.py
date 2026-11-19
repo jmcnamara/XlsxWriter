@@ -348,6 +348,7 @@ class Worksheet(xmlwriter.XMLwriter):
         self.max_digit_width: int = 7
         self.max_col_width: int = 1790
         self.default_date_width = 68
+        self.default_format = Format()
         self.default_row_zeroed = 0
 
         self.selections = []
@@ -1485,8 +1486,8 @@ class Worksheet(xmlwriter.XMLwriter):
         self.rstring = XMLwriter()
         self.rstring._set_filehandle(fh)
 
-        # Create a temp format with the default font for unformatted fragments.
-        default = Format()
+        # Use the default format for unformatted fragments.
+        default = self.default_format
 
         # Convert list of format, string tokens to pairs of (format, string)
         # except for the first string fragment which doesn't require a default
@@ -4999,6 +5000,7 @@ class Worksheet(xmlwriter.XMLwriter):
         self.nan_inf_to_errors = init_data["nan_inf_to_errors"]
         self.default_date_format = init_data["default_date_format"]
         self.default_url_format = init_data["default_url_format"]
+        self.default_format = init_data["default_format"]
         self.workbook_add_format = init_data["workbook_add_format"]
         self.excel2003_style = init_data["excel2003_style"]
         self.remove_timezone = init_data["remove_timezone"]
@@ -6201,7 +6203,7 @@ class Worksheet(xmlwriter.XMLwriter):
         xml_writer._xml_empty_tag("rFont", [("val", xf_format.font_name)])
         xml_writer._xml_empty_tag("family", [("val", xf_format.font_family)])
 
-        if xf_format.font_name == "Calibri" and not xf_format.hyperlink:
+        if xf_format.font_scheme in ("major", "minor") and not xf_format.hyperlink:
             xml_writer._xml_empty_tag("scheme", [("val", xf_format.font_scheme)])
 
         xml_writer._xml_end_tag("rPr")
@@ -8058,8 +8060,8 @@ class Worksheet(xmlwriter.XMLwriter):
     def _calculate_x_split_width(self, width):
         # Convert column width from user units to pane split width.
 
-        max_digit_width = 7  # For Calabri 11.
-        padding = 5
+        max_digit_width = self.max_digit_width
+        padding = self.cell_padding
 
         # Convert to pixels.
         if width < 1:

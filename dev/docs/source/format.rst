@@ -228,6 +228,8 @@ properties that can be applied and the equivalent object method:
 +------------+------------------+----------------------+------------------------------+
 |            | Super/Subscript  | ``'font_script'``    | :func:`set_font_script()`    |
 +------------+------------------+----------------------+------------------------------+
+|            | Font scheme      | ``'font_scheme'``    | :func:`set_font_scheme()`    |
++------------+------------------+----------------------+------------------------------+
 | Number     | Numeric format   | ``'num_format'``     | :func:`set_num_format()`     |
 +------------+------------------+----------------------+------------------------------+
 | Protection | Lock cells       | ``'locked'``         | :func:`set_locked()`         |
@@ -437,6 +439,34 @@ The available options are:
 
 This property is generally only useful when used in conjunction with
 :func:`write_rich_string`.
+
+
+format.set_font_scheme()
+------------------------
+
+.. py:function:: set_font_scheme(scheme)
+
+   Set the font scheme property to indicate if the font is part of the
+   workbook theme.
+
+   :param string scheme: The font scheme.
+
+A font that is part of the workbook theme changes when the theme is changed in
+Excel. The allowed values are:
+
+* ``"minor"``: A theme font used for body text. This is the default.
+* ``"major"``: A theme font used for headings.
+* ``"none"``: A font that isn't part of the theme.
+
+Setting a font name with :func:`set_font_name` that is different from the
+default theme font sets the scheme to ``"none"`` automatically.
+
+This property is mainly used with the workbook ``default_format_properties``
+option and :func:`use_custom_theme` to indicate that the default font is part of
+a custom theme. It can also be used to indicate that a font, such as "Calibri",
+isn't connected to the theme and won't change if the theme is changed::
+
+    cell_format = workbook.add_format({"font_name": "Calibri", "font_scheme": "none"})
 
 
 format.set_num_format()

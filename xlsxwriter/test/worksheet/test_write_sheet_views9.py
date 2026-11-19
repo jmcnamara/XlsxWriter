@@ -84,3 +84,22 @@ class TestWriteSheetViews(unittest.TestCase):
         got = self.fh.getvalue()
 
         self.assertEqual(exp, got)
+
+    def test_write_sheet_views5(self):
+        """Test the _write_sheet_views() method with split panes + default font"""
+
+        # Metrics for a 72 pixel default column width.
+        self.worksheet.max_digit_width = 8
+        self.worksheet.cell_padding = 5
+
+        self.worksheet.select()
+
+        self.worksheet.set_selection("E1")
+        self.worksheet.split_panes(0, 8.43, 0, 4)
+
+        self.worksheet._write_sheet_views()
+
+        exp = '<sheetViews><sheetView tabSelected="1" workbookViewId="0"><pane xSplit="1470" topLeftCell="E1" activePane="topRight"/><selection pane="topRight" activeCell="E1" sqref="E1"/></sheetView></sheetViews>'
+        got = self.fh.getvalue()
+
+        self.assertEqual(exp, got)

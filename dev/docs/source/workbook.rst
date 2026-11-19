@@ -172,6 +172,76 @@ The constructor options are:
 
       workbook = xlsxwriter.Workbook(filename, {'date_1904': True})
 
+* **default_format_properties**: Change the default cell format, mainly the
+  font, for the workbook. XlsxWriter uses the Excel 2007-2022 default format of
+  "Calibri 11". This option can be used to change it to another font such as
+  "Arial 10" or an international font such as "ＭＳ Ｐゴシック". The properties
+  are the same as those used by :func:`add_format` and they are also used as
+  the defaults for formats created with :func:`add_format`::
+
+      workbook = xlsxwriter.Workbook(
+          filename,
+          {
+              "default_format_properties": {
+                  "font_name": "ＭＳ Ｐゴシック",
+                  "font_size": 11,
+                  "font_charset": 128,
+                  "valign": "vcenter",
+              },
+              "default_row_height": 18,
+              "default_column_width": 72,
+          },
+      )
+
+  .. image:: _images/workbook_set_default_format2.png
+
+  Changing the default font changes the default row height and column width of
+  a worksheet, which in turn changes the positioning and scaling of objects
+  such as images and charts. As such, it is also necessary to set the
+  ``default_row_height`` and ``default_column_width`` options when changing the
+  default font.
+
+* **default_row_height**: The default row height, in pixels, for the
+  ``default_format_properties`` font. The default is 20.
+
+* **default_column_width**: The default column width, in pixels, for the
+  ``default_format_properties`` font. The default is 64.
+
+  The row and column dimensions can be obtained by clicking on the row and
+  column gridlines in a sample worksheet in Excel. For example, an "Aptos
+  Narrow 11" workbook has a row height of 20 pixels and a column width of 64
+  pixels:
+
+  .. image:: _images/workbook_aptos_narrow.png
+
+  These dimensions should be obtained from a Windows version of Excel since
+  the macOS versions use non-standard dimensions.
+
+  Only fonts that have the following column pixel widths are currently
+  supported: 56, 64, 72, 80, 96, 104 and 120. Other widths raise a warning and
+  fall back to 64. If you need to support a different font/width combination
+  please open a feature request with a sample blank workbook.
+
+  Note, the :func:`autofit` worksheet method doesn't currently adapt to a
+  changed default font.
+
+* **excel_2023_theme**: Change the default workbook theme to the Excel 2023
+  Office/Aptos theme. The default theme in Excel from 2007 to 2022 was the
+  "Office" theme with the Calibri 11 font and an associated color palette. In
+  Excel 2023 and later the "Office" theme uses the Aptos font and a different
+  color palette. XlsxWriter uses the older theme by default but this option can
+  be used to change to the newer theme with an "Aptos Narrow 11" default
+  format::
+
+      workbook = xlsxwriter.Workbook(filename, {'excel_2023_theme': True})
+
+  .. image:: _images/workbook_use_excel_2023_theme.png
+
+  This option sets the default format, row height and column width to match
+  the theme and it overrides the ``default_format_properties``,
+  ``default_row_height`` and ``default_column_width`` options. See also
+  :func:`use_custom_theme` and :ref:`ex_theme_excel_2023`.
+
 When specifying a filename it is recommended that you use an ``.xlsx``
 extension or Excel will generate a warning when opening the file.
 
@@ -841,14 +911,35 @@ change to a custom, user-supplied, theme.
 
 The theme file must be a valid Excel ``.thmx`` or ``.xlsx`` file or a theme XML
 file extracted from an unzipped Excel xlsx file. This theme file is typically
-located at ``xl/theme/theme1.xml``. Alternatively ``theme`` argument can be a
-``StringIO`` object containing the XML data of a valid theme XML file.
+located at ``xl/theme/theme1.xml`` in the xlsx/zip file. Alternatively the
+``theme`` argument can be a ``StringIO`` object containing the XML data of a
+valid theme XML file.
 
 In addition to supplying the theme XML file it is also necessary to set the
-default format to match the theme. This is done via the constructor properties
-``default_format_properties``, ``default_row_height``, and
-``default_column_width``. When setting a font that will be used as the default
-format it is also necessary to set the scheme parameter to ``minor``.
+default format to match the theme. This is done via the ``default_format_properties``,
+``default_row_height`` and ``default_column_width`` :ref:`Workbook() <workbook>`
+constructor options. When setting a font that will be used as the default
+format it is also necessary to set the ``font_scheme`` property to ``"minor"``
+to indicate that the font is part of the theme (see :func:`set_font_scheme`)::
+
+    workbook = xlsxwriter.Workbook(
+        "theme_custom.xlsx",
+        {
+            "default_format_properties": {
+                "font_name": "Arial",
+                "font_size": 11,
+                "font_scheme": "minor",
+            },
+            "default_row_height": 19,
+            "default_column_width": 72,
+        },
+    )
+
+    workbook.use_custom_theme("Technic.thmx")
+
+.. image:: _images/workbook_use_custom_theme.png
+
+See also :ref:`ex_theme_custom`.
 
 Note, older Excel 2007 style theme files that contain image fills as part of the
 theme are not currently supported and will raise an :exc:`ThemeFileError`

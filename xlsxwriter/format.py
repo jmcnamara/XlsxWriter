@@ -1210,6 +1210,7 @@ class Format(xmlwriter.XMLwriter):
                 self.font_shadow,
                 self.font_strikeout,
                 self.font_name,
+                self.font_scheme,
                 self.italic,
                 self.font_size,
                 self.underline,
