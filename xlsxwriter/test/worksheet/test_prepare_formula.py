@@ -10,7 +10,7 @@
 import unittest
 from io import StringIO
 
-from xlsxwriter.worksheet import Worksheet
+from xlsxwriter.worksheet import Worksheet, _has_dynamic_function
 
 
 class TestPrepareFormula(unittest.TestCase):
@@ -228,11 +228,36 @@ class TestPrepareFormula(unittest.TestCase):
             ["FORECAST.ETS.CONFINT()", "_xlfn.FORECAST.ETS.CONFINT()"],
             ["FORECAST.ETS.SEASONALITY()", "_xlfn.FORECAST.ETS.SEASONALITY()"],
             ["Z.TEST(Z.TEST(Z.TEST()))", "_xlfn.Z.TEST(_xlfn.Z.TEST(_xlfn.Z.TEST()))"],
+            # Similar names that aren't future functions.
+            ["MYSINGLE(A1)+PINGLE(B1)", "MYSINGLE(A1)+PINGLE(B1)"],
+            ["BETAXDIST()", "BETAXDIST()"],
+            # Function names in string literals.
+            ['CONCAT("SORT(",A1)', '_xlfn.CONCAT("SORT(",A1)'],
+            [
+                'IF(A1="a""SORT(",SORT(A1),"")',
+                'IF(A1="a""SORT(",_xlfn._xlws.SORT(A1),"")',
+            ],
         ]
 
         for testcase in testcases:
             formula = testcase[0]
             exp = testcase[1]
             got = self.worksheet._prepare_formula(formula)
+
+            self.assertEqual(exp, got)
+
+    def test_has_dynamic_function(self):
+        testcases = [
+            ["=SORT(A1:A3)", True],
+            ["=_xlfn._xlws.SORT(A1:A3)", True],
+            ["=SUM(A1:A3)", False],
+            ["=XMATCH(B1,A1:A3)", False],
+            ['=CONCAT("SORT(",A1)', False],
+        ]
+
+        for testcase in testcases:
+            formula = testcase[0]
+            exp = testcase[1]
+            got = _has_dynamic_function(formula)
 
             self.assertEqual(exp, got)

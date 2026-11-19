@@ -26,6 +26,14 @@ Release 3.3.2 - Month XX 2026
 
   :issue:`1229`.
 
+* Improved the performance of :func:`write_formula` and other methods that
+  handle formulas.
+
+  :issue:`1228`.
+
+* Fixed issue where function names in formula string literals, and names such
+  as ``MYSINGLE()``, were treated as "future" functions.
+
 
 Release 3.3.1 - October 28 2026
 -------------------------------

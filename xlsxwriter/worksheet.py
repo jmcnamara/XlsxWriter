@@ -118,39 +118,183 @@ if TYPE_CHECKING:
         ) -> ReturnTypeT_co: ...
 
 
-re_dynamic_function = re.compile(
-    r"""
-    \bANCHORARRAY\(    |
-    \bBYCOL\(          |
-    \bBYROW\(          |
-    \bCHOOSECOLS\(     |
-    \bCHOOSEROWS\(     |
-    \bDROP\(           |
-    \bEXPAND\(         |
-    \bFILTER\(         |
-    \bHSTACK\(         |
-    \bLAMBDA\(         |
-    \bMAKEARRAY\(      |
-    \bMAP\(            |
-    \bRANDARRAY\(      |
-    \bREDUCE\(         |
-    \bSCAN\(           |
-    \bSEQUENCE\(       |
-    \bSINGLE\(         |
-    \bSORT\(           |
-    \bSORTBY\(         |
-    \bSWITCH\(         |
-    \bTAKE\(           |
-    \bTEXTSPLIT\(      |
-    \bTOCOL\(          |
-    \bTOROW\(          |
-    \bUNIQUE\(         |
-    \bVSTACK\(         |
-    \bWRAPCOLS\(       |
-    \bWRAPROWS\(       |
-    \bXLOOKUP\(""",
-    re.VERBOSE,
-)
+# Excel "future" functions that require a "_xlfn." prefix. The types are:
+#     0 = Standard future functions.
+#     1 = Future functions that are also dynamic functions.
+#     2 = Dynamic functions that require an additional "_xlws." prefix.
+FUTURE_FUNCTIONS = {
+    # Future functions.
+    "ACOTH": 0,
+    "ACOT": 0,
+    "AGGREGATE": 0,
+    "ARABIC": 0,
+    "ARRAYTOTEXT": 0,
+    "BASE": 0,
+    "BETA.DIST": 0,
+    "BETA.INV": 0,
+    "BINOM.DIST.RANGE": 0,
+    "BINOM.DIST": 0,
+    "BINOM.INV": 0,
+    "BITAND": 0,
+    "BITLSHIFT": 0,
+    "BITOR": 0,
+    "BITRSHIFT": 0,
+    "BITXOR": 0,
+    "CEILING.MATH": 0,
+    "CEILING.PRECISE": 0,
+    "CHISQ.DIST.RT": 0,
+    "CHISQ.DIST": 0,
+    "CHISQ.INV.RT": 0,
+    "CHISQ.INV": 0,
+    "CHISQ.TEST": 0,
+    "COMBINA": 0,
+    "CONCAT": 0,
+    "CONFIDENCE.NORM": 0,
+    "CONFIDENCE.T": 0,
+    "COTH": 0,
+    "COT": 0,
+    "COVARIANCE.P": 0,
+    "COVARIANCE.S": 0,
+    "CSCH": 0,
+    "CSC": 0,
+    "DAYS": 0,
+    "DECIMAL": 0,
+    "ERF.PRECISE": 0,
+    "ERFC.PRECISE": 0,
+    "EXPON.DIST": 0,
+    "F.DIST.RT": 0,
+    "F.DIST": 0,
+    "F.INV.RT": 0,
+    "F.INV": 0,
+    "F.TEST": 0,
+    "FILTERXML": 0,
+    "FLOOR.MATH": 0,
+    "FLOOR.PRECISE": 0,
+    "FORECAST.ETS.CONFINT": 0,
+    "FORECAST.ETS.SEASONALITY": 0,
+    "FORECAST.ETS.STAT": 0,
+    "FORECAST.ETS": 0,
+    "FORECAST.LINEAR": 0,
+    "FORMULATEXT": 0,
+    "GAMMA.DIST": 0,
+    "GAMMA.INV": 0,
+    "GAMMALN.PRECISE": 0,
+    "GAMMA": 0,
+    "GAUSS": 0,
+    "HYPGEOM.DIST": 0,
+    "IFNA": 0,
+    "IFS": 0,
+    "IMAGE": 0,
+    "IMCOSH": 0,
+    "IMCOT": 0,
+    "IMCSCH": 0,
+    "IMCSC": 0,
+    "IMSECH": 0,
+    "IMSEC": 0,
+    "IMSINH": 0,
+    "IMTAN": 0,
+    "ISFORMULA": 0,
+    "ISOMITTED": 0,
+    "ISOWEEKNUM": 0,
+    "LET": 0,
+    "LOGNORM.DIST": 0,
+    "LOGNORM.INV": 0,
+    "MAXIFS": 0,
+    "MINIFS": 0,
+    "MODE.MULT": 0,
+    "MODE.SNGL": 0,
+    "MUNIT": 0,
+    "NEGBINOM.DIST": 0,
+    "NORM.DIST": 0,
+    "NORM.INV": 0,
+    "NORM.S.DIST": 0,
+    "NORM.S.INV": 0,
+    "NUMBERVALUE": 0,
+    "PDURATION": 0,
+    "PERCENTILE.EXC": 0,
+    "PERCENTILE.INC": 0,
+    "PERCENTRANK.EXC": 0,
+    "PERCENTRANK.INC": 0,
+    "PERMUTATIONA": 0,
+    "PHI": 0,
+    "POISSON.DIST": 0,
+    "QUARTILE.EXC": 0,
+    "QUARTILE.INC": 0,
+    "QUERYSTRING": 0,
+    "RANK.AVG": 0,
+    "RANK.EQ": 0,
+    "RRI": 0,
+    "SECH": 0,
+    "SEC": 0,
+    "SHEETS": 0,
+    "SHEET": 0,
+    "SKEW.P": 0,
+    "STDEV.P": 0,
+    "STDEV.S": 0,
+    "T.DIST.2T": 0,
+    "T.DIST.RT": 0,
+    "T.DIST": 0,
+    "T.INV.2T": 0,
+    "T.INV": 0,
+    "T.TEST": 0,
+    "TEXTAFTER": 0,
+    "TEXTBEFORE": 0,
+    "TEXTJOIN": 0,
+    "UNICHAR": 0,
+    "UNICODE": 0,
+    "VALUETOTEXT": 0,
+    "VAR.P": 0,
+    "VAR.S": 0,
+    "WEBSERVICE": 0,
+    "WEIBULL.DIST": 0,
+    "XMATCH": 0,
+    "XOR": 0,
+    "Z.TEST": 0,
+    # Dynamic functions.
+    "ANCHORARRAY": 1,
+    "BYCOL": 1,
+    "BYROW": 1,
+    "CHOOSECOLS": 1,
+    "CHOOSEROWS": 1,
+    "DROP": 1,
+    "EXPAND": 1,
+    "HSTACK": 1,
+    "LAMBDA": 1,
+    "MAKEARRAY": 1,
+    "MAP": 1,
+    "RANDARRAY": 1,
+    "REDUCE": 1,
+    "SCAN": 1,
+    "SEQUENCE": 1,
+    "SINGLE": 1,
+    "SORTBY": 1,
+    "SWITCH": 1,
+    "TAKE": 1,
+    "TEXTSPLIT": 1,
+    "TOCOL": 1,
+    "TOROW": 1,
+    "UNIQUE": 1,
+    "VSTACK": 1,
+    "WRAPCOLS": 1,
+    "WRAPROWS": 1,
+    "XLOOKUP": 1,
+    # Special case dynamic functions.
+    "FILTER": 2,
+    "SORT": 2,
+}
+
+# Match function names and string literals in a formula. The string literals are
+# matched so that they can be skipped in case they contain a function name.
+RE_FUNCTION_NAME = re.compile(r'"[^"]*"|\b([A-Z][A-Z0-9.]*)\(')
+
+
+def _has_dynamic_function(formula: str) -> bool:
+    # Check if a formula contains a dynamic function, ignoring string literals.
+    for match in RE_FUNCTION_NAME.finditer(formula):
+        if FUTURE_FUNCTIONS.get(match.group(1), 0) > 0:
+            return True
+
+    return False
 
 
 ###############################################################################
@@ -874,7 +1018,7 @@ class Worksheet(xmlwriter.XMLwriter):
             return -1
 
         # Check for dynamic array functions.
-        if re_dynamic_function.search(formula):
+        if _has_dynamic_function(formula):
             return self.write_dynamic_array_formula(
                 row, col, row, col, formula, cell_format, value
             )
@@ -926,7 +1070,7 @@ class Worksheet(xmlwriter.XMLwriter):
 
         """
         # Check for dynamic array functions.
-        if re_dynamic_function.search(formula):
+        if _has_dynamic_function(formula):
             return self.write_dynamic_array_formula(
                 first_row, first_col, last_row, last_col, formula, cell_format, value
             )
@@ -1001,172 +1145,22 @@ class Worksheet(xmlwriter.XMLwriter):
         if "_xlfn." in formula:
             return formula
 
-        # Expand dynamic formulas.
-        formula = re.sub(r"\bANCHORARRAY\(", "_xlfn.ANCHORARRAY(", formula)
-        formula = re.sub(r"\bBYCOL\(", "_xlfn.BYCOL(", formula)
-        formula = re.sub(r"\bBYROW\(", "_xlfn.BYROW(", formula)
-        formula = re.sub(r"\bCHOOSECOLS\(", "_xlfn.CHOOSECOLS(", formula)
-        formula = re.sub(r"\bCHOOSEROWS\(", "_xlfn.CHOOSEROWS(", formula)
-        formula = re.sub(r"\bDROP\(", "_xlfn.DROP(", formula)
-        formula = re.sub(r"\bEXPAND\(", "_xlfn.EXPAND(", formula)
-        formula = re.sub(r"\bFILTER\(", "_xlfn._xlws.FILTER(", formula)
-        formula = re.sub(r"\bHSTACK\(", "_xlfn.HSTACK(", formula)
-        formula = re.sub(r"\bLAMBDA\(", "_xlfn.LAMBDA(", formula)
-        formula = re.sub(r"\bMAKEARRAY\(", "_xlfn.MAKEARRAY(", formula)
-        formula = re.sub(r"\bMAP\(", "_xlfn.MAP(", formula)
-        formula = re.sub(r"\bRANDARRAY\(", "_xlfn.RANDARRAY(", formula)
-        formula = re.sub(r"\bREDUCE\(", "_xlfn.REDUCE(", formula)
-        formula = re.sub(r"\bSCAN\(", "_xlfn.SCAN(", formula)
-        formula = re.sub(r"\SINGLE\(", "_xlfn.SINGLE(", formula)
-        formula = re.sub(r"\bSEQUENCE\(", "_xlfn.SEQUENCE(", formula)
-        formula = re.sub(r"\bSORT\(", "_xlfn._xlws.SORT(", formula)
-        formula = re.sub(r"\bSORTBY\(", "_xlfn.SORTBY(", formula)
-        formula = re.sub(r"\bSWITCH\(", "_xlfn.SWITCH(", formula)
-        formula = re.sub(r"\bTAKE\(", "_xlfn.TAKE(", formula)
-        formula = re.sub(r"\bTEXTSPLIT\(", "_xlfn.TEXTSPLIT(", formula)
-        formula = re.sub(r"\bTOCOL\(", "_xlfn.TOCOL(", formula)
-        formula = re.sub(r"\bTOROW\(", "_xlfn.TOROW(", formula)
-        formula = re.sub(r"\bUNIQUE\(", "_xlfn.UNIQUE(", formula)
-        formula = re.sub(r"\bVSTACK\(", "_xlfn.VSTACK(", formula)
-        formula = re.sub(r"\bWRAPCOLS\(", "_xlfn.WRAPCOLS(", formula)
-        formula = re.sub(r"\bWRAPROWS\(", "_xlfn.WRAPROWS(", formula)
-        formula = re.sub(r"\bXLOOKUP\(", "_xlfn.XLOOKUP(", formula)
+        # Prefix any future functions with "_xlfn.". The standard future
+        # functions are only expanded if required.
+        expand_all = self.use_future_functions or expand_future_functions
 
-        if not self.use_future_functions and not expand_future_functions:
-            return formula
+        def expand_function(match):
+            function_type = FUTURE_FUNCTIONS.get(match.group(1))
 
-        formula = re.sub(r"\bACOTH\(", "_xlfn.ACOTH(", formula)
-        formula = re.sub(r"\bACOT\(", "_xlfn.ACOT(", formula)
-        formula = re.sub(r"\bAGGREGATE\(", "_xlfn.AGGREGATE(", formula)
-        formula = re.sub(r"\bARABIC\(", "_xlfn.ARABIC(", formula)
-        formula = re.sub(r"\bARRAYTOTEXT\(", "_xlfn.ARRAYTOTEXT(", formula)
-        formula = re.sub(r"\bBASE\(", "_xlfn.BASE(", formula)
-        formula = re.sub(r"\bBETA.DIST\(", "_xlfn.BETA.DIST(", formula)
-        formula = re.sub(r"\bBETA.INV\(", "_xlfn.BETA.INV(", formula)
-        formula = re.sub(r"\bBINOM.DIST.RANGE\(", "_xlfn.BINOM.DIST.RANGE(", formula)
-        formula = re.sub(r"\bBINOM.DIST\(", "_xlfn.BINOM.DIST(", formula)
-        formula = re.sub(r"\bBINOM.INV\(", "_xlfn.BINOM.INV(", formula)
-        formula = re.sub(r"\bBITAND\(", "_xlfn.BITAND(", formula)
-        formula = re.sub(r"\bBITLSHIFT\(", "_xlfn.BITLSHIFT(", formula)
-        formula = re.sub(r"\bBITOR\(", "_xlfn.BITOR(", formula)
-        formula = re.sub(r"\bBITRSHIFT\(", "_xlfn.BITRSHIFT(", formula)
-        formula = re.sub(r"\bBITXOR\(", "_xlfn.BITXOR(", formula)
-        formula = re.sub(r"\bCEILING.MATH\(", "_xlfn.CEILING.MATH(", formula)
-        formula = re.sub(r"\bCEILING.PRECISE\(", "_xlfn.CEILING.PRECISE(", formula)
-        formula = re.sub(r"\bCHISQ.DIST.RT\(", "_xlfn.CHISQ.DIST.RT(", formula)
-        formula = re.sub(r"\bCHISQ.DIST\(", "_xlfn.CHISQ.DIST(", formula)
-        formula = re.sub(r"\bCHISQ.INV.RT\(", "_xlfn.CHISQ.INV.RT(", formula)
-        formula = re.sub(r"\bCHISQ.INV\(", "_xlfn.CHISQ.INV(", formula)
-        formula = re.sub(r"\bCHISQ.TEST\(", "_xlfn.CHISQ.TEST(", formula)
-        formula = re.sub(r"\bCOMBINA\(", "_xlfn.COMBINA(", formula)
-        formula = re.sub(r"\bCONCAT\(", "_xlfn.CONCAT(", formula)
-        formula = re.sub(r"\bCONFIDENCE.NORM\(", "_xlfn.CONFIDENCE.NORM(", formula)
-        formula = re.sub(r"\bCONFIDENCE.T\(", "_xlfn.CONFIDENCE.T(", formula)
-        formula = re.sub(r"\bCOTH\(", "_xlfn.COTH(", formula)
-        formula = re.sub(r"\bCOT\(", "_xlfn.COT(", formula)
-        formula = re.sub(r"\bCOVARIANCE.P\(", "_xlfn.COVARIANCE.P(", formula)
-        formula = re.sub(r"\bCOVARIANCE.S\(", "_xlfn.COVARIANCE.S(", formula)
-        formula = re.sub(r"\bCSCH\(", "_xlfn.CSCH(", formula)
-        formula = re.sub(r"\bCSC\(", "_xlfn.CSC(", formula)
-        formula = re.sub(r"\bDAYS\(", "_xlfn.DAYS(", formula)
-        formula = re.sub(r"\bDECIMAL\(", "_xlfn.DECIMAL(", formula)
-        formula = re.sub(r"\bERF.PRECISE\(", "_xlfn.ERF.PRECISE(", formula)
-        formula = re.sub(r"\bERFC.PRECISE\(", "_xlfn.ERFC.PRECISE(", formula)
-        formula = re.sub(r"\bEXPON.DIST\(", "_xlfn.EXPON.DIST(", formula)
-        formula = re.sub(r"\bF.DIST.RT\(", "_xlfn.F.DIST.RT(", formula)
-        formula = re.sub(r"\bF.DIST\(", "_xlfn.F.DIST(", formula)
-        formula = re.sub(r"\bF.INV.RT\(", "_xlfn.F.INV.RT(", formula)
-        formula = re.sub(r"\bF.INV\(", "_xlfn.F.INV(", formula)
-        formula = re.sub(r"\bF.TEST\(", "_xlfn.F.TEST(", formula)
-        formula = re.sub(r"\bFILTERXML\(", "_xlfn.FILTERXML(", formula)
-        formula = re.sub(r"\bFLOOR.MATH\(", "_xlfn.FLOOR.MATH(", formula)
-        formula = re.sub(r"\bFLOOR.PRECISE\(", "_xlfn.FLOOR.PRECISE(", formula)
-        formula = re.sub(
-            r"\bFORECAST.ETS.CONFINT\(", "_xlfn.FORECAST.ETS.CONFINT(", formula
-        )
-        formula = re.sub(
-            r"\bFORECAST.ETS.SEASONALITY\(", "_xlfn.FORECAST.ETS.SEASONALITY(", formula
-        )
-        formula = re.sub(r"\bFORECAST.ETS.STAT\(", "_xlfn.FORECAST.ETS.STAT(", formula)
-        formula = re.sub(r"\bFORECAST.ETS\(", "_xlfn.FORECAST.ETS(", formula)
-        formula = re.sub(r"\bFORECAST.LINEAR\(", "_xlfn.FORECAST.LINEAR(", formula)
-        formula = re.sub(r"\bFORMULATEXT\(", "_xlfn.FORMULATEXT(", formula)
-        formula = re.sub(r"\bGAMMA.DIST\(", "_xlfn.GAMMA.DIST(", formula)
-        formula = re.sub(r"\bGAMMA.INV\(", "_xlfn.GAMMA.INV(", formula)
-        formula = re.sub(r"\bGAMMALN.PRECISE\(", "_xlfn.GAMMALN.PRECISE(", formula)
-        formula = re.sub(r"\bGAMMA\(", "_xlfn.GAMMA(", formula)
-        formula = re.sub(r"\bGAUSS\(", "_xlfn.GAUSS(", formula)
-        formula = re.sub(r"\bHYPGEOM.DIST\(", "_xlfn.HYPGEOM.DIST(", formula)
-        formula = re.sub(r"\bIFNA\(", "_xlfn.IFNA(", formula)
-        formula = re.sub(r"\bIFS\(", "_xlfn.IFS(", formula)
-        formula = re.sub(r"\bIMAGE\(", "_xlfn.IMAGE(", formula)
-        formula = re.sub(r"\bIMCOSH\(", "_xlfn.IMCOSH(", formula)
-        formula = re.sub(r"\bIMCOT\(", "_xlfn.IMCOT(", formula)
-        formula = re.sub(r"\bIMCSCH\(", "_xlfn.IMCSCH(", formula)
-        formula = re.sub(r"\bIMCSC\(", "_xlfn.IMCSC(", formula)
-        formula = re.sub(r"\bIMSECH\(", "_xlfn.IMSECH(", formula)
-        formula = re.sub(r"\bIMSEC\(", "_xlfn.IMSEC(", formula)
-        formula = re.sub(r"\bIMSINH\(", "_xlfn.IMSINH(", formula)
-        formula = re.sub(r"\bIMTAN\(", "_xlfn.IMTAN(", formula)
-        formula = re.sub(r"\bISFORMULA\(", "_xlfn.ISFORMULA(", formula)
-        formula = re.sub(r"\bISOMITTED\(", "_xlfn.ISOMITTED(", formula)
-        formula = re.sub(r"\bISOWEEKNUM\(", "_xlfn.ISOWEEKNUM(", formula)
-        formula = re.sub(r"\bLET\(", "_xlfn.LET(", formula)
-        formula = re.sub(r"\bLOGNORM.DIST\(", "_xlfn.LOGNORM.DIST(", formula)
-        formula = re.sub(r"\bLOGNORM.INV\(", "_xlfn.LOGNORM.INV(", formula)
-        formula = re.sub(r"\bMAXIFS\(", "_xlfn.MAXIFS(", formula)
-        formula = re.sub(r"\bMINIFS\(", "_xlfn.MINIFS(", formula)
-        formula = re.sub(r"\bMODE.MULT\(", "_xlfn.MODE.MULT(", formula)
-        formula = re.sub(r"\bMODE.SNGL\(", "_xlfn.MODE.SNGL(", formula)
-        formula = re.sub(r"\bMUNIT\(", "_xlfn.MUNIT(", formula)
-        formula = re.sub(r"\bNEGBINOM.DIST\(", "_xlfn.NEGBINOM.DIST(", formula)
-        formula = re.sub(r"\bNORM.DIST\(", "_xlfn.NORM.DIST(", formula)
-        formula = re.sub(r"\bNORM.INV\(", "_xlfn.NORM.INV(", formula)
-        formula = re.sub(r"\bNORM.S.DIST\(", "_xlfn.NORM.S.DIST(", formula)
-        formula = re.sub(r"\bNORM.S.INV\(", "_xlfn.NORM.S.INV(", formula)
-        formula = re.sub(r"\bNUMBERVALUE\(", "_xlfn.NUMBERVALUE(", formula)
-        formula = re.sub(r"\bPDURATION\(", "_xlfn.PDURATION(", formula)
-        formula = re.sub(r"\bPERCENTILE.EXC\(", "_xlfn.PERCENTILE.EXC(", formula)
-        formula = re.sub(r"\bPERCENTILE.INC\(", "_xlfn.PERCENTILE.INC(", formula)
-        formula = re.sub(r"\bPERCENTRANK.EXC\(", "_xlfn.PERCENTRANK.EXC(", formula)
-        formula = re.sub(r"\bPERCENTRANK.INC\(", "_xlfn.PERCENTRANK.INC(", formula)
-        formula = re.sub(r"\bPERMUTATIONA\(", "_xlfn.PERMUTATIONA(", formula)
-        formula = re.sub(r"\bPHI\(", "_xlfn.PHI(", formula)
-        formula = re.sub(r"\bPOISSON.DIST\(", "_xlfn.POISSON.DIST(", formula)
-        formula = re.sub(r"\bQUARTILE.EXC\(", "_xlfn.QUARTILE.EXC(", formula)
-        formula = re.sub(r"\bQUARTILE.INC\(", "_xlfn.QUARTILE.INC(", formula)
-        formula = re.sub(r"\bQUERYSTRING\(", "_xlfn.QUERYSTRING(", formula)
-        formula = re.sub(r"\bRANK.AVG\(", "_xlfn.RANK.AVG(", formula)
-        formula = re.sub(r"\bRANK.EQ\(", "_xlfn.RANK.EQ(", formula)
-        formula = re.sub(r"\bRRI\(", "_xlfn.RRI(", formula)
-        formula = re.sub(r"\bSECH\(", "_xlfn.SECH(", formula)
-        formula = re.sub(r"\bSEC\(", "_xlfn.SEC(", formula)
-        formula = re.sub(r"\bSHEETS\(", "_xlfn.SHEETS(", formula)
-        formula = re.sub(r"\bSHEET\(", "_xlfn.SHEET(", formula)
-        formula = re.sub(r"\bSKEW.P\(", "_xlfn.SKEW.P(", formula)
-        formula = re.sub(r"\bSTDEV.P\(", "_xlfn.STDEV.P(", formula)
-        formula = re.sub(r"\bSTDEV.S\(", "_xlfn.STDEV.S(", formula)
-        formula = re.sub(r"\bT.DIST.2T\(", "_xlfn.T.DIST.2T(", formula)
-        formula = re.sub(r"\bT.DIST.RT\(", "_xlfn.T.DIST.RT(", formula)
-        formula = re.sub(r"\bT.DIST\(", "_xlfn.T.DIST(", formula)
-        formula = re.sub(r"\bT.INV.2T\(", "_xlfn.T.INV.2T(", formula)
-        formula = re.sub(r"\bT.INV\(", "_xlfn.T.INV(", formula)
-        formula = re.sub(r"\bT.TEST\(", "_xlfn.T.TEST(", formula)
-        formula = re.sub(r"\bTEXTAFTER\(", "_xlfn.TEXTAFTER(", formula)
-        formula = re.sub(r"\bTEXTBEFORE\(", "_xlfn.TEXTBEFORE(", formula)
-        formula = re.sub(r"\bTEXTJOIN\(", "_xlfn.TEXTJOIN(", formula)
-        formula = re.sub(r"\bUNICHAR\(", "_xlfn.UNICHAR(", formula)
-        formula = re.sub(r"\bUNICODE\(", "_xlfn.UNICODE(", formula)
-        formula = re.sub(r"\bVALUETOTEXT\(", "_xlfn.VALUETOTEXT(", formula)
-        formula = re.sub(r"\bVAR.P\(", "_xlfn.VAR.P(", formula)
-        formula = re.sub(r"\bVAR.S\(", "_xlfn.VAR.S(", formula)
-        formula = re.sub(r"\bWEBSERVICE\(", "_xlfn.WEBSERVICE(", formula)
-        formula = re.sub(r"\bWEIBULL.DIST\(", "_xlfn.WEIBULL.DIST(", formula)
-        formula = re.sub(r"\bXMATCH\(", "_xlfn.XMATCH(", formula)
-        formula = re.sub(r"\bXOR\(", "_xlfn.XOR(", formula)
-        formula = re.sub(r"\bZ.TEST\(", "_xlfn.Z.TEST(", formula)
+            if function_type is None or (function_type == 0 and not expand_all):
+                return match.group(0)
 
-        return formula
+            if function_type == 2:
+                return "_xlfn._xlws." + match.group(0)
+
+            return "_xlfn." + match.group(0)
+
+        return RE_FUNCTION_NAME.sub(expand_function, formula)
 
     # Escape/expand table functions. This mainly involves converting Excel 2010
     # "@" table ref to 2007 "[#This Row],". We parse the string to avoid
