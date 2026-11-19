@@ -12,7 +12,8 @@ on:
 jobs:
   build:
 
-    runs-on: ubuntu-latest
+    # Use Ubuntu 24.04 to get Python 3.8 and 3.9 support.
+    runs-on: ubuntu-24.04
 
     strategy:
       fail-fast: false
