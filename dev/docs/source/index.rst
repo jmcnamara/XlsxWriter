@@ -26,6 +26,8 @@ features such as formatting and many more, including:
 * Autofilters.
 * Data validation and drop down lists.
 * Conditional formatting.
+* Worksheet tables.
+* Pivot tables.
 * Worksheet PNG/JPEG/GIF/BMP/WMF/EMF images.
 * Rich multi-format strings.
 * Cell comments.

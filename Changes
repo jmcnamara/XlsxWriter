@@ -1,6 +1,6 @@
 
-Release 3.3.3 - Unreleased
---------------------------
+Release 3.3.3 - November 20 2026
+--------------------------------
 
 * Added support for worksheet pivot tables via the :func:`add_pivot_table`
   method. Pivot tables can have row, column, filter and value fields, and the
@@ -13,6 +13,8 @@ Release 3.3.3 - Unreleased
   applications that don't refresh pivot tables on load will show an empty
   pivot table, and Excel will ask to save the file on close even if no
   changes were made. See :ref:`pivot_table_limitations` for details.
+
+  :feature:`1231`.
 
 Release 3.3.2 - November 19 2026
 --------------------------------
