@@ -1,4 +1,19 @@
 
+Release 3.3.3 - Unreleased
+--------------------------
+
+* Added support for worksheet pivot tables via the :func:`add_pivot_table`
+  method. Pivot tables can have row, column, filter and value fields, and the
+  value fields can have different functions, custom names and number formats.
+  The pivot table style, layout and grand totals can also be set. See
+  :ref:`pivot_tables` and :ref:`ex_pivot_table`.
+
+  **Note**, the pivot table data isn't stored in the file. Excel builds the
+  pivot table from the source data when the file is opened. As a result,
+  applications that don't refresh pivot tables on load will show an empty
+  pivot table, and Excel will ask to save the file on close even if no
+  changes were made. See :ref:`pivot_table_limitations` for details.
+
 Release 3.3.2 - November 19 2026
 --------------------------------
 

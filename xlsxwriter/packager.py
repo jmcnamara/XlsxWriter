@@ -23,6 +23,7 @@ from xlsxwriter.custom import Custom
 from xlsxwriter.exceptions import EmptyChartSeries
 from xlsxwriter.feature_property_bag import FeaturePropertyBag
 from xlsxwriter.metadata import Metadata
+from xlsxwriter.pivot_table import PivotTable
 from xlsxwriter.relationships import Relationships
 from xlsxwriter.rich_value import RichValue
 from xlsxwriter.rich_value_rel import RichValueRel
@@ -99,6 +100,8 @@ class Packager:
         self.chart_count = 0
         self.drawing_count = 0
         self.table_count = 0
+        self.pivot_table_count = 0
+        self.pivot_cache_count = 0
         self.num_vml_files = 0
         self.num_comment_files = 0
         self.named_ranges = []
@@ -126,12 +129,15 @@ class Packager:
         self.num_vml_files = workbook.num_vml_files
         self.num_comment_files = workbook.num_comment_files
         self.named_ranges = workbook.named_ranges
+        self.pivot_cache_count = len(workbook.pivot_caches)
 
         for worksheet in self.workbook.worksheets():
             if worksheet.is_chartsheet:
                 self.chartsheet_count += 1
             else:
                 self.worksheet_count += 1
+
+            self.pivot_table_count += len(worksheet.pivot_tables)
 
     def _create_package(self):
         # Write the xml files that make up the XLSX OPC package.
@@ -146,6 +152,8 @@ class Packager:
         self._write_vml_files()
         self._write_comment_files()
         self._write_table_files()
+        self._write_pivot_table_files()
+        self._write_pivot_cache_files()
         self._write_shared_strings_file()
         self._write_styles_file()
         self._write_custom_file()
@@ -467,6 +475,12 @@ class Packager:
         for i in range(1, self.table_count + 1):
             content._add_table_name("table" + str(i))
 
+        for i in range(1, self.pivot_table_count + 1):
+            content._add_pivot_table_name("pivotTable" + str(i))
+
+        for i in range(1, self.pivot_cache_count + 1):
+            content._add_pivot_cache_name("pivotCacheDefinition" + str(i))
+
         for i in range(1, self.num_comment_files + 1):
             content._add_comment_name("comments" + str(i))
 
@@ -554,6 +568,45 @@ class Packager:
                 table._assemble_xml_file()
                 index += 1
 
+    def _write_pivot_table_files(self) -> None:
+        # Write the pivot table files and their rels files.
+        index = 1
+        for worksheet in self.workbook.worksheets():
+            for pivot_table in worksheet.pivot_tables:
+                pivot_table._set_xml_writer(
+                    self._filename(f"xl/pivotTables/pivotTable{index}.xml")
+                )
+                pivot_table._set_num_format_indices(self.workbook.xf_formats)
+                pivot_table._assemble_xml_file()
+
+                # Write the rels file that links the pivot table to its cache.
+                self._write_pivot_table_rels_file(pivot_table, index)
+
+                index += 1
+
+    def _write_pivot_table_rels_file(self, pivot_table: PivotTable, index: int) -> None:
+        # Write the pivot table .rels file, such as
+        # xl/pivotTables/_rels/pivotTable1.xml.rels.
+        rels = Relationships()
+
+        rels._add_document_relationship(
+            "/pivotCacheDefinition",
+            f"../pivotCache/pivotCacheDefinition{pivot_table.cache_id}.xml",
+        )
+
+        rels._set_xml_writer(
+            self._filename(f"xl/pivotTables/_rels/pivotTable{index}.xml.rels")
+        )
+        rels._assemble_xml_file()
+
+    def _write_pivot_cache_files(self) -> None:
+        # Write the pivot cache definition files.
+        for index, pivot_cache in enumerate(self.workbook.pivot_caches, 1):
+            pivot_cache._set_xml_writer(
+                self._filename(f"xl/pivotCache/pivotCacheDefinition{index}.xml")
+            )
+            pivot_cache._assemble_xml_file()
+
     def _get_table_count(self) -> None:
         # Count the table files. Required for the [Content_Types] file.
         for worksheet in self.workbook.worksheets():
@@ -595,6 +648,11 @@ class Packager:
                     "/worksheet", "worksheets/sheet" + str(worksheet_index) + ".xml"
                 )
                 worksheet_index += 1
+
+        for i in range(1, self.pivot_cache_count + 1):
+            rels._add_document_relationship(
+                "/pivotCacheDefinition", f"pivotCache/pivotCacheDefinition{i}.xml"
+            )
 
         rels._add_document_relationship("/theme", "theme/theme1.xml")
         rels._add_document_relationship("/styles", "styles.xml")
@@ -638,6 +696,7 @@ class Packager:
                 + worksheet.external_background_links
                 + worksheet.external_table_links
                 + worksheet.external_comment_links
+                + worksheet.external_pivot_table_links
             )
 
             if not external_links:

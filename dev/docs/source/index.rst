@@ -85,6 +85,7 @@ It supports Python 3.8+ and PyPy3 and uses standard libraries only.
    working_with_data_validation.rst
    working_with_conditional_formats.rst
    working_with_tables.rst
+   working_with_pivot_tables.rst
    working_with_textboxes.rst
    working_with_sparklines.rst
    working_with_cell_comments.rst

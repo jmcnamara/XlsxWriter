@@ -39,11 +39,14 @@ from xlsxwriter.exceptions import (
     FileCreateError,
     FileSizeError,
     InvalidWorksheetName,
+    PivotTableError,
     ThemeFileError,
 )
 from xlsxwriter.format import Format
 from xlsxwriter.image import Image
 from xlsxwriter.packager import Packager
+from xlsxwriter.pivot_cache import PivotCache
+from xlsxwriter.pivot_table import PivotTableSource
 from xlsxwriter.sharedstrings import SharedStringTable
 from xlsxwriter.theme import THEME_XML_2007, THEME_XML_2023
 from xlsxwriter.utility import (
@@ -126,6 +129,7 @@ class Workbook(xmlwriter.XMLwriter):
         self.worksheets_objs = []
         self.charts = []
         self.drawings = []
+        self.pivot_caches: List[PivotCache] = []
         self.sheetnames = {}
         self.formats = []
         self.xf_formats = []
@@ -827,6 +831,9 @@ class Workbook(xmlwriter.XMLwriter):
         # Write the calcPr element.
         self._write_calc_pr()
 
+        # Write the pivotCaches element.
+        self._write_pivot_caches()
+
         # Close the workbook tag.
         self._xml_end_tag("workbook")
 
@@ -883,6 +890,9 @@ class Workbook(xmlwriter.XMLwriter):
 
         # Prepare the worksheet tables.
         self._prepare_tables()
+
+        # Prepare the worksheet pivot tables and pivot caches.
+        self._prepare_pivot_tables()
 
         # Prepare the metadata file links.
         self._prepare_metadata()
@@ -1566,6 +1576,81 @@ class Workbook(xmlwriter.XMLwriter):
             sheet._prepare_tables(table_id + 1, seen)
             table_id += table_count
 
+    def _prepare_pivot_tables(self) -> None:
+        # Set the pivot table ids and create a pivot cache for each unique
+        # pivot table data source.
+        pivot_table_id = 1
+        cache_sources: List[Tuple[PivotTableSource, Tuple[str, ...]]] = []
+
+        for sheet in self.worksheets():
+            if sheet.pivot_tables:
+                pivot_table_id = sheet._prepare_pivot_tables(
+                    pivot_table_id, cache_sources
+                )
+
+        self.pivot_caches = []
+
+        for source, field_names in cache_sources:
+            sheet_name, first_row, first_col, _, last_col = source
+            worksheet = self.get_worksheet_by_name(sheet_name)
+
+            if worksheet is None:
+                raise PivotTableError(
+                    f"Unknown worksheet name '{sheet_name}' in pivot table "
+                    f"data source."
+                )
+
+            if worksheet.is_chartsheet:
+                raise PivotTableError(
+                    f"Pivot table data source can't be a chartsheet "
+                    f"('{sheet_name}')."
+                )
+
+            # Read the field names from the header row of the source data. The
+            # header row of a constant_memory worksheet has already been
+            # written to disk so the user must define the field names instead.
+            if worksheet.constant_memory:
+                if not field_names:
+                    raise PivotTableError(
+                        f"Pivot tables can't reference a constant_memory "
+                        f"worksheet ('{sheet_name}') without specifying the "
+                        f"headers with the 'field_names' option."
+                    )
+
+                header_names = list(field_names)
+            else:
+                header_names = worksheet._get_pivot_table_headers(
+                    first_row, first_col, last_col
+                )
+
+                if field_names and list(field_names) != header_names:
+                    raise PivotTableError(
+                        f"Pivot table field names {list(field_names)} don't "
+                        f"match the source data headers {header_names}."
+                    )
+
+            pivot_cache = PivotCache(source)
+            pivot_cache.field_names = header_names
+            pivot_cache._validate_field_names()
+            self.pivot_caches.append(pivot_cache)
+
+        # Pass the field names back to the pivot tables so that they can map
+        # the field names to indices.
+        for sheet in self.worksheets():
+            for pivot_table in sheet.pivot_tables:
+                pivot_cache = self.pivot_caches[pivot_table.cache_id - 1]
+                pivot_table.field_names = pivot_cache.field_names
+                pivot_table._validate_field_names()
+
+                # Add a cell format for any value field number format so that
+                # it shares the cell number format indices.
+                for value_field in pivot_table.value_fields:
+                    if value_field["num_format"] is not None:
+                        num_format = self.add_format(
+                            {"num_format": value_field["num_format"]}
+                        )
+                        value_field["xf_index"] = num_format._get_xf_index()
+
     def _prepare_metadata(self) -> None:
         # Set the metadata rel link.
         self.has_embedded_images = self.embedded_images.has_images()
@@ -1890,6 +1975,27 @@ class Workbook(xmlwriter.XMLwriter):
         attributes.append(("r:id", "rId" + str(sheet_id)))
 
         self._xml_empty_tag("sheet", attributes)
+
+    def _write_pivot_caches(self) -> None:
+        # Write the <pivotCaches> element.
+        if not self.pivot_caches:
+            return
+
+        self._xml_start_tag("pivotCaches")
+
+        # The pivot cache rel ids follow the worksheet rel ids.
+        num_sheets = len(self.worksheets())
+
+        for index in range(1, len(self.pivot_caches) + 1):
+            # Write the pivotCache element.
+            attributes = [
+                ("cacheId", index),
+                ("r:id", f"rId{num_sheets + index}"),
+            ]
+
+            self._xml_empty_tag("pivotCache", attributes)
+
+        self._xml_end_tag("pivotCaches")
 
     def _write_calc_pr(self) -> None:
         # Write the <calcPr> element.

@@ -150,6 +150,25 @@ class ContentTypes(xmlwriter.XMLwriter):
 
         self._add_override((table_name, APP_DOCUMENT + "spreadsheetml.table+xml"))
 
+    def _add_pivot_table_name(self, pivot_table_name: str) -> None:
+        # Add the name of a pivot table to the ContentTypes overrides.
+        pivot_table_name = "/xl/pivotTables/" + pivot_table_name + ".xml"
+
+        self._add_override(
+            (pivot_table_name, APP_DOCUMENT + "spreadsheetml.pivotTable+xml")
+        )
+
+    def _add_pivot_cache_name(self, pivot_cache_name: str) -> None:
+        # Add the name of a pivot cache to the ContentTypes overrides.
+        pivot_cache_name = "/xl/pivotCache/" + pivot_cache_name + ".xml"
+
+        self._add_override(
+            (
+                pivot_cache_name,
+                APP_DOCUMENT + "spreadsheetml.pivotCacheDefinition+xml",
+            )
+        )
+
     def _add_vba_project(self) -> None:
         # Add a vbaProject to the ContentTypes defaults.
 

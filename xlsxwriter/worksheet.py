@@ -30,6 +30,7 @@ from typing import (
     List,
     Literal,
     Optional,
+    Tuple,
     TypeVar,
     Union,
 )
@@ -41,9 +42,14 @@ from xlsxwriter.chart import Chart
 from xlsxwriter.color import Color
 from xlsxwriter.comments import CommentType
 from xlsxwriter.drawing import Drawing, DrawingInfo, DrawingTypes
-from xlsxwriter.exceptions import DuplicateTableName, OverlappingRange
+from xlsxwriter.exceptions import (
+    DuplicateTableName,
+    OverlappingRange,
+    PivotTableError,
+)
 from xlsxwriter.format import Format
 from xlsxwriter.image import Image
+from xlsxwriter.pivot_table import PivotTable, PivotTableSource
 from xlsxwriter.shape import Shape
 from xlsxwriter.url import Url, UrlTypes
 from xlsxwriter.utility import (
@@ -570,6 +576,7 @@ class Worksheet(xmlwriter.XMLwriter):
         self.merge = []
         self.merged_cells = {}
         self.table_cells = {}
+        self.pivot_cells = {}
         self.row_spans = {}
 
         self.has_vml = False
@@ -606,12 +613,14 @@ class Worksheet(xmlwriter.XMLwriter):
         self.external_comment_links = []
         self.external_vml_links = []
         self.external_table_links = []
+        self.external_pivot_table_links = []
         self.external_background_links = []
         self.drawing_links = []
         self.vml_drawing_links = []
         self.charts = []
         self.images = []
         self.tables = []
+        self.pivot_tables: List[PivotTable] = []
         self.sparklines = []
         self.shapes = []
         self.shape_hash = {}
@@ -2501,6 +2510,13 @@ class Worksheet(xmlwriter.XMLwriter):
                         f"range '{previous_range}'."
                     )
 
+                if self.pivot_cells.get((row, col)):
+                    previous_cell = self.pivot_cells.get((row, col))
+                    raise OverlappingRange(
+                        f"Merge range '{cell_range}' overlaps pivot table at "
+                        f"'{previous_cell}'."
+                    )
+
         # Store the merged cells for overlap testing.
         for row in range(first_row, last_row + 1):
             for col in range(first_col, last_col + 1):
@@ -3530,6 +3546,13 @@ class Worksheet(xmlwriter.XMLwriter):
                         f"merge range '{previous_range}'."
                     )
 
+                if self.pivot_cells.get((row, col)):
+                    previous_cell = self.pivot_cells.get((row, col))
+                    raise OverlappingRange(
+                        f"Table range '{cell_range}' overlaps pivot table at "
+                        f"'{previous_cell}'."
+                    )
+
         # Valid input parameters.
         valid_parameter = {
             "autofilter",
@@ -3829,6 +3852,89 @@ class Worksheet(xmlwriter.XMLwriter):
                 self.filter_cells[(first_row, col)] = ("table", cell_range)
 
         return 0
+
+    @convert_cell_args
+    def add_pivot_table(
+        self, row: int, col: int, options: Optional[Dict[str, Any]] = None
+    ) -> None:
+        """
+        Add an Excel pivot table to a worksheet.
+
+        Args:
+            row:     The top left cell row of the pivot table (zero indexed).
+            col:     The top left cell column of the pivot table (zero indexed).
+            options: Pivot table options.
+
+        Raises:
+            PivotTableError: If the pivot table options are invalid.
+        """
+        if options is None:
+            options = {}
+
+        # Check that row and col are valid without storing the values.
+        if self._check_dimensions(row, col, True, True):
+            raise PivotTableError(
+                f"Pivot table position ({row}, {col}) is outside Excel's row or "
+                f"column limits."
+            )
+
+        if self.is_chartsheet:
+            raise PivotTableError("Pivot tables can't be added to a chartsheet.")
+
+        pivot_table = PivotTable(row, col, options)
+        body_row = pivot_table._body_row()
+
+        # Filter fields move the pivot table body down, below the filters.
+        # Check that the pivot table is still within the worksheet row limit.
+        if body_row >= self.xls_rowmax:
+            raise PivotTableError(
+                f"Pivot table filter fields move the pivot table body past "
+                f"Excel's row limit (first body row: {body_row + 1})."
+            )
+
+        # Check that the pivot table doesn't overlap a worksheet table, merged
+        # range, other pivot table or its own source data. The full size of
+        # the pivot table isn't known until Excel refreshes it, so only the
+        # cells from the anchor down to the first body row are checked.
+        pivot_cell = xl_rowcol_to_cell(row, col)
+        sheet_name, first_row, first_col, last_row, last_col = pivot_table.source
+
+        for pivot_row in range(row, body_row + 1):
+            if self.table_cells.get((pivot_row, col)):
+                previous_range = self.table_cells.get((pivot_row, col))
+                raise PivotTableError(
+                    f"Pivot table at '{pivot_cell}' overlaps table range "
+                    f"'{previous_range}'."
+                )
+
+            if self.merged_cells.get((pivot_row, col)):
+                previous_range = self.merged_cells.get((pivot_row, col))
+                raise PivotTableError(
+                    f"Pivot table at '{pivot_cell}' overlaps merge range "
+                    f"'{previous_range}'."
+                )
+
+            if self.pivot_cells.get((pivot_row, col)):
+                previous_cell = self.pivot_cells.get((pivot_row, col))
+                raise PivotTableError(
+                    f"Pivot table at '{pivot_cell}' overlaps previous pivot "
+                    f"table at '{previous_cell}'."
+                )
+
+            if (
+                sheet_name == self.name
+                and first_row <= pivot_row <= last_row
+                and first_col <= col <= last_col
+            ):
+                raise PivotTableError(
+                    f"Pivot table at '{pivot_cell}' overlaps its source data."
+                )
+
+        # Store the pivot table anchor cells for overlap testing.
+        for pivot_row in range(row, body_row + 1):
+            self.pivot_cells[(pivot_row, col)] = pivot_cell
+
+        self.pivot_tables.append(pivot_table)
 
     @convert_cell_args
     def add_sparkline(
@@ -6016,6 +6122,62 @@ class Worksheet(xmlwriter.XMLwriter):
                 ["/table", "../tables/table" + str(table_id) + ".xml"]
             )
             table_id += 1
+
+    def _prepare_pivot_tables(
+        self,
+        pivot_table_id: int,
+        cache_sources: List[Tuple[PivotTableSource, Tuple[str, ...]]],
+    ) -> int:
+        # Set the default name and pivot cache id for each pivot table and
+        # also set the rel linkages between the worksheet and pivot table
+        # xml files.
+        for index, pivot_table in enumerate(self.pivot_tables, 1):
+            if not pivot_table.name:
+                pivot_table.name = f"PivotTable{index}"
+
+            # Pivot tables with the same source data and field names share a
+            # pivot cache.
+            cache_source = (pivot_table.source, tuple(pivot_table.source_field_names))
+            if cache_source not in cache_sources:
+                cache_sources.append(cache_source)
+
+            pivot_table.cache_id = cache_sources.index(cache_source) + 1
+
+            # Store the link used for the rels file.
+            self.external_pivot_table_links.append(
+                ["/pivotTable", f"../pivotTables/pivotTable{pivot_table_id}.xml"]
+            )
+            pivot_table_id += 1
+
+        return pivot_table_id
+
+    def _get_pivot_table_headers(
+        self, row: int, first_col: int, last_col: int
+    ) -> List[str]:
+        # Get the header names of a pivot table data source from the
+        # worksheet data. Only string headers are supported.
+        headers = []
+
+        for col in range(first_col, last_col + 1):
+            cell = self.table.get(row, {}).get(col)
+            cell_type = cell.__class__.__name__
+
+            if cell is None or cell_type == "Blank":
+                header = ""
+            elif cell_type == "String":
+                header = self.str_table._get_shared_string(cell.string)
+            elif cell_type == "RichString":
+                header = cell.raw_string
+            else:
+                cell_ref = xl_rowcol_to_cell(row, col)
+                raise PivotTableError(
+                    f"Header cell '{self.name}!{cell_ref}' in the pivot table "
+                    f"data source must be a string."
+                )
+
+            headers.append(header)
+
+        return headers
 
     def _table_function_to_formula(self, function, col_name):
         # Convert a table total function to a worksheet formula.

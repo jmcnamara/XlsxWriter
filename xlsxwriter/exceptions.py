@@ -40,6 +40,10 @@ class OverlappingRange(XlsxInputError):
     """Worksheet merge range or table overlaps previous range."""
 
 
+class PivotTableError(XlsxInputError):
+    """Pivot table options or source data are invalid."""
+
+
 class UndefinedImageSize(XlsxFileError):
     """No size data found in image file."""
 

@@ -2035,6 +2035,45 @@ See also the examples in :ref:`ex_tables`.
    ``'constant_memory'`` mode is enabled.
 
 
+worksheet.add_pivot_table()
+---------------------------
+
+.. py:function:: add_pivot_table(row, col, options)
+
+   Add an Excel pivot table to a worksheet.
+
+   :param int row:      The top left cell row of the pivot table (zero indexed).
+   :param int col:      The top left cell column of the pivot table (zero indexed).
+   :param dict options: Pivot table options.
+
+   :raises PivotTableError: if the pivot table options or source data are
+                            invalid.
+
+The ``add_pivot_table()`` method is used to add a pivot table that summarizes
+a range of worksheet data::
+
+    worksheet.add_pivot_table('A3', {
+        'source': 'Data!A1:D51',
+        'rows': ['Region'],
+        'values': [{'field': 'Volume'}],
+    })
+
+.. image:: _images/pivot_table_demo.png
+
+This method contains a lot of parameters and is described in
+:ref:`pivot_tables`.
+
+Both row-column and A1 style notation are supported. The following are
+equivalent::
+
+    worksheet.add_pivot_table(2, 0, { ... })
+    worksheet.add_pivot_table('A3', { ... })
+
+See :ref:`cell_notation` for more details.
+
+See also the examples in :ref:`ex_pivot_table`.
+
+
 worksheet.add_sparkline()
 -------------------------
 

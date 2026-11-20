@@ -35,6 +35,8 @@ The hierarchy of exceptions in XlsxWriter is:
 
     * ``OverlappingRange(XlsxInputError)``
 
+    * ``PivotTableError(XlsxInputError)``
+
     * ``ThemeFileError(XlsxInputError)``
 
 
@@ -333,8 +335,8 @@ Exception: OverlappingRange
 .. py:exception:: OverlappingRange
 
 This exception is raised during Worksheet :func:`add_table()` or
-:func:`merge_range()` if the range overlaps an existing worksheet table or merge
-range. This is a file corruption error in Excel::
+:func:`merge_range()` if the range overlaps an existing worksheet table, merge
+range or pivot table. This is a file corruption error in Excel::
 
     import xlsxwriter
 
@@ -351,6 +353,34 @@ Raises::
 
     xlsxwriter.exceptions.OverlappingRange:
         Merge range 'G10:K20' overlaps previous merge range 'A1:G10'.
+
+Exception: PivotTableError
+--------------------------
+
+.. py:exception:: PivotTableError
+
+This exception is raised during Worksheet :func:`add_pivot_table()` if the
+pivot table options are invalid, or during Workbook :func:`close()` if the
+pivot table source data is invalid, such as a field that doesn't match a
+header in the source data. See :ref:`pivot_tables`::
+
+    import xlsxwriter
+
+    workbook = xlsxwriter.Workbook('exception.xlsx')
+
+    worksheet = workbook.add_worksheet()
+
+    worksheet.add_pivot_table('A3', {
+        'source': 'Sheet1!A1:D51',
+        'rows': ['Region', 'Region'],
+    })
+
+    workbook.close()
+
+Raises::
+
+    xlsxwriter.exceptions.PivotTableError:
+        Field 'Region' is used more than once in the row, column or filter fields.
 
 Exception: ThemeFileError
 -------------------------
