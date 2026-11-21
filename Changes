@@ -1,4 +1,12 @@
 
+Release 3.3.4 - Month XX 2026
+-----------------------------
+
+* Fixed issue where datetimes on 1900-02-28 with a time after midnight were
+  written as 1900-02-29.
+
+  :issue:`1232`.
+
 Release 3.3.3 - November 20 2026
 --------------------------------
 

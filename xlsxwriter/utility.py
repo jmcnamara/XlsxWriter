@@ -942,7 +942,7 @@ def _datetime_to_excel_datetime(
         excel_time -= 1
 
     # Account for Excel erroneously treating 1900 as a leap year.
-    if not date_1904 and not is_timedelta and excel_time > 59:
+    if not date_1904 and not is_timedelta and excel_time >= 60:
         excel_time += 1
 
     return excel_time
