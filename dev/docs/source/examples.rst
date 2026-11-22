@@ -68,4 +68,5 @@ directory of the XlsxWriter distribution.
    example_inheritance1.rst
    example_inheritance2.rst
    example_macros.rst
+   example_custom_ui.rst
    example_lambda.rst

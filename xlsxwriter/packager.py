@@ -171,6 +171,7 @@ class Packager:
         self._write_metadata_file()
         self._write_feature_bag_property()
         self._write_rich_value_files()
+        self._add_ribbons()
 
         return self.filenames
 
@@ -626,6 +627,9 @@ class Packager:
         if self.workbook.custom_properties:
             rels._add_document_relationship("/custom-properties", "docProps/custom.xml")
 
+        for part_name in self.workbook.custom_uis:
+            rels._add_custom_ui_relationship(part_name)
+
         rels._set_xml_writer(self._filename("_rels/.rels"))
 
         rels._assemble_xml_file()
@@ -929,3 +933,22 @@ class Packager:
                 os_filename = BytesIO(vba_data)
 
             self.filenames.append((os_filename, xml_vba_name, True))
+
+    def _add_ribbons(self) -> None:
+        # Write the Custom UI XML files.
+        custom_uis = self.workbook.custom_uis
+
+        if not custom_uis:
+            return
+
+        for part_name, (_, custom_ui_data) in custom_uis.items():
+            part_path = f"customUI/{part_name}.xml"
+            if not self.in_memory:
+                # In file mode we write the xml data to a file.
+                with open(self._filename(part_path), mode="wb") as custom_ui_file:
+                    custom_ui_file.write(custom_ui_data)
+
+            else:
+                # Store the user's XML bytes unchanged.
+                os_filename = BytesIO(custom_ui_data)
+                self.filenames.append((os_filename, part_path, True))

@@ -76,6 +76,17 @@ class Relationships(xmlwriter.XMLwriter):
 
         self.relationships.append((rel_type, target, None))
 
+    def _add_custom_ui_relationship(self, part_name) -> None:
+        # Add Custom UI relationship. Excel 2010+ parts use the 2007 schema.
+        if part_name == "customUI14":
+            schema = "http://schemas.microsoft.com/office/2007/relationships"
+        else:
+            schema = "http://schemas.microsoft.com/office/2006/relationships"
+
+        rel_type = schema + "/ui/extensibility"
+        target = f"customUI/{part_name}.xml"
+        self.relationships.append((rel_type, target, None))
+
     def _add_rich_value_relationship(self) -> None:
         # Add RichValue relationship to XLSX .rels xml files.
         schema = "http://schemas.microsoft.com/office/2022/10/relationships/"

@@ -21,11 +21,17 @@ The hierarchy of exceptions in XlsxWriter is:
 
     * ``UndefinedImageSize(XlsxFileError)``
 
-    * ``UndefinedImageSize(XlsxFileError)``
+    * ``UnsupportedImageFormat(XlsxFileError)``
 
     * ``FileSizeError(XlsxFileError)``
 
+    * ``ThemeFileError(XlsxFileError)``
+
+    * ``CustomUIFileError(XlsxFileError)``
+
   * ``XlsxInputError(XlsxWriterException)``
+
+    * ``EmptyChartSeries(XlsxInputError)``
 
     * ``DuplicateTableName(XlsxInputError)``
 
@@ -36,8 +42,6 @@ The hierarchy of exceptions in XlsxWriter is:
     * ``OverlappingRange(XlsxInputError)``
 
     * ``PivotTableError(XlsxInputError)``
-
-    * ``ThemeFileError(XlsxInputError)``
 
 
 Exception: XlsxWriterException
@@ -197,6 +201,56 @@ Raises::
 As noted in the exception message, files larger than 4GB can be created by
 turning on the zipfile.py ZIP64 extensions using the :func:`use_zip64` method.
 
+
+Exception: ThemeFileError
+-------------------------
+
+.. py:exception:: ThemeFileError
+
+This exception is raised during Workbook :func:`use_custom_theme()` if the theme
+file is invalid or contains unsupported elements such as image fills::
+
+    import xlsxwriter
+
+    workbook = xlsxwriter.Workbook('exception.xlsx')
+
+    workbook.use_custom_theme("theme.xml")
+
+    worksheet = workbook.add_worksheet()
+
+    workbook.close()
+
+Raises::
+
+    xlsxwriter.exceptions.ThemeFileError:
+        Invalid XML theme file: 'theme.xml'.
+
+
+Exception: CustomUIFileError
+----------------------------
+
+.. py:exception:: CustomUIFileError
+
+This exception is raised during Workbook :func:`add_custom_ui()` if the Custom
+UI file isn't valid XML, doesn't have a recognized ``customUI`` root element and
+namespace, or has the same format as a previously added file::
+
+    import xlsxwriter
+
+    workbook = xlsxwriter.Workbook('exception.xlsm')
+
+    workbook.add_custom_ui('customUI.xml')
+    workbook.add_custom_ui('customUI_new.xml')
+
+    worksheet = workbook.add_worksheet()
+
+    workbook.close()
+
+Raises::
+
+    xlsxwriter.exceptions.CustomUIFileError:
+        Custom UI file 'customUI_new.xml' has the same namespace as
+        'customUI.xml'. Only one of each is allowed.
 
 
 Exception: EmptyChartSeries
@@ -381,26 +435,3 @@ Raises::
 
     xlsxwriter.exceptions.PivotTableError:
         Field 'Region' is used more than once in the row, column or filter fields.
-
-Exception: ThemeFileError
--------------------------
-
-.. py:exception:: ThemeFileError
-
-This exception is raised during Workbook :func:`use_custom_theme()` if the theme
-file is invalid or contains unsupported elements such as image fills::
-
-    import xlsxwriter
-
-    workbook = xlsxwriter.Workbook('exception.xlsx')
-
-    workbook.use_custom_theme("theme.xml")
-
-    worksheet = workbook.add_worksheet()
-
-    workbook.close()
-
-Raises::
-
-    xlsxwriter.exceptions.ThemeFileError:
-        Invalid XML theme file: 'theme.xml'.

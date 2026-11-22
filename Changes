@@ -2,6 +2,11 @@
 Release 3.3.4 - Month XX 2026
 -----------------------------
 
+* Added support for custom ribbon UI XML files via the :func:`add_custom_ui`
+  method. See :ref:`customui`.
+
+  :feature:`1086`.
+
 * Fixed issue where datetimes on 1900-02-28 with a time after midnight were
   written as 1900-02-29.
 

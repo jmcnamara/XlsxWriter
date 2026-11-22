@@ -20,6 +20,7 @@ from fractions import Fraction
 from io import StringIO
 from typing import IO, Any, AnyStr, Dict, List, Literal, Optional, Tuple, Union
 from warnings import warn
+from xml.etree import ElementTree
 from zipfile import ZIP_DEFLATED, LargeZipFile, ZipFile, ZipInfo
 
 # Package imports.
@@ -35,6 +36,7 @@ from xlsxwriter.chart_scatter import ChartScatter
 from xlsxwriter.chart_stock import ChartStock
 from xlsxwriter.chartsheet import Chartsheet
 from xlsxwriter.exceptions import (
+    CustomUIFileError,
     DuplicateWorksheetName,
     FileCreateError,
     FileSizeError,
@@ -175,6 +177,8 @@ class Workbook(xmlwriter.XMLwriter):
         self.feature_property_bags = set()
         self.default_theme_version: str = "124226"
         self.theme_xml: str = THEME_XML_2007
+
+        self.custom_uis: Dict[str, Tuple[Union[str, os.PathLike], bytes]] = {}
 
         # We can't do 'constant_memory' mode while doing 'in_memory' mode.
         if self.in_memory:
@@ -461,6 +465,53 @@ class Workbook(xmlwriter.XMLwriter):
 
         self.theme_xml = theme_xml
         self.default_theme_version = ""
+
+    def add_custom_ui(self, custom_ui: Union[str, os.PathLike]) -> None:
+        """
+        Add a custom ribbon UI XML file to the Excel workbook.
+
+        Args:
+            custom_ui: The Custom UI XML file path (string or PathLike).
+
+        Raises:
+            OSError: If the file cannot be read.
+            CustomUIFileError: If the file isn't valid Custom UI XML, or a
+                file of the same format was already added.
+
+        """
+        # Read the file once so the saved part is the one that was checked.
+        with open(custom_ui, mode="rb") as custom_ui_file:
+            custom_ui_data = custom_ui_file.read()
+
+        try:
+            root_tag = ElementTree.fromstring(custom_ui_data).tag
+        except ElementTree.ParseError as e:
+            raise CustomUIFileError(
+                f"Invalid XML in Custom UI file '{custom_ui}': {e}."
+            ) from e
+
+        # Map the root namespace to the Excel 2007 or 2010+ part name.
+        schema = "http://schemas.microsoft.com/office"
+        part_names = {
+            f"{{{schema}/2006/01/customui}}customUI": "customUI",
+            f"{{{schema}/2009/07/customui}}customUI": "customUI14",
+        }
+
+        part_name = part_names.get(root_tag)
+
+        if part_name is None:
+            raise CustomUIFileError(
+                f"Unrecognized root element or namespace in Custom UI file "
+                f"'{custom_ui}'."
+            )
+
+        if part_name in self.custom_uis:
+            raise CustomUIFileError(
+                f"Custom UI file '{custom_ui}' has the same namespace as "
+                f"'{self.custom_uis[part_name][0]}'. Only one of each is allowed."
+            )
+
+        self.custom_uis[part_name] = (custom_ui, custom_ui_data)
 
     def close(self) -> None:
         """

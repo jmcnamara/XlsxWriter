@@ -62,3 +62,7 @@ class FileSizeError(XlsxFileError):
 
 class ThemeFileError(XlsxFileError):
     """Error when processing a custom theme file."""
+
+
+class CustomUIFileError(XlsxFileError):
+    """Error when processing a Custom UI file."""

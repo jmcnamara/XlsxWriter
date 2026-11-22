@@ -890,6 +890,32 @@ workbook. This is sometimes required when a vbaProject macro included via
 See :ref:`macros` for more details.
 
 
+workbook.add_custom_ui()
+------------------------
+
+.. py:function:: add_custom_ui(custom_ui)
+
+   Add a custom ribbon UI XML file to the workbook.
+
+   :param custom_ui: The Custom UI XML file path.
+   :type custom_ui:  str or os.PathLike
+
+   :raises OSError: If the file cannot be read.
+   :raises CustomUIFileError: If the file isn't valid Custom UI XML or a file
+                              of the same format was already added.
+
+The ``add_custom_ui()`` method adds a Custom UI XML file to the workbook to
+customize the Excel ribbon::
+
+    workbook.add_custom_ui('customUI14.xml')
+
+.. image:: _images/custom_ui.png
+
+For information on how to create and use Custom UI elements, see :ref:`customui`.
+
+See also :ref:`ex_custom_ui`.
+
+
 workbook.use_custom_theme()
 ---------------------------
 
