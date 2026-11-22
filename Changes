@@ -1,6 +1,6 @@
 
-Release 3.3.4 - Month XX 2026
------------------------------
+Release 3.3.4 - November 22 2026
+--------------------------------
 
 * Added support for custom ribbon UI XML files via the :func:`add_custom_ui`
   method. See :ref:`customui`.

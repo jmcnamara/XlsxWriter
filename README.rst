@@ -9,21 +9,30 @@ multiple worksheets and it supports features such as formatting and many more,
 including:
 
 * 100% compatible Excel XLSX files.
-* Full formatting.
-* Merged cells.
-* Defined names.
+* Support for writing all basic Excel data types.
+* Full cell formatting support.
+* Formula support, including new Excel 365 dynamic functions.
 * Charts.
-* Autofilters.
-* Data validation and drop down lists.
+* Hyperlink support.
+* Page/Printing Setup support.
+* Merged ranges.
 * Conditional formatting.
+* Data validation and drop down lists.
+* Cell comments.
+* Textboxes.
+* Checkboxes.
+* Sparklines.
+* Worksheet PNG/JPEG/GIF/BMP/WMF/EMF images.
+* Workbook themes.
+* Rich multi-format strings.
+* Outline groupings.
+* Defined names.
+* Autofilters.
 * Worksheet tables.
 * Pivot tables.
-* Worksheet PNG/JPEG/GIF/BMP/WMF/EMF images.
-* Rich multi-format strings.
-* Cell comments.
 * Integration with Pandas and Polars.
-* Textboxes.
-* Support for adding Macros.
+* Support for macros.
+* Custom UI/Ribbon elements.
 * Memory optimization mode for writing large files.
 
 It supports Python 3.8+ and PyPy3 and uses standard libraries only.
