@@ -4974,6 +4974,7 @@ class Worksheet(xmlwriter.XMLwriter):
 
         """
         self.page_start = start_page
+        self.page_setup_changed = True
 
     def set_print_scale(self, scale: int) -> None:
         """
