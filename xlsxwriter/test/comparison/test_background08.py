@@ -1,0 +1,38 @@
+###############################################################################
+#
+# Tests for XlsxWriter.
+#
+# SPDX-License-Identifier: BSD-2-Clause
+#
+# Copyright (c), 2013-2026, John McNamara, jmcnamara@cpan.org
+#
+
+from xlsxwriter.workbook import Workbook
+
+from ..excel_comparison_test import ExcelComparisonTest
+
+
+class TestCompareXLSXFiles(ExcelComparisonTest):
+    """
+    Test file created by XlsxWriter against a file created by Excel.
+
+    """
+
+    def setUp(self):
+        self.set_filename("background08.xlsx")
+
+    def test_create_file(self):
+        """Test the creation of an XlsxWriter file with a background image."""
+
+        workbook = Workbook(self.got_filename)
+
+        worksheet = workbook.add_worksheet()
+
+        # Use different images for the worksheet image and the background, to
+        # check that each one is linked to the correct image file.
+        worksheet.insert_image("E9", self.image_dir + "red.png")
+        worksheet.set_background(self.image_dir + "logo.jpg")
+
+        workbook.close()
+
+        self.assertExcelEqual()
