@@ -2204,93 +2204,96 @@ class Worksheet(xmlwriter.XMLwriter):
             self.str_table.string_table, key=self.str_table.string_table.__getitem__
         )
 
-        for row_num in range(self.dim_rowmin, self.dim_rowmax + 1):
-            if not self.table.get(row_num):
+        # Iterate over the stored cells only, since the worksheet data can be
+        # sparse, and ignore any outside the worksheet dimensions.
+        for row_num, row_data in self.table.items():
+            if not self.dim_rowmin <= row_num <= self.dim_rowmax:
                 continue
 
-            for col_num in range(self.dim_colmin, self.dim_colmax + 1):
-                if col_num in self.table[row_num]:
-                    cell = self.table[row_num][col_num]
-                    cell_type = cell.__class__.__name__
-                    length = 0
+            for col_num, cell in row_data.items():
+                if not self.dim_colmin <= col_num <= self.dim_colmax:
+                    continue
 
-                    if cell_type in ("String", "RichString"):
-                        # Handle strings and rich strings.
-                        #
-                        # For standard shared strings we do a reverse lookup
-                        # from the shared string id to the actual string. For
-                        # rich strings we use the unformatted string. We also
-                        # split multi-line strings and handle each part
-                        # separately.
-                        if cell_type == "String":
-                            string_id = cell.string
-                            string = strings[string_id]
-                        else:
-                            string = cell.raw_string
+                cell_type = cell.__class__.__name__
+                length = 0
 
-                        if "\n" not in string:
-                            # Single line string.
-                            length = xl_pixel_width(string)
-                        else:
-                            # Handle multi-line strings.
-                            for segment in string.split("\n"):
-                                seg_length = xl_pixel_width(segment)
-                                length = max(length, seg_length)
+                if cell_type in ("String", "RichString"):
+                    # Handle strings and rich strings.
+                    #
+                    # For standard shared strings we do a reverse lookup
+                    # from the shared string id to the actual string. For
+                    # rich strings we use the unformatted string. We also
+                    # split multi-line strings and handle each part
+                    # separately.
+                    if cell_type == "String":
+                        string_id = cell.string
+                        string = strings[string_id]
+                    else:
+                        string = cell.raw_string
 
-                    elif cell_type == "Number":
-                        # Handle numbers.
-                        #
-                        # We use a workaround/optimization for numbers since
-                        # digits all have a pixel width of 7. This gives a
-                        # slightly greater width for the decimal place and
-                        # minus sign but only by a few pixels and
-                        # over-estimation is okay.
-                        length = 7 * len(str(cell.number))
+                    if "\n" not in string:
+                        # Single line string.
+                        length = xl_pixel_width(string)
+                    else:
+                        # Handle multi-line strings.
+                        for segment in string.split("\n"):
+                            seg_length = xl_pixel_width(segment)
+                            length = max(length, seg_length)
 
-                    elif cell_type == "Datetime":
-                        # Handle dates.
-                        #
-                        # The following uses the default width for mm/dd/yyyy
-                        # dates. It isn't feasible to parse the number format
-                        # to get the actual string width for all format types.
-                        length = self.default_date_width
+                elif cell_type == "Number":
+                    # Handle numbers.
+                    #
+                    # We use a workaround/optimization for numbers since
+                    # digits all have a pixel width of 7. This gives a
+                    # slightly greater width for the decimal place and
+                    # minus sign but only by a few pixels and
+                    # over-estimation is okay.
+                    length = 7 * len(str(cell.number))
 
-                    elif cell_type == "Boolean":
-                        # Handle boolean values.
-                        #
-                        # Use the Excel standard widths for TRUE and FALSE.
-                        if cell.boolean:
+                elif cell_type == "Datetime":
+                    # Handle dates.
+                    #
+                    # The following uses the default width for mm/dd/yyyy
+                    # dates. It isn't feasible to parse the number format
+                    # to get the actual string width for all format types.
+                    length = self.default_date_width
+
+                elif cell_type == "Boolean":
+                    # Handle boolean values.
+                    #
+                    # Use the Excel standard widths for TRUE and FALSE.
+                    if cell.boolean:
+                        length = 31
+                    else:
+                        length = 36
+
+                elif cell_type in ("Formula", "ArrayFormula"):
+                    # Handle formulas.
+                    #
+                    # We only try to autofit a formula if it has a
+                    # non-zero value.
+                    if isinstance(cell.value, (float, int)):
+                        if cell.value > 0:
+                            length = 7 * len(str(cell.value))
+
+                    elif isinstance(cell.value, str):
+                        length = xl_pixel_width(cell.value)
+
+                    elif isinstance(cell.value, bool):
+                        if cell.value:
                             length = 31
                         else:
                             length = 36
 
-                    elif cell_type in ("Formula", "ArrayFormula"):
-                        # Handle formulas.
-                        #
-                        # We only try to autofit a formula if it has a
-                        # non-zero value.
-                        if isinstance(cell.value, (float, int)):
-                            if cell.value > 0:
-                                length = 7 * len(str(cell.value))
+                # If the cell is in an autofilter header we add an
+                # additional 16 pixels for the dropdown arrow.
+                if self.filter_cells.get((row_num, col_num)) and length > 0:
+                    length += 16
 
-                        elif isinstance(cell.value, str):
-                            length = xl_pixel_width(cell.value)
-
-                        elif isinstance(cell.value, bool):
-                            if cell.value:
-                                length = 31
-                            else:
-                                length = 36
-
-                    # If the cell is in an autofilter header we add an
-                    # additional 16 pixels for the dropdown arrow.
-                    if self.filter_cells.get((row_num, col_num)) and length > 0:
-                        length += 16
-
-                    # Add the string length to the lookup table.
-                    width_max = col_width_max.get(col_num, 0)
-                    if length > width_max:
-                        col_width_max[col_num] = length
+                # Add the string length to the lookup table.
+                width_max = col_width_max.get(col_num, 0)
+                if length > width_max:
+                    col_width_max[col_num] = length
 
         # Apply the width to the column.
         for col_num, width in col_width_max.items():
