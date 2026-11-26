@@ -49,3 +49,34 @@ class TestCompareXLSXFiles(ExcelComparisonTest):
         workbook.close()
 
         self.assertExcelEqual()
+
+    def test_create_file_with_stop_if_true(self):
+        """Test the creation of a simple XlsxWriter file with conditionalFormatting."""
+
+        workbook = Workbook(self.got_filename)
+
+        worksheet = workbook.add_worksheet()
+
+        worksheet.write("A1", 10)
+        worksheet.write("A2", 20)
+        worksheet.write("A3", 30)
+        worksheet.write("A4", 40)
+
+        worksheet.conditional_format(
+            "A1:A4",
+            {
+                "type": "icon_set",
+                "icon_style": "3_arrows",
+                "icons": [
+                    {"criteria": ">", "type": "percent", "value": 0},
+                    {"criteria": "<", "type": "percent", "value": 0},
+                    {"criteria": ">=", "type": "percent", "value": 0},
+                ],
+                # Ignored for icon sets.
+                "stop_if_true": True,
+            },
+        )
+
+        workbook.close()
+
+        self.assertExcelEqual()

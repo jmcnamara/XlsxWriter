@@ -1,3 +1,11 @@
+Release 3.3.5 - November xx 2026
+--------------------------------
+
+* Added support for the Excel 2010 ``3_stars``, ``3_triangles`` and
+  ``5_boxes`` conditional format icon sets.
+
+  :feature:`1110`.
+
 
 Release 3.3.4 - November 22 2026
 --------------------------------

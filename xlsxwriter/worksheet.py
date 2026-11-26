@@ -636,7 +636,7 @@ class Worksheet(xmlwriter.XMLwriter):
 
         self.validations = []
         self.cond_formats = {}
-        self.data_bars_2010 = []
+        self.x14_cond_formats = {}
         self.use_data_bars_2010 = False
         self.dxf_priority = 1
         self.page_view = 0
@@ -3176,8 +3176,11 @@ class Worksheet(xmlwriter.XMLwriter):
             "4_arrows_gray": "4ArrowsGray",  # 14
             "4_ratings": "4Rating",  # 15
             "5_arrows": "5Arrows",  # 16
-            "5_ratings": "5Rating",
-        }  # 17
+            "5_ratings": "5Rating",  # 17
+            "3_stars": "3Stars",  # 18
+            "3_triangles": "3Triangles",  # 19
+            "5_boxes": "5Boxes",  # 20
+        }
 
         # Set the icon set properties.
         if options["type"] == "iconSet":
@@ -3198,6 +3201,11 @@ class Worksheet(xmlwriter.XMLwriter):
                 return -2
 
             options["icon_style"] = valid_icons[options["icon_style"]]
+
+            # Excel 2010 icon sets are only written in the extLst element.
+            if options["icon_style"] in ("3Stars", "3Triangles", "5Boxes"):
+                options["is_x14_icon_set"] = True
+                self.excel_version = 2010
 
             # Set the number of icons for the icon style.
             options["total_icons"] = 3
@@ -3453,8 +3461,6 @@ class Worksheet(xmlwriter.XMLwriter):
 
             if options["max_type"] == "max" and options["max_value"] == 0:
                 options["max_value"] = None
-
-            options["range"] = cell_range
 
         # Strip the leading = from formulas.
         try:
@@ -7842,11 +7848,38 @@ class Worksheet(xmlwriter.XMLwriter):
     def _write_conditional_formats(self) -> None:
         # Write the Worksheet conditional formats, in the order that the ranges
         # were added in.
+        guid_index = 1
+
         for cond_range, params in self.cond_formats.items():
+            # Store the Excel 2010 rules, with a pseudo GUID, to write in the
+            # extLst element.
+            x14_params = [
+                param
+                for param in params
+                if (param["type"] == "dataBar" and param.get("is_data_bar_2010"))
+                or param.get("is_x14_icon_set")
+            ]
+
+            for param in x14_params:
+                worksheet_count = self.index + 1
+                param["guid"] = (
+                    f"{{DA7ABA51-AAAA-BBBB-{worksheet_count:04X}-{guid_index:012X}}}"
+                )
+                guid_index += 1
+
+            if x14_params:
+                self.x14_cond_formats[cond_range] = x14_params
+
             self._write_conditional_formatting(cond_range, params)
 
     def _write_conditional_formatting(self, cond_range, params) -> None:
         # Write the <conditionalFormatting> element.
+
+        # Excel 2010 icon sets are only written in the extLst element.
+        params = [param for param in params if not param.get("is_x14_icon_set")]
+        if not params:
+            return
+
         attributes = [("sqref", cond_range)]
         self._xml_start_tag("conditionalFormatting", attributes)
         for param in params:
@@ -7863,7 +7896,12 @@ class Worksheet(xmlwriter.XMLwriter):
 
         attributes.append(("priority", params["priority"]))
 
-        if params.get("stop_if_true"):
+        # Excel doesn't support "Stop if True" for these types.
+        if params.get("stop_if_true") and params["type"] not in (
+            "dataBar",
+            "colorScale",
+            "iconSet",
+        ):
             attributes.append(("stopIfTrue", 1))
 
         if params["type"] == "cellIs":
@@ -8017,19 +8055,9 @@ class Worksheet(xmlwriter.XMLwriter):
 
     def _write_data_bar_ext(self, param) -> None:
         # Write the <extLst> dataBar extension element.
-
-        # Create a pseudo GUID for each unique Excel 2010 data bar.
-        worksheet_count = self.index + 1
-        data_bar_count = len(self.data_bars_2010) + 1
-        guid = f"{{DA7ABA51-AAAA-BBBB-{worksheet_count:04X}-{data_bar_count:012X}}}"
-
-        # Store the 2010 data bar parameters to write the extLst elements.
-        param["guid"] = guid
-        self.data_bars_2010.append(param)
-
         self._xml_start_tag("extLst")
         self._write_ext("{B025F937-C7B1-47D3-B67F-A62EFF666E3E}")
-        self._xml_data_element("x14:id", guid)
+        self._xml_data_element("x14:id", param["guid"])
         self._xml_end_tag("ext")
         self._xml_end_tag("extLst")
 
@@ -8295,39 +8323,40 @@ class Worksheet(xmlwriter.XMLwriter):
         self._xml_empty_tag("tablePart", attributes)
 
     def _write_ext_list(self) -> None:
-        # Write the <extLst> element for data bars and sparklines.
-        has_data_bars = len(self.data_bars_2010)
+        # Write the <extLst> element for Excel 2010 conditional formats and
+        # sparklines.
+        has_x14_cond_formats = len(self.x14_cond_formats)
         has_sparklines = len(self.sparklines)
 
-        if not has_data_bars and not has_sparklines:
+        if not has_x14_cond_formats and not has_sparklines:
             return
 
         # Write the extLst element.
         self._xml_start_tag("extLst")
 
-        if has_data_bars:
-            self._write_ext_list_data_bars()
+        if has_x14_cond_formats:
+            self._write_ext_list_cond_formats()
 
         if has_sparklines:
             self._write_ext_list_sparklines()
 
         self._xml_end_tag("extLst")
 
-    def _write_ext_list_data_bars(self) -> None:
-        # Write the Excel 2010 data_bar subelements.
+    def _write_ext_list_cond_formats(self) -> None:
+        # Write the Excel 2010 conditional format subelements.
         self._write_ext("{78C0D931-6437-407d-A8EE-F0AAD7539E65}")
 
         self._xml_start_tag("x14:conditionalFormattings")
 
-        # Write the Excel 2010 conditional formatting data bar elements.
-        for data_bar in self.data_bars_2010:
+        # Write the Excel 2010 conditional formatting elements for each range.
+        for cond_range, params in self.x14_cond_formats.items():
             # Write the x14:conditionalFormatting element.
-            self._write_conditional_formatting_2010(data_bar)
+            self._write_conditional_formatting_2010(cond_range, params)
 
         self._xml_end_tag("x14:conditionalFormattings")
         self._xml_end_tag("ext")
 
-    def _write_conditional_formatting_2010(self, data_bar) -> None:
+    def _write_conditional_formatting_2010(self, cond_range, params) -> None:
         # Write the <x14:conditionalFormatting> element.
         xmlns_xm = "http://schemas.microsoft.com/office/excel/2006/main"
 
@@ -8335,7 +8364,19 @@ class Worksheet(xmlwriter.XMLwriter):
 
         self._xml_start_tag("x14:conditionalFormatting", attributes)
 
-        # Write the x14:cfRule element.
+        for param in params:
+            if param["type"] == "dataBar":
+                self._write_x14_data_bar_rule(param)
+            else:
+                self._write_x14_icon_set_rule(param)
+
+        # Write the xm:sqref element.
+        self._xml_data_element("xm:sqref", cond_range)
+
+        self._xml_end_tag("x14:conditionalFormatting")
+
+    def _write_x14_data_bar_rule(self, data_bar) -> None:
+        # Write the Excel 2010 data bar <x14:cfRule> element.
         self._write_x14_cf_rule(data_bar)
 
         # Write the x14:dataBar element.
@@ -8367,18 +8408,44 @@ class Worksheet(xmlwriter.XMLwriter):
         self._xml_end_tag("x14:dataBar")
         self._xml_end_tag("x14:cfRule")
 
-        # Write the xm:sqref element.
-        self._xml_data_element("xm:sqref", data_bar["range"])
+    def _write_x14_icon_set_rule(self, param) -> None:
+        # Write the Excel 2010 icon set <x14:cfRule> element.
+        self._write_x14_cf_rule(param)
 
-        self._xml_end_tag("x14:conditionalFormatting")
+        # Write the x14:iconSet element.
+        self._write_x14_icon_set(param)
 
-    def _write_x14_cf_rule(self, data_bar) -> None:
+        self._xml_end_tag("x14:cfRule")
+
+    def _write_x14_cf_rule(self, param) -> None:
         # Write the <x14:cfRule> element.
-        rule_type = "dataBar"
-        guid = data_bar["guid"]
-        attributes = [("type", rule_type), ("id", guid)]
+        attributes = [("type", param["type"])]
+
+        # Excel doesn't write a priority for data bars.
+        if param["type"] != "dataBar":
+            attributes.append(("priority", param["priority"]))
+
+        attributes.append(("id", param["guid"]))
 
         self._xml_start_tag("x14:cfRule", attributes)
+
+    def _write_x14_icon_set(self, param) -> None:
+        # Write the <x14:iconSet> element.
+        attributes = [("iconSet", param["icon_style"])]
+
+        if param.get("icons_only"):
+            attributes.append(("showValue", 0))
+
+        if param.get("reverse_icons"):
+            attributes.append(("reverse", 1))
+
+        self._xml_start_tag("x14:iconSet", attributes)
+
+        # Write the properties for different icon styles.
+        for icon in reversed(param["icons"]):
+            self._write_x14_cfvo(icon["type"], icon["value"], icon["criteria"])
+
+        self._xml_end_tag("x14:iconSet")
 
     def _write_x14_data_bar(self, data_bar) -> None:
         # Write the <x14:dataBar> element.
@@ -8419,9 +8486,12 @@ class Worksheet(xmlwriter.XMLwriter):
 
         self._xml_start_tag("x14:dataBar", attributes)
 
-    def _write_x14_cfvo(self, rule_type, value) -> None:
+    def _write_x14_cfvo(self, rule_type, value, criteria=None) -> None:
         # Write the <x14:cfvo> element.
         attributes = [("type", rule_type)]
+
+        if criteria:
+            attributes.append(("gte", 0))
 
         if rule_type in ("min", "max", "autoMin", "autoMax"):
             self._xml_empty_tag("x14:cfvo", attributes)

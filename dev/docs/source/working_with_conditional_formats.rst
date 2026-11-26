@@ -692,10 +692,12 @@ The icon set style is specified by the ``icon_style`` parameter. Valid options a
     3_arrows_gray
     3_flags
     3_signs
+    3_stars
     3_symbols
     3_symbols_circled
     3_traffic_lights
     3_traffic_lights_rimmed
+    3_triangles
 
     4_arrows
     4_arrows_gray
@@ -705,8 +707,12 @@ The icon set style is specified by the ``icon_style`` parameter. Valid options a
 
     5_arrows
     5_arrows_gray
+    5_boxes
     5_quarters
     5_ratings
+
+The ``3_stars``, ``3_triangles`` and ``5_boxes`` icon styles are only available
+in Excel 2010 and later.
 
 .. image:: _images/conditional_format5.png
 
@@ -1045,6 +1051,9 @@ evaluated if the current rule is true::
                                       'value': 20,
                                       'stop_if_true': True
                                       })
+
+Excel doesn't support "Stop if True" for Data Bar, Color Scale or Icon Set
+conditional formats, so the option is ignored for those types.
 
 
 multi_range:
