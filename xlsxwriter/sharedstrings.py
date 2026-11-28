@@ -79,10 +79,12 @@ class SharedStrings(xmlwriter.XMLwriter):
     def _write_sst_strings(self) -> None:
         # Write the sst string elements.
 
-        for string in self.string_table.string_array:
-            self._write_si(string)
+        rich_string_indices = self.string_table.rich_string_indices
 
-    def _write_si(self, string) -> None:
+        for index, string in enumerate(self.string_table.string_array):
+            self._write_si(string, index in rich_string_indices)
+
+    def _write_si(self, string, is_rich_string=False) -> None:
         # Write the <si> element.
         attributes = []
 
@@ -94,7 +96,7 @@ class SharedStrings(xmlwriter.XMLwriter):
             attributes.append(("xml:space", "preserve"))
 
         # Write any rich strings without further tags.
-        if string.startswith("<r>") and string.endswith("</r>"):
+        if is_rich_string:
             self._xml_rich_si_element(string)
         else:
             self._xml_si_element(string, attributes)
@@ -111,7 +113,9 @@ class SharedStringTable:
         self.count = 0
         self.unique_count = 0
         self.string_table = {}
+        self.rich_string_table = {}
         self.string_array = []
+        self.rich_string_indices = set()
 
     def _get_shared_string_index(self, string):
         """ " Get the index of the string in the Shared String table."""
@@ -128,11 +132,37 @@ class SharedStringTable:
         self.count += 1
         return index
 
+    def _get_rich_string_index(self, string):
+        """Get the index of a rich string in the Shared String table."""
+        # Rich strings are stored separately so that plain strings that look
+        # like rich string XML aren't stored with actual rich strings.
+        if string not in self.rich_string_table:
+            # String isn't already stored in the table so add it.
+            index = self.unique_count
+            self.rich_string_table[string] = index
+            self.count += 1
+            self.unique_count += 1
+            return index
+
+        # String exists in the table.
+        index = self.rich_string_table[string]
+        self.count += 1
+        return index
+
     def _get_shared_string(self, index):
         """ " Get a shared string from the index."""
         return self.string_array[index]
 
     def _sort_string_data(self) -> None:
         """ " Sort the shared string data and convert from dict to list."""
-        self.string_array = sorted(self.string_table, key=self.string_table.__getitem__)
+        self.string_array = [""] * self.unique_count
+
+        for string, index in self.string_table.items():
+            self.string_array[index] = string
+
+        for string, index in self.rich_string_table.items():
+            self.string_array[index] = string
+            self.rich_string_indices.add(index)
+
         self.string_table = {}
+        self.rich_string_table = {}

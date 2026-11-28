@@ -51,6 +51,36 @@ class TestWriteCell(unittest.TestCase):
 
         self.assertEqual(exp, got)
 
+    def test_write_cell_inline_string(self):
+        """Test the _write_cell() method for constant_memory strings."""
+
+        self.worksheet.constant_memory = True
+
+        cell_tuple = namedtuple("String", "string, format")
+        cell = cell_tuple("<r>abc</r>", None)
+
+        self.worksheet._write_cell(3, 1, cell)
+
+        exp = """<c r="B4" t="inlineStr"><is><t>&lt;r&gt;abc&lt;/r&gt;</t></is></c>"""
+        got = self.fh.getvalue()
+
+        self.assertEqual(exp, got)
+
+    def test_write_cell_inline_rich_string(self):
+        """Test the _write_cell() method for constant_memory rich strings."""
+
+        self.worksheet.constant_memory = True
+
+        cell_tuple = namedtuple("RichString", "string, format, raw_string")
+        cell = cell_tuple("<r><t>abc</t></r>", None, "abc")
+
+        self.worksheet._write_cell(3, 1, cell)
+
+        exp = """<c r="B4" t="inlineStr"><is><r><t>abc</t></r></is></c>"""
+        got = self.fh.getvalue()
+
+        self.assertEqual(exp, got)
+
     def test_write_cell_formula01(self):
         """Test the _write_cell() method for formulas."""
 

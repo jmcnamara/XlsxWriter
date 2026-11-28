@@ -6,6 +6,11 @@ Release 3.3.5 - November xx 2026
 
   :feature:`1110`.
 
+* Fixed issue where strings that looked like rich string XML, such as
+  ``<r>abc</r>``, were written unescaped and caused a corrupt file.
+
+  :issue:`1233`.
+
 
 Release 3.3.4 - November 22 2026
 --------------------------------

@@ -88,4 +88,4 @@ class TestDefaultFormat(unittest.TestCase):
             "</rPr><t>c</t></r>"
         )
 
-        self.assertIn(exp, worksheet.str_table.string_table)
+        self.assertIn(exp, worksheet.str_table.rich_string_table)

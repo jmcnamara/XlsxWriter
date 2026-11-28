@@ -1571,7 +1571,7 @@ class Worksheet(xmlwriter.XMLwriter):
 
         # Write a shared string or an in-line string in constant_memory mode.
         if not self.constant_memory:
-            string_index = self.str_table._get_shared_string_index(string)
+            string_index = self.str_table._get_rich_string_index(string)
         else:
             string_index = string
 
@@ -2200,9 +2200,9 @@ class Worksheet(xmlwriter.XMLwriter):
 
         # Create a reverse lookup for the share strings table so we can convert
         # the string id back to the original string.
-        strings = sorted(
-            self.str_table.string_table, key=self.str_table.string_table.__getitem__
-        )
+        strings = {
+            index: string for string, index in self.str_table.string_table.items()
+        }
 
         # Iterate over the stored cells only, since the worksheet data can be
         # sparse, and ignore any outside the worksheet dimensions.
@@ -7156,7 +7156,7 @@ class Worksheet(xmlwriter.XMLwriter):
                 string = self._escape_control_characters(string)
 
                 # Write any rich strings without further tags.
-                if string.startswith("<r>") and string.endswith("</r>"):
+                if type_cell_name == "RichString":
                     self._xml_rich_inline_string(string, attributes)
                 else:
                     # Add attribute to preserve leading or trailing whitespace.
