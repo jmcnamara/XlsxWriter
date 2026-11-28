@@ -336,9 +336,9 @@ class Shape:
             "lang": options.get("lang", "en-US"),
         }
 
-        # Convert font size units.
+        # Convert font size units to integer hundredths of a point.
         if font["size"]:
-            font["size"] = int(font["size"] * 100)
+            font["size"] = round(font["size"] * 100)
 
         if font.get("color"):
             font["color"] = Color._from_value(font["color"])

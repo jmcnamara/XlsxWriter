@@ -11,6 +11,9 @@ Release 3.3.5 - November xx 2026
 
   :issue:`1233`.
 
+* Fixed fractional chart and textbox font sizes that were truncated to the
+  wrong value.
+
 
 Release 3.3.4 - November 22 2026
 --------------------------------

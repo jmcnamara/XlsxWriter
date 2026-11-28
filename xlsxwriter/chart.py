@@ -849,9 +849,9 @@ class Chart(xmlwriter.XMLwriter):
             "rotation": options.get("rotation"),
         }
 
-        # Convert font size units.
+        # Convert font size units to integer hundredths of a point.
         if font["size"]:
-            font["size"] = int(font["size"] * 100)
+            font["size"] = round(font["size"] * 100)
 
         # Convert rotation into 60,000ths of a degree.
         if font["rotation"]:
