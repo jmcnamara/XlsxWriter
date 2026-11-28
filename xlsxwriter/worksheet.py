@@ -51,6 +51,7 @@ from xlsxwriter.format import Format
 from xlsxwriter.image import Image
 from xlsxwriter.pivot_table import PivotTable, PivotTableSource
 from xlsxwriter.shape import Shape
+from xlsxwriter.sharedstrings import RichStringXML
 from xlsxwriter.url import Url, UrlTypes
 from xlsxwriter.utility import (
     _datetime_to_excel_datetime,
@@ -1571,7 +1572,8 @@ class Worksheet(xmlwriter.XMLwriter):
 
         # Write a shared string or an in-line string in constant_memory mode.
         if not self.constant_memory:
-            string_index = self.str_table._get_shared_string_index(string)
+            rich_string = RichStringXML(string)
+            string_index = self.str_table._get_shared_string_index(rich_string)
         else:
             string_index = string
 
@@ -7156,7 +7158,7 @@ class Worksheet(xmlwriter.XMLwriter):
                 string = self._escape_control_characters(string)
 
                 # Write any rich strings without further tags.
-                if string.startswith("<r>") and string.endswith("</r>"):
+                if type_cell_name == "RichString":
                     self._xml_rich_inline_string(string, attributes)
                 else:
                     # Add attribute to preserve leading or trailing whitespace.

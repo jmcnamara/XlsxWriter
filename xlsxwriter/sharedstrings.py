@@ -7,9 +7,17 @@
 # Copyright (c) 2013-2026, John McNamara, jmcnamara@cpan.org
 #
 
+from typing import NamedTuple
+
 # Package imports.
 from xlsxwriter import xmlwriter
 from xlsxwriter.utility import _preserve_whitespace
+
+
+class RichStringXML(NamedTuple):
+    """Formatted text stored as XML runs in the shared string table."""
+
+    xml: str
 
 
 class SharedStrings(xmlwriter.XMLwriter):
@@ -84,20 +92,19 @@ class SharedStrings(xmlwriter.XMLwriter):
 
     def _write_si(self, string) -> None:
         # Write the <si> element.
-        attributes = []
+        if isinstance(string, RichStringXML):
+            self._xml_rich_si_element(self._escape_control_characters(string.xml))
+            return
 
         # Convert control character to a _xHHHH_ escape.
         string = self._escape_control_characters(string)
 
         # Add attribute to preserve leading or trailing whitespace.
+        attributes = []
         if _preserve_whitespace(string):
             attributes.append(("xml:space", "preserve"))
 
-        # Write any rich strings without further tags.
-        if string.startswith("<r>") and string.endswith("</r>"):
-            self._xml_rich_si_element(string)
-        else:
-            self._xml_si_element(string, attributes)
+        self._xml_si_element(string, attributes)
 
 
 # A metadata class to store Excel strings between worksheets.

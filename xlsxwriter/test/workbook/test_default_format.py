@@ -8,6 +8,8 @@
 #
 
 import unittest
+from io import BytesIO
+from zipfile import ZipFile
 
 from xlsxwriter.workbook import Workbook
 
@@ -72,13 +74,14 @@ class TestDefaultFormat(unittest.TestCase):
     def test_rich_string_default_font(self):
         """Test that rich string fragments use the default font."""
 
-        workbook = Workbook(None, {"excel_2023_theme": True})
+        output = BytesIO()
+        workbook = Workbook(output, {"excel_2023_theme": True})
         worksheet = workbook.add_worksheet()
         bold = workbook.add_format({"bold": True})
 
         worksheet.write_rich_string("A1", "a", bold, "b", "c")
 
-        workbook.fileclosed = 1
+        workbook.close()
 
         exp = (
             '<r><t>a</t></r><r><rPr><b/><sz val="11"/><color theme="1"/>'
@@ -88,4 +91,6 @@ class TestDefaultFormat(unittest.TestCase):
             "</rPr><t>c</t></r>"
         )
 
-        self.assertIn(exp, worksheet.str_table.string_table)
+        with ZipFile(output) as xlsx:
+            shared_strings = xlsx.read("xl/sharedStrings.xml").decode()
+        self.assertIn(f"<si>{exp}</si>", shared_strings)
