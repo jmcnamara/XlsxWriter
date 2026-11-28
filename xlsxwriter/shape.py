@@ -330,11 +330,16 @@ class Shape:
             "bold": options.get("bold"),
             "italic": options.get("italic"),
             "underline": options.get("underline"),
+            "strikeout": options.get("strikeout"),
             "pitch_family": options.get("pitch_family"),
             "charset": options.get("charset"),
             "baseline": options.get("baseline", -1),
             "lang": options.get("lang", "en-US"),
         }
+
+        # Excel adds a baseline to strikeout fonts.
+        if font["strikeout"] and "baseline" not in options:
+            font["baseline"] = 0
 
         # Convert font size units to integer hundredths of a point.
         if font["size"]:
@@ -364,6 +369,9 @@ class Shape:
 
         if font.get("underline") is not None:
             attributes.append(("u", "sng"))
+
+        if font.get("strikeout"):
+            attributes.append(("strike", "sngStrike"))
 
         if font.get("baseline") != -1:
             attributes.append(("baseline", font["baseline"]))

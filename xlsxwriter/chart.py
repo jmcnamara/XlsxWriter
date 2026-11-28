@@ -843,6 +843,7 @@ class Chart(xmlwriter.XMLwriter):
             "bold": options.get("bold"),
             "italic": options.get("italic"),
             "underline": options.get("underline"),
+            "strikeout": options.get("strikeout"),
             "pitch_family": options.get("pitch_family"),
             "charset": options.get("charset"),
             "baseline": options.get("baseline", 0),

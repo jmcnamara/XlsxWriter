@@ -1,0 +1,77 @@
+###############################################################################
+#
+# Tests for XlsxWriter.
+#
+# SPDX-License-Identifier: BSD-2-Clause
+#
+# Copyright (c), 2013-2026, John McNamara, jmcnamara@cpan.org
+#
+
+from xlsxwriter.workbook import Workbook
+
+from ..excel_comparison_test import ExcelComparisonTest
+
+
+class TestCompareXLSXFiles(ExcelComparisonTest):
+    """
+    Test file created by XlsxWriter against a file created by Excel.
+
+    """
+
+    def setUp(self):
+        self.set_filename("chart_font11.xlsx")
+
+    def test_create_file(self):
+        """Test the creation of a simple XlsxWriter file."""
+
+        workbook = Workbook(self.got_filename)
+
+        worksheet = workbook.add_worksheet()
+        chart = workbook.add_chart({"type": "column"})
+
+        chart.axis_ids = [112294144, 126656512]
+
+        data = [
+            [1, 2, 3, 4, 5],
+            [2, 4, 6, 8, 10],
+            [3, 6, 9, 12, 15],
+        ]
+
+        worksheet.write_column("A1", data[0])
+        worksheet.write_column("B1", data[1])
+        worksheet.write_column("C1", data[2])
+
+        chart.add_series(
+            {
+                "values": "=Sheet1!$A$1:$A$5",
+                "data_labels": {
+                    "value": True,
+                    "font": {
+                        "name": "Consolas",
+                        "size": 12,
+                        "baseline": -1,
+                        "pitch_family": 49,
+                        "charset": 0,
+                    },
+                },
+            }
+        )
+
+        chart.add_series(
+            {
+                "values": "=Sheet1!$B$1:$B$5",
+                "data_labels": {
+                    "value": True,
+                    "position": "inside_base",
+                    "font": {"strikeout": True},
+                },
+            }
+        )
+
+        chart.add_series({"values": "=Sheet1!$C$1:$C$5"})
+
+        worksheet.insert_chart("E9", chart)
+
+        workbook.close()
+
+        self.assertExcelEqual()

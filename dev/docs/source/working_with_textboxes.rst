@@ -383,6 +383,7 @@ The following font properties can be set for the entire textbox::
     bold
     italic
     underline
+    strikeout
     color
 
 These properties correspond to the equivalent Worksheet cell Format object
@@ -421,6 +422,10 @@ The font properties are:
     {'font':  {'underline': True}}
 
   .. image:: _images/textbox49.png
+
+* ``strikeout``: Set the font strikeout property::
+
+    {'font':  {'strikeout': True}}
 
 * ``color``: Set the font color property. Can be a color index, a color name
   or HTML style RGB color::

@@ -1280,6 +1280,7 @@ axis numbering and data labels::
     bold
     italic
     underline
+    strikeout
     rotation
     color
 
@@ -1309,6 +1310,10 @@ The following explains the available font properties:
 * ``underline``: Set the font underline property::
 
     chart.set_x_axis({'num_font':  {'underline': True}})
+
+* ``strikeout``: Set the font strikeout property::
+
+    chart.set_x_axis({'num_font':  {'strikeout': True}})
 
 * ``rotation``: Set the font rotation, angle, property in the integer
   range -90 to 90 deg, and 270-271 deg::
